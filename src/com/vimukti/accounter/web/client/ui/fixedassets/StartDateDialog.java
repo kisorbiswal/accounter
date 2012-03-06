@@ -92,8 +92,12 @@ public class StartDateDialog extends BaseDialog {
 	}
 
 	private void fillDateCombo() {
-		for (ClientFinanceDate date : startDateList) {
-			dateBox.addItem(DateUtills.getDateAsString(date));
+		if (startDateList != null && (!startDateList.isEmpty())) {
+			for (ClientFinanceDate date : startDateList) {
+				dateBox.addItem(DateUtills.getDateAsString(date));
+			}
+		} else {
+			dateBox.addItem(getStartDateString());
 		}
 
 		setDefaultStartDate();

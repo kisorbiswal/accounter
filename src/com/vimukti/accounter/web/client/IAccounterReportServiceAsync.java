@@ -133,8 +133,8 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<ClientTransaction>> callBackResult);
 
 	public void getAccountRegister(ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long accountId,
-			AsyncCallback<ArrayList<AccountRegister>> callBackResult);
+			ClientFinanceDate endDate, long accountId, int start, int lenght,
+			AsyncCallback<PaginationList<AccountRegister>> callBackResult);
 
 	public void getTransactionHistoryCustomers(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,

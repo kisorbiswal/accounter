@@ -55,7 +55,6 @@ public class TdsDeductorMasterAction extends Action {
 
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
 		return messages.deducatorMastersDetails();
 	}
 }

@@ -7876,9 +7876,7 @@
 		LEFT JOIN
 		USERS U ON U.ID = T.LAST_MODIFIER
 		LEFT JOIN
-		CLIENT C ON C.ID=U.CLIENT_ID
 		CLIENT C ON C.ID=U.CLIENT_ID LEFT JOIN ESTIMATE E ON E.ID=T.ID WHERE
-		 WHERE
 		T.COMPANY_ID=:companyId
 		AND
 		T.SAVE_STATUS NOT IN (201, 202) ORDER by T.CREATED_DATE DESC LIMIT :limit
@@ -9087,6 +9085,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
@@ -9099,6 +9098,7 @@
 		TRANSACTION_DATE,
 		T.NUMBER
 		TRANSACTION_NUMBER,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE,
 		CASE
 		WHEN
 		T.SAVE_STATUS = 204
@@ -9112,6 +9112,7 @@
 		
 		FROM
 		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 		LEFT OUTER
 		JOIN
 		INVOICE I
@@ -9330,6 +9331,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
@@ -9351,10 +9353,12 @@
 		END AS ISVOIDED,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT AS UNIT,
-		TI.LINE_TOTAL AS AMOUNT
+		TI.LINE_TOTAL AS AMOUNT,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 		
 		FROM
 		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 		LEFT OUTER
 		JOIN
 		INVOICE I
@@ -9718,6 +9722,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
@@ -9739,10 +9744,12 @@
 		END AS ISVOIDED,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT AS UNIT,
-		TI.LINE_TOTAL AS AMOUNT
+		TI.LINE_TOTAL AS AMOUNT,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 		
 		FROM
 		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
 		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
 		WHERE T.T_TYPE=4
@@ -11132,6 +11139,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
@@ -11153,10 +11161,12 @@
 		END AS ISVOIDED,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT AS UNIT,
-		TI.LINE_TOTAL AS AMOUNT
+		TI.LINE_TOTAL AS AMOUNT,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 
 		FROM
 		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 		LEFT OUTER
 		JOIN
 		ENTER_BILL EB
@@ -11349,6 +11359,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
@@ -11370,10 +11381,12 @@
 		END AS ISVOIDED,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT AS UNIT,
-		TI.LINE_TOTAL AS AMOUNT
+		TI.LINE_TOTAL AS AMOUNT,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 		
 		FROM
 		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 		LEFT OUTER
 		JOIN
 		ENTER_BILL EB
@@ -11390,7 +11403,7 @@
 		T.T_DATE BETWEEN :fromDate AND
 		:toDate AND
 		EB.DUE_DATE &lt; :currentDate
-		AND IT.ID =:vendorId
+		AND IT.ID =:itemId
 		ORDER BY T.ID
 
 	</sql-query>
@@ -11991,7 +12004,11 @@
 		WHEN
 		T.T_TYPE =11
 		THEN
-		PB.BILL_DUE_ONORBEFORE ELSE null END AS DUE_DATE,
+		PB.BILL_DUE_ONORBEFORE 
+		WHEN T.T_TYPE=22
+		THEN
+		PO.DUE_DATE
+		ELSE null END AS DUE_DATE,
 		0 AS
 		EXPENSE_STATUS
 		FROM
@@ -12023,6 +12040,8 @@
 		LEFT JOIN VENDOR_CREDIT_MEMO VCM
 		on T.ID
 		=VCM.ID
+		LEFT JOIN PURCHASE_ORDER PO
+		ON T.ID=PO.ID
 		LEFT JOIN
 		VENDOR V
 		on V.ID =
@@ -12031,6 +12050,7 @@
 		V.ID =PB.VENDOR_ID OR
 		V.ID =EB.VENDOR_ID OR V.ID
 		=VCM.VENDOR_ID
+		OR V.ID=PO.VENDOR_ID
 		WHERE T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId
@@ -12207,6 +12227,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT
 		T.CURRENCY AS CURRENCY_ID,
@@ -12228,10 +12249,12 @@
 		END AS ISVOIDED,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT AS UNIT,
-		TI.LINE_TOTAL AS AMOUNT
+		TI.LINE_TOTAL AS AMOUNT,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 		
 		FROM
 		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 		LEFT OUTER
 		JOIN
 		CREDIT_CARD_CHARGES CCC
@@ -12259,6 +12282,7 @@
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="vendorId" type="long" />
+		
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -14017,35 +14041,51 @@
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		
-		SELECT 
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
-		T.NUMBER AS TRANSACTION_NUMBER,
-		T.T_DATE AS TRANSACTION_DATE,
-		A.NAME AS ACCOUNT_NAME,
-		CASE 
-		WHEN 
-		(A.is_increase)
-		THEN 
-		-AMOUNT
-		ELSE 
-		AMOUNT END  AS AMOUNT		
-		FROM ACCOUNT_TRANSACTION AT 
-		LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID 
-		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
-
-		WHERE A.COMPANY_ID=:companyId  AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)  AND (A.A_TYPE=2 OR 
-		AT.TRANSACTION_ID IN
-			(SELECT AT2.TRANSACTION_ID 
-				FROM ACCOUNT_TRANSACTION AT2 
-				LEFT JOIN ACCOUNT A2 ON A2.ID=AT2.ACCOUNT_ID  
-				WHERE A2.A_TYPE=2)   )AND ( T.T_DATE &lt;= :endDate AND  T.T_DATE &gt;= :startDate)
-		ORDER BY AT.TRANSACTION_ID,AMOUNT DESC;
+		SELECT T.ID     AS TRANSACTION_ID,
+       T.T_TYPE AS TRANSACTION_TYPE,
+       T.NUMBER AS TRANSACTION_NUMBER,
+       T.T_DATE AS TRANSACTION_DATE,
+       P.NAME   AS PAYEE_NAME,
+       A.NAME   AS ACCOUNT_NAME,
+       CASE
+         WHEN ( A.IS_INCREASE ) THEN -AT.AMOUNT
+         ELSE AT.AMOUNT
+       END      AS AMOUNT
+		FROM   ACCOUNT_TRANSACTION AT
+       LEFT JOIN ACCOUNT A
+         ON A.ID = AT.ACCOUNT_ID
+       LEFT JOIN TRANSACTION T
+         ON T.ID = AT.TRANSACTION_ID
+       LEFT JOIN CUSTOMER_PREPAYMENT CPP
+         ON CPP.ID = T.ID
+       LEFT JOIN CASH_SALES CS
+         ON CS.ID = T.ID
+       LEFT JOIN CUSTOMER_REFUND CR
+         ON CR.ID = T.ID
+       LEFT JOIN RECEIVE_PAYMENT RP
+         ON RP.ID = T.ID
+       LEFT JOIN PAYEE P
+         ON P.ID = CPP.CUSTOMER_ID
+             OR P.ID = CS.CUSTOMER_ID
+             OR P.ID = CR.CUSTOMER_ID
+             OR P.ID = RP.CUSTOMER_ID
+		WHERE  A.COMPANY_ID = :companyId
+       AND T.T_TYPE IN ( 1, 5, 8, 10,
+                         12, 21, 29, 24, 35 )
+      	 AND ( A.A_TYPE = 2
+              OR AT.TRANSACTION_ID IN (SELECT AT2.TRANSACTION_ID
+                                       FROM   ACCOUNT_TRANSACTION AT2
+                                              LEFT JOIN ACCOUNT A2
+                                                ON A2.ID = AT2.ACCOUNT_ID
+                                       WHERE  A2.A_TYPE = 2) ) AND ( T.T_DATE between :startDate and :endDate )
+			ORDER  BY AT.TRANSACTION_ID,
+          AMOUNT DESC;  
 	</sql-query>
 
 	<sql-query name="getBankCheckDetails">
@@ -14055,7 +14095,7 @@
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -14159,6 +14199,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT T.ID AS TRANSACTION_ID,
 			T.T_DATE AS TRANSACTION_DATE,
@@ -14175,10 +14216,11 @@
 			ELSE
 			FALSE
 			END AS ISVOIDED,
-			T.CURRENCY AS CURRENCY_ID
-
+			T.CURRENCY AS CURRENCY_ID,
+			CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 
 			FROM TRANSACTION T
+			LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
 			LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
 			LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
 
@@ -14192,7 +14234,6 @@
 					ELSE TRUE
 					END
 					AND T.COMPANY_ID =:companyId
-					
 			ORDER BY T.ID
 	</sql-query>
 	
@@ -14203,7 +14244,7 @@
 		<query-param name="toDate" type="long" />
 		<query-param name="itemId" type="long" />
 		<query-param name="estimateType" type="int" />
-
+		
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -14214,6 +14255,7 @@
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 
 		SELECT T.ID AS TRANSACTION_ID,
 			T.T_DATE AS TRANSACTION_DATE,
@@ -14230,11 +14272,10 @@
 			ELSE
 			FALSE
 			END AS ISVOIDED,
-			T.CURRENCY AS CURRENCY_ID
-
+			T.CURRENCY AS CURRENCY_ID,CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
 
 			FROM TRANSACTION T
-			LEFT OUTER JOIN ESTIMATE E E.ID = T.ID
+			LEFT OUTER JOIN ESTIMATE E ON E.ID = T.ID
 			LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
 			LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
 
@@ -14248,6 +14289,70 @@
 					AND
 					E.ESTIMATETYPE =:estimateType
 			ORDER BY T.ID
+	</sql-query>
+	
+	<sql-query name="getDraftBillsListByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT,
+		CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE
+		
+		FROM
+		TRANSACTION T
+		LEFT OUTER JOIN ESTIMATE E ON E.ID=T.ID
+		LEFT OUTER
+		JOIN
+		ENTER_BILL EB
+		on
+		T.ID=EB.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+		WHERE
+		T.T_TYPE =6 AND T.SAVE_STATUS
+		= 201 AND EB.BALANCE_DUE
+		&gt;0.0
+		AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate AND
+		:toDate
+		AND IT.ID =:itemId
+		ORDER BY T.ID
+
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

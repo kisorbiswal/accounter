@@ -161,8 +161,8 @@ public class CustomerCreditMemoView extends
 		if (isTrackClass() && !isClassPerDetailLine()) {
 			phoneForm.setFields(classListCombo);
 		}
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			phoneForm.setFields(jobListCombo);
 		}

@@ -1624,24 +1624,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				: transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
 	}
 
-	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
-		return clientAccounterClasses;
-	}
-
-	public void setClientAccounterClasses(
-			ArrayList<ClientAccounterClass> clientAccounterClasses) {
-		this.clientAccounterClasses = clientAccounterClasses;
-	}
-
-	public ClientAccounterClass getClientAccounterClass() {
-		return clientAccounterClass;
-	}
-
-	public void setClientAccounterClass(
-			ClientAccounterClass clientAccounterClass) {
-		this.clientAccounterClass = clientAccounterClass;
-	}
-
 	/**
 	 * create the job combo
 	 * 
