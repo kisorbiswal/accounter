@@ -894,7 +894,6 @@ public class PurchaseOrderView extends
 			default:
 				break;
 			}
-		initAccounterClass();
 
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
