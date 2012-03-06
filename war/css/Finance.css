@@ -993,8 +993,10 @@ input.dropdown-button {
 	-webkit-border-radius: 0 5px 0 0;
 	-moz-border-radius: 0 5px 0 0;
 }
-
-.calendar-picker,.selectedview {
+.calendar-picker {
+    margin-left: -22px !important;
+}
+.selectedview {
 	margin-left: 3px;
 }
 
@@ -2031,10 +2033,6 @@ button.disable,button.disable:hover {
 
 .company_currency_name .gwt-TextBox {
 	width: 142px !important;
-}
-
-input.date-field-textbox {
-	width: 150px !important;
 }
 
 .conversion_commet {
