@@ -19,7 +19,7 @@
 	<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 	<link type="text/css" href="../css/ss.css" rel="stylesheet" />
     <%
-
+		String userEmail =(String) request.getAttribute("emailId");
     	String users =(String) request.getAttribute("userIdsList");
     	String expDate =(String) request.getAttribute("expiredDate");
     	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
@@ -61,13 +61,12 @@
 	
 	
 		<div class="subscribtionManagementButton" align="center">
-   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/></form>
-   			<form id="gopremiumForm" method="post" action="/site/subscription/gopremium">
-   			<input id="goPremiumButton" class="allviews-common-button" type="submit" name="premium" value="Upgrade Premium"/></form>
+   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/>
+   			<a target="_blank" href="/site/subscription/gopremium?emailId=<%= userEmail %>">Upgrade Premium</a>
 		</div>
-		</form>
 		<script type="text/javascript">
 		$('document').ready(function(){
+		   var userEmail='<%=userEmail%>';
 		   var users= <%= users%>;
 		   var subscriptionType=<%= subscriptionType %>;
            var textAre="";
