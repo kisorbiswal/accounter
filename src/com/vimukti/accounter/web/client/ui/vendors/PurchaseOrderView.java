@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -893,7 +894,7 @@ public class PurchaseOrderView extends
 			default:
 				break;
 			}
-			initAccounterClass();
+		initAccounterClass();
 
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
@@ -902,6 +903,13 @@ public class PurchaseOrderView extends
 								.getTransactionItems()));
 					}
 				}
+			}
+		}
+		if (isTrackClass() && !isClassPerDetailLine()) {
+			this.accounterClass = getClassForTransactionItem(this.transactionItems);
+			if (accounterClass != null) {
+				this.classListCombo.setComboItem(accounterClass);
+				classSelected(accounterClass);
 			}
 		}
 		if (locationTrackingEnabled)
@@ -1472,7 +1480,7 @@ public class PurchaseOrderView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		discountField.setDisabled(isInViewMode());
-
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -1626,5 +1634,20 @@ public class PurchaseOrderView extends
 	@Override
 	public boolean canExportToCsv() {
 		return false;
+	}
+	
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
+
 	}
 }
