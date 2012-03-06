@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -16,7 +15,6 @@ import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
@@ -47,6 +45,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -64,7 +63,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -86,6 +84,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
 	private AmountLabel netAmountLabel, balanceDueNonEditableText,
 			paymentsNonEditableText;
+	List<ClientEstimate> previousEstimates = new ArrayList<ClientEstimate>();
+	// private WarehouseAllocationTable table;
+	// private DisclosurePanel inventoryDisclosurePanel;
 
 	TransactionsTree<EstimatesAndSalesOrdersList> transactionsTree;
 
@@ -102,7 +103,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TextAreaItem billToTextArea;
 	private ShipToForm shipToAddress;
 	private TextItem orderNumText;
-	HorizontalPanel hpanel;
+	StyledPanel hpanel;
 	DynamicForm amountsForm;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 	private Button emailButton;
@@ -215,14 +216,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 
 		// ---date--
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.add(datepanel);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
