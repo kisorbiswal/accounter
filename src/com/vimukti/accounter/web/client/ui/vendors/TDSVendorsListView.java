@@ -7,9 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -61,13 +59,6 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 			this.saveAndCloseButton.setVisible(false);
 		if (saveAndNewButton != null)
 			this.saveAndNewButton.setText(messages.tdsfiling());
-		label = new Label();
-		label.removeStyleName("gwt-style");
-		label.setWidth("100%");
-		label.addStyleName("label-title");
-		label.setText(messages.tdsVendorsList());
-		this.fromDate = new DateItem(messages.from());
-		this.fromDate.setHelpInformation(true);
 
 		this.toDate = new DateItem(messages.to(), "toDate");
 		this.toDate.setEnteredDate(new ClientFinanceDate());
@@ -107,9 +98,6 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		// topForm.setNumCols(6);
 		topForm.add(fromDate, toDate);
 		// topForm.setWidth("100%");
-		DynamicForm form2 = new DynamicForm();
-
-		form2.setFields(vendorCombo);
 
 		Accounter.createHomeService().getPayBillsByTDS(this);
 

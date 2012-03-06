@@ -48,8 +48,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 				});
 		taxAgencyCombo.setSelectedItem(0);
 		selectedAgency = taxAgencyCombo.getSelectedValue();
-		fromItem = new DateItem();
-		fromItem.setTitle(messages.from());
+		fromItem = new DateItem(messages.from(), "fromItem");
 		fromItem.setEnteredDate(new ClientFinanceDate());
 
 		fromItem.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -64,7 +63,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 			}
 		});
 
-		toItem = new DateItem();
+		toItem = new DateItem(messages.to(), "toItem");
 		toItem.setEnteredDate(new ClientFinanceDate());
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
@@ -120,8 +119,6 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 			if (vatAgency.getName().equals(messages.hmRevenueCustomsVAT()))
 				taxAgencyCombo.addItemThenfireEvent(vatAgency);
 		}
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
 
 	}
 

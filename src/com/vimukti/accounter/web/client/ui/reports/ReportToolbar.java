@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
-public abstract class ReportToolbar extends HorizontalPanel {
+public abstract class ReportToolbar extends DynamicForm {
 	protected static AccounterMessages messages = Global.get().messages();
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
@@ -25,17 +25,14 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	private int viewId = 0;
 	private long jobId;
 	private long accId;
-
 	public boolean isToolBarComponentChanged;
 
 	public ReportToolbar() {
+		super("reportToolbar");
 		createControls();
 	}
 
 	private void createControls() {
-		// setSize("100%", "10px");
-		// setBackgroundColor("#dedede");
-
 		form = new DynamicForm("form");
 
 		startDate = Accounter.getStartDate();
@@ -60,7 +57,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 			ReportToolBarItemSelectionHandler itemSelectionHandler) {
 		this.itemSelectionHandler = itemSelectionHandler;
 	}
-
+	
 	public void addItems(FormItem<?>... items) {
 		form.add(items);
 	}

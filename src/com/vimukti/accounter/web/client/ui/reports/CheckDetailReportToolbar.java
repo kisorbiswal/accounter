@@ -44,11 +44,9 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 				messages.lastFinancialYear(),
 				messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(),
-				messages.custom() };
+				messages.financialYearToDate(), messages.custom() };
 
-		checkDetailCombo = new ComboBoxItem();
-		checkDetailCombo.setTitle(messages.paymentMethod());
+		checkDetailCombo = new ComboBoxItem(messages.paymentMethod(),"checkDetailCombo");
 		checkDetailCombo.setValueMap(statusArray);
 		checkDetailCombo.setDefaultValue(statusArray[0]);
 		checkDetailCombo.addChangeHandler(new ChangeHandler() {
@@ -64,8 +62,7 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 			}
 		});
 
-		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setTitle(messages.dateRange());
+		dateRangeItem = new ComboBoxItem(messages.dateRange(),"dateRangeItem");
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 
@@ -79,11 +76,10 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 			}
 		});
 
-		fromItem = new DateItem();
+		fromItem = new DateItem(messages.from(),"fromItem");
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(messages.from());
 
-		toItem = new DateItem();
+		toItem = new DateItem(messages.to(),"toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -93,7 +89,6 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -139,8 +134,6 @@ public class CheckDetailReportToolbar extends ReportToolbar {
 //		}
 		addItems(checkDetailCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override
