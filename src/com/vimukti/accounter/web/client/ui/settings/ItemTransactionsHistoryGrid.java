@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -45,7 +46,12 @@ public abstract class ItemTransactionsHistoryGrid extends
 		case 0:
 			return UIUtils.getDateByCompanyType(transactionHistory.getDate());
 		case 1:
-			return Utility.getTransactionName(transactionHistory.getType());
+			if (transactionHistory.getEstimateType() != 0) {
+				return getEstimateTypeAsString(transactionHistory
+						.getEstimateType());
+			} else {
+				return Utility.getTransactionName(transactionHistory.getType());
+			}
 		case 2:
 			return transactionHistory.getNumber();
 		case 3:
@@ -53,13 +59,28 @@ public abstract class ItemTransactionsHistoryGrid extends
 		case 4:
 			return getQty(transactionHistory.getQuantity());
 		case 5:
-			return DataUtils.getAmountAsStringInCurrency(
-					transactionHistory.getAmount(), getCompany()
-							.getPreferences().getPrimaryCurrency().getSymbol());
+			return DataUtils.getAmountAsStringInCurrency(transactionHistory
+					.getAmount(),
+					getCompany().getCurrency(transactionHistory.getCurrency())
+							.getSymbol());
 		default:
 			break;
 		}
 		return null;
+	}
+
+	private String getEstimateTypeAsString(int type) {
+		String title = null;
+		if (type == Estimate.QUOTES) {
+			title = messages.quote();
+		} else if (type == Estimate.CHARGES) {
+			title = messages.charge();
+		} else if (type == Estimate.CREDITS) {
+			title = messages.credit();
+		} else if (type == Estimate.SALES_ORDER) {
+			title = messages.salesOrder();
+		}
+		return title;
 	}
 
 	@Override

@@ -1022,6 +1022,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				transactionItem.setDiscount(discountField.getAmount());
 			}
 		}
+		if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+			transactionItem.setAccounterClass(accounterClass.getID());
+		}
 		addItemTransactionItem(transactionItem);
 
 	}
@@ -1054,4 +1057,5 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
 
 	protected abstract void addItemTransactionItem(ClientTransactionItem item);
+
 }

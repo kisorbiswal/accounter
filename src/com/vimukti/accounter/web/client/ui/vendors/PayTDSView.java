@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAXEntries;
 import com.vimukti.accounter.web.client.core.ClientPayTDS;
@@ -170,9 +171,8 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		balForm.setFields(amountText, endingBalanceText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (getPreferences().isClassTrackingEnabled()) {
 			balForm.setFields(classListCombo);
 		}
 
@@ -224,7 +224,6 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 	@Override
 	protected void initTransactionViewData() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -297,6 +296,12 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	}
 
 	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 		// TODO Auto-generated method stub
 
 	}

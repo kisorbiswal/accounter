@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -392,7 +393,6 @@ public class MakeDepositView extends
 				amtText.setCurrency(getCurrency(selectedDepositFromAccount
 						.getCurrency()));
 			}
-			initAccounterClass();
 			// gridView.setCanEdit(false);
 			updateTotals();
 		}
@@ -402,6 +402,11 @@ public class MakeDepositView extends
 		// gridView.canDelete(true);
 		// FIMXE--need to add this type
 		// gridView.setEditEvent();
+		if (isTrackClass()) {
+			classListCombo.setComboItem(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
+		}
+
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
@@ -588,9 +593,8 @@ public class MakeDepositView extends
 		depoForm.setIsGroup(true);
 		depoForm.setGroupTitle(messages.deposit());
 		depoForm.setFields(depositFromSelect, depositInSelect, amtText);
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (getPreferences().isClassTrackingEnabled()) {
 			depoForm.setFields(classListCombo);
 		}
 
@@ -969,6 +973,8 @@ public class MakeDepositView extends
 		if (isMultiCurrencyEnabled()) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		if (isTrackClass())
+			classListCombo.setDisabled(isInViewMode());
 	}
 
 	@Override
@@ -1032,7 +1038,10 @@ public class MakeDepositView extends
 		// Setting Cash back amount
 		transaction.setCashBackAmount(cashBackAmountText.getAmount());
 		// Setting Total amount
-
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 		// Setting Total
 		transaction.setTotal(amtText.getAmount());
 
@@ -1174,5 +1183,12 @@ public class MakeDepositView extends
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 	}
 }

@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -17,6 +16,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -176,6 +176,10 @@ public class CustomerPrePaymentView extends
 		if (transactionDate != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 		transaction.setMemo(getMemoTextAreaItem());
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 
 		// if (toBeSetEndingBalance != null)
 		// transaction.setEndingBalance(toBeSetEndingBalance);
@@ -235,7 +239,10 @@ public class CustomerPrePaymentView extends
 				bankBalText.setCurrency(getCompany().getCurrency(
 						depositInAccount.getCurrency()));
 			}
-
+			if (isTrackClass()) {
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
+			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			checkNo.setValue(transaction.getCheckNumber());
 			// if (transaction.getPaymentMethod().equals(constants.check())) {
@@ -261,12 +268,14 @@ public class CustomerPrePaymentView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		initMemoAndReference();
 		initTransactionNumber();
 		initCustomers();
-		initAccounterClass();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
@@ -433,6 +442,10 @@ public class CustomerPrePaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
+			balForm.setFields(classListCombo);
+		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
@@ -748,11 +761,10 @@ public class CustomerPrePaymentView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (isTrackClass())
+			classListCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
@@ -902,5 +914,10 @@ public class CustomerPrePaymentView extends
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		classListCombo.setComboItem(accounterClass);
 	}
 }

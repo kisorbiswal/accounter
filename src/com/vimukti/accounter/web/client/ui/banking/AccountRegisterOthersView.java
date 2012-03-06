@@ -3,12 +3,21 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Resources;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -110,7 +119,6 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		};
 		gridLayout.setWidth("100%");
 		gridLayout.setHeight("100%");
-
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
@@ -122,11 +130,42 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		mainVLay.add(lableHpanel);
 		AccounterDOM.setParentElementHeight(lableHpanel.getElement(), 4);
 		mainVLay.add(gridLayout);
+		int pageSize = getPageSize();
+		if (pageSize != -1) {
+			grid.addRangeChangeHandler2(new Handler() {
+
+				@Override
+				public void onRangeChange(RangeChangeEvent event) {
+					onPageChange(event.getNewRange().getStart(), event
+							.getNewRange().getLength());
+				}
+			});
+			SimplePager pager = new SimplePager(TextLocation.CENTER,
+					(Resources) GWT.create(Resources.class), false,
+					pageSize * 2, true);
+			pager.setDisplay(grid);
+			updateRecordsCount(0, 0, 0);
+			mainVLay.add(pager);
+		}
 
 		add(mainVLay);
 
 		setSize("100%", "100%");
 
+	}
+
+	private int getPageSize() {
+		return 25;
+	}
+
+	private void updateRecordsCount(int start, int length, int total) {
+		grid.updateRange(new Range(start, getPageSize()));
+		grid.setRowCount(total, (start + length) == total);
+
+	}
+
+	private void onPageChange(int start, int length) {
+		accountSelected(takenaccount, start, length);
 	}
 
 	protected void dateRangeChanged() {
@@ -159,7 +198,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 					todaydate.getMonth() - 2, todaydate.getDay() + 16);
 			endDate = todaydate;
 		}
-		accountSelected(takenaccount);
+		onPageChange(0, getPageSize());
 
 	}
 
@@ -188,7 +227,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		this.total = 0;
 	}
 
-	protected void accountSelected(final ClientAccount takenaccount) {
+	protected void accountSelected(final ClientAccount takenaccount, int start,
+			int length) {
 
 		if (takenaccount == null) {
 			accountRegister = null;
@@ -198,8 +238,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		this.account = takenaccount;
 		grid.setAccount(takenaccount);
 		Accounter.createReportService().getAccountRegister(startDate, endDate,
-				takenaccount.getID(),
-				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
+				takenaccount.getID(), start, length,
+				new AccounterAsyncCallback<PaginationList<AccountRegister>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -211,15 +251,24 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 					@Override
 					public void onResultSuccess(
-							ArrayList<AccountRegister> result) {
-						accountRegister = result;
-						getAccountRegisterGrid(result);
+							PaginationList<AccountRegister> result) {
+						grid.removeAllRecords();
+						if (result.isEmpty()) {
+							updateRecordsCount(result.getStart(),
+									grid.getTableRowCount(),
+									result.getTotalCount());
+							grid.addEmptyMessage(messages.noRecordsToShow());
+							return;
+						}
+						grid.sort(10, false);
+						grid.setRecords(result);
+						Window.scrollTo(0, 0);
+						updateRecordsCount(result.getStart(),
+								grid.getTableRowCount(), result.getTotalCount());
 
 					}
 
 				});
-		grid.removeAllRecords();
-		grid.addLoadingImagePanel();
 
 	}
 

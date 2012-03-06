@@ -95,8 +95,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long CLASS_TRACKING = 0x2000000000L;
 
-	private static final long CLASS_ONE_PER_TRANSACTION = 0x4000000000L;
-
 	private static final long CLASS_WARRNING = 0x8000000000L;
 
 	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
@@ -124,6 +122,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x400000000000000L;
 	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
 	private static final long UNITS = 0x1000000000000000L;
+	private static final long TRANSACTION_CLASS_PER_DETAIL_LINE = 0x2000000000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -1180,14 +1179,6 @@ public class CompanyPreferences implements IAccounterServerCore {
 		return get(CLASS_TRACKING);
 	}
 
-	public boolean isClassOnePerTransaction() {
-		return get(CLASS_ONE_PER_TRANSACTION);
-	}
-
-	public void setClassOnePerTransaction(boolean value) {
-		set(CLASS_ONE_PER_TRANSACTION, value);
-	}
-
 	public boolean isWarnOnEmptyClass() {
 		return get(CLASS_WARRNING);
 	}
@@ -1546,6 +1537,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public boolean isCreditsApplyAutomaticEnable() {
 		return get(AUTOMATIC_CREDITS_APPLY);
+	}
+
+	public boolean isClassPerDetailLine() {
+		return get(TRANSACTION_CLASS_PER_DETAIL_LINE);
+	}
+
+	public void setClassPerDetailLine(boolean value) {
+		set(TRANSACTION_CLASS_PER_DETAIL_LINE, value);
 	}
 
 	public String getCurrencyFormat() {
