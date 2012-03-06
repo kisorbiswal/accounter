@@ -349,12 +349,12 @@ public class CashExpenseView extends
 		taxCodeSelect = createTaxCodeSelectItem();
 		// Ending and Vendor Balance
 		accountBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency(),"accountBalText");
+				getBaseCurrency(), "accountBalText");
 		accountBalText.setWidth(100);
 		accountBalText.setEnabled(true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+				.Vendor()), this, getBaseCurrency(), "vendorBalText");
 		vendorBalText.setEnabled(true);
 		vendorBalText.setWidth(100);
 
@@ -518,7 +518,8 @@ public class CashExpenseView extends
 
 		StyledPanel bottompanel = new StyledPanel("bottompanel");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		discountField = getDiscountField();
 
@@ -589,7 +590,6 @@ public class CashExpenseView extends
 
 		totalForm.add(transactionTotalForm);
 
-
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
@@ -601,7 +601,6 @@ public class CashExpenseView extends
 		mainVLay.add(bottompanel);
 
 		this.add(mainVLay);
-
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -936,7 +935,7 @@ public class CashExpenseView extends
 		}
 		deliveryDateItem.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());

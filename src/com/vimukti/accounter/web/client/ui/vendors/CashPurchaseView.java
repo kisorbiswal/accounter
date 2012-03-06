@@ -130,10 +130,10 @@ public class CashPurchaseView extends
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		// contactCombo.setWidth(100);
-		billToAreaItem = new TextAreaItem(messages.billTo(),"billToAreaItem");
+		billToAreaItem = new TextAreaItem(messages.billTo(), "billToAreaItem");
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setWidth(100);
@@ -143,8 +143,7 @@ public class CashPurchaseView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
 		// vendorForm.setWidth("100%");
-		vendorForm.add(vendorCombo, contactCombo, phoneSelect,
-				billToAreaItem);
+		vendorForm.add(vendorCombo, contactCombo, phoneSelect, billToAreaItem);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "160px");
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -170,7 +169,7 @@ public class CashPurchaseView extends
 					}
 				});
 
-		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.setEnabled(false);
@@ -198,7 +197,7 @@ public class CashPurchaseView extends
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo(),"checkNoText");
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
@@ -406,12 +405,12 @@ public class CashPurchaseView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
-
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
 		VerticalPanel bottompanel = new VerticalPanel();
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		if (isTrackTax() && isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm("netAmountForm");
@@ -501,7 +500,6 @@ public class CashPurchaseView extends
 		// setOverflow(Overflow.SCROLL);
 		this.add(mainVLay);
 		// addChild(mainVLay);
-
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -1041,7 +1039,7 @@ public class CashPurchaseView extends
 		}
 		deliveryDateItem.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());

@@ -121,7 +121,7 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setEnabled(true);
@@ -130,8 +130,8 @@ public class ItemReceiptView extends
 
 		vendorForm = UIUtils.form(Global.get().vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.add(vendorCombo, purchaseLabel, contactCombo,
-				emptylabel, phoneSelect, emptylabel, billToCombo, emptylabel);
+		vendorForm.add(vendorCombo, purchaseLabel, contactCombo, emptylabel,
+				phoneSelect, emptylabel, billToCombo, emptylabel);
 
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -267,7 +267,8 @@ public class ItemReceiptView extends
 		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
 		netAmountForm.add(netAmount);
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		totalForm.add(netAmountForm);
 		totalForm.add(vatTotalNonEditableText);
@@ -276,13 +277,12 @@ public class ItemReceiptView extends
 
 		totalForm.add(transactionTotalForm);
 
-
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 
 		transactionTotalItem = new AmountField(messages.total(), this,
-				getBaseCurrency(),"transactionTotalItem");
+				getBaseCurrency(), "transactionTotalItem");
 		transactionTotalItem.setEnabled(false);
 		DynamicForm amountForm = new DynamicForm("amountForm");
 		amountForm.add(transactionTotalItem);
@@ -329,7 +329,6 @@ public class ItemReceiptView extends
 		mainVLay.add(bottomLayout);
 
 		this.add(mainVLay);
-
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -776,7 +775,7 @@ public class ItemReceiptView extends
 		payTermsSelect.setEnabled(!isInViewMode());
 		purchaseLabel.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 

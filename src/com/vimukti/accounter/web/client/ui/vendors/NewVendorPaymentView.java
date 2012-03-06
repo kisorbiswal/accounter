@@ -3,15 +3,12 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -190,9 +187,9 @@ public class NewVendorPaymentView extends
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-//		datepanel.setCellHorizontalAlignment(dateNoForm,
-//				HasHorizontalAlignment.ALIGN_RIGHT);
-//		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
+		// datepanel.setCellHorizontalAlignment(dateNoForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.setWidth("100%");
@@ -205,12 +202,12 @@ public class NewVendorPaymentView extends
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency(),"endBalText");
+				getBaseCurrency(), "endBalText");
 		endBalText.setWidth(100);
 		endBalText.setEnabled(false);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+				.Vendor()), this, getBaseCurrency(), "vendorBalText");
 		vendorBalText.setEnabled(false);
 		vendorBalText.setWidth(100);
 
@@ -243,7 +240,8 @@ public class NewVendorPaymentView extends
 		// Payment
 		payFromCombo = createPayFromCombo(messages.payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(messages.amount(), this, getBaseCurrency(),"amountText");
+		amountText = new AmountField(messages.amount(), this,
+				getBaseCurrency(), "amountText");
 		amountText.setWidth(100);
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
@@ -252,7 +250,7 @@ public class NewVendorPaymentView extends
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 
-		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -319,7 +317,8 @@ public class NewVendorPaymentView extends
 				adjustBalance();
 			}
 		});
-		this.amountIncludeTds = new CheckboxItem(messages.amountIncludesTDS(),"amountIncludeTds");
+		this.amountIncludeTds = new CheckboxItem(messages.amountIncludesTDS(),
+				"amountIncludeTds");
 		amountIncludeTds.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -347,8 +346,8 @@ public class NewVendorPaymentView extends
 			amountsForm.add(tdsAmount);
 			amountsForm.add(totalAmount);
 			tdsPanel.add(amountsForm);
-//			tdsPanel.setCellVerticalAlignment(amountsForm,
-//					HasVerticalAlignment.ALIGN_BOTTOM);
+			// tdsPanel.setCellVerticalAlignment(amountsForm,
+			// HasVerticalAlignment.ALIGN_BOTTOM);
 			// tdsPanel.setCellHeight(amountsForm, "200px");
 			rightPanel.add(tdsPanel);
 		}
@@ -356,15 +355,16 @@ public class NewVendorPaymentView extends
 		currencyWidget = createCurrencyFactorWidget();
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
-//			rightPanel.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
+			// rightPanel.setCellHorizontalAlignment(currencyWidget,
+			// ALIGN_RIGHT);
 		}
 
 		StyledPanel hLay = new StyledPanel("hLay");
 		hLay.setWidth("100%");
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
-//		hLay.setCellWidth(leftPanel, "50%");
-//		hLay.setCellWidth(rightPanel, "40%");
+		// hLay.setCellWidth(leftPanel, "50%");
+		// hLay.setCellWidth(rightPanel, "40%");
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);

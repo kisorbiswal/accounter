@@ -212,8 +212,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(messages.salesTax(), this,
-				currency,"amountItem");
-		amountItem.setEnabled(true);
+				currency, "amountItem");
+		amountItem.setEnabled(false);
 
 		return amountItem;
 
@@ -329,7 +329,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		if (this.phoneNo != null && this.phoneNo.trim().length() != 0) {
 			phoneSelect.setValue(this.phoneNo);
 			contactCombo.setValue(contact.getName());
-		}else{
+		} else {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		}
 
@@ -563,7 +563,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected TextItem createCheckNumberItem(String title) {
 
-		final TextItem checkNo = new TextItem(title,"checkNo");
+		final TextItem checkNo = new TextItem(title, "checkNo");
 		checkNo.setToolTip(messages.giveNoTo(this.getAction().getViewName())
 				.replace(messages.no(), title));
 		checkNo.setEnabled(isInViewMode());
@@ -584,7 +584,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(messages.deliveryDate(),"dateItem");
+		final DateField dateItem = new DateField(messages.deliveryDate(),
+				"dateItem");
 		// dateItem.setTitle("Delivery Date");
 		// dateItem.setUseTextField(true);
 		if (transaction == null) {
