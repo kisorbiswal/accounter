@@ -150,6 +150,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
 		noteDialog = new NoteDialog(messages.addNote(), "");
+		noteDialog.setAsset(asset);
 		if (noteDialog.executeUpdate(asset)) {
 			updateData(asset);
 		}
