@@ -151,8 +151,10 @@ public class SubscriptionManagementServlet extends BaseServlet {
 				resp.sendRedirect(LOGIN_URL);
 				return;
 			}
+			req.setAttribute("emailId", emailId);
+
 			req.setAttribute("premiumType", client.getClientSubscription()
-					.getPremiumType());
+					.getPremiumType() - 1);
 			req.setAttribute("expiredDate", client.getClientSubscription()
 					.getExpiredDateAsString());
 

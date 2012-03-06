@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -1158,18 +1157,18 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						if (!obj.getStockTransferItems().isEmpty()) {
 							for (ClientStockTransferItem item : obj
 									.getStockTransferItems()) {
+								Item invItem = (Item) HibernateUtil
+										.getCurrentSession().get(Item.class,
+												item.getItem());
 								result.append(" ");
-								result.append(Accounter.getCompany()
-										.getItem(item.getItem()).getName());
+								result.append(invItem.getName());
 								result.append(" : ");
 								result.append(item.getQuantity().getValue());
 								result.append(" ");
-								result.append(Accounter
-										.getCompany()
-										.getUnitById(
-												item.getQuantity().getUnit())
-										.getName());
-								result.append(",");
+								Unit unit = (Unit) HibernateUtil
+										.getCurrentSession().get(Unit.class,
+												item.getQuantity().getUnit());
+								result.append(unit.getMeasurement().getName());
 							}
 							columnValue = result.toString();
 						} else {

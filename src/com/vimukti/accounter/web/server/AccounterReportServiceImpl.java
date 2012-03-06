@@ -167,19 +167,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	// }
 
 	@Override
-	public ArrayList<AccountRegister> getAccountRegister(
+	public PaginationList<AccountRegister> getAccountRegister(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long accountId) {
-		ArrayList<AccountRegister> accountRegisterList = new ArrayList<AccountRegister>();
+			long accountId, int start, int length) {
+		PaginationList<AccountRegister> accountRegisterList = new PaginationList<AccountRegister>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, getCompanyId());
 
 		try {
 
-			accountRegisterList = getFinanceTool()
-					.getAccountRegister(financeDates[0], financeDates[1],
-							accountId, getCompanyId());
+			accountRegisterList = getFinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], accountId,
+					getCompanyId(), start, length);
 
 			// if (accountRegisterList != null)
 			// accountRegisterList.add((AccountRegister) setStartEndDates(obj,

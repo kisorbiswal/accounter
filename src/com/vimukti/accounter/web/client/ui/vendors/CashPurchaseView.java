@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -239,9 +240,8 @@ public class CashPurchaseView extends
 					payFromCombo, deliveryDateItem);
 		}
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.setFields(classListCombo);
 		}
 
@@ -271,7 +271,8 @@ public class CashPurchaseView extends
 		taxCodeSelect = createTaxCodeSelectItem();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -324,7 +325,8 @@ public class CashPurchaseView extends
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -641,7 +643,16 @@ public class CashPurchaseView extends
 					}
 				}
 			}
-
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(transaction
+							.getTransactionItems());
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
+				}
+			}
 			// if (isTrackTax()) {
 			// if (isTaxPerDetailLine()) {
 			// netAmountLabel.setAmount(transaction.getNetAmount());
@@ -666,7 +677,6 @@ public class CashPurchaseView extends
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
-			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1084,6 +1094,7 @@ public class CashPurchaseView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -1226,6 +1237,19 @@ public class CashPurchaseView extends
 					.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 }

@@ -160,6 +160,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 				String readNumber = JNSI.readNumber(value);
 				if (readNumber == null || readNumber.equals("null")
 						|| readNumber.isEmpty()) {
+					digitGroupingFormat = digitGroupingFormat.replaceAll(
+							digitGroupSymbol, value);
 					digitGroupSymbol = value;
 					initDigitGroupingValues();
 					update();
@@ -232,6 +234,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 			}
 		}
 
+		digitGroupingFormat = digitGroupingFormat.replaceAll(",",
+				digitGroupSymbol);
 		initPositiveFormatValues();
 		initNegativeFormatValues();
 		initDigitGroupingValues();
@@ -330,10 +334,11 @@ public class CurrencyFormatDialog extends BaseDialog {
 		companyPreferences.setDecimalNumber((int) noOfDigitsAfterDecimal);
 		companyPreferences.setDecimalCharacte(decimalSymbol);
 		companyPreferences.setDigitGroupCharacter(digitGroupSymbol);
-		companyPreferences.setDigitGroupingFormat(groups
-				.get(digitGroupingFormat));
 
-		String value = groups.get(digitGroupingFormat);
+		String format = digitGroupingFormat.replaceAll(digitGroupSymbol, ",");
+		companyPreferences.setDigitGroupingFormat(groups.get(format));
+
+		String value = groups.get(format);
 		// String value = "#,##";
 
 		value += getDecimalString();
