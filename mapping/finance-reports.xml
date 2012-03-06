@@ -665,7 +665,7 @@
 		<return-scalar column="DISCOUNT" type="double" />
 		<return-scalar column="WRITE_OFF" type="double" />
 		<return-scalar column="T_ID" type="long" />
-		<return-scalar column="DIFF_AMOUNT" type="double" />
+		<!--<return-scalar column="DIFF_AMOUNT" type="double" />-->
 		<return-scalar column="IS_VOID" type="boolean" />
 		<return-scalar column="PAYMENT_STATUS" type="int" />
 		<return-scalar column="MEMO" type="encryptedstring" />
