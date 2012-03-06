@@ -7919,7 +7919,9 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT A.NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
+		<return-scalar column="AMOUNT" type="double" />
+		SELECT A.NAME AS ACCOUNT_NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
 		LEFT JOIN
 		ACCOUNT A ON AT.ACCOUNT_ID=A.ID
 		LEFT JOIN TRANSACTION T ON
