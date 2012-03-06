@@ -46,6 +46,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("TDSVendorsListView");
 		createControls1();
 	}
 
@@ -67,8 +68,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		this.fromDate = new DateItem(messages.from());
 		this.fromDate.setHelpInformation(true);
 
-		this.toDate = new DateItem(messages.to());
-		this.toDate.setHelpInformation(true);
+		this.toDate = new DateItem(messages.to(), "toDate");
 		this.toDate.setEnteredDate(new ClientFinanceDate());
 
 		this.fromDate.setEnteredDate(new ClientFinanceDate());
@@ -100,12 +100,11 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		});
 
 		this.grid = new TDSVendorsTable();
-		grid.setWidth("100%");
-		DynamicForm topForm = new DynamicForm();
-		topForm.setIsGroup(true);
-		topForm.setGroupTitle(messages.top());
-		topForm.setNumCols(6);
-		topForm.setItems(fromDate, toDate);
+		DynamicForm topForm = new DynamicForm("topForm");
+		// topForm.setIsGroup(true);
+		// topForm.setGroupTitle(messages.top());
+		// topForm.setNumCols(6);
+		topForm.add(fromDate, toDate);
 		// topForm.setWidth("100%");
 		DynamicForm form2 = new DynamicForm();
 
@@ -113,32 +112,17 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 		Accounter.createHomeService().getPayBillsByTDS(this);
 
-		HorizontalPanel topLayout = new HorizontalPanel();
-		topLayout.setWidth("100%");
+		StyledPanel topLayout = new StyledPanel("topLayout");
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
-		topLayout.setCellHorizontalAlignment(topForm, ALIGN_LEFT);
-		topLayout.setCellHorizontalAlignment(updateButton, ALIGN_LEFT);
 
-		// topLayout.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
-		HorizontalPanel h1 = new HorizontalPanel();
-
-		h1.add(label);
-		h1.setWidth("100%");
-
-		h1.setHorizontalAlignment(ALIGN_RIGHT);
-		h1.add(form2);
-
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
-		// mainPanel.add(topForm);
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(topLayout);
-		mainPanel.add(h1);
-		// mainPanel.add(label);
+		mainPanel.add(label);
+		mainPanel.add(vendorCombo);
 		mainPanel.add(grid);
 		grid.getElement().getParentElement()
 				.addClassName("recounciliation_grid");
-		mainPanel.setCellHeight(grid, "200px");
 
 		this.add(mainPanel);
 

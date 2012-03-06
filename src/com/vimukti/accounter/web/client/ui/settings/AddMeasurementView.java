@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -15,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.edittable.tables.UnitsTable;
@@ -38,6 +38,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("AddMeasurementView");
 		createControls();
 
 	}
@@ -75,13 +76,13 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	private void createControls() {
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		panel.setSpacing(10);
 		panel.setWidth("100%");
 		addMeasurmentForm = new DynamicForm();
 		nameItem = new TextItem(settingsMessages.measurementName());
 		nameItem.setRequired(true);
-		nameItem.setDisabled(isInViewMode());
+		nameItem.setEnabled(!isInViewMode());
 
 		description = new TextAreaItem(settingsMessages.description());
 		description.setDisabled(isInViewMode());
@@ -192,9 +193,9 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		nameItem.setDisabled(isInViewMode());
+		nameItem.setEnabled(!isInViewMode());
 		description.setDisabled(isInViewMode());
-		unitsTable.setDisabled(isInViewMode());
+		unitsTable.setEnabled(!isInViewMode());
 		addUnitButton.setEnabled(!isInViewMode());
 	}
 

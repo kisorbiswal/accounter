@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -13,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class BrandingThemeComboDialog extends BaseDialog {
 	private BrandingThemeCombo brandingThemeTypeCombo;
@@ -24,6 +21,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	public BrandingThemeComboDialog(String title, String desc,
 			ClientTransaction clientTransaction) {
 		super(title, desc);
+		this.addStyleName("branding-theme-combo-dialog");
 		this.clientTransaction = clientTransaction;
 		createControls();
 	}
@@ -31,12 +29,14 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	public BrandingThemeComboDialog(String title, String desc,
 			List<InvoicesList> list) {
 		super(title, desc);
+		this.addStyleName("branding-theme-combo-dialog");
 		this.list = list;
 		createControls();
 	}
 
 	public BrandingThemeComboDialog(String title, String desc) {
 		super(title, desc);
+		this.addStyleName("branding-theme-combo-dialog");
 	}
 
 	private void createControls() {
@@ -55,16 +55,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 		brandingTheme = Accounter.getCompany().getBrandingTheme().get(1);
 		brandingThemeTypeCombo.setComboItem(brandingTheme);
 
-		DynamicForm dynamicForm = new DynamicForm();
-		VerticalPanel comboPanel = new VerticalPanel();
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-
-		dynamicForm.setFields(brandingThemeTypeCombo);
-
-		comboPanel.add(dynamicForm);
-		comboPanel.add(buttonPanel);
-
-		setBodyLayout(comboPanel);
+		setBodyLayout(brandingThemeTypeCombo);
 	}
 
 	private void print() {

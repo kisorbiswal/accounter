@@ -27,7 +27,7 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 	public TAXitemExceptionReport() {
 		super(false, messages.noRecordsToShow());
 		this.serverReport = new TAXItemExceptionDetailServerReport(this);
-
+		this.getElement().setId("taxitemexceptionreport");
 	}
 
 	@Override
@@ -112,11 +112,11 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 			}
 			TaxAgencyStartDateEndDateToolbar toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 			toolBar.taxAgencyCombo.setComboItem(taxAgency2);
-			toolBar.taxAgencyCombo.setDisabled(true);
+			toolBar.taxAgencyCombo.setEnabled(false);
 			toolBar.fromItem.setEnteredDate(this.startDate);
 			toolBar.toItem.setEnteredDate(this.endDate);
-			toolBar.fromItem.setDisabled(true);
-			toolBar.toItem.setDisabled(true);
+			toolBar.fromItem.setEnabled(false);
+			toolBar.toItem.setEnabled(false);
 			toolBar.updateButton.setEnabled(false);
 			this.serverReport.initRecords(detail);
 

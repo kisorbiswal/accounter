@@ -34,7 +34,6 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		String[] reportBasisArray = { messages.cash(), messages.accrual() };
 
 		taxAgencyCombo = new TAXAgencyCombo(messages.selectTAXAgency(), false);
-		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -50,7 +49,6 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		taxAgencyCombo.setSelectedItem(0);
 		selectedAgency = taxAgencyCombo.getSelectedValue();
 		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
 		fromItem.setTitle(messages.from());
 		fromItem.setEnteredDate(new ClientFinanceDate());
 
@@ -67,7 +65,6 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		});
 
 		toItem = new DateItem();
-		toItem.setHelpInformation(true);
 		toItem.setEnteredDate(new ClientFinanceDate());
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();

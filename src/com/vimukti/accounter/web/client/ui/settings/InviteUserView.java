@@ -11,7 +11,6 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -22,6 +21,7 @@ import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -55,6 +55,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("inviteUser");
 		createControls();
 	}
 
@@ -80,17 +81,16 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	private void createControls() {
 		custForm = new DynamicForm();
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setWidth("100%");
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		firstNametext = new TextItem(messages.firstName());
 		firstNametext.setRequired(true);
-		firstNametext.setDisabled(isInViewMode());
+		firstNametext.setEnabled(isInViewMode());
 		lastNametext = new TextItem(messages.lastName());
 		lastNametext.setRequired(true);
-		lastNametext.setDisabled(isInViewMode());
+		lastNametext.setEnabled(isInViewMode());
 		emailField = new EmailField(messages.email());
 		emailField.setRequired(true);
-		emailField.setDisabled(isInViewMode());
+		emailField.setEnabled(isInViewMode());
 		emailField.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -146,7 +146,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		});
 		emailCombo = new SelectCombo(messages.email());
 		emailCombo.setRequired(true);
-		emailCombo.setDisabled(isInViewMode());
+		emailCombo.setEnabled(isInViewMode());
 		emailCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -184,7 +184,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		vPanel.add(setPerLabel);
 		vPanel.add(chooseLabel);
 
-		VerticalPanel permissionsPanel = getPermissionsPanel();
+		StyledPanel permissionsPanel = getPermissionsPanel();
 		vPanel.add(permissionsPanel);
 
 		// vPanel.add(grid);
@@ -193,8 +193,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		this.add(vPanel);
 	}
 
-	private VerticalPanel getPermissionsPanel() {
-		VerticalPanel verticalPanel = new VerticalPanel();
+	private StyledPanel getPermissionsPanel() {
+		StyledPanel styledPanel = new StyledPanel("getPermissionsPanel");
 		readOnly = new RadioButton("permissions", messages.readOnly()
 				+ messages.readOnlyDesc());
 		custom = new RadioButton("permissions", messages.custom());
@@ -208,7 +208,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		admin.setEnabled(!isInViewMode());
 		financialAdviser.setEnabled(!isInViewMode());
 
-		VerticalPanel permissionOptions = new VerticalPanel();
+		StyledPanel permissionOptions = new StyledPanel("permissionOptions");
 		permissionsBoxes = new ArrayList<CheckBox>();
 
 		for (String permission : permissions) {
@@ -220,13 +220,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		}
 		permissionOptions.getElement().getStyle().setPaddingLeft(25, Unit.PX);
 
-		verticalPanel.add(readOnly);
-		verticalPanel.add(custom);
-		verticalPanel.add(permissionOptions);
-		verticalPanel.add(admin);
-		verticalPanel.add(financialAdviser);
+		styledPanel.add(readOnly);
+		styledPanel.add(custom);
+		styledPanel.add(permissionOptions);
+		styledPanel.add(admin);
+		styledPanel.add(financialAdviser);
 
-		return verticalPanel;
+		return styledPanel;
 	}
 
 	@Override
@@ -356,11 +356,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	private void enableFormItems() {
-		firstNametext.setDisabled(isInViewMode());
-		lastNametext.setDisabled(isInViewMode());
+		firstNametext.setEnabled(!isInViewMode());
+		lastNametext.setEnabled(!isInViewMode());
 		if (!Accounter.getUser().getEmail().equals(data.getEmail()))
-			emailCombo.setDisabled(isInViewMode());
-		emailField.setDisabled(isInViewMode());
+			emailField.setEnabled(!isInViewMode());
+		emailCombo.setEnabled(!isInViewMode());
 		// grid.setDisabled(isInViewMode());
 		ClientUser user = Accounter.getUser();
 		if (data.isAdmin()) {

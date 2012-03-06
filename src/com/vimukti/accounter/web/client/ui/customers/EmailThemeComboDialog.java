@@ -1,14 +1,11 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	private BrandingThemeCombo brandingThemeTypeCombo;
@@ -23,8 +20,7 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(messages
-				.selectTheme());
+		brandingThemeTypeCombo = new BrandingThemeCombo(messages.selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
@@ -39,16 +35,7 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 		brandingTheme = Accounter.getCompany().getBrandingTheme().get(1);
 		brandingThemeTypeCombo.setComboItem(brandingTheme);
 
-		DynamicForm dynamicForm = new DynamicForm();
-		VerticalPanel comboPanel = new VerticalPanel();
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-
-		dynamicForm.setFields(brandingThemeTypeCombo);
-
-		comboPanel.add(dynamicForm);
-		comboPanel.add(buttonPanel);
-
-		setBodyLayout(comboPanel);
+		setBodyLayout(brandingThemeTypeCombo);
 	}
 
 	@Override

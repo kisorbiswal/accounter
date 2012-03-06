@@ -27,8 +27,8 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 	private SelectCombo optionsCombo;
 	private List<String> optionsList;
 	private Label selectedLanguageLabel;
-	private VerticalPanel dataPanel, mainPanel;
-	private FlowPanel notePanel;
+	private StyledPanel dataPanel, mainPanel;
+	private StyledPanel notePanel;
 	private boolean canApprove;
 	private TextItem searchItem;
 
@@ -95,7 +95,7 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 							.getLanguageTooltip()));
 		}
 
-		notePanel = new FlowPanel();
+		notePanel = new StyledPanel("notePanel");
 		Label noteLabel = new Label(messages.translateNote());
 		notePanel.add(noteLabel);
 		notePanel.addStyleName("translation_note");
@@ -125,23 +125,21 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 				}
 			}
 		};
-		dataPanel = new VerticalPanel();
+		dataPanel = new StyledPanel("dataPanel");
 
 		DynamicForm combosForm = new DynamicForm();
 		combosForm.setNumCols(6);
 		combosForm.setFields(languageCombo, optionsCombo, searchItem);
 
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(combosForm);
 		mainPanel.add(notePanel);
 		mainPanel.add(selectedLanguageLabel);
 		mainPanel.add(dataPanel);
 
 		selectedLanguageLabel.addStyleName("selected-language");
-		mainPanel.setWidth("100%");
 		this.add(mainPanel);
 		this.add(pager);
-		this.setCellHorizontalAlignment(pager, HasAlignment.ALIGN_CENTER);
 	}
 
 	@Override
@@ -219,7 +217,7 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 	protected void createNewDataPanel() {
 		if (dataPanel != null) {
 			mainPanel.remove(dataPanel);
-			dataPanel = new VerticalPanel();
+			dataPanel = new StyledPanel("dataPanel");
 		}
 		mainPanel.add(dataPanel);
 		dataPanel.addStyleName("translated-result");

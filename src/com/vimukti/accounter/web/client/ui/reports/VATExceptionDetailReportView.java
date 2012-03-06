@@ -36,8 +36,8 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 			DateRangeReportToolbar dateRangeReportToolbar = (DateRangeReportToolbar) this.toolbar;
 			dateRangeReportToolbar.fromItem.setEnteredDate(this.startDate);
 			dateRangeReportToolbar.toItem.setEnteredDate(this.endDate);
-			dateRangeReportToolbar.fromItem.setDisabled(true);
-			dateRangeReportToolbar.toItem.setDisabled(true);
+			dateRangeReportToolbar.fromItem.setEnabled(false);
+			dateRangeReportToolbar.toItem.setEnabled(false);
 
 			this.serverReport.initRecords(vatDetail);
 

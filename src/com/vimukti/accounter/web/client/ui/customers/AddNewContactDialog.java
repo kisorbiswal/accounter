@@ -24,41 +24,34 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 	public AddNewContactDialog(String title, String descript) {
 		super(title, descript);
-		setWidth("400px");
+		this.getElement().setId("add-new-contact-dialog");
 		createControls();
 		center();
 	}
 
 	private void createControls() {
-		form = new DynamicForm();
-		form.setWidth("100%");
-		VerticalPanel layout = new VerticalPanel();
-
-		form.setItems(getTextItems());
-		layout.add(form);
-		setBodyLayout(layout);
+		form = new DynamicForm("newContactForm");
+		form.add(getTextItems());
+		setBodyLayout(form);
 	}
 
 	private TextItem[] getTextItems() {
 		List<TextItem> items = new ArrayList<TextItem>();
 
-		nameItem = new TextItem(messages.name());
-		nameItem.setHelpInformation(true);
+		nameItem = new TextItem(messages.name(), "nameItem");
 		nameItem.setRequired(true);
 		items.add(nameItem);
 
-		titleItem = new TextItem(messages.title());
-		titleItem.setHelpInformation(true);
+		titleItem = new TextItem(messages.title(), "titleItem");
 		titleItem.setRequired(false);
 		items.add(titleItem);
 
-		businessPhoneItem = new TextItem(messages.businessPhone());
-		businessPhoneItem.setHelpInformation(true);
+		businessPhoneItem = new TextItem(messages.businessPhone(),
+				"businessPhoneItem");
 		businessPhoneItem.setRequired(false);
 		items.add(businessPhoneItem);
 
 		emailItem = new EmailField(messages.email());
-		emailItem.setHelpInformation(true);
 		emailItem.setRequired(false);
 		items.add(emailItem);
 

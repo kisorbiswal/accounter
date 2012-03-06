@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -586,7 +587,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 			}
 		});
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		leftDynamicForm.setFields(description, accountCombo);
 		DynamicForm rightDynamicForm = new DynamicForm();
 		if (getPreferences().isTrackTax()) {

@@ -71,7 +71,6 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				messages.custom() };
 
 		vatAgencyCombo = new TAXAgencyCombo(messages.chooseVATAgency(), false);
-		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
@@ -97,7 +96,6 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		}
 
 		dateRangeItem = new SelectCombo(messages.dateRange());
-		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		dateRangeList = new ArrayList<String>();
@@ -126,11 +124,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				});
 
 		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
 		fromItem.setTitle(messages.from());
 
 		toItem = new DateItem();
-		toItem.setHelpInformation(true);
 		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
