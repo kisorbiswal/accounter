@@ -17,8 +17,8 @@ public class CurrencyFactorWidget extends DynamicForm {
 	double factor = 1.0;
 
 	public CurrencyFactorWidget(ClientCurrency baseCurrency) {
+		super("CurrencyFactorWidget");
 		this.baseCurrency = baseCurrency;
-
 		setStyleName("currencyTextBox");
 
 		currencyForm = new CurrencyFormItem(messages.factor(),
@@ -32,7 +32,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 			}
 		});
 
-		setFields(currencyForm);
+		add(currencyForm);
 		currencyForm.hide();
 
 	}
@@ -42,7 +42,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 		if (factor <= 0.0) {
 			factor = 1.0;
 			this.factor = 1.0;
-			currencyForm.changeTextField(factor);
+			currencyForm.setValue(factor);
 		}
 		if (listener != null) {
 			listener.currencyChanged(selectedCurrencyItem, factor);

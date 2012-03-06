@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
 public class SelectItem extends FormItem<String> {
 
@@ -26,16 +26,11 @@ public class SelectItem extends FormItem<String> {
 
 	}
 
-	public SelectItem(String title) {
-		setTitle(title);
+	public SelectItem(String title, String styleName) {
+		super(title, styleName);
 		listBox = new ListBox();
-		this.listBox.setTitle(title);
-		this.listBox.setWidth("100%");
-	}
-
-	public SelectItem() {
-		listBox = new ListBox();
-		this.listBox.setWidth("50%");
+		listBox.addStyleName("selectitem");
+		this.add(listBox);
 	}
 
 	@Override
@@ -130,7 +125,7 @@ public class SelectItem extends FormItem<String> {
 	}
 
 	@Override
-	public Widget getMainWidget() {
+	public FocusWidget getMainWidget() {
 		return this.listBox;
 	}
 
@@ -148,12 +143,6 @@ public class SelectItem extends FormItem<String> {
 
 	public String getValue(int index) {
 		return this.listBox.getItemText(index);
-	}
-
-	@Override
-	public void setDisabled(boolean b) {
-		// this.getMainWidget().setEnabled(!b);
-		this.listBox.setEnabled(!b);
 	}
 
 	public void addChangedHandler(ChangeHandler changeHandler) {

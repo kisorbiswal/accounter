@@ -7,16 +7,9 @@ public class AmountLabel extends LabelItem {
 	private Double doubleAmount;
 
 	public AmountLabel(final String name) {
-
-		setName(name);
+		super(name,"AmountLabel");
 		setTitle(name);
-		// setWidth("180px");
-
-		// Set Default Values
 		setAmount(0.00D);
-		// setWidth("0px");
-		// ((Label) getMainWidget())
-		// .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 
 	public void setAmount(Double amount) {

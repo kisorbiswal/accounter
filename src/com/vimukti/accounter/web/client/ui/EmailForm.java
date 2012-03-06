@@ -35,15 +35,12 @@ public class EmailForm extends DynamicForm {
 
 	public EmailForm(Set<ClientEmail> emails, String webTextValue,
 			WidgetWithErrors widget, String view) {
+		super("emailForm");
 		this.errorWidget = widget;
 		allEmails = new LinkedHashMap<Integer, ClientEmail>();
 		setEmails(emails);
-		setIsGroup(true);
-		setGroupTitle(messages.emailAndInternet());
-		setNumCols(3);
 
 		businesEmailSelect = new SelectCombo(messages.email());
-		businesEmailSelect.setHelpInformation(true);
 		// businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businesEmailSelect.initCombo(new ClientEmail().getEmailTypes());
@@ -66,8 +63,6 @@ public class EmailForm extends DynamicForm {
 		businesEmailText = new EmailField(messages.email());
 		businesEmailSelect.setToolTip(messages.giveOf(
 				messages.email(), view));
-		businesEmailText.setHelpInformation(true);
-		businesEmailText.setWidth(100);
 		businesEmailText.setShowTitle(true);
 
 		businesEmailText.addChangeHandler(new ChangeHandler() {
@@ -105,10 +100,9 @@ public class EmailForm extends DynamicForm {
 				}
 			}
 		});
-		webText = new TextItem(messages.webPageAddress());
+		webText = new TextItem(messages.webPageAddress(),"webText");
 		webText.setToolTip(messages.giveOf(
 				messages.webSite(), view));
-		webText.setHelpInformation(true);
 		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();
 		emptyItem.setShowTitle(false);
@@ -122,8 +116,7 @@ public class EmailForm extends DynamicForm {
 		if (webTextValue != null)
 			webText.setValue(webTextValue);
 
-		setFields(businesEmailText, emptyItem, webText);
-		setWidth("100%");
+		add(businesEmailText, emptyItem, webText);
 		// this.getCellFormatter().getElement(1, 0).setAttribute("colspan",
 		// "2");
 		// this.setCellPadding(5);

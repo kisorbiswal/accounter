@@ -18,9 +18,8 @@ public class PercentageField extends TextItem {
 	AccounterMessages messages = GWT.create(AccounterMessages.class);
 
 	public PercentageField(WidgetWithErrors errorsWidget, final String name) {
+		super(name,"percentageField");
 		this.errorsWidget = errorsWidget;
-		setName(name);
-		setTitle(name);
 		addBlurHandler(getBlurHandler());
 		setPercentage(0.0);
 		((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);

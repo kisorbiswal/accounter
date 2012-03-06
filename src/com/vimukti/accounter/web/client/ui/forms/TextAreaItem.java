@@ -10,20 +10,17 @@ public class TextAreaItem extends FormItem<String> {
 	TextArea textArea;
 	boolean isMemo;
 
-	public TextAreaItem(String title) {
-		setTitle(title);
+	public TextAreaItem(String title, String styleName) {
+		super(title, styleName);
 		textArea = new TextArea();
+		textArea.addStyleName("textArea");
+		this.add(textArea);
 	}
 
-	public TextAreaItem() {
-		textArea = new TextArea();
-	}
+//	public TextAreaItem() {
+//		textArea = new TextArea();
+//	}
 
-	// public TextAreaItem(String title){
-	// textArea = new TextArea();
-	// textArea.setWidth("100%");
-	// textArea.setText(title);
-	// }
 	public void setMemo(boolean isMemo, AbstractBaseView view) {
 		this.isMemo = isMemo;
 		if (isMemo) {
@@ -79,6 +76,7 @@ public class TextAreaItem extends FormItem<String> {
 
 		this.textArea.addClickHandler(handler);
 	}
+	
 	public void setTabIndex(int index) {
 		textArea.setTabIndex(index);
 	}

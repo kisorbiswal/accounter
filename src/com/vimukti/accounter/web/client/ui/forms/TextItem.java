@@ -6,66 +6,35 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 
 public class TextItem extends FormItem<String> {
 
 	public TextBoxItem textBox;
 
-	// TextBoxItem textBoxItem;
-	public TextItem() {
-
-		textBox = new TextBoxItem() {
-			protected void onAttach() {
-				super.onAttach();
-				TextItem.this.onAttach();
-			};
-		};
-		// textBoxItem= new TextBoxItem();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// TextItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		// };
-
+	public TextItem(String title, String styleName) {
+		super(title, styleName);
+		textBox = new TextBoxItem();
+		textBox.addStyleName("textitem");
 		this.textBox.addBlurHandler(new BlurHandler() {
-
 			@Override
 			public void onBlur(BlurEvent event) {
-
 				TextItem.this.showValidated();
-
 			}
 		});
-
-		// if(!validate()){
-		// parent.setNumCols(3);
-		// addLabelWidget(parent);
-		// parent.add(getMainWidget(), columnSpan);
-		// Label label = new Label("Error");
-		// label.setStyleName("ErrorLabel");
-		// parent.add(label,1);
-		// }
-		// else{
-
+		this.add(textBox);
 	}
 
-	protected void onAttach() {
-
+	public static void setPlaceholder(String text, TextBox box) {
+		box.getElement().setAttribute("placeholder", text);
 	}
 
-	public TextItem(String title) {
-		textBox = new TextBoxItem();
-		setTitle(title);
+	@Override
+	public void setTitle(String string) {
+		super.setTitle(string);
 	}
-
 	@Override
 	public String getValue() {
 		if (textBox.getText() == null)
@@ -146,23 +115,19 @@ public class TextItem extends FormItem<String> {
 	}
 
 	@Override
-	public Widget getMainWidget() {
+	public FocusWidget getMainWidget() {
 		return textBox;
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		if (b) {
+	public void setEnabled(boolean b) {
+		if (!b) {
 			this.textBox.addStyleName("disable-TextField");
 		} else {
 			this.textBox.setStyleName("gwt-TextBox");
 		}
-		this.textBox.setEnabled(!b);
+		this.textBox.setEnabled(b);
 
-	}
-
-	public void addStyleName(String style) {
-		textBox.addStyleName(style);
 	}
 
 	public void removeStyleName(String style) {

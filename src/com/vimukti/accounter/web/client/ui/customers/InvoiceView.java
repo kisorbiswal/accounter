@@ -81,22 +81,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
-	// private final boolean locationTrackingEnabled;
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;
 	private TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
 	private AmountLabel netAmountLabel, balanceDueNonEditableText,
 			paymentsNonEditableText;
-	private DynamicForm termsForm;
-	// private WarehouseAllocationTable table;
-	// private DisclosurePanel inventoryDisclosurePanel;
 
-	// private Double currencyfactor;
-	// private ClientCurrency currencyCode;
 	TransactionsTree<EstimatesAndSalesOrdersList> transactionsTree;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
+		this.getElement().setId("invoiceview");
 	}
 
 	private BrandingThemeCombo brandingThemeTypeCombo;
@@ -188,21 +183,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void createControls() {
-		Label lab1;
-		DynamicForm dateNoForm = new DynamicForm();
-		termsForm = new DynamicForm();
-		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		DynamicForm prodAndServiceForm2 = new DynamicForm();
-		DynamicForm vatForm = new DynamicForm();
-		amountsForm = new DynamicForm();
-		DynamicForm priceLevelForm = new DynamicForm();
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
+		DynamicForm termsForm = new DynamicForm("termsForm");
 
-		if (transaction == null
-				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(messages.invoice());
-		else {
-			lab1 = new Label(messages.invoice());
-		}
+		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
+		DynamicForm prodAndServiceForm2 = new DynamicForm("prodAndServiceForm2");
+		DynamicForm vatForm = new DynamicForm("vatForm");
+		amountsForm = new DynamicForm("amountsForm");
 
 		lab1.setStyleName("label-title");
 

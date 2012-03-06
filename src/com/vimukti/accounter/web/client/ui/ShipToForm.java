@@ -35,14 +35,13 @@ public class ShipToForm extends DynamicForm {
 	public TextAreaItem addrArea;
 
 	public ShipToForm(Set<ClientAddress> addresses) {
-
+	
+		super("ShipToForm");
 		Label l1 = new Label(messages.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
 		businessSelect = new SelectCombo(messages.shipTo());
-		businessSelect.setHelpInformation(true);
-		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		List<String> addressTypes = new ArrayList<String>();
 
@@ -51,8 +50,7 @@ public class ShipToForm extends DynamicForm {
 		businessSelect.initCombo(addressTypes);
 		businessSelect.setDefaultToFirstOption(true);
 
-		addrArea = new TextAreaItem("");
-		addrArea.setHelpInformation(true);
+		addrArea = new TextAreaItem("Address Area","addrArea");
 		addrArea.setWidth(100);
 		addrArea.setShowTitle(true);
 		// addrArea.setDisabled(true);
@@ -104,10 +102,7 @@ public class ShipToForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-		setGroupTitle(messages.addresses());
-		setNumCols(2);
-		// setFields(businessSelect, addrArea);
-		setFields(businessSelect, addrArea);
+		add(businessSelect, addrArea);
 	}
 
 	private void setAddresses(Set<ClientAddress> addresses) {

@@ -17,10 +17,10 @@ public class AutoCompleteItem extends FormItem<String> {
 	private HashMap<String, String> valueMap = new HashMap<String, String>();
 
 	public AutoCompleteItem(String title, String emptyMessage) {
-
-		super.setTitle(title);
-
+		super(title,"AutoCompleteItem");
 		getComponent();
+		this.add(suggestBox);
+		this.addStyleName("autoCompleteItem");
 
 		// TODO hide the drop down icon
 		/*
@@ -28,6 +28,11 @@ public class AutoCompleteItem extends FormItem<String> {
 		 * setHideEmptyPickList(false); setEmptyPickListMessage(emptyMessage);
 		 * setTextBoxStyle("autoCompleteCombobox");
 		 */
+	}
+
+	public AutoCompleteItem() {
+		this("", "");
+		this.addStyleName("autoCompleteItem");
 	}
 
 	public void setValueMap(HashMap<String, String> map) {
@@ -61,10 +66,12 @@ public class AutoCompleteItem extends FormItem<String> {
 		}
 		suggestBox = new SuggestBox(map);
 		suggestBox.setText(this.title);
+		suggestBox.addStyleName("suggestBox");
 		return suggestBox;
 
 	}
 
+	@Override
 	public void setValue(String setContactValue) {
 		// TODO Auto-generated method stub
 

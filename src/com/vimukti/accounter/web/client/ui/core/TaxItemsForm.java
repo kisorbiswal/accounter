@@ -33,8 +33,7 @@ public class TaxItemsForm extends DynamicForm {
 	double totalTax;
 
 	public TaxItemsForm() {
-		this.setNumCols(2);
-		this.setCellSpacing(5);
+		super("taxItemsForm");
 	}
 
 	public void setTransaction(ClientTransaction transaction) {
@@ -45,7 +44,7 @@ public class TaxItemsForm extends DynamicForm {
 	private void updateForm() {
 		ClientCompany company = Accounter.getCompany();
 
-		this.removeAllRows();
+		this.clear();
 		codeValues = new HashMap<ClientTAXItem, List<Double>>();
 		int category = getTransactionCategory(transaction.getObjectType());
 
@@ -164,7 +163,7 @@ public class TaxItemsForm extends DynamicForm {
 
 		}
 
-		this.setFields(items);
+		this.add(items);
 	}
 
 	public double getTotalTax() {

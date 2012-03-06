@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * 
@@ -24,9 +23,9 @@ public class RadioGroupItem extends FormItem<String> {
 	protected static AccounterMessages messages = Global.get().messages();
 
 	RadioButton radioButton;
-	VerticalPanel vPanel;
-	VerticalPanel verticalPanel = new VerticalPanel();
-	HorizontalPanel horizontalPanel = new HorizontalPanel();
+	StyledPanel vPanel;
+	StyledPanel styledPanel = new StyledPanel("panel");
+	StyledPanel styledPanel1 = new StyledPanel("panel1");
 	Label radioGroupTitle = new Label();
 	boolean isVertical = true;
 	LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<String, String>();
@@ -36,19 +35,22 @@ public class RadioGroupItem extends FormItem<String> {
 	private String grouoName;
 
 	public RadioGroupItem(String title) {
-		vPanel = new VerticalPanel();
+		super(title, "RadioGroupItem");
+		vPanel = new StyledPanel("readioGropuitem");
 		setTitle(title);
-	}
-
-	public RadioGroupItem(String title, String groupName) {
-		vPanel = new VerticalPanel();
-		this.grouoName = groupName;
-		setTitle(title);
+		this.add(vPanel);
 	}
 
 	public RadioGroupItem() {
-		vPanel = new VerticalPanel();
+		this("");
+	}
 
+	public RadioGroupItem(String title, String groupName) {
+		super(title, "RadioGroupItem");
+		vPanel = new StyledPanel("vPanel");
+		this.grouoName = groupName;
+		setTitle(title);
+		this.add(vPanel);
 	}
 
 	public void setGroupName(String groupName) {
@@ -166,26 +168,26 @@ public class RadioGroupItem extends FormItem<String> {
 			this.vPanel.add(radioGroupTitle);
 		}
 		if (isVertical) {
-			this.verticalPanel.clear();
+			this.styledPanel.clear();
 			for (RadioButton radioButton : this.radioButtonList) {
 				if (radioButton.getText().equals(this.highLightedRadioButton)) {
 					radioButton.setValue(true);
 				}
-				this.verticalPanel.add(radioButton);
+				this.styledPanel.add(radioButton);
 
 			}
-			this.vPanel.add(verticalPanel);
+			this.vPanel.add(styledPanel);
 			return this.vPanel;
 		} else {
-			this.horizontalPanel.clear();
+			this.styledPanel.clear();
 			for (RadioButton radioButton : this.radioButtonList) {
 				if (radioButton.getText().equals(this.highLightedRadioButton)) {
 					radioButton.setValue(true);
 				}
-				this.horizontalPanel.add(radioButton);
+				this.styledPanel.add(radioButton);
 
 			}
-			this.vPanel.add(horizontalPanel);
+			this.vPanel.add(styledPanel);
 			return this.vPanel;
 		}
 
@@ -215,10 +217,10 @@ public class RadioGroupItem extends FormItem<String> {
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		super.setDisabled(b);
+	public void setEnabled(boolean b) {
+		super.setEnabled(b);
 		for (RadioButton btn : radioButtonList) {
-			btn.setEnabled(!b);
+			btn.setEnabled(b);
 		}
 	}
 }

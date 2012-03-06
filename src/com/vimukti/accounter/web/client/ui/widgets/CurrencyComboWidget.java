@@ -22,6 +22,7 @@ public class CurrencyComboWidget extends DynamicForm {
 
 	public CurrencyComboWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
+		super("currencyComboWidget");
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
 
@@ -53,8 +54,8 @@ public class CurrencyComboWidget extends DynamicForm {
 			}
 		});
 
-		setFields(currencyCombo);
-		setFields(currencyForm);
+		add(currencyCombo);
+		add(currencyForm);
 
 		currencyForm.hide();
 
@@ -164,9 +165,9 @@ public class CurrencyComboWidget extends DynamicForm {
 		}
 	}
 
-	public void setDisabled(boolean isAccountDisabled, boolean isFormDisabled) {
-		currencyCombo.setDisabled(isAccountDisabled);
-		currencyForm.setDisabled(isFormDisabled);
+	public void setEnabled(boolean isAccountDisabled, boolean isFormDisabled) {
+		currencyCombo.setEnabled(isAccountDisabled);
+		currencyForm.setEnabled(isFormDisabled);
 	}
 
 }
