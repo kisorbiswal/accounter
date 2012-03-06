@@ -191,7 +191,7 @@ public class ItemReceiptView extends
 			}
 		};
 
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -238,7 +238,7 @@ public class ItemReceiptView extends
 			}
 		};
 
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -775,8 +775,8 @@ public class ItemReceiptView extends
 		transactionNumber.setEnabled(!isInViewMode());
 		payTermsSelect.setEnabled(!isInViewMode());
 		purchaseLabel.setEnabled(!isInViewMode());
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 

@@ -222,7 +222,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		grid.isEnable = false;
 		grid.init();
 		// grid.setPayVATView(this);
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		// grid.setHeight("200px");
 		if (!isInViewMode()) {
 			// grid.addFooterValue("Total", 1);

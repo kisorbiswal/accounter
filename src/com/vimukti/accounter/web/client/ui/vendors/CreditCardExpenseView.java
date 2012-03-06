@@ -374,7 +374,7 @@ public class CreditCardExpenseView extends
 			}
 		};
 
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -425,7 +425,7 @@ public class CreditCardExpenseView extends
 			}
 		};
 
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -1066,8 +1066,8 @@ public class CreditCardExpenseView extends
 		phoneSelect.setEnabled(!isInViewMode());
 		creditCardCombo.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		discountField.setEnabled(!isInViewMode());
