@@ -17,13 +17,12 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -31,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -45,7 +45,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	private static SetupCompanyInfoPageUiBinder uiBinder = GWT
 			.create(SetupCompanyInfoPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
 	Grid companyInfoField;
 	@UiField
@@ -194,10 +194,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			}
 		}
 
-		companyFieldsPanel = new VerticalPanel();
+		companyFieldsPanel = new StyledPanel("companyFieldsPanel");
 		viewPanel.add(companyFieldsPanel);
-		viewPanel.setCellHorizontalAlignment(companyFieldsPanel,
-				HasAlignment.ALIGN_CENTER);
 
 		countryChanged();
 
@@ -255,7 +253,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
 
-	VerticalPanel companyFieldsPanel;
+	StyledPanel companyFieldsPanel;
 
 	private void addFields(Map<String, String> companyFields) {
 		itemsField.clear();

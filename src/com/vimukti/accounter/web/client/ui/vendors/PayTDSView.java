@@ -3,9 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -15,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -41,7 +40,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	protected ClientAccount selectedPayFromAccount;
 	protected double initialEndingBalance;
 	protected ClientTAXAgency selectedVATAgency;
-	private VerticalPanel gridLayout;
+	private StyledPanel gridLayout;
 	private TransactionPayTDSGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
@@ -56,7 +55,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 	public PayTDSView(int transactionType) {
 		super(ClientTransaction.TYPE_PAY_TAX);
-
+		this.getElement().setId("paytdsview");
 	}
 
 	@Override
@@ -75,13 +74,6 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 
-		// setTitle(UIUtils.title(FinanceApplication.constants()
-		// .transaction()));
-
-		Label lab = new Label(messages.payTDS());
-		lab.removeStyleName("gwt-Label");
-		lab.setStyleName("label-title");
-		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
@@ -90,7 +82,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 				.giveNoTo(this.getAction().getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
-		payFromAccCombo.setHelpInformation(true);
+		// payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -113,7 +105,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 				});
 
-		payFromAccCombo.setDisabled(isInViewMode());
+		payFromAccCombo.setEnabled(!isInViewMode());
 		payFromAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
@@ -136,39 +128,28 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		//
 		// });
 
-		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
-		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(transactionDateItem, transNumber);
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		DynamicForm dateForm = new DynamicForm("datenumber-panel");
+		dateForm.add(transactionDateItem, transNumber);
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
-		mainform = new DynamicForm();
-		// filterForm.setWidth("100%");
+		mainform = new DynamicForm("mainform");
 		mainform = UIUtils.form(messages.filter());
-		mainform.setFields(payFromAccCombo, paymentMethodCombo);
-		// mainform.setWidth("80%");
-
-		// fileterForm = new DynamicForm();
-		// fileterForm.setFields(billsDue);
-		// fileterForm.setWidth("80%");
-
-		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
-		amountText.setHelpInformation(true);
+		mainform.add(payFromAccCombo, paymentMethodCombo);
+		amountText = new AmountField(messages.amount(), this,
+				getBaseCurrency(), "amountText");
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		amountText.setDisabled(true);
+		amountText.setEnabled(false);
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		endingBalanceText.setHelpInformation(true);
+				getBaseCurrency(), "endingBalanceText");
+		// endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		endingBalanceText.setDisabled(true);
+		endingBalanceText.setEnabled(false);
 
-		balForm = new DynamicForm();
+		balForm = new DynamicForm("balForm");
 		balForm = UIUtils.form(messages.balances());
-		balForm.setFields(amountText, endingBalanceText);
+		balForm.add(amountText, endingBalanceText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		classListCombo = createAccounterClassListCombo();
@@ -176,38 +157,19 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 			balForm.setFields(classListCombo);
 		}
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
-		leftVLay.add(mainform);
-		// leftVLay.add(fileterForm);
-
-		VerticalPanel rightVlay = new VerticalPanel();
-		rightVlay.add(balForm);
-
-		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
-		topHLay.add(leftVLay);
-		topHLay.add(rightVlay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVlay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
-
 		Label lab1 = new Label("" + messages.billsToPay() + "");
 
 		initListGrid();
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(lab);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
-		mainVLay.add(topHLay);
+		mainVLay.add(mainform);
+		mainVLay.add(balForm);
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
-		setSize("100%", "100%");
+
 		/* Adding dynamic forms in list */
 		listforms.add(mainform);
 		listforms.add(balForm);
@@ -254,8 +216,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	// initializes the grid.
 	private void initListGrid() {
 
-		gridLayout = new VerticalPanel();
-		gridLayout.setWidth("100%");
+		gridLayout = new StyledPanel("gridLayout");
 		grid = new TransactionPayTDSGrid(!isInViewMode(), true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
