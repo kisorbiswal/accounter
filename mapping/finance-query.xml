@@ -14041,35 +14041,51 @@
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		
-		SELECT 
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
-		T.NUMBER AS TRANSACTION_NUMBER,
-		T.T_DATE AS TRANSACTION_DATE,
-		A.NAME AS ACCOUNT_NAME,
-		CASE 
-		WHEN 
-		(A.is_increase)
-		THEN 
-		-AMOUNT
-		ELSE 
-		AMOUNT END  AS AMOUNT		
-		FROM ACCOUNT_TRANSACTION AT 
-		LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID 
-		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
-
-		WHERE A.COMPANY_ID=:companyId  AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)  AND (A.A_TYPE=2 OR 
-		AT.TRANSACTION_ID IN
-			(SELECT AT2.TRANSACTION_ID 
-				FROM ACCOUNT_TRANSACTION AT2 
-				LEFT JOIN ACCOUNT A2 ON A2.ID=AT2.ACCOUNT_ID  
-				WHERE A2.A_TYPE=2)   )AND ( T.T_DATE &lt;= :endDate AND  T.T_DATE &gt;= :startDate)
-		ORDER BY AT.TRANSACTION_ID,AMOUNT DESC;
+		SELECT T.ID     AS TRANSACTION_ID,
+       T.T_TYPE AS TRANSACTION_TYPE,
+       T.NUMBER AS TRANSACTION_NUMBER,
+       T.T_DATE AS TRANSACTION_DATE,
+       P.NAME   AS PAYEE_NAME,
+       A.NAME   AS ACCOUNT_NAME,
+       CASE
+         WHEN ( A.IS_INCREASE ) THEN -AT.AMOUNT
+         ELSE AT.AMOUNT
+       END      AS AMOUNT
+		FROM   ACCOUNT_TRANSACTION AT
+       LEFT JOIN ACCOUNT A
+         ON A.ID = AT.ACCOUNT_ID
+       LEFT JOIN TRANSACTION T
+         ON T.ID = AT.TRANSACTION_ID
+       LEFT JOIN CUSTOMER_PREPAYMENT CPP
+         ON CPP.ID = T.ID
+       LEFT JOIN CASH_SALES CS
+         ON CS.ID = T.ID
+       LEFT JOIN CUSTOMER_REFUND CR
+         ON CR.ID = T.ID
+       LEFT JOIN RECEIVE_PAYMENT RP
+         ON RP.ID = T.ID
+       LEFT JOIN PAYEE P
+         ON P.ID = CPP.CUSTOMER_ID
+             OR P.ID = CS.CUSTOMER_ID
+             OR P.ID = CR.CUSTOMER_ID
+             OR P.ID = RP.CUSTOMER_ID
+		WHERE  A.COMPANY_ID = :companyId
+       AND T.T_TYPE IN ( 1, 5, 8, 10,
+                         12, 21, 29, 24, 35 )
+      	 AND ( A.A_TYPE = 2
+              OR AT.TRANSACTION_ID IN (SELECT AT2.TRANSACTION_ID
+                                       FROM   ACCOUNT_TRANSACTION AT2
+                                              LEFT JOIN ACCOUNT A2
+                                                ON A2.ID = AT2.ACCOUNT_ID
+                                       WHERE  A2.A_TYPE = 2) ) AND ( T.T_DATE between :startDate and :endDate )
+			ORDER  BY AT.TRANSACTION_ID,
+          AMOUNT DESC;  
 	</sql-query>
 
 	<sql-query name="getBankCheckDetails">
@@ -14079,7 +14095,7 @@
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
