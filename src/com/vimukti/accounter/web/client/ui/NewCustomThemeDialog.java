@@ -20,53 +20,53 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 	public NewCustomThemeDialog(String title,
 			ClientBrandingTheme brandingTheme, boolean isNew) {
 		super(title, "");
+		this.addStyleName("new-custom-theme-dialog");
 		this.brandingTheme = brandingTheme;
 		this.isEdit = isNew;
-		setWidth("10px");
 		createControls();
 		center();
 	}
 
 	private void createControls() {
-		form = new DynamicForm();
-		form.setWidth("100%");
-		themeName = new TextItem("Custom Theme");
-		themeName.setHelpInformation(true);
+		form = new DynamicForm("formItems");
+		themeName = new TextItem("Custom Theme", "themeName");
 		themeName.setRequired(true);
 
 		if (isEdit == true) {
 
 			themeName.setValue(brandingTheme.getThemeName().trim());
 
-			overdueBox = new TextItem(messages.overdueInvoiceTitle());
+			overdueBox = new TextItem(messages.overdueInvoiceTitle(),
+					"overdueBox");
 			overdueBox.setValue(messages.overdueValue());
 
-			creditNoteBox = new TextItem(messages.creditNoteTitle());
+			creditNoteBox = new TextItem(messages.creditNoteTitle(),
+					"creditNoteBox");
 			creditNoteBox.setValue(messages.creditNoteValue());
 
-			statementBox = new TextItem(messages.statementTitle());
+			statementBox = new TextItem(messages.statementTitle(),
+					"statementBox");
 			statementBox.setValue(messages.statement());
 
-			quoteBox = new TextItem(messages.quoteTitle());
+			quoteBox = new TextItem(messages.quoteTitle(), "quoteBox");
 			quoteBox.setValue(messages.QuoteOverDueTitle());
 
-			cashSaleBox = new TextItem(messages.cashSaleTitle());
+			cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 			cashSaleBox.setValue(messages.cashSaleValue());
 
-			payPalEmail = new TextItem("PayPal Email");
-			payPalEmail.setHelpInformation(true);
+			payPalEmail = new TextItem("PayPal Email", "payPalEmail");
 
 			String emailId = brandingTheme.getPayPalEmailID() != null ? brandingTheme
 					.getThemeName().trim() : "";
 			payPalEmail.setValue(emailId);
 
-			form.setItems(themeName, overdueBox, creditNoteBox, statementBox,
+			form.add(themeName, overdueBox, creditNoteBox, statementBox,
 					quoteBox, cashSaleBox, payPalEmail);
 		} else {
-			form.setItems(themeName);
+			form.add(themeName);
 		}
 
-		VerticalPanel layout = new VerticalPanel();
+		StyledPanel layout = new StyledPanel("layout");
 		layout.add(form);
 		setBodyLayout(layout);
 	}

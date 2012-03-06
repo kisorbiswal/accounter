@@ -15,14 +15,14 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	
 private boolean isAddNew;
 	public CustomerCombo(String title) {
-		super(title);
+		super(title,"customerCombo");
 		super.setToolTip(messages.selectWhichWeHaveInOurCompanyOrAddNew(Global
 				.get().Customer()));
 		initCombo(getCompany().getCustomers());
 	}
 
 	public CustomerCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1);
+		super(title, isAddNewRequire, 1,"customerCombo");
 		if (isAddNewRequire)
 			super.setToolTip(messages
 					.selectWhichWeHaveInOurCompanyOrAddNew(Global.get()

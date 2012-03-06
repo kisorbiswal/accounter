@@ -50,6 +50,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	public void init() {
+		this.getElement().setId("BuildAssemblyView");
 		super.init();
 	}
 
@@ -118,7 +119,7 @@ public class BuildAssemblyView extends
 		itemTable.setDisabled(true);
 		quantityToBuild = new AmountField(messages.quantityToBuild(), this);
 		quantityToBuild.setRequired(true);
-		dateField = new DateField(messages.date());
+		dateField = new DateField(messages.date(), "dateField");
 		dateField.setEnteredDate(new ClientFinanceDate());
 		dateField.addChangeHandler(new ChangeHandler() {
 
@@ -129,7 +130,7 @@ public class BuildAssemblyView extends
 		});
 		setTransactionDate(dateField.getDate());
 		;
-		memoItem = new TextAreaItem(messages.memo());
+		memoItem = new TextAreaItem(messages.memo(), "memoItem");
 		memoItem.setMemo(true, this);
 		maximumBuildsLabel = new AmountLabel(
 				messages.maximumNumberYouCanBuildFrom());
@@ -147,64 +148,53 @@ public class BuildAssemblyView extends
 			}
 		});
 
-		transactionNumber = new TextItem(messages.refNo());
-		DynamicForm headerForm = new DynamicForm();
-		headerForm.setNumCols(4);
-		headerForm.setFields(dateField, transactionNumber);
+		transactionNumber = new TextItem(messages.refNo(), "transactionNumber");
+		DynamicForm headerForm = new DynamicForm("headerForm");
+		headerForm.add(dateField, transactionNumber);
 
-		DynamicForm comboForm = new DynamicForm();
-		comboForm.setNumCols(6);
-		comboForm.setFields(itemCombo, quantityOnHand, buildPoint);
+		DynamicForm comboForm = new DynamicForm("comboForm");
+		comboForm.add(itemCombo, quantityOnHand, buildPoint);
 
-		VerticalPanel topPanel = new VerticalPanel();
+		StyledPanel topPanel = new StyledPanel("topPanel");
 		topPanel.add(headerForm);
 		topPanel.add(comboForm);
-		topPanel.setCellHorizontalAlignment(headerForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		comboForm.setWidth("100%");
 
-		DynamicForm buildToForm = new DynamicForm();
-		buildToForm.setFields(quantityToBuild);
+		DynamicForm buildToForm = new DynamicForm("buildToForm");
+		buildToForm.add(quantityToBuild);
 
-		DynamicForm memoForm = new DynamicForm();
-		memoForm.setFields(memoItem);
+		DynamicForm memoForm = new DynamicForm("memoForm");
+		memoForm.add(memoItem);
 
-		DynamicForm maximumBuildsForm = new DynamicForm();
-		maximumBuildsForm.setFields(maximumBuildsLabel);
+		DynamicForm maximumBuildsForm = new DynamicForm("maximumBuildsForm");
+		maximumBuildsForm.add(maximumBuildsLabel);
 
-		DynamicForm quantityToBuildForm = new DynamicForm();
-		quantityToBuildForm.setFields(quantityToBuild);
+		DynamicForm quantityToBuildForm = new DynamicForm("quantityToBuildForm");
+		quantityToBuildForm.add(quantityToBuild);
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		panel.add(maximumBuildsForm);
 		panel.add(quantityToBuildForm);
 
-		HorizontalPanel bottomPanel = new HorizontalPanel();
+		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
 		bottomPanel.add(memoForm);
 		bottomPanel.add(panel);
-		quantityToBuildForm.getElement().getParentElement()
-				.setAttribute("align", "right");
 
-		VerticalPanel mainPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(topPanel);
 		mainPanel.add(itemTable);
 		mainPanel.add(bottomPanel);
 
 		this.add(mainPanel);
-		mainPanel.setWidth("100%");
-		topPanel.setWidth("100%");
-		bottomPanel.setWidth("100%");
-
 		enableFormItems();
 
 	}
 
 	private void enableFormItems() {
-		itemCombo.setDisabled(isInViewMode());
-		dateField.setDisabled(isInViewMode());
+		itemCombo.setEnabled(!isInViewMode());
+		dateField.setEnabled(!isInViewMode());
 		transactionNumber.setRequired(isInViewMode());
-		quantityToBuild.setDisabled(isInViewMode());
-		memoItem.setDisabled(isInViewMode());
+		quantityToBuild.setEnabled(!isInViewMode());
+		memoItem.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -254,8 +244,8 @@ public class BuildAssemblyView extends
 	}
 
 	@Override
-	protected String getViewTitle() {
-		return null;
+	public String getViewTitle() {
+		return "Build Assembly View";
 	}
 
 	@Override
@@ -321,11 +311,11 @@ public class BuildAssemblyView extends
 
 		if (quantityToBuild.getAmount() <= 0) {
 			result.addError(quantityToBuild,
-					messages.pleaseEnter(quantityToBuild.getName()));
+					messages.pleaseEnter(quantityToBuild.getTitle()));
 		}
 		if (itemCombo.getSelectedValue() == null) {
 			result.addError(itemCombo,
-					messages.pleaseSelect(itemCombo.getName()));
+					messages.pleaseSelect(itemCombo.getTitle()));
 		} else {
 			if (itemCombo.getSelectedValue().getComponents().isEmpty()) {
 				result.addError(itemCombo,

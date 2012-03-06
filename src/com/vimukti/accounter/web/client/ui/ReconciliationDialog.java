@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -51,15 +50,15 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 
 	private void createControls() {
 
-		VerticalPanel mainpanel = new VerticalPanel();
+		StyledPanel mainpanel = new StyledPanel("mainpanel");
 
 		reconcileAccountCombo = new ReconciliationAccountCombo(
 				messages.bankAccount());
 
 		reconcileAccountCombo.select(reconcilition.getAccount());
 
-		startDate = new DateField(messages.startDate());
-		endDate = new DateField(messages.endDate());
+		startDate = new DateField(messages.startDate(),"startDate");
+		endDate = new DateField(messages.endDate(),"endDate");
 		// set the month start date and end date
 		// Calendar calendar = Calendar.getInstance();
 		// ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
@@ -71,7 +70,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 
 		closingBalance = new AmountField(messages.ClosingBalance(), this,
 				getCompany().getCurrency(
-						reconcilition.getAccount().getCurrency())) {
+						reconcilition.getAccount().getCurrency()),"closingBalance") {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {
@@ -108,9 +107,9 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 			endDate.setValue(reconcilition.getEndDate().getDateAsObject());
 		closingBalance.setAmount(reconcilition.getClosingBalance());
 
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 		form.setWidth("100%");
-		form.setFields(reconcileAccountCombo, closingBalance, startDate,
+		form.add(reconcileAccountCombo, closingBalance, startDate,
 				endDate);
 
 		// DynamicForm datesForm = new DynamicForm();

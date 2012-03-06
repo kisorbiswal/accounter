@@ -19,7 +19,7 @@ public class TDSSectionCombo extends CustomCombo<ClientAccount> {
 	}
 
 	public TDSSectionCombo(String title, boolean b) {
-		super(title, b, 3);
+		super(title, b, 3,"tdsSectionCombo");
 		this.useAccountNumbers = Global.get().preferences()
 				.getUseAccountNumbers();
 	}

@@ -57,12 +57,11 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		integerRangeValidator = new IntegerRangeValidator();
 
-		payTermText = new TextItem(messages.paymentTerm());
-		payTermText.setHelpInformation(true);
+		payTermText = new TextItem(messages.paymentTerm(),"payTermText");
 		payTermText.setRequired(true);
 
 		fixedDaysPanel = new VerticalPanel();
-		fixedDaysForm = new DynamicForm();
+		fixedDaysForm = new DynamicForm("fixedDaysForm");
 		fixedDays = new RadioButton("paymentTermType",
 				messages.fixedNumberOfDays());
 		fixedDays.setValue(true);
@@ -70,27 +69,27 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				fixedDaysForm.setDisabled(false);
-				dateDrivenForm.setDisabled(true);
+				fixedDaysForm.setEnabled(true);
+				dateDrivenForm.setEnabled(false);
 			}
 		});
 		netDueIn = new IntegerField(this, messages.netDueIn());
 		discountField = new AmountField(messages.discountPercentageIs(), this);
 		discountDue = new IntegerField(this, messages.discountIfPaidWithin());
 
-		fixedDaysForm.setFields(netDueIn, discountField, discountDue);
+		fixedDaysForm.add(netDueIn, discountField, discountDue);
 		fixedDaysPanel.add(fixedDays);
 		fixedDaysPanel.add(fixedDaysForm);
 
 		dateDrivenPanel = new VerticalPanel();
-		dateDrivenForm = new DynamicForm();
+		dateDrivenForm = new DynamicForm("dateDrivenForm");
 		dateDriven = new RadioButton("paymentTermType", messages.dateDriven());
 		dateDriven.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				dateDrivenForm.setDisabled(false);
-				fixedDaysForm.setDisabled(true);
+				dateDrivenForm.setEnabled(true);
+				fixedDaysForm.setEnabled(false);
 			}
 		});
 		netDueBefore = new IntegerField(this, messages.netDueBefore());
@@ -101,9 +100,9 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		discountPaidBefore = new IntegerField(this,
 				messages.discountIfPaidBefore());
 
-		dateDrivenForm.setFields(netDueBefore, discountPerField,
+		dateDrivenForm.add(netDueBefore, discountPerField,
 				discountPaidBefore);
-		dateDrivenForm.setDisabled(true);
+		dateDrivenForm.setEnabled(false);
 		dateDrivenPanel.add(dateDriven);
 		dateDrivenPanel.add(dateDrivenForm);
 
@@ -144,8 +143,8 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// dayLabel = new Label();
 		// dayLabel.setText(messages.days());
 
-		nameDescForm = new DynamicForm();
-		nameDescForm.setFields(payTermText);
+		nameDescForm = new DynamicForm("nameDescForm");
+		nameDescForm.add(payTermText);
 		nameDescForm.setSize("100%", "100%");
 
 		// discText = new PercentageField(this,
@@ -162,7 +161,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// discDayText.setHint(messages.days());
 		// discDayText.setWidth(20);
 
-		dueForm = new DynamicForm();
+		dueForm = new DynamicForm("dueForm");
 		// dueForm.setWidth("100%");
 		// dueForm.setNumCols(4);
 		// dueForm.setFields(dueSelect, dayText);
@@ -183,10 +182,10 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// duePanel.setCellVerticalAlignment(dayLabel,
 		// HasVerticalAlignment.ALIGN_MIDDLE);
 
-		discForm = new DynamicForm();
+		discForm = new DynamicForm("discForm");
 		discForm.setWidth("100%");
-		discForm.setNumCols(4);
-		discForm.setIsGroup(true);
+//		discForm.setNumCols(4);
+//		discForm.setIsGroup(true);
 		// discForm.setGroupTitle(messages.cashDiscount());
 		// discForm.setFields(discText, discDayText);
 		discForm.setSize("100%", "100%");
@@ -336,8 +335,8 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 	}
 
 	public void disableForms(boolean disable) {
-		fixedDaysForm.setDisabled(disable);
-		dateDrivenForm.setDisabled(!disable);
+		fixedDaysForm.setEnabled(!disable);
+		dateDrivenForm.setEnabled(disable);
 	}
 
 	@Override

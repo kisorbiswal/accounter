@@ -23,7 +23,7 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 	}
 
 	public EmployeeCombo(String title, boolean b) {
-		super(title, b, 1);
+		super(title, b, 1,"EmployeeCombo");
 		Accounter.createHomeService().getAllUsers(
 				new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
 					@Override

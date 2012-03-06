@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.customers.CustomerGroupListDialog;
 public class CustomerGroupCombo extends CustomCombo<ClientCustomerGroup> {
 
 	public CustomerGroupCombo(String title) {
-		super(title);
+		super(title,"customerGroupCombo");
 	}
 
 	@Override

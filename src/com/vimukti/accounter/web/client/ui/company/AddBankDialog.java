@@ -29,10 +29,10 @@ public class AddBankDialog extends BaseDialog {
 
 		setText(messages.addBank());
 
-		bankNameText = new TextItem(messages.bankName());
+		bankNameText = new TextItem(messages.bankName(),"bankNameText");
 		bankNameText.setRequired(true);
-		DynamicForm bankForm = new DynamicForm();
-		bankForm.setFields(bankNameText);
+		DynamicForm bankForm = new DynamicForm("bankForm");
+		bankForm.add(bankNameText);
 
 		setBodyLayout(bankForm);
 		setWidth("275px");

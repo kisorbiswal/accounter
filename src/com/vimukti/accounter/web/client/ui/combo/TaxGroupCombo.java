@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
 	public TaxGroupCombo(String title) {
-		super(title);
+		super(title,"TaxGroupCombo");
 
 	}
 

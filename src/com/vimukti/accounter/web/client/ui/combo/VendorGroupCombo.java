@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorGroupListDialog;
 public class VendorGroupCombo extends CustomCombo<ClientVendorGroup> {
 
 	public VendorGroupCombo(String title) {
-		super(title);
+		super(title,"VendorGroupCombo");
 	}
 
 	@Override

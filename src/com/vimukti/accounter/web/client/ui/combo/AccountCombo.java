@@ -29,7 +29,7 @@ public abstract class AccountCombo extends CustomCombo<ClientAccount> {
 	}
 
 	public AccountCombo(String title, boolean b) {
-		super(title, b, 3);
+		super(title, b, 3,"accountCombo");
 		this.useAccountNumbers = Global.get().preferences()
 				.getUseAccountNumbers();
 	}

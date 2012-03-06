@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
  */
 public class CurrencyListCombo extends CustomCombo<ClientCurrency> {
 	public CurrencyListCombo(String text) {
-		super(text, false, 1);
+		super(text, false, 1,"currencyListCombo");
 
 		initCombo(getCurrencyList());
 

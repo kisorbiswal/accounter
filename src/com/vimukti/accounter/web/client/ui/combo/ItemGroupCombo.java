@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
 public class ItemGroupCombo extends CustomCombo<ClientItemGroup> {
 
 	public ItemGroupCombo(String title) {
-		super(title);
+		super(title,"ItemGroupCombo");
 	}
 
 	@Override

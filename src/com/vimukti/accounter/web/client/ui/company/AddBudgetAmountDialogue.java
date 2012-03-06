@@ -76,7 +76,6 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		setWidth("400px");
 
 		budgetAddBy = new SelectCombo(messages.budgetAddBy());
-		budgetAddBy.setHelpInformation(true);
 		budgetAddBy.initCombo(getStartWithList());
 		budgetAddBy.setSelectedItem(type);
 		budgetAddBy
@@ -102,83 +101,69 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 				});
 
 		janAmount = new AmountField(DayAndMonthUtil.january(), this);
-		janAmount.setHelpInformation(true);
 		janAmount.setRequired(false);
 		janAmount.setWidth(100);
 
 		febAmount = new AmountField(DayAndMonthUtil.february(), this);
-		febAmount.setHelpInformation(true);
 		febAmount.setRequired(false);
 		febAmount.setWidth(100);
 
 		marAmount = new AmountField(DayAndMonthUtil.march(), this);
-		marAmount.setHelpInformation(true);
 		marAmount.setRequired(false);
 		marAmount.setWidth(100);
 
 		aprAmount = new AmountField(DayAndMonthUtil.april(), this);
-		aprAmount.setHelpInformation(true);
 		aprAmount.setRequired(false);
 		aprAmount.setWidth(100);
 
 		mayAmount = new AmountField(DayAndMonthUtil.may_full(), this);
-		mayAmount.setHelpInformation(true);
 		mayAmount.setRequired(false);
 		mayAmount.setWidth(100);
 
 		junAmount = new AmountField(DayAndMonthUtil.june(), this);
-		junAmount.setHelpInformation(true);
 		junAmount.setRequired(false);
 		junAmount.setWidth(100);
 
 		julAmount = new AmountField(DayAndMonthUtil.july(), this);
-		julAmount.setHelpInformation(true);
 		julAmount.setRequired(false);
 		julAmount.setWidth(100);
 
 		augAmount = new AmountField(DayAndMonthUtil.august(), this);
-		augAmount.setHelpInformation(true);
 		augAmount.setRequired(false);
 		augAmount.setWidth(100);
 
 		septAmount = new AmountField(DayAndMonthUtil.september(), this);
-		septAmount.setHelpInformation(true);
 		septAmount.setRequired(false);
 		septAmount.setWidth(100);
 
 		octAmount = new AmountField(DayAndMonthUtil.october(), this);
-		octAmount.setHelpInformation(true);
 		octAmount.setRequired(false);
 		octAmount.setWidth(100);
 
 		novAmount = new AmountField(DayAndMonthUtil.november(), this);
-		novAmount.setHelpInformation(true);
 		novAmount.setRequired(false);
 		novAmount.setWidth(100);
 
 		decAmount = new AmountField(DayAndMonthUtil.december(), this);
-		decAmount.setHelpInformation(true);
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
 
 		annualAmount = new AmountField(messages.annual(), this);
-		annualAmount.setHelpInformation(true);
 		annualAmount.setRequired(false);
 		annualAmount.setWidth(100);
 
 		budgetAddForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetAddForm.setWidth("100%");
-		budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
+		budgetAddForm.add(janAmount, febAmount, marAmount, aprAmount,
 				mayAmount, junAmount, julAmount, augAmount, septAmount,
 				octAmount, novAmount, decAmount);
 
 		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
-		budgetInfoForm.setFields(budgetAddBy);
+		budgetInfoForm.add(budgetAddBy);
 
 		budgetRoundOfMethod = new SelectCombo(messages.RoundOffBudgetAmountto());
-		budgetRoundOfMethod.setHelpInformation(true);
 		budgetRoundOfMethod.initCombo(getBudgetCalculationTypesList());
 		budgetRoundOfMethod.setSelected(NONE);
 		budgetRoundOfMethod
@@ -200,8 +185,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 				});
 
-		DynamicForm advanceCalculationVPanel = new DynamicForm();
-		advanceCalculationVPanel.setFields(budgetRoundOfMethod);
+		DynamicForm advanceCalculationVPanel = new DynamicForm("advanceCalculationVPanel");
+		advanceCalculationVPanel.add(budgetRoundOfMethod);
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.add(advanceCalculationVPanel);
@@ -277,8 +262,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	private void resetView(int type2) {
 		if (type2 == 0) {
 
-			budgetAddForm.removeAllRows();
-			budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
+			budgetAddForm.clear();
+			budgetAddForm.add(janAmount, febAmount, marAmount, aprAmount,
 					mayAmount, junAmount, julAmount, augAmount, septAmount,
 					octAmount, novAmount, decAmount);
 
@@ -286,7 +271,6 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 			quater1Amount = new AmountField(messages.quarterPeriod("1",
 					DayAndMonthUtil.jan(), DayAndMonthUtil.apr()), this);
-			quater1Amount.setHelpInformation(true);
 			quater1Amount.setRequired(false);
 			quater1Amount.setWidth(100);
 			quater1Amount.setAmount(janAmount.getAmount()
@@ -294,7 +278,6 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 			quater2Amount = new AmountField(messages.quarterPeriod("2",
 					DayAndMonthUtil.apr(), DayAndMonthUtil.mayS()), this);
-			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
 			quater2Amount.setAmount(aprAmount.getAmount()
@@ -302,7 +285,6 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 			quater3Amount = new AmountField(messages.quarterPeriod("3",
 					DayAndMonthUtil.jun(), DayAndMonthUtil.sep()), this);
-			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
 			quater3Amount.setAmount(julAmount.getAmount()
@@ -310,20 +292,19 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 			quater4Amount = new AmountField(messages.quarterPeriod("4",
 					DayAndMonthUtil.oct(), DayAndMonthUtil.dec()), this);
-			quater4Amount.setHelpInformation(true);
 			quater4Amount.setRequired(false);
 			quater4Amount.setWidth(100);
 			quater4Amount.setAmount(octAmount.getAmount()
 					+ novAmount.getAmount() + decAmount.getAmount());
 
-			budgetAddForm.removeAllRows();
-			budgetAddForm.setFields(quater1Amount, quater2Amount,
+			budgetAddForm.clear();
+			budgetAddForm.add(quater1Amount, quater2Amount,
 					quater3Amount, quater4Amount);
 
 		} else if (type2 == 2) {
 			annualAmount.setAmount(annualAmount.getAmount());
-			budgetAddForm.removeAllRows();
-			budgetAddForm.setFields(annualAmount);
+			budgetAddForm.clear();
+			budgetAddForm.add(annualAmount);
 		}
 
 	}

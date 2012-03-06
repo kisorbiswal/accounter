@@ -12,7 +12,7 @@ public class JobCombo extends CustomCombo<ClientJob> {
 	private ClientCustomer customer;
 
 	public JobCombo(String title, boolean isNewRequired) {
-		super(title, isNewRequired, 1);
+			super(title, isNewRequired, 1,"JobCombo");
 	}
 
 	@Override

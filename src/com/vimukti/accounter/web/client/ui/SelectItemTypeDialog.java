@@ -60,8 +60,8 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 			typeRadio.setDefaultValue(messages.serviceItem());
 		}
 
-		typeForm = new DynamicForm();
-		typeForm.setFields(typeRadio);
+		typeForm = new DynamicForm("typeForm");
+		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
 		VerticalPanel mainVLay = new VerticalPanel();

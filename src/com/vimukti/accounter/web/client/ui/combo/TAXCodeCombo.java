@@ -16,14 +16,14 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	private boolean isSales;
 
 	public TAXCodeCombo(String title, boolean isSales) {
-		super(title);
+		super(title,"TAXCodeCombo");
 		this.isSales = isSales;
 		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
 				.getActiveTaxCodes()));
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"TAXCodeCombo");
 		this.isSales = isSales;
 		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
 				.getActiveTaxCodes()));

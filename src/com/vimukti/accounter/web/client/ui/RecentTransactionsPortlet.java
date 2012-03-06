@@ -35,8 +35,8 @@ public class RecentTransactionsPortlet extends Portlet {
 		} else {
 			limitCombo.setSelectedItem(0);
 		}
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(limitCombo);
+		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
+		dynamicForm.add(limitCombo);
 		dynamicForm.addStyleName("list_combo_form");
 		this.body.add(dynamicForm);
 		limitCombo

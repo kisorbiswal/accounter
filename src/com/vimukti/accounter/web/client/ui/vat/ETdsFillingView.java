@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -114,7 +115,6 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		lab1.addStyleName("label-title");
 
 		formType = new SelectCombo(messages.formNo());
-		formType.setHelpInformation(true);
 		formType.initCombo(getFormTypes());
 		formType.setSelectedItem(0);
 		formNoSelected = 1;
@@ -202,11 +202,11 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		dynamicFormLeft = UIUtils.form(messages.chartOfAccountsInformation());
 		dynamicFormLeft.setWidth("100%");
-		dynamicFormLeft.setFields(formType, financialYearCombo);
+		dynamicFormLeft.add(formType, financialYearCombo);
 
 		dynamicFormRight = UIUtils.form(messages.chartOfAccountsInformation());
 		dynamicFormRight.setWidth("100%");
-		dynamicFormRight.setFields(quaterSelectionCombo, slectAssecementYear);
+		dynamicFormRight.add(quaterSelectionCombo, slectAssecementYear);
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.setWidth("100%");

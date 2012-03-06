@@ -8,11 +8,11 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 	public SalesPersonCombo(String title) {
-		super(title);
+		super(title,"SalesPersonCombo");
 	}
 
 	public SalesPersonCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"SalesPersonCombo");
 
 	//	initCombo(getCompany().getActiveSalesPersons());
 	}

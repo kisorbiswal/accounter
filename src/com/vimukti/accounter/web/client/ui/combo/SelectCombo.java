@@ -5,13 +5,13 @@ import java.util.Arrays;
 public class SelectCombo extends CustomCombo<String> {
 
 	public SelectCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1,"SelectCombo");
 		super.setToolTip(messages.selectWhichWeHaveInOurCompany(
 				title));
 	}
 
 	public SelectCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"SelectCombo");
 		super.setToolTip(messages.selectWhichWeHaveInOurCompany(
 				title));
 	}

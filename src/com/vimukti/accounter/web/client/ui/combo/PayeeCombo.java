@@ -7,11 +7,11 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 public class PayeeCombo extends CustomCombo<ClientPayee> {
 
 	public PayeeCombo(String title) {
-		super(title);
+		super(title,"PayeeCombo");
 	}
 
 	public PayeeCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"PayeeCombo");
 	}
 
 	@Override

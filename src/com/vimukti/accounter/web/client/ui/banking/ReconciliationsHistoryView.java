@@ -49,8 +49,8 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
-		DynamicForm form = new DynamicForm();
-		form.setItems(bankAccountsCombo);
+		DynamicForm form = new DynamicForm("form");
+		form.add(bankAccountsCombo);
 		Label label = new Label(messages.ReconciliationsList());
 		label.setStyleName("bold");
 

@@ -19,13 +19,12 @@ public class ChangeStartDateDialog extends CustomDialog {
 		// setHeight(150);
 
 		VerticalPanel bodyLayout = new VerticalPanel();
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 		// form.setWidth(250);
-		DateItem dateItem = new DateItem();
-		dateItem.setTitle(messages.startDate());
+		DateItem dateItem = new DateItem(messages.startDate(),"dateItem");
 		dateItem.setRequired(true);
 		// dateItem.setUseTextField(true);
-		form.setFields(dateItem);
+		form.add(dateItem);
 		bodyLayout.add(form);
 		add(bodyLayout);
 

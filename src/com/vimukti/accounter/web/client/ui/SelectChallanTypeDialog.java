@@ -32,8 +32,8 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		// ,messages.form27EQ());
 		typeRadio.setDefaultValue(messages.form26Q());
 
-		typeForm = new DynamicForm();
-		typeForm.setFields(typeRadio);
+		typeForm = new DynamicForm("typeForm");
+		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
 		VerticalPanel mainVLay = new VerticalPanel();

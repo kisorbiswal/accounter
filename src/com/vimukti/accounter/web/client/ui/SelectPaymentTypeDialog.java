@@ -37,13 +37,11 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 				Global.get().Customer()));
 
 		typeRadio.setDefaultValue(paymentType);
-		final DynamicForm typeForm = new DynamicForm();
-		typeForm.setFields(typeRadio);
+		final DynamicForm typeForm = new DynamicForm("typeForm");
+		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
-		typeForm.setIsGroup(true);
-		typeForm.setGroupTitle(messages.paymentDocuments());
-		typeForm.setFields(typeRadio);
+		typeForm.add(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");

@@ -12,7 +12,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	}
 
 	public TAXAgencyCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1);
+		super(title, isAddNewRequire, 1,"TAXAgencyCombo");
 		initCombo(getCompany().getActiveTAXAgencies());
 	}
 

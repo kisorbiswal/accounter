@@ -7,13 +7,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.UsersCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class ActivityCustomizationDialog extends BaseDialog {
 
-	private VerticalPanel mainPanel, actiPanel, allCheckBoxPanel;
+	private StyledPanel mainPanel, actiPanel, allCheckBoxPanel;
 	private Label showLabel;
 	private Label activityLabel;
 	private UsersCombo usersCombo;
@@ -28,13 +29,14 @@ public class ActivityCustomizationDialog extends BaseDialog {
 
 	public ActivityCustomizationDialog(String string) {
 		super(string);
+		this.getElement().setId("activity-customization-dialog");
 		createControl();
 	}
 
 	private void createControl() {
 
-		mainPanel = new VerticalPanel();
-		form = new DynamicForm();
+		mainPanel = new StyledPanel("mainPanel");
+		form = new DynamicForm("form");
 		showLabel = new Label(messages.charactersticsToShow());
 		showLabel.setStyleName("charaterisitc_label");
 		usersCombo = new UsersCombo(messages.showActivitiesFor(), false);
@@ -57,10 +59,10 @@ public class ActivityCustomizationDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				mainPanel.add(allCheckBoxPanel);
 				allCheckBoxPanel.setStyleName("customise-checkbox-align");
-				allCheckBoxPanel.setSpacing(5);
+//				allCheckBoxPanel.setSpacing(5);
 			}
 		});
-		allCheckBoxPanel = new VerticalPanel();
+		allCheckBoxPanel = new StyledPanel("allCheckBoxPanel");
 		logoutOrLoginBox = new CheckBox(messages.logutOrLogin());
 		logoutOrLoginBox.setValue(true);
 		transactionsBox = new CheckBox(messages.transactions());
@@ -88,15 +90,15 @@ public class ActivityCustomizationDialog extends BaseDialog {
 		// allCheckBoxPanel.add(recurringTransactionsBox);
 		// allCheckBoxPanel.add(statementBox);
 		// allCheckBoxPanel.add(salesCustomizationBox);
-		actiPanel = new VerticalPanel();
+		actiPanel = new StyledPanel("actiPanel");
 		actiPanel.add(activityLabel);
 		actiPanel.add(showAllActivitesButton);
 		actiPanel.add(showFewActivitesButton);
-		form.setFields(usersCombo);
+		form.add(usersCombo);
 		mainPanel.add(showLabel);
 		mainPanel.add(form);
 		mainPanel.add(actiPanel);
-		actiPanel.setSpacing(5);
+//		actiPanel.setSpacing(5);
 		setBodyLayout(mainPanel);
 	}
 

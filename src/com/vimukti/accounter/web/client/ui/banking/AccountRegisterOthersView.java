@@ -80,8 +80,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 					}
 				});
-		DynamicForm form = new DynamicForm();
-		form.setFields(showTransactionSelect);
+		DynamicForm form = new DynamicForm("form");
+		form.add(showTransactionSelect);
 		hlayTop = new HorizontalPanel();
 		hlayTop.setWidth("100%");
 		hlayTop.add(form);

@@ -21,17 +21,17 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	 * @param title
 	 */
 	public VATItemCombo(String title) {
-		super(title);
+		super(title,"VATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public VATItemCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"VATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public VATItemCombo(String title, ClientTAXAgency taxAgency) {
-		super(title);
+		super(title,"VATItemCombo");
 		initCombo(getVATItmes());
 
 	}

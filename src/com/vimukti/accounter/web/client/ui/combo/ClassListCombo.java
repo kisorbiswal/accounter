@@ -9,11 +9,11 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 	private ValueCallBack<ClientAccounterClass> newClassHandler;
 
 	public ClassListCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1,"classListCombo");
 	}
 
 	public ClassListCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"classListCombo");
 		initCombo(getCompany().getAccounterClasses());
 	}
 
