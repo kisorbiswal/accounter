@@ -58,6 +58,7 @@ public class BrandingTheme extends CreatableObject implements
 	private String creditNoteTempleteName;
 	private String quoteTemplateName;
 	private String cashSaleTemplateName;
+	private String purchaseOrderTemplateName;
 
 	private String themeName;
 	private int pageSizeType;
@@ -72,6 +73,7 @@ public class BrandingTheme extends CreatableObject implements
 	private String statementTitle;
 	private String quoteTitle;
 	private String cashSaleTitle;
+	private String purchaseOrderTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -461,7 +463,8 @@ public class BrandingTheme extends CreatableObject implements
 
 	}
 
-	public BrandingTheme(String themeName,
+	public BrandingTheme(
+			String themeName,
 			String id,
 			double topMargin,
 			double bottomMargin,
@@ -470,11 +473,12 @@ public class BrandingTheme extends CreatableObject implements
 			String fontSize,
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
-			String statementTitle, String quoteTitle, String payPalEmailID,
-			boolean isDefault, String contactDetails,
-			String Terms_And_Payment_Advice, String invoiceTemplete,
-			String creditNoteTemplete, String quoteTemplateName,
-			String cashSaleTempleteName, String cashSaleTitle) {
+			String statementTitle, String quoteTitle,
+			String purchaseOrderTitle, String payPalEmailID, boolean isDefault,
+			String contactDetails, String Terms_And_Payment_Advice,
+			String invoiceTemplete, String creditNoteTemplete,
+			String quoteTemplateName, String cashSaleTempleteName,
+			String cashSaleTitle, String purchaseOrderTempleteName) {
 
 		this.themeName = themeName;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
@@ -489,6 +493,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.creditMemoTitle = creditMemoTitle;
 		this.statementTitle = statementTitle;
 		this.quoteTitle = quoteTitle;
+		this.purchaseOrderTitle = purchaseOrderTitle;
 		this.isShowTaxNumber = true;
 		this.isShowColumnHeadings = true;
 		this.isShowUnitPrice_And_Quantity = true;
@@ -507,6 +512,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.quoteTemplateName = quoteTemplateName;
 		this.cashSaleTemplateName = cashSaleTempleteName;
 		this.cashSaleTitle = cashSaleTitle;
+		this.purchaseOrderTemplateName = purchaseOrderTempleteName;
 	}
 
 	@Override
@@ -704,6 +710,22 @@ public class BrandingTheme extends CreatableObject implements
 
 	public void setCashSaleTitle(String cashSaleTitle) {
 		this.cashSaleTitle = cashSaleTitle;
+	}
+
+	public String getPurchaseOrderTemplateName() {
+		return purchaseOrderTemplateName;
+	}
+
+	public void setPurchaseOrderTemplateName(String purchaseOrderTemplateName) {
+		this.purchaseOrderTemplateName = purchaseOrderTemplateName;
+	}
+
+	public String getPurchaseOrderTitle() {
+		return purchaseOrderTitle;
+	}
+
+	public void setPurchaseOrderTitle(String purchaseOrderTitle) {
+		this.purchaseOrderTitle = purchaseOrderTitle;
 	}
 
 }

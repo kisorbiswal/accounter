@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -156,15 +155,22 @@ public class AccountMergeDialog extends BaseDialog implements
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		if (toAccount != null && fromAccount != null) {
-			if ((toAccount.getID() == fromAccount.getID())
-					|| !(toAccount.getType() == fromAccount.getType())) {
+			if ((toAccount.getID() == fromAccount.getID())) {
 				result.addError(fromAccount, messages.notMoveAccount());
 				return result;
 			}
+			if (toAccount.getType() != fromAccount.getType()) {
+				result.addError(fromAccount, messages.notMoveDiffTypeAccount());
+				return result;
+			}
+			if (fromAccount.getID() == toAccount.getID()) {
+				result.addError(fromAccount, "Accounts must be different");
+				return result;
+			}
 
-			if ((toAccount.getID() == fromAccount.getID())
-					|| !(toAccount.getType() == fromAccount.getType())) {
-				result.addError(fromAccount, messages.notMoveAccount());
+			if (fromAccount.getCurrency() != toAccount.getCurrency()) {
+				result.addError(fromAccount,
+						"Currencies of the both Accounts must be same ");
 				return result;
 			}
 			result = form.validate();
@@ -180,43 +186,23 @@ public class AccountMergeDialog extends BaseDialog implements
 	@Override
 	protected boolean onOK() {
 
-		if (fromAccount != null && toAccount != null) {
-			if (fromAccount.getID() == toAccount.getID()) {
-				Accounter.showError("Accounts must be different");
-				return false;
-			}
-		}
-		ClientCurrency currency1 = getCompany().getCurrency(
-				fromAccount.getCurrency());
-		ClientCurrency currency2 = getCompany().getCurrency(
-				toAccount.getCurrency());
+		Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
+				new AccounterAsyncCallback<ClientAccount>() {
 
-		if (currency1 != currency2) {
-			Accounter
-					.showError("Currencies of the both Accounts must be same ");
-		} else if (fromAccount.getType() != toAccount.getType()) {
-			Accounter.showError("Type of the both Accounts must be same ");
-		} else {
-			Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
-					new AccounterAsyncCallback<ClientAccount>() {
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
 
-						@Override
-						public void onException(AccounterException exception) {
-							// TODO Auto-generated method stub
+					}
 
-						}
+					@Override
+					public void onResultSuccess(ClientAccount result) {
+						getCompany().processUpdateOrCreateObject(result);
+						com.google.gwt.user.client.History.back();
+					}
 
-						@Override
-						public void onResultSuccess(ClientAccount result) {
-							getCompany().processUpdateOrCreateObject(result);
-							com.google.gwt.user.client.History.back();
-						}
-
-					});
-			return true;
-		}
-		return false;
-
+				});
+		return true;
 	}
 
 	@Override
