@@ -330,8 +330,8 @@ public class JournalViewDialog extends BaseDialog {
 	 * ComboForm
 	 */
 	private DynamicForm getComboForm(String keyvalue) {
-		DynamicForm form = new DynamicForm();
-		form.setFields(getCombo(keyvalue));
+		DynamicForm form = new DynamicForm("form");
+		form.add(getCombo(keyvalue));
 		forms.add(form);
 		// form.getCellFormatter().setWidth(0, 0, "136");
 		return form;

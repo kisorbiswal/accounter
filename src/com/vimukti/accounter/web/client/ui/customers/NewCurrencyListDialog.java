@@ -18,9 +18,11 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 	private CurrencyListCombo listCombo;
 	private final CurrencyGroupListDialog parent;
 	private TextItem currencySymbolItem;
-
-	public NewCurrencyListDialog(ClientCurrency clientCurrency) {
+	
+	public NewCurrencyListDialog(CurrencyGroupListDialog parent, String text,
+			ClientCurrency clientCurrency) {
 		super(messages.currency());
+		this.parent = parent;
 		this.addStyleName("new-currency-list-dialog");
 		this.clientCurrency = clientCurrency;
 		createControl();

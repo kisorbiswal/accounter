@@ -107,21 +107,21 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	}
 
 	private void initilize() {
-		companyAdressTextArea = new TextAreaItem("");
+		companyAdressTextArea = new TextAreaItem("","companyAdressTextArea");
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		preferences = Accounter.getCompany().getPreferences();
-		titleTextBox = new TextItem(Global.get().messages().title());
-		companyNameTextBox = new TextItem(Global.get().messages().companyName());
-		email = new TextItem(Global.get().messages().emailId());
-		phone = new TextItem(Global.get().messages().phone());
+		titleTextBox = new TextItem(messages.title(),"titleTextBox");
+		companyNameTextBox = new TextItem(messages.companyName(),"companyNameTextBox");
+		email = new TextItem(messages.emailId(),"email");
+		phone = new TextItem(messages.phone(),"phone");
 	}
 
 	private void createControls() {
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 		form.setWidth("100%");
 
 		locationName = new TextItem(messages.locationName(Global.get()
-				.Location()));
+				.Location()),"locationName");
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();
 		layout.add(form);
@@ -139,11 +139,11 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 				}
 			});
 
-			final DynamicForm addDynamicForm = new DynamicForm();
-			final DynamicForm addComapnyNameForm = new DynamicForm();
-			final DynamicForm addAddressForm = new DynamicForm();
-			final DynamicForm addEmailForm = new DynamicForm();
-			final DynamicForm addPhoneForm = new DynamicForm();
+			final DynamicForm addDynamicForm = new DynamicForm("addDynamicForm");
+			final DynamicForm addComapnyNameForm = new DynamicForm("addComapnyNameForm");
+			final DynamicForm addAddressForm = new DynamicForm("addAddressForm");
+			final DynamicForm addEmailForm = new DynamicForm("addEmailForm");
+			final DynamicForm addPhoneForm = new DynamicForm("addPhoneForm");
 			if (this.clientLocation != null) {
 				locationName.setValue(clientLocation.getName());
 			}
