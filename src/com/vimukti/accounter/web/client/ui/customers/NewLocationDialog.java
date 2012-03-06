@@ -107,7 +107,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	}
 
 	private void initilize() {
-		companyAdressTextArea = new TextAreaItem();
+		companyAdressTextArea = new TextAreaItem("");
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		preferences = Accounter.getCompany().getPreferences();
 		titleTextBox = new TextItem(Global.get().messages().title());
@@ -122,17 +122,14 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 		locationName = new TextItem(messages.locationName(Global.get()
 				.Location()));
-		locationName.setHelpInformation(true);
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();
 		layout.add(form);
-		form.setItems(locationName);
+		form.add(locationName);
 		if (clientLocation != null) {
 			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-			companyAdressTextArea.setHelpInformation(true);
 			companyAdressTextArea.setWidth(100);
 			companyAdressTextArea.setTitle(messages.address());
-			companyAdressTextArea.setHelpInformation(true);
 			companyAdressTextArea.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -160,11 +157,11 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 					messages.useDifferentEmail());
 			final CheckBox phoneCheckBox = new CheckBox(
 					messages.useDifferentPhoneNumber());
-			addDynamicForm.setItems(titleTextBox);
-			addComapnyNameForm.setItems(companyNameTextBox);
-			addAddressForm.setItems(companyAdressTextArea);
-			addEmailForm.setItems(email);
-			addPhoneForm.setItems(phone);
+			addDynamicForm.add(titleTextBox);
+			addComapnyNameForm.add(companyNameTextBox);
+			addAddressForm.add(companyAdressTextArea);
+			addEmailForm.add(email);
+			addPhoneForm.add(phone);
 			titleCheckBox.addClickHandler(new ClickHandler() {
 
 				@Override

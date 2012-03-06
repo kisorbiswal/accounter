@@ -39,40 +39,42 @@ public class VendorDetailsPanel extends VerticalPanel {
 
 	private void createControls() {
 
-		name = new LabelItem();
+		name = new LabelItem(messages.name(), "name");
 		name.setTitle(messages.name());
 
-		email = new LabelItem();
+		email = new LabelItem(messages.email(), "email");
 		email.setTitle(messages.email());
 
 		balance = new AmountLabel(messages.balance());
 
-		currency = new LabelItem();
+		currency = new LabelItem(messages.currency(), "currency");
 		currency.setTitle(messages.currency());
 
-		fax = new LabelItem();
+		fax = new LabelItem(messages.faxNumber(), "fax");
 		fax.setTitle(messages.faxNumber());
 
-		vendorsince = new LabelItem();
+		vendorsince = new LabelItem(messages.payeeSince(Global.get().Vendor()),
+				"vendorsince");
 		vendorsince.setTitle(messages.payeeSince(Global.get().Vendor()));
 
-		webpageadress = new LabelItem();
+		webpageadress = new LabelItem(messages.webPageAddress(),
+				"webpageadress");
 		webpageadress.setTitle(messages.webPageAddress());
 
 		openingBalance = new AmountLabel(messages.balanceAsOf());
 
-		notes = new LabelItem();
+		notes = new LabelItem(messages.notes(), "notes");
 		notes.setTitle(messages.notes());
 
-		address = new LabelItem();
+		address = new LabelItem(messages.address(), "address");
 		address.setTitle(messages.address());
 
-		leftform = new DynamicForm();
-		rightform = new DynamicForm();
+		leftform = new DynamicForm("leftform");
+		rightform = new DynamicForm("rightform");
 
-		leftform.setFields(name, balance, openingBalance, currency, vendorsince);
+		leftform.add(name, balance, openingBalance, currency, vendorsince);
 
-		rightform.setFields(email, fax, webpageadress, notes, address);
+		rightform.add(email, fax, webpageadress, notes, address);
 		rightform.addStyleName("customers_detail_rightpanel");
 
 		StyledPanel hp = new StyledPanel("hp");
@@ -85,13 +87,9 @@ public class VendorDetailsPanel extends VerticalPanel {
 		vendName.setText(messages.noPayeeSelected(Global.get().Vendor()));
 		headingPanel.add(heading);
 		headingPanel.add(vendName);
-		headingPanel.setCellWidth(heading, "50%");
-		headingPanel.setCellWidth(vendName, "50%");
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
-		hp.setCellWidth(leftform, "50%");
-		hp.setCellWidth(rightform, "50%");
 
 		add(hp);
 		headingPanel.setWidth("100%");
