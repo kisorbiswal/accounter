@@ -13,12 +13,12 @@ import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 public class VendorCombo extends CustomCombo<ClientVendor> {
 	private boolean isAddNew;
 	public VendorCombo(String title) {
-		super(title);
+		super(title,"VendorCombo");
 		initCombo(getCompany().getActiveVendors());
 	}
 
 	public VendorCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"VendorCombo");
 		initCombo(getCompany().getActiveVendors());
 	}
 

@@ -19,7 +19,7 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 	private ValueCallBack<ClientLocation> newLocationtHandler;
 
 	public LocationCombo(String title) {
-		super(title, true, 1);
+		super(title, true, 1,"LocationCombo");
 		initCombo(getCompany().getLocations());
 	}
 

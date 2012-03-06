@@ -21,17 +21,17 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * @param title
 	 */
 	public AdjustmentVATItemCombo(String title) {
-		super(title);
+		super(title,"AdjustmentVATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public AdjustmentVATItemCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"AdjustmentVATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public AdjustmentVATItemCombo(String title, ClientTAXAgency taxAgency) {
-		super(title);
+		super(title,"AdjustmentVATItemCombo");
 		this.taxAgency = taxAgency;
 		initCombo(getVATItmes());
 

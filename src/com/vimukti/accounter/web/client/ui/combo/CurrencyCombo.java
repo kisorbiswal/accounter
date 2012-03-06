@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.customers.CurrencyGroupListDialog;
 public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 
 	public CurrencyCombo(String title) {
-		super(title);
+		super(title,"currencyCombo");
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);
@@ -19,7 +19,7 @@ public class CurrencyCombo extends CustomCombo<ClientCurrency> {
 	}
 
 	public CurrencyCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"currencyCombo");
 		List<ClientCurrency> currency = new ArrayList<ClientCurrency>(
 				getCompany().getCurrencies());
 		initCombo(currency);

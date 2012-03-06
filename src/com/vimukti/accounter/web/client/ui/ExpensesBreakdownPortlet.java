@@ -155,7 +155,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 			fTable.setWidget(2, 0, empExpLabel);
 			fTable.setWidget(3, 0, empExpAmtLabel);
 		}
-		HorizontalPanel topPanel = new HorizontalPanel();
+		StyledPanel topPanel = new StyledPanel("topPanel");
 		if (Accounter.getUser().canDoInvoiceTransactions()
 				|| Accounter.getUser().getPermissions()
 						.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES

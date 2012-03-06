@@ -18,14 +18,15 @@ public class AddNewAdminUserDialog extends AdminBaseDialog<ClientAdminUser> {
 	}
 
 	public void createControls() {
-		VerticalPanel vbodyLayout = new VerticalPanel();
-		form = new DynamicForm();
-		userNameBox = new TextItem(AdminHomePage.getAdminConstants().username());
-		emailIdBox = new TextItem(AdminHomePage.getAdminConstants().emailID());
-		passwordBox = new PasswordItem(AdminHomePage.getAdminConstants().password());
-		form.setFields(userNameBox, emailIdBox, passwordBox);
-		vbodyLayout.add(form);
-		setBodyLayout(vbodyLayout);
+		form = new DynamicForm("addNewAdminUser");
+		userNameBox = new TextItem(
+				AdminHomePage.getAdminConstants().username(), "userNameBox");
+		emailIdBox = new TextItem(AdminHomePage.getAdminConstants().emailID(),
+				"emailIdBox");
+		passwordBox = new PasswordItem(AdminHomePage.getAdminConstants()
+				.password());
+		form.add(userNameBox, emailIdBox, passwordBox);
+		setBodyLayout(form);
 	}
 
 	protected void addNewAdminUser() {

@@ -13,12 +13,12 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 	private BrandingThemeComboDialog themeDialog;
 
 	public BrandingThemeCombo(String title) {
-		super(title);
+		super(title,"brandingThemeCombo");
 		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
 	public BrandingThemeCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1);
+		super(title, isAddNewRequire, 1,"brandingThemeCombo");
 		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 

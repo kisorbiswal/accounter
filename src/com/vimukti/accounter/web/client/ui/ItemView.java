@@ -10,10 +10,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -109,6 +106,7 @@ public class ItemView extends BaseView<ClientItem> {
 	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
 		super();
+		this.getElement().setId("itemView");
 		this.type = type;
 		this.company = getCompany();
 		this.isGeneratedFromCustomer = isGeneratedFromCustomer;
@@ -152,21 +150,20 @@ public class ItemView extends BaseView<ClientItem> {
 		Label lab1 = new Label(messages.newProduct());
 		lab1.setStyleName("label-title");
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(lab1);
 		if (this.type == TYPE_SERVICE) {
-			nameText = new TextItem(messages.serviceName());
+			nameText = new TextItem(messages.serviceName(), "nameText");
 		} else if (this.type == NON_INVENTORY_PART) {
-			nameText = new TextItem(messages.productName());
+			nameText = new TextItem(messages.productName(), "nameText");
 		} else {
-			nameText = new TextItem(messages.inventoryName());
+			nameText = new TextItem(messages.inventoryName(), "nameText");
 		}
 
 		nameText.setValue(itemName);
-		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
 		nameText.setRequired(true);
-		nameText.setDisabled(isInViewMode());
+		nameText.setEnabled(!isInViewMode());
 
 		floatRangeValidator = new FloatRangeValidator();
 		floatRangeValidator.setMin(0);
@@ -174,55 +171,46 @@ public class ItemView extends BaseView<ClientItem> {
 		integerRangeValidator = new IntegerRangeValidator();
 		integerRangeValidator.setMin(0);
 
-		skuText = new TextItem();
-		skuText.setHelpInformation(true);
+		skuText = new TextItem(messages.upcsku(), "skuText");
 		skuText.setWidth(100);
-		skuText.setTitle(messages.upcsku());
-		skuText.setDisabled(isInViewMode());
+		skuText.setEnabled(!isInViewMode());
 
 		weightText = new IntegerField(this, messages.weight());
-		weightText.setHelpInformation(true);
 		weightText.setWidth(100);
-		weightText.setDisabled(isInViewMode());
+		weightText.setEnabled(!isInViewMode());
 		weightText.setValidators(integerRangeValidator);
 		commodityCode = new ItemGroupCombo(messages.commodityCode());
-		commodityCode.setHelpInformation(true);
-		itemForm = new DynamicForm();
+		itemForm = new DynamicForm("itemForm");
 		itemForm.setStyleName("item-form-view");
-		itemForm.setIsGroup(true);
-		itemForm.setGroupTitle(messages.item());
 		if (isInViewMode()) {
 			this.type = data.getType();
 		}
-		itemForm.setFields(nameText);
+		itemForm.add(nameText);
 
 		if (type == ClientItem.TYPE_SERVICE) {
 			lab1.setText(messages.serviceItem());
 		} else if (type == NON_INVENTORY_PART) {
 			lab1.setText(messages.productItem());
-			itemForm.setFields(weightText);
+			itemForm.add(weightText);
 		} else {
 			lab1.setText(messages.inventoryItem());
 		}
-		salesDescArea = new TextAreaItem();
-		salesDescArea.setHelpInformation(true);
+		salesDescArea = new TextAreaItem(messages.salesDescription(),
+				"salesDescArea");
 		salesDescArea.setWidth(100);
-		salesDescArea.setTitle(messages.salesDescription());
 
-		salesDescArea.setDisabled(isInViewMode());
+		salesDescArea.setEnabled(!isInViewMode());
 
 		salesDescArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()).replace(messages.comments(),
 				messages.salesDescription()));
 		salesPriceText = new AmountField(messages.salesPrice(), this,
-				getBaseCurrency());
-		salesPriceText.setHelpInformation(true);
+				getBaseCurrency(), "salesPriceText");
 		salesPriceText.setWidth(100);
-		salesPriceText.setDisabled(isInViewMode());
+		salesPriceText.setEnabled(!isInViewMode());
 
 		accountCombo = new SalesItemCombo(messages.incomeAccount());
-		accountCombo.setHelpInformation(true);
-		accountCombo.setDisabled(isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
 		accountCombo.setPopupWidth("500px");
 		accountCombo.setRequired(true);
 		accountCombo
@@ -285,8 +273,7 @@ public class ItemView extends BaseView<ClientItem> {
 			break;
 		}
 
-		assetsAccount.setHelpInformation(true);
-		assetsAccount.setDisabled(isInViewMode());
+		assetsAccount.setEnabled(!isInViewMode());
 		assetsAccount.setPopupWidth("500px");
 		assetsAccount.setRequired(true);
 
@@ -295,27 +282,24 @@ public class ItemView extends BaseView<ClientItem> {
 		// unitCombo = new UnitCombo("Select Unit");
 		//
 		// unitCombo.setHelpInformation(true);
-		// unitCombo.setDisabled(isInViewMode());
+		// unitCombo.setEnabled(!isInViewMode());
 		// unitCombo.setPopupWidth("500px");
 
 		reorderPoint = new IntegerField(this, messages.reorderPoint());
-		reorderPoint.setHelpInformation(true);
 		reorderPoint.setWidth(100);
-		reorderPoint.setDisabled(isInViewMode());
+		reorderPoint.setEnabled(!isInViewMode());
 		reorderPoint.setValidators(integerRangeValidator);
 
 		itemTotalValue = new AmountField(messages.total(), this,
-				getBaseCurrency());
-		itemTotalValue.setHelpInformation(true);
+				getBaseCurrency(), "itemTotalValue");
 		itemTotalValue.setWidth(100);
 		itemTotalValue.setAmount(0.00D);
-		itemTotalValue.setDisabled(true);
+		itemTotalValue.setEnabled(!true);
 
 		onHandQuantity = new IntegerField(this, messages.onHandQty());
 		onHandQuantity.setNumber(0l);
-		onHandQuantity.setHelpInformation(true);
 		onHandQuantity.setWidth(100);
-		onHandQuantity.setDisabled(isInViewMode());
+		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
@@ -331,16 +315,18 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		avarageCost = new AmountField(messages.avarageCost(), this);
-		avarageCost.setDisabled(true);
+		avarageCost.setEnabled(!true);
 
-		asOfDate = new DateField(messages.asOf());
-		asOfDate.setHelpInformation(true);
-		asOfDate.setDisabled(isInViewMode());
+		asOfDate = new DateField(messages.asOf(), "asOfDate");
+		asOfDate.setEnabled(!isInViewMode());
 		asOfDate.setEnteredDate(new ClientFinanceDate());
 
-		this.inventoryInfoForm = new DynamicForm();
-		inventoryInfoForm.setFields(assetsAccount, onHandQuantity,
-				itemTotalValue, /* avarageCost, */asOfDate);
+		this.inventoryInfoForm = new DynamicForm("inventoryInfoForm");
+		inventoryInfoForm.add(assetsAccount, onHandQuantity, itemTotalValue, /*
+																			 * avarageCost
+																			 * ,
+																			 */
+				asOfDate);
 		itemTotalValue.setVisible(!isInViewMode());
 		avarageCost.setVisible(isInViewMode());
 
@@ -348,23 +334,21 @@ public class ItemView extends BaseView<ClientItem> {
 		 * over
 		 */
 
-		itemTaxCheck = new CheckboxItem(messages.taxable());
+		itemTaxCheck = new CheckboxItem(messages.taxable(), "itemTaxCheck");
 		itemTaxCheck.setValue(true);
-		itemTaxCheck.setDisabled(true);
+		itemTaxCheck.setEnabled(!true);
 
-		comCheck = new CheckboxItem(messages.commissionItem());
+		comCheck = new CheckboxItem(messages.commissionItem(), "comCheck");
 
 		salesInfoForm = UIUtils.form(messages.salesInformation());
 
 		stdCostText = new AmountField(messages.standardCost(), this,
-				getBaseCurrency());
-		stdCostText.setHelpInformation(true);
+				getBaseCurrency(), "stdCostText");
 		stdCostText.setWidth(100);
-		stdCostText.setDisabled(isInViewMode());
+		stdCostText.setEnabled(!isInViewMode());
 
 		itemGroupCombo = new ItemGroupCombo(messages.itemGroup());
-		itemGroupCombo.setHelpInformation(true);
-		itemGroupCombo.setDisabled(isInViewMode());
+		itemGroupCombo.setEnabled(!isInViewMode());
 		itemGroupCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItemGroup>() {
 					@Override
@@ -374,9 +358,8 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 
 		taxCode = new TAXCodeCombo(messages.taxCode(), isGeneratedFromCustomer);
-		taxCode.setHelpInformation(true);
 		taxCode.setRequired(false);
-		taxCode.setDisabled(isInViewMode());
+		taxCode.setEnabled(!isInViewMode());
 
 		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 			@Override
@@ -385,20 +368,19 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 		});
 		taxCode.setDefaultValue(messages.ztozeroperc());
-		activeCheck = new CheckboxItem(messages.active());
+		activeCheck = new CheckboxItem(messages.active(), "activeCheck");
 		activeCheck.setValue(true);
-		activeCheck.setDisabled(isInViewMode());
-		purchaseDescArea = new TextAreaItem();
-		purchaseDescArea.setHelpInformation(true);
+		activeCheck.setEnabled(!isInViewMode());
+		purchaseDescArea = new TextAreaItem(messages.purchaseDescription(),
+				"purchaseDescArea");
 		purchaseDescArea.setWidth(100);
-		purchaseDescArea.setTitle(messages.purchaseDescription());
-		purchaseDescArea.setDisabled(isInViewMode());
+		purchaseDescArea.setEnabled(!isInViewMode());
 		purchasePriceTxt = new AmountField(
 				type == ClientItem.TYPE_INVENTORY_PART ? messages.standardCost()
-						: messages.purchasePrice(), this, getBaseCurrency());
-		purchasePriceTxt.setHelpInformation(true);
+						: messages.purchasePrice(), this, getBaseCurrency(),
+				"purchasePriceTxt");
 		purchasePriceTxt.setWidth(100);
-		purchasePriceTxt.setDisabled(isInViewMode());
+		purchasePriceTxt.setEnabled(!isInViewMode());
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -411,9 +393,8 @@ public class ItemView extends BaseView<ClientItem> {
 		expAccCombo = new PurchaseItemCombo(
 				type == ClientItem.TYPE_INVENTORY_PART ? messages
 						.costOfGoodSold() : messages.expenseAccount());
-		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
-		expAccCombo.setDisabled(isInViewMode());
+		expAccCombo.setEnabled(!isInViewMode());
 		expAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
@@ -444,8 +425,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
-		prefVendorCombo.setHelpInformation(true);
-		prefVendorCombo.setDisabled(isInViewMode());
+		prefVendorCombo.setEnabled(!isInViewMode());
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 					@Override
@@ -458,14 +438,13 @@ public class ItemView extends BaseView<ClientItem> {
 				this.type != ClientItem.TYPE_SERVICE ? messages
 						.vendorProductNo(Global.get().Vendor()) : messages
 						.vendorServiceNo(Global.get().Vendor()));
-		vendItemNumText.setHelpInformation(true);
 		vendItemNumText.setWidth(100);
-		vendItemNumText.setDisabled(isInViewMode());
+		vendItemNumText.setEnabled(!isInViewMode());
 
 		isellCheck = new CheckboxItem(
-				this.type == ClientItem.TYPE_SERVICE ? messages
-						.isellthisservice() : messages.isellthisproduct());
-		isellCheck.setDisabled(isInViewMode());
+				this.type == ClientItem.TYPE_SERVICE ? messages.isellthisservice()
+						: messages.isellthisproduct(), "isellCheck");
+		isellCheck.setEnabled(!isInViewMode());
 
 		isellCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -477,8 +456,8 @@ public class ItemView extends BaseView<ClientItem> {
 		});
 
 		ibuyCheck = new CheckboxItem(
-				this.type == ClientItem.TYPE_SERVICE ? messages
-						.ibuythisservice() : messages.ibuythisproduct());
+				this.type == ClientItem.TYPE_SERVICE ? messages.ibuythisservice()
+						: messages.ibuythisproduct(), "ibuyCheck");
 
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -502,99 +481,99 @@ public class ItemView extends BaseView<ClientItem> {
 
 		// if (getPreferences().isTrackTax()
 		// && getPreferences().isTaxPerDetailLine())
-		// salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
+		// salesInfoForm.add(isellCheck, salesDescArea, salesPriceText,
 		// accountCombo, comCheck, stdCostText);
 		// else
-		// salesInfoForm.setFields(isellCheck, salesDescArea,
+		// salesInfoForm.add(isellCheck, salesDescArea,
 		// salesPriceText, accountCombo, itemTaxCheck, comCheck,
 		// stdCostText);
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			salesInfoForm.setFields(salesDescArea, salesPriceText,
-					accountCombo, itemTaxCheck, comCheck);
+			salesInfoForm.add(salesDescArea, salesPriceText, accountCombo,
+					itemTaxCheck, comCheck);
 		} else {
-			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
+			salesInfoForm.add(isellCheck, salesDescArea, salesPriceText,
 					accountCombo, itemTaxCheck, comCheck, stdCostText);
 		}
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
-			salesInfoForm.setFields(itemTaxCheck);
+			salesInfoForm.add(itemTaxCheck);
 
 		salesInfoForm.setStyleName("align-form");
 		salesInfoForm.setStyleName("new_service_table");
-		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
+		// salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(messages.itemInformation());
 
-		itemInfoForm.setFields(itemGroupCombo, activeCheck);
+		itemInfoForm.add(itemGroupCombo, activeCheck);
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
-			itemInfoForm.setFields(activeCheck);
+			itemInfoForm.add(activeCheck);
 
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
-		purchaseInfoForm.setNumCols(2);
+		// purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			purchaseInfoForm.setFields(purchaseDescArea, purchasePriceTxt,
+			purchaseInfoForm.add(purchaseDescArea, purchasePriceTxt,
 					expAccCombo, vendItemNumText);
 		} else {
-			purchaseInfoForm.setFields(ibuyCheck, purchaseDescArea,
-					purchasePriceTxt, expAccCombo, vendItemNumText);
+			purchaseInfoForm.add(ibuyCheck, purchaseDescArea, purchasePriceTxt,
+					expAccCombo, vendItemNumText);
 		}
 
-		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
+		// purchaseInfoForm.getCellFormatter().addStyleName(1, 0,
+		// "memoFormAlign");
 
-		VerticalPanel salesVPanel = new VerticalPanel();
-		salesVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		StyledPanel salesVPanel = new StyledPanel("salesVPanel");
 		salesVPanel.setWidth("100%");
-		HorizontalPanel itemHPanel = new HorizontalPanel();
+		StyledPanel itemHPanel = new StyledPanel("itemHPanel");
 
-		itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
+		// itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
 
-		salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_LEFT);
+		// salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_LEFT);
 		salesVPanel.add(salesInfoForm);
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			salesVPanel.add(inventoryInfoForm);
 		}
-		VerticalPanel purchzVPanel = new VerticalPanel();
+		StyledPanel purchzVPanel = new StyledPanel("purchzVPanel");
 
-		purchzVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		purchzVPanel.setWidth("100%");
-		HorizontalPanel itemInfoPanel = new HorizontalPanel();
+		// purchzVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		// purchzVPanel.setWidth("100%");
+		StyledPanel itemInfoPanel = new StyledPanel("itemInfoPanel");
 
-		itemInfoPanel.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
+		// itemInfoPanel.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
 
 		purchzVPanel.add(purchaseInfoForm);
 
-		HorizontalPanel topPanel1 = new HorizontalPanel();
-		topPanel1.setHorizontalAlignment(ALIGN_RIGHT);
-		topPanel1.setWidth("100%");
+		StyledPanel topPanel1 = new StyledPanel("topPanel1");
+		// topPanel1.setHorizontalAlignment(ALIGN_RIGHT);
+		// topPanel1.setWidth("100%");
 		topPanel1.add(itemForm);
-		topPanel1.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
+		// topPanel1.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
 		topPanel1.setStyleName("service-item-group");
-		topPanel1.setCellHorizontalAlignment(itemInfoPanel, ALIGN_LEFT);
+		// topPanel1.setCellHorizontalAlignment(itemInfoPanel, ALIGN_LEFT);
 		topPanel1.add(itemInfoForm);
-		topPanel1.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
-		topPanel1.setCellWidth(itemForm, "50%");
-		topPanel1.setCellWidth(itemInfoForm, "50%");
-		VerticalPanel topHLay = new VerticalPanel();
+		// topPanel1.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
+		// topPanel1.setCellWidth(itemForm, "50%");
+		// topPanel1.setCellWidth(itemInfoForm, "50%");
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 
-		HorizontalPanel topPanel2 = new HorizontalPanel();
-		VerticalPanel emptyPanel = new VerticalPanel();
+		StyledPanel topPanel2 = new StyledPanel("topPanel2");
+		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
 		emptyPanel.setWidth("100%");
 
-		topPanel2.setHorizontalAlignment(ALIGN_RIGHT);
+		// topPanel2.setHorizontalAlignment(ALIGN_RIGHT);
 		topPanel2.setWidth("100%");
 		topPanel2.add(salesVPanel);
-		topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
+		// topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
 		topPanel2.add(purchzVPanel);
-		topPanel2.setCellWidth(salesVPanel, "50%");
-		topPanel2.setCellWidth(purchzVPanel, "50%");
+		// topPanel2.setCellWidth(salesVPanel, "50%");
+		// topPanel2.setCellWidth(purchzVPanel, "50%");
 		topHLay.add(topPanel1);
 		topHLay.add(topPanel2);
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 
 		mainVLay.setSize("100%", "100%");
 		// mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
@@ -602,15 +581,16 @@ public class ItemView extends BaseView<ClientItem> {
 		mainVLay.add(topHLay);
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			VerticalPanel stockPanel_1 = getStockPanel_1();
+			StyledPanel stockPanel_1 = getStockPanel_1();
 
 			purchzVPanel.add(stockPanel_1);
-			purchzVPanel.setCellHorizontalAlignment(stockPanel_1, ALIGN_LEFT);
-			VerticalPanel stockPanel_2 = getStockPanel_2();
+			// purchzVPanel.setCellHorizontalAlignment(stockPanel_1,
+			// ALIGN_LEFT);
+			StyledPanel stockPanel_2 = getStockPanel_2();
 			if (getPreferences().isUnitsEnabled()) {
 				purchzVPanel.add(stockPanel_2);
-				purchzVPanel.setCellHorizontalAlignment(stockPanel_2,
-						ALIGN_LEFT);
+				// purchzVPanel.setCellHorizontalAlignment(stockPanel_2,
+				// ALIGN_LEFT);
 			}
 		}
 		this.add(mainVLay);
@@ -653,31 +633,31 @@ public class ItemView extends BaseView<ClientItem> {
 
 	}
 
-	private VerticalPanel getStockPanel_2() {
-		VerticalPanel measurementPanel = new VerticalPanel();
+	private StyledPanel getStockPanel_2() {
+		StyledPanel measurementPanel = new StyledPanel("measurementPanel");
 		measurement = new MeasurementCombo(messages.measurement());
-		measurement.setDisabled(isInViewMode());
+		measurement.setEnabled(!isInViewMode());
 
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(measurement);
+		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
+		dynamicForm.add(measurement);
 
 		measurementPanel.add(dynamicForm);
 
 		return measurementPanel;
 	}
 
-	private VerticalPanel getStockPanel_1() {
+	private StyledPanel getStockPanel_1() {
 
-		VerticalPanel stockPanel = new VerticalPanel();
-		DynamicForm stockForm = new DynamicForm();
+		StyledPanel stockPanel = new StyledPanel("stockPanel");
+		DynamicForm stockForm = new DynamicForm("stockForm");
 
 		wareHouse = new WarehouseCombo(messages.wareHouse());
 
 		openingBalTxt = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency());
-		openingBalTxt.setDisabled(isInViewMode());
-		wareHouse.setDisabled(isInViewMode());
-		stockForm.setFields(wareHouse);
+				getBaseCurrency(), "openingBalTxt");
+		openingBalTxt.setEnabled(!isInViewMode());
+		wareHouse.setEnabled(!isInViewMode());
+		stockForm.add(wareHouse);
 		if (getPreferences().iswareHouseEnabled()) {
 			stockPanel.add(stockForm);
 		}
@@ -705,11 +685,11 @@ public class ItemView extends BaseView<ClientItem> {
 	}
 
 	protected void disableSalesFormItems(Boolean isEdit) {
-		salesDescArea.setDisabled(isEdit);
-		salesPriceText.setDisabled(isEdit);
-		accountCombo.setDisabled(isEdit);
-		itemTaxCheck.setDisabled(isEdit);
-		comCheck.setDisabled(isEdit);
+		salesDescArea.setEnabled(!isEdit);
+		salesPriceText.setEnabled(!isEdit);
+		accountCombo.setEnabled(!isEdit);
+		itemTaxCheck.setEnabled(!isEdit);
+		comCheck.setEnabled(!isEdit);
 	}
 
 	/**
@@ -872,11 +852,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 	protected void disablePurchaseFormItems(Boolean isDisable) {
 
-		purchasePriceTxt.setDisabled(isDisable);
-		purchaseDescArea.setDisabled(isDisable);
-		vendItemNumText.setDisabled(isDisable);
-		expAccCombo.setDisabled(isDisable);
-		prefVendorCombo.setDisabled(isDisable);
+		purchasePriceTxt.setEnabled(!isDisable);
+		purchaseDescArea.setEnabled(!isDisable);
+		vendItemNumText.setEnabled(!isDisable);
+		expAccCombo.setEnabled(!isDisable);
+		prefVendorCombo.setEnabled(!isDisable);
 
 	}
 
@@ -1001,12 +981,12 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		if (isInViewMode()) {
 			if (data.isISellThisItem()) {
-				ibuyCheck.setDisabled(true);
+				ibuyCheck.setEnabled(!true);
 				disablePurchaseFormItems(true);
 			}
 
 			if (data.isIBuyThisItem()) {
-				isellCheck.setDisabled(true);
+				isellCheck.setEnabled(!true);
 				disableSalesFormItems(true);
 			}
 
@@ -1029,12 +1009,12 @@ public class ItemView extends BaseView<ClientItem> {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
 						data.getPreferredVendor()));
 				if (data.isIBuyThisItem() == false)
-					prefVendorCombo.setDisabled(true);
+					prefVendorCombo.setEnabled(!true);
 				else
-					prefVendorCombo.setDisabled(false);
+					prefVendorCombo.setEnabled(!false);
 
 			} else
-				prefVendorCombo.setDisabled(true);
+				prefVendorCombo.setEnabled(!true);
 		}
 
 	}
@@ -1068,7 +1048,7 @@ public class ItemView extends BaseView<ClientItem> {
 						data.getIncomeAccount()));
 			}
 			if (data != null && data.isISellThisItem() == false) {
-				accountCombo.setDisabled(true);
+				accountCombo.setEnabled(!true);
 				ClientAccount selectExpAccount = getCompany().getAccount(
 						data.getExpenseAccount());
 				if (selectExpAccount != null) {
@@ -1076,12 +1056,12 @@ public class ItemView extends BaseView<ClientItem> {
 				}
 			}
 			if (data != null && data.isIBuyThisItem() == false)
-				expAccCombo.setDisabled(true);
+				expAccCombo.setEnabled(!true);
 			else
-				expAccCombo.setDisabled(false);
+				expAccCombo.setEnabled(!false);
 
 		} else {
-			expAccCombo.setDisabled(true);
+			expAccCombo.setEnabled(!true);
 
 			ClientAccount incomeAccount = getCompany().getAccount(
 					data.getIncomeAccount());
@@ -1192,47 +1172,47 @@ public class ItemView extends BaseView<ClientItem> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		nameText.setDisabled(isInViewMode());
-		skuText.setDisabled(isInViewMode());
-		weightText.setDisabled(isInViewMode());
-		salesDescArea.setDisabled(isInViewMode());
-		salesPriceText.setDisabled(isInViewMode());
-		accountCombo.setDisabled(isInViewMode());
-		stdCostText.setDisabled(isInViewMode());
-		itemGroupCombo.setDisabled(isInViewMode());
-		taxCode.setDisabled(isInViewMode());
-		isellCheck.setDisabled(isInViewMode());
-		ibuyCheck.setDisabled(isInViewMode());
+		nameText.setEnabled(!isInViewMode());
+		skuText.setEnabled(!isInViewMode());
+		weightText.setEnabled(!isInViewMode());
+		salesDescArea.setEnabled(!isInViewMode());
+		salesPriceText.setEnabled(!isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
+		stdCostText.setEnabled(!isInViewMode());
+		itemGroupCombo.setEnabled(!isInViewMode());
+		taxCode.setEnabled(!isInViewMode());
+		isellCheck.setEnabled(!isInViewMode());
+		ibuyCheck.setEnabled(!isInViewMode());
 		if (ibuyCheck.getValue()) {
-			purchaseDescArea.setDisabled(isInViewMode());
-			expAccCombo.setDisabled(isInViewMode());
-			prefVendorCombo.setDisabled(isInViewMode());
-			purchasePriceTxt.setDisabled(isInViewMode());
-			vendItemNumText.setDisabled(isInViewMode());
+			purchaseDescArea.setEnabled(!isInViewMode());
+			expAccCombo.setEnabled(!isInViewMode());
+			prefVendorCombo.setEnabled(!isInViewMode());
+			purchasePriceTxt.setEnabled(!isInViewMode());
+			vendItemNumText.setEnabled(!isInViewMode());
 		} else {
-			purchaseDescArea.setDisabled(true);
-			expAccCombo.setDisabled(true);
-			prefVendorCombo.setDisabled(true);
-			purchasePriceTxt.setDisabled(true);
-			vendItemNumText.setDisabled(true);
+			purchaseDescArea.setEnabled(!true);
+			expAccCombo.setEnabled(!true);
+			prefVendorCombo.setEnabled(!true);
+			purchasePriceTxt.setEnabled(!true);
+			vendItemNumText.setEnabled(!true);
 		}
 		if (isellCheck.getValue()) {
-			salesDescArea.setDisabled(isInViewMode());
-			accountCombo.setDisabled(isInViewMode());
-			salesPriceText.setDisabled(isInViewMode());
+			salesDescArea.setEnabled(!isInViewMode());
+			accountCombo.setEnabled(!isInViewMode());
+			salesPriceText.setEnabled(!isInViewMode());
 		} else {
-			salesDescArea.setDisabled(true);
-			accountCombo.setDisabled(true);
-			salesPriceText.setDisabled(true);
+			salesDescArea.setEnabled(!true);
+			accountCombo.setEnabled(!true);
+			salesPriceText.setEnabled(!true);
 		}
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			// measurement.setDisabled(isInViewMode());
-			wareHouse.setDisabled(isInViewMode());
-			openingBalTxt.setDisabled(isInViewMode());
+			// measurement.setEnabled(!isInViewMode());
+			wareHouse.setEnabled(!isInViewMode());
+			openingBalTxt.setEnabled(!isInViewMode());
 			onHandQuantity.setRequired(false);
 		}
-		activeCheck.setDisabled(isInViewMode());
+		activeCheck.setEnabled(!isInViewMode());
 
 	}
 

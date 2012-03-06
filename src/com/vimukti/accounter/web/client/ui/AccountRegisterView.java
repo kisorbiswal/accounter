@@ -3,9 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -15,7 +12,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.AccountRegisterListGrid;
 
 public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
@@ -29,10 +25,8 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 	protected List<AccountRegister> accountRegister;
 	private AccountRegister accRegister;
 	private AccountRegisterListGrid grid2;
-	private VerticalPanel mainVLay;
-	private HorizontalPanel hlayTop, gridLayout;
-
-	private Label lab1;
+	private StyledPanel mainVLay;
+	private StyledPanel hlayTop, gridLayout;
 
 	private List<ClientAccount> listOfAccounts;
 	private double total = 0.0;
@@ -120,22 +114,11 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 				});
 
-		HorizontalPanel hlay = new HorizontalPanel();
-		DynamicForm form = new DynamicForm();
-
-		form.setIsGroup(true);
-		form.setGroupTitle(messages.Account());
-		form.setFields(bankAccSelect);
-		form.setWidth("100%");
-
-		hlay.add(form);
-
-		hlayTop = new HorizontalPanel();
+		StyledPanel hlay = new StyledPanel("hlay");
+		hlay.add(bankAccSelect);
+		hlayTop = new StyledPanel("hlayTop");
 
 		hlayTop.add(hlay);
-
-		lab1 = new Label(messages.accountRegister() + " - "
-				+ takenaccount.getName());
 
 		grid = new AccountRegisterListGrid(false, ClientAccount.TYPE_BANK);
 		grid.addStyleName("listgrid-tl");
@@ -143,23 +126,16 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 		grid2 = new AccountRegisterListGrid(false,
 				ClientAccount.TYPE_CREDIT_CARD);
-		// grid2.addStyleName("listgrid-tl");
 		grid2.init();
 
-		gridLayout = new HorizontalPanel() {
+		gridLayout = new StyledPanel("gridLayout") {
 			@Override
 			protected void onAttach() {
-				grid.setHeight(this.getOffsetHeight() - 43 + "px");
-				grid2.setHeight(this.getOffsetHeight() - 43 + "px");
 				super.onAttach();
 			}
 		};
-		gridLayout.setWidth("100%");
-		gridLayout.setHeight("100%");
 
-		mainVLay = new VerticalPanel();
-		mainVLay.setHeight("100%");
-		mainVLay.setWidth("100%");
+		mainVLay = new StyledPanel("mainVLay");
 
 		if (takenaccount.getType() == ClientAccount.TYPE_BANK) {
 			gridLayout.add(grid);
@@ -173,8 +149,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 		}
 
 		add(mainVLay);
-
-		setSize("100%", "100%");
 
 	}
 
@@ -289,9 +263,6 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		grid.setHeight(height - 140 + "px");
-		grid2.setHeight(height - 140 + "px");
-
 	}
 
 	@Override
@@ -311,7 +282,7 @@ public class AccountRegisterView extends AbstractBaseView<AccountRegister> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.accountRegister();
+		return messages.accountRegister() + " - " + takenaccount.getName();
 
 	}
 

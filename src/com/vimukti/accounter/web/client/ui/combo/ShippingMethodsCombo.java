@@ -6,12 +6,12 @@ import com.vimukti.accounter.web.client.ui.ShippingMethodListDialog;
 public class ShippingMethodsCombo extends CustomCombo<ClientShippingMethod> {
 
 	public ShippingMethodsCombo(String title) {
-		super(title);
+		super(title,"ShippingMethodsCombo");
 		initCombo(getCompany().getShippingMethods());
 	}
 
 	public ShippingMethodsCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"ShippingMethodsCombo");
 		initCombo(getCompany().getShippingMethods());
 	}
 

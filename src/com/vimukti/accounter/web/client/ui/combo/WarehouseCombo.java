@@ -9,12 +9,12 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
 	public WarehouseCombo(String title) {
-		super(title);
+		super(title,"WarehouseCombo");
 		initCombo(Accounter.getCompany().getWarehouses());
 	}
 
 	public WarehouseCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1);
+		super(title, isAddNewRequire, 1,"WarehouseCombo");
 		initCombo(Accounter.getCompany().getWarehouses());
 	}
 

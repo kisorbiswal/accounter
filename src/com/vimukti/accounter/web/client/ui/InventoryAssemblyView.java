@@ -10,10 +10,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -104,6 +101,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	public InventoryAssemblyView() {
 		super();
+		this.getElement().setId("InventoryAssemblyView");
 	}
 
 	private void initTaxCodes() {
@@ -133,15 +131,13 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		Label lab1 = new Label(messages.newAssembly());
 		lab1.setStyleName("label-title");
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(lab1);
 
-		nameText = new TextItem(messages.inventoryAssembly());
+		nameText = new TextItem(messages.inventoryAssembly(), "nameText");
 		nameText.setValue(itemName);
-		nameText.setHelpInformation(true);
-		nameText.setWidth(100);
 		nameText.setRequired(true);
-		nameText.setDisabled(isInViewMode());
+		nameText.setEnabled(isInViewMode());
 
 		floatRangeValidator = new FloatRangeValidator();
 		floatRangeValidator.setMin(0);
@@ -149,23 +145,14 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		integerRangeValidator = new IntegerRangeValidator();
 		integerRangeValidator.setMin(0);
 
-		skuText = new TextItem();
-		skuText.setHelpInformation(true);
-		skuText.setWidth(100);
-		skuText.setTitle(messages.upcsku());
-		skuText.setDisabled(isInViewMode());
+		skuText = new TextItem(messages.upcsku(), "skuText");
+		skuText.setEnabled(!isInViewMode());
 
 		commodityCode = new ItemGroupCombo(messages.commodityCode());
-		commodityCode.setHelpInformation(true);
-		itemForm = new DynamicForm();
-		itemForm.setStyleName("item-form-view");
-		itemForm.setIsGroup(true);
-		itemForm.setGroupTitle(messages.item());
-		itemForm.setFields(nameText);
-		salesDescArea = new TextAreaItem();
-		salesDescArea.setHelpInformation(true);
-		salesDescArea.setWidth(100);
-		salesDescArea.setTitle(messages.salesDescription());
+		itemForm = new DynamicForm("itemForm");
+		itemForm.add(nameText);
+		salesDescArea = new TextAreaItem(messages.salesDescription(),
+				"salesDescArea");
 
 		salesDescArea.setDisabled(isInViewMode());
 
@@ -173,15 +160,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				this.getAction().getViewName()).replace(messages.comments(),
 				messages.salesDescription()));
 		salesPriceText = new AmountField(messages.salesPrice(), this,
-				getBaseCurrency());
-		salesPriceText.setHelpInformation(true);
-		salesPriceText.setWidth(100);
-		salesPriceText.setDisabled(isInViewMode());
+				getBaseCurrency(), "salesPriceText");
+		salesPriceText.setEnabled(!isInViewMode());
 
 		accountCombo = new SalesItemCombo(messages.incomeAccount());
-		accountCombo.setHelpInformation(true);
-		accountCombo.setDisabled(isInViewMode());
-		accountCombo.setPopupWidth("500px");
+		accountCombo.setEnabled(!isInViewMode());
 		accountCombo.setRequired(true);
 
 		/**
@@ -221,29 +204,22 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			assetsAccount.setComboItem(clientAccount);
 			break;
 		}
-		assetsAccount.setHelpInformation(true);
-		assetsAccount.setDisabled(isInViewMode());
-		assetsAccount.setPopupWidth("500px");
+		assetsAccount.setEnabled(!isInViewMode());
 		assetsAccount.setRequired(true);
 
 		reorderPoint = new IntegerField(this, "Reorder Point");
-		reorderPoint.setHelpInformation(true);
-		reorderPoint.setWidth(100);
-		reorderPoint.setDisabled(isInViewMode());
+		reorderPoint.setEnabled(!isInViewMode());
 		reorderPoint.setValidators(integerRangeValidator);
 
 		itemTotalValue = new AmountField(messages.total(), this,
-				getBaseCurrency());
-		itemTotalValue.setHelpInformation(true);
-		itemTotalValue.setWidth(100);
+				getBaseCurrency(), "itemTotalValue");
 		itemTotalValue.setAmount(0.00D);
-		itemTotalValue.setDisabled(true);
+		itemTotalValue.setEnabled(false);
 
 		onHandQuantity = new IntegerField(this, "On Hand Quantity");
 		onHandQuantity.setNumber(0l);
-		onHandQuantity.setHelpInformation(true);
 		onHandQuantity.setWidth(100);
-		onHandQuantity.setDisabled(isInViewMode());
+		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
@@ -258,31 +234,29 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			}
 		});
 
-		asOfDate = new DateField(messages.asOf());
-		asOfDate.setHelpInformation(true);
-		asOfDate.setDisabled(isInViewMode());
+		asOfDate = new DateField(messages.asOf(), "asOfDate");
+		asOfDate.setEnabled(!isInViewMode());
 		asOfDate.setEnteredDate(new ClientFinanceDate());
 
-		DynamicForm inventoryInfoForm = new DynamicForm();
-		inventoryInfoForm.setFields(assetsAccount, reorderPoint,
-				onHandQuantity, itemTotalValue, asOfDate);
+		DynamicForm inventoryInfoForm = new DynamicForm("inventoryInfoForm");
+		inventoryInfoForm.add(assetsAccount, reorderPoint, onHandQuantity,
+				itemTotalValue, asOfDate);
 
 		/**
 		 * over
 		 */
 
-		itemTaxCheck = new CheckboxItem(messages.taxable());
+		itemTaxCheck = new CheckboxItem(messages.taxable(), "itemTaxCheck");
 		itemTaxCheck.setValue(true);
-		itemTaxCheck.setDisabled(true);
+		itemTaxCheck.setEnabled(false);
 
-		comCheck = new CheckboxItem(messages.commissionItem());
-		comCheck.setDisabled(isInViewMode());
+		comCheck = new CheckboxItem(messages.commissionItem(), "comCheck");
+		comCheck.setEnabled((!isInViewMode()));
 
 		salesInfoForm = UIUtils.form(messages.salesInformation());
 
 		itemGroupCombo = new ItemGroupCombo(messages.itemGroup());
-		itemGroupCombo.setHelpInformation(true);
-		itemGroupCombo.setDisabled(isInViewMode());
+		itemGroupCombo.setEnabled(!isInViewMode());
 		itemGroupCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientItemGroup>() {
 					@Override
@@ -292,9 +266,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				});
 
 		taxCode = new TAXCodeCombo(messages.taxCode(), false);
-		taxCode.setHelpInformation(true);
 		taxCode.setRequired(false);
-		taxCode.setDisabled(isInViewMode());
+		taxCode.setEnabled(!isInViewMode());
 
 		taxCode.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 			@Override
@@ -303,20 +276,16 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			}
 		});
 		taxCode.setDefaultValue(messages.ztozeroperc());
-		activeCheck = new CheckboxItem(messages.active());
+		activeCheck = new CheckboxItem(messages.active(), "activeCheck");
 		activeCheck.setValue(true);
-		activeCheck.setDisabled(isInViewMode());
-		purchaseDescArea = new TextAreaItem();
-		purchaseDescArea.setHelpInformation(true);
-		purchaseDescArea.setWidth(100);
-		purchaseDescArea.setTitle(messages.purchaseDescription());
+		activeCheck.setEnabled(!isInViewMode());
+		purchaseDescArea = new TextAreaItem(messages.purchaseDescription(),
+				"purchaseDescArea");
 		purchaseDescArea.setDisabled(isInViewMode());
 
 		purchasePriceTxt = new AmountField(messages.standardCost(), this,
-				getBaseCurrency());
-		purchasePriceTxt.setHelpInformation(true);
-		purchasePriceTxt.setWidth(100);
-		purchasePriceTxt.setDisabled(isInViewMode());
+				getBaseCurrency(), "purchasePriceTxt");
+		purchasePriceTxt.setEnabled(!isInViewMode());
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -327,9 +296,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		});
 
 		expAccCombo = new PurchaseItemCombo(messages.costOfGoodSold());
-		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
-		expAccCombo.setDisabled(isInViewMode());
+		expAccCombo.setEnabled(!isInViewMode());
 		expAccCombo.setPopupWidth("500px");
 		ClientAccount costOfGoodsAccount = getCompany().getAccount(
 				getCompany().getCostOfGoodsSold());
@@ -338,8 +306,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
-		prefVendorCombo.setHelpInformation(true);
-		prefVendorCombo.setDisabled(isInViewMode());
+		prefVendorCombo.setEnabled(!isInViewMode());
 		prefVendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 					@Override
@@ -350,89 +317,61 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		vendItemNumText = new IntegerField(this,
 				messages.vendorProductNo(Global.get().Vendor()));
-		vendItemNumText.setHelpInformation(true);
-		vendItemNumText.setWidth(100);
-		vendItemNumText.setDisabled(isInViewMode());
+		vendItemNumText.setEnabled(!isInViewMode());
 
 		disableSalesFormItems(isInViewMode());
 		disablePurchaseFormItems(isInViewMode());
 
-		salesInfoForm.setFields(salesDescArea, salesPriceText, accountCombo,
+		salesInfoForm.add(salesDescArea, salesPriceText, accountCombo,
 				itemTaxCheck, comCheck);
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
-			salesInfoForm.setFields(itemTaxCheck);
+			salesInfoForm.add(itemTaxCheck);
 
 		salesInfoForm.setStyleName("align-form");
 		salesInfoForm.setStyleName("new_service_table");
-		salesInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 		itemInfoForm = UIUtils.form(messages.itemInformation());
 
-		itemInfoForm.setFields(itemGroupCombo, activeCheck);
+		itemInfoForm.add(itemGroupCombo, activeCheck);
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
-			itemInfoForm.setFields(activeCheck);
+			itemInfoForm.add(activeCheck);
 
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
-		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
-		purchaseInfoForm.setFields(purchaseDescArea, purchasePriceTxt,
-				expAccCombo, prefVendorCombo, vendItemNumText);
-		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
+		purchaseInfoForm.add(purchaseDescArea, purchasePriceTxt, expAccCombo,
+				prefVendorCombo, vendItemNumText);
 
-		VerticalPanel salesVPanel = new VerticalPanel();
-		salesVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		salesVPanel.setWidth("100%");
-		HorizontalPanel itemHPanel = new HorizontalPanel();
+		StyledPanel salesVPanel = new StyledPanel("salesVPanel");
+		StyledPanel itemHPanel = new StyledPanel("itemHPanel");
 
-		itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
-
-		salesVPanel.setCellHorizontalAlignment(itemHPanel, ALIGN_LEFT);
 		salesVPanel.add(salesInfoForm);
 		salesVPanel.add(inventoryInfoForm);
-		VerticalPanel purchzVPanel = new VerticalPanel();
+		StyledPanel purchzVPanel = new StyledPanel("purchzVPanel");
 
-		purchzVPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		purchzVPanel.setWidth("100%");
-		HorizontalPanel itemInfoPanel = new HorizontalPanel();
-
-		itemInfoPanel.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
+		StyledPanel itemInfoPanel = new StyledPanel("itemInfoPanel");
 
 		purchzVPanel.add(purchaseInfoForm);
 
-		HorizontalPanel topPanel1 = new HorizontalPanel();
-		topPanel1.setHorizontalAlignment(ALIGN_RIGHT);
-		topPanel1.setWidth("100%");
+		StyledPanel topPanel1 = new StyledPanel("topPanel1");
 		topPanel1.add(itemForm);
-		topPanel1.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
 		topPanel1.setStyleName("service-item-group");
-		topPanel1.setCellHorizontalAlignment(itemInfoPanel, ALIGN_LEFT);
 		topPanel1.add(itemInfoForm);
-		topPanel1.setCellHorizontalAlignment(itemInfoForm, ALIGN_LEFT);
-		topPanel1.setCellWidth(itemForm, "50%");
-		topPanel1.setCellWidth(itemInfoForm, "50%");
-		VerticalPanel topHLay = new VerticalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
 
-		HorizontalPanel topPanel2 = new HorizontalPanel();
-		VerticalPanel emptyPanel = new VerticalPanel();
-		emptyPanel.setWidth("100%");
+		StyledPanel topPanel2 = new StyledPanel("topPanel2");
+		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
 
-		topPanel2.setHorizontalAlignment(ALIGN_RIGHT);
 		topPanel2.setWidth("100%");
 		topPanel2.add(salesVPanel);
-		topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
 		topPanel2.add(purchzVPanel);
-		topPanel2.setCellWidth(salesVPanel, "50%");
-		topPanel2.setCellWidth(purchzVPanel, "50%");
 		topHLay.add(topPanel1);
 		topHLay.add(topPanel2);
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 
-		mainVLay.setSize("100%", "100%");
 		// mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
@@ -510,7 +449,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			}
 		};
 		mainVLay.add(table);
-		table.setDisabled(isInViewMode());
+		table.setEnabled(!isInViewMode());
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
@@ -522,17 +461,15 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		});
 		mainVLay.add(itemTableButton);
 		totalLabel = new AmountLabel(messages.totalValueOfMaterialsCost());
-		DynamicForm amountLabelsForm = new DynamicForm();
-		amountLabelsForm.setFields(totalLabel);
+		DynamicForm amountLabelsForm = new DynamicForm("amountLabelsForm");
+		amountLabelsForm.add(totalLabel);
 		mainVLay.add(amountLabelsForm);
-		mainVLay.setCellHorizontalAlignment(amountLabelsForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		this.add(mainVLay);
 
-		VerticalPanel stockPanel_1 = getStockPanel_1();
+		StyledPanel stockPanel_1 = getStockPanel_1();
 		purchzVPanel.add(stockPanel_1);
-		VerticalPanel stockPanel_2 = getStockPanel_2();
+		StyledPanel stockPanel_2 = getStockPanel_2();
 		if (getPreferences().isUnitsEnabled()) {
 			purchzVPanel.add(stockPanel_2);
 		}
@@ -548,28 +485,28 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	}
 
-	private VerticalPanel getStockPanel_2() {
-		VerticalPanel measurementPanel = new VerticalPanel();
+	private StyledPanel getStockPanel_2() {
+		StyledPanel measurementPanel = new StyledPanel("measurementPanel");
 		measurement = new MeasurementCombo(messages.measurement());
-		measurement.setDisabled(isInViewMode());
+		measurement.setEnabled(!isInViewMode());
 
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(measurement);
+		DynamicForm dynamicForm = new DynamicForm("stock_dynamicForm");
+		dynamicForm.add(measurement);
 
 		measurementPanel.add(dynamicForm);
 
 		return measurementPanel;
 	}
 
-	private VerticalPanel getStockPanel_1() {
+	private StyledPanel getStockPanel_1() {
 
-		VerticalPanel stockPanel = new VerticalPanel();
-		DynamicForm stockForm = new DynamicForm();
+		StyledPanel stockPanel = new StyledPanel("stockPanel");
+		DynamicForm stockForm = new DynamicForm("stockForm");
 
 		wareHouse = new WarehouseCombo(messages.wareHouse());
 
-		wareHouse.setDisabled(isInViewMode());
-		stockForm.setFields(wareHouse);
+		wareHouse.setEnabled(!isInViewMode());
+		stockForm.add(wareHouse);
 		if (getPreferences().iswareHouseEnabled()) {
 			stockPanel.add(stockForm);
 		}
@@ -609,10 +546,10 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	protected void disableSalesFormItems(Boolean isEdit) {
 		salesDescArea.setDisabled(isEdit);
-		salesPriceText.setDisabled(isEdit);
-		accountCombo.setDisabled(isEdit);
-		itemTaxCheck.setDisabled(isEdit);
-		comCheck.setDisabled(isEdit);
+		salesPriceText.setEnabled(!isEdit);
+		accountCombo.setEnabled(!isEdit);
+		itemTaxCheck.setEnabled(!isEdit);
+		comCheck.setEnabled(!isEdit);
 	}
 
 	/**
@@ -770,11 +707,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	protected void disablePurchaseFormItems(Boolean isDisable) {
 
-		purchasePriceTxt.setDisabled(isDisable);
-		purchaseDescArea.setDisabled(isDisable);
-		vendItemNumText.setDisabled(isDisable);
-		expAccCombo.setDisabled(isDisable);
-		prefVendorCombo.setDisabled(isDisable);
+		purchasePriceTxt.setEnabled(!isDisable);
+		purchaseDescArea.setEnabled(!isDisable);
+		vendItemNumText.setEnabled(!isDisable);
+		expAccCombo.setEnabled(!isDisable);
+		prefVendorCombo.setEnabled(!isDisable);
 
 	}
 
@@ -873,7 +810,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
 						data.getPreferredVendor()));
 			}
-			prefVendorCombo.setDisabled(isInViewMode());
+			prefVendorCombo.setEnabled(!isInViewMode());
 		}
 
 	}
@@ -896,7 +833,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				expAccCombo.setComboItem(selectExpAccount);
 			}
 		} else {
-			expAccCombo.setDisabled(true);
+			expAccCombo.setEnabled(false);
 			ClientAccount incomeAccount = getCompany().getAccount(
 					data.getIncomeAccount());
 			accountCombo.setComboItem(incomeAccount);
@@ -1002,32 +939,31 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		nameText.setDisabled(isInViewMode());
-		skuText.setDisabled(isInViewMode());
-		salesDescArea.setDisabled(isInViewMode());
-		salesPriceText.setDisabled(isInViewMode());
-		accountCombo.setDisabled(isInViewMode());
-		itemGroupCombo.setDisabled(isInViewMode());
-		taxCode.setDisabled(isInViewMode());
-		purchaseDescArea.setDisabled(isInViewMode());
-		expAccCombo.setDisabled(isInViewMode());
-		prefVendorCombo.setDisabled(isInViewMode());
-		purchasePriceTxt.setDisabled(isInViewMode());
-		vendItemNumText.setDisabled(isInViewMode());
-		salesDescArea.setDisabled(isInViewMode());
-		accountCombo.setDisabled(isInViewMode());
-		salesPriceText.setDisabled(isInViewMode());
-		assetsAccount.setDisabled(isInViewMode());
-		reorderPoint.setDisabled(isInViewMode());
-		onHandQuantity.setDisabled(isInViewMode());
-		totalLabel.setDisabled(isInViewMode());
-		asOfDate.setDisabled(isInViewMode());
+		nameText.setEnabled(!isInViewMode());
+		skuText.setEnabled(!isInViewMode());
+		salesDescArea.setEnabled(!isInViewMode());
+		salesPriceText.setEnabled(!isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
+		itemGroupCombo.setEnabled(!isInViewMode());
+		taxCode.setEnabled(!isInViewMode());
+		purchaseDescArea.setEnabled(!isInViewMode());
+		expAccCombo.setEnabled(!isInViewMode());
+		prefVendorCombo.setEnabled(!isInViewMode());
+		purchasePriceTxt.setEnabled(!isInViewMode());
+		vendItemNumText.setEnabled(!isInViewMode());
+		salesDescArea.setEnabled(!isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
+		salesPriceText.setEnabled(!isInViewMode());
+		assetsAccount.setEnabled(!isInViewMode());
+		reorderPoint.setEnabled(!isInViewMode());
+		onHandQuantity.setEnabled(!isInViewMode());
+		totalLabel.setEnabled(!isInViewMode());
+		asOfDate.setEnabled(!isInViewMode());
 
-		table.setDisabled(isInViewMode());
-		measurement.setDisabled(isInViewMode());
-		wareHouse.setDisabled(isInViewMode());
-		activeCheck.setDisabled(isInViewMode());
-		itemTableButton.setEnabled(!isInViewMode());
+		table.setEnabled(!isInViewMode());
+		measurement.setEnabled(!isInViewMode());
+		wareHouse.setEnabled(!isInViewMode());
+		activeCheck.setEnabled(!isInViewMode());
 	}
 
 	@Override

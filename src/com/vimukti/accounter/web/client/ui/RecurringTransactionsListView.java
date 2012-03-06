@@ -152,7 +152,6 @@ public class RecurringTransactionsListView extends
 	@Override
 	protected SelectCombo getSelectItem() {
 		viewSelect = new SelectCombo(messages.currentView());
-		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);
 		listOfTypes.add(SCHEDULED);

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
@@ -42,13 +43,13 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> {
 
-	private VerticalPanel mainPanel, leftPanel;
+	private StyledPanel mainPanel, leftPanel;
 	private MakeDepositAccountCombo depositToCombo;
 	private DynamicForm depositToForm;
 	private TransactionDepositTable transactionDepositTable;
 	private boolean locationTrackingEnabled;
 	private AddNewButton depositTableButton;
-	private final DynamicForm totalForm = new DynamicForm();
+	private final DynamicForm totalForm = new DynamicForm("totalForm");
 	private AmountLabel totalLabel;
 	private ArrayList<DynamicForm> listforms;
 	private List<ClientTransactionDepositItem> transactionDepositItems;
@@ -80,6 +81,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("DepositView");
 		initTransactionNumber();
 	}
 
@@ -104,7 +106,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 
 			if (depositTo != null) {
@@ -145,14 +147,13 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
-		mainPanel = new VerticalPanel();
-		mainPanel.setSize("100%", "100%");
+		mainPanel = new StyledPanel("mainPanel");
 
-		depositToForm = new DynamicForm();
-		leftPanel = new VerticalPanel();
+		depositToForm = new DynamicForm("depositToForm");
+		leftPanel = new StyledPanel("leftPanel");
 
 		depositToCombo = new MakeDepositAccountCombo(messages.depositTo());
-		depositToCombo.setDisabled(this.isInViewMode());
+		depositToCombo.setEnabled(!isInViewMode());
 		depositToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -162,7 +163,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 					}
 				});
 
-		depositToForm.setFields(depositToCombo);
+		depositToForm.add(depositToCombo);
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(messages.billDate());
@@ -180,7 +181,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		transactionNumber.setTitle(messages.no());
 
 		paymentMethodCombo = new SelectCombo(messages.paymentMethod());
-		paymentMethodCombo.setDisabled(this.isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 
 		String listString[] = new String[] { messages.cash(),
 				messages.creditCard(), messages.directDebit(),
@@ -193,29 +194,23 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		}
 		paymentMethodCombo.initCombo(selectedComboList);
 
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
 		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		dateNoForm.add(transactionDateItem, transactionNumber);
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		locationCombo = createLocationCombo();
-		locationCombo.setHelpInformation(true);
 
 		if (locationTrackingEnabled)
-			depositToForm.setFields(locationCombo);
-		depositToForm.setItems(paymentMethodCombo);
+			depositToForm.add(locationCombo);
+		depositToForm.add(paymentMethodCombo);
 
 		leftPanel.add(depositToForm);
 		currencyWidget = createCurrencyFactorWidget();
 		if (isMultiCurrencyEnabled()) {
 			leftPanel.add(currencyWidget);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		transactionDepositTable = new TransactionDepositTable(
@@ -242,17 +237,17 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			}
 		});
 
-		FlowPanel accountFlowPanel = new FlowPanel();
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountFlowPanel.add(transactionDepositTable);
 		accountFlowPanel.add(depositTableButton);
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setDisabled(this.isInViewMode());
 
-		DynamicForm memoForm = new DynamicForm();
+		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.add(memoTextAreaItem);
+//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		totalLabel = new AmountLabel(
 				messages.currencyTotal(currency != null ? currency
@@ -261,24 +256,23 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
-		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
-		totalForm.setFields(totalLabel);
+		totalForm.add(totalLabel);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(foreignCurrencyamountLabel);
+			totalForm.add(foreignCurrencyamountLabel);
 		}
 
-		transactionDepositTable.setDisabled(this.isInViewMode());
+		transactionDepositTable.setEnabled(!isInViewMode());
 
-		HorizontalPanel bottomLayout = new HorizontalPanel();
+		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 		bottomLayout.setWidth("100%");
 
-		VerticalPanel bottompanel = new VerticalPanel();
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 		bottompanel.setWidth("100%");
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
-		bottomLayout.setCellWidth(totalForm, "30%");
+//		bottomLayout.setCellWidth(totalForm, "30%");
 
 		bottompanel.add(bottomLayout);
 
@@ -571,15 +565,14 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		depositToCombo.setDisabled(this.isInViewMode());
-		paymentMethodCombo.setDisabled(this.isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		depositToCombo.setEnabled(!isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 		depositTableButton.setEnabled(!isInViewMode());
-		memoTextAreaItem.setDisabled(this.isInViewMode());
-		transactionDepositTable.setDisabled(this.isInViewMode());
-		currencyWidget.setDisabled(this.isInViewMode());
+		memoTextAreaItem.setEnabled(!isInViewMode());
+		transactionDepositTable.setEnabled(!isInViewMode());
+		currencyWidget.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

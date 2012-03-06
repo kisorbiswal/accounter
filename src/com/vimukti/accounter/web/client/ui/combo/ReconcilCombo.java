@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ReconcilCombo extends CustomCombo {
 
 	public ReconcilCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1, "ReconcilCombo");
 
 		initCombo(getList());
 	}

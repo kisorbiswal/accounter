@@ -36,13 +36,13 @@ public class ChangePasswordDialog extends BaseDialog {
 		newPasswordTextItem.setRequired(true);
 		confirmNewPasswordTextItem.setRequired(true);
 
-		textItemsForm = new DynamicForm();
+		textItemsForm = new DynamicForm("textItemsForm");
 
 		mainPanel = new VerticalPanel();
 
-		textItemsForm.setNumCols(2);
-		textItemsForm.setCellSpacing(10);
-		textItemsForm.setFields(oldPasswordTextItem, newPasswordTextItem,
+//		textItemsForm.setNumCols(2);
+//		textItemsForm.setCellSpacing(10);
+		textItemsForm.add(oldPasswordTextItem, newPasswordTextItem,
 				confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);

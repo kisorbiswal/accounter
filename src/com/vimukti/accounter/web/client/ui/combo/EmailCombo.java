@@ -10,12 +10,12 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 public class EmailCombo extends CustomCombo<ClientEmailAccount> {
 
 	public EmailCombo(String title) {
-		super(title);
+		super(title, "emailCombo");
 		initCombo(getEmailAccounts());
 	}
 
 	public EmailCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1);
+		super(title, isAddNewRequire, 1, "emailCombo");
 		initCombo(getEmailAccounts());
 	}
 

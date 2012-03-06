@@ -43,10 +43,10 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		typeRadio.setValueMap(messages.customer(), Global.get().Vendor());
 		typeRadio.setDefaultValue(messages.customer());
 
-		DynamicForm typeForm = new DynamicForm();
+		DynamicForm typeForm = new DynamicForm("typeForm");
 		// typeForm.setIsGroup(true);
 		// typeForm.setGroupTitle("Account Type");
-		typeForm.setFields(typeRadio);
+		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
 		VerticalPanel mainVLay = new VerticalPanel();

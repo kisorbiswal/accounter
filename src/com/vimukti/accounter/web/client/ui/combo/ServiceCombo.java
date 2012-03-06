@@ -13,13 +13,13 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 	// private final int TYPE_VENDOR = 2;
 
 	public ServiceCombo(String title, int type) {
-		super(title);
+		super(title,"serviceCombo");
 		this.type = type;
 		initCombo(getCompany().getServiceItems());
 	}
 
 	public ServiceCombo(String title, int type, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"serviceCombo");
 		this.type = type;
 		initCombo(getCompany().getServiceItems());
 	}

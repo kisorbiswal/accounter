@@ -20,7 +20,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	int type;
 
 	public TaxItemCombo(String title, int type) {
-		super(title, true, 1);
+		super(title, true, 1,"TaxItemCombo");
 		this.type = type;
 		initCombo(TaxItemsByType(getCompany().getActiveTaxItems(), this.type));
 	}

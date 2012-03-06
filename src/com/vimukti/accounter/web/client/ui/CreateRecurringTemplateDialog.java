@@ -43,7 +43,7 @@ public class CreateRecurringTemplateDialog extends
 
 	public CreateRecurringTemplateDialog() {
 		super(messages.selectTransactionType(), "");
-		setWidth("400px");
+		this.addStyleName("create-recurring-template-dialog");
 		createControls();
 		center();
 	}
@@ -52,16 +52,15 @@ public class CreateRecurringTemplateDialog extends
 
 		initTypesMap();
 
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 		form.setWidth("100%");
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
 		transactionTypeCombo
 				.initCombo(new ArrayList<String>(typesMap.keySet()));
-		transactionTypeCombo.setHelpInformation(true);
 		transactionTypeCombo.setRequired(true);
 
-		VerticalPanel layout = new VerticalPanel();
-		form.setFields(transactionTypeCombo);
+		StyledPanel layout = new StyledPanel("layout");
+		form.add(transactionTypeCombo);
 		layout.add(form);
 
 		setBodyLayout(layout);

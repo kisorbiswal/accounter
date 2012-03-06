@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.LinkedHashMap;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -35,6 +34,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 			final TextAreaItem textAreaItem, final String addressType,
 			final LinkedHashMap<Integer, ClientAddress> allAddresses) {
 		super(messages.address(), "");
+		this.getElement().setId("address-dialog");
 		this.addressType = addressType;
 		this.allAddresses = allAddresses;
 		createControls(textAreaItem, allAddresses);
@@ -49,23 +49,17 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 		if (allAddresses != null) {
 			add = allAddresses.get(UIUtils.getAddressType(addressType));
 		}
-		address1 = new TextItem(messages.address1());
-		address1.setHelpInformation(true);
+		address1 = new TextItem(messages.address1(), "address");
 
-		address2 = new TextItem(messages.address2());
-		address2.setHelpInformation(true);
+		address2 = new TextItem(messages.address2(), "address");
 
-		city = new TextItem(messages.city());
-		city.setHelpInformation(true);
+		city = new TextItem(messages.city(), "city");
 
-		state = new TextItem(messages.state());
-		state.setHelpInformation(true);
+		state = new TextItem(messages.state(), "state");
 
-		country = new TextItem(messages.country());
-		country.setHelpInformation(true);
+		country = new TextItem(messages.country(), "country");
 
-		zip = new TextItem(messages.postalCode());
-		zip.setHelpInformation(true);
+		zip = new TextItem(messages.postalCode(), "zip");
 
 		if (add != null) {
 			if (add.getAddress1() != null)
@@ -82,17 +76,13 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 				country.setValue(add.getCountryOrRegion());
 		}
 
-		DynamicForm AddressForm = new DynamicForm();
-		AddressForm.setCellSpacing(10);
-		AddressForm.setWidth("100%");
-		AddressForm.setFields(address1, address2, city, state, zip, country);
+		DynamicForm addressForm = new DynamicForm("addressForm");
+		addressForm.add(address1, address2, city, state, zip, country);
 		addNew = add;
 
-		VerticalPanel v1 = new VerticalPanel();
+		StyledPanel v1 = new StyledPanel("v1");
 
-		v1.add(AddressForm);
-		v1.setHeight("100%");
-		v1.setWidth("100%");
+		v1.add(addressForm);
 
 		setBodyLayout(v1);
 		setAddressToTextAread(new ValidationResult());
@@ -130,25 +120,15 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 
 	public String[] getCountryList() {
 		// List list = new ArrayList();
-		String[] list = { messages.australia(),
-				messages.belgium(),
-				messages.canada(), messages.cyprus(),
-				messages.france(),
-				messages.germany(),
-				messages.greece(), messages.india(),
-				messages.ireland(), messages.italy(),
-				messages.kenya(), messages.malta(),
-				messages.mauritius(),
-				messages.mozabique(),
-				messages.netherlands(),
-				messages.newZeland(),
-				messages.nigeria(),
-				messages.pakistan(),
-				messages.portugal(),
-				messages.southAfrica(),
-				messages.spain(),
-				messages.switzerland(),
-				messages.thailand(), messages.uk(),
+		String[] list = { messages.australia(), messages.belgium(),
+				messages.canada(), messages.cyprus(), messages.france(),
+				messages.germany(), messages.greece(), messages.india(),
+				messages.ireland(), messages.italy(), messages.kenya(),
+				messages.malta(), messages.mauritius(), messages.mozabique(),
+				messages.netherlands(), messages.newZeland(),
+				messages.nigeria(), messages.pakistan(), messages.portugal(),
+				messages.southAfrica(), messages.spain(),
+				messages.switzerland(), messages.thailand(), messages.uk(),
 				messages.usa(), messages.others() };
 
 		return list;
@@ -225,6 +205,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 	protected boolean onCancel() {
 		return true;
 	}
+
 	@Override
 	public void setFocus() {
 		address1.setFocus();

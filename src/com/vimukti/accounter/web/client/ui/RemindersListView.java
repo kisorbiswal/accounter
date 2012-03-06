@@ -210,7 +210,6 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	@Override
 	protected SelectCombo getSelectItem() {
 		viewSelect = new SelectCombo(messages.currentView());
-		viewSelect.setHelpInformation(true);
 		initTypesMap();
 		List<String> listOfTypes = new ArrayList<String>(typesMap.keySet());
 		viewSelect.initCombo(listOfTypes);

@@ -319,21 +319,21 @@ public class StatementTransactionsReconcileView extends
 		reconcilListGrid.setRecords(list);
 
 		// for displaying the closingBalance, balanceDifference,clearedAmount
-		DynamicForm amountsForm = new DynamicForm();
+		DynamicForm amountsForm = new DynamicForm("amountsForm");
 		// AmountLables
 		closebalanceLable = new AmountLabel(messages.ClosingBalance());
-		closebalanceLable.setHelpInformation(true);
-		closebalanceLable.setDisabled(true);
+		closebalanceLable.setEnabled(false);
 
 		clearedbalance = new AmountLabel(messages.ClearedAmount());
-		clearedbalance.setHelpInformation(true);
-		clearedbalance.setDisabled(true);
+//		clearedbalance.setHelpInformation(true);
+		clearedbalance.setEnabled(false);
 
 		difference = new AmountLabel(messages.Difference());
-		difference.setHelpInformation(true);
-		difference.setDisabled(true);
+//		difference.setHelpInformation(true);
+		difference.setEnabled(false);
+		
 		setdataToAmountLables();
-		amountsForm.setItems(closebalanceLable, clearedbalance, difference);
+		amountsForm.add(closebalanceLable, clearedbalance, difference);
 		VerticalPanel amountsPanel = new VerticalPanel();
 		amountsPanel.setWidth("100%");
 		amountsPanel.add(amountsForm);

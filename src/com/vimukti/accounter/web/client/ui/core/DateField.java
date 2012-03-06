@@ -20,8 +20,8 @@ public class DateField extends DateItem {
 
 	// private Date defaultDate;
 
-	public DateField(final String name) {
-		super(name);
+	public DateField(final String name,String styleName) {
+		super(name,styleName);
 		addBlurHandler(getBlurHandler());
 		addValueChangeHandler(getValueChangedHandler());
 	}

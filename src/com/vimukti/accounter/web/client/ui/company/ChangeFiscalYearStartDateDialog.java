@@ -53,13 +53,12 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	private void createControls() {
 		enterStartDateLabel = new HTML();
 		enterStartDateLabel.setHTML(messages.pleaseEnterNewStartDate());
-		startDateItem = new DateField(messages.startDate());
-		startDateItem.setHelpInformation(true);
+		startDateItem = new DateField(messages.startDate(),"startDateItem");
 
 		long startdate = getCompany().getPreferences().getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
-		dynamicForm = new DynamicForm();
-		dynamicForm.setFields(startDateItem);
+		dynamicForm = new DynamicForm("dynamicForm");
+		dynamicForm.add(startDateItem);
 		mainVlayout = new VerticalPanel();
 		mainVlayout.add(enterStartDateLabel);
 		mainVlayout.add(dynamicForm);

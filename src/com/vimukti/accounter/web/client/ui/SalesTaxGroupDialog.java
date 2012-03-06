@@ -180,16 +180,15 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		VerticalPanel bodyLayout = new VerticalPanel();
 		bodyLayout.setWidth("100%");
 
-		form1 = new DynamicForm();
+		form1 = new DynamicForm("form1");
 		// form1.setHeight("100px");
-		taxGroupText = new TextItem();
-		taxGroupText.setTitle(messages.selectedTaxGroupItem());
+		taxGroupText = new TextItem(messages.selectedTaxGroupItem(),"taxGroupText");
 		taxGroupText.setRequired(true);
 
 		if (taxGroup != null)
 			taxGroupText.setValue(taxGroup.getName());
 
-		form1.setFields(taxGroupText);
+		form1.add(taxGroupText);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		// horizontalPanel.setHeight("200px");

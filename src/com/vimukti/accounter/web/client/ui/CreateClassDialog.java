@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -23,23 +22,23 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 	public CreateClassDialog(ClientAccounterClass accounterClass, String title,
 			String desc) {
 		super(title, desc);
+		this.addStyleName("create-class-dialog");
 		setWidth("300px");
 		this.accounterClass = accounterClass;
 		initTrackClassDialog();
 	}
 
 	private void initTrackClassDialog() {
-		VerticalPanel verticalPanel = new VerticalPanel();
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 
-		trackClassForm = new DynamicForm();
-
-		createClassTextItem = new TextItem(messages.className());
+		createClassTextItem = new TextItem(messages.className(),
+				"createClassTextItem");
 
 		if (accounterClass != null && !accounterClass.getClassName().isEmpty()) {
 			createClassTextItem.setValue(accounterClass.getClassName());
 		}
 
-		trackClassForm.setFields(createClassTextItem);
+		trackClassForm.add(createClassTextItem);
 
 		verticalPanel.add(trackClassForm);
 
