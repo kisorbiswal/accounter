@@ -122,6 +122,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 		ClientUnit unit = Accounter.getCompany().getUnitById(
 				getQuantity(row).getUnit());
+
 		ClientWarehouse wareHouse = Accounter.getCompany().getWarehouse(
 				row.getWareHouse());
 		ClientItem item = Accounter.getCompany().getItem(row.getItem());

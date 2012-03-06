@@ -2174,7 +2174,7 @@
 		<query-param name="itemId" type="long" />
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
 		from  com.vimukti.accounter.core.TransactionItem sale 
-		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
+		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202,204)
 		and (sale.transaction.type in (1,4,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>

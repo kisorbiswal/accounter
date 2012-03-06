@@ -22,7 +22,9 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -50,9 +52,11 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
@@ -62,7 +66,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class PurchaseOrderView extends
-		AbstractVendorTransactionView<ClientPurchaseOrder> {
+		AbstractVendorTransactionView<ClientPurchaseOrder> implements
+		IPrintableView {
 
 	private PaymentTermsCombo payTermsSelect;
 	private ShippingTermsCombo shippingTermsCombo;
@@ -889,7 +894,6 @@ public class PurchaseOrderView extends
 			default:
 				break;
 			}
-			initAccounterClass();
 
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
@@ -898,6 +902,13 @@ public class PurchaseOrderView extends
 								.getTransactionItems()));
 					}
 				}
+			}
+		}
+		if (isTrackClass() && !isClassPerDetailLine()) {
+			this.accounterClass = getClassForTransactionItem(this.transactionItems);
+			if (accounterClass != null) {
+				this.classListCombo.setComboItem(accounterClass);
+				classSelected(accounterClass);
 			}
 		}
 		if (locationTrackingEnabled)
@@ -1468,13 +1479,26 @@ public class PurchaseOrderView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		discountField.setDisabled(isInViewMode());
-
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
 	@Override
 	public void print() {
+		ArrayList<ClientBrandingTheme> themesList = Accounter.getCompany()
+				.getBrandingTheme();
+		if (themesList.size() > 1) {
+			// if there are more than one branding themes, then show branding
+			// theme combo box
+			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+		} else {
+			// if there is only one branding theme
+			ClientBrandingTheme brandingTheme = themesList.get(0);
+			UIUtils.downloadAttachment(transaction.getID(),
+					ClientTransaction.TYPE_PURCHASE_ORDER,
+					brandingTheme.getID());
 
+		}
 	}
 
 	@Override
@@ -1599,5 +1623,30 @@ public class PurchaseOrderView extends
 		} else {
 			discountField.setAmount(0d);
 		}
+	}
+
+	@Override
+	public boolean canPrint() {
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return false;
+	}
+	
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
+
 	}
 }

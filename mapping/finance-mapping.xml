@@ -237,6 +237,7 @@
 			<property name="companyEmail" type="encryptedstring" column="COMPANY_EMAIL"></property>
 			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
 			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
+			<property name="digitGroupingFormat" column="DIGIT_GROUPING_FORMAT"></property>
 			<property name="currencyFormat" type="encryptedstring"
 				column="CURRENCY_FORMAT"></property>
 			<property name="taxId" column="TAX_ID"></property>
@@ -457,9 +458,9 @@
 		</set>
 
 		<set name="jobs" inverse="true" cascade="save-update,delete">
- 			<key column="COMPANY_ID" />
- 			<one-to-many class="Job" />
- 	</set>
+			<key column="COMPANY_ID" />
+			<one-to-many class="Job" />
+		</set>
 		<set name="vendors" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Vendor" />
@@ -1107,9 +1108,9 @@
 				not-null="true">
 			</many-to-one>
 			<set name="jobs" inverse="true" cascade="save-update,delete">
- 				<key column="CUSTOMER_ID" />
- 				<one-to-many class="Job" />
- 			</set>
+				<key column="CUSTOMER_ID" />
+				<one-to-many class="Job" />
+			</set>
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="number" type="encryptedstring" column="NUMBER"></property>
@@ -1702,10 +1703,14 @@
 			column="CREDITNOTE_TEMPLETE_NAME" not-null="true" />
 		<property name="quoteTemplateName" type="encryptedstring"
 			column="QUOTE_TEMPLETE_NAME" not-null="true" />
-		<property name="cashSaleTemplateName" column="CASHSALE_TEMPLETE_NAME"
-			not-null="true" />
-		<property name="cashSaleTitle" column="CASHSALE_TITLE">
+		<property name="cashSaleTemplateName" type="encryptedstring"
+			column="CASHSALE_TEMPLETE_NAME" not-null="true" />
+		<property name="cashSaleTitle" type="encryptedstring" column="CASHSALE_TITLE">
 		</property>
+		<property name="purchaseOrderTemplateName" type="encryptedstring"
+			column="PURCHASEORDER_TEMPLETE_NAME" not-null="true" />
+		<property name="purchaseOrderTitle" type="encryptedstring"
+			column="PURCHASEORDER_TITLE" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">

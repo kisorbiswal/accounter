@@ -13,7 +13,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 	private DynamicForm form;
 	private TextItem themeName, overdueBox, creditNoteBox, statementBox,
-			quoteBox, cashSaleBox, payPalEmail;
+			quoteBox, cashSaleBox,purchaseOrderBox, payPalEmail;
 	private ClientBrandingTheme brandingTheme;
 	private boolean isEdit;
 
@@ -52,6 +52,9 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 			cashSaleBox = new TextItem(messages.cashSaleTitle());
 			cashSaleBox.setValue(messages.cashSaleValue());
+			
+			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle());
+			purchaseOrderBox.setValue(messages.purchaseOrderValue());
 
 			payPalEmail = new TextItem("PayPal Email");
 			payPalEmail.setHelpInformation(true);
@@ -61,7 +64,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			payPalEmail.setValue(emailId);
 
 			form.setItems(themeName, overdueBox, creditNoteBox, statementBox,
-					quoteBox, cashSaleBox, payPalEmail);
+					quoteBox, cashSaleBox,purchaseOrderBox, payPalEmail);
 		} else {
 			form.setItems(themeName);
 		}
@@ -79,6 +82,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setCreditNoteTempleteName(messages.classicTemplate());
 			brandingTheme.setQuoteTemplateName(messages.classicTemplate());
 			brandingTheme.setCashSaleTemplateName(messages.classicTemplate());
+			brandingTheme.setPurchaseOrderTemplateName(messages.classicTemplate());
 
 		}
 
@@ -90,7 +94,8 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setStatementTitle(this.statementBox.getValue()
 					.toString());
 			brandingTheme.setQuoteTitle(this.quoteBox.getValue().toString());
-			brandingTheme.setCashSaleTitle(this.quoteBox.getValue().toString());
+			brandingTheme.setCashSaleTitle(this.cashSaleBox.getValue().toString());
+			brandingTheme.setPurchaseOrderTitle(this.purchaseOrderBox.getValue().toString());
 			brandingTheme.setPayPalEmailID(this.payPalEmail.getValue()
 					.toString());
 		}

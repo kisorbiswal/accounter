@@ -246,6 +246,7 @@ public abstract class Transaction extends CreatableObject implements
 	transient protected boolean isOnSaveProccessed;
 
 	private AccounterClass accounterClass;
+
 	private List<TransactionLog> history;
 
 	/**
@@ -1007,7 +1008,7 @@ public abstract class Transaction extends CreatableObject implements
 		 */
 
 		if (this.isVoid() && !clonedObject.isVoid()) {
-			// voidTransactionItems();
+			voidTransactionItems();
 			doDeleteEffect(clonedObject);
 
 		}

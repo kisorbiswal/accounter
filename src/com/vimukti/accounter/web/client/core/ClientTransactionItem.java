@@ -41,7 +41,6 @@ public class ClientTransactionItem implements IAccounterCore {
 	// private String taxitem;
 
 	long taxCode;
-
 	// String taxCode;
 	long vatItem;
 
@@ -96,7 +95,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	 */
 	long referringTransactionItem;
 
-	private ClientAccounterClass accounterClass;
+	private long accounterClass;
 
 	private ClientQuantity availableQuantity;
 
@@ -507,14 +506,6 @@ public class ClientTransactionItem implements IAccounterCore {
 		name = value.getName();
 	}
 
-	public void setClientAccounterClass(ClientAccounterClass accounterClass) {
-		this.accounterClass = accounterClass;
-	}
-
-	public ClientAccounterClass getClientAccounterClass() {
-		return this.accounterClass;
-	}
-
 	public boolean isEmpty() {
 		if (this.item == 0
 				&& this.account == 0
@@ -576,6 +567,14 @@ public class ClientTransactionItem implements IAccounterCore {
 	 */
 	public void setAmountIncludeTAX(boolean isAmountIncludeTAX) {
 		this.isAmountIncludeTAX = isAmountIncludeTAX;
+	}
+
+	public long getAccounterClass() {
+		return accounterClass;
+	}
+
+	public void setAccounterClass(long accounterClass) {
+		this.accounterClass = accounterClass;
 	}
 
 	public long getJob() {

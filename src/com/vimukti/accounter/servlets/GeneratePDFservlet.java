@@ -47,6 +47,8 @@ import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.core.PurchaseOrder;
+import com.vimukti.accounter.core.PurchaseOrderPdfGeneration;
 import com.vimukti.accounter.core.QuotePdfGeneration;
 import com.vimukti.accounter.core.QuotePdfTemplate;
 import com.vimukti.accounter.core.ReceivePayment;
@@ -402,6 +404,19 @@ public class GeneratePDFservlet extends BaseServlet {
 							map = Odt2PdfGeneration(receivepayment, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
+						
+						if (transactionType == Transaction.TYPE_PURCHASE_ORDER) {
+							PurchaseOrder order = (PurchaseOrder) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.PURCHASEORDER,
+											Long.parseLong(ids[i]));
+
+							fileName = "PurchaseOrder_" + order.getNumber();
+
+							map = Odt2PdfGeneration(order, company,
+									brandingTheme, isMultipleId, fileNames);
+
+						}
 
 					}
 
@@ -457,6 +472,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				case Transaction.TYPE_ESTIMATE:
 				case Transaction.TYPE_CASH_SALES:
 				case Transaction.TYPE_RECEIVE_PAYMENT:
+				case Transaction.TYPE_PURCHASE_ORDER:
 
 					if (isMultipleId) {// for merging multiple custom pdf
 										// documents
@@ -567,7 +583,7 @@ public class GeneratePDFservlet extends BaseServlet {
 					// for genearting reports using XdocReport
 					generateCustom2PDF(request, response, companyName);
 				} else {
-					if (type == Transaction.TYPE_CASH_SALES) {
+					if (type == Transaction.TYPE_CASH_SALES || type == Transaction.TYPE_PURCHASE_ORDER) {
 						generateCustom2PDF(request, response, companyName);
 					} else {
 						generateHtmlPDF(request, response, companyName);
@@ -669,6 +685,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			QuotePdfGeneration quotePdfGeneration = null;
 			CashSalePdfGeneration cashSalePdfGeneration = null;
 			ReceivePaymentPdfGeneration receivePaymentPdfGeneration = null;
+			PurchaseOrderPdfGeneration purchaseOrderPdfGeneration = null;
 			String templeteName = null;
 			String fileName = null;
 
@@ -720,7 +737,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				if (brandingTheme.getCashSaleTemplateName().contains(
 						"Classic Template")) {
 					templeteName = "templetes" + File.separator
-							+ "CashSaleDocx.docx";
+							+ "CashSaleOdt.odt";
 				} else {
 					templeteName = ServerConfiguration.getAttachmentsDir()
 							+ "/" + company.getId() + "/" + "templateFiles"
@@ -748,6 +765,24 @@ public class GeneratePDFservlet extends BaseServlet {
 				quotePdfGeneration = new QuotePdfGeneration(
 						(Estimate) transaction, company, brandingTheme);
 			}
+			
+			if (transaction instanceof PurchaseOrder) {
+				// for Purchase Order
+				if (brandingTheme.getPurchaseOrderTemplateName().contains(
+						"Classic Template")) {
+					templeteName = "templetes" + File.separator
+							+ "PurchaseOrder.docx";
+				} else {
+
+					templeteName = ServerConfiguration.getAttachmentsDir()
+							+ "/" + company.getId() + "/" + "templateFiles"
+							+ "/" + brandingTheme.getID() + "/"
+							+ brandingTheme.getPurchaseOrderTemplateName();
+				}
+				fileName = "PurchaseOrder_" + transaction.getNumber();
+				purchaseOrderPdfGeneration = new PurchaseOrderPdfGeneration(
+						(PurchaseOrder) transaction, company, brandingTheme);
+			}
 
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
@@ -766,6 +801,9 @@ public class GeneratePDFservlet extends BaseServlet {
 				context = cashSalePdfGeneration.assignValues(context, report);
 			} else if (transaction instanceof ReceivePayment) {
 				context = receivePaymentPdfGeneration.assignValues(context,
+						report);
+			}else if (transaction instanceof PurchaseOrder) {
+				context = purchaseOrderPdfGeneration.assignValues(context,
 						report);
 			}
 			FontFactory.setFontImp(new FontFactoryImpEx());

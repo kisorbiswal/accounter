@@ -110,6 +110,8 @@ public class NewLoginServlet extends BaseServlet {
 			// Inserting RememberMeKey
 			Session session = HibernateUtil.getCurrentSession();
 
+			addUserCookies(response, encode, SECRET_KEY_COOKIE);
+
 			byte[] makeHash = Security.makeHash(client.getEmailId()
 					+ Security.makeHash(client.getPassword()));
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -212,7 +214,8 @@ public class NewLoginServlet extends BaseServlet {
 			// if session is not there then we show the form and user fills it
 			// which gets submitted to same url
 			String userCookie = getCookie(request, OUR_COOKIE);
-			if (userCookie == null) {
+			String secretKey = getCookie(request, SECRET_KEY_COOKIE);
+			if (userCookie == null || secretKey == null) {
 				showLogin(request, response);
 				return;
 			}

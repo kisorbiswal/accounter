@@ -384,7 +384,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 				if (this.type == TYPE_ITEM) {
 					item.doReverseEffect(this, isSalesTransaction());
-					if (getTransaction().isCustomerCreditMemo()) {
+					if (getTransaction().isCustomerCreditMemo()
+							&& (getItem().getType() == Item.TYPE_INVENTORY_PART || getItem()
+									.getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
 						// Doing PurchaseEffect for CustomerCreditMemo
 						Account assestsAccount = getItem().getAssestsAccount();
 						Account expenseAccount = getItem().getExpenseAccount();
@@ -868,7 +870,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
 		if (backOrder != null)
-			w.put("Back Order", this.backOrder.toString());
+			w.put(messages.backOrder(), this.backOrder.toString());
 
 		if (VATfraction != null)
 			w.put(messages.vat(), this.VATfraction.toString());
@@ -996,8 +998,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (quantity != null && quantity.equals(next.getQuantity())) {
 				mapped = mapped.subtract(quantity);
 				newPurchases.remove(quantity);
-
-				session.delete(next);
 			} else {
 				// Reverse Updating ExpenseAccount
 				double purchaseValue = next.getQuantity().calculatePrice(
@@ -1096,10 +1096,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private void clearPurchases() {
 		Session session = HibernateUtil.getCurrentSession();
-		for (InventoryPurchase purchase : getPurchases()) {
+		Iterator<InventoryPurchase> iterator = getPurchases().iterator();
+		while (iterator.hasNext()) {
+			InventoryPurchase purchase = iterator.next();
 			Quantity quantity = purchase.getQuantity();
 			double purchaseValue = quantity.calculatePrice(purchase.getCost());
 			session.delete(purchase);
+			iterator.remove();
 			Account expenseAccount = purchase.getEffectingAccount();
 			expenseAccount.updateCurrentBalance(this.getTransaction(),
 					purchaseValue, 1);
