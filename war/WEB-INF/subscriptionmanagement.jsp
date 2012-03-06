@@ -42,7 +42,7 @@
 	<td id="emailIdsList"></td>
 	</tr></tr><tr>
 	<tr>
-	<input type="hidden" name="subscriptionType" value="${subscriptionType} -1" >
+	<input type="hidden" name="subscriptionType" value="${subscriptionType}" >
 	<td> Subscription Type : </td>
 	<td><select  id="subScriptionTypeCombo" disabled>
     <option value="One User ">One user </option>
@@ -70,15 +70,18 @@
 		$('document').ready(function(){
 		   var users= <%= users%>;
 		   var subscriptionType=<%= subscriptionType %>;
-           var finalstring="";
-
+           var textAre="";
+		   var textDiv="";
+		   
 			if(users.length>0){
-				finalstring = users[0].emailId ;
+				textAre = users[0].emailId ;
+				textDiv = users[0].emailId ;
                 for(var i=1; i <  users.length; i++){
-					finalstring +='\n'+ users[i].emailId ;
+					textAre +='\n'+ users[i].emailId ;
+					textDiv +=', '+ users[i].emailId ;
 				}
-				$('#mailIdsTextArea').val(finalstring);
-				$('#emailIdsList').text(finalstring);
+				$('#mailIdsTextArea').val(textAre);
+				$('#emailIdsList').text(textDiv);
 				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[subscriptionType].value);
 			 
 				document.getElementById('subScriptionTypeCombo').options[subscriptionType].selected = true;
@@ -124,14 +127,15 @@
  			
  			function validate(textArray){
  				var type =subscriptionType;
- 				var maxLimit =1; 
- 				if(type ==0 || type==1){
+ 				var maxLimit =-1; 
+ 				if(type ==0){
  					maxLimit =1;
- 				}else if(type ==2 || type==3){
+ 				}else if(type ==1){
  					maxLimit =2;
- 				}else if(type ==4 || type==5){
+ 				}else if(type ==2){
  					maxLimit =5;
  				}
+ 				
  				$('#mailIdsTextArea').val().replace(/^\s+|\s+$/, '');
  				var emailCount =0;
  				for(var i=0; i<=textArray.length; i++){
@@ -139,6 +143,10 @@
  						emailCount = emailCount+1;
  					}
  				}
+ 				if(maxLimit<0){
+ 					return true;
+ 				}
+ 				
  				if(emailCount>maxLimit){
  					return false;
  				}else {
