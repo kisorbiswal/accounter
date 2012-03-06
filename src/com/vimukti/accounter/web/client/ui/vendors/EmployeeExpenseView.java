@@ -118,7 +118,6 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		employee = new EmployeeCombo(messages.employee());
 		employee.getMainWidget();
-		employee.setHelpInformation(true);
 		employee.setRequired(true);
 		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientUserInfo>() {
 
@@ -151,8 +150,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		}
 		paymentMethodCombo.initCombo(selectedComboList);
 
-		vendorForm.setFields(employee);
-		termsForm.setFields(paymentMethodCombo, payFromCombo, checkNo);
+		vendorForm.add(employee);
+		termsForm.add(paymentMethodCombo, payFromCombo, checkNo);
 //		termsForm.getCellFormatter().setWidth(0, 0, "203px");
 
 		VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
@@ -169,7 +168,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
 			employee.setComboItem(getCompany().getUserById(
 					cashPurchase.getEmployee()));
-			employee.setDisabled(true);
+			employee.setEnabled(false);
 			if (Accounter.getUser().isAdmin()) {
 				employee.setAdmin(true);
 			}
@@ -258,7 +257,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void enableFormItems() {
 		super.enableFormItems();
-		employee.setDisabled(isInViewMode());
+		employee.setEnabled(isInViewMode());
 		if (Accounter.getUser().isAdmin()) {
 			employee.setAdmin(true);
 		}
