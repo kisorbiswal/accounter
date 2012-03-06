@@ -202,31 +202,6 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 	}
 
-	public void getAccountRegisterGrid(List<AccountRegister> result) {
-
-		grid.removeAllRecords();
-		grid.removeLoadingImage();
-		grid.balance = 0.0;
-		grid.totalBalance = 0.0;
-		if (accountRegister != null) {
-			for (int i = 0; i < accountRegister.size(); i++) {
-				accRegister = this.accountRegister.get(i);
-				grid.addData(accRegister);
-				// this.total += accRegister.getBalance();
-			}
-			if (accountRegister.size() == 0) {
-				grid.addEmptyMessage(messages.noRecordsToShow());
-			}
-		} else {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
-		// grid.updateFooterValues(FinanceApplication.constants()
-		// .endingbalance(), 6);
-		// grid.addFooterValue(DataUtils.getAmountAsString(takenaccount
-		// .getCurrentBalance()), 7);
-		this.total = 0;
-	}
-
 	protected void accountSelected(final ClientAccount takenaccount, int start,
 			int length) {
 

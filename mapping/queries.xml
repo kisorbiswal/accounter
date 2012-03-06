@@ -1696,7 +1696,14 @@
 
 	<query name="list.TAXReturns">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXReturn tr where tr.company=:company
+		<query-param name="viewType" type="int" />
+		from com.vimukti.accounter.core.TAXReturn tr where 
+		tr.company=:company	AND
+		
+		((1= :viewType AND tr.balance &lt;= 0) OR 
+		(2= :viewType AND tr.balance &gt; 0) OR
+		(0= :viewType))
+		
 	</query>
 
 	<query name="getStockTransfersList">
