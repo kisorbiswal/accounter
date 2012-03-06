@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -682,7 +683,7 @@ public class InventoryManager extends Manager {
 				queryName = "getOpenBillsListByItem";
 
 			} else if (transactionStatusType == TransactionHistory.DRAFT_BILLS) {
-				saveStatus = Transaction.STATUS_DRAFT;
+				queryName = "getDraftBillsListByItem";
 
 			} else if (transactionStatusType == TransactionHistory.OVERDUE_BILLS) {
 				queryName = "getOverDueBillsListByItem";
@@ -795,9 +796,15 @@ public class InventoryManager extends Manager {
 					: "");
 			double amount = (object[8] == null ? 0 : ((Double) object[8])
 					.doubleValue());
+			long currecy = (Long) (object[9] == null ? 0 : object[9]);
+			transactionHistory.setCurrency(currecy);
 			totalAmount += amount;
 			transactionHistory.setAmount(totalAmount);
-
+			if (transactionHistory.getType() == ClientTransaction.TYPE_ESTIMATE) {
+				transactionHistory
+						.setEstimateType((Integer) (object[10] == null ? 0
+								: object[10]));
+			}
 			double value = object[6] != null ? (Double) object[6] : 0;
 			long unitId = object[7] != null ? (Long) object[7] : 0;
 			Unit unit = (Unit) session.get(Unit.class, unitId);

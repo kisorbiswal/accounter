@@ -2,38 +2,24 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		/* Add CSS here. See the GWT docs on UI Binder for more details */
 		.important {
 			font-weight: bold;
 		}
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:HorizontalPanel spacing="10">
-			<g:CheckBox ui:field="classTrackingCheckBox" />
-			<g:Label ui:field="classTrackingCheckBoxLabel" styleName="header"
-				horizontalAlignment="ALIGN_LEFT" />
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
-			<g:Label ui:field="classTrackingdescriptionLabel" />
-		</g:HorizontalPanel>
-		<g:VerticalPanel spacing="6" ui:field="hiddenPanel">
-			<g:HorizontalPanel spacing="5">
-				<g:CheckBox ui:field="classWarningCheckBox" />
-				<g:Label ui:field="classWarningCheckBoxLabel" styleName="header" />
+		<g:VerticalPanel spacing="5">
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="trackClassCheckBox" styleName="header" />
 			</g:HorizontalPanel>
-			<!-- Currently we are disabling one per detail line transaction for 
-						Class Tracking -->
-		<!-- 	<g:VerticalPanel ui:field="classOnSalesPanel">
-				<g:Label ui:field="classesOnSalesLabel" styleName="header" />
-				<g:VerticalPanel ui:field="onePerRadioPanel"
-					spacing="6">
-					<g:RadioButton name="onePerRadioGroup" ui:field="onePerTransactionRadio" />
-					
-					<g:RadioButton name="onePerRadioGroup" ui:field="onePerDetailLineRadio" 
-						/> 
-				</g:VerticalPanel> 
-			</g:VerticalPanel> -->
+			<g:VerticalPanel ui:field="hidePanel">
+				<g:Label ui:field="classLabel" />
+				<g:VerticalPanel spacing="5" ui:field="radioButtonPanel">
+					<g:RadioButton name="" ui:field="onepeTransactionRadioButton" />
+					<g:Label ui:field="oneperTransactionLabel" />
+					<g:RadioButton name="" ui:field="oneperdetaillineRadioButton" />
+					<g:Label ui:field="oneperdetaillineLabel" />
+				</g:VerticalPanel>
+			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
-
 </ui:UiBinder> 

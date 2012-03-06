@@ -237,6 +237,7 @@
 			<property name="companyEmail" type="encryptedstring" column="COMPANY_EMAIL"></property>
 			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
 			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
+			<property name="digitGroupingFormat" column="DIGIT_GROUPING_FORMAT"></property>
 			<property name="currencyFormat" type="encryptedstring"
 				column="CURRENCY_FORMAT"></property>
 			<property name="taxId" column="TAX_ID"></property>
@@ -1704,8 +1705,10 @@
 			column="QUOTE_TEMPLETE_NAME" not-null="true" />
 		<property name="cashSaleTemplateName" column="CASHSALE_TEMPLETE_NAME"
 			not-null="true" />
-		<property name="cashSaleTitle" column="CASHSALE_TITLE">
-		</property>
+		<property name="cashSaleTitle"  type="encryptedstring" column="CASHSALE_TITLE" />
+		<property name="purchaseOrderTemplateName"   type="encryptedstring" column="PURCHASEORDER_TEMPLETE_NAME"
+			not-null="true" />
+		<property name="purchaseOrderTitle"  type="encryptedstring" column="PURCHASEORDER_TITLE" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">

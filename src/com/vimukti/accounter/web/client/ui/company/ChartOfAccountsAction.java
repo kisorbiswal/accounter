@@ -19,7 +19,7 @@ public class ChartOfAccountsAction extends Action {
 
 	protected ChartOfAccountsView view;
 
-	private BankAccountsView bankAccountsView;
+	// private BankAccountsView bankAccountsView;
 	public int accountType;
 
 	public ChartOfAccountsAction() {
@@ -43,10 +43,10 @@ public class ChartOfAccountsAction extends Action {
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, ChartOfAccountsAction.this);
 				} else {
-					bankAccountsView = new BankAccountsView();
-
+					// bankAccountsView = new BankAccountsView();
+					view = new ChartOfAccountsView(ClientAccount.TYPE_BANK);
 					MainFinanceWindow.getViewManager().showView(
-							bankAccountsView, data, isDependent,
+							view, data, isDependent,
 							ChartOfAccountsAction.this);
 				}
 			}

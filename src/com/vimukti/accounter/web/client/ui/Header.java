@@ -13,7 +13,6 @@ import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -156,35 +155,15 @@ public class Header extends FlowPanel {
 		final SimplePanel companiesLinkPanel = new SimplePanel();
 
 		panel2 = new HorizontalPanel();
-		Accounter.createHomeService().getClientCompaniesCount(
-				new AsyncCallback<Integer>() {
+		companiesLink = new Anchor(Global.get().messages().companies(),
+				"/main/companies?type=list");
+		companiesLink.addStyleName("companiesLink");
+		companiesLink.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		companiesPanel.add(companiesLink);
+		companiesLink.getElement().getParentElement()
+				.addClassName("companies_link_parent");
 
-					@Override
-					public void onSuccess(Integer result) {
-						if (Accounter.getCompany().getPremiumType() != 0
-								|| result > 1) {
-							companiesLink = new Anchor(Global.get().messages()
-									.companies(), "/main/companies");
-							companiesLink.addStyleName("companiesLink");
-							companiesLink.getElement().setAttribute(
-									"lang",
-									((CldrImpl) GWT.create(CldrImpl.class))
-											.isRTL() ? "ar" : "en");
-							companiesPanel.add(companiesLink);
-							companiesLink.getElement().getParentElement()
-									.addClassName("companies_link_parent");
-						} else {
-							companyNameLabel.getElement().getParentElement()
-									.setAttribute("width", "100%");
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
 		panel2.add(companiesPanel);
 		panel2.add(companiesLinkPanel);
 		panel2.add(companyNameLabel);

@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
@@ -155,7 +156,7 @@ public class ItemReceiptView extends
 		termsForm.setFields(payTermsSelect, deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
+		/* && getPreferences().isClassOnePerTransaction() */) {
 			classListCombo = createAccounterClassListCombo();
 			termsForm.setFields(classListCombo);
 		}
@@ -494,7 +495,6 @@ public class ItemReceiptView extends
 			}
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
-			initAccounterClass();
 		}
 		super.initTransactionViewData();
 		initPaymentTerms();
@@ -908,6 +908,12 @@ public class ItemReceiptView extends
 	}
 
 	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 		// TODO Auto-generated method stub
 
 	}

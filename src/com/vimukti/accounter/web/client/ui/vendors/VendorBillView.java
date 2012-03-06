@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -176,7 +177,16 @@ public class VendorBillView extends
 					}
 				}
 			}
-
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(transaction
+							.getTransactionItems());
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
+				}
+			}
 			transactionTotalNonEditableText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
@@ -188,7 +198,6 @@ public class VendorBillView extends
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
 			initMemoAndReference();
-			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -438,9 +447,8 @@ public class VendorBillView extends
 		vendorForm.setNumCols(3);
 		vendorForm.setFields(vendorCombo, emptylabel, contactCombo, emptylabel);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			vendorForm.setFields(classListCombo);
 		}
 
@@ -548,7 +556,8 @@ public class VendorBillView extends
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd()) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -601,7 +610,8 @@ public class VendorBillView extends
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd()) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1356,6 +1366,7 @@ public class VendorBillView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		transactionsTree.setEnabled(!isInViewMode());
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -1503,6 +1514,19 @@ public class VendorBillView extends
 					.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 }

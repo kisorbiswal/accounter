@@ -33,9 +33,11 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.UTF8Control;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class OpenCompanyServlet extends BaseServlet {
@@ -125,8 +127,13 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			HashMap<String, String> accounterLocale = getLocaleConstants();
 			request.setAttribute("accounterLocale", accounterLocale);
-			request.setAttribute("features", client.getClientSubscription()
-					.getSubscription().getFeatures());
+			Set<String> features = client.getClientSubscription()
+					.getSubscription().getFeatures();
+			Set<String> features2 = new HashSet<String>(features);
+			if (!ServerConfiguration.isEnableEncryption()) {
+				features2.remove(Features.ENCRYPTION);
+			}
+			request.setAttribute("features", features2);
 			if (client.getClientSubscription().getSubscription().isPaidUser()) {
 				request.setAttribute("isPaid", true);
 			} else {

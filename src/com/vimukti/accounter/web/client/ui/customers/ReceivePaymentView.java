@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -663,10 +664,8 @@ public class ReceivePaymentView extends
 		depoForm.setGroupTitle(messages.deposit());
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
 		// depoForm.getCellFormatter().setWidth(0, 0, "203px");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
 			depoForm.setFields(classListCombo);
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
@@ -862,7 +861,9 @@ public class ReceivePaymentView extends
 
 		transaction
 				.setTransactionReceivePayment(getTransactionRecievePayments(transaction));
-
+		if (isTrackClass() && classListCombo.getSelectedValue() != null)
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(totalWithTDS.getAmount());
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
@@ -965,18 +966,15 @@ public class ReceivePaymentView extends
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
 			setAmountRecieved(transaction.getAmount());
-
+			// For Class Tracking
+			if (isTrackClass()) {
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
+			}
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
 					.getTransactionReceivePayment();
 			initListGridData(tranReceivePaymnetsList);
-			this.clientAccounterClass = getCompany().getAccounterClass(
-					transaction.getAccounterClass());
-			if (getPreferences().isClassTrackingEnabled()
-					&& this.clientAccounterClass != null
-					&& classListCombo != null) {
-				classListCombo.setComboItem(this.getClientAccounterClass());
-			}
 			if (!tranReceivePaymnetsList.isEmpty()) {
 				gridView.setTranReceivePayments(tranReceivePaymnetsList);
 			} else {
@@ -984,11 +982,13 @@ public class ReceivePaymentView extends
 			}
 		}
 		initTransactionNumber();
-		initAccounterClass();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		initCustomers();
@@ -1209,6 +1209,9 @@ public class ReceivePaymentView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		if (isTrackClass()) {
+			classListCombo.setDisabled(isInViewMode());
+		}
 		tdsAmount.setDisabled(isInViewMode());
 		tdsAmount.setVisible(isTDSEnable());
 		amtText.setAmount(0.00D);
@@ -1217,9 +1220,6 @@ public class ReceivePaymentView extends
 		updateTotalWithTDS();
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 	}
 
@@ -1370,6 +1370,14 @@ public class ReceivePaymentView extends
 	@Override
 	public boolean canExportToCsv() {
 		return false;
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
+
 	}
 
 }

@@ -28,6 +28,8 @@ public abstract class AbstractTransactionTable extends
 	protected boolean enableDisCount;
 	protected boolean showDiscount;
 	protected boolean isCustomerAllowedToAdd;
+	protected boolean enableClass;
+	protected boolean showClass;
 
 	protected boolean needDiscount = true;
 
@@ -298,6 +300,19 @@ public abstract class AbstractTransactionTable extends
 				// already
 				// This works only once
 				item.setTaxCode(taxCode);
+				// update(item);
+			}
+			update(item);
+		}
+	}
+
+	public void setClass(long classId, boolean force) {
+		for (ClientTransactionItem item : getRecords()) {
+			if ((item.getAccounterClass() == 0) || force) {
+				// Only set this for account and if we have not specified
+				// already
+				// This works only once
+				item.setAccounterClass(classId);
 				// update(item);
 			}
 			update(item);

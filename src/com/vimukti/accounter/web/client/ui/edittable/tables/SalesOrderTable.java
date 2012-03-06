@@ -24,8 +24,8 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 	public SalesOrderTable(boolean enableTax, boolean showTaxCode,
 			boolean enableDiscount, boolean showDiscount,
 			ICurrencyProvider currencyProvider) {
-		super(enableTax, showTaxCode, enableDiscount, showDiscount,
-				currencyProvider);
+		super(enableTax, showTaxCode, enableDiscount, showDiscount, false,
+				false, currencyProvider);
 	}
 
 	@Override
