@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -123,9 +122,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 					}
 				});
 
-		fromItem = new DateItem(messages.from(),"fromItem");
+		fromItem = new DateItem(messages.from(), "fromItem");
+		toItem = new DateItem(messages.to(), "toItem");
 
-		toItem = new DateItem(messages.to(),"toItem");
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override

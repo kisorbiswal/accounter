@@ -77,13 +77,13 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	private void createControls() {
 
 		StyledPanel panel = new StyledPanel("panel");
-		panel.setWidth("100%");
 		addMeasurmentForm = new DynamicForm("addMeasurmentForm");
-		nameItem = new TextItem(settingsMessages.measurementName(),"nameItem");
+		nameItem = new TextItem(settingsMessages.measurementName(), "nameItem");
 		nameItem.setRequired(true);
 		nameItem.setEnabled(!isInViewMode());
 
-		description = new TextAreaItem(settingsMessages.description(),"description");
+		description = new TextAreaItem(settingsMessages.description(),
+				"description");
 		description.setDisabled(isInViewMode());
 
 		unitsTable = new UnitsTable() {
@@ -194,7 +194,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		setMode(EditMode.EDIT);
 		nameItem.setEnabled(!isInViewMode());
 		description.setDisabled(isInViewMode());
-		unitsTable.setEnabled(isInViewMode());
+		unitsTable.setEnabled(!isInViewMode());
 		addUnitButton.setEnabled(!isInViewMode());
 	}
 

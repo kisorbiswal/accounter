@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -38,26 +37,18 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		if (Global.get().preferences().isHaveEpmloyees()
 				&& Global.get().preferences().isTrackEmployeeExpenses()) {
 			statusArray = new String[] { messages.allExpenses(),
-					messages.cash(),
-					messages.creditCard(),
-					messages.employee() };
+					messages.cash(), messages.creditCard(), messages.employee() };
 		} else {
 			statusArray = new String[] { messages.allExpenses(),
-					messages.cash(),
-					messages.creditCard() };
+					messages.cash(), messages.creditCard() };
 		}
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(),
-				messages.custom() };
+				messages.financialYearToDate(), messages.custom() };
 
 		expenseCombo = new SelectCombo(messages.expenseRealtedTo());
 		statusList = new ArrayList<String>();
@@ -71,16 +62,16 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						if (selectItem.toString().equals(
-								messages.allExpenses())) {
+						if (selectItem.toString()
+								.equals(messages.allExpenses())) {
 							/*
 							 * status 0 used to get all expenses like Cash,
 							 * Credit Card
 							 */
 
 							expenseType = 0;
-						} else if (selectItem.toString().equals(
-								messages.cash())) {
+						} else if (selectItem.toString()
+								.equals(messages.cash())) {
 							expenseType = ClientTransaction.TYPE_CASH_EXPENSE;
 						} else if (selectItem.toString().equals(
 								messages.creditCard())) {
@@ -116,9 +107,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 					}
 				});
-		fromItem = new DateItem(messages.from(),"fromItem");
+		fromItem = new DateItem(messages.from(), "fromItem");
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		toItem = new DateItem(messages.to(),"toItem");
+		toItem = new DateItem(messages.to(), "toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -175,8 +166,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		// }
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
-//		this.setCellVerticalAlignment(updateButton,
-//				HasVerticalAlignment.ALIGN_MIDDLE);
+		// this.setCellVerticalAlignment(updateButton,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override

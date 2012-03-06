@@ -37,10 +37,14 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 				updateExchangeRates(date);
 			}
 		});
+		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
+		dynamicForm.add(enteredDateItem);
 		updateExchangeRates(enteredDateItem.getDate());
 		this.table = new CurrencyExchangeRateTable();
+		this.table.addStyleName("exchange-table");
+
 		StyledPanel panel = new StyledPanel("panel");
-		panel.add(enteredDateItem);
+		panel.add(dynamicForm);
 		panel.add(table);
 		setBodyLayout(panel);
 	}

@@ -166,11 +166,13 @@ public class ConversionBalancesView extends BaseView {
 
 		adjustmentLabel.setAmount(debitLabel.getAmount()
 				- creditLabel.getAmount());
-		removeZeroBalance = new LabelItem(messages.removeZeroBalances(),"removeZeroBalance");
+		removeZeroBalance = new LabelItem(messages.removeZeroBalances(),
+				"removeZeroBalance");
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
 		removeZeroBalance.setEnabled(!isInViewMode());
-		showAllAccounts = new LabelItem(messages.showAllAccounts(),"showAllAccounts");
+		showAllAccounts = new LabelItem(messages.showAllAccounts(),
+				"showAllAccounts");
 		showAllAccounts.addStyleName("falseHyperlink");
 		showAllAccounts.setShowTitle(false);
 		showAllAccounts.setEnabled(!isInViewMode());

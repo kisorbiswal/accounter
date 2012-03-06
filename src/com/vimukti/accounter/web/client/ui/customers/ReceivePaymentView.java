@@ -104,6 +104,8 @@ public class ReceivePaymentView extends
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
 
+	private StyledPanel topHLay;
+
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
 		this.getElement().setId("receivepaymentview");
@@ -513,7 +515,8 @@ public class ReceivePaymentView extends
 		}
 		lab.setStyleName("label-title");
 		// transactionDateItem = createTransactionDateItem();
-		transactionDateItem = new DateField(messages.date(),"transactionDateItem");
+		transactionDateItem = new DateField(messages.date(),
+				"transactionDateItem");
 		transactionDateItem
 				.setToolTip(messages.selectDateWhenTransactioCreated(this
 						.getAction().getViewName()));
@@ -699,7 +702,6 @@ public class ReceivePaymentView extends
 		topHLay.add(rightVLay);
 
 		StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
-
 		gridLayout = new StyledPanel("gridLayout");
 		gridLayout.add(lab1);
 		gridLayout.add(gridView);

@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -122,9 +121,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 					}
 				});
 
-		fromItem = new DateItem(messages.from(),"fromItem");
+		fromItem = new DateItem(messages.from(), "fromItem");
 
-		toItem = new DateItem(messages.to(),"toItem");
+		toItem = new DateItem(messages.to(), "toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();

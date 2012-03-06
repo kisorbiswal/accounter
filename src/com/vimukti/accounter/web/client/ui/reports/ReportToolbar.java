@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -57,7 +56,7 @@ public abstract class ReportToolbar extends DynamicForm {
 			ReportToolBarItemSelectionHandler itemSelectionHandler) {
 		this.itemSelectionHandler = itemSelectionHandler;
 	}
-	
+
 	public void addItems(FormItem<?>... items) {
 		form.add(items);
 	}
@@ -742,14 +741,14 @@ public abstract class ReportToolbar extends DynamicForm {
 	// }-*/;
 
 	public native double getWeekEndDate()/*-{
-											var date = new ClientFinanceDate();
-											var day = date.getDay();
-											var remainingDays = 6 - day;
-											var newDate = new ClientFinanceDate();
-											newDate.setDate(date.getDate() + remainingDays);
-											var tmp = newDate.getTime();
-											return tmp;
-											}-*/;
+		var date = new ClientFinanceDate();
+		var day = date.getDay();
+		var remainingDays = 6 - day;
+		var newDate = new ClientFinanceDate();
+		newDate.setDate(date.getDate() + remainingDays);
+		var tmp = newDate.getTime();
+		return tmp;
+	}-*/;
 
 	public abstract void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate);

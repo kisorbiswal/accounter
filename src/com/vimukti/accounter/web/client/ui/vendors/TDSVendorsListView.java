@@ -60,6 +60,13 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		if (saveAndNewButton != null)
 			this.saveAndNewButton.setText(messages.tdsfiling());
 
+		label = new Label();
+		label.removeStyleName("gwt-style");
+		label.setWidth("100%");
+		label.addStyleName("label-title");
+		label.setText(messages.tdsVendorsList());
+		this.fromDate = new DateItem(messages.from(), "fromDate");
+
 		this.toDate = new DateItem(messages.to(), "toDate");
 		this.toDate.setEnteredDate(new ClientFinanceDate());
 
