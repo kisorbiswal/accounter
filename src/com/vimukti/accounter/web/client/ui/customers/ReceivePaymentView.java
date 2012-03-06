@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -514,7 +513,6 @@ public class ReceivePaymentView extends
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
 		lab.setStyleName("label-title");
-		// transactionDateItem = createTransactionDateItem();
 		transactionDateItem = new DateField(messages.date(),
 				"transactionDateItem");
 		transactionDateItem
