@@ -104,7 +104,7 @@
 				</c:when>
 				<c:otherwise>
 				<td>
-					<a target="_blank" href="/site/subscription/gopremium?emailId='+userEmail+'">Go Premium</a>
+					<a target="_blank" href="/site/subscription/gopremium?emailId=<%=userEmail %>">Go Premium</a>
 				</td>
 				</c:otherwise>
 		   </c:choose>

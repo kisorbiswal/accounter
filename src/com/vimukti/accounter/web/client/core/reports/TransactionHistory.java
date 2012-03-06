@@ -104,14 +104,20 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	double beginningBalance = 0D;
 
 	int status;
+	
 	long accType;
 
 	double amount;
 
 	String account;
+	
 	private int savestaus;
+	
+	private long currency;
 
 	private ClientQuantity quantity;
+	
+	private int estimateType;
 
 	public int getStatus() {
 		return status;
@@ -461,5 +467,21 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	public void setQuantity(ClientQuantity quantity) {
 		this.quantity = quantity;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
 	}
 }

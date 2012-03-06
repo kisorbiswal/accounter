@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server.managers;
 
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -3777,7 +3776,7 @@ public class ReportManager extends Manager {
 			BankDepositDetail depositDetail = new BankDepositDetail();
 			depositDetail.setTransactionId((Long) objects[0]);
 			depositDetail.setTransactionType((Integer) objects[1]);
-			depositDetail.setNumber((Long) objects[2]);
+			depositDetail.setNumber(Long.parseLong((String) objects[2]));
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3842,7 +3841,8 @@ public class ReportManager extends Manager {
 			BankCheckDetail checkDetail = new BankCheckDetail();
 			checkDetail.setTransactionId((Long) objects[0]);
 			checkDetail.setTransactionType((Integer) objects[1]);
-			checkDetail.setTransactionNumber((Long) objects[2]);
+			checkDetail.setTransactionNumber(Long
+					.parseLong((String) objects[2]));
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3911,7 +3911,8 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long companyId, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
