@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
@@ -63,7 +64,6 @@ public class CustomerRefundView extends
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-
 	}
 
 	@Override
@@ -89,10 +89,11 @@ public class CustomerRefundView extends
 			return;
 
 		// Job Tracking
+		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
+			jobListCombo.setDisabled(false);
 		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
 		amtText.setCurrency(clientCurrency);
@@ -278,18 +279,16 @@ public class CustomerRefundView extends
 			balForm.setFields(locationCombo);
 		balForm.setFields(bankBalText, custBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (getPreferences().isClassTrackingEnabled()) {
 			balForm.setFields(classListCombo);
 		}
-
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			balForm.setFields(jobListCombo);
 		}
+
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
@@ -404,6 +403,10 @@ public class CustomerRefundView extends
 		transaction.setTotal(amtText.getAmount());
 
 		transaction.setBalanceDue(amtText.getAmount());
+		if (getPreferences().isClassTrackingEnabled()
+				&& classListCombo.getSelectedValue() != null)
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
 		if (getPreferences().isJobTrackingEnabled()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
@@ -524,19 +527,18 @@ public class CustomerRefundView extends
 			if (customer != null) {
 				custBalText.setAmount(customer.getBalance());
 			}
-
+			if (isTrackClass())
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 
-			this.clientAccounterClass = getCompany().getAccounterClass(
-					transaction.getAccounterClass());
-			if (getPreferences().isClassTrackingEnabled()
-					&& this.clientAccounterClass != null
-					&& classListCombo != null) {
-				classListCombo.setComboItem(this.getClientAccounterClass());
-			}
 			if (getPreferences().isJobTrackingEnabled()) {
+				if (customer != null) {
+					jobListCombo.setCustomer(customer);
+				}
 				jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+				jobListCombo.setDisabled(true);
 			}
 		}
 		initRPCService();
@@ -685,13 +687,11 @@ public class CustomerRefundView extends
 		if (!currencyWidget.isShowFactorField()) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
+		if (isTrackClass()) {
+			classListCombo.setDisabled(isInViewMode());
 		}
 		super.onEdit();
+		jobListCombo.setDisabled(isInViewMode());
 	}
 
 	@Override
@@ -763,6 +763,14 @@ public class CustomerRefundView extends
 
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 
 	}
 }

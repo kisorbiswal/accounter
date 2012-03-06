@@ -124,14 +124,14 @@ public class InventoryUtils {
 		return details;
 	}
 
-	public static Double getAverageCost(long itemID) {
+	public static double getAverageCost(long itemID) {
 		Session session = HibernateUtil.getCurrentSession();
 		FlushMode flushMode = session.getFlushMode();
 		try {
 			session.setFlushMode(FlushMode.COMMIT);
 			Object result = session.getNamedQuery("getAverageCost.of.Item")
 					.setParameter("inventoryId", itemID).uniqueResult();
-			return (Double) result;
+			return result != null ? (Double) result : 0.00D;
 		} finally {
 			session.setFlushMode(flushMode);
 		}

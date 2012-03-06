@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server.managers;
 
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -2817,8 +2816,8 @@ public class ReportManager extends Manager {
 			FinanceDate toDate, long companyId) throws DAOException {
 		ArrayList<PayeeStatementsList> statementsLists;
 		if (isVendor) {
-			statementsLists = getVendorStatementsList(isVendor, id, viewType,
-					fromDate, toDate, companyId);
+			statementsLists = getVendorStatementsList(id, viewType, fromDate,
+					toDate, companyId);
 		} else {
 			statementsLists = getCustomerStatementsList(id, viewType, fromDate,
 					toDate, companyId);
@@ -2977,9 +2976,9 @@ public class ReportManager extends Manager {
 		return null;
 	}
 
-	private ArrayList<PayeeStatementsList> getVendorStatementsList(
-			boolean isVendor, long id, int viewType, FinanceDate fromDate,
-			FinanceDate toDate, long companyId) {
+	private ArrayList<PayeeStatementsList> getVendorStatementsList(long id,
+			int viewType, FinanceDate fromDate, FinanceDate toDate,
+			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			if (id == 0) {
@@ -3777,7 +3776,7 @@ public class ReportManager extends Manager {
 			BankDepositDetail depositDetail = new BankDepositDetail();
 			depositDetail.setTransactionId((Long) objects[0]);
 			depositDetail.setTransactionType((Integer) objects[1]);
-			depositDetail.setNumber((Long) objects[2]);
+			depositDetail.setNumber(Long.parseLong((String) objects[2]));
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3842,7 +3841,8 @@ public class ReportManager extends Manager {
 			BankCheckDetail checkDetail = new BankCheckDetail();
 			checkDetail.setTransactionId((Long) objects[0]);
 			checkDetail.setTransactionType((Integer) objects[1]);
-			checkDetail.setTransactionNumber((Long) objects[2]);
+			checkDetail.setTransactionNumber(Long
+					.parseLong((String) objects[2]));
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3911,11 +3911,12 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long id, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
-				.setParameter("id", id)
+				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
@@ -3975,6 +3976,7 @@ public class ReportManager extends Manager {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
+
 		Account account = (Account) session.get(Account.class, accountId);
 		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {

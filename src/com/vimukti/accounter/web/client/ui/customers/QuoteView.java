@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -470,7 +471,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(true);
-			if (type == ClientEstimate.QUOTES) {
+			if (type == ClientEstimate.QUOTES
+					|| type == ClientEstimate.SALES_ORDER) {
 				phoneForm.setFields(jobListCombo);
 			} else {
 				locationform.setFields(jobListCombo);
@@ -493,6 +495,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 					phoneForm.setFields(statusCombo, salesPersonCombo,
 							payTermsSelect);
 				}
+
 			} else {
 				if (type == ClientEstimate.SALES_ORDER) {
 					phoneForm.setFields(statusCombo, dueDateItem,
@@ -526,10 +529,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		phoneForm.setStyleName("align-form");
 		// phoneForm.getCellFormatter().getElement(0, 0)
 		// .setAttribute(messages.width(), "203px");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			if (type == ClientEstimate.QUOTES
 					|| type == ClientEstimate.SALES_ORDER) {
 				phoneForm.setFields(classListCombo);
@@ -567,7 +568,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		customerTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -815,6 +817,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				salesTax = 0.0D;
 			quote.setTaxTotal(this.salesTax);
 		}
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 		if (isTrackDiscounts()) {
 			if (discountField.getAmount() != 0.0 && transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
@@ -1007,6 +1015,15 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				// - transaction.getNetAmount()));
 				vatTotalNonEditableText.setTransaction(transaction);
 			}
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(this.transactionItems);
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
+				}
+			}
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
@@ -1042,11 +1059,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		superinitTransactionViewData();
 		initAllItems();
-		initAccounterClass();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
@@ -1286,9 +1305,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		statusCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		customerOrderText.setDisabled(isInViewMode());
 		shippingTermsCombo.setDisabled(isInViewMode());
@@ -1475,6 +1491,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			customerTransactionTable.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			customerTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 }

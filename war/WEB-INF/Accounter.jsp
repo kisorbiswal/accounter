@@ -24,6 +24,7 @@
   		var AccounterMessages={
   		<%
   		HashMap<String,String> messages=(HashMap<String,String>)request.getAttribute("messages");
+  		String user_emailId=(String)request.getAttribute("emailId");
   		if(messages!=null){
 	  		for(String key:messages.keySet()){
 	  			String value=messages.get(key);
@@ -42,7 +43,6 @@
   			}
   		}
   		%>
-  		
   		var accounter_locale={
   		<%
   		HashMap<String,String> accounterLocale=(HashMap<String,String>)request.getAttribute("accounterLocale");
@@ -81,12 +81,13 @@
     var helpurl="${helpUrl}";
     
     $(document).ready(function() {
-		var isPaid=${isPaid}
-			  if(isPaid){
+		var isPaid=${isPaid};
+		var user_emailId='<%=user_emailId%>';
+		if(isPaid){
        $('#support').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
        }
        else{
-        $('#support').after('<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>');
+        $('#support').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+user_emailId+'">Go Premium</a>');
        }
        
        });
@@ -234,7 +235,7 @@
 			margin-left:200px;
 		}
 		
-		#appVersions{
+		#mainFooter{
 			float: left;
 			clear: both;
 			height: 25px;
@@ -245,16 +246,18 @@
 			color: #666666;
 			padding-top: 8px;
 		}
-		#appVersions a,#appVersions span{
+		#mainFooter a,#appVersions span{
 			text-decoration: none;
 			color: #666666;
 			font-size: 13px;
 			padding: 0 5px;
 		}
-		#appVersions a:HOVER {
+		#mainFooter a:HOVER {
 	 		text-decoration: underline;
 		}
-		#appVersions,#appVersions span{
+		#mainFooter,#mainFooter span{
+			text-align: center;
+		}
 			
     </style>
     
@@ -320,6 +323,17 @@
   		</script>
 	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 
+	<div id="appVersions" style="visibility:hidden" >
+	    <div>
+	       <span>Access Accounter from </span> |
+	       <a target="_blank" href="https://market.android.com/details?id=com.vimukti.accounter"> Android </a> |
+	       <a target="_blank" href="http://www.windowsphone.com/en-US/apps/6a8b2e3f-9c72-4929-9053-1262c6204d80"> Windows Phone </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id466388076?ls=1&mt=8"> iPhone </a> |
+		   <a target="_blank" href="https://appworld.blackberry.com/webstore/content/67065/?lang=en"> Black Berry </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> iPad </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
+		   </div>
+	</div>
 	<div id="mainFooter" style="visibility:hidden" >
 	    <div>
 	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
@@ -334,26 +348,8 @@
 		%>
 			var subscription=<%= subscription %>;
 			var goPId="<%= goPId %>";
-	<!-- 	    if(goPId!=null){
-				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+goPId+'">Go Premium</a>'); 
-			}
-			if(subscription!=null){
-				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Manage Subscription </a>'); 
-			} -->
 	    </script>
 	</div>
-	<div id="appVersions" style="visibility:hidden" >
-	    <div>
-	       <span>Access Accounter from </span> |
-	       <a target="_blank" href="https://market.android.com/details?id=com.vimukti.accounter"> Android </a> |
-	       <a target="_blank" href="http://www.windowsphone.com/en-US/apps/6a8b2e3f-9c72-4929-9053-1262c6204d80"> Windows Phone </a> |
-		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id466388076?ls=1&mt=8"> iPhone </a> |
-		   <a target="_blank" href="https://appworld.blackberry.com/webstore/content/67065/?lang=en"> Black Berry </a> |
-		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> iPad </a> |
-		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
-		   </div>
-	</div>
-	
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0"></iframe>
 	 <iframe id="__printingFrame" style="width: 0; height: 0; border: 0">

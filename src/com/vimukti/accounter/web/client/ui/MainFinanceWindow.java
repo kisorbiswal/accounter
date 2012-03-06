@@ -416,6 +416,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getPaymentsAction(PaymentsAction.COMPANY)
 				.getHistoryToken(), ActionFactory
 				.getPaymentsAction(PaymentsAction.COMPANY));
+		actions.put(ActionFactory.getJobListAction().getHistoryToken(),
+				ActionFactory.getJobListAction());
 		//
 		// actions.put(ActionFactory.getImportBankStatementAction()
 		// .getHistoryToken(), ActionFactory
@@ -691,7 +693,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getGeneralSettingsAction().getHistoryToken(),
 				ActionFactory.getGeneralSettingsAction());
-
+		actions.put(ActionFactory.getNewJobAction(null).getHistoryToken(),
+				ActionFactory.getNewJobAction(null));
 		actions.put("bankAccounts",
 				ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put(ActionFactory.CashExpenseAction().getHistoryToken(),
@@ -780,7 +783,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getLocationGroupListAction()
 				.getHistoryToken(), ActionFactory.getLocationGroupListAction());
-
 		actions.put(ActionFactory.getAccounterClassGroupListAction()
 				.getHistoryToken(), ActionFactory
 				.getAccounterClassGroupListAction());

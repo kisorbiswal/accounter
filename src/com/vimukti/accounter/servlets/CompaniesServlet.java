@@ -53,7 +53,13 @@ public class CompaniesServlet extends BaseServlet {
 		checkForStatus(req);
 
 		String companyID = req.getParameter(COMPANY_ID);
-
+		// for delete account from user profile
+		if (companyID == null
+				&& httpSession.getAttribute("cancelDeleteAccountcompany") != null) {
+			companyID = String.valueOf(httpSession
+					.getAttribute("cancelDeleteAccountcompany"));
+			httpSession.removeAttribute("cancelDeleteAccountcompany");
+		}
 		if (companyID != null) {
 			openCompany(req, resp, Long.parseLong(companyID));
 			return;
@@ -97,6 +103,8 @@ public class CompaniesServlet extends BaseServlet {
 							.setParameterList("userIds", userIds).list();
 					addCompanies(list, objects);
 				}
+
+				req.setAttribute("emailId", emailID);
 				req.setAttribute("enableEncryption",
 						ServerConfiguration.isEnableEncryption());
 				if (!client.getClientSubscription().getSubscription()
@@ -105,7 +113,9 @@ public class CompaniesServlet extends BaseServlet {
 						createCompany(req, resp);
 						return;
 					}
-					if (list.size() == 1) {
+					String parameter = req.getParameter("type");
+					if (list.size() == 1
+							&& (parameter == null || !parameter.equals("list"))) {
 						openCompany(req, resp, list.get(0).getId());
 						return;
 					}

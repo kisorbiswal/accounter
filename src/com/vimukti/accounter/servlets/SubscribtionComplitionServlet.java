@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.core.EU;
+
 public class SubscribtionComplitionServlet extends BaseServlet {
 
 	/**
@@ -22,6 +24,11 @@ public class SubscribtionComplitionServlet extends BaseServlet {
 			resp.sendRedirect(LOGIN_URL);
 			return;
 		}
+		EU.removeKey(req.getSession().getId());
+		req.getSession().removeAttribute(EMAIL_ID);
+		req.getSession().removeAttribute(USER_ID);
+		req.getSession().invalidate();
+		deleteCookie(req, resp);
 		dispatch(req, resp, view);
 	}
 

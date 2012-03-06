@@ -3,7 +3,6 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +14,6 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.server.CometManager;
 
@@ -89,46 +87,6 @@ public class LogoutServlet extends BaseServlet {
 			}
 		} finally {
 			session.close();
-		}
-	}
-
-	private void deleteCookie(HttpServletRequest request,
-			HttpServletResponse response) {
-		String userKey = getCookie(request, OUR_COOKIE);
-		removeCookie(request, response, OUR_COOKIE);
-
-		if (userKey == null || userKey.isEmpty()) {
-			return;
-		}
-		// Deleting RememberMEKEy from Database
-		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			session.getNamedQuery("delete.remembermeKeys")
-					.setParameter("key", userKey).executeUpdate();
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		} finally {
-			session.close();
-		}
-
-	}
-
-	private void removeCookie(HttpServletRequest request,
-			HttpServletResponse response, String ourCookie) {
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().endsWith(OUR_COOKIE)) {
-				cookie.setMaxAge(0);
-				cookie.setValue("");
-				cookie.setPath("/");
-				cookie.setDomain(ServerConfiguration.getServerCookieDomain());
-				response.addCookie(cookie);
-			}
 		}
 	}
 

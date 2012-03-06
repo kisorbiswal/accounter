@@ -155,7 +155,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private VerticalPanel getGeneralLayout() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML titleHtml = new HTML(messages.newBrandTheme());
+		HTML titleHtml = new HTML(messages.brandingTheme());
 		titleHtml.setStyleName("label-title");
 
 		mainLayoutPanel = new HorizontalPanel();

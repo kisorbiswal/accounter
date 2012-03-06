@@ -8,9 +8,8 @@
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 <%
 String info =(String) request.getAttribute("info");
-String emailId = (String) request.getSession().getAttribute("emailId");
 Boolean isSandBoxPaypal = (Boolean) request.getAttribute("isSandBoxPaypal");
- 
+String emailId = (String) request.getAttribute("emailId");
  if(emailId ==null){
 	 emailId="";
  }
@@ -24,6 +23,7 @@ if(isSandBoxPaypal ==null){
 <table id="commanContainer">
 <tr>
 <td>
+ <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 <c:if test="${info!=null}"> 
 <div id="login_success" class="common-box">
 	<span>${info}</span>

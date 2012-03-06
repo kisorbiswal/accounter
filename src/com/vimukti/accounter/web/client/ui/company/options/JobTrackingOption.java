@@ -48,6 +48,19 @@ public class JobTrackingOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		jobTrackingCheckBox.setText(messages.jobTracking());
+
+		// jobTrackingCheckBox.addClickHandler(new ClickHandler() {
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// if (Accounter.hasPermission(Features.JOB_COSTING)) {
+		//
+		// } else {
+		// jobTrackingCheckBox.setValue(false);
+		// Accounter.showSubscriptionWarning();
+		// }
+		//
+		// }
+		// });
 	}
 
 	@Override

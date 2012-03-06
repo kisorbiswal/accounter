@@ -169,6 +169,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private boolean isOnSaveProccessed;
 
 	private AccounterClass accounterClass;
+
 	@ReffereredObject
 	private Customer customer;
 
@@ -519,7 +520,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				if (this.type == TYPE_ITEM && item != null) {
 					getItem().updateBalance(this, isSalesTransaction());
 
-					if (getTransaction().isCustomerCreditMemo()) {
+					if (getTransaction().isCustomerCreditMemo()
+							&& (getItem().getType() == Item.TYPE_INVENTORY_PART || getItem()
+									.getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
 						// Doing PurchaseEffect for CustomerCreditMemo
 						Account assestsAccount = getItem().getAssestsAccount();
 						Account expenseAccount = getItem().getExpenseAccount();
@@ -603,7 +606,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (this.type == TYPE_ITEM && item != null) {
 				item.doReverseEffect(this, isSalesTransaction());
 
-				if (getTransaction().isCustomerCreditMemo()) {
+				if (getTransaction().isCustomerCreditMemo()
+						&& (getItem().getType() == Item.TYPE_INVENTORY_PART || getItem()
+								.getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
 					// Doing PurchaseEffect for CustomerCreditMemo
 					Account assestsAccount = getItem().getAssestsAccount();
 					Account expenseAccount = getItem().getExpenseAccount();
@@ -864,7 +869,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
 		if (backOrder != null)
-			w.put(messages.backOrder(), this.backOrder.toString());
+			w.put("Back Order", this.backOrder.toString());
 
 		if (VATfraction != null)
 			w.put(messages.vat(), this.VATfraction.toString());

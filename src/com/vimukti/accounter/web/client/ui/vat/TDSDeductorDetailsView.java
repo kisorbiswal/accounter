@@ -706,6 +706,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 								updateControlsForNew();
 							}
 						}
+						setData(data);
 					}
 				});
 

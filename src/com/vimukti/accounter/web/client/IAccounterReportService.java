@@ -121,8 +121,9 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<ClientTransaction> getRegister(long accountId);
 
-	ArrayList<AccountRegister> getAccountRegister(ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long accountId);
+	PaginationList<AccountRegister> getAccountRegister(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long accountId, int start, int lenght);
 
 	public ArrayList<ClientCustomer> getTransactionHistoryCustomers(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);

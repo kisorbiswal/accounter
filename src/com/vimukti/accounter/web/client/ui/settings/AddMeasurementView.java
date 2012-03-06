@@ -44,12 +44,12 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 	@Override
 	public void initData() {
-		super.initData();
 		if (data == null) {
 			data = new ClientMeasurement();
 		} else {
 			initMeasurementData(getData());
 		}
+		super.initData();
 	}
 
 	private void initMeasurementData(ClientMeasurement measurement) {
@@ -125,7 +125,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		ValidationResult result = new ValidationResult();
 		result.add(addMeasurmentForm.validate());
 		result.add(unitsTable.validate());
-		
+
 		return result;
 	}
 
@@ -136,7 +136,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	}
 
 	private void updateData() {
-		
+
 		data.setName(nameItem.getValue());
 		data.setDesctiption(description.getValue());
 		data.setUnits(unitsTable.getRecords());

@@ -62,7 +62,7 @@ public class BankCheckDetailReportAction extends Action {
 
 	@Override
 	public String getText() {
-		return "Check Detail";
+		return messages.checkDetail();
 	}
 
 }

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -34,9 +33,11 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.UTF8Control;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class OpenCompanyServlet extends BaseServlet {
@@ -126,8 +127,13 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			HashMap<String, String> accounterLocale = getLocaleConstants();
 			request.setAttribute("accounterLocale", accounterLocale);
-			request.setAttribute("features", client.getClientSubscription()
-					.getSubscription().getFeatures());
+			Set<String> features = client.getClientSubscription()
+					.getSubscription().getFeatures();
+			Set<String> features2 = new HashSet<String>(features);
+			if (!ServerConfiguration.isEnableEncryption()) {
+				features2.remove(Features.ENCRYPTION);
+			}
+			request.setAttribute("features", features2);
 			if (client.getClientSubscription().getSubscription().isPaidUser()) {
 				request.setAttribute("isPaid", true);
 			} else {
@@ -191,11 +197,7 @@ public class OpenCompanyServlet extends BaseServlet {
 					response.sendRedirect(COMPANIES_URL + "?message=locked");
 					return;
 				}
-				if (!client.getClientSubscription().getSubscription()
-						.isPaidUser()) {
-					request.setAttribute("goPremiumId", URLEncoder.encode(
-							EU.encryptAccounter(emailID), "UTF-8"));
-				}
+				request.setAttribute("emailId", emailID);
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
 				if (!isSupportedUser) {
@@ -212,7 +214,6 @@ public class OpenCompanyServlet extends BaseServlet {
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
 			} finally {
-				EU.removeCipher();
 			}
 		} else {
 			response.sendRedirect(LOGIN_URL);

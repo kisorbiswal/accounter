@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -349,8 +350,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			termsForm.setFields(jobListCombo);
 		}
@@ -381,10 +382,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						deliveryDate);
 
 		}
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.setFields(classListCombo);
 		}
 
@@ -472,7 +471,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		customerTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1023,6 +1023,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							transaction.getDueDate()) : getTransactionDate());
 			netAmountLabel.setAmount(transaction.getNetAmount());
 			if (isTrackTax()) {
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
 				if (isTaxPerDetailLine()) {
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
@@ -1043,8 +1046,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					this.salesTaxTextNonEditable.setTransaction(transaction);
 
 				}
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(isAmountIncludeTAX());
+			}
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(this.transactionItems);
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
 				}
 			}
 			if (transaction.getTransactionItems() != null) {
@@ -1060,6 +1069,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				locationSelected(company.getLocation(transaction.getLocation()));
 
 			if (getPreferences().isJobTrackingEnabled()) {
+				if (customer != null) {
+					jobListCombo.setCustomer(customer);
+				}
 				jobSelected(company.getjob(transaction.getJob()));
 			}
 			transactionTotalBaseCurrencyText
@@ -1068,7 +1080,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			paymentsNonEditableText.setAmount(transaction.getPayments());
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
 			// memoTextAreaItem.setDisabled(true);
-			initAccounterClass();
+
 		}
 
 		superinitTransactionViewData();
@@ -1285,7 +1297,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				item.setTaxCode(taxCode.getID());
 			}
 		}
-
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 		if (getCustomer() != null) {
 			Set<ClientAddress> addr = shipToAddress.getAddresss();
 			billingAddress = allAddresses.get(ClientAddress.TYPE_BILL_TO);
@@ -1677,11 +1694,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText.setVisible(isInViewMode());
 			paymentsNonEditableText.setVisible(isInViewMode());
 		}
+		classListCombo.setDisabled(isInViewMode());
 		transactionsTree.setEnabled(!isInViewMode());
 		jobListCombo.setDisabled(isInViewMode());
-		if (customer != null) {
-			jobListCombo.setCustomer(customer);
-		}
+
 		enableAttachmentPanel(!isInViewMode());
 	}
 
@@ -1731,6 +1747,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			customerTransactionTable.setTaxCode(taxCode.getID(), true);
 		} else
 			taxCodeSelect.setValue("");
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		this.accounterClass = clientAccounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			customerTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
 	}
 
 	@Override
@@ -1844,4 +1871,5 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			discountField.setAmount(0d);
 		}
 	}
+
 }

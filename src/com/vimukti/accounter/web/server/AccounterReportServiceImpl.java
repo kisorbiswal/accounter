@@ -167,19 +167,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	// }
 
 	@Override
-	public ArrayList<AccountRegister> getAccountRegister(
+	public PaginationList<AccountRegister> getAccountRegister(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long accountId) {
-		ArrayList<AccountRegister> accountRegisterList = new ArrayList<AccountRegister>();
+			long accountId, int start, int length) {
+		PaginationList<AccountRegister> accountRegisterList = new PaginationList<AccountRegister>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, getCompanyId());
 
 		try {
 
-			accountRegisterList = getFinanceTool()
-					.getAccountRegister(financeDates[0], financeDates[1],
-							accountId, getCompanyId());
+			accountRegisterList = getFinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], accountId,
+					getCompanyId(), start, length);
 
 			// if (accountRegisterList != null)
 			// accountRegisterList.add((AccountRegister) setStartEndDates(obj,
@@ -3179,8 +3179,10 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<InventoryValutionDetail> list = getFinanceTool()
-				.getInventoryManager().getInventoryValutionDetail(
-						getCompanyId(), start, end, itemId);
+				.getInventoryManager()
+				.getInventoryValutionDetail(getCompanyId(),
+						minimumAndMaximumDates[0].toClientFinanceDate(),
+						minimumAndMaximumDates[1].toClientFinanceDate(), itemId);
 		InventoryValutionDetail obj = new InventoryValutionDetail();
 		if (list != null)
 			list.add((InventoryValutionDetail) setStartEndDates(obj,
@@ -3204,7 +3206,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				end, getCompanyId());
 		ArrayList<InventoryValutionSummary> list = getFinanceTool()
 				.getInventoryManager().getInventoryValutionSummary(
-						getCompanyId(), start, end);
+						getCompanyId(),
+						minimumAndMaximumDates[0].toClientFinanceDate(),
+						minimumAndMaximumDates[1].toClientFinanceDate());
 		InventoryValutionSummary obj = new InventoryValutionSummary();
 		if (list != null)
 			list.add((InventoryValutionSummary) setStartEndDates(obj,
@@ -3232,17 +3236,37 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<TransactionDetailByAccount> getMissingCheckDetils(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getReportManager().getMissionChecksByAccount(
-				accountId, start, end, getCompanyId());
+		ArrayList<TransactionDetailByAccount> missionChecksByAccount = getFinanceTool()
+				.getReportManager().getMissionChecksByAccount(accountId, start,
+						end, getCompanyId());
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		TransactionDetailByAccount detailByAccount = new TransactionDetailByAccount();
+		if (detailByAccount != null) {
+			missionChecksByAccount
+					.add((TransactionDetailByAccount) setStartEndDates(
+							detailByAccount, minimumAndMaximumDates));
+		}
+		return missionChecksByAccount;
+
 	}
 
 	@Override
 	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getReportManager()
-				.getReconciliationDiscrepancyByAccount(accountId, start, end,
-						getCompanyId());
+		ArrayList<ReconciliationDiscrepancy> reconciliationDiscrepancyByAccount = getFinanceTool()
+				.getReportManager().getReconciliationDiscrepancyByAccount(
+						accountId, start, end, getCompanyId());
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ReconciliationDiscrepancy discrepancy = new ReconciliationDiscrepancy();
+		if (reconciliationDiscrepancyByAccount != null) {
+			reconciliationDiscrepancyByAccount
+					.add((ReconciliationDiscrepancy) setStartEndDates(
+							discrepancy, minimumAndMaximumDates));
+		}
+		return reconciliationDiscrepancyByAccount;
 	}
 
 	@Override

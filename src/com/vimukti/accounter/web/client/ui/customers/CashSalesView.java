@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
@@ -88,6 +89,7 @@ public class CashSalesView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private DisclosurePanel accountsDisclosurePanel;
 	private DisclosurePanel itemsDisclosurePanel;
+
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private boolean isChecked = false;
@@ -114,7 +116,7 @@ public class CashSalesView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(messages.newCashSale());
+		Label lab1 = new Label(messages.cashSale());
 		lab1.setStyleName("label-title");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -210,6 +212,7 @@ public class CashSalesView extends
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.setDisabled(true);
+		printCheck.setVisible(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -237,6 +240,7 @@ public class CashSalesView extends
 		checkNoText = new TextItem(messages.chequeNo());
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
+		checkNoText.setVisible(false);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
@@ -280,10 +284,8 @@ public class CashSalesView extends
 		}
 
 		termsForm.setStyleName("align-form");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.setFields(classListCombo);
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
@@ -319,7 +321,8 @@ public class CashSalesView extends
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -372,7 +375,8 @@ public class CashSalesView extends
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -581,7 +585,7 @@ public class CashSalesView extends
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
+			jobListCombo.setDisabled(isInViewMode());
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
@@ -740,6 +744,12 @@ public class CashSalesView extends
 				// item.setTaxGroup((ClientTAXGroup) taxCode);
 				item.setTaxCode(taxCode.getID());
 
+			}
+		}
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
 			}
 		}
 		if (discountField.getAmount() != 0) {
@@ -934,13 +944,7 @@ public class CashSalesView extends
 
 			this.transactionItems = transaction.getTransactionItems();
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(messages.check())) {
-				printCheck.setDisabled(isInViewMode());
-				checkNoText.setDisabled(isInViewMode());
-			} else {
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
-			}
+			paymentMethodSelected(transaction.getPaymentMethod());
 
 			if (transaction.getDeliverydate() != 0)
 				this.deliveryDate.setEnteredDate(new ClientFinanceDate(
@@ -952,6 +956,9 @@ public class CashSalesView extends
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
 			if (isTrackTax()) {
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
 				if (isTaxPerDetailLine()) {
 					netAmountLabel.setAmount(transaction.getNetAmount());
 					taxTotalNonEditableText.setTransaction(transaction);
@@ -964,8 +971,14 @@ public class CashSalesView extends
 					}
 					taxTotalNonEditableText.setTransaction(transaction);
 				}
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(isAmountIncludeTAX());
+			}
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(this.transactionItems);
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
 				}
 			}
 			if (transaction.getTransactionItems() != null) {
@@ -978,30 +991,24 @@ public class CashSalesView extends
 			}
 
 			memoTextAreaItem.setDisabled(true);
-			netAmountLabel.setAmount(transaction.getTotal());
+
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
-			this.clientAccounterClass = getCompany().getAccounterClass(
-					transaction.getAccounterClass());
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& this.clientAccounterClass != null
-					&& classListCombo != null) {
-				classListCombo.setComboItem(this.getClientAccounterClass());
-			}
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		superinitTransactionViewData();
 		initCashSalesView();
-		initAccounterClass();
 
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
@@ -1242,31 +1249,32 @@ public class CashSalesView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		classListCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
-
-		if (paymentMethod == null)
+		this.paymentMethod = paymentmethod;
+		if (paymentMethod == null) {
 			return;
+		}
 
-		if (paymentMethod != null) {
-			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNoText.setDisabled(false);
-			} else {
-				// paymentMethodCombo.setComboItem(paymentMethod);
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
-			}
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+			printCheck.setDisabled(isInViewMode());
+			checkNoText.setDisabled(isInViewMode());
+			printCheck.setVisible(true);
+			checkNoText.setVisible(true);
+		} else {
+			// paymentMethodCombo.setComboItem(paymentMethod);
+			printCheck.setDisabled(true);
+			printCheck.setVisible(false);
+			checkNoText.setDisabled(true);
+			checkNoText.setVisible(false);
 		}
 
 	}
@@ -1443,6 +1451,19 @@ public class CashSalesView extends
 	@Override
 	public boolean canExportToCsv() {
 		return false;
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			customerAccountTransactionTable.setClass(accounterClass.getID(),
+					true);
+			customerItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
 	}
 
 }

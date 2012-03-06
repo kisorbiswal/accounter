@@ -22,7 +22,7 @@ button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="butto
 	font-size: 13px;
 }
 
-body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter,#appVersions
+body,.email,.password,.company-name,.body-container,.company_list_buttons,#appVersions,#mainFooter
 	{
 	text-align: center;
 }
@@ -43,7 +43,7 @@ body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainF
 	color: white;
 }
 
-#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,#appVersions,.admin_details_header,.newsletter,.form-bottom-options,.activate-code
+#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,.box-shadow,.monthly-box ul,.Annaul-box ul,#appVersions,#mainFooter,.admin_details_header,.newsletter,.form-bottom-options,.activate-code
 	{
 	clear: both;
 }
@@ -150,7 +150,7 @@ p {
 	line-height: 2;
 }
 
-#feedDivUl li a,#unChangedNewsDiv a,#mainFooter a,#mainFooter span,#appVersions a,#appVersions span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel
+#feedDivUl li a,#unChangedNewsDiv a,#appVersions a,#appVersions span,#mainFooter a,#mainFooter span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel
 	{
 	text-decoration: none;
 }
@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                     0.5) !important;
+	filter: alpha(opacity = 0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -782,7 +782,7 @@ form {
 	width: 375px;
 }
 
-#commanNewContainer,#commanContainer{
+#commanNewContainer,#commanContainer {
 	margin: 7em auto;
 }
 
@@ -790,8 +790,7 @@ form {
 	width: 960px;
 }
 
-#commanContainer label,#commanNewContainer label
-	{
+#commanContainer label,#commanNewContainer label {
 	color: #777777;
 	font-size: 14px;
 	margin: 0;
@@ -849,13 +848,12 @@ input [type="checkbox"] {
 }
 
 .form-bottom-options,.activate-code {
-	margin: 0 0 0 16px;
-	padding: 16px 16px 0px;
+	margin: 15px 0 0 16px;
 	text-shadow: 0 1px 0 #FFFFFF;
+	width: 100%;
 }
 
-.form-bottom-options a,#commanContainer a,#commanNewContainer a
-	{
+.form-bottom-options a,#commanContainer a,#commanNewContainer a {
 	color: #28757D;
 	text-decoration: underline;
 }
@@ -1010,7 +1008,7 @@ a#fdbk_tab:hover {
 	margin: 10px 0px;
 }
 
-#mainFooter,#appVersions {
+#appVersions,#mainFooter {
 	height: 25px;
 	margin-top: 0;
 	position: relative;
@@ -1020,17 +1018,17 @@ a#fdbk_tab:hover {
 	padding-top: 8px;
 }
 
-#mainFooter {
+#appVersions {
 	border-top: 1px solid #CCCCCC;
 }
 
-#mainFooter a,#mainFooter span,#appVersions a,#appVersions span {
+#appVersions a,#appVersions span,#mainFooter a,#mainFooter span {
 	color: #666666;
 	font-size: 12px;
 	padding: 0 5px;
 }
 
-#mainFooter a:hover,#appVersions a:HOVER {
+#appVersions a:hover,#mainFooter a:HOVER {
 	text-decoration: underline;
 }
 
@@ -1314,15 +1312,39 @@ a#fdbk_tab:hover {
 	padding-bottom: 20px;
 }
 
-.encryptContainer{
+.encryptContainer {
 	width: 700px !important;
 }
+
 .company_name_action {
-	border: 1px solid #28757D;
 	clear: both;
 	color: #28757D;
-	margin: 0 0 12px 6px;
-	padding: 7px;
-	text-align: center;
+	padding-bottom: 12px;
+}
+
+.company_lists .form-box {
+	padding: 16px 10px 15px;
+	min-height: 250px;
 }
 /* End of the new Login and forgot password page*/
+.thankyou-form {
+	width: 700px !important;
+}
+
+.thankyou-header {
+	text-align: center !important;
+}
+
+.thankyou-header  p {
+	font-size: 25px;
+	line-height: 30px;
+}
+
+.thank-you-data {
+	background: -moz-linear-gradient(center top, #3299A4, #2D8B93) repeat
+		scroll 0 0 transparent;
+	border: thin solid #1A5158;
+	box-shadow: 2px 2px 18px 2px #FFFFFF inset;
+	color: #FFFFFF;
+	padding: 37px;
+}

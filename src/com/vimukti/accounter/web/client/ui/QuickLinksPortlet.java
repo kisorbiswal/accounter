@@ -61,9 +61,11 @@ public class QuickLinksPortlet extends Portlet {
 					.getNewQuoteAction(ClientEstimate.CREDITS)
 					.getHistoryToken());
 		}
-		quickLinksMap.put(messages.newSalesOrder(), ActionFactory
-				.getNewQuoteAction(ClientEstimate.SALES_ORDER)
-				.getHistoryToken());
+		if (Accounter.getCompany().getPreferences().isSalesOrderEnabled()) {
+			quickLinksMap.put(messages.newSalesOrder(), ActionFactory
+					.getNewQuoteAction(ClientEstimate.SALES_ORDER)
+					.getHistoryToken());
+		}
 		if (Accounter.getUser().getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
 			quickLinksMap.put(messages.newJournalEntry(), ActionFactory
 					.getNewJournalEntryAction().getHistoryToken());

@@ -167,6 +167,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			this.setMode(EditMode.VIEW);
 		}
+		showSaveButtons();
 	}
 
 	protected void createButtons(ButtonBar buttonBar) {
@@ -245,15 +246,17 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		// }
 		if (getMode() != null && getMode() != EditMode.CREATE) {
 
-			if (canDelete()) {
+			if (canDelete() && deleteButton != null) {
 				buttonBar.insert(deleteButton, 0);
+				this.buttonBar.setCellHorizontalAlignment(deleteButton,
+						ALIGN_LEFT);
 			}
-			if (canVoid()) {
+			if (canVoid() && voidButton != null) {
 				buttonBar.insert(voidButton, 0);
+				this.buttonBar.setCellHorizontalAlignment(voidButton,
+						ALIGN_LEFT);
 			}
 
-			this.buttonBar.setCellHorizontalAlignment(deleteButton, ALIGN_LEFT);
-			this.buttonBar.setCellHorizontalAlignment(voidButton, ALIGN_LEFT);
 		}
 
 		if (!isInViewMode()) {

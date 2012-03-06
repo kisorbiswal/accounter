@@ -33,7 +33,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
-	private void createControls() {
+	protected void createControls() {
 
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),

@@ -2335,4 +2335,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return null;
 	}
+
+	public PaginationList<ClientJob> getJobs() {
+		PaginationList<ClientJob> resultList = new PaginationList<ClientJob>();
+
+		try {
+			resultList = getFinanceTool().getCustomerManager().getJobsList(
+					getCompanyId());
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 }
