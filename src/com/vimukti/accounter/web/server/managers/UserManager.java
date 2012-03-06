@@ -285,17 +285,29 @@ public class UserManager extends Manager {
 		try {
 			tx = session.beginTransaction();
 			String hasedOldPassword = HexUtil.bytesToHex(Security
-					.makeHash(emailId + oldPassword));
+					.makeHash(emailId + Client.PASSWORD_HASH_STRING
+							+ oldPassword));
+
 			String newHashPassword = HexUtil.bytesToHex(Security
-					.makeHash(emailId + newPassword));
+					.makeHash(emailId + Client.PASSWORD_HASH_STRING
+							+ newPassword));
 
 			Query query = session.getNamedQuery("getEmailIdFromClient")
 					.setParameter("emailId", emailId)
 					.setParameter("password", hasedOldPassword);
 			String emailID = (String) query.uniqueResult();
 
-			if (emailID == null)
-				return false;
+			if (emailID == null) {
+				hasedOldPassword = HexUtil.bytesToHex(Security.makeHash(emailId
+						+ oldPassword));
+				query = session.getNamedQuery("getEmailIdFromClient")
+						.setParameter("emailId", emailId)
+						.setParameter("password", hasedOldPassword);
+				emailID = (String) query.uniqueResult();
+				if (emailID == null) {
+					return false;
+				}
+			}
 
 			query = session.getNamedQuery("updatePasswordForClient");
 			query.setParameter("newPassword", newHashPassword);
