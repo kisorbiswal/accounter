@@ -167,6 +167,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			this.setMode(EditMode.VIEW);
 		}
+		showSaveButtons();
 	}
 
 	protected void createButtons(ButtonBar buttonBar) {

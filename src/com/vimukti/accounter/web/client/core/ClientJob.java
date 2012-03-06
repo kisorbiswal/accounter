@@ -110,4 +110,15 @@ public class ClientJob implements IAccounterCore {
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ClientJob)) {
+			return false;
+		}
+
+		ClientJob job = (ClientJob) obj;
+		return job.getID() == this.getID()
+				&& job.getJobName().equals(this.jobName);
+	}
 }

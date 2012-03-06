@@ -160,6 +160,8 @@ public class Utility implements IsSerializable, Serializable {
 		case IAccounterCore.TAXCODE:
 		case IAccounterCore.FIXED_ASSET:
 		case IAccounterCore.BUDGET:
+		case IAccounterCore.TDSDEDUCTORMASTER:
+		case IAccounterCore.TDSRESPONSIBLEPERSON:
 			isAllowed = user.getUserRole().equals(
 					RolePermissions.FINANCIAL_ADVISER);
 			break;
@@ -2051,6 +2053,8 @@ public class Utility implements IsSerializable, Serializable {
 		case FIXEDASSET:
 		case FIXEDASSETHISTORY:
 		case BUDGET:
+		case TDSDEDUCTORMASTER:
+		case TDSRESPONSIBLEPERSON:
 			isAllowed = user.getUserRole().equals(
 					RolePermissions.FINANCIAL_ADVISER);
 			break;
