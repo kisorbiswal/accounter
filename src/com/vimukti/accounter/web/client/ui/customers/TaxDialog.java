@@ -52,12 +52,12 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 		typeRadio = new RadioGroupItem(messages.tax(), GROUP);
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
-		DynamicForm typeForm = new DynamicForm();
+		DynamicForm typeForm = new DynamicForm("typeForm");
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
 
 		typeForm.setGroupTitle(messages.selectHowYouPaidForExpense());
-		typeForm.setFields(typeRadio);
+		typeForm.add(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");

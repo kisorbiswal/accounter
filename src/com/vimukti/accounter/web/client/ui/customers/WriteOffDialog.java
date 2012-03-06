@@ -84,13 +84,13 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 
 				});
 		discAccSelect.setRequired(true);
-		discAccSelect.setDisabled(!canEdit);
+		discAccSelect.setEnabled(canEdit);
 		if (getSelectedWriteOffAccount() != null)
 			discAccSelect.setComboItem(getSelectedWriteOffAccount());
 
 		discAmtText = new AmountField(messages.writeOffAmount(), this,
-				currencyProvider.getTransactionCurrency());
-		discAmtText.setDisabled(!canEdit);
+				currencyProvider.getTransactionCurrency(), "discAmtText");
+		discAmtText.setEnabled(canEdit);
 		setCashDiscountValue(writeOffAmount);
 
 		discAmtText.addFocusHandler(new FocusHandler() {
@@ -113,10 +113,10 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 
 		}
 
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 		form.setWidth("100%");
 		// form.setWrapItemTitles(false);
-		form.setFields(discAccSelect, discAmtText);
+		form.add(discAccSelect, discAmtText);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		// mainVLay.setTop(30);

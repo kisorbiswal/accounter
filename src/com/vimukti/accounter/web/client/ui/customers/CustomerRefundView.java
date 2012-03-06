@@ -93,7 +93,7 @@ public class CustomerRefundView extends
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
-			jobListCombo.setDisabled(false);
+			jobListCombo.setEnabled(true);
 		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
 		amtText.setCurrency(clientCurrency);
@@ -120,12 +120,12 @@ public class CustomerRefundView extends
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
 			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNoText.setDisabled(false);
+				printCheck.setEnabled(true);
+				checkNoText.setEnabled(true);
 			} else {
 				// paymentMethodCombo.setComboItem(paymentMethod);
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
+				printCheck.setEnabled(false);
+				checkNoText.setEnabled(false);
 			}
 		}
 
@@ -141,10 +141,8 @@ public class CustomerRefundView extends
 
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
-		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		DynamicForm dateNoForm = new DynamicForm("datenumber-panel");
+		dateNoForm.add(transactionDateItem, transactionNumber);
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(dateNoForm);
@@ -161,16 +159,15 @@ public class CustomerRefundView extends
 
 		billToCombo = createBillToComboItem();
 		billToCombo.setTitle(messages.address());
-		billToCombo.setDisabled(true);
+		billToCombo.setEnabled(false);
 
-		custForm = new DynamicForm();
+		custForm = new DynamicForm("custForm");
 
 		custForm.setWidth("100%");
 
 		payFromSelect = new PayFromAccountsCombo(messages.payFrom());
-		payFromSelect.setHelpInformation(true);
 		payFromSelect.setRequired(true);
-		payFromSelect.setDisabled(isInViewMode());
+		payFromSelect.setEnabled(!isInViewMode());
 		payFromSelect.setPopupWidth("500px");
 
 		payFromSelect
@@ -189,11 +186,11 @@ public class CustomerRefundView extends
 
 				});
 
-		amtText = new AmountField(messages.amount(), this, getBaseCurrency());
-		amtText.setHelpInformation(true);
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amtText");
 		amtText.setRequired(true);
 		amtText.setWidth(100);
-		amtText.setDisabled(isInViewMode());
+		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -213,7 +210,7 @@ public class CustomerRefundView extends
 		setRefundAmount(null);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		printCheck = new CheckboxItem(messages.toBePrinted());
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -225,7 +222,7 @@ public class CustomerRefundView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setDisabled(true);
+						checkNoText.setEnabled(false);
 					} else {
 						if (payFromSelect.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -235,18 +232,17 @@ public class CustomerRefundView extends
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setDisabled(false);
+				checkNoText.setEnabled(true);
 
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo());
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (!paymentMethodCombo.getSelectedValue().equals(
 				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
-			checkNoText.setDisabled(true);
+			checkNoText.setEnabled(false);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -258,37 +254,33 @@ public class CustomerRefundView extends
 		memoTextAreaItem = createMemoTextAreaItem();
 
 		bankBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		bankBalText.setHelpInformation(true);
-		bankBalText.setDisabled(true);
+				getBaseCurrency(), "bankBalText");
+		bankBalText.setEnabled(false);
 
 		custBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Customer()), this, getBaseCurrency());
-		custBalText.setHelpInformation(true);
-		custBalText.setDisabled(true);
+				.Customer()), this, getBaseCurrency(), "custBalText");
+		custBalText.setEnabled(false);
 
-		custForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
-		custForm.setFields(customerCombo, billToCombo, payFromSelect, amtText,
+		custForm.add(customerCombo, billToCombo, payFromSelect, amtText,
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
-		custForm.setCellSpacing(5);
 		custForm.setWidth("100%");
 		// custForm.getCellFormatter().setWidth(0, 0, "160px");
 
-		DynamicForm balForm = new DynamicForm();
+		DynamicForm balForm = new DynamicForm("balForm");
 		if (locationTrackingEnabled)
-			balForm.setFields(locationCombo);
-		balForm.setFields(bankBalText, custBalText);
+			balForm.add(locationCombo);
+		balForm.add(bankBalText, custBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(true);
-			balForm.setFields(jobListCombo);
+			jobListCombo.setEnabled(false);
+			balForm.add(jobListCombo);
 		}
 
 		VerticalPanel leftPanel = new VerticalPanel();
@@ -304,7 +296,7 @@ public class CustomerRefundView extends
 			rightPanel.add(currencyWidget);
 			rightPanel.setCellHorizontalAlignment(currencyWidget,
 					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		HorizontalPanel hLay = new HorizontalPanel();
 		hLay.addStyleName("fields-panel");
@@ -483,7 +475,7 @@ public class CustomerRefundView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			this.setCustomer(getCompany().getCustomer(transaction.getPayTo()));
 			customerSelected(getCompany().getCustomer(transaction.getPayTo()));
@@ -491,11 +483,11 @@ public class CustomerRefundView extends
 			amtText.setAmount(transaction.getTotal());
 			paymentMethodSelected(transaction.getPaymentMethod());
 			if (transaction.getPaymentMethod().equals(messages.check())) {
-				printCheck.setDisabled(isInViewMode());
-				checkNoText.setDisabled(isInViewMode());
+				printCheck.setEnabled(!isInViewMode());
+				checkNoText.setEnabled(!isInViewMode());
 			} else {
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
+				printCheck.setEnabled(false);
+				checkNoText.setEnabled(false);
 			}
 			paymentMethodCombo.setValue(transaction.getPaymentMethod());
 
@@ -538,7 +530,7 @@ public class CustomerRefundView extends
 			}
 			if (getPreferences().isJobTrackingEnabled()) {
 				jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
-				jobListCombo.setDisabled(true);
+				jobListCombo.setEnabled(false);
 			}
 		}
 		initRPCService();
@@ -558,7 +550,7 @@ public class CustomerRefundView extends
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -666,30 +658,30 @@ public class CustomerRefundView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		customerCombo.setDisabled(isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
-		payFromSelect.setDisabled(isInViewMode());
-		amtText.setDisabled(isInViewMode());
-		memoTextAreaItem.setDisabled(isInViewMode());
-		paymentMethodCombo.setDisabled(isInViewMode());
+		payFromSelect.setEnabled(!isInViewMode());
+		amtText.setEnabled(!isInViewMode());
+		memoTextAreaItem.setEnabled(!isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 		paymentMethodSelected(transaction.getPaymentMethod());
 
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
 		}
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (!currencyWidget.isShowFactorField()) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		super.onEdit();
-		jobListCombo.setDisabled(isInViewMode());
+		jobListCombo.setEnabled(!isInViewMode());
 		if (customer != null) {
 			jobListCombo.setCustomer(customer);
 		}

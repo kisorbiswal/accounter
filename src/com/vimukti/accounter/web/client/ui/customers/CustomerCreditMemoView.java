@@ -880,7 +880,7 @@ public class CustomerCreditMemoView extends
 			jobListCombo.setCustomer(getCustomer());
 			jobListCombo
 					.setComboItem(getCompany().getjob(transaction.getJob()));
-			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setEnabled(!isInViewMode());
 		}
 		super.onEdit();
 
