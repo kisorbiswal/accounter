@@ -113,7 +113,9 @@ public class CompaniesServlet extends BaseServlet {
 						createCompany(req, resp);
 						return;
 					}
-					if (list.size() == 1) {
+					String parameter = req.getParameter("type");
+					if (list.size() == 1
+							&& (parameter == null || !parameter.equals("list"))) {
 						openCompany(req, resp, list.get(0).getId());
 						return;
 					}
