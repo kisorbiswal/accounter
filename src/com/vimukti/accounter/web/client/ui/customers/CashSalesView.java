@@ -11,10 +11,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -86,14 +83,12 @@ public class CashSalesView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private StyledDiscosurePanel accountsDisclosurePanel;
 	private StyledDiscosurePanel itemsDisclosurePanel;
-	DynamicForm termsForm;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private boolean isChecked = false;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
-		this.getElement().setId("cashsalesview");
 	}
 
 	private void initCashSalesView() {
@@ -129,6 +124,7 @@ public class CashSalesView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
+		// dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		locationCombo = createLocationCombo();
 		if (!isTemplate) {
@@ -139,6 +135,7 @@ public class CashSalesView extends
 		datepanel.add(dateNoForm);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
+		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
@@ -149,7 +146,6 @@ public class CashSalesView extends
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setWidth(100);
 		phoneSelect.setEnabled(!isInViewMode());
 
 		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
@@ -190,6 +186,7 @@ public class CashSalesView extends
 
 		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
+		printCheck.setEnabled(!true);
 		printCheck.setVisible(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -200,7 +197,7 @@ public class CashSalesView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setEnabled(false);
+						checkNoText.setEnabled(!true);
 					} else {
 						if (payFromCombo.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -210,7 +207,7 @@ public class CashSalesView extends
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setEnabled(true);
+				checkNoText.setEnabled(!false);
 
 			}
 		});
@@ -223,7 +220,7 @@ public class CashSalesView extends
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
 								.check())))
-			checkNoText.setEnabled(false);
+			checkNoText.setEnabled(!true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -282,6 +279,7 @@ public class CashSalesView extends
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
 		prodAndServiceForm1.add(memoTextAreaItem);
+
 		taxTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		netAmountLabel = createNetAmountLabel();
@@ -413,6 +411,7 @@ public class CashSalesView extends
 
 		discountField = getDiscountField();
 		DynamicForm totalForm = new DynamicForm("totalForm");
+		// totalForm.setNumCols(2);
 		if (isTrackTax()) {
 			netAmountForm.add(netAmountLabel);
 			nonEditablePanel.add(netAmountForm);
@@ -436,47 +435,32 @@ public class CashSalesView extends
 
 		currencyWidget = createCurrencyFactorWidget();
 
-		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
+		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(nonEditablePanel);
-		prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
-				ALIGN_RIGHT);
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vPanel.setWidth("100%");
-
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		vPanel.add(prodAndServiceHLay);
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(custForm);
 		if (getPreferences().isDoProductShipMents())
 			leftVLay.add(shipToAddress);
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.setWidth("100%");
-		rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
-		topHLay.setSpacing(20);
 
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
@@ -1195,6 +1179,12 @@ public class CashSalesView extends
 			shippingTermsCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
+		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setEnabled(!isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setEnabled(!isInViewMode());
