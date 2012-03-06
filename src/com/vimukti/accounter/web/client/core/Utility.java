@@ -189,6 +189,7 @@ public class Utility implements IsSerializable, Serializable {
 		case IAccounterCore.CUSTOMER_GROUP:
 		case IAccounterCore.VENDOR_GROUP:
 		case IAccounterCore.CUSTOMER:
+		case IAccounterCore.JOB:
 		case IAccounterCore.RECURING_TRANSACTION:
 		case ClientTransaction.TYPE_CASH_EXPENSE:
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
@@ -2043,6 +2044,7 @@ public class Utility implements IsSerializable, Serializable {
 		case CUSTOMER_GROUP:
 		case VENDOR_GROUP:
 		case CUSTOMER:
+		case JOB:
 			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
 			break;
 		case TAX_GROUP:

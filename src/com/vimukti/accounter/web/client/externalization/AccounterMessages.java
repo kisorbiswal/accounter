@@ -6114,5 +6114,13 @@ public interface AccounterMessages extends Messages {
 	public String jobList();
 
 	public String accountisParenttoThisAccount();
+	
+	public String purchaseOrderTemplate();
+
+	public String purchaseOrderTitle();
+
+	public String purchaseOrderValue();
+
+	public String notMoveDiffTypeAccount();
 
 }

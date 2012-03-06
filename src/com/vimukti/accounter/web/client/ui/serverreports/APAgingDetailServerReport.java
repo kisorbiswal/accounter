@@ -43,12 +43,12 @@ public class APAgingDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getMessages().name(),
-				getMessages().date(), getMessages().type(),
-				getMessages().number(), /*
-												 * "Void", "Payment Terms" ,
-												 * "Due Date",
-												 */
+		return new String[] { getMessages().name(), getMessages().date(),
+				getMessages().type(), getMessages().number(), /*
+															 * "Void",
+															 * "Payment Terms" ,
+															 * "Due Date",
+															 */
 				getMessages().ageing(), getMessages().amount(), /* "Total" */};
 	}
 
@@ -363,7 +363,7 @@ public class APAgingDetailServerReport extends
 		case 3:
 			// return compareInt(Integer.parseInt(obj1.getNumber()),
 			// Integer.parseInt(obj2.getNumber()));
-			return UIUtils.compareTo(obj1.getNumber(), obj2.getNumber());
+			return UIUtils.compareToInt(obj1.getNumber(), obj2.getNumber());
 			// case 4:
 			// return obj1.getDueDate().compareTo(obj2.getDueDate());
 		case 4:
@@ -388,13 +388,13 @@ public class APAgingDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().name(),
-				getMessages().date(), getMessages().type(),
-				getMessages().number(), /*
-												 * "Void", "Payment Terms" ,
-												 * "Due Date",
-												 */
+		return new String[] { getMessages().name(), getMessages().date(),
+				getMessages().type(), getMessages().number(), /*
+															 * "Void",
+															 * "Payment Terms" ,
+															 * "Due Date",
+															 */
 				getMessages().ageing(), getMessages().amount(), /* "Total" */};
 	}
-	
+
 }
