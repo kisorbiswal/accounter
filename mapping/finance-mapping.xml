@@ -1702,9 +1702,9 @@
 			column="CREDITNOTE_TEMPLETE_NAME" not-null="true" />
 		<property name="quoteTemplateName" type="encryptedstring"
 			column="QUOTE_TEMPLETE_NAME" not-null="true" />
-		<property name="cashSaleTemplateName" column="CASHSALE_TEMPLETE_NAME"
+		<property name="cashSaleTemplateName" type="encryptedstring" column="CASHSALE_TEMPLETE_NAME"
 			not-null="true" />
-		<property name="cashSaleTitle" column="CASHSALE_TITLE">
+		<property name="cashSaleTitle" type="encryptedstring" column="CASHSALE_TITLE">
 		</property>
 	</class>
 
