@@ -7,8 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomerMergeDialog;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
-import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 
 public class MergeCustomerAction extends Action {
 
@@ -21,8 +19,8 @@ public class MergeCustomerAction extends Action {
 	public void run() {
 		if (Accounter.hasPermission(Features.MERGING)) {
 			CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog();
-			MainFinanceWindow.getViewManager().showView(customerMergeDialog, data,
-					isDependent, MergeCustomerAction.this);
+			MainFinanceWindow.getViewManager().showView(customerMergeDialog,
+					data, isDependent, MergeCustomerAction.this);
 		} else {
 			Accounter.showSubscriptionWarning();
 		}

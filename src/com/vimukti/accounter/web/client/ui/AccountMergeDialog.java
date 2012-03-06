@@ -170,8 +170,6 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 	@Override
 	public void saveAndUpdateView() {
 
-		validate();
-
 		if (fromAccount != null && toAccount != null) {
 			if (fromAccount.getID() == toAccount.getID()) {
 				Accounter.showError("Accounts must be different");

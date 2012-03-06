@@ -3,14 +3,9 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -247,7 +242,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		totalLabel = new AmountLabel(
 				messages.currencyTotal(currency != null ? currency
@@ -272,7 +267,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
-//		bottomLayout.setCellWidth(totalForm, "30%");
+		// bottomLayout.setCellWidth(totalForm, "30%");
 
 		bottompanel.add(bottomLayout);
 
