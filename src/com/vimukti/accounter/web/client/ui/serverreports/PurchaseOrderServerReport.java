@@ -210,8 +210,8 @@ public class PurchaseOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getNumber().toLowerCase()
-					.compareTo(obj2.getNumber().toLowerCase());
+			return UIUtils.compareToInt(obj1.getNumber(), obj2.getNumber()
+					.toLowerCase());
 		case 2:
 			return obj1.getVendorOrCustomerName().toLowerCase()
 					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());

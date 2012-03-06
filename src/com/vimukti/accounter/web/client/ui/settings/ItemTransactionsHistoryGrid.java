@@ -177,9 +177,9 @@ public abstract class ItemTransactionsHistoryGrid extends
 			String name2 = Utility.getTransactionName(obj2.getType());
 			return name.compareTo(name2);
 		case 2:
-			String number = obj1.getNumber();
-			String number2 = obj2.getNumber();
-			return number.compareTo(number2);
+			Integer num1 = Integer.parseInt(obj1.getNumber());
+			Integer num2 = Integer.parseInt(obj2.getNumber());
+			return num1.compareTo(num2);
 		case 3:
 			String memo = obj1.getMemo().toLowerCase();
 			String memo2 = obj2.getMemo().toLowerCase();

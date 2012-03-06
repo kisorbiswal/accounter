@@ -6121,4 +6121,6 @@ public interface AccounterMessages extends Messages {
 
 	public String purchaseOrderValue();
 
+	public String notMoveDiffTypeAccount();
+
 }

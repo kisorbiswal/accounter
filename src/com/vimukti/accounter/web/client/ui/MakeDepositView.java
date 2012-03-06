@@ -739,10 +739,30 @@ public class MakeDepositView extends
 
 	protected void updateTotals() {
 		Double amount = amtText.getAmount();
-		transactionTotalBaseCurrencyText
-				.setAmount(getAmountInBaseCurrency(amount));
-		if (isMultiCurrencyEnabled()) {
-			foreignCurrencyamountLabel.setAmount(amount);
+		if (amtText.getCurrency().getID() != getCompany().getPrimaryCurrency()
+				.getID()) {
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(amount));
+			if (isMultiCurrencyEnabled()) {
+				foreignCurrencyamountLabel.setAmount(amount);
+			}
+		} else {
+			transactionTotalBaseCurrencyText.setAmount(amount);
+			if (isMultiCurrencyEnabled()) {
+				foreignCurrencyamountLabel
+						.setAmount(calculateTransactionCurrencyAmount(amount));
+			}
+		}
+	}
+
+	private double calculateTransactionCurrencyAmount(Double amount) {
+		if (currency != null && amount != null) {
+			if (currencyFactor < 0.0) {
+				currencyFactor = 1.0;
+			}
+			return amount / currencyFactor;
+		} else {
+			return amount;
 		}
 	}
 

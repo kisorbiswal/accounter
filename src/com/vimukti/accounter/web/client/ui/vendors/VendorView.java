@@ -618,7 +618,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		Label lab = new Label(Global.get().Vendor());
 
 		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
-			
+
 		};
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
@@ -629,8 +629,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		expenseAccountsSelect.setDisabled(isInViewMode());
 		List<ClientAccount> list = new ArrayList<ClientAccount>();
-		for(ClientAccount account : getCompany().getAccounts()) {
-			if(account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD || account.getType() == ClientAccount.TYPE_EXPENSE) {
+		for (ClientAccount account : getCompany().getAccounts()) {
+			if (account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD
+					|| account.getType() == ClientAccount.TYPE_EXPENSE) {
 				list.add(account);
 			}
 		}
@@ -894,7 +895,10 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	public void createCustomFieldControls() {
-
+		if (data != null && data.getCustomFieldValues() != null) {
+			customFieldForm.updateValues(data.getCustomFieldValues(),
+					getCompany(), false);
+		}
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), false);
 		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
