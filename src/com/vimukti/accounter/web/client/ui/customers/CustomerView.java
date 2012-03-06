@@ -436,6 +436,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	// return true;
 	// }
 	public void createCustomFieldControls() {
+		if (data != null && data.getCustomFieldValues() != null) {
+			customFieldForm.updateValues(data.getCustomFieldValues(),
+					getCompany(), true);
+		}
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), true);
 		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
@@ -1149,9 +1153,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
 				customFieldDialog.show();
-
 			}
 		});
 		addCustomFieldButton.setEnabled(!isInViewMode());
