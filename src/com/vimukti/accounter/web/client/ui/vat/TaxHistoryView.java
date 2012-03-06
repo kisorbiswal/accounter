@@ -67,9 +67,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 				});
 		initComboItems();
 		// this.grid.setWidth("100%");
-		DynamicForm form2 = new DynamicForm();
+		DynamicForm form2 = new DynamicForm("form2");
 
-		form2.setFields(optionsCombo);
+		form2.add(optionsCombo);
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
 		mainPanel.add(label);

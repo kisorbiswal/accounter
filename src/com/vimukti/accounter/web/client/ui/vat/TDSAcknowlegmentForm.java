@@ -42,8 +42,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	}
 
 	private void createControls() {
-		form = new DynamicForm();
-		form1 = new DynamicForm();
+		form = new DynamicForm("form");
+		form1 = new DynamicForm("form1");
 		form.setWidth("100%");
 		form.setHeight("100%");
 		form1.setHeight("100%");
@@ -53,38 +53,32 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 
 		formTypeCombo = new SelectCombo(messages.formNo());
 		formTypeCombo.setRequired(true);
-		formTypeCombo.setHelpInformation(true);
 		formTypeCombo.initCombo(getFormTypes());
 		formTypeCombo.setSelectedItem(0);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.setRequired(true);
-		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setSelectedItem(0);
 		financialYearCombo.setRequired(true);
 
 		quaterCombo = new SelectCombo(messages.forQuarter());
 		quaterCombo.setRequired(true);
-		quaterCombo.setHelpInformation(true);
 		quaterCombo.initCombo(getFinancialQuatersList());
 		quaterCombo.setSelectedItem(0);
 		quaterCombo.setRequired(true);
 
-		ackNoField = new TextItem(messages.acknowledgmentNo());
+		ackNoField = new TextItem(messages.acknowledgmentNo(),"ackNoField");
 		ackNoField.setRequired(true);
-		ackNoField.setHelpInformation(true);
 
 		ClientFinanceDate todaysDate = new ClientFinanceDate();
-		dateField = new DateField(messages.date());
+		dateField = new DateField(messages.date(),"dateField");
 		dateField.setRequired(true);
-		dateField.setHelpInformation(true);
-		dateField.setColSpan(1);
 		dateField.setTitle(messages.date());
 		dateField.setValue(todaysDate);
 
-		form.setItems(formTypeCombo, quaterCombo, financialYearCombo);
-		form1.setItems(ackNoField, dateField);
+		form.add(formTypeCombo, quaterCombo, financialYearCombo);
+		form1.add(ackNoField, dateField);
 
 		layout1.add(form);
 		layout1.add(form1);

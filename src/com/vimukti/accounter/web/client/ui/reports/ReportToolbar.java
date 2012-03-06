@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.Date;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -35,7 +36,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		// setSize("100%", "10px");
 		// setBackgroundColor("#dedede");
 
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 
 		startDate = Accounter.getStartDate();
 		endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
@@ -61,7 +62,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	public void addItems(FormItem<?>... items) {
-		form.setItems(items);
+		form.add(items);
 	}
 
 	public ClientFinanceDate getStartDate() {

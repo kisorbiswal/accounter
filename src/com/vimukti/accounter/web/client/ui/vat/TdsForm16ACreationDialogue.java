@@ -47,19 +47,17 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	protected boolean isCoveringLetter;
 
 	public TdsForm16ACreationDialogue() {
-		super(messages.tdsForm16A(), messages
+		super(messages.TDSAcknowledgementForm(), messages
 				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
-		setWidth("650px");
-
+		this.addStyleName("tds-form-16a-creation-dialogue");
 		okbtn.setText(messages.generate16Aform());
-		okbtn.setWidth("150px");
 
 		emailBUtton = new Button(messages.email());
-		emailBUtton.setWidth("80px");
 		emailBUtton.setFocus(true);
 		emailBUtton.setVisible(false);
 		emailBUtton.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 
 				sendEmail();
@@ -71,6 +69,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		coveringLetter.setVisible(false);
 		coveringLetter.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				isCoveringLetter = true;
 				onOK();
@@ -85,7 +84,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 	@SuppressWarnings({ "unchecked" })
 	private void createControls() {
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 		form.setWidth("100%");
 		form.setHeight("100%");
 
@@ -107,7 +106,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 				});
 
 		chalanQuarterPeriod = new SelectCombo(messages.selectQuarter());
-		chalanQuarterPeriod.setHelpInformation(true);
 		chalanQuarterPeriod.initCombo(getFinancialQuatersList());
 		chalanQuarterPeriod.setSelectedItem(0);
 		chalanQuarterPeriod.setPopupWidth("500px");
@@ -123,7 +121,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 				});
 
 		monthlyCombo = new SelectCombo(messages.selectMonths());
-		monthlyCombo.setHelpInformation(true);
 		monthlyCombo.setComboItem(DayAndMonthUtil.january());
 		monthlyCombo.initCombo(getMonthsList());
 		monthlyCombo.setPopupWidth("500px");
@@ -136,37 +133,29 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					}
 				});
 
-		location = new TextItem(messages.place());
-		location.setHelpInformation(true);
+		location = new TextItem(messages.place(),"location");
 
 		ClientFinanceDate todaysDate = new ClientFinanceDate();
 
-		form16AprintDate = new DateField(messages.date());
-		form16AprintDate.setHelpInformation(true);
-		form16AprintDate.setColSpan(1);
+		form16AprintDate = new DateField(messages.date(),"form16AprintDate");
 		form16AprintDate.setTitle(messages.date());
 		form16AprintDate.setValue(todaysDate);
 
-		fromDate = new DateField(messages.fromDate());
-		fromDate.setHelpInformation(true);
-		fromDate.setColSpan(1);
+		fromDate = new DateField(messages.fromDate(),"fromDate");
 		fromDate.setTitle(messages.fromDate());
 		fromDate.setValue(todaysDate);
 
-		toDate = new DateField(messages.toDate());
-		toDate.setHelpInformation(true);
-		toDate.setColSpan(1);
+		toDate = new DateField(messages.toDate(),"toDate");
 		toDate.setTitle(messages.toDate());
 		toDate.setValue(todaysDate);
 
-		tdsCertificateNumber = new TextItem(messages.tdsCertificateNumber());
-		tdsCertificateNumber.setHelpInformation(true);
+		tdsCertificateNumber = new TextItem(messages.tdsCertificateNumber(),"tdsCertificateNumber");
 		tdsCertificateNumber.setRequired(true);
-		form0 = new DynamicForm();
+		form0 = new DynamicForm("form0");
 		form0.setWidth("100%");
 
-		form.setItems(tdsCertificateNumber, location, form16AprintDate);
-		form0.setItems(vendorCombo, chalanQuarterPeriod, monthlyCombo,
+		form.add(tdsCertificateNumber, location, form16AprintDate);
+		form0.add(vendorCombo, chalanQuarterPeriod, monthlyCombo,
 				fromDate, toDate);
 
 		HorizontalPanel radioButtonPanel = new HorizontalPanel();
@@ -268,7 +257,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		ValidationResult result = new ValidationResult();
 		if (vendorCombo.getSelectedValue() == null) {
 			result.addError(vendorCombo,
-					messages.pleaseSelect(vendorCombo.getName()));
+					messages.pleaseSelect(vendorCombo.getTitle()));
 		}
 
 		if (tdsCertificateNumber.getValue() == null

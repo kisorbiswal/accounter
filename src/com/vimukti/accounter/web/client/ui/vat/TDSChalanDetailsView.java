@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -85,10 +86,10 @@ public class TDSChalanDetailsView extends
 	@Override
 	protected void createControls() {
 		selectFormTypeCombo = new SelectCombo(messages.formType());
-		selectFormTypeCombo.setHelpInformation(true);
+		// selectFormTypeCombo.setHelpInformation(true);
 		selectFormTypeCombo.initCombo(getFormTypes());
 		selectFormTypeCombo.setDefaultToFirstOption(true);
-		selectFormTypeCombo.setDisabled(true);
+		selectFormTypeCombo.setEnabled(false);
 		selectFormTypeCombo.setRequired(true);
 		// selectFormTypeCombo
 		// .addSelectionChangeHandler(new
@@ -112,14 +113,14 @@ public class TDSChalanDetailsView extends
 		// });
 
 		slectAssecementYear = new SelectCombo(messages.assessmentYear());
-		slectAssecementYear.setHelpInformation(true);
-		slectAssecementYear.initCombo(getAssessmentYearList());
-		slectAssecementYear.setDisabled(true);
+		// slectAssecementYear.setHelpInformation(true);
+		slectAssecementYear.initCombo(getFinancialYearList());
+		slectAssecementYear.setEnabled(false);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
-		financialYearCombo.setHelpInformation(true);
+		// financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
-		financialYearCombo.setDisabled(isInViewMode());
+		financialYearCombo.setEnabled(!isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -136,11 +137,10 @@ public class TDSChalanDetailsView extends
 				});
 
 		incomeTaxAmount = new AmountField(messages.incomeTax(), this,
-				getBaseCurrency());
-		incomeTaxAmount.setHelpInformation(true);
-		incomeTaxAmount.setWidth(100);
+				getBaseCurrency(), "incomeTaxAmount");
+		// incomeTaxAmount.setHelpInformation(true);
 		incomeTaxAmount.setValue("0.00");
-		incomeTaxAmount.setDisabled(true);
+		incomeTaxAmount.setEnabled(true);
 		incomeTaxAmount.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -150,11 +150,10 @@ public class TDSChalanDetailsView extends
 		});
 
 		surchargePaidAmount = new AmountField(messages.surchargePaid(), this,
-				getBaseCurrency());
-		surchargePaidAmount.setHelpInformation(true);
-		surchargePaidAmount.setWidth(100);
+				getBaseCurrency(), "surchargePaidAmount");
+		// surchargePaidAmount.setHelpInformation(true);
 		surchargePaidAmount.setValue("0.00");
-		surchargePaidAmount.setDisabled(true);
+		surchargePaidAmount.setEnabled(false);
 		surchargePaidAmount.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -164,11 +163,10 @@ public class TDSChalanDetailsView extends
 		});
 
 		eduCessAmount = new AmountField(messages.educationCess(), this,
-				getBaseCurrency());
-		eduCessAmount.setHelpInformation(true);
-		eduCessAmount.setWidth(100);
+				getBaseCurrency(), "eduCessAmount");
+		// eduCessAmount.setHelpInformation(true);
 		eduCessAmount.setValue("0.00");
-		eduCessAmount.setDisabled(true);
+		eduCessAmount.setEnabled(false);
 		eduCessAmount.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -178,11 +176,10 @@ public class TDSChalanDetailsView extends
 		});
 
 		interestPaidAmount = new AmountField(messages.interestPaid(), this,
-				getBaseCurrency());
-		interestPaidAmount.setHelpInformation(true);
-		interestPaidAmount.setWidth(100);
+				getBaseCurrency(), "interestPaidAmount");
+		// interestPaidAmount.setHelpInformation(true);
 		interestPaidAmount.setValue("0.00");
-		interestPaidAmount.setDisabled(isInViewMode());
+		interestPaidAmount.setEnabled(!isInViewMode());
 		interestPaidAmount.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -192,11 +189,10 @@ public class TDSChalanDetailsView extends
 		});
 
 		penaltyPaidAmount = new AmountField(messages.penaltyPaid(), this,
-				getBaseCurrency());
-		penaltyPaidAmount.setHelpInformation(true);
-		penaltyPaidAmount.setWidth(100);
+				getBaseCurrency(), "penaltyPaidAmount");
+		// penaltyPaidAmount.setHelpInformation(true);
 		penaltyPaidAmount.setValue("0.00");
-		penaltyPaidAmount.setDisabled(isInViewMode());
+		penaltyPaidAmount.setEnabled(!isInViewMode());
 		penaltyPaidAmount.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -206,11 +202,10 @@ public class TDSChalanDetailsView extends
 		});
 
 		otherAmountPaid = new AmountField(messages.otherAmountPaid(), this,
-				getBaseCurrency());
-		otherAmountPaid.setHelpInformation(true);
-		otherAmountPaid.setWidth(100);
+				getBaseCurrency(), "otherAmountPaid");
+		// otherAmountPaid.setHelpInformation(true);
 		otherAmountPaid.setValue("0.00");
-		otherAmountPaid.setDisabled(isInViewMode());
+		otherAmountPaid.setEnabled(!isInViewMode());
 		otherAmountPaid.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -220,15 +215,12 @@ public class TDSChalanDetailsView extends
 		});
 
 		totalAmountPaid = new AmountField(messages.totalAmountPaid(), this,
-				getBaseCurrency());
-		totalAmountPaid.setHelpInformation(true);
+				getBaseCurrency(), "totalAmountPaid");
 		totalAmountPaid.setRequired(true);
-		totalAmountPaid.setWidth(100);
 		totalAmountPaid.setValue("0.00");
-		totalAmountPaid.setDisabled(true);
+		totalAmountPaid.setEnabled(false);
 
 		natureOfPaymentCombo = new SelectCombo(messages.natureOfPayment());
-		natureOfPaymentCombo.setHelpInformation(true);
 		if (formTypeSeclected == Form26Q) {
 			natureOfPaymentCombo.initCombo(get26QSectionsList());
 		} else if (formTypeSeclected == Form27Q) {
@@ -238,7 +230,7 @@ public class TDSChalanDetailsView extends
 		}
 
 		natureOfPaymentCombo.setRequired(true);
-		natureOfPaymentCombo.setDisabled(isInViewMode());
+		natureOfPaymentCombo.setEnabled(!isInViewMode());
 		natureOfPaymentCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -249,9 +241,8 @@ public class TDSChalanDetailsView extends
 				});
 
 		modeOFPaymentCombo = new SelectCombo(messages.paymentMethod());
-		modeOFPaymentCombo.setHelpInformation(true);
 		modeOFPaymentCombo.initCombo(getPaymentItems());
-		modeOFPaymentCombo.setDisabled(isInViewMode());
+		modeOFPaymentCombo.setEnabled(!isInViewMode());
 		modeOFPaymentCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -268,18 +259,14 @@ public class TDSChalanDetailsView extends
 				});
 
 		chalanSerialNumber = new IntegerField(this, messages.challanSerialNo());
-		chalanSerialNumber.setHelpInformation(true);
 		chalanSerialNumber.setRequired(true);
-		chalanSerialNumber.setWidth(100);
-		chalanSerialNumber.setDisabled(isInViewMode());
+		chalanSerialNumber.setEnabled(!isInViewMode());
 
 		chalanQuarterPeriod = new SelectCombo(messages.challanPeriod());
-		chalanQuarterPeriod.setHelpInformation(true);
 		chalanQuarterPeriod.initCombo(getFinancialQuatersList());
 		chalanQuarterPeriod.setRequired(true);
 		chalanQuarterPeriod.setSelectedItem(0);
-		chalanQuarterPeriod.setDisabled(isInViewMode());
-		chalanQuarterPeriod.setPopupWidth("500px");
+		chalanQuarterPeriod.setEnabled(!isInViewMode());
 		chalanQuarterPeriod
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -290,15 +277,12 @@ public class TDSChalanDetailsView extends
 				});
 
 		checkNumber = new IntegerField(this, messages.chequeOrRefNo());
-		checkNumber.setHelpInformation(true);
-		checkNumber.setWidth(100);
-		checkNumber.setDisabled(isInViewMode());
+		checkNumber.setEnabled(!isInViewMode());
 
 		tdsDepositedBY = new SelectCombo(messages.tdsDepositedByBookEntry());
-		tdsDepositedBY.setHelpInformation(true);
 		tdsDepositedBY.initCombo(getYESNOList());
 		tdsDepositedBY.setRequired(true);
-		tdsDepositedBY.setDisabled(isInViewMode());
+		tdsDepositedBY.setEnabled(!isInViewMode());
 		tdsDepositedBY.setSelectedItem(1);
 		tdsDepositedBY
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -315,23 +299,18 @@ public class TDSChalanDetailsView extends
 					}
 				});
 
-		dateItem2 = new DateField(messages.date());
+		dateItem2 = new DateField(messages.date(), "dateItem2");
 		dateItem2.setToolTip(messages.selectDateUntilDue(this.getAction()
 				.getViewName()));
-		dateItem2.setHelpInformation(true);
-		dateItem2.setColSpan(1);
 		dateItem2.setEnteredDate(new ClientFinanceDate());
 		dateItem2.setTitle(messages.dateOnTaxPaid());
-		dateItem2.setDisabled(isInViewMode());
+		dateItem2.setEnabled(!isInViewMode());
 
-		bankBsrCode = new TextItem(messages.bankBSRCode());
-		bankBsrCode.setHelpInformation(true);
-		bankBsrCode.setDisabled(isInViewMode());
+		bankBsrCode = new TextItem(messages.bankBSRCode(), "bankBsrCode");
+		bankBsrCode.setEnabled(!isInViewMode());
 		bankBsrCode.setRequired(true);
-		bankBsrCode.setWidth(100);
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
-		payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -346,31 +325,29 @@ public class TDSChalanDetailsView extends
 
 				});
 
-		payFromAccCombo.setDisabled(isInViewMode());
-		payFromAccCombo.setPopupWidth("500px");
+		payFromAccCombo.setEnabled(!isInViewMode());
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		endingBalanceText.setHelpInformation(true);
+				getBaseCurrency(), "endingBalanceText");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		endingBalanceText.setDisabled(true);
+		endingBalanceText.setEnabled(false);
 
-		taxDynamicForm = new DynamicForm();
-		taxDynamicForm.setFields(selectFormTypeCombo, financialYearCombo,
+		taxDynamicForm = new DynamicForm("taxDynamicForm");
+		taxDynamicForm.add(selectFormTypeCombo, financialYearCombo,
 				chalanSerialNumber, chalanQuarterPeriod, modeOFPaymentCombo,
 				tdsDepositedBY);
 
-		otherDynamicForm = new DynamicForm();
-		otherDynamicForm.setFields(natureOfPaymentCombo, slectAssecementYear,
+		otherDynamicForm = new DynamicForm("otherDynamicForm");
+		otherDynamicForm.add(natureOfPaymentCombo, slectAssecementYear,
 				checkNumber, dateItem2, bankBsrCode, payFromAccCombo,
 				endingBalanceText);
 
-		belowForm1 = new DynamicForm();
-		belowForm1.setFields(incomeTaxAmount, surchargePaidAmount,
-				eduCessAmount, totalAmountPaid);
+		belowForm1 = new DynamicForm("belowForm1");
+		belowForm1.add(incomeTaxAmount, surchargePaidAmount, eduCessAmount,
+				totalAmountPaid);
 
-		belowForm2 = new DynamicForm();
-		belowForm2.setFields(interestPaidAmount, otherAmountPaid);
+		belowForm2 = new DynamicForm("belowForm2");
+		belowForm2.add(interestPaidAmount, otherAmountPaid);
 
 		// grid = new TDSTransactionItemGrid(this);
 		// grid.setCanEdit(true);
@@ -389,27 +366,22 @@ public class TDSChalanDetailsView extends
 			}
 
 		};
-		table.setDisabled(isInViewMode());
+		table.setEnabled(isInViewMode());
 
-		HorizontalPanel horizontalPanel1 = new HorizontalPanel();
-		horizontalPanel1.setWidth("100%");
+		StyledPanel horizontalPanel1 = new StyledPanel("horizontalPanel1");
 		horizontalPanel1.add(taxDynamicForm);
 		horizontalPanel1.add(otherDynamicForm);
 
-		HorizontalPanel horizontalPanel2 = new HorizontalPanel();
-		horizontalPanel2.setWidth("100%");
+		StyledPanel horizontalPanel2 = new StyledPanel("horizontalPanel2");
 		horizontalPanel2.add(belowForm1);
 		horizontalPanel2.add(belowForm2);
 
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(voidedPanel);
-		verticalPanel.setWidth("100%");
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		verticalPanel.add(horizontalPanel1);
 		verticalPanel.add(table);
 		verticalPanel.add(horizontalPanel2);
 
 		this.add(verticalPanel);
-		this.setCellHorizontalAlignment(verticalPanel, ALIGN_LEFT);
 		//
 		// natureOfPaymentCombo27Q.hide();
 		// natureOfPaymentCombo27EQ.hide();
@@ -829,24 +801,24 @@ public class TDSChalanDetailsView extends
 		// incomeTaxAmount.setDisabled(false);
 		// surchargePaidAmount.setDisabled(false);
 		// eduCessAmount.setDisabled(false);
-		interestPaidAmount.setDisabled(false);
-		penaltyPaidAmount.setDisabled(false);
-		otherAmountPaid.setDisabled(false);
+		interestPaidAmount.setEnabled(false);
+		penaltyPaidAmount.setEnabled(false);
+		otherAmountPaid.setEnabled(false);
 		// totalAmountPaid.setDisabled(false);
-		natureOfPaymentCombo.setDisabled(false);
-		modeOFPaymentCombo.setDisabled(false);
-		checkNumber.setDisabled(false);
-		dateItem2.setDisabled(false);
-		bankBsrCode.setDisabled(false);
-		table.setDisabled(false);
-		chalanQuarterPeriod.setDisabled(false);
-		chalanSerialNumber.setDisabled(false);
-		tdsDepositedBY.setDisabled(false);
+		natureOfPaymentCombo.setEnabled(false);
+		modeOFPaymentCombo.setEnabled(false);
+		checkNumber.setEnabled(false);
+		dateItem2.setEnabled(false);
+		bankBsrCode.setEnabled(false);
+		table.setEnabled(false);
+		chalanQuarterPeriod.setEnabled(false);
+		chalanSerialNumber.setEnabled(false);
+		tdsDepositedBY.setEnabled(false);
 		// selectFormTypeCombo.setDisabled(false);
 		// slectAssecementYear.setDisabled(false);
-		financialYearCombo.setDisabled(false);
-		endingBalanceText.setDisabled(false);
-		payFromAccCombo.setDisabled(false);
+		financialYearCombo.setEnabled(false);
+		endingBalanceText.setEnabled(false);
+		payFromAccCombo.setEnabled(false);
 
 		super.onEdit();
 	}

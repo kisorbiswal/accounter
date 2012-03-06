@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -92,6 +93,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	public TAXAgencyView() {
 		super();
+		this.getElement().setId("TAXAgencyView");
 
 	}
 
@@ -110,9 +112,9 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		VerticalPanel topLayout = getTopLayout();
+		StyledPanel topLayout = getTopLayout();
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(topLayout);
 
@@ -307,22 +309,20 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 	}
 
-	private VerticalPanel getTopLayout() {
+	private StyledPanel getTopLayout() {
 		Label lab;
 		lab = new Label(messages.taxAgency());
-		taxAgencyText = new TextItem(messages.taxAgency());
-		taxAgencyText.setHelpInformation(true);
+		taxAgencyText = new TextItem(messages.taxAgency(),"taxAgencyText");
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("label-title");
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
-		taxAgencyText.setDisabled(isInViewMode());
+		taxAgencyText.setEnabled(!isInViewMode());
 
-		fileAsText = new TextItem(messages.fileAs());
-		fileAsText.setHelpInformation(true);
+		fileAsText = new TextItem(messages.fileAs(),"fileAsText");
 		fileAsText.setWidth(100);
-		fileAsText.setDisabled(isInViewMode());
+		fileAsText.setEnabled(!isInViewMode());
 		taxAgencyText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -338,19 +338,18 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm = UIUtils.form(messages.taxAgency());
 		// taxAgencyForm.setWidth("100%");
 		// taxAgencyForm.getCellFormatter().setWidth(0, 0, "166px");
-		taxAgencyForm.setFields(taxAgencyText);
+		taxAgencyForm.add(taxAgencyText);
 
-		accInfoForm = new DynamicForm();
+		accInfoForm = new DynamicForm("accInfoForm");
 		accInfoForm = UIUtils
 				.form(messages.payeeInformation(messages.Account()));
 
-		statusCheck = new CheckboxItem(messages.active());
+		statusCheck = new CheckboxItem(messages.active(),"statusCheck");
 		statusCheck.setValue(true);
-		statusCheck.setDisabled(isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
 
 		paymentTermsCombo = new PaymentTermsCombo(messages.paymentTerm());
-		paymentTermsCombo.setHelpInformation(true);
-		paymentTermsCombo.setDisabled(isInViewMode());
+		paymentTermsCombo.setEnabled(!isInViewMode());
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -367,12 +366,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxTypeCombo = createTaxTypeSelectCombo();
 
 		vatReturnCombo = new SelectCombo(messages.taxReturn());
-		vatReturnCombo.setHelpInformation(true);
 		if (getCompany().getCountry().equals(
 				CountryPreferenceFactory.UNITED_KINGDOM)) {
 			vatReturnCombo.setRequired(true);
 		}
-		vatReturnCombo.setDisabled(isInViewMode());
+		vatReturnCombo.setEnabled(!isInViewMode());
 		vatReturnList = new ArrayList<String>();
 		vatReturnList.add(messages.ukVAT());
 		vatReturnList.add(messages.vat3Ireland());
@@ -391,8 +389,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				});
 		liabilitySalesAccountCombo = new VATAgencyAccountCombo(
 				messages.salesLiabilityAccount());
-		liabilitySalesAccountCombo.setHelpInformation(true);
-		liabilitySalesAccountCombo.setDisabled(isInViewMode());
+		liabilitySalesAccountCombo.setEnabled(!isInViewMode());
 		liabilitySalesAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -407,8 +404,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(
 				messages.purchaseLiabilityAccount());
-		liabilityPurchaseAccountCombo.setHelpInformation(true);
-		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
+		liabilityPurchaseAccountCombo.setEnabled(!isInViewMode());
 		liabilityPurchaseAccountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -423,7 +419,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		tAXFilingFrequency = new TAXFilingFrequencyCombo(
 				messages.taxFilingFrequency());
-		tAXFilingFrequency.setDisabled(isInViewMode());
+		tAXFilingFrequency.setEnabled(!isInViewMode());
 		tAXFilingFrequency.initCombo(getTAXFilingFrequencies());
 		tAXFilingFrequency.setSelectedItem(0);
 
@@ -432,23 +428,23 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		if (getPreferences().isTrackPaidTax()) {
 			if (getCompany().getCountry().equals(
 					CountryPreferenceFactory.UNITED_KINGDOM)) {
-				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+				accInfoForm.add(statusCheck, paymentTermsCombo,
 						taxTypeCombo, vatReturnCombo,
 						liabilitySalesAccountCombo,
 						liabilityPurchaseAccountCombo, tAXFilingFrequency);
 			} else {
-				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+				accInfoForm.add(statusCheck, paymentTermsCombo,
 						taxTypeCombo, liabilitySalesAccountCombo,
 						liabilityPurchaseAccountCombo, tAXFilingFrequency);
 			}
 		} else {
 			if (getCompany().getCountry().equals(
 					CountryPreferenceFactory.UNITED_KINGDOM)) {
-				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+				accInfoForm.add(statusCheck, paymentTermsCombo,
 						taxTypeCombo, vatReturnCombo,
 						liabilitySalesAccountCombo);
 			} else {
-				accInfoForm.setFields(statusCheck, paymentTermsCombo,
+				accInfoForm.add(statusCheck, paymentTermsCombo,
 						taxTypeCombo, liabilitySalesAccountCombo);
 			}
 		}
@@ -456,17 +452,15 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// accInfoForm.setWidth("94%");
 		accInfoForm.setStyleName("align-form");
 
-		memoForm = new DynamicForm();
+		memoForm = new DynamicForm("memoForm");
 		// memoForm.setWidth("50%");
-		memoArea = new TextAreaItem();
+		memoArea = new TextAreaItem(messages.memo(),"memoArea");
 		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
 				.getViewName()));
-		memoArea.setHelpInformation(true);
-		memoArea.setDisabled(isInViewMode());
-		memoArea.setTitle(messages.memo());
+		memoArea.setEnabled(!isInViewMode());
 		// memoArea.setWidth("400px");
-		memoForm.setFields(memoArea);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.add(memoArea);
+//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		addButton = new AddButton(this);
 		addButton.setEnabled(!isInViewMode());
@@ -501,16 +495,16 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		VerticalPanel rightVLay = new VerticalPanel();
 		addrsForm = new AddressForm(null);
 		// addrsForm.setWidth("100%");
-		addrsForm.setDisabled(isInViewMode());
+		addrsForm.setEnabled(!isInViewMode());
 		phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 				.getViewName());
-		phoneFaxForm.setDisabled(isInViewMode());
+		phoneFaxForm.setEnabled(!isInViewMode());
 		// phoneFaxForm.setWidth("100%");
 
 		emailForm = new EmailForm(null, null, this, this.getAction()
 				.getViewName());
 
-		emailForm.setDisabled(isInViewMode());
+		emailForm.setEnabled(!isInViewMode());
 
 		// emailForm.setWidth("100%");
 
@@ -519,8 +513,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		rightVLay.add(addrsForm);
 		rightVLay.add(phoneFaxForm);
 		rightVLay.add(emailForm);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
+//		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
+//		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.addStyleName("fields-panel");
@@ -536,7 +530,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		contHLay.setSpacing(5);
 		contHLay.add(contacts);
 
-		VerticalPanel mainVlay = new VerticalPanel();
+		StyledPanel mainVlay = new StyledPanel("mainVlay");
 		mainVlay.add(lab);
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
@@ -582,7 +576,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				return TAXAgencyView.this.isInViewMode();
 			}
 		};
-		gridView.setDisabled(true);
+		gridView.setEnabled(false);
 		// gridView.setCanEdit(true);
 		// gridView.isEnable = false;
 		// gridView.init();
@@ -793,6 +787,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	// super.onAttach();
 	// }
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -859,20 +854,20 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		addButton.setEnabled(!isInViewMode());
-		taxAgencyText.setDisabled(isInViewMode());
-		fileAsText.setDisabled(isInViewMode());
-		statusCheck.setDisabled(isInViewMode());
-		paymentTermsCombo.setDisabled(isInViewMode());
-		taxTypeCombo.setDisabled(isInViewMode());
-		vatReturnCombo.setDisabled(isInViewMode());
-		liabilitySalesAccountCombo.setDisabled(isInViewMode());
-		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
+		taxAgencyText.setEnabled(isInViewMode());
+		fileAsText.setEnabled(isInViewMode());
+		statusCheck.setEnabled(isInViewMode());
+		paymentTermsCombo.setEnabled(isInViewMode());
+		taxTypeCombo.setEnabled(isInViewMode());
+		vatReturnCombo.setEnabled(isInViewMode());
+		liabilitySalesAccountCombo.setEnabled(isInViewMode());
+		liabilityPurchaseAccountCombo.setEnabled(isInViewMode());
 		memoArea.setDisabled(isInViewMode());
-		addrsForm.setDisabled(isInViewMode());
-		phoneFaxForm.setDisabled(isInViewMode());
-		emailForm.setDisabled(isInViewMode());
-		gridView.setDisabled(isInViewMode());
-		tAXFilingFrequency.setDisabled(isInViewMode());
+		addrsForm.setEnabled(isInViewMode());
+		phoneFaxForm.setEnabled(isInViewMode());
+		emailForm.setEnabled(isInViewMode());
+		gridView.setEnabled(isInViewMode());
+		tAXFilingFrequency.setEnabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -933,7 +928,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		String[] types = new String[] { messages.salesTax(), messages.vat(),
 				messages.serviceTax(), messages.other() };
 		taxTypeCombo.initCombo(Arrays.asList(types));
-		taxTypeCombo.setDisabled(isInViewMode());
+		taxTypeCombo.setEnabled(!isInViewMode());
 		taxTypeCombo.setRequired(true);
 		taxTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
