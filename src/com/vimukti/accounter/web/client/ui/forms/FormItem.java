@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
@@ -328,6 +329,18 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 			((FocusWidget) widget).setFocus(true);
 		}
 	}
+	
+	
+	public static ValidationResult validate(FormItem<?>... items) {
+		ValidationResult result = new ValidationResult();
+		for (FormItem<?> item : items) {
+			if (!item.validate()) {
+				result.addError(item, messages.pleaseEnter(item.getTitle()));
+			}
+		}
+		return result;
+	}
+
 
 	// public String helpMessage = messages.help();
 	// public PopupPanel popupPanel;

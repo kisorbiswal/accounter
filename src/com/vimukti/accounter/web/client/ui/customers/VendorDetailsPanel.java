@@ -40,34 +40,26 @@ public class VendorDetailsPanel extends VerticalPanel {
 	private void createControls() {
 
 		name = new LabelItem(messages.name(), "name");
-		name.setTitle(messages.name());
 
 		email = new LabelItem(messages.email(), "email");
-		email.setTitle(messages.email());
 
 		balance = new AmountLabel(messages.balance());
 
 		currency = new LabelItem(messages.currency(), "currency");
-		currency.setTitle(messages.currency());
 
 		fax = new LabelItem(messages.faxNumber(), "fax");
-		fax.setTitle(messages.faxNumber());
 
 		vendorsince = new LabelItem(messages.payeeSince(Global.get().Vendor()),
 				"vendorsince");
-		vendorsince.setTitle(messages.payeeSince(Global.get().Vendor()));
 
 		webpageadress = new LabelItem(messages.webPageAddress(),
 				"webpageadress");
-		webpageadress.setTitle(messages.webPageAddress());
 
 		openingBalance = new AmountLabel(messages.balanceAsOf());
 
 		notes = new LabelItem(messages.notes(), "notes");
-		notes.setTitle(messages.notes());
 
 		address = new LabelItem(messages.address(), "address");
-		address.setTitle(messages.address());
 
 		leftform = new DynamicForm("leftform");
 		rightform = new DynamicForm("rightform");
@@ -92,9 +84,6 @@ public class VendorDetailsPanel extends VerticalPanel {
 		hp.add(rightform);
 
 		add(hp);
-		headingPanel.setWidth("100%");
-		hp.setWidth("100%");
-		this.setWidth("100%");
 		hp.getElement().getParentElement().addClassName("details-Panel");
 	}
 

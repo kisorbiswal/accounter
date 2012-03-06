@@ -1059,7 +1059,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public void onEdit() {
 		if (vatinclusiveCheck != null)
-			vatinclusiveCheck.setDisabled(isInViewMode());
+			vatinclusiveCheck.setEnabled(!isInViewMode());
 		// if (menuButton != null)
 		// menuButton.setEnabled(!isInViewMode());
 		setMode(EditMode.EDIT);

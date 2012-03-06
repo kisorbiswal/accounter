@@ -54,8 +54,8 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 		titleItem = new Label(messages.usersActivityLogTitle());
 		titleItem.setStyleName("label-title");
 
-		fromdate = new DateField(messages.fromDate());
-		toDate = new DateField(messages.endDate());
+		fromdate = new DateField(messages.fromDate(),"fromdate");
+		toDate = new DateField(messages.endDate(),"toDate");
 		fromdate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnteredDate(new ClientFinanceDate());
 
@@ -76,12 +76,10 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 			}
 		});
 
-		buttonForm = new DynamicForm();
-		buttonForm.setNumCols(2);
+		buttonForm = new DynamicForm("buttonForm");
 
-		dateForm = new DynamicForm();
-		dateForm.setNumCols(6);
-		dateForm.setFields(fromdate, toDate);
+		dateForm = new DynamicForm("dateForm");
+		dateForm.add(fromdate, toDate);
 
 		activityList = new UsersActivityList(fromdate.getValue(),
 				toDate.getValue(), value) {

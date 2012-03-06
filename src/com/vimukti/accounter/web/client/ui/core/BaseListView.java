@@ -157,7 +157,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (this instanceof BudgetListView) {
 			if (viewSelect == null) {
 				viewSelect = new SelectCombo(messages.currentBudget());
-				viewSelect.setHelpInformation(true);
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 							@Override
@@ -176,7 +175,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		} else {
 			if (viewSelect == null) {
 				viewSelect = new SelectCombo(messages.currentView());
-				viewSelect.setHelpInformation(true);
 				viewSelect.setComboItem(messages.active());
 				// viewSelect.setWidth("150px");
 				List<String> typeList = new ArrayList<String>();
@@ -206,7 +204,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		if (dateRangeSelector == null) {
 			dateRangeSelector = new SelectCombo(messages.date());
-			dateRangeSelector.setHelpInformation(true);
 			// dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
 			typeList.add(messages.active());
@@ -226,17 +223,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		}
 
-		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
-		fromItem.setTitle(messages.from());
+		fromItem = new DateItem(messages.from(),"fromItem");
 		if (Accounter.getStartDate() != null) {
 			fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		} else {
 			fromItem.setDatethanFireEvent(new ClientFinanceDate());
 		}
-		toItem = new DateItem();
-		toItem.setHelpInformation(true);
-		toItem.setTitle(messages.to());
+		toItem = new DateItem(messages.to(),"toItem");
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
@@ -294,15 +287,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 
 		if (isTransactionListView()) {
-			form.setNumCols(8);
 			form.addStyleName("transations_list_table");
 			if (this instanceof JournalEntryListView) {
-				form.setItems(dateRangeSelector, fromItem, toItem);
+				form.add(dateRangeSelector, fromItem, toItem);
 			} else {
-				form.setItems(viewSelect, dateRangeSelector, fromItem, toItem);
+				form.add(viewSelect, dateRangeSelector, fromItem, toItem);
 			}
 			hlay.add(form);
 			hlay.add(updateButton);
@@ -312,7 +304,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		} else if (this instanceof VendorListView
 				&& getCompany().getCountry().equals(
 						CountryPreferenceFactory.UNITED_STATES)) {
-			form.setFields(viewSelect);
+			form.add(viewSelect);
 			hlay.add(prepare1099MiscForms);
 			hlay.setCellWidth(prepare1099MiscForms, "65%");
 			hlay.add(form);
@@ -320,7 +312,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(prepare1099MiscForms, ALIGN_RIGHT);
 			hlay.addStyleName("vendor_list_1099");
 		} else if (this instanceof BudgetListView) {
-			form.setFields(viewSelect);
+			form.add(viewSelect);
 			hlay.add(form);
 			hlay.add(budgetEdit);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
@@ -329,7 +321,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			if (!(this instanceof JournalEntryListView)
 					&& !(this instanceof ChalanDetailsListView))
 				if (viewSelect != null) {
-					form.setFields(viewSelect);
+					form.add(viewSelect);
 				}
 			hlay.add(form);
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
@@ -674,7 +666,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	public void disableFilter() {
 		if (this.viewSelect != null) {
-			this.viewSelect.setDisabled(true);
+			this.viewSelect.setEnabled(false);
 		}
 	}
 
