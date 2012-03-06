@@ -3980,17 +3980,27 @@ public class ReportManager extends Manager {
 		Account account = (Account) session.get(Account.class, accountId);
 		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
-			result = session.getNamedQuery("get.all.invoices.by.account")
+			result = session
+					.getNamedQuery("get.all.invoices.by.account")
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
 					.setParameter("companyId", companyId)
-					.setParameter("accountId", accountId).list();
+					.setParameter("accountId", accountId)
+					.setParameter("tobePrint", "TO BE PRINTED",
+							EncryptedStringType.INSTANCE)
+					.setParameter("empty", "", EncryptedStringType.INSTANCE)
+					.list();
 		} else if (account.getType() == ClientAccount.TYPE_BANK) {
-			result = session.getNamedQuery("get.missing.checks.by.account")
+			result = session
+					.getNamedQuery("get.missing.checks.by.account")
 					.setParameter("accountId", accountId)
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
-					.setParameter("companyId", companyId).list();
+					.setParameter("companyId", companyId)
+					.setParameter("tobePrint", "TO BE PRINTED",
+							EncryptedStringType.INSTANCE)
+					.setParameter("empty", "", EncryptedStringType.INSTANCE)
+					.list();
 		}
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
