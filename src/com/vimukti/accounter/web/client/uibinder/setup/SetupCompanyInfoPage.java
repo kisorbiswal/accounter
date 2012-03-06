@@ -260,13 +260,12 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	private void addFields(Map<String, String> companyFields) {
 		itemsField.clear();
 		companyFieldsPanel.clear();
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 		for (String key : companyFields.keySet()) {
 			String value = companyFields.get(key);
-			TextItem item = new TextItem(key);
+			TextItem item = new TextItem(key,"item");
 			item.setValue(value);
-			item.setName(key);
-			form.setFields(item);
+			form.add(item);
 			itemsField.put(key, item);
 		}
 		companyFieldsPanel.add(form);

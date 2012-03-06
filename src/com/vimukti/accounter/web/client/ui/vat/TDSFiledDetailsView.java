@@ -50,6 +50,7 @@ public class TDSFiledDetailsView extends BaseView {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("TDSFiledDetailsView");
 		createControls();
 		setSize("100%", "100%");
 	}
@@ -87,37 +88,32 @@ public class TDSFiledDetailsView extends BaseView {
 
 	private void createControls() {
 
-		formNoLabel = new LabelItem();
-		formNoLabel.setTitle(getFormTypes().get(formType - 1));
-		ackNoLabel = new LabelItem();
-		ackNoLabel.setTitle(messages.acknowledgmentNo());
+		formNoLabel = new LabelItem(getFormTypes().get(formType - 1),
+				"formnolabel");
+		ackNoLabel = new LabelItem(messages.acknowledgmentNo(), "ackNoLabel");
 		ackNoLabel.setValue(ackNo);
-		dateOfFiledLabel = new LabelItem();
-		dateOfFiledLabel.setTitle(messages.dateOfFiled());
+		dateOfFiledLabel = new LabelItem(messages.dateOfFiled(),
+				"dateOfFiledLabel");
 		dateOfFiledLabel.setValue(UIUtils
 				.getDateByCompanyType(new ClientFinanceDate(dateOfFiled)));
-		financialYearLabel = new LabelItem();
-		financialYearLabel.setTitle(messages.financialYear());
+		financialYearLabel = new LabelItem(messages.financialYear(),
+				"financialYearLabel");
 		financialYearLabel.setValue(Integer.toString(financialYearStart) + "-"
 				+ Integer.toString(financialYearEnd));
-		assesmentYearLabel = new LabelItem();
-		assesmentYearLabel.setTitle(messages.assessmentYear());
+		assesmentYearLabel = new LabelItem(messages.assessmentYear(),
+				"assesmentYearLabel");
 		assesmentYearLabel.setValue(Integer.toString(financialYearStart + 1)
 				+ "-" + Integer.toString(financialYearEnd + 1));
-		quaterLabel = new LabelItem();
-		quaterLabel.setTitle(messages.period());
+		quaterLabel = new LabelItem(messages.period(), "quaterLabel");
 		quaterLabel
 				.setValue((String) getFinancialQuatersList().get(quater - 1));
 
-		DynamicForm filedForm = new DynamicForm();
-		filedForm.setFields(ackNoLabel, dateOfFiledLabel, financialYearLabel,
+		DynamicForm filedForm = new DynamicForm("filedForm");
+		filedForm.add(ackNoLabel, dateOfFiledLabel, financialYearLabel,
 				assesmentYearLabel, quaterLabel);
-		filedForm.setSize("30%", "100%");
 		mainPanel.add(formNoLabel.getMainWidget());
 		mainPanel.add(filedForm);
 
-		mainPanel.setSize("100%", "100%");
-		mainPanel.setHorizontalAlignment(ALIGN_LEFT);
 		this.add(mainPanel);
 	}
 

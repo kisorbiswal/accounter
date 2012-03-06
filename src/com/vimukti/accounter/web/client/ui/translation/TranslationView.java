@@ -79,7 +79,7 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 						updateListData();
 					}
 				});
-		searchItem = new TextItem(messages.searchHere());
+		searchItem = new TextItem(messages.searchHere(),"searchItem");
 		searchItem.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -128,9 +128,8 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 		};
 		dataPanel = new StyledPanel("dataPanel");
 
-		DynamicForm combosForm = new DynamicForm();
-		combosForm.setNumCols(6);
-		combosForm.setFields(languageCombo, optionsCombo, searchItem);
+		DynamicForm combosForm = new DynamicForm(" combosForm");
+		combosForm.add(languageCombo, optionsCombo, searchItem);
 
 		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(combosForm);
@@ -211,7 +210,7 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 		createNewDataPanel();
 		Label error = new Label(messages.noRecordsToShow());
 		dataPanel.add(error);
-		dataPanel.setCellHorizontalAlignment(error, HasAlignment.ALIGN_CENTER);
+//		dataPanel.setCellHorizontalAlignment(error, HasAlignment.ALIGN_CENTER);
 		pager.setVisible(false);
 	}
 

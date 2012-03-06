@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -74,11 +75,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("TDSDeductorDetailsView");
 		taxOfficeAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		createControls();
-		setSize("100%", "100%");
 
-		// initRPCService();
 		if (data != null) {
 			onEdit();
 		}
@@ -87,40 +87,32 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	private void createControls() {
 
-		deductorName = new TextItem(messages.name());
-		deductorName.setHelpInformation(true);
+		deductorName = new TextItem(messages.name(), "deductorName");
 		deductorName.setRequired(true);
-		deductorName.setDisabled(isInViewMode());
+		deductorName.setEnabled(isInViewMode());
 
-		branchName = new TextItem(messages.branchOrdivison());
-		branchName.setHelpInformation(true);
-		branchName.setDisabled(isInViewMode());
+		branchName = new TextItem(messages.branchOrdivison(), "branchName");
+		branchName.setEnabled(isInViewMode());
 
-		flatNo = new TextItem(messages.flatNo());
-		flatNo.setHelpInformation(true);
+		flatNo = new TextItem(messages.flatNo(), "flatNo");
 		flatNo.setRequired(true);
-		flatNo.setDisabled(isInViewMode());
+		flatNo.setEnabled(isInViewMode());
 
-		buildingName = new TextItem(messages.nameOfPremisis());
-		buildingName.setHelpInformation(true);
-		buildingName.setDisabled(isInViewMode());
+		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName");
+		buildingName.setEnabled(isInViewMode());
 
-		streetName = new TextItem(messages.streetOrRoadName());
-		streetName.setHelpInformation(true);
-		streetName.setDisabled(isInViewMode());
+		streetName = new TextItem(messages.streetOrRoadName(), "streetName");
+		streetName.setEnabled(isInViewMode());
 
-		areaName = new TextItem(messages.area());
-		areaName.setHelpInformation(true);
-		areaName.setDisabled(isInViewMode());
+		areaName = new TextItem(messages.area(), "areaName");
+		areaName.setEnabled(isInViewMode());
 
-		cityName = new TextItem(messages.cityOrTown());
-		cityName.setHelpInformation(true);
-		cityName.setDisabled(isInViewMode());
+		cityName = new TextItem(messages.cityOrTown(), "cityName");
+		cityName.setEnabled(isInViewMode());
 
 		stateCombo = new SelectCombo(messages.state());
-		stateCombo.setHelpInformation(true);
 		stateCombo.initCombo(getStatesList());
-		stateCombo.setDisabled(isInViewMode());
+		stateCombo.setEnabled(isInViewMode());
 		stateCombo.setRequired(true);
 		stateCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -132,15 +124,13 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		pinNumber = new IntegerField(this, messages.postalCode());
-		pinNumber.setHelpInformation(true);
-		pinNumber.setDisabled(isInViewMode());
+		pinNumber.setEnabled(isInViewMode());
 		pinNumber.setRequired(true);
 
 		addressChangeCombo = new SelectCombo(
 				messages.hasAddressChangedSinceLastReturn());
-		addressChangeCombo.setHelpInformation(true);
 		addressChangeCombo.initCombo(getYESNOList());
-		addressChangeCombo.setDisabled(isInViewMode());
+		addressChangeCombo.setEnabled(isInViewMode());
 		addressChangeCombo.setRequired(true);
 		addressChangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -154,41 +144,32 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 						}
 					}
 				});
-
-		stdNumber = new TextItem(messages.STDCode());
-		stdNumber.setHelpInformation(true);
-		stdNumber.setDisabled(isInViewMode());
+		stdNumber = new TextItem(messages.STDCode(), "stdNumber");
+		stdNumber.setEnabled(isInViewMode());
 
 		telephoneNumber = new IntegerField(this, messages.telephoneNo());
-		telephoneNumber.setHelpInformation(true);
-		telephoneNumber.setDisabled(isInViewMode());
+		telephoneNumber.setEnabled(isInViewMode());
 
 		faxNumber = new IntegerField(this, messages.faxNumber());
-		faxNumber.setHelpInformation(true);
-		faxNumber.setDisabled(isInViewMode());
+		faxNumber.setEnabled(isInViewMode());
 
-		panNumber = new TextItem(messages.panNumber());
-		panNumber.setHelpInformation(true);
-		panNumber.setDisabled(isInViewMode());
+		panNumber = new TextItem(messages.panNumber(), "panNumber");
+		panNumber.setEnabled(isInViewMode());
 		panNumber.setRequired(true);
 
-		tanNumber = new TextItem(messages.tanNumber());
-		tanNumber.setHelpInformation(true);
-		tanNumber.setDisabled(isInViewMode());
+		tanNumber = new TextItem(messages.tanNumber(), "tanNumber");
+		tanNumber.setEnabled(isInViewMode());
 		tanNumber.setRequired(true);
 
 		addressSameBox = new CheckboxItem(
-				messages.addressSameForResponsiblePersonAlso());
-		addressSameBox.setDisabled(isInViewMode());
+				messages.addressSameForResponsiblePersonAlso(),
+				"addressSameBox");
+		addressSameBox.setEnabled(isInViewMode());
 
-		taxOfficeAddrItem = new TextAreaItem();
-		taxOfficeAddrItem.setHelpInformation(true);
-		taxOfficeAddrItem.setWidth(100);
-		taxOfficeAddrItem.setRequired(true);
-		taxOfficeAddrItem.setTitle(messages.taxOfficeAddress());
+		taxOfficeAddrItem = new TextAreaItem(messages.taxOfficeAddress(),
+				"taxOfficeAddress");
 		taxOfficeAddrItem.addClickHandler(new ClickHandler() {
 
-			@Override
 			public void onClick(ClickEvent event) {
 				if (taxOfficeAddresses.isEmpty()) {
 					taxOfficeAddresses.put(0, null);
@@ -198,20 +179,18 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			}
 		});
 		email = new EmailField(messages.email());
-		email.setHelpInformation(true);
-		email.setDisabled(isInViewMode());
-		email.setRequired(true);
+		// email.setHelpInformation(true);
+		email.setEnabled(isInViewMode());
 
-		taxDynamicForm = new DynamicForm();
-		taxDynamicForm.setFields(deductorName, branchName, flatNo,
-				buildingName, streetName, areaName, cityName, stateCombo,
-				pinNumber, addressChangeCombo, stdNumber, telephoneNumber,
-				faxNumber, email);
+		taxDynamicForm = new DynamicForm("taxDynamicForm");
+		taxDynamicForm.add(deductorName, branchName, flatNo, buildingName,
+				streetName, areaName, cityName, stateCombo, pinNumber,
+				addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
+				email);
 
 		statusCombo = new SelectCombo(messages.status());
-		statusCombo.setHelpInformation(true);
 		statusCombo.initCombo(getStatusTypes());
-		statusCombo.setDisabled(isInViewMode());
+		statusCombo.setEnabled(isInViewMode());
 		statusCombo.setRequired(true);
 		statusCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -230,10 +209,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		deductorTypeOther = new SelectCombo(messages.deducatorType());
-		deductorTypeOther.setHelpInformation(true);
 		deductorTypeOther.initCombo(getOthersList());
 		deductorTypeOther.setSelectedItem(0);
-		deductorTypeOther.setDisabled(isInViewMode());
+		deductorTypeOther.setEnabled(isInViewMode());
 		deductorTypeOther.setRequired(true);
 		deductorTypeOther
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -245,12 +223,12 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		deductorTypeGovernment = new SelectCombo(messages.deducatorType());
-		deductorTypeGovernment.setHelpInformation(true);
 		deductorTypeGovernment.initCombo(getGovtList());
+		deductorTypeGovernment.setSelectedItem(0);
+		deductorTypeGovernment.setEnabled(isInViewMode());
 		if ((getGovtList() != null) && (!getGovtList().isEmpty())) {
 			deductorTypeGovernment.setComboItem(getGovtList().get(0));
 		}
-		deductorTypeGovernment.setDisabled(isInViewMode());
 		deductorTypeGovernment.setRequired(true);
 		deductorTypeGovernment
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -262,7 +240,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		govtState = new SelectCombo(messages.state());
-		govtState.setHelpInformation(true);
 		govtState.initCombo(getStatesList());
 		govtState
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -273,27 +250,23 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		paoCode = new TextItem(messages.PAOCode());
-		paoCode.setHelpInformation(true);
-		paoCode.setDisabled(isInViewMode());
+		paoCode = new TextItem(messages.PAOCode(), "paoCode");
+		paoCode.setEnabled(isInViewMode());
 
 		paoRegistration = new IntegerField(this, messages.PAORegistration());
-		paoRegistration.setHelpInformation(true);
-		paoRegistration.setDisabled(isInViewMode());
+		paoRegistration.setEnabled(isInViewMode());
 
-		ddoCode = new TextItem(messages.ddoCode());
-		ddoCode.setHelpInformation(true);
-		ddoCode.setDisabled(isInViewMode());
+		ddoCode = new TextItem(messages.ddoCode(), "telephoneNumber");
+		ddoCode.setEnabled(isInViewMode());
 
-		ddoRegistration = new TextItem(messages.ddoRegistrationNumber());
-		ddoRegistration.setHelpInformation(true);
-		ddoRegistration.setDisabled(isInViewMode());
+		ddoRegistration = new TextItem(messages.ddoRegistrationNumber(),
+				"ddoRegistration");
+		ddoRegistration.setEnabled(isInViewMode());
 
 		ministryCombo = new SelectCombo(messages.ministry());
-		ministryCombo.setHelpInformation(true);
 		ministryCombo.initCombo(getMinistryType());
 		ministryCombo.setSelectedItem(0);
-		ministryCombo.setDisabled(isInViewMode());
+		ministryCombo.setEnabled(isInViewMode());
 		ministryCombo.setRequired(true);
 		ministryCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -301,44 +274,42 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem.equals(getMinistryType().get(57))) {
-							ministryNameOtehr.setDisabled(false);
+							ministryNameOtehr.setEnabled(false);
 							ministryNameOtehr.setRequired(true);
 						} else {
-							ministryNameOtehr.setDisabled(true);
+							ministryNameOtehr.setEnabled(true);
 							ministryNameOtehr.setRequired(false);
 						}
 					}
 				});
 
-		ministryNameOtehr = new TextItem(messages.ministryName());
-		ministryNameOtehr.setHelpInformation(true);
-		ministryNameOtehr.setDisabled(true);
+		ministryNameOtehr = new TextItem(messages.ministryName(),
+				"ministryNameOtehr");
+		ministryNameOtehr.setEnabled(true);
 		ministryNameOtehr.setRequired(false);
 
-		otherDynamicForm = new DynamicForm();
-		otherDynamicForm.setFields(statusCombo, deductorTypeOther,
+		otherDynamicForm = new DynamicForm("otherDynamicForm");
+		otherDynamicForm.add(statusCombo, deductorTypeOther,
 				deductorTypeGovernment, govtState, paoCode, paoRegistration,
 				ddoCode, ddoRegistration, ministryCombo, ministryNameOtehr,
 				panNumber, tanNumber, addressSameBox, taxOfficeAddrItem);
 
-		paoCode.setDisabled(true);
-		paoRegistration.setDisabled(true);
-		ddoCode.setDisabled(true);
-		ddoRegistration.setDisabled(true);
-		ministryCombo.setDisabled(true);
-		ministryNameOtehr.setDisabled(true);
-		govtState.setDisabled(true);
+		paoCode.setEnabled(true);
+		paoRegistration.setEnabled(true);
+		ddoCode.setEnabled(true);
+		ddoRegistration.setEnabled(true);
+		ministryCombo.setEnabled(true);
+		ministryNameOtehr.setEnabled(true);
+		govtState.setEnabled(true);
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.add(taxDynamicForm);
-		horizontalPanel.add(otherDynamicForm);
+		StyledPanel styledPanel = new StyledPanel("panel1");
+		styledPanel.add(taxDynamicForm);
+		styledPanel.add(otherDynamicForm);
 
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(horizontalPanel);
-		verticalPanel.setWidth("100%");
+		StyledPanel styledPanel1 = new StyledPanel("panel2");
+		styledPanel1.add(styledPanel);
 
-		this.add(verticalPanel);
+		this.add(styledPanel1);
 
 		deductorTypeOther.hide();
 		deductorTypeGovernment.hide();
@@ -356,14 +327,13 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void governmentSelected() {
 		deductorTypeOther.hide();
 		deductorTypeGovernment.show();
-		deductorTypeSelected = deductorTypeGovernment.getSelectedValue();
-		paoCode.setDisabled(false);
-		paoRegistration.setDisabled(false);
-		ddoCode.setDisabled(false);
-		ddoRegistration.setDisabled(false);
-		ministryCombo.setDisabled(false);
-		ministryNameOtehr.setDisabled(false);
-		govtState.setDisabled(false);
+		paoCode.setEnabled(false);
+		paoRegistration.setEnabled(false);
+		ddoCode.setEnabled(false);
+		ddoRegistration.setEnabled(false);
+		ministryCombo.setEnabled(false);
+		ministryNameOtehr.setEnabled(false);
+		govtState.setEnabled(false);
 
 		paoCode.setRequired(true);
 		paoRegistration.setRequired(true);
@@ -378,14 +348,13 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void otherSelected() {
 		deductorTypeOther.show();
 		deductorTypeGovernment.hide();
-		deductorTypeSelected = deductorTypeOther.getSelectedValue();
-		paoCode.setDisabled(true);
-		paoRegistration.setDisabled(true);
-		ddoCode.setDisabled(true);
-		ddoRegistration.setDisabled(true);
-		ministryCombo.setDisabled(true);
-		ministryNameOtehr.setDisabled(true);
-		govtState.setDisabled(true);
+		paoCode.setEnabled(true);
+		paoRegistration.setEnabled(true);
+		ddoCode.setEnabled(true);
+		ddoRegistration.setEnabled(true);
+		ministryCombo.setEnabled(true);
+		ministryNameOtehr.setEnabled(true);
+		govtState.setEnabled(true);
 
 		paoCode.setRequired(false);
 		paoRegistration.setRequired(false);

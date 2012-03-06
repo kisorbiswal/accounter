@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
@@ -87,6 +88,7 @@ public class ReceiveVATView extends
 
 	public ReceiveVATView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
+		this.getElement().setId("receivetaxview");
 	}
 
 	@Override
@@ -113,7 +115,6 @@ public class ReceiveVATView extends
 				.giveNoTo(this.getAction().getViewName()));
 
 		depositInAccCombo = new DepositInAccountCombo(messages.depositIn());
-		depositInAccCombo.setHelpInformation(true);
 		depositInAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPOSIT_IN_ACCOUNT));
 		depositInAccCombo.setRequired(true);
@@ -142,16 +143,16 @@ public class ReceiveVATView extends
 
 				});
 
-		depositInAccCombo.setDisabled(isInViewMode());
-		depositInAccCombo.setPopupWidth("500px");
+		depositInAccCombo.setEnabled(!isInViewMode());
+		// depositInAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
 
-		printCheck = new CheckboxItem(messages.toBePrinted());
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
-		printCheck.setWidth(100);
-		printCheck.setDisabled(true);
+		// printCheck.setWidth(100);
+		printCheck.setEnabled(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -161,7 +162,7 @@ public class ReceiveVATView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setDisabled(true);
+						checkNoText.setEnabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -171,20 +172,20 @@ public class ReceiveVATView extends
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setDisabled(false);
+				checkNoText.setEnabled(false);
 
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo());
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-		checkNoText.setHelpInformation(true);
-		checkNoText.setWidth(100);
+		// checkNoText.setHelpInformation(true);
+		// checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
 								.check())))
-			checkNoText.setDisabled(true);
+			checkNoText.setEnabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -193,11 +194,11 @@ public class ReceiveVATView extends
 			}
 		});
 
-		billsDue = new DateField(messages.returnsDueOnOrBefore());
-		billsDue.setHelpInformation(true);
+		billsDue = new DateField(messages.returnsDueOnOrBefore(), "billsDue");
+		// billsDue.setHelpInformation(true);
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setEnteredDate(new ClientFinanceDate());
-		billsDue.setDisabled(isInViewMode());
+		billsDue.setEnabled(isInViewMode());
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -225,20 +226,14 @@ public class ReceiveVATView extends
 		// }
 		//
 		// });
-		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
-		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(transactionDateItem, transNumber);
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		DynamicForm dateForm = new DynamicForm("datenumber-panel");
+		dateForm.add(transactionDateItem, transNumber);
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		mainform = new DynamicForm();
-		// filterForm.setWidth("100%");
+		mainform = new DynamicForm("mainform");
 		mainform = UIUtils.form(messages.filter());
-		mainform.setFields(depositInAccCombo, paymentMethodCombo, printCheck,
+		mainform.add(depositInAccCombo, paymentMethodCombo, printCheck,
 				checkNoText, billsDue);
 		// mainform.setWidth("80%");
 
@@ -246,20 +241,21 @@ public class ReceiveVATView extends
 		// fileterForm.setFields(billsDue);
 		// fileterForm.setWidth("80%");
 
-		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
-		amountText.setHelpInformation(true);
+		amountText = new AmountField(messages.amount(), this,
+				getBaseCurrency(), "amountText");
+		// amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		amountText.setDisabled(true);
+		amountText.setEnabled(true);
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		endingBalanceText.setHelpInformation(true);
+				getBaseCurrency(), "endingBalanceText");
+		// endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		endingBalanceText.setDisabled(true);
+		endingBalanceText.setEnabled(true);
 
-		balForm = new DynamicForm();
+		balForm = new DynamicForm("balForm");
 		balForm = UIUtils.form(messages.balances());
-		balForm.setFields(amountText, endingBalanceText);
+		balForm.add(amountText, endingBalanceText);
 
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
@@ -280,7 +276,7 @@ public class ReceiveVATView extends
 			rightVLay.add(currencyWidget);
 			rightVLay.setCellHorizontalAlignment(currencyWidget,
 					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
@@ -328,12 +324,12 @@ public class ReceiveVATView extends
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
 			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNoText.setDisabled(false);
+				printCheck.setEnabled(true);
+				checkNoText.setEnabled(true);
 			} else {
 				// paymentMethodCombo.setComboItem(paymentMethod);
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
+				printCheck.setEnabled(false);
+				checkNoText.setEnabled(false);
 			}
 		}
 
@@ -450,7 +446,7 @@ public class ReceiveVATView extends
 				currencyWidget.setSelectedCurrency(this.currency);
 			}
 			currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		selectedDepositInAccount = getCompany().getAccount(
@@ -471,11 +467,11 @@ public class ReceiveVATView extends
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 
 		if (transaction.getPaymentMethod().equals(messages.check())) {
-			printCheck.setDisabled(isInViewMode());
-			checkNoText.setDisabled(isInViewMode());
+			printCheck.setEnabled(!isInViewMode());
+			checkNoText.setEnabled(!isInViewMode());
 		} else {
-			printCheck.setDisabled(true);
-			checkNoText.setDisabled(true);
+			printCheck.setEnabled(false);
+			checkNoText.setEnabled(false);
 		}
 
 		if (transaction.getCheckNumber() != null) {
@@ -913,10 +909,10 @@ public class ReceiveVATView extends
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		paymentMethodCombo.setDisabled(isInViewMode());
-		billsDue.setDisabled(isInViewMode());
-		// vatAgencyCombo.setDisabled(isInViewMode());
-		depositInAccCombo.setDisabled(isInViewMode());
+		paymentMethodCombo.setEnabled(isInViewMode());
+		billsDue.setEnabled(isInViewMode());
+		// vatAgencyCombo.setDisabled(isInViewMode())		depositInAccCombo.setEnabled(isInViewMode());
+;
 		grid.isEnable = true;
 		grid.setDisabled(false);
 		grid.setCanEdit(true);
@@ -924,7 +920,7 @@ public class ReceiveVATView extends
 			checkNoText.setValue(messages.toBePrinted());
 		}
 		if (isMultiCurrencyEnabled()) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		super.onEdit();
 

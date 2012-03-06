@@ -105,19 +105,17 @@ public class AdjustTAXView extends
 		vatItemCombo.setEnabled(!isInViewMode());
 		// vatItemCombo.setWidth(100);
 
-		vatLine = new LabelItem();
-		vatLine.setValue(messages.taxLine());
+		vatLine = new LabelItem(messages.taxLine(),"vatLine");
 
-		vatAccount = new LabelItem();
-		vatAccount.setValue(messages.taxAccount());
+		vatAccount = new LabelItem(messages.taxAccount(),"vatAccount");
 
-		vatLinetxt = new LabelItem();
-		vatAccounttxt = new LabelItem();
+		vatLinetxt = new LabelItem("","vatLinetxt");
+		vatAccounttxt = new LabelItem("","vatAccounttxt");
 
 		vatLinetxt.setValue(" ");
 		vatAccounttxt.setValue("  ");
 
-		vatform = new DynamicForm();
+		vatform = new DynamicForm("vatform");
 		// vatform.setWidth("64%");
 
 		vatform.add(vatLine, vatLinetxt, vatAccount, vatAccounttxt);
@@ -196,12 +194,12 @@ public class AdjustTAXView extends
 		salesTypeRadio.setDefaultValue(messages.salesType());
 		salesTypeRadio.setEnabled(isInViewMode());
 
-		memo = new TextAreaItem(messages.memo());
+		memo = new TextAreaItem(messages.memo(),"memo");
 		memo.setMemo(false, this);
 		memo.setDisabled(isInViewMode());
 		DynamicForm dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(adjustDate, entryNo);
+		dateForm.add(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -209,22 +207,22 @@ public class AdjustTAXView extends
 		datepanel.setCellHorizontalAlignment(dateForm,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		DynamicForm topform = new DynamicForm();
+		DynamicForm topform = new DynamicForm("topform");
 		topform.addStyleName("fields-panel");
 		// if (getCompany().getPreferences().isChargeSalesTax()) {
 		// topform.setFields(taxAgencyCombo);
 		// } else {
-		topform.setFields(taxAgencyCombo, vatItemCombo, salesTypeRadio);
+		topform.add(taxAgencyCombo, vatItemCombo, salesTypeRadio);
 		// }
 
 		// topform.setWidth("50%");
 		// topform.getCellFormatter().setWidth(0, 0, "190");
 
-		DynamicForm memoForm = new DynamicForm();
+		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.addStyleName("fields-panel");
 		// memoForm.setWidth("50%");
-		memoForm.setFields(adjustAccountCombo, amount, typeRadio, memo);
-		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
+		memoForm.add(adjustAccountCombo, amount, typeRadio, memo);
+//		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// memoForm.getCellFormatter().setWidth(0, 0, "190");
 
 		VerticalPanel mainPanel = new VerticalPanel();
@@ -348,9 +346,9 @@ public class AdjustTAXView extends
 		// return true;
 		// case 3:
 		if (AccounterValidator.isZeroAmount(amount.getAmount())) {
-			result.addError(amount, messages.shouldNotbeZero(amount.getName()));
+			result.addError(amount, messages.shouldNotbeZero(amount.getTitle()));
 		} else if (AccounterValidator.isNegativeAmount(amount.getAmount())) {
-			result.addError(amount, messages.shouldBePositive(amount.getName()));
+			result.addError(amount, messages.shouldBePositive(amount.getTitle()));
 		}
 
 		// case 2:

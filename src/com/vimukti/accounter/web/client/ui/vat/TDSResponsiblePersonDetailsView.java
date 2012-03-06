@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -13,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -57,53 +56,46 @@ public class TDSResponsiblePersonDetailsView extends
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("TDSResponsiblePersonDetailsView");
 		createControls();
-		setSize("100%", "100%");
 	}
 
 	private void createControls() {
 
-		responsiblePersonName = new TextItem(messages.name());
-		responsiblePersonName.setHelpInformation(true);
+		responsiblePersonName = new TextItem(messages.name(),
+				"responsiblePersonName");
 		responsiblePersonName.setRequired(true);
-		responsiblePersonName.setDisabled(isInViewMode());
+		responsiblePersonName.setEnabled(isInViewMode());
 
-		designation = new TextItem(messages.designation());
-		designation.setHelpInformation(true);
+		designation = new TextItem(messages.designation(), "designation");
 		designation.setRequired(true);
-		designation.setDisabled(isInViewMode());
+		designation.setEnabled(isInViewMode());
 
-		branchName = new TextItem(messages.branchOrdivison());
-		branchName.setHelpInformation(true);
-		branchName.setDisabled(isInViewMode());
+		branchName = new TextItem(messages.branchOrdivison(), "branchName");
+		branchName.setEnabled(isInViewMode());
 
-		flatNo = new TextItem(messages.flatNo());
-		flatNo.setHelpInformation(true);
+		flatNo = new TextItem(messages.flatNo(), "flatNo");
+
 		flatNo.setRequired(true);
-		flatNo.setDisabled(isInViewMode());
+		flatNo.setEnabled(isInViewMode());
 
-		buildingName = new TextItem(messages.nameOfPremisis());
-		buildingName.setHelpInformation(true);
-		buildingName.setDisabled(isInViewMode());
+		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName");
+		buildingName.setEnabled(isInViewMode());
 
-		streetName = new TextItem(messages.streetOrRoadName());
-		streetName.setHelpInformation(true);
-		streetName.setDisabled(isInViewMode());
+		streetName = new TextItem(messages.streetOrRoadName(), "streetName");
+		streetName.setEnabled(isInViewMode());
 
-		areaName = new TextItem(messages.area());
-		areaName.setHelpInformation(true);
-		areaName.setDisabled(isInViewMode());
+		areaName = new TextItem(messages.area(), "areaName");
+		areaName.setEnabled(isInViewMode());
 
-		cityName = new TextItem(messages.cityOrTown());
-		cityName.setHelpInformation(true);
+		cityName = new TextItem(messages.cityOrTown(), "cityName");
 		cityName.setRequired(true);
-		cityName.setDisabled(isInViewMode());
+		cityName.setEnabled(isInViewMode());
 
 		stateCombo = new SelectCombo(messages.state());
-		stateCombo.setHelpInformation(true);
 		stateCombo.initCombo(getStatesList());
 		stateCombo.setSelectedItem(0);
-		stateCombo.setDisabled(isInViewMode());
+		stateCombo.setEnabled(isInViewMode());
 		stateCombo.setRequired(true);
 		stateCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -115,15 +107,13 @@ public class TDSResponsiblePersonDetailsView extends
 				});
 
 		pinNumber = new IntegerField(this, messages.postalCode());
-		pinNumber.setHelpInformation(true);
 		pinNumber.setRequired(true);
-		pinNumber.setDisabled(isInViewMode());
+		pinNumber.setEnabled(isInViewMode());
 
 		addressChangeCombo = new SelectCombo(
 				messages.hasAddressChangedSinceLastReturn());
-		addressChangeCombo.setHelpInformation(true);
 		addressChangeCombo.initCombo(getYESNOList());
-		addressChangeCombo.setDisabled(isInViewMode());
+		addressChangeCombo.setEnabled(isInViewMode());
 		addressChangeCombo.setRequired(true);
 		addressChangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -135,35 +125,29 @@ public class TDSResponsiblePersonDetailsView extends
 				});
 
 		stdNumber = new IntegerField(this, messages.STDCode());
-		stdNumber.setHelpInformation(true);
-		stdNumber.setDisabled(isInViewMode());
+		stdNumber.setEnabled(isInViewMode());
 
 		telephoneNumber = new IntegerField(this, messages.telephoneNo());
-		telephoneNumber.setHelpInformation(true);
-		telephoneNumber.setDisabled(isInViewMode());
+		telephoneNumber.setEnabled(isInViewMode());
 
 		mobileNumber = new IntegerField(this, messages.mobileNumber());
-		mobileNumber.setHelpInformation(true);
 		mobileNumber.setRequired(true);
-		mobileNumber.setDisabled(isInViewMode());
+		mobileNumber.setEnabled(isInViewMode());
 
 		faxNumber = new IntegerField(this, messages.faxNumber());
-		faxNumber.setHelpInformation(true);
-		faxNumber.setDisabled(isInViewMode());
+		faxNumber.setEnabled(isInViewMode());
 
 		email = new EmailField(messages.email());
-		email.setHelpInformation(true);
-		email.setDisabled(isInViewMode());
+		email.setEnabled(isInViewMode());
 
-		taxDynamicForm = new DynamicForm();
-		taxDynamicForm.setFields(responsiblePersonName, designation,
-				branchName, flatNo, buildingName, streetName, areaName,
-				cityName, stateCombo, pinNumber, addressChangeCombo);
+		taxDynamicForm = new DynamicForm("taxDynamicForm");
+		taxDynamicForm.add(responsiblePersonName, designation, branchName,
+				flatNo, buildingName, streetName, areaName, cityName,
+				stateCombo, pinNumber, addressChangeCombo);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
-		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
-		financialYearCombo.setDisabled(isInViewMode());
+		financialYearCombo.setEnabled(isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -176,14 +160,12 @@ public class TDSResponsiblePersonDetailsView extends
 				});
 
 		assessmentYearCombo = new SelectCombo(messages.assessmentYear());
-		assessmentYearCombo.setHelpInformation(true);
 		assessmentYearCombo.initCombo(getFinancialYearList());
-		assessmentYearCombo.setDisabled(true);
+		assessmentYearCombo.setEnabled(true);
 
 		returnType = new SelectCombo(messages.retutnType());
-		returnType.setHelpInformation(true);
 		returnType.initCombo(getReturnTypeList());
-		returnType.setDisabled(isInViewMode());
+		returnType.setEnabled(isInViewMode());
 		returnType.setRequired(true);
 		returnType
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -195,10 +177,9 @@ public class TDSResponsiblePersonDetailsView extends
 				});
 
 		existingTdsassess = new SelectCombo(messages.existingTDSAssesses());
-		existingTdsassess.setHelpInformation(true);
 		existingTdsassess.initCombo(getYESNOList());
 		existingTdsassess.setSelectedItem(0);
-		existingTdsassess.setDisabled(isInViewMode());
+		existingTdsassess.setEnabled(isInViewMode());
 		existingTdsassess.setRequired(true);
 		existingTdsassess
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -209,34 +190,27 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		panCode = new TextItem(messages.panNumber());
-		panCode.setHelpInformation(true);
+		panCode = new TextItem(messages.panNumber(), "panCode");
 		panCode.setRequired(true);
-		panCode.setDisabled(isInViewMode());
+		panCode.setEnabled(isInViewMode());
 
-		tanNumber = new TextItem(messages.tanNumber());
-		tanNumber.setHelpInformation(true);
+		tanNumber = new TextItem(messages.tanNumber(), "tanNumber");
 		tanNumber.setRequired(true);
-		tanNumber.setDisabled(isInViewMode());
+		tanNumber.setEnabled(isInViewMode());
 
-		otherDynamicForm = new DynamicForm();
+		otherDynamicForm = new DynamicForm("otherDynamicForm");
 		// otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
 		// faxNumber, email, financialYearCombo, assessmentYearCombo,
 		// returnType, existingTdsassess, panCode, tanNumber);
 
-		otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
+		otherDynamicForm.add(stdNumber, telephoneNumber, mobileNumber,
 				faxNumber, email, returnType, existingTdsassess);
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.add(taxDynamicForm);
-		horizontalPanel.add(otherDynamicForm);
+		StyledPanel styledPanel = new StyledPanel("mainPanel");
+		styledPanel.add(taxDynamicForm);
+		styledPanel.add(otherDynamicForm);
 
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(horizontalPanel);
-
-		verticalPanel.setSize("100%", "100%");
-		this.add(verticalPanel);
+		this.add(styledPanel);
 
 		if (data != null) {
 			upDateControls();

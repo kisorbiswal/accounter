@@ -35,7 +35,6 @@ public class CopyBudgetDialogue extends BaseDialog {
 		setWidth("400px");
 
 		selectBudget = new SelectCombo(messages.CopyfromExistingBudget());
-		selectBudget.setHelpInformation(true);
 
 		for (ClientBudget budget : budgetList) {
 			selectBudget.addComboItem(budget.getBudgetName());
@@ -62,7 +61,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 				.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
-		budgetInfoForm.setFields(selectBudget);
+		budgetInfoForm.add(selectBudget);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(budgetInfoForm);

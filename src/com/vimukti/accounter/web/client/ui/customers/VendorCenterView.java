@@ -63,6 +63,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	private VendorTransactionsHistoryGrid vendHistoryGrid;
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
+	private StyledPanel deleteButtonPanel;
 
 	public VendorCenterView() {
 		this.getElement().setId("vendorCenterView");

@@ -166,28 +166,26 @@ public class ConversionBalancesView extends BaseView {
 
 		adjustmentLabel.setAmount(debitLabel.getAmount()
 				- creditLabel.getAmount());
-		removeZeroBalance = new LabelItem();
-		removeZeroBalance.setValue(messages.removeZeroBalances());
+		removeZeroBalance = new LabelItem(messages.removeZeroBalances(),"removeZeroBalance");
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
-		removeZeroBalance.setEnabled(isInViewMode());
-		showAllAccounts = new LabelItem();
-		showAllAccounts.setValue(messages.showAllAccounts());
+		removeZeroBalance.setEnabled(!isInViewMode());
+		showAllAccounts = new LabelItem(messages.showAllAccounts(),"showAllAccounts");
 		showAllAccounts.addStyleName("falseHyperlink");
 		showAllAccounts.setShowTitle(false);
-		showAllAccounts.setDisabled(isInViewMode());
+		showAllAccounts.setEnabled(!isInViewMode());
 		footerCommentHtml = new HTML(messages.footerComment());
 		footerCommentHtml.addStyleName("footer_comment");
 
-		labelsForm = new DynamicForm();
-		labelsForm.setFields(removeZeroBalance, showAllAccounts);
+		labelsForm = new DynamicForm("labelsForm");
+		labelsForm.add(removeZeroBalance, showAllAccounts);
 		addNewButtonPanel.add(addNewButton);
 		addNewButtonPanel.add(labelsForm);
 
-		debit_creditForm.setFields(debitLabel, creditLabel);
+		debit_creditForm.add(debitLabel, creditLabel);
 
-		adjustmentsForm = new DynamicForm();
-		adjustmentsForm.setFields(adjustmentLabel);
+		adjustmentsForm = new DynamicForm("adjustmentsForm");
+		adjustmentsForm.add(adjustmentLabel);
 
 		footerButtonPanel.add(saveButton);
 		footerButtonPanel.add(cancelButton);
