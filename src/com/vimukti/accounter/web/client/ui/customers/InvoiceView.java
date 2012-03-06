@@ -88,6 +88,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private AmountLabel netAmountLabel, balanceDueNonEditableText,
 			paymentsNonEditableText;
 	private DynamicForm termsForm;
+	List<ClientEstimate> previousEstimates = new ArrayList<ClientEstimate>();
 	// private WarehouseAllocationTable table;
 	// private DisclosurePanel inventoryDisclosurePanel;
 
@@ -962,6 +963,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					.getShippingTerm());
 			initTransactionNumber();
 			initTransactionsItems();
+			previousEstimates = transaction.getEstimates();
 			this.orderNumText
 					.setValue(transaction.getOrderNum() != null ? transaction
 							.getOrderNum() : "");
@@ -1238,6 +1240,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// No Need to update Customer Object separately It will be automatically
 		// updated.
 		// saveOrUpdate(getCustomer());
+		previousEstimates.clear();
 		saveOrUpdate(transaction);
 
 	}
@@ -1520,7 +1523,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	protected void filterEstimates(ArrayList<EstimatesAndSalesOrdersList> result) {
-		List<ClientEstimate> salesAndEstimates = transaction.getEstimates();
+		List<ClientEstimate> salesAndEstimates = new ArrayList<ClientEstimate>();
+		if (transaction.getCustomer() == getCustomer().getID()) {
+			salesAndEstimates = previousEstimates;
+		}
 		if (transaction.getID() != 0 && !result.isEmpty()) {
 			ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
 			ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
@@ -1572,10 +1578,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		transactionsTree.setAllrows(result, transaction.getID() == 0 ? true
 				: salesAndEstimates.isEmpty());
-		if (transaction.getEstimates() != null) {
+		if (!previousEstimates.isEmpty()
+				&& getCustomer().getID() == transaction.getCustomer()) {
 			transactionsTree.setRecords(new ArrayList<ClientTransaction>(
-					transaction.getEstimates()));
+					previousEstimates));
 		}
+
 		transactionsTree.setEnabled(!isInViewMode());
 		refreshTransactionGrid();
 	}
