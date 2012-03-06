@@ -4788,6 +4788,8 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="accountId" type="long" />
+		<query-param name="tobePrint" type="encryptedstring" />
+		<query-param name="empty" type="encryptedstring" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -4871,8 +4873,8 @@ FROM   (SELECT T.ID                        AS TRANSACTION_ID,
 		:startDate AND
 		:endDate) 
                AND A.ID = :accountId) AS TT
-WHERE  ( TT.CHECK_NUMBER != 'TO BE PRINTED'
-         AND TT.CHECK_NUMBER != '' )
+WHERE  ( TT.CHECK_NUMBER != :tobePrint
+         AND TT.CHECK_NUMBER != :empty )
 ORDER  BY Length(TT.CHECK_NUMBER),
           TT.CHECK_NUMBER  
 	</sql-query>
@@ -4966,6 +4968,8 @@ WHERE  TRANSACTIONS.TRANSACTION_AMOUNT != TRANSACTIONS.RECONCILIED_AMOUNT
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="tobePrint" type="encryptedstring" />
+		<query-param name="empty" type="encryptedstring" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -5047,9 +5051,9 @@ WHERE  TRANSACTIONS.TRANSACTION_AMOUNT != TRANSACTIONS.RECONCILIED_AMOUNT
 		:companyId AND (
 		T.T_DATE BETWEEN :startDate AND :endDate) AND A.ID
 		=:accountId) AS TT
-		WHERE (TT.CHECK_NUMBER !='TO BE PRINTED' AND
+		WHERE (TT.CHECK_NUMBER !=:tobePrint AND
 		TT.CHECK_NUMBER
-		!='')ORDER
+		!=:empty)ORDER
 		BY LENGTH(TT.CHECK_NUMBER),TT.CHECK_NUMBER
 
 	</sql-query>
