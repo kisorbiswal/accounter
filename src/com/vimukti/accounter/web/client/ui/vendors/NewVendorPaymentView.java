@@ -187,9 +187,6 @@ public class NewVendorPaymentView extends
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-		// datepanel.setCellHorizontalAlignment(dateNoForm,
-		// HasHorizontalAlignment.ALIGN_RIGHT);
-		// datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.setWidth("100%");
@@ -346,8 +343,6 @@ public class NewVendorPaymentView extends
 			amountsForm.add(tdsAmount);
 			amountsForm.add(totalAmount);
 			tdsPanel.add(amountsForm);
-			// tdsPanel.setCellVerticalAlignment(amountsForm,
-			// HasVerticalAlignment.ALIGN_BOTTOM);
 			// tdsPanel.setCellHeight(amountsForm, "200px");
 			rightPanel.add(tdsPanel);
 		}
@@ -355,16 +350,12 @@ public class NewVendorPaymentView extends
 		currencyWidget = createCurrencyFactorWidget();
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
-			// rightPanel.setCellHorizontalAlignment(currencyWidget,
-			// ALIGN_RIGHT);
 		}
 
 		StyledPanel hLay = new StyledPanel("hLay");
 		hLay.setWidth("100%");
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
-		// hLay.setCellWidth(leftPanel, "50%");
-		// hLay.setCellWidth(rightPanel, "40%");
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
