@@ -194,7 +194,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		setMode(EditMode.EDIT);
 		nameItem.setEnabled(!isInViewMode());
 		description.setDisabled(isInViewMode());
-		unitsTable.setDisabled(isInViewMode());
+		unitsTable.setEnabled(isInViewMode());
 		addUnitButton.setEnabled(!isInViewMode());
 	}
 
