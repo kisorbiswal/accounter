@@ -190,8 +190,6 @@ public class CreateStatementToolBar extends ReportToolbar {
 		}
 
 		add(updateButton);
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
 		// reportRequest();
 	}
 

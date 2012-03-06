@@ -193,8 +193,6 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		addItems(vatAgencyCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	// set the Default Date Range to End this Calendar quarter to date

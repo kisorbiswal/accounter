@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,11 +15,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -55,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -115,7 +110,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	CheckboxItem euVATexempVendor;
 	CheckboxItem track1099MISC;
 	CheckboxItem isTDS;
-	TabPanel tabSet;
+	// TabPanel tabSet;
 	AddButton addButton;
 	CustomFieldForm customFieldForm;
 
@@ -168,9 +163,11 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
 	protected ClientTAXItem selectTaxItemFromDetailsTab;
 	public CustomFieldDialog customFieldDialog;
+	private StyledPanel tabSet;
 
 	public VendorView() {
 		super();
+		this.getElement().setId("newVendorView");
 	}
 
 	// private void getFiscalYear() {
@@ -195,18 +192,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		listforms = new ArrayList<DynamicForm>();
 
 		// setTitle(UIUtils.title(messages.newVendor()));
-		tabSet = new DecoratedTabPanel();
-		tabSet.setSize("100%", "100%");
-
-		tabSet.add(getGeneralTab(), messages.general());
-		tabSet.add(getDetailsTab(), messages.details());
-		tabSet.selectTab(0);
-		tabSet.setSize("100%", "100%");
+		tabSet = new StyledPanel("vendorTab");
+		// tabSet.setSize("100%", "100%");
+		tabSet.add(getGeneralTab());
+		tabSet.add(getDetailsTab());
+		// tabSet.setSize("100%", "100%");
 		createCustomFieldControls();
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(tabSet);
-		this.add(mainVLay);
+		this.add(tabSet);
 
 	}
 
@@ -350,29 +342,31 @@ public class VendorView extends BaseView<ClientVendor> {
 		return false;
 	}
 
-	private VerticalPanel getGeneralTab() {
-		vendorNameText = new TextItem(messages.payeeName(Global.get().Vendor()));
+	private StyledPanel getGeneralTab() {
+		vendorNameText = new TextItem(
+				messages.payeeName(Global.get().Vendor()), "vendorNameText");
 		if (quickAddText != null) {
 			vendorNameText.setValue(quickAddText);
 		}
-		vendorNameText.setHelpInformation(true);
+		// vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
 		vendorNameText.setWidth(100);
-		vendorNameText.setDisabled(isInViewMode());
+		vendorNameText.setEnabled(!isInViewMode());
 
-		vendorNoText = new TextItem(messages.payeeNumber(Global.get().Vendor()));
-		vendorNoText.setHelpInformation(true);
+		vendorNoText = new TextItem(
+				messages.payeeNumber(Global.get().Vendor()), "vendorNoText");
+		// vendorNoText.setHelpInformation(true);
 		vendorNoText.setRequired(true);
 		vendorNoText.setWidth(100);
 
-		fileAsText = new TextItem(messages.fileAs());
-		fileAsText.setHelpInformation(true);
+		fileAsText = new TextItem(messages.fileAs(), "fileAsText");
+		// fileAsText.setHelpInformation(true);
 		fileAsText.setWidth(100);
 
-		taxID = new TextItem("Tax ID");
-		taxID.setHelpInformation(true);
+		taxID = new TextItem("Tax ID", "taxID");
+		// taxID.setHelpInformation(true);
 		taxID.setWidth(100);
-		taxID.setDisabled(isInViewMode());
+		taxID.setEnabled(!isInViewMode());
 		vendorNameText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -385,44 +379,45 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		if (getCompany().getPreferences().getUseVendorId()) {
-			vendorForm.setFields(vendorNameText, vendorNoText);
-			vendorNoText.setDisabled(isInViewMode());
+			vendorForm.add(vendorNameText, vendorNoText);
+			vendorNoText.setEnabled(!isInViewMode());
 		} else {
-			vendorForm.setFields(vendorNameText);
+			vendorForm.add(vendorNameText);
 
 		}
 		vendorForm.setStyleName("vender-form");
 
-		accInfoForm = new DynamicForm();
-		accInfoForm.setIsGroup(true);
-		accInfoForm
-				.setGroupTitle(messages.payeeInformation(messages.Account()));
+		accInfoForm = new DynamicForm("accInfoForm");
+		// accInfoForm.setIsGroup(true);
+		// accInfoForm
+		// .setGroupTitle(messages.payeeInformation(messages.Account()));
 
-		statusCheck = new CheckboxItem(messages.active());
+		statusCheck = new CheckboxItem(messages.active(), "statusCheck");
 		statusCheck.setValue(true);
-		statusCheck.setDisabled(isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
 
 		vendorSinceDate = new DateField(messages.payeeSince(Global.get()
-				.Vendor()));
-		vendorSinceDate.setDisabled(isInViewMode());
-		track1099MISC = new CheckboxItem(messages.track1099Form());
+				.Vendor()), "vendorSinceDate");
+		vendorSinceDate.setEnabled(!isInViewMode());
+		track1099MISC = new CheckboxItem(messages.track1099Form(),
+				"track1099MISC");
 		track1099MISC.setValue(false);
 
-		vendorSinceDate.setHelpInformation(true);
+		// vendorSinceDate.setHelpInformation(true);
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency(), true);
-		openingBalText.setHelpInformation(true);
-		openingBalText.setDisabled(isInViewMode());
+				getBaseCurrency(), "openingBalText");
+		// openingBalText.setHelpInformation(true);
+		openingBalText.setEnabled(!isInViewMode());
 
 		balanceText = new AmountField(messages.balance(), this,
-				getBaseCurrency());
-		balanceText.setHelpInformation(true);
-		balanceText.setDisabled(true);
+				getBaseCurrency(), "balanceText");
+		// balanceText.setHelpInformation(true);
+		balanceText.setEnabled(false);
 
-		balanceDate = new DateField(messages.balanceAsOf());
-		balanceDate.setHelpInformation(true);
+		balanceDate = new DateField(messages.balanceAsOf(), "balanceDate");
+		// balanceDate.setHelpInformation(true);
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDay(todaydate.getDay());
 		balanceDate.setDatethanFireEvent(todaydate);
@@ -439,21 +434,21 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		});
 
-		balanceForm = new DynamicForm();
+		balanceForm = new DynamicForm("balanceForm");
 
 		currencyWidget = createCurrencyComboWidget();
-		currencyWidget.setDisabled(isInViewMode());
+		currencyWidget.setEnabled(!isInViewMode());
 
-		accInfoForm.setFields(statusCheck, vendorSinceDate);
-		balanceForm.setFields(openingBalText, balanceDate, balanceText);
+		accInfoForm.add(statusCheck, vendorSinceDate);
+		balanceForm.add(openingBalText, balanceDate, balanceText);
 
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isSalesTaxAvailable()) {
-				accInfoForm.setFields(taxID);
+				accInfoForm.add(taxID);
 			}
 			if (getCompany().getCountry().equals(
 					CountryPreferenceFactory.UNITED_STATES)) {
-				accInfoForm.setFields(track1099MISC);
+				accInfoForm.add(track1099MISC);
 			}
 		}
 		Map<String, String> fields = new HashMap<String, String>();
@@ -472,7 +467,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
-				gridView.setDisabled(false);
+				gridView.setEnabled(true);
 				if (gridView.getRecords().isEmpty()) {
 					clientContact.setPrimary(true);
 				}
@@ -487,13 +482,13 @@ public class VendorView extends BaseView<ClientVendor> {
 				return VendorView.this.isInViewMode();
 			}
 		};
-		gridView.setDisabled(isInViewMode());
+		gridView.setEnabled(!isInViewMode());
 		// gridView.setCanEdit(!isInViewMode());
 		// gridView.setEditEventType(ListGrid.EDIT_EVENT_DBCLICK);
 		// gridView.isEnable = false;
 		// gridView.init();
 
-		VerticalPanel panel = new VerticalPanel() {
+		StyledPanel panel = new StyledPanel("") {
 			@Override
 			protected void onAttach() {
 
@@ -503,51 +498,44 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		};
 		panel.add(l1);
-		panel.setWidth("100%");
 		panel.add(gridView);
-		HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(addButton);
-		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.LEFT);
 		panel.add(hPanel);
 		addButton.setEnabled(!isInViewMode());
 
-		memoArea = new TextAreaItem();
+		memoArea = new TextAreaItem(messages.memo(), "memoArea");
 		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
 				.getViewName()));
-		memoArea.setHelpInformation(true);
-		memoArea.setWidth("400px");
+		// memoArea.setHelpInformation(true);
 		memoArea.setTitle(messages.notes());
 
 		addrsForm = new AddressForm(null);
-		addrsForm.setDisabled(isInViewMode());
+		addrsForm.setEnabled(!isInViewMode());
 		fonFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 				.getViewName());
-		fonFaxForm.setDisabled(isInViewMode());
+		fonFaxForm.setEnabled(!isInViewMode());
 		emailForm = new EmailForm(null, null, this, this.getAction()
 				.getViewName());
-		emailForm.setDisabled(isInViewMode());
-		DynamicForm memoForm = new DynamicForm();
-		memoForm.setStyleName("align-form");
-		memoForm.setItems(memoArea);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-		memoForm.setDisabled(isInViewMode());
+		emailForm.setEnabled(!isInViewMode());
+		DynamicForm memoForm = new DynamicForm("align-form");
+		memoForm.add(memoArea);
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.setEnabled(!isInViewMode());
 
-		VerticalPanel bottomPanel = new VerticalPanel();
-		bottomPanel.setWidth("100%");
+		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
 		bottomPanel.add(memoForm);
 
-		// HorizontalPanel vendorHPanel = new HorizontalPanel();
+		// StyledPanel vendorHPanel = new StyledPanel();
 		// vendorHPanel.setWidth("100%");
 		// vendorHPanel.setCellHorizontalAlignment(vendorForm, ALIGN_RIGHT);
 		// vendorHPanel.add(vendorForm);
 
-		// HorizontalPanel addressHPanel = new HorizontalPanel();
+		// StyledPanel addressHPanel = new StyledPanel();
 		// addressHPanel.setWidth("100%");
 		// addressHPanel.add(addrsForm);
 
-		VerticalPanel leftVLay = new VerticalPanel();
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		// leftVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		// leftVLay.setWidth("100%");
 		// leftVLay.setCellHorizontalAlignment(vendorHPanel, ALIGN_RIGHT);
@@ -558,35 +546,28 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 		leftVLay.add(balanceForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(addrsForm);
 		rightVLay.add(fonFaxForm);
 		rightVLay.add(emailForm);
-		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
+		// addrsForm.getCellFormatter().addStyleName(0, 0,
+		// "addrsFormCellAlign");
+		// addrsForm.getCellFormatter().addStyleName(0, 1,
+		// "addrsFormCellAlign");
 
-		// HorizontalPanel emailHPanel = new HorizontalPanel();
+		// StyledPanel emailHPanel = new StyledPanel();
 		// emailHPanel.setCellHorizontalAlignment(emailForm, ALIGN_LEFT);
 		// emailHPanel.setWidth("90%");
 		// emailHPanel.add(emailForm);
 
-		VerticalPanel accInfoHPanel = new VerticalPanel();
-		accInfoHPanel.setWidth("100%");
+		StyledPanel accInfoHPanel = new StyledPanel("accInfoHPanel");
 
-		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+		StyledPanel topHLay = new StyledPanel("fields-panel");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel contHLay = new HorizontalPanel();
-
-		VerticalPanel mainVlay = new VerticalPanel();
+		StyledPanel mainVlay = new StyledPanel("generalTab");
 		mainVlay.add(topHLay);
-		mainVlay.add(contHLay);
 		mainVlay.add(panel);
 		mainVlay.add(bottomPanel);
 
@@ -600,34 +581,32 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	private void resetFromView() {
-		addrsForm.getCellFormatter().setWidth(0, 0, "75");
-		addrsForm.getCellFormatter().setWidth(0, 1, "125");
-
-		fonFaxForm.getCellFormatter().setWidth(0, 0, "75");
-		fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
-
-		emailForm.getCellFormatter().setWidth(0, 0, "150");
-		emailForm.getCellFormatter().setWidth(0, 1, "150");
-
-		memoArea.getMainWidget().setWidth("250px");
+		// addrsForm.getCellFormatter().setWidth(0, 0, "75");
+		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// fonFaxForm.getCellFormatter().setWidth(0, 0, "75");
+		// fonFaxForm.getCellFormatter().setWidth(0, 1, "125");
+		//
+		// emailForm.getCellFormatter().setWidth(0, 0, "150");
+		// emailForm.getCellFormatter().setWidth(0, 1, "150");
 
 	}
 
-	private VerticalPanel getDetailsTab() {
+	private StyledPanel getDetailsTab() {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
-			
-		};
-		expenseAccountsSelect.setHelpInformation(true);
+		expenseAccountsSelect = new OtherAccountsCombo(messages.Account());
+		// expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectAccountFromDetailsTab = selectItem;
 					}
 				});
-		expenseAccountsSelect.setDisabled(isInViewMode());
+		expenseAccountsSelect.setEnabled(!isInViewMode());
+
 		List<ClientAccount> list = new ArrayList<ClientAccount>();
 		for(ClientAccount account : getCompany().getAccounts()) {
 			if(account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD || account.getType() == ClientAccount.TYPE_EXPENSE) {
@@ -636,23 +615,24 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 		expenseAccountsSelect.initCombo(list);
 		creditLimitText = new AmountField(messages.creditLimit(), this,
-				getBaseCurrency());
-		creditLimitText.setHelpInformation(true);
+				getBaseCurrency(), "creditLimitText");
+		// creditLimitText.setHelpInformation(true);
 		creditLimitText.setWidth(100);
-		creditLimitText.setDisabled(isInViewMode());
+		creditLimitText.setEnabled(!isInViewMode());
 
 		preferredShippingSelect = new ShippingMethodsCombo(
 				messages.preferredShippingMethod());
-		preferredShippingSelect.setHelpInformation(true);
+		// preferredShippingSelect.setHelpInformation(true);
 		preferredShippingSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
+					@Override
 					public void selectedComboBoxItem(
 							ClientShippingMethod selectItem) {
 						selectShippingMethodFromDetailsTab = selectItem;
 					}
 
 				});
-		preferredShippingSelect.setDisabled(isInViewMode());
+		preferredShippingSelect.setEnabled(!isInViewMode());
 
 		preferredPaymentSelect = UIUtils.getPaymentMethodCombo();
 		preferredPaymentSelect
@@ -664,53 +644,46 @@ public class VendorView extends BaseView<ClientVendor> {
 								.getSelectedValue();
 					}
 				});
-		preferredPaymentSelect.setDisabled(isInViewMode());
+		preferredPaymentSelect.setEnabled(!isInViewMode());
 
 		payTermsSelect = new PaymentTermsCombo(messages.paymentTerms());
-		payTermsSelect.setHelpInformation(true);
+		// payTermsSelect.setHelpInformation(true);
 		payTermsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
+					@Override
 					public void selectedComboBoxItem(
 							ClientPaymentTerms selectItem) {
 						selectPaymentTermFromDetailsTab = selectItem;
 					}
 				});
-		payTermsSelect.setDisabled(isInViewMode());
-		accountText = new TextItem(messages.accountNumber());
-		accountText.setHelpInformation(true);
-		accountText.setDisabled(isInViewMode());
-		bankNameText = new TextItem(messages.bankName());
-		bankNameText.setHelpInformation(true);
-		bankNameText.setDisabled(isInViewMode());
-		bankBranchText = new TextItem(messages.bankBranch());
-		bankBranchText.setHelpInformation(true);
-		bankBranchText.setDisabled(isInViewMode());
+		payTermsSelect.setEnabled(!isInViewMode());
+		accountText = new TextItem(messages.accountNumber(), "accountText");
+		accountText.setEnabled(!isInViewMode());
+		bankNameText = new TextItem(messages.bankName(), "bankNameText");
+		bankNameText.setEnabled(!isInViewMode());
+		bankBranchText = new TextItem(messages.bankBranch(), "bankBranchText");
+		bankBranchText.setEnabled(!isInViewMode());
 
 		customFieldForm = new CustomFieldForm();
-		// customForm.setIsGroup(true);
-		customFieldForm.setWidth("100%");
-		DynamicForm financeDetailsForm = new DynamicForm();
-		financeDetailsForm.setIsGroup(true);
-		financeDetailsForm.setWidth("100%");
-		financeDetailsForm.setGroupTitle(messages.financialDetails());
+		DynamicForm financeDetailsForm = new DynamicForm("financeDetailsForm");
 
-		financeDetailsForm.setFields(expenseAccountsSelect, creditLimitText,
+		financeDetailsForm.add(expenseAccountsSelect, creditLimitText,
 				preferredShippingSelect, preferredPaymentSelect,
 				payTermsSelect, accountText, bankNameText, bankBranchText);
 
 		vendorGroupSelect = new VendorGroupCombo(messages.payeeGroup(Global
 				.get().Vendor()));
-		vendorGroupSelect.setHelpInformation(true);
-		vendorGroupSelect.setWidth("100%");
+		// vendorGroupSelect.setHelpInformation(true);
 		vendorGroupSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendorGroup>() {
+					@Override
 					public void selectedComboBoxItem(
 							ClientVendorGroup selectItem) {
 						selectVendorGroupFromDetailsTab = selectItem;
 					}
 
 				});
-		vendorGroupSelect.setDisabled(isInViewMode());
+		vendorGroupSelect.setEnabled(!isInViewMode());
 		NewVendorAction newVendorAction = (NewVendorAction) this.getAction();
 		if (newVendorAction.getOpenedFrom() == NewVendorAction.FROM_CREDIT_CARD_EXPENSE) {
 			vendorGroupList = getCompany().getVendorGroups();
@@ -725,16 +698,13 @@ public class VendorView extends BaseView<ClientVendor> {
 				}
 			}
 		}
-		vendorGroupSelect.setWidth("100%");
-		taxIDText = new TextItem(messages.taxId());
-		taxIDText.setHelpInformation(true);
-		taxIDText.setWidth(100);
-		taxIDText.setDisabled(isInViewMode());
+		taxIDText = new TextItem(messages.taxId(), "taxIDText");
+		// taxIDText.setHelpInformation(true);
+		taxIDText.setEnabled(!isInViewMode());
 		vendorTDSTaxCode = new TaxItemCombo(messages.vendorTDSCode(Global.get()
 				.Vendor()), ClientTAXAgency.TAX_TYPE_TDS);
-		vendorTDSTaxCode.setHelpInformation(true);
-		vendorTDSTaxCode.setWidth(100);
-		vendorTDSTaxCode.setDisabled(true);
+		// vendorTDSTaxCode.setHelpInformation(true);
+		vendorTDSTaxCode.setEnabled(false);
 		// panNumber=new TextItem(messages.panNumber());
 		// panNumber.setHelpInformation(true);
 		// panNumber.setWidth("100%");
@@ -742,12 +712,13 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorTDSTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientTAXItem selectItem) {
 						selectTaxItemFromDetailsTab = selectItem;
 					}
 
 				});
-		isTDS = new CheckboxItem(messages.tdsApplicable());
+		isTDS = new CheckboxItem(messages.tdsApplicable(), "isTDS");
 		isTDS.setValue(true);
 		isTDS.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -755,62 +726,59 @@ public class VendorView extends BaseView<ClientVendor> {
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 
 				if (isTDS.isChecked()) {
-					vendorTDSTaxCode.setDisabled(false);
+					vendorTDSTaxCode.setEnabled(true);
 				} else {
-					vendorTDSTaxCode.setDisabled(true);
+					vendorTDSTaxCode.setEnabled(false);
 				}
 			}
 		});
-		isTDS.setDisabled(isInViewMode());
-		panNumberText = new TextItem(messages.panNumber());
-		panNumberText.setHelpInformation(true);
-		panNumberText.setWidth(100);
-		panNumberText.setDisabled(isInViewMode());
+		isTDS.setEnabled(!isInViewMode());
+		panNumberText = new TextItem(messages.panNumber(), "panNumberText");
+		// panNumberText.setHelpInformation(true);
+		panNumberText.setEnabled(!isInViewMode());
 		serviceTaxRegisterationNumber = new TextItem(
-				messages.serviceTaxRegistrationNumber());
-		serviceTaxRegisterationNumber.setHelpInformation(true);
-		serviceTaxRegisterationNumber.setWidth("100%");
-		serviceTaxRegisterationNumber.setDisabled(isInViewMode());
-		DynamicForm vendorGrpForm = new DynamicForm();
-		vendorGrpForm.setIsGroup(false);
+				messages.serviceTaxRegistrationNumber(),
+				"serviceTaxRegisterationNumber");
+		// serviceTaxRegisterationNumber.setHelpInformation(true);
+		serviceTaxRegisterationNumber.setEnabled(!isInViewMode());
+		DynamicForm vendorGrpForm = new DynamicForm("vendorGrpForm");
+		// vendorGrpForm.setIsGroup(false);
 
 		/*
 		 * In UK n US versions we need different widths as for the view
 		 * requirement
 		 */
-		vendorGrpForm.setWidth("100%");
-		vendorGrpForm.setFields(vendorGroupSelect);
+		vendorGrpForm.add(vendorGroupSelect);
 
 		// vendorGrpForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "44%");
 
-		vatRegistrationNumber = new TextItem(messages.taxRegNo());
-		vatRegistrationNumber.setHelpInformation(true);
-		vatRegistrationNumber.setWidth(100);
-		vatRegistrationNumber.setDisabled(isInViewMode());
+		vatRegistrationNumber = new TextItem(messages.taxRegNo(),
+				"vatRegistrationNumber");
+		// vatRegistrationNumber.setHelpInformation(true);
+		vatRegistrationNumber.setEnabled(!isInViewMode());
 		vendorTaxCode = new TAXCodeCombo(messages.taxCode(), false);
-		vendorTaxCode.setHelpInformation(true);
-		vendorTaxCode.setWidth(100);
+		// vendorTaxCode.setHelpInformation(true);
 		vendorTaxCode
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXCode>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientTAXCode selectItem) {
 						selectTaxCodeFromDetailsTab = selectItem;
 					}
 
 				});
-		vendorTaxCode.setDisabled(isInViewMode());
-		DynamicForm vatform = new DynamicForm();
+		vendorTaxCode.setEnabled(!isInViewMode());
+		DynamicForm vatform = new DynamicForm("vatform");
 		// vatform.setIsGroup(true);
-		vatform.setWidth("100%");
-		vatform.setGroupTitle(messages.vatDetails());
+		// vatform.setGroupTitle(messages.vatDetails());
 		if (getPreferences().isTrackTax()) {
 			if (getCountryPreferences().isVatAvailable()) {
-				vatform.setFields(vatRegistrationNumber);
+				vatform.add(vatRegistrationNumber);
 			}
-			vatform.setFields(vendorTaxCode);
+			vatform.add(vendorTaxCode);
 			if (getCountryPreferences().isServiceTaxAvailable()) {
-				vatform.setFields(serviceTaxRegisterationNumber);
+				vatform.add(serviceTaxRegisterationNumber);
 			}
 		}
 
@@ -819,7 +787,6 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		addCustomFieldButton = new Button();
 		addCustomFieldButton.setText(messages.ManageCustomFields());
-		addCustomFieldButton.setWidth("100%");
 		addCustomFieldButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -829,23 +796,17 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		});
 		addCustomFieldButton.setEnabled(!isInViewMode());
-		DynamicForm tdsFrom = new DynamicForm();
-		tdsFrom.setFields(isTDS, vendorTDSTaxCode);
-		tdsFrom.setWidth("100%");
+		DynamicForm tdsFrom = new DynamicForm("tdsFrom");
+		tdsFrom.add(isTDS, vendorTDSTaxCode);
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setSize("100%", "100%");
-		leftVLay.setHeight("350px");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		// leftVLay.getElement().getStyle()
 		// .setBorderColor("none repeat scroll 0 0 #eee !important");
-		leftVLay.setSpacing(10);
 		leftVLay.add(financeDetailsForm);
 
-		VerticalPanel rVLayout = new VerticalPanel();
+		StyledPanel rVLayout = new StyledPanel("rVLayout");
 
 		// rVLayout.setSize("100%", "100%");
-		rVLayout.setWidth("100%");
-		rVLayout.setSpacing(10);
 		rVLayout.add(vendorGrpForm);
 		if (getPreferences().isTrackTax()) {
 			rVLayout.add(vatform);
@@ -853,26 +814,18 @@ public class VendorView extends BaseView<ClientVendor> {
 		if (getPreferences().isTDSEnabled()) {
 			rVLayout.add(tdsFrom);
 		}
-		HorizontalPanel customField = new HorizontalPanel();
-		customField.setWidth("100%");
-		customFieldForm.setWidth("100%");
+		StyledPanel customField = new StyledPanel("customField");
 		Label customLable = new Label(messages.CustomFieldstext());
 		customField.add(customLable);
-		customField.setCellWidth(customLable, "225px");
 		customField.add(addCustomFieldButton);
 		rVLayout.add(customField);
 		rVLayout.add(customFieldForm);
-		HorizontalPanel mainHLay = new HorizontalPanel();
+		StyledPanel mainHLay = new StyledPanel("mainHLay");
 		mainHLay.addStyleName("fields-panel");
-		mainHLay.setSize("100%", "100%");
 		mainHLay.add(leftVLay);
 		mainHLay.add(rVLayout);
-		mainHLay.setCellWidth(leftVLay, "50%");
-		mainHLay.setCellWidth(rVLayout, "50%");
-		mainHLay.setCellHorizontalAlignment(rVLayout, ALIGN_RIGHT);
 
-		VerticalPanel mainVLayout = new VerticalPanel();
-		mainVLayout.setSize("100%", "100%");
+		StyledPanel mainVLayout = new StyledPanel("detailsTab");
 		mainVLayout.add(lab);
 		mainVLayout.add(mainHLay);
 
@@ -909,7 +862,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
 			customFieldValues.remove(clientCustomFieldValue);
 		}
-		customFieldForm.setDisabled(isInViewMode());
+		customFieldForm.setEnabled(!isInViewMode());
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
@@ -938,24 +891,24 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	@Override
 	protected void onLoad() {
-		int titlewidth = fonFaxForm.getCellFormatter().getElement(0, 0)
-				.getOffsetWidth();
-		int listBoxWidth = fonFaxForm.getCellFormatter().getElement(0, 1)
-				.getOffsetWidth();
+		// int titlewidth = fonFaxForm.getCellFormatter().getElement(0, 0)
+		// .getOffsetWidth();
+		// int listBoxWidth = fonFaxForm.getCellFormatter().getElement(0, 1)
+		// .getOffsetWidth();
 
-		adjustFormWidths(titlewidth, listBoxWidth);
+		// adjustFormWidths(titlewidth, listBoxWidth);
 		super.onLoad();
 	}
 
 	@Override
 	protected void onAttach() {
 
-		int titlewidth = fonFaxForm.getCellFormatter().getElement(0, 0)
-				.getOffsetWidth();
-		int listBoxWidth = fonFaxForm.getCellFormatter().getElement(0, 1)
-				.getOffsetWidth();
-
-		adjustFormWidths(titlewidth, listBoxWidth);
+		// int titlewidth = fonFaxForm.getCellFormatter().getElement(0, 0)
+		// .getOffsetWidth();
+		// int listBoxWidth = fonFaxForm.getCellFormatter().getElement(0, 1)
+		// .getOffsetWidth();
+		//
+		// adjustFormWidths(titlewidth, listBoxWidth);
 
 		super.onAttach();
 	}
@@ -1217,7 +1170,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 	}
 
@@ -1258,12 +1211,11 @@ public class VendorView extends BaseView<ClientVendor> {
 		itemsField.clear();
 		for (String key : payeeFields.keySet()) {
 			String value = payeeFields.get(key);
-			TextItem item = new TextItem(key);
+			TextItem item = new TextItem(key, "key");
 			item.setValue(value);
-			item.setName(key);
-			balanceForm.setFields(item);
+			balanceForm.add(item);
 			itemsField.put(key, item);
-			item.setDisabled(isInViewMode());
+			item.setEnabled(!isInViewMode());
 		}
 	}
 
@@ -1286,7 +1238,7 @@ public class VendorView extends BaseView<ClientVendor> {
 					});
 		} else {
 			vendorNoText.setValue(data.getVendorNumber());
-			balanceDate.setDisabled(true);
+			balanceDate.setEnabled(false);
 		}
 
 		vendorNoText.setValue(data.getVendorNumber());
@@ -1305,7 +1257,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Email Form
 		emailForm.businesEmailText.setValue(data.getEmail());
 		emailForm.webText.setValue(data.getWebPageAddress());
-		emailForm.setWidth("100%");
 
 		// Setting Status Check
 		statusCheck.setValue(data.isActive());
@@ -1498,43 +1449,43 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		vendorNameText.setDisabled(isInViewMode());
+		vendorNameText.setEnabled(!isInViewMode());
 		if (getCompany().getPreferences().getUseVendorId())
-			vendorNoText.setDisabled(isInViewMode());
-		statusCheck.setDisabled(isInViewMode());
+			vendorNoText.setEnabled(!isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
 		addButton.setEnabled(!isInViewMode());
-		vendorSinceDate.setDisabled(isInViewMode());
-		addrsForm.setDisabled(isInViewMode());
-		fonFaxForm.setDisabled(isInViewMode());
-		emailForm.setDisabled(isInViewMode());
-		gridView.setDisabled(isInViewMode());
-		openingBalText.setDisabled(isInViewMode());
-		balanceDate.setDisabled(isInViewMode());
-		expenseAccountsSelect.setDisabled(isInViewMode());
-		currencyWidget.setDisabled(!isInViewMode(), isInViewMode());
+		vendorSinceDate.setEnabled(!isInViewMode());
+		addrsForm.setEnabled(!isInViewMode());
+		fonFaxForm.setEnabled(!isInViewMode());
+		emailForm.setEnabled(!isInViewMode());
+		gridView.setEnabled(!isInViewMode());
+		openingBalText.setEnabled(!isInViewMode());
+		balanceDate.setEnabled(!isInViewMode());
+		expenseAccountsSelect.setEnabled(!isInViewMode());
+		currencyWidget.setEnabled(isInViewMode(), !isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {
 		// currencyWidget.disabledFactorField(false);
 		// }
-		creditLimitText.setDisabled(isInViewMode());
-		preferredShippingSelect.setDisabled(isInViewMode());
-		preferredPaymentSelect.setDisabled(isInViewMode());
-		payTermsSelect.setDisabled(isInViewMode());
-		accountText.setDisabled(isInViewMode());
-		bankNameText.setDisabled(isInViewMode());
-		bankBranchText.setDisabled(isInViewMode());
-		vendorGroupSelect.setDisabled(isInViewMode());
-		panNumberText.setDisabled(isInViewMode());
-		serviceTaxRegisterationNumber.setDisabled(isInViewMode());
-		vatRegistrationNumber.setDisabled(isInViewMode());
-		vendorTaxCode.setDisabled(isInViewMode());
-		isTDS.setDisabled(isInViewMode());
+		creditLimitText.setEnabled(!isInViewMode());
+		preferredShippingSelect.setEnabled(!isInViewMode());
+		preferredPaymentSelect.setEnabled(!isInViewMode());
+		payTermsSelect.setEnabled(!isInViewMode());
+		accountText.setEnabled(!isInViewMode());
+		bankNameText.setEnabled(!isInViewMode());
+		bankBranchText.setEnabled(!isInViewMode());
+		vendorGroupSelect.setEnabled(!isInViewMode());
+		panNumberText.setEnabled(!isInViewMode());
+		serviceTaxRegisterationNumber.setEnabled(!isInViewMode());
+		vatRegistrationNumber.setEnabled(!isInViewMode());
+		vendorTaxCode.setEnabled(!isInViewMode());
+		isTDS.setEnabled(!isInViewMode());
 		if (getData().isTdsApplicable()) {
-			vendorTDSTaxCode.setDisabled(isInViewMode());
+			vendorTDSTaxCode.setEnabled(!isInViewMode());
 		}
-		taxIDText.setDisabled(isInViewMode());
-		taxID.setDisabled(isInViewMode());
-		customFieldForm.setDisabled(isInViewMode());
+		taxIDText.setEnabled(!isInViewMode());
+		taxID.setEnabled(!isInViewMode());
+		customFieldForm.setEnabled(!isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		memoArea.setDisabled(isInViewMode());
 		enablePayeeFields(data.getPayeeFields());
@@ -1544,7 +1495,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 	private void enablePayeeFields(HashMap<String, String> payeeFields) {
 		for (String key : payeeFields.keySet()) {
-			itemsField.get(key).setDisabled(isInViewMode());
+			itemsField.get(key).setEnabled(!isInViewMode());
 		}
 	}
 
@@ -1579,7 +1530,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				balanceText.setCurrency(selectCurrency);
 			}
 		});
-		widget.setDisabled(isInViewMode());
+		widget.setEnabled(!isInViewMode());
 		return widget;
 	}
 

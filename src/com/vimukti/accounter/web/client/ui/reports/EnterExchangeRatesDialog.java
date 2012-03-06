@@ -21,12 +21,14 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 
 	public EnterExchangeRatesDialog() {
 		super(messages.enterExchangeRates());
+		this.addStyleName("enter-exchange-rates-dialog");
 		createControls();
 		center();
 	}
 
 	private void createControls() {
-		this.enteredDateItem = new DateItem(messages.enterDate());
+		this.enteredDateItem = new DateItem(messages.enterDate(),
+				"enteredDateItem");
 		enteredDateItem.setEnteredDate(new ClientFinanceDate());
 		enteredDateItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -35,13 +37,10 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 				updateExchangeRates(date);
 			}
 		});
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(enteredDateItem);
 		updateExchangeRates(enteredDateItem.getDate());
 		this.table = new CurrencyExchangeRateTable();
-		this.table.addStyleName("exchange-table");
 		StyledPanel panel = new StyledPanel("panel");
-		panel.add(dynamicForm);
+		panel.add(enteredDateItem);
 		panel.add(table);
 		setBodyLayout(panel);
 	}

@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -37,6 +36,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 
 	public AssignAccountsTo1099Dialog(String title, String desc) {
 		super(title, desc);
+		this.addStyleName("assign-accounts-to-1099-dialog");
 		AccounterMessages c = messages;
 		strings = new String[] { c.box1Label(), c.box2Label(), c.box3Label(),
 				c.box4Label(), c.box5Label(), c.box6Label(), c.box7Label(),
@@ -66,12 +66,6 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		VerticalPanel verticalPanel = new VerticalPanel();
-		setWidth("570px");
-		// Label label = new Label(
-		// "Certain payments made to vendors must be assigned to IRS-defined boxes. To do so, assign to each box the accounts in which you track these payments.");
-		// label.addStyleName("centre");
-
 		flexTable = new FlexTable();
 		flexTable.insertRow(rowCount);
 		flexTable.setWidget(rowCount, 0, new Label(messages.use()));
@@ -83,10 +77,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			addRow(string, boxNums[rowCount - 1]);
 		}
 
-		// verticalPanel.add(label);
-		verticalPanel.add(flexTable);
-
-		setBodyLayout(verticalPanel);
+		setBodyLayout(flexTable);
 		center();
 	}
 
@@ -102,7 +93,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 				return activeAccounts;
 			}
 		};
-		accountCombo.setDisabled(true);
+		accountCombo.setEnabled(false);
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -127,9 +118,9 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (checkBox.isChecked()) {
-					accountCombo.setDisabled(false);
+					accountCombo.setEnabled(true);
 				} else {
-					accountCombo.setDisabled(true);
+					accountCombo.setEnabled(false);
 					accountCombo.setValue(null);
 				}
 			}
@@ -138,11 +129,11 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		if (clientAccount != null) {
 			checkBox.setChecked(true);
 			accountCombo.setComboItem(clientAccount);
-			accountCombo.setDisabled(false);
+			accountCombo.setEnabled(true);
 		}
-		DynamicForm accountsform = new DynamicForm();
-		accountCombo.setName(messages.Accounts());
-		accountsform.setFields(accountCombo);
+		DynamicForm accountsform = new DynamicForm("accountsform");
+		accountCombo.setTitle(messages.Accounts());
+		accountsform.add(accountCombo);
 
 		anchor.addClickHandler(new ClickHandler() {
 

@@ -19,10 +19,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -37,11 +36,13 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -56,11 +57,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	int vendorComboSelected;
 	private ListDataProvider<Client1099Form> listDataProvider;
 
-	private DisclosurePanel disclosurePanel;
-	private VerticalPanel setupPanel, amountPanel, preview1099panel,
+	private StyledDiscosurePanel disclosurePanel;
+	private StyledPanel setupPanel, amountPanel, preview1099panel,
 			companyAddressPanel, einNumPanel;
-	private HorizontalPanel companyInfopanel, setVendorsPanel,
-			setAccountsPanel;
+	private StyledPanel companyInfopanel, setVendorsPanel, setAccountsPanel;
 	private Label setVendor, addAccount;
 	private Label noOf1099FormsLabel;
 	private Label companyInfoText, einInfoText;
@@ -71,11 +71,15 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	private ArrayList<String> arrayList;
 	private HTML changeVendorHtml, changeAccountsHtml, companyInfoHtml,
 			einInfoHtml;
-	VerticalPanel mainPanel;
+	StyledPanel mainPanel;
 
 	int horizontalValue;
 	int verticalValue;
 	private SingleSelectionModel<Client1099Form> selectionModel;
+
+	public Prepare1099MISCView() {
+		this.getElement().setId("prepare1099MISCView");
+	}
 
 	@Override
 	public void init() {
@@ -129,7 +133,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	public void createControl() {
 		totalAll1099Payments = 0;
 
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 
 		mainPanel.add(getSetupPanel());
 		mainPanel.add(getPreview1099());
@@ -145,7 +149,6 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	public CellTable<Client1099Form> get1099InformationGrid() {
 
 		cellTable = new CellTable<Client1099Form>();
-		cellTable.setWidth("100%");
 
 		selectionModel = new SingleSelectionModel<Client1099Form>();
 		cellTable.setSelectionModel(selectionModel,
@@ -284,23 +287,22 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		}
 	}
 
-	private DisclosurePanel getSetupPanel() {
+	private Widget getSetupPanel() {
 
-		disclosurePanel = new DisclosurePanel(
+		disclosurePanel = new StyledDiscosurePanel(
 				messages.setupVendorsAndAccounts(Global.get().vendors()));
-		disclosurePanel.setOpen(true);
+		// disclosurePanel.setOpen(true);
 
-		setVendorsPanel = new HorizontalPanel();
-		setAccountsPanel = new HorizontalPanel();
+		setVendorsPanel = new StyledPanel("setVendorsPanel");
+		setAccountsPanel = new StyledPanel("setAccountsPanel");
 
 		setVendor = new Label(getSelectedVendorsNum() + " "
 				+ messages.vendorsSelected(Global.get().vendors()));
 
 		addAccount = new Label(getSelectedAccountsNum() + " "
 				+ messages.accountsSelected());
-
-		changeVendorHtml = new HTML("<b>"
-				+ messages.changePayees(Global.get().vendors()) + "</b>");
+		changeVendorHtml = new HTML(messages.changePayees(Global.get()
+				.vendors()));
 		changeVendorHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -378,16 +380,15 @@ public class Prepare1099MISCView extends AbstractBaseView {
 				messages.MISCInfo());
 
 		infoLable.setWordWrap(true);
-		infoLable.setHorizontalAlignment(ALIGN_JUSTIFY);
 
-		setupPanel = new VerticalPanel();
-		setupPanel.setSize("100%", "100%");
+		setupPanel = new StyledPanel("setupPanel");
+		// setupPanel.setSize("100%", "100%");
 		setupPanel.add(infoLable);
 		setupPanel.add(setVendorsPanel);
 		setupPanel.add(setAccountsPanel);
-		disclosurePanel.add(setupPanel);
+		disclosurePanel.setContent(setupPanel);
 
-		return disclosurePanel;
+		return disclosurePanel.getPanel();
 	}
 
 	private int getSelectedVendorsNum() {
@@ -413,10 +414,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		createControl();
 	}
 
-	private VerticalPanel getPreview1099() {
+	private StyledPanel getPreview1099() {
 		Label label = new Label(messages.preview1099Informaion());
 
-		companyAddressPanel = new VerticalPanel();
+		companyAddressPanel = new StyledPanel("companyAddressPanel");
 		companyInfoText = new Label(messages.companyInformation());
 		final ClientAddress address = getCompany().getRegisteredAddress();
 		if (address != null) {
@@ -432,7 +433,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			companyAddressPanel.add(companyInfoHtml);
 		}
 
-		einNumPanel = new VerticalPanel();
+		einNumPanel = new StyledPanel("einNumPanel");
 		einInfoText = new Label(messages.ein());
 		String ein = getCompany().getEin();
 		if (ein != null) {
@@ -441,22 +442,22 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			einNumPanel.add(einInfoHtml);
 		}
 
-		companyInfopanel = new HorizontalPanel();
-		companyInfopanel.setSize("100%", "100%");
+		companyInfopanel = new StyledPanel("companyInfopanel");
+		// companyInfopanel.setSize("100%", "100%");
 		companyInfopanel.add(companyAddressPanel);
 		companyInfopanel.add(einNumPanel);
 
-		amountPanel = new VerticalPanel();
+		amountPanel = new StyledPanel("amountPanel");
 		amountPanel.addStyleName("boldtext");
 
-		amountForm = new DynamicForm();
+		amountForm = new DynamicForm("amountForm");
 		noOf1099FormsLabel = new Label(messages.totalNoOf1099Forms()
 				+ totalNoOf1099Forms);
 
 		total1099AmountLabel = new AmountLabel(messages.totalAll1099Payments());
 		total1099AmountLabel.setAmount(totalAll1099Payments);
 
-		amountForm.setFields(total1099AmountLabel);
+		amountForm.add(total1099AmountLabel);
 
 		amountPanel.add(noOf1099FormsLabel);
 		amountPanel.add(amountForm);
@@ -481,18 +482,14 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 				});
 
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(selectComboItem);
+		DynamicForm dynamicForm = new DynamicForm("selectComboItem");
+		dynamicForm.add(selectComboItem);
 
-		preview1099panel = new VerticalPanel();
-		preview1099panel.setWidth("100%");
+		preview1099panel = new StyledPanel("preview1099panel");
 		preview1099panel.add(label);
 		preview1099panel.add(companyInfopanel);
-		preview1099panel.setHorizontalAlignment(ALIGN_RIGHT);
 		preview1099panel.add(dynamicForm);
-		preview1099panel.setHorizontalAlignment(ALIGN_LEFT);
 		preview1099panel.add(get1099InformationGrid());
-		preview1099panel.setHorizontalAlignment(ALIGN_RIGHT);
 		preview1099panel.add(amountPanel);
 		initializeList(arrayList.get(0));
 		return preview1099panel;
@@ -613,14 +610,13 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		return disclosurePanel;
 	}
 
-	private HorizontalPanel getEndButtons() {
+	private StyledPanel getEndButtons() {
 
 		Button print1099 = new Button(messages.printOn1099Form());
 		Button printInfo = new Button(messages.printOnInformationSheet());
 		Button cancel = new Button(messages.cancel());
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.addStyleName("prepare1099form");
+		StyledPanel panel = new StyledPanel("prepare1099form");
 		panel.add(print1099);
 		panel.add(printInfo);
 		panel.add(cancel);

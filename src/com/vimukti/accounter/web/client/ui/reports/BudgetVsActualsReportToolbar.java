@@ -144,7 +144,6 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 				});
 
 		accountCombo = new SelectCombo(messages.showAccounts());
-		accountCombo.setHelpInformation(true);
 		accountCombo.initCombo(getAccountsList());
 		accountCombo.setSelectedItem(0);
 		accountCombo

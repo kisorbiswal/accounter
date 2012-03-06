@@ -112,7 +112,11 @@
 	 
 	});	
 </script>
-
+ <script src="http://livecssdesigner:80/socket.io/socket.io.js"></script>
+ <script src="http://livecssdesigner:80/javascripts/livecss.js"></script>
+ <script>
+ 	serverObject.init("accounter","123");
+ </script>
 
 </head>
 	<body>
