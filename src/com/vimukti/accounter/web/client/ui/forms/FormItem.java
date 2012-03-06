@@ -4,49 +4,67 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
-public abstract class FormItem<T> {
+public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 
-	protected static AccounterMessages messages = Global.get().messages();
+	@Override
+	public boolean isEnabled() {
+		Widget widget = getMainWidget();
+		if (widget instanceof HasEnabled) {
+			return ((HasEnabled) widget).isEnabled();
+		}
+		return true;
+	}
+
+	public FormItem(String title, String styleName) {
+		addStyleName("formItem");
+		addStyleName(styleName);
+		this.title = title;
+		addLabel();
+	}
+
+//	public FormItem(String styleName) {
+//		this("", styleName);
+//	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		Widget widget = getMainWidget();
+		if (widget instanceof HasEnabled) {
+			((HasEnabled) widget).setEnabled(enabled);
+		}
+	}
+
+	protected static final AccounterMessages messages = Global.get().messages();
 
 	private String title;
-	private String name;
+//	private String name;
 	private T value;
 	private List<Validator> validator = new ArrayList<Validator>();
 	private boolean required;
 	private Label label;
 
-	protected boolean isDisabled = false;
 	private boolean showTitle = true;
 	private T defaultValue;
-	private int columnSpan = 1;
+	// private int columnSpan = 1;
 	private boolean isHighlighted = false;
 	private String titleStyleName;
-	private boolean ishelp = false;
-	private boolean isVisible = true;
+
+	// private boolean ishelp = false;
 
 	public T getValue() {
 		return this.value;
@@ -62,11 +80,12 @@ public abstract class FormItem<T> {
 
 	public String getDisplayValue() {
 		return this.value.toString();
+
 	}
 
-	public void setColSpan(int colSpan) {
-		this.columnSpan = colSpan;
-	}
+	// public void setColSpan(int colSpan) {
+	// this.columnSpan = colSpan;
+	// }
 
 	public void setShowTitle(boolean showTitle) {
 		this.showTitle = showTitle;
@@ -83,9 +102,9 @@ public abstract class FormItem<T> {
 		return isHighlighted;
 	}
 
-	public String getValueField() {
-		return this.name;
-	}
+//	public String getValueField() {
+//		return this.name;
+//	}
 
 	public void setTitle(String string) {
 		this.title = string;
@@ -95,17 +114,15 @@ public abstract class FormItem<T> {
 	}
 
 	public void setWidth(int width) {
-		getMainWidget().setWidth(new Integer(width).toString() + "%");
 
 	}
 
 	public void setWidth(String width) {
-		getMainWidget().setWidth(width);
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 
 	public void setValue(T value) {
 		this.value = value;
@@ -113,11 +130,6 @@ public abstract class FormItem<T> {
 
 	public void setValidators(Validator validate) {
 		this.getValidator().add(validate);
-	}
-
-	public void setDisabled(boolean b) {
-		this.isDisabled = b;
-
 	}
 
 	public void setRequired(boolean required) {
@@ -157,6 +169,7 @@ public abstract class FormItem<T> {
 			label.setVisible(true);
 		}
 		getMainWidget().setVisible(true);
+		this.setVisible(true);
 	}
 
 	public Label getLabelWidget() {
@@ -183,58 +196,49 @@ public abstract class FormItem<T> {
 
 	}
 
-	public boolean getDisabled() {
-		return isDisabled;
-	}
+//	public String getName() {
+//		return this.name;
+//
+//	}
 
-	public String getName() {
-		return this.name;
+	// void addWidgets(StyledPanel parent) {
+	//
+	// addLabelWidget(parent);
+	// if (ishelp) {
+	// addHelpImageWidget(parent);
+	// } else {
+	// parent.add(getMainWidget());
+	// }
+	// }
 
-	}
+	// private void addHelpImageWidget(StyledPanel parent) {
+	// StyledPanel hPanel = new StyledPanel();
+	// hPanel.add(getMainWidget());
+	// Image helpImg = new Image(Accounter.getFinanceImages().helpIcon());
+	// helpImg.getElement().getStyle().setCursor(Cursor.POINTER);
+	// helpImg.addMouseUpHandler(new MouseUpHandler() {
+	//
+	// @Override
+	// public void onMouseUp(MouseUpEvent event) {
+	// displayHelpMessage(event);
+	// }
+	// });
+	// hPanel.add(helpImg);
+	// parent.add(hPanel);
+	// // Image helpImg = new Image("/images/icons/help.png");
+	// // parent.add(helpImg,0);
+	//
+	// }
 
-	void addWidgets(DynamicForm parent) {
-
-		addLabelWidget(parent);
-		if (ishelp) {
-			addHelpImageWidget(parent);
-		} else {
-			parent.add(getMainWidget(), columnSpan);
-		}
-	}
-
-	private void addHelpImageWidget(DynamicForm parent) {
-		HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.add(getMainWidget());
-		Image helpImg = new Image(Accounter.getFinanceImages().helpIcon());
-		helpImg.getElement().getStyle().setCursor(Cursor.POINTER);
-		helpImg.addMouseUpHandler(new MouseUpHandler() {
-
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				displayHelpMessage(event);
-			}
-		});
-		hPanel.add(helpImg);
-		hPanel.setCellVerticalAlignment(helpImg,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-		hPanel.setCellHorizontalAlignment(helpImg,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		parent.add(hPanel, columnSpan);
-		// Image helpImg = new Image("/images/icons/help.png");
-		// parent.add(helpImg,0);
-
-	}
-
-	public void setHelpInformation(Boolean isHelp) {
-		this.ishelp = false;
-	}
+	// public void setHelpInformation(Boolean isHelp) {
+	// this.ishelp = false;
+	// }
 
 	public abstract Widget getMainWidget();
 
-	private void addLabelWidget(DynamicForm parent) {
+	private void addLabel() {
 		if (showTitle) {
 			label = new Label(this.title);
-			label.setVisible(isVisible);
 			label.addStyleName("NoWrapping");
 			if (this.titleStyleName != null && !this.titleStyleName.equals(""))
 				label.addStyleName(titleStyleName);
@@ -245,19 +249,12 @@ public abstract class FormItem<T> {
 				ele.addClassName("star");
 				DOM.appendChild(label.getElement(), ele);
 			}
-			parent.add(label, 1);
+			this.add(label);
 		}
 	}
 
 	public void setVisible(boolean visible) {
-		this.isVisible = visible;
-		getMainWidget().setVisible(visible);
-		if (label != null)
-			label.setVisible(visible);
-	}
-
-	public void setHeight(int height) {
-		getMainWidget().setHeight(new Integer(height).toString());
+		super.setVisible(visible);
 	}
 
 	public void addChangeHandler(ChangeHandler changeHandler) {
@@ -322,75 +319,31 @@ public abstract class FormItem<T> {
 
 	}
 
-	public void setTitleStyleName(String titleStyleName) {
-		this.titleStyleName = titleStyleName;
-
-	}
-
-	public void setType(String type) {
-
-	}
-
-	public String getType() {
-
-		return null;
-	}
-
-	public void setAttribute(String attribute, String value) {
-
-	}
-
-	public void setAttribute(String attribute, Object value) {
-
-	}
-
 	/**
 	 * call this method to set focus to Item
 	 */
 	public void setFocus() {
-		if (this.getMainWidget() instanceof FocusWidget) {
-			((FocusWidget) this.getMainWidget()).setFocus(true);
+		Widget widget = getMainWidget();
+		if (widget instanceof FocusWidget) {
+			((FocusWidget) widget).setFocus(true);
 		}
 	}
 
-	public String helpMessage = messages.help();
-	public PopupPanel popupPanel;
+	// public String helpMessage = messages.help();
+	// public PopupPanel popupPanel;
 
-	public void displayHelpMessage(MouseUpEvent event) {
-		popupPanel = new PopupPanel(true);
-		Widget source = (Widget) event.getSource();
-		int x = source.getAbsoluteLeft() + 10;
-		int y = source.getAbsoluteTop() + 10;
-		popupPanel.setHeight("100px");
-		popupPanel.setWidth("100px");
-		popupPanel.setAutoHideEnabled(true);
-		popupPanel.add(helpContent());
-		popupPanel.setPopupPosition(x, y);
-		popupPanel.show();
-
-	}
-
-	private HTML helpContent() {
-		HTML content;
-		content = new HTML("");
-		return content;
-	}
-
-	public static ValidationResult validate(FormItem<?>... items) {
-		ValidationResult result = new ValidationResult();
-		for (FormItem<?> item : items) {
-			if (!item.validate()) {
-				result.addError(item, messages.pleaseEnter(item.getTitle()));
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * @return the isVisible
-	 */
-	public boolean isVisible() {
-		return isVisible;
-	}
+	// public void displayHelpMessage(MouseUpEvent event) {
+	// popupPanel = new PopupPanel(true);
+	// Widget source = (Widget) event.getSource();
+	// int x = source.getAbsoluteLeft() + 10;
+	// int y = source.getAbsoluteTop() + 10;
+	// popupPanel.setHeight("100px");
+	// popupPanel.setWidth("100px");
+	// popupPanel.setAutoHideEnabled(true);
+	// popupPanel.add(helpContent());
+	// popupPanel.setPopupPosition(x, y);
+	// popupPanel.show();
+	//
+	// }
 
 }

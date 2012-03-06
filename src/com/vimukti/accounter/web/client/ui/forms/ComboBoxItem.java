@@ -12,21 +12,13 @@ public class ComboBoxItem extends FormItem<String> {
 	ListBox listBox;
 	LinkedHashMap<String, String> propertyValueHashMap;
 
-	public ComboBoxItem() {
+	public ComboBoxItem(String title, String styleName) {
+		super(title, styleName);
 		listBox = new ListBox();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// ComboBoxItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		// };
-		listBox.setWidth("100%");
+		listBox.addStyleName("listBox");
+		this.add(listBox);
 	}
+
 
 	public void setValue(String value) {
 
@@ -84,13 +76,6 @@ public class ComboBoxItem extends FormItem<String> {
 	public void setToolTip(String toolTip) {
 		super.setToolTip(toolTip);
 		listBox.setTitle(toolTip);
-	}
-
-	@Override
-	public void setDisabled(boolean b) {
-		// this.getMainWidget().setEnabled(!b);
-		this.listBox.setEnabled(!b);
-
 	}
 
 	@Override

@@ -10,12 +10,9 @@ public class EmailField extends TextItem {
 	private String text;
 
 	public EmailField(final String name) {
-		setName(name);
-		setTitle(name);
-		// addBlurHandler(getBlurHandler());
+		super(name,"emailField");
 	}
 
-	
 	private BlurHandler getBlurHandler() {
 		BlurHandler blurHandler = new BlurHandler() {
 
@@ -27,8 +24,7 @@ public class EmailField extends TextItem {
 				if (!UIUtils.isValidEmail(emailText)) {
 					setText("");
 					try {
-						throw new Exception(messages.invalidCharactersGiven()
-								);
+						throw new Exception(messages.invalidCharactersGiven());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

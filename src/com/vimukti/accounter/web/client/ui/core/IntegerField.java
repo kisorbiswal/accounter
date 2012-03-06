@@ -2,8 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.TextBoxBase;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -13,10 +12,9 @@ public class IntegerField extends TextItem {
 	private WidgetWithErrors errorsWidget;
 
 	public IntegerField(WidgetWithErrors errorsWidget, final String name) {
+		super(name,"integerField");
 		this.errorsWidget = errorsWidget;
-		setName(name);
-		setTitle(name);
-		((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
+		//((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
 		addBlurHandler(getBlurHandler());
 
 		// setKeyPressHandler(new KeyPressListener() {
@@ -69,8 +67,13 @@ public class IntegerField extends TextItem {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorsWidget.addError(this,
-									messages.pleaseEnterValidNumber());
+							errorsWidget
+									.addError(
+											this,
+											Global.get()
+													.messages()
+													.pleaseEnter(
+															messages.pleaseEnterValidNumber()));
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

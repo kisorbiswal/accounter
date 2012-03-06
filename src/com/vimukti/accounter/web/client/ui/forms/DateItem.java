@@ -6,27 +6,25 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.widgets.DatePicker;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class DateItem extends FormItem<ClientFinanceDate> {
 
-	HorizontalPanel datePanel = new HorizontalPanel();
+	StyledPanel datePanel = new StyledPanel("datePanel");
 
 	// TextBox textBox;
 	boolean enableTextFieldView;
 	private ChangeHandler changeHandler;
 	private DateValueChangeHandler handler;
 	private PopupPanel panel;
-	private DatePicker datePicker = new DatePicker();
+	private final DatePicker datePicker = new DatePicker();
 
 	// FinanceImages images = GWT.create(FinanceImages.class);
 
@@ -35,38 +33,11 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 
 	}
 
-	public DateItem() {
-		Image dateImg = new Image(Accounter.getFinanceImages().calanderPicker());
-		dateImg.addStyleName("calendar-picker");
-		// dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
-		// dateImg.getElement().getStyle().setMarginLeft(3, Unit.PX);
-		dateImg.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				datePicker.fireEvent(event);
-				if (!datePicker.isEnabled())
-					return;
-				datePicker.showPopup();
-			}
-		});
-
-		// datePicker.setWidth("160px");
-		// datePanel.setSpacing(3);
-		datePanel.add(datePicker);
-		datePanel.add(dateImg);
-		datePanel.setCellVerticalAlignment(dateImg,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-
-	}
-
-	public DateItem(String text) {
+	public DateItem(String text, String styleName) {
+		super(text, styleName);
 		setUseTextField(true);
-		setTitle(text);
-		Image dateImg = new Image(Accounter.getFinanceImages().calanderPicker());
+		Label dateImg = new Label();
 		dateImg.addStyleName("calendar-picker");
-		// dateImg.getElement().getStyle().setCursor(Cursor.POINTER);
-		// dateImg.getElement().getStyle().setMarginLeft(3, Unit.PX);
 		dateImg.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -77,13 +48,10 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 				datePicker.showPopup();
 			}
 		});
-
-		// datePicker.setWidth("160px");
-		// datePanel.setSpacing(3);
+		this.addStyleName("dateItem");
 		datePanel.add(datePicker);
 		datePanel.add(dateImg);
-		datePanel.setCellVerticalAlignment(dateImg,
-				HasVerticalAlignment.ALIGN_MIDDLE);
+		this.add(datePanel);
 
 	}
 
@@ -187,10 +155,9 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		// this.getMainWidget().setEnabled(!b);
-		this.datePicker.setEnabled(!b);
-		if (b) {
+	public void setEnabled(boolean b) {
+		this.datePicker.setEnabled(b);
+		if (!b) {
 			this.datePicker.addStyleName("disable-TextField");
 		} else {
 			this.datePicker.removeStyleName("disable-TextField");

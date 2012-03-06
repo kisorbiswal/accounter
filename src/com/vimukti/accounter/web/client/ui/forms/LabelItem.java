@@ -8,8 +8,11 @@ public class LabelItem extends FormItem<String> {
 
 	private Label label;
 
-	public LabelItem() {
+	public LabelItem(String title, String styleName) {
+		super(title, styleName);
 		label = new Label();
+		label.getElement().setClassName("label");
+		this.add(label);
 	}
 
 	@Override

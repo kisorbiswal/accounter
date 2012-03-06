@@ -29,9 +29,9 @@ public class CheckboxItem extends FormItem<Boolean> {
 
 	}
 
-	public CheckboxItem() {
-
-	}
+//	public CheckboxItem() {
+//
+//	}
 
 	@Override
 	public void setToolTip(String toolTip) {
@@ -39,28 +39,25 @@ public class CheckboxItem extends FormItem<Boolean> {
 		checkBox.setTitle(toolTip);
 	}
 
-	public CheckboxItem(String name, String description) {
-
+	public CheckboxItem(String title,String styleName, String description) {
+		super(title,styleName);
 		this.checkBox = new CheckBox();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// CheckboxItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		this.setName(name);
 		this.checkBox.setText(description);
+		this.checkBox.addStyleName("checkBox");
+		this.add(checkBox);
+		this.addStyleName("checkboxItem");
 
 	}
 
-	public CheckboxItem(String description) {
+	public CheckboxItem(String title,String styleName) {
+		super(title,styleName);
 		this.checkBox = new CheckBox();
-		this.checkBox.setText(description);
+		this.add(checkBox);
+		this.addStyleName("checkboxItem");
+	}
 
+	public CheckboxItem() {
+		super("checkBox","wareHouseCheckbox");
 	}
 
 	public void addChangeHandler(ValueChangeHandler<Boolean> ChangeHandler) {
@@ -73,19 +70,17 @@ public class CheckboxItem extends FormItem<Boolean> {
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		// this.getMainWidget().setEnabled(!b);
-		// this.setDisabled(b);
-		this.checkBox.setEnabled(!b);
-
+	public void setEnabled(boolean b) {
+		this.checkBox.setEnabled(b);
 	}
 
 	public boolean isChecked() {
-		return (Boolean) getValue();
+		return getValue();
 	}
-	
-	public void setTabIndex(int index){
+
+	public void setTabIndex(int index) {
 		checkBox.setTabIndex(index);
 	}
+
 
 }

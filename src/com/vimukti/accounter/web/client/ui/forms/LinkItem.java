@@ -8,8 +8,15 @@ public class LinkItem extends FormItem<String> {
 
 	Hyperlink hyperlink;
 
-	public LinkItem() {
+	public LinkItem(String title, String styleName) {
+		super(title, styleName);
 		this.hyperlink = new Hyperlink();
+		hyperlink.addStyleName("hyperLink");
+		this.add(hyperlink);
+	}
+
+	public LinkItem() {
+		this("","linkItem");
 	}
 
 	public void setLinkTitle(String title) {
@@ -20,12 +27,6 @@ public class LinkItem extends FormItem<String> {
 	@Override
 	public String getValue() {
 		return hyperlink.getText();
-	}
-
-	@Override
-	public void setDisabled(boolean b) {
-		this.hyperlink.setVisible(!b);
-
 	}
 
 	@Override
@@ -53,13 +54,7 @@ public class LinkItem extends FormItem<String> {
 
 	@Override
 	public Widget getMainWidget() {
-		if (this.getDisabled()) {
-			this.hyperlink.setVisible(false);
-			return this.hyperlink;
-		} else {
-			return this.hyperlink;
-		}
-
+		return this.hyperlink;
 	}
 
 }

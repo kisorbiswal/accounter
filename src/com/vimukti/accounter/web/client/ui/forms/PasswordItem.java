@@ -6,8 +6,9 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.TextBox;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
 
 public class PasswordItem extends FormItem<String> {
@@ -15,27 +16,11 @@ public class PasswordItem extends FormItem<String> {
 	public PasswordTextBox passwordBox;
 
 	// TextBoxItem textBoxItem;
-	public PasswordItem() {
-
-		passwordBox = new PasswordTextBox() {
-			protected void onAttach() {
-				super.onAttach();
-				PasswordItem.this.onAttach();
-			};
-		};
-		// textBoxItem= new TextBoxItem();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// TextItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		// };
-
+	public PasswordItem(String lable) {
+		super(lable,"PasswordItem");
+		passwordBox = new PasswordTextBox();
+		setPlaceholder(lable, passwordBox);
+		passwordBox.addStyleName("passwordItem");
 		this.passwordBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -46,42 +31,18 @@ public class PasswordItem extends FormItem<String> {
 			}
 		});
 
-		// if(!validate()){
-		// parent.setNumCols(3);
-		// addLabelWidget(parent);
-		// parent.add(getMainWidget(), columnSpan);
-		// Label label = new Label("Error");
-		// label.setStyleName("ErrorLabel");
-		// parent.add(label,1);
-		// }
-		// else{
+		this.add(passwordBox);
 
+	}
+
+	public static void setPlaceholder(String text, TextBox box) {
+		box.getElement().setAttribute("placeholder", text);
 	}
 
 	@Override
 	public void setToolTip(String toolTip) {
 		super.setToolTip(toolTip);
 		passwordBox.setTitle(toolTip);
-	}
-
-	protected void onAttach() {
-
-	}
-
-	public PasswordItem(String title) {
-		passwordBox = new PasswordTextBox();
-		// @Override
-		// public void sinkEvents(int eventBitsToAdd) {
-		// super.sinkEvents(Event.ONFOCUS);
-		// }
-		//
-		// @Override
-		// public void onBrowserEvent(Event event) {
-		// TextItem.this.showValidated();
-		// super.onBrowserEvent(event);
-		// }
-		// };
-		setTitle(title);
 	}
 
 	@Override
@@ -156,23 +117,19 @@ public class PasswordItem extends FormItem<String> {
 	}
 
 	@Override
-	public Widget getMainWidget() {
+	public FocusWidget getMainWidget() {
 		return passwordBox;
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		if (b) {
+	public void setEnabled(boolean b) {
+		if (!b) {
 			this.passwordBox.addStyleName("disable-TextField");
 		} else {
 			this.passwordBox.setStyleName("gwt-TextBox");
 		}
-		this.passwordBox.setEnabled(!b);
+		this.passwordBox.setEnabled(b);
 
-	}
-
-	public void addStyleName(String style) {
-		passwordBox.addStyleName(style);
 	}
 
 	public void removeStyleName(String style) {

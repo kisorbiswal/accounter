@@ -22,8 +22,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class PhoneFaxForm extends DynamicForm {
-	protected static AccounterMessages messages=Global.get().messages();
-	
+	protected static AccounterMessages messages = Global.get().messages();
+
 	private SelectCombo businessPhoneSelect, businessFaxSelect;
 	public TextItem businessPhoneText;
 	public TextItem businessFaxText;
@@ -35,15 +35,12 @@ public class PhoneFaxForm extends DynamicForm {
 
 	public PhoneFaxForm(Set<ClientPhone> phones, Set<ClientFax> faxes,
 			WidgetWithErrors widget, String category) {
+		super("phoneFaxForm");
 		this.errorWidget = widget;
 		allPhones = new LinkedHashMap<Integer, ClientPhone>();
 		allFaxes = new LinkedHashMap<Integer, ClientFax>();
 		setPhonesAndFaxes(phones, faxes);
-		setIsGroup(true);
-		setGroupTitle(messages.phoneAndFaxNumbers());
-		setNumCols(2);
 		businessPhoneSelect = new SelectCombo(messages.phone());
-		businessPhoneSelect.setHelpInformation(true);
 		// businessPhoneSelect.setWidth(85);
 		businessPhoneSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businessPhoneSelect.initCombo(new ClientPhone().getPhoneTypes());
@@ -62,14 +59,11 @@ public class PhoneFaxForm extends DynamicForm {
 					}
 				});
 
-		businessPhoneText = new TextItem(messages.phone());
-		businessPhoneText
-				.setToolTip(messages.phoneNumberOf(category));
-		businessPhoneText.setToolTip(messages.giveOf(
-				messages.phoneNumber(), category));
-		businessPhoneText.setHelpInformation(true);
+		businessPhoneText = new TextItem(messages.phone(),"businessPhoneText");
+		businessPhoneText.setToolTip(messages.phoneNumberOf(category));
+		businessPhoneText.setToolTip(messages.giveOf(messages.phoneNumber(),
+				category));
 		// businessPhoneText.setShowTitle(false);
-		businessPhoneText.setWidth(100);
 		businessPhoneText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -86,8 +80,8 @@ public class PhoneFaxForm extends DynamicForm {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorWidget.addError(this, messages
-									.incorrectInformation());
+							errorWidget.addError(this,
+									messages.incorrectInformation());
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
 							businessPhoneText.setValue("");
@@ -117,8 +111,6 @@ public class PhoneFaxForm extends DynamicForm {
 		} else
 			businessPhoneSelect.setDefaultToFirstOption(true);
 		businessFaxSelect = new SelectCombo(messages.fax());
-		businessFaxSelect.setHelpInformation(true);
-		businessFaxSelect.setWidth(85);
 		businessFaxSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businessFaxSelect.initCombo(new ClientFax().getFaxTypes());
 		businessFaxSelect
@@ -135,11 +127,8 @@ public class PhoneFaxForm extends DynamicForm {
 							businessFaxText.setValue("");
 					}
 				});
-		businessFaxText = new TextItem(messages.fax());
-		businessFaxText.setToolTip(messages.giveOf(
-				messages.fax(), category));
-		businessFaxText.setHelpInformation(true);
-		businessFaxText.setWidth(100);
+		businessFaxText = new TextItem(messages.fax(),"businessFaxText");
+		businessFaxText.setToolTip(messages.giveOf(messages.fax(), category));
 		// businessFaxText.setShowTitle(false);
 
 		businessFaxText.addChangeHandler(new ChangeHandler() {
@@ -158,8 +147,8 @@ public class PhoneFaxForm extends DynamicForm {
 						// + AccounterErrorType.INCORRECTINFORMATION
 						// + ".");
 						// BaseView.commentPanel.setVisible(true);
-						errorWidget.addError(this, messages
-								.incorrectInformation());
+						errorWidget.addError(this,
+								messages.incorrectInformation());
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);
 						businessFaxText.setValue("");
@@ -185,10 +174,8 @@ public class PhoneFaxForm extends DynamicForm {
 			businessFaxText.setValue(toBeShownFax.getNumber() + "");
 		} else
 			businessFaxSelect.setDefaultToFirstOption(true);
-		setFields(businessPhoneText, businessFaxText);
+		add(businessPhoneText, businessFaxText);
 
-		setWidth("100%");
-		setHeight("50px");
 	}
 
 	private void setPhonesAndFaxes(Set<ClientPhone> phones, Set<ClientFax> faxes) {
@@ -246,8 +233,7 @@ public class PhoneFaxForm extends DynamicForm {
 				.getFaxType(businessFaxSelect.getSelectedValue()));
 		if (selectedFaxFromSelect != null) {
 			selectedFaxFromSelect.setIsSelected(true);
-			allFaxes
-					.put(selectedFaxFromSelect.getType(), selectedFaxFromSelect);
+			allFaxes.put(selectedFaxFromSelect.getType(), selectedFaxFromSelect);
 		}
 		Collection<ClientFax> faxs = allFaxes.values();
 		Set<ClientFax> toBeSetFaxes = new HashSet<ClientFax>();
