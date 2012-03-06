@@ -38,7 +38,7 @@ import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class InventoryCentreView<T> extends AbstractBaseView<T> implements
-		ISavableView<T> {
+		ISavableView<Map<String, Object>> {
 
 	private ClientItem selectedItem;
 	private List<ClientItem> listOfItems;
@@ -560,18 +560,6 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public T saveView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void restoreView(T viewDate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected String getViewTitle() {
 		// TODO Auto-generated method stub
 		return null;
@@ -716,5 +704,63 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			action.setType(ClientItem.TYPE_INVENTORY_PART);
 			return action;
 		}
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
+		map.put("currentView", trasactionViewSelect.getSelectedValue());
+		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());
+		map.put("dateRange", dateRangeSelector.getSelectedValue());
+		map.put("selectedItem",
+				selectedItem == null ? "" : selectedItem.getName());
+		map.put("itemSelection", itemsListGrid.getSelection());
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> map) {
+
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+		String activeInactive = (String) map.get("activeInActive");
+		activeInActiveSelect.setComboItem(activeInactive);
+		if (activeInactive.equalsIgnoreCase(messages.active())) {
+			refreshActiveinactiveList(true);
+		} else {
+			refreshActiveinactiveList(false);
+		}
+
+		String currentView = (String) map.get("currentView");
+		trasactionViewSelect.setComboItem(currentView);
+		if (currentView != null) {
+			getMessagesList();
+		}
+
+		String transctionType = (String) map.get("transactionType");
+		trasactionViewTypeSelect.setComboItem(transctionType);
+
+		String dateRange1 = (String) map.get("dateRange");
+		dateRangeSelector.setComboItem(dateRange1);
+		if (dateRange1 != null) {
+			dateRangeChanged(dateRange1);
+		}
+		ClientItem object = (ClientItem) map.get("itemSelection");
+		itemsListGrid.setSelection(object);
+
+		String customer = (String) map.get("selectedItem");
+
+		if (customer != null && !(customer.isEmpty())) {
+			selectedItem = getCompany().getItemByName(customer);
+		}
+		if (this.selectedItem != null) {
+			itemsListGrid.setSelectedItem(selectedItem);
+			onItemSelected();
+		} else {
+			callRPC(0, getPageSize());
+		}
+
 	}
 }
