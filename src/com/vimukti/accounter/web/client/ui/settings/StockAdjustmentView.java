@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -24,6 +23,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		implements ICurrencyProvider {
 
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private WarehouseCombo wareHouseCombo;
 	private StockAdjustmentTable table;
 	private AddNewButton addButton;
@@ -50,16 +50,16 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+		// setSize("100%", "100%");
 	}
 
 	private void createControls() {
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		listForms = new ArrayList<DynamicForm>();
 
 		wareHouseCombo = new WarehouseCombo(messages.wareHouse());
-		wareHouseCombo.setDisabled(!getCompany().getPreferences()
-				.iswareHouseEnabled() || isInViewMode());
+		wareHouseCombo.setEnabled(getCompany().getPreferences()
+				.iswareHouseEnabled() || !isInViewMode());
 		wareHouseCombo.setRequired(true);
 		wareHouse = getCompany().getWarehouse(
 				getCompany().getDefaultWarehouse());
@@ -81,7 +81,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			}
 		};
 		adjustmentAccountCombo.setRequired(true);
-		adjustmentAccountCombo.setDisabled(isInViewMode());
+		adjustmentAccountCombo.setEnabled(!isInViewMode());
 		table = new StockAdjustmentTable(this) {
 
 			@Override
@@ -282,13 +282,13 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		wareHouseCombo.setDisabled(!getCompany().getPreferences()
+		wareHouseCombo.setEnabled(!getCompany().getPreferences()
 				.iswareHouseEnabled() || isInViewMode());
 		table.setDisabled(isInViewMode());
 		table.clear();
 		table.setAllRows(data.getTransactionItems());
 		addButton.setEnabled(!isInViewMode());
-		adjustmentAccountCombo.setDisabled(isInViewMode());
+		adjustmentAccountCombo.setEnabled(isInViewMode());
 	}
 
 	@Override

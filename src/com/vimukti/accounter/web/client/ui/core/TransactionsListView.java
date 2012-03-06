@@ -25,12 +25,14 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	public TransactionsListView() {
 		super();
+		this.getElement().setId("TransactionsListView");
 		this.startDate = Accounter.getStartDate();
 		this.endDate = getCompany().getCurrentFiscalYearEndDate();
 	}
 
 	public TransactionsListView(String viewType) {
 		super();
+		this.getElement().setId("TransactionsListView");
 		this.startDate = Accounter.getStartDate();
 		this.endDate = getCompany().getCurrentFiscalYearEndDate();
 		this.setViewType(viewType);
@@ -45,7 +47,6 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	@Override
 	protected SelectCombo getSelectItem() {
 		viewSelect = new SelectCombo(messages.currentView());
-		viewSelect.setHelpInformation(true);
 		// listOfTypes.add(DRAFT);
 		viewSelect.initCombo(getViewSelectTypes());
 

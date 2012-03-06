@@ -39,8 +39,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	protected TAXAgencyCombo taxAgencyCombo;
 	protected DateItem fromDate;
 	protected DateItem toDate;
-	private HorizontalPanel topLayout;
-	private VerticalPanel mainLayout;
+	private StyledPanel topLayout;
+	private StyledPanel mainLayout;
 
 	private Button adjustButton;
 	private Button printButton;
@@ -58,8 +58,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("AbstractFileTAXView");
 		createControls();
-		setSize("100%", "100%");
 	}
 
 	private void createControls() {
@@ -67,7 +67,6 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		infolabel.removeStyleName("gwt-Label");
 		infolabel.addStyleName("label-title");
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
-		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);
 
 		taxAgencyCombo
@@ -79,14 +78,8 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 					}
 				});
-		// taxAgencyCombo.setWidth("200px");
-		fromDate = new DateItem(messages.from());
-		fromDate.setHelpInformation(true);
-		fromDate.setWidth(100);
-
-		toDate = new DateItem(messages.to());
-		toDate.setHelpInformation(true);
-		toDate.setWidth(100);
+		fromDate = new DateItem(messages.from(), "fromDate");
+		toDate = new DateItem(messages.to(), "toDate");
 
 		toDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -170,8 +163,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			}
 		});
 
-		VerticalPanel adjustForm = new VerticalPanel();
-		adjustForm.setSpacing(3);
+		StyledPanel adjustForm = new StyledPanel("adjustForm");
 		// adjustForm.add(adjustLabel);
 		adjustForm.add(adjustButton);
 		// if (adjustButton.isEnabled()) {
@@ -203,8 +195,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 		disableButtons();
 
-		VerticalPanel printForm = new VerticalPanel();
-		printForm.setSpacing(3);
+		StyledPanel printForm = new StyledPanel("printForm");
 		printForm.add(printLabel1);
 		printForm.add(printLabel2);
 		printForm.add(printButton);
@@ -214,7 +205,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		// .getThemeImages().button_right_blue_image(),
 		// "ibutton-right-image");
 		// }
-		topLayout = new HorizontalPanel();
+		topLayout = new StyledPanel("topLayout");
 		topLayout.add(topForm);
 		topLayout.add(updateButton);
 
@@ -225,12 +216,9 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		// .getThemeImages().button_right_blue_image(),
 		// "ibutton-right-image");
 		// }
-		mainLayout = new VerticalPanel();
-		mainLayout.setHeight("100%");
-		mainLayout.add(infolabel);
+		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(topLayout);
 		mainLayout.add(grid);
-		mainLayout.setWidth("100%");
 		// mainLayout.add(beforeLabel);
 		mainLayout.add(adjustForm);
 		mainLayout.add(printForm);
@@ -257,13 +245,13 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		} else {
 
 			enableButtons();
-			fromDate.setDisabled(false);
+			fromDate.setEnabled(false);
 			getLastTaxReturnEndDate(selectItem);
 			// getVATReturnEndDate(selectItem);
 
 		}
 
-		fromDate.setDisabled(false);
+		fromDate.setEnabled(false);
 	}
 
 	private void getVATReturnEndDate(ClientTAXAgency selectItem) {
@@ -341,7 +329,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 							fromDate.setDatethanFireEvent(new ClientFinanceDate(
 									date));
-							fromDate.setDisabled(true);
+							fromDate.setEnabled(true);
 						} else {
 							fromDate.setDatethanFireEvent(new ClientFinanceDate(
 									DateUtil.getCurrentMonthFirstDate()));

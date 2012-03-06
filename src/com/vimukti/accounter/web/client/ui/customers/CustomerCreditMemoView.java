@@ -5,12 +5,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -32,6 +26,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
@@ -39,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
@@ -65,20 +61,17 @@ public class CustomerCreditMemoView extends
 	private AmountLabel netAmountLabel;
 	private TaxItemsForm taxTotalNonEditableText;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel accountsDisclosurePanel;
-	private DisclosurePanel itemsDisclosurePanel;
+	private StyledDiscosurePanel accountsDisclosurePanel;
+	private StyledDiscosurePanel itemsDisclosurePanel;
 
 	public CustomerCreditMemoView() {
-
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
+		this.getElement().setId("customercreditmemoview");
 	}
 
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(messages.customerCreditNote(Global.get()
-				.Customer()));
-		lab1.setStyleName("label-title");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -109,53 +102,40 @@ public class CustomerCreditMemoView extends
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setTitle(messages.creditNo());
 		locationCombo = createLocationCombo();
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
-		dateNoForm.setStyleName("datenumber-panel");
+		DynamicForm dateNoForm = new DynamicForm("datenumber-panel");
 		if (!isTemplate) {
-			dateNoForm.setFields(transactionDateItem, transactionNumber);
+			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("datepanel");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
 				.Customer()));
 
 		contactCombo = createContactComboItem();
-		contactCombo.setHelpInformation(true);
-		billToTextArea = new TextAreaItem();
-		billToTextArea.setHelpInformation(true);
-		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(messages.billTo());
+		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
 		billToTextArea.setDisabled(true);
 
 		custForm = UIUtils.form(Global.get().customer());
-		custForm.setFields(customerCombo, contactCombo, billToTextArea);
-		custForm.getCellFormatter().addStyleName(2, 0, "memoFormAlign");
+		custForm.add(customerCombo, contactCombo, billToTextArea);
 		// custForm.getCellFormatter().getElement(0, 0)
 		// .setAttribute(Global.get().constants().width(), "190px");
 		// custForm.setWidth("100%");
 		custForm.setStyleName("align-form");
 
-		phoneSelect = new TextItem(messages.phone());
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setHelpInformation(true);
-		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isInViewMode());
+		phoneSelect.setEnabled(!isInViewMode());
 		salesPersonCombo = createSalesPersonComboItem();
 
 		DynamicForm phoneForm = UIUtils.form(messages.phoneNumber());
 		// phoneForm.setWidth("100%");
 		if (locationTrackingEnabled)
-			phoneForm.setFields(locationCombo);
+			phoneForm.add(locationCombo);
 		phoneForm.setStyleName("align-form");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
@@ -166,17 +146,14 @@ public class CustomerCreditMemoView extends
 			jobListCombo.setDisabled(true);
 			phoneForm.setFields(jobListCombo);
 		}
+
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setTitle(messages.reasonForIssue());
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
-				"memoFormAlign");
-		prodAndServiceForm1.setNumCols(1);
-		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields(memoTextAreaItem);
+		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
+		prodAndServiceForm1.add(memoTextAreaItem);
 
 		taxTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
@@ -219,7 +196,7 @@ public class CustomerCreditMemoView extends
 				CustomerCreditMemoView.this.updateNonEditableItems();
 			}
 		};
-		customerAccountTransactionTable.setDisabled(isInViewMode());
+		customerAccountTransactionTable.setEnabled(!isInViewMode());
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -231,14 +208,13 @@ public class CustomerCreditMemoView extends
 			}
 		});
 
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(
+		StyledPanel accountStyledPanel = new StyledPanel("accountStyledPanel");
+		accountsDisclosurePanel = new StyledDiscosurePanel(
 				messages.ItemizebyAccount());
-		accountFlowPanel.add(customerAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
-		accountsDisclosurePanel.setContent(accountFlowPanel);
-		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
+		accountStyledPanel.add(customerAccountTransactionTable);
+		accountStyledPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountStyledPanel);
+		// accountsDisclosurePanel.setOpen(true);
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -272,7 +248,7 @@ public class CustomerCreditMemoView extends
 				CustomerCreditMemoView.this.updateNonEditableItems();
 			}
 		};
-		customerItemTransactionTable.setDisabled(isInViewMode());
+		customerItemTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -284,116 +260,81 @@ public class CustomerCreditMemoView extends
 			}
 		});
 		currencyWidget = createCurrencyFactorWidget();
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(
+		StyledPanel itemsStyledPanel = new StyledPanel("itemsStyledPanel");
+		itemsDisclosurePanel = new StyledDiscosurePanel(
 				messages.ItemizebyProductService());
-		itemsFlowPanel.add(customerItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
-		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
+		itemsStyledPanel.add(customerItemTransactionTable);
+		itemsStyledPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsStyledPanel);
 
-		VerticalPanel nonEditablePanel = new VerticalPanel();
-		// prodAndServiceForm2.setWidth("100%");
-		DynamicForm netAmountForm = new DynamicForm();
-		netAmountForm.setNumCols(2);
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
+		StyledPanel taxPanel = new StyledPanel("nonEditablePanel");
+		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
+		DynamicForm totalForm = new DynamicForm("totalForm");
 
-		DynamicForm form = new DynamicForm();
-		form.setWidth("100%");
-		nonEditablePanel.addStyleName("boldtext");
+		DynamicForm form = new DynamicForm("boldtext");
 
 		discountField = getDiscountField();
 
 		if (isTrackTax()) {
-			netAmountForm.setFields(netAmountLabel);
-			nonEditablePanel.add(netAmountForm);
-			nonEditablePanel.add(taxTotalNonEditableText);
+			netAmountForm.add(netAmountLabel);
+			taxPanel.add(netAmountForm);
+			taxPanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				form.setFields(taxCodeSelect);
+				form.add(taxCodeSelect);
 			}
-			form.setFields(vatinclusiveCheck);
+			form.add(vatinclusiveCheck);
 		}
 
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
-				form.setFields(discountField);
+				form.add(discountField);
 			}
 		}
-		totalForm.setFields(transactionTotalBaseCurrencyText);
+		totalForm.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(foreignCurrencyamountLabel);
+			totalForm.add(foreignCurrencyamountLabel);
 		}
-		nonEditablePanel.add(totalForm);
-		nonEditablePanel.addStyleName("boldtext");
+		taxPanel.add(totalForm);
 
-		nonEditablePanel.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(taxTotalNonEditableText,
-				ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-
-		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
-		prodAndServiceHLay.setWidth("100%");
-
-		VerticalPanel vpanel = new VerticalPanel();
-		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vpanel.setWidth("100%");
-
-		vpanel.add(nonEditablePanel);
+		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(form);
-		prodAndServiceHLay.add(nonEditablePanel);
-		// prodAndServiceHLay.setCellWidth(prodAndServiceForm2, "50%");
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
-		mainPanel.add(vpanel);
-		mainPanel.add(prodAndServiceHLay);
-
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(custForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
-		// rightVLay.setWidth("100%");
-		rightVLay.setCellHorizontalAlignment(phoneForm, ALIGN_RIGHT);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(phoneForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.addStyleName("fields-panel");
-		topHLay.setSize("100%", "100%");
-		topHLay.setSpacing(20);
-
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(lab1);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
-		mainVLay.add(mainPanel);
+		mainVLay.add(prodAndServiceHLay);
 
-		if (UIUtils.isMSIEBrowser()) {
-			resetFormView();
-		} else {
-			memoTextAreaItem.setWidth("400px");
-		}
+		StyledPanel disPanel = new StyledPanel("dislosurePanel");
+		disPanel.add(accountsDisclosurePanel.getPanel());
+		disPanel.add(itemsDisclosurePanel.getPanel());
 
-		this.add(mainVLay);
+		StyledPanel mainControlsPanel = new StyledPanel("mainControlsPanel");
+		mainControlsPanel.add(mainVLay);
+		mainControlsPanel.add(disPanel);
+
+		StyledPanel customerCreditMemoViewPanel = new StyledPanel(
+				"customerCreditMemoViewPanel");
+		customerCreditMemoViewPanel.add(mainControlsPanel);
+		customerCreditMemoViewPanel.add(taxPanel);
+
+		this.add(customerCreditMemoViewPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -544,7 +485,7 @@ public class CustomerCreditMemoView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			initTransactionsItems();
 			this.setCustomer(getCompany()
@@ -637,7 +578,7 @@ public class CustomerCreditMemoView extends
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -840,7 +781,7 @@ public class CustomerCreditMemoView extends
 
 		if (this.taxCode != null && taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(messages.none()))
+				&& !taxCodeSelect.getTitle().equalsIgnoreCase(messages.none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		// if (this.priceLevel != null && priceLevelSelect != null)
@@ -886,7 +827,7 @@ public class CustomerCreditMemoView extends
 		if (shippingTerm != null && shippingTermsCombo != null) {
 			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
 					shippingTerm.getID()));
-			shippingTermsCombo.setDisabled(isInViewMode());
+			shippingTermsCombo.setEnabled(!isInViewMode());
 		}
 	}
 
@@ -947,23 +888,23 @@ public class CustomerCreditMemoView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		customerCombo.setDisabled(isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isInViewMode());
+			salesPersonCombo.setEnabled(!isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
-		taxCodeSelect.setDisabled(isInViewMode());
+		taxCodeSelect.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		customerAccountTransactionTable.setDisabled(isInViewMode());
-		customerItemTransactionTable.setDisabled(isInViewMode());
+		customerAccountTransactionTable.setEnabled(!isInViewMode());
+		customerItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
-		discountField.setDisabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -1053,12 +994,12 @@ public class CustomerCreditMemoView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		// accountsDisclosurePanel.setOpen(checkOpen(
+		// transaction.getTransactionItems(),
+		// ClientTransactionItem.TYPE_ACCOUNT, true));
+		// itemsDisclosurePanel.setOpen(checkOpen(
+		// transaction.getTransactionItems(),
+		// ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override

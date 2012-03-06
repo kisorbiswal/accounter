@@ -35,7 +35,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 	private SelectCombo formType;
 	private Label lab1;
 
-	VerticalPanel mainVLay;
+	StyledPanel mainVLay;
 
 	ClientBudget budgetForEditing = new ClientBudget();
 
@@ -143,18 +143,16 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		});
 
 		slectAssecementYear = new SelectCombo(messages.assessmentYear());
-		slectAssecementYear.setHelpInformation(true);
 		slectAssecementYear.initCombo(getAssessmentYearList());
-		slectAssecementYear.setDisabled(true);
+		slectAssecementYear.setEnabled(false);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
-		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setSelectedItem(0);
 		String[] tokens = financialYearCombo.getSelectedValue().split("-");
 		startYear = Integer.parseInt(tokens[0]);
 		endYear = Integer.parseInt(tokens[1]);
-		financialYearCombo.setDisabled(isInViewMode());
+		financialYearCombo.setEnabled(!isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -175,11 +173,10 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 				});
 
 		quaterSelectionCombo = new SelectCombo(messages.forQuarter());
-		quaterSelectionCombo.setHelpInformation(true);
 		quaterSelectionCombo.initCombo(getFinancialQuatersList());
 		quaterSelectionCombo.setSelectedItem(0);
 		quaterSelected = 1;
-		quaterSelectionCombo.setDisabled(isInViewMode());
+		quaterSelectionCombo.setEnabled(!isInViewMode());
 		quaterSelectionCombo.setRequired(true);
 		quaterSelectionCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

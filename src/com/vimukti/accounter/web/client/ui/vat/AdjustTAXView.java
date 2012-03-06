@@ -61,17 +61,19 @@ public class AdjustTAXView extends
 
 	public AdjustTAXView() {
 		super(ClientTransaction.TYPE_ADJUST_VAT_RETURN);
+		this.getElement().setId("adjusttaxview");
 	}
 
 	public AdjustTAXView(ClientTAXAgency taxAgency) {
 		super(ClientTransaction.TYPE_ADJUST_VAT_RETURN);
+		this.getElement().setId("adjusttaxview");
 		this.taxAgency = taxAgency;
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		setSize("100%", "100%");
+		// setSize("100%", "100%");
 		if (!isInViewMode()) {
 			initEntryNumber();
 		}
@@ -83,30 +85,24 @@ public class AdjustTAXView extends
 		infoLabel = new Label(messages.taxAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName("label-title");
-		// infoLabel.setHeight("35px");
-		adjustDate = new DateItem(null);
-		adjustDate.setHelpInformation(true);
+		adjustDate = new DateItem(messages.date(), "adjustDate");
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
-		adjustDate.setDisabled(isInViewMode());
+		adjustDate.setEnabled(isInViewMode());
 		// adjustDate.setWidth(100);
 
 		entryNo = new IntegerField(this, messages.no());
 		entryNo.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
-		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
-		entryNo.setDisabled(isInViewMode());
+		entryNo.setEnabled(isInViewMode());
 
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
-		taxAgencyCombo.setHelpInformation(true);
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
-		taxAgencyCombo.setDisabled(isInViewMode());
+		taxAgencyCombo.setEnabled(!isInViewMode());
 
 		vatItemCombo = new AdjustmentVATItemCombo(messages.taxItem(), taxAgency);
-		vatItemCombo.setHelpInformation(true);
 		vatItemCombo.initCombo(vatItemCombo.getVATItmesByVATAgncy(taxAgency));
-		vatItemCombo.setDisabled(isInViewMode());
+		vatItemCombo.setEnabled(!isInViewMode());
 		// vatItemCombo.setWidth(100);
 
 		vatLine = new LabelItem();
@@ -124,9 +120,7 @@ public class AdjustTAXView extends
 		vatform = new DynamicForm();
 		// vatform.setWidth("64%");
 
-		vatform.setNumCols(4);
-
-		vatform.setFields(vatLine, vatLinetxt, vatAccount, vatAccounttxt);
+		vatform.add(vatLine, vatLinetxt, vatAccount, vatAccounttxt);
 		vatItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 
@@ -155,13 +149,13 @@ public class AdjustTAXView extends
 								selectItem.getCurrency()));
 						if (selectItem == null) {
 							clientTAXAgency = selectItem;
-							vatItemCombo.setDisabled(true);
+							vatItemCombo.setEnabled(false);
 							vatLine.setValue("");
 							vatAccount.setValue("");
 
 						} else {
 							clientTAXAgency = selectItem;
-							vatItemCombo.setDisabled(false);
+							vatItemCombo.setEnabled(true);
 							vatItemCombo.initCombo(vatItemCombo
 									.getVATItmesByVATAgncy(selectItem));
 							vatItemCombo.setValue("");
@@ -181,36 +175,31 @@ public class AdjustTAXView extends
 
 		adjustAccountCombo = new OtherAccountsCombo(
 				messages.adjustmentAccount());
-		adjustAccountCombo.setHelpInformation(true);
 		// adjustAccountCombo.setWidth(100);
 		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
-		adjustAccountCombo.setDisabled(isInViewMode());
-		amount = new AmountField(messages.amount(), this, getBaseCurrency());
-		amount.setHelpInformation(true);
+		adjustAccountCombo.setEnabled(!isInViewMode());
+		amount = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amount");
 		amount.setRequired(true);
-		amount.setWidth(100);
-		amount.setDisabled(isInViewMode());
+		amount.setEnabled(!isInViewMode());
 		typeRadio = new RadioGroupItem("");
 		// typeRadio.setRequired(true);
 		typeRadio.setValueMap(messages.increaseTAXLine(),
 				messages.decreaseTAXLine());
 		typeRadio.setDefaultValue(messages.increaseTAXLine());
-		typeRadio.setDisabled(isInViewMode());
+		typeRadio.setEnabled(isInViewMode());
 
 		salesTypeRadio = new RadioGroupItem();
 		salesTypeRadio.setGroupName(messages.type());
 		salesTypeRadio.setValue(messages.salesType(), messages.purchaseType());
 		salesTypeRadio.setDefaultValue(messages.salesType());
-		salesTypeRadio.setDisabled(isInViewMode());
+		salesTypeRadio.setEnabled(isInViewMode());
 
 		memo = new TextAreaItem(messages.memo());
 		memo.setMemo(false, this);
-		memo.setHelpInformation(true);
-		memo.setWidth(100);
 		memo.setDisabled(isInViewMode());
-		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
+		DynamicForm dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
@@ -458,14 +447,14 @@ public class AdjustTAXView extends
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		adjustDate.setDisabled(isInViewMode());
-		entryNo.setDisabled(isInViewMode());
-		taxAgencyCombo.setDisabled(isInViewMode());
-		vatItemCombo.setDisabled(isInViewMode());
-		salesTypeRadio.setDisabled(isInViewMode());
-		adjustAccountCombo.setDisabled(isInViewMode());
-		amount.setDisabled(isInViewMode());
-		typeRadio.setDisabled(isInViewMode());
+		adjustDate.setEnabled(isInViewMode());
+		entryNo.setEnabled(isInViewMode());
+		taxAgencyCombo.setEnabled(!isInViewMode());
+		vatItemCombo.setEnabled(!isInViewMode());
+		salesTypeRadio.setEnabled(isInViewMode());
+		adjustAccountCombo.setEnabled(!isInViewMode());
+		amount.setEnabled(isInViewMode());
+		typeRadio.setEnabled(isInViewMode());
 		memo.setDisabled(isInViewMode());
 	}
 

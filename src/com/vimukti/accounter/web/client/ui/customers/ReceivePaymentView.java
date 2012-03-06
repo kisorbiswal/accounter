@@ -8,10 +8,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -34,6 +31,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
@@ -79,13 +77,11 @@ public class ReceivePaymentView extends
 	private DynamicForm payForm;
 	private TextItem checkNo;
 
-	private VerticalPanel mainVLay;
+	private StyledPanel mainVLay;
 
-	private VerticalPanel gridLayout;
+	private StyledPanel gridLayout;
 
 	private Label lab;
-
-	private HorizontalPanel topHLay;
 
 	public TransactionReceivePaymentTable gridView;
 
@@ -111,6 +107,7 @@ public class ReceivePaymentView extends
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
+		this.getElement().setId("receivepaymentview");
 	}
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
@@ -521,7 +518,6 @@ public class ReceivePaymentView extends
 		transactionDateItem
 				.setToolTip(messages.selectDateWhenTransactioCreated(this
 						.getAction().getViewName()));
-		transactionDateItem.setHelpInformation(true);
 		if (transaction != null && transaction.getDate() != null) {
 			transactionDateItem.setEnteredDate(transaction.getDate());
 			setTransactionDate(transaction.getDate());
@@ -532,11 +528,9 @@ public class ReceivePaymentView extends
 
 		}
 
-		transactionDateItem.setDisabled(isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
 		transactionDateItem.setShowTitle(false);
 
-		transactionDateItem.setWidth(100);
-		transactionDateItem.setColSpan(2);
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -569,25 +563,18 @@ public class ReceivePaymentView extends
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.setFields(transactionDateItem, transactionNumber);
 
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
-		final HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		final StyledPanel labeldateNoLayout = new StyledPanel(
+				"labeldateNoLayout");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.receivedFrom());
 
 		amtText = new AmountField(messages.amountReceived(), this,
-				getBaseCurrency());
-
-		amtText.setHelpInformation(true);
-		amtText.setWidth(100);
-		amtText.setDisabled(isInViewMode());
+				getBaseCurrency(), "amtText");
+		amtText.setEnabled(!isInViewMode());
 
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -623,8 +610,8 @@ public class ReceivePaymentView extends
 		});
 
 		tdsAmount = new AmountField(messages.tdsAmount(), this,
-				getBaseCurrency());
-		tdsAmount.setDisabled(isInViewMode());
+				getBaseCurrency(), "tdsAmount");
+		tdsAmount.setEnabled(!isInViewMode());
 		tdsAmount.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -636,33 +623,29 @@ public class ReceivePaymentView extends
 		memoTextAreaItem = createMemoTextAreaItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		checkNo = createCheckNumberItem();
-		checkNo.setDisabled(true);
+		checkNo.setEnabled(false);
 
-		payForm = new DynamicForm();
+		payForm = new DynamicForm("payForm");
 		// payForm.setWidth("90%");
-		payForm.setIsGroup(true);
-		payForm.setGroupTitle(messages.payment());
+		// payForm.setIsGroup(true);
+		// payForm.setGroupTitle(messages.payment());
 
-		payForm.setFields(customerCombo, amtText, paymentMethodCombo, checkNo);
+		payForm.add(customerCombo, amtText, paymentMethodCombo, checkNo);
 		payForm.setStyleName("align-form");
 		// payForm.getCellFormatter().setWidth(0, 0, "180px");
 
 		customerNonEditablebalText = new AmountField(
 				messages.payeeBalance(Global.get().Customer()), this,
-				getBaseCurrency());
-		customerNonEditablebalText.setHelpInformation(true);
-		customerNonEditablebalText.setWidth(100);
-		customerNonEditablebalText.setDisabled(true);
+				getBaseCurrency(), "customerNonEditablebalText");
+		customerNonEditablebalText.setEnabled(false);
 
 		depositInCombo = createDepositInComboItem();
 		depositInCombo.setPopupWidth("500px");
 
-		DynamicForm depoForm = new DynamicForm();
+		DynamicForm depoForm = new DynamicForm("depoForm");
 		if (locationTrackingEnabled)
-			depoForm.setFields(locationCombo);
-		depoForm.setIsGroup(true);
-		depoForm.setGroupTitle(messages.deposit());
-		depoForm.setFields(customerNonEditablebalText, depositInCombo);
+			depoForm.add(locationCombo);
+		depoForm.add(customerNonEditablebalText, depositInCombo);
 		// depoForm.getCellFormatter().setWidth(0, 0, "203px");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass()) {
@@ -673,7 +656,8 @@ public class ReceivePaymentView extends
 			jobListCombo.setDisabled(true);
 			depoForm.setFields(jobListCombo);
 		}
-		depoForm.setFields(tdsAmount);
+
+		depoForm.add(tdsAmount);
 		tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -684,87 +668,57 @@ public class ReceivePaymentView extends
 		unUsedCreditsText = new AmountLabel(
 				messages.unusedCreditsWithCurrencyName(getCompany()
 						.getPrimaryCurrency().getFormalName()));
-		unUsedCreditsText.setHelpInformation(true);
-		unUsedCreditsText.setDisabled(true);
+		unUsedCreditsText.setEnabled(false);
 
 		unUsedPaymentsText = new AmountLabel(
 				messages.unusedPayments(getCompany().getPrimaryCurrency()
 						.getFormalName()));
-		unUsedPaymentsText.setHelpInformation(true);
-		unUsedPaymentsText.setDisabled(true);
+		unUsedPaymentsText.setEnabled(false);
 
-		DynamicForm textForm = new DynamicForm();
-		textForm.setWidth("70%");
-		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
+		DynamicForm textForm = new DynamicForm("textForm");
+		textForm.add(unUsedCreditsText, unUsedPaymentsText);
 		unUsedCreditsText.setVisible(!isInViewMode());
 
 		totalWithTDS = new AmountLabel(messages.total());
-		totalWithTDS.setHelpInformation(true);
-		textForm.setFields(totalWithTDS);
+		textForm.add(totalWithTDS);
 		// textForm.addStyleName("textbold");
 
-		DynamicForm memoForm = new DynamicForm();
-		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		DynamicForm memoForm = new DynamicForm("memoForm");
+		memoForm.add(memoTextAreaItem);
 
-		HorizontalPanel bottompanel = new HorizontalPanel();
-		bottompanel.setWidth("100%");
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 		bottompanel.add(memoForm);
-		bottompanel.setCellHorizontalAlignment(memoForm,
-				HasHorizontalAlignment.ALIGN_LEFT);
 		bottompanel.add(textForm);
-		bottompanel.setCellHorizontalAlignment(textForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(payForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("100%");
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(depoForm);
-		rightVLay.setCellHorizontalAlignment(depoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		topHLay = new HorizontalPanel();
-		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
+		topHLay = new StyledPanel("topHLay");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel bottomAmtsLayout = new HorizontalPanel();
+		StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
 
-		bottomAmtsLayout.setWidth("100%");
-
-		gridLayout = new VerticalPanel();
-		gridLayout.setWidth("99%");
-		gridLayout.setHeight("50%");
+		gridLayout = new StyledPanel("gridLayout");
 		gridLayout.add(lab1);
 		gridLayout.add(gridView);
 		gridLayout.add(bottomAmtsLayout);
 		gridLayout.add(bottompanel);
 
-		mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(lab);
+		mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(gridLayout);
 
 		this.add(mainVLay);
-		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -934,7 +888,7 @@ public class ReceivePaymentView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
@@ -1035,9 +989,9 @@ public class ReceivePaymentView extends
 
 		this.paymentMethod = paymentMethod2;
 		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-			checkNo.setDisabled(false);
+			checkNo.setEnabled(true);
 		} else {
-			checkNo.setDisabled(true);
+			checkNo.setEnabled(false);
 		}
 	}
 
@@ -1047,7 +1001,7 @@ public class ReceivePaymentView extends
 
 			depositInCombo.setComboItem(getCompany().getAccount(
 					depositInAccount.getID()));
-			depositInCombo.setDisabled(isInViewMode());
+			depositInCombo.setEnabled(!isInViewMode());
 		}
 
 	}
@@ -1181,18 +1135,18 @@ public class ReceivePaymentView extends
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
 		unUsedCreditsText.setVisible(!isInViewMode());
 		// customerCombo.setDisabled(isInViewMode());
-		amtText.setDisabled(isInViewMode());
-		paymentMethodCombo.setDisabled(isInViewMode());
+		amtText.setEnabled(!isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 		if (paymentMethod != null
 				&& paymentMethod.equalsIgnoreCase(messages.cheque())) {
-			checkNo.setDisabled(false);
+			checkNo.setEnabled(true);
 		}
 
-		depositInCombo.setDisabled(isInViewMode());
+		depositInCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 		gridView.removeFromParent();
@@ -1205,9 +1159,9 @@ public class ReceivePaymentView extends
 		// transaction = new ClientReceivePayment();
 		data = transaction;
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass()) {
 			classListCombo.setDisabled(isInViewMode());
@@ -1244,7 +1198,6 @@ public class ReceivePaymentView extends
 
 		CustomerCombo customerCombo = new CustomerCombo(title != null ? title
 				: Global.get().customer());
-		customerCombo.setHelpInformation(true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -1257,7 +1210,7 @@ public class ReceivePaymentView extends
 				});
 
 		customerCombo.setRequired(true);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 		return customerCombo;
 
 	}
@@ -1274,7 +1227,7 @@ public class ReceivePaymentView extends
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 
 		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -1289,7 +1242,6 @@ public class ReceivePaymentView extends
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
 				messages.depositIn());
-		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
 		accountCombo
@@ -1303,7 +1255,7 @@ public class ReceivePaymentView extends
 					}
 
 				});
-		accountCombo.setDisabled(isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
 		accountCombo.setAccounts();
 
 		return accountCombo;

@@ -9,10 +9,8 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CellPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -596,7 +594,7 @@ public class RecurringTransactionDialog extends
 		dayOfMonthCombo.setEnabled(true);
 		dayOfMonthCombo.setComboItem(String.valueOf(1));
 
-		CellPanel panel = getMonthlyIntervalLayout();
+		StyledPanel panel = getMonthlyIntervalLayout();
 		intervalLayout.clear();
 		if (panel != null) {
 			intervalLayout.add(panel);

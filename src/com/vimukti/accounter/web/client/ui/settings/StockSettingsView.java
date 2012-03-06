@@ -42,7 +42,7 @@ public class StockSettingsView extends BaseView {
 
 	public void init() {
 		super.init();
-		// vatAdjustment = (ClientVATAdjustment) this.data;
+		this.getElement().setId("StockSettingsView");
 		createControls();
 		setSize("100%", "100%");
 
@@ -80,12 +80,10 @@ public class StockSettingsView extends BaseView {
 		infoLabel.removeStyleName("gwt-Label");
 
 		infoLabel.setStyleName("label-title");
-		adjustDate = new DateItem(null);
-		adjustDate.setHelpInformation(true);
+		adjustDate = new DateItem(null, "adjustDate");
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 
 		entryNo = new IntegerField(this, messages.no());
-		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
 		warehouseComboSelect = new WarehouseCombo(messages.wareHouse());
@@ -114,7 +112,6 @@ public class StockSettingsView extends BaseView {
 		vatform = new DynamicForm();
 		lowerform = new DynamicForm();
 		middleform = new DynamicForm();
-		vatform.setNumCols(2);
 		itemIncomeAmoutText.setValue("6+6646546546");
 		itemExpenseAmountText.setValue("25465765416");
 
@@ -127,7 +124,6 @@ public class StockSettingsView extends BaseView {
 				itemExpenseAmountTextlabel, itemExpenseAmountText);
 
 		dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.setFields(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");

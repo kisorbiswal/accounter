@@ -2,10 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -15,6 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -27,9 +24,8 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	private TextItem wareHouseNameItem, contactNameItem, contactNumberItem,
 			mobileNumberItem, DDINumberItem, addressItem, streetItem, cityItem,
 			stateItem, countryItem, postalCodeItem, warehouseCodeItem;
-	private VerticalPanel vPanel;
+	private StyledPanel vPanel;
 	private CheckboxItem defaultWareHouse;
-	private Label titleItem;
 
 	@Override
 	public void init() {
@@ -156,24 +152,19 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	private void createControls() {
 
-		HorizontalPanel mainHLay = new HorizontalPanel();
-		mainHLay.addStyleName("fields-panel");
-		mainHLay.setWidth("100%");
+		StyledPanel mainHLay = new StyledPanel("mainHLay");
 
 		DynamicForm leftSideForm = getLeftSideForm();
 		DynamicForm rightSideForm = getRightSideForm();
 		mainHLay.add(leftSideForm);
 		mainHLay.add(rightSideForm);
-		mainHLay.setCellWidth(leftSideForm, "50%");
-		mainHLay.setCellWidth(rightSideForm, "50%");
 
 		mainHLay.setCellHorizontalAlignment(rightSideForm, ALIGN_RIGHT);
 
 		titleItem = new Label(messages.wareHouse());
 		titleItem.setStyleName("label-title");
 
-		vPanel = new VerticalPanel();
-		vPanel.setWidth("100%");
+		vPanel = new StyledPanel("vPanel");
 		vPanel.add(titleItem);
 		vPanel.add(mainHLay);
 
@@ -283,19 +274,19 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		addressItem.setDisabled(isInViewMode());
-		streetItem.setDisabled(isInViewMode());
-		cityItem.setDisabled(isInViewMode());
-		countryItem.setDisabled(isInViewMode());
-		stateItem.setDisabled(isInViewMode());
-		postalCodeItem.setDisabled(isInViewMode());
-		warehouseCodeItem.setDisabled(isInViewMode());
-		wareHouseNameItem.setDisabled(isInViewMode());
-		contactNameItem.setDisabled(isInViewMode());
-		contactNumberItem.setDisabled(isInViewMode());
-		mobileNumberItem.setDisabled(isInViewMode());
-		DDINumberItem.setDisabled(isInViewMode());
-		defaultWareHouse.setDisabled(isInViewMode());
+		addressItem.setEnabled(!isInViewMode());
+		streetItem.setEnabled(!isInViewMode());
+		cityItem.setEnabled(!isInViewMode());
+		countryItem.setEnabled(!isInViewMode());
+		stateItem.setEnabled(!isInViewMode());
+		postalCodeItem.setEnabled(!isInViewMode());
+		warehouseCodeItem.setEnabled(!isInViewMode());
+		wareHouseNameItem.setEnabled(!isInViewMode());
+		contactNameItem.setEnabled(!isInViewMode());
+		contactNumberItem.setEnabled(!isInViewMode());
+		mobileNumberItem.setEnabled(!isInViewMode());
+		DDINumberItem.setEnabled(!isInViewMode());
+		defaultWareHouse.setEnabled(!isInViewMode());
 
 	}
 

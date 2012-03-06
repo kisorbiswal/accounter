@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -35,6 +34,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.JNSI;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -66,6 +66,7 @@ public class CustomerPrePaymentView extends
 
 	public CustomerPrePaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+		this.getElement().setId("customerprepaymentview");
 	}
 
 	@Override
@@ -213,7 +214,7 @@ public class CustomerPrePaymentView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			ClientCompany comapny = getCompany();
 
@@ -223,7 +224,7 @@ public class CustomerPrePaymentView extends
 			this.billingAddress = transaction.getAddress();
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
-			amountText.setDisabled(true);
+			amountText.setEnabled(false);
 			amountText.setAmount(transaction.getTotal());
 			if (customer != null) {
 				customerBalText.setAmount(customer.getBalance());
@@ -284,7 +285,7 @@ public class CustomerPrePaymentView extends
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -402,44 +403,32 @@ public class CustomerPrePaymentView extends
 
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
-		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		DynamicForm dateNoForm = new DynamicForm("datenumber-panel");
+		dateNoForm.add(transactionDateItem, transactionNumber);
 
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
-		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		// customer and address
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
 				.Customer()));
 
 		billToCombo = createBillToComboItem(messages.address());
-		billToCombo.setDisabled(true);
+		billToCombo.setEnabled(false);
 
 		// Ending and Vendor Balance
 		bankBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		bankBalText.setHelpInformation(true);
-		bankBalText.setWidth(100);
-		bankBalText.setDisabled(true);
+				getBaseCurrency(), "bankBalText");
+		bankBalText.setEnabled(false);
 
 		customerBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Customer()), this, getBaseCurrency());
-		customerBalText.setHelpInformation(true);
-		customerBalText.setDisabled(true);
-		customerBalText.setWidth(100);
+				.Customer()), this, getBaseCurrency(), "customerBalText");
+		customerBalText.setEnabled(false);
 
-		DynamicForm balForm = new DynamicForm();
+		DynamicForm balForm = new DynamicForm("balForm");
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
 		classListCombo = createAccounterClassListCombo();
@@ -458,9 +447,8 @@ public class CustomerPrePaymentView extends
 		depositInCombo = createDepositInComboItem(bankBalText);
 		depositInCombo.setPopupWidth("500px");
 
-		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
-		amountText.setHelpInformation(true);
-		amountText.setWidth(100);
+		amountText = new AmountField(messages.amount(), this,
+				getBaseCurrency(), "amountText");
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
 
@@ -497,7 +485,6 @@ public class CustomerPrePaymentView extends
 		// });
 		checkNo = createCheckNumberItm();
 		// checkNo.setValue(messages.toBePrinted());
-		checkNo.setWidth(100);
 		// checkNo.setDisabled(true);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
@@ -506,16 +493,14 @@ public class CustomerPrePaymentView extends
 				checkNumber = checkNo.getValue().toString();
 			}
 		});
-		checkNo.setDisabled(isInViewMode());
+		checkNo.setEnabled(!isInViewMode());
 		currencyWidget = createCurrencyFactorWidget();
 		payForm = UIUtils.form(messages.payment());
-		payForm.getCellFormatter().addStyleName(7, 0, "memoFormAlign");
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		payForm.setFields(customerCombo, billToCombo, depositInCombo,
-				amountText, paymentMethodCombo, checkNo, memoTextAreaItem);
+		payForm.add(customerCombo, billToCombo, depositInCombo, amountText,
+				paymentMethodCombo, checkNo, memoTextAreaItem);
 		// memo and Reference
 		ClientAccount selectedValue = depositInCombo.getSelectedValue();
 		if (selectedValue != null) {
@@ -525,45 +510,29 @@ public class CustomerPrePaymentView extends
 					selectedValue.getCurrency()));
 		}
 
-		payForm.setCellSpacing(5);
-		payForm.setWidth("100%");
-		payForm.getCellFormatter().setWidth(0, 0, "160px");
+		// payForm.getCellFormatter().setWidth(0, 0, "160px");
 
-		VerticalPanel leftPanel = new VerticalPanel();
-		leftPanel.setWidth("100%");
-		leftPanel.setSpacing(5);
+		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		leftPanel.add(payForm);
 		// leftPanel.add(payForm);
 		// leftPanel.add(memoForm);
 
-		VerticalPanel rightPanel = new VerticalPanel();
-		rightPanel.setWidth("100%");
+		StyledPanel rightPanel = new StyledPanel("rightPanel");
 		rightPanel.add(balForm);
-		rightPanel.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
-			rightPanel.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
 		}
-		HorizontalPanel hLay = new HorizontalPanel();
+		StyledPanel hLay = new StyledPanel("hLayPanel");
 		hLay.addStyleName("fields-panel");
-		hLay.setWidth("100%");
-		hLay.setSpacing(10);
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
-		hLay.setCellWidth(leftPanel, "50%");
-		hLay.setCellWidth(rightPanel, "50%");
-		hLay.setCellHorizontalAlignment(rightPanel, ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(lab1);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
 
 		this.add(mainVLay);
-
-		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -574,7 +543,6 @@ public class CustomerPrePaymentView extends
 
 	private AddressCombo createBillToComboItem(String address) {
 		AddressCombo addressCombo = new AddressCombo(messages.address(), false);
-		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -587,7 +555,7 @@ public class CustomerPrePaymentView extends
 
 				});
 
-		addressCombo.setDisabled(isInViewMode());
+		addressCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(addressCombo);
 
@@ -597,8 +565,8 @@ public class CustomerPrePaymentView extends
 
 	private TextItem createCheckNumberItm() {
 		TextItem checkNoTextItem = new TextItem(
-				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.checkNo()));
-		checkNoTextItem.setHelpInformation(true);
+				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.checkNo()),
+				"checkNoTextItem");
 		return checkNoTextItem;
 	}
 
@@ -741,12 +709,12 @@ public class CustomerPrePaymentView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		customerCombo.setDisabled(isInViewMode());
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
 		// printCheck.setDisabled(isInViewMode());
-		amountText.setDisabled(isInViewMode());
-		paymentMethodCombo.setDisabled(isInViewMode());
+		amountText.setEnabled(!isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		// if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 		// checkNo.setValue(messages.toBePrinted());
@@ -756,7 +724,7 @@ public class CustomerPrePaymentView extends
 		// messages.cheque())
 		// && printCheck.getValue().toString().equalsIgnoreCase("true")) {
 		// checkNo.setValue(messages.toBePrinted());
-		checkNo.setDisabled(isInViewMode());
+		checkNo.setEnabled(!isInViewMode());
 		// }
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
@@ -767,9 +735,8 @@ public class CustomerPrePaymentView extends
 			jobListCombo.setDisabled(isInViewMode());
 		}
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
-		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 

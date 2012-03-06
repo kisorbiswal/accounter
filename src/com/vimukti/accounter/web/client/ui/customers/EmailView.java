@@ -6,9 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
@@ -21,6 +19,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmailCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -48,9 +47,9 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private Button sendBtn;
 	private Button cancelBtn;
 	private Button smtpBtn;
-	final DynamicForm form1 = new DynamicForm();
-	final DynamicForm form2 = new DynamicForm();
-	final DynamicForm form3 = new DynamicForm();
+	final DynamicForm form1 = new DynamicForm("firstForm");
+	final DynamicForm form2 = new DynamicForm("secondForm");
+	final DynamicForm form3 = new DynamicForm("thirdForm");
 
 	public EmailView(ClientInvoice inovoice) {
 		this.invoice = inovoice;
@@ -127,50 +126,44 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		String toemail = contact != null ? contact.getEmail() : "";
 		toAddress = new EmailField(messages.to());
 		toAddress.setText(toemail.trim());
-		toAddress.setHelpInformation(true);
 		toAddress.setRequired(true);
 
 		ccAddress = new EmailField(messages.cc());
-		ccAddress.setHelpInformation(true);
 		ccAddress.setRequired(false);
-		ccAddress.setWidth(80);
 
-		subject = new TextItem(messages.subject());
-		subject.setWidth(80);
+		subject = new TextItem(messages.subject(), "subject");
 
-		emailBody = new TextAreaItem();
+		emailBody = new TextAreaItem(messages.email(), "emailBody");
 		emailBody.setMemo(true, this);
 		emailBody.setValue(Global
 				.get()
 				.messages()
 				.invoiceMailMessage(Global.get().Customer(),
 						this.invoice.getNumber(), invoice.getDate()));
-		emailBody.setWidth("100%");
-		emailBody.setHeight(200);
 
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		attachmentLabel = new Label(messages.attachments());
 
-		TextAreaItem attachmentItem = new TextAreaItem();
+		TextAreaItem attachmentItem = new TextAreaItem(messages.attachments(),
+				"attachmentItem");
 		attachmentItem.setValue("Invoice_" + invoice.getNumber() + ".pdf");
 		attachmentItem.setDisabled(true);
 		attachmentItem.setWidth(60);
 
-		form2.setFields(attachmentItem);
+		form2.add(attachmentItem);
 		vPanel.add(attachmentLabel);
 		vPanel.add(form2);
 
-		form1.setFields(fromAddcombo, toAddress, ccAddress, subject);
-		HorizontalPanel horPanel = new HorizontalPanel();
+		form1.add(fromAddcombo, toAddress, ccAddress, subject);
+		StyledPanel horPanel = new StyledPanel("horPanel");
 		horPanel.add(form1);
 		horPanel.add(smtpBtn);
 		horPanel.add(vPanel);
 
-		VerticalPanel mainPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(horPanel);
 
-		form3.setFields(emailBody);
-		form3.setWidth("100%");
+		form3.add(emailBody);
 		form3.addStyleName("email_textarea");
 		mainPanel.add(form3);
 
@@ -197,12 +190,11 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 			}
 		});
 
-		HorizontalPanel buttonsPanel = new HorizontalPanel();
+		StyledPanel buttonsPanel = new StyledPanel("buttonsPanel");
 		buttonsPanel.add(sendBtn);
 		buttonsPanel.add(cancelBtn);
 
 		mainPanel.add(buttonsPanel);
-		mainPanel.setWidth("100%");
 
 		this.add(mainPanel);
 

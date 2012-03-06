@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -74,8 +75,8 @@ public class VendorDetailsPanel extends VerticalPanel {
 		rightform.setFields(email, fax, webpageadress, notes, address);
 		rightform.addStyleName("customers_detail_rightpanel");
 
-		HorizontalPanel hp = new HorizontalPanel();
-		HorizontalPanel headingPanel = new HorizontalPanel();
+		StyledPanel hp = new StyledPanel("hp");
+		StyledPanel headingPanel = new StyledPanel("headingPanel");
 		headingPanel.addStyleName("customers_detail_panel");
 		heading = new Label(messages.payeeDetails(Global.get().Vendors())
 				+ " :");
@@ -89,8 +90,6 @@ public class VendorDetailsPanel extends VerticalPanel {
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
-		leftform.setCellSpacing(10);
-		rightform.setCellSpacing(10);
 		hp.setCellWidth(leftform, "50%");
 		hp.setCellWidth(rightform, "50%");
 

@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,12 +11,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -43,6 +35,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -52,13 +45,13 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -87,18 +80,17 @@ public class CashSalesView extends
 	private TaxItemsForm taxTotalNonEditableText;
 	private Double transactionTotal = 0.0D;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel accountsDisclosurePanel;
-	private DisclosurePanel itemsDisclosurePanel;
-
+	private StyledDiscosurePanel accountsDisclosurePanel;
+	private StyledDiscosurePanel itemsDisclosurePanel;
+	DynamicForm termsForm;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private boolean isChecked = false;
 
-	// private WarehouseAllocationTable inventoryTransactionTable;
-	// private DisclosurePanel inventoryDisclosurePanel;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
+		this.getElement().setId("cashsalesview");
 	}
 
 	private void initCashSalesView() {
@@ -116,8 +108,6 @@ public class CashSalesView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(messages.cashSale());
-		lab1.setStyleName("label-title");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -133,23 +123,18 @@ public class CashSalesView extends
 
 		listforms = new ArrayList<DynamicForm>();
 
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
 		dateNoForm.setStyleName("datenumber-panel");
 		locationCombo = createLocationCombo();
 		if (!isTemplate) {
-			dateNoForm.setFields(transactionDateItem, transactionNumber);
+			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		termsForm = new DynamicForm("termsForm");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
@@ -157,23 +142,17 @@ public class CashSalesView extends
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
-		phoneSelect = new TextItem(messages.phone());
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setHelpInformation(true);
-		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isInViewMode());
+		phoneSelect.setEnabled(!isInViewMode());
 
-		billToTextArea = new TextAreaItem(messages.billTo());
+		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
 		billToTextArea.setDisabled(true);
 		shipToAddress = new ShipToForm(null);
-		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
-				.setVerticalAlign(VerticalAlign.TOP);
-		// shipToAddress.getCellFormatter().getElement(0, 0)
-		// .setAttribute(messages.width(), "40px");
-		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+
 		shipToAddress.addrArea.setDisabled(true);
-		shipToAddress.businessSelect.setDisabled(true);
+		shipToAddress.businessSelect.setEnabled(false);
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -188,13 +167,9 @@ public class CashSalesView extends
 				});
 
 		custForm = UIUtils.form(Global.get().customer());
-		custForm.setFields(customerCombo, contactCombo, phoneSelect,
-				billToTextArea);
-		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		// custForm.getCellFormatter().setWidth(0, 0, "226px");
-		custForm.setNumCols(2);
-		custForm.setStyleName("align-form");
-		// custForm.setWidth("100%");
+		custForm.add(customerCombo, contactCombo, phoneSelect, billToTextArea);
+		custForm.setStyleName("customerForm");
+
 		salesPersonCombo = createSalesPersonComboItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
 
@@ -208,11 +183,8 @@ public class CashSalesView extends
 					}
 				});
 
-		printCheck = new CheckboxItem(messages.toBePrinted());
-		printCheck.setValue(true);
-		printCheck.setWidth(100);
-		printCheck.setDisabled(true);
-		printCheck.setVisible(false);
+		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck.setEnabled(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -222,7 +194,7 @@ public class CashSalesView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setDisabled(true);
+						checkNoText.setEnabled(false);
 					} else {
 						if (payFromCombo.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -232,21 +204,17 @@ public class CashSalesView extends
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setDisabled(false);
+				checkNoText.setEnabled(true);
 
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo());
-		checkNoText.setValue(messages.toBePrinted());
-		checkNoText.setHelpInformation(true);
-		checkNoText.setVisible(false);
-		checkNoText.setWidth(100);
+		checkNoText = new TextItem(messages.chequeNo(),"checkNoText");
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
 								.check())))
-			checkNoText.setDisabled(true);
+			checkNoText.setEnabled(false);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -261,24 +229,18 @@ public class CashSalesView extends
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
-		DynamicForm termsForm = new DynamicForm();
-		// termsForm.setWidth("100%");
-		termsForm.setIsGroup(true);
-		termsForm.setNumCols(2);
 		if (locationTrackingEnabled)
-			termsForm.setFields(locationCombo);
+			termsForm.add(locationCombo);
 		if (getPreferences().isSalesPersonEnabled()) {
-			termsForm.setFields(salesPersonCombo, paymentMethodCombo,
-					printCheck, checkNoText, depositInCombo);
+			termsForm.add(salesPersonCombo, paymentMethodCombo,printCheck, checkNoText, depositInCombo);
 			if (getPreferences().isDoProductShipMents()) {
-				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
+				termsForm.add(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 			}
 		} else {
-			termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
-					depositInCombo);
+			termsForm.add(paymentMethodCombo, printCheck, checkNoText, depositInCombo);
 			if (getPreferences().isDoProductShipMents()) {
-				termsForm.setFields(shippingTermsCombo, shippingMethodsCombo,
+				termsForm.add(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 			}
 		}
@@ -295,7 +257,6 @@ public class CashSalesView extends
 		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(160);
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
@@ -303,12 +264,6 @@ public class CashSalesView extends
 
 		// refText = createRefereceText();
 		// refText.setWidth(160);
-
-		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields(memoTextAreaItem);
-		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
-				"memoFormAlign");
 
 		taxTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -352,7 +307,7 @@ public class CashSalesView extends
 			}
 		};
 
-		customerAccountTransactionTable.setDisabled(isInViewMode());
+		customerAccountTransactionTable.setEnabled(!isInViewMode());
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -364,14 +319,12 @@ public class CashSalesView extends
 			}
 		});
 
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(
+		StyledPanel accountStyledPanel = new StyledPanel("accountStyledPanel");
+		accountsDisclosurePanel = new StyledDiscosurePanel(
 				messages.ItemizebyAccount());
-		accountFlowPanel.add(customerAccountTransactionTable);
-		accountFlowPanel.add(accountTableButton);
-		accountsDisclosurePanel.setContent(accountFlowPanel);
-		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
+		accountStyledPanel.add(customerAccountTransactionTable);
+		accountStyledPanel.add(accountTableButton);
+		accountsDisclosurePanel.setContent(accountStyledPanel);
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -405,7 +358,7 @@ public class CashSalesView extends
 				CashSalesView.this.updateNonEditableItems();
 			}
 		};
-		customerItemTransactionTable.setDisabled(isInViewMode());
+		customerItemTransactionTable.setEnabled(!isInViewMode());
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
 		itemTableButton.addClickHandler(new ClickHandler() {
@@ -416,13 +369,12 @@ public class CashSalesView extends
 			}
 		});
 
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(
+		StyledPanel itemsStyledPanel = new StyledPanel("itemsStyledPanel");
+		itemsDisclosurePanel = new StyledDiscosurePanel(
 				messages.ItemizebyProductService());
-		itemsFlowPanel.add(customerItemTransactionTable);
-		itemsFlowPanel.add(itemTableButton);
-		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
+		itemsStyledPanel.add(customerItemTransactionTable);
+		itemsStyledPanel.add(itemTableButton);
+		itemsDisclosurePanel.setContent(itemsStyledPanel);
 
 		// Inventory table..
 		// inventoryTransactionTable = new WarehouseAllocationTable();
@@ -438,110 +390,77 @@ public class CashSalesView extends
 		// final TextItem disabletextbox = new TextItem();
 		// disabletextbox.setVisible(false);
 
-		DynamicForm taxForm = new DynamicForm();
-		VerticalPanel nonEditablePanel = new VerticalPanel();
-		nonEditablePanel.setWidth("100%");
-		nonEditablePanel.addStyleName("boldtext");
-
-		DynamicForm netAmountForm = new DynamicForm();
-		netAmountForm.setNumCols(2);
-
 		discountField = getDiscountField();
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
+		DynamicForm totalForm = new DynamicForm("totalForm");
 		if (isTrackTax()) {
-			netAmountForm.setFields(netAmountLabel);
+			netAmountForm.add(netAmountLabel);
 			nonEditablePanel.add(netAmountForm);
 			nonEditablePanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				taxForm.setFields(taxCodeSelect);
+				taxForm.add(taxCodeSelect);
 			}
-			taxForm.setFields(vatinclusiveCheck);
+			taxForm.add(vatinclusiveCheck);
 		}
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
-				taxForm.setFields(discountField);
+				taxForm.add(discountField);
 			}
 		}
-		totalForm.setFields(transactionTotalBaseCurrencyText);
+		totalForm.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(foreignCurrencyamountLabel);
+			totalForm.add(foreignCurrencyamountLabel);
 		}
 		nonEditablePanel.add(totalForm);
 		nonEditablePanel.addStyleName("boldtext");
 
-		nonEditablePanel.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(taxTotalNonEditableText,
-				ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-
 		currencyWidget = createCurrencyFactorWidget();
 
-		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
-		prodAndServiceHLay.setWidth("100%");
+		StyledPanel taxPanel = new StyledPanel("taxPanel");
+		taxPanel.add(taxForm);
+		taxPanel.add(nonEditablePanel);
 
-		prodAndServiceHLay.add(prodAndServiceForm1);
-		prodAndServiceHLay.add(taxForm);
-		prodAndServiceHLay.add(nonEditablePanel);
-		prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
-				ALIGN_RIGHT);
-
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vPanel.setWidth("100%");
-
-		vPanel.add(prodAndServiceHLay);
-
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(custForm);
 		if (getPreferences().isDoProductShipMents())
 			leftVLay.add(shipToAddress);
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		rightVLay.setWidth("100%");
-		rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
+		rightVLay.add(memoFrom);
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
-		topHLay.setSpacing(20);
 
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		StyledPanel disPanel = new StyledPanel("disclosurePanelDiv");
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
-		mainVLay.add(vPanel);
+		disPanel.add(accountsDisclosurePanel.getPanel());
+		disPanel.add(itemsDisclosurePanel.getPanel());
 
 		if (UIUtils.isMSIEBrowser())
 			resetFormView();
 
-		this.add(mainVLay);
+		StyledPanel mainCashSalesViewPanel = new StyledPanel(
+				"mainCashSalesViewPanel");
+		mainCashSalesViewPanel.add(topControlsPanel);
+		mainCashSalesViewPanel.add(taxPanel);
 
-		setSize("100%", "100%");
+		this.add(mainCashSalesViewPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
 		listforms.add(termsForm);
-		listforms.add(prodAndServiceForm1);
+		listforms.add(memoFrom);
 		listforms.add(netAmountForm);
 		listforms.add(totalForm);
 
@@ -556,7 +475,6 @@ public class CashSalesView extends
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
 				messages.shippingTerms());
-		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
@@ -567,13 +485,13 @@ public class CashSalesView extends
 						if (shippingTerm != null && shippingTermsCombo != null) {
 							shippingTermsCombo.setComboItem(getCompany()
 									.getShippingTerms(shippingTerm.getID()));
-							shippingTermsCombo.setDisabled(isInViewMode());
+							shippingTermsCombo.setEnabled(!isInViewMode());
 						}
 					}
 
 				});
 
-		shippingTermsCombo.setDisabled(isInViewMode());
+		shippingTermsCombo.setEnabled(!isInViewMode());
 		return shippingTermsCombo;
 	}
 
@@ -583,12 +501,7 @@ public class CashSalesView extends
 			return;
 		}
 		ClientCurrency currency = getCurrency(customer.getCurrency());
-		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
-			jobListCombo.setValue("");
-			jobListCombo.setCustomer(customer);
-		}
+
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = this.transaction;
 
@@ -615,7 +528,7 @@ public class CashSalesView extends
 
 		if (this.taxCode != null && taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(messages.none()))
+				&& !taxCodeSelect.getTitle().equalsIgnoreCase(messages.none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (customer.getPhoneNo() != null)
@@ -658,7 +571,7 @@ public class CashSalesView extends
 		if (shippingTerm != null && shippingTermsCombo != null) {
 			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
 					shippingTerm.getID()));
-			shippingTermsCombo.setDisabled(isInViewMode());
+			shippingTermsCombo.setEnabled(!isInViewMode());
 		}
 	}
 
@@ -887,7 +800,7 @@ public class CashSalesView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			ClientCompany company = getCompany();
 			initTransactionsItems();
@@ -1043,7 +956,7 @@ public class CashSalesView extends
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -1217,35 +1130,35 @@ public class CashSalesView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		customerCombo.setDisabled(isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isInViewMode());
-		paymentMethodCombo.setDisabled(isInViewMode());
+			salesPersonCombo.setEnabled(!isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
 		}
-		depositInCombo.setDisabled(isInViewMode());
-		taxCodeSelect.setDisabled(isInViewMode());
+		depositInCombo.setEnabled(!isInViewMode());
+		taxCodeSelect.setEnabled(!isInViewMode());
 
-		shippingTermsCombo.setDisabled(isInViewMode());
-		shippingMethodsCombo.setDisabled(isInViewMode());
+		shippingTermsCombo.setEnabled(!isInViewMode());
+		shippingMethodsCombo.setEnabled(!isInViewMode());
 
-		shipToAddress.businessSelect.setDisabled(isInViewMode());
+		shipToAddress.businessSelect.setEnabled(!isInViewMode());
 
-		deliveryDate.setDisabled(isInViewMode());
+		deliveryDate.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		// priceLevelSelect.setDisabled(isInViewMode());
-		customerAccountTransactionTable.setDisabled(isInViewMode());
-		customerItemTransactionTable.setDisabled(isInViewMode());
+		customerAccountTransactionTable.setEnabled(!isInViewMode());
+		customerItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
-		discountField.setDisabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (shippingTermsCombo != null)
-			shippingTermsCombo.setDisabled(isInViewMode());
+			shippingTermsCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
@@ -1264,17 +1177,15 @@ public class CashSalesView extends
 			return;
 		}
 
-		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-			printCheck.setDisabled(isInViewMode());
-			checkNoText.setDisabled(isInViewMode());
-			printCheck.setVisible(true);
-			checkNoText.setVisible(true);
-		} else {
-			// paymentMethodCombo.setComboItem(paymentMethod);
-			printCheck.setDisabled(true);
-			printCheck.setVisible(false);
-			checkNoText.setDisabled(true);
-			checkNoText.setVisible(false);
+		if (paymentMethod != null) {
+			this.paymentMethod = paymentMethod;
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+				printCheck.setEnabled(true);
+				checkNoText.setEnabled(true);
+			} else {
+				printCheck.setEnabled(false);
+				checkNoText.setEnabled(false);
+			}
 		}
 
 	}

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -20,23 +19,21 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 	private final CurrencyGroupListDialog parent;
 	private TextItem currencySymbolItem;
 
-	public NewCurrencyListDialog(CurrencyGroupListDialog parent, String text,
-			ClientCurrency clientCurrency) {
-		super(text, "");
-		this.parent = parent;
+	public NewCurrencyListDialog(ClientCurrency clientCurrency) {
+		super(messages.currency());
+		this.addStyleName("new-currency-list-dialog");
 		this.clientCurrency = clientCurrency;
-		setWidth("100px");
 		createControl();
 	}
 
 	private void createControl() {
-		VerticalPanel panel = new VerticalPanel();
-		DynamicForm form = new DynamicForm();
-		currencySymbolItem = new TextItem(messages.currencySymbol());
+		DynamicForm form = new DynamicForm("formItems");
+		currencySymbolItem = new TextItem(messages.currencySymbol(),
+				"currencySymbolItem");
 		listCombo = new CurrencyListCombo(messages.addCurrency());
 		if (clientCurrency != null) {
 			listCombo.setComboItem(clientCurrency);
-			listCombo.setDisabled(true);
+			listCombo.setEnabled(false);
 			okbtn.setText(messages.editCurrency());
 		} else {
 			clientCurrency = new ClientCurrency();
@@ -56,12 +53,9 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 						currencySymbolItem.setValue(clientCurrency.getSymbol());
 					};
 				});
-		form.setFields(listCombo, currencySymbolItem);
-		panel.add(form);
+		form.add(listCombo, currencySymbolItem);
 
-		okbtn.setWidth("150px");
-
-		setBodyLayout(panel);
+		setBodyLayout(form);
 
 	}
 

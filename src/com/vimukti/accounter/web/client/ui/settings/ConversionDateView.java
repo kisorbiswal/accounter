@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -22,11 +23,11 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
-	private VerticalPanel mainPanel, headerPanel, bodyPanel;
+	private StyledPanel mainPanel, headerPanel, bodyPanel;
 	private HTML titleHtml, superTitleHtml, bodyHtml, bodyFooterHtml,
 			bodycommentHtml;
 	private SelectCombo monthCombo, yearCombo;
-	private HorizontalPanel buttonPanel;
+	private StyledPanel buttonPanel;
 	private String[] monthArray;
 	private String[] yearArray;
 	private DynamicForm comboForm;
@@ -61,11 +62,11 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		bodycommentHtml = new HTML(messages.conversionBodyComment());
 		bodycommentHtml.setVisible(false);
 
-		mainPanel = new VerticalPanel();
-		headerPanel = new VerticalPanel();
-		bodyPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
+		headerPanel = new StyledPanel("headerPanel");
+		bodyPanel = new StyledPanel("bodyPanel");
 		comboForm = new DynamicForm();
-		buttonPanel = new HorizontalPanel();
+		buttonPanel = new StyledPanel("buttonPanel");
 		saveButton = new Button(messages.save());
 		cancelButton = new Button(messages.cancel());
 
@@ -76,7 +77,6 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 				DayAndMonthUtil.december() };
 		yearArray = new String[] { 2011 + "", 2012 + "" };
 		monthCombo = new SelectCombo(messages.month());
-		monthCombo.setHelpInformation(true);
 		monthList = new ArrayList<String>();
 		for (int i = 0; i < monthArray.length; i++) {
 			monthList.add(monthArray[i]);
@@ -115,7 +115,6 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 				});
 
 		yearCombo = new SelectCombo(messages.year());
-		yearCombo.setHelpInformation(true);
 		yearList = new ArrayList<String>();
 		for (int i = 0; i < yearArray.length; i++) {
 			yearList.add(yearArray[i]);
@@ -175,7 +174,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		headerPanel.add(superTitleHtml);
 		headerPanel.add(titleHtml);
 
-		comboForm.setNumCols(2);
+		comboForm.add(monthCombo, yearCombo);
 
 		comboForm.setFields(monthCombo, yearCombo);
 

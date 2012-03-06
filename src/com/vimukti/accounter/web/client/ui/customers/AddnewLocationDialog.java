@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -26,7 +26,7 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 
 	public AddnewLocationDialog(String title) {
 		super(title, "");
-		setWidth("400px");
+		this.addStyleName("addNewLocationDialog");
 		createControls();
 		center();
 	}
@@ -35,9 +35,9 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 			LocationGroupListDialog locationGroupListDialog, String title,
 			String string, ClientLocation clientLocation2) {
 		super(title, "");
+		this.addStyleName("add-new-location-dialog");
 		this.clientLocation = clientLocation2;
 		this.locationGroupListDialog = locationGroupListDialog;
-		setWidth("400px");
 		createControls();
 		center();
 	}
@@ -54,13 +54,11 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 	}
 
 	private void createControls() {
-		form = new DynamicForm();
-		form.setWidth("100%");
-		locationName = new TextItem(messages.AddLocation());
-		locationName.setHelpInformation(true);
+		form = new DynamicForm("newLOcationForm");
+		locationName = new TextItem(messages.AddLocation(), "locationName");
 		locationName.setRequired(true);
-		VerticalPanel layout = new VerticalPanel();
-		form.setItems(locationName);
+		StyledPanel layout = new StyledPanel("layout");
+		form.add(locationName);
 		if (this.clientLocation != null) {
 			locationName.setValue(clientLocation.getName());
 		}

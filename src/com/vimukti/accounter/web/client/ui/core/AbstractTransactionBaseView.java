@@ -17,22 +17,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -58,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -71,6 +65,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.MakeDepositView;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
 import com.vimukti.accounter.web.client.ui.banking.DepositView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
@@ -117,7 +112,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public ClientAccounterClass accounterClass;
 	protected T transaction;
 
-	private VerticalPanel addNotesPanel;
+	private StyledPanel addNotesPanel;
 
 	private TransactionHistoryTable historyTable;
 
@@ -229,7 +224,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected boolean isTemplate;
 
-	protected HorizontalPanel voidedPanel;
+	protected StyledPanel voidedPanel;
 
 	private Label voidedLabel;
 
@@ -327,8 +322,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		voidedPanel = new HorizontalPanel();
 		voidedLabel = new Label();
 		voidedPanel.add(voidedLabel);
-		voidedPanel.setCellHorizontalAlignment(voidedLabel,
-				HasAlignment.ALIGN_CENTER);
 		return voidedPanel;
 	}
 
@@ -388,7 +381,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat());
+		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),
+				"vatinclusiveCheck");
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -406,7 +400,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				refreshTransactionGrid();
 			}
 		});
-		vatinclusiveCheck.setDisabled(isInViewMode());
+		vatinclusiveCheck.setEnabled(!isInViewMode());
 		return vatinclusiveCheck;
 	}
 
@@ -426,7 +420,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected AmountField getDiscountField() {
 		discountField = new AmountField(messages.discount(), this);
-		discountField.setDisabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
 		discountField.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -492,17 +486,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(messages.date());
+		final DateField dateItem = new DateField(messages.date(), "dateItem");
 		dateItem.setToolTip(messages.selectDateWhenTransactioCreated(this
 				.getAction().getViewName()));
-		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
 		// else
 		dateItem.setShowTitle(false);
 
 		dateItem.setWidth(100);
-		dateItem.setColSpan(2);
 		dateItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -532,7 +524,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		}
 
-		dateItem.setDisabled(isInViewMode());
+		dateItem.setEnabled(!isInViewMode());
 
 		// formItems.add(dateItem);
 
@@ -546,39 +538,25 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(messages.no());
+		final TextItem item = new TextItem(messages.no(), messages.no());
 		item.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
-		item.setHelpInformation(true);
-		item.setWidth(100);
-		item.setColSpan(1);
 
-		item.setDisabled(isInViewMode());
-
-		// formItems.add(item);
-
-		// if (UIUtils.isMSIEBrowser())
-		// item.setWidth("150px");
-
+		item.setEnabled(!isInViewMode());
 		return item;
 
 	}
 
 	protected TextItem createRefereceText() {
-
-		TextItem refText = new TextItem(messages.reference());
-		refText.setHelpInformation(true);
-		// formItems.add(refText);
-
+		TextItem refText = new TextItem(messages.reference(),
+				messages.reference());
 		return refText;
-
 	}
 
 	protected AmountField createNetAmountField() {
 		AmountField netAmountField = new AmountField(messages.netAmount(),
-				this, getBaseCurrency());
-		netAmountField.setHelpInformation(true);
+				this, getBaseCurrency(), "netAmountField");
 		netAmountField.setDefaultValue("£0.00");
-		netAmountField.setDisabled(true);
+		netAmountField.setEnabled(false);
 		return netAmountField;
 	}
 
@@ -621,20 +599,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextAreaItem createMemoTextAreaItem() {
 
-		TextAreaItem memoArea = new TextAreaItem();
+		TextAreaItem memoArea = new TextAreaItem(messages.memo(), "memoArea");
 		if (!(this instanceof CustomerPrePaymentView
 				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
 			memoArea.setMemo(true, this);
-		memoArea.setHelpInformation(true);
-
-		memoArea.setTitle(messages.memo());
-		// memoArea.setRowSpan(2);
-		// memoArea.setColSpan(3);
-
-		// formItems.add(memoArea);
-
 		return memoArea;
-
 	}
 
 	protected final void transactionSuccess(Object result) {
@@ -819,7 +788,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.cheque(), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro(), messages.paypal() };
+				messages.switchMaestro() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
@@ -827,7 +796,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		final SelectCombo paymentMethodSelect = new SelectCombo(
 				messages.paymentMethod());
-		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
 		paymentMethodSelect.initCombo(payVatMethodList);
@@ -844,7 +812,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 					}
 				});
-		paymentMethodSelect.setDisabled(isInViewMode());
+		paymentMethodSelect.setEnabled(!isInViewMode());
 		// formItems.add(paymentMethodSelect);
 
 		return paymentMethodSelect;
@@ -866,11 +834,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		getVoidedPanel();
 		createControls();
-		setSize("100%", "100%");
+		// setSize("100%", "100%");
 	}
 
 	private void createRecurringPanel() {
-		HorizontalPanel panel = new HorizontalPanel();
+		StyledPanel panel = new StyledPanel("recurringPanel");
 
 		HTML text = new HTML();
 		text.setHTML("<a>" + messages.ThisisatemplateusedinRecurring() + "</a>");
@@ -971,11 +939,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return isVATInclusive;
 	}
 
-	public void setMenuItems(Widget button, Map<String, ImageResource> items) {
+	public void setMenuItems(Widget button, Map<String, String> items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items.keySet()) {
-			ImageResource imgSrc = items.get(itm);
+			String imgSrc = items.get(itm);
 			Command cmd = new Command() {
 
 				@Override
@@ -1011,22 +979,22 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
-			ImageResource image = null;
+			String image = null;
 			if (itm.equalsIgnoreCase(messages.Accounts())) {
-				image = Accounter.getFinanceMenuImages().Accounts();
+				image = "/images/Accounts.png";
 			} else if (itm.equals(messages.productOrServiceItem())) {
 				if (sellProducts) {
-					image = Accounter.getFinanceMenuImages().items();
+					image = "/images/items.png";
 				} else {
 					continue;
 				}
 			} else if (itm.equals(messages.comment())) {
-				image = Accounter.getFinanceMenuImages().comments();
+				image = "/images/comments.png";
 			} else if (itm.equals(messages.salesTax())
 					|| (itm.equals(messages.serviceItem()))
 					|| (itm.equals(messages.service()))) {
 				if (sellServices) {
-					image = Accounter.getFinanceMenuImages().salestax();
+					image = "/images/salestax.png";
 				} else {
 					continue;
 				}
@@ -1224,7 +1192,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 */
 	protected LocationCombo createLocationCombo() {
 		LocationCombo locationCombo = new LocationCombo(Global.get().Location());
-		locationCombo.setHelpInformation(true);
 		locationCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientLocation>() {
 
@@ -1243,7 +1210,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					}
 
 				});
-		locationCombo.setDisabled(isInViewMode());
+		locationCombo.setEnabled(!isInViewMode());
 		return locationCombo;
 
 	}
@@ -1359,7 +1326,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				updateAmountsFromGUI();
 			}
 		});
-		widget.setDisabled(isInViewMode());
+		widget.setEnabled(!isInViewMode());
 		return widget;
 	}
 
@@ -1375,7 +1342,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				updateAmountsFromGUI();
 			}
 		});
-		widget.setDisabled(isInViewMode());
+		widget.setEnabled(!isInViewMode());
 		return widget;
 	}
 
@@ -1403,7 +1370,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// payFromCombo.setAccountTypes(UIUtils
 		// .getOptionsByType(AccountCombo.payFromCombo));
 		payFromCombo.setAccounts();
-		payFromCombo.setDisabled(isInViewMode());
+		payFromCombo.setEnabled(!isInViewMode());
 		payFromAccount = payFromCombo.getSelectedValue();
 		if (payFromAccount != null)
 			payFromCombo.setComboItem(payFromAccount);
@@ -1413,9 +1380,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		VendorCombo vendorCombo = new VendorCombo(title != null ? title
 				: Global.get().Vendor());
-		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
-		vendorCombo.setDisabled(isInViewMode());
+		vendorCombo.setEnabled(!isInViewMode());
 		// vendorCombo.setShowDisabled(false);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -1469,9 +1435,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		adressList.addAll(tempSet);
 		billToCombo.initCombo(adressList);
 		if (adressList == null || adressList.size() == 0)
-			billToCombo.setDisabled(true);
+			billToCombo.setEnabled(false);
 		else
-			billToCombo.setDisabled(isInViewMode());
+			billToCombo.setEnabled(!isInViewMode());
 		billToCombo.setDefaultToFirstOption(false);
 
 		if (isInViewMode() && billingAddress != null) {
@@ -1499,7 +1465,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			List<ClientContact> contactList = new ArrayList<ClientContact>();
 			contactList.addAll(contacts);
 			contactCombo.initCombo(contactList);
-			contactCombo.setDisabled(isInViewMode());
+			contactCombo.setEnabled(!isInViewMode());
 
 			if (contact != null && contacts.contains(contact)) {
 				contactCombo.setComboItem(contact);
@@ -1530,7 +1496,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
 		addressCombo.setDefaultToFirstOption(false);
-		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -1543,7 +1508,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 				});
 
-		addressCombo.setDisabled(isInViewMode());
+		addressCombo.setEnabled(!isInViewMode());
 		// addressCombo.setShowDisabled(false);
 
 		return addressCombo;
@@ -1553,7 +1518,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public PayFromAccountsCombo createPayFromCombo(String title) {
 
 		PayFromAccountsCombo payFromCombo = new PayFromAccountsCombo(title);
-		payFromCombo.setHelpInformation(true);
 		payFromCombo.setRequired(true);
 		payFromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -1567,7 +1531,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					}
 
 				});
-		payFromCombo.setDisabled(isInViewMode());
+		payFromCombo.setEnabled(!isInViewMode());
 		// payFromCombo.setShowDisabled(false);
 		// formItems.add(payFromCombo);
 		return payFromCombo;
@@ -1581,10 +1545,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createCheckNumberItem() {
 
-		final TextItem checkNo = new TextItem(messages.chequeNo());
-		checkNo.setHelpInformation(true);
-		checkNo.setDisabled(isInViewMode());
-		// checkNo.setShowDisabled(false);
+		final TextItem checkNo = new TextItem(messages.chequeNo(),
+				messages.chequeNo());
+		checkNo.setEnabled(!isInViewMode());
 		if (transaction != null) {
 			if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
 				ClientCashPurchase clientCashPurchase = (ClientCashPurchase) transaction;
@@ -1634,7 +1597,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public JobCombo createJobListCombo() {
 
 		jobListCombo = new JobCombo(messages.job(), true);
-		jobListCombo.setHelpInformation(true);
 		jobListCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientJob>() {
 
@@ -1665,7 +1627,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			}
 		});
-		jobListCombo.setDisabled(isInViewMode());
 		return jobListCombo;
 
 	}
@@ -1832,13 +1793,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	@Override
-	protected VerticalPanel createHistoryView() {
-		VerticalPanel historyNotesPanel = new VerticalPanel();
+	protected StyledPanel createHistoryView() {
+		StyledPanel historyNotesPanel = new StyledPanel("historyNotesPanel");
 
 		Label headerLabel = new Label(messages.historyAndNotes());
 		headerLabel.addStyleName("history_notes_label");
 
-		VerticalPanel lastActivityPanel = new VerticalPanel();
+		StyledPanel lastActivityPanel = new StyledPanel("lastActivityPanel");
 		lastActivityHTML = new HTML();
 		noteHTML = new HTML();
 		lastActivityHTML.addStyleName("bold_HTML");
@@ -1847,44 +1808,43 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		lastActivityPanel.add(noteHTML);
 		lastActivityPanel.addStyleName("last_activity");
 
-		historyNotesPanel.setSpacing(9);
 		historyNotesPanel.add(headerLabel);
 		historyNotesPanel.add(lastActivityPanel);
 
-		VerticalPanel tablesPanel = new VerticalPanel();
-		FlowPanel headersPanel = new FlowPanel();
+		StyledPanel tablesPanel = new StyledPanel("tablesPanel");
+		StyledPanel headersPanel = new StyledPanel("headersPanel");
 
-		final Anchor historyLink = new Anchor(messages.showHistory());
+	//	final Anchor historyLink = new Anchor(messages.showHistory());
 		Anchor addNotesLink = new Anchor(messages.addNote());
-		historyLink.addStyleName("history_notes_link");
+		//historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
 
-		headersPanel.add(historyLink);
+		//headersPanel.add(historyLink);
 		headersPanel.add(addNotesLink);
 		headersPanel.addStyleName("history_links");
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
 
-		final VerticalPanel historyPanel = getHistoryPanel(data.getID());
-		historyPanel.setVisible(false);
-		tablesPanel.add(historyPanel);
-		historyLink.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				historyPanel.setVisible(!historyPanel.isVisible());
-				if (historyPanel.isVisible())
-					historyLink.setHTML(messages.hideHistory());
-				else
-					historyLink.setHTML(messages.showHistory());
-			}
-		});
-
-		historyPanel.addStyleName("history_notes_view");
+	//	final StyledPanel historyPanel = getHistoryPanel(data.getID());
+//		historyPanel.setVisible(false);
+//		tablesPanel.add(historyPanel);
+//		historyLink.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				historyPanel.setVisible(!historyPanel.isVisible());
+//				if (historyPanel.isVisible())
+//					historyLink.setHTML(messages.hideHistory());
+//				else
+//					historyLink.setHTML(messages.showHistory());
+//			}
+//		});
+//
+//		historyPanel.addStyleName("history_notes_view");
 
 		addNotesLink.addClickHandler(new ClickHandler() {
 
@@ -1905,8 +1865,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	@SuppressWarnings("unchecked")
-	private VerticalPanel getHistoryPanel(long Id) {
-		VerticalPanel historyPanel = new VerticalPanel();
+	private StyledPanel getHistoryPanel(long Id) {
+		StyledPanel historyPanel = new StyledPanel("historyPanel");
 		historyTable = new TransactionHistoryTable(Id,
 				(AbstractTransactionBaseView<ClientTransaction>) this);
 		historyTable.addStyleName("user_activity_log");
@@ -1914,18 +1874,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return historyPanel;
 	}
 
-	private VerticalPanel getNotesPanel() {
-		VerticalPanel notesPanel = new VerticalPanel();
+	private StyledPanel getNotesPanel() {
+		StyledPanel notesPanel = new StyledPanel("notesPanel");
 
 		Label noteLabel = new Label(messages.note());
 		// text area....
 		final TextArea notesArea = new TextArea();
 		notesArea.removeStyleName("gwt-TextArea");
 		notesArea.addStyleName("memoTextArea");
-		notesArea.setHeight("85px");
+		// notesArea.setHeight("85px");
 
 		// buttons...
-		HorizontalPanel buttonPanel = new HorizontalPanel();
+		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
 
 		final SaveAndCloseButton saveButton = new SaveAndCloseButton(
 				messages.save());
@@ -1964,17 +1924,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
-		buttonPanel.setSpacing(8);
-		buttonPanel.setCellHorizontalAlignment(saveButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonPanel.setCellWidth(saveButton, "75%");
-		buttonPanel.setCellHorizontalAlignment(cancelButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		notesPanel.add(noteLabel);
 		notesPanel.add(notesArea);
 		notesPanel.add(buttonPanel);
-		buttonPanel.addStyleName("notes_button_panel");
 
 		notesPanel.addStyleName("notes_Panel");
 		return notesPanel;
@@ -2166,8 +2119,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return super.canDelete();
 	}
-
-	@Override
+	
+		@Override
 	protected boolean isSaveButtonAllowed() {
 		return Utility.isUserHavePermissions(transactionType);
 	}

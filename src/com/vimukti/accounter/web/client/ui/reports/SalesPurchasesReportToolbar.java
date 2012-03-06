@@ -47,7 +47,6 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				messages.financialYearToDate(), messages.custom() };
 
 		statusCombo = new SelectCombo(messages.status());
-		statusCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (int i = 0; i < statusArray.length; i++) {
 			statusList.add(statusArray[i]);
@@ -81,7 +80,6 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				});
 
 		dateRangeCombo = new SelectCombo(messages.dateRange());
-		dateRangeCombo.setHelpInformation(true);
 		dateRangeCombo.setValueMap(dateRangeArray);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
 		dateRangeList = new ArrayList<String>();
@@ -101,12 +99,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				});
 
 		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(messages.from());
 
 		toItem = new DateItem();
-		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -15,6 +14,7 @@ public class PaymentDialog extends BaseDialog {
 
 	public PaymentDialog() {
 		super(messages.payments(), "");
+		this.addStyleName("payment-dialog");
 		setText(messages.payments());
 		createControls();
 		center();
@@ -22,31 +22,22 @@ public class PaymentDialog extends BaseDialog {
 
 	public PaymentDialog(AccounterAsyncCallback<IAccounterCore> callBack) {
 		super(messages.payments(), "");
+		this.addStyleName("payment-dialog");
 		setText(messages.payments());
 		createControls();
 		center();
 	}
 
 	public void createControls() {
-		mainPanel.setSpacing(3);
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 
 		typeRadio.setValue(RECEIVE_PAYMENT, CUSTOMER_PREPAYMENT);
 		typeRadio.setDefaultValue(RECEIVE_PAYMENT);
-		DynamicForm typeForm = new DynamicForm();
-		typeForm.setWidth("100%");
-		typeForm.setIsGroup(true);
+		DynamicForm typeForm = new DynamicForm("typeForm");
+		typeForm.add(typeRadio);
 
-		typeForm.setGroupTitle(messages.setPaymentType());
-		typeForm.setFields(typeRadio);
-
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(typeForm);
-
-		setBodyLayout(mainVLay);
-		setWidth("300px");
+		setBodyLayout(typeForm);
 
 	}
 

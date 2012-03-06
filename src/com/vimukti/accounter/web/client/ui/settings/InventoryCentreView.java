@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -49,7 +50,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	private InventoryCentreItemsListGrid itemsListGrid;
 	private SelectCombo activeInActiveSelect, trasactionViewSelect,
 			trasactionViewTypeSelect, dateRangeSelector;
-	private VerticalPanel transactionGridpanel;
+	private StyledPanel transactionGridpanel;
 	private ItemTransactionsHistoryGrid transactionHistoryGrid;
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveItems = true;
@@ -70,13 +71,12 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	}
 
 	private void createControls() {
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		VerticalPanel leftVpPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		StyledPanel leftVpPanel = new StyledPanel("leftVpPanel");
 		viewTypeCombo();
 		DynamicForm viewform = new DynamicForm();
 		viewform.setFields(activeInActiveSelect);
 		leftVpPanel.add(viewform);
-		viewform.setNumCols(2);
 		viewform.getElement().getParentElement().setAttribute("align", "left");
 		itemsListGrid = new InventoryCentreItemsListGrid();
 		itemsListGrid.init();
@@ -106,7 +106,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		transactionViewform.setFields(trasactionViewSelect,
 				trasactionViewTypeSelect, dateRangeSelector);
 
-		transactionGridpanel = new VerticalPanel();
+		transactionGridpanel = new StyledPanel("transactionGridpanel");
 		transactionGridpanel.add(transactionViewform);
 		transactionHistoryGrid = new ItemTransactionsHistoryGrid() {
 			@Override
@@ -154,7 +154,6 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	private void viewTypeCombo() {
 		if (activeInActiveSelect == null) {
 			activeInActiveSelect = new SelectCombo(messages.show());
-			activeInActiveSelect.setHelpInformation(true);
 
 			List<String> activetypeList = new ArrayList<String>();
 			activetypeList.add(messages.active());
@@ -196,7 +195,6 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	private void transactionViewTypeSelectCombo() {
 		if (trasactionViewTypeSelect == null) {
 			trasactionViewTypeSelect = new SelectCombo(messages.type());
-			trasactionViewTypeSelect.setHelpInformation(true);
 			getMessagesList();
 			trasactionViewTypeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -217,7 +215,6 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	private void transactionViewSelectCombo() {
 		if (trasactionViewSelect == null) {
 			trasactionViewSelect = new SelectCombo(messages.currentView());
-			trasactionViewSelect.setHelpInformation(true);
 
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());

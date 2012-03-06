@@ -91,7 +91,7 @@ public interface FinanceImages extends ClientBundle {
 	@Source("help-icon.png")
 	ImageResource helpIcon();
 
-	@Source("calendarPicker.png")
+	@Source("calendarPicker1.png")
 	ImageResource calanderPicker();
 
 	@Source("items.png")

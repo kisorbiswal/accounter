@@ -9,13 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.SimplePager.Resources;
-import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -29,17 +23,20 @@ import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.DeleteButton;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomersListGrid;
 
 public class CustomerCenterView<T> extends
-		AbstractPayeeCenterView<ClientCustomer> {
+		AbstractPayeeCenterView<ClientCustomer> implements IPrintableView {
 	private static final int TYPE_ESTIMATE = 7;
 	private static final int TYPE_INVOICE = 8;
 	private static final int TYPE_CAHSSALE = 1;
@@ -48,7 +45,6 @@ public class CustomerCenterView<T> extends
 	private static final int TYPE_CUSTOMER_REFUND = 5;
 	private static final int TYPE_ALL_TRANSACTION = 100;
 	private static final int TYPE_WRITE_CHECK = 15;
-	private static final int TYPE_SALES_ORDER = 38;
 
 	private ClientCustomer selectedCustomer;
 	private List<PayeeList> listOfCustomers;
@@ -58,7 +54,7 @@ public class CustomerCenterView<T> extends
 	private CustomersListGrid custGrid;
 	private SelectCombo activeInActiveSelect, trasactionViewSelect,
 			trasactionViewTypeSelect;
-	private VerticalPanel transactionGridpanel;
+	private StyledPanel transactionGridpanel;
 	private CustomerTransactionsHistoryGrid custHistoryGrid;
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
@@ -83,25 +79,23 @@ public class CustomerCenterView<T> extends
 	}
 
 	private void creatControls() {
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		VerticalPanel leftVpPanel = new VerticalPanel();
+
+		StyledPanel mainPanel = new StyledPanel("customerCenter");
+
+		StyledPanel leftVpPanel = new StyledPanel("leftPanel");
+
 		viewTypeCombo();
-		DynamicForm viewform = new DynamicForm();
-		viewform.setFields(activeInActiveSelect);
+		DynamicForm viewform = new DynamicForm("viewform");
+		viewform.setStyleName("filterPanel");
+		viewform.add(activeInActiveSelect);
 		leftVpPanel.add(viewform);
-		viewform.getElement().getParentElement()
-				.setAttribute("margin-top", "-8px");
-		leftVpPanel.setCellHorizontalAlignment(viewform, ALIGN_RIGHT);
-		viewform.setNumCols(2);
 		custGrid = new CustomersListGrid();
 		custGrid.init();
 		initCustomersListGrid();
 		leftVpPanel.add(custGrid);
-		leftVpPanel.setSpacing(5);
 
-		custGrid.getElement().getParentElement().setAttribute("width", "15%");
 		custGrid.setStyleName("cusotmerCentrGrid");
-		VerticalPanel rightVpPanel = new VerticalPanel();
+		StyledPanel rightVpPanel = new StyledPanel("rightPanel");
 		detailsPanel = new CustomerDetailsPanel(selectedCustomer);
 		rightVpPanel.add(detailsPanel);
 		custGrid.setCustomerSelectionListener(new CustomerSelectionListener() {
@@ -113,13 +107,12 @@ public class CustomerCenterView<T> extends
 		transactionViewSelectCombo();
 		transactionViewTypeSelectCombo();
 		transactionDateRangeSelector();
-		DynamicForm transactionViewform = new DynamicForm();
+		DynamicForm transactionViewform = new DynamicForm("transactionViewform");
 
-		transactionViewform.setNumCols(6);
-		transactionViewform.setFields(trasactionViewSelect,
-				trasactionViewTypeSelect, dateRangeSelector);
+		transactionViewform.add(trasactionViewSelect, trasactionViewTypeSelect,
+				dateRangeSelector);
 
-		transactionGridpanel = new VerticalPanel();
+		transactionGridpanel = new StyledPanel("transactionGridpanel");
 		transactionGridpanel.add(transactionViewform);
 		custHistoryGrid = new CustomerTransactionsHistoryGrid() {
 			@Override
@@ -140,17 +133,17 @@ public class CustomerCenterView<T> extends
 						.getNewRange().getLength());
 			}
 		});
-		SimplePager pager = new SimplePager(TextLocation.CENTER,
-				(Resources) GWT.create(Resources.class), false, pageSize * 2,
-				true);
-		pager.setDisplay(custHistoryGrid);
+//		SimplePager pager = new SimplePager(TextLocation.CENTER,
+//				(Resources) GWT.create(Resources.class), false, pageSize * 2,
+//				true);
+//		pager.setDisplay(custHistoryGrid);
 		updateRecordsCount(0, 0, 0);
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(custHistoryGrid);
-		rightVpPanel.add(pager);
-		custHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
+		deleteButtonPanel = new StyledPanel("deleteButtonPanel");
+		add(deleteButtonPanel);
 		add(mainPanel);
 
 	}
@@ -163,7 +156,6 @@ public class CustomerCenterView<T> extends
 	private void viewTypeCombo() {
 		if (activeInActiveSelect == null) {
 			activeInActiveSelect = new SelectCombo(messages.show());
-			activeInActiveSelect.setHelpInformation(true);
 
 			List<String> activetypeList = new ArrayList<String>();
 			activetypeList.add(messages.active());
@@ -194,8 +186,8 @@ public class CustomerCenterView<T> extends
 
 	private void refreshActiveinActiveList(boolean isActivelist) {
 		custGrid.setSelectedCustomer(null);
-		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
-				.Customer()));
+//		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
+//				.Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
 		isActiveAccounts = isActivelist;
@@ -205,7 +197,6 @@ public class CustomerCenterView<T> extends
 	private void transactionViewSelectCombo() {
 		if (trasactionViewSelect == null) {
 			trasactionViewSelect = new SelectCombo(messages.currentView());
-			trasactionViewSelect.setHelpInformation(true);
 
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
@@ -248,7 +239,6 @@ public class CustomerCenterView<T> extends
 	private void transactionViewTypeSelectCombo() {
 		if (trasactionViewTypeSelect == null) {
 			trasactionViewTypeSelect = new SelectCombo(messages.type());
-			trasactionViewTypeSelect.setHelpInformation(true);
 			getMessagesList();
 			trasactionViewTypeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

@@ -105,7 +105,6 @@ public class CreateStatementToolBar extends ReportToolbar {
 		}
 
 		dateRangeItemCombo = new SelectCombo(messages.dateRange());
-		dateRangeItemCombo.setHelpInformation(true);
 		dateRangeItemList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeItemList.add(dateRangeArray[i]);
@@ -124,12 +123,10 @@ public class CreateStatementToolBar extends ReportToolbar {
 				});
 
 		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
 		// fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(messages.from());
 
 		toItem = new DateItem();
-		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
