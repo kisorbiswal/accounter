@@ -145,10 +145,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setSize("100%", "100%");
-		mainPanel.add(tabSet);
-		this.add(mainPanel);
+		this.add(tabSet);
 	}
 
 	private StyledPanel getGeneralLayout() {
@@ -195,8 +192,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// }
 		//
 		// });
-
-		check_radio_textAreaPanel.setSpacing(10);
 
 		mainLayoutPanel.add(addTextBoxTableControl());
 		mainLayoutPanel.add(check_radio_textAreaPanel);
@@ -391,7 +386,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		invoiceCombo = new TemplateCombo(messages.invoiceTemplete(),
 				"Invoice.html");
 		templatesList = invoiceCombo.getTempletes();
-		invForm.setFields(invoiceCombo);
+		invForm.add(invoiceCombo);
 
 		// setting the tempalte invoice image
 		invoiceTempImage = new Image();
@@ -423,7 +418,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		templatesList = creditMemoCombo.getTempletes();
 		creditMemoCombo.setComboItem(templatesList.get(0));
 		creditVal = templatesList.get(0);
-		crediteForm.setFields(creditMemoCombo);
+		crediteForm.add(creditMemoCombo);
 
 		// setting the credit note template image
 		creditTempImage = new Image();
@@ -448,7 +443,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		DynamicForm estimateForm = UIUtils.form(messages.type());
 		quoteCombo = new TemplateCombo(messages.quoteTemplate(), "quote.html");
 		templatesList = quoteCombo.getTempletes();
-		estimateForm.setFields(quoteCombo);
+		estimateForm.add(quoteCombo);
 
 		// setting the template invoice image
 		quoteTempImage = new Image();
@@ -500,8 +495,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		logoItem = new CheckBox(messages.showLogo());
 		logoItem.setChecked(true);
 		paypalEmailHtml = new HTML(messages.paypalEmailHtml());
-		paypalTextBox = new TextItem();
-		paypalTextBox.textBox.setTitle(messages.paypalEmail());
+		paypalTextBox = new TextItem(messages.paypalEmail(), "paypalTextBox");
 
 		checkBoxPanel.add(taxNumItem);
 		checkBoxPanel.add(headingItem);
@@ -512,8 +506,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		checkBoxPanel.add(logoItem);
 		checkBoxPanel.add(paypalEmailHtml);
 
-		DynamicForm paypalForm = new DynamicForm();
-		paypalForm.setFields(paypalTextBox);
+		DynamicForm paypalForm = new DynamicForm("paypalForm");
 		checkBoxPanel.add(paypalForm);
 
 		checkBoxPanel.setStyleName("rightBorder");
@@ -523,8 +516,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 	private StyledPanel addTextBoxTableControl() {
 
-		nameItem = new TextItem(messages.name());
-		nameItem.addStyleName("name-item");
+		nameItem = new TextItem(messages.name(), "name-item");
 		pageSizeLabel = new Label(messages.pageSize());
 		topMarginBox = new AmountField(messages.topMargin(), this);
 		topMarginBox.setAmount(1.35);
@@ -538,15 +530,16 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// approvedBox = new TextBox();
 		// approvedBox.setText(messages
 		// .approvedValue());
-		overdueBox = new TextItem(messages.overdueInvoiceTitle());
+		overdueBox = new TextItem(messages.overdueInvoiceTitle(), "overdueBox");
 		overdueBox.setValue(messages.overdueValue());
-		creditNoteBox = new TextItem(messages.creditNoteTitle());
+		creditNoteBox = new TextItem(messages.creditNoteTitle(),
+				"creditNoteBox");
 		creditNoteBox.setValue(messages.creditNoteValue());
-		statementBox = new TextItem(messages.statementTitle());
+		statementBox = new TextItem(messages.statementTitle(), "statementBox");
 		statementBox.setValue(messages.statement());
-		quoteBox = new TextItem(messages.quoteTitle());
+		quoteBox = new TextItem(messages.quoteTitle(), "quoteBox");
 		quoteBox.setValue(messages.QuoteOverDueTitle());
-		cashSaleBox = new TextItem(messages.cashSaleTitle());
+		cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 		cashSaleBox.setValue(messages.cashSaleValue());
 
 		a4Button = new RadioButton(messages.pageType(), "A4");
@@ -626,12 +619,12 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		measurePanel.add(unitsPanel);
 		measurePanel.setStyleName("measurePanel");
 
-		nameForm = new DynamicForm();
+		nameForm = new DynamicForm("nameForm");
 		// nameForm.setCellSpacing(0);
 		nameItem.setRequired(true);
-		nameForm.setFields(nameItem);
+		nameForm.add(nameItem);
 
-		logoNameBox = new TextItem(messages.addLogo());
+		logoNameBox = new TextItem(messages.addLogo(), "logoNameBox");
 		logoNameBox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -650,7 +643,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		});
 
 		textBoxTable = new FlexTable();
-		DynamicForm dynamicForm = new DynamicForm();
+		DynamicForm dynamicForm = new DynamicForm("allItems");
 
 		textBoxTable.setWidget(0, 0, pageSizeLabel);
 		textBoxTable.setWidget(0, 1, a4Button);
@@ -688,12 +681,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		textBoxPanel.add(textBoxTable);
 		textBoxTable.setWidth("86%");
 		textBoxPanel.add(dynamicForm);
-		textBoxHorizontalPanel.add(textBoxPanel);
-		textBoxHorizontalPanel.add(measurePanel);
-		textBoxHorizontalPanel.setSpacing(10);
-		textBoxHorizontalPanel.setStyleName("rightBorder");
+		textBoxStyledPanel.add(textBoxPanel);
+		textBoxStyledPanel.add(measurePanel);
+		textBoxStyledPanel.setStyleName("rightBorder");
 
-		return textBoxHorizontalPanel;
+		return textBoxStyledPanel;
 	}
 
 	@Override

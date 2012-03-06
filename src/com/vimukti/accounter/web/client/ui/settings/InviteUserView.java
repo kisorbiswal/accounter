@@ -80,12 +80,12 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	private void createControls() {
-		custForm = new DynamicForm();
+		custForm = new DynamicForm("viewform");
 		StyledPanel vPanel = new StyledPanel("vPanel");
-		firstNametext = new TextItem(messages.firstName());
+		firstNametext = new TextItem(messages.firstName(), "firstNametext");
 		firstNametext.setRequired(true);
 		firstNametext.setEnabled(isInViewMode());
-		lastNametext = new TextItem(messages.lastName());
+		lastNametext = new TextItem(messages.lastName(), "lastNametext");
 		lastNametext.setRequired(true);
 		lastNametext.setEnabled(isInViewMode());
 		emailField = new EmailField(messages.email());
@@ -174,12 +174,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		Label manageLabel = new Label(messages.manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
 		if (getCompany().isUnlimitedUser()) {
-			custForm.setFields(firstNametext, lastNametext, emailField);
+			custForm.add(firstNametext, lastNametext, emailField);
 		} else {
-			custForm.setFields(firstNametext, lastNametext, emailCombo);
+			custForm.add(firstNametext, lastNametext, emailCombo);
 		}
-		Element element2 = custForm.getCellFormatter().getElement(0, 0);
-		// element2.setAttribute("width", "150px");
+
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
 		vPanel.add(chooseLabel);

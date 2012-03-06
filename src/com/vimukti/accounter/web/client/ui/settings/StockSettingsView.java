@@ -97,35 +97,34 @@ public class StockSettingsView extends BaseView {
 		adjustmentQuantity = new IntegerField(this,
 				messages.stockAdjustmentQuantity());
 		entryNo.setWidth(100);
-		itemIncomeAmoutText = new LabelItem();
-		itemExpenseAmountText = new LabelItem();
-		itemIncomeAmoutTextlabel = new LabelItem();
-		itemExpenseAmountTextlabel = new LabelItem();
+		itemIncomeAmoutText = new LabelItem("", "itemIncomeAmoutText");
+		itemExpenseAmountText = new LabelItem("", "itemExpenseAmountText");
+		itemIncomeAmoutTextlabel = new LabelItem("", "itemIncomeAmoutTextlabel");
+		itemExpenseAmountTextlabel = new LabelItem("",
+				"itemExpenseAmountTextlabel");
 		itemIncomeAmoutTextlabel.setValue(messages.stockItemIncomeAccount());
 		itemExpenseAmountTextlabel.setValue(messages.stockItemExpenseAccount());
 		amountText = new AmountField(messages.stockItemAmount(), this,
-				getBaseCurrency());
-		memo = new TextAreaItem(messages.memo());
+				getBaseCurrency(), "amount_Text");
+		memo = new TextAreaItem(messages.memo(), "memo_textbox");
 		memo.setMemo(false, this);
 		memo.setWidth(100);
 
-		vatform = new DynamicForm();
-		lowerform = new DynamicForm();
-		middleform = new DynamicForm();
+		vatform = new DynamicForm("vatform");
+		lowerform = new DynamicForm("lowerform");
+		middleform = new DynamicForm("middleform");
 		itemIncomeAmoutText.setValue("6+6646546546");
 		itemExpenseAmountText.setValue("25465765416");
 
-		vatform.setFields(warehouseComboSelect, itemComboSelect,
+		vatform.add(warehouseComboSelect, itemComboSelect,
 				itemGroupComboSelect, adjustmentQuantity);
-		lowerform.setFields(amountText, memo);
-		lowerform.setNumCols(4);
-		middleform.setNumCols(4);
-		middleform.setFields(itemIncomeAmoutTextlabel, itemIncomeAmoutText,
+		lowerform.add(amountText, memo);
+		middleform.add(itemIncomeAmoutTextlabel, itemIncomeAmoutText,
 				itemExpenseAmountTextlabel, itemExpenseAmountText);
 
-		dateForm = new DynamicForm();
+		dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(adjustDate, entryNo);
+		dateForm.add(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
