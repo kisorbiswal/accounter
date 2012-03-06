@@ -25,9 +25,9 @@ public class AmountField extends TextItem {
 	private boolean allowNegative;
 
 	public AmountField(final String name, WidgetWithErrors errorsViewGrid,
-			ClientCurrency currency) {
+			ClientCurrency currency, String styleName) {
+		super(name, styleName);
 		this.errorsWidget = errorsViewGrid;
-		setName(name);
 		if (showCurrency) {
 			setTitle(name + "(" + currency.getFormalName() + ")");
 		} else {
@@ -38,19 +38,18 @@ public class AmountField extends TextItem {
 		// Set Default Values
 		setKeyPressFilter("[0-9.]");
 		setAmount(0.00D);
-		((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
 		this.currency = currency;
 	}
 
 	public AmountField(String name, WidgetWithErrors errorsViewGrid,
 			ClientCurrency currency, boolean allowNegative) {
-		this(name, errorsViewGrid, currency);
+		this(name, errorsViewGrid, currency, "AmountField");
 		this.allowNegative = allowNegative;
 	}
 
 	public AmountField(final String name, WidgetWithErrors errorsViewGrid) {
+		super(name, "AmountField");
 		this.errorsWidget = errorsViewGrid;
-		setName(name);
 		setTitle(name);
 		addBlurHandler(getBlurHandler());
 		setKeyPressFilter("[0-9.]");
@@ -128,9 +127,11 @@ public class AmountField extends TextItem {
 		}
 		this.currency = currency;
 		if (showCurrency) {
-			setTitle(getName() + "(" + currency.getFormalName() + ")");
+			String title2 = getTitle();
+			String[] split = title2.split("\\(", 3);
+			setTitle(split[0] + "(" + currency.getFormalName() + ")");
 		} else {
-			setTitle(getName());
+			setTitle(getTitle());
 		}
 	}
 

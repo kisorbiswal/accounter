@@ -35,6 +35,7 @@ public class AddressForm extends DynamicForm {
 	private TextAreaItem addrArea;
 
 	public AddressForm(Set<ClientAddress> addresses) {
+		super("addressForm");
 		AccounterMessages messages = Global.get().messages();
 		Label l1 = new Label(messages.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
@@ -42,7 +43,6 @@ public class AddressForm extends DynamicForm {
 		setAddresses(addresses);
 
 		businessSelect = new SelectCombo(messages.address());
-		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		businessSelect.initCombo(new ClientAddress().getAddressTypes());
@@ -57,9 +57,7 @@ public class AddressForm extends DynamicForm {
 					}
 				});
 
-		addrArea = new TextAreaItem("");
-		addrArea.setHelpInformation(true);
-		addrArea.setWidth(100);
+		addrArea = new TextAreaItem("","addrArea");
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -115,9 +113,7 @@ public class AddressForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			// businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-			setGroupTitle(messages.addresses());
-		setNumCols(2);
-		setFields(businessSelect, addrArea);
+			add(businessSelect, addrArea);
 	}
 
 	private void setAddresses(Set<ClientAddress> addresses) {

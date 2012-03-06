@@ -53,8 +53,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	private ScrollPanel panel;
 
-	public DropDownCombo(String title, boolean isAddNewRequire, int noOfcols) {
-		super();
+	public DropDownCombo(String title, boolean isAddNewRequire, int noOfcols,
+			String styleName) {
+		super(title, styleName);
 		createControls(title, isAddNewRequire, noOfcols);
 		init();
 	}
@@ -63,7 +64,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			int noOfcols) {
 		this.isAddNewRequire = isAddNewRequire;
 		this.cols = noOfcols;
-		super.setName(title);
 		setTitle(title);
 		this.addStyleName("custom-combo");
 		this.addStyleName("dropdown-button");
@@ -148,7 +148,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				if (!isDisabled) {
+				if (isEnabled()) {
 					showPopup();
 				}
 			}
@@ -208,7 +208,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	}
 
 	protected void showPopup() {
-		if (DropDownCombo.this.getDisabled())
+		if (!DropDownCombo.this.isEnabled())
 			return;
 
 		if (!isAddNewRequire && comboItems.isEmpty())
@@ -629,14 +629,14 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	}
 
 	@Override
-	public void setDisabled(boolean b) {
-		if (b)
+	public void setEnabled(boolean b) {
+		if (!b)
 			this.getMainWidget().addStyleName("dropdown-disabled");
 		else
 			this.getMainWidget().removeStyleName("dropdown-disabled");
-		super.setDisabled(b);
+		super.setEnabled(b);
 	}
-
+	
 	public void setWidth(int width) {
 		this.getMainWidget().setWidth(width + "%");
 	}

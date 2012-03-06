@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
@@ -50,11 +51,11 @@ public class RecurringTransactionDialog extends
 
 	private ClientRecurringTransaction data;
 
-	private AbstractTransactionBaseView<? extends ClientTransaction> view;
+	private final AbstractTransactionBaseView<? extends ClientTransaction> view;
 
 	private List<DynamicForm> dynamicForms;
 
-	private VerticalPanel intervalLayout;
+	private StyledPanel intervalLayout;
 	private DynamicForm endDateTypeForm;
 	private DynamicForm nameForm;
 	private DynamicForm daysAdvForm;
@@ -87,7 +88,7 @@ public class RecurringTransactionDialog extends
 	public RecurringTransactionDialog(
 			AbstractTransactionBaseView<? extends ClientTransaction> parentView) {
 		this(parentView, null);
-
+		this.getElement().setId("recurring-transaction-dialog");
 	}
 
 	/**
@@ -100,6 +101,7 @@ public class RecurringTransactionDialog extends
 			AbstractTransactionBaseView<? extends ClientTransaction> parentView,
 			ClientRecurringTransaction transaction) {
 		super(messages.recurring(), messages.recurringDescription());
+		this.getElement().setId("recurring-transaction-dialog");
 		this.view = parentView;
 		if (parentView == null) {
 
@@ -115,13 +117,12 @@ public class RecurringTransactionDialog extends
 	}
 
 	private void createControls() {
-		mainPanel.setSpacing(15);
 		initCombos();
 		intervalValueField = new IntervalValueInputField();
-		endDateTypeForm = new DynamicForm();
+		endDateTypeForm = new DynamicForm("endDateTypeForm");
 
 		unbilledChargesCkBox = new CheckboxItem(
-				messages.includeUnbilledCharges());
+				messages.includeUnbilledCharges(), "unbilledChargesCkBox");
 
 		initRadioBtns();
 
@@ -138,7 +139,6 @@ public class RecurringTransactionDialog extends
 
 		nameField = new TextItem(messages.name());
 		nameField.setRequired(true);
-		nameField.setHelpInformation(true);
 
 		daysInAdvanceField = new TextItem(messages.daysInAdvance());
 		daysInAdvanceLabel = new LabelItem();
@@ -148,15 +148,17 @@ public class RecurringTransactionDialog extends
 		notifyAboutCreatedTransactions = new CheckboxItem(
 				messages.notifyAboutCreatedTransactions());
 
-		daysBeforeToRemind = new TextItem(messages.remindMe());
-		daysBeforeLabel = new LabelItem();
+		daysBeforeToRemind = new TextItem(messages.remindMe(),
+				"daysBeforeToRemind");
+		daysBeforeLabel = new LabelItem(messages.daysBefore(),
+				"daysBeforeLabel");
 		daysBeforeLabel.setShowTitle(false);
 		daysBeforeLabel.setValue(messages.daysBefore());
-		notificationForm = new DynamicForm();
-		notificationForm.setNumCols(4);
-		notificationForm.setFields(notifyAboutCreatedTransactions);
+		notificationForm = new DynamicForm("notificationForm");
+		notificationForm.add(notifyAboutCreatedTransactions);
 
-		occurrencesField = new TextItem(messages.endAfterSpecifiedOccurences());
+		occurrencesField = new TextItem(messages.endAfterSpecifiedOccurences(),
+				"occurrencesField");
 		occurrencesField.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -182,43 +184,38 @@ public class RecurringTransactionDialog extends
 			}
 		});
 		occurrencesField.setRequired(false);
-		nameField.setHelpInformation(true);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		ClientFinanceDate financeDate = new ClientFinanceDate(cal.getTime());
 
-		startDateField = new DateField(messages.startDate());
+		startDateField = new DateField(messages.startDate(), "startDateField");
 		startDateField.setRequired(true);
 		startDateField.setEnteredDate(financeDate);
-		startDateField.setHelpInformation(true);
 
-		endDateField = new DateField(messages.endDate());
+		endDateField = new DateField(messages.endDate(), "endDateField");
 		endDateField.setEnteredDate(financeDate);
-		endDateField.setHelpInformation(true);
 
 		alertWhenRangeEnded = new CheckboxItem(
-				messages.alertWhenRangeHasEnded());
+				messages.alertWhenRangeHasEnded(), "alertWhenRangeEnded");
 
 		actionComboField = new SelectCombo(messages.action());
 		actionComboField.initCombo(getActionOptions());
 		actionComboField.setRequired(true);
-		actionComboField.setHelpInformation(true);
 
-		nameForm = new DynamicForm();
-		nameForm.setFields(nameField, recurringTypeCombo);
+		nameForm = new DynamicForm("nameForm");
+		nameForm.add(nameField, recurringTypeCombo);
 
-		DynamicForm intervalForm = new DynamicForm();
-		intervalForm.setFields(intervalTypeCombo);
+		DynamicForm intervalForm = new DynamicForm("intervalForm");
+		intervalForm.add(intervalTypeCombo);
 
-		daysAdvForm = new DynamicForm();
-		daysAdvForm.setNumCols(4);
-		daysAdvForm.setFields(daysInAdvanceField, daysInAdvanceLabel);
+		daysAdvForm = new DynamicForm("daysAdvForm");
+		daysAdvForm.add(daysInAdvanceField, daysInAdvanceLabel);
 
-		DynamicForm dateRangeForm = new DynamicForm();
-		dateRangeForm.setFields(startDateField);
-		endDateTypeForm.setFields(endDateTypeCombo);
+		DynamicForm dateRangeForm = new DynamicForm("dateRangeForm");
+		dateRangeForm.add(startDateField);
+		endDateTypeForm.add(endDateTypeCombo);
 
 		dynamicForms.add(nameForm);
 		dynamicForms.add(intervalForm);
@@ -227,10 +224,10 @@ public class RecurringTransactionDialog extends
 		dynamicForms.add(endDateTypeForm);
 		dynamicForms.add(notificationForm);
 
-		intervalLayout = new VerticalPanel();
+		intervalLayout = new StyledPanel("intervalLayout");
 		// intervalLayout.setBorderWidth(1);
 
-		mainLayout = new VerticalPanel();
+		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(nameForm);
 		mainLayout.add(intervalForm);
 		mainLayout.add(intervalLayout);
@@ -263,11 +260,11 @@ public class RecurringTransactionDialog extends
 			@Override
 			public void onClick(ClickEvent event) {
 				// disable
-				dayOfMonthCombo.setDisabled(true);
+				dayOfMonthCombo.setEnabled(false);
 
 				// enable
-				dayOfWeekCombo.setDisabled(false);
-				weekOfMonthCombo.setDisabled(false);
+				dayOfWeekCombo.setEnabled(true);
+				weekOfMonthCombo.setEnabled(true);
 
 			}
 		});
@@ -279,20 +276,20 @@ public class RecurringTransactionDialog extends
 			@Override
 			public void onClick(ClickEvent event) {
 				// disable
-				weekOfMonthCombo.setDisabled(true);
-				dayOfWeekCombo.setDisabled(true);
+				weekOfMonthCombo.setEnabled(false);
+				dayOfWeekCombo.setEnabled(false);
 
 				// enable
-				dayOfMonthCombo.setDisabled(false);
+				dayOfMonthCombo.setEnabled(true);
 
 			}
 		});
 	}
 
 	private void enableAllCombos() {
-		dayOfMonthCombo.setDisabled(false);
-		dayOfWeekCombo.setDisabled(false);
-		weekOfMonthCombo.setDisabled(false);
+		dayOfMonthCombo.setEnabled(true);
+		dayOfWeekCombo.setEnabled(true);
+		weekOfMonthCombo.setEnabled(true);
 	}
 
 	private class EndDateTypeChangeHandler implements
@@ -307,15 +304,15 @@ public class RecurringTransactionDialog extends
 
 			switch (selected) {
 			case 0:// no end date
-				endDateTypeForm.setFields(endDateTypeCombo);
+				endDateTypeForm.add(endDateTypeCombo);
 				break;
 			case 1:// end after __ occurrences
-				endDateTypeForm.setFields(endDateTypeCombo, occurrencesField,
+				endDateTypeForm.add(endDateTypeCombo, occurrencesField,
 						alertWhenRangeEnded);
 
 				break;
 			case 2: // stop after date
-				endDateTypeForm.setFields(endDateTypeCombo, endDateField,
+				endDateTypeForm.add(endDateTypeCombo, endDateField,
 						alertWhenRangeEnded);
 			default:
 				break;
@@ -332,15 +329,15 @@ public class RecurringTransactionDialog extends
 			switch (selected) {
 			case 0:
 				daysAdvForm.clear();
-				daysAdvForm.setFields(daysInAdvanceField, daysInAdvanceLabel);
+				daysAdvForm.add(daysInAdvanceField, daysInAdvanceLabel);
 				notificationForm.clear();
-				notificationForm.setFields(notifyAboutCreatedTransactions);
+				notificationForm.add(notifyAboutCreatedTransactions);
 				changeFieldsStausForNoneSelection(false);
 				break;
 			case 1:
 				daysAdvForm.clear();
 				notificationForm.clear();
-				notificationForm.setFields(daysBeforeToRemind, daysBeforeLabel);
+				notificationForm.add(daysBeforeToRemind, daysBeforeLabel);
 				changeFieldsStausForNoneSelection(false);
 				break;
 			case 2:
@@ -366,7 +363,7 @@ public class RecurringTransactionDialog extends
 		@Override
 		public void selectedComboBoxItem(String selectedValue) {
 			int selected = getIntervalTypeOptions().indexOf(selectedValue);
-			CellPanel panel = null;
+			StyledPanel panel = null;
 
 			switch (selected) {
 			case 0:// Daily
@@ -491,55 +488,50 @@ public class RecurringTransactionDialog extends
 	private SelectCombo createCombo(String text, List<String> optoins) {
 		SelectCombo combo = new SelectCombo(text);
 		combo.initCombo(optoins);
-		combo.setHelpInformation(true);
 		return combo;
 	}
 
-	private CellPanel getDailyIntervalLayout() {
-		VerticalPanel panel = new VerticalPanel();
+	private StyledPanel getDailyIntervalLayout() {
+		StyledPanel panel = new StyledPanel("interval_Value");
 		panel.add(intervalValueField);
-		panel.getElement().addClassName("interval_Value");
 		return panel;
 	}
 
-	private CellPanel getWeeklyIntervalLayout() {
-		VerticalPanel panel = new VerticalPanel();
+	private StyledPanel getWeeklyIntervalLayout() {
+		StyledPanel panel = new StyledPanel("interval_Value");
 		panel.add(intervalValueField);
-		panel.getElement().addClassName("interval_Value");
 		panel.add(dayOfWeekCombo.getMainWidget());
 		return panel;
 	}
 
-	private CellPanel getMonthlyIntervalLayout() {
-		VerticalPanel panel = new VerticalPanel();
+	private StyledPanel getMonthlyIntervalLayout() {
+		StyledPanel panel = new StyledPanel("interval_Value");
 		panel.add(intervalValueField);
-		panel.getElement().addClassName("interval_Value");
 		panel.add(onSpecificDayRadioBtn);
 		panel.add(dayOfMonthCombo.getMainWidget());
 		panel.add(onSpecificWeekRadioBtn);
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(weekOfMonthCombo.getMainWidget());
 		hPanel.add(dayOfWeekCombo.getMainWidget());
 		panel.add(hPanel);
 
 		if (!onSpecificDayRadioBtn.getValue()) {
-			dayOfMonthCombo.setDisabled(true);
+			dayOfMonthCombo.setEnabled(false);
 		}
 		if (!onSpecificWeekRadioBtn.getValue()) {
-			weekOfMonthCombo.setDisabled(true);
-			dayOfWeekCombo.setDisabled(true);
+			weekOfMonthCombo.setEnabled(false);
+			dayOfWeekCombo.setEnabled(false);
 		}
 
 		return panel;
 	}
 
-	private CellPanel getYearlyIntervalLayout() {
-		VerticalPanel panel = new VerticalPanel();
+	private StyledPanel getYearlyIntervalLayout() {
+		StyledPanel panel = new StyledPanel("interval_Value");
 		panel.add(intervalValueField);
-		panel.getElement().addClassName("interval_Value");
 
-		HorizontalPanel tempPanel = new HorizontalPanel();
+		StyledPanel tempPanel = new StyledPanel("tempPanel");
 		tempPanel.add(monthOfYearCombo.getMainWidget());
 		tempPanel.add(dayOfMonthCombo.getMainWidget());
 
@@ -561,13 +553,13 @@ public class RecurringTransactionDialog extends
 			} else if (data.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
 				daysAdvForm.clear();
 				notificationForm.clear();
-				notificationForm.setFields(daysBeforeToRemind, daysBeforeLabel);
+				notificationForm.add(daysBeforeToRemind, daysBeforeLabel);
 				changeFieldsStausForNoneSelection(false);
 			} else if (data.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED) {
 				daysAdvForm.clear();
-				daysAdvForm.setFields(daysInAdvanceField, daysInAdvanceLabel);
+				daysAdvForm.add(daysInAdvanceField, daysInAdvanceLabel);
 				notificationForm.clear();
-				notificationForm.setFields(notifyAboutCreatedTransactions);
+				notificationForm.add(notifyAboutCreatedTransactions);
 				changeFieldsStausForNoneSelection(false);
 			}
 			startDateField.setValue(new ClientFinanceDate(data.getStartDate()));
@@ -599,9 +591,9 @@ public class RecurringTransactionDialog extends
 		intervalValueField.setIntervalValue(1);
 		intervalValueField.setIntervalTypeLabel(messages.months());
 		onSpecificDayRadioBtn.setValue(true);
-		weekOfMonthCombo.setDisabled(true);
-		dayOfWeekCombo.setDisabled(true);
-		dayOfMonthCombo.setDisabled(false);
+		weekOfMonthCombo.setEnabled(true);
+		dayOfWeekCombo.setEnabled(true);
+		dayOfMonthCombo.setEnabled(true);
 		dayOfMonthCombo.setComboItem(String.valueOf(1));
 
 		CellPanel panel = getMonthlyIntervalLayout();
@@ -899,7 +891,7 @@ public class RecurringTransactionDialog extends
 	@Override
 	protected ValidationResult validate() {
 		if (recurringTypeCombo.getSelectedIndex() == 2) {// none-just template
-			return FormItem.validate(nameField);
+			return nameForm.validate();
 		}
 
 		ValidationResult result = super.validate();
@@ -947,17 +939,18 @@ public class RecurringTransactionDialog extends
 	 * 
 	 */
 	private class IntervalValueInputField extends DynamicForm {
-		private TextItem intervalValueField;
-		private LabelItem intervalTypeLabel;
+		private final TextItem intervalValueField;
+		private final LabelItem intervalTypeLabel;
 
 		public IntervalValueInputField() {
-			// setGroupTitle(title);
-			setNumCols(4);
-			intervalValueField = new TextItem(messages.every());
+			super("intervalValueInputField");
+			intervalValueField = new TextItem(messages.every(),
+					"intervalValueField");
 			intervalValueField.setRequired(true);
-			intervalTypeLabel = new LabelItem();
+			intervalTypeLabel = new LabelItem(messages.intervalType(),
+					"intervalTypeLabel");
 			intervalTypeLabel.setShowTitle(false);
-			setFields(intervalValueField, intervalTypeLabel);
+			add(intervalValueField, intervalTypeLabel);
 		}
 
 		public void setIntervalValue(int intervalValue) {
@@ -980,42 +973,42 @@ public class RecurringTransactionDialog extends
 	}
 
 	private void changeFieldsStausForNoneSelection(boolean selected) {
-		startDateField.setDisabled(selected);
-		endDateField.setDisabled(selected);
-		occurrencesField.setDisabled(selected);
-		daysInAdvanceField.setDisabled(selected);
-		intervalValueField.setDisabled(selected);
-		endDateTypeForm.setDisabled(selected);
-		actionComboField.setDisabled(selected);
-		monthOfYearCombo.setDisabled(selected);
-		intervalTypeCombo.setDisabled(selected);
-		endDateTypeCombo.setDisabled(selected);
+		startDateField.setEnabled(!selected);
+		endDateField.setEnabled(!selected);
+		occurrencesField.setEnabled(!selected);
+		daysInAdvanceField.setEnabled(!selected);
+		intervalValueField.setEnabled(!selected);
+		endDateTypeForm.setEnabled(!selected);
+		actionComboField.setEnabled(!selected);
+		monthOfYearCombo.setEnabled(!selected);
+		intervalTypeCombo.setEnabled(!selected);
+		endDateTypeCombo.setEnabled(!selected);
 		onSpecificDayRadioBtn.setEnabled(!selected);
 		onSpecificWeekRadioBtn.setEnabled(!selected);
-		unbilledChargesCkBox.setDisabled(selected);
-		notificationForm.setDisabled(selected);
+		unbilledChargesCkBox.setEnabled(!selected);
+		notificationForm.setEnabled(!selected);
 		if (getIntervalTypeOptions().indexOf(
 				intervalTypeCombo.getSelectedValue()) == 2
 				&& !selected) {
 			if (onSpecificDayRadioBtn.getValue()) {
-				dayOfMonthCombo.setDisabled(selected);
+				dayOfMonthCombo.setEnabled(selected);
 
-				weekOfMonthCombo.setDisabled(!selected);
-				dayOfWeekCombo.setDisabled(!selected);
+				weekOfMonthCombo.setEnabled(selected);
+				dayOfWeekCombo.setEnabled(selected);
 			} else if (onSpecificWeekRadioBtn.getValue()) {
-				weekOfMonthCombo.setDisabled(selected);
-				dayOfWeekCombo.setDisabled(selected);
+				weekOfMonthCombo.setEnabled(!selected);
+				dayOfWeekCombo.setEnabled(!selected);
 
-				dayOfMonthCombo.setDisabled(!selected);
+				dayOfMonthCombo.setEnabled(selected);
 			} else {
-				dayOfWeekCombo.setDisabled(selected);
-				dayOfMonthCombo.setDisabled(selected);
-				weekOfMonthCombo.setDisabled(selected);
+				dayOfWeekCombo.setEnabled(!selected);
+				dayOfMonthCombo.setEnabled(!selected);
+				weekOfMonthCombo.setEnabled(!selected);
 			}
 		} else {
-			dayOfWeekCombo.setDisabled(selected);
-			dayOfMonthCombo.setDisabled(selected);
-			weekOfMonthCombo.setDisabled(selected);
+			dayOfWeekCombo.setEnabled(!selected);
+			dayOfMonthCombo.setEnabled(!selected);
+			weekOfMonthCombo.setEnabled(!selected);
 		}
 	}
 
