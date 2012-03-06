@@ -91,7 +91,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 				return WareHouseTransferView.this.isInViewMode();
 			}
 		};
-		table.setDisabled(isInViewMode());
+		table.setEnabled(!isInViewMode());
 		mainPanel.add(table);
 		mainPanel.setSize("100%", "100%");
 
@@ -174,7 +174,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		fromCombo.setEnabled(isInViewMode());
 		toCombo.setEnabled(isInViewMode());
 		commentArea.setDisabled(isInViewMode());
-		table.setDisabled(isInViewMode());
+		table.setEnabled(isInViewMode());
 		table.reDraw();
 		fromWareHouseSelected(fromCombo.getSelectedValue());
 	}

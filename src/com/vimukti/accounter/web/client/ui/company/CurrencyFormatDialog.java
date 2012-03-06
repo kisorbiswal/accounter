@@ -78,24 +78,22 @@ public class CurrencyFormatDialog extends BaseDialog {
 		Label example = new Label(messages.currencyFormat());
 		example.setStyleName("currency_format_label");
 
-		DynamicForm formatForm = new DynamicForm();
-		formatForm.setNumCols(4);
+		DynamicForm formatForm = new DynamicForm("formatForm");
 
-		positiveTextItem = new TextItem(messages.positive());
-		positiveTextItem.setDisabled(true);
-		negativeTextItem = new TextItem(messages.negative());
-		negativeTextItem.setDisabled(true);
+		positiveTextItem = new TextItem(messages.positive(),"positiveTextItem");
+		positiveTextItem.setEnabled(false);
+		negativeTextItem = new TextItem(messages.negative(),"negativeTextItem");
+		negativeTextItem.setEnabled(false);
 
-		formatForm.setFields(positiveTextItem, negativeTextItem);
+		formatForm.add(positiveTextItem, negativeTextItem);
 
-		DynamicForm form = new DynamicForm();
-		form.setNumCols(2);
+		DynamicForm form = new DynamicForm("form");
 		form.addStyleName("currency_format_align");
 
-		currencySymbolItem = new TextItem(messages.currencySymbol());
+		currencySymbolItem = new TextItem(messages.currencySymbol(),"currencySymbolItem");
 		currencySymbolItem.setValue(getCompanyPreferences()
 				.getPrimaryCurrency().getSymbol());
-		currencySymbolItem.setDisabled(true);
+		currencySymbolItem.setEnabled(false);
 		positiveCurrencyFormatCombo = new SelectCombo(
 				messages.postiveCurrencyFormat(), false);
 		positiveCurrencyFormatCombo
@@ -120,7 +118,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 					}
 				});
 
-		decimalSymbolItem = new TextItem(messages.decimalSymbol());
+		decimalSymbolItem = new TextItem(messages.decimalSymbol(),"decimalSymbolItem");
 		decimalSymbolItem.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -151,7 +149,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 			}
 		});
 
-		digitGroupingSymbolItem = new TextItem(messages.digitGroupingDecimal());
+		digitGroupingSymbolItem = new TextItem(messages.digitGroupingDecimal(),"digitGroupingSymbolItem");
 		digitGroupingSymbolItem.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -183,7 +181,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 					}
 				});
 		digitGroupingCombo.setRequired(true);
-		form.setFields(currencySymbolItem, positiveCurrencyFormatCombo,
+		form.add(currencySymbolItem, positiveCurrencyFormatCombo,
 				negativeCurrencyFormatCombo, noOfDigitsAfterDecimalText,
 				decimalSymbolItem, digitGroupingSymbolItem, digitGroupingCombo);
 
@@ -271,11 +269,11 @@ public class CurrencyFormatDialog extends BaseDialog {
 		}
 
 		if (noOfDigitsAfterDecimal == 0) {
-			decimalSymbolItem.setDisabled(true);
+			decimalSymbolItem.setEnabled(false);
 			decimalSymbolItem.setValue("");
 			decimalSymbol = "";
 		} else {
-			decimalSymbolItem.setDisabled(false);
+			decimalSymbolItem.setEnabled(true);
 		}
 
 		String pValue = posForValue[posNum].replaceAll("S",

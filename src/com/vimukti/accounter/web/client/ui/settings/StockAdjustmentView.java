@@ -107,7 +107,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			}
 
 		};
-		table.setDisabled(isInViewMode());
+		table.setEnabled(!isInViewMode());
 
 		addButton = new AddNewButton();
 		addButton.setEnabled(!isInViewMode());
@@ -284,7 +284,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		setMode(EditMode.EDIT);
 		wareHouseCombo.setEnabled(!getCompany().getPreferences()
 				.iswareHouseEnabled() || isInViewMode());
-		table.setDisabled(isInViewMode());
+		table.setEnabled(isInViewMode());
 		table.clear();
 		table.setAllRows(data.getTransactionItems());
 		addButton.setEnabled(!isInViewMode());

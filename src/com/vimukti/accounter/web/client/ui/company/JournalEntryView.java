@@ -167,7 +167,7 @@ public class JournalEntryView extends
 				return JournalEntryView.this.isInViewMode();
 			}
 		};
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		grid.getElement().getStyle().setMarginTop(10, Unit.PX);
 	}
 
@@ -218,13 +218,13 @@ public class JournalEntryView extends
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (isInViewMode()) {
-			jourNoText.setDisabled(true);
+			jourNoText.setEnabled(false);
 			memoText.setDisabled(true);
 			// memoText.setDisabled(true);
 			// FIXME--need to implement this feature
 			// grid.setEnableMenu(false);
 
-			grid.setDisabled(true);
+			grid.setEnabled(false);
 			// Disabling the cells
 			// FIXME
 			// grid.setEditDisableCells(0, 1, 2, 3, 4, 5, 6, 7);
@@ -273,10 +273,9 @@ public class JournalEntryView extends
 		lab1.addStyleName("label-title");
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
-		jourNoText = new TextItem(messages.no());
+		jourNoText = new TextItem(messages.no(),"jourNoText");
 		jourNoText
 				.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
-		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
 		jourNoText.addChangeHandler(new ChangeHandler() {
 
@@ -291,9 +290,8 @@ public class JournalEntryView extends
 			}
 		});
 
-		memoText = new TextAreaItem(messages.memo());
+		memoText = new TextAreaItem(messages.memo(),"memoText");
 		memoText.setMemo(true, this);
-		memoText.setHelpInformation(true);
 
 		initListGrid();
 		// grid.initTransactionData();
@@ -318,15 +316,14 @@ public class JournalEntryView extends
 		gridPanel.add(hPanel);
 
 		addButton.setEnabled(!isInViewMode());
-		dateForm = new DynamicForm();
-		dateForm.setNumCols(8);
+		dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
 
 		locationCombo = createLocationCombo();
 		if (locationTrackingEnabled)
-			dateForm.setFields(transactionDateItem, jourNoText, locationCombo);
+			dateForm.add(transactionDateItem, jourNoText, locationCombo);
 		else
-			dateForm.setFields(transactionDateItem, jourNoText);
+			dateForm.add(transactionDateItem, jourNoText);
 
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
@@ -338,10 +335,10 @@ public class JournalEntryView extends
 		datepannel.add(dateForm);
 		datepannel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
-		memoForm = new DynamicForm();
+		memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoText);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.add(memoText);
+//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		deditTotalText = new AmountLabel(messages.debitTotalColon());
 		deditTotalText.setWidth("180px");
@@ -349,7 +346,7 @@ public class JournalEntryView extends
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		deditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
-		deditTotalText.setDisabled(true);
+		deditTotalText.setEnabled(false);
 
 		creditTotalText = new AmountLabel(messages.creditTotalColon());
 		creditTotalText.setWidth("180px");
@@ -357,12 +354,12 @@ public class JournalEntryView extends
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		creditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
-		creditTotalText.setDisabled(true);
+		creditTotalText.setEnabled(false);
 
-		totalForm = new DynamicForm();
+		totalForm = new DynamicForm("totalForm");
 		// totalForm.setWidth("78%");
 		totalForm.addStyleName("textbold");
-		totalForm.setFields(deditTotalText, creditTotalText);
+		totalForm.add(deditTotalText, creditTotalText);
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -537,9 +534,9 @@ public class JournalEntryView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		jourNoText.setDisabled(isInViewMode());
-		transactionDateItem.setDisabled(isInViewMode());
-		grid.setDisabled(isInViewMode());
+		jourNoText.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		memoText.setDisabled(isInViewMode());
 		// grid.setCanEdit(true);
 		addButton.setEnabled(!isInViewMode());

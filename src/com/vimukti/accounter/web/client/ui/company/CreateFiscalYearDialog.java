@@ -95,17 +95,13 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		descriptionLabel = new HTML();
 		descriptionLabel.setHTML(messages
 				.enterAppropriateFiscalYear());
-		startOfFiscalYear = new DateItem();
-		startOfFiscalYear.setHelpInformation(true);
+		startOfFiscalYear = new DateItem(messages.startOfFiscalYear(),"startOfFiscalYear");
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		startOfFiscalYear.setTitle(messages.startOfFiscalYear());
-		endOfFiscalYear = new DateItem();
+		endOfFiscalYear = new DateItem(messages.endOfFiscalYear(),"endOfFiscalYear");
 		endOfFiscalYear.setRequired(true);
-		endOfFiscalYear.setHelpInformation(true);
-		endOfFiscalYear.setTitle(messages.endOfFiscalYear());
-		dynamicForm = new DynamicForm();
-		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
+		dynamicForm = new DynamicForm("dynamicForm");
+		dynamicForm.add(startOfFiscalYear, endOfFiscalYear);
 		mainVlayout = new VerticalPanel();
 		mainVlayout.setSpacing(5);
 		// mainVlayout.add(createFiscalYearLabel);

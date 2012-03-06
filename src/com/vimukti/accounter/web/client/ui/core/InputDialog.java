@@ -41,12 +41,12 @@ public class InputDialog extends BaseDialog {
 	 */
 	private void initialise() {
 		mainPanel.setSpacing(3);
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 		form.setWidth("100%");
 		VerticalPanel layout = new VerticalPanel();
 		for (String item : itemsNames)
 			addTextItem(item);
-		form.setItems(textItems.toArray(new TextItem[1]));
+		form.add(textItems.toArray(new TextItem[1]));
 		layout.add(form);
 		// okbtn.setWidth("60px");
 		// cancelBtn.setWidth("60px");
@@ -62,8 +62,7 @@ public class InputDialog extends BaseDialog {
 	 * @param title
 	 */
 	private void addTextItem(String title) {
-		textItem = new TextItem(title);
-		textItem.setHelpInformation(true);
+		textItem = new TextItem(title,"textItem");
 		textItem.setRequired(true);
 		textItems.add(textItem);
 		// form.setFields(textItems.toArray(new TextItem[1]));

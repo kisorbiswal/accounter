@@ -52,7 +52,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 	private void createControls() {
 
 		VerticalPanel bodyLayout = new VerticalPanel();
-		form = new DynamicForm();
+		form = new DynamicForm("form");
 
 		emailField = new EmailField(messages.emailId());
 		emailField.setRequired(true);
@@ -60,15 +60,15 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 		passwordField = new PasswordItem(messages.password());
 		passwordField.setRequired(true);
 
-		mailServerField = new TextItem(messages.smtpMailServer());
+		mailServerField = new TextItem(messages.smtpMailServer(),"mailServerField");
 		mailServerField.setRequired(true);
 
 		portNumField = new IntegerField(this, messages.portNumber());
 		portNumField.setRequired(true);
 
-		sslField = new CheckboxItem(messages.isSsl());
+		sslField = new CheckboxItem(messages.isSsl(),"sslField");
 
-		form.setFields(emailField, passwordField, mailServerField,
+		form.add(emailField, passwordField, mailServerField,
 				portNumField, sslField);
 
 		testButton = new Button(messages.test());

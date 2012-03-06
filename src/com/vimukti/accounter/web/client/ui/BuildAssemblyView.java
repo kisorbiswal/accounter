@@ -117,7 +117,7 @@ public class BuildAssemblyView extends
 						inventoryAssemblySelected(selectItem);
 					}
 				});
-		itemTable.setDisabled(true);
+		itemTable.setEnabled(false);
 		quantityToBuild = new AmountField(messages.quantityToBuild(), this);
 		quantityToBuild.setRequired(true);
 		dateField = new DateField(messages.date(), "dateField");
