@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -140,60 +141,100 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				for (Object errorSource : lastErrorSourcesFromValidation) {
-					clearError(errorSource);
-				}
-				ValidationResult validationResult = validateView();
-				lastErrorSourcesFromValidation.clear();
-				if (validationResult.haveErrors()) {
-					for (Error error : validationResult.getErrors()) {
-						addError(error.getSource(), error.getMessage());
-						lastErrorSourcesFromValidation.add(error.getSource());
-					}
-					return;
-				}
-				List<ClientTransactionIssuePayment> selectedRecords = grid
-						.getSelectedRecords();
-				List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
-				for (ClientTransactionIssuePayment payment : selectedRecords) {
-					PrintCheque cheque = new PrintCheque();
-					cheque.setPayeeName(payment.getDisplayName());
-					cheque.setAmount(payment.getAmount());
-					cheque.setDate(payment.getDate());
-					cheque.setCurrency(getCompany().getCurrency(
-							payment.getCurrency()).getSymbol());
-					printCheques.add(cheque);
-				}
-				ClientChequeLayout checkLayout = getCompany().getCheckLayout(
-						selectedPayFromAccount.getID());
-				if (checkLayout == null) {
-					checkLayout = getCompany().getCheckLayout(0);
-				}
-				rpcUtilService.printCheques(checkLayout.getID(), printCheques,
-						new AsyncCallback<String>() {
-
-							@Override
-							public void onSuccess(String result) {
-								UIUtils.downloadFileFromTemp("printcheque",
-										result);
-								createIssuePayment();
-							}
-
-							@Override
-							public void onFailure(Throwable caught) {
-								int i = 0;
-							}
-						});
+				printAndCreateIssuePayment();
 			}
 		});
-		// saveAndCloseButton = new SaveAndCloseButton(messages.save());
-		// saveAndCloseButton.setView(this);
-		// if (!isInViewMode()) {
-		// buttonBar.add(saveAndCloseButton);
-		// }
+		saveAndCloseButton = new SaveAndCloseButton(messages.issuePayment());
+		saveAndCloseButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				cretaeOnlyIssuePayment();
+			}
+		});
+		saveAndCloseButton.setView(this);
+		if (!isInViewMode()) {
+			buttonBar.add(saveAndCloseButton);
+		}
 		cancelButton = new CancelButton(this);
 		buttonBar.add(printButton);
 		buttonBar.add(cancelButton);
+	}
+
+	protected void cretaeOnlyIssuePayment() {
+		for (Object errorSource : lastErrorSourcesFromValidation) {
+			clearError(errorSource);
+		}
+		ValidationResult validationResult = validateView();
+		lastErrorSourcesFromValidation.clear();
+		if (validationResult.haveErrors()) {
+			for (Error error : validationResult.getErrors()) {
+				addError(error.getSource(), error.getMessage());
+				lastErrorSourcesFromValidation.add(error.getSource());
+			}
+			return;
+		}
+		List<ClientTransactionIssuePayment> selectedRecords = grid
+				.getSelectedRecords();
+		List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
+		for (ClientTransactionIssuePayment payment : selectedRecords) {
+			PrintCheque cheque = new PrintCheque();
+			cheque.setPayeeName(payment.getDisplayName());
+			cheque.setAmount(payment.getAmount());
+			cheque.setDate(payment.getDate());
+			cheque.setCurrency(getCompany().getCurrency(payment.getCurrency())
+					.getSymbol());
+			printCheques.add(cheque);
+		}
+
+		createIssuePayment();
+
+	}
+
+	protected void printAndCreateIssuePayment() {
+		for (Object errorSource : lastErrorSourcesFromValidation) {
+			clearError(errorSource);
+		}
+		ValidationResult validationResult = validateView();
+		lastErrorSourcesFromValidation.clear();
+		if (validationResult.haveErrors()) {
+			for (Error error : validationResult.getErrors()) {
+				addError(error.getSource(), error.getMessage());
+				lastErrorSourcesFromValidation.add(error.getSource());
+			}
+			return;
+		}
+		List<ClientTransactionIssuePayment> selectedRecords = grid
+				.getSelectedRecords();
+		List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
+		for (ClientTransactionIssuePayment payment : selectedRecords) {
+			PrintCheque cheque = new PrintCheque();
+			cheque.setPayeeName(payment.getDisplayName());
+			cheque.setAmount(payment.getAmount());
+			cheque.setDate(payment.getDate());
+			cheque.setCurrency(getCompany().getCurrency(payment.getCurrency())
+					.getSymbol());
+			printCheques.add(cheque);
+		}
+		ClientChequeLayout checkLayout = getCompany().getCheckLayout(
+				selectedPayFromAccount.getID());
+		if (checkLayout == null) {
+			checkLayout = getCompany().getCheckLayout(0);
+		}
+		rpcUtilService.printCheques(checkLayout.getID(), printCheques,
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String result) {
+						UIUtils.downloadFileFromTemp("printcheque", result);
+						createIssuePayment();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						int i = 0;
+					}
+				});
 	}
 
 	protected ValidationResult validateView() {
