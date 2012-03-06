@@ -1059,6 +1059,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		superinitTransactionViewData();
@@ -1302,9 +1305,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		statusCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		customerOrderText.setDisabled(isInViewMode());
 		shippingTermsCombo.setDisabled(isInViewMode());

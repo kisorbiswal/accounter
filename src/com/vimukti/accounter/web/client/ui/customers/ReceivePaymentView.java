@@ -986,6 +986,9 @@ public class ReceivePaymentView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		initCustomers();
@@ -1217,9 +1220,6 @@ public class ReceivePaymentView extends
 		updateTotalWithTDS();
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 	}
 

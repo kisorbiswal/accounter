@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -269,6 +268,9 @@ public class CustomerPrePaymentView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		initMemoAndReference();
@@ -763,9 +765,6 @@ public class CustomerPrePaymentView extends
 			classListCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());

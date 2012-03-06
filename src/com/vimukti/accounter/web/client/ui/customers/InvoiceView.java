@@ -1069,6 +1069,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				locationSelected(company.getLocation(transaction.getLocation()));
 
 			if (getPreferences().isJobTrackingEnabled()) {
+				if (customer != null) {
+					jobListCombo.setCustomer(customer);
+				}
 				jobSelected(company.getjob(transaction.getJob()));
 			}
 			transactionTotalBaseCurrencyText
@@ -1694,9 +1697,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		classListCombo.setDisabled(isInViewMode());
 		transactionsTree.setEnabled(!isInViewMode());
 		jobListCombo.setDisabled(isInViewMode());
-		if (customer != null) {
-			jobListCombo.setCustomer(customer);
-		}
+
 		enableAttachmentPanel(!isInViewMode());
 	}
 

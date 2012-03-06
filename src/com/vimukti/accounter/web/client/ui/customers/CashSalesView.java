@@ -1002,6 +1002,9 @@ public class CashSalesView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		superinitTransactionViewData();
@@ -1249,9 +1252,6 @@ public class CashSalesView extends
 		classListCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
