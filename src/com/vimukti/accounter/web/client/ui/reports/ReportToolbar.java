@@ -56,7 +56,7 @@ public abstract class ReportToolbar extends DynamicForm {
 			ReportToolBarItemSelectionHandler itemSelectionHandler) {
 		this.itemSelectionHandler = itemSelectionHandler;
 	}
-
+	
 	public void addItems(FormItem<?>... items) {
 		form.add(items);
 	}

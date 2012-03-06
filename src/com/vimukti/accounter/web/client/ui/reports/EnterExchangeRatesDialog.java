@@ -44,7 +44,7 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 		this.table.addStyleName("exchange-table");
 
 		StyledPanel panel = new StyledPanel("panel");
-		panel.add(dynamicForm);
+		panel.add(enteredDateItem);
 		panel.add(table);
 		setBodyLayout(panel);
 	}
