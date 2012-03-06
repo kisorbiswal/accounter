@@ -12,10 +12,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAccountCombo;
@@ -48,6 +48,7 @@ public class JournalViewDialog extends BaseDialog {
 	public JournalViewDialog(String title, String desc,
 			FixedAssetSellOrDisposeReviewJournal journalObject) {
 		super(title, desc);
+		this.addStyleName("journal-view-dialog");
 		this.journalAsset = journalObject;
 		init();
 	}
@@ -101,14 +102,11 @@ public class JournalViewDialog extends BaseDialog {
 		footerLayout.setCellHorizontalAlignment(okbtn,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		VerticalPanel mainLayout = new VerticalPanel();
-		mainLayout.setWidth("700px");
-		mainLayout.setSpacing(15);
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(disposalSummarylabel);
 		mainLayout.add(disposalSummaryForm);
 		mainLayout.add(disposalJOurnallabel);
 		mainLayout.add(disposalJournalForm);
-		setWidth("550px");
 		setBodyLayout(mainLayout);
 		center();
 		show();
@@ -124,7 +122,7 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 
 	private DynamicForm getDisposalSummaryForm() {
-		DynamicForm disposalSummaryForm = new DynamicForm();
+		DynamicForm disposalSummaryForm = new DynamicForm("disposalSummaryForm");
 		disposalSummaryForm.addStyleName("borders disposalSummaryForm");
 		int row = 0;
 		double value = 0.0;
@@ -146,8 +144,7 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 
 	private DynamicForm getDisposalJournalForm() {
-		DynamicForm disposalJournalForm = new DynamicForm();
-		disposalJournalForm.setStyleName("borders");
+		DynamicForm disposalJournalForm = new DynamicForm("borders");
 		this.forms.clear();
 
 		Set<String> journalKeyset = this.journalAsset.getDisposalJournal()

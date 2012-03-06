@@ -219,7 +219,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 
 		gridLayout.add(grid);
 

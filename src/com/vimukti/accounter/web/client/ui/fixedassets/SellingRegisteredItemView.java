@@ -109,12 +109,12 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			}
 		}, noDepOption, allDepOption);
 		QuestionItem.setValue(noDepOption);
-		DynamicForm radioForm = new DynamicForm();
-		radioForm.setFields(QuestionItem);
-		dateItemCombo = new SelectItem(messages.date());
-		dateForm = new DynamicForm();
+		DynamicForm radioForm = new DynamicForm("radioForm");
+		radioForm.add(QuestionItem);
+		dateItemCombo = new SelectItem(messages.date(),"dateItemCombo");
+		dateForm = new DynamicForm("dateForm");
 		dateForm.setWidth("50%");
-		dateForm.setFields(dateItemCombo);
+		dateForm.add(dateItemCombo);
 		changeDateCombo(noDepOption);
 
 		VerticalPanel radioVlayout = new VerticalPanel();
@@ -123,16 +123,16 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioVlayout.add(radioForm);
 		radioVlayout.add(dateForm);
 
-		notesArea = new TextAreaItem();
+		notesArea = new TextAreaItem("","notesArea");
 		notesArea.setWidth(100);
 		notesArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()).replace(messages.comments(),
 				messages.notes()));
 		notesArea.setTitle(messages.notes());
 
-		textAreaForm = new DynamicForm();
+		textAreaForm = new DynamicForm("textAreaForm");
 		// textAreaForm.setWidth("100%");
-		textAreaForm.setFields(notesArea);
+		textAreaForm.add(notesArea);
 		textAreaForm.setStyleName("align-form");
 
 		VerticalPanel mainLayout = new VerticalPanel();
@@ -161,7 +161,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return
 	 */
 	protected DynamicForm getDetailForm() {
-		datesold = new DateField(messages.datesold());
+		datesold = new DateField(messages.datesold(),"datesold");
 		datesold.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(datesold.getYear());
 		datesold.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -176,11 +176,11 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo.setRequired(true);
 
 		salepriceText = new AmountField(messages.salepriceExcludingTax(), this,
-				getBaseCurrency());
+				getBaseCurrency(),"salepriceText");
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
-		DynamicForm detailForm = new DynamicForm();
-		detailForm.setFields(datesold, accountCombo, salepriceText);
+		DynamicForm detailForm = new DynamicForm("detailForm");
+		detailForm.add(datesold, accountCombo, salepriceText);
 		return detailForm;
 	}
 
@@ -511,16 +511,16 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected void changeDateCombo(String value) {
 		if (value.equals(allDepOption)) {
 			dateForm.clear();
-			dateItemCombo.setDisabled(false);
+			dateItemCombo.setEnabled(true);
 			dateItemCombo.setRequired(true);
-			dateForm.setFields(dateItemCombo);
+			dateForm.add(dateItemCombo);
 
 		} else {
 			dateForm.clear();
 			initDateCombo();
-			dateItemCombo.setDisabled(true);
+			dateItemCombo.setEnabled(false);
 			dateItemCombo.setRequired(false);
-			dateForm.setFields(dateItemCombo);
+			dateForm.add(dateItemCombo);
 		}
 	}
 

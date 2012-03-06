@@ -38,11 +38,11 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 			List<VATSummary> summary = (List<VATSummary>) data;
 			TaxAgencyStartDateEndDateToolbar toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 			// TODO set taxagency item to combo
-			toolBar.taxAgencyCombo.setDisabled(true);
+			toolBar.taxAgencyCombo.setEnabled(false);
 			toolBar.fromItem.setEnteredDate(this.startDate);
 			toolBar.toItem.setEnteredDate(this.endDate);
-			toolBar.fromItem.setDisabled(true);
-			toolBar.toItem.setDisabled(true);
+			toolBar.fromItem.setEnabled(false);
+			toolBar.toItem.setEnabled(false);
 			toolBar.updateButton.setEnabled(false);
 			this.serverReport.initRecords(summary);
 		} else {

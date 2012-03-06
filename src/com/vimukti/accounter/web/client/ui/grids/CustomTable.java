@@ -738,19 +738,19 @@ public abstract class CustomTable extends VerticalPanel {
 
 	}
 
-	public void setDisabled(boolean disable) {
+	public void setEnabled(boolean disable) {
 		this.disable = disable;
 		this.addStyleName("disableGrid");
 		if (isMultiSelectionEnable) {
 			Widget widget = this.header.getWidget(0, 0);
 			if (widget instanceof CheckBox) {
-				((CheckBox) widget).setEnabled(!disable);
+				((CheckBox) widget).setEnabled(disable);
 			}
 		}
 		for (int i = 0; i < this.getTableRowCount(); i++) {
 			Widget widget = this.getWidget(i, 0);
 			if (widget instanceof CheckBox) {
-				((CheckBox) widget).setEnabled(!disable);
+				((CheckBox) widget).setEnabled(disable);
 			}
 		}
 	}

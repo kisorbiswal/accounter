@@ -107,7 +107,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	public void createControls() {
 
-		mainForm = new DynamicForm();
+		mainForm = new DynamicForm("mainForm");
 		typePanel = new HorizontalPanel();
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
 		transactionTypeCombo.initCombo(getTransactionsList());
@@ -121,13 +121,13 @@ public class SearchInputDialog extends BaseDialog {
 					}
 				});
 
-		dateField = new DateItem(messages.findBy());
+		dateField = new DateItem(messages.findBy(),"dateField");
 		dateField.setValue(new ClientFinanceDate());
-		findByItem = new TextItem(messages.findBy());
+		findByItem = new TextItem(messages.findBy(),"findByItem");
 		dateField.addStyleName("search_combo_width");
 		amountField = new AmountField(messages.findBy(), this);
 		amountField.addStyleName("search_combo_width");
-		searchTypeForm = new DynamicForm();
+		searchTypeForm = new DynamicForm("searchTypeForm");
 		searchByTypeCombo = new SelectCombo(messages.search());
 		searchByTypeCombo.initCombo(allList());
 		searchByTypeCombo.setComboItem(allList().get(0));
@@ -157,13 +157,13 @@ public class SearchInputDialog extends BaseDialog {
 		matchIfCombo = new SelectCombo(messages.match(), false);
 		matchIfCombo.initCombo(getMatchByNumber());
 		matchIfCombo.setComboItem(getMatchByNumber().get(0));
-		searchTypeForm.setFields(searchByTypeCombo);
+		searchTypeForm.add(searchByTypeCombo);
 
-		findbyForm = new DynamicForm();
-		findbyForm.setFields(amountField);
+		findbyForm = new DynamicForm("findbyForm");
+		findbyForm.add(amountField);
 
-		matchIfForm = new DynamicForm();
-		matchIfForm.setFields(matchIfCombo);
+		matchIfForm = new DynamicForm("matchIfForm");
+		matchIfForm.add(matchIfCombo);
 
 		allFormPanel = new VerticalPanel();
 		allFormPanel.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
@@ -203,7 +203,7 @@ public class SearchInputDialog extends BaseDialog {
 		labelItem = new Label();
 		labelItem.setStyleName("label-status");
 		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
-		mainForm.setFields(transactionTypeCombo);
+		mainForm.add(transactionTypeCombo);
 		transactionTypeCombo.getMainWidget().getParent().getElement()
 				.setAttribute("align", "center");
 		transactionTypeCombo.getMainWidget().getParent().getElement()
@@ -505,54 +505,54 @@ public class SearchInputDialog extends BaseDialog {
 				|| selectItem.equals(messages.creditNoteNo())
 				|| selectItem.equals(messages.chargeNo())
 				|| selectItem.equals(messages.invoiceNo())) {
-			findbyForm.setFields(findByItem);
+			findbyForm.add(findByItem);
 			findByItem.getMainWidget().addStyleName("search_textbox");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
 		} else if (selectItem.equals(messages.date())
 				|| selectItem.equals(messages.dueDate())
 				|| selectItem.equals(messages.invoiceDate())) {
-			findbyForm.setFields(dateField);
+			findbyForm.add(dateField);
 			dateField.setValue(new ClientFinanceDate());
 			dateField.getMainWidget().addStyleName("search_date");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchByDate());
 		} else if (selectItem.equals(Global.get().Customer())) {
-			findbyForm.setFields(customerCombo);
-			matchIfForm.setFields(matchIfCombo);
+			findbyForm.add(customerCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
 		} else if (selectItem.equals(Global.get().Vendor())) {
-			findbyForm.setFields(vendorCombo);
-			matchIfForm.setFields(matchIfCombo);
+			findbyForm.add(vendorCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
 		} else if (selectItem.equals(messages.Account())) {
 			initAccountsCombo();
-			findbyForm.setFields(accountCombo);
+			findbyForm.add(accountCombo);
 			accountCombo.getMainWidget().addStyleName("search_account_combo");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
 		} else if (selectItem.equals(messages.payee())) {
-			findbyForm.setFields(payeeCombo);
+			findbyForm.add(payeeCombo);
 			payeeCombo.getMainWidget().addStyleName("search_account_combo");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
 		} else if (selectItem.equals(messages.productOrService())) {
-			findbyForm.setFields(itemCombo);
+			findbyForm.add(itemCombo);
 			itemCombo.getMainWidget().addStyleName("search_account_combo");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchIfComboList());
 		} else if (selectItem.equals(messages.amount())) {
-			findbyForm.setFields(amountField);
+			findbyForm.add(amountField);
 			amountField.getMainWidget().addStyleName("search_textbox");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchByNumber());
 		} else if (selectItem.equals(messages.journalEntryNo())
 				|| selectItem.equals(messages.refundNo())
 				|| selectItem.equals(messages.saleNo())
 				|| selectItem.equals(messages.estimateNo())) {
-			findbyForm.setFields(findByItem);
+			findbyForm.add(findByItem);
 			findByItem.getMainWidget().addStyleName("search_textbox");
-			matchIfForm.setFields(matchIfCombo);
+			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchByNumber());
 		}
 		matchIfCombo.setSelectedItem(0);
@@ -634,8 +634,9 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	public FormItem<?> getFindByObjType() {
-		for (FormItem<?> formItem : findbyForm.getFormItems()) {
-			return formItem;
+		for (int i = 0; i < findbyForm.getWidgetCount(); i++) {
+			FormItem item = (FormItem) findbyForm.getWidget(i);
+			return item;
 		}
 		return null;
 	}
@@ -704,8 +705,8 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(0));
-		searchTypeForm.setFields(searchByTypeCombo);
-		findbyForm.setFields(amountField);
+		searchTypeForm.add(searchByTypeCombo);
+		findbyForm.add(amountField);
 		setFindByComboOptions(list.get(0));
 	}
 
@@ -741,9 +742,9 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(1));
-		searchTypeForm.setFields(searchByTypeCombo);
+		searchTypeForm.add(searchByTypeCombo);
 		findByItem.addStyleName("search_combo_width");
-		findbyForm.setFields(findByItem);
+		findbyForm.add(findByItem);
 		setFindByComboOptions(list.get(1));
 	}
 
@@ -756,8 +757,8 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(searchAll);
 		searchByTypeCombo.setComboItem(searchAll.get(0));
-		searchTypeForm.setFields(searchByTypeCombo);
-		findbyForm.setFields(findByItem);
+		searchTypeForm.add(searchByTypeCombo);
+		findbyForm.add(findByItem);
 		findByItem.addStyleName("search_combo_width");
 		setFindByComboOptions(searchAll.get(0));
 	}
@@ -776,8 +777,8 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(1));
-		searchTypeForm.setFields(searchByTypeCombo);
-		findbyForm.setFields(findByItem);
+		searchTypeForm.add(searchByTypeCombo);
+		findbyForm.add(findByItem);
 		findByItem.addStyleName("search_combo_width");
 		setFindByComboOptions(list.get(1));
 	}
@@ -815,9 +816,9 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(0));
-		searchTypeForm.setFields(searchByTypeCombo);
+		searchTypeForm.add(searchByTypeCombo);
 		customerCombo.addStyleName("search_combo_width");
-		findbyForm.setFields(customerCombo);
+		findbyForm.add(customerCombo);
 		setFindByComboOptions(list.get(0));
 	}
 
@@ -830,8 +831,8 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(1));
-		searchTypeForm.setFields(searchByTypeCombo);
-		findbyForm.setFields(dateField);
+		searchTypeForm.add(searchByTypeCombo);
+		findbyForm.add(dateField);
 		setFindByComboOptions(list.get(1));
 	}
 
@@ -848,8 +849,8 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(0));
-		searchTypeForm.setFields(searchByTypeCombo);
-		findbyForm.setFields(accountCombo);
+		searchTypeForm.add(searchByTypeCombo);
+		findbyForm.add(accountCombo);
 		setFindByComboOptions(list.get(0));
 	}
 
@@ -868,8 +869,8 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		searchByTypeCombo.initCombo(list);
 		searchByTypeCombo.setComboItem(list.get(0));
-		searchTypeForm.setFields(searchByTypeCombo);
-		findbyForm.setFields(customerCombo);
+		searchTypeForm.add(searchByTypeCombo);
+		findbyForm.add(customerCombo);
 		customerCombo.addStyleName("search_combo_width");
 		setFindByComboOptions(list.get(0));
 	}

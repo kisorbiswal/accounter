@@ -58,7 +58,7 @@ public class ReportSectionView extends BaseHomeView {
 				.companyAndFinancial());
 		companyAndFinancialForm.setWidth("50%");
 		companyAndFinancialForm.setHeight("40%");
-		companyAndFinancialForm.setNumCols(1);
+//		companyAndFinancialForm.setNumCols(1);
 
 		LinkItem profitAndLossLink = new LinkItem();
 		profitAndLossLink.setLinkTitle(messages.profitAndLoss());
@@ -150,7 +150,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		companyAndFinancialForm.setFields(profitAndLossLink, balanceSheetLink,
+		companyAndFinancialForm.add(profitAndLossLink, balanceSheetLink,
 				cashFlowLink, trailBalanceLink,
 				transactionDetailsByAccountsLink,
 				realisedExchangeLossesAndGains,
@@ -163,7 +163,7 @@ public class ReportSectionView extends BaseHomeView {
 		DynamicForm salesForm = UIUtils.form(messages.sales());
 		salesForm.setWidth("50%");
 		salesForm.setHeight("40%");
-		salesForm.setNumCols(1);
+//		salesForm.setNumCols(1);
 
 		LinkItem salesByCustomerSummaryLink = new LinkItem();
 		salesByCustomerSummaryLink.setLinkTitle(messages
@@ -219,7 +219,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		salesForm.setFields(salesByCustomerSummaryLink,
+		salesForm.add(salesByCustomerSummaryLink,
 				salesByCustomerDetailLink, salesByItemSummaryLink,
 				salesByItemDetailLink);
 
@@ -230,7 +230,7 @@ public class ReportSectionView extends BaseHomeView {
 		DynamicForm purchaseForm = UIUtils.form(messages.purchase());
 		purchaseForm.setWidth("50%");
 		purchaseForm.setHeight("40%");
-		purchaseForm.setNumCols(1);
+//		purchaseForm.setNumCols(1);
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
 		purchaseBySupplierSummaryLink.setLinkTitle(messages
@@ -287,7 +287,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		purchaseForm.setFields(purchaseBySupplierSummaryLink,
+		purchaseForm.add(purchaseBySupplierSummaryLink,
 				purchaseBySupplierDetailLink, purchaseByProductSummaryLink,
 				purchaseByProductDetailLink);
 
@@ -298,7 +298,7 @@ public class ReportSectionView extends BaseHomeView {
 		DynamicForm otherForm = UIUtils.form(messages.other());
 		otherForm.setWidth("50%");
 		otherForm.setHeight("40%");
-		otherForm.setNumCols(1);
+//		otherForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(messages
@@ -366,7 +366,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		otherForm.setFields(customerTransactionHistoryLink, arAgingLink,
+		otherForm.add(customerTransactionHistoryLink, arAgingLink,
 				apAgingLink, supplierTransactionHistoryLink,
 				mostProfitableCustomerLink);
 

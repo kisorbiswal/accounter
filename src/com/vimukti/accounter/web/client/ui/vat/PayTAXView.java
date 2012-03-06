@@ -387,7 +387,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setPayVATView(this);
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(isInViewMode());
 		// grid.setHeight("200px");
 		if (!isInViewMode()) {
 			// grid.addFooterValue("Total", 1);
@@ -491,7 +491,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 		}
 		count = 0;
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		for (ClientTransactionPayTAX record : list) {
 			if (record != null) {
 				grid.selectRow(count);
@@ -564,7 +564,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		} else {
 			grid.setRecords(result);
 		}
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 	}
 
 	@Override
