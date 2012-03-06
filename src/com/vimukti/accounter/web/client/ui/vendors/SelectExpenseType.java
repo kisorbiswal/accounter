@@ -49,13 +49,13 @@ public class SelectExpenseType extends BaseDialog {
 		// setting the default value
 		typeRadio.setValue(new String(CREDIT_CARD));
 
-		DynamicForm typeForm = new DynamicForm();
+		DynamicForm typeForm = new DynamicForm("typeForm");
 		typeForm.setWidth("100%");
-		typeForm.setIsGroup(true);
-
-		typeForm.setGroupTitle(messages
-				.selectHowYouPaidForExpense());
-		typeForm.setFields(typeRadio);
+//		typeForm.setIsGroup(true);
+//
+//		typeForm.setGroupTitle(messages
+//				.selectHowYouPaidForExpense());
+		typeForm.add(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");

@@ -187,14 +187,14 @@ public class NewVendorPaymentView extends
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.add(transactionDateItem, transactionNumber);
 
-		VerticalPanel datepanel = new VerticalPanel();
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
+//		datepanel.setCellHorizontalAlignment(dateNoForm,
+//				HasHorizontalAlignment.ALIGN_RIGHT);
+//		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
@@ -304,12 +304,11 @@ public class NewVendorPaymentView extends
 		// payForm.setWidth("100%");
 		// payForm.getCellFormatter().setWidth(0, 0, "160px");
 
-		VerticalPanel leftPanel = new VerticalPanel();
+		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		// leftPanel.setWidth("100%");
-		leftPanel.setSpacing(5);
 		leftPanel.add(payForm);
 
-		VerticalPanel rightPanel = new VerticalPanel();
+		StyledPanel rightPanel = new StyledPanel("rightPanel");
 		rightPanel.add(balForm);
 		this.tdsCombo = new TaxItemCombo(messages.tds(),
 				ClientTAXAgency.TAX_TYPE_TDS);
@@ -333,7 +332,7 @@ public class NewVendorPaymentView extends
 		this.tdsAmount = new AmountLabel(messages.tdsAmount());
 		this.totalAmount = new AmountLabel(messages.total());
 
-		this.tdsPanel = new VerticalPanel();
+		this.tdsPanel = new StyledPanel("tdsPanel");
 		this.tdsPanel.setWidth("100%");
 
 		if (getPreferences().isTDSEnabled()) {
@@ -348,8 +347,8 @@ public class NewVendorPaymentView extends
 			amountsForm.add(tdsAmount);
 			amountsForm.add(totalAmount);
 			tdsPanel.add(amountsForm);
-			tdsPanel.setCellVerticalAlignment(amountsForm,
-					HasVerticalAlignment.ALIGN_BOTTOM);
+//			tdsPanel.setCellVerticalAlignment(amountsForm,
+//					HasVerticalAlignment.ALIGN_BOTTOM);
 			// tdsPanel.setCellHeight(amountsForm, "200px");
 			rightPanel.add(tdsPanel);
 		}
@@ -357,19 +356,17 @@ public class NewVendorPaymentView extends
 		currencyWidget = createCurrencyFactorWidget();
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
-			rightPanel.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
+//			rightPanel.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
 		}
 
-		HorizontalPanel hLay = new HorizontalPanel();
-		hLay.addStyleName("fields-panel");
+		StyledPanel hLay = new StyledPanel("hLay");
 		hLay.setWidth("100%");
-		hLay.setSpacing(10);
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
-		hLay.setCellWidth(leftPanel, "50%");
-		hLay.setCellWidth(rightPanel, "40%");
+//		hLay.setCellWidth(leftPanel, "50%");
+//		hLay.setCellWidth(rightPanel, "40%");
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.setSize("100%", "100%");

@@ -409,7 +409,7 @@ public class CashExpenseView extends
 				CashExpenseView.this.updateNonEditableItems();
 			}
 		};
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -460,7 +460,7 @@ public class CashExpenseView extends
 				CashExpenseView.this.updateNonEditableItems();
 			}
 		};
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -935,8 +935,8 @@ public class CashExpenseView extends
 			checkNo.setEnabled(isInViewMode());
 		}
 		deliveryDateItem.setEnabled(!isInViewMode());
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
