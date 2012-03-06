@@ -14,12 +14,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -29,9 +28,9 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class ConversionBalancesView extends BaseView {
 	private HTML superHeaderHtml, headerHtml, footerCommentHtml;
-	private VerticalPanel headerPanel, bodyPanel, mainPanel, tabBodyPanel,
+	private StyledPanel headerPanel, bodyPanel, mainPanel, tabBodyPanel,
 			footerPanel;
-	private HorizontalPanel headerButtonPanel, footerButtonPanel,
+	private StyledPanel headerButtonPanel, footerButtonPanel,
 			addNewButtonPanel;
 	private Button addComparativeBalancesButton, conversionDateButton,
 			saveButton, cancelButton, addNewButton;
@@ -106,11 +105,11 @@ public class ConversionBalancesView extends BaseView {
 	}
 
 	private void initControls() {
-		headerPanel = new VerticalPanel();
-		bodyPanel = new VerticalPanel();
-		mainPanel = new VerticalPanel();
+		headerPanel = new StyledPanel("headerPanel");
+		bodyPanel = new StyledPanel("bodyPanel");
+		mainPanel = new StyledPanel("mainPanel");
 
-		headerButtonPanel = new HorizontalPanel();
+		headerButtonPanel = new StyledPanel("headerButtonPanel");
 		// grid=new
 		superHeaderHtml = new HTML("");
 		superHeaderHtml.addMouseOverHandler(new MouseOverHandler() {
@@ -144,15 +143,15 @@ public class ConversionBalancesView extends BaseView {
 
 	}
 
-	private VerticalPanel getBodyControls() {
-		tabBodyPanel = new VerticalPanel();
-		addNewButtonPanel = new HorizontalPanel();
-		footerButtonPanel = new HorizontalPanel();
+	private StyledPanel getBodyControls() {
+		tabBodyPanel = new StyledPanel("tabBodyPanel");
+		addNewButtonPanel = new StyledPanel("addNewButtonPanel");
+		footerButtonPanel = new StyledPanel("footerButtonPanel");
 		addNewButton = new Button(messages.addNewLine());
 		saveButton = new Button(messages.save());
 		cancelButton = new Button(messages.cancel());
-		footerPanel = new VerticalPanel();
-		debit_creditForm = new DynamicForm();
+		footerPanel = new StyledPanel("footerPanel");
+		debit_creditForm = new DynamicForm("debit_creditForm");
 		debitLabel = new AmountLabel(messages.totalDebits());
 		creditLabel = new AmountLabel(messages.totalCredits());
 		adjustmentLabel = new AmountLabel(messages.adjustments());
@@ -171,7 +170,7 @@ public class ConversionBalancesView extends BaseView {
 		removeZeroBalance.setValue(messages.removeZeroBalances());
 		removeZeroBalance.addStyleName("falseHyperlink");
 		removeZeroBalance.setShowTitle(false);
-		removeZeroBalance.setDisabled(isInViewMode());
+		removeZeroBalance.setEnabled(isInViewMode());
 		showAllAccounts = new LabelItem();
 		showAllAccounts.setValue(messages.showAllAccounts());
 		showAllAccounts.addStyleName("falseHyperlink");
@@ -181,21 +180,13 @@ public class ConversionBalancesView extends BaseView {
 		footerCommentHtml.addStyleName("footer_comment");
 
 		labelsForm = new DynamicForm();
-		labelsForm.setNumCols(4);
-		labelsForm.setCellSpacing(6);
 		labelsForm.setFields(removeZeroBalance, showAllAccounts);
 		addNewButtonPanel.add(addNewButton);
 		addNewButtonPanel.add(labelsForm);
 
-		debit_creditForm.setNumCols(4);
-		debit_creditForm.setCellSpacing(6);
-		debit_creditForm.setWidth("350px");
 		debit_creditForm.setFields(debitLabel, creditLabel);
 
 		adjustmentsForm = new DynamicForm();
-		adjustmentsForm.setNumCols(2);
-		adjustmentsForm.setCellSpacing(6);
-		adjustmentsForm.setWidth("375px");
 		adjustmentsForm.setFields(adjustmentLabel);
 
 		footerButtonPanel.add(saveButton);

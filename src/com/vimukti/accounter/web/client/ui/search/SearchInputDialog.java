@@ -101,6 +101,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	public SearchInputDialog(String string) {
 		super(string);
+		this.getElement().setId("searchInputDialog");
 		createControls();
 	}
 

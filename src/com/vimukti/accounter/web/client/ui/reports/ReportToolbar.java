@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.Date;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -33,12 +32,10 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	private void createControls() {
-		setSize("100%", "10px");
+		// setSize("100%", "10px");
 		// setBackgroundColor("#dedede");
 
 		form = new DynamicForm();
-		form.setSize("100%", "100%");
-		form.setNumCols(8);
 
 		startDate = Accounter.getStartDate();
 		endDate = Accounter.getCompany().getCurrentFiscalYearEndDate();
@@ -747,14 +744,14 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	// }-*/;
 
 	public native double getWeekEndDate()/*-{
-		var date = new ClientFinanceDate();
-		var day = date.getDay();
-		var remainingDays = 6 - day;
-		var newDate = new ClientFinanceDate();
-		newDate.setDate(date.getDate() + remainingDays);
-		var tmp = newDate.getTime();
-		return tmp;
-	}-*/;
+											var date = new ClientFinanceDate();
+											var day = date.getDay();
+											var remainingDays = 6 - day;
+											var newDate = new ClientFinanceDate();
+											newDate.setDate(date.getDate() + remainingDays);
+											var tmp = newDate.getTime();
+											return tmp;
+											}-*/;
 
 	public abstract void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate);

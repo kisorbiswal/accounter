@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
@@ -13,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 
 public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private WareHouseTransferTable table;
 	private WarehouseCombo fromCombo, toCombo;
 	private TextAreaItem commentArea;
@@ -46,7 +46,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	private void createControls() {
 		listForms = new ArrayList<DynamicForm>();
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		fromCombo = new WarehouseCombo(messages.from()) {
 			@Override
 			public void addItemThenfireEvent(ClientWarehouse obj) {
@@ -67,7 +67,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 					}
 				});
 		fromCombo.setRequired(true);
-		fromCombo.setDisabled(isInViewMode());
+		fromCombo.setEnabled(!isInViewMode());
 		toCombo = new WarehouseCombo(messages.to()) {
 			@Override
 			public void addItemThenfireEvent(ClientWarehouse obj) {
@@ -75,7 +75,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 				fromCombo.initCombo(getCompany().getWarehouses());
 			}
 		};
-		toCombo.setDisabled(isInViewMode());
+		toCombo.setEnabled(!isInViewMode());
 		toCombo.setRequired(true);
 		commentArea = new TextAreaItem();
 		commentArea.setTitle(messages.comment());
@@ -173,8 +173,8 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
 		setData(new ClientStockTransfer());
-		fromCombo.setDisabled(isInViewMode());
-		toCombo.setDisabled(isInViewMode());
+		fromCombo.setEnabled(isInViewMode());
+		toCombo.setEnabled(isInViewMode());
 		commentArea.setDisabled(isInViewMode());
 		table.setDisabled(isInViewMode());
 		table.reDraw();

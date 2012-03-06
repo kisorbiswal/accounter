@@ -60,7 +60,6 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				messages.custom() };
 
 		expenseCombo = new SelectCombo(messages.expenseRealtedTo());
-		expenseCombo.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (int i = 0; i < statusArray.length; i++) {
 			statusList.add(statusArray[i]);
@@ -100,7 +99,6 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				});
 
 		dateRangeCombo = new SelectCombo(messages.dateRange());
-		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
@@ -120,12 +118,10 @@ public class ExpenseReportToolbar extends ReportToolbar {
 				});
 
 		fromItem = new DateItem();
-		fromItem.setHelpInformation(true);
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(messages.from());
 
 		toItem = new DateItem();
-		toItem.setHelpInformation(true);
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -182,8 +178,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		// }
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
+//		this.setCellVerticalAlignment(updateButton,
+//				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override

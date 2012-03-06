@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -29,7 +28,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 	}
 
@@ -46,7 +45,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	}
 
 	/*
-	 * private VerticalPanel getGeneralTab() {
+	 * private StyledPanel getGeneralTab() {
 	 * 
 	 * currencyNameText = new TextItem(currencyConstants.currencyName());
 	 * currencyNameText.setHelpInformation(true);
@@ -109,19 +108,16 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	}
 
 	private void createControls() {
-		currencyNameText = new TextItem(messages.currencyName());
-		currencyNameText.setHelpInformation(true);
-		currencyNameText.setWidth(100);
+		currencyNameText = new TextItem(messages.currencyName(),
+				"currencyNameText");
 		currencyNameText.setRequired(true);
 
-		formalNameText = new TextItem(messages.currencyFormalName());
-		formalNameText.setHelpInformation(true);
-		formalNameText.setWidth(100);
+		formalNameText = new TextItem(messages.currencyFormalName(),
+				"formalNameText");
 		formalNameText.setRequired(true);
 
 		currencyForm = UIUtils.form(messages.currency());
-		currencyForm.setFields(currencyNameText, formalNameText);
-		currencyForm.setWidth("100%");
+		currencyForm.add(currencyNameText, formalNameText);
 		// currencyForm.getCellFormatter().setWidth(0, 0, "205");
 
 		if (getData() != null) {
@@ -131,9 +127,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 			setData(new ClientCurrency());
 		}
 
-		VerticalPanel panel = new VerticalPanel();
-		panel.add(currencyForm);
-		this.add(panel);
+		this.add(currencyForm);
 
 	}
 

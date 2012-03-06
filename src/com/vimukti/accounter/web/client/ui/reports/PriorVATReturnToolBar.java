@@ -70,7 +70,6 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				messages.custom() };
 
 		vatAgencyCombo = new TAXAgencyCombo(messages.chooseVATAgency(), false);
-		vatAgencyCombo.setHelpInformation(true);
 		// vatAgencyCombo.setWidth(40);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -87,7 +86,6 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				});
 
 		dateRangeCombo = new SelectCombo(messages.dateRange());
-		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
@@ -108,7 +106,6 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				});
 
 		endingDateCombo = new SelectCombo(messages.chooseEndingDate());
-		endingDateCombo.setHelpInformation(true);
 		endingDateCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 

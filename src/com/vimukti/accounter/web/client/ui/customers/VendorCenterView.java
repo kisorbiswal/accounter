@@ -14,8 +14,6 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -30,6 +28,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -60,13 +59,13 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	private VendorsListGrid vendorlistGrid;
 	private SelectCombo activeInActiveSelect, trasactionViewSelect,
 			trasactionViewTypeSelect;
-	private VerticalPanel transactionGridpanel;
+	private StyledPanel transactionGridpanel;
 	private VendorTransactionsHistoryGrid vendHistoryGrid;
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 
 	public VendorCenterView() {
-
+		this.getElement().setId("vendorCenterView");
 	}
 
 	@Override
@@ -83,13 +82,12 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	}
 
 	private void creatControls() {
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		VerticalPanel leftVpPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		StyledPanel leftVpPanel = new StyledPanel("leftVpPanel");
 		viewTypeCombo();
 		DynamicForm viewform = new DynamicForm();
 		viewform.setFields(activeInActiveSelect);
 		leftVpPanel.add(viewform);
-		viewform.setNumCols(2);
 		viewform.getElement().getParentElement().setAttribute("align", "left");
 		vendorlistGrid = new VendorsListGrid();
 		vendorlistGrid.init();
@@ -98,7 +96,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		vendorlistGrid.getElement().getParentElement()
 				.setAttribute("width", "15%");
 		vendorlistGrid.setStyleName("cusotmerCentrGrid");
-		VerticalPanel rightVpPanel = new VerticalPanel();
+		StyledPanel rightVpPanel = new StyledPanel("rightVpPanel");
 		detailsPanel = new VendorDetailsPanel(selectedVendor);
 		rightVpPanel.add(detailsPanel);
 		vendorlistGrid
@@ -115,11 +113,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		transactionDateRangeSelector();
 		DynamicForm transactionViewform = new DynamicForm();
 
-		transactionViewform.setNumCols(6);
 		transactionViewform.setFields(trasactionViewSelect,
 				trasactionViewTypeSelect, dateRangeSelector);
 
-		transactionGridpanel = new VerticalPanel();
+		transactionGridpanel = new StyledPanel("transactionGridpanel");
 		transactionGridpanel.add(transactionViewform);
 		vendHistoryGrid = new VendorTransactionsHistoryGrid() {
 			@Override
@@ -152,6 +149,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		vendHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
+		deleteButtonPanel = new StyledPanel("deleteButtonPanel");
+		add(deleteButtonPanel);
 		add(mainPanel);
 
 	}
@@ -188,7 +187,6 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	private void viewTypeCombo() {
 		if (activeInActiveSelect == null) {
 			activeInActiveSelect = new SelectCombo(messages.show());
-			activeInActiveSelect.setHelpInformation(true);
 
 			List<String> activetypeList = new ArrayList<String>();
 			activetypeList.add(messages.active());
@@ -231,7 +229,6 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	private void transactionViewSelectCombo() {
 		if (trasactionViewSelect == null) {
 			trasactionViewSelect = new SelectCombo(messages.currentView());
-			trasactionViewSelect.setHelpInformation(true);
 
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
@@ -269,7 +266,6 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	private void transactionViewTypeSelectCombo() {
 		if (trasactionViewTypeSelect == null) {
 			trasactionViewTypeSelect = new SelectCombo(messages.type());
-			trasactionViewTypeSelect.setHelpInformation(true);
 			getMessagesList();
 			trasactionViewTypeSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {

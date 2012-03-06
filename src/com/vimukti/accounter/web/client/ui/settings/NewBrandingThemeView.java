@@ -11,12 +11,10 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -25,6 +23,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -48,9 +47,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private DecoratedTabPanel tabSet;
 	private RadioButton a4Button, usLetterButton, leftRadioButton,
 			rightRadioButton, cmButton, inchButton;
-	private VerticalPanel checkBoxPanel, radioButtonPanel,
+	private StyledPanel checkBoxPanel, radioButtonPanel,
 			check_radio_textAreaPanel, button_textBoxPanel;
-	private HorizontalPanel mainLayoutPanel, check_radioPanel, hPanel;
+	private StyledPanel mainLayoutPanel, check_radioPanel, hPanel;
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
@@ -152,23 +151,21 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		this.add(mainPanel);
 	}
 
-	private VerticalPanel getGeneralLayout() {
+	private StyledPanel getGeneralLayout() {
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		HTML titleHtml = new HTML(messages.brandingTheme());
 		titleHtml.setStyleName("label-title");
 
-		mainLayoutPanel = new HorizontalPanel();
-		check_radioPanel = new HorizontalPanel();
-		check_radio_textAreaPanel = new VerticalPanel();
-		button_textBoxPanel = new VerticalPanel();
+		check_radioPanel = new StyledPanel("check_radioPanel");
+		check_radio_textAreaPanel = new StyledPanel("check_radio_textAreaPanel");
+		button_textBoxPanel = new StyledPanel("button_textBoxPanel");
 
 		check_radioPanel.add(addCheckBoxTableControls());
 
 		check_radioPanel.add(addRadioBoxTableControls());
 
 		check_radio_textAreaPanel.add(check_radioPanel);
-		check_radioPanel.setSpacing(10);
 		termsLabel = new Label(messages.termsLabel());
 		termsPaymentArea = new TextArea();
 		termsPaymentArea.setStyleName("terms-payment-area");
@@ -350,8 +347,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		}
 	}
 
-	private VerticalPanel addRadioBoxTableControls() {
-		radioButtonPanel = new VerticalPanel();
+	private StyledPanel addRadioBoxTableControls() {
+		radioButtonPanel = new StyledPanel("radioButtonPanel");
 
 		measureLabel = new Label(messages.measure());
 		logoLabel = new Label(messages.logoAlignment());
@@ -378,18 +375,17 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// radioButtonPanel.add(inclusiveButton);
 		radioButtonPanel.add(contactDetailHtml);
 		radioButtonPanel.add(contactDetailsArea);
-		radioButtonPanel.setSpacing(5);
 
 		return radioButtonPanel;
 	}
 
-	private HorizontalPanel getTemplateLayout() {
+	private StyledPanel getTemplateLayout() {
 
-		hPanel = new HorizontalPanel();
+		hPanel = new StyledPanel("hPanel");
 
-		VerticalPanel vPanel1 = new VerticalPanel();
-		VerticalPanel vPanel2 = new VerticalPanel();
-		VerticalPanel vPanel3 = new VerticalPanel();
+		StyledPanel vPanel1 = new StyledPanel("vPanel1");
+		StyledPanel vPanel2 = new StyledPanel("vPanel2");
+		StyledPanel vPanel3 = new StyledPanel("vPanel3");
 
 		DynamicForm invForm = UIUtils.form(messages.type());
 		invoiceCombo = new TemplateCombo(messages.invoiceTemplete(),
@@ -483,9 +479,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		return hPanel;
 	}
 
-	private VerticalPanel addCheckBoxTableControls() {
+	private StyledPanel addCheckBoxTableControls() {
 
-		checkBoxPanel = new VerticalPanel();
+		checkBoxPanel = new StyledPanel("checkBoxPanel");
 
 		taxNumItem = new CheckBox(messages.showTaxNumber());
 		taxNumItem.setChecked(true);
@@ -521,12 +517,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		checkBoxPanel.add(paypalForm);
 
 		checkBoxPanel.setStyleName("rightBorder");
-		checkBoxPanel.setSpacing(5);
 		return checkBoxPanel;
 
 	}
 
-	private HorizontalPanel addTextBoxTableControl() {
+	private StyledPanel addTextBoxTableControl() {
 
 		nameItem = new TextItem(messages.name());
 		nameItem.addStyleName("name-item");
@@ -620,11 +615,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// fontSizeForm.setNumCols(1);
 		// fontSizeForm.setFields(fontSizeBox);
 
-		HorizontalPanel unitsPanel = new HorizontalPanel();
+		StyledPanel unitsPanel = new StyledPanel("unitsPanel");
 		unitsPanel.add(cmButton);
 		unitsPanel.add(inchButton);
 
-		VerticalPanel measurePanel = new VerticalPanel();
+		StyledPanel measurePanel = new StyledPanel("measurePanel");
 		measurePanel.add(measureLabel);
 		// measurePanel.setCellHorizontalAlignment(measureLabel,
 		// HasAlignment.ALIGN_CENTER);
@@ -633,10 +628,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		nameForm = new DynamicForm();
 		// nameForm.setCellSpacing(0);
-		nameForm.setNumCols(2);
 		nameItem.setRequired(true);
 		nameForm.setFields(nameItem);
-		nameForm.setWidth("110px");
 
 		logoNameBox = new TextItem(messages.addLogo());
 		logoNameBox.addClickHandler(new ClickHandler() {
@@ -662,8 +655,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		textBoxTable.setWidget(0, 0, pageSizeLabel);
 		textBoxTable.setWidget(0, 1, a4Button);
 		textBoxTable.setWidget(1, 1, usLetterButton);
-		dynamicForm.setNumCols(2);
-		dynamicForm.setFields(topMarginBox, bottomMarginBox, addressPadBox,
+		dynamicForm.add(topMarginBox, bottomMarginBox, addressPadBox,
 				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
 				statementBox, quoteBox, cashSaleBox, logoNameBox);
 
@@ -689,9 +681,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// textBoxTable.setWidget(10, 0, addLogoLabel);
 		// textBoxTable.setWidget(10, 1, );
 
-		HorizontalPanel textBoxHorizontalPanel = new HorizontalPanel();
+		StyledPanel textBoxStyledPanel = new StyledPanel("textBoxStyledPanel");
 
-		VerticalPanel textBoxPanel = new VerticalPanel();
+		StyledPanel textBoxPanel = new StyledPanel("textBoxPanel");
 		textBoxPanel.add(nameForm);
 		textBoxPanel.add(textBoxTable);
 		textBoxTable.setWidth("86%");

@@ -4,12 +4,11 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -86,31 +85,21 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	}
 
 	private void createControls() {
-		mainPanel.setSpacing(5);
 
 		amtDueText = new AmountField(messages.amountDue(), this,
-				currencyProvider.getTransactionCurrency());
-		amtDueText.setColSpan(1);
+				currencyProvider.getTransactionCurrency(), "amtDueText");
 		amtDueText.setValue(amountAsString(amountDue));
-		amtDueText.setDisabled(true);
-
-		DynamicForm form = new DynamicForm();
-		form.setNumCols(4);
-		form.setWidth("100%");
-		form.setFields(amtDueText);
+		amtDueText.setEnabled(false);
 
 		grid = new CreditsandPaymentsGrid(false,
 				currencyProvider.getTransactionCurrency());
 		grid.isEnable = false;
 		grid.init();
-		grid.setWidth("100%");
-		grid.setHeight("200px");
 		grid.setCanEdit(false);
 		grid.setEditEventType(ListGrid.EDIT_EVENT_CLICK);
 
 		totAmtUseText = new AmountField(messages.totalAmountToUse(), this,
-				currencyProvider.getTransactionCurrency());
-		totAmtUseText.setColSpan(1);
+				currencyProvider.getTransactionCurrency(), "totAmtUseText");
 		totAmtUseText.setValue("");
 		totAmtUseText.setBlurHandler(new BlurHandler() {
 
@@ -124,20 +113,15 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		okbtn.setTitle(messages.ok());
 		cancelBtn.setTitle(messages.close());
 
-		DynamicForm amountUseForm = new DynamicForm();
-		amountUseForm.setFields(totAmtUseText);
+		DynamicForm amountUseForm = new DynamicForm("amountUseForm");
+		amountUseForm.add(totAmtUseText);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setWidth("100%");
-		mainVLay.add(form);
-		ScrollPanel scrollPanel = new ScrollPanel();
-		scrollPanel.addStyleName("credits-scroll-panel");
-		scrollPanel.add(grid);
-		mainVLay.add(scrollPanel);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(amtDueText);
+		mainVLay.add(grid);
 		mainVLay.add(amountUseForm);
 
 		setBodyLayout(mainVLay);
-		setWidth("600px");
 		center();
 	}
 

@@ -2,26 +2,26 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.Set;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
-public class CustomerDetailsPanel extends VerticalPanel {
+public class CustomerDetailsPanel extends FlowPanel {
 	ClientCustomer selectedCustomer;
 	LabelItem name, email, currency, fax, customersince, webpageadress, notes,
 			address;
 	AmountLabel balance, openingBalance;
-	Label heading, custname;
+	Label heading;
 	private ClientAddress payeeAddress;
 	private Set<ClientAddress> addressListOfCustomer;
 	private DynamicForm leftform, rightform;
@@ -31,77 +31,64 @@ public class CustomerDetailsPanel extends VerticalPanel {
 		this.selectedCustomer = clientCustomer;
 		createControls();
 		showCustomerDetails(clientCustomer);
+		setStyleName("customerDetailsPanel");
 	}
 
 	private void createControls() {
 
-		name = new LabelItem();
-		name.setTitle(messages.name());
+		name = new LabelItem(messages.name(), "name");
 
-		email = new LabelItem();
-		email.setTitle(messages.email());
+		email = new LabelItem(messages.email(), "email");
 
 		balance = new AmountLabel(messages.balance());
 
-		currency = new LabelItem();
-		currency.setTitle(messages.currency());
+		currency = new LabelItem(messages.currency(), "currency");
 
-		fax = new LabelItem();
-		fax.setTitle(messages.faxNumber());
+		fax = new LabelItem(messages.faxNumber(), "fax");
 
-		customersince = new LabelItem();
-		customersince.setTitle(messages.payeeSince(Global.get().Customer()));
+		customersince = new LabelItem(messages.payeeSince(Global.get()
+				.Customer()), "customersince");
 
-		webpageadress = new LabelItem();
-		webpageadress.setTitle(messages.webPageAddress());
+		webpageadress = new LabelItem(messages.webPageAddress(),
+				"webpageadress");
 
-		notes = new LabelItem();
-		notes.setTitle(messages.notes());
+		notes = new LabelItem(messages.notes(), "notes");
 
-		address = new LabelItem();
-		address.setTitle(messages.address());
+		address = new LabelItem(messages.address(), "address");
 
 		openingBalance = new AmountLabel(messages.balanceAsOf());
 
-		leftform = new DynamicForm();
-		rightform = new DynamicForm();
+		leftform = new DynamicForm("leftForm");
+		rightform = new DynamicForm("rightform");
 
-		leftform.setFields(name, balance, openingBalance, currency,
-				customersince);
+		leftform.add(name, balance, openingBalance, currency, customersince);
 
-		rightform.setFields(email, fax, webpageadress, notes, address);
+		rightform.add(email, fax, webpageadress, notes, address);
 		rightform.addStyleName("customers_detail_rightpanel");
 
-		HorizontalPanel hp = new HorizontalPanel();
-		HorizontalPanel headingPanel = new HorizontalPanel();
-		headingPanel.addStyleName("customers_detail_panel");
+		StyledPanel hp = new StyledPanel("panel");
+
+		StyledPanel headingPanel = new StyledPanel("customers_detail_panel");
+
 		heading = new Label(messages.payeeDetails(Global.get().Customers())
 				+ " :");
-		custname = new Label();
-		custname.setText(messages.noPayeeSelected(Global.get().Customer()));
+//		custname = new Label();
+//		custname.setText(messages.noPayeeSelected(Global.get().Customer()));
+
 		headingPanel.add(heading);
-		headingPanel.add(custname);
-		headingPanel.setCellWidth(heading, "50%");
-		headingPanel.setCellWidth(custname, "50%");
+		//headingPanel.add(custname);
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
-		leftform.setCellSpacing(10);
-		rightform.setCellSpacing(10);
-		hp.setCellWidth(leftform, "50%");
-		hp.setCellWidth(rightform, "50%");
 
 		add(hp);
-		headingPanel.setWidth("100%");
-		hp.setWidth("100%");
-		this.setWidth("100%");
 		hp.getElement().getParentElement().addClassName("details-Panel");
 	}
 
 	protected void showCustomerDetails(ClientCustomer selectedCustomer) {
 		if (selectedCustomer != null) {
 			addressListOfCustomer = selectedCustomer.getAddress();
-			custname.setText(selectedCustomer.getName());
+			//custname.setText(selectedCustomer.getName());
 			name.setValue(selectedCustomer.getName());
 
 			email.setValue(selectedCustomer.getEmail());
