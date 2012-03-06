@@ -91,7 +91,7 @@ public class ServerConfiguration {
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
 
-			enableEncryption = prop.getProperty("enableEncryption", "true")
+			enableEncryption = prop.getProperty("enableEncryption", "false")
 					.equalsIgnoreCase("true");
 
 			setValidIP(prop.getProperty("validIP", null));

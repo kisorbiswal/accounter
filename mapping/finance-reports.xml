@@ -4550,51 +4550,55 @@
 		CREATE OR REPLACE VIEW
 		JOBS_TRANSACTIONS_VIEW
 		AS
-		SELECT t.company_id                         AS company_id,
-		       p.id                                 AS customer_id,
-		       p.name                               AS customer_name,
-		       j.id                                 AS job_id,
-		       j.job_name                           AS job_name,
-		       t.id                                 AS transaction_id,
-		       t.t_type,
-		       t.t_date,
-		       t.number                             AS t_number,
-		       ti.description                       ti_desc,
+		SELECT T.COMPANY_ID                         AS COMPANY_ID,
+		       P.ID                                 AS CUSTOMER_ID,
+		       P.NAME                               AS CUSTOMER_NAME,
+		       J.ID                                 AS JOB_ID,
+		       J.JOB_NAME                           AS JOB_NAME,
+		       T.ID                                 AS TRANSACTION_ID,
+		       T.T_TYPE,
+		       T.T_DATE,
+		       T.NUMBER                             AS T_NUMBER,
+		       TI.DESCRIPTION                       TI_DESC,
 		       CASE
-		         WHEN ti.TYPE = 1
-		              AND it.TYPE IN ( 2, 4 )
-		              AND t.t_type IN ( 1, 4, 8 ) THEN (SELECT SUM(ip.purchase_cost)
-		                                                FROM   inventory_purchase ip
+		         WHEN TI.TYPE = 1
+		              AND IT.TYPE IN ( 2, 4 )
+		              AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT SUM(IP.PURCHASE_COST)
+		                                                FROM   INVENTORY_PURCHASE IP
 		                                                WHERE
-		         ip.transaction_item_id = ti.id)
-		         WHEN t.t_type = 15 THEN ti.update_amount * t.currency_factor
+		         IP.TRANSACTION_ITEM_ID = TI.ID)
+		         WHEN T.T_TYPE = 15 THEN TI.UPDATE_AMOUNT * T.CURRENCY_FACTOR
 		         ELSE '0'
-		       END                                  AS cost,
-		       ti.update_amount * t.currency_factor AS revenue,
-		       ti.effecting_account                 AS revenue_account,
+		       END                                  AS COST,
+		       TI.UPDATE_AMOUNT * T.CURRENCY_FACTOR AS REVENUE,
+		       TI.EFFECTING_ACCOUNT                 AS REVENUE_ACCOUNT,
 		       CASE
-		         WHEN ti.TYPE = 1 THEN (SELECT effecting_account
-		                                FROM   inventory_purchase ip
-		                                WHERE  ip.transaction_item_id = ti.id
-		                                LIMIT  1)
-		         ELSE ti.effecting_account
-		       END                                  AS cost_account
-		FROM   transaction_item ti
-		       LEFT JOIN item it
-		         ON it.id = ti.item_id
-		       LEFT JOIN TRANSACTION t
-		         ON t.id = ti.transaction_id
-		       LEFT JOIN job j
-		         ON ( ti.job_id = j.id
-		               OR t.job_id = j.id )
-		       LEFT JOIN customer c
-		         ON c.id = j.customer_id
-		       LEFT JOIN payee p
-		         ON p.id = c.id
-		WHERE  j.id IS NOT NULL
-		       AND t.save_status!=204
-		       AND ( t.t_type IN ( 1, 4, 8, 15 )
-		              OR ti.is_billable );  
+		         WHEN TI.TYPE = 1
+		              AND IT.TYPE IN ( 2, 4 )
+		              AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT EFFECTING_ACCOUNT
+		                                                FROM   INVENTORY_PURCHASE IP
+		                                                WHERE
+		         IP.TRANSACTION_ITEM_ID = TI.ID
+		                                                LIMIT  1)
+		         WHEN T.T_TYPE = 15 THEN TI.EFFECTING_ACCOUNT
+		         ELSE NULL
+		       END                                  AS COST_ACCOUNT
+		FROM   TRANSACTION_ITEM TI
+		       LEFT JOIN ITEM IT
+		         ON IT.ID = TI.ITEM_ID
+		       LEFT JOIN TRANSACTION T
+		         ON T.ID = TI.TRANSACTION_ID
+		       LEFT JOIN JOB J
+		         ON ( TI.JOB_ID = J.ID
+		               OR T.JOB_ID = J.ID )
+		       LEFT JOIN CUSTOMER C
+		         ON C.ID = J.CUSTOMER_ID
+		       LEFT JOIN PAYEE P
+		         ON P.ID = C.ID
+		WHERE  J.ID IS NOT NULL
+		       AND T.SAVE_STATUS!=204
+		       AND ( T.T_TYPE IN ( 1, 4, 8, 15 )
+		              OR TI.IS_BILLABLE );  
 
 	]]>
 	</sql-query>
