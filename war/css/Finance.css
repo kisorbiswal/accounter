@@ -2911,5 +2911,8 @@ input.date-field-textbox {
 .import-preview-panel .preview-header {
 	font-size: 1.5em;
 	font-weight: bold;
->>>>>>> single
+}
+.fiscal-year-width{
+	width: 386px !important;
+	margin-bottom: 10px;
 }
