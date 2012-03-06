@@ -6115,4 +6115,6 @@ public interface AccounterMessages extends Messages {
 
 	public String accountisParenttoThisAccount();
 
+	public String notMoveDiffTypeAccount();
+
 }
