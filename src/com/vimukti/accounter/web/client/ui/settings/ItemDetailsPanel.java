@@ -63,8 +63,7 @@ public class ItemDetailsPanel extends VerticalPanel {
 		HorizontalPanel hp = new HorizontalPanel();
 		HorizontalPanel headingPanel = new HorizontalPanel();
 		headingPanel.addStyleName("customers_detail_panel");
-		heading = new Label(messages.payeeDetails(Global.get().Vendors())
-				+ " :");
+		heading = new Label(messages.payeeDetails(messages.inventory()) + " :");
 		headingPanel.add(heading);
 		itemName = new Label();
 		itemName.setText(messages.noItemSelected());
