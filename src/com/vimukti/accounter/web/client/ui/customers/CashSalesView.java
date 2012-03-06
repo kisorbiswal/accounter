@@ -555,7 +555,6 @@ public class CashSalesView extends
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
 				messages.shippingTerms());
-		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
@@ -614,7 +613,7 @@ public class CashSalesView extends
 
 		if (this.taxCode != null && taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(messages.none()))
+				&& !taxCodeSelect.getTitle().equalsIgnoreCase(messages.none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (customer.getPhoneNo() != null)

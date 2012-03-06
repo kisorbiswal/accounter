@@ -393,10 +393,6 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(
-				messages.payeePrePayment(Global.get().Customer()));
-		lab1.setStyleName("label-title");
-		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -630,11 +626,11 @@ public class CustomerPrePaymentView extends
 		}
 
 		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-			checkNo.setDisabled(isInViewMode());
+			checkNo.setEnabled(!isInViewMode());
 			checkNo.setVisible(true);
 		} else {
 			// paymentMethodCombo.setComboItem(paymentMethod);
-			checkNo.setDisabled(true);
+			checkNo.setEnabled(false);
 			checkNo.setVisible(false);
 		}
 
@@ -648,7 +644,7 @@ public class CustomerPrePaymentView extends
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setValue("");
-			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setEnabled(!isInViewMode());
 			jobListCombo.setCustomer(customer);
 		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());

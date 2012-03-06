@@ -122,7 +122,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
+			jobListCombo.setEnabled(true);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
@@ -225,7 +225,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (shippingTerm != null && shippingTermsCombo != null) {
 			shippingTermsCombo.setComboItem(getCompany().getShippingTerms(
 					shippingTerm.getID()));
-			shippingTermsCombo.setDisabled(isInViewMode());
+			shippingTermsCombo.setEnabled(!isInViewMode());
 		}
 	}
 
@@ -270,7 +270,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		} else
 			salesPersonCombo.setValue("");
 
-		salesPersonCombo.setDisabled(isInViewMode());
+		salesPersonCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -359,15 +359,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		listforms = new ArrayList<DynamicForm>();
 		if (locationTrackingEnabled) {
 			locationCombo = createLocationCombo();
-			locationCombo.setHelpInformation(true);
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		}
 
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
-		dateNoForm.setStyleName("datenumber-panel");
+		DynamicForm dateNoForm = new DynamicForm("datenumber-panel");
 		if (!isTemplate) {
-			dateNoForm.setFields(transactionDateItem, transactionNumber);
+			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
@@ -384,22 +381,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
 				.customer()));
 		contactCombo = createContactComboItem();
-		billToTextArea = new TextAreaItem();
+		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(messages.billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
 
-		shipToCombo.setHelpInformation(true);
-
 		shipToAddress = new ShipToForm(null);
-		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
-				.setVerticalAlign(VerticalAlign.TOP);
 
 		// shipToAddress.getCellFormatter().getElement(0, 0)
 		// .setAttribute(messages.width(), "40px");
-		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.businessSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -414,42 +405,36 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				});
 
 		if (transaction != null)
-			shipToAddress.setDisabled(true);
+			shipToAddress.setEnabled(false);
 
-		phoneSelect = new TextItem(messages.phone());
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(isInViewMode());
+		phoneSelect.setEnabled(!isInViewMode());
 
 		custForm = UIUtils.form(Global.get().customer());
-		custForm.setCellSpacing(5);
 		// custForm.setWidth("100%");
 		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
-			custForm.setFields(customerCombo, contactCombo, phoneSelect,
+			custForm.add(customerCombo, contactCombo, phoneSelect,
 					billToTextArea);
 		} else {
-			custForm.setFields(customerCombo);
+			custForm.add(customerCombo);
 		}
 		// custForm.getCellFormatter().setWidth(0, 0, "150");
-		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		custForm.setStyleName("align-form");
 
 		DynamicForm phoneForm = UIUtils.form(messages.phoneNumber());
 		// phoneForm.setWidth("100%");
-		phoneForm.setNumCols(2);
-		phoneForm.setCellSpacing(3);
 
 		statusCombo = new SelectCombo(messages.status());
 		statusCombo.initCombo(getStatusList());
 		statusCombo.setSelectedItem(0);
 
 		customerOrderText = new TextItem(messages.payeeOrderNo(Global.get()
-				.customer()));
+				.customer()), "customerOrderText");
 		customerOrderText.setWidth(50);
-		customerOrderText.setColSpan(1);
-		customerOrderText.setDisabled(isInViewMode());
+		customerOrderText.setEnabled(!isInViewMode());
 
 		shippingTermsCombo = createShippingTermsCombo();
 
@@ -459,70 +444,70 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		payTermsSelect = createPaymentTermsSelectItem();
 		dueDateItem = createDueDateItem();
-		quoteExpiryDate = new DateField(messages.expirationDate());
-		quoteExpiryDate.setHelpInformation(true);
+		quoteExpiryDate = new DateField(messages.expirationDate(),
+				"quoteExpiryDate");
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
 		// formItems.add(quoteExpiryDate);
-		quoteExpiryDate.setDisabled(isInViewMode());
+		quoteExpiryDate.setEnabled(!isInViewMode());
 
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
-		DynamicForm locationform = new DynamicForm();
+		DynamicForm locationform = new DynamicForm("locationform");
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(true);
+			jobListCombo.setEnabled(false);
 			if (type == ClientEstimate.QUOTES
 					|| type == ClientEstimate.SALES_ORDER) {
-				phoneForm.setFields(jobListCombo);
+				phoneForm.add(jobListCombo);
 			} else {
-				locationform.setFields(jobListCombo);
+				locationform.add(jobListCombo);
 			}
 		}
 		if (locationTrackingEnabled) {
 			if (type == ClientEstimate.QUOTES) {
-				phoneForm.setFields(locationCombo);
+				phoneForm.add(locationCombo);
 			} else {
-				locationform.setFields(locationCombo);
+				locationform.add(locationCombo);
 			}
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
 			if (isTemplate) {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
-				} else {
-					phoneForm.setFields(statusCombo, salesPersonCombo,
+					phoneForm.add(statusCombo, dueDateItem, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect);
+				} else {
+					phoneForm
+							.add(statusCombo, salesPersonCombo, payTermsSelect);
 				}
 
 			} else {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+					phoneForm.add(statusCombo, dueDateItem, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect);
 				} else {
-					phoneForm.setFields(statusCombo, salesPersonCombo,
+					phoneForm.add(statusCombo, salesPersonCombo,
 							payTermsSelect, quoteExpiryDate, deliveryDate);
 				}
 			}
 		} else {
 			if (isTemplate) {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+					phoneForm.add(statusCombo, dueDateItem, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect);
 				} else {
-					phoneForm.setFields(statusCombo, payTermsSelect);
+					phoneForm.add(statusCombo, payTermsSelect);
 				}
 			} else {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+					phoneForm.add(statusCombo, dueDateItem, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect);
 				} else {
-					phoneForm.setFields(statusCombo, payTermsSelect,
-							quoteExpiryDate, deliveryDate);
+					phoneForm.add(statusCombo, payTermsSelect, quoteExpiryDate,
+							deliveryDate);
 				}
 			}
 		}
@@ -533,11 +518,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (isTrackClass() && !isClassPerDetailLine()) {
 			if (type == ClientEstimate.QUOTES
 					|| type == ClientEstimate.SALES_ORDER) {
-				phoneForm.setFields(classListCombo);
+				phoneForm.add(classListCombo);
 			} else {
-				locationform.setFields(classListCombo);
+				locationform.add(classListCombo);
 			}
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		}
 
 		Label lab2 = new Label(messages.productAndService());
@@ -598,7 +583,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				QuoteView.this.updateNonEditableItems();
 			}
 		};
-		customerTransactionTable.setDisabled(isInViewMode());
+		customerTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -613,49 +598,43 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		// final TextItem disabletextbox = new TextItem();
 		// disabletextbox.setVisible(false);
 
-		DynamicForm prodAndServiceForm1 = new DynamicForm();
-		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
-				"memoFormAlign");
+		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
 		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setFields(memoTextAreaItem);
+		prodAndServiceForm1.add(memoTextAreaItem);
 
 		VerticalPanel nonEditablePanel = new VerticalPanel();
 		nonEditablePanel.setWidth("100%");
 
-		DynamicForm totalForm = new DynamicForm();
-		totalForm.setNumCols(2);
-		totalForm.setCellSpacing(5);
+		DynamicForm totalForm = new DynamicForm("totalForm");
 
-		DynamicForm netAmountForm = new DynamicForm();
-		netAmountForm.setNumCols(2);
-		netAmountForm.setCellSpacing(5);
+		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
 
-		DynamicForm vatForm = new DynamicForm();
+		DynamicForm vatForm = new DynamicForm("vatForm");
 		nonEditablePanel.addStyleName("boldtext");
 
 		discountField = getDiscountField();
 
 		if (isTrackTax()) {
-			netAmountForm.setFields(netAmountLabel);
+			netAmountForm.add(netAmountLabel);
 			nonEditablePanel.add(netAmountForm);
 			if (isTaxPerDetailLine()) {
 				nonEditablePanel.add(vatTotalNonEditableText);
 			} else {
-				vatForm.setFields(taxCodeSelect);
+				vatForm.add(taxCodeSelect);
 				nonEditablePanel.add(salesTaxTextNonEditable);
 			}
-			vatForm.setFields(vatinclusiveCheck);
+			vatForm.add(vatinclusiveCheck);
 		}
 
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
-				vatForm.setFields(discountField);
+				vatForm.add(discountField);
 				nonEditablePanel.add(vatForm);
 			}
 		}
-		totalForm.setFields(transactionTotalBaseCurrencyText);
+		totalForm.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.setFields(foreignCurrencyamountLabel);
+			totalForm.add(foreignCurrencyamountLabel);
 		}
 
 		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
@@ -712,7 +691,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			rightVLay.add(currencyWidget);
 			rightVLay.setCellHorizontalAlignment(currencyWidget,
 					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.addStyleName("fields-panel");
@@ -761,13 +740,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	protected DateField createDueDateItem() {
 
-		DateField dateItem = new DateField(messages.dueDate());
+		DateField dateItem = new DateField(messages.dueDate(), "dateItem");
 		dateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
 				.getViewName()));
 		dateItem.setTitle(messages.dueDate());
-		dateItem.setColSpan(1);
 
-		dateItem.setDisabled(isInViewMode());
+		dateItem.setEnabled(!isInViewMode());
 
 		// formItems.add(dateItem);
 
@@ -926,7 +904,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			ClientCompany company = getCompany();
 			initTransactionsItems();
@@ -1038,21 +1016,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
-			customerTransactionTable.setDisabled(isInViewMode());
-			transactionDateItem.setDisabled(isInViewMode());
-			transactionNumber.setDisabled(isInViewMode());
-			phoneSelect.setDisabled(isInViewMode());
-			billToTextArea.setDisabled(isInViewMode());
-			customerCombo.setDisabled(isInViewMode());
-			payTermsSelect.setDisabled(isInViewMode());
-			salesPersonCombo.setDisabled(isInViewMode());
-			memoTextAreaItem.setDisabled(isInViewMode());
-			contactCombo.setDisabled(isInViewMode());
-			quoteExpiryDate.setDisabled(isInViewMode());
-			deliveryDate.setDisabled(isInViewMode());
-			taxCodeSelect.setDisabled(isInViewMode());
-			statusCombo.setDisabled(isInViewMode());
-			customerOrderText.setDisabled(isInViewMode());
+			customerTransactionTable.setEnabled(!isInViewMode());
+			transactionDateItem.setEnabled(!isInViewMode());
+			transactionNumber.setEnabled(!isInViewMode());
+			phoneSelect.setEnabled(!isInViewMode());
+			billToTextArea.setEnabled(!isInViewMode());
+			customerCombo.setEnabled(!isInViewMode());
+			payTermsSelect.setEnabled(!isInViewMode());
+			salesPersonCombo.setEnabled(!isInViewMode());
+			memoTextAreaItem.setEnabled(!isInViewMode());
+			contactCombo.setEnabled(!isInViewMode());
+			quoteExpiryDate.setEnabled(!isInViewMode());
+			deliveryDate.setEnabled(!isInViewMode());
+			taxCodeSelect.setEnabled(!isInViewMode());
+			statusCombo.setEnabled(!isInViewMode());
+			customerOrderText.setEnabled(!isInViewMode());
 			statusCombo.initCombo(getStatusList());
 		}
 		if (locationTrackingEnabled)
@@ -1074,7 +1052,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
 		customerCombo.initCombo(result);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -1277,38 +1255,38 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		customerCombo.setDisabled(isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isSalesPersonEnabled())
-			salesPersonCombo.setDisabled(isInViewMode());
-		payTermsSelect.setDisabled(isInViewMode());
-		deliveryDate.setDisabled(isInViewMode());
-		quoteExpiryDate.setDisabled(isInViewMode());
-		taxCodeSelect.setDisabled(isInViewMode());
-		memoTextAreaItem.setDisabled(isInViewMode());
-		// priceLevelSelect.setDisabled(isInViewMode());
-		customerTransactionTable.setDisabled(isInViewMode());
+			salesPersonCombo.setEnabled(!isInViewMode());
+		payTermsSelect.setEnabled(!isInViewMode());
+		deliveryDate.setEnabled(!isInViewMode());
+		quoteExpiryDate.setEnabled(!isInViewMode());
+		taxCodeSelect.setEnabled(!isInViewMode());
+		memoTextAreaItem.setEnabled(!isInViewMode());
+		// priceLevelSelect.setEnabled(!isInViewMode());
+		customerTransactionTable.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
-		discountField.setDisabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (locationCombo != null) {
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		}
 		if (classListCombo != null) {
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		}
-		statusCombo.setDisabled(isInViewMode());
+		statusCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
 		}
-		customerOrderText.setDisabled(isInViewMode());
-		shippingTermsCombo.setDisabled(isInViewMode());
-		dueDateItem.setDisabled(isInViewMode());
+		customerOrderText.setEnabled(!isInViewMode());
+		shippingTermsCombo.setEnabled(!isInViewMode());
+		dueDateItem.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

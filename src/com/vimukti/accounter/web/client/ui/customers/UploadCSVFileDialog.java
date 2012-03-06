@@ -86,8 +86,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 		selectFileToUpload.setName("Import");
 
 		panel.setSpacing(5);
-		DynamicForm form = new DynamicForm();
-		form.setFields(typeCombo);
+		DynamicForm form = new DynamicForm("form");
+		form.add(typeCombo);
 
 		panel.add(form);
 		panel.setSpacing(5);

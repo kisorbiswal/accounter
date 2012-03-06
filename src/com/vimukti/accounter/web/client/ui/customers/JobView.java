@@ -77,47 +77,41 @@ public class JobView extends BaseView<ClientJob> {
 		Label titleLabel = new Label(messages.job());
 		titleLabel.setStyleName("label-title");
 
-		jobForm = new DynamicForm();
-		form = new DynamicForm();
+		jobForm = new DynamicForm("jobForm");
+		form = new DynamicForm("form");
 
-		jobNameText = new TextItem(messages.jobName());
-		jobNameText.setToolTip(messages.jobName());
-		jobNameText.setHelpInformation(true);
+		jobNameText = new TextItem(messages.jobName(), "jobNameText");
 		jobNameText.setRequired(true);
-		jobNameText.setDisabled(isInViewMode());
+		jobNameText.setEnabled(!isInViewMode());
 
 		customerCombo = new CustomerCombo(Global.get().Customer());
-		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 
 		jobstatusCombo = createJobStatusSelectItem();
 
-		startDate = new DateField(messages.startDate());
-		startDate.setHelpInformation(true);
+		startDate = new DateField(messages.startDate(), "startDate");
 		ClientFinanceDate start_date = new ClientFinanceDate();
 		start_date.setDay(start_date.getDay());
 		startDate.setDatethanFireEvent(start_date);
-		startDate.setDisabled(isInViewMode());
-		projectEndDate = new DateField(messages.projectendDate());
-		projectEndDate.setHelpInformation(true);
+		startDate.setEnabled(!isInViewMode());
+		projectEndDate = new DateField(messages.projectendDate(),
+				"projectEndDate");
 		ClientFinanceDate projectEnd_date = new ClientFinanceDate();
 		projectEnd_date.setDay(projectEnd_date.getDay());
 		projectEndDate.setDatethanFireEvent(projectEnd_date);
-		projectEndDate.setDisabled(isInViewMode());
-		endDate = new DateField(messages.endDate());
-		endDate.setHelpInformation(true);
+		projectEndDate.setEnabled(!isInViewMode());
+		endDate = new DateField(messages.endDate(), "endDate");
 		ClientFinanceDate end_date = new ClientFinanceDate();
 		end_date.setDay(end_date.getDay());
 		endDate.setDatethanFireEvent(end_date);
-		endDate.setDisabled(isInViewMode());
-		statusCheck = new CheckboxItem(messages.active());
+		endDate.setEnabled(!isInViewMode());
+		statusCheck = new CheckboxItem(messages.active(), "statusCheck");
 		statusCheck.setValue(true);
-		statusCheck.setDisabled(isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
 
-		jobForm.setFields(jobNameText, statusCheck, jobstatusCombo,
-				customerCombo);
-		form.setFields(startDate, projectEndDate, endDate);
+		jobForm.add(jobNameText, statusCheck, jobstatusCombo, customerCombo);
+		form.add(startDate, projectEndDate, endDate);
 
 		VerticalPanel leftVLay = new VerticalPanel();
 		leftVLay.setWidth("100%");
@@ -200,13 +194,13 @@ public class JobView extends BaseView<ClientJob> {
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		jobNameText.setDisabled(isInViewMode());
-		statusCheck.setDisabled(isInViewMode());
-		jobstatusCombo.setDisabled(isInViewMode());
-		startDate.setDisabled(isInViewMode());
-		endDate.setDisabled(isInViewMode());
-		projectEndDate.setDisabled(isInViewMode());
-		customerCombo.setDisabled(isInViewMode());
+		jobNameText.setEnabled(!isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
+		jobstatusCombo.setEnabled(!isInViewMode());
+		startDate.setEnabled(!isInViewMode());
+		endDate.setEnabled(!isInViewMode());
+		projectEndDate.setEnabled(!isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
@@ -294,7 +288,6 @@ public class JobView extends BaseView<ClientJob> {
 		final SelectCombo jobStatusSelect = new SelectCombo(
 				messages.jobStatus());
 
-		jobStatusSelect.setHelpInformation(true);
 		jobStatusSelect.setRequired(true);
 		jobStatusSelect.initCombo(jobstatusList);
 		jobStatusSelect.setDefaultToFirstOption(true);
@@ -310,7 +303,7 @@ public class JobView extends BaseView<ClientJob> {
 					}
 
 				});
-		jobStatusSelect.setDisabled(isInViewMode());
+		jobStatusSelect.setEnabled(!isInViewMode());
 
 		return jobStatusSelect;
 

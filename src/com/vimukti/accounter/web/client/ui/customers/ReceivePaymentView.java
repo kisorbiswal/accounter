@@ -114,7 +114,7 @@ public class ReceivePaymentView extends
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
+			jobListCombo.setEnabled(true);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(selectedCustomer);
 		}
@@ -473,7 +473,7 @@ public class ReceivePaymentView extends
 			}
 		};
 		gridView.setCustomer(this.getCustomer());
-		gridView.setDisabled(isInViewMode());
+		gridView.setEnabled(!isInViewMode());
 	}
 
 	protected ReceivePaymentTransactionList getRecievePayment(String attribute) {
@@ -514,7 +514,7 @@ public class ReceivePaymentView extends
 		}
 		lab.setStyleName("label-title");
 		// transactionDateItem = createTransactionDateItem();
-		transactionDateItem = new DateField(messages.date());
+		transactionDateItem = new DateField(messages.date(),"transactionDateItem");
 		transactionDateItem
 				.setToolTip(messages.selectDateWhenTransactioCreated(this
 						.getAction().getViewName()));
@@ -558,10 +558,8 @@ public class ReceivePaymentView extends
 
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
-		dateNoForm.setStyleName("datenumber-panel");
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
+		DynamicForm dateNoForm = new DynamicForm("datenumber-panel");
+		dateNoForm.add(transactionDateItem, transactionNumber);
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);

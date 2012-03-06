@@ -135,16 +135,18 @@ public class RecurringTransactionDialog extends
 
 		dynamicForms = new ArrayList<DynamicForm>();
 
-		nameField = new TextItem(messages.name());
+		nameField = new TextItem(messages.name(), "nameField");
 		nameField.setRequired(true);
 
-		daysInAdvanceField = new TextItem(messages.daysInAdvance());
-		daysInAdvanceLabel = new LabelItem();
+		daysInAdvanceField = new TextItem(messages.daysInAdvance(),
+				"daysInAdvanceField");
+		daysInAdvanceLabel = new LabelItem("", "daysInAdvanceLabel");
 		daysInAdvanceLabel.setShowTitle(false);
 		daysInAdvanceLabel.setValue(messages.toCreate());
 
 		notifyAboutCreatedTransactions = new CheckboxItem(
-				messages.notifyAboutCreatedTransactions());
+				messages.notifyAboutCreatedTransactions(),
+				"notifyAboutCreatedTransactions");
 
 		daysBeforeToRemind = new TextItem(messages.remindMe(),
 				"daysBeforeToRemind");

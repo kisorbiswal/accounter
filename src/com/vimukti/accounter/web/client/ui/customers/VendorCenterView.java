@@ -86,8 +86,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel leftVpPanel = new StyledPanel("leftVpPanel");
 		viewTypeCombo();
-		DynamicForm viewform = new DynamicForm();
-		viewform.setFields(activeInActiveSelect);
+		DynamicForm viewform = new DynamicForm("viewform");
+		viewform.add(activeInActiveSelect);
 		leftVpPanel.add(viewform);
 		viewform.getElement().getParentElement().setAttribute("align", "left");
 		vendorlistGrid = new VendorsListGrid();
@@ -112,10 +112,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		transactionViewSelectCombo();
 		transactionViewTypeSelectCombo();
 		transactionDateRangeSelector();
-		DynamicForm transactionViewform = new DynamicForm();
+		DynamicForm transactionViewform = new DynamicForm("transactionViewform");
 
-		transactionViewform.setFields(trasactionViewSelect,
-				trasactionViewTypeSelect, dateRangeSelector);
+		transactionViewform.add(trasactionViewSelect, trasactionViewTypeSelect,
+				dateRangeSelector);
 
 		transactionGridpanel = new StyledPanel("transactionGridpanel");
 		transactionGridpanel.add(transactionViewform);

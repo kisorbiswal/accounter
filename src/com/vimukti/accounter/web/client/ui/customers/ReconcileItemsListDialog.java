@@ -135,17 +135,17 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		search_nameLabel = new Label("Search by name");
 		panel.add(search_nameLabel);
 
-		search_name = new TextItem();
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setFields(search_name);
+		search_name = new TextItem("", "search_name");
+		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
+		dynamicForm.add(search_name);
 		panel.add(dynamicForm);
 
 		search_amountLabel = new Label("Search by amount");
 		panel.add(search_amountLabel);
 
-		search_amount = new TextItem();
-		DynamicForm dynamicForm1 = new DynamicForm();
-		dynamicForm1.setFields(search_amount);
+		search_amount = new TextItem("", "search_amount");
+		DynamicForm dynamicForm1 = new DynamicForm("dynamicForm1");
+		dynamicForm1.add(search_amount);
 		panel.add(dynamicForm1);
 
 		goBtn = new Button(messages.search());
@@ -188,10 +188,10 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		v_amt_panel.add(v_trans_panel);
 		vPanel = new VerticalPanel();
 
-		form_totalAmt = new DynamicForm();
-		form_moneyspent = new DynamicForm();
-		adjustment_amt = new TextItem("Adjustment");
-		bankfees_amt = new TextItem(messages.amount());
+		form_totalAmt = new DynamicForm("form_totalAmt");
+		form_moneyspent = new DynamicForm("form_moneyspent");
+		adjustment_amt = new TextItem("Adjustment", "adjustment_amt");
+		bankfees_amt = new TextItem(messages.amount(), "bankfees_amt");
 
 		adjustment_panel = new VerticalPanel();
 
@@ -305,8 +305,8 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 	private void showAdjustmentAmount() {
 		adjustment_panel.clear();
 
-		DynamicForm f = new DynamicForm();
-		f.setFields(adjustment_amt);
+		DynamicForm f = new DynamicForm("f");
+		f.add(adjustment_amt);
 		adjustment_panel.add(f);
 
 		adjustment_amt.addBlurHandler(new BlurHandler() {
@@ -524,8 +524,8 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 	 */
 	private void displayBankFeesDetails() {
 
-		new DynamicForm();
-		DynamicForm leftDynamicForm = new DynamicForm();
+		new DynamicForm("");
+		DynamicForm leftDynamicForm = new DynamicForm("leftDynamicForm");
 
 		if (record.getReceivedAmount() != 0) {
 			customerComboTo = new CustomerCombo(messages.to());
@@ -538,7 +538,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 							customer = selectItem;
 						}
 					});
-			leftDynamicForm.setFields(customerComboTo);
+			leftDynamicForm.add(customerComboTo);
 		} else {
 			vendorComboTo = new VendorCombo(messages.to());
 			vendorComboTo
@@ -549,10 +549,10 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 							vendor = selectItem;
 						}
 					});
-			leftDynamicForm.setFields(vendorComboTo);
+			leftDynamicForm.add(vendorComboTo);
 		}
 
-		description = new TextItem(messages.description());
+		description = new TextItem(messages.description(), "description");
 		accountCombo = new BankAccountCombo(messages.Account());
 		List<ClientAccount> accounts = Accounter.getCompany().getAccounts();
 		accountCombo.initCombo(accounts);
@@ -588,12 +588,12 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		});
 
 		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
-		leftDynamicForm.setFields(description, accountCombo);
-		DynamicForm rightDynamicForm = new DynamicForm();
+		leftDynamicForm.add(description, accountCombo);
+		DynamicForm rightDynamicForm = new DynamicForm("rightDynamicForm");
 		if (getPreferences().isTrackTax()) {
-			rightDynamicForm.setFields(taxRateCombo, regionCombo, bankfees_amt);
+			rightDynamicForm.add(taxRateCombo, regionCombo, bankfees_amt);
 		} else {
-			rightDynamicForm.setFields(regionCombo, bankfees_amt);
+			rightDynamicForm.add(regionCombo, bankfees_amt);
 		}
 
 		horizontalPanel.add(leftDynamicForm);

@@ -43,6 +43,7 @@ public class VendorDetailsPanel extends VerticalPanel {
 
 		email = new LabelItem(messages.email(), "email");
 
+
 		balance = new AmountLabel(messages.balance());
 
 		currency = new LabelItem(messages.currency(), "currency");

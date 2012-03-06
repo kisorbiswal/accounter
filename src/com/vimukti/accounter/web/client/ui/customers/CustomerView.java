@@ -784,7 +784,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				return CustomerView.this.isInViewMode();
 			}
 		};
-		gridView.setDisabled(isInViewMode());
+		gridView.setEnabled(!isInViewMode());
 
 		StyledPanel panel = new StyledPanel("panel") {
 			@Override
