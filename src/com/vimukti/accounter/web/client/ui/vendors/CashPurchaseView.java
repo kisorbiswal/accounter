@@ -288,7 +288,7 @@ public class CashPurchaseView extends
 			}
 		};
 
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -341,7 +341,7 @@ public class CashPurchaseView extends
 			}
 		};
 
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -1040,8 +1040,8 @@ public class CashPurchaseView extends
 			checkNoText.setValue(messages.toBePrinted());
 		}
 		deliveryDateItem.setEnabled(!isInViewMode());
-		vendorAccountTransactionTable.setDisabled(isInViewMode());
-		vendorItemTransactionTable.setDisabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
+		vendorItemTransactionTable.setEnabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
