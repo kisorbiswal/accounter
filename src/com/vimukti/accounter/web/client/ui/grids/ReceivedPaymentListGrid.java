@@ -275,9 +275,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			return paymentMethod1.compareTo(paymentMethod2);
 
 		case 5:
-			String checkNumber1 = obj1.getCheckNumber().toLowerCase();
-			String checkNumber2 = obj2.getCheckNumber().toLowerCase();
-			return checkNumber1.compareTo(checkNumber2);
+			Integer num = Integer.parseInt(obj1.getCheckNumber());
+			Integer cnum = Integer.parseInt(obj2.getCheckNumber());
+			return num.compareTo(cnum);
 
 		case 6:
 			Double amt1 = obj1.getAmountPaid();

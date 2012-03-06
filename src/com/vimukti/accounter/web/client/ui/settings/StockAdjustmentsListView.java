@@ -48,6 +48,7 @@ public class StockAdjustmentsListView extends
 					@Override
 					public void onResultSuccess(
 							ArrayList<StockAdjustmentList> result) {
+						grid.removeAllRecords();
 						grid.removeLoadingImage();
 						if (result != null && !result.isEmpty()) {
 							grid.addRecords(result);
