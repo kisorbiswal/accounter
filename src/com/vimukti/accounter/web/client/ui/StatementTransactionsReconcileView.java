@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -487,27 +486,27 @@ public class StatementTransactionsReconcileView extends
 
 		this.account = takenaccount;
 		grid.setAccount(takenaccount);
-		Accounter.createReportService().getAccountRegister(null, null,
-				takenaccount.getID(),
-				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
-
-					@Override
-					public void onException(AccounterException caught) {
-						Accounter.showError(messages
-								.failedtoGetListofAccounts(takenaccount
-										.getName()));
-
-					}
-
-					@Override
-					public void onResultSuccess(
-							ArrayList<AccountRegister> result) {
-						accountRegister = result;
-						getAccountRegisterGrid(result);
-
-					}
-
-				});
+		// Accounter.createReportService().getAccountRegister(null, null,0,-1,
+		// takenaccount.getID(),
+		// new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
+		//
+		// @Override
+		// public void onException(AccounterException caught) {
+		// Accounter.showError(messages
+		// .failedtoGetListofAccounts(takenaccount
+		// .getName()));
+		//
+		// }
+		//
+		// @Override
+		// public void onResultSuccess(
+		// ArrayList<AccountRegister> result) {
+		// accountRegister = result;
+		// getAccountRegisterGrid(result);
+		//
+		// }
+		//
+		// });
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
 
