@@ -25,15 +25,14 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	}
 
 	private void createControls() {
-		firstNameTextItem = new TextItem(messages.firstName());
+		firstNameTextItem = new TextItem(messages.firstName(),"firstNameTextItem");
 		firstNameTextItem.setValue(clientUser.getFirstName());
-		lastNameTextItem = new TextItem(messages.lastName());
+		lastNameTextItem = new TextItem(messages.lastName(),"lastNameTextItem");
 		lastNameTextItem.setValue(clientUser.getLastName());
 		mainPanel = new VerticalPanel();
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 		form.setStyleName("edit_user_profile");
-		form.setNumCols(2);
-		form.setFields(firstNameTextItem, lastNameTextItem);
+		form.add(firstNameTextItem, lastNameTextItem);
 		mainPanel.add(form);
 		okbtn.setText(messages.save());
 		setBodyLayout(mainPanel);

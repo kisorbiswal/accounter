@@ -4,6 +4,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ItemMergeDialog;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.VendorMergeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -17,10 +19,10 @@ public class MergeVendorAction extends Action {
 	@Override
 	public void run() {
 		if (Accounter.hasPermission(Features.MERGING)) {
-			VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
-					messages.mergeVendors(Global.get().vendors()),
-					messages.payeeMergeDescription(Global.get().vendor()));
-			vendorMergeDialog.show();
+			
+			VendorMergeDialog customerMergeDialog = new VendorMergeDialog();
+			MainFinanceWindow.getViewManager().showView(customerMergeDialog, data,
+					isDependent, MergeVendorAction.this);
 		} else {
 			Accounter.showSubscriptionWarning();
 		}

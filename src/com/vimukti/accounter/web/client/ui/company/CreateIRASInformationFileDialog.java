@@ -32,17 +32,17 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 
 		verticalPanel = new VerticalPanel();
 
-		mainForm = new DynamicForm();
+		mainForm = new DynamicForm("mainForm");
 
 		Label label = new Label(messages.selectTheDateRange());
 
-		startDateFiled = new DateField(messages.startDate());
+		startDateFiled = new DateField(messages.startDate(),"startDateFiled");
 		startDateFiled.setValue(new ClientFinanceDate());
 
-		endDateField = new DateField(messages.endDate());
+		endDateField = new DateField(messages.endDate(),"endDateField");
 		endDateField.setValue(new ClientFinanceDate());
 
-		mainForm.setFields(startDateFiled, endDateField);
+		mainForm.add(startDateFiled, endDateField);
 
 		verticalPanel.add(label);
 		verticalPanel.add(mainForm);
