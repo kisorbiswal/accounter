@@ -426,17 +426,17 @@ public class CustomerPrePaymentView extends
 
 		DynamicForm balForm = new DynamicForm("balForm");
 		if (locationTrackingEnabled)
-			balForm.setFields(locationCombo);
+			balForm.add(locationCombo);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass()) {
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
-			jobListCombo.setDisabled(true);
-			balForm.setFields(jobListCombo);
+			jobListCombo.setEnabled(false);
+			balForm.add(jobListCombo);
 		}
-		balForm.setFields(bankBalText, customerBalText);
+		balForm.add(bankBalText, customerBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// payment
@@ -724,11 +724,11 @@ public class CustomerPrePaymentView extends
 		// }
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (isTrackClass())
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setEnabled(!isInViewMode());
 		}
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());

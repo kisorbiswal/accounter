@@ -195,7 +195,6 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 					}
 
 				});
-		return true;
 	}
 
 	@Override
@@ -229,6 +228,12 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

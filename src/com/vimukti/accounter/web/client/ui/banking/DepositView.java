@@ -206,12 +206,13 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 		locationCombo = createLocationCombo();
 
-		if (locationTrackingEnabled)
-			depositToForm.setFields(locationCombo);
-		depositToForm.setItems(paymentMethodCombo);
+		if (locationTrackingEnabled){
+			depositToForm.add(locationCombo);
+		}
+		depositToForm.add(paymentMethodCombo);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass()) {
-			depositToForm.setItems(classListCombo);
+			depositToForm.add(classListCombo);
 		}
 		leftPanel.add(depositToForm);
 		currencyWidget = createCurrencyFactorWidget();
@@ -576,9 +577,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		paymentMethodCombo.setEnabled(!isInViewMode());
 		depositTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(this.isInViewMode());
-		transactionDepositTable.setDisabled(this.isInViewMode());
-		currencyWidget.setDisabled(this.isInViewMode());
-		classListCombo.setDisabled(isInViewMode());
+		transactionDepositTable.setEnabled(!this.isInViewMode());
+		currencyWidget.setEnabled(!this.isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

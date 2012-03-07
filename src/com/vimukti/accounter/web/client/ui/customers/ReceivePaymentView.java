@@ -649,12 +649,12 @@ public class ReceivePaymentView extends
 		// depoForm.getCellFormatter().setWidth(0, 0, "203px");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass()) {
-			depoForm.setFields(classListCombo);
+			depoForm.add(classListCombo);
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
-			jobListCombo.setDisabled(true);
-			depoForm.setFields(jobListCombo);
+			jobListCombo.setEnabled(false);
+			depoForm.add(jobListCombo);
 		}
 
 		depoForm.add(tdsAmount);
@@ -1164,16 +1164,16 @@ public class ReceivePaymentView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass()) {
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		}
-		tdsAmount.setDisabled(isInViewMode());
+		tdsAmount.setEnabled(!isInViewMode());
 		tdsAmount.setVisible(isTDSEnable());
 		amtText.setAmount(0.00D);
 		tdsAmount.setAmount(0.0D);
 		paymentAmountChanged(0.00D);
 		updateTotalWithTDS();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setEnabled(!isInViewMode());
 		}
 	}
 

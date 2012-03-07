@@ -273,7 +273,7 @@ public class CustomerRefundView extends
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
@@ -680,10 +680,10 @@ public class CustomerRefundView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass()) {
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		}
 		super.onEdit();
-		jobListCombo.setDisabled(isInViewMode());
+		jobListCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override

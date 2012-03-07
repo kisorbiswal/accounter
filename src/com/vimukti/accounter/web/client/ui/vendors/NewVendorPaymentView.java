@@ -236,10 +236,10 @@ public class NewVendorPaymentView extends
 		// balForm.setWidth("100%");
 		// if (isMultiCurrencyEnabled())
 		// balForm.setFields(currencyCombo);
-		balForm.setFields(endBalText, vendorBalText);
+		balForm.add(endBalText, vendorBalText);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass()) {
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
@@ -823,11 +823,11 @@ public class NewVendorPaymentView extends
 		}
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
-		tdsCombo.setDisabled(false);
-		amountIncludeTds.setDisabled(false);
+			locationCombo.setEnabled(!isInViewMode());
+		tdsCombo.setEnabled(true);
+		amountIncludeTds.setEnabled(true);
 		if (isTrackClass()) {
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		}
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());

@@ -1282,7 +1282,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		statusCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setEnabled(!isInViewMode());
 		}
 		customerOrderText.setEnabled(!isInViewMode());
 		shippingTermsCombo.setEnabled(!isInViewMode());

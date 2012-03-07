@@ -446,7 +446,7 @@ public class VendorBillView extends
 
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			vendorForm.setFields(classListCombo);
+			vendorForm.add(classListCombo);
 		}
 
 		// formItems.add(vendorCombo);
@@ -1355,7 +1355,7 @@ public class VendorBillView extends
 			currencyWidget.setEnabled(isInViewMode());
 		}
 		transactionsTree.setEnabled(!isInViewMode());
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

@@ -371,10 +371,10 @@ public class VendorCreditMemoView extends
 
 		vendorForm = UIUtils.form(Global.get().vendor());
 		// vendorForm.setWidth("50%");
-		vendorForm.setFields(vendorCombo, contactCombo, phoneSelect);
+		vendorForm.add(vendorCombo, contactCombo, phoneSelect);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			vendorForm.setFields(classListCombo);
+			vendorForm.add(classListCombo);
 		}
 
 		// vendorForm.getCellFormatter().getElement(0, 0).setAttribute(
@@ -778,7 +778,7 @@ public class VendorCreditMemoView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

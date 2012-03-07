@@ -423,7 +423,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	 */
 	public ClassListCombo createAccounterClassListCombo() {
 		classListCombo = new ClassListCombo(messages.accounterClass(), true);
-		classListCombo.setHelpInformation(true);
 		classListCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
 
@@ -460,7 +459,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 					}
 				});
 
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 
 		return classListCombo;
 	}

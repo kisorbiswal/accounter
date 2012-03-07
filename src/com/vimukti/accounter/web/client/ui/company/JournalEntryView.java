@@ -327,7 +327,7 @@ public class JournalEntryView extends
 
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
-			dateForm.setFields(classListCombo);
+			dateForm.add(classListCombo);
 		}
 
 		HorizontalPanel datepannel = new HorizontalPanel();
@@ -541,9 +541,9 @@ public class JournalEntryView extends
 		// grid.setCanEdit(true);
 		addButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (isTrackClass())
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override

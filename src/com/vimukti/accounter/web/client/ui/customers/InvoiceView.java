@@ -340,7 +340,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			termsForm.setFields(classListCombo);
+			termsForm.add(classListCombo);
 		}
 
 		termsForm.setStyleName("align-form");
@@ -1644,9 +1644,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			balanceDueNonEditableText.setVisible(isInViewMode());
 			paymentsNonEditableText.setVisible(isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		transactionsTree.setEnabled(!isInViewMode());
-		jobListCombo.setDisabled(isInViewMode());
+		jobListCombo.setEnabled(!isInViewMode());
 
 		enableAttachmentPanel(!isInViewMode());
 	}

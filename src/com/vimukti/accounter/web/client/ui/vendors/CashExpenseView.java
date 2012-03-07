@@ -360,7 +360,7 @@ public class CashExpenseView extends
 		vendorBalText.setWidth(100);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			vendorForm.setFields(classListCombo);
+			vendorForm.add(classListCombo);
 		}
 
 		netAmount = new AmountLabel(
@@ -954,7 +954,7 @@ public class CashExpenseView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass()) {
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 		}
 		super.onEdit();
 	}

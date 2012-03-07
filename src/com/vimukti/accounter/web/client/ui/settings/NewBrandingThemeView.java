@@ -545,7 +545,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		quoteBox.setValue(messages.QuoteOverDueTitle());
 		cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 		cashSaleBox.setValue(messages.cashSaleValue());
-		purchaseOrderBox = new TextItem(messages.purchaseOrderTitle());
+		purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
 		purchaseOrderBox.setValue(messages.purchaseOrderValue());
 		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),

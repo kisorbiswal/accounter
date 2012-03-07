@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.forms;
 import java.util.ArrayList;
 import java.util.Set;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomField;
 import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;

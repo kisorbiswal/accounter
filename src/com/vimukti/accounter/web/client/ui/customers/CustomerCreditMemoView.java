@@ -139,12 +139,12 @@ public class CustomerCreditMemoView extends
 		phoneForm.setStyleName("align-form");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			phoneForm.setFields(classListCombo);
+			phoneForm.add(classListCombo);
 		}
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(true);
-			phoneForm.setFields(jobListCombo);
+			jobListCombo.setEnabled(false);
+			phoneForm.add(jobListCombo);
 		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -567,7 +567,7 @@ public class CustomerCreditMemoView extends
 				jobListCombo.setCustomer(customer);
 			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
-			jobListCombo.setDisabled(true);
+			jobListCombo.setEnabled(false);
 		}
 
 		if (isMultiCurrencyEnabled()) {
@@ -754,7 +754,7 @@ public class CustomerCreditMemoView extends
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
-			jobListCombo.setDisabled(false);
+			jobListCombo.setEnabled(true);
 		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = this.transaction;
@@ -906,9 +906,9 @@ public class CustomerCreditMemoView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
-		jobListCombo.setDisabled(isInViewMode());
+		jobListCombo.setEnabled(!isInViewMode());
 
 	}
 

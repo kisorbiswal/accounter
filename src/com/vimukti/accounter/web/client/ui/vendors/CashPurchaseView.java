@@ -229,7 +229,7 @@ public class CashPurchaseView extends
 
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			termsForm.setFields(classListCombo);
+			termsForm.add(classListCombo);
 		}
 
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
@@ -1065,7 +1065,7 @@ public class CashPurchaseView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}

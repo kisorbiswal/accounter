@@ -9,6 +9,7 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -33,7 +34,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  */
 public class JournalViewDialog extends BaseDialog {
 
-	private DynamicForm disposalSummaryForm, disposalJournalForm;
+	FlexTable disposalSummaryForm;
+	private FlexTable disposalJournalForm;
 	private final FixedAssetSellOrDisposeReviewJournal journalAsset;
 	private double creditTotal = 0.0, debitTotal = 0.0, lossorGainAmount,
 			totalCapitalGainAmount;
@@ -121,8 +123,8 @@ public class JournalViewDialog extends BaseDialog {
 	 * Getting the DynamicForm with DisposalSummary Controls with Data
 	 */
 
-	private DynamicForm getDisposalSummaryForm() {
-		DynamicForm disposalSummaryForm = new DynamicForm("disposalSummaryForm");
+	private FlexTable getDisposalSummaryForm() {
+		FlexTable disposalSummaryForm = new FlexTable();
 		disposalSummaryForm.addStyleName("borders disposalSummaryForm");
 		int row = 0;
 		double value = 0.0;
@@ -143,8 +145,9 @@ public class JournalViewDialog extends BaseDialog {
 	 * Getting the DynamicForm of DisposalJournal with Data
 	 */
 
-	private DynamicForm getDisposalJournalForm() {
-		DynamicForm disposalJournalForm = new DynamicForm("borders");
+	private FlexTable getDisposalJournalForm() {
+		FlexTable disposalJournalForm = new FlexTable();
+		disposalJournalForm.getElement().addClassName("borders");
 		this.forms.clear();
 
 		Set<String> journalKeyset = this.journalAsset.getDisposalJournal()
@@ -219,7 +222,7 @@ public class JournalViewDialog extends BaseDialog {
 	 * 
 	 * @return
 	 */
-	private void setTotalLabelForm(DynamicForm form, int row) {
+	private void setTotalLabelForm(FlexTable disposalJournalForm2, int row) {
 		HTML totalLabel = new HTML();
 		totalLabel.setHTML(messages.total());
 		String debittotal = "<strong>" + amountAsString(this.debitTotal)
@@ -228,17 +231,17 @@ public class JournalViewDialog extends BaseDialog {
 		String credittotal = "<strong>" + amountAsString(this.creditTotal)
 				+ "</strong>";
 		HTML creditValueLabel = new HTML(credittotal);
-		form.setWidget(row, 0, totalLabel);
-		form.setWidget(row, 1, debitValueLabel);
-		form.setText(0, 2, "");
-		form.setWidget(row, 3, creditValueLabel);
+		disposalJournalForm2.setWidget(row, 0, totalLabel);
+		disposalJournalForm2.setWidget(row, 1, debitValueLabel);
+		disposalJournalForm2.setText(0, 2, "");
+		disposalJournalForm2.setWidget(row, 3, creditValueLabel);
 	}
 
 	/**
 	 * This method is setting Debit and Credit labels to the Form
 	 */
 
-	private void setCreditandDebitForm(DynamicForm form) {
+	private void setCreditandDebitForm(FlexTable form) {
 		HTML debitLabel = new HTML();
 		debitLabel.setHTML(messages.debit());
 		HTML creditLabel = new HTML();

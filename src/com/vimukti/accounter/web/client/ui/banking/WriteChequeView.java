@@ -762,10 +762,10 @@ public class WriteChequeView extends
 			jobListCombo.setVisible(false);
 			bankAccForm.add(jobListCombo);
 		}
-		bankAccForm.setFields(bankAccSelect, balText);
+		bankAccForm.add(bankAccSelect, balText);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			bankAccForm.setFields(classListCombo);
+			bankAccForm.add(classListCombo);
 		}
 		// bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		// forms.add(bankAccForm);
@@ -1506,7 +1506,7 @@ public class WriteChequeView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}

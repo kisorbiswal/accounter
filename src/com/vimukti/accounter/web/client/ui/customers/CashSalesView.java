@@ -285,7 +285,7 @@ public class CashSalesView extends
 		termsForm.setStyleName("align-form");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			termsForm.setFields(classListCombo);
+			termsForm.add(classListCombo);
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
@@ -1245,11 +1245,11 @@ public class CashSalesView extends
 		if (shippingTermsCombo != null)
 			shippingTermsCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setEnabled(!isInViewMode());
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setEnabled(!isInViewMode());

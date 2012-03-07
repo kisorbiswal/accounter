@@ -584,13 +584,13 @@ public class MakeDepositView extends
 		memoForm.add(memoText);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		depoForm = new DynamicForm();
-		depoForm.setIsGroup(true);
-		depoForm.setGroupTitle(messages.deposit());
-		depoForm.setFields(depositFromSelect, depositInSelect, amtText);
+		depoForm = new DynamicForm("depoForm");
+//		depoForm.setIsGroup(true);
+//		depoForm.setGroupTitle(messages.deposit());
+		depoForm.add(depositFromSelect, depositInSelect, amtText);
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
-			depoForm.setFields(classListCombo);
+			depoForm.add(classListCombo);
 		}
 
 		// Label lab1 = new Label(FinanceApplication.constants()
@@ -987,7 +987,7 @@ public class MakeDepositView extends
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass())
-			classListCombo.setDisabled(isInViewMode());
+			classListCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override

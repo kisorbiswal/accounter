@@ -93,7 +93,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
-			dateNoForm.setFields(classListCombo);
+			dateNoForm.add(classListCombo);
 		}
 
 		vatAgency = new TextItem(messages.vatAgency(),"vatAgency");

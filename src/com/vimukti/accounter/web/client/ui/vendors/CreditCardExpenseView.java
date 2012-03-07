@@ -324,7 +324,7 @@ public class CreditCardExpenseView extends
 		// messages.width(), "203px");
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
-			termsForm.setFields(classListCombo);
+			termsForm.add(classListCombo);
 		}
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
@@ -1078,7 +1078,7 @@ public class CreditCardExpenseView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setDisabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

@@ -54,7 +54,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 			cashSaleBox.setValue(messages.cashSaleValue());
 			
-			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle());
+			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
 			purchaseOrderBox.setValue(messages.purchaseOrderValue());
 
 			payPalEmail = new TextItem("PayPal Email", "payPalEmail");
@@ -63,7 +63,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 					.getThemeName().trim() : "";
 			payPalEmail.setValue(emailId);
 
-			form.setItems(themeName, overdueBox, creditNoteBox, statementBox,
+			form.add(themeName, overdueBox, creditNoteBox, statementBox,
 					quoteBox, cashSaleBox,purchaseOrderBox, payPalEmail);
 		} else {
 			form.add(themeName);

@@ -599,7 +599,6 @@ public class VendorView extends BaseView<ClientVendor> {
 		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
 
 		};
-		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override

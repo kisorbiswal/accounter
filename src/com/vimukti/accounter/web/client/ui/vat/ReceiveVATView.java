@@ -259,7 +259,7 @@ public class ReceiveVATView extends
 
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
@@ -500,7 +500,7 @@ public class ReceiveVATView extends
 		if (isTrackClass())
 			classListCombo.setComboItem(getCompany().getAccounterClass(
 					transaction.getAccounterClass()));
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
 

@@ -154,7 +154,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 
 		Label lab1 = new Label("" + messages.billsToPay() + "");
