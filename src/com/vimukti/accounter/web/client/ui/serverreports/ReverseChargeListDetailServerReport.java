@@ -56,10 +56,9 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getMessages().date(),
-				getMessages().noDot(), getMessages().name(),
-				getMessages().memo(), getMessages().amount(),
-				getMessages().salesPrice() };
+		return new String[] { getMessages().date(), getMessages().noDot(),
+				getMessages().name(), getMessages().memo(),
+				getMessages().amount(), getMessages().salesPrice() };
 	}
 
 	@Override
@@ -181,7 +180,7 @@ public class ReverseChargeListDetailServerReport extends
 		case 1:
 			return obj1.getDate().compareTo(obj2.getDate());
 		case 2:
-			return obj1.getNumber().compareTo(obj2.getNumber());
+			return UIUtils.compareToInt(obj1.getNumber(), obj2.getNumber());
 		case 3:
 			return obj1.getName().toLowerCase()
 					.compareTo(obj2.getName().toLowerCase());
@@ -205,10 +204,9 @@ public class ReverseChargeListDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().date(),
-				getMessages().noDot(), getMessages().name(),
-				getMessages().memo(), getMessages().amount(),
-				getMessages().salesPrice() };
+		return new String[] { getMessages().date(), getMessages().noDot(),
+				getMessages().name(), getMessages().memo(),
+				getMessages().amount(), getMessages().salesPrice() };
 	}
 	
 }

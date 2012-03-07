@@ -71,7 +71,7 @@ public class ReportSectionView extends BaseHomeView {
 				messages.vendorsAndPayables(Global.get().Vendors()));
 		Label salesHeader = new Label(messages.sales());
 		Label purchaseHeader = new Label(messages.purchase());
-		Label fixedAssetHeader = new Label(messages.fixedAssest());
+		Label fixedAssetHeader = new Label(messages.fixedAsset());
 		Label mainTaxHeader = new Label(messages.tax());
 
 		companyAndFinancialPanel = new FlowPanel();

@@ -856,9 +856,11 @@ public class TDSChalanDetailsView extends
 	protected void initTransactionViewData() {
 		if (transaction == null) {
 			setData(new ClientTDSChalanDetail());
-			initCallBack();
 		} else {
 			updateControls();
+		}
+		if (transaction.getID() == 0) {
+			initCallBack();
 		}
 	}
 
@@ -903,5 +905,14 @@ public class TDSChalanDetailsView extends
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ClientTDSChalanDetail saveView() {
+		ClientTDSChalanDetail saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 }

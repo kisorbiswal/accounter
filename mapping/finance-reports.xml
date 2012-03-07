@@ -7,6 +7,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
+		<query-param name="toDay" type="long" />
 		<query-param name="type" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -40,12 +41,14 @@
 		T.T_DATE BETWEEN :startDate AND :endDate AND
 		T.COMPANY_ID=:companyId AND
 		(CASE WHEN :type =-1
-		THEN TRUE WHEN
+		THEN TRUE WHEN :type = 6 THEN
+		SO.DELIVERY_DATE &lt;:toDay AND T.STATUS != 102
+		WHEN
 		T.STATUS=:type
 		THEN T.SAVE_STATUS != 201
 		ELSE
-		T.SAVE_STATUS=:type END)AND
-		T.SAVE_STATUS != 202
+		T.SAVE_STATUS=:type END)
+		AND T.SAVE_STATUS != 202 AND T.SAVE_STATUS != 204
 		ORDER BY P.NAME, T.T_DATE
 	</sql-query>
 
@@ -4223,7 +4226,7 @@
 		T.T_DATE AS TR_DATE,
 		T.NUMBER AS NUMBER,
 		T.MEMO AS MEMO,
-		T.TOTAL AS TOTAL
+		T.TOTAL * T.CURRENCY_FACTOR AS TOTAL
 		FROM
 		ESTIMATE E
 		LEFT
@@ -4371,82 +4374,87 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
-		SELECT
-		A.ID AS ACCOUNT_ID,
+		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_TYPE" type="int" />
+		<return-scalar column="JOB_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		
+		<![CDATA[
+						SELECT A.ID       AS ACCOUNT_ID,
 		A.NAME AS ACCOUNT_NAME,
-		A.A_NUMBER AS
-		ACCOUNT_NUMBER,
+		A.A_NUMBER AS ACCOUNT_NUMBER,
 		A.A_TYPE AS ACCOUNT_TYPE,
-		L.ID AS LOCATION_ID,
+		J.ID       AS JOB_ID,
 		(CASE
-		WHEN
-		(SELECT COUNT(AT1.ACCOUNT_ID)
-		FROM
-		ACCOUNT_TRANSACTION AT1
-		join
-		TRANSACTION T1
+		WHEN (SELECT COUNT(AT1.ACCOUNT_ID)
+		                 FROM   ACCOUNT_TRANSACTION AT1
+		                        JOIN TRANSACTION T1
 		ON AT1.TRANSACTION_ID=T1.ID
-		WHERE AT1.ACCOUNT_ID=A.ID
-		AND
-		AT1.IS_CLOSING_FISCALYEAR_ENTRY ='FALSE'
-		AND
-		AT1.IS_CASH_BASIS_ENTRY='FALSE'
-		AND T1.T_DATE BETWEEN :startDate
-		AND
-		:endDate
-		AND AT1.COMPANY_ID=:companyId)=0
-		THEN 0
-		ELSE
-		(SELECT
-		SUM(AT.AMOUNT)
-		FROM
-		ACCOUNT_TRANSACTION AT
-		join
-		TRANSACTION T
-		ON
-		AT.TRANSACTION_ID=T.ID
-		WHERE
-		AT.ACCOUNT_ID =A.ID
-		AND
-		AT.IS_CLOSING_FISCALYEAR_ENTRY ='FALSE'
-		AND
-		AT.IS_CASH_BASIS_ENTRY='FALSE'
-		AND T.T_DATE BETWEEN :startDate AND
-		:endDate
+		                        LEFT OUTER JOIN ENTER_BILL EB
+		                          ON EB.ID = T.ID
+		                        LEFT OUTER JOIN TRANSACTION_ITEM TI
+		                          ON TI.TRANSACTION_ID = EB.ID
+		                        LEFT OUTER JOIN JOB J
+		                          ON J.ID = T.JOB_ID
+		                              OR J.ID = TI.JOB_ID
+		                 WHERE  T.T_DATE BETWEEN :startDate AND :endDate
+		                        AND ( T.JOB_ID IS NOT NULL
+		                               OR (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ))
+		                        AND AT1.ACCOUNT_ID = A.ID
+		                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = 'FALSE'
+		                        AND AT1.IS_CASH_BASIS_ENTRY = 'FALSE'
+		                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
+		           ELSE (SELECT SUM(AT.AMOUNT)
+		                 FROM   ACCOUNT_TRANSACTION AT
+		                        JOIN TRANSACTION T
+		                          ON AT.TRANSACTION_ID = T.ID
+		                        LEFT OUTER JOIN ENTER_BILL EB
+		                          ON EB.ID = T.ID
+		                        LEFT OUTER JOIN TRANSACTION_ITEM TI
+		                          ON TI.TRANSACTION_ID = EB.ID
+		                        LEFT OUTER JOIN JOB J
+		                          ON J.ID = T.JOB_ID
+		                              OR J.ID = TI.JOB_ID
+		                 WHERE  T.T_DATE BETWEEN :startDate AND :endDate
+		                        AND ( T.JOB_ID IS NOT NULL
+		                               OR  (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ) )
+		                        AND AT.ACCOUNT_ID = A.ID
+		                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = 'FALSE'
+		                        AND AT.IS_CASH_BASIS_ENTRY = 'FALSE'
 		AND AT.COMPANY_ID=:companyId)
-		END) AS
-		AMOUNT,
+		 END )    AS AMOUNT,
 		A.PARENT_ID
-		FROM
-		ACCOUNT_TRANSACTION AT
-		LEFT
-		OUTER JOIN ACCOUNT A
-		ON
-		A.ID=AT.ACCOUNT_ID
-		LEFT OUTER JOIN
-		TRANSACTION T
+		FROM   ACCOUNT_TRANSACTION AT
+		       LEFT OUTER JOIN ACCOUNT A
+		         ON A.ID = AT.ACCOUNT_ID
+		       LEFT OUTER JOIN TRANSACTION T
 		ON T.ID =AT.TRANSACTION_ID
-		LEFT OUTER JOIN
-		ENTER_BILL EB ON EB.ID=T.ID
-		LEFT OUTER JOIN TRANSACTION_ITEM TI ON
-		TI.TRANSACTION_ID =EB.ID
-		LEFT OUTER JOIN JOB L ON L.ID=T.JOB_ID OR
-		L.ID=TI.JOB_ID
-		WHERE
-		T.T_DATE BETWEEN :startDate AND :endDate
-		AND
-		(T.JOB_ID IS NOT NULL OR TI.JOB_ID IS NOT NULL )
-		AND
-		A.A_TYPE IN
-		(14,15,16,17,18)
-		AND
-		A.BASE_TYPE !=0 AND
-		A.COMPANY_ID=:companyId
-		GROUP BY
-		A.ID,L.ID ,AT.TRANSACTION_ID ORDER BY A.BASE_TYPE,
+		       LEFT OUTER JOIN ENTER_BILL EB
+		         ON EB.ID = T.ID
+		       LEFT OUTER JOIN TRANSACTION_ITEM TI
+		         ON TI.TRANSACTION_ID = EB.ID
+		       LEFT OUTER JOIN JOB J
+		         ON J.ID = T.JOB_ID
+		             OR J.ID = TI.JOB_ID
+		WHERE  T.T_DATE BETWEEN :startDate AND :endDate
+		       AND ( T.JOB_ID IS NOT NULL OR
+		               (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ) )
+		       AND A.A_TYPE IN ( 14, 15, 16, 17, 18 )
+		       AND A.BASE_TYPE != 0
+		       AND A.COMPANY_ID =:companyId
+		GROUP  BY A.ID,
+		          J.ID,
+		          AT.TRANSACTION_ID,
+		          T.ID
+		ORDER  BY J.ID,
+		          A.BASE_TYPE,
 		A.SUB_BASE_TYPE,
 		A.GROUP_TYPE,
-		A.A_TYPE,A.ID
+		A.A_TYPE,
+		A.ID  
+		]]>
 	</sql-query>
 
 	<sql-query name="getItemActualRevenueDetails">
@@ -4550,51 +4558,55 @@
 		CREATE OR REPLACE VIEW
 		JOBS_TRANSACTIONS_VIEW
 		AS
-		SELECT t.company_id                         AS company_id,
-		       p.id                                 AS customer_id,
-		       p.name                               AS customer_name,
-		       j.id                                 AS job_id,
-		       j.job_name                           AS job_name,
-		       t.id                                 AS transaction_id,
-		       t.t_type,
-		       t.t_date,
-		       t.number                             AS t_number,
-		       ti.description                       ti_desc,
+		SELECT T.COMPANY_ID                         AS COMPANY_ID,
+		       P.ID                                 AS CUSTOMER_ID,
+		       P.NAME                               AS CUSTOMER_NAME,
+		       J.ID                                 AS JOB_ID,
+		       J.JOB_NAME                           AS JOB_NAME,
+		       T.ID                                 AS TRANSACTION_ID,
+		       T.T_TYPE,
+		       T.T_DATE,
+		       T.NUMBER                             AS T_NUMBER,
+		       TI.DESCRIPTION                       TI_DESC,
 		       CASE
-		         WHEN ti.TYPE = 1
-		              AND it.TYPE IN ( 2, 4 )
-		              AND t.t_type IN ( 1, 4, 8 ) THEN (SELECT SUM(ip.purchase_cost)
-		                                                FROM   inventory_purchase ip
+		         WHEN TI.TYPE = 1
+		              AND IT.TYPE IN ( 2, 4 )
+		              AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT SUM(IP.PURCHASE_COST)
+		                                                FROM   INVENTORY_PURCHASE IP
 		                                                WHERE
-		         ip.transaction_item_id = ti.id)
-		         WHEN t.t_type = 15 THEN ti.update_amount * t.currency_factor
+		         IP.TRANSACTION_ITEM_ID = TI.ID)
+		         WHEN T.T_TYPE = 15 THEN TI.UPDATE_AMOUNT * T.CURRENCY_FACTOR
 		         ELSE '0'
-		       END                                  AS cost,
-		       ti.update_amount * t.currency_factor AS revenue,
-		       ti.effecting_account                 AS revenue_account,
+		       END                                  AS COST,
+		       TI.UPDATE_AMOUNT * T.CURRENCY_FACTOR AS REVENUE,
+		       TI.EFFECTING_ACCOUNT                 AS REVENUE_ACCOUNT,
 		       CASE
-		         WHEN ti.TYPE = 1 THEN (SELECT effecting_account
-		                                FROM   inventory_purchase ip
-		                                WHERE  ip.transaction_item_id = ti.id
+		         WHEN TI.TYPE = 1
+		              AND IT.TYPE IN ( 2, 4 )
+		              AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT EFFECTING_ACCOUNT
+		                                                FROM   INVENTORY_PURCHASE IP
+		                                                WHERE
+		         IP.TRANSACTION_ITEM_ID = TI.ID
 		                                LIMIT  1)
-		         ELSE ti.effecting_account
-		       END                                  AS cost_account
-		FROM   transaction_item ti
-		       LEFT JOIN item it
-		         ON it.id = ti.item_id
-		       LEFT JOIN TRANSACTION t
-		         ON t.id = ti.transaction_id
-		       LEFT JOIN job j
-		         ON ( ti.job_id = j.id
-		               OR t.job_id = j.id )
-		       LEFT JOIN customer c
-		         ON c.id = j.customer_id
-		       LEFT JOIN payee p
-		         ON p.id = c.id
-		WHERE  j.id IS NOT NULL
-		       AND t.save_status!=204
-		       AND ( t.t_type IN ( 1, 4, 8, 15 )
-		              OR ti.is_billable );  
+		         WHEN T.T_TYPE = 15 THEN TI.EFFECTING_ACCOUNT
+		         ELSE NULL
+		       END                                  AS COST_ACCOUNT
+		FROM   TRANSACTION_ITEM TI
+		       LEFT JOIN ITEM IT
+		         ON IT.ID = TI.ITEM_ID
+		       LEFT JOIN TRANSACTION T
+		         ON T.ID = TI.TRANSACTION_ID
+		       LEFT JOIN JOB J
+		         ON ( TI.JOB_ID = J.ID
+		               OR T.JOB_ID = J.ID )
+		       LEFT JOIN CUSTOMER C
+		         ON C.ID = J.CUSTOMER_ID
+		       LEFT JOIN PAYEE P
+		         ON P.ID = C.ID
+		WHERE  J.ID IS NOT NULL
+		       AND T.SAVE_STATUS!=204
+		       AND ( T.T_TYPE IN ( 1, 4, 8, 15 )
+		              OR TI.IS_BILLABLE );  
 
 	]]>
 	</sql-query>
@@ -4788,6 +4800,8 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="accountId" type="long" />
+		<query-param name="tobePrint" type="encryptedstring" />
+		<query-param name="empty" type="encryptedstring" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -4871,8 +4885,8 @@ FROM   (SELECT T.ID                        AS TRANSACTION_ID,
 		:startDate AND
 		:endDate) 
                AND A.ID = :accountId) AS TT
-WHERE  ( TT.CHECK_NUMBER != 'TO BE PRINTED'
-         AND TT.CHECK_NUMBER != '' )
+WHERE  ( TT.CHECK_NUMBER != :tobePrint
+         AND TT.CHECK_NUMBER != :empty )
 ORDER  BY Length(TT.CHECK_NUMBER),
           TT.CHECK_NUMBER  
 	</sql-query>
@@ -4966,6 +4980,8 @@ WHERE  TRANSACTIONS.TRANSACTION_AMOUNT != TRANSACTIONS.RECONCILIED_AMOUNT
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="tobePrint" type="encryptedstring" />
+		<query-param name="empty" type="encryptedstring" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -5047,9 +5063,9 @@ WHERE  TRANSACTIONS.TRANSACTION_AMOUNT != TRANSACTIONS.RECONCILIED_AMOUNT
 		:companyId AND (
 		T.T_DATE BETWEEN :startDate AND :endDate) AND A.ID
 		=:accountId) AS TT
-		WHERE (TT.CHECK_NUMBER !='TO BE PRINTED' AND
+		WHERE (TT.CHECK_NUMBER !=:tobePrint AND
 		TT.CHECK_NUMBER
-		!='')ORDER
+		!=:empty)ORDER
 		BY LENGTH(TT.CHECK_NUMBER),TT.CHECK_NUMBER
 
 	</sql-query>

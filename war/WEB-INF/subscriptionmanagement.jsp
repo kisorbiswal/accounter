@@ -23,11 +23,12 @@
     	String users =(String) request.getAttribute("userIdsList");
     	String expDate =(String) request.getAttribute("expiredDate");
     	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
+    	String user_emailId=(String)request.getSession().getAttribute("emailId");
   	%>
   	<title>Subscription Management</title>
   </head>
   <body>
-  <div id="commanContainer" style="width:420px;  font-size: 13px;">
+  <div id="commanContainer" style="width:450px;  font-size: 13px;">
   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
 	<table cellspacing="10">
@@ -36,7 +37,7 @@
 	<td> Subscription expire date : </td> 
 	<td><%= expDate %></td>
 	</tr><tr></tr><tr>
-	<td> Subscription type : </td> 
+	<td></td> 
 	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
 	<td>Users invited by you : </td> 
 	<td id="emailIdsList"></td>

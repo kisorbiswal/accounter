@@ -997,7 +997,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			Quantity quantity = newPurchases.get(next.getCost());
 			if (quantity != null && quantity.equals(next.getQuantity())) {
 				mapped = mapped.subtract(quantity);
-				newPurchases.remove(quantity);
+				newPurchases.remove(next.getCost());
 			} else {
 				// Reverse Updating ExpenseAccount
 				double purchaseValue = next.getQuantity().calculatePrice(

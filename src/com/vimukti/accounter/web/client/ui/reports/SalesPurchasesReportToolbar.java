@@ -37,7 +37,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		String[] statusArray = { messages.open(), messages.completed(),
-				messages.cancelled(), messages.all() };
+				messages.cancelled(), messages.expired(), messages.all() };
 
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
@@ -70,6 +70,9 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 						} else if (statusCombo.getSelectedValue().equals(
 								messages.all())) {
 							status = -1;
+						} else if (statusCombo.getSelectedValue().equals(
+								messages.expired())) {
+							status = 6;
 						} else
 							status = ClientTransaction.STATUS_CANCELLED;
 						ClientFinanceDate startDate = fromItem.getDate();

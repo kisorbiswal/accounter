@@ -144,8 +144,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			showRecords();
 		} catch (Exception e) {
 			endStatus();
-			System.err.println(e.toString());
-			Accounter.showError(e.toString());
 		}
 	}
 

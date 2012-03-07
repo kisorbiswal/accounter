@@ -1328,7 +1328,6 @@ public class FinanceTool {
 				String payeeName = null;
 				PayeeList payeeList = null;
 				Iterator iterator = l.iterator();
-				PaginationList<AccountRegister> queryResult1 = new PaginationList<AccountRegister>();
 
 				while ((iterator).hasNext()) {
 
@@ -1374,18 +1373,18 @@ public class FinanceTool {
 							: (Long) object[11]);
 					accountRegister.setCurrencyfactor(object[12] == null ? 0
 							: (Double) object[12]);
-					queryResult1.add(accountRegister);
+					queryResult.add(accountRegister);
 				}
 				total = queryResult.size();
 
 				if (length < 0) {
-					result.addAll(queryResult1);
+					result.addAll(queryResult);
 				} else {
 					int toIndex = start + length;
 					if (toIndex > queryResult.size()) {
 						toIndex = queryResult.size();
 					}
-					result.addAll(queryResult1.subList(start, toIndex));
+					result.addAll(queryResult.subList(start, toIndex));
 				}
 				result.setTotalCount(total);
 				result.setStart(start);
@@ -2052,6 +2051,11 @@ public class FinanceTool {
 					.setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.transactionitem.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.transactionitemeffectingAccount.old.tonew")
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();
 

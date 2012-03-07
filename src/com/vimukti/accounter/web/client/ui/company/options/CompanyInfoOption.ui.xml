@@ -193,6 +193,13 @@
 					</g:row>
 				</g:Grid>
 			</g:VerticalPanel>
+			<g:VerticalPanel>
+				<g:Label ui:field="fiscalYearLabel" styleName="header" />
+					<g:HorizontalPanel styleName="fiscal-year-width">
+						<g:Label ui:field="fiscalStarts" styleName="company-preferences-labels"/>
+						<g:ListBox width="185px" ui:field="fiscalStartsList"/>
+					</g:HorizontalPanel>
+			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

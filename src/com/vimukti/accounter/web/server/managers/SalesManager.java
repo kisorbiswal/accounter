@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server.managers;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -215,13 +214,10 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setAmount(object[9] == null ? 0
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setSoOrQuoteNumber((String) object[10]);
-			salesByCustomerDetail
-					.setDueDate(((Long) object[11]) == null ? null
-							: new ClientFinanceDate(((Long) object[11])
-									.longValue()));
+			salesByCustomerDetail.setDueDate(((Long) object[11]) == null ? null
+					: new ClientFinanceDate(((Long) object[11]).longValue()));
 			salesByCustomerDetail.setDeliveryDate(object[12] == null ? null
-					: new ClientFinanceDate(((Long) object[12])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[12]).longValue()));
 			salesByCustomerDetail.setItemGroup((String) object[13]);
 			salesByCustomerDetail.setDescription((String) object[14]);
 			// salesByCustomerDetail.setIsVoid(object[15] == null ? true
@@ -652,7 +648,9 @@ public class SalesManager extends Manager {
 		List l = ((Query) session.getNamedQuery("getSalesOrders")
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("companyId", companyId)
-				.setParameter("endDate", endDate.getDate()).setParameter("type", type)).list();
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("toDay", new ClientFinanceDate().getDate())
+				.setParameter("type", type)).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 

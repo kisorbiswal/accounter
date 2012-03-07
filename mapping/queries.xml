@@ -1114,7 +1114,7 @@
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
-		e.transactionDate between :fromDate and :toDate and e.expirationDate
+		e.transactionDate between :fromDate and :toDate and e.deliveryDate
 		&lt;:today and e.usedInvoice =null
 		order by e.transactionDate desc
 	</query>
@@ -1844,6 +1844,13 @@
 		update com.vimukti.accounter.core.TransactionItem set account.id=:toID
 		where
 		account.id=:fromID
+	</query>
+	<query name="update.merge.transactionitemeffectingAccount.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionItem set effectingAccount.id=:toID
+		where
+		effectingAccount.id=:fromID
 	</query>
 	<query name="update.merge.journalEntry.old.tonew">
 		<query-param name="fromID" type="long" />

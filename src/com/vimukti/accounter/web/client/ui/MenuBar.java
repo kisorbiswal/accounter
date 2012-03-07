@@ -346,7 +346,7 @@ public class MenuBar {
 			reportMenuBar.addMenuItem(getVATReportMenu(messages.tax()));
 		}
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
-				.fixedAssest()));
+				.fixedAsset()));
 		if (isInventoryEnabled) {
 			reportMenuBar.addMenuItem(getInventoryReportMenu(messages
 					.inventory()));

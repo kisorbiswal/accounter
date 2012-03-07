@@ -1857,8 +1857,6 @@ public interface AccounterMessages extends Messages {
 
 	public String FIVE();
 
-	public String fixedAssest();
-
 	public String fixedAsset();
 
 	public String fixedAssetHistory();
@@ -6120,5 +6118,7 @@ public interface AccounterMessages extends Messages {
 	public String purchaseOrderTitle();
 
 	public String purchaseOrderValue();
+	
+	public String notMoveDiffTypeAccount();
 
 }

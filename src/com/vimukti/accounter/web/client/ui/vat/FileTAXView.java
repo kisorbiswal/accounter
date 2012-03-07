@@ -121,6 +121,19 @@ public class FileTAXView extends AbstractFileTAXView {
 		saveOrUpdate(getData());
 	}
 
+	@Override
+	public void restoreView(ClientTAXReturn viewDate) {
+		if (viewDate != null) {
+			taxAgencyCombo.setComboItem(getCompany().getTaxAgency(
+					viewDate.getTaxAgency()));
+			grid.setRecords(viewDate.getTaxReturnEntries());
+			fromDate.setValue(new ClientFinanceDate(viewDate
+					.getPeriodStartDate()));
+			toDate.setValue(new ClientFinanceDate(viewDate.getPeriodEndDate()));
+		}
+		super.restoreView(viewDate);
+	}
+
 	private void updateTransaction() {
 		ClientTAXReturn taxReturn = new ClientTAXReturn();
 		if (selectedTaxAgency != null) {

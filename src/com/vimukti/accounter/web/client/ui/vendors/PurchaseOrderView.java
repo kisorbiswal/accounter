@@ -1638,7 +1638,7 @@ public class PurchaseOrderView extends
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 
-		this.accounterClass = accounterClass;
+		this.accounterClass = clientAccounterClass;
 		if (accounterClass != null) {
 			classListCombo.setComboItem(accounterClass);
 			vendorAccountTransactionTable

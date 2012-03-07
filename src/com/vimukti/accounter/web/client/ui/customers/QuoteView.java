@@ -500,7 +500,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				if (type == ClientEstimate.SALES_ORDER) {
 					phoneForm.setFields(statusCombo, dueDateItem,
 							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+							shippingMethodsCombo, payTermsSelect, deliveryDate);
 				} else {
 					phoneForm.setFields(statusCombo, salesPersonCombo,
 							payTermsSelect, quoteExpiryDate, deliveryDate);
@@ -519,7 +519,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				if (type == ClientEstimate.SALES_ORDER) {
 					phoneForm.setFields(statusCombo, dueDateItem,
 							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+							shippingMethodsCombo, payTermsSelect, deliveryDate);
 				} else {
 					phoneForm.setFields(statusCombo, payTermsSelect,
 							quoteExpiryDate, deliveryDate);
