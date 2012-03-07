@@ -444,7 +444,7 @@ public class DashboardManager extends Manager {
 
 			return expensePortletData;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return null;
 	}

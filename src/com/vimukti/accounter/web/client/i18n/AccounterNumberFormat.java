@@ -1629,10 +1629,17 @@ public class AccounterNumberFormat {
 			if (decimalCharacter != null && !decimalCharacter.isEmpty()) {
 				decimalChar = decimalCharacter.charAt(0);
 			}
+
+			String digitGrouping = preferences.getDecimalCharacter();
+			char groupingChar = 0;
+			if (digitGrouping != null && !digitGrouping.isEmpty()) {
+				groupingChar = decimalCharacter.charAt(0);
+			}
+
 			cachedCurrencyFormat = new AccounterNumberFormat(
 					preferences.getCurrencyFormat(),
 					preferences.getDecimalNumber(), true, decimalChar,
-					preferences.getDigitGroupCharacter().charAt(0));
+					groupingChar);
 		}
 		return cachedCurrencyFormat;
 	}
@@ -1654,6 +1661,12 @@ public class AccounterNumberFormat {
 		} else {
 			decimalSeparator = 0;
 		}
-		groupingSeparator = preferences.getDigitGroupCharacter().charAt(0);
+		String digitGroupCharacter = preferences.getDigitGroupCharacter();
+		if (digitGroupCharacter != null && !digitGroupCharacter.isEmpty()) {
+			groupingSeparator = digitGroupCharacter.charAt(0);
+		} else {
+			groupingSeparator = 0;
+		}
+
 	}
 }

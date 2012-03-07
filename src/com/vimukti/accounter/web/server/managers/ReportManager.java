@@ -348,7 +348,6 @@ public class ReportManager extends Manager {
 		} else if (categoryType == 1) {
 			l = session.getNamedQuery("getProfitAndLossByClass")
 					.setParameter("companyId", companyId)
-
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
 		} else {
@@ -381,8 +380,8 @@ public class ReportManager extends Manager {
 				double amount = object[5] == null ? 0 : (Double) object[5];
 
 				record.getMap().put(location, amount);
-				record.setParentAccount(object[6] == null ? 0
-						: ((Long) object[6]).longValue());
+				// record.setParentAccount(object[6] == null ? 0
+				// : ((Long) object[6]).longValue());
 				queryResult.add(record);
 			} else {
 				ProfitAndLossByLocation record = queryResult.get(queryResult
@@ -3776,7 +3775,7 @@ public class ReportManager extends Manager {
 			BankDepositDetail depositDetail = new BankDepositDetail();
 			depositDetail.setTransactionId((Long) objects[0]);
 			depositDetail.setTransactionType((Integer) objects[1]);
-			depositDetail.setNumber(Long.parseLong((String) objects[2]));
+			depositDetail.setNumber((Long) objects[2]);
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3841,8 +3840,7 @@ public class ReportManager extends Manager {
 			BankCheckDetail checkDetail = new BankCheckDetail();
 			checkDetail.setTransactionId((Long) objects[0]);
 			checkDetail.setTransactionType((Integer) objects[1]);
-			checkDetail.setTransactionNumber(Long
-					.parseLong((String) objects[2]));
+			checkDetail.setTransactionNumber((Long) objects[2]);
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3980,17 +3978,27 @@ public class ReportManager extends Manager {
 		Account account = (Account) session.get(Account.class, accountId);
 		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
-			result = session.getNamedQuery("get.all.invoices.by.account")
+			result = session
+					.getNamedQuery("get.all.invoices.by.account")
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
 					.setParameter("companyId", companyId)
-					.setParameter("accountId", accountId).list();
+					.setParameter("accountId", accountId)
+					.setParameter("tobePrint", "TO BE PRINTED",
+							EncryptedStringType.INSTANCE)
+					.setParameter("empty", "", EncryptedStringType.INSTANCE)
+					.list();
 		} else if (account.getType() == ClientAccount.TYPE_BANK) {
-			result = session.getNamedQuery("get.missing.checks.by.account")
+			result = session
+					.getNamedQuery("get.missing.checks.by.account")
 					.setParameter("accountId", accountId)
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
-					.setParameter("companyId", companyId).list();
+					.setParameter("companyId", companyId)
+					.setParameter("tobePrint", "TO BE PRINTED",
+							EncryptedStringType.INSTANCE)
+					.setParameter("empty", "", EncryptedStringType.INSTANCE)
+					.list();
 		}
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
