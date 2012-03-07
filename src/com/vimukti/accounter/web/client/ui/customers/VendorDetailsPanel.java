@@ -2,9 +2,8 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.Set;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -17,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
-public class VendorDetailsPanel extends VerticalPanel {
+public class VendorDetailsPanel extends FlowPanel {
 	ClientVendor selectedVendor;
 	LabelItem name, email, currency, fax, vendorsince, webpageadress, notes,
 			address;
@@ -42,7 +41,6 @@ public class VendorDetailsPanel extends VerticalPanel {
 		name = new LabelItem(messages.name(), "name");
 
 		email = new LabelItem(messages.email(), "email");
-
 
 		balance = new AmountLabel(messages.balance());
 

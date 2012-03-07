@@ -4,27 +4,25 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public class LocalMessagePanel extends HorizontalPanel {
+public class LocalMessagePanel extends FlowPanel {
 
 	private ClientLocalMessage clientLocalMessage;
 	private TranslationView view;
 	private TranslateServiceAsync async = Accounter.createTranslateService();
 	private boolean canApprove;
 	private ImageButton upImage;
-	private VerticalPanel upVotesPanel;
-	private HorizontalPanel votesPanel;
+	private StyledPanel upVotesPanel;
+	private StyledPanel votesPanel;
 	private Label messageLabel, upVotesLengthLabel;
 	private FlowPanel approvePanel;
 	private RadioButton approveButton;
@@ -48,11 +46,12 @@ public class LocalMessagePanel extends HorizontalPanel {
 		createMessagePanel();
 
 		this.add(votesPanel);
-		this.setSpacing(4);
-		this.setCellWidth(votesPanel, "6%");
+		// this.setSpacing(4);
+		// this.setCellWidth(votesPanel, "6%");
 		this.addStyleName("votes-message-panel");
 		this.add(messageLabel);
-		this.setCellVerticalAlignment(messageLabel, HasAlignment.ALIGN_MIDDLE);
+		// this.setCellVerticalAlignment(messageLabel,
+		// HasAlignment.ALIGN_MIDDLE);
 	}
 
 	private void createMessagePanel() {
@@ -61,8 +60,8 @@ public class LocalMessagePanel extends HorizontalPanel {
 	}
 
 	private void createVotePanel() {
-		votesPanel = new HorizontalPanel();
-		upVotesPanel = new VerticalPanel();
+		votesPanel = new StyledPanel("votesPanel");
+		upVotesPanel = new StyledPanel("upVotesPanel");
 		upVotesLengthLabel = new Label(String.valueOf(clientLocalMessage
 				.getVotes()));
 		upImage = new ImageButton(Accounter.getFinanceImages().upArrow());
@@ -78,15 +77,13 @@ public class LocalMessagePanel extends HorizontalPanel {
 
 		upVotesPanel.add(upImage);
 		upVotesPanel.add(upVotesLengthLabel);
-		upVotesPanel.setCellHorizontalAlignment(upVotesLengthLabel,
-				HasAlignment.ALIGN_CENTER);
 
 		votesPanel.add(upVotesPanel);
 
 		upVotesPanel.addStyleName("up_image_panel");
 		upVotesLengthLabel.addStyleName("up_label");
 
-		votesPanel.setSpacing(4);
+		// votesPanel.setSpacing(4);
 		votesPanel.addStyleName("votes_panel");
 	}
 

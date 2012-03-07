@@ -3,9 +3,8 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -23,7 +22,7 @@ public class AddWidgetDialog extends BaseDialog {
 	private PortalLayout portalLayout;
 	@SuppressWarnings("unused")
 	private Portlet portlet;
-	private VerticalPanel bodyLayout;
+	private StyledPanel bodyLayout;
 	@SuppressWarnings("unused")
 	private WidgetCreator creator;
 
@@ -60,22 +59,20 @@ public class AddWidgetDialog extends BaseDialog {
 		// setBackgroundColor("white");
 		// setBorder("4px solid #595959");
 
-		VerticalPanel mainLayout = new VerticalPanel();
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
 		// mainLayout.setMargin(15);
-		mainLayout.setSize("100%", "100%");
 
 		Label label = new Label();
 		// label.setWidth100();
 		if (addablePortletList.toArray().length > 0) {
 			label.setText(messages.widgetsAvailable());
 		} else {
-			label.setText(messages
-					.widgetsAlreadyOnYourHomepageLabel());
+			label.setText(messages.widgetsAlreadyOnYourHomepageLabel());
 		}
 
 		mainLayout.add(label);
 
-		bodyLayout = new VerticalPanel();
+		bodyLayout = new StyledPanel("bodyLayout");
 		// bodyLayout.setOverflow(Overflow.AUTO);
 		// bodyLayout.setSize("100%", "245");
 		// bodyLayout.setBorder("1px solid silver");
@@ -738,7 +735,7 @@ public class AddWidgetDialog extends BaseDialog {
 	// }
 
 	@SuppressWarnings("unused")
-	private class WidgetRow extends HorizontalPanel {
+	private class WidgetRow extends FlowPanel {
 
 		private Label imageLabel;
 		private Button addButton;
@@ -749,10 +746,10 @@ public class AddWidgetDialog extends BaseDialog {
 		}
 
 		private void creteRow() {
-			HorizontalPanel layout = new HorizontalPanel();
+			StyledPanel layout = new StyledPanel("layout");
 			// layout.setWidth100();
 			// layout.setBorder("1px solid silver");
-			layout.setHeight("75px");
+			// layout.setHeight("75px");
 			// layout.setMembersMargin(10);
 			imageLabel = new Label();
 			// imageLabel.setIconWidth(170);
@@ -760,7 +757,7 @@ public class AddWidgetDialog extends BaseDialog {
 			// imageLabel.setAlign(Alignment.CENTER);
 			layout.add(imageLabel);
 
-			VerticalPanel layout2 = new VerticalPanel();
+			StyledPanel layout2 = new StyledPanel("layout2");
 			infoLabel = new Label();
 			addButton = new Button("Add");
 

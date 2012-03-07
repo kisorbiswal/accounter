@@ -4,7 +4,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -41,7 +40,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	public HTML refresh;
 	private int row;
 	private int column;
-	public VerticalPanel body;
+	public StyledPanel body;
 	private ClientPortletConfiguration configuration;
 	private PortletPage portletPage;
 
@@ -68,12 +67,10 @@ public abstract class Portlet extends WorkbenchPanel {
 
 	private void createControls() {
 		vPanel = new ScrollPanel();
-		body = new VerticalPanel();
+		body = new StyledPanel("body");
 		body.setStyleName("portlet-body");
-		this.setSize("100%", "100%");
 		addStyleName("portlet");
 		vPanel.add(body);
-		vPanel.setWidth("100%");
 		super.add(vPanel);
 	}
 

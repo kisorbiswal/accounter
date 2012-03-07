@@ -12,7 +12,6 @@ import java.util.Set;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
@@ -27,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WarningsDialog;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -73,7 +73,7 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 		sinkEvents(Event.ONCHANGE | Event.KEYEVENTS);
 		initRPCService();
 		this.addStyleName("abstract_base_view");
-		this.errorPanel = new VerticalPanel();
+		this.errorPanel = new StyledPanel("errorPanel");
 		this.errorPanel.addStyleName("errors");
 	}
 
@@ -136,7 +136,7 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 	// private DialogBox dialog;
 
 	// private boolean isViewModfied;
-	private VerticalPanel errorPanel;
+	private StyledPanel errorPanel;
 	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 	protected boolean isDirty;
 
@@ -272,8 +272,7 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 	// }
 	@Override
 	public String toString() {
-		return messages.actionClassNameis(
-				this.getAction().getText());
+		return messages.actionClassNameis(this.getAction().getText());
 	}
 
 	// @Override

@@ -3,10 +3,10 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -51,7 +51,7 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 
 	private void createControls() {
 
-		VerticalPanel bodyLayout = new VerticalPanel();
+		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
 		form = new DynamicForm("form");
 
 		emailField = new EmailField(messages.emailId());
@@ -60,16 +60,17 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 		passwordField = new PasswordItem(messages.password());
 		passwordField.setRequired(true);
 
-		mailServerField = new TextItem(messages.smtpMailServer(),"mailServerField");
+		mailServerField = new TextItem(messages.smtpMailServer(),
+				"mailServerField");
 		mailServerField.setRequired(true);
 
 		portNumField = new IntegerField(this, messages.portNumber());
 		portNumField.setRequired(true);
 
-		sslField = new CheckboxItem(messages.isSsl(),"sslField");
+		sslField = new CheckboxItem(messages.isSsl(), "sslField");
 
-		form.add(emailField, passwordField, mailServerField,
-				portNumField, sslField);
+		form.add(emailField, passwordField, mailServerField, portNumField,
+				sslField);
 
 		testButton = new Button(messages.test());
 		testButton.addClickHandler(new ClickHandler() {

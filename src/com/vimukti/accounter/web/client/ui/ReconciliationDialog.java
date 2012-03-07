@@ -116,7 +116,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		// form.setWidth("100%");
 		// datesForm.setFields(startDate, endDate);
 
-		// HorizontalPanel hPanel = new HorizontalPanel();
+		// StyledPanel hPanel = new StyledPanel();
 		// hPanel.setWidth("100%");
 		// hPanel.add(form);
 		// hPanel.add(datesForm);

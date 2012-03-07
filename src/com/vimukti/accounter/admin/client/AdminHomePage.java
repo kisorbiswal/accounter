@@ -4,20 +4,20 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public class AdminHomePage extends HorizontalPanel implements EntryPoint {
+public class AdminHomePage extends FlowPanel implements EntryPoint {
 	static AdminViewManger viewmanger;
 	Button mybutton;
-	VerticalPanel vpPanel;
+	StyledPanel vpPanel;
 	private static AdminConstants adminconstants;
 	private static AdminCRUDServiceAsync crudService;
 	private static AdminHomeViewServiceAsync homeViewService;
@@ -26,15 +26,15 @@ public class AdminHomePage extends HorizontalPanel implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		vpPanel = new VerticalPanel();
+		vpPanel = new StyledPanel("vpPanel");
 		createControls();
 		RootPanel.get().add(vpPanel);
 
 	}
 
 	private void createControls() {
-		vpPanel.setWidth("100%");
-		vpPanel.setHeight("100%");
+		// vpPanel.setWidth("100%");
+		// vpPanel.setHeight("100%");
 		AdminHorizantalMenuBar adminHMenubar = new AdminHorizantalMenuBar();
 		vpPanel.add(adminHMenubar);
 		viewmanger = new AdminViewManger();

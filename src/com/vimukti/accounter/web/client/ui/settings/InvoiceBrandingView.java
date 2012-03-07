@@ -12,11 +12,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -30,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.IMenuFactory;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenuBar;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.TouchMenuFactory;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.UploadTemplateFileDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -47,15 +44,15 @@ public class InvoiceBrandingView<T> extends
 	private HTML generalSettingsHTML, allLabelsHtml, ShowHtml, checkBoxHtml,
 			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
 			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml,
-			quoteHtml,purchaseOrderHtml, invoiceFileName, creditNoteFileName, quoteFileName,purchaseOrderFileName,
-			downloadOdtHtml, downloadDocxHtml, uploadHtml, cashSaleHtml,
-			cashSaleFileName;
+			quoteHtml, purchaseOrderHtml, invoiceFileName, creditNoteFileName,
+			quoteFileName, purchaseOrderFileName, downloadOdtHtml,
+			downloadDocxHtml, uploadHtml, cashSaleHtml, cashSaleFileName;
 	private Label titleLabel;
 	// helpHtml;
-	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
+	private StyledPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
 			contactDetailsPanel, vPanel;
 	private Button newBrandButton, automaticButton;
-	private HorizontalPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel,
+	private StyledPanel buttonPanel, showPanel, allPanel, nameAndMenuPanel,
 			buttonPanel2, detailsPanel;
 	private IMenuFactory menuFactory = null;
 	private ClientCompany company;
@@ -71,8 +68,8 @@ public class InvoiceBrandingView<T> extends
 
 	private void createControls() {
 		company = Accounter.getCompany();
-		mainPanel = new VerticalPanel();
-		titlePanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
+		titlePanel = new StyledPanel("titlePanel");
 		generalSettingsHTML = new HTML(messages.generalSettings());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
@@ -106,7 +103,7 @@ public class InvoiceBrandingView<T> extends
 		titlePanel.add(generalSettingsHTML);
 		titlePanel.add(titleLabel);
 
-		buttonPanel = new HorizontalPanel();
+		buttonPanel = new StyledPanel("buttonPanel");
 		// for displaying the Branding theme menu
 		IMenuBar menuBar = getBrandingmenuBar();
 		menuBar.addMenuItem(messages.newBrandTheme(), getBrandingMenu());
@@ -167,18 +164,18 @@ public class InvoiceBrandingView<T> extends
 
 	}
 
-//	private native boolean isTouch() /*-{
-//		return $wnd.isTouch;
-//	}-*/;
+	// private native boolean isTouch() /*-{
+	// return $wnd.isTouch;
+	// }-*/;
 
 	private IMenuBar getBrandingmenuBar() {
-//		boolean isTouch = isTouch();
+		// boolean isTouch = isTouch();
 
-//		if (isTouch) {
-//			menuFactory = new TouchMenuFactory();
-//		} else {
-			menuFactory = new DesktopMenuFactory();
-//		}
+		// if (isTouch) {
+		// menuFactory = new TouchMenuFactory();
+		// } else {
+		menuFactory = new DesktopMenuFactory();
+		// }
 
 		return menuFactory.createMenuBar();
 	}
@@ -221,8 +218,8 @@ public class InvoiceBrandingView<T> extends
 	}
 
 	private SimplePanel addingCustomThemeToView(final ClientBrandingTheme theme) {
-		vPanel = new VerticalPanel();
-		subLayPanel = new VerticalPanel();
+		vPanel = new StyledPanel("vPanel");
+		subLayPanel = new StyledPanel("subLayPanel");
 		final Button editButton, copyThemeButton, deleteButton, downloadOdtFiles, downloadDocxFiles, uploadButton;
 		editButton = new Button(messages.edit());
 		editButton.addClickHandler(new ClickHandler() {
@@ -285,8 +282,8 @@ public class InvoiceBrandingView<T> extends
 
 		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
 
-		nameAndMenuPanel = new HorizontalPanel();
-		buttonPanel2 = new HorizontalPanel();
+		nameAndMenuPanel = new StyledPanel("nameAndMenuPanel");
+		buttonPanel2 = new StyledPanel("buttonPanel2");
 
 		nameAndMenuPanel.add(titleHtml);
 		nameAndMenuPanel.setStyleName("standard-options");
@@ -308,50 +305,47 @@ public class InvoiceBrandingView<T> extends
 		vPanel.add(nameAndMenuPanel);
 		vPanel.setWidth("100%");
 
-		VerticalPanel invoicePanel = new VerticalPanel();
+		StyledPanel invoicePanel = new StyledPanel("invoicePanel");
 		invoiceHtml = new HTML("<p>" + messages.invoice()
 				+ "<br/><br/><br/></p>");
 		invoiceFileName = new HTML("<p>" + theme.getInvoiceTempleteName()
 				+ "</p>");
 		invoicePanel.add(invoiceHtml);
 		invoicePanel.add(invoiceFileName);
-		invoicePanel.setSpacing(10);
 		invoicePanel.setStyleName("rightBorder");
 
-		VerticalPanel creditPanel = new VerticalPanel();
+		StyledPanel creditPanel = new StyledPanel("creditPanel");
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTitle()
 				+ "<br/><br/><br/></p>");
 		creditNoteFileName = new HTML("<p>"
 				+ theme.getCreditNoteTempleteName().trim() + "</p>");
 		creditPanel.add(creditNoteHtml);
 		creditPanel.add(creditNoteFileName);
-		creditPanel.setSpacing(10);
 		creditPanel.setStyleName("rightBorder");
 
-		VerticalPanel quotePanel = new VerticalPanel();
+		StyledPanel quotePanel = new StyledPanel("quotePanel");
 		quoteHtml = new HTML("<p>" + messages.quote() + "<br/><br/><br/></p>");
 		quoteFileName = new HTML("<p>" + theme.getQuoteTemplateName() + "</p>");
 		quotePanel.add(quoteHtml);
 		quotePanel.add(quoteFileName);
-		quotePanel.setSpacing(10);
 		quotePanel.setStyleName("rightBorder");
-		
-		VerticalPanel cashSalePanel = new VerticalPanel();
+
+		StyledPanel cashSalePanel = new StyledPanel("cashSalePanel");
 		cashSaleHtml = new HTML("<p>" + messages.cashSale()
 				+ "<br/><br/><br/></p>");
 		cashSaleFileName = new HTML("<p>" + theme.getCashSaleTemplateName()
 				+ "</p>");
 		cashSalePanel.add(cashSaleHtml);
 		cashSalePanel.add(cashSaleFileName);
-		cashSalePanel.setSpacing(10);
 		cashSalePanel.setStyleName("rightBorder");
-		
-		VerticalPanel purchaseOrderPanel = new VerticalPanel();
-		purchaseOrderHtml = new HTML("<p>" + messages.purchaseOrder() + "<br/><br/><br/></p>");
-		purchaseOrderFileName = new HTML("<p>" + theme.getPurchaseOrderTemplateName() + "</p>");
+
+		StyledPanel purchaseOrderPanel = new StyledPanel("purchaseOrderPanel");
+		purchaseOrderHtml = new HTML("<p>" + messages.purchaseOrder()
+				+ "<br/><br/><br/></p>");
+		purchaseOrderFileName = new HTML("<p>"
+				+ theme.getPurchaseOrderTemplateName() + "</p>");
 		purchaseOrderPanel.add(purchaseOrderHtml);
 		purchaseOrderPanel.add(purchaseOrderFileName);
-		purchaseOrderPanel.setSpacing(10);
 		purchaseOrderPanel.setStyleName("rightBorder");
 
 		downloadOdtHtml = new HTML("<p>" + messages.odtDownloadMessage()
@@ -361,23 +355,21 @@ public class InvoiceBrandingView<T> extends
 
 		uploadHtml = new HTML("<p>" + messages.themeUploadMessage() + "</p>");
 
-		detailsPanel = new HorizontalPanel();
+		detailsPanel = new StyledPanel("detailsPanel");
 		detailsPanel.setWidth("100%");
 
-		VerticalPanel downloadPanel = new VerticalPanel();
+		StyledPanel downloadPanel = new StyledPanel("downloadPanel");
 		// downloadPanel.setWidth("30%");
 		downloadPanel.add(downloadOdtFiles);
 		downloadPanel.add(downloadOdtHtml);
 		downloadPanel.add(downloadDocxFiles);
 		downloadPanel.add(downloadDocxHtml);
-		downloadPanel.setSpacing(10);
 		downloadPanel.setStyleName("rightBorder");
 
-		VerticalPanel uploadPanel = new VerticalPanel();
+		StyledPanel uploadPanel = new StyledPanel("uploadPanel");
 		// uploadPanel.setWidth("30%");
 		uploadPanel.add(uploadButton);
 		uploadPanel.add(uploadHtml);
-		uploadPanel.setSpacing(10);
 		uploadPanel.setStyleName("leftBorder");
 
 		detailsPanel.add(invoicePanel);
@@ -402,9 +394,9 @@ public class InvoiceBrandingView<T> extends
 		final HTML uploadPictureHtml, changeLogoHtml, removeLogoHtml;
 		final Button editButton, copyThemeButton, deleteButton;
 		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
-		vPanel = new VerticalPanel();
+		vPanel = new StyledPanel("vPanel");
 
-		subLayPanel = new VerticalPanel();
+		subLayPanel = new StyledPanel("subLayPanel");
 
 		editButton = new Button(messages.edit());
 		editButton.addClickHandler(new ClickHandler() {
@@ -495,10 +487,11 @@ public class InvoiceBrandingView<T> extends
 				.none() : theme.getStatementTitle();
 		String quoteTitle = theme.getQuoteTitle() == null ? messages.none()
 				: theme.getQuoteTitle();
-		String purcahseOrderTitle = theme.getPurchaseOrderTitle() == null ? messages.none()
-				: theme.getPurchaseOrderTitle();
+		String purcahseOrderTitle = theme.getPurchaseOrderTitle() == null ? messages
+				.none() : theme.getPurchaseOrderTitle();
 
-		headingsHtml = new HTML("<p>" + messages.headings() + " : "
+		headingsHtml = new HTML("<p>" + messages.headings()
+				+ " : "
 				// + theme.getOpenInvoiceTitle()
 				+ overDueTitle + " , " + creditMemoTitle + " , "
 				+ statementTitle + "," + quoteTitle + " , "
@@ -537,14 +530,14 @@ public class InvoiceBrandingView<T> extends
 
 		quoteHtml = new HTML("<p>" + messages.quoteTemplate() + " : " + quote
 				+ "</p>");
-		
-		// adding purchaseOrder template name
-				String purchaseOrder = theme.getPurchaseOrderTemplateName() == null ? messages
-						.classicTemplate() : theme.getPurchaseOrderTemplateName();
-		purchaseOrderHtml = new HTML("<p>" + messages.purchaseOrderTemplate() + " : " + purchaseOrder
-				+ "</p>");
 
-		showPanel = new HorizontalPanel();
+		// adding purchaseOrder template name
+		String purchaseOrder = theme.getPurchaseOrderTemplateName() == null ? messages
+				.classicTemplate() : theme.getPurchaseOrderTemplateName();
+		purchaseOrderHtml = new HTML("<p>" + messages.purchaseOrderTemplate()
+				+ " : " + purchaseOrder + "</p>");
+
+		showPanel = new StyledPanel("showPanel");
 		showPanel.add(checkBoxHtml);
 		showPanel.add(radioButtonHtml);
 
@@ -555,12 +548,12 @@ public class InvoiceBrandingView<T> extends
 				+ "</b><br>" + contactDetails + "</p>");
 
 		if (theme.getContactDetails() == null) {
-			contactDetailsPanel = new VerticalPanel();
+			contactDetailsPanel = new StyledPanel("contactDetailsPanel");
 			contactDetailsPanel.add(contactDetailsHtml);
 			contactDetailsPanel.setStyleName("contact-deatails-panel");
 			contactDetailsPanel.setVisible(false);
 		} else {
-			contactDetailsPanel = new VerticalPanel();
+			contactDetailsPanel = new StyledPanel("contactDetailsPanel");
 			contactDetailsPanel.add(contactDetailsHtml);
 			contactDetailsPanel.setStyleName("contact-deatails-panel");
 			contactDetailsPanel.setVisible(true);
@@ -669,21 +662,18 @@ public class InvoiceBrandingView<T> extends
 		changeLogoHtml.setStyleName("change-logo");
 		removeLogoHtml.setStyleName("remove-logo");
 		uploadPictureHtml.setStyleName("picture-link");
-		HorizontalPanel panel = new HorizontalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		panel.setStyleName("panel-logo");
-		VerticalPanel verticalPanel = new VerticalPanel();
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		panel.add(changeLogoHtml);
 		panel.add(removeLogoHtml);
-		uploadPanel = new VerticalPanel();
+		uploadPanel = new StyledPanel("uploadPanel");
 		uploadPanel.setStyleName("upload-logo");
 		uploadPanel.add(uploadPictureHtml);
-		uploadPanel.setCellHorizontalAlignment(uploadPictureHtml,
-				HasAlignment.ALIGN_CENTER);
 		verticalPanel.add(uploadPanel);
 		verticalPanel.setWidth("100%");
 		verticalPanel.add(panel);
 		panel.getElement().getParentElement().setAttribute("align", "center");
-		uploadPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 
 		if (theme.getFileName() == null) {
 			panel.setVisible(false);
@@ -705,17 +695,17 @@ public class InvoiceBrandingView<T> extends
 		subLayPanel.setStyleName("general-setting-invoice");
 		contactDetailsPanel.setWidth("125px");
 		// uploadPanel.setWidth("185px");
-		allPanel = new HorizontalPanel();
+		allPanel = new StyledPanel("allPanel");
 		allPanel.add(subLayPanel);
 		allPanel.add(contactDetailsPanel);
 		allPanel.add(verticalPanel);
-		allPanel.setCellWidth(subLayPanel, "60%");
-		allPanel.setCellWidth(contactDetailsPanel, "20%");
-		allPanel.setCellWidth(verticalPanel, "20%");
+		// allPanel.setCellWidth(subLayPanel, "60%");
+		// allPanel.setCellWidth(contactDetailsPanel, "20%");
+		// allPanel.setCellWidth(verticalPanel, "20%");
 		// allPanel.setWidth("100%");
 
-		nameAndMenuPanel = new HorizontalPanel();
-		buttonPanel2 = new HorizontalPanel();
+		nameAndMenuPanel = new StyledPanel("nameAndMenuPanel");
+		buttonPanel2 = new StyledPanel("buttonPanel2");
 
 		nameAndMenuPanel.add(titleHtml);
 		nameAndMenuPanel.setStyleName("standard-options");

@@ -5,9 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -16,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.GraphPointsPortlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
 
 public class YearOverYearPortlet extends GraphPointsPortlet {
@@ -23,7 +22,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 	public static final int YEAR_OVER_YEAR_INCOME = 1;
 	public static final int YEAR_OVER_YEAR_EXPENSE = 2;
 	private YearOverYearToolBar toolBar;
-	private VerticalPanel graphPanel;
+	private StyledPanel graphPanel;
 	private int chartType;
 	private ClientAccount accountByName;
 
@@ -43,7 +42,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void createBody() {
-		graphPanel = new VerticalPanel();
+		graphPanel = new StyledPanel("graphPanel");
 		createToolBar();
 		this.body.add(graphPanel);
 	}
@@ -151,8 +150,6 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			} else {
 				Label label = new Label(messages.noRecordsToShow());
 				graphPanel.add(label);
-				graphPanel.setCellHorizontalAlignment(label,
-						HasAlignment.ALIGN_CENTER);
 				return 0;
 			}
 		}

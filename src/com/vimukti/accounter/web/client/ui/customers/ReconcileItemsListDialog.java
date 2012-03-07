@@ -10,10 +10,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -62,9 +60,10 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 	private final ClientStatementRecord record;
 	private double matchBalance, sel_rec_balance, error_balance;
 	private DynamicForm form_moneyspent, form_totalAmt;
-	private VerticalPanel vPanel, adjustment_panel, v_amt_panel,
-			adjustmentBtnBar, v_trans_panel;
-	private HorizontalPanel h_btn_Panel, h_subtotal_panel, hpanel;
+	private StyledPanel vPanel, adjustment_panel, adjustmentBtnBar,
+			v_trans_panel;
+	StyledPanel v_amt_panel;
+	private StyledPanel h_btn_Panel, h_subtotal_panel, hpanel;
 	private TextItem to, description, bankfees_amt;
 	private SelectCombo regionCombo;
 	private DynamicForm bankfees_form;
@@ -118,8 +117,8 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		// to initialize the grid
 		initTotalTransactionsDataGrid();
 
-		VerticalPanel main_Vpanel = new VerticalPanel();
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel main_Vpanel = new StyledPanel("main_Vpanel");
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		horizontalPanel.add(total_grid);
 		// scrollPanel = new ScrollPanel();
 		// scrollPanel.addStyleName("pre_scroll_table");
@@ -130,7 +129,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 				"2. View your selected transactions. Add new transactions, as needed.");
 		Label label_3 = new Label(
 				"3. The sum of your selected transactions must match the money spent. Make adjustments, as needed.");
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		// for displaying the search box
 		search_nameLabel = new Label("Search by name");
 		panel.add(search_nameLabel);
@@ -162,15 +161,15 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		main_Vpanel.add(label_2);
 		main_Vpanel.add(selected_tr_grid);
 
-		h_btn_Panel = new HorizontalPanel();
-		v_amt_panel = new VerticalPanel();
+		h_btn_Panel = new StyledPanel("h_btn_Panel");
+		v_amt_panel = new StyledPanel("v_amt_panel");
 
 		v_amt_panel.add(label_3);
 
 		// for displaying the balance label fields
-		v_trans_panel = new VerticalPanel();
-		HorizontalPanel hh = new HorizontalPanel();
-		h_subtotal_panel = new HorizontalPanel();
+		v_trans_panel = new StyledPanel("v_trans_panel");
+		StyledPanel hh = new StyledPanel("hh");
+		h_subtotal_panel = new StyledPanel("h_subtotal_panel");
 		total_amt_label = new Label("No transactions selected");
 		money_spent_label = new Label("Must match : Money Spent  "
 				+ matchBalance);
@@ -182,18 +181,18 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		hh.add(money_spent_label);
 		hh.add(error_label);
 		// hh.add(total_label);
-		hpanel = new HorizontalPanel();
+		hpanel = new StyledPanel("hpanel");
 		v_trans_panel.add(hpanel);
 		v_trans_panel.add(hh);
 		v_amt_panel.add(v_trans_panel);
-		vPanel = new VerticalPanel();
+		vPanel = new StyledPanel("vPanel");
 
 		form_totalAmt = new DynamicForm("form_totalAmt");
 		form_moneyspent = new DynamicForm("form_moneyspent");
 		adjustment_amt = new TextItem("Adjustment", "adjustment_amt");
 		bankfees_amt = new TextItem(messages.amount(), "bankfees_amt");
 
-		adjustment_panel = new VerticalPanel();
+		adjustment_panel = new StyledPanel("vPanel");
 
 		v_amt_panel.add(form_totalAmt);
 		v_amt_panel.add(adjustment_panel);
@@ -201,7 +200,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		main_Vpanel.add(vPanel);
 
 		// for displaying the Adjustments buttons
-		adjustmentBtnBar = new VerticalPanel();
+		adjustmentBtnBar = new StyledPanel("adjustmentBtnBar");
 		final Button bankfees_btn = new Button("Bank fees");
 		final Button minor_adj_btn = new Button("Minor Adjustment");
 		adjustmentBtnBar.add(bankfees_btn);

@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,10 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -43,6 +38,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -133,22 +129,22 @@ public class CashSalesView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
-//		dateNoForm.setNumCols(6);
+		// dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		locationCombo = createLocationCombo();
 		if (!isTemplate) {
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
+		// datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
+		// datepanel.setCellHorizontalAlignment(dateNoForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
+		// labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
@@ -156,21 +152,21 @@ public class CashSalesView extends
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-//		phoneSelect.setHelpInformation(true);
+		// phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setEnabled(!isInViewMode());
 
-		billToTextArea = new TextAreaItem(messages.billTo(),"billToTextArea");
+		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
 		billToTextArea.setEnabled(!true);
 		shipToAddress = new ShipToForm(null);
-//		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
-//				.setVerticalAlign(VerticalAlign.TOP);
+		// shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+		// .setVerticalAlign(VerticalAlign.TOP);
 		// shipToAddress.getCellFormatter().getElement(0, 0)
 		// .setAttribute(messages.width(), "40px");
-//		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+		// shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setEnabled(!true);
 		shipToAddress.businessSelect.setEnabled(!true);
 		shipToAddress.businessSelect
@@ -187,11 +183,10 @@ public class CashSalesView extends
 				});
 
 		custForm = UIUtils.form(Global.get().customer());
-		custForm.add(customerCombo, contactCombo, phoneSelect,
-				billToTextArea);
-//		custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
+		custForm.add(customerCombo, contactCombo, phoneSelect, billToTextArea);
+		// custForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// custForm.getCellFormatter().setWidth(0, 0, "226px");
-//		custForm.setNumCols(2);
+		// custForm.setNumCols(2);
 		custForm.setStyleName("align-form");
 		// custForm.setWidth("100%");
 		salesPersonCombo = createSalesPersonComboItem();
@@ -207,7 +202,7 @@ public class CashSalesView extends
 					}
 				});
 
-		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.setEnabled(!true);
@@ -236,9 +231,9 @@ public class CashSalesView extends
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo(),"checkNoText");
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-//		checkNoText.setHelpInformation(true);
+		// checkNoText.setHelpInformation(true);
 		checkNoText.setVisible(false);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
@@ -262,13 +257,13 @@ public class CashSalesView extends
 
 		DynamicForm termsForm = new DynamicForm("termsForm");
 		// termsForm.setWidth("100%");
-//		termsForm.setIsGroup(true);
-//		termsForm.setNumCols(2);
+		// termsForm.setIsGroup(true);
+		// termsForm.setNumCols(2);
 		if (locationTrackingEnabled)
 			termsForm.add(locationCombo);
 		if (getPreferences().isSalesPersonEnabled()) {
-			termsForm.add(salesPersonCombo, paymentMethodCombo,
-					printCheck, checkNoText, depositInCombo);
+			termsForm.add(salesPersonCombo, paymentMethodCombo, printCheck,
+					checkNoText, depositInCombo);
 			if (getPreferences().isDoProductShipMents()) {
 				termsForm.add(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
@@ -306,8 +301,8 @@ public class CashSalesView extends
 		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.add(memoTextAreaItem);
-//		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
-//				"memoFormAlign");
+		// prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
+		// "memoFormAlign");
 
 		taxTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -438,16 +433,15 @@ public class CashSalesView extends
 		// disabletextbox.setVisible(false);
 
 		DynamicForm taxForm = new DynamicForm("taxForm");
-		VerticalPanel nonEditablePanel = new VerticalPanel();
-		nonEditablePanel.setWidth("100%");
+		StyledPanel nonEditablePanel = new StyledPanel("nonEditablePanel");
 		nonEditablePanel.addStyleName("boldtext");
 
 		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
-//		netAmountForm.setNumCols(2);
+		// netAmountForm.setNumCols(2);
 
 		discountField = getDiscountField();
 		DynamicForm totalForm = new DynamicForm("totalForm");
-//		totalForm.setNumCols(2);
+		// totalForm.setNumCols(2);
 		if (isTrackTax()) {
 			netAmountForm.add(netAmountLabel);
 			nonEditablePanel.add(netAmountForm);
@@ -469,58 +463,44 @@ public class CashSalesView extends
 		nonEditablePanel.add(totalForm);
 		nonEditablePanel.addStyleName("boldtext");
 
-		nonEditablePanel.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(taxTotalNonEditableText,
-				ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-
 		currencyWidget = createCurrencyFactorWidget();
 
-		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
+		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 		prodAndServiceHLay.setWidth("100%");
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(nonEditablePanel);
-		prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
-				ALIGN_RIGHT);
+		// prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
+		// ALIGN_RIGHT);
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vPanel.setWidth("100%");
+		StyledPanel vPanel = new StyledPanel("vPanel");
 
 		vPanel.add(prodAndServiceHLay);
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(custForm);
 		if (getPreferences().isDoProductShipMents())
 			leftVLay.add(shipToAddress);
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		rightVLay.setWidth("100%");
-		rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-		topHLay.setSpacing(20);
+		// topHLay.setSpacing(20);
 
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightVLay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);

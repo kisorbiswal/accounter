@@ -1,14 +1,15 @@
 package com.vimukti.accounter.admin.client;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ToolBar;
 
-public class AdminViewManger extends VerticalPanel {
+public class AdminViewManger extends FlowPanel {
 	private ToolBar toolBar;
-	VerticalPanel simplepanel;
-	VerticalPanel vpanel;
+	StyledPanel simplepanel;
+	StyledPanel vpanel;
 	static AdminViewManger adminViewManger;
 
 	public AdminViewManger() {
@@ -16,13 +17,9 @@ public class AdminViewManger extends VerticalPanel {
 	}
 
 	private void createControls() {
-		vpanel = new VerticalPanel();
+		vpanel = new StyledPanel("vpanel");
 		vpanel.addStyleName("view_manager_body");
-		vpanel.setWidth("100%");
-		vpanel.setHeight("100%");
-		simplepanel = new VerticalPanel();
-		simplepanel.setHeight("100%");
-		simplepanel.setWidth("100%");
+		simplepanel = new StyledPanel("simplepanel");
 		simplepanel.addStyleName("viewholder");
 		this.toolBar = new ToolBar();
 		vpanel.add(toolBar);

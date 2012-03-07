@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class AutomaticSequenceDialog extends BaseDialog {
@@ -13,7 +13,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	private FlexTable optionsTable;
 	private Label invoicePrefixlabel, creditNoteLabel, nextNumberLabel;
 	private TextBox invoiceBox, creditBox, nextBox;
-	private VerticalPanel subLayoutPanel, invoicePanel, creditPanel, nextPanel;
+	private StyledPanel subLayoutPanel, invoicePanel, creditPanel, nextPanel;
 
 	public AutomaticSequenceDialog(String title, String desc) {
 		super(title, desc);
@@ -21,24 +21,24 @@ public class AutomaticSequenceDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		subLayoutPanel = new VerticalPanel();
+		subLayoutPanel = new StyledPanel("subLayoutPanel");
 		paraHTML = new HTML(messages.automaticSequencingData());
 
-		invoicePanel = new VerticalPanel();
+		invoicePanel = new StyledPanel("invoicePanel");
 		invoicePrefixlabel = new Label(messages.invoicePrefix());
 		invoiceBox = new TextBox();
 		invoiceBox.setText(messages.invoicePrefixValue());
 		invoicePanel.add(invoicePrefixlabel);
 		invoicePanel.add(invoiceBox);
 
-		creditPanel = new VerticalPanel();
+		creditPanel = new StyledPanel("creditPanel");
 		creditNoteLabel = new Label(messages.creditNotePrefix());
 		creditBox = new TextBox();
 		creditBox.setText(messages.creditNotePrefixValue());
 		creditPanel.add(creditNoteLabel);
 		creditPanel.add(creditBox);
 
-		nextPanel = new VerticalPanel();
+		nextPanel = new StyledPanel("nextPanel");
 		nextNumberLabel = new Label(messages.nextNumber());
 		nextBox = new TextBox();
 		nextBox.setText(messages.nextNumberValue());

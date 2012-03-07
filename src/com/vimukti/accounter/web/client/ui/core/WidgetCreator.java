@@ -81,7 +81,7 @@ public class WidgetCreator {
 		// welcomePortlet.setCanDrag(false);
 		// welcomePortlet.setName("Bank Current Accounts");s
 
-		// HorizontalPanel layout = new HorizontalPanel();
+		// StyledPanel layout = new StyledPanel();
 		grid = new CompanyFinancialWidgetGrid();
 		grid.init();
 		grid.setHeight("180px");

@@ -6,21 +6,21 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.vimukti.accounter.web.client.ui.company.options.AbstractPreferenceOption;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class PreferencePage extends VerticalPanel {
+public class PreferencePage extends FlowPanel {
 
 	private String title;
 	public boolean canSave = false;
 
 	private List<AbstractPreferenceOption> options = new ArrayList<AbstractPreferenceOption>();
 
-	// private VerticalPanel optionsPane = new VerticalPanel();
+	// private StyledPanel optionsPane = new StyledPanel();
 
 	/**
 	 * Creates new Instance

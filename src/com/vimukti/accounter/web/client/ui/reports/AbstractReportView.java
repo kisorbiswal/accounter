@@ -10,7 +10,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -19,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ISorting;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
@@ -78,8 +78,8 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		public void OnRowClick(IsSerializable serializable);
 	}
 
-	private VerticalPanel mainLayout;
-	private VerticalPanel printableLayout;
+	private StyledPanel mainLayout;
+	private StyledPanel printableLayout;
 	private ScrollPanel tableLayout;
 
 	private HTML reportTypeTitle;
@@ -91,7 +91,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public ClientFinanceDate startDate;
 	public ClientFinanceDate endDate;
 
-	private VerticalPanel topLayout;
+	private StyledPanel topLayout;
 
 	private int fitHeight;
 	protected boolean isDatesArranged;
@@ -238,13 +238,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	private void createControls() {
-		mainLayout = new VerticalPanel();
-		mainLayout.setSize("100%", "100%");
+		mainLayout = new StyledPanel("mainLayout");
 		createToolBar();
-		toolbar.setSize("100%", "10%");
 
-		topLayout = new VerticalPanel();
-		topLayout.setSize("100%", "10%");
+		topLayout = new StyledPanel("topLayout");
 
 		String cmpyname = getCompany().getName();
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
@@ -266,7 +263,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		Label currentDate = new Label();
 		topLayout.add(currentDate);
 
-		printableLayout = new VerticalPanel();
+		printableLayout = new StyledPanel("printableLayout");
 		// printableLayout.setSize("100%", "100%");
 		printableLayout.setWidth("100%");
 		printableLayout.add(topLayout);
@@ -299,22 +296,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	private void createControlsForIE() {
-		mainLayout = new VerticalPanel() {
-			@Override
-			public void setHeight(String height) {
-				long hgt = Long.parseLong(height.replace("%", "").replace("px",
-						""));
-				super.setHeight(height);
-				printableLayout.setHeight(hgt - 38 + "px");
-
-			}
-
-		};
-		mainLayout.setWidth("100%");
+		mainLayout = new StyledPanel("mainLayout");
 		createToolBar();
 
-		topLayout = new VerticalPanel();
-		topLayout.setSize("100%", "10%");
+		topLayout = new StyledPanel("topLayout");
 
 		String cmpyname = getCompany().getName();
 		cmpyname = cmpyname != null && !cmpyname.isEmpty() ? cmpyname
@@ -334,18 +319,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		Label currentDate = new Label();
 		topLayout.add(currentDate);
 
-		printableLayout = new VerticalPanel() {
-			@Override
-			public void setHeight(String height) {
-				long hgt = Long.parseLong(height.replace("%", "").replace("px",
-						""));
-				super.setHeight(height);
-				tableLayout.setHeight(hgt - 10 + "px");
-
-			}
-
-		};
-		;
+		printableLayout = new StyledPanel("printableLayout");
 		printableLayout.add(topLayout);
 
 		this.tableLayout = new ScrollPanel() {
@@ -358,7 +332,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			}
 
 		};
-		printableLayout.setWidth("100%");
 		createReportTable();
 		this.tableLayout.addStyleName("tableLayout");
 		// this.tableLayout.setSize("100%", "100%");
@@ -370,7 +343,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// AccounterDOM.setParentElementHeight(topLayout.getElement(), 7);
 
 		add(mainLayout);
-		setSize("100%", "100%");
 	}
 
 	/*

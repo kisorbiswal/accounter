@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCustomField;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -61,9 +60,7 @@ public class CustomFieldDialog extends BaseDialog {
 
 			}
 		});
-		VerticalPanel layout = new VerticalPanel();
-		layout.setWidth("100%");
-		layout.setSpacing(10);
+		StyledPanel layout = new StyledPanel("layout");
 		customFieldTable.addStyleName("customfileddialog");
 		layout.add(customFieldTable);
 		layout.add(addNew);

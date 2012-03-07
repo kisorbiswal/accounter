@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ThirdPartySignupServlet extends BaseServlet {

@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -41,7 +40,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 	private Anchor recocilalationAccountlabel, bankRulesLabel,
 			reconcilationReportLabel, importStamentLabel;
 	private Button reconcilButton, reconcilationItemsButton;
-	private VerticalPanel graphPanel;
+	private StyledPanel graphPanel;
 	private ClientAccount account;
 
 	public AccoutsPortlet(ClientAccount account) {
@@ -65,9 +64,9 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 			String currencySymbol = currency == null ? getPrimaryCurrencySymbol()
 					: currency.getSymbol();
 
-			// HorizontalPanel horizontalPanel = new HorizontalPanel();
+			// StyledPanel horizontalPanel = new StyledPanel();
 
-			VerticalPanel subPanel = new VerticalPanel();
+			StyledPanel subPanel = new StyledPanel("subPanel");
 
 			accountNameLabel = new CustomLabel(account.getName());
 			accountNameLabel.addStyleName("label-banking");
@@ -133,8 +132,8 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					if (Accounter.hasPermission(
-							Features.IMPORT_BANK_STATEMENTS)) {
+					if (Accounter
+							.hasPermission(Features.IMPORT_BANK_STATEMENTS)) {
 						UploadStatementDialog dialog = new UploadStatementDialog(
 								messages.uploadAttachment(), account);
 						dialog.show();
@@ -146,7 +145,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 			final PopupPanel buttonpanel = new PopupPanel(true);
 
-			VerticalPanel popupbuttonPanel = new VerticalPanel();
+			StyledPanel popupbuttonPanel = new StyledPanel("popupbuttonPanel");
 			popupbuttonPanel.addStyleName("bank_recouncil-popup");
 
 			popupbuttonPanel.add(recocilalationAccountlabel);
@@ -225,11 +224,10 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 				subPanel.add(balanceNameLabel);
 				subPanel.add(balanceLabel);
 				subPanel.addStyleName("bank_accounts_labels");
-				subPanel.setSpacing(5);
 			}
 
-			final FlowPanel subHorizontalPanel = new FlowPanel();
-			subHorizontalPanel.add(subPanel);
+			final FlowPanel subStyledPanel = new FlowPanel();
+			subStyledPanel.add(subPanel);
 			AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
 
 				@Override
@@ -241,7 +239,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onResultSuccess(final ArrayList<Double> result) {
-					graphPanel = new VerticalPanel();
+					graphPanel = new StyledPanel("graphPanel");
 					Runnable runnable = new Runnable() {
 
 						@Override
@@ -254,7 +252,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 					VisualizationUtils.loadVisualizationApi(runnable,
 							LineChart.PACKAGE);
 					graphPanel.addStyleName("bank_accounts_graph");
-					subHorizontalPanel.add(graphPanel);
+					subStyledPanel.add(graphPanel);
 					completeInitialization();
 				}
 			};
@@ -267,7 +265,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 			}
 
 			// body.add(horizontalPanel);
-			body.add(subHorizontalPanel);
+			body.add(subStyledPanel);
 		}
 	}
 

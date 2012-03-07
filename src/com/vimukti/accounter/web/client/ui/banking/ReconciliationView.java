@@ -12,10 +12,7 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -27,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ReconciliationDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
@@ -41,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
  */
 public class ReconciliationView extends BaseView<ClientReconciliation> {
 
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private ReconciliationTransactionsGrid grid;
 	private Set<ClientReconciliationItem> clearedTransactions = new HashSet<ClientReconciliationItem>();
 	private LabelItem bankaccountLabel, startdateLable, enddateLable;
@@ -55,18 +53,18 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		label.addStyleName("label-title");
 		label.setText(messages.Reconciliation());
 
-		bankaccountLabel = new LabelItem(messages.Account(),"bankaccountLabel");
+		bankaccountLabel = new LabelItem(messages.Account(), "bankaccountLabel");
 		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(messages.ClosingBalance());
 		closebalanceLable.setTitle(messages.ClosingBalance());
 		closebalanceLable.setAmount(data.getClosingBalance());
 
-		startdateLable = new LabelItem(messages.startDate(),"startdateLable");
+		startdateLable = new LabelItem(messages.startDate(), "startdateLable");
 		startdateLable.setValue(DateUtills.getDateAsString(data.getStartDate()
 				.getDateAsObject()));
 
-		enddateLable = new LabelItem(messages.endDate(),"enddateLable");
+		enddateLable = new LabelItem(messages.endDate(), "enddateLable");
 		enddateLable.setValue(DateUtills.getDateAsString(data.getEndDate()
 				.getDateAsObject()));
 
@@ -96,11 +94,11 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		DynamicForm datesForm = new DynamicForm("datesForm");
 		datesForm.add(startdateLable, enddateLable);
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.setWidth("100%");
 		hPanel.add(form);
 		hPanel.add(datesForm);
-		hPanel.setCellWidth(form, "40%");
+		// hPanel.setCellWidth(form, "40%");
 		Button changeBtn = new Button(messages.change());
 		changeBtn.addClickHandler(new ClickHandler() {
 			@Override
@@ -118,16 +116,15 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 			}
 		});
 
-		HorizontalPanel btnPanel = new HorizontalPanel();
+		StyledPanel btnPanel = new StyledPanel("btnPanel");
 		btnPanel.setWidth("100%");
 		btnPanel.add(changeBtn);
 		btnPanel.setStyleName("recoucilation_change");
-		btnPanel.setCellHorizontalAlignment(changeBtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// btnPanel.setCellHorizontalAlignment(changeBtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		// Creating Amount Fields
-		VerticalPanel amountsPanel = new VerticalPanel();
-		amountsPanel.setWidth("100%");
+		StyledPanel amountsPanel = new StyledPanel("amountsPanel");
 
 		openingBalance = new AmountLabel(messages.openingBalance());
 		openingBalance.setEnabled(false);
@@ -148,8 +145,6 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 				difference);
 		amountsPanel.add(amountsForm);
 		amountsPanel.setStyleName("bottom_total_view");
-		amountsPanel.setCellHorizontalAlignment(amountsForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		this.grid = new ReconciliationTransactionsGrid(this,
 				new SelectionChangedHandler<ClientReconciliationItem>() {
@@ -165,8 +160,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		grid.setWidth("100%");
 		// grid.setHeight("200px");
 
-		this.mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
+		this.mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(label);
 		mainPanel.add(hPanel);
 		if (isCreating()) {

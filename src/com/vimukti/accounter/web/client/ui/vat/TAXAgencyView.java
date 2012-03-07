@@ -12,10 +12,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
@@ -312,7 +310,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private StyledPanel getTopLayout() {
 		Label lab;
 		lab = new Label(messages.taxAgency());
-		taxAgencyText = new TextItem(messages.taxAgency(),"taxAgencyText");
+		taxAgencyText = new TextItem(messages.taxAgency(), "taxAgencyText");
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("label-title");
 		lab.setHeight("35px");
@@ -320,7 +318,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyText.setRequired(true);
 		taxAgencyText.setEnabled(!isInViewMode());
 
-		fileAsText = new TextItem(messages.fileAs(),"fileAsText");
+		fileAsText = new TextItem(messages.fileAs(), "fileAsText");
 		fileAsText.setWidth(100);
 		fileAsText.setEnabled(!isInViewMode());
 		taxAgencyText.addChangeHandler(new ChangeHandler() {
@@ -344,7 +342,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		accInfoForm = UIUtils
 				.form(messages.payeeInformation(messages.Account()));
 
-		statusCheck = new CheckboxItem(messages.active(),"statusCheck");
+		statusCheck = new CheckboxItem(messages.active(), "statusCheck");
 		statusCheck.setValue(true);
 		statusCheck.setEnabled(!isInViewMode());
 
@@ -428,24 +426,22 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		if (getPreferences().isTrackPaidTax()) {
 			if (getCompany().getCountry().equals(
 					CountryPreferenceFactory.UNITED_KINGDOM)) {
-				accInfoForm.add(statusCheck, paymentTermsCombo,
-						taxTypeCombo, vatReturnCombo,
-						liabilitySalesAccountCombo,
+				accInfoForm.add(statusCheck, paymentTermsCombo, taxTypeCombo,
+						vatReturnCombo, liabilitySalesAccountCombo,
 						liabilityPurchaseAccountCombo, tAXFilingFrequency);
 			} else {
-				accInfoForm.add(statusCheck, paymentTermsCombo,
-						taxTypeCombo, liabilitySalesAccountCombo,
+				accInfoForm.add(statusCheck, paymentTermsCombo, taxTypeCombo,
+						liabilitySalesAccountCombo,
 						liabilityPurchaseAccountCombo, tAXFilingFrequency);
 			}
 		} else {
 			if (getCompany().getCountry().equals(
 					CountryPreferenceFactory.UNITED_KINGDOM)) {
-				accInfoForm.add(statusCheck, paymentTermsCombo,
-						taxTypeCombo, vatReturnCombo,
-						liabilitySalesAccountCombo);
+				accInfoForm.add(statusCheck, paymentTermsCombo, taxTypeCombo,
+						vatReturnCombo, liabilitySalesAccountCombo);
 			} else {
-				accInfoForm.add(statusCheck, paymentTermsCombo,
-						taxTypeCombo, liabilitySalesAccountCombo);
+				accInfoForm.add(statusCheck, paymentTermsCombo, taxTypeCombo,
+						liabilitySalesAccountCombo);
 			}
 		}
 
@@ -454,13 +450,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		memoForm = new DynamicForm("memoForm");
 		// memoForm.setWidth("50%");
-		memoArea = new TextAreaItem(messages.memo(),"memoArea");
+		memoArea = new TextAreaItem(messages.memo(), "memoArea");
 		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
 				.getViewName()));
 		memoArea.setEnabled(!isInViewMode());
 		// memoArea.setWidth("400px");
 		memoForm.add(memoArea);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		addButton = new AddButton(this);
 		addButton.setEnabled(!isInViewMode());
@@ -487,12 +483,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// emailForm.getCellFormatter().setWidth(0, 0, "235");
 		// emailForm.getCellFormatter().setWidth(0, 1, "");
 
-		VerticalPanel leftVLay = new VerticalPanel();
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.setWidth("100%");
 		leftVLay.add(taxAgencyForm);
 		leftVLay.add(accInfoForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		addrsForm = new AddressForm(null);
 		// addrsForm.setWidth("100%");
 		addrsForm.setEnabled(!isInViewMode());
@@ -509,25 +505,25 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// emailForm.setWidth("100%");
 
 		// rightVLay.setWidth("100%");
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
 		rightVLay.add(addrsForm);
 		rightVLay.add(phoneFaxForm);
 		rightVLay.add(emailForm);
-//		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-//		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
+		// addrsForm.getCellFormatter().addStyleName(0, 0,
+		// "addrsFormCellAlign");
+		// addrsForm.getCellFormatter().addStyleName(0, 1,
+		// "addrsFormCellAlign");
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-		topHLay.setSpacing(5);
+		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightVLay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel contHLay = new HorizontalPanel();
-		contHLay.setSpacing(5);
+		StyledPanel contHLay = new StyledPanel("contHLay");
 		contHLay.add(contacts);
 
 		StyledPanel mainVlay = new StyledPanel("mainVlay");
@@ -535,8 +531,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_RIGHT);
+		StyledPanel panel = new StyledPanel("panel");
 		panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 		panel.getElement().getStyle().setFloat(Float.RIGHT);

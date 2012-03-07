@@ -14,8 +14,8 @@
 //import com.google.gwt.user.client.ui.FlexTable;
 //import com.google.gwt.user.client.ui.HTML;
 //import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.Global;
 //import com.vimukti.accounter.web.client.core.ClientAddress;
 //import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -33,14 +33,14 @@
 ///**
 // * @author Murali.A This class creates the printing template of CreditMemo
 // */
-//public class CustomerCreditMemoPrintLayout extends VerticalPanel {
+//public class CustomerCreditMemoPrintLayout extends StyledPanel {
 //
 //	private String decimalCharacter = Global.get().preferences()
 //			.getDecimalCharacter();
 //
 //	private ClientCustomerCreditMemo creditMemo;
 //	private CustomerCreditMemoView view;
-//	private HorizontalPanel vatPanel;
+//	private StyledPanel vatPanel;
 //	private Double vatTotal;
 //	private double totalAmount;
 //	private Double taxTotal;
@@ -58,14 +58,14 @@
 //	}
 //
 //	public void createTemplate() {
-//		VerticalPanel mainVPanel = new VerticalPanel();
+//		StyledPanel mainVPanel = new StyledPanel();
 //		PrintTemplateUtils util = new PrintTemplateUtils();
 //
 //		List<String> removeHeaderBackground = new ArrayList<String>();
 //
 //		HTML lab1 = new HTML(messages.creaditHTML());
 //
-//		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+//		StyledPanel labeldateNoLayout = new StyledPanel();
 //		labeldateNoLayout.setSize("auto", "100%");
 //		labeldateNoLayout.add(lab1);
 //
@@ -78,14 +78,14 @@
 //						.getTransactionDate())),
 //				messages.creditNo(), creditMemo.getNumber() + "" });
 //
-//		HorizontalPanel datepanel = new HorizontalPanel();
+//		StyledPanel datepanel = new StyledPanel();
 //		datepanel.setSize("300px", "150px");
 //		FlexTable table = util.getWidget1(3, 2, dateNumMap, true,
 //				removeHeaderBackground);
 //		table.setSize("100%", "100%");
 //		datepanel.add(table);
 //
-//		HorizontalPanel adressHPanel = new HorizontalPanel();
+//		StyledPanel adressHPanel = new StyledPanel();
 //		adressHPanel.setSize("100%", "100%");
 //		adressHPanel.setSpacing(10);
 //		adressHPanel.getElement().setAttribute("cellpaddding", "1");
@@ -115,7 +115,7 @@
 //		adressHPanel.setCellHorizontalAlignment(billToTable,
 //				HasHorizontalAlignment.ALIGN_LEFT);
 //
-//		HorizontalPanel reasonPanel = new HorizontalPanel();
+//		StyledPanel reasonPanel = new StyledPanel();
 //		reasonPanel.setSize("100%", "100%");
 //
 //		String memo = creditMemo.getMemo() + "<br/>";
@@ -124,7 +124,7 @@
 //		FlexTable reasonTabel = util.getWidget(2, 1, reasonMap, true);
 //		reasonTabel.setSize("100%", "75px");
 //		reasonPanel.add(reasonTabel);
-//		// HorizontalPanel customerNameHPanel = new HorizontalPanel();
+//		// StyledPanel customerNameHPanel = new StyledPanel();
 //		// customerNameHPanel.setSize("100%", "100%");
 //		// customerNameHPanel.setSpacing(10);
 //		// customerNameHPanel.getElement().setAttribute("cellpaddding", "1");
@@ -140,7 +140,7 @@
 //		// Map<String, String> projectMap = getMap(new String[] { "P.O. NO.",
 //		// "&nbsp;", "Project", "&nbsp;" });
 //		//
-//		// HorizontalPanel projectPanel = new HorizontalPanel();
+//		// StyledPanel projectPanel = new StyledPanel();
 //		// projectPanel.setSize("100%", "100%");
 //		// FlexTable projectTable = util.getWidget(2, 2, projectMap, true);
 //		// projectTable.setSize("220px", "100px");
@@ -148,14 +148,14 @@
 //		// customerNameHPanel.add(projectTable);
 //
 //		Map<List<String>, Map<Integer, List<String>>> gridData = getGridDataMap();
-//		VerticalPanel gridPanel = new VerticalPanel();
+//		StyledPanel gridPanel = new StyledPanel();
 //		FlexTable grid = util.getGridWidget(gridData, true);
 //		grid.setSize("auto", "72px");
 //		gridPanel.add(grid);
 //		gridPanel.setSize("100%", "100%");
 //
 //		if (Accounter.getCompany().getAccountingType() == ClientCompany.ACCOUNTING_TYPE_UK) {
-//			vatPanel = new HorizontalPanel();
+//			vatPanel = new StyledPanel();
 //
 //			vatPanel.setSize("100%", "100%");
 //			List<String> footer1Headers = new ArrayList<String>();

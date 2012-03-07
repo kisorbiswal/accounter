@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -103,7 +102,7 @@ public class MakeDepositView extends
 
 	private ArrayList<DynamicForm> listforms;
 
-	// private VerticalPanel botRightPanel;
+	// private StyledPanel botRightPanel;
 
 	private String transactionNo;
 
@@ -585,8 +584,8 @@ public class MakeDepositView extends
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		depoForm = new DynamicForm("depoForm");
-//		depoForm.setIsGroup(true);
-//		depoForm.setGroupTitle(messages.deposit());
+		// depoForm.setIsGroup(true);
+		// depoForm.setGroupTitle(messages.deposit());
 		depoForm.add(depositFromSelect, depositInSelect, amtText);
 		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()) {
@@ -668,7 +667,7 @@ public class MakeDepositView extends
 			dynamicForm.add(locationCombo);
 		}
 
-		VerticalPanel currencyPanel = new VerticalPanel();
+		StyledPanel currencyPanel = new StyledPanel("currencyPanel");
 
 		currencyPanel.add(dynamicForm);
 		currencyPanel.add(currencyWidget);
@@ -688,33 +687,18 @@ public class MakeDepositView extends
 		botHLay.add(form2);
 		// botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_LEFT);
-		vPanel.setWidth("100%");
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		vPanel.add(panel);
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.add(botHLay);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
-		// mainVLay.add(lab1);
-		// mainVLay.add(addButton);
-
-		// mainVLay.add(gridView);
-
 		mainVLay.add(vPanel);
 
-		// if (UIUtils.isMSIEBrowser()) {
-		// resetFormView();
-		// }
-
 		this.add(mainVLay);
-
-		// setSize("700", "600");
 
 		/* Adding dynamic forms in list */
 		listforms.add(depoForm);

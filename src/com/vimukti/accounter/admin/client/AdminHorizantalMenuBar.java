@@ -1,6 +1,6 @@
 package com.vimukti.accounter.admin.client;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.Global;
@@ -9,15 +9,17 @@ import com.vimukti.accounter.web.client.theme.ThemesUtil;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 
-public class AdminHorizantalMenuBar extends HorizontalPanel {
+public class AdminHorizantalMenuBar extends FlowPanel {
 
-	AccounterMessages messages=Global.get().messages();
+	AccounterMessages messages = Global.get().messages();
+
 	public AdminHorizantalMenuBar() {
 
 		MenuBar menuBar = getAdminMenuBar();
 		add(menuBar);
 		setStyleName("MENU_BAR_BG");
-		AccounterDOM.addStyleToparent(menuBar.getElement(), messages.menuBarParent());
+		AccounterDOM.addStyleToparent(menuBar.getElement(),
+				messages.menuBarParent());
 
 	}
 

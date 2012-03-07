@@ -2,11 +2,11 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.ItemGroupListDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -55,10 +55,10 @@ public class ItemGroupDialog extends BaseDialog<ClientItem> {
 
 	public void initdialog() {
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 
 		dform = new DynamicForm("dform");
-		itemGtext = new TextItem(messages.itemGroup(),"itemGtext");
+		itemGtext = new TextItem(messages.itemGroup(), "itemGtext");
 		itemGtext.setRequired(true);
 		dform.add(itemGtext);
 		if (this.itemgroup != null) {

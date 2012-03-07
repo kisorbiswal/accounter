@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -19,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.GraphPointsPortlet;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
@@ -26,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 public class IncomeBreakdownPortlet extends GraphPointsPortlet {
 
 	private PortletToolBar toolBar;
-	private VerticalPanel graphPanel;
+	private StyledPanel graphPanel;
 
 	public IncomeBreakdownPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.incomes(), "", "100%");
@@ -46,8 +45,8 @@ public class IncomeBreakdownPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void createBody() {
-		VerticalPanel vPanel = new VerticalPanel();
-		graphPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
+		graphPanel = new StyledPanel("graphPanel");
 		initToolBar();
 		this.body.add(toolBar);
 		this.body.add(graphPanel);
@@ -111,8 +110,6 @@ public class IncomeBreakdownPortlet extends GraphPointsPortlet {
 					Label label = new Label(messages.noRecordsToShow());
 					graphPanel.add(label);
 					label.addStyleName("no_records_label");
-					graphPanel.setCellHorizontalAlignment(label,
-							HasAlignment.ALIGN_CENTER);
 				}
 				completeInitialization();
 			}

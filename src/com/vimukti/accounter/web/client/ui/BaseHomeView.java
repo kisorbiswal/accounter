@@ -4,8 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -16,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 
 public class BaseHomeView extends AbstractView<Object> implements
 		IDeleteCallback {
-	private VerticalPanel widgetLayout;
+	private StyledPanel widgetLayout;
 	protected BaseListGrid payeeGrid;
 	protected final int start = 0;
 
@@ -25,19 +23,17 @@ public class BaseHomeView extends AbstractView<Object> implements
 	}
 
 	private void createView() {
-		HorizontalPanel mainLayout = new HorizontalPanel();
-		mainLayout.setSize("100%", "100%");
-		VerticalPanel imagePanel = new VerticalPanel();
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
+		// mainLayout.setSize("100%", "100%");
+		StyledPanel imagePanel = new StyledPanel("imagePanel");
 		imagePanel.setStyleName("Image action container");
-		imagePanel.setSpacing(5);
 
-		widgetLayout = new VerticalPanel();
+		widgetLayout = new StyledPanel("widgetLayout");
 		widgetLayout.setStyleName("finance-portlet");
-		widgetLayout.setWidth("100%");
 		mainLayout.add(widgetLayout);
 
 		add(mainLayout);
-		VerticalPanel leftLayout = new VerticalPanel();
+		StyledPanel leftLayout = new StyledPanel("leftLayout");
 		int pageSize = getPageSize();
 		if (pageSize != -1 && payeeGrid != null) {
 			payeeGrid.addRangeChangeHandler2(new Handler() {
@@ -53,14 +49,13 @@ public class BaseHomeView extends AbstractView<Object> implements
 					pageSize * 2, true);
 			pager.setDisplay(payeeGrid);
 			pager.addStyleName("pager-images");
-			leftLayout.setSpacing(10);
 			leftLayout.add(payeeGrid);
 			leftLayout.add(pager);
 		}
 		widgetLayout.add(leftLayout);
 	}
 
-	public VerticalPanel getLeftLayout() {
+	public StyledPanel getLeftLayout() {
 		return widgetLayout;
 	}
 

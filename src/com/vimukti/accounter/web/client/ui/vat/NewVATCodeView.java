@@ -6,7 +6,7 @@
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.AccounterCommand;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
 //import com.vimukti.accounter.web.client.core.ClientVATCode;
@@ -185,7 +185,7 @@
 //					: "");
 //		}
 //
-//		VerticalPanel mainVPanel = new VerticalPanel();
+//		StyledPanel mainVPanel = new StyledPanel();
 //		mainVPanel.setSpacing(25);
 //		mainVPanel.setWidth("100%");
 //		mainVPanel.add(infoLabel);

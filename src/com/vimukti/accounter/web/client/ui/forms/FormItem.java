@@ -32,15 +32,15 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 	}
 
 	public FormItem(String title, String styleName) {
-		addStyleName("formItem");
-		addStyleName(styleName);
+		getElement().addClassName("formItem");
+		getElement().addClassName(styleName);
 		this.title = title;
 		addLabel();
 	}
 
-//	public FormItem(String styleName) {
-//		this("", styleName);
-//	}
+	// public FormItem(String styleName) {
+	// this("", styleName);
+	// }
 
 	@Override
 	public void setEnabled(boolean enabled) {
@@ -53,7 +53,7 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 	protected static final AccounterMessages messages = Global.get().messages();
 
 	private String title;
-//	private String name;
+	// private String name;
 	private T value;
 	private List<Validator> validator = new ArrayList<Validator>();
 	private boolean required;
@@ -103,9 +103,9 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 		return isHighlighted;
 	}
 
-//	public String getValueField() {
-//		return this.name;
-//	}
+	// public String getValueField() {
+	// return this.name;
+	// }
 
 	public void setTitle(String string) {
 		this.title = string;
@@ -121,9 +121,9 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 	public void setWidth(String width) {
 	}
 
-//	public void setName(String name) {
-//		this.name = name;
-//	}
+	// public void setName(String name) {
+	// this.name = name;
+	// }
 
 	public void setValue(T value) {
 		this.value = value;
@@ -197,10 +197,10 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 
 	}
 
-//	public String getName() {
-//		return this.name;
-//
-//	}
+	// public String getName() {
+	// return this.name;
+	//
+	// }
 
 	// void addWidgets(StyledPanel parent) {
 	//
@@ -329,8 +329,7 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 			((FocusWidget) widget).setFocus(true);
 		}
 	}
-	
-	
+
 	public static ValidationResult validate(FormItem<?>... items) {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
@@ -340,7 +339,6 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 		}
 		return result;
 	}
-
 
 	// public String helpMessage = messages.help();
 	// public PopupPanel popupPanel;

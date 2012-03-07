@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
@@ -57,7 +56,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 	public void createBody() {
 		updateDebitorsAccount();
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		FlexTable fTable = new FlexTable();
 		hPanel.setWidth("100%");
 

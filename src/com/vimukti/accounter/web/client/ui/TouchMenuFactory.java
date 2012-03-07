@@ -8,10 +8,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -44,7 +43,7 @@ public class TouchMenuFactory implements IMenuFactory {
 		this.panel.show();
 	}
 
-	class TouchMenuBar extends HorizontalPanel implements IMenuBar {
+	class TouchMenuBar extends FlowPanel implements IMenuBar {
 
 		TouchMenuBar() {
 		}
@@ -102,7 +101,7 @@ public class TouchMenuFactory implements IMenuFactory {
 			this.addStyleName("menupopup");
 			this.menu = menu;
 			this.clear();
-			VerticalPanel menuItems = new VerticalPanel();
+			StyledPanel menuItems = new StyledPanel("menuItems");
 			menuItems.addStyleName("touch_submenu");
 			if (menu.getParent() != null) {
 				menuItems.add(addBackButton());

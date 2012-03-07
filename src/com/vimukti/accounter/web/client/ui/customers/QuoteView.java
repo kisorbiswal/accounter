@@ -3,16 +3,11 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -39,6 +34,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -366,14 +362,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (!isTemplate) {
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
-		HorizontalPanel datepanel = new HorizontalPanel();
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
+		// datepanel.setCellHorizontalAlignment(dateNoForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
@@ -527,11 +523,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		Label lab2 = new Label(messages.productAndService());
 
-		HorizontalPanel buttLabHLay = new HorizontalPanel();
+		StyledPanel buttLabHLay = new StyledPanel("buttLabHLay");
 		buttLabHLay.add(lab2);
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+		// memoTextAreaItem.setWidth(100);
 		taxCodeSelect = createTaxCodeSelectItem();
 
 		salesTaxTextNonEditable = new TaxItemsForm();// createSalesTaxNonEditableLabel();
@@ -602,8 +598,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.add(memoTextAreaItem);
 
-		VerticalPanel nonEditablePanel = new VerticalPanel();
-		nonEditablePanel.setWidth("100%");
+		StyledPanel nonEditablePanel = new StyledPanel("nonEditablePanel");
 
 		DynamicForm totalForm = new DynamicForm("totalForm");
 
@@ -637,51 +632,40 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			totalForm.add(foreignCurrencyamountLabel);
 		}
 
-		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
+		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 		prodAndServiceHLay.setWidth("100%");
 
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		vPanel.setWidth("100%");
+		StyledPanel vPanel = new StyledPanel("vPanel");
+		// vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		// vPanel.setWidth("100%");
 
 		// vPanel.add(prodAndServiceForm2);
 		nonEditablePanel.add(totalForm);
 
-		nonEditablePanel.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(salesTaxTextNonEditable,
-				ALIGN_RIGHT);
-		nonEditablePanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 		vPanel.add(nonEditablePanel);
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
 		prodAndServiceHLay.add(vatForm);
 		prodAndServiceHLay.add(nonEditablePanel);
 
-		if (isTaxPerDetailLine()) {
-			prodAndServiceHLay.setCellWidth(nonEditablePanel, "30%");
-		} else
-			prodAndServiceHLay.setCellWidth(nonEditablePanel, "");
-		prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
-				ALIGN_RIGHT);
+		// if (isTaxPerDetailLine()) {
+		// prodAndServiceHLay.setCellWidth(nonEditablePanel, "30%");
+		// } else
+		// prodAndServiceHLay.setCellWidth(nonEditablePanel, "");
+		// prodAndServiceHLay.setCellHorizontalAlignment(nonEditablePanel,
+		// ALIGN_RIGHT);
 
-		VerticalPanel mainpanel = new VerticalPanel();
-		mainpanel.setWidth("100%");
+		StyledPanel mainpanel = new StyledPanel("mainpanel");
 		mainpanel.add(vPanel);
 		mainpanel.add(prodAndServiceHLay);
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
-		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
 		leftVLay.add(custForm);
 		if (getCompany().getPreferences().isDoProductShipMents())
 			if (type == ClientEstimate.QUOTES)
 				leftVLay.add(shipToAddress);
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("100%");
-		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
 			rightVLay.add(phoneForm);
 		} else {
@@ -689,33 +673,29 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
+		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightVLay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		VerticalPanel gridPanel = new VerticalPanel();
+		StyledPanel gridPanel = new StyledPanel("gridPanel");
 
 		gridPanel.add(customerTransactionTable);
 		mainVLay.add(gridPanel);
 		mainVLay.add(itemTableButton);
 		mainVLay.add(mainpanel);
-		gridPanel.setWidth("100%");
 
 		// if (UIUtils.isMSIEBrowser()) {
 		// resetFormView();

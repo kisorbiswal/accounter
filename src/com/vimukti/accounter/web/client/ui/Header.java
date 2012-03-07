@@ -15,14 +15,12 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -45,8 +43,8 @@ public class Header extends FlowPanel {
 
 	private Anchor logout, help;
 
-	private VerticalPanel panel1;
-	private HorizontalPanel panel2, panel3;
+	private StyledPanel panel1;
+	private StyledPanel panel2, panel3;
 	private String gettingStartedStatus = Global.get().messages()
 			.hideGettingStarted();
 	private MenuBar helpBar;
@@ -147,14 +145,12 @@ public class Header extends FlowPanel {
 			}
 		});
 
-		panel1 = new VerticalPanel();
-		// panel1.setWidth("25%");
-		panel1.setWidth("100%");
+		panel1 = new StyledPanel("panel1");
 		panel1.add(logoImg);
 		final SimplePanel companiesPanel = new SimplePanel();
 		final SimplePanel companiesLinkPanel = new SimplePanel();
 
-		panel2 = new HorizontalPanel();
+		panel2 = new StyledPanel("panel2");
 		companiesLink = new Anchor(Global.get().messages().companies(),
 				"/main/companies?type=list");
 		companiesLink.addStyleName("companiesLink");
@@ -178,8 +174,8 @@ public class Header extends FlowPanel {
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
-		panel3 = new HorizontalPanel();
-		panel3.setSpacing(6);
+		panel3 = new StyledPanel("panel3");
+		// panel3.setSpacing(6);
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
 		panel2.addStyleName("companies_title");
@@ -191,8 +187,8 @@ public class Header extends FlowPanel {
 			panel3.add(createStatisticsLink());
 		}
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
-		HorizontalPanel hpanel = new HorizontalPanel();
-		hpanel.setWidth("100%");
+		StyledPanel hpanel = new StyledPanel("hpanel");
+		// hpanel.setWidth("100%");
 		hpanel.add(panel1);
 		hpanel.add(panel2);
 
@@ -201,9 +197,9 @@ public class Header extends FlowPanel {
 		headerLinks.add(panel3);
 		// this.add(headerLinks);
 		hpanel.add(headerLinks);
-		hpanel.setCellWidth(panel1, "20%");
-		hpanel.setCellWidth(panel2, "50%");
-		hpanel.setCellWidth(headerLinks, "30%");
+		// hpanel.setCellWidth(panel1, "20%");
+		// hpanel.setCellWidth(panel2, "50%");
+		// hpanel.setCellWidth(headerLinks, "30%");
 		this.add(hpanel);
 
 		// Element spanEle = DOM.createSpan();

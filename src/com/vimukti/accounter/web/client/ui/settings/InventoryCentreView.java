@@ -13,8 +13,6 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -85,7 +83,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		itemsListGrid.getElement().getParentElement()
 				.setAttribute("width", "15%");
 		itemsListGrid.setStyleName("cusotmerCentrGrid");
-		VerticalPanel rightVpPanel = new VerticalPanel();
+		StyledPanel rightVpPanel = new StyledPanel("rightVpPanel");
 		itemDetailsPanel = new ItemDetailsPanel(selectedItem);
 		rightVpPanel.add(itemDetailsPanel);
 		itemsListGrid.setItemSelectionListener(new ItemSelectionListener() {

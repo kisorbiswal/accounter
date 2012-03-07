@@ -3,10 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
@@ -21,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.AdjustmentVATItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
@@ -105,12 +103,12 @@ public class AdjustTAXView extends
 		vatItemCombo.setEnabled(!isInViewMode());
 		// vatItemCombo.setWidth(100);
 
-		vatLine = new LabelItem(messages.taxLine(),"vatLine");
+		vatLine = new LabelItem(messages.taxLine(), "vatLine");
 
-		vatAccount = new LabelItem(messages.taxAccount(),"vatAccount");
+		vatAccount = new LabelItem(messages.taxAccount(), "vatAccount");
 
-		vatLinetxt = new LabelItem("","vatLinetxt");
-		vatAccounttxt = new LabelItem("","vatAccounttxt");
+		vatLinetxt = new LabelItem("", "vatLinetxt");
+		vatAccounttxt = new LabelItem("", "vatAccounttxt");
 
 		vatLinetxt.setValue(" ");
 		vatAccounttxt.setValue("  ");
@@ -194,18 +192,17 @@ public class AdjustTAXView extends
 		salesTypeRadio.setDefaultValue(messages.salesType());
 		salesTypeRadio.setEnabled(isInViewMode());
 
-		memo = new TextAreaItem(messages.memo(),"memo");
+		memo = new TextAreaItem(messages.memo(), "memo");
 		memo.setMemo(false, this);
 		memo.setDisabled(isInViewMode());
 		DynamicForm dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.add(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// datepanel.setCellHorizontalAlignment(dateForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		DynamicForm topform = new DynamicForm("topform");
 		topform.addStyleName("fields-panel");
@@ -222,11 +219,10 @@ public class AdjustTAXView extends
 		memoForm.addStyleName("fields-panel");
 		// memoForm.setWidth("50%");
 		memoForm.add(adjustAccountCombo, amount, typeRadio, memo);
-//		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// memoForm.getCellFormatter().setWidth(0, 0, "190");
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(infoLabel);
 		mainPanel.add(voidedPanel);
 		mainPanel.add(datepanel);
@@ -236,7 +232,6 @@ public class AdjustTAXView extends
 		// mainPanel.add(vatform);
 		// }
 		mainPanel.add(memoForm);
-		mainPanel.setSpacing(10);
 
 		this.add(mainPanel);
 		listforms.add(memoForm);
@@ -348,7 +343,8 @@ public class AdjustTAXView extends
 		if (AccounterValidator.isZeroAmount(amount.getAmount())) {
 			result.addError(amount, messages.shouldNotbeZero(amount.getTitle()));
 		} else if (AccounterValidator.isNegativeAmount(amount.getAmount())) {
-			result.addError(amount, messages.shouldBePositive(amount.getTitle()));
+			result.addError(amount,
+					messages.shouldBePositive(amount.getTitle()));
 		}
 
 		// case 2:

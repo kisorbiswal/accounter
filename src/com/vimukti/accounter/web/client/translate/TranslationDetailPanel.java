@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.translate;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public class TranslationDetailPanel extends VerticalPanel {
+public class TranslationDetailPanel extends FlowPanel {
 	//
 	// private TranslationWizard translationWizard;
-	// private VerticalPanel verticalPanel;
+	// private StyledPanel verticalPanel;
 	// private ClientMessage clientMessage;
 	// private String language;
 	//
@@ -59,12 +59,12 @@ public class TranslationDetailPanel extends VerticalPanel {
 	// return;
 	// }
 	//
-	// verticalPanel = new VerticalPanel();
+	// verticalPanel = new StyledPanel();
 	// verticalPanel.setHorizontalAlignment(ALIGN_LEFT);
 	//
 	// Label label = new Label(language);
 	//
-	// HorizontalPanel buttonPanel = new HorizontalPanel();
+	// StyledPanel buttonPanel = new StyledPanel();
 	// Button backButton = new Button("Back");
 	// backButton.addStyleName("backnextbutton");
 	// backButton.addClickHandler(new ClickHandler() {
@@ -159,7 +159,7 @@ public class TranslationDetailPanel extends VerticalPanel {
 	// verticalPanel.add(flowPanel);
 	// }
 	//
-	// final VerticalPanel valuePanel = new VerticalPanel();
+	// final StyledPanel valuePanel = new StyledPanel();
 	//
 	// final TextArea userValue = new TextArea();
 	// userValue.setWidth("100%");

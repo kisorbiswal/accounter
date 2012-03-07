@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -36,7 +36,6 @@ public class SelectExpenseType extends BaseDialog {
 	}
 
 	private void createControls() {
-		mainPanel.setSpacing(3);
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		if (Global.get().preferences().isHaveEpmloyees()
@@ -51,13 +50,13 @@ public class SelectExpenseType extends BaseDialog {
 
 		DynamicForm typeForm = new DynamicForm("typeForm");
 		typeForm.setWidth("100%");
-//		typeForm.setIsGroup(true);
-//
-//		typeForm.setGroupTitle(messages
-//				.selectHowYouPaidForExpense());
+		// typeForm.setIsGroup(true);
+		//
+		// typeForm.setGroupTitle(messages
+		// .selectHowYouPaidForExpense());
 		typeForm.add(typeRadio);
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
 
@@ -80,8 +79,7 @@ public class SelectExpenseType extends BaseDialog {
 		if (!radio.equals(EMPLOYEE) && !radio.equals(CHECK)
 				&& !radio.equals(CREDIT_CARD) && !radio.equals(CASH)
 				&& !radio.equals(EMPLOYEE)) {
-			result.addError(this, messages
-					.pleaseSelectExpenseType());
+			result.addError(this, messages.pleaseSelectExpenseType());
 		}
 		return result;
 	}
@@ -99,8 +97,7 @@ public class SelectExpenseType extends BaseDialog {
 			} else if (radio.equals(CASH)) {
 				ActionFactory.CashExpenseAction().run(null, false);
 			} else {
-				Accounter.showError(messages
-						.pleaseSelectExpenseType());
+				Accounter.showError(messages.pleaseSelectExpenseType());
 			}
 
 		}

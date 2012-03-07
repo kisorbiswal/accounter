@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class InvoicePrintDialog extends BaseDialog {
 	private String description;

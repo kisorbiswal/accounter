@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -14,12 +13,13 @@ import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.GraphPointsPortlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
 
 public class IncomeAndExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 	private DateRangePortletToolBar toolBar;
-	private VerticalPanel graphPanel;
+	private StyledPanel graphPanel;
 
 	public IncomeAndExpensesBreakdownPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.incomeAndExpenseAccounts(), "", "100%");
@@ -27,7 +27,7 @@ public class IncomeAndExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void createBody() {
-		graphPanel = new VerticalPanel();
+		graphPanel = new StyledPanel("graphPanel");
 		createToolBar();
 		this.body.add(graphPanel);
 	}

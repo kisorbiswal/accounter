@@ -12,9 +12,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
@@ -26,7 +26,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	private static SetupSelectFiscalYrDatePageUiBinder uiBinder = GWT
 			.create(SetupSelectFiscalYrDatePageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	Label fiscalStarts;
 	@UiField

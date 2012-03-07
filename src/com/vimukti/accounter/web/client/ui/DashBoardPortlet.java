@@ -3,10 +3,8 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -21,7 +19,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	private HTML title = new HTML();
 	private String name;
 	protected Label all;
-	public VerticalPanel body;
+	public StyledPanel body;
 	private int previousIndex;
 	// public HTML gotoText;
 	public HTML help;
@@ -36,9 +34,8 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		this.titleName = title;
 		// createHandlerForTitle();
 		panel = new ScrollPanel();
-		body = new VerticalPanel();
+		body = new StyledPanel("body");
 		body.setStyleName("portlet-body");
-		this.setSize("100%", "100%");
 		// this.setHeight("124");
 
 		addStyleName("portlet");
@@ -74,8 +71,8 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 	// }
 
 	void createHeaderControls() {
-		HorizontalPanel windowControlLayout = new HorizontalPanel();
-		// HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel windowControlLayout = new StyledPanel("windowControlLayout");
+		// StyledPanel hPanel = new StyledPanel();
 		windowControlLayout.setStyleName("tool-box");
 
 		// gotoText = new Label(getGoToText());

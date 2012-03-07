@@ -12,11 +12,11 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Administrator
@@ -35,7 +35,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	@UiField
 	CheckBox isMultiCurrencyAllowed;
 	// @UiField
-	VerticalPanel currencyListGridPanel;
+	StyledPanel currencyListGridPanel;
 	// private CurrenciesGrid currenciesGrid;
 	// private Set<ClientCurrency> currencySet;
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();

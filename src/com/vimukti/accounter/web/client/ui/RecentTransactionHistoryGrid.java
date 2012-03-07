@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Utility;

@@ -11,10 +11,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -30,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	private PortletToolBar toolBar;
-	private VerticalPanel graphPanel;
+	private StyledPanel graphPanel;
 
 	public double allExpensesAmount = 0.00;
 	public double cashExpenseAmount = 0.00;
@@ -60,7 +57,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void createBody() {
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		FlexTable fTable = new FlexTable();
 
 		Button addExpenseBtn = new Button(messages.addExpenses());
@@ -165,7 +162,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		}
 		vPanel.add(fTable);
 		toolBarInitilization();
-		graphPanel = new VerticalPanel();
+		graphPanel = new StyledPanel("graphPanel");
 		topPanel.add(toolBar);
 		this.body.add(topPanel);
 		this.body.add(graphPanel);
@@ -250,8 +247,6 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					Label label = new Label(messages.noRecordsToShow());
 					graphPanel.add(label);
 					label.addStyleName("no_records_label");
-					graphPanel.setCellHorizontalAlignment(label,
-							HasAlignment.ALIGN_CENTER);
 				}
 				completeInitialization();
 			}

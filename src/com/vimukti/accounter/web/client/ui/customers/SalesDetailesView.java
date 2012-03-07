@@ -167,8 +167,6 @@ public class SalesDetailesView extends AbstractView {
 		flexTable.clear();
 		flexTable.setWidget(0, 0,
 				new HTML(messages.selectATaskNotetoSeeTheDetails()));
-		cellFormatter.setHeight(0, 0, "300px");
-		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
 	}
 
 	/**

@@ -13,6 +13,7 @@ public class DynamicForm extends FlowPanel {
 	protected static final AccounterMessages messages = Global.get().messages();
 
 	public DynamicForm(String style) {
+		super();
 		setStyleName(style);
 	}
 

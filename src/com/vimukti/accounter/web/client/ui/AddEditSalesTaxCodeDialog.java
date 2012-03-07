@@ -5,7 +5,7 @@
 //import com.google.gwt.layout.client.Layout.Alignment;
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.ClientTaxAgency;
 //import com.vimukti.accounter.web.client.core.ClientTaxCode;
 //import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -106,7 +106,7 @@
 ////		taxRates.setMargin(10);
 //
 //		initListGrid();
-//		VerticalPanel bodyLayout = new VerticalPanel();
+//		StyledPanel bodyLayout = new StyledPanel();
 //		bodyLayout.add(taxCodeForm);
 //		bodyLayout.add(taxRates);
 //		bodyLayout.add(gridView);

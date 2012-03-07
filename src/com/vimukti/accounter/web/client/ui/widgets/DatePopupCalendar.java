@@ -10,12 +10,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
@@ -31,7 +29,7 @@ public class DatePopupCalendar extends PopupPanel {
 	private Button cancelButton;
 	private Button nextButton, prevButton;
 	private Date displayMonth;
-	final private VerticalPanel panel;
+	final private StyledPanel panel;
 	String months[][] = { { DayAndMonthUtil.jan(), DayAndMonthUtil.jul() },
 			{ DayAndMonthUtil.feb(), DayAndMonthUtil.aug() },
 			{ DayAndMonthUtil.mar(), DayAndMonthUtil.sep() },
@@ -46,7 +44,7 @@ public class DatePopupCalendar extends PopupPanel {
 		this.addStyleName("blue" + "-date-picker");
 		this.daysGrid = new Grid(6, 4);
 		this.datePicker = datePicker;
-		panel = new VerticalPanel();
+		panel = new StyledPanel("panel");
 
 		this.add(panel);
 		sinkEvents(Event.ONBLUR);
@@ -69,14 +67,14 @@ public class DatePopupCalendar extends PopupPanel {
 		super.onBrowserEvent(event);
 	}
 
-	private void nextButton(VerticalPanel panel) {
+	private void nextButton(StyledPanel panel) {
 		prevButton = new Button("-");
 		prevButton.setWidth("60%");
 		nextButton = new Button("+");
 		nextButton.setWidth("60%");
 	}
 
-	private void drawButtons(final VerticalPanel panel) {
+	private void drawButtons(final StyledPanel panel) {
 		AccounterMessages messages = Global.get().messages();
 		okButton = new Button(messages.ok());
 		okButton.addClickHandler(new ClickHandler() {
@@ -136,7 +134,7 @@ public class DatePopupCalendar extends PopupPanel {
 
 	}
 
-	private void drawGrid(VerticalPanel panel) {
+	private void drawGrid(StyledPanel panel) {
 
 		daysGrid.setStyleName("blue" + "-" + "day-grid");
 		CellFormatter cfJours = daysGrid.getCellFormatter();
@@ -228,19 +226,19 @@ public class DatePopupCalendar extends PopupPanel {
 
 		});
 		panel.add(daysGrid);
-		HorizontalPanel h = new HorizontalPanel();
+		StyledPanel h = new StyledPanel("h");
 
-		h.setSpacing(10);
+		// h.setSpacing(10);
 		h.setWidth("100%");
 		h.add(okButton);
 
-		h.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		// h.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		h.add(cancelButton);
-		h.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		h.setCellHorizontalAlignment(okButton,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		h.setCellHorizontalAlignment(cancelButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// h.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		// h.setCellHorizontalAlignment(okButton,
+		// HasHorizontalAlignment.ALIGN_LEFT);
+		// h.setCellHorizontalAlignment(cancelButton,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 		panel.add(h);
 		h.addStyleName("prenextmonth-okcancel");
 

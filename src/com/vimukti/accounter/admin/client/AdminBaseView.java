@@ -2,7 +2,6 @@ package com.vimukti.accounter.admin.client;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -56,11 +55,6 @@ public abstract class AdminBaseView<T extends IAccounterCore> extends
 
 	private void createView() {
 
-		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		setWidth("100%");
-		setHeight("100%");
-
-		// buttonBar = new ButtonBar(this);
 		// buttonBar.setStyleName("button_bar");
 		//
 		// super.add(buttonBar);

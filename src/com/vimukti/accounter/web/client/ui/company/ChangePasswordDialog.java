@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
@@ -15,7 +15,7 @@ public class ChangePasswordDialog extends BaseDialog {
 	private PasswordItem oldPasswordTextItem, newPasswordTextItem,
 			confirmNewPasswordTextItem;
 	private DynamicForm textItemsForm;
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private String oldPassword, newPassword, confirmNewPassword;
 
 	public ChangePasswordDialog(String title, String desc) {
@@ -25,12 +25,10 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	private void createControls() {
 
-		oldPasswordTextItem = new PasswordItem(messages
-				.oldPassword());
-		newPasswordTextItem = new PasswordItem(messages
-				.newPassword());
-		confirmNewPasswordTextItem = new PasswordItem(messages
-				.confirmNewPassword());
+		oldPasswordTextItem = new PasswordItem(messages.oldPassword());
+		newPasswordTextItem = new PasswordItem(messages.newPassword());
+		confirmNewPasswordTextItem = new PasswordItem(
+				messages.confirmNewPassword());
 
 		oldPasswordTextItem.setRequired(true);
 		newPasswordTextItem.setRequired(true);
@@ -38,10 +36,10 @@ public class ChangePasswordDialog extends BaseDialog {
 
 		textItemsForm = new DynamicForm("textItemsForm");
 
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 
-//		textItemsForm.setNumCols(2);
-//		textItemsForm.setCellSpacing(10);
+		// textItemsForm.setNumCols(2);
+		// textItemsForm.setCellSpacing(10);
 		textItemsForm.add(oldPasswordTextItem, newPasswordTextItem,
 				confirmNewPasswordTextItem);
 
@@ -88,8 +86,7 @@ public class ChangePasswordDialog extends BaseDialog {
 				return false;
 			}
 		} else {
-			addError(this, messages
-					.passwordshouldcontainminimum6characters());
+			addError(this, messages.passwordshouldcontainminimum6characters());
 			return false;
 		}
 		return true;

@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -12,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -48,8 +47,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		form.setHeight("100%");
 		form1.setHeight("100%");
 		form1.setWidth("100%");
-		HorizontalPanel layout1 = new HorizontalPanel();
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel layout1 = new StyledPanel("layout1");
+		StyledPanel vPanel = new StyledPanel("vPanel");
 
 		formTypeCombo = new SelectCombo(messages.formNo());
 		formTypeCombo.setRequired(true);
@@ -68,11 +67,11 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		quaterCombo.setSelectedItem(0);
 		quaterCombo.setRequired(true);
 
-		ackNoField = new TextItem(messages.acknowledgmentNo(),"ackNoField");
+		ackNoField = new TextItem(messages.acknowledgmentNo(), "ackNoField");
 		ackNoField.setRequired(true);
 
 		ClientFinanceDate todaysDate = new ClientFinanceDate();
-		dateField = new DateField(messages.date(),"dateField");
+		dateField = new DateField(messages.date(), "dateField");
 		dateField.setRequired(true);
 		dateField.setTitle(messages.date());
 		dateField.setValue(todaysDate);

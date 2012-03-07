@@ -10,16 +10,16 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class SetupPremiumPage extends AbstractSetupPage {
 
 	private static SetupPremiumPageUiBinder uiBinder = GWT
 			.create(SetupPremiumPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	Label headerLabel;
 	@UiField

@@ -5,14 +5,14 @@
 //import com.google.gwt.user.client.ui.Anchor;
 //import com.google.gwt.user.client.ui.HTML;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.Global;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 //import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 //
 //public class GettingStartedPortlet extends Portlet {
-//	private VerticalPanel mainPanel;
+//	private StyledPanel mainPanel;
 //	private HTML minHtml, allHtml;
 //	private Label moreLabel;
 //
@@ -25,7 +25,7 @@
 //
 //	@Override
 //	public void createBody() {
-//		mainPanel = new VerticalPanel();
+//		mainPanel = new StyledPanel();
 //		// <li> <a href=''><font color='green'>Watch the Getting Started
 //		// tour.</font></a>
 //		// <li>Set up repeating invoices for those invoices you regularly send
@@ -53,12 +53,12 @@
 //		// + expences
 //		// +
 //		// ".<li>Add to <a href=''><font color='green'>customers</font></a> or <a href=''><font color='green'>vendors</font></a> the people you regularly transact with.</ul>");
-//		// VerticalPanel vPanel = new VerticalPanel();
-//		// HorizontalPanel hPanel1 = new HorizontalPanel();
-//		// HorizontalPanel hPanel2 = new HorizontalPanel();
-//		// HorizontalPanel hPanel3 = new HorizontalPanel();
-//		// HorizontalPanel hPanel4 = new HorizontalPanel();
-//		// HorizontalPanel hPanel5 = new HorizontalPanel();
+//		// StyledPanel vPanel = new StyledPanel();
+//		// StyledPanel hPanel1 = new StyledPanel();
+//		// StyledPanel hPanel2 = new StyledPanel();
+//		// StyledPanel hPanel3 = new StyledPanel();
+//		// StyledPanel hPanel4 = new StyledPanel();
+//		// StyledPanel hPanel5 = new StyledPanel();
 //		allHtml = new HTML(messages.allHTML());
 //		// hPanel1.add(new HTML("<li>Add "));
 //		// if (FinanceApplication.getUser().canDoInvoiceTransactions()) {

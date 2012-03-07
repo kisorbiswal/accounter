@@ -13,7 +13,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -131,10 +130,10 @@ public class CashPurchaseView extends
 		// vendorCombo.setWidth(100);
 		contactCombo = createContactComboItem();
 		// contactCombo.setWidth(100);
-		billToAreaItem = new TextAreaItem(messages.billTo(),"billToAreaItem");
+		billToAreaItem = new TextAreaItem(messages.billTo(), "billToAreaItem");
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setWidth(100);
@@ -144,8 +143,7 @@ public class CashPurchaseView extends
 		vendorForm = UIUtils.form(Global.get().Vendor());
 
 		// vendorForm.setWidth("100%");
-		vendorForm.add(vendorCombo, contactCombo, phoneSelect,
-				billToAreaItem);
+		vendorForm.add(vendorCombo, contactCombo, phoneSelect, billToAreaItem);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "160px");
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -171,7 +169,7 @@ public class CashPurchaseView extends
 					}
 				});
 
-		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.setEnabled(false);
@@ -199,7 +197,7 @@ public class CashPurchaseView extends
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo(),"checkNoText");
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
@@ -386,14 +384,13 @@ public class CashPurchaseView extends
 
 		discountField = getDiscountField();
 
-		VerticalPanel totalForm = new VerticalPanel();
+		StyledPanel totalForm = new StyledPanel("totalForm");
 		totalForm.setStyleName("boldtext");
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
@@ -408,28 +405,25 @@ public class CashPurchaseView extends
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
-
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
-		VerticalPanel bottompanel = new VerticalPanel();
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		if (isTrackTax() && isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm("netAmountForm");
 			netAmountForm.add(netAmount);
 			totalForm.add(netAmountForm);
 			totalForm.add(vatTotalNonEditableText);
-			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 			if (isMultiCurrencyEnabled()) {
 				transactionTotalForm.add(transactionTotalNonEditableText,
 						foreignCurrencyamountLabel);
 			} else {
 				transactionTotalForm.add(transactionTotalNonEditableText);
 			}
-			VerticalPanel vpanel = new VerticalPanel();
-			vpanel.setWidth("100%");
-			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+			StyledPanel vpanel = new StyledPanel("vpanel");
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
@@ -451,7 +445,7 @@ public class CashPurchaseView extends
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
 
-			// VerticalPanel vPanel = new VerticalPanel();
+			// StyledPanel vPanel = new StyledPanel();
 			// vPanel.add(menuButton);
 			// vPanel.add(memoForm);
 			// vPanel.setWidth("100%");
@@ -485,11 +479,8 @@ public class CashPurchaseView extends
 			bottompanel.add(bottomLayout);
 		}
 		totalForm.add(transactionTotalForm);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
@@ -503,7 +494,6 @@ public class CashPurchaseView extends
 		// setOverflow(Overflow.SCROLL);
 		this.add(mainVLay);
 		// addChild(mainVLay);
-
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

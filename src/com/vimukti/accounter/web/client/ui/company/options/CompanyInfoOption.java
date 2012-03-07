@@ -16,18 +16,15 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -94,13 +91,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@UiField
 	Label tradingAddressDescription;
 	@UiField
-	VerticalPanel registeredAddressSubPanel;
+	StyledPanel registeredAddressSubPanel;
 	@UiField
-	VerticalPanel tradingAddressSubPanel;
+	StyledPanel tradingAddressSubPanel;
 	@UiField
-	VerticalPanel tradingAddressPanel;
+	StyledPanel tradingAddressPanel;
 	@UiField
-	VerticalPanel registeredAddressPanel;
+	StyledPanel registeredAddressPanel;
 	@UiField
 	CheckBox isShowRegisteredAddressCheckBox;
 	// Website
@@ -127,14 +124,14 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox isShowLegalName;
 	@UiField
-	HorizontalPanel legalNamePanel;
+	StyledPanel legalNamePanel;
 	// Phone Number
 	@UiField
 	Label companyPhoneNumberLabel;
 	@UiField
 	TextBox companyPhoneNumberTextBox;
 	@UiField
-	VerticalPanel mainPanel;
+	StyledPanel mainPanel;
 	@UiField
 	Label fiscalYearLabel;
 	@UiField
@@ -355,14 +352,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		DynamicForm form = new DynamicForm("form");
 		for (String key : fields.keySet()) {
 			String value = fields.get(key);
-			TextItem item = new TextItem(key,"item");
+			TextItem item = new TextItem(key, "item");
 			item.setValue(value);
 			item.setTitle(key);
 			form.add(item);
 			itemsField.put(key, item);
 		}
 		mainPanel.add(form);
-		mainPanel.setCellHorizontalAlignment(form, HasAlignment.ALIGN_CENTER);
 		form.addStyleName("company_fields");
 	}
 

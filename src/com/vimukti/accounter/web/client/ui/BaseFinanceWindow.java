@@ -2,16 +2,15 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * 
  * @author Mandeep Singh
  * 
  */
-public class BaseFinanceWindow extends VerticalPanel {
+public class BaseFinanceWindow extends FlowPanel {
 
-	
 	private BaseFinanceWindow parent;
 	protected ArrayList<IWindowListener> listeners = new ArrayList<IWindowListener>();
 

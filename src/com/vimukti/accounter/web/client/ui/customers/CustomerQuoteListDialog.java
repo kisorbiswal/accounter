@@ -3,7 +3,7 @@
 //import java.util.List;
 //
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 //import com.vimukti.accounter.web.client.Global;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -52,7 +52,7 @@
 //
 //	private void createControl() {
 //
-//		VerticalPanel mainLayout = new VerticalPanel();
+//		StyledPanel mainLayout = new StyledPanel();
 //		mainLayout.setSize("100%", "100%");
 //		mainLayout.setSpacing(3);
 //		Label infoLabel = null;

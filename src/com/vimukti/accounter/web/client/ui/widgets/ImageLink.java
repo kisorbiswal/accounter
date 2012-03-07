@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.widgets;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
-public class ImageLink extends HorizontalPanel {
+public class ImageLink extends FlowPanel {
 
 	private Anchor link;
 

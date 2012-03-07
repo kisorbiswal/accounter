@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -317,6 +316,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return accounterClass;
 	}
+
 	protected StyledPanel getVoidedPanel() {
 		voidedPanel = new StyledPanel("voidedPanel");
 		voidedLabel = new Label();
@@ -954,7 +954,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			};
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
-//			item.setIcon(imgSrc);
+			// item.setIcon(imgSrc);
 			popupMenuBar.addItem(item);
 		}
 	}
@@ -1000,7 +1000,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			}
 
-//			item.setIcon(image);
+			// item.setIcon(image);
 
 			// item.getElement().getStyle().setProperty("background",
 			// "url(" + image + ") no-repeat scroll 0 0 transparent");
@@ -1097,14 +1097,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public boolean isEdit() {
 		return isInViewMode();
-	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// if (menuButton != null) {
-		// menuButton.setEnabled(!isInViewMode());
-		// }
 	}
 
 	@Override
@@ -1827,7 +1819,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
 
-
 		addNotesLink.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -2100,8 +2091,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return super.canDelete();
 	}
-	
-		@Override
+
+	@Override
 	protected boolean isSaveButtonAllowed() {
 		return Utility.isUserHavePermissions(transactionType);
 	}

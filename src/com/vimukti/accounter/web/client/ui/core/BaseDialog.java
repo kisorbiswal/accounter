@@ -14,12 +14,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
@@ -38,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ISaveCallback;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WarningsDialog;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
@@ -57,10 +54,10 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	protected ClientCompanyPreferences preferences = Global.get().preferences();
 	protected static AccounterMessages messages = Global.get().messages();
 	// private String title;
-	protected HorizontalPanel headerLayout;
+	protected StyledPanel headerLayout;
 	private String description;
-	protected HorizontalPanel bodyLayout;
-	protected HorizontalPanel footerLayout;
+	protected StyledPanel bodyLayout;
+	protected StyledPanel footerLayout;
 
 	protected Button cancelBtn;
 	protected Button okbtn;
@@ -69,8 +66,9 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
 	protected IAccounterHomeViewServiceAsync rpcUtilService;
 	protected ClientCompany company = Accounter.getCompany();
-	protected VerticalPanel mainPanel, mainVLayPanel;
-	public VerticalPanel errorPanel;
+	protected StyledPanel mainPanel;
+	StyledPanel mainVLayPanel;
+	public StyledPanel errorPanel;
 	private final Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 
 	private ActionCallback<T> callback;
@@ -117,8 +115,8 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		/**
 		 * Header Layout
 		 */
-		headerLayout = new HorizontalPanel();
-		headerLayout.setWidth("100%");
+		headerLayout = new StyledPanel("headerLayout");
+		// headerLayout.setWidth("100%");
 		if (description != null) {
 			Label label = new Label();
 			label.setText(description);
@@ -128,14 +126,14 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		/**
 		 * Body LayOut
 		 */
-		bodyLayout = new HorizontalPanel();
-		bodyLayout.setWidth("100%");
+		bodyLayout = new StyledPanel("bodyLayout");
+		// bodyLayout.setWidth("100%");
 
 		/**
 		 * Footer Layout
 		 */
-		footerLayout = new HorizontalPanel();
-		footerLayout.setSpacing(3);
+		footerLayout = new StyledPanel("footerLayout");
+		// footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
 		this.okbtn = new Button(messages.ok());
@@ -161,7 +159,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 			}
 		});
 
-		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
 
@@ -169,33 +167,33 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 		cancelBtn.setEnabled(true);
 
-		footerLayout.setCellHorizontalAlignment(okbtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		footerLayout.setCellHorizontalAlignment(cancelBtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setCellHorizontalAlignment(okbtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setCellHorizontalAlignment(cancelBtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		/**
 		 * adding all Layouts to Window
 		 */
 
-		mainPanel = new VerticalPanel();
-		errorPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
+		errorPanel = new StyledPanel("errorPanel");
 		errorPanel.setVisible(false);
 		errorPanel.addStyleName("errors error-panel");
-		mainPanel.setSize("100%", "100%");
+		// mainPanel.setSize("100%", "100%");
 		// mainPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		mainPanel.add(errorPanel);
 		mainPanel.add(headerLayout);
-		mainPanel.setCellVerticalAlignment(headerLayout,
-				HasVerticalAlignment.ALIGN_TOP);
+		// mainPanel.setCellVerticalAlignment(headerLayout,
+		// HasVerticalAlignment.ALIGN_TOP);
 
 		//
 		// mainPanel.setCellVerticalAlignment(bodyLayout,
 		// HasVerticalAlignment.ALIGN_TOP);
 		mainPanel.add(bodyLayout);
 		mainPanel.add(footerLayout);
-		mainPanel.setCellHorizontalAlignment(footerLayout,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// mainPanel.setCellHorizontalAlignment(footerLayout,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		add(mainPanel);
 

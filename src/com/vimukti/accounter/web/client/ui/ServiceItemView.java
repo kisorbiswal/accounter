@@ -22,7 +22,7 @@
 //import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 //import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
 //import com.smartgwt.client.widgets.form.validator.FloatRangeValidator;
-//import com.smartgwt.client.widgets.layout.HorizontalPanel;
+//import com.smartgwt.client.widgets.layout.StyledPanel;
 //import com.smartgwt.client.widgets.layout.VLayout;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.ClientItem;
@@ -288,7 +288,7 @@
 //		rightVLay.setWidth("100%");
 //		rightVLay.setMembers(itemInfoForm, purchaseInfoForm);
 //
-//		HorizontalPanel topHLay = new HorizontalPanel();
+//		StyledPanel topHLay = new StyledPanel();
 //		topHLay.setMembersMargin(10);
 //		topHLay.setMargin(10);
 //		topHLay.setAlign(Alignment.CENTER);
@@ -312,7 +312,7 @@
 //				save(false);
 //			}
 //		});
-//		HorizontalPanel buttHLay = new HorizontalPanel();//buttHLay.setBackgroundColor("#ff00bb"
+//		StyledPanel buttHLay = new StyledPanel();//buttHLay.setBackgroundColor("#ff00bb"
 //		// );
 //		buttHLay.setAlign(Alignment.RIGHT);
 //		buttHLay.setLayoutBottomMargin(20);

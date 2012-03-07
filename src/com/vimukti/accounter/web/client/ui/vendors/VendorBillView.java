@@ -8,10 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -35,6 +32,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -70,7 +68,7 @@ public class VendorBillView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private final VerticalPanel totalForm = new VerticalPanel();
+	private final StyledPanel totalForm = new StyledPanel("totalForm");
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
@@ -400,17 +398,14 @@ public class VendorBillView extends
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 
-		HorizontalPanel datepanel = new HorizontalPanel();
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
@@ -453,14 +448,14 @@ public class VendorBillView extends
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		// phoneSelect.setWidth(80);
 		phoneSelect.setEnabled(false);
 		// formItems.add(phoneSelect);
 
-		dueDateItem = new DateField(messages.dueDate(),"dueDateItem");
+		dueDateItem = new DateField(messages.dueDate(), "dueDateItem");
 		dueDateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
 				.getViewName()));
 		dueDateItem.setEnteredDate(getTransactionDate());
@@ -685,7 +680,7 @@ public class VendorBillView extends
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		// memoForm.setWidget(3, 0, addLinksButton);
 		// memoForm.setWidget(3, 1, linksText.getMainWidget());
@@ -698,8 +693,7 @@ public class VendorBillView extends
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")
 		// + "px");
-		HorizontalPanel taxPanel = new HorizontalPanel();
-		taxPanel.setWidth("100%");
+		StyledPanel taxPanel = new StyledPanel("taxPanel");
 		discountField = getDiscountField();
 
 		DynamicForm form = new DynamicForm("form");
@@ -713,7 +707,6 @@ public class VendorBillView extends
 			netAmountForm.add(netAmount);
 			totalForm.add(netAmountForm);
 			totalForm.add(vatTotalNonEditableText);
-			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 		}
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
@@ -721,9 +714,8 @@ public class VendorBillView extends
 			}
 		}
 		taxPanel.add(form);
-		taxPanel.setCellHorizontalAlignment(form,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		transactionTotalForm.add(transactionTotalNonEditableText);
 		if (isMultiCurrencyEnabled()) {
@@ -733,73 +725,44 @@ public class VendorBillView extends
 		totalForm.add(transactionTotalForm);
 		taxPanel.add(totalForm);
 
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
-
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		horizontalPanel.add(tdsForm);
 
 		if (this.isInViewMode()) {
 			DynamicForm balanceDueForm = new DynamicForm("balanceDueForm");
 			balanceDueForm.add(balanceDueNonEditableText);
 			totalForm.add(balanceDueForm);
-			totalForm.setCellHorizontalAlignment(balanceDueForm, ALIGN_RIGHT);
 		}
-		VerticalPanel leftVLay = new VerticalPanel();
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		// leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		rightVLay.add(dateform);
-		rightVLay.setCellHorizontalAlignment(dateform,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		topHLay.getElement().getStyle().setPaddingTop(20, Unit.PX);
-		topHLay.getElement().getStyle().setPaddingBottom(20, Unit.PX);
+		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
-		HorizontalPanel bottomLayout = new HorizontalPanel();
-		bottomLayout.setWidth("100%");
-
-		VerticalPanel bottompanel = new VerticalPanel();
-		bottompanel.setWidth("100%");
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 		//
 
-		// if (isTrackTax()) {
-
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.setWidth("100%");
-		verticalPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		VerticalPanel vpanel = new VerticalPanel();
-		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
-		// vpanel.setWidth("100%");
-
-		// vpanel.add(hpanel);
 		bottomLayout.add(memoForm);
 		bottomLayout.add(taxPanel);
-		bottomLayout.setCellWidth(totalForm, "30%");
 
 		bottompanel.add(bottomLayout);
 
-		// VerticalPanel vPanel = new VerticalPanel();
+		// StyledPanel vPanel = new StyledPanel();
 		// vPanel.add(menuButton);
 		// vPanel.add(memoForm);
 		// vPanel.setWidth("100%");
@@ -819,7 +782,7 @@ public class VendorBillView extends
 		// bottomLayout.setCellWidth(totalForm, "30%");
 		//
 		// memoForm.setStyleName("align-form");
-		// VerticalPanel vPanel = new VerticalPanel();
+		// StyledPanel vPanel = new StyledPanel();
 		// vPanel.add(hpanel);
 		// vPanel.setWidth("100%");
 		//
@@ -832,7 +795,7 @@ public class VendorBillView extends
 
 		// } else {
 		// memoForm.setStyleName("align-form");
-		// VerticalPanel vPanel = new VerticalPanel();
+		// StyledPanel vPanel = new StyledPanel();
 		// vPanel.setWidth("100%");
 		//
 		// vPanel.add(memoForm);
@@ -840,7 +803,7 @@ public class VendorBillView extends
 		// bottompanel.add(vPanel);
 		// }
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.setSize("100%", "100%");

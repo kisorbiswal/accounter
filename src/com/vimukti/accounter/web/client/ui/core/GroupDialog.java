@@ -7,14 +7,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 
 /**
@@ -29,8 +27,8 @@ import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 public abstract class GroupDialog<T extends IAccounterCore> extends
 		BaseDialog<T> {
 
-	private VerticalPanel buttonsLayout;
-	private HorizontalPanel bodyLayout;
+	private StyledPanel buttonsLayout;
+	private StyledPanel bodyLayout;
 	protected Button button1;
 	private Button button2;
 	private Button button3;
@@ -57,11 +55,11 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 	 */
 	private void initialise() {
 
-		bodyLayout = new HorizontalPanel();
-		mainPanel.setCellVerticalAlignment(bodyLayout,
-				HasVerticalAlignment.ALIGN_TOP);
-		bodyLayout.setWidth("100%");
-		bodyLayout.setSpacing(5);
+		bodyLayout = new StyledPanel("bodyLayout");
+		// mainPanel.setCellVerticalAlignment(bodyLayout,
+		// HasVerticalAlignment.ALIGN_TOP);
+		// bodyLayout.setWidth("100%");
+		// bodyLayout.setSpacing(5);
 
 		listGridView = new DialogGrid(false);
 		listGridView.setView(this);
@@ -76,9 +74,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		/**
 		 * buttons Layout
 		 */
-		buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100px");
-		buttonsLayout.setSpacing(5);
+		buttonsLayout = new StyledPanel("buttonsLayout");
 
 		button1 = new Button(messages.add());
 		button1.setTitle(messages.clickThisTo(messages.addNewLine() + " "

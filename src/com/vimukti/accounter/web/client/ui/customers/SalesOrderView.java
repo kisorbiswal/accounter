@@ -10,9 +10,9 @@
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 //import com.vimukti.accounter.web.client.Global;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -141,13 +141,13 @@
 //		dateNoForm.addStyleName("date-number");
 //		dateNoForm.setFields(statusSelect, transactionDateItem);
 //
-//		HorizontalPanel datepanel = new HorizontalPanel();
+//		StyledPanel datepanel = new StyledPanel();
 //		datepanel.setWidth("98%");
 //		datepanel.add(dateNoForm);
 //		datepanel.setCellHorizontalAlignment(dateNoForm,
 //				HasHorizontalAlignment.ALIGN_RIGHT);
 //
-//		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+//		StyledPanel labeldateNoLayout = new StyledPanel();
 //		labeldateNoLayout.setWidth("100%");
 //		// labeldateNoLayout.add(lab1);
 //		labeldateNoLayout.add(datepanel);
@@ -461,7 +461,7 @@
 //		}
 //
 //		currencyWidget = createCurrencyFactorWidget();
-//		HorizontalPanel prodAndServiceHLay = new HorizontalPanel();
+//		StyledPanel prodAndServiceHLay = new StyledPanel();
 //		prodAndServiceHLay.setWidth("100%");
 //		prodAndServiceHLay.add(prodAndServiceForm1);
 //		prodAndServiceHLay.add(taxForm);
@@ -473,20 +473,20 @@
 //		prodAndServiceHLay.setCellHorizontalAlignment(prodAndServiceForm2,
 //				ALIGN_RIGHT);
 //
-//		VerticalPanel vpanel = new VerticalPanel();
+//		StyledPanel vpanel = new StyledPanel();
 //		vpanel.setWidth("100%");
 //		vpanel.setHorizontalAlignment(ALIGN_RIGHT);
 //
 //		vpanel.add(prodAndServiceHLay);
 //
-//		VerticalPanel leftVLay = new VerticalPanel();
+//		StyledPanel leftVLay = new StyledPanel();
 //		leftVLay.setHorizontalAlignment(ALIGN_LEFT);
 //		// leftVLay.setWidth("100%");
 //		leftVLay.add(custForm);
 //		if (getPreferences().isDoProductShipMents())
 //			leftVLay.add(shipToAddress);
 //
-//		VerticalPanel rightVLay = new VerticalPanel();
+//		StyledPanel rightVLay = new StyledPanel();
 //		rightVLay.setHorizontalAlignment(ALIGN_LEFT);
 //		// rightVLay.setWidth("100%");
 //		rightVLay.add(termsForm);
@@ -497,7 +497,7 @@
 //			currencyWidget.setDisabled(isInViewMode());
 //		}
 //
-//		HorizontalPanel topHLay = new HorizontalPanel();
+//		StyledPanel topHLay = new StyledPanel();
 //		topHLay.addStyleName("fields-panel");
 //		topHLay.setWidth("100%");
 //		topHLay.setSpacing(10);
@@ -507,7 +507,7 @@
 //		topHLay.setCellWidth(rightVLay, "50%");
 //		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 //
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		mainVLay.setSize("100%", "100%");
 //		mainVLay.add(lab1);
 //		mainVLay.add(voidedPanel);

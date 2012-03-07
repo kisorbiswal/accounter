@@ -6,9 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -30,8 +28,8 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	private SalesTaxGroupDialog salesTaxGroupDialog;
 	protected TaxGroupGrid grid;
 	protected SalesTaxItemsGrid itemsGrid;
-	private VerticalPanel buttonsLayout;
-	private HorizontalPanel bodyLayout;
+	private StyledPanel buttonsLayout;
+	private StyledPanel bodyLayout;
 	protected AddButton button1;
 	private Button button2;
 	private Button button3;
@@ -87,7 +85,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		Label lab = new Label(messages.manageSalesTaxGroup());
 		lab.addStyleName("lable-title");
 
-		bodyLayout = new HorizontalPanel();
+		bodyLayout = new StyledPanel("bodyLayout");
 		bodyLayout.setSize("100%", "100%");
 
 		grid = new TaxGroupGrid(false);
@@ -98,9 +96,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		/**
 		 * buttons Layout
 		 */
-		buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100px");
-		buttonsLayout.setSpacing(5);
+		buttonsLayout = new StyledPanel("buttonsLayout");
 
 		button1 = new AddButton(this);
 		button1.setWidth("80px");
@@ -151,14 +147,13 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button1.setFocus(true);
 		bodyLayout.add(grid);
-		bodyLayout.setCellWidth(grid, "90%");
+		// bodyLayout.setCellWidth(grid, "90%");
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		VerticalPanel mainVlay = new VerticalPanel();
+		StyledPanel mainVlay = new StyledPanel("mainVlay");
 		mainVlay.add(lab);
 		mainVlay.add(bodyLayout);
 		mainVlay.add(itemsGrid);
-		mainVlay.setWidth("100%");
 		this.add(mainVlay);
 
 		grid.addRecordClickHandler(new RecordClickHandler<ClientTAXGroup>() {
@@ -240,13 +235,11 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(messages
-					.taxGroup(), messages.toAddOrRemoveTaxCode(),
-					taxGroup);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(messages.taxGroup(),
+					messages.toAddOrRemoveTaxCode(), taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(messages
-					.taxGroup(), messages.toAddOrRemoveTaxCode(),
-					null);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(messages.taxGroup(),
+					messages.toAddOrRemoveTaxCode(), null);
 		}
 
 		salesTaxGroupDialog.setCallback(new ActionCallback<ClientTAXGroup>() {

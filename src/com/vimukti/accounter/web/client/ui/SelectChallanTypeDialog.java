@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -36,8 +35,7 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);

@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -38,7 +36,6 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		super(title, desc);
 		createControls();
 
-		mainPanel.setSpacing(3);
 		center();
 	}
 
@@ -88,8 +85,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 
 	private void createControls() {
 		setWidth("570px");
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		mainPanel.setWidth("100%");
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		addButton = new Button(messages.add());
 		addButton.setWidth("80px");
@@ -155,9 +151,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		availItemsGrid.init();
 
 		// Buttons Layout
-		VerticalPanel buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100px");
-		buttonsLayout.setSpacing(3);
+		StyledPanel buttonsLayout = new StyledPanel("buttonsLayout");
 
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
@@ -177,14 +171,14 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		});
 		selectItemsGrid.init();
 
-		mainPanel.setCellHorizontalAlignment(availItemsGrid,
-				HasHorizontalAlignment.ALIGN_LEFT);
+		// mainPanel.setCellHorizontalAlignment(availItemsGrid,
+		// HasHorizontalAlignment.ALIGN_LEFT);
 		mainPanel.add(availItemsGrid);
-		mainPanel.setCellHorizontalAlignment(buttonsLayout,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		// mainPanel.setCellHorizontalAlignment(buttonsLayout,
+		// HasHorizontalAlignment.ALIGN_CENTER);
 		mainPanel.add(buttonsLayout);
-		mainPanel.setCellHorizontalAlignment(selectItemsGrid,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// mainPanel.setCellHorizontalAlignment(selectItemsGrid,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 		mainPanel.add(selectItemsGrid);
 
 		setBodyLayout(mainPanel);
@@ -208,8 +202,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private void setAvailVendorsGridFields() {
-		availItemsGrid.addColumns(new String[] { messages
-				.selectFromList() });
+		availItemsGrid.addColumns(new String[] { messages.selectFromList() });
 
 	}
 
@@ -260,7 +253,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	protected boolean onCancel() {
 		return true;

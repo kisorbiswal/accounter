@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -66,8 +65,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);

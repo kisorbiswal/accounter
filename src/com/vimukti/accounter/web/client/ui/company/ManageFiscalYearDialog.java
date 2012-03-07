@@ -4,14 +4,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
@@ -20,17 +19,17 @@ public class ManageFiscalYearDialog extends BaseDialog {
 	private HTML manageFiscalyearLabel;
 	private HTML descriptionLabel;
 	private FiscalYearListGrid listOfperiods;
-	private VerticalPanel buttonVlayout;
+	private StyledPanel buttonVlayout;
 	private Button newFiscalYearButton;
 	private Button closeFiscalYearButton;
 	private Button openFiscalYearButoon;
 	private Button editFiscalYear;
 	private Button deleteFiscalYear;
 	private Button changeStartDate;
-	private HorizontalPanel listHpanel;
-	private VerticalPanel mainVlayout;
+	private StyledPanel listHpanel;
+	private StyledPanel mainVlayout;
 
-	private HorizontalPanel buttonPanel;
+	private StyledPanel buttonPanel;
 
 	public ManageFiscalYearDialog(String title, String desc) {
 		super(title, desc);
@@ -47,16 +46,11 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		descriptionLabel.setHTML(messages.toCloseBooksOrFascalYear());
 		listOfperiods = new FiscalYearListGrid(this, false);
 		listOfperiods.setTitle(messages.listOfPeriods());
-		listOfperiods.setWidth("350px");
-		listOfperiods.setHeight("250px");
-		listHpanel = new HorizontalPanel();
-		listHpanel.setSpacing(5);
+		listHpanel = new StyledPanel("listHpanel");
 		listHpanel.setWidth("100%");
 		listHpanel.add(listOfperiods);
 		listHpanel.add(getButtonLayout());
-		mainVlayout = new VerticalPanel();
-		mainVlayout.setSpacing(5);
-		// mainVlayout.add(manageFiscalyearLabel);
+		mainVlayout = new StyledPanel("mainVlayout");
 		mainVlayout.add(descriptionLabel);
 		mainVlayout.add(listHpanel);
 		setBodyLayout(mainVlayout);
@@ -72,10 +66,9 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		// listOfperiods.sortList();
 	}
 
-	private VerticalPanel getButtonLayout() {
-		buttonVlayout = new VerticalPanel();
+	private StyledPanel getButtonLayout() {
+		buttonVlayout = new StyledPanel("buttonVlayout");
 		buttonVlayout.setStyleName("fisclaYearButtons");
-		buttonVlayout.setSpacing(5);
 		newFiscalYearButton = new Button();
 		newFiscalYearButton.setWidth("140px");
 		newFiscalYearButton.setText(messages.newFiscalYear());

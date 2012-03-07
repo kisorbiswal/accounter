@@ -10,10 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -21,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -41,8 +39,8 @@ public class SearchInputDialog extends BaseDialog {
 	private SelectCombo transactionTypeCombo, searchByTypeCombo, findByCombo,
 			matchIfCombo;
 	private DynamicForm mainForm, searchTypeForm, findbyForm, matchIfForm;
-	private VerticalPanel buttonPanel, mainPanel, allFormPanel, resultPanel;
-	private HorizontalPanel panel, typePanel;
+	private StyledPanel buttonPanel, mainPanel, allFormPanel, resultPanel;
+	private StyledPanel panel, typePanel;
 	private Button findButton, closeButton;
 	private DateItem dateField;
 	private CustomerCombo customerCombo;
@@ -108,7 +106,7 @@ public class SearchInputDialog extends BaseDialog {
 	public void createControls() {
 
 		mainForm = new DynamicForm("mainForm");
-		typePanel = new HorizontalPanel();
+		typePanel = new StyledPanel("typePanel");
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
 		transactionTypeCombo.initCombo(getTransactionsList());
 		transactionTypeCombo.setComboItem(getTransactionsList().get(0));
@@ -121,9 +119,9 @@ public class SearchInputDialog extends BaseDialog {
 					}
 				});
 
-		dateField = new DateItem(messages.findBy(),"dateField");
+		dateField = new DateItem(messages.findBy(), "dateField");
 		dateField.setValue(new ClientFinanceDate());
-		findByItem = new TextItem(messages.findBy(),"findByItem");
+		findByItem = new TextItem(messages.findBy(), "findByItem");
 		dateField.addStyleName("search_combo_width");
 		amountField = new AmountField(messages.findBy(), this);
 		amountField.addStyleName("search_combo_width");
@@ -165,16 +163,13 @@ public class SearchInputDialog extends BaseDialog {
 		matchIfForm = new DynamicForm("matchIfForm");
 		matchIfForm.add(matchIfCombo);
 
-		allFormPanel = new VerticalPanel();
-		allFormPanel.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
+		allFormPanel = new StyledPanel("allFormPanel");
 		allFormPanel.add(searchTypeForm);
 		allFormPanel.add(findbyForm);
 		allFormPanel.add(matchIfForm);
 		allFormPanel.addStyleName("search_textbox_labels");
 
-		buttonPanel = new VerticalPanel();
-		buttonPanel.setSpacing(5);
-		buttonPanel.setHorizontalAlignment(HasAlignment.ALIGN_RIGHT);
+		buttonPanel = new StyledPanel("buttonPanel");
 		findButton = new Button(messages.find());
 		findButton.addClickHandler(new ClickHandler() {
 
@@ -195,7 +190,7 @@ public class SearchInputDialog extends BaseDialog {
 		buttonPanel.add(closeButton);
 		buttonPanel.addStyleName("search_buttons");
 
-		panel = new HorizontalPanel();
+		panel = new StyledPanel("panel");
 		panel.setStyleName("search-all-forms");
 		panel.add(allFormPanel);
 		panel.add(buttonPanel);
@@ -211,14 +206,12 @@ public class SearchInputDialog extends BaseDialog {
 		typePanel.add(mainForm);
 		typePanel.setStyleName("transaction_type_panel");
 
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(typePanel);
 		mainPanel.add(panel);
 		mainPanel.add(labelItem);
 		footerLayout.setVisible(false);
 
-		super.setWidth("500px");
-		super.setHeight("200px");
 		setBodyLayout(mainPanel);
 		mainPanel.getElement().getParentElement().addClassName("search-width");
 	}
@@ -334,7 +327,7 @@ public class SearchInputDialog extends BaseDialog {
 			mainPanel.remove(resultPanel);
 		}
 
-		resultPanel = new VerticalPanel();
+		resultPanel = new StyledPanel("resultPanel");
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		pager = new SimplePager(TextLocation.CENTER, pagerResources, false, 0,

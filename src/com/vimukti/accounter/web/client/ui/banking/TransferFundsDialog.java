@@ -7,8 +7,8 @@
 //import com.google.gwt.event.dom.client.ClickEvent;
 //import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.user.client.ui.Button;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -218,7 +218,7 @@
 //		okbtn.setTitle(messages.transfer());
 //		cancelBtn.setTitle(messages.cancel());
 //
-//		HorizontalPanel hlay = new HorizontalPanel();
+//		StyledPanel hlay = new StyledPanel();
 //		hlay.setWidth("100%");
 //		// hlay.setMembersMargin(10);
 //		hlay.add(transferFromForm);
@@ -236,7 +236,7 @@
 //			}
 //		});
 //
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		mainVLay.setSize("100%", "100%");
 //
 //		// footerLayout.setCellWidth(okbtn, "85%");

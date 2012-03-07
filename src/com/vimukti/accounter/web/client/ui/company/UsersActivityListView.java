@@ -12,15 +12,14 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -33,7 +32,7 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 
 	private Label titleItem;
 	private DateField fromdate, toDate;
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private DynamicForm dateForm, buttonForm;
 	private UsersActivityList activityList;
 	private Button updateButton, customizeButton;
@@ -47,15 +46,14 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	}
 
 	private void createControls() {
-		mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
+		mainPanel = new StyledPanel("mainPanel");
 		customizationDialog = new ActivityCustomizationDialog(
 				messages.customize());
 		titleItem = new Label(messages.usersActivityLogTitle());
 		titleItem.setStyleName("label-title");
 
-		fromdate = new DateField(messages.fromDate(),"fromdate");
-		toDate = new DateField(messages.endDate(),"toDate");
+		fromdate = new DateField(messages.fromDate(), "fromdate");
+		toDate = new DateField(messages.endDate(), "toDate");
 		fromdate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnteredDate(new ClientFinanceDate());
 
@@ -107,13 +105,10 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 			}
 		});
 
-		HorizontalPanel panel = new HorizontalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		panel.add(dateForm);
 		panel.add(customizeButton);
 		panel.add(updateButton);
-		panel.setCellHorizontalAlignment(customizeButton, ALIGN_RIGHT);
-		panel.setCellHorizontalAlignment(updateButton, ALIGN_RIGHT);
-		panel.setWidth("100%");
 		panel.addStyleName("user_activity_dateform");
 
 		mainPanel.add(titleItem);

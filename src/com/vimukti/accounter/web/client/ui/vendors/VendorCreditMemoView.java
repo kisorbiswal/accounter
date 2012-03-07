@@ -3,16 +3,12 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -28,6 +24,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -215,14 +212,10 @@ public class VendorCreditMemoView extends
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 
-		VerticalPanel datepanel = new VerticalPanel();
-		datepanel.setWidth("100%");
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
@@ -234,7 +227,7 @@ public class VendorCreditMemoView extends
 		// FIXME--need to disable the form
 		// vendorForm.setDisabled(true);
 
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setEnabled(isInViewMode());
@@ -364,10 +357,8 @@ public class VendorCreditMemoView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
 		vendorForm = UIUtils.form(Global.get().vendor());
 		// vendorForm.setWidth("50%");
@@ -382,23 +373,19 @@ public class VendorCreditMemoView extends
 
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		DynamicForm locationForm = new DynamicForm("locationForm");
 		if (locationTrackingEnabled) {
 			locationForm.add(locationCombo);
-			locationForm.getElement().getStyle().setFloat(Float.RIGHT);
 			rightVLay.add(locationForm);
-			rightVLay.setWidth("100%");
 		}
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
 			currencyWidget.setEnabled(isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -409,35 +396,29 @@ public class VendorCreditMemoView extends
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
 		// vatCheckform.setFields(vatinclusiveCheck);
-		VerticalPanel totalForm = new VerticalPanel();
-		totalForm.setWidth("100%");
+		StyledPanel totalForm = new StyledPanel("totalForm");
 		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 		// + "px");
 
-		HorizontalPanel bottomLayout = new HorizontalPanel();
-		bottomLayout.setWidth("100%");
+		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 		leftVLay.add(vendorForm);
-		VerticalPanel rightVLay1 = new VerticalPanel();
-		rightVLay1.setHorizontalAlignment(ALIGN_RIGHT);
+		StyledPanel rightVLay1 = new StyledPanel("rightVLay1");
 		rightVLay1.setWidth("100%");
-		HorizontalPanel topHLay1 = new HorizontalPanel();
+		StyledPanel topHLay1 = new StyledPanel("topHLay1");
 		topHLay1.addStyleName("fields-panel");
-		topHLay1.setWidth("100%");
 		topHLay1.add(leftVLay);
 		topHLay1.add(rightVLay);
-		topHLay1.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel bottomLayout1 = new HorizontalPanel();
-		bottomLayout1.setWidth("100%");
+		StyledPanel bottomLayout1 = new StyledPanel("bottomLayout1");
 
-		VerticalPanel bottomPanel = new VerticalPanel();
-		bottomPanel.setWidth("100%");
+		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 		discountField = getDiscountField();
 
 		DynamicForm taxForm = new DynamicForm("taxForm");
@@ -447,7 +428,6 @@ public class VendorCreditMemoView extends
 
 			totalForm.add(netAmountForm);
 			totalForm.add(vatTotalNonEditableText);
-			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 
 			if (isMultiCurrencyEnabled()) {
 				transactionTotalForm.add(transactionTotalNonEditableText,
@@ -456,9 +436,7 @@ public class VendorCreditMemoView extends
 				transactionTotalForm.add(transactionTotalNonEditableText);
 			}
 
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.setWidth("100%");
-			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
+			StyledPanel vPanel = new StyledPanel("vPanel");
 			vPanel.add(totalForm);
 
 			bottomLayout1.add(memoForm);
@@ -475,7 +453,6 @@ public class VendorCreditMemoView extends
 				}
 			}
 			bottomLayout1.add(totalForm);
-			bottomLayout1.setCellWidth(totalForm, "30%");
 
 			bottomPanel.add(vPanel);
 			bottomPanel.add(bottomLayout1);
@@ -503,11 +480,7 @@ public class VendorCreditMemoView extends
 
 		totalForm.add(transactionTotalForm);
 
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
-
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);

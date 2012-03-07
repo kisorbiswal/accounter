@@ -3,13 +3,11 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
@@ -126,13 +124,12 @@ public class StockSettingsView extends BaseView {
 		dateForm.setStyleName("datenumber-panel");
 		dateForm.add(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
-		HorizontalPanel datepanel = new HorizontalPanel();
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
+		// datepanel.setCellHorizontalAlignment(dateForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(infoLabel);
 		mainPanel.add(datepanel);
 		// mainPanel.add(topform);
@@ -140,7 +137,6 @@ public class StockSettingsView extends BaseView {
 		mainPanel.add(middleform);
 		mainPanel.add(lowerform);
 		// mainPanel.add(memoForm);
-		mainPanel.setSpacing(10);
 		add(mainPanel);
 
 	}

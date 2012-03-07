@@ -30,7 +30,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -51,6 +50,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -375,7 +375,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 		PopupPanel popupPanel = new PopupPanel();
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		TextItem textField = new TextItem(messages.quantity(), "textField");
 		SelectCombo selectCombo = new SelectCombo(messages.units());
 		selectCombo.setWidth("50%");

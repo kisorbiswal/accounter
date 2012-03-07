@@ -37,7 +37,6 @@ import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.ServerConvertUtil;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;

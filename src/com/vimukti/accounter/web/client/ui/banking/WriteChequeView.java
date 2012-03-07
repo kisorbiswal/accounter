@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,10 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -90,7 +86,7 @@ public class WriteChequeView extends
 	protected ClientAccount selectedBalance;
 
 	protected ClientPayee payee;
-	private VerticalPanel mainVLay, nHPanel;
+	private StyledPanel mainVLay, nHPanel;
 
 	private LinkedHashMap<String, ClientAddress> billToAddress;
 
@@ -721,18 +717,16 @@ public class WriteChequeView extends
 			numForm.add(date, transactionNumber);
 		}
 
-		nHPanel = new VerticalPanel();
-		nHPanel.setCellHorizontalAlignment(numForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		nHPanel = new StyledPanel("nHPanel");
 		nHPanel.add(numForm);
 
 		labelLayout = new StyledPanel("labelLayout");
-		labelLayout.setWidth("100%");
 		labelLayout.add(nHPanel);
-//		labelLayout.setCellHorizontalAlignment(nHPanel,
-//				HasHorizontalAlignment.ALIGN_RIGHT);
+		// labelLayout.setCellHorizontalAlignment(nHPanel,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
-		balText = new AmountField(messages.balance(), this, getBaseCurrency(),"balText");
+		balText = new AmountField(messages.balance(), this, getBaseCurrency(),
+				"balText");
 		balText.setWidth(100);
 		balText.setEnabled(!true);
 
@@ -847,7 +841,8 @@ public class WriteChequeView extends
 					}
 
 				});
-		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),"amtText");
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amtText");
 		amtText.setWidth(100);
 		amtText.setAmount(0.00);
 		amtText.setEnabled(!isInViewMode());
@@ -872,15 +867,15 @@ public class WriteChequeView extends
 		DynamicForm memoForm = new DynamicForm(" memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		toprintCheck = new CheckboxItem(messages.toBePrinted(),"toprintCheck");
+		toprintCheck = new CheckboxItem(messages.toBePrinted(), "toprintCheck");
 		toprintCheck.setEnabled(!false);
 		toprintCheck.setValue(true);
 
 		payForm = new DynamicForm("payForm");
 		// payForm.setWidth("100%");
-		inFavourOf = new TextItem(messages.inFavourOf(),"inFavourOf");
+		inFavourOf = new TextItem(messages.inFavourOf(), "inFavourOf");
 		inFavourOf.setRequired(true);
 		inFavourOf.setEnabled(!isInViewMode());
 		payForm.add(paytoSelect, inFavourOf, amtText);
@@ -888,28 +883,20 @@ public class WriteChequeView extends
 
 		currencyWidget = createCurrencyFactorWidget();
 
-		VerticalPanel currencyPanel = new VerticalPanel();
+		StyledPanel currencyPanel = new StyledPanel("currencyPanel");
 		// currencyPanel.setWidth("100%");
 		currencyPanel.add(bankAccForm);
-		currencyPanel.setCellHorizontalAlignment(bankAccForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			currencyPanel.add(currencyWidget);
 			currencyWidget.setEnabled(!isInViewMode());
-			currencyPanel.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 		}
 
-		HorizontalPanel accPanel = new HorizontalPanel();
+		StyledPanel accPanel = new StyledPanel("accPanel");
 		accPanel.addStyleName("fields-panel");
-		accPanel.setWidth("100%");
 		accPanel.add(payForm);
 		accPanel.add(currencyPanel);
-		accPanel.setCellHorizontalAlignment(currencyPanel,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		VerticalPanel topHLay = new VerticalPanel();
-		topHLay.setWidth("100%");
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.add(labelLayout);
 		topHLay.add(accPanel);
 
@@ -927,13 +914,12 @@ public class WriteChequeView extends
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 
-		HorizontalPanel bottomPanel = new HorizontalPanel();
-		bottomPanel.setWidth("100%");
+		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
 		bottomPanel.add(memoForm);
-		VerticalPanel totalForm = new VerticalPanel();
+		StyledPanel totalForm = new StyledPanel("totalForm");
 
 		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
-//		netAmountForm.setNumCols(2);
+		// netAmountForm.setNumCols(2);
 		netAmountForm.add(netAmount);
 		totalForm.add(netAmountForm);
 		discountField = getDiscountField();
@@ -944,10 +930,10 @@ public class WriteChequeView extends
 			if (!isTaxPerDetailLine()) {
 				// taxCodeSelect.setVisible(isInViewMode());
 				form.add(taxCodeSelect);
-//				vatPanel.setCellHorizontalAlignment(form, ALIGN_CENTER);
+				// vatPanel.setCellHorizontalAlignment(form, ALIGN_CENTER);
 				vatPanel.add(form);
 				vatPanel.add(form);
-//				vatPanel.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+				// vatPanel.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 			}
 			if (isTrackPaidTax()) {
 				form.add(vatinclusiveCheck);
@@ -963,8 +949,9 @@ public class WriteChequeView extends
 			}
 		}
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
-//		transactionTotalForm.setNumCols(2);
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
+		// transactionTotalForm.setNumCols(2);
 
 		transactionTotalForm.add(foreignCurrencyamountLabel);
 
@@ -973,10 +960,6 @@ public class WriteChequeView extends
 		}
 		totalForm.add(transactionTotalForm);
 		totalForm.addStyleName("boldtext");
-		totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
 
 		unassignedAmountPanel = new StyledPanel("unassignedAmountPanel");
 
@@ -996,19 +979,19 @@ public class WriteChequeView extends
 
 		});
 
-		DynamicForm unassignedAmountForm = new DynamicForm("unassignedAmountForm");
+		DynamicForm unassignedAmountForm = new DynamicForm(
+				"unassignedAmountForm");
 		unassignedAmount = new AmountLabel(messages.unassignedAmount());
 		unassignedAmountForm.add(unassignedAmount);
 
 		unassignedAmountPanel.add(recalculateButton);
 		unassignedAmountPanel.add(unassignedAmountForm);
 
-//		amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
-//		amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		// amountPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
+		// amountPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		hideUnassignedFields();
 
-		mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		mainVLay = new StyledPanel("mainVLay");
 
 		// For Editing writeCheck or PaySalesTax.
 		// if (transactionObject != null) {
@@ -1128,7 +1111,7 @@ public class WriteChequeView extends
 		// vPanel.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 
-		// HorizontalPanel bottomPanel = new HorizontalPanel();
+		// StyledPanel bottomPanel = new StyledPanel();
 		// bottomPanel.setWidth("100%");
 		// bottomPanel.add(memoForm);
 		// if (isTrackTax()) {
@@ -1147,8 +1130,7 @@ public class WriteChequeView extends
 		// }
 
 		vPanel.add(bottomPanel);
-		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
-//		vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+		// vPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		mainVLay.add(vPanel);
 

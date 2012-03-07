@@ -11,10 +11,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -33,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -143,17 +141,18 @@ public class CustomerRefundView extends
 		locationCombo = createLocationCombo();
 		DynamicForm dateNoForm = new DynamicForm("datenumber-panel");
 		dateNoForm.add(transactionDateItem, transactionNumber);
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
-		labeldateNoLayout.setWidth("100%");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
+		// labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(dateNoForm);
-		labeldateNoLayout.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// labeldateNoLayout.setCellHorizontalAlignment(dateNoForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 		labeldateNoLayout.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
-		HorizontalPanel totalLabel = new HorizontalPanel();
+		StyledPanel totalLabel = new StyledPanel("totalLabel");
 		totalLabel.setWidth("100%");
 		totalLabel.add(labeldateNoLayout);
-		totalLabel.setCellHorizontalAlignment(labeldateNoLayout, ALIGN_RIGHT);
+		// totalLabel.setCellHorizontalAlignment(labeldateNoLayout,
+		// ALIGN_RIGHT);
 
 		customerCombo = createCustomerComboItem(messages.payTo());
 
@@ -281,41 +280,31 @@ public class CustomerRefundView extends
 			balForm.add(jobListCombo);
 		}
 
-		VerticalPanel leftPanel = new VerticalPanel();
-		leftPanel.setWidth("100%");
-		leftPanel.setSpacing(5);
+		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		leftPanel.add(custForm);
 		currencyWidget = createCurrencyFactorWidget();
-		VerticalPanel rightPanel = new VerticalPanel();
-		rightPanel.setWidth("100%");
+		StyledPanel rightPanel = new StyledPanel("rightPanel");
 		rightPanel.add(balForm);
-		rightPanel.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightPanel.add(currencyWidget);
-			rightPanel.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		HorizontalPanel hLay = new HorizontalPanel();
+		StyledPanel hLay = new StyledPanel("hLay");
 		hLay.addStyleName("fields-panel");
-		hLay.setWidth("100%");
-		hLay.setSpacing(10);
+		// hLay.setSpacing(10);
 		hLay.add(leftPanel);
-		hLay.setCellHorizontalAlignment(totalLabel, ALIGN_CENTER);
+		// hLay.setCellHorizontalAlignment(totalLabel, ALIGN_CENTER);
 		hLay.add(rightPanel);
-		hLay.setCellWidth(leftPanel, "50%");
-		hLay.setCellWidth(rightPanel, "50%");
+		// hLay.setCellWidth(leftPanel, "50%");
+		// hLay.setCellWidth(rightPanel, "50%");
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setWidth("100%");
+		StyledPanel mainVLay = new StyledPanel("rightPanel");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(totalLabel);
 		mainVLay.add(hLay);
 
 		this.add(mainVLay);
-
-		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

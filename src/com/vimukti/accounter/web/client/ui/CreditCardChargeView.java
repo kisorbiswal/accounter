@@ -6,15 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -77,10 +73,10 @@ public class CreditCardChargeView extends
 
 	private DynamicForm totForm;
 
-	private HorizontalPanel botPanel;
-	HorizontalPanel totPanel;
+	private StyledPanel botPanel;
+	StyledPanel totPanel;
 
-	private VerticalPanel leftVLay;
+	private StyledPanel leftVLay;
 
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
@@ -398,17 +394,14 @@ public class CreditCardChargeView extends
 		dateNoForm.setStyleName("datenumber-panel");
 		dateNoForm.add(transactionDateItem, transactionNumber);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 
-		VerticalPanel regPanel = new VerticalPanel();
-		regPanel.setCellHorizontalAlignment(dateNoForm, ALIGN_RIGHT);
+		StyledPanel regPanel = new StyledPanel("regPanel");
 		regPanel.add(dateNoForm);
-		regPanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
-		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(titlelabel);
 		labeldateNoLayout.add(regPanel);
-		labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
+		// labeldateNoLayout.setCellHorizontalAlignment(regPanel, ALIGN_RIGHT);
 		if (!isTaxPerDetailLine())
 			taxCodeSelect = createTaxCodeSelectItem();
 		vendorNameSelect = new VendorCombo(Global.get().messages()
@@ -479,11 +472,11 @@ public class CreditCardChargeView extends
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(messages.billTo(),"billToAreaItem");
+		billToAreaItem = new TextAreaItem(messages.billTo(), "billToAreaItem");
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(Global.get().vendor()));
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
@@ -511,12 +504,12 @@ public class CreditCardChargeView extends
 		payFromAccount = 0;
 		// formItems.add(payFrmSelect);
 
-		cheqNoText = new TextItem(messages.chequeNo(),"cheqNoText");
+		cheqNoText = new TextItem(messages.chequeNo(), "cheqNoText");
 		cheqNoText.setEnabled(!isInViewMode());
 		cheqNoText.setWidth(100);
 		// formItems.add(cheqNoText);
 
-		delivDate = new DateField(messages.deliveryDate(),"delivDate");
+		delivDate = new DateField(messages.deliveryDate(), "delivDate");
 		delivDate.setValue(new ClientFinanceDate());
 		// formItems.add(delivDate);
 
@@ -542,7 +535,8 @@ public class CreditCardChargeView extends
 
 		vatTotalNonEditableText = new TaxItemsForm();
 
-		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),"vatinclusiveCheck");
+		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),
+				"vatinclusiveCheck");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -656,30 +650,28 @@ public class CreditCardChargeView extends
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
 		// vatCheckform.setFields(vatinclusiveCheck);
 
-		VerticalPanel totalForm = new VerticalPanel();
-		totalForm.setWidth("100%");
+		StyledPanel totalForm = new StyledPanel("totalForm");
 		totalForm.setStyleName("boldtext");
 		// totText = new AmountField(FinanceApplication.constants()
 		// .total());
 		// totText.setWidth(100);
 
 		totForm = new DynamicForm("totForm");
-		totForm.setWidth("100%");
 		totForm.addStyleName("boldtext");
-		totForm.getElement().getStyle().setMarginTop(10, Unit.PX);
 
-		botPanel = new HorizontalPanel();
-		botPanel.setWidth("100%");
+		botPanel = new StyledPanel("botPanel");
+		// botPanel.setWidth("100%");
 
-		VerticalPanel bottompanel = new VerticalPanel();
-		bottompanel.setWidth("100%");
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
+		// bottompanel.setWidth("100%");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		discountField = getDiscountField();
 
@@ -693,23 +685,14 @@ public class CreditCardChargeView extends
 			totalForm.add(vatTotalNonEditableText);
 
 			if (isMultiCurrencyEnabled()) {
-				transactionTotalForm.add(
-						transactionTotalBaseCurrencyText,
+				transactionTotalForm.add(transactionTotalBaseCurrencyText,
 						foreignCurrencyamountLabel);
 			} else {
-				transactionTotalForm
-						.add(transactionTotalBaseCurrencyText);
+				transactionTotalForm.add(transactionTotalBaseCurrencyText);
 			}
 			totalForm.add(transactionTotalForm);
-			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-			totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-					ALIGN_RIGHT);
-			totalForm.setCellHorizontalAlignment(transactionTotalForm,
-					ALIGN_RIGHT);
 
-			VerticalPanel vPanel = new VerticalPanel();
-			vPanel.setHorizontalAlignment(ALIGN_RIGHT);
-			vPanel.setWidth("100%");
+			StyledPanel vPanel = new StyledPanel("vPanel");
 			vPanel.add(totalForm);
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
@@ -723,7 +706,7 @@ public class CreditCardChargeView extends
 				}
 			}
 			botPanel.add(totalForm);
-			botPanel.setCellWidth(totalForm, "30%");
+			// botPanel.setCellWidth(totalForm, "30%");
 
 			bottompanel.add(vPanel);
 			bottompanel.add(botPanel);
@@ -743,51 +726,45 @@ public class CreditCardChargeView extends
 				}
 			}
 
-			HorizontalPanel hPanel = new HorizontalPanel();
-			hPanel.setWidth("100%");
+			StyledPanel hPanel = new StyledPanel("hPanel");
+			// hPanel.setWidth("100%");
 			hPanel.add(memoForm);
-			hPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+			// hPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 			hPanel.add(totForm);
-			hPanel.setCellHorizontalAlignment(totForm, ALIGN_RIGHT);
+			// hPanel.setCellHorizontalAlignment(totForm, ALIGN_RIGHT);
 
-			VerticalPanel vpanel = new VerticalPanel();
-			vpanel.setWidth("100%");
+			StyledPanel vpanel = new StyledPanel("vpanel");
 			vpanel.add(hPanel);
 
 			bottompanel.add(vpanel);
 		}
 
-		leftVLay = new VerticalPanel();
+		leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightHLay = new VerticalPanel();
-		rightHLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
+		StyledPanel rightHLay = new StyledPanel("rightHLay");
 		rightHLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightHLay.add(currencyWidget);
-			rightHLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+		// topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
-		topHLay.setSpacing(20);
+		// topHLay.setSpacing(20);
 		topHLay.add(rightHLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightHLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightHLay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightHLay, ALIGN_RIGHT);
 
-		VerticalPanel vLay1 = new VerticalPanel();
+		StyledPanel vLay1 = new StyledPanel("vLay1");
 		vLay1.add(accountsDisclosurePanel);
 		vLay1.add(itemsDisclosurePanel);
-		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("vLay1");
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);

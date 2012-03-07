@@ -12,21 +12,20 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -36,7 +35,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
  * @author kumar kasimala
  * 
  */
-public abstract class AdminCustomTable extends VerticalPanel {
+public abstract class AdminCustomTable extends FlowPanel {
 
 	protected FlexTable header;
 	protected FlexTable body;
@@ -62,8 +61,8 @@ public abstract class AdminCustomTable extends VerticalPanel {
 	Element bodyrowElem;
 
 	protected boolean disable;
-	
-	AccounterMessages messages=Global.get().messages();
+
+	AccounterMessages messages = Global.get().messages();
 	/**
 	 * on cell Doubled clicked , cell& row index coming wrong, so that I used
 	 * this variable hold to cell& row index when cell single clicked
@@ -73,7 +72,7 @@ public abstract class AdminCustomTable extends VerticalPanel {
 	private boolean isFirstTime = true;
 	private int headerCellCount;
 	private int bodyCellCount;
-	private HorizontalPanel imagePanel;
+	private StyledPanel imagePanel;
 	private final static short scrollBarWidth = UIUtils.getScroolBarWidth();
 	// private final FinanceImages images = GWT.create(FinanceImages.class);
 	private boolean hasLoadingImage;
@@ -111,8 +110,7 @@ public abstract class AdminCustomTable extends VerticalPanel {
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
-			Window.alert(messages
-					.columnShouldntbeEmptyInitColumns());
+			Window.alert(messages.columnShouldntbeEmptyInitColumns());
 
 		this.nofCols = isMultiSelectionEnable ? nofCols + 1 : nofCols;
 
@@ -235,13 +233,13 @@ public abstract class AdminCustomTable extends VerticalPanel {
 	public void addLoadingImagePanel() {
 		this.body = new FlexTable();
 		hasLoadingImage = true;
-		imagePanel = new HorizontalPanel();
+		imagePanel = new StyledPanel("imagePanel");
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image(Accounter.getFinanceImages().loadingImage()));
 		Label label = new Label(messages.pleaseWaitDataIsLoading());
 		imagePanel.add(label);
-		imagePanel.setCellVerticalAlignment(label,
-				HasVerticalAlignment.ALIGN_MIDDLE);
+		// imagePanel.setCellVerticalAlignment(label,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
 		this.body.setWidget(0, 0, imagePanel);
 		this.body.getRowFormatter().addStyleName(0, "loading-panel");
 		this.body.getCellFormatter().setHorizontalAlignment(0, 0,

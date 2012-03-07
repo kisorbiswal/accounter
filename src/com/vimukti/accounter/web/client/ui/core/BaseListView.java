@@ -14,10 +14,7 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -36,6 +33,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BudgetListView;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -44,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.customers.CustomerListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
-import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 import com.vimukti.accounter.web.client.ui.vat.ChalanDetailsListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -90,7 +87,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected List<T> initialRecords = new ArrayList<T>();
 
-	protected HorizontalPanel gridLayout;
+	protected StyledPanel gridLayout;
 
 	private final int TOP = 145;
 	private final int BORDER = 20;
@@ -150,7 +147,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	}
 
 	protected void createControls() {
-		HorizontalPanel hlay = new HorizontalPanel();
+		StyledPanel hlay = new StyledPanel("hlay");
 		hlay.setWidth("100%");
 
 		viewSelect = getSelectItem();
@@ -223,13 +220,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		}
 
-		fromItem = new DateItem(messages.from(),"fromItem");
+		fromItem = new DateItem(messages.from(), "fromItem");
 		if (Accounter.getStartDate() != null) {
 			fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		} else {
 			fromItem.setDatethanFireEvent(new ClientFinanceDate());
 		}
-		toItem = new DateItem(messages.to(),"toItem");
+		toItem = new DateItem(messages.to(), "toItem");
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
@@ -298,24 +295,25 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 			hlay.add(form);
 			hlay.add(updateButton);
-			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-			hlay.setCellHorizontalAlignment(updateButton,
-					HasHorizontalAlignment.ALIGN_RIGHT);
+			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+			// hlay.setCellHorizontalAlignment(updateButton,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
 		} else if (this instanceof VendorListView
 				&& getCompany().getCountry().equals(
 						CountryPreferenceFactory.UNITED_STATES)) {
 			form.add(viewSelect);
 			hlay.add(prepare1099MiscForms);
-			hlay.setCellWidth(prepare1099MiscForms, "65%");
+			// hlay.setCellWidth(prepare1099MiscForms, "65%");
 			hlay.add(form);
-			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-			hlay.setCellHorizontalAlignment(prepare1099MiscForms, ALIGN_RIGHT);
+			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+			// hlay.setCellHorizontalAlignment(prepare1099MiscForms,
+			// ALIGN_RIGHT);
 			hlay.addStyleName("vendor_list_1099");
 		} else if (this instanceof BudgetListView) {
 			form.add(viewSelect);
 			hlay.add(form);
 			hlay.add(budgetEdit);
-			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		} else {
 
 			if (!(this instanceof JournalEntryListView)
@@ -324,12 +322,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					form.add(viewSelect);
 				}
 			hlay.add(form);
-			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		}
 		// hlay.add(form);
 		// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-		VerticalPanel vlayTop = new VerticalPanel();
-		HorizontalPanel hlayTop = new HorizontalPanel();
+		StyledPanel vlayTop = new StyledPanel("vlayTop");
+		StyledPanel hlayTop = new StyledPanel("hlayTop");
 		hlayTop.setWidth("100%");
 		if (isTransactionListView()) {
 			// vlayTop.add(addNewLabel);
@@ -352,29 +350,16 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		initGrid();
 
-		HorizontalPanel totalLayout = getTotalLayout(grid);
-		gridLayout = new HorizontalPanel() {
-			@Override
-			protected void onAttach() {
-				if (grid.isShowFooter())
-					grid.setHeight(this.getOffsetHeight() - 22 - 5 + "px");
-				else
-					grid.setHeight(this.getOffsetHeight() - 5 + "px");
-				super.onAttach();
-			}
-		};
-		gridLayout.setWidth("100%");
-		gridLayout.setHeight("100%");
+		StyledPanel totalLayout = getTotalLayout(grid);
+		gridLayout = new StyledPanel("gridLayout");
+		// gridLayout.setWidth("100%");
+		// gridLayout.setHeight("100%");
 		grid.setView(this);
 		gridLayout.add(grid);
-		if (grid instanceof PurchaseOrderListGrid) {
-			gridLayout.setCellWidth(grid, "70%");
-			gridLayout.setCellHeight(grid, "100%");
-		}
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setHeight("100%");
-		mainVLay.setWidth("100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		// mainVLay.setHeight("100%");
+		// mainVLay.setWidth("100%");
 
 		if (totalLayout != null) {
 			if (isTransactionListView()) {
@@ -469,7 +454,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected abstract void initGrid();
 
-	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
+	protected StyledPanel getTotalLayout(BaseListGrid grid) {
 
 		return null;
 	}

@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -15,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -107,13 +107,14 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	}
 
 	private void initilize() {
-		companyAdressTextArea = new TextAreaItem("","companyAdressTextArea");
+		companyAdressTextArea = new TextAreaItem("", "companyAdressTextArea");
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		preferences = Accounter.getCompany().getPreferences();
-		titleTextBox = new TextItem(messages.title(),"titleTextBox");
-		companyNameTextBox = new TextItem(messages.companyName(),"companyNameTextBox");
-		email = new TextItem(messages.emailId(),"email");
-		phone = new TextItem(messages.phone(),"phone");
+		titleTextBox = new TextItem(messages.title(), "titleTextBox");
+		companyNameTextBox = new TextItem(messages.companyName(),
+				"companyNameTextBox");
+		email = new TextItem(messages.emailId(), "email");
+		phone = new TextItem(messages.phone(), "phone");
 	}
 
 	private void createControls() {
@@ -121,9 +122,9 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		form.setWidth("100%");
 
 		locationName = new TextItem(messages.locationName(Global.get()
-				.Location()),"locationName");
+				.Location()), "locationName");
 		locationName.setRequired(true);
-		VerticalPanel layout = new VerticalPanel();
+		StyledPanel layout = new StyledPanel("layout");
 		layout.add(form);
 		form.add(locationName);
 		if (clientLocation != null) {
@@ -140,7 +141,8 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 			});
 
 			final DynamicForm addDynamicForm = new DynamicForm("addDynamicForm");
-			final DynamicForm addComapnyNameForm = new DynamicForm("addComapnyNameForm");
+			final DynamicForm addComapnyNameForm = new DynamicForm(
+					"addComapnyNameForm");
 			final DynamicForm addAddressForm = new DynamicForm("addAddressForm");
 			final DynamicForm addEmailForm = new DynamicForm("addEmailForm");
 			final DynamicForm addPhoneForm = new DynamicForm("addPhoneForm");

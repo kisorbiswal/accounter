@@ -8,13 +8,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 public class AccounterDialog extends CustomDialog {
@@ -61,13 +58,13 @@ public class AccounterDialog extends CustomDialog {
 
 	public void createControls() {
 
-		VerticalPanel bodyLayout = new VerticalPanel();
+		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
 
-		HorizontalPanel headerLayout = new HorizontalPanel();
+		StyledPanel headerLayout = new StyledPanel("headerLayout");
 
-		HorizontalPanel buttonLayout = new HorizontalPanel();
-		buttonLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonLayout.setSpacing(5);
+		StyledPanel buttonLayout = new StyledPanel("buttonLayout");
+		// buttonLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		// buttonLayout.setSpacing(5);
 		// buttonLayout.setAutoHeight();
 		// buttonLayout.setHeight("20%");
 
@@ -195,25 +192,20 @@ public class AccounterDialog extends CustomDialog {
 		}
 
 		Image image = new Image(imageUrl);
-		HorizontalPanel imageLayout = new HorizontalPanel();
+		StyledPanel imageLayout = new StyledPanel("imageLayout");
 		imageLayout.add(image);
 		HTML msgLabel = new HTML(this.message);
 
 		headerLayout.add(imageLayout);
 		headerLayout.add(msgLabel);
-		headerLayout.setCellVerticalAlignment(msgLabel,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-		headerLayout.setSpacing(5);
+		// headerLayout.setCellVerticalAlignment(msgLabel,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
+		// headerLayout.setSpacing(5);
 		headerLayout.setHeight("10%");
 		buttonLayout.setHeight("10%");
 
 		bodyLayout.add(headerLayout);
 		bodyLayout.add(buttonLayout);
-		bodyLayout.setCellHorizontalAlignment(buttonLayout,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		bodyLayout.setSpacing(1);
-
-		bodyLayout.setSize("305px", "5px");
 
 		setModal(true);
 		add(bodyLayout);

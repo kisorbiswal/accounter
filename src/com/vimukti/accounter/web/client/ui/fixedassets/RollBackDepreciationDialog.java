@@ -7,15 +7,13 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -45,10 +43,10 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	private void createControl() {
 
-		HorizontalPanel typeForm = new HorizontalPanel();
+		StyledPanel typeForm = new StyledPanel("typeForm");
 		typeForm.setWidth("100%");
 
-		VerticalPanel contentPanel = new VerticalPanel();
+		StyledPanel contentPanel = new StyledPanel("contentPanel");
 		contentPanel.setStyleName("margin-b");
 		if (lastDepreciationDate != null) {
 			String lastDepreciationDateString = UIUtils
@@ -67,9 +65,9 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		okbtn.setWidth("50px");
 		cancelBtn.setWidth("80px");
 
-		footerLayout.setCellHorizontalAlignment(okbtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		VerticalPanel mainVLay = new VerticalPanel();
+		// footerLayout.setCellHorizontalAlignment(okbtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(contentPanel);
 		mainVLay.add(prefixText);
@@ -78,7 +76,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		setBodyLayout(mainVLay);
 		footerLayout.getElement().getStyle().setMarginLeft(29, Unit.PCT);
 		setWidth("300px");
-		mainPanel.setSpacing(3);
+		// mainPanel.setSpacing(3);
 
 	}
 

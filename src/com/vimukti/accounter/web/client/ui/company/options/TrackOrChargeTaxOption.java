@@ -11,8 +11,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author vimukti2
@@ -44,9 +44,9 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	@UiField
 	Label trackCheckBoxDescLabel;
 	@UiField
-	VerticalPanel hidePanel;
+	StyledPanel hidePanel;
 	@UiField
-	VerticalPanel radioButtonPanel;
+	StyledPanel radioButtonPanel;
 	@UiField
 	CheckBox enableTaxTdsCheckbox;
 	@UiField

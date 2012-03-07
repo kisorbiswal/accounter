@@ -14,11 +14,9 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -764,7 +762,7 @@ public class UIUtils {
 		pleaseWaitLabel.getElement().getStyle().setProperty("padding", "4px");
 		// pleaseWaitLabel.setSize("100%", "100%");
 
-		// HorizontalPanel layout = new HorizontalPanel();
+		// StyledPanel layout = new StyledPanel();
 		// layout.add(imageLayout);
 		// layout.add(pleaseWaitLabel);
 		// layout.setSpacing(10);
@@ -809,7 +807,7 @@ public class UIUtils {
 		pleaseWaitLabel.getElement().getStyle().setProperty("padding", "4px");
 		// pleaseWaitLabel.setSize("100%", "100%");
 
-		// HorizontalPanel layout = new HorizontalPanel();
+		// StyledPanel layout = new StyledPanel();
 		// layout.add(imageLayout);
 		// layout.add(pleaseWaitLabel);
 		// layout.setSpacing(10);
@@ -1660,7 +1658,7 @@ public class UIUtils {
 			String dateRangeHtml) {
 		// HiddenIFrame frame = new HiddenIFrame("");
 		//
-		// VerticalPanel vpanel = new VerticalPanel();
+		// StyledPanel vpanel = new StyledPanel();
 		//
 		// Hidden reporthtmlEle = new Hidden();
 		// reporthtmlEle.setName("reporthtml");

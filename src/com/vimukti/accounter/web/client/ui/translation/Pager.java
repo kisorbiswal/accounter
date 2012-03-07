@@ -2,14 +2,14 @@ package com.vimukti.accounter.web.client.ui.translation;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public abstract class Pager extends HorizontalPanel implements PagerListener {
+public abstract class Pager extends FlowPanel implements PagerListener {
 	public static final int DEFAULT_START = 0;
 	public static int DEFAULT_RANGE = 0;
 
@@ -40,7 +40,7 @@ public abstract class Pager extends HorizontalPanel implements PagerListener {
 	}
 
 	private void createControls() {
-		HorizontalPanel pagerPanel = new HorizontalPanel();
+		StyledPanel pagerPanel = new StyledPanel("pagerPanel");
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.leftArrow());
 		nextButton = new ImageButton(Accounter.getFinanceImages().rightArrow());
@@ -66,7 +66,8 @@ public abstract class Pager extends HorizontalPanel implements PagerListener {
 		pagerPanel.add(nextButton);
 		this.add(pagerPanel);
 		this.setWidth("100%");
-		this.setCellHorizontalAlignment(pagerPanel, HasAlignment.ALIGN_CENTER);
+		// this.setCellHorizontalAlignment(pagerPanel,
+		// HasAlignment.ALIGN_CENTER);
 	}
 
 	protected void onNext() {

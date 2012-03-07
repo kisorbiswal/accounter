@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -97,12 +96,12 @@ public class JournalViewDialog extends BaseDialog {
 		okbtn.setWidth("100px");
 
 		footerLayout.clear();
-		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(okbtn);
 		footerLayout.add(cancelBtn);
 		// footerLayout.setCellWidth(okbtn, "100%");
-		footerLayout.setCellHorizontalAlignment(okbtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setCellHorizontalAlignment(okbtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		StyledPanel mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(disposalSummarylabel);

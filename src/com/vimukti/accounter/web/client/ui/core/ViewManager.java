@@ -21,11 +21,10 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
@@ -41,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.HistoryToken;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
@@ -52,7 +52,7 @@ import com.vimukti.accounter.web.client.ui.settings.InventoryCentreView;
  * 
  */
 
-public class ViewManager extends HorizontalPanel {
+public class ViewManager extends FlowPanel {
 
 	protected static AccounterMessages messages = Global.get().messages();
 
@@ -114,12 +114,10 @@ public class ViewManager extends HorizontalPanel {
 
 	public ViewManager(MainFinanceWindow financeWindow) {
 		this.mainWindow = financeWindow;
-		this.setWidth("100%");
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		mainPanel.setWidth("100%");
-		VerticalPanel rightPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		StyledPanel rightPanel = new StyledPanel("rightPanel");
 		getAdvertisePanel(rightPanel);
-		VerticalPanel leftPanel = new VerticalPanel();
+		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		leftPanel.addStyleName("view_manager_body");
 		// leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
@@ -148,7 +146,7 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void getAdvertisePanel(final VerticalPanel rightPanel) {
+	private void getAdvertisePanel(final StyledPanel rightPanel) {
 		Accounter.createHomeService().getAdvertisements(
 				new AsyncCallback<List<ClientAdvertisement>>() {
 
@@ -785,7 +783,7 @@ public class ViewManager extends HorizontalPanel {
 		printButton.getElement().setAttribute("lang",
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 
-		// HorizontalPanel horizontalPanel = new HorizontalPanel();
+		// StyledPanel horizontalPanel = new StyledPanel();
 		// horizontalPanel.setWidth("100%");
 		// horizontalPanel.add(group1);
 		// horizontalPanel.add(group2);
@@ -823,11 +821,11 @@ public class ViewManager extends HorizontalPanel {
 			helpPanel = (HelpPanel) createHelpPanel();
 			if (helpPanel != null) {
 				this.add(helpPanel);
-				this.setCellWidth(helpPanel, "50%");
+				// this.setCellWidth(helpPanel, "50%");
 			} else {
 				this.add(prevhelpPanel);
 			}
-			this.setCellWidth(helpPanel, "50%");
+			// this.setCellWidth(helpPanel, "50%");
 		} else {
 			helpPanel.removeFromParent();
 			helpPanel.setIsHelpPanel(false);
@@ -895,7 +893,7 @@ public class ViewManager extends HorizontalPanel {
 			helpPanel = (HelpPanel) createHelpPanel();
 			if (isPanelEnabled()) {
 				this.add(helpPanel);
-				this.setCellWidth(helpPanel, "50%");
+				// this.setCellWidth(helpPanel, "50%");
 			} else {
 				helpPanel.setButtonDisabled(false);
 				helpPanel.setButtonPushed(true);
@@ -916,7 +914,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 			if (isPanelEnabled()) {
 				this.add(helpPanel);
-				this.setCellWidth(helpPanel, "50%");
+				// this.setCellWidth(helpPanel, "50%");
 				helpPanel.setIsHelpPanel(true);
 			} else {
 				helpPanel.setButtonDisabled(false);

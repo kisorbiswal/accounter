@@ -1,8 +1,8 @@
 //package com.vimukti.accounter.web.client.ui;
 //
 //import com.google.gwt.user.client.ui.Button;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.IAccounterCore;
 //import com.vimukti.accounter.web.client.exception.AccounterException;
 //import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -69,7 +69,7 @@
 //				.form(messages.comments());
 //		commentsForm.setFields(commentsArea);
 //
-//		VerticalPanel leftVLay = new VerticalPanel();
+//		StyledPanel leftVLay = new StyledPanel();
 //		leftVLay.setWidth("50%");
 //		leftVLay.add(chartForm);
 //		leftVLay.add(basisForm);
@@ -90,7 +90,7 @@
 //		// creditForm.setAutoHeight();
 //		creditForm.setFields(bankName, limitText, cardNumText);
 //
-//		HorizontalPanel topHLay = new HorizontalPanel();
+//		StyledPanel topHLay = new StyledPanel();
 //		topHLay.setWidth("100%");
 //		topHLay.add(leftVLay);
 //		topHLay.add(creditForm);
@@ -103,7 +103,7 @@
 //		// saveNewButt.setAutoFit(true);
 //		// saveNewButt.setLayoutAlign(Alignment.RIGHT);
 //
-//		HorizontalPanel buttHLay = new HorizontalPanel();
+//		StyledPanel buttHLay = new StyledPanel();
 //		// buttHLay.setAlign(Alignment.RIGHT);
 //		// buttHLay.setBackgroundColor("#ff00aa");
 //		buttHLay.setWidth("100%");
@@ -111,7 +111,7 @@
 //		// buttHLay.setMembersMargin(20);
 //		buttHLay.add(saveCloseButt);
 //		buttHLay.add(saveNewButt);
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		// mainVLay.setMargin(20);
 //		mainVLay.setSize("100%", "100%");
 //		mainVLay.add(topHLay);

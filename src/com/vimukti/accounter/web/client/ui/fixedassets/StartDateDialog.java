@@ -11,11 +11,11 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
@@ -80,8 +80,7 @@ public class StartDateDialog extends BaseDialog {
 		cancelBtn.setWidth("80px");
 		// footerLayout.setCellWidth(okbtn, "80%");
 
-		VerticalPanel contentPanel = new VerticalPanel();
-		contentPanel.setSpacing(3);
+		StyledPanel contentPanel = new StyledPanel("contentPanel");
 		contentPanel.add(introLabel);
 		contentPanel.add(infoLabel);
 		contentPanel.add(prefixText);

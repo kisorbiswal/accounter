@@ -9,9 +9,9 @@
 //import com.google.gwt.user.client.rpc.AccounterAsyncCallback;
 //import com.google.gwt.user.client.rpc.ServiceDefTarget;
 //import com.google.gwt.user.client.ui.Button;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 //import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 //import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
@@ -36,7 +36,7 @@
 //
 //	private void createControl() {
 //
-//		VerticalPanel mainLayout= new VerticalPanel();
+//		StyledPanel mainLayout= new StyledPanel();
 //		mainLayout.setSize("100%", "100%");
 //		Label infoLabel= new Label();
 //		infoLabel.setText("<b>Select a Quote or a Sales Order</b><br> <p> You can create your invoice based on information entered in a Quote or a Sales Order. Select the<br>document from which you want to create the invoice, and then click OK</p>");
@@ -69,7 +69,7 @@
 //		
 //		getGridData();
 //		
-//		HorizontalPanel helpButtonLayout= new HorizontalPanel();
+//		StyledPanel helpButtonLayout= new StyledPanel();
 ////		helpButtonLayout.setAlign(Alignment.LEFT);
 //		
 //		Button helpButton= new Button("Help");
@@ -83,7 +83,7 @@
 //		});
 //		helpButtonLayout.add(helpButton);
 //		
-//		HorizontalPanel okButtonLayout= new HorizontalPanel();
+//		StyledPanel okButtonLayout= new StyledPanel();
 ////		okButtonLayout.setAlign(Alignment.RIGHT);
 ////		okButtonLayout.setMembersMargin(5);
 //		
@@ -107,7 +107,7 @@
 //		});
 //		okButtonLayout.add(cancelButton);
 //		
-//		HorizontalPanel buttonLayout = new HorizontalPanel();
+//		StyledPanel buttonLayout = new StyledPanel();
 ////		buttonLayout.setMargin(10);
 //		buttonLayout.add(helpButtonLayout);
 //		buttonLayout.add(okButtonLayout);

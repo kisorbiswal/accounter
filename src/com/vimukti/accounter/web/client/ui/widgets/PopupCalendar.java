@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * Popup used by the datePicker. It represents a calendar and allows the user to
@@ -72,7 +72,7 @@ public class PopupCalendar extends PopupPanel {
 		super(true);
 		this.datePicker = datePicker;
 		this.addStyleName(theme + "-date-picker");
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		panel.setStyleName("datePickerMonthSelector");
 		this.add(panel);
 
@@ -263,11 +263,8 @@ public class PopupCalendar extends PopupPanel {
 		weekLine.setStyleName(theme + "-" + "week-line");
 		Date weekFirstday = DatePickerUtils.getWeekFirstDay();
 		for (int i = 0; i < 7; i++) {
-			weekLine.setText(
-					0,
-					i,
-					dayNameFormat
-							.format(DatePickerUtils.addDays(weekFirstday, i)));
+			weekLine.setText(0, i, dayNameFormat.format(DatePickerUtils
+					.addDays(weekFirstday, i)));
 		}
 		panel.add(weekLine);
 	}

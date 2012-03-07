@@ -67,7 +67,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> implements
 	}
 
 	// @Override
-	// protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
+	// protected StyledPanel getTotalLayout(BaseListGrid grid) {
 	// grid.addFooterValue(FinanceApplication.constants().total(),
 	// 7);
 	// grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) + "",

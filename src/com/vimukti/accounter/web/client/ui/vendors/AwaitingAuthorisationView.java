@@ -7,8 +7,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -17,6 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -36,13 +35,12 @@ public class AwaitingAuthorisationView extends BaseView {
 	}
 
 	private void createControls() {
-		VerticalPanel panel = new VerticalPanel();
-		panel.setSize("100%", "100%");
+		StyledPanel panel = new StyledPanel("panel");
 
 		initGrid();
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
+		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
+		// buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
 		Button approve = new Button(messages.approve());
 		approve.addClickHandler(new ClickHandler() {
@@ -63,8 +61,7 @@ public class AwaitingAuthorisationView extends BaseView {
 						Accounter.showError(messages
 								.pleaseSelectPayFromAccount());
 				} else {
-					Accounter.showInformation(messages
-							.noRecordsToShow());
+					Accounter.showInformation(messages.noRecordsToShow());
 				}
 
 			}
@@ -83,8 +80,7 @@ public class AwaitingAuthorisationView extends BaseView {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 				} else {
-					Accounter.showInformation(messages
-							.noRecordsToShow());
+					Accounter.showInformation(messages.noRecordsToShow());
 				}
 			}
 		});
@@ -102,8 +98,7 @@ public class AwaitingAuthorisationView extends BaseView {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(messages
-							.noRecordsToShow());
+					Accounter.showInformation(messages.noRecordsToShow());
 				}
 			}
 		});
@@ -116,7 +111,6 @@ public class AwaitingAuthorisationView extends BaseView {
 
 		panel.add(grid);
 		panel.add(buttonPanel);
-		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		this.add(panel);
 		// mainPanel.removeStyleName("main-class-pannel");
 	}

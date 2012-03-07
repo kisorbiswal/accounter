@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -21,15 +21,15 @@ public class NoteDialog extends BaseDialog {
 	}
 
 	private void createControl() {
-		mainPanel.setSpacing(3);
+		// mainPanel.setSpacing(3);
 		Label noteLbl = new Label(messages.note());
-		noteArea = new TextAreaItem("","noteArea");
+		noteArea = new TextAreaItem("", "noteArea");
 		noteArea.setWidth(100);
 		DynamicForm noteForm = new DynamicForm("noteForm");
 		noteForm.setWidth("100%");
 		noteForm.add(noteArea);
-//		noteForm.removeCell(0, 0);
-		VerticalPanel notePanel = new VerticalPanel();
+		// noteForm.removeCell(0, 0);
+		StyledPanel notePanel = new StyledPanel("notePanel");
 		notePanel.setWidth("100%");
 		notePanel.add(noteLbl);
 		notePanel.add(noteForm);

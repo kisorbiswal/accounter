@@ -6,24 +6,24 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public class MessagePanel extends VerticalPanel {
+public class MessagePanel extends FlowPanel {
 	private ClientMessage clientMessage;
 	private String language;
 	private TranslationView view;
 	private TextBox addNewMessageBox;
 	private TranslateServiceAsync async = Accounter.createTranslateService();
-	private VerticalPanel mainPanel, localMessagesPanel;
+	private StyledPanel mainPanel, localMessagesPanel;
 
 	protected AccounterMessages messages = Global.get().messages();
 	private boolean canApprove;
@@ -38,8 +38,8 @@ public class MessagePanel extends VerticalPanel {
 	}
 
 	private void createControls() {
-		mainPanel = new VerticalPanel();
-		localMessagesPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
+		localMessagesPanel = new StyledPanel("localMessagesPanel");
 
 		Label valueLabel = new Label(clientMessage.getValue());
 
@@ -130,7 +130,7 @@ public class MessagePanel extends VerticalPanel {
 					@Override
 					public void onSuccess(ClientLocalMessage result) {
 						LocalMessagePanel localMessagePanel = new LocalMessagePanel(
-								result, view, canApprove,clientMessage);
+								result, view, canApprove, clientMessage);
 						localMessagesPanel.add(localMessagePanel);
 					}
 
@@ -141,10 +141,10 @@ public class MessagePanel extends VerticalPanel {
 				});
 	}
 
-	private HorizontalPanel getLocalMessgePanel(
+	private LocalMessagePanel getLocalMessgePanel(
 			final ClientLocalMessage clientLocalMessage) {
 		LocalMessagePanel localMessagePanel = new LocalMessagePanel(
-				clientLocalMessage, view, canApprove,clientMessage);
+				clientLocalMessage, view, canApprove, clientMessage);
 		return localMessagePanel;
 	}
 

@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Resources;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -28,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.DeleteButton;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
@@ -75,6 +78,7 @@ public class CustomerCenterView<T> extends
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("CustomerCenterView");
 		creatControls();
 
 	}
@@ -134,10 +138,10 @@ public class CustomerCenterView<T> extends
 						.getNewRange().getLength());
 			}
 		});
-//		SimplePager pager = new SimplePager(TextLocation.CENTER,
-//				(Resources) GWT.create(Resources.class), false, pageSize * 2,
-//				true);
-//		pager.setDisplay(custHistoryGrid);
+		SimplePager pager = new SimplePager(TextLocation.CENTER,
+				(Resources) GWT.create(Resources.class), false, pageSize * 2,
+				true);
+		pager.setDisplay(custHistoryGrid);
 		updateRecordsCount(0, 0, 0);
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(custHistoryGrid);
@@ -187,8 +191,8 @@ public class CustomerCenterView<T> extends
 
 	private void refreshActiveinActiveList(boolean isActivelist) {
 		custGrid.setSelectedCustomer(null);
-//		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
-//				.Customer()));
+		// detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
+		// .Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
 		isActiveAccounts = isActivelist;

@@ -12,9 +12,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -27,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -53,11 +52,11 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	private SelectCombo selectFinancialYear;
 	private TextItem budgetNameText;
 	private DynamicForm budgetInfoForm;
-	private HorizontalPanel topHLay;
-	private HorizontalPanel leftLayout;
+	private StyledPanel topHLay;
+	private StyledPanel leftLayout;
 	private Label lab1;
 
-	VerticalPanel mainVLay;
+	StyledPanel mainVLay;
 
 	private ArrayList<DynamicForm> listforms;
 
@@ -162,7 +161,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetNameText = new TextItem(messages.payeeName(messages.budget()),"budgetNameText");
+		budgetNameText = new TextItem(messages.payeeName(messages.budget()),
+				"budgetNameText");
 		budgetNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
 				.getAction().getViewName()));
 		budgetNameText.setRequired(true);
@@ -190,10 +190,10 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
-		topHLay = new HorizontalPanel();
-		topHLay.setWidth("50%");
-		leftLayout = new HorizontalPanel();
-		leftLayout.setWidth("100%");
+		topHLay = new StyledPanel("topHLay");
+		// topHLay.setWidth("50%");
+		leftLayout = new StyledPanel("leftLayout");
+		// leftLayout.setWidth("100%");
 
 		budgetInfoForm.add(budgetStartWithSelect, selectFinancialYear,
 				budgetNameText);
@@ -224,8 +224,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 			}
 		});
 
-		mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "300px");
+		mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 		mainVLay.add(budgetCellTable);
@@ -475,9 +474,9 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					public void onSuccess(PaginationList<ClientBudget> result) {
 						budgetList = result;
 						if (data != null) {
-							//remove what we are already editing
+							// remove what we are already editing
 							for (ClientBudget clientBudget : result) {
-								if(clientBudget.getID()==data.getID()){
+								if (clientBudget.getID() == data.getID()) {
 									temp = clientBudget;
 									break;
 								}

@@ -1,7 +1,7 @@
 //package com.vimukti.accounter.web.client.ui;
 //
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.IAccounterCore;
 //import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -67,7 +67,7 @@
 //		taxForm.setFields(effectDate, entryText, incSelect, codeSelect,
 //				incDecRadio, amtText, memoText);
 //
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		mainVLay.setSize("100%", "100%");
 //		// mainVLay.setTop(30);
 //		mainVLay.add(lab1);

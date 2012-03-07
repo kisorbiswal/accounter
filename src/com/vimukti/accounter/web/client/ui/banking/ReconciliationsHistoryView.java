@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ReconciliationAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -47,8 +47,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		this.grid = new ReconciliationsTable();
 		grid.setWidth("100%");
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		DynamicForm form = new DynamicForm("form");
 		form.add(bankAccountsCombo);
 		Label label = new Label(messages.ReconciliationsList());

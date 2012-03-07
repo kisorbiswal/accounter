@@ -8,7 +8,7 @@
 //import com.google.gwt.event.dom.client.MouseOverEvent;
 //import com.google.gwt.event.dom.client.MouseOverHandler;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //
 //import com.vimukti.accounter.web.client.ui.core.Accounter;
 //import com.vimukti.accounter.web.client.ui.core.Action;
@@ -21,14 +21,14 @@
 // */
 //public class StackInnerElement extends Canvas {
 //
-//	private VerticalPanel mainLayout;
+//	private StyledPanel mainLayout;
 //
 //	public StackInnerElement() {
 //		createView();
 //	}
 //
 //	private void createView() {
-//		mainLayout = new VerticalPanel();
+//		mainLayout = new StyledPanel();
 //		mainLayout.setSize("*", "100%");
 //		// mainLayout.setMembersMargin(5);
 //	//	mainLayout.setLeft(15);

@@ -12,8 +12,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author vimukti36
@@ -26,7 +26,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	Label inventoryScheme;
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	RadioButton servicesOnly;
 	@UiField
@@ -42,7 +42,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	Label bothText;
 	@UiField
-	VerticalPanel sell;
+	StyledPanel sell;
 	@UiField
 	CheckBox warehousesCheckBox;
 	@UiField
@@ -50,11 +50,11 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox unitsCheckBox;
 	@UiField
-	VerticalPanel hiddenPanel;
+	StyledPanel hiddenPanel;
 	@UiField
-	VerticalPanel totalPanel;
+	StyledPanel totalPanel;
 	@UiField
-	VerticalPanel subpanel;
+	StyledPanel subpanel;
 	@UiField
 	ListBox inventorySchemeListBox;
 

@@ -13,7 +13,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
@@ -55,7 +54,7 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 	public void createBody() {
 		updateCreditorsAccount();
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		FlexTable fTable = new FlexTable();
 
 		Button addPayableInvoiceBtn = new Button(messages.addBill());

@@ -19,8 +19,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -49,7 +49,7 @@ import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
  * 
  */
 
-public class MainFinanceWindow extends VerticalPanel {
+public class MainFinanceWindow extends FlowPanel {
 
 	private static ViewManager viewManager;
 	private Header header;

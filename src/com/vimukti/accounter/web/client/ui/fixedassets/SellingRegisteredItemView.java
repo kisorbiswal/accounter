@@ -7,9 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -21,6 +19,7 @@ import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -91,7 +90,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		depriciationForFinancialyearLabel.setText(messages.depriciationForThe()
 				+ yearValue + messages.financialYear());
 
-		HorizontalPanel topPanel = new HorizontalPanel();
+		StyledPanel topPanel = new StyledPanel("topPanel");
 		topPanel.add(detailsForm);
 
 		QuestionLabel = new Label();
@@ -111,19 +110,18 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		QuestionItem.setValue(noDepOption);
 		DynamicForm radioForm = new DynamicForm("radioForm");
 		radioForm.add(QuestionItem);
-		dateItemCombo = new SelectItem(messages.date(),"dateItemCombo");
+		dateItemCombo = new SelectItem(messages.date(), "dateItemCombo");
 		dateForm = new DynamicForm("dateForm");
 		dateForm.setWidth("50%");
 		dateForm.add(dateItemCombo);
 		changeDateCombo(noDepOption);
 
-		VerticalPanel radioVlayout = new VerticalPanel();
-		radioVlayout.setSpacing(10);
+		StyledPanel radioVlayout = new StyledPanel("radioVlayout");
 		radioVlayout.add(QuestionLabel);
 		radioVlayout.add(radioForm);
 		radioVlayout.add(dateForm);
 
-		notesArea = new TextAreaItem("","notesArea");
+		notesArea = new TextAreaItem("", "notesArea");
 		notesArea.setWidth(100);
 		notesArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()).replace(messages.comments(),
@@ -135,9 +133,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		textAreaForm.add(notesArea);
 		textAreaForm.setStyleName("align-form");
 
-		VerticalPanel mainLayout = new VerticalPanel();
-		mainLayout.setSpacing(15);
-		mainLayout.setWidth("100%");
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(detailsLabel);
 		mainLayout.add(topPanel);
 		mainLayout.add(depriciationForFinancialyearLabel);
@@ -161,7 +157,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return
 	 */
 	protected DynamicForm getDetailForm() {
-		datesold = new DateField(messages.datesold(),"datesold");
+		datesold = new DateField(messages.datesold(), "datesold");
 		datesold.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(datesold.getYear());
 		datesold.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -176,7 +172,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo.setRequired(true);
 
 		salepriceText = new AmountField(messages.salepriceExcludingTax(), this,
-				getBaseCurrency(),"salepriceText");
+				getBaseCurrency(), "salepriceText");
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
 		DynamicForm detailForm = new DynamicForm("detailForm");

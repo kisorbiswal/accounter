@@ -11,9 +11,9 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Administrator
@@ -25,9 +25,9 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 			.create(SetupTrackEmployeesPageUiBinder.class);
 
 	@UiField
-	VerticalPanel mainViewPanel;
+	StyledPanel mainViewPanel;
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	CheckBox w2Employees;
 	@UiField
@@ -43,7 +43,7 @@ public class SetupTrackEmployeesPage extends AbstractSetupPage {
 	@UiField
 	RadioButton trackEmployeeExpenseNo;
 	@UiField
-	VerticalPanel trackPanel;
+	StyledPanel trackPanel;
 	@UiField
 	Label headerLabel;
 

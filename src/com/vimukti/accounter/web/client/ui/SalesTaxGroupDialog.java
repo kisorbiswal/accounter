@@ -8,9 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
@@ -54,7 +51,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			fillSelectedTaxItems(taxGroup);
 
 		fillAvailableTaxItems();
-		mainPanel.setSpacing(3);
+		// mainPanel.setSpacing(3);
 		center();
 	}
 
@@ -175,14 +172,12 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	private void createControls(final ClientTAXGroup taxGroup) {
 
-		setWidth("750px");
 		// setPageTop(10);
-		VerticalPanel bodyLayout = new VerticalPanel();
-		bodyLayout.setWidth("100%");
+		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
 
 		form1 = new DynamicForm("form1");
-		// form1.setHeight("100px");
-		taxGroupText = new TextItem(messages.selectedTaxGroupItem(),"taxGroupText");
+		taxGroupText = new TextItem(messages.selectedTaxGroupItem(),
+				"taxGroupText");
 		taxGroupText.setRequired(true);
 
 		if (taxGroup != null)
@@ -190,14 +185,9 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 		form1.add(taxGroupText);
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		// horizontalPanel.setHeight("200px");
-		horizontalPanel.setWidth("100%");
-		// Available Tax Codes Layout
-		// DynamicForm availForm = new DynamicForm();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 
 		addButton = new Button(messages.add());
-		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
@@ -285,9 +275,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		// availTaxCodesGrid.setHeight("100%");
 
 		// Buttons Layout
-		VerticalPanel buttonsLayout = new VerticalPanel();
-		buttonsLayout.setWidth("100px");
-		buttonsLayout.setSpacing(3);
+		StyledPanel buttonsLayout = new StyledPanel("buttonsLayout");
 		// buttonsLayout.setMembersMargin(10);
 		// buttonsLayout.setLayoutMargin(10);
 
@@ -323,15 +311,15 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 		// selectForm.add(selectTaxCodesGrid);
 
-		horizontalPanel.setCellHorizontalAlignment(availTaxItemsGrid,
-				HasHorizontalAlignment.ALIGN_LEFT);
+		// horizontalPanel.setCellHorizontalAlignment(availTaxItemsGrid,
+		// HasHorizontalAlignment.ALIGN_LEFT);
 		horizontalPanel.add(availTaxItemsGrid);
-		horizontalPanel.setCellHorizontalAlignment(buttonsLayout,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		// horizontalPanel.setCellHorizontalAlignment(buttonsLayout,
+		// HasHorizontalAlignment.ALIGN_CENTER);
 		horizontalPanel.add(buttonsLayout);
-		horizontalPanel.setCellWidth(buttonsLayout, "75px");
-		horizontalPanel.setCellHorizontalAlignment(selectTaxItemsGrid,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// horizontalPanel.setCellWidth(buttonsLayout, "75px");
+		// horizontalPanel.setCellHorizontalAlignment(selectTaxItemsGrid,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 		horizontalPanel.add(selectTaxItemsGrid);
 		bodyLayout.add(form1);
 		bodyLayout.add(horizontalPanel);

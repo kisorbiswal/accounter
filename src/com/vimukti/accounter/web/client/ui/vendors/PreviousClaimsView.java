@@ -6,9 +6,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -17,6 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -44,13 +43,13 @@ public class PreviousClaimsView extends BaseView {
 
 	private void createControls() {
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 
 		Label previous = new Label(messages.previousClaims());
 
 		initGrid();
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
+		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
 		buttonPanel.setStyleName("button-expense");
 		Button notShowInList = new Button(messages.dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
@@ -67,8 +66,6 @@ public class PreviousClaimsView extends BaseView {
 		panel.add(previous);
 		panel.add(grid);
 		panel.add(buttonPanel);
-		panel.setWidth("100%");
-		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
 		this.add(panel);
 
 	}
@@ -79,8 +76,6 @@ public class PreviousClaimsView extends BaseView {
 		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
-		grid.setHeight("600px");
-		grid.setSize("100%", "100%");
 
 	}
 

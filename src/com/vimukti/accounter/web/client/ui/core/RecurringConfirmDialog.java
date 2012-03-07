@@ -7,23 +7,20 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
 public class RecurringConfirmDialog extends CustomDialog {
 
-	protected HorizontalPanel headerLayout;
-	protected HorizontalPanel bodyLayout;
-	protected HorizontalPanel footerLayout;
+	protected StyledPanel headerLayout;
+	protected StyledPanel bodyLayout;
+	protected StyledPanel footerLayout;
 
 	protected Button gotoRecurringBtn;
 	protected Button keepWorkingBtn;
-	protected VerticalPanel mainPanel, mainVLayPanel;
+	protected StyledPanel mainPanel, mainVLayPanel;
 
 	public RecurringConfirmDialog() {
 		super(true);
@@ -40,8 +37,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 		/**
 		 * Header Layout
 		 */
-		headerLayout = new HorizontalPanel();
-		headerLayout.setWidth("430px");
+		headerLayout = new StyledPanel("headerLayout");
 		Label label = new Label();
 		label.setText(messages.youSuccessfullyCreatedRecurringTemplate());
 		headerLayout.add(label);
@@ -49,14 +45,12 @@ public class RecurringConfirmDialog extends CustomDialog {
 		/**
 		 * Body LayOut
 		 */
-		bodyLayout = new HorizontalPanel();
-		bodyLayout.setWidth("100%");
+		bodyLayout = new StyledPanel("bodyLayout");
 
 		/**
 		 * Footer Layout
 		 */
-		footerLayout = new HorizontalPanel();
-		footerLayout.setSpacing(3);
+		footerLayout = new StyledPanel("footerLayout");
 		// footerLayout.addStyleName("dialogfooter");
 
 		this.gotoRecurringBtn = new Button(
@@ -79,28 +73,23 @@ public class RecurringConfirmDialog extends CustomDialog {
 			}
 		});
 
-		footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		footerLayout.add(gotoRecurringBtn);
 		footerLayout.add(keepWorkingBtn);
 
-		footerLayout.setCellHorizontalAlignment(gotoRecurringBtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		footerLayout.setCellHorizontalAlignment(keepWorkingBtn,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setCellHorizontalAlignment(gotoRecurringBtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// footerLayout.setCellHorizontalAlignment(keepWorkingBtn,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		/**
 		 * adding all Layouts to Window
 		 */
 
-		mainPanel = new VerticalPanel();
-		mainPanel.setSize("100%", "100%");
+		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(headerLayout);
-		mainPanel.setCellVerticalAlignment(headerLayout,
-				HasVerticalAlignment.ALIGN_TOP);
 		mainPanel.add(bodyLayout);
 		mainPanel.add(footerLayout);
-		mainPanel.setCellHorizontalAlignment(footerLayout,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		add(mainPanel);
 

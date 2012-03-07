@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -76,7 +74,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private void createView() {
 
-		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		setWidth("100%");
 		setHeight("100%");
 
@@ -249,13 +246,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 			if (canDelete() && deleteButton != null) {
 				buttonBar.insert(deleteButton, 0);
-				this.buttonBar.setCellHorizontalAlignment(deleteButton,
-						ALIGN_LEFT);
+				// this.buttonBar.setCellHorizontalAlignment(deleteButton,
+				// ALIGN_LEFT);
 			}
 			if (canVoid() && voidButton != null) {
 				buttonBar.insert(voidButton, 0);
-				this.buttonBar.setCellHorizontalAlignment(voidButton,
-						ALIGN_LEFT);
+				// this.buttonBar.setCellHorizontalAlignment(voidButton,
+				// ALIGN_LEFT);
 			}
 
 		}

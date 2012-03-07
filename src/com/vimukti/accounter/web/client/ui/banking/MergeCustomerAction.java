@@ -7,8 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomerMergeDialog;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
-import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 
 public class MergeCustomerAction extends Action {
 

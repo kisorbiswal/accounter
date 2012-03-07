@@ -11,7 +11,6 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -26,6 +25,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -45,7 +45,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	SelectCombo optionsCombo;
 	TAXHistoryGrid grid;
 	ClientTAXReturn clientVATReturn;
-	VerticalPanel gridLayout;
+	StyledPanel gridLayout;
 	List<ClientTAXReturn> clientAbstractTAXReturns;
 
 	@Override
@@ -79,8 +79,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		DynamicForm form2 = new DynamicForm("form2");
 
 		form2.add(optionsCombo);
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setWidth("100%");
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(label);
 		mainPanel.add(form2);
 		mainPanel.add(gridLayout);
@@ -213,8 +212,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	private void initListGrid() {
 
-		gridLayout = new VerticalPanel();
-		gridLayout.setWidth("100%");
+		gridLayout = new StyledPanel("gridLayout");
 		grid = new TAXHistoryGrid(this, false);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;

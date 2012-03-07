@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -23,10 +23,10 @@ public class DeleteThemeDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		VerticalPanel deletePanel = new VerticalPanel();
+		StyledPanel deletePanel = new StyledPanel("deletePanel");
 
-		deleteHtml = new HTML(messages.sureToDelete(
-				brandingTheme.getThemeName()));
+		deleteHtml = new HTML(messages.sureToDelete(brandingTheme
+				.getThemeName()));
 		undoneHtml = new HTML(messages.undoneHtml());
 		undoneHtml.addStyleName("bold_HTML");
 		okbtn.setText(messages.delete());
@@ -47,8 +47,8 @@ public class DeleteThemeDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (brandingTheme.isDefault()) {
-			result.addError(this, messages.wecantDeleteThisTheme(
-					brandingTheme.getThemeName()));
+			result.addError(this, messages.wecantDeleteThisTheme(brandingTheme
+					.getThemeName()));
 		}
 		return result;
 	}

@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author Murali.A T This class contains methods to return the components for
@@ -35,10 +34,9 @@ public class PrintTemplateUtils {
 		for (int r = 1; r < numRows; r++) {
 			int c = 0;
 			for (String key : data.keySet()) {
-				tb.setHTML(r, c, "<center>" + data.get(key) != null ? data
-						.get(key) : "&nbsp;" + "</center>");
-				tb.getCellFormatter().setHorizontalAlignment(r, c,
-						VerticalPanel.ALIGN_CENTER);
+				tb.setHTML(r, c,
+						"<center>" + data.get(key) != null ? data.get(key)
+								: "&nbsp;" + "</center>");
 				c++;
 			}
 		}
@@ -64,7 +62,7 @@ public class PrintTemplateUtils {
 			tb.getCellFormatter().setStyleName(0, c, "gridHeaderBackGround");
 
 			c++;
-//			tb.getCellFormatter().setWidth(0, 0, "33%");
+			// tb.getCellFormatter().setWidth(0, 0, "33%");
 		}
 		Map<Integer, List<String>> rowData = new LinkedHashMap<Integer, List<String>>();
 		for (List<String> key : headers) {
@@ -79,10 +77,9 @@ public class PrintTemplateUtils {
 								+ "</center>");
 				// tb.getCellFormatter().setHeight(rowNum.intValue() + 1, col,
 				// "10px");
-				tb.getCellFormatter().setHorizontalAlignment(
-						rowNum.intValue() + 1, col, VerticalPanel.ALIGN_CENTER);
 				col++;
-//				tb.getCellFormatter().setWidth(rowNum.intValue() + 1, 0, "33%");
+				// tb.getCellFormatter().setWidth(rowNum.intValue() + 1, 0,
+				// "33%");
 			}
 		}
 		return tb;
@@ -143,10 +140,9 @@ public class PrintTemplateUtils {
 		for (int c = 1; c < noCols; c++) {
 			int r = 0;
 			for (String key : data.keySet()) {
-				tb.setHTML(r, c, "<center>" + data.get(key) != null ? data
-						.get(key) : "&nbsp;" + "</center>");
-				tb.getCellFormatter().setHorizontalAlignment(r, c,
-						VerticalPanel.ALIGN_CENTER);
+				tb.setHTML(r, c,
+						"<center>" + data.get(key) != null ? data.get(key)
+								: "&nbsp;" + "</center>");
 				r++;
 			}
 		}
@@ -163,25 +159,26 @@ public class PrintTemplateUtils {
 
 		if (isHeadersRequired) {
 			for (int c = 0; c < noCols; c++) {
-				tb.setHTML(0, c, "<center><font  size=\"1\">"
-						+ headArray[c].toString() + "</font></center>");
+				tb.setHTML(0, c,
+						"<center><font  size=\"1\">" + headArray[c].toString()
+								+ "</font></center>");
 			}
 		}
 
 		for (int r = 1; r < numRows; r++) {
 			int c = 0;
 			for (String key : data.keySet()) {
-				tb.setHTML(r, c, "<center>" + data.get(key) != null ? data
-						.get(key) : "&nbsp;" + "</center>");
-				tb.getCellFormatter().setHorizontalAlignment(r, c,
-						VerticalPanel.ALIGN_CENTER);
+				tb.setHTML(r, c,
+						"<center>" + data.get(key) != null ? data.get(key)
+								: "&nbsp;" + "</center>");
 				c++;
 			}
 		}
 
 		if (numRows == 1 && noCols == 0) {
-			tb.setHTML(0, 0, "<center><font  size=\"1\">"
-					+ headArray[0].toString() + "</font></center>");
+			tb.setHTML(0, 0,
+					"<center><font  size=\"1\">" + headArray[0].toString()
+							+ "</font></center>");
 		}
 		return tb;
 	}

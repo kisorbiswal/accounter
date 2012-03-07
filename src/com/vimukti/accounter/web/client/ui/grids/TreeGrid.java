@@ -11,8 +11,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -567,7 +567,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * @author kumar kasimala
 	 * 
 	 */
-	public class TreeCell extends HorizontalPanel {
+	public class TreeCell extends FlowPanel {
 		Image image;
 		Label label;
 

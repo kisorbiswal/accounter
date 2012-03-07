@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -15,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -55,7 +55,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 	private void createControl() {
 		creator = new WidgetCreator();
 
-		HorizontalPanel addWidgetLinkLayout = new HorizontalPanel();
+		StyledPanel addWidgetLinkLayout = new StyledPanel("addWidgetLinkLayout");
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();

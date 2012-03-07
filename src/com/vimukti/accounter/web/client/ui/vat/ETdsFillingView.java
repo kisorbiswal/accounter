@@ -7,10 +7,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
@@ -208,8 +206,8 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		dynamicFormRight.setWidth("100%");
 		dynamicFormRight.add(quaterSelectionCombo, slectAssecementYear);
 
-		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.setWidth("100%");
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		// topHLay.setWidth("100%");
 		topHLay.add(dynamicFormLeft);
 		topHLay.add(dynamicFormRight);
 

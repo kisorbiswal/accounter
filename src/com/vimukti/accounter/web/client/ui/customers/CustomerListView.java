@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -14,6 +13,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -68,7 +68,7 @@ public class CustomerListView extends BaseListView<PayeeList> implements
 	}
 
 	@Override
-	protected HorizontalPanel getTotalLayout(BaseListGrid grid) {
+	protected StyledPanel getTotalLayout(BaseListGrid grid) {
 		// grid.addFooterValue(FinanceApplication.constants().total(),
 		// 8);
 		// grid.addFooterValue(DataUtils.getAmountAsString(grid.getTotal()) +

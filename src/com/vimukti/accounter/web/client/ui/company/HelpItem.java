@@ -6,27 +6,29 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.HelpLink;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
-public class HelpItem extends HorizontalPanel {
+public class HelpItem extends FlowPanel {
 	public FlexTable table;
 	public int currentrow, currentcolumn;
 
 	public HelpItem() {
 		createControls();
+		this.getElement().setId("HelpItem");
 	}
 
 	private void createControls() {
-		HorizontalPanel panel = new HorizontalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		panel.setWidth("100%");
 		table = new FlexTable();
 		panel.add(table);
 		add(panel);
-		this.setCellHorizontalAlignment(panel, ALIGN_LEFT);
-		this.setSize("100%", "100%");
+		// // this.setCellHorizontalAlignment(panel, ALIGN_LEFT);
+		// this.setSize("100%", "100%");
 
 	}
 
@@ -53,7 +55,6 @@ public class HelpItem extends HorizontalPanel {
 		hyperlink.setText(helpLink.getTitle());
 		hyperlink.addClickHandler(new ClickHandler() {
 
-			
 			@Override
 			public void onClick(ClickEvent event) {
 
@@ -62,8 +63,8 @@ public class HelpItem extends HorizontalPanel {
 				data.setStyleName("help-data");
 				dialog.add(data);
 				dialog.setSize("350px", "350px");
-				dialog.setPopupPosition(hyperlink.getAbsoluteLeft(), hyperlink
-						.getAbsoluteTop() - 360);
+				dialog.setPopupPosition(hyperlink.getAbsoluteLeft(),
+						hyperlink.getAbsoluteTop() - 360);
 				dialog.setAutoHideEnabled(true);
 				dialog.show();
 

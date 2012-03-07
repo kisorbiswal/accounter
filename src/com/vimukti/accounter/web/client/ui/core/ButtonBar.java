@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ButtonBar extends HorizontalPanel {
+public class ButtonBar extends FlowPanel {
 	private BaseView<?> view;
 	private List<Widget> widgets = new ArrayList<Widget>();
 
 	public ButtonBar(BaseView<?> view) {
 		this.view = view;
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		this.setSpacing(10);
-		this.setHeight("30px");
+		// this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		// this.setSpacing(10);
+		// this.setHeight("30px");
 	}
 
 	public void add(Widget widget) {
@@ -25,7 +26,7 @@ public class ButtonBar extends HorizontalPanel {
 
 	public void add(Widget widget, HorizontalAlignmentConstant alignment) {
 		super.add(widget);
-		this.setCellHorizontalAlignment(widget, alignment);
+		// this.setCellHorizontalAlignment(widget, alignment);
 		this.widgets.add(widget);
 	}
 

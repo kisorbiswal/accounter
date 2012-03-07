@@ -13,11 +13,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
@@ -31,15 +29,16 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
-public class SetupWizard extends VerticalPanel {
+public class SetupWizard extends FlowPanel {
 	private static final int START_PAGE = 0;
-	private VerticalPanel viewPanel;
-	private HorizontalPanel buttonPanel, backNextButtonPanel;
-	private VerticalPanel progressPanel, viewButtonPanel;
+	private StyledPanel viewPanel;
+	private StyledPanel buttonPanel, backNextButtonPanel;
+	private StyledPanel progressPanel, viewButtonPanel;
 	private Button backButton, nextButton, cancelBtn;
 	private Button gotoButton;
 	private ClientCompanyPreferences preferences;
@@ -109,36 +108,27 @@ public class SetupWizard extends VerticalPanel {
 
 	public void creteControls() {
 		try {
-			HorizontalPanel topPanel = new HorizontalPanel();
-			viewPanel = new VerticalPanel();
-			progressPanel = new VerticalPanel();
-			viewButtonPanel = new VerticalPanel();
-			backNextButtonPanel = new HorizontalPanel();
+			StyledPanel topPanel = new StyledPanel("topPanel");
+			viewPanel = new StyledPanel("viewPanel");
+			progressPanel = new StyledPanel("progressPanel");
+			viewButtonPanel = new StyledPanel("viewButtonPanel");
+			backNextButtonPanel = new StyledPanel("backNextButtonPanel");
 			progressHeader = new Label(messages.setupProgress());
 
 			progressPanel.add(progressHeader);
 			progressHeader.addStyleName("progress_header");
 
-			buttonPanel = new HorizontalPanel();
+			buttonPanel = new StyledPanel("buttonPanel");
 			buttonPanel.setVisible(false);
 
 			viewButtonPanel.add(viewPanel);
 			viewButtonPanel.add(buttonPanel);
-			viewButtonPanel.setCellVerticalAlignment(buttonPanel,
-					HasAlignment.ALIGN_MIDDLE);
 			buttonPanel.setStyleName("back_next_buttons");
-
-			viewButtonPanel.setCellHeight(viewPanel, "90%");
-			viewButtonPanel.setCellHeight(buttonPanel, "10%");
 
 			topPanel.add(progressPanel);
 			topPanel.add(viewButtonPanel);
 
 			viewPanel.addStyleName("view_panel");
-			viewButtonPanel.setSize("100%", "100%");
-			topPanel.setSize("100%", "100%");
-			topPanel.setCellHorizontalAlignment(progressPanel,
-					HasAlignment.ALIGN_RIGHT);
 
 			this.add(topPanel);
 
@@ -158,11 +148,11 @@ public class SetupWizard extends VerticalPanel {
 			backNextButtonPanel.add(nextButton);
 			backNextButtonPanel.add(gotoButton);
 			buttonPanel.add(cancelBtn);
-			buttonPanel.setCellHorizontalAlignment(cancelBtn,
-					HasAlignment.ALIGN_LEFT);
+			// buttonPanel.setCellHorizontalAlignment(cancelBtn,
+			// HasAlignment.ALIGN_LEFT);
 			buttonPanel.add(backNextButtonPanel);
-			buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
-					HasAlignment.ALIGN_RIGHT);
+			// buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
+			// HasAlignment.ALIGN_RIGHT);
 			buttonPanel.setWidth("100%");
 			loadIndustriesDefaultAccounts();
 
