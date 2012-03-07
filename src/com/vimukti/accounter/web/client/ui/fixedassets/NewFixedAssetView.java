@@ -164,14 +164,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			DynamicForm assetOptionsForm = new DynamicForm("assetOptionsForm");
 			listforms.add(assetOptionsForm);
 			assetOptionsForm.add(assetOptions);
-			// lablHPanel.setHorizontalAlignment(ALIGN_RIGHT);
-			// lablHPanel.setCellHorizontalAlignment(assetOptionsForm,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
 			StyledPanel assetOptionsHPanel = new StyledPanel(
 					"assetOptionsHPanel");
-			// assetOptionsHPanel.setHorizontalAlignment(ALIGN_RIGHT);
-			// assetOptionsHPanel.setCellHorizontalAlignment(assetOptionsForm,
-			// ALIGN_RIGHT);
 			assetOptionsHPanel.add(assetOptionsForm);
 			lablHPanel.add(assetOptionsHPanel);
 
@@ -1071,7 +1065,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				registerAsset();
 			}
 		});
-		// buttonBar.add(registerButton, HasHorizontalAlignment.ALIGN_RIGHT);
 		this.cancelButton = new CancelButton(this);
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -1079,7 +1072,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			public void onClick(ClickEvent event) {
 			}
 		});
-		// buttonBar.add(this.cancelButton, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 
 	protected void registerAsset() {

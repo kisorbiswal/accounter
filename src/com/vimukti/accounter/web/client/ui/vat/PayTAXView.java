@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -69,6 +70,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	public PayTAXView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
+		this.getElement().setId("paytaxview");
 	}
 
 	@Override
@@ -200,14 +202,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		mainform = new DynamicForm("mainform");
-		// filterForm.setWidth("100%");
 		mainform = UIUtils.form(messages.filter());
 		mainform.add(payFromAccCombo, paymentMethodCombo, billsDue,
 				taxAgencyCombo);
-		// mainform.setWidth("80%");
 
 		// fileterForm = new DynamicForm();
 		// fileterForm.setFields(billsDue);
@@ -233,7 +232,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			balForm.add(classListCombo);
 		}
 
-		VerticalPanel leftVLay = new VerticalPanel();
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
@@ -247,15 +246,15 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(isInViewMode());
 		}
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
+//		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVlay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
+//		topHLay.setCellWidth(leftVLay, "50%");
+//		topHLay.setCellWidth(rightVlay, "50%");
+//		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + messages.billsToPay() + "");
 

@@ -317,7 +317,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return accounterClass;
 	}
-
 	protected StyledPanel getVoidedPanel() {
 		voidedPanel = new StyledPanel("voidedPanel");
 		voidedLabel = new Label();
@@ -1822,30 +1821,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
-
-		// headersPanel.add(historyLink);
 		headersPanel.add(addNotesLink);
 		headersPanel.addStyleName("history_links");
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
 
-		// final StyledPanel historyPanel = getHistoryPanel(data.getID());
-		// historyPanel.setVisible(false);
-		// tablesPanel.add(historyPanel);
-		// historyLink.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// historyPanel.setVisible(!historyPanel.isVisible());
-		// if (historyPanel.isVisible())
-		// historyLink.setHTML(messages.hideHistory());
-		// else
-		// historyLink.setHTML(messages.showHistory());
-		// }
-		// });
-		//
-		// historyPanel.addStyleName("history_notes_view");
 
 		addNotesLink.addClickHandler(new ClickHandler() {
 
@@ -2119,8 +2100,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return super.canDelete();
 	}
-
-	@Override
+	
+		@Override
 	protected boolean isSaveButtonAllowed() {
 		return Utility.isUserHavePermissions(transactionType);
 	}

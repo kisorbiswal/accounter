@@ -595,7 +595,6 @@ public class VendorView extends BaseView<ClientVendor> {
 	private StyledPanel getDetailsTab() {
 
 		Label lab = new Label(Global.get().Vendor());
-
 		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
 
 		};
