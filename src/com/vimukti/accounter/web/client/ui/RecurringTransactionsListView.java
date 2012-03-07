@@ -7,7 +7,6 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -63,7 +62,7 @@ public class RecurringTransactionsListView extends
 	protected void createControls() {
 		super.createControls();
 
-		HorizontalPanel panel = new HorizontalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 
 		useButton = new Button(messages.use());
 		useButton.addClickHandler(new ClickHandler() {

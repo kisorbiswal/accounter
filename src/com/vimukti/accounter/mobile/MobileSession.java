@@ -14,7 +14,6 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
-import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.utils.SecureUtils;

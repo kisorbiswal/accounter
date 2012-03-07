@@ -5,14 +5,13 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
@@ -50,9 +49,9 @@ public class BankingSectionHomeView extends BaseHomeView {
 		setSize("100%", "100%");
 	}
 
-	private VerticalPanel createControl() {
+	private StyledPanel createControl() {
 		creator = new WidgetCreator();
-		HorizontalPanel addWidgetLinkLayout = new HorizontalPanel();
+		StyledPanel addWidgetLinkLayout = new StyledPanel("addWidgetLinkLayout");
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
@@ -189,13 +188,11 @@ public class BankingSectionHomeView extends BaseHomeView {
 		getAddableWidgets(widgetOnSectionPage);
 		accounts = new ChartOfAccountsListGrid(false);
 		accounts.init();
-		VerticalPanel leftLayout = new VerticalPanel();
-		leftLayout.setSize("100%", "100%");
+		StyledPanel leftLayout = new StyledPanel("leftLayout");
 		listOfAccounts = Accounter.getCompany().getAccounts();
 		filterList(true);
 		// leftLayout.add(addWidgetLinkLayout);
 		leftLayout.add(portalLayout);
-		leftLayout.setSpacing(10);
 		leftLayout.add(accounts);
 		return leftLayout;
 
@@ -203,10 +200,8 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = { messages.bankingSummary(),
-				messages.checkIssued(),
-				messages.deposit(),
-				messages.fundTransfered(),
-				messages.creditCardCharges() };
+				messages.checkIssued(), messages.deposit(),
+				messages.fundTransfered(), messages.creditCardCharges() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {

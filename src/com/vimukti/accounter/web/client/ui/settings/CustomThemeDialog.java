@@ -2,8 +2,8 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class CustomThemeDialog extends BaseDialog {
@@ -11,7 +11,7 @@ public class CustomThemeDialog extends BaseDialog {
 	private HTML titleHTML;
 	private TextBox titleBox;
 	private FlexTable flexTable, subTable;
-	private HorizontalPanel buttonPanel;
+	private StyledPanel buttonPanel;
 
 	public CustomThemeDialog(String title, String desc) {
 		super(title, desc);
@@ -25,7 +25,7 @@ public class CustomThemeDialog extends BaseDialog {
 		subTable.setWidget(0, 0, titleHTML);
 		subTable.setWidget(1, 0, titleBox);
 
-		buttonPanel = new HorizontalPanel();
+		buttonPanel = new StyledPanel("buttonPanel");
 
 		flexTable = new FlexTable();
 		flexTable.setWidget(0, 0, subTable);

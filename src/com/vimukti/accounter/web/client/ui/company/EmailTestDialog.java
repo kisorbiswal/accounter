@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class EmailTestDialog extends BaseDialog {
 

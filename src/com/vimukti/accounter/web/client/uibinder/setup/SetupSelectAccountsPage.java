@@ -20,9 +20,9 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class SetupSelectAccountsPage extends AbstractSetupPage {
 
@@ -42,7 +42,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	}
 
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	Label expensesInfo;
 	@UiField

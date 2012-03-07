@@ -10,10 +10,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author vimukti36
@@ -24,7 +24,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox classTrackingCheckBox;
 	@UiField
-	VerticalPanel hiddenPanel;
+	StyledPanel hiddenPanel;
 	@UiField
 	Label classTrackingCheckBoxLabel;
 	@UiField

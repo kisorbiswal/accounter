@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 /**
@@ -15,7 +14,7 @@ public class FormatingConfilctDialog extends BaseDialog {
 	private CustomLabel previousHeadingLabel, previousLabel, priviousValue,
 			nextLabel, nextValue, nextHeadingLabel;
 
-	private HorizontalPanel prevoiusPanel, nextPanel;
+	private StyledPanel prevoiusPanel, nextPanel;
 
 	private String presentheading;
 
@@ -42,8 +41,8 @@ public class FormatingConfilctDialog extends BaseDialog {
 	 */
 	private void createControls() {
 
-		VerticalPanel mainPanel = new VerticalPanel();
-		prevoiusPanel = new HorizontalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		prevoiusPanel = new StyledPanel("prevoiusPanel");
 		previousHeadingLabel = new CustomLabel(
 				messages.alreadyAssigned(previpousHeading));
 
@@ -52,7 +51,7 @@ public class FormatingConfilctDialog extends BaseDialog {
 		prevoiusPanel.add(previousLabel);
 		prevoiusPanel.add(priviousValue);
 
-		nextPanel = new HorizontalPanel();
+		nextPanel = new StyledPanel("nextPanel");
 		nextHeadingLabel = new CustomLabel(
 				messages.attemptingToreassign(presentheading));
 		nextLabel = new CustomLabel(presentheading);

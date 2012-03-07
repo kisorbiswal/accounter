@@ -32,8 +32,8 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 	}
 
 	public FormItem(String title, String styleName) {
-		addStyleName("formItem");
-		addStyleName(styleName);
+		getElement().addClassName("formItem");
+		getElement().addClassName(styleName);
 		this.title = title;
 		addLabel();
 	}
@@ -329,18 +329,6 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 			((FocusWidget) widget).setFocus(true);
 		}
 	}
-	
-	
-	public static ValidationResult validate(FormItem<?>... items) {
-		ValidationResult result = new ValidationResult();
-		for (FormItem<?> item : items) {
-			if (!item.validate()) {
-				result.addError(item, messages.pleaseEnter(item.getTitle()));
-			}
-		}
-		return result;
-	}
-
 
 	public static ValidationResult validate(FormItem<?>... items) {
 		ValidationResult result = new ValidationResult();

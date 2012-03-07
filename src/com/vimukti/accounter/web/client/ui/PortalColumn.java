@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.ui;
 
-//import java.awt.Canvas;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+//import java.awt.Canvas;
 
 /**
  * Portlet Column for placing Widgets
@@ -13,7 +11,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 // FIXME Vstack need to be implemented rather than vertical panel
-public class PortalColumn extends VerticalPanel {
+public class PortalColumn extends FlowPanel {
 	private int colNum;
 
 	public PortalColumn(int colNum) {
@@ -27,15 +25,14 @@ public class PortalColumn extends VerticalPanel {
 		// setCanAcceptDrop(true);
 		// setDropLineThickness(10);
 
-		
-		HorizontalPanel dropLineProperties = new HorizontalPanel();
+		StyledPanel dropLineProperties = new StyledPanel("dropLineProperties");
 		// dropLineProperties.setBackgroundColor("pink");
 		// setDropLineProperties(dropLineProperties);
 
 		// setShowDragPlaceHolder(true);
 
-		
-		SimplePanel placeHolderProperties = new SimplePanel();
+		StyledPanel placeHolderProperties = new StyledPanel(
+				"placeHolderProperties");
 		// placeHolderProperties.setBorder("2px solid #8289A6");
 		// setPlaceHolderProperties(placeHolderProperties);
 		// animateShow(AnimationEffect.SLIDE);

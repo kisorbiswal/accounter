@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.translate;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public class StatusPanel extends VerticalPanel {
+public class StatusPanel extends FlowPanel {
 	// public FlexTable table;
 	// public TranslationWizard translationWizard;
 	// private ArrayList<Status> list = new ArrayList<Status>();
@@ -50,7 +50,7 @@ public class StatusPanel extends VerticalPanel {
 	// translationWizard.add(translationDetailPanel);
 	// }
 	// });
-	// HorizontalPanel translateProgressPanel = new HorizontalPanel();
+	// StyledPanel translateProgressPanel = new StyledPanel();
 	// Label translatedProgress = new Label("Translated Messages : "
 	// + status.getTranslated());
 	// // translateProgressPanel.setWidth("500px");
@@ -58,7 +58,7 @@ public class StatusPanel extends VerticalPanel {
 	// * status.getTranslated() + "px";
 	// translatedProgress.setWidth(translateWidth);
 	//
-	// HorizontalPanel approveProgressPanel = new HorizontalPanel();
+	// StyledPanel approveProgressPanel = new StyledPanel();
 	// Label approvedProgress = new Label("Approved Messages : "
 	// + status.getApproved());
 	// approveProgressPanel.setWidth("500px");

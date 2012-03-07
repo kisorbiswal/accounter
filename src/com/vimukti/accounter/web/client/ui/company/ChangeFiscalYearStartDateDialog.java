@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -11,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -20,7 +20,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	private HTML enterStartDateLabel;
 	private DateField startDateItem;
 	private DynamicForm dynamicForm;
-	private VerticalPanel mainVlayout;
+	private StyledPanel mainVlayout;
 	private FiscalYearListGrid listofperiods;
 
 	public ChangeFiscalYearStartDateDialog(String title, String desc,
@@ -53,13 +53,13 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	private void createControls() {
 		enterStartDateLabel = new HTML();
 		enterStartDateLabel.setHTML(messages.pleaseEnterNewStartDate());
-		startDateItem = new DateField(messages.startDate(),"startDateItem");
+		startDateItem = new DateField(messages.startDate(), "startDateItem");
 
 		long startdate = getCompany().getPreferences().getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
 		dynamicForm = new DynamicForm("dynamicForm");
 		dynamicForm.add(startDateItem);
-		mainVlayout = new VerticalPanel();
+		mainVlayout = new StyledPanel("mainVlayout");
 		mainVlayout.add(enterStartDateLabel);
 		mainVlayout.add(dynamicForm);
 		setBodyLayout(mainVlayout);

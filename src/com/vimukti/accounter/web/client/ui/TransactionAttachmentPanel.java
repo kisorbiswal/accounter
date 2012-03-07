@@ -16,10 +16,8 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
@@ -30,7 +28,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 	private static final String ATTACHMENT_URL = "/do/uploadattachment";
 
-	VerticalPanel attachmentTable;
+	StyledPanel attachmentTable;
 	private boolean isFileSelected;
 	private final String[] fileTypes = { "*" };
 	private List<ClientAttachment> attachments = new ArrayList<ClientAttachment>();
@@ -46,21 +44,19 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 	}
 
 	private void createControls() {
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setSpacing(9);
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		Label label = new Label(messages.attachments());
 		label.addStyleName("history_notes_label");
 		mainPanel.add(label);
-		attachmentTable = new VerticalPanel();
+		attachmentTable = new StyledPanel("attachmentTable");
 		mainPanel.add(attachmentTable);
-		mainPanel.setWidth("100%");
 
 		uploadForm = new FormPanel();
 		uploadForm.setVisible(!isInViewMode());
 		uploadForm.setAction(ATTACHMENT_URL);
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		uploadForm.setMethod(FormPanel.METHOD_POST);
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
 		browseFileAnchor = new Anchor(messages.attachaFile());// Choose
@@ -169,10 +165,8 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		return fileName;
 	}
 
-	protected HorizontalPanel getAttachmentField(
-			final ClientAttachment attachment) {
-		HorizontalPanel hPanel = new HorizontalPanel();
-		hPanel.setWidth("100%");
+	protected StyledPanel getAttachmentField(final ClientAttachment attachment) {
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.addStyleName("attachment_hpanel");
 		Anchor anchor = new Anchor(attachment.getName());
 		anchor.addClickHandler(new ClickHandler() {
@@ -288,8 +282,8 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		uploadFile.setEnabled(isEnable);
 		for (int i = 0; i < attachmentTable.getWidgetCount(); i++) {
 			Widget widget = attachmentTable.getWidget(i);
-			if (widget instanceof HorizontalPanel) {
-				HorizontalPanel panel = (HorizontalPanel) widget;
+			if (widget instanceof StyledPanel) {
+				StyledPanel panel = (StyledPanel) widget;
 				ImageButton childWidget = (ImageButton) panel.getWidget(3);
 				childWidget.setVisible(isEnable);
 			}

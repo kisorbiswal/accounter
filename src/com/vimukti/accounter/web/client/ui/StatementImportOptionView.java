@@ -12,10 +12,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
@@ -47,7 +45,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	private static final int CLOSINGBALANCE = 6;
 	private Map<String, Integer> map = new HashMap<String, Integer>();
 	private long accountId;
-	private VerticalPanel controlsPanel;
+	private StyledPanel controlsPanel;
 	private int currentStatementRecord = 1;
 	Anchor nextHyperLink, previousHyperLink;
 	private Label dateFormat_Label;
@@ -86,7 +84,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	 */
 	private void createControls() {
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 
 		Label titleLabel = new Label("Statement Import Options");
 		titleLabel.setStyleName("label-title");
@@ -124,20 +122,20 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 		statusLabel = new CustomLabel("Statement line "
 				+ currentStatementRecord + " of "
 				+ (importStatementData.size() - 1));
-		HorizontalPanel anchorPanel = new HorizontalPanel();
+		StyledPanel anchorPanel = new StyledPanel("anchorPanel");
 		anchorPanel.add(statusLabel);
 		anchorPanel.add(previousHyperLink);
 		anchorPanel.add(nextHyperLink);
 		mainVLay.add(anchorPanel);
 
-		controlsPanel = new VerticalPanel();
+		controlsPanel = new StyledPanel("controlsPanel");
 		setBody();
 
 		mainVLay.add(controlsPanel);
 
 		mainVLay.setSize("100%", "100%");
 
-		HorizontalPanel datePanel = new HorizontalPanel();
+		StyledPanel datePanel = new StyledPanel("datePanel");
 		dateFormat_Label = new Label(messages.DateFormat());
 		dateFormatList = new ListBox(false);
 		String[] dateFormates = new String[] { "ddMMyy", "MM/dd/yy",
@@ -174,7 +172,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 		controlsPanel.clear();
 		comboIndexesMap.clear();
 		for (int i = 0; i < getImportStatementData().get(0).length; i++) {
-			HorizontalPanel valuesPanel = new HorizontalPanel();
+			StyledPanel valuesPanel = new StyledPanel("valuesPanel");
 			final String head = getImportStatementData().get(0)[i];
 			final String value = getImportStatementData().get(
 					currentStatementRecord)[i];
@@ -294,8 +292,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	 */
 	private void setSelectedValue(ListBox selectionBox) {
 		for (int x = 0; x < controlsPanel.getWidgetCount(); x++) {
-			HorizontalPanel panel = (HorizontalPanel) controlsPanel
-					.getWidget(x);
+			StyledPanel panel = (StyledPanel) controlsPanel.getWidget(x);
 			ListBox listBox = (ListBox) panel.getWidget(2);
 			if (listBox != selectionBox
 					&& listBox.getSelectedIndex() == selectionBox

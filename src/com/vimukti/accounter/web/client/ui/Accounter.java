@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -19,7 +18,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ClientGlobal;
 import com.vimukti.accounter.web.client.Global;
@@ -430,10 +428,8 @@ public class Accounter implements EntryPoint {
 		}
 		expireDialog = new CustomDialog();
 		expireDialog.setText(message);
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		HTML data = new HTML("<p>" + message + "</p");
-		data.getElement().getStyle().setMargin(10, Unit.PX);
-		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
 		Button loginBtn = new Button(getMessages().login());
 		loginBtn.addClickHandler(new ClickHandler() {

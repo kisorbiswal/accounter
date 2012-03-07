@@ -4,7 +4,7 @@
 //import java.util.List;
 //
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 //import com.vimukti.accounter.web.client.core.ClientCustomer;
 //import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
@@ -285,11 +285,11 @@
 //		// Button canButt = new Button("Cancel");
 //		// canButt.setAutoFit(true);
 //		//
-//		// HorizontalPanel helpHLay = new HorizontalPanel();
+//		// StyledPanel helpHLay = new StyledPanel();
 //		// helpHLay.setWidth("50%");
 //		// helpHLay.add(helpButt);
 //		//
-//		// HorizontalPanel buttHLay = new HorizontalPanel();
+//		// StyledPanel buttHLay = new StyledPanel();
 //		// buttHLay.setWidth("100%");
 //		// buttHLay.setMembersMargin(20);
 //		// buttHLay.setAutoHeight();
@@ -299,7 +299,7 @@
 //		// buttHLay.setLayoutRightMargin(5);
 //		// buttHLay.setMembers(helpHLay, okButt, canButt);
 //		headerLayout.setHeight("50px");
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		// mainVLay.setTop(30);
 //		mainVLay.setSize("100%", "100%");
 //		mainVLay.add(lab1);

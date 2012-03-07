@@ -43,14 +43,10 @@ public class CustomComboItem extends FormItem {
 		textBox.setTitle(tooltip);
 	}
 
-	protected void onAttach() {
-
-	}
-
-//	public CustomComboItem(String title) {
-//		this();
-//		setTitle(title);
-//	}
+	// public CustomComboItem(String title) {
+	// this();
+	// setTitle(title);
+	// }
 
 	@Override
 	public Object getValue() {

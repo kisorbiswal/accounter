@@ -3,13 +3,13 @@ package com.vimukti.accounter.web.client.portlet;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.reports.TopPayeesBySalesPortletToolBar;
 
 public class TopPayeesBySalesPortlet extends Portlet {
@@ -18,7 +18,7 @@ public class TopPayeesBySalesPortlet extends Portlet {
 	public static final int ITEM_PORTLET = 3;
 
 	private TopPayeesBySalesPortletToolBar toolBar;
-	private VerticalPanel gridPanel;
+	private StyledPanel gridPanel;
 	private int portletType;
 
 	public TopPayeesBySalesPortlet(ClientPortletConfiguration configuration,
@@ -43,7 +43,7 @@ public class TopPayeesBySalesPortlet extends Portlet {
 
 	@Override
 	public void createBody() {
-		gridPanel = new VerticalPanel();
+		gridPanel = new StyledPanel("gridPanel");
 		createToolBar();
 		this.body.add(gridPanel);
 	}
@@ -62,7 +62,7 @@ public class TopPayeesBySalesPortlet extends Portlet {
 				dateRangeChanged(portletConfigData.get(DATE_RANGE));
 				TopPayeesBySalesPortlet.this.updateData(startDate, endDate,
 						portletConfigData.get(LIMIT));
-				 updateConfiguration();
+				updateConfiguration();
 			}
 
 			@Override

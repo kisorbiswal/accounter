@@ -6,22 +6,21 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class CustomDialog extends DialogBox {
 
-	private HorizontalPanel captionPanel;
+	private StyledPanel captionPanel;
 	private HTML caption;
 	private Image cross, help;
 
 	private boolean isShowHelpBtn;
 	private boolean isShowCloseBtn;
-	private HorizontalPanel imageHorizontalPanel;
+	private StyledPanel imageStyledPanel;
 	protected static AccounterMessages messages = Global.get().messages();
 
 	public CustomDialog() {
@@ -60,27 +59,27 @@ public class CustomDialog extends DialogBox {
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 
-		captionPanel = new HorizontalPanel();
-		captionPanel.setWidth("100%");
+		captionPanel = new StyledPanel("captionPanel");
+		// captionPanel.setWidth("100%");
 		captionPanel.add(caption);
 
-		imageHorizontalPanel = new HorizontalPanel();
-		// imageHorizontalPanel.setSpacing(3);
+		imageStyledPanel = new StyledPanel("imageStyledPanel");
+		// imageStyledPanel.setSpacing(3);
 
 		if (isShowHelpBtn)
-			imageHorizontalPanel.add(help);
+			imageStyledPanel.add(help);
 		if (isShowCloseBtn)
-			imageHorizontalPanel.add(cross);
+			imageStyledPanel.add(cross);
 
-		imageHorizontalPanel.setCellHorizontalAlignment(help,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		imageHorizontalPanel.setCellHorizontalAlignment(cross,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// imageStyledPanel.setCellHorizontalAlignment(help,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// imageStyledPanel.setCellHorizontalAlignment(cross,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
-		captionPanel.add(imageHorizontalPanel);
+		captionPanel.add(imageStyledPanel);
 		captionPanel.setStyleName("caption");
-		captionPanel.setCellHorizontalAlignment(imageHorizontalPanel,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// captionPanel.setCellHorizontalAlignment(imageStyledPanel,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		Element td = getCellElement(0, 1);
 		td.setInnerHTML("");

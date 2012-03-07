@@ -3,13 +3,13 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -33,7 +33,7 @@ public class TDSFiledDetailsView extends BaseView {
 	LabelItem assesmentYearLabel;
 	LabelItem quaterLabel;
 
-	VerticalPanel mainPanel = new VerticalPanel();
+	StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 	public TDSFiledDetailsView(int formType, String ackNo,
 			int financialYearStart, int financialYearEnd, int quater,
@@ -79,7 +79,7 @@ public class TDSFiledDetailsView extends BaseView {
 	protected void showItems(ArrayList<ClientTDSChalanDetail> challans) {
 
 		for (ClientTDSChalanDetail challan : challans) {
-			VerticalPanel panel = new VerticalPanel();
+			StyledPanel panel = new StyledPanel("panel");
 			panel.add(new TDSChallanItem(challan));
 			mainPanel.add(panel);
 		}

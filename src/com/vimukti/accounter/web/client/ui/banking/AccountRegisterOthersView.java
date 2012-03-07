@@ -3,9 +3,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -13,6 +11,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
@@ -32,8 +31,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	private ClientAccount account;
 	protected List<AccountRegister> accountRegister;
 	private AccountRegister accRegister;
-	private VerticalPanel mainVLay;
-	private HorizontalPanel hlayTop;
+	private StyledPanel mainVLay;
+	private StyledPanel hlayTop;
 	private Label lab1;
 
 	private ClientFinanceDate startDate, todaydate;
@@ -82,16 +81,14 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 				});
 		DynamicForm form = new DynamicForm("form");
 		form.add(showTransactionSelect);
-		hlayTop = new HorizontalPanel();
-		hlayTop.setWidth("100%");
+		hlayTop = new StyledPanel("hlayTop");
 		hlayTop.add(form);
-		hlayTop.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+		// hlayTop.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 
 		lab1 = new Label(messages.accountRegister() + " - "
 				+ takenaccount.getName());
 		lab1.setStyleName("label-title");
-		HorizontalPanel lableHpanel = new HorizontalPanel();
-		lableHpanel.setWidth("100%");
+		StyledPanel lableHpanel = new StyledPanel("lableHpanel");
 		lableHpanel.add(lab1);
 		lableHpanel.add(hlayTop);
 
@@ -99,24 +96,13 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		// grid.addStyleName("listgrid-tl");
 		grid.init();
 		grid.setView(this);
-		HorizontalPanel gridLayout = new HorizontalPanel() {
-			@Override
-			protected void onAttach() {
-
-				grid.setHeight(this.getOffsetHeight() - FOOTER + "px");
-
-				super.onAttach();
-			}
-		};
-		gridLayout.setWidth("100%");
-		gridLayout.setHeight("100%");
-
+		StyledPanel gridLayout = new StyledPanel("gridLayout");
 		gridLayout.add(grid);
 
 		totalLabel = new Label();
 		totalLabel.setText(messages.totalEndingBalance()
 				+ DataUtils.getAmountAsStringInPrimaryCurrency(total));
-		mainVLay = new VerticalPanel();
+		mainVLay = new StyledPanel("mainVLay");
 		mainVLay.setHeight("100%");
 		mainVLay.setWidth("100%");
 		mainVLay.add(lableHpanel);

@@ -4,18 +4,18 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private Label userNameLabel, mailIdLabel;
 	private Anchor changePasswordHtml, changeProfileHtml, deleteAccountHtml;
 	private ClientUser clientUser;
@@ -28,7 +28,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 	private void createControls() {
 
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		Accounter.getCompany();
 		userNameLabel = new Label(messages.nameColon()
 				+ Accounter.getUser().getFullName());

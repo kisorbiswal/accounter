@@ -2,13 +2,12 @@ package com.vimukti.accounter.web.client.ui.widgets;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientChequeLayout;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class ChequeLayoutWidget extends SimplePanel {
 	private ClientChequeLayout chequeLayout;
@@ -25,8 +24,8 @@ public class ChequeLayoutWidget extends SimplePanel {
 	private Label chequeDateLbl;
 	private Label companyNameLbl;
 	private Label authoritySignatoryLbl;
-	private HorizontalPanel topScale;
-	private VerticalPanel vertScale;
+	private StyledPanel topScale;
+	private StyledPanel vertScale;
 	private AbsolutePanel chequeBody;
 	private AccounterMessages messages;
 
@@ -90,12 +89,12 @@ public class ChequeLayoutWidget extends SimplePanel {
 		chequeBody.setSize(chequeLayout.getChequeWidth() + "cm",
 				chequeLayout.getChequeHeight() + "cm");
 
-		topScale = new HorizontalPanel();
+		topScale = new StyledPanel("topScale");
 		addHorizantalScale();
 		topScale.addStyleName("chequeTopScal");
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		vertScale = new VerticalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
+		vertScale = new StyledPanel("vertScale");
 		addVerticalScale();
 		vertScale.setStyleName("chequeLeftScal");
 		SimplePanel chequeBg = new SimplePanel();
@@ -103,12 +102,10 @@ public class ChequeLayoutWidget extends SimplePanel {
 		chequeBg.setStyleName("chequeBackground");
 		horizontalPanel.add(vertScale);
 		horizontalPanel.add(chequeBg);
-		horizontalPanel.setCellWidth(vertScale, "20px");
-		VerticalPanel verticalPanel = new VerticalPanel();
+		// horizontalPanel.setCellWidth(vertScale, "20px");
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		verticalPanel.add(topScale);
-		verticalPanel.setWidth("100%");
 		verticalPanel.add(horizontalPanel);
-		horizontalPanel.setWidth("100%");
 		this.add(verticalPanel);
 		this.addStyleName("checkpanel");
 	}

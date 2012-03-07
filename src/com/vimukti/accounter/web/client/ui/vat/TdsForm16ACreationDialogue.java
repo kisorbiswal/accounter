@@ -6,12 +6,11 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -88,9 +87,9 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		form.setWidth("100%");
 		form.setHeight("100%");
 
-		HorizontalPanel layout = new HorizontalPanel();
-		HorizontalPanel layout1 = new HorizontalPanel();
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel layout = new StyledPanel("layout");
+		StyledPanel layout1 = new StyledPanel("layout1");
+		StyledPanel vPanel = new StyledPanel("vPanel");
 
 		List<ClientVendor> vendors = getCompany().getActiveVendors();
 		vendorCombo = new VendorCombo(messages.deductee(), false);
@@ -133,32 +132,33 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					}
 				});
 
-		location = new TextItem(messages.place(),"location");
+		location = new TextItem(messages.place(), "location");
 
 		ClientFinanceDate todaysDate = new ClientFinanceDate();
 
-		form16AprintDate = new DateField(messages.date(),"form16AprintDate");
+		form16AprintDate = new DateField(messages.date(), "form16AprintDate");
 		form16AprintDate.setTitle(messages.date());
 		form16AprintDate.setValue(todaysDate);
 
-		fromDate = new DateField(messages.fromDate(),"fromDate");
+		fromDate = new DateField(messages.fromDate(), "fromDate");
 		fromDate.setTitle(messages.fromDate());
 		fromDate.setValue(todaysDate);
 
-		toDate = new DateField(messages.toDate(),"toDate");
+		toDate = new DateField(messages.toDate(), "toDate");
 		toDate.setTitle(messages.toDate());
 		toDate.setValue(todaysDate);
 
-		tdsCertificateNumber = new TextItem(messages.tdsCertificateNumber(),"tdsCertificateNumber");
+		tdsCertificateNumber = new TextItem(messages.tdsCertificateNumber(),
+				"tdsCertificateNumber");
 		tdsCertificateNumber.setRequired(true);
 		form0 = new DynamicForm("form0");
 		form0.setWidth("100%");
 
 		form.add(tdsCertificateNumber, location, form16AprintDate);
-		form0.add(vendorCombo, chalanQuarterPeriod, monthlyCombo,
-				fromDate, toDate);
+		form0.add(vendorCombo, chalanQuarterPeriod, monthlyCombo, fromDate,
+				toDate);
 
-		HorizontalPanel radioButtonPanel = new HorizontalPanel();
+		StyledPanel radioButtonPanel = new StyledPanel("radioButtonPanel");
 
 		String[] sports = { messages.quarterly(), messages.monthly(),
 				messages.betweenDates(), messages.yearly() };

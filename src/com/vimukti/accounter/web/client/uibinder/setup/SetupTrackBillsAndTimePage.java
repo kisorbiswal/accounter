@@ -9,9 +9,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Administrator
@@ -22,11 +22,11 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	private static SetupTrackBillsAndTimePageUiBinder uiBinder = GWT
 			.create(SetupTrackBillsAndTimePageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
-	VerticalPanel trackingBillsPanel;
+	StyledPanel trackingBillsPanel;
 	@UiField
-	VerticalPanel managing;
+	StyledPanel managing;
 	@UiField
 	HTML trackOfBillsText;
 	@UiField

@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -75,7 +74,7 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	protected void createControls() {
 		super.createControls();
 
-		HorizontalPanel panel = new HorizontalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 
 		createButton = new Button(messages.createSelected());
 		createButton.addClickHandler(new ClickHandler() {

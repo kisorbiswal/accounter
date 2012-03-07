@@ -1,21 +1,19 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class LocationTrackingOption extends AbstractPreferenceOption {
 
@@ -40,11 +38,11 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 	@UiField
 	Label locationTrackingCheckBoxLabel;
 	@UiField
-	VerticalPanel radioButtonsPanel;
+	StyledPanel radioButtonsPanel;
 	@UiField
-	HorizontalPanel hpanel;
+	StyledPanel hpanel;
 	@UiField
-	VerticalPanel radioButtonPanel;
+	StyledPanel radioButtonPanel;
 	@UiField
 	Label locationTrackingDescriptionLabel;
 	private static LocationTrackingOptionUiBinder uiBinder = GWT
@@ -165,13 +163,13 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 		storeRadioButton.setHTML(messages.store());
 		territoryRadioButton.setName(messages.locationGroup());
 		territoryRadioButton.setHTML(messages.territory());
-		radioButtonPanel
-				.getElement()
-				.getStyle()
-				.setPaddingLeft(
-						(messages.useTerminologyFor(Global.get().Location())
-								.length() * 6), Unit.PX);
-		hpanel.setCellWidth(locationTrackingCheckBoxItm, "20px");
+		// radioButtonPanel
+		// .getElement()
+		// .getStyle()
+		// .setPaddingLeft(
+		// (messages.useTerminologyFor(Global.get().Location())
+		// .length() * 6), Unit.PX);
+		// hpanel.setCellWidth(locationTrackingCheckBoxItm, "20px");
 
 		locationTrackingCheckBoxItm.addClickHandler(new ClickHandler() {
 

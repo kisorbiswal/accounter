@@ -14,14 +14,13 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Prasanna Kumar G
@@ -31,13 +30,13 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	private static SetupIndustrySelectionWithAccountsPageUiBinder uiBinder = GWT
 			.create(SetupIndustrySelectionWithAccountsPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
-	HorizontalPanel industryAccountsPanel;
+	StyledPanel industryAccountsPanel;
 	@UiField
 	ListBox industryList;
 	@UiField
-	VerticalPanel accountsPanel;
+	StyledPanel accountsPanel;
 	@UiField
 	HTML selectIndustryhead, customizeAccounter;
 	@UiField

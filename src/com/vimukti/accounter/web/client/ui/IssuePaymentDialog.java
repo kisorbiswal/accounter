@@ -3,9 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -23,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 
@@ -450,7 +447,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		// .constants().total(), DataUtils
 		// .getAmountAsString(0.00));
 
-		// bottomLabelLayOut = new HorizontalPanel();
+		// bottomLabelLayOut = new StyledPanel();
 		// bottomLabelLayOut.setWidth("100%");
 		// bottomLabelLayOut.setHeight("100px");
 		Label emptyLabel = new Label();

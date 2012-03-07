@@ -7,9 +7,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientChequeLayout;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -483,12 +481,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		});
 
-		LabelItem item = new LabelItem("","item");
+		LabelItem item = new LabelItem("", "item");
 		item.setValue("");
 
 		DynamicForm allFields = new DynamicForm("allFields");
 		allFields.setWidth("100%");
-//		allFields.setNumCols(8);
+		// allFields.setNumCols(8);
 		allFields.add(item, topLabelItem, leftLabelItem, widthLabelItem,
 				payeeLabel, payeeTop, payeeLeft, payeeWidth,
 				amountWordsLineOne, amountWordsTopOne, amountWordsLeftOne,
@@ -500,7 +498,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 				signatoryTop, signatoryLeft, signatoryWidth);
 
 		DynamicForm chequeForm = new DynamicForm("chequeForm");
-//		chequeForm.setNumCols(2);
+		// chequeForm.setNumCols(2);
 		chequeForm.add(chequeWidth, chequeHeight);
 		chequeForm.addStyleName("cheque_form");
 
@@ -517,7 +515,6 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		this.add(allPanel);
 		allPanel.setWidth("100%");
-		this.setCellHorizontalAlignment(allPanel, ALIGN_LEFT);
 
 		ImageButton saveButton = new ImageButton(messages.saveAndClose(),
 				Accounter.getFinanceImages().saveAndClose());

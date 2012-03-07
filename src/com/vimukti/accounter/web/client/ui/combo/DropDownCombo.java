@@ -636,7 +636,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			this.getMainWidget().removeStyleName("dropdown-disabled");
 		super.setEnabled(b);
 	}
-	
+
 	public void setWidth(int width) {
 		this.getMainWidget().setWidth(width + "%");
 	}
@@ -772,12 +772,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				displayName += " - ";
 		}
 		return displayName;
-	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// addDiv();
 	}
 
 	protected void onAddAllInfo(String text) {

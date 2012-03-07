@@ -1,9 +1,9 @@
 package com.vimukti.accounter.admin.client;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class AdminUsersListView extends AdminAbstractBaseView<ClientAdminUser> {
 
@@ -15,7 +15,7 @@ public class AdminUsersListView extends AdminAbstractBaseView<ClientAdminUser> {
 
 	private void createControls() {
 		ChartOfAdminUsersList chartOfAdminList = new ChartOfAdminUsersList();
-		VerticalPanel vpanel = new VerticalPanel();
+		StyledPanel vpanel = new StyledPanel("vpanel");
 		vpanel.add(chartOfAdminList);
 		add(vpanel);
 

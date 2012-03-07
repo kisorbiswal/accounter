@@ -12,22 +12,21 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -37,7 +36,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
  * @author kumar kasimala
  * 
  */
-public abstract class CustomTable extends VerticalPanel {
+public abstract class CustomTable extends FlowPanel {
 
 	protected FlexTable header;
 	protected FlexTable body;
@@ -72,7 +71,7 @@ public abstract class CustomTable extends VerticalPanel {
 	private boolean isFirstTime = true;
 	private int headerCellCount;
 	private int bodyCellCount;
-	private HorizontalPanel imagePanel;
+	private StyledPanel imagePanel;
 	private final static short scrollBarWidth = UIUtils.getScroolBarWidth();
 	// private final FinanceImages images = GWT.create(FinanceImages.class);
 	private boolean hasLoadingImage;
@@ -235,13 +234,13 @@ public abstract class CustomTable extends VerticalPanel {
 
 	public void addLoadingImagePanel() {
 		hasLoadingImage = true;
-		imagePanel = new HorizontalPanel();
+		imagePanel = new StyledPanel("imagePanel");
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image(Accounter.getFinanceImages().loadingImage()));
 		Label label = new Label(messages.pleaseWaitDataIsLoading());
 		imagePanel.add(label);
-		imagePanel.setCellVerticalAlignment(label,
-				HasVerticalAlignment.ALIGN_MIDDLE);
+		// imagePanel.setCellVerticalAlignment(label,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
 		body.setWidget(0, 0, imagePanel);
 		this.body.getRowFormatter().addStyleName(0, "loading-panel");
 		this.cellFormatter.setHorizontalAlignment(0, 0,

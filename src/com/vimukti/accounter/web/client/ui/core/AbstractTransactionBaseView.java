@@ -1076,14 +1076,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// if (menuButton != null) {
-		// menuButton.setEnabled(!isInViewMode());
-		// }
-	}
-
-	@Override
 	public ValidationResult validate() {
 
 		updateTransaction();
@@ -1862,23 +1854,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
-
-		// final StyledPanel historyPanel = getHistoryPanel(data.getID());
-		// historyPanel.setVisible(false);
-		// tablesPanel.add(historyPanel);
-		// historyLink.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// historyPanel.setVisible(!historyPanel.isVisible());
-		// if (historyPanel.isVisible())
-		// historyLink.setHTML(messages.hideHistory());
-		// else
-		// historyLink.setHTML(messages.showHistory());
-		// }
-		// });
-		//
-		// historyPanel.addStyleName("history_notes_view");
 
 		addNotesLink.addClickHandler(new ClickHandler() {
 

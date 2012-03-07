@@ -5,9 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -17,6 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -72,7 +71,7 @@ public class JobView extends BaseView<ClientJob> {
 
 	private void createControls() {
 
-		VerticalPanel mainVlay = new VerticalPanel();
+		StyledPanel mainVlay = new StyledPanel("mainVlay");
 		Label titleLabel = new Label(messages.job());
 		titleLabel.setStyleName("label-title");
 
@@ -112,31 +111,25 @@ public class JobView extends BaseView<ClientJob> {
 		jobForm.add(jobNameText, statusCheck, jobstatusCombo, customerCombo);
 		form.add(startDate, projectEndDate, endDate);
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
 		leftVLay.add(jobForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(form);
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setSpacing(5);
-		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel contHLay = new HorizontalPanel();
+		StyledPanel contHLay = new StyledPanel("contHLay");
 
 		mainVlay.add(titleLabel);
 
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
-		mainVlay.setWidth("100%");
+		// mainVlay.setWidth("100%");
 		this.add(mainVlay);
 	}
 

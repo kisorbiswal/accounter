@@ -557,7 +557,7 @@ public class CashExpenseView extends
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
 
-			// VerticalPanel vPanel = new VerticalPanel();
+			// StyledPanel vPanel = new StyledPanel();
 			// vPanel.add(menuButton);
 			// vPanel.add(memoForm);
 			// vPanel.setWidth("100%");

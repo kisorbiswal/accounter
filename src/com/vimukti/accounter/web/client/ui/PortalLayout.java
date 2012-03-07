@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -14,19 +14,17 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
  * @author vimukti9
  * 
  */
-public class PortalLayout extends VerticalPanel {
+public class PortalLayout extends FlowPanel {
 
 	private DashBoardView dashboardParent;
 	private CustomerSectionHomeView customerParent;
 	private VendorSectionHomeView vendorParent;
-	
+
 	private BankingSectionHomeView bankingParent;
 	// private Timer timer;
 	ClientUser user;
 
-	
 	public PortalLayout(BaseHomeView parent, int numColumns) {
-		setSize("100%", "100%");
 		if (parent instanceof CustomerSectionHomeView) {
 			this.customerParent = (CustomerSectionHomeView) parent;
 		} else if (parent instanceof DashBoardView) {

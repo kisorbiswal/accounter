@@ -11,10 +11,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -29,17 +25,15 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	private static final String CASHSALE = "CASHSALE";
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private FormPanel uploadForm;
-	private VerticalPanel mainLayout;
-	private VerticalPanel panel;
-	private VerticalPanel uploadFormLayout;
-	private HorizontalPanel buttonHlay;
+	private StyledPanel mainLayout;
+	private StyledPanel panel;
+	private StyledPanel uploadFormLayout;
+	private StyledPanel buttonHlay;
 	private ClientBrandingTheme brandingTheme;
 	private boolean closeAfterUploaded = true;
 	private String title;
 	private HTML detailsHtml1, detailsHtml2, detailsHtml3, detailsHtml4,
 			detailsHtml5, detailsHtml6;
-
-	// private TextItem invoiceBox, creditNoteBox, quoteBox;
 	private FileUpload invoiceBtn, creditNoteBtn, quoteBtn, cashSaleBtn;
 	private String[] fileTypes;
 	private ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
@@ -64,13 +58,10 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 
 		// Create a panel to hold all of the form widgets.
-		VerticalPanel vpaPanel = new VerticalPanel();
+		StyledPanel vpaPanel = new StyledPanel("vpaPanel");
 
-		panel = new VerticalPanel();
+		panel = new StyledPanel("panel");
 		/* make space small */
-		panel.setSpacing(2);
-		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		// Create a FileUpload widget.
 
 		// for uploading the custom template files
 		detailsHtml1 = new HTML(messages.uploadOneOrMoreTemplates());
@@ -106,37 +97,28 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		uploadItems.add(cashSaleBtn);
 
 		panel.add(detailsHtml1);
-		panel.setSpacing(5);
 		panel.add(detailsHtml2);
-		panel.setSpacing(5);
 		panel.add(detailsHtml3);
-		panel.setSpacing(5);
 
-		VerticalPanel invPanel = new VerticalPanel();
+		StyledPanel invPanel = new StyledPanel("invPanel");
 		invPanel.add(invoiceBtn);
 		panel.add(invPanel);
 
-		panel.setSpacing(5);
 		panel.add(detailsHtml4);
-		panel.setSpacing(5);
 
-		VerticalPanel creditPanel = new VerticalPanel();
+		StyledPanel creditPanel = new StyledPanel("creditPanel");
 		creditPanel.add(creditNoteBtn);
 		panel.add(creditPanel);
 
-		panel.setSpacing(5);
 		panel.add(detailsHtml5);
-		panel.setSpacing(5);
 
-		VerticalPanel quotePanel = new VerticalPanel();
+		StyledPanel quotePanel = new StyledPanel("quotePanel");
 		quotePanel.add(quoteBtn);
 		panel.add(quotePanel);
 
-		panel.setSpacing(5);
 		panel.add(detailsHtml6);
-		panel.setSpacing(5);
-		
-		VerticalPanel cashPanel = new VerticalPanel();
+
+		StyledPanel cashPanel = new StyledPanel("cashPanel");
 		cashPanel.add(cashSaleBtn);
 		panel.add(cashPanel);
 
@@ -148,19 +130,13 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
-		closeButton.setWidth("80px");
-		buttonHlay = new HorizontalPanel();
+		buttonHlay = new StyledPanel("buttonHlay");
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);
-
-		buttonHlay.setCellHorizontalAlignment(closeButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonHlay.setCellHorizontalAlignment(uploadSubmitButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		uploadSubmitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -195,9 +171,9 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 			}
 		});
 
-		uploadFormLayout = new VerticalPanel();
+		uploadFormLayout = new StyledPanel("uploadFormLayout");
 		uploadFormLayout.add(uploadForm);
-		mainLayout = new VerticalPanel();
+		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(uploadFormLayout);
 		add(mainLayout);
 		show();

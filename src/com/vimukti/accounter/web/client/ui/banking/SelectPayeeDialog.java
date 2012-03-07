@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.LinkedHashMap;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -32,8 +32,6 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	private void createControls() {
 
-		mainPanel.setSpacing(15);
-
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
@@ -49,8 +47,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		typeForm.add(typeRadio);
 		typeForm.setWidth("100%");
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);

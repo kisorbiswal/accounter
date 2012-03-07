@@ -5,9 +5,9 @@
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.google.gwt.user.client.ui.Button;
 //import com.google.gwt.user.client.ui.DialogBox;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 //import com.vimukti.accounter.web.client.ui.forms.TextItem;
 //import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
@@ -74,24 +74,24 @@
 //		helpButt = new Button(messages.help());
 //		closeButt = new Button(messages.close());
 //
-//		HorizontalPanel helpHLay = new HorizontalPanel();
+//		StyledPanel helpHLay = new StyledPanel();
 //		// helpHLay.setAlign(Alignment.LEFT);
 //		helpHLay.add(helpButt);
-//		HorizontalPanel closeHLay = new HorizontalPanel();
+//		StyledPanel closeHLay = new StyledPanel();
 //		// closeHLay.setAlign(Alignment.RIGHT);
 //		closeHLay.add(closeButt);
-//		HorizontalPanel buttHLay = new HorizontalPanel();
+//		StyledPanel buttHLay = new StyledPanel();
 //		buttHLay.setSize("100%", "10%");
 //		buttHLay.add(helpHLay);
 //		buttHLay.add(closeHLay);
 //
-//		VerticalPanel buttVLay = new VerticalPanel();
+//		StyledPanel buttVLay = new StyledPanel();
 //		// buttVLay.setMembersMargin(5);
 //		buttVLay.add(addGroupButt);
 //		buttVLay.add(editGroupButt);
 //		buttVLay.add(remGroupButt);
 //
-//		HorizontalPanel groupEditHLay = new HorizontalPanel();
+//		StyledPanel groupEditHLay = new StyledPanel();
 //		// groupEditHLay.setSize("100%", "*");
 //		groupEditHLay.add(grid);
 //		groupEditHLay.add(buttVLay);
@@ -102,7 +102,7 @@
 //			}
 //		});
 //
-//		VerticalPanel MVLay = new VerticalPanel();
+//		StyledPanel MVLay = new StyledPanel();
 //		MVLay.setSize("100%", "100%");
 //		MVLay.add(lab1);
 //		MVLay.add(lab2);
@@ -148,7 +148,7 @@
 //
 //		Button helpButt = new Button(messages.help());
 //		// helpButt.setAutoFit(true);
-//		HorizontalPanel helpHLay = new HorizontalPanel();
+//		StyledPanel helpHLay = new StyledPanel();
 //		helpHLay.add(helpButt);
 //		helpHLay.setWidth("50%");
 //		Button okButt = new Button(messages.ok());
@@ -156,7 +156,7 @@
 //		Button canButt = new Button(messages.cancel());
 //		// canButt.setAutoFit(true);
 //
-//		HorizontalPanel buttHLay = new HorizontalPanel();
+//		StyledPanel buttHLay = new StyledPanel();
 //		// buttHLay.setAlign(Alignment.RIGHT);
 //		// buttHLay.setSize("100%", "*");
 //		// buttHLay.setMembersMargin(5);
@@ -172,7 +172,7 @@
 //
 //		});
 //
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		// mainVLay.setTop(50);
 //		mainVLay.setSize("100%", "100%");
 //		// mainVLay.setMembers(form, codeForm, buttHLay);

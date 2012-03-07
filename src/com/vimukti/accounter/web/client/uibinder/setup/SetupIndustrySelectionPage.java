@@ -11,10 +11,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Administrator
@@ -25,7 +25,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	private static SetupIndustrySelectionPageUiBinder uiBinder = GWT
 			.create(SetupIndustrySelectionPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	ListBox industryList;
 	@UiField

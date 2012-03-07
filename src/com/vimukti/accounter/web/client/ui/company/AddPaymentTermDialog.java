@@ -2,12 +2,11 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.PaymentTermListDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -38,7 +37,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 	private final PaymentTermListDialog parent;
 
-	private VerticalPanel fixedDaysPanel, dateDrivenPanel;
+	private StyledPanel fixedDaysPanel, dateDrivenPanel;
 	public DynamicForm fixedDaysForm, dateDrivenForm;
 	public RadioButton fixedDays, dateDriven;
 	public IntegerField netDueIn, netDueBefore, discountDue,
@@ -57,10 +56,10 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		integerRangeValidator = new IntegerRangeValidator();
 
-		payTermText = new TextItem(messages.paymentTerm(),"payTermText");
+		payTermText = new TextItem(messages.paymentTerm(), "payTermText");
 		payTermText.setRequired(true);
 
-		fixedDaysPanel = new VerticalPanel();
+		fixedDaysPanel = new StyledPanel("fixedDaysPanel");
 		fixedDaysForm = new DynamicForm("fixedDaysForm");
 		fixedDays = new RadioButton("paymentTermType",
 				messages.fixedNumberOfDays());
@@ -81,7 +80,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		fixedDaysPanel.add(fixedDays);
 		fixedDaysPanel.add(fixedDaysForm);
 
-		dateDrivenPanel = new VerticalPanel();
+		dateDrivenPanel = new StyledPanel("dateDrivenPanel");
 		dateDrivenForm = new DynamicForm("dateDrivenForm");
 		dateDriven = new RadioButton("paymentTermType", messages.dateDriven());
 		dateDriven.addClickHandler(new ClickHandler() {
@@ -100,8 +99,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		discountPaidBefore = new IntegerField(this,
 				messages.discountIfPaidBefore());
 
-		dateDrivenForm.add(netDueBefore, discountPerField,
-				discountPaidBefore);
+		dateDrivenForm.add(netDueBefore, discountPerField, discountPaidBefore);
 		dateDrivenForm.setEnabled(false);
 		dateDrivenPanel.add(dateDriven);
 		dateDrivenPanel.add(dateDrivenForm);
@@ -174,7 +172,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// dayLabel = new Label();
 		// dayLabel.setText(messages.days());
 
-		HorizontalPanel duePanel = new HorizontalPanel();
+		StyledPanel duePanel = new StyledPanel("duePanel");
 		// duePanel.setSize("100%", "100%");
 		duePanel.add(dueForm);
 		// duePanel.add(dayLabel);
@@ -184,8 +182,8 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		discForm = new DynamicForm("discForm");
 		discForm.setWidth("100%");
-//		discForm.setNumCols(4);
-//		discForm.setIsGroup(true);
+		// discForm.setNumCols(4);
+		// discForm.setIsGroup(true);
 		// discForm.setGroupTitle(messages.cashDiscount());
 		// discForm.setFields(discText, discDayText);
 		discForm.setSize("100%", "100%");
@@ -193,19 +191,15 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// Label label2 = new Label();
 		// label2.setText(messages.days());
 
-		HorizontalPanel discountPanel = new HorizontalPanel();
+		StyledPanel discountPanel = new StyledPanel("discountPanel");
 		// discountPanel.setSize("100%", "100%");
 		discountPanel.add(discForm);
 		// discountPanel.add(label2);
 		// discountPanel.setCellVerticalAlignment(label2,
 		// HasVerticalAlignment.ALIGN_MIDDLE);
 
-		okbtn.setWidth("60px");
-		cancelBtn.setWidth("60px");
-
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		// mainVLay.setTop(25);
-		mainVLay.setSize("100%", "100%");
 		mainVLay.add(nameDescForm);
 		mainVLay.add(fixedDaysPanel);
 		mainVLay.add(dateDrivenPanel);

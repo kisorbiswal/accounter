@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;

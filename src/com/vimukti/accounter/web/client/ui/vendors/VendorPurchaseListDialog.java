@@ -6,10 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -17,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
@@ -44,9 +42,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 	private void createControls() {
 
-		VerticalPanel mainLayout = new VerticalPanel();
-		mainLayout.setSize("100%", "100%");
-		mainLayout.setSpacing(3);
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
 		Label infoLabel = new Label(messages.selectPurchaseOrder()
 				+ messages.selectDocument());
 
@@ -77,7 +73,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		mainLayout.add(grid);
 
-		HorizontalPanel helpButtonLayout = new HorizontalPanel();
+		StyledPanel helpButtonLayout = new StyledPanel("helpButtonLayout");
 
 		Button helpButton = new Button(messages.help());
 		helpButton.addClickHandler(new ClickHandler() {
@@ -90,8 +86,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		});
 		helpButtonLayout.add(helpButton);
 
-		HorizontalPanel okButtonLayout = new HorizontalPanel();
-		okButtonLayout.setSpacing(3);
+		StyledPanel okButtonLayout = new StyledPanel("okButtonLayout");
 		Button okButton = new Button(messages.ok());
 		okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
@@ -118,12 +113,8 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		});
 		okButtonLayout.add(cancelButton);
 
-		HorizontalPanel buttonLayout = new HorizontalPanel();
-		buttonLayout.setWidth("100%");
-		// buttonLayout.add(helpButtonLayout);
+		StyledPanel buttonLayout = new StyledPanel("buttonLayout");
 		buttonLayout.add(okButtonLayout);
-		buttonLayout.setCellHorizontalAlignment(okButtonLayout,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		mainLayout.add(buttonLayout);
 		mainLayout.setSize("100%", "100%");

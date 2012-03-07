@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;

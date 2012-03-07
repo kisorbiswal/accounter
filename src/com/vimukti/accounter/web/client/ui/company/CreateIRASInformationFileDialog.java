@@ -5,10 +5,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class CreateIRASInformationFileDialog extends BaseDialog {
 
-	private VerticalPanel verticalPanel;
+	private StyledPanel verticalPanel;
 	private DateField startDateFiled, endDateField;
 	private DynamicForm mainForm;
 	private Button downloadXml, downloadTxt;
@@ -30,16 +30,16 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 	private void createControls() {
 		setText(messages.generateIrasAuditFile());
 
-		verticalPanel = new VerticalPanel();
+		verticalPanel = new StyledPanel("verticalPanel");
 
 		mainForm = new DynamicForm("mainForm");
 
 		Label label = new Label(messages.selectTheDateRange());
 
-		startDateFiled = new DateField(messages.startDate(),"startDateFiled");
+		startDateFiled = new DateField(messages.startDate(), "startDateFiled");
 		startDateFiled.setValue(new ClientFinanceDate());
 
-		endDateField = new DateField(messages.endDate(),"endDateField");
+		endDateField = new DateField(messages.endDate(), "endDateField");
 		endDateField.setValue(new ClientFinanceDate());
 
 		mainForm.add(startDateFiled, endDateField);

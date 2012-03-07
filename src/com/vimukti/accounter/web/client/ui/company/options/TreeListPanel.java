@@ -12,11 +12,11 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public abstract class TreeListPanel extends SimplePanel {
 
-	VerticalPanel mainListPanel;
+	StyledPanel mainListPanel;
 
 	protected Anchor prevElement;
 
@@ -25,7 +25,7 @@ public abstract class TreeListPanel extends SimplePanel {
 	private final List<Anchor> menuItem = new ArrayList<Anchor>();
 
 	public TreeListPanel() {
-		mainListPanel = new VerticalPanel();
+		mainListPanel = new StyledPanel("mainListPanel");
 		mainListPanel.setStyleName("tree_list_panel");
 		add(mainListPanel);
 	}

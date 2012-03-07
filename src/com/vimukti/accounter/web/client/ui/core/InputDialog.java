@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -40,10 +40,10 @@ public class InputDialog extends BaseDialog {
 	 * Create GUI controls for this Dialog
 	 */
 	private void initialise() {
-		mainPanel.setSpacing(3);
+		// mainPanel.setSpacing(3);
 		form = new DynamicForm("form");
 		form.setWidth("100%");
-		VerticalPanel layout = new VerticalPanel();
+		StyledPanel layout = new StyledPanel("layout");
 		for (String item : itemsNames)
 			addTextItem(item);
 		form.add(textItems.toArray(new TextItem[1]));
@@ -62,7 +62,7 @@ public class InputDialog extends BaseDialog {
 	 * @param title
 	 */
 	private void addTextItem(String title) {
-		textItem = new TextItem(title,"textItem");
+		textItem = new TextItem(title, "textItem");
 		textItem.setRequired(true);
 		textItems.add(textItem);
 		// form.setFields(textItems.toArray(new TextItem[1]));

@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -114,17 +114,12 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 		}
 
 		form = new DynamicForm("form");
-		form.setWidth("100%");
-		// form.setWrapItemTitles(false);
 		form.add(discAccSelect, discAmtText);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		// mainVLay.setTop(30);
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(form);
 
 		setBodyLayout(mainVLay);
-		setWidth("350px");
 		show();
 	}
 

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -16,6 +15,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.options.TreeListPanel;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
@@ -34,7 +34,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView, ISavableView<Map<String, Object>> {
 
 	public TransactionsListView<T> baseListView;
-	private final HorizontalPanel mainPanel;
+	private final StyledPanel mainPanel;
 	private String selectedItem = null;
 	private TreeListPanel listPanel;
 
@@ -43,7 +43,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	// private String searchString;
 
 	public TransactionsCenterView() {
-		mainPanel = new HorizontalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.setStyleName("Transactions_center");
 		createTreeItems();
 		this.add(mainPanel);
@@ -191,7 +191,6 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		}
 
 		mainPanel.add(baseListView);
-		mainPanel.setCellWidth(baseListView, "100%");
 		MainFinanceWindow.getViewManager().updateButtons();
 		baseListView.init();
 		baseListView.initData();

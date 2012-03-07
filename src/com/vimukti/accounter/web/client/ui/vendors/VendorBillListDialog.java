@@ -6,9 +6,9 @@
 //import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.user.client.ui.Button;
 //import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 //import com.vimukti.accounter.web.client.Global;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -50,7 +50,7 @@
 //	}
 //
 //	private void createControls() {
-//		VerticalPanel mainLayout = new VerticalPanel();
+//		StyledPanel mainLayout = new StyledPanel();
 //		mainLayout.setSize("100%", "100%");
 //		mainLayout.setSpacing(3);
 //		Label infoLabel = new Label(messages.selectPurchaseOrder()
@@ -96,7 +96,7 @@
 //
 //		mainLayout.add(grid);
 //
-//		HorizontalPanel helpButtonLayout = new HorizontalPanel();
+//		StyledPanel helpButtonLayout = new StyledPanel();
 //
 //		Button helpButton = new Button(messages.help());
 //		helpButton.addClickHandler(new ClickHandler() {
@@ -109,7 +109,7 @@
 //		});
 //		helpButtonLayout.add(helpButton);
 //
-//		HorizontalPanel okButtonLayout = new HorizontalPanel();
+//		StyledPanel okButtonLayout = new StyledPanel();
 //		okButtonLayout.setSpacing(3);
 //
 //		Button okButton = new Button(messages.ok());
@@ -148,7 +148,7 @@
 //
 //		});
 //		okButtonLayout.add(cancelButton);
-//		HorizontalPanel buttonLayout = new HorizontalPanel();
+//		StyledPanel buttonLayout = new StyledPanel();
 //		buttonLayout.setWidth("100%");
 //		// buttonLayout.add(helpButtonLayout);
 //		buttonLayout.add(okButtonLayout);

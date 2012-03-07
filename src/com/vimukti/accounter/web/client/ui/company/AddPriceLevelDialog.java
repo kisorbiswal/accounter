@@ -2,12 +2,12 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -33,7 +33,7 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 
 	private void initiliase() {
 
-		levelText = new TextItem(messages.priceLevel(),"levelText");
+		levelText = new TextItem(messages.priceLevel(), "levelText");
 		levelText.setRequired(true);
 		percentText = new PercentageField(this, messages.percentage());
 		percentText.setPercentage(1.0);
@@ -53,12 +53,8 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 		setIncrOrDecrPercentValue(messages.increasePriceLevelByThisPercentage());
 		nameDescForm = new DynamicForm("nameDescForm");
 		nameDescForm.add(levelText, percentText, levelRadio);
-		nameDescForm.setSize("100%", "100%");
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(nameDescForm);
-		// setSize("450", "250");
-		okbtn.setWidth("60px");
-		cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
 

@@ -5,9 +5,9 @@
 //
 //import com.google.gwt.event.dom.client.BlurEvent;
 //import com.google.gwt.event.dom.client.BlurHandler;
-//import com.google.gwt.user.client.ui.HorizontalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.google.gwt.user.client.ui.Label;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 //import com.vimukti.accounter.web.client.Global;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -59,13 +59,13 @@
 //	private SelectCombo selectFinancialYear;
 //	private TextItem budgetNameText;
 //	private DynamicForm budgetInfoForm;
-//	private HorizontalPanel topHLay;
-//	private HorizontalPanel leftLayout;
+//	private StyledPanel topHLay;
+//	private StyledPanel leftLayout;
 //	private Label lab1;
 //	private List<ClientAccount> listOfAccounts;
 //	// boolean isEditing;
 //
-//	VerticalPanel mainVLay;
+//	StyledPanel mainVLay;
 //	BudgetAccountGrid gridView;
 //
 //	private ArrayList<DynamicForm> listforms;
@@ -203,9 +203,9 @@
 //		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 //		budgetInfoForm.setWidth("100%");
 //
-//		topHLay = new HorizontalPanel();
+//		topHLay = new StyledPanel();
 //		topHLay.setWidth("50%");
-//		leftLayout = new HorizontalPanel();
+//		leftLayout = new StyledPanel();
 //		leftLayout.setWidth("100%");
 //
 //		// budgetInfoForm.setFields(budgetStartWithSelect, budgetSubdevideBy,
@@ -247,7 +247,7 @@
 //			}
 //		}
 //
-//		mainVLay = new VerticalPanel();
+//		mainVLay = new StyledPanel();
 //		mainVLay.setSize("100%", "300px");
 //		mainVLay.add(lab1);
 //		mainVLay.add(topHLay);

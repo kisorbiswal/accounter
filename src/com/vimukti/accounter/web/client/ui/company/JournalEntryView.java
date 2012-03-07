@@ -7,7 +7,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -16,9 +15,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -35,6 +32,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -62,8 +60,8 @@ public class JournalEntryView extends
 	protected boolean isClose;
 	AmountLabel creditTotalText, deditTotalText;
 
-	// private HorizontalPanel lablPanel;
-	private VerticalPanel gridPanel;
+	// private StyledPanel lablPanel;
+	private StyledPanel gridPanel;
 
 	private ArrayList<DynamicForm> listforms;
 	private AddButton addButton;
@@ -291,7 +289,7 @@ public class JournalEntryView extends
 
 		initListGrid();
 		// grid.initTransactionData();
-		gridPanel = new VerticalPanel();
+		gridPanel = new StyledPanel("gridPanel");
 		addButton = new AddButton(this);
 		addButton.addClickHandler(new ClickHandler() {
 
@@ -302,12 +300,11 @@ public class JournalEntryView extends
 		});
 
 		gridPanel.add(grid);
-		gridPanel.setWidth("100%");
 
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(addButton);
-		hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		hPanel.getElement().getStyle().setFloat(Float.LEFT);
+		// hPanel.getElement().getStyle().setMarginTop(8, Unit.PX);
+		// hPanel.getElement().getStyle().setFloat(Float.LEFT);
 
 		gridPanel.add(hPanel);
 
@@ -327,10 +324,10 @@ public class JournalEntryView extends
 			dateForm.add(classListCombo);
 		}
 
-		HorizontalPanel datepannel = new HorizontalPanel();
+		StyledPanel datepannel = new StyledPanel("datepannel");
 		datepannel.setWidth("100%");
 		datepannel.add(dateForm);
-		datepannel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
+		// datepannel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
@@ -358,12 +355,12 @@ public class JournalEntryView extends
 		totalForm.addStyleName("textbold");
 		totalForm.add(deditTotalText, creditTotalText);
 
-		HorizontalPanel bottomPanel = new HorizontalPanel();
+		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
 		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
-		bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		// bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		bottomPanel.add(totalForm);
-		bottomPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
+		// bottomPanel.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 
 		// addButton.getElement().getParentElement().addClassName("add-button");
 
@@ -382,11 +379,10 @@ public class JournalEntryView extends
 			// journalEntry.setCreditTotal(totalCredittotal);
 
 		}
-		VerticalPanel verticalPanel = new VerticalPanel();
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		verticalPanel.add(datepannel);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(verticalPanel);
@@ -395,7 +391,6 @@ public class JournalEntryView extends
 		// mainVLay.add(labelPane);
 
 		this.add(mainVLay);
-		setSize("100%", "100%");
 
 		listforms.add(dateForm);
 		listforms.add(memoForm);

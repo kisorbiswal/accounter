@@ -2,9 +2,8 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -31,8 +30,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 	}
 
 	private void createControls() {
-		VerticalPanel verticalPanel = new VerticalPanel();
-		setWidth("400px");
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 
 		selectBudget = new SelectCombo(messages.CopyfromExistingBudget());
 
@@ -63,7 +61,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 		budgetInfoForm.add(selectBudget);
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		horizontalPanel.add(budgetInfoForm);
 
 		verticalPanel.add(horizontalPanel);

@@ -9,10 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -69,7 +66,7 @@ public class ReceiveVATView extends
 	protected ClientAccount selectedDepositInAccount;
 	protected double initialEndingBalance;
 	protected ClientTAXAgency selectedVATAgency;
-	private VerticalPanel gridLayout;
+	private StyledPanel gridLayout;
 	private TransactionReceiveVATGrid grid;
 	private Double totalAmount = 0.0D;
 	private String transactionNumber;
@@ -264,37 +261,31 @@ public class ReceiveVATView extends
 
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(mainform);
 		// leftVLay.add(fileterForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(balForm);
-		rightVLay.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setEnabled(!isInViewMode());
 		}
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
+		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightVLay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + messages.billsToReceive() + "");
 
 		initListGrid();
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
@@ -404,7 +395,7 @@ public class ReceiveVATView extends
 	// initializes the grid.
 	private void initListGrid() {
 
-		gridLayout = new VerticalPanel();
+		gridLayout = new StyledPanel("gridLayout");
 		grid = new TransactionReceiveVATGrid(true, true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;

@@ -5,7 +5,7 @@
 //
 //import com.google.gwt.user.client.rpc.IsSerializable;
 //import com.google.gwt.user.client.ui.CheckBox;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 //import com.vimukti.accounter.web.client.core.ClientCurrency;
 //import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -189,7 +189,7 @@
 //			okbtn.setVisible(false);
 //		}
 //
-//		VerticalPanel mainVLay = new VerticalPanel();
+//		StyledPanel mainVLay = new StyledPanel();
 //		mainVLay.setWidth("100%");
 //		mainVLay.add(form);
 //		mainVLay.add(grid);

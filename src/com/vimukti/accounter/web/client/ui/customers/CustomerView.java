@@ -741,7 +741,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		currencyCombo = createCurrencyComboWidget();
 		currencyCombo.setEnabled(!isInViewMode());
+
+		accInfoForm = new DynamicForm("accInfoForm");
+
 		accInfoForm.add(statusCheck, customerSinceDate);
+
+		balanceForm = new DynamicForm("balanceForm");
 		if (getPreferences().isPricingLevelsEnabled()) {
 			balanceForm.add(openingBalText, balanceDate, balanceText,
 					priceLevelSelect);

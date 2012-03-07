@@ -12,8 +12,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
@@ -80,7 +78,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 		} else {
 			// final ScrollPanel panel = new ScrollPanel();
 			for (final ClientAccount account : bankAccounts) {
-				HorizontalPanel hPanel = new HorizontalPanel();
+				StyledPanel hPanel = new StyledPanel("hPanel");
 				final Label accountLabel = new Label(account.getName());
 				accountLabel.addStyleName("label-banking");
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
@@ -123,9 +121,9 @@ public class BankingPortlet extends GraphPointsPortlet {
 				// Unit.PX);
 				hPanel.add(accountLabel);
 				hPanel.add(amountLabel);
-				hPanel.setCellHorizontalAlignment(amountLabel,
-						HasHorizontalAlignment.ALIGN_RIGHT);
-				hPanel.setWidth("100%");
+				// hPanel.setCellHorizontalAlignment(amountLabel,
+				// HasHorizontalAlignment.ALIGN_RIGHT);
+				// hPanel.setWidth("100%");
 				hPanel.addStyleName("dashboard_label");
 				body.add(hPanel);
 				AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
@@ -154,8 +152,8 @@ public class BankingPortlet extends GraphPointsPortlet {
 								// .get(result.size() - 1));
 								// }
 								for (int i = 0; i < body.getWidgetCount(); i++) {
-									if (body.getWidget(i) instanceof HorizontalPanel) {
-										HorizontalPanel hPanel = (HorizontalPanel) body
+									if (body.getWidget(i) instanceof StyledPanel) {
+										StyledPanel hPanel = (StyledPanel) body
 												.getWidget(i);
 										if (hPanel.getWidget(0) instanceof Label) {
 											if (((Label) hPanel.getWidget(0))

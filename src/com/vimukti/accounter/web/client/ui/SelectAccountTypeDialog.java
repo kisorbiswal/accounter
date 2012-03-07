@@ -3,7 +3,7 @@
 //import java.util.LinkedHashMap;
 //import java.util.List;
 //
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.Utility;
 //import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -82,7 +82,7 @@
 //		incomeAndExpenseRadioGroup.setDefaultValue(defaultId);
 //		incomeAndExpenseForm.setFields(incomeAndExpenseRadioGroup);
 //
-//		VerticalPanel MVLay = new VerticalPanel();
+//		StyledPanel MVLay = new StyledPanel();
 //		MVLay.setWidth("420px");
 //		MVLay.add(incomeAndExpenseForm);
 //

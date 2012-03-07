@@ -9,9 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -56,7 +54,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private DynamicForm balForm;
 	protected ClientAccount selectedPayFromAccount;
 	protected ClientTAXAgency selectedTAXAgency;
-	private VerticalPanel gridLayout;
+	private StyledPanel gridLayout;
 	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
 	private ClientFinanceDate dueDateOnOrBefore;
@@ -164,7 +162,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 		});
 
-		billsDue = new DateField(messages.returnsDueOnOrBefore(), "asofDate");
+		billsDue = new DateField(messages.returnsDueOnOrBefore(), "billsDue");
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setEnabled(isInViewMode());
 		billsDue.setEnteredDate(new ClientFinanceDate());
@@ -228,14 +226,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
 
-		VerticalPanel rightVlay = new VerticalPanel();
+		StyledPanel rightVlay = new StyledPanel("rightVlay");
 		rightVlay.add(balForm);
-		rightVlay.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
 		if (isMultiCurrencyEnabled()) {
 			rightVlay.add(currencyWidget);
-			rightVlay.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setEnabled(!isInViewMode());
+			currencyWidget.setEnabled(isInViewMode());
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
@@ -251,8 +246,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		initListGrid();
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
@@ -364,21 +358,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	// initializes the grid.
 	private void initListGrid() {
 
-		gridLayout = new VerticalPanel();
-		gridLayout.setWidth("100%");
+		gridLayout = new StyledPanel("gridLayout");
 		grid = new TransactionPayTAXGrid(true, true);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
 		grid.setPayVATView(this);
 		grid.setEnabled(isInViewMode());
-		// grid.setHeight("200px");
-		if (!isInViewMode()) {
-			// grid.addFooterValue("Total", 1);
-			// grid
-			// .updateFooterValues(DataUtils
-			// .getAmountAsString(totalAmount), 2);
-		}
 		gridLayout.add(grid);
 
 	}

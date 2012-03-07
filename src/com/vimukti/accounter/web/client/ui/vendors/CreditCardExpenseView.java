@@ -184,7 +184,7 @@ public class CreditCardExpenseView extends
 		// billToAreaItem);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 		// vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		// VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
+		// StyledPanel verticalPanel = (StyledPanel) vendorForm.getParent();
 		// vendorForm.removeFromParent();
 		// verticalPanel.add(vendorForm);
 		// verticalPanel.setSpacing(10);

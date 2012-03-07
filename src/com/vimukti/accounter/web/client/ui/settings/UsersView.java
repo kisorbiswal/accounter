@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -18,14 +17,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -36,7 +34,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	private HTML generalSettingsHTML;
 	private Label titleLabel;
-	private VerticalPanel mainLayPanel, usersPanel, recentActivityPanel;
+	private StyledPanel mainLayPanel, usersPanel, recentActivityPanel;
 	private DecoratedTabPanel tabPanel;
 	private FlexTable flexTable;
 	private UsersListGrid usersListGrid;
@@ -90,7 +88,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 			}
 		});
 
-		mainLayPanel = new VerticalPanel();
+		mainLayPanel = new StyledPanel("mainLayPanel");
 		flexTable = new FlexTable();
 		generalSettingsHTML = new HTML(messages.generalSettings());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
@@ -154,24 +152,20 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		add(mainLayPanel);
 	}
 
-	private VerticalPanel getRecentActivityPanel() {
-		recentActivityPanel = new VerticalPanel();
+	private StyledPanel getRecentActivityPanel() {
+		recentActivityPanel = new StyledPanel("recentActivityPanel");
 
 		activityListGrid = new RecentActivityListGrid(false);
 		activityListGrid.setRecentActivityGridView(this);
 		activityListGrid.init();
 
 		recentActivityPanel.add(activityListGrid);
-		recentActivityPanel.setCellHorizontalAlignment(activityListGrid,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		activityListGrid.setWidth("90%");
-		activityListGrid.getElement().getStyle().setMarginTop(20, Unit.PX);
 
 		return recentActivityPanel;
 	}
 
-	private VerticalPanel getUsersPanel() {
-		usersPanel = new VerticalPanel();
+	private StyledPanel getUsersPanel() {
+		usersPanel = new StyledPanel("usersPanel");
 
 		usersListGrid = new UsersListGrid(false);
 		usersListGrid.setUsersView(this);
@@ -180,11 +174,6 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		// usersListGrid
 		// .setRecords(FinanceApplication.getCompany().getUsersList());
 		usersPanel.add(usersListGrid);
-		usersPanel.setCellHorizontalAlignment(usersListGrid,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		usersListGrid.setWidth("100%");
-		usersListGrid.getElement().getStyle().setMarginTop(10, Unit.PX);
-		usersPanel.setWidth("100%");
 
 		return usersPanel;
 	}

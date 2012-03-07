@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -17,8 +16,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 
 	public SelectPaymentTypeDialog() {
-		super(messages.selectPaymentType(), messages
-				.selectPaymentType());
+		super(messages.selectPaymentType(), messages.selectPaymentType());
 		createControls();
 		center();
 
@@ -33,8 +31,8 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		String paymentType;
 		paymentType = messages.payeePayment(Global.get().Vendor());
 
-		typeRadio.setValueMap(paymentType, messages.customerRefund(
-				Global.get().Customer()));
+		typeRadio.setValueMap(paymentType,
+				messages.customerRefund(Global.get().Customer()));
 
 		typeRadio.setDefaultValue(paymentType);
 		final DynamicForm typeForm = new DynamicForm("typeForm");
@@ -43,8 +41,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 		typeForm.add(typeRadio);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		okbtn.setWidth("60px");
@@ -60,12 +57,11 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 			String paymentType;
-			paymentType = messages.payeePayment(
-					Global.get().Vendor());
+			paymentType = messages.payeePayment(Global.get().Vendor());
 			if (radio.equals(paymentType)) {
 				ActionFactory.getNewVendorPaymentAction().run(null, false);
-			} else if (radio.equals(messages.customerRefund(
-					Global.get().Customer()))) {
+			} else if (radio.equals(messages.customerRefund(Global.get()
+					.Customer()))) {
 
 				ActionFactory.getCustomerRefundAction().run(null, false);
 			}

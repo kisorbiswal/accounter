@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -17,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -154,12 +154,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		termsForm.add(paymentMethodCombo, payFromCombo, checkNo);
 //		termsForm.getCellFormatter().setWidth(0, 0, "203px");
 
-		VerticalPanel verticalPanel = (VerticalPanel) vendorForm.getParent();
+		StyledPanel verticalPanel = (StyledPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
 		vendorForm.setWidth("100%");
 		verticalPanel.add(vendorForm);
 
-		VerticalPanel vPanel = (VerticalPanel) termsForm.getParent();
+		StyledPanel vPanel = (StyledPanel) termsForm.getParent();
 		termsForm.removeFromParent();
 		termsForm.setWidth("100%");
 		vPanel.add(termsForm);

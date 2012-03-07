@@ -13,7 +13,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -383,14 +382,13 @@ public class CashPurchaseView extends
 
 		discountField = getDiscountField();
 
-		VerticalPanel totalForm = new VerticalPanel();
+		StyledPanel totalForm = new StyledPanel("totalForm");
 		totalForm.setStyleName("boldtext");
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		// rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
@@ -407,7 +405,7 @@ public class CashPurchaseView extends
 
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
-		VerticalPanel bottompanel = new VerticalPanel();
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 
 		DynamicForm transactionTotalForm = new DynamicForm(
 				"transactionTotalForm");
@@ -417,16 +415,13 @@ public class CashPurchaseView extends
 			netAmountForm.add(netAmount);
 			totalForm.add(netAmountForm);
 			totalForm.add(vatTotalNonEditableText);
-			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 			if (isMultiCurrencyEnabled()) {
 				transactionTotalForm.add(transactionTotalNonEditableText,
 						foreignCurrencyamountLabel);
 			} else {
 				transactionTotalForm.add(transactionTotalNonEditableText);
 			}
-			VerticalPanel vpanel = new VerticalPanel();
-			vpanel.setWidth("100%");
-			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+			StyledPanel vpanel = new StyledPanel("vpanel");
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
@@ -448,7 +443,7 @@ public class CashPurchaseView extends
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
 
-			// VerticalPanel vPanel = new VerticalPanel();
+			// StyledPanel vPanel = new StyledPanel();
 			// vPanel.add(menuButton);
 			// vPanel.add(memoForm);
 			// vPanel.setWidth("100%");
@@ -482,11 +477,8 @@ public class CashPurchaseView extends
 			bottompanel.add(bottomLayout);
 		}
 		totalForm.add(transactionTotalForm);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);

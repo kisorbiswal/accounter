@@ -7,10 +7,9 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -72,8 +71,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	}
 
 	private void createControls() {
-		VerticalPanel verticalPanel = new VerticalPanel();
-		setWidth("400px");
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 
 		budgetAddBy = new SelectCombo(messages.budgetAddBy());
 		budgetAddBy.initCombo(getStartWithList());
@@ -185,10 +183,11 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 				});
 
-		DynamicForm advanceCalculationVPanel = new DynamicForm("advanceCalculationVPanel");
+		DynamicForm advanceCalculationVPanel = new DynamicForm(
+				"advanceCalculationVPanel");
 		advanceCalculationVPanel.add(budgetRoundOfMethod);
 
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		vPanel.add(advanceCalculationVPanel);
 
 		final String[] stringArray = {
@@ -224,7 +223,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 				messages.AdvanceBudgetCalculation());
 		discloserPanel.setContent(vPanel);
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		horizontalPanel.add(budgetInfoForm);
 
 		verticalPanel.add(horizontalPanel);
@@ -298,8 +297,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					+ novAmount.getAmount() + decAmount.getAmount());
 
 			budgetAddForm.clear();
-			budgetAddForm.add(quater1Amount, quater2Amount,
-					quater3Amount, quater4Amount);
+			budgetAddForm.add(quater1Amount, quater2Amount, quater3Amount,
+					quater4Amount);
 
 		} else if (type2 == 2) {
 			annualAmount.setAmount(annualAmount.getAmount());

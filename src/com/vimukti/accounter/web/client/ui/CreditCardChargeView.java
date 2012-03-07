@@ -650,7 +650,7 @@ public class CreditCardChargeView extends
 
 		botPanel = new StyledPanel("botPanel");
 
-		StyledPanel bottompanel = new StyledPanel("botPanel");
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 
 		DynamicForm transactionTotalForm = new DynamicForm(
 				"transactionTotalForm");
@@ -710,7 +710,6 @@ public class CreditCardChargeView extends
 			StyledPanel hPanel = new StyledPanel("hPanel");
 			hPanel.add(memoForm);
 			hPanel.add(totForm);
-
 			StyledPanel vpanel = new StyledPanel("vpanel");
 			vpanel.add(hPanel);
 
@@ -729,7 +728,7 @@ public class CreditCardChargeView extends
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+		// topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightHLay);
 

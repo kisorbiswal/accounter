@@ -12,9 +12,9 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Administrator
@@ -25,7 +25,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	private static SetupSellTypeAndSalesTaxPageUiBinder uiBinder = GWT
 			.create(SetupSellTypeAndSalesTaxPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	RadioButton servicesOnly;
 	@UiField
@@ -39,7 +39,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	Label bothText;
 	@UiField
-	VerticalPanel sell;
+	StyledPanel sell;
 
 	@UiField
 	Label headerLabel;
@@ -62,13 +62,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	Label trackLabel;
 	@UiField
-	VerticalPanel hidePanel;
+	StyledPanel hidePanel;
 	@UiField
 	CheckBox inventoryCheckBox;
 	@UiField
-	VerticalPanel hiddenPanel;
+	StyledPanel hiddenPanel;
 	@UiField
-	VerticalPanel totalPanel;
+	StyledPanel totalPanel;
 	@UiField
 	CheckBox warehousesCheckBox;
 	@UiField

@@ -323,7 +323,6 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		mainVLay.add(gridLayout);
 
 		this.add(mainVLay);
-		this.setCellHorizontalAlignment(mainVLay, ALIGN_LEFT);
 
 	}
 
@@ -518,7 +517,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		// .constants().total(), DataUtils
 		// .getAmountAsString(0.00));
 
-		// bottomLabelLayOut = new HorizontalPanel();
+		// bottomLabelLayOut = new StyledPanel();
 		// bottomLabelLayOut.setWidth("100%");
 		// bottomLabelLayOut.setHeight("100px");
 		Label emptyLabel = new Label();

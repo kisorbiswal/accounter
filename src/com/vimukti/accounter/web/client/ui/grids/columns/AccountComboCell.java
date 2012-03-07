@@ -18,10 +18,10 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class AccountComboCell extends
 		AbstractEditableCell<String, ClientAccount> {
@@ -96,7 +96,7 @@ public class AccountComboCell extends
 			}
 		});
 
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
 		if (isAddNewRequired()) {
 			vPanel.add(getAddNewLabel());
 		}
@@ -127,9 +127,8 @@ public class AccountComboCell extends
 	}
 
 	private Anchor getAddNewLabel() {
-		AccounterMessages messages=Global.get().messages();
-		Anchor addNew = new Anchor(messages.newPayee(
-				messages.Account()));
+		AccounterMessages messages = Global.get().messages();
+		Anchor addNew = new Anchor(messages.newPayee(messages.Account()));
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override

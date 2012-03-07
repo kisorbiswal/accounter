@@ -11,7 +11,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -30,6 +29,7 @@ import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
@@ -175,7 +175,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		transactionTree.setUserObject(transaction);
 		CheckBox checkBox = new CheckBox();
 		checkBox.setValue(isSelected);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		horizontalPanel.add(checkBox);
 		horizontalPanel.addStyleName("transactionPanel");
 		transactionTree.setWidget(horizontalPanel);
@@ -310,7 +310,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			for (ClientTransactionItem item : table.getAllRows()) {
 				table.update(item);
 			}
-			Label totalLabel = (Label) ((HorizontalPanel) child.getWidget())
+			Label totalLabel = (Label) ((StyledPanel) child.getWidget())
 					.getWidget(2);
 			totalLabel.setText(totalMsg);
 		}
@@ -396,8 +396,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				box.setValue(value);
 			}
 
-			if (widget != null && widget instanceof HorizontalPanel) {
-				HorizontalPanel hPanel = (HorizontalPanel) widget;
+			if (widget != null && widget instanceof StyledPanel) {
+				StyledPanel hPanel = (StyledPanel) widget;
 				Widget checkBox = hPanel.getWidget(0);
 				if (checkBox instanceof CheckBox) {
 					CheckBox childBox = (CheckBox) checkBox;
@@ -438,9 +438,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			for (int j = 0; j < item.getChildCount(); j++) {
 				TreeItem child = item.getChild(j);
 				Widget childWidget = child.getWidget();
-				if (childWidget != null
-						&& childWidget instanceof HorizontalPanel) {
-					HorizontalPanel hPanel = (HorizontalPanel) childWidget;
+				if (childWidget != null && childWidget instanceof StyledPanel) {
+					StyledPanel hPanel = (StyledPanel) childWidget;
 					Widget checkBox = hPanel.getWidget(0);
 					if (checkBox instanceof CheckBox) {
 						CheckBox childBox = (CheckBox) checkBox;
@@ -540,8 +539,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				CheckBox childBox = (CheckBox) childWidget;
 				childBox.setEnabled(isEnabled);
 			}
-			if (childWidget != null && childWidget instanceof HorizontalPanel) {
-				HorizontalPanel hPanel = (HorizontalPanel) childWidget;
+			if (childWidget != null && childWidget instanceof StyledPanel) {
+				StyledPanel hPanel = (StyledPanel) childWidget;
 				Widget checkBox = hPanel.getWidget(0);
 				if (checkBox != null && checkBox instanceof CheckBox) {
 					CheckBox childBox = (CheckBox) checkBox;

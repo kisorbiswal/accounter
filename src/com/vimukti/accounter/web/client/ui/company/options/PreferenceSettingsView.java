@@ -11,10 +11,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -22,6 +20,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -41,13 +40,13 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private void createControls() {
-		HorizontalPanel mainPanel = new HorizontalPanel();
-		VerticalPanel titlesPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		StyledPanel titlesPanel = new StyledPanel("titlesPanel");
 		pageDetailsPanel = new ScrollPanel();
 		pageDetailsPanel.addStyleName("pre_scroll_table");
 		preferencePages = getPreferencePages();
 		for (final PreferencePage page : preferencePages) {
-			VerticalPanel pageView = createPageView(page);
+			StyledPanel pageView = createPageView(page);
 			Label title = new Label(page.getTitle());
 			title.addStyleName("preferences_option_title");
 			titlesPanel.add(title);
@@ -158,8 +157,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		return companyInfoPage;
 	}
 
-	private VerticalPanel createPageView(final PreferencePage page) {
-		final VerticalPanel pageView = new VerticalPanel();
+	private StyledPanel createPageView(final PreferencePage page) {
+		final StyledPanel pageView = new StyledPanel("pageView");
 		pageView.setWidth("100%");
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (int index = 0; index < options.size(); index++) {
@@ -193,7 +192,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 					for (int superIndex = 0; superIndex < ((ComplexPanel) pageView
 							.getParent()).getWidgetCount(); superIndex++) {
 						if (((ComplexPanel) pageView.getParent())
-								.getWidget(superIndex) instanceof VerticalPanel) {
+								.getWidget(superIndex) instanceof StyledPanel) {
 							Widget pageview = ((ComplexPanel) pageView
 									.getParent()).getWidget(superIndex);
 							for (int index = 0; index < ((ComplexPanel) pageview)

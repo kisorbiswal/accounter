@@ -11,10 +11,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientDepreciation;
@@ -31,6 +29,7 @@ import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -80,8 +79,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	private void createControls() {
 
 		listforms = new ArrayList<DynamicForm>();
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.setSize("100%", "");
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		Label titleLabel = new Label(messages.depreciation());
 		titleLabel.setStyleName("label-title");
@@ -105,8 +103,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.setSpacing(10);
+		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
+		// buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
 		buttonPanel.add(rollBackDepreciation);
 		rollBackDepreciation.setVisible(false);
@@ -135,28 +133,26 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				getDepreciableFixedAssets();
 			}
 		});
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setSpacing(10);
+		StyledPanel panel = new StyledPanel("panel");
+		// panel.setSpacing(10);
 		panel.add(fromLabel);
 		panel.add(new HTML(messages.depreciateTo()));
 		panel.add(depreciatedToCombo);
 		// panel.add(updateButton);
 		mainPanel.add(panel);
 
-		VerticalPanel gridPanel = new VerticalPanel();
+		StyledPanel gridPanel = new StyledPanel("gridPanel");
 
 		grid = new DepreciationTreeGrid("");
 		grid.isEnable = false;
 		grid.init();
-		grid.setHeight("300px");
 		grid.initParentAndChildIcons(Accounter.getFinanceMenuImages()
 				.newAccount(), Accounter.getFinanceMenuImages().newFixedAsset());
 		gridPanel.add(grid);
-		gridPanel.setWidth("100%");
 
 		mainPanel.add(gridPanel);
 
-		HorizontalPanel actionButtonPanel = new HorizontalPanel();
+		StyledPanel actionButtonPanel = new StyledPanel("actionButtonPanel");
 		mainPanel.add(actionButtonPanel);
 
 		this.add(mainPanel);

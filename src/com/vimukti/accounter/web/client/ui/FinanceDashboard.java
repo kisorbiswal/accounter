@@ -3,7 +3,7 @@
 //import java.util.ArrayList;
 //
 //import com.google.gwt.user.client.Timer;
-//import com.google.gwt.user.client.ui.VerticalPanel;
+//import com.google.gwt.user.client.ui.StyledPanel;
 //import com.vimukti.accounter.web.client.core.AccounterCoreType;
 //import com.vimukti.accounter.web.client.core.ClientAccount;
 //import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -49,10 +49,10 @@
 //
 //	}
 //
-//	private VerticalPanel createControl() {
+//	private StyledPanel createControl() {
 //		creator = new WidgetCreator();
 //
-//		// HorizontalPanel addWidgetLinkLayout = new HorizontalPanel();
+//		// StyledPanel addWidgetLinkLayout = new StyledPanel();
 //		// // addWidgetLinkLayout.setHeight(20);
 //		//
 //		// Label addWidgetLink = new Label(FinanceApplication
@@ -177,7 +177,7 @@
 //
 //		getAddableWidgets(widgetOnSectionPage);
 //
-//		VerticalPanel leftLayout = new VerticalPanel();
+//		StyledPanel leftLayout = new StyledPanel();
 //		leftLayout.setSize("100%", "100%");
 //		// leftLayout.add(addWidgetLinkLayout);
 //		leftLayout.add(portalLayout);

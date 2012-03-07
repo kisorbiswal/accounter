@@ -34,7 +34,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		super(title, desc);
 		setWidth("400px");
 		initialise();
-		mainPanel.setSpacing(3);
+		// mainPanel.setSpacing(3);
 		center();
 	}
 
@@ -73,8 +73,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				if (taxGroup != null) {
 					showAddEditTaxGroup(taxGroup);
 				} else {
-					Accounter
-							.showError(messages.selectATaxGroup());
+					Accounter.showError(messages.selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -86,8 +85,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 				if (taxGroup != null) {
 					deleteObject(taxGroup);
 				} else
-					Accounter
-							.showError(messages.selectATaxGroup());
+					Accounter.showError(messages.selectATaxGroup());
 
 			}
 		};
@@ -98,13 +96,11 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(messages
-					.taxGroup(), messages.toAddOrRemoveTaxCode(),
-					taxGroup);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(messages.taxGroup(),
+					messages.toAddOrRemoveTaxCode(), taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(messages
-					.taxGroup(), messages.toAddOrRemoveTaxCode(),
-					null);
+			salesTaxGroupDialog = new SalesTaxGroupDialog(messages.taxGroup(),
+					messages.toAddOrRemoveTaxCode(), null);
 		}
 
 		salesTaxGroupDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -220,7 +216,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

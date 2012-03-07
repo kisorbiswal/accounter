@@ -20,10 +20,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ImportField;
@@ -31,6 +27,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.ImportAction;
 import com.vimukti.accounter.web.client.imports.ImporterType;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -66,12 +63,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 
 		// Create a panel to hold all of the form widgets.
-		VerticalPanel vpaPanel = new VerticalPanel();
+		StyledPanel vpaPanel = new StyledPanel("vpaPanel");
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		/* make space small */
-		panel.setSpacing(2);
-		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		// Create a FileUpload widget.
 
 		// Create list combo for type selection.
@@ -85,12 +80,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 		selectFileToUpload = new FileUpload();
 		selectFileToUpload.setName("Import");
 
-		panel.setSpacing(5);
 		DynamicForm form = new DynamicForm("form");
 		form.add(typeCombo);
 
 		panel.add(form);
-		panel.setSpacing(5);
 
 		panel.add(detailsHtml3);
 		// panel.add(selectFileToUpload);
@@ -103,8 +96,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
-		closeButton.setWidth("80px");
-		HorizontalPanel buttonHlay = new HorizontalPanel();
+		StyledPanel buttonHlay = new StyledPanel("buttonHlay");
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
@@ -112,11 +104,6 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);
-
-		buttonHlay.setCellHorizontalAlignment(closeButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonHlay.setCellHorizontalAlignment(uploadSubmitButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		uploadSubmitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -187,7 +174,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 			}
 		});
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(uploadForm);
 		add(mainPanel);
 		show();

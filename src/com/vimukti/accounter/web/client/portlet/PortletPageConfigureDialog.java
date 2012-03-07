@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class PortletPageConfigureDialog extends
@@ -32,13 +32,12 @@ public class PortletPageConfigureDialog extends
 	}
 
 	private void createControl() {
-		VerticalPanel portletNamesPanel = new VerticalPanel();
+		StyledPanel portletNamesPanel = new StyledPanel("portletNamesPanel");
 		portletNameCheckBoxs = new ArrayList<CheckBox>();
 		for (int i = 0; i < prefferedPortlets.size(); i++) {
 			CheckBox checkBox = new CheckBox(PortletFactory.get()
 					.getPortletName(prefferedPortlets.get(i)));
 			portletNameCheckBoxs.add(i, checkBox);
-			portletNamesPanel.setSpacing(8);
 			portletNamesPanel.add(checkBox);
 		}
 		updateCheckBoxesData(getConfigSettingsData());

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -48,19 +47,13 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	}
 
 	private void createControls() {
-		mainPanel.setSpacing(3);
 		typeRadio = new RadioGroupItem(messages.tax(), GROUP);
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
 		DynamicForm typeForm = new DynamicForm("typeForm");
-		typeForm.setWidth("100%");
-//		typeForm.setIsGroup(true);
-//
-//		typeForm.setGroupTitle(messages.selectHowYouPaidForExpense());
 		typeForm.add(typeRadio);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		// okbtn.setWidth("60px");

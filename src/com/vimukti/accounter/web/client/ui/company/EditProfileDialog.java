@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -8,6 +7,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	private TextItem firstNameTextItem;
 	private TextItem lastNameTextItem;
-	private VerticalPanel mainPanel;
+	private StyledPanel mainPanel;
 	private ClientUser clientUser;
 
 	public EditProfileDialog(String editProfile, String desc) {
@@ -25,11 +25,12 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	}
 
 	private void createControls() {
-		firstNameTextItem = new TextItem(messages.firstName(),"firstNameTextItem");
+		firstNameTextItem = new TextItem(messages.firstName(),
+				"firstNameTextItem");
 		firstNameTextItem.setValue(clientUser.getFirstName());
-		lastNameTextItem = new TextItem(messages.lastName(),"lastNameTextItem");
+		lastNameTextItem = new TextItem(messages.lastName(), "lastNameTextItem");
 		lastNameTextItem.setValue(clientUser.getLastName());
-		mainPanel = new VerticalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 		DynamicForm form = new DynamicForm("form");
 		form.setStyleName("edit_user_profile");
 		form.add(firstNameTextItem, lastNameTextItem);
@@ -72,8 +73,8 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 								Header.userName.setText(userInfo.getFullName());
 								getCallback().actionResult(userInfo);
 							} else {
-								addError(this, messages
-										.yourPresentPasswordisWrong());
+								addError(this,
+										messages.yourPresentPasswordisWrong());
 							}
 						}
 

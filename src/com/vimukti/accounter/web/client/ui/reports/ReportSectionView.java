@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.countries.India;
@@ -17,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -33,7 +33,7 @@ public class ReportSectionView extends BaseHomeView {
 			ukTaxPanel, bankingPanel, jobPanel;
 
 	private FlowPanel rightPanel, leftPanel;
-	private HorizontalPanel mainPanel;
+	private StyledPanel mainPanel;
 
 	@Override
 	public void init() {
@@ -41,7 +41,7 @@ public class ReportSectionView extends BaseHomeView {
 		setSize("100%", "100%");
 	}
 
-	private HorizontalPanel createControl() {
+	private StyledPanel createControl() {
 
 		Label reportLabel = new Label(messages.reports());
 		reportLabel.setStyleName("name-label");
@@ -101,10 +101,10 @@ public class ReportSectionView extends BaseHomeView {
 		ukTaxPanel = new FlowPanel();
 		ukTaxPanel.addStyleName("section");
 
-		leftPanel = new FlowPanel();
-		rightPanel = new FlowPanel();
+		leftPanel = new StyledPanel("leftPanel");
+		rightPanel = new StyledPanel("rightPanel");
 
-		mainPanel = new HorizontalPanel();
+		mainPanel = new StyledPanel("mainPanel");
 
 		companyAndFinancialMap.put(messages.profitAndLoss(), ActionFactory
 				.getProfitAndLossAction().getHistoryToken());

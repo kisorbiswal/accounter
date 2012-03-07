@@ -3,16 +3,16 @@ package com.vimukti.accounter.web.client.portlet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class AccountBalancesPortlet extends Portlet {
 	private AccountBalancesPortletToolBar toolBar;
-	private VerticalPanel gridPanel;
+	private StyledPanel gridPanel;
 
 	public AccountBalancesPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.accountBalances(), "", "100%");
@@ -21,7 +21,7 @@ public class AccountBalancesPortlet extends Portlet {
 
 	@Override
 	public void createBody() {
-		gridPanel = new VerticalPanel();
+		gridPanel = new StyledPanel("gridPanel");
 		createToolbar();
 		this.body.add(gridPanel);
 	}

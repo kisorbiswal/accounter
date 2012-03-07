@@ -2,10 +2,10 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -23,7 +23,7 @@ public class CopyThemeDialog extends BaseDialog {
 
 	private void createControls() {
 
-		VerticalPanel copyPanel = new VerticalPanel();
+		StyledPanel copyPanel = new StyledPanel("copyPanel");
 		Label yourLabel = new Label(messages.yourTitle());
 		nameBox = new TextBox();
 		copyPanel.add(yourLabel);

@@ -8,8 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
@@ -18,6 +16,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -47,7 +46,7 @@ public class ExpenseClaimList extends BaseView {
 
 	private void createControls() {
 
-		VerticalPanel panel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
 		HTML addNew = new HTML(messages.addNewEmployeeExpense());
 		addNew.setStyleName("add-new-expense");
 		addNew.getElement().getStyle().setMarginBottom(10, Unit.PX);
@@ -60,10 +59,9 @@ public class ExpenseClaimList extends BaseView {
 		});
 		initGrid();
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
+		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
 		buttonPanel.setStyleName("button-expense");
-		Button submitApproval = new Button(messages
-				.submitForApproval());
+		Button submitApproval = new Button(messages.submitForApproval());
 		submitApproval.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -78,8 +76,7 @@ public class ExpenseClaimList extends BaseView {
 							records,
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL);
 				} else {
-					Accounter.showInformation(messages
-							.noRecordsToShow());
+					Accounter.showInformation(messages.noRecordsToShow());
 				}
 
 			}
@@ -97,8 +94,7 @@ public class ExpenseClaimList extends BaseView {
 					updateSelectedRecords(records,
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(messages
-							.noRecordsToShow());
+					Accounter.showInformation(messages.noRecordsToShow());
 				}
 			}
 		});
@@ -107,11 +103,7 @@ public class ExpenseClaimList extends BaseView {
 		panel.add(addNew);
 		panel.add(grid);
 		panel.add(buttonPanel);
-		panel.setCellHorizontalAlignment(buttonPanel, ALIGN_RIGHT);
-		panel.setWidth("100%");
 		this.add(panel);
-		submitApproval.setWidth("160px");
-		deleteButton.setWidth("90px");
 		this.removeStyleName("main-class-pannel");
 	}
 
@@ -173,8 +165,7 @@ public class ExpenseClaimList extends BaseView {
 							for (BillsList list : result)
 								grid.addData(list);
 						} else {
-							grid.addEmptyMessage(messages
-									.noRecordsToShow());
+							grid.addEmptyMessage(messages.noRecordsToShow());
 						}
 
 					}

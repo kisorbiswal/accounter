@@ -8,9 +8,6 @@ import java.util.Set;
 
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -45,7 +42,7 @@ public class StatementTransactionsReconcileView extends
 	private AmountLabel closebalanceLable, clearedbalance, difference;
 	private ClientAccount account;
 	private AccounterMessages messages;
-	private VerticalPanel Vpanel, main_Vpanel;
+	private StyledPanel Vpanel, main_Vpanel;
 	// private double totalAmount = 0.0;
 	private ReconcilListGrid reconcilListGrid;
 	protected ClientStatement statement;
@@ -77,7 +74,7 @@ public class StatementTransactionsReconcileView extends
  * 
  */
 	private void createControls() {
-		Vpanel = new VerticalPanel();
+		Vpanel = new StyledPanel("Vpanel");
 		showBankDetails();
 		tabSet = new DecoratedTabPanel();
 		new ArrayList<DynamicForm>();
@@ -85,8 +82,7 @@ public class StatementTransactionsReconcileView extends
 		tabSet.add(getBankStatementsTab(), "Bank transactions");
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(tabSet);
 		Vpanel.add(mainVLay);
 		this.add(Vpanel);
@@ -97,65 +93,59 @@ public class StatementTransactionsReconcileView extends
 	 * this method is used to show the bank details and statementDetails
 	 */
 	private void showBankDetails() {
-		HorizontalPanel hPanel = new HorizontalPanel();
+		StyledPanel hPanel = new StyledPanel("hPanel");
 
 		ClientAccount clientAccount = Accounter.getCompany().getAccount(
 				statement.getAccount());
 		// for bank name
-		VerticalPanel invoicePanel = new VerticalPanel();
+		StyledPanel invoicePanel = new StyledPanel("invoicePanel");
 		HTML bankAccountlabel = new HTML("<p>" + messages.bankAccount()
 				+ "<br/><br/></p>" + clientAccount.getDisplayName() + "</p>");
 		invoicePanel.add(bankAccountlabel);
 		invoicePanel.setStyleName("rightBorder");
-		invoicePanel.setSpacing(10);
 
 		// for matched records total balance
-		VerticalPanel accBalancePanel = new VerticalPanel();
+		StyledPanel accBalancePanel = new StyledPanel("accBalancePanel");
 		HTML accBalancelabel = new HTML("<p>" + "Balance " + "<br/><br/></p>"
 				+ getBalanceAmount(true) + "</p>");
 		accBalancePanel.add(accBalancelabel);
 		accBalancePanel.setStyleName("rightBorder");
-		accBalancePanel.setSpacing(10);
 
 		// for no of reconcile records
-		VerticalPanel reconcilePanel = new VerticalPanel();
+		StyledPanel reconcilePanel = new StyledPanel("reconcilePanel");
 		HTML reconcile = new HTML("<p>" + messages.Reconcile()
 				+ "<br/><br/></p>" + statement.getStatementList().size()
 				+ messages.itemsToBeReconciled() + "</p>");
 		reconcilePanel.add(reconcile);
 		reconcilePanel.setStyleName("rightBorder");
-		reconcilePanel.setSpacing(10);
 
 		// for statement balance
-		VerticalPanel balancePanel = new VerticalPanel();
+		StyledPanel balancePanel = new StyledPanel("balancePanel");
 		HTML balance = new HTML("<p>" + messages.statementBalance()
 				+ "<br/><br/></p>" + getBalanceAmount(false) + "</p>");
 		balancePanel.add(balance);
 		balancePanel.setStyleName("rightBorder");
-		balancePanel.setSpacing(10);
 
 		// for statement imported date
-		VerticalPanel importedDatePanel = new VerticalPanel();
+		StyledPanel importedDatePanel = new StyledPanel("importedDatePanel");
 		HTML importedDate = new HTML("<p>" + messages.statementsImportedDate()
 				+ "<br/><br/></p>" + statement.getImporttedDate() + "</p>");
 		importedDatePanel.add(importedDate);
 		importedDatePanel.setStyleName("rightBorder");
-		importedDatePanel.setSpacing(10);
 
 		// for starting balance
-		VerticalPanel startingBalancePanel = new VerticalPanel();
+		StyledPanel startingBalancePanel = new StyledPanel(
+				"startingBalancePanel");
 		HTML startBalance = new HTML("<p>" + messages.startingBalance()
 				+ "<br/><br/></p>" + getStartingBalance() + "</p>");
 		startingBalancePanel.add(startBalance);
 		startingBalancePanel.setStyleName("rightBorder");
-		startingBalancePanel.setSpacing(10);
 
 		// for closing balance
-		VerticalPanel closingBalancePanel = new VerticalPanel();
+		StyledPanel closingBalancePanel = new StyledPanel("closingBalancePanel");
 		HTML closeBalance = new HTML("<p>" + messages.ClosingBalance()
 				+ "<br/><br/></p>" + statement.getClosingBalance() + "</p>");
 		closingBalancePanel.add(closeBalance);
-		closingBalancePanel.setSpacing(10);
 
 		hPanel.add(invoicePanel);
 		hPanel.add(accBalancePanel);
@@ -218,9 +208,9 @@ public class StatementTransactionsReconcileView extends
 	 * 
 	 * @return
 	 */
-	private VerticalPanel getBankStatementsTab() {
+	private StyledPanel getBankStatementsTab() {
 
-		VerticalPanel mainPanel = new VerticalPanel();
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		// transactions grid
 		// this.bankStatementGrid = new BankStatementGrid();
@@ -251,7 +241,7 @@ public class StatementTransactionsReconcileView extends
 		// difference.setDisabled(true);
 		// setdataToAmountLables();
 		// amountsForm.setItems(closebalanceLable, clearedbalance, difference);
-		// VerticalPanel amountsPanel = new VerticalPanel();
+		// StyledPanel amountsPanel = new StyledPanel();
 		// amountsPanel.setWidth("100%");
 		// amountsPanel.add(amountsForm);
 		//
@@ -292,10 +282,10 @@ public class StatementTransactionsReconcileView extends
 	 * 
 	 * @return
 	 */
-	private VerticalPanel getReconcileTab() {
+	private StyledPanel getReconcileTab() {
 
-		VerticalPanel panel = new VerticalPanel();
-		main_Vpanel = new VerticalPanel();
+		StyledPanel panel = new StyledPanel("panel");
+		main_Vpanel = new StyledPanel("main_Vpanel");
 		reconcilListGrid = new ReconcilListGrid(account);
 		reconcilListGrid.init();
 		reconcilListGrid.setCanEdit(true);
@@ -325,22 +315,19 @@ public class StatementTransactionsReconcileView extends
 		closebalanceLable.setEnabled(false);
 
 		clearedbalance = new AmountLabel(messages.ClearedAmount());
-//		clearedbalance.setHelpInformation(true);
+		// clearedbalance.setHelpInformation(true);
 		clearedbalance.setEnabled(false);
 
 		difference = new AmountLabel(messages.Difference());
-//		difference.setHelpInformation(true);
+		// difference.setHelpInformation(true);
 		difference.setEnabled(false);
-		
+
 		setdataToAmountLables();
 		amountsForm.add(closebalanceLable, clearedbalance, difference);
-		VerticalPanel amountsPanel = new VerticalPanel();
-		amountsPanel.setWidth("100%");
+		StyledPanel amountsPanel = new StyledPanel("amountsPanel");
 		amountsPanel.add(amountsForm);
 
 		amountsPanel.addStyleName("bottom_total_view");
-		amountsPanel.setCellHorizontalAlignment(amountsForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		main_Vpanel.add(amountsPanel);
 

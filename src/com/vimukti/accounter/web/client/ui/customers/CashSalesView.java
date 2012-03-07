@@ -135,7 +135,6 @@ public class CashSalesView extends
 		datepanel.add(dateNoForm);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
-		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
@@ -449,7 +448,6 @@ public class CashSalesView extends
 		if (getPreferences().isDoProductShipMents())
 			leftVLay.add(shipToAddress);
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
-		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
@@ -458,6 +456,10 @@ public class CashSalesView extends
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
+
+		topHLay.add(leftVLay);
+		topHLay.add(rightVLay);
+		// topHLay.setSpacing(20);
 
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);

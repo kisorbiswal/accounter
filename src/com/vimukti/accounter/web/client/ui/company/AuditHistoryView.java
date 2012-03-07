@@ -13,13 +13,12 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 
@@ -28,7 +27,7 @@ public class AuditHistoryView extends BaseView {
 	private static final String IS_MODIFIED = "isModified";
 	private final int objType;
 	private final long objID;
-	private final VerticalPanel mainVerticalPanel;
+	private final StyledPanel mainStyledPanel;
 	private final String pageName;
 	private final long activityID;
 
@@ -40,7 +39,7 @@ public class AuditHistoryView extends BaseView {
 	public AuditHistoryView(ClientActivity obj) {
 		objType = obj.getObjType();
 		objID = obj.getObjectID();
-		mainVerticalPanel = new VerticalPanel();
+		mainStyledPanel = new StyledPanel("mainStyledPanel");
 		pageName = obj.getDataType();
 		activityID = obj.getId();
 	}
@@ -219,13 +218,13 @@ public class AuditHistoryView extends BaseView {
 		pageNameLabel.setText(name);
 		pageNameLabel.addStyleName("historyPageTitle");
 
-		mainVerticalPanel.add(pageNameLabel);
-		mainVerticalPanel.setWidth("100%");
+		mainStyledPanel.add(pageNameLabel);
+		mainStyledPanel.setWidth("100%");
 
 		if (activityList.size() > 1) {
 			JSONValue val = JSONParser.parseLenient(activityList.get(0)
 					.getAuditHistory());
-			mainVerticalPanel.add(createControl(activityList.get(0), val));
+			mainStyledPanel.add(createControl(activityList.get(0), val));
 			for (int i = 0; i < activityList.size() - 1; i++) {
 
 				ClientActivity activity1 = activityList.get(i);
@@ -239,20 +238,18 @@ public class AuditHistoryView extends BaseView {
 
 				compare(jSONValue1.isArray(), jSONValue2.isArray());
 
-				mainVerticalPanel.add(createControl(activityList.get(i + 1),
+				mainStyledPanel.add(createControl(activityList.get(i + 1),
 						jSONValue2));
 
 			}
 		} else {
 			JSONValue val = JSONParser.parseLenient(activityList.get(0)
 					.getAuditHistory());
-			mainVerticalPanel.add(createControl(activityList.get(0), val));
+			mainStyledPanel.add(createControl(activityList.get(0), val));
 
 		}
 
-		this.add(mainVerticalPanel);
-		this.setCellHorizontalAlignment(mainVerticalPanel,
-				HasAlignment.ALIGN_LEFT);
+		this.add(mainStyledPanel);
 
 	}
 

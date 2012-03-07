@@ -2,14 +2,14 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenuBar;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
-public class AccounterMenuBar extends HorizontalPanel {
+public class AccounterMenuBar extends FlowPanel {
 
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private final IMenuFactory factory;

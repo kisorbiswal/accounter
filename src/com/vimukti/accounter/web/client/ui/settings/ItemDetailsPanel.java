@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
@@ -10,11 +9,12 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
-public class ItemDetailsPanel extends VerticalPanel {
+public class ItemDetailsPanel extends FlowPanel {
 	ClientItem item;
 	LabelItem name, availableQty, itemGroup, wareHouse, vendorProNo;
 	AmountLabel standardCost, salesPrice;
@@ -23,6 +23,7 @@ public class ItemDetailsPanel extends VerticalPanel {
 	protected static final AccounterMessages messages = Global.get().messages();
 
 	public ItemDetailsPanel(ClientItem item) {
+		this.getElement().setId("ItemDetailsPanel");
 		this.item = item;
 		createControls();
 		if (item != null) {
@@ -56,8 +57,8 @@ public class ItemDetailsPanel extends VerticalPanel {
 		rightform.add(itemGroup, wareHouse, vendorProNo);
 		rightform.addStyleName("customers_detail_rightpanel");
 
-		HorizontalPanel hp = new HorizontalPanel();
-		HorizontalPanel headingPanel = new HorizontalPanel();
+		StyledPanel hp = new StyledPanel("hp");
+		StyledPanel headingPanel = new StyledPanel("headingPanel");
 		headingPanel.addStyleName("customers_detail_panel");
 		heading = new Label(messages.payeeDetails(Global.get().Vendors())
 				+ " :");
@@ -66,18 +67,18 @@ public class ItemDetailsPanel extends VerticalPanel {
 		itemName.setText(messages.noItemSelected());
 		headingPanel.add(heading);
 		headingPanel.add(itemName);
-		headingPanel.setCellWidth(heading, "50%");
-		headingPanel.setCellWidth(itemName, "50%");
+		// headingPanel.setCellWidth(heading, "50%");
+		// headingPanel.setCellWidth(itemName, "50%");
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
-		hp.setCellWidth(leftform, "50%");
-		hp.setCellWidth(rightform, "50%");
+		// hp.setCellWidth(leftform, "50%");
+		// hp.setCellWidth(rightform, "50%");
 
-		add(hp);
-		headingPanel.setWidth("100%");
-		hp.setWidth("100%");
-		this.setWidth("100%");
+		// add(hp);
+		// headingPanel.setWidth("100%");
+		// hp.setWidth("100%");
+		// this.setWidth("100%");
 		hp.getElement().getParentElement().addClassName("details-Panel");
 	}
 

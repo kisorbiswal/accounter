@@ -12,8 +12,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.options.OrganizationTypeConstants;
 
 /**
@@ -25,7 +25,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	private static SetupOrganisationSelectionPageUiBinder uiBinder = GWT
 			.create(SetupOrganisationSelectionPageUiBinder.class);
 	@UiField
-	VerticalPanel viewPanel;
+	StyledPanel viewPanel;
 	@UiField
 	Label organizeText;
 	@UiField

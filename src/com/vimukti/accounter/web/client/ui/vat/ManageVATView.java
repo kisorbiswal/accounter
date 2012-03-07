@@ -6,11 +6,11 @@ import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class ManageVATView extends AbstractBaseView {
 
@@ -38,16 +38,12 @@ public class ManageVATView extends AbstractBaseView {
 
 	private void createControls() {
 
-		Label stLabel = new Label(messages
-				.thisWndHelpYoyManageVATTasks());
+		Label stLabel = new Label(messages.thisWndHelpYoyManageVATTasks());
 		Label vatLabel = new Label(messages.fileVATReturnNow());
 
-		CaptionPanel capAssignPanel = new CaptionPanel(messages
-				.getStarted());
-		CaptionPanel capPayVatPanel = new CaptionPanel(messages
-				.payVATOwing());
-		CaptionPanel capTaskPanel = new CaptionPanel(messages
-				.relatedTask());
+		CaptionPanel capAssignPanel = new CaptionPanel(messages.getStarted());
+		CaptionPanel capPayVatPanel = new CaptionPanel(messages.payVATOwing());
+		CaptionPanel capTaskPanel = new CaptionPanel(messages.relatedTask());
 
 		vatButton = new Button(messages.fileVATReturn());
 		Button closeButton = new Button(messages.close());
@@ -56,16 +52,13 @@ public class ManageVATView extends AbstractBaseView {
 		final Image icon = new Image();
 		icon.setResource(Accounter.getFinanceImages().justifyLeft());
 
-		Hyperlink assignlink = new Hyperlink(messages
-				.assignVatCodesToItems(), "foo");
-		Hyperlink viewLink = new Hyperlink(messages.viewVATItems(),
-				"link1");
-		Hyperlink openLink = new Hyperlink(messages
-				.openVATCodeList(), "link2");
-		Hyperlink adjLink = new Hyperlink(messages.adjustVATDue(),
-				"link3");
+		Hyperlink assignlink = new Hyperlink(messages.assignVatCodesToItems(),
+				"foo");
+		Hyperlink viewLink = new Hyperlink(messages.viewVATItems(), "link1");
+		Hyperlink openLink = new Hyperlink(messages.openVATCodeList(), "link2");
+		Hyperlink adjLink = new Hyperlink(messages.adjustVATDue(), "link3");
 
-		VerticalPanel vPanel = new VerticalPanel();
+		StyledPanel vPanel = new StyledPanel("vPanel");
 
 		AbsolutePanel assignPanel = new AbsolutePanel();
 		AbsolutePanel payVatPanel = new AbsolutePanel();

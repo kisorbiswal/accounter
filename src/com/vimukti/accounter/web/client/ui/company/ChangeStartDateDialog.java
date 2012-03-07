@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -18,10 +18,10 @@ public class ChangeStartDateDialog extends CustomDialog {
 
 		// setHeight(150);
 
-		VerticalPanel bodyLayout = new VerticalPanel();
+		StyledPanel bodyLayout = new StyledPanel("bodyLayout");
 		DynamicForm form = new DynamicForm("form");
 		// form.setWidth(250);
-		DateItem dateItem = new DateItem(messages.startDate(),"dateItem");
+		DateItem dateItem = new DateItem(messages.startDate(), "dateItem");
 		dateItem.setRequired(true);
 		// dateItem.setUseTextField(true);
 		form.add(dateItem);

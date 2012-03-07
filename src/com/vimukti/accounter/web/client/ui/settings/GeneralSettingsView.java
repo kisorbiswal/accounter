@@ -10,21 +10,21 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class GeneralSettingsView extends AbstractBaseView {
-	private VerticalPanel mainPanel, conversationPanel, invoiceBrandingPanel,
-			userPanel, companyPanel;
+	StyledPanel mainPanel;
+	private StyledPanel conversationPanel, invoiceBrandingPanel, userPanel,
+			companyPanel;
 	private FlexTable optionsTable;
-	private HorizontalPanel titlePanel;
+	private StyledPanel titlePanel;
 	private HTML conversionHTML, conversationCommentHTML, invoiceBrandingHTML,
 			invoiceCommentHtml, titleHtml, userHtml, userCommentHtml,
 			companySettingsHtml, companyCommentHtml;
@@ -62,12 +62,12 @@ public class GeneralSettingsView extends AbstractBaseView {
 	}
 
 	private void createControls() {
-		mainPanel = new VerticalPanel();
-		titlePanel = new HorizontalPanel();
+		mainPanel = new StyledPanel("mainPanel");
+		titlePanel = new StyledPanel("titlePanel");
 		optionsTable = new FlexTable();
-		conversationPanel = new VerticalPanel();
-		invoiceBrandingPanel = new VerticalPanel();
-		userPanel = new VerticalPanel();
+		conversationPanel = new StyledPanel("conversationPanel");
+		invoiceBrandingPanel = new StyledPanel("invoiceBrandingPanel");
+		userPanel = new StyledPanel("userPanel");
 
 		titleHtml = new HTML(messages.generalSettings());
 		titleHtml.addStyleName("user-html");
@@ -210,7 +210,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 			}
 		});
 
-		companyPanel = new VerticalPanel();
+		companyPanel = new StyledPanel("companyPanel");
 		companyImage = new Image(Accounter.getFinanceImages().companySettings());
 		companyImage.setStyleName("general-image");
 		companyImage.addClickHandler(new ClickHandler() {

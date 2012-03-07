@@ -22,10 +22,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
@@ -38,14 +34,14 @@ public class FileUploadDilaog extends CustomDialog {
 	private String parentID;
 	private FormPanel uploadForm;
 	private ValueCallBack<ClientBrandingTheme> callback;
-	private HorizontalPanel loadingLayout;
-	private VerticalPanel mainLayout;
-	private VerticalPanel panel;
+	private StyledPanel loadingLayout;
+	private StyledPanel mainLayout;
+	private StyledPanel panel;
 	private ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
 	private int count = 1;
-	private VerticalPanel uploadFormLayout;
+	private StyledPanel uploadFormLayout;
 	private String[] fileTypes;
-	private HorizontalPanel buttonHlay;
+	private StyledPanel buttonHlay;
 	private boolean closeAfterUploaded;
 	private static ClientBrandingTheme brandingTheme;
 	private boolean isCustomTemplateUpload;
@@ -80,13 +76,9 @@ public class FileUploadDilaog extends CustomDialog {
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 
 		// Create a panel to hold all of the form widgets.
-		VerticalPanel vpaPanel = new VerticalPanel();
+		StyledPanel vpaPanel = new StyledPanel("vpaPanel");
 
-		panel = new VerticalPanel();
-		/* make space small */
-		panel.setSpacing(2);
-		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		// Create a FileUpload widget.
+		panel = new StyledPanel("panel");
 
 		if (isCustomTemplateUpload) {
 
@@ -175,8 +167,7 @@ public class FileUploadDilaog extends CustomDialog {
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
-		closeButton.setWidth("80px");
-		buttonHlay = new HorizontalPanel();
+		buttonHlay = new StyledPanel("buttonHlay");
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
@@ -184,10 +175,10 @@ public class FileUploadDilaog extends CustomDialog {
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);
 
-		buttonHlay.setCellHorizontalAlignment(closeButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonHlay.setCellHorizontalAlignment(uploadSubmitButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
+		// buttonHlay.setCellHorizontalAlignment(closeButton,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
+		// buttonHlay.setCellHorizontalAlignment(uploadSubmitButton,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		uploadSubmitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -262,9 +253,9 @@ public class FileUploadDilaog extends CustomDialog {
 			}
 
 		});
-		uploadFormLayout = new VerticalPanel();
+		uploadFormLayout = new StyledPanel("uploadFormLayout");
 		uploadFormLayout.add(uploadForm);
-		mainLayout = new VerticalPanel();
+		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(uploadFormLayout);
 		add(mainLayout);
 		show();
@@ -286,20 +277,20 @@ public class FileUploadDilaog extends CustomDialog {
 
 	}
 
-	public HorizontalPanel getFileItem() {
-		final HorizontalPanel panel = new HorizontalPanel();
+	public StyledPanel getFileItem() {
+		final StyledPanel panel = new StyledPanel("panel");
 		// panel.setHeight("30");
 		panel.setStyleName("fileuploaddialog-fileitem");
 
 		final FileUpload upload = new FileUpload();
 		String fileID = createID();
 		upload.setName(fileID);
-		upload.getElement().setAttribute("size", "50");
+		// upload.getElement().setAttribute("size", "50");
 
 		HTML label = new HTML(messages.remove());
 		label.addStyleName("remove_html");
-		label.setWidth("60px");
-		label.setHeight("25px");
+		// label.setWidth("60px");
+		// label.setHeight("25px");
 		label.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

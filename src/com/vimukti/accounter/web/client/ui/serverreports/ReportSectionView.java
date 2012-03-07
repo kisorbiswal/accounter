@@ -2,12 +2,11 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -22,8 +21,8 @@ public class ReportSectionView extends BaseHomeView {
 
 	}
 
-	private VerticalPanel createControl() {
-		VerticalPanel mainLayout = new VerticalPanel();
+	private StyledPanel createControl() {
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
 
 		// BalanceSheetServerReport report = new BalanceSheetServerReport(0, 0,
 		// 0);
@@ -37,13 +36,13 @@ public class ReportSectionView extends BaseHomeView {
 		// mainLayout.setTop(5);
 		// mainLayout.setLeft(5);
 
-		HorizontalPanel HorizontalPanel1 = new HorizontalPanel();
-		HorizontalPanel1.setSize("100%", "70px");
-		// HorizontalPanel1.setMembersMargin(5);
+		StyledPanel styledPanel1 = new StyledPanel("styledPanel1");
+		// StyledPanel1.setSize("100%", "70px");
+		// StyledPanel1.setMembersMargin(5);
 
-		HorizontalPanel HorizontalPanel2 = new HorizontalPanel();
-		HorizontalPanel2.setSize("100%", "70px");
-		// HorizontalPanel2.setMembersMargin(5);
+		StyledPanel styledPanel2 = new StyledPanel("styledPanel2");
+		// StyledPanel2.setSize("100%", "70px");
+		// StyledPanel2.setMembersMargin(5);
 
 		// VLayout rightLayout= new VLayout();
 		// rightLayout.setMembersMargin(5);
@@ -56,9 +55,6 @@ public class ReportSectionView extends BaseHomeView {
 
 		DynamicForm companyAndFinancialForm = UIUtils.form(messages
 				.companyAndFinancial());
-		companyAndFinancialForm.setWidth("50%");
-		companyAndFinancialForm.setHeight("40%");
-//		companyAndFinancialForm.setNumCols(1);
 
 		LinkItem profitAndLossLink = new LinkItem();
 		profitAndLossLink.setLinkTitle(messages.profitAndLoss());
@@ -156,14 +152,14 @@ public class ReportSectionView extends BaseHomeView {
 				realisedExchangeLossesAndGains,
 				unRealisedExchangeLossesAndGains);
 
-		HorizontalPanel1.add(companyAndFinancialForm);
+		styledPanel1.add(companyAndFinancialForm);
 
 		// Form for Sales type reports
 
 		DynamicForm salesForm = UIUtils.form(messages.sales());
 		salesForm.setWidth("50%");
 		salesForm.setHeight("40%");
-//		salesForm.setNumCols(1);
+		// salesForm.setNumCols(1);
 
 		LinkItem salesByCustomerSummaryLink = new LinkItem();
 		salesByCustomerSummaryLink.setLinkTitle(messages
@@ -219,18 +215,17 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		salesForm.add(salesByCustomerSummaryLink,
-				salesByCustomerDetailLink, salesByItemSummaryLink,
-				salesByItemDetailLink);
+		salesForm.add(salesByCustomerSummaryLink, salesByCustomerDetailLink,
+				salesByItemSummaryLink, salesByItemDetailLink);
 
-		HorizontalPanel1.add(salesForm);
+		styledPanel1.add(salesForm);
 
 		// Form for purchase type reports
 
 		DynamicForm purchaseForm = UIUtils.form(messages.purchase());
 		purchaseForm.setWidth("50%");
 		purchaseForm.setHeight("40%");
-//		purchaseForm.setNumCols(1);
+		// purchaseForm.setNumCols(1);
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
 		purchaseBySupplierSummaryLink.setLinkTitle(messages
@@ -291,14 +286,14 @@ public class ReportSectionView extends BaseHomeView {
 				purchaseBySupplierDetailLink, purchaseByProductSummaryLink,
 				purchaseByProductDetailLink);
 
-		HorizontalPanel2.add(purchaseForm);
+		styledPanel2.add(purchaseForm);
 
 		// Form for Other type reports
 
 		DynamicForm otherForm = UIUtils.form(messages.other());
 		otherForm.setWidth("50%");
 		otherForm.setHeight("40%");
-//		otherForm.setNumCols(1);
+		// otherForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(messages
@@ -366,14 +361,13 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		otherForm.add(customerTransactionHistoryLink, arAgingLink,
-				apAgingLink, supplierTransactionHistoryLink,
-				mostProfitableCustomerLink);
+		otherForm.add(customerTransactionHistoryLink, arAgingLink, apAgingLink,
+				supplierTransactionHistoryLink, mostProfitableCustomerLink);
 
-		HorizontalPanel2.add(otherForm);
+		styledPanel2.add(otherForm);
 
-		mainLayout.add(HorizontalPanel1);
-		mainLayout.add(HorizontalPanel2);
+		mainLayout.add(styledPanel1);
+		mainLayout.add(styledPanel2);
 
 		return mainLayout;
 

@@ -20,15 +20,12 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -38,9 +35,9 @@ public class UploadStatementDialog extends BaseDialog implements
 	private static final String STATEMENT = "statement";
 	private FileUpload fileUpload;
 	private FormPanel uploadForm;
-	private VerticalPanel panel, mainLayout;
+	private StyledPanel panel, mainLayout;
 	private HTML detailsHtml1;
-	private HorizontalPanel buttonHlay;
+	private StyledPanel buttonHlay;
 	private ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
 	private ClientAccount account;
 	private List<ClientStatement> statementsList;
@@ -73,11 +70,9 @@ public class UploadStatementDialog extends BaseDialog implements
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 
 		// Create a panel to hold all of the form widgets.
-		VerticalPanel vpaPanel = new VerticalPanel();
+		StyledPanel vpaPanel = new StyledPanel("vpaPanel");
 
-		panel = new VerticalPanel();
-		panel.setSpacing(2);
-		panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		panel = new StyledPanel("panel");
 		// Create a FileUpload widget.
 
 		// for uploading the custom template files
@@ -87,7 +82,6 @@ public class UploadStatementDialog extends BaseDialog implements
 		fileUpload.setName(STATEMENT);
 
 		panel.add(detailsHtml1);
-		panel.setSpacing(5);
 		panel.add(fileUpload);
 		uploadItems.add(fileUpload);
 
@@ -100,18 +94,13 @@ public class UploadStatementDialog extends BaseDialog implements
 
 		Button closeButton = new Button(messages.close());
 		closeButton.setWidth("80px");
-		buttonHlay = new HorizontalPanel();
+		buttonHlay = new StyledPanel("buttonHlay");
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);
-
-		buttonHlay.setCellHorizontalAlignment(closeButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-		buttonHlay.setCellHorizontalAlignment(uploadSubmitButton,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
 		uploadSubmitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -169,7 +158,7 @@ public class UploadStatementDialog extends BaseDialog implements
 
 		});
 
-		mainLayout = new VerticalPanel();
+		mainLayout = new StyledPanel("mainLayout");
 		mainLayout.add(uploadForm);
 		add(mainLayout);
 		show();

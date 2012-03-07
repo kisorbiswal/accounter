@@ -1,13 +1,13 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -19,7 +19,7 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	private DateItem startOfFiscalYear;
 	private DateItem endOfFiscalYear;
 	private DynamicForm dynamicForm;
-	private VerticalPanel mainVlayout;
+	private StyledPanel mainVlayout;
 	private FiscalYearListGrid listOfFiscalYear;
 	private String title;
 
@@ -93,17 +93,17 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		createFiscalYearLabel = new HTML();
 		createFiscalYearLabel.setHTML(messages.createFascalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(messages
-				.enterAppropriateFiscalYear());
-		startOfFiscalYear = new DateItem(messages.startOfFiscalYear(),"startOfFiscalYear");
+		descriptionLabel.setHTML(messages.enterAppropriateFiscalYear());
+		startOfFiscalYear = new DateItem(messages.startOfFiscalYear(),
+				"startOfFiscalYear");
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		endOfFiscalYear = new DateItem(messages.endOfFiscalYear(),"endOfFiscalYear");
+		endOfFiscalYear = new DateItem(messages.endOfFiscalYear(),
+				"endOfFiscalYear");
 		endOfFiscalYear.setRequired(true);
 		dynamicForm = new DynamicForm("dynamicForm");
 		dynamicForm.add(startOfFiscalYear, endOfFiscalYear);
-		mainVlayout = new VerticalPanel();
-		mainVlayout.setSpacing(5);
+		mainVlayout = new StyledPanel("mainVlayout");
 		// mainVlayout.add(createFiscalYearLabel);
 		mainVlayout.add(descriptionLabel);
 		mainVlayout.add(dynamicForm);
@@ -162,24 +162,18 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
-			result.addError(startOfFiscalYear, messages
-					.startFiscalHTML());
+			result.addError(startOfFiscalYear, messages.startFiscalHTML());
 		} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
-			result.addError(startOfFiscalYear, messages
-					.endFiscalHTML());
+			result.addError(startOfFiscalYear, messages.endFiscalHTML());
 		} else if (endOfFiscalYear.getDate()
 				.before(startOfFiscalYear.getDate())) {
-			result.addError(this, messages
-					.fiscalStartEndCompreHTML());
+			result.addError(this, messages.fiscalStartEndCompreHTML());
 		} else if (checkFiscalYearExists()) {
-			result.addError(this, messages
-					.fiscalYearAlreadyExists());
+			result.addError(this, messages.fiscalYearAlreadyExists());
 		} else if (checkStartDateExists()) {
-			result.addError(this, messages
-					.fiscalYearStartDateAlreadyExists());
+			result.addError(this, messages.fiscalYearStartDateAlreadyExists());
 		} else if (checkEndDateExists()) {
-			result.addError(this, messages
-					.fiscalYearEndDateAlreadyExists());
+			result.addError(this, messages.fiscalYearEndDateAlreadyExists());
 		}
 		return result;
 	}
@@ -218,8 +212,7 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		ClientFiscalYear fiscalYear = null;
 		if (title.equalsIgnoreCase(messages.editFiscalYear())) {
 			fiscalYear = getEditFiscalYear();
-		} else if (title.equalsIgnoreCase(messages
-				.createFascalYear())) {
+		} else if (title.equalsIgnoreCase(messages.createFascalYear())) {
 			fiscalYear = getNewFiscalYear();
 		}
 		saveOrUpdate(fiscalYear);

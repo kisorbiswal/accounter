@@ -2,13 +2,10 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -55,7 +52,7 @@ public class WhoIOwePortlet extends Portlet {
 	}
 
 	private void createLink() {
-		HorizontalPanel linkPanel = new HorizontalPanel();
+		StyledPanel linkPanel = new StyledPanel("linkPanel");
 		Anchor payBillLink = new Anchor(messages.addaNew(messages.payBill()));
 		payBillLink.addStyleName("portlet_link");
 		payBillLink.addClickHandler(new ClickHandler() {
@@ -66,9 +63,6 @@ public class WhoIOwePortlet extends Portlet {
 			}
 		});
 		linkPanel.add(payBillLink);
-		linkPanel.getElement().getStyle().setPadding(7, Unit.PX);
-		linkPanel.setCellHorizontalAlignment(payBillLink,
-				HasAlignment.ALIGN_RIGHT);
 		body.add(linkPanel);
 	}
 

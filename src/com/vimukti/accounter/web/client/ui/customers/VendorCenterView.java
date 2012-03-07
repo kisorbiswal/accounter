@@ -89,13 +89,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		DynamicForm viewform = new DynamicForm("viewform");
 		viewform.add(activeInActiveSelect);
 		leftVpPanel.add(viewform);
-		viewform.getElement().getParentElement().setAttribute("align", "left");
 		vendorlistGrid = new VendorsListGrid();
 		vendorlistGrid.init();
 		initVendorListGrid();
 		leftVpPanel.add(vendorlistGrid);
-		vendorlistGrid.getElement().getParentElement()
-				.setAttribute("width", "15%");
 		vendorlistGrid.setStyleName("cusotmerCentrGrid");
 		StyledPanel rightVpPanel = new StyledPanel("rightVpPanel");
 		detailsPanel = new VendorDetailsPanel(selectedVendor);
