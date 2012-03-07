@@ -1838,6 +1838,13 @@
 		where
 		account.id=:fromID
 	</query>
+	<query name="update.merge.transactionitemeffectingAccount.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionItem set effectingAccount.id=:toID
+		where
+		effectingAccount.id=:fromID
+	</query>
 	<query name="update.merge.journalEntry.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />

@@ -2030,6 +2030,11 @@ public class FinanceTool {
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
+			session.getNamedQuery(
+					"update.merge.transactionitemeffectingAccount.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
+
 			session.getNamedQuery("update.merge.journalEntry.old.tonew")
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();

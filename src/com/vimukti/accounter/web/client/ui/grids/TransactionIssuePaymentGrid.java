@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IssuePaymentView;
@@ -26,7 +27,8 @@ public class TransactionIssuePaymentGrid extends
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.date(), messages.number(),
-				messages.name(), messages.memo(), messages.amount() };
+				messages.type(), messages.name(), messages.memo(),
+				messages.amount() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
@@ -62,10 +64,12 @@ public class TransactionIssuePaymentGrid extends
 		case 1:
 			return issuepayment.getNumber();
 		case 2:
-			return issuepayment.getName();
+			return Utility.getTransactionName(issuepayment.getRecordType());
 		case 3:
-			return issuepayment.getMemo();
+			return issuepayment.getName();
 		case 4:
+			return issuepayment.getMemo();
+		case 5:
 			return DataUtils.amountAsStringWithCurrency(
 					issuepayment.getAmount(), issuepayment.getCurrency());
 		default:
@@ -113,13 +117,15 @@ public class TransactionIssuePaymentGrid extends
 		case 0:
 			return 85;
 		case 1:
-			return 100;
+			return 60;
 		case 2:
-			return 120;
+			return 100;
 		case 3:
-			return 220;
-		case 4:
 			return 120;
+		case 4:
+			return 200;
+		case 5:
+			return 100;
 		default:
 			return -1;
 		}
