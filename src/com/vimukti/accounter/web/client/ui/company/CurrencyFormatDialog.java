@@ -334,8 +334,10 @@ public class CurrencyFormatDialog extends BaseDialog {
 		companyPreferences.setDecimalNumber((int) noOfDigitsAfterDecimal);
 		companyPreferences.setDecimalCharacte(decimalSymbol);
 		companyPreferences.setDigitGroupCharacter(digitGroupSymbol);
-
-		String format = digitGroupingFormat.replaceAll(digitGroupSymbol, ",");
+		String format = digitGroupingFormat;
+		if (digitGroupSymbol != null && !digitGroupSymbol.isEmpty()) {
+			format = digitGroupingFormat.replaceAll(digitGroupSymbol, ",");
+		}
 		companyPreferences.setDigitGroupingFormat(groups.get(format));
 
 		String value = groups.get(format);
