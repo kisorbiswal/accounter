@@ -224,7 +224,7 @@ public class VendorCreditMemoView extends
 		// FIXME--need to disable the form
 		// vendorForm.setDisabled(true);
 
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setEnabled(isInViewMode());
@@ -399,7 +399,7 @@ public class VendorCreditMemoView extends
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
 		// vatCheckform.setFields(vatinclusiveCheck);
 		VerticalPanel totalForm = new VerticalPanel();
@@ -427,7 +427,8 @@ public class VendorCreditMemoView extends
 		VerticalPanel bottomPanel = new VerticalPanel();
 		bottomPanel.setWidth("100%");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 		discountField = getDiscountField();
 
 		DynamicForm taxForm = new DynamicForm("taxForm");

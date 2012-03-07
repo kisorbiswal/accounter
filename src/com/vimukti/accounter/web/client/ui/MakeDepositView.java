@@ -575,13 +575,9 @@ public class MakeDepositView extends
 		memoText.setEnabled(!isInViewMode());
 
 		memoForm = new DynamicForm("memoForm");
-		memoForm.setWidth("100%");
 		memoForm.add(memoText);
-		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		depoForm = new DynamicForm("depoForm");
-		// depoForm.setIsGroup(true);
-		// depoForm.setGroupTitle(messages.deposit());
 		depoForm.add(depositFromSelect, depositInSelect, amtText);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {

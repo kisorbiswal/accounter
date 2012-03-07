@@ -413,6 +413,11 @@ public class CustomerPrePaymentView extends
 		DynamicForm balForm = new DynamicForm("balForm");
 		if (locationTrackingEnabled)
 			balForm.add(locationCombo);
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setEnabled(false);
+			balForm.add(jobListCombo);
+		}
 		balForm.add(bankBalText, customerBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
@@ -702,9 +707,16 @@ public class CustomerPrePaymentView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setEnabled(!isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
+		}
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 

@@ -650,84 +650,90 @@ public class ReceivePaymentView extends
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			depoForm.add(classListCombo);
+
+			if (getPreferences().isJobTrackingEnabled()) {
+				jobListCombo = createJobListCombo();
+				jobListCombo.setEnabled(false);
+				depoForm.add(jobListCombo);
+			}
+
+			depoForm.add(tdsAmount);
+			tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
+
+			currencyWidget = createCurrencyFactorWidget();
+			Label lab1 = new Label(messages.dueForPayment());
+
+			initListGrid();
+
+			unUsedCreditsText = new AmountLabel(
+					messages.unusedCreditsWithCurrencyName(getCompany()
+							.getPrimaryCurrency().getFormalName()));
+			unUsedCreditsText.setEnabled(false);
+
+			unUsedPaymentsText = new AmountLabel(
+					messages.unusedPayments(getCompany().getPrimaryCurrency()
+							.getFormalName()));
+			unUsedPaymentsText.setEnabled(false);
+
+			DynamicForm textForm = new DynamicForm("textForm");
+			textForm.add(unUsedCreditsText, unUsedPaymentsText);
+			unUsedCreditsText.setVisible(!isInViewMode());
+
+			totalWithTDS = new AmountLabel(messages.total());
+			textForm.add(totalWithTDS);
+			// textForm.addStyleName("textbold");
+
+			DynamicForm memoForm = new DynamicForm("memoForm");
+			memoForm.add(memoTextAreaItem);
+
+			StyledPanel bottompanel = new StyledPanel("bottompanel");
+			bottompanel.add(memoForm);
+			bottompanel.add(textForm);
+
+			StyledPanel leftVLay = new StyledPanel("leftVLay");
+			leftVLay.add(payForm);
+
+			StyledPanel rightVLay = new StyledPanel("rightVLay");
+			rightVLay.add(depoForm);
+			if (isMultiCurrencyEnabled()) {
+				rightVLay.add(currencyWidget);
+				currencyWidget.setEnabled(!isInViewMode());
+			}
+
+			topHLay = new StyledPanel("topHLay");
+			topHLay.add(leftVLay);
+			topHLay.add(rightVLay);
+
+			StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
+			gridLayout = new StyledPanel("gridLayout");
+			gridLayout.add(lab1);
+			gridLayout.add(gridView);
+			gridLayout.add(bottomAmtsLayout);
+			gridLayout.add(bottompanel);
+
+			mainVLay = new StyledPanel("mainVLay");
+			mainVLay.add(voidedPanel);
+			mainVLay.add(labeldateNoLayout);
+			mainVLay.add(topHLay);
+			mainVLay.add(gridLayout);
+
+			this.add(mainVLay);
+
+			/* Adding dynamic forms in list */
+			listforms.add(dateNoForm);
+			listforms.add(payForm);
+			listforms.add(depoForm);
+			listforms.add(textForm);
+
+			settabIndexes();
+
+			// if (isMultiCurrencyEnabled()) {
+			// if (!isInViewMode()) {
+			// unUsedCreditsTextForeignCurrency.hide();
+			// }
+			// unUsedPaymentsTextForeignCurrency.hide();
+			// }
 		}
-
-		depoForm.add(tdsAmount);
-		tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
-
-		currencyWidget = createCurrencyFactorWidget();
-		Label lab1 = new Label(messages.dueForPayment());
-
-		initListGrid();
-
-		unUsedCreditsText = new AmountLabel(
-				messages.unusedCreditsWithCurrencyName(getCompany()
-						.getPrimaryCurrency().getFormalName()));
-		unUsedCreditsText.setEnabled(false);
-
-		unUsedPaymentsText = new AmountLabel(
-				messages.unusedPayments(getCompany().getPrimaryCurrency()
-						.getFormalName()));
-		unUsedPaymentsText.setEnabled(false);
-
-		DynamicForm textForm = new DynamicForm("textForm");
-		textForm.add(unUsedCreditsText, unUsedPaymentsText);
-		unUsedCreditsText.setVisible(!isInViewMode());
-
-		totalWithTDS = new AmountLabel(messages.total());
-		textForm.add(totalWithTDS);
-		// textForm.addStyleName("textbold");
-
-		DynamicForm memoForm = new DynamicForm("memoForm");
-		memoForm.add(memoTextAreaItem);
-
-		StyledPanel bottompanel = new StyledPanel("bottompanel");
-		bottompanel.add(memoForm);
-		bottompanel.add(textForm);
-
-		StyledPanel leftVLay = new StyledPanel("leftVLay");
-		leftVLay.add(payForm);
-
-		StyledPanel rightVLay = new StyledPanel("rightVLay");
-		rightVLay.add(depoForm);
-		if (isMultiCurrencyEnabled()) {
-			rightVLay.add(currencyWidget);
-			currencyWidget.setEnabled(!isInViewMode());
-		}
-
-		topHLay = new StyledPanel("topHLay");
-		topHLay.add(leftVLay);
-		topHLay.add(rightVLay);
-
-		StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
-		gridLayout = new StyledPanel("gridLayout");
-		gridLayout.add(lab1);
-		gridLayout.add(gridView);
-		gridLayout.add(bottomAmtsLayout);
-		gridLayout.add(bottompanel);
-
-		mainVLay = new StyledPanel("mainVLay");
-		mainVLay.add(voidedPanel);
-		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(topHLay);
-		mainVLay.add(gridLayout);
-
-		this.add(mainVLay);
-
-		/* Adding dynamic forms in list */
-		listforms.add(dateNoForm);
-		listforms.add(payForm);
-		listforms.add(depoForm);
-		listforms.add(textForm);
-
-		settabIndexes();
-
-		// if (isMultiCurrencyEnabled()) {
-		// if (!isInViewMode()) {
-		// unUsedCreditsTextForeignCurrency.hide();
-		// }
-		// unUsedPaymentsTextForeignCurrency.hide();
-		// }
 
 	}
 

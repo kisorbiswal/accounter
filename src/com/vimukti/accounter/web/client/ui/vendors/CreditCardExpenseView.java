@@ -274,7 +274,7 @@ public class CreditCardExpenseView extends
 		creditCardCombo.setPopupWidth("450px");
 		creditCardCombo.setTitle(messages.payFrom());
 
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setWidth(100);
@@ -282,8 +282,7 @@ public class CreditCardExpenseView extends
 
 		vendorForm = UIUtils.form(messages.Vendor());
 		vendorForm.setWidth("100%");
-		vendorForm.add(creditCardCombo, vendorCombo, contactCombo,
-				phoneSelect
+		vendorForm.add(creditCardCombo, vendorCombo, contactCombo, phoneSelect
 		/* billToAreaItem */);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 		//
@@ -302,13 +301,13 @@ public class CreditCardExpenseView extends
 		payFromAccount = 0;
 
 		// formItems.add(payFrmSelect)
-		cheqNoText = new TextItem(messages.chequeNo(),"cheqNoText");
+		cheqNoText = new TextItem(messages.chequeNo(), "cheqNoText");
 
 		cheqNoText.setEnabled(!isInViewMode());
 		cheqNoText.setWidth(100);
 		// formItems.add(cheqNoText);
 
-		delivDate = new DateField(messages.deliveryDate(),"delivDate");
+		delivDate = new DateField(messages.deliveryDate(), "delivDate");
 		delivDate.setValue(new ClientFinanceDate());
 		// formItems.add(delivDate);
 
@@ -477,7 +476,8 @@ public class CreditCardExpenseView extends
 
 		discountField = getDiscountField();
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		DynamicForm form = new DynamicForm("form");
 
@@ -489,12 +489,10 @@ public class CreditCardExpenseView extends
 			totalForm.add(vatTotalNonEditableText);
 
 			if (isMultiCurrencyEnabled()) {
-				transactionTotalForm.add(
-						transactionTotalBaseCurrencyText,
+				transactionTotalForm.add(transactionTotalBaseCurrencyText,
 						foreignCurrencyamountLabel);
 			} else {
-				transactionTotalForm
-						.add(transactionTotalBaseCurrencyText);
+				transactionTotalForm.add(transactionTotalBaseCurrencyText);
 			}
 			totalForm.add(transactionTotalForm);
 

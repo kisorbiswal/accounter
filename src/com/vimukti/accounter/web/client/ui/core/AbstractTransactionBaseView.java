@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -588,7 +587,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (result == null)
 				throw new Exception();
 			if (!saveAndClose) {
-				if (!History.getToken().equals(getAction().getHistoryToken())) {
+				if (!com.google.gwt.user.client.History.getToken().equals(
+						getAction().getHistoryToken())) {
 
 				}
 				getManager().closeCurrentView(false);
@@ -930,7 +930,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			};
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
-			item.setIcon(imgSrc);
+			// item.setIcon(imgSrc);
 			popupMenuBar.addItem(item);
 		}
 	}
@@ -976,7 +976,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			}
 
-			item.setIcon(image);
+			// item.setIcon(image);
 
 			// item.getElement().getStyle().setProperty("background",
 			// "url(" + image + ") no-repeat scroll 0 0 transparent");
@@ -1663,7 +1663,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					}
 				});
 
-
 		return classListCombo;
 	}
 
@@ -1849,37 +1848,37 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		StyledPanel tablesPanel = new StyledPanel("tablesPanel");
 		StyledPanel headersPanel = new StyledPanel("headersPanel");
 
-	//	final Anchor historyLink = new Anchor(messages.showHistory());
+		// final Anchor historyLink = new Anchor(messages.showHistory());
 		Anchor addNotesLink = new Anchor(messages.addNote());
-		//historyLink.addStyleName("history_notes_link");
+		// historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
 
-		//headersPanel.add(historyLink);
+		// headersPanel.add(historyLink);
 		headersPanel.add(addNotesLink);
 		headersPanel.addStyleName("history_links");
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
 
-	//	final StyledPanel historyPanel = getHistoryPanel(data.getID());
-//		historyPanel.setVisible(false);
-//		tablesPanel.add(historyPanel);
-//		historyLink.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				historyPanel.setVisible(!historyPanel.isVisible());
-//				if (historyPanel.isVisible())
-//					historyLink.setHTML(messages.hideHistory());
-//				else
-//					historyLink.setHTML(messages.showHistory());
-//			}
-//		});
-//
-//		historyPanel.addStyleName("history_notes_view");
+		// final StyledPanel historyPanel = getHistoryPanel(data.getID());
+		// historyPanel.setVisible(false);
+		// tablesPanel.add(historyPanel);
+		// historyLink.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// historyPanel.setVisible(!historyPanel.isVisible());
+		// if (historyPanel.isVisible())
+		// historyLink.setHTML(messages.hideHistory());
+		// else
+		// historyLink.setHTML(messages.showHistory());
+		// }
+		// });
+		//
+		// historyPanel.addStyleName("history_notes_view");
 
 		addNotesLink.addClickHandler(new ClickHandler() {
 
@@ -2102,8 +2101,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return super.canDelete();
 	}
-	
-		@Override
+
+	@Override
 	protected boolean isSaveButtonAllowed() {
 		return Utility.isUserHavePermissions(transactionType);
 	}

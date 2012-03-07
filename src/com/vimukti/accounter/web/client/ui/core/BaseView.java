@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
@@ -124,8 +125,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return false;
 	}
 
-	protected VerticalPanel createHistoryView() {
-		return new VerticalPanel();
+	protected StyledPanel createHistoryView() {
+		return new StyledPanel("history");
 	}
 
 	/**

@@ -269,7 +269,7 @@ public class JournalEntryView extends
 		lab1.addStyleName("label-title");
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
-		jourNoText = new TextItem(messages.no(),"jourNoText");
+		jourNoText = new TextItem(messages.no(), "jourNoText");
 		jourNoText
 				.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
 		jourNoText.setRequired(true);
@@ -286,7 +286,7 @@ public class JournalEntryView extends
 			}
 		});
 
-		memoText = new TextAreaItem(messages.memo(),"memoText");
+		memoText = new TextAreaItem(messages.memo(), "memoText");
 		memoText.setMemo(true, this);
 
 		initListGrid();
@@ -335,7 +335,7 @@ public class JournalEntryView extends
 		memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoText);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		deditTotalText = new AmountLabel(messages.debitTotalColon());
 		deditTotalText.setWidth("180px");

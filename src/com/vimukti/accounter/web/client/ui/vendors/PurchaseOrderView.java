@@ -5,14 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -50,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
@@ -92,7 +90,7 @@ public class PurchaseOrderView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private StyledDiscosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -140,8 +138,8 @@ public class PurchaseOrderView extends
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("98%");
 		datepanel.add(dateNoForm);
-//		datepanel.setCellHorizontalAlignment(dateNoForm,
-//				HasHorizontalAlignment.ALIGN_RIGHT);
+		// datepanel.setCellHorizontalAlignment(dateNoForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.setWidth("100%");
@@ -170,8 +168,9 @@ public class PurchaseOrderView extends
 		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 		prodAndServiceHLay.setWidth("100%");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
-//		transactionTotalForm.setNumCols(2);
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
+		// transactionTotalForm.setNumCols(2);
 
 		DynamicForm form = new DynamicForm("form");
 
@@ -189,12 +188,13 @@ public class PurchaseOrderView extends
 			prodAndServiceHLay.add(form);
 
 			DynamicForm netAmountForm = new DynamicForm("netAmountForm");
-//			netAmountForm.setNumCols(2);
+			// netAmountForm.setNumCols(2);
 			netAmountForm.add(netAmount);
 
 			amountsForm.add(netAmountForm);
 			amountsForm.add(vatTotalNonEditableText);
-//			amountsForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
+			// amountsForm.setCellHorizontalAlignment(netAmountForm,
+			// ALIGN_RIGHT);
 			if (isMultiCurrencyEnabled()) {
 
 				transactionTotalForm.add(transactionTotalNonEditableText,
@@ -251,15 +251,16 @@ public class PurchaseOrderView extends
 		}
 		amountsForm.add(transactionTotalForm);
 
-//		amountsForm.setCellHorizontalAlignment(transactionTotalForm,
-//				ALIGN_RIGHT);
-//		amountsForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-//				ALIGN_RIGHT);
+		// amountsForm.setCellHorizontalAlignment(transactionTotalForm,
+		// ALIGN_RIGHT);
+		// amountsForm.setCellHorizontalAlignment(vatTotalNonEditableText,
+		// ALIGN_RIGHT);
 
 		prodAndServiceHLay.add(amountsForm);
-//		prodAndServiceHLay.setCellHorizontalAlignment(amountsForm, ALIGN_RIGHT);
-//		prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
-//				HasVerticalAlignment.ALIGN_BOTTOM);
+		// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
+		// ALIGN_RIGHT);
+		// prodAndServiceHLay.setCellVerticalAlignment(amountsForm,
+		// HasVerticalAlignment.ALIGN_BOTTOM);
 
 		vendorCombo = new VendorCombo(Global.get().Vendor(), true);
 		vendorCombo.setRequired(true);
@@ -284,17 +285,17 @@ public class PurchaseOrderView extends
 		// contactCombo.setWidth(100);
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.constants().billTo());
-		billtoAreaItem = new TextAreaItem(messages.billTo(),"billtoAreaItem");
+		billtoAreaItem = new TextAreaItem(messages.billTo(), "billtoAreaItem");
 		billtoAreaItem.setWidth("100%");
 		billtoAreaItem.setDisabled(true);
 
 		// shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
-//		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
-//				.setVerticalAlign(VerticalAlign.TOP);
+		// shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
+		// .setVerticalAlign(VerticalAlign.TOP);
 		// shipToAddress.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "40px");
-//		shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
+		// shipToAddress.getCellFormatter().addStyleName(0, 1, "memoFormAlign");
 		shipToAddress.addrArea.setDisabled(true);
 		shipToAddress.businessSelect.addChangeHandler(new ChangeHandler() {
 
@@ -309,7 +310,7 @@ public class PurchaseOrderView extends
 		});
 		if (isInViewMode())
 			shipToAddress.businessSelect.setEnabled(true);
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumber());
 		phoneSelect.setEnabled(false);
 
@@ -317,17 +318,16 @@ public class PurchaseOrderView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		// vendorForm.setWidth("100%");
-		vendorForm.add(vendorCombo, contactCombo, phoneSelect,
-				billtoAreaItem);
+		vendorForm.add(vendorCombo, contactCombo, phoneSelect, billtoAreaItem);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "226px");
-//		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
+		// vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 
 		// formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(messages.payeeOrderNo(Global.get()
-				.Vendor()),"purchaseOrderText");
+				.Vendor()), "purchaseOrderText");
 		purchaseOrderText.setWidth(50);
-//		purchaseOrderText.setColSpan(1);
+		// purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setEnabled(isInViewMode());
 
 		payTermsSelect = createPaymentTermsSelectItem();
@@ -336,7 +336,7 @@ public class PurchaseOrderView extends
 
 		shippingMethodsCombo = createShippingMethodCombo();
 
-		dueDateItem = new DateField(messages.dueDate(),"dueDateItem");
+		dueDateItem = new DateField(messages.dueDate(), "dueDateItem");
 		dueDateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
 				.getViewName()));
 		dueDateItem.setEnabled(isInViewMode());
@@ -361,7 +361,7 @@ public class PurchaseOrderView extends
 			}
 
 		});
-		despatchDateItem = new DateField(messages.dispatchDate(),"dueDateItem");
+		despatchDateItem = new DateField(messages.dispatchDate(), "dueDateItem");
 		despatchDateItem.setEnabled(isInViewMode());
 		if (isInViewMode()) {
 		} else
@@ -399,8 +399,7 @@ public class PurchaseOrderView extends
 
 		termsForm = new DynamicForm("termsForm");
 		termsForm.setWidth("100%");
-		termsForm.add(transactionNumber, purchaseOrderText,
-				payTermsSelect);
+		termsForm.add(transactionNumber, purchaseOrderText, payTermsSelect);
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.add(shippingTermsCombo, shippingMethodsCombo);
 		}
@@ -456,13 +455,11 @@ public class PurchaseOrderView extends
 				addAccount();
 			}
 		});
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		accountsDisclosurePanel = new StyledDiscosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
-		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), this) {
@@ -508,12 +505,12 @@ public class PurchaseOrderView extends
 			}
 		});
 		currencyWidget = createCurrencyFactorWidget();
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
+		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		itemsDisclosurePanel = new StyledDiscosurePanel(
+				"Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(100);
 
@@ -523,7 +520,7 @@ public class PurchaseOrderView extends
 		// FIXME--need to disable basing on the mode of the view being opened
 
 		// addLinksButton.setEnabled(true);
-		linksText = new TextItem("","linksText");
+		linksText = new TextItem("", "linksText");
 		linksText.setWidth(100);
 		linksText.setShowTitle(false);
 		linksText.setEnabled(isInViewMode());
@@ -554,8 +551,8 @@ public class PurchaseOrderView extends
 		rightVLay.add(dateform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-//			rightVLay.setCellHorizontalAlignment(currencyWidget,
-//					HasHorizontalAlignment.ALIGN_RIGHT);
+			// rightVLay.setCellHorizontalAlignment(currencyWidget,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setEnabled(isInViewMode());
 		}
 		// rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
@@ -567,9 +564,9 @@ public class PurchaseOrderView extends
 		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-//		topHLay.setCellWidth(leftVLay, "50%");
-//		topHLay.setCellWidth(rightVLay, "50%");
-//		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightVLay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		StyledPanel panel = new StyledPanel("panel");
@@ -583,9 +580,9 @@ public class PurchaseOrderView extends
 		bottomLayout.setWidth("100%");
 
 		bottomLayout.add(panel);
-//		panel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
-//		panel.setCellHorizontalAlignment(prodAndServiceHLay,
-//				HasHorizontalAlignment.ALIGN_RIGHT);
+		// panel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		// panel.setCellHorizontalAlignment(prodAndServiceHLay,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 		// bottomLayout.add(linkspanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
@@ -596,8 +593,8 @@ public class PurchaseOrderView extends
 		mainVLay.add(topHLay);
 		// mainVLay.add(lab2);
 
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
+		mainVLay.add(accountsDisclosurePanel.getPanel());
+		mainVLay.add(itemsDisclosurePanel.getPanel());
 		// mainVLay.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		mainVLay.add(bottomLayout);
@@ -895,12 +892,12 @@ public class PurchaseOrderView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		accountsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ACCOUNT, true));
-		itemsDisclosurePanel.setOpen(checkOpen(
-				transaction.getTransactionItems(),
-				ClientTransactionItem.TYPE_ITEM, false));
+		// accountsDisclosurePanel.setOpen(checkOpen(
+		// transaction.getTransactionItems(),
+		// ClientTransactionItem.TYPE_ACCOUNT, true));
+		// itemsDisclosurePanel.setOpen(checkOpen(
+		// transaction.getTransactionItems(),
+		// ClientTransactionItem.TYPE_ITEM, false));
 		initTransactionNumber();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();

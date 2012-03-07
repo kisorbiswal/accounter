@@ -10,7 +10,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -91,7 +90,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				.getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
-		// payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -153,7 +151,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-		// checkNoText.setHelpInformation(true);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
@@ -168,7 +165,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		});
 
 		billsDue = new DateField(messages.returnsDueOnOrBefore(), "asofDate");
-		// billsDue.setHelpInformation(true);
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setEnabled(isInViewMode());
 		billsDue.setEnteredDate(new ClientFinanceDate());
@@ -213,14 +209,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "endingBalanceText");
-		// endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		endingBalanceText.setEnabled(true);
 
 		balForm = new DynamicForm("balForm");
 		balForm = UIUtils.form(messages.balances());
-		balForm.add(amountText, endingBalanceText, printCheck,
-				checkNoText);
+		balForm.add(amountText, endingBalanceText, printCheck, checkNoText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -246,12 +240,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-//		topHLay.setSpacing(10);
+		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);
-//		topHLay.setCellWidth(leftVLay, "50%");
-//		topHLay.setCellWidth(rightVlay, "50%");
-//		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
+		// topHLay.setCellWidth(leftVLay, "50%");
+		// topHLay.setCellWidth(rightVlay, "50%");
+		// topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + messages.billsToPay() + "");
 

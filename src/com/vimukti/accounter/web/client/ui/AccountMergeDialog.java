@@ -206,12 +206,6 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 	}
 
 	@Override
-	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void deleteSuccess(IAccounterCore result) {
 		// TODO Auto-generated method stub
 
@@ -240,6 +234,12 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 
 	@Override
 	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
 	}

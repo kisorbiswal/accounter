@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationMethodCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
@@ -163,13 +164,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			DynamicForm assetOptionsForm = new DynamicForm("assetOptionsForm");
 			listforms.add(assetOptionsForm);
 			assetOptionsForm.add(assetOptions);
-//			lablHPanel.setHorizontalAlignment(ALIGN_RIGHT);
-//			lablHPanel.setCellHorizontalAlignment(assetOptionsForm,
-//					HasHorizontalAlignment.ALIGN_RIGHT);
-			StyledPanel assetOptionsHPanel = new StyledPanel("assetOptionsHPanel");
-//			assetOptionsHPanel.setHorizontalAlignment(ALIGN_RIGHT);
-//			assetOptionsHPanel.setCellHorizontalAlignment(assetOptionsForm,
-//					ALIGN_RIGHT);
+			// lablHPanel.setHorizontalAlignment(ALIGN_RIGHT);
+			// lablHPanel.setCellHorizontalAlignment(assetOptionsForm,
+			// HasHorizontalAlignment.ALIGN_RIGHT);
+			StyledPanel assetOptionsHPanel = new StyledPanel(
+					"assetOptionsHPanel");
+			// assetOptionsHPanel.setHorizontalAlignment(ALIGN_RIGHT);
+			// assetOptionsHPanel.setCellHorizontalAlignment(assetOptionsForm,
+			// ALIGN_RIGHT);
 			assetOptionsHPanel.add(assetOptionsForm);
 			lablHPanel.add(assetOptionsHPanel);
 
@@ -302,8 +304,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		labl.setStyleName("label-title");
 		// H'panel for view title.
 		lablHPanel = new StyledPanel("margin-b");
-		
-		labl =  new Label();
+
+		labl = new Label();
 		lablHPanel.add(labl);
 		// new item
 		newItemTxt = new TextItem(messages.newItem(), "newItemTxt");
@@ -885,11 +887,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		super.onAttach();
 	};
 
-	private void adjustFormWidths(int assetNumberWidth) {
-		itmNameForm.getCellFormatter().getElement(0, 0)
-				.setAttribute("width", assetNumberWidth + "");
-	}
-
 	/*---------------------------up to this ------------*/
 
 	/*
@@ -1099,8 +1096,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				}
 			}
 		});
-//		buttonBar.add(this.saveAndCloseButton,
-//				HasHorizontalAlignment.ALIGN_LEFT);
 
 		registerButton = new ImageButton(messages.register(), Accounter
 				.getFinanceImages().register());
@@ -1111,7 +1106,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				registerAsset();
 			}
 		});
-//		buttonBar.add(registerButton, HasHorizontalAlignment.ALIGN_RIGHT);
+		// buttonBar.add(registerButton, HasHorizontalAlignment.ALIGN_RIGHT);
 		this.cancelButton = new CancelButton(this);
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -1119,7 +1114,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			public void onClick(ClickEvent event) {
 			}
 		});
-//		buttonBar.add(this.cancelButton, HasHorizontalAlignment.ALIGN_RIGHT);
+		// buttonBar.add(this.cancelButton, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 
 	protected void registerAsset() {

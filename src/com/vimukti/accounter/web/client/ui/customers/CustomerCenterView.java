@@ -45,7 +45,8 @@ public class CustomerCenterView<T> extends
 	private static final int TYPE_CUSTOMER_REFUND = 5;
 	private static final int TYPE_ALL_TRANSACTION = 100;
 	private static final int TYPE_WRITE_CHECK = 15;
-
+	private static final int TYPE_SALES_ORDER = 38;
+	
 	private ClientCustomer selectedCustomer;
 	private List<PayeeList> listOfCustomers;
 	private ArrayList<TransactionHistory> records;

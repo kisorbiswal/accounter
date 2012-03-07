@@ -906,8 +906,9 @@ public class ReceiveVATView extends
 		setMode(EditMode.EDIT);
 		paymentMethodCombo.setEnabled(isInViewMode());
 		billsDue.setEnabled(isInViewMode());
-		// vatAgencyCombo.setDisabled(isInViewMode())		depositInAccCombo.setEnabled(isInViewMode());
-;
+		// vatAgencyCombo.setDisabled(isInViewMode())
+		// depositInAccCombo.setEnabled(isInViewMode());
+		;
 		grid.isEnable = true;
 		grid.setEnabled(false);
 		grid.setCanEdit(true);

@@ -445,14 +445,14 @@ public class VendorBillView extends
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		// phoneSelect.setWidth(80);
 		phoneSelect.setEnabled(false);
 		// formItems.add(phoneSelect);
 
-		dueDateItem = new DateField(messages.dueDate(),"dueDateItem");
+		dueDateItem = new DateField(messages.dueDate(), "dueDateItem");
 		dueDateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
 				.getViewName()));
 		dueDateItem.setEnteredDate(getTransactionDate());
@@ -675,7 +675,7 @@ public class VendorBillView extends
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-//		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		// memoForm.setWidget(3, 0, addLinksButton);
 		// memoForm.setWidget(3, 1, linksText.getMainWidget());
@@ -713,7 +713,8 @@ public class VendorBillView extends
 		taxPanel.add(form);
 		taxPanel.setCellHorizontalAlignment(form,
 				HasHorizontalAlignment.ALIGN_LEFT);
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		transactionTotalForm.add(transactionTotalNonEditableText);
 		if (isMultiCurrencyEnabled()) {

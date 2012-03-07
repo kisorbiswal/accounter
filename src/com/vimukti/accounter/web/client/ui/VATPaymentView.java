@@ -84,7 +84,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
 		// dateNoForm.setWidth("*");
-		// dateNoForm.setLayoutAlign(Alignment.RIGHT);	
+		// dateNoForm.setLayoutAlign(Alignment.RIGHT);
 		dateNoForm.add(transactionDateItem, transactionNumber);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -93,7 +93,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 			dateNoForm.add(classListCombo);
 		}
 
-		vatAgency = new TextItem(messages.vatAgency(),"vatAgency");
+		vatAgency = new TextItem(messages.vatAgency(), "vatAgency");
 		// vatAgency.setWidth("*");
 		vatAgency.setEnabled(!true);
 		// vatAgency.setShowDisabled(false);
@@ -105,35 +105,36 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.add(vatAgency);
 
-		amount = new AmountField(messages.amount(), this, getBaseCurrency(),"amount");
+		amount = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amount");
 		// amount.setWidth("*");
 		amount.setRequired(true);
 		amount.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// amount.setTextAlign(Alignment.RIGHT);
 
 		vatBalance = new AmountField(messages.vatBalance(), this,
-				getBaseCurrency(),"vatBalance");
+				getBaseCurrency(), "vatBalance");
 		// vatBalance.setWidth("*");
 		// vatBalance.setTextAlign(Alignment.RIGHT);
 		vatBalance.setEnabled(!true);
 		// vatBalance.setShowDisabled(false);
-		memo = new TextItem(messages.memo(),"memo");
+		memo = new TextItem(messages.memo(), "memo");
 		// memo.setWidth("*");
 		// memo.setTextAlign(Alignment.LEFT);
 
-		referenceNo = new TextItem(messages.referenceNo(),"referenceNo");
+		referenceNo = new TextItem(messages.referenceNo(), "referenceNo");
 		// referenceNo.setWidth("*");
 		// referenceNo.setTextAlign(Alignment.RIGHT);
 
 		paymentInformationForm = new DynamicForm("paymentInformationForm");
-//		paymentInformationForm.setIsGroup(true);
+		// paymentInformationForm.setIsGroup(true);
 		paymentInformationForm.setWidth("100%");
 		// paymentInformationForm.setAutoHeight();
-//		paymentInformationForm.setGroupTitle(messages.paymentInformation());
+		// paymentInformationForm.setGroupTitle(messages.paymentInformation());
 		paymentInformationForm.add(vatBalance, amount, memo, referenceNo);
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency(),"endingBalanceText");
+				getBaseCurrency(), "endingBalanceText");
 		// endingBalanceText.setWidth("*");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
 		// endingBalanceText.setAlign(Alignment.RIGHT);
@@ -163,11 +164,11 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 				});
 		accountInformationForm = new DynamicForm("accountInformationForm");
-//		accountInformationForm.setIsGroup(true);
+		// accountInformationForm.setIsGroup(true);
 		accountInformationForm.setWidth("100%");
 		// accountInformationForm.setAutoHeight();
-//		accountInformationForm.setGroupTitle(messages.payeeInformation(messages
-//				.Account()));
+		// accountInformationForm.setGroupTitle(messages.payeeInformation(messages
+		// .Account()));
 		accountInformationForm.add(payFromAccCombo, endingBalanceText);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
@@ -175,7 +176,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// paymentMethodCombo.setWidth("*");
 		paymentMethodCombo.setDefaultValue(messages.check());
 
-		toBePrinted = new CheckboxItem(messages.toBePrinted(),"toBePrinted");
+		toBePrinted = new CheckboxItem(messages.toBePrinted(), "toBePrinted");
 		// toBePrinted.setDefaultValue(true);
 		toBePrinted.addChangedHandler(new ChangeHandler() {
 
@@ -195,15 +196,14 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		});
 		// printCheck.setShowDisabled(false);
 
-		checkNoText = new TextItem(messages.checkNo(),"checkNoText");
+		checkNoText = new TextItem(messages.checkNo(), "checkNoText");
 		// checkNoText.setWidth("*");
 
 		paymentMethodForm = new DynamicForm("paymentMethodForm");
-//		paymentMethodForm.setIsGroup(true);
+		// paymentMethodForm.setIsGroup(true);
 		paymentMethodForm.setWidth("100%");
-//		paymentMethodForm.setGroupTitle(messages.paymentMethod());
-		paymentMethodForm.add(paymentMethodCombo, toBePrinted,
-				checkNoText);
+		// paymentMethodForm.setGroupTitle(messages.paymentMethod());
+		paymentMethodForm.add(paymentMethodCombo, toBePrinted, checkNoText);
 
 		StyledPanel lLayout = new StyledPanel("lLayout");
 		lLayout.setWidth("100%");
