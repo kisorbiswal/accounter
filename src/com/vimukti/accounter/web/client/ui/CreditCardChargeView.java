@@ -295,7 +295,7 @@ public class CreditCardChargeView extends
 			payFrmSelect.setComboItem(getCompany().getAccount(payFromAccount));
 			payFrmSelect.setEnabled(!isInViewMode());
 			cheqNoText.setValue(transaction.getCheckNumber());
-			cheqNoText.setEnabled(!true);
+			cheqNoText.setEnabled(false);
 			paymentMethodSelected(transaction.getPaymentMethod());
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
 			vendorAccountTransactionTable
@@ -399,7 +399,7 @@ public class CreditCardChargeView extends
 				.payeeName(Global.get().Vendor()));
 		vendorNameSelect.setWidth(100);
 		// vendorNameSelect.setRequired(true);
-		vendorNameSelect.setEnabled(!false);
+		vendorNameSelect.setEnabled(true);
 
 		vendorNameSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -422,7 +422,7 @@ public class CreditCardChargeView extends
 							taxCodeSelected(getCompany().getTAXCode(code));
 						}
 
-						contactCombo.setEnabled(!false);
+						contactCombo.setEnabled(true);
 						addPhonesContactsAndAddress();
 						initContacts(selectItem);
 
@@ -443,7 +443,7 @@ public class CreditCardChargeView extends
 				});
 
 		contactCombo = new ContactCombo(messages.contactName(), true);
-		contactCombo.setEnabled(!true);
+		contactCombo.setEnabled(false);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
@@ -481,7 +481,7 @@ public class CreditCardChargeView extends
 		paymentMthds.add(messages.creditCard());
 		payMethSelect.initCombo(paymentMthds);
 		payMethSelect.setDefaultToFirstOption(true);
-		payMethSelect.setEnabled(!true);
+		payMethSelect.setEnabled(false);
 		// payMethSelect.setComboItem(UIUtils
 		// .getpaymentMethodCheckBy_CompanyType(messages
 		// .check()));
@@ -506,17 +506,15 @@ public class CreditCardChargeView extends
 			termsForm.add(locationCombo);
 
 		termsForm.add(payMethSelect, payFrmSelect, delivDate);
-
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			termsForm.add(classListCombo);
 		}
-
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue(String.valueOf(0.00));
-		netAmount.setEnabled(!true);
+		netAmount.setEnabled(false);
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
 

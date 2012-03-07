@@ -141,6 +141,13 @@ public class CustomerCreditMemoView extends
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			phoneForm.add(classListCombo);
+		classListCombo = createAccounterClassListCombo();
+			phoneForm.add(classListCombo);
+		}
+		jobListCombo = createJobListCombo();
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setEnabled(false);
+			phoneForm.add(jobListCombo);
 		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -327,7 +334,6 @@ public class CustomerCreditMemoView extends
 				"customerCreditMemoViewPanel");
 		customerCreditMemoViewPanel.add(mainControlsPanel);
 		customerCreditMemoViewPanel.add(taxPanel);
-
 		this.add(customerCreditMemoViewPanel);
 
 		/* Adding dynamic forms in list */
@@ -545,6 +551,7 @@ public class CustomerCreditMemoView extends
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+			jobListCombo.setEnabled(false);
 		}
 
 		if (isMultiCurrencyEnabled()) {
@@ -725,6 +732,13 @@ public class CustomerCreditMemoView extends
 	protected void customerSelected(ClientCustomer customer) {
 		if (customer == null) {
 			return;
+		}
+
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+			jobListCombo.setEnabled(true);
 		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = this.transaction;

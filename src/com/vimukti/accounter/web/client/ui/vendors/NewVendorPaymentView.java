@@ -811,7 +811,6 @@ public class NewVendorPaymentView extends
 			locationCombo.setEnabled(!isInViewMode());
 		tdsCombo.setEnabled(true);
 		amountIncludeTds.setEnabled(true);
-
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}

@@ -741,14 +741,14 @@ public abstract class ReportToolbar extends DynamicForm {
 	// }-*/;
 
 	public native double getWeekEndDate()/*-{
-		var date = new ClientFinanceDate();
-		var day = date.getDay();
-		var remainingDays = 6 - day;
-		var newDate = new ClientFinanceDate();
-		newDate.setDate(date.getDate() + remainingDays);
-		var tmp = newDate.getTime();
-		return tmp;
-	}-*/;
+											var date = new ClientFinanceDate();
+											var day = date.getDay();
+											var remainingDays = 6 - day;
+											var newDate = new ClientFinanceDate();
+											newDate.setDate(date.getDate() + remainingDays);
+											var tmp = newDate.getTime();
+											return tmp;
+											}-*/;
 
 	public abstract void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate);

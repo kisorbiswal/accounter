@@ -200,9 +200,6 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// checkNoText.setWidth("*");
 
 		paymentMethodForm = new DynamicForm("paymentMethodForm");
-		// paymentMethodForm.setIsGroup(true);
-		paymentMethodForm.setWidth("100%");
-		// paymentMethodForm.setGroupTitle(messages.paymentMethod());
 		paymentMethodForm.add(paymentMethodCombo, toBePrinted, checkNoText);
 
 		StyledPanel lLayout = new StyledPanel("lLayout");

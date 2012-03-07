@@ -168,8 +168,6 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		// }
 		addItems(expenseCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
-		// this.setCellVerticalAlignment(updateButton,
-		// HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override

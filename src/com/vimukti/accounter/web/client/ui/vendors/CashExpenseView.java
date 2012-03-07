@@ -601,7 +601,6 @@ public class CashExpenseView extends
 		mainVLay.add(bottompanel);
 
 		this.add(mainVLay);
-
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
 		listforms.add(vendorForm);

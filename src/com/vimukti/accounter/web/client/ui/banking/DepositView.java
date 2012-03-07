@@ -242,7 +242,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
-		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		totalLabel = new AmountLabel(
 				messages.currencyTotal(currency != null ? currency
@@ -267,7 +266,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
-		// bottomLayout.setCellWidth(totalForm, "30%");
 
 		bottompanel.add(bottomLayout);
 

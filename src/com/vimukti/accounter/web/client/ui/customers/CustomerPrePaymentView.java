@@ -716,7 +716,6 @@ public class CustomerPrePaymentView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 

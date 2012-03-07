@@ -1847,8 +1847,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
-
-		// headersPanel.add(historyLink);
 		headersPanel.add(addNotesLink);
 		headersPanel.addStyleName("history_links");
 

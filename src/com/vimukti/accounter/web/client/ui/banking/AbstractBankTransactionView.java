@@ -111,7 +111,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	public AmountField createBalanceText(ClientCurrency currency) {
 
 		AmountField balText = new AmountField(messages.balance(), this,
-				currency,"balText");
+				currency, "balText");
 		// balText.setWidth("*");
 
 		balText.setEnabled(!isInViewMode());
@@ -130,7 +130,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AmountField createAmountText(ClientCurrency currency) {
 
-		AmountField amtText = new AmountField(messages.amount(), this, currency,"amtText");
+		AmountField amtText = new AmountField(messages.amount(), this,
+				currency, "amtText");
 		// amtText.setWidth("*");
 
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
@@ -144,7 +145,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(messages.tax(), this, currency,"amountItem");
+		AmountField amountItem = new AmountField(messages.tax(), this,
+				currency, "amountItem");
 		amountItem.setEnabled(false);
 
 		return amountItem;
@@ -294,7 +296,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(messages.total(), this,
-				currency,"amountItem");
+				currency, "amountItem");
 		amountItem.setEnabled(false);
 
 		return amountItem;
