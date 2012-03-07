@@ -216,6 +216,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	@Override
 	public void initData() {
+		super.initData();
 		getAssetValuesForItems();
 		if (data == null) {
 			setData(new ClientStockAdjustment());
@@ -316,6 +317,11 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	public Double getAmountInBaseCurrency(Double amount) {
 		return amount;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return true;
 	}
 
 	@Override
