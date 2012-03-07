@@ -23,11 +23,12 @@
     	String users =(String) request.getAttribute("userIdsList");
     	String expDate =(String) request.getAttribute("expiredDate");
     	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
+    	String user_emailId=(String)request.getSession().getAttribute("emailId");
   	%>
   	<title>Subscription Management</title>
   </head>
   <body>
-  <div id="commanContainer" style="width:420px;  font-size: 13px;">
+  <div id="commanContainer" style="width:450px;  font-size: 13px;">
   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
 	<table cellspacing="10">
@@ -36,7 +37,7 @@
 	<td> Subscription expire date : </td> 
 	<td><%= expDate %></td>
 	</tr><tr></tr><tr>
-	<td> Subscription type : </td> 
+	<td></td> 
 	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
 	<td>Users invited by you : </td> 
 	<td id="emailIdsList"></td>
@@ -61,13 +62,13 @@
 	
 	
 		<div class="subscribtionManagementButton" align="center">
-   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/></form>
-   			<form id="gopremiumForm" method="post" action="/site/subscription/gopremium">
-   			<input id="goPremiumButton" class="allviews-common-button" type="submit" name="premium" value="Upgrade Premium"/></form>
+   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/>
+   			<a id="goPremiumButton" href="/site/subscription/gopremium?emailId='+user_emailId+'" target="_blank" name="premium" >Upgrade Premium</a>
 		</div>
 		</form>
 		<script type="text/javascript">
 		$('document').ready(function(){
+		   var user_emailId='<%=user_emailId%>';
 		   var users= <%= users%>;
 		   var subscriptionType=<%= subscriptionType %>;
            var finalstring="";

@@ -832,8 +832,16 @@ form {
 input [type="checkbox"] {
 	border: 1px solid #7A7777;
 }
-
-.allviews-common-button {
+#subscription_complition_form table td{
+    padding: 0 10px 5px 0;
+}
+.subscribtionManagementButton a{
+	color: white !important;
+    font-weight: bold;
+    margin-left: 8px;
+    text-decoration: none !important;
+}
+.allviews-common-button, .subscribtionManagementButton a {
 	background: none repeat scroll 0 0 #28757D;
 	border: 1px solid #002e36;
 	border-radius: 5px 5px 5px 5px;
