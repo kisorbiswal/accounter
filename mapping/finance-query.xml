@@ -2302,6 +2302,21 @@
 		method to check whether an Object is deletable or not -->
 	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
+	<sql-query name="canDeleteTDSChalanDetail">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		SELECT C.ID AS ID
+
+		FROM TDS_CHALAN_DETAIL C
+		LEFT JOIN TRANSACTION T ON T.ID=C.ID
+
+		WHERE C.ID IS NULL AND C.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT
+		1
+	</sql-query>
+	
 	<sql-query name="canDeleteJob">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
