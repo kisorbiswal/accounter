@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyView;
 import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
@@ -71,10 +72,17 @@ public class NewItemAction extends Action<ClientItem> {
 						if (data != null) {
 							type = data.getType();
 						}
-						ItemView view = new ItemView(type, forCustomer);
-						view.setItemName(itemName);
-						MainFinanceWindow.getViewManager().showView(view, data,
-								isDependent, NewItemAction.this);
+						if (type == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+							InventoryAssemblyView assemblyView = new InventoryAssemblyView();
+							MainFinanceWindow.getViewManager().showView(
+									assemblyView, data, isDependent,
+									NewItemAction.this);
+						} else {
+							ItemView view = new ItemView(type, forCustomer);
+							view.setItemName(itemName);
+							MainFinanceWindow.getViewManager().showView(view,
+									data, isDependent, NewItemAction.this);
+						}
 					}
 				} else if (sellServices) {
 					ItemView view = new ItemView(ClientItem.TYPE_SERVICE,
