@@ -6122,6 +6122,9 @@ public interface AccounterMessages extends Messages {
 	public String purchaseOrderValue();
 	
 	public String notMoveDiffTypeAccount();
+	
+	public String clickOnTheCompanyNameToOpen();
+	
 	public String salesOrderTemplate();
 
 	public String salesOrderTitle();

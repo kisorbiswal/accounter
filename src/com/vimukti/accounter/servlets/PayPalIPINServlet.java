@@ -27,6 +27,7 @@ import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class PayPalIPINServlet extends BaseServlet {
@@ -178,6 +179,13 @@ public class PayPalIPINServlet extends BaseServlet {
 		}
 		Client client = getClient(emailId);
 		ClientSubscription clientSubscription = client.getClientSubscription();
+		clientSubscription.getMembers().add(emailId);
+		if (clientSubscription.getPremiumType() > paymentType) {
+			clientSubscription.setTracePeriodDate(SubscryptionTool
+					.getTracePeriodDate());
+		} else {
+			clientSubscription.setTracePeriodDate(null);
+		}
 		clientSubscription.setPremiumType(paymentType);
 		clientSubscription.setExpiredDate(expiredDate);
 		clientSubscription.setSubscription(Subscription

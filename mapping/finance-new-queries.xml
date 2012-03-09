@@ -58,8 +58,6 @@
 		client.emailId=:emailId and client.password =:password
 	</query>
 
-
-
 	<query name="getServerCompany.by.name">
 		<query-param name="name" type="string" />
 		from com.vimukti.accounter.core.Company c where
@@ -74,7 +72,7 @@
 
 	<sql-query name="get.created.users">
 		<query-param name="users" type="String" />
-		SELECT C.EMAIL_ID AS EMAIL_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users)
+		SELECT C.EMAIL_ID AS EMAIL_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users) GROUP BY C.EMAIL_ID
 	</sql-query>
 
 	<query name="getServerCompany.by.id">
@@ -119,11 +117,16 @@
 		and u.company.id=:companyId
 	</query>
 
-	<query name="getUser.by.mailId">
+	<sql-query name="getUserIds.invited.by.client">
 		<query-param name="emailId" type="String" />
-		from com.vimukti.accounter.core.User u
-		where u.client.emailId=:emailId
-	</query>
+		<query-param name="clientId" type="long" />
+		<return-scalar column="USER_ID" type="long" />
+		select u.id as USER_ID from users u left join client c2 on c2.id=u.client_id 
+		where u.is_deleted=false AND c2.email_Id=:emailId AND 
+		u.company_id in 
+		(select c.id from company c where c.created_by in 
+		(select u1.id from users u1 where u1.client_id=:clientId))
+	</sql-query>
 	
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />

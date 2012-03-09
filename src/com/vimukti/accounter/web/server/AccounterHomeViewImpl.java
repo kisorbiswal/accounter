@@ -2225,6 +2225,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				.getNamedQuery("list.Users.by.emailIds")
 				.setParameterList("users", userMailds).list().iterator();
 		Set<String> existed = new HashSet<String>();
+		Set<String> sameUser = new HashSet<String>();
 		while (iterator.hasNext()) {
 			Object[] next = (Object[]) iterator.next();
 			InvitableUser in1 = new InvitableUser();
@@ -2235,11 +2236,21 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					in1.setLastName((String) next[2]);
 					in1.setEmail((String) next[0]);
 				} else {
+					sameUser.add((String) next[0]);
 					continue;
 				}
 			}
 			invitableUsers.add(in1);
 		}
+
+		for (String s : sameUser) {
+			for (InvitableUser invitableUser : invitableUsers) {
+				invitableUser.getEmail().equals(s);
+				invitableUsers.remove(invitableUser);
+				break;
+			}
+		}
+
 		for (String s : userMailds) {
 			if (!existed.contains(s)) {
 				InvitableUser in1 = new InvitableUser();

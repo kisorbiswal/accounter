@@ -42,6 +42,7 @@ public class ServerConfiguration {
 	private static boolean loadMessages;
 	private static boolean enableEncryption;
 	private static boolean isSandBoxPaypal;
+	private static int tracePeriod;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -164,13 +165,18 @@ public class ServerConfiguration {
 					.equalsIgnoreCase("true");
 			isSandBoxPaypal = (prop.getProperty("isSandBoxPaypal", "false")
 					.equalsIgnoreCase("true"));
-
+			tracePeriod = Integer
+					.parseInt(prop.getProperty("tracePeriod", "0"));
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
 			System.exit(0);
 		}
 
+	}
+
+	public static int getTracePeriod() {
+		return tracePeriod;
 	}
 
 	public static boolean isLoadMessages() {

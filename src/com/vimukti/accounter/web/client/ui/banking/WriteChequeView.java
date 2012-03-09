@@ -1498,8 +1498,11 @@ public class WriteChequeView extends
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
 			if (payee != null) {
-				if (payee instanceof ClientCustomer)
+				if (payee instanceof ClientCustomer) {
 					jobListCombo.setCustomer((ClientCustomer) payee);
+					jobListCombo.setComboItem(company.getjob(transaction
+							.getJob()));
+				}
 			}
 		}
 		if (isTrackTax()) {

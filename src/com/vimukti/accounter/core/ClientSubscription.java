@@ -18,6 +18,7 @@ public class ClientSubscription implements IsSerializable {
 	private Date createdDate;
 	private Date lastModified;
 	private Date expiredDate;
+	private Date tracePeriodDate;
 	private Set<String> members = new HashSet<String>();
 	private int premiumType;
 
@@ -112,5 +113,31 @@ public class ClientSubscription implements IsSerializable {
 		SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat(
 				"MMM/dd/yyyy");
 		return dateformatMMDDYYYY.format(expiredDate);
+	}
+
+	public boolean isInTracePeriod() {
+		if (tracePeriodDate == null) {
+			return false;
+		}
+		return tracePeriodDate.after(new Date());
+	}
+
+	public boolean isTracePeriodExpired() {
+		if (tracePeriodDate == null) {
+			return false;
+		}
+		return tracePeriodDate.before(new Date());
+	}
+
+	public boolean isExpired() {
+		return expiredDate == null ? false : expiredDate.before(new Date());
+	}
+
+	public Date getTracePeriodDate() {
+		return tracePeriodDate;
+	}
+
+	public void setTracePeriodDate(Date tracePeriodDate) {
+		this.tracePeriodDate = tracePeriodDate;
 	}
 }

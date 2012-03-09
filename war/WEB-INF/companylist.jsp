@@ -15,6 +15,7 @@
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
 		<%	String userEmail=(String) request.getAttribute("emailId");	%>
+		<%	Boolean canCreate=(Boolean) request.getAttribute("canCreate");	%>
 		<%	isPaid=isPaid==null?false:isPaid;	%>
 		<%	enableEncryption=enableEncryption&&isPaid;	%>
 	<script type="text/javascript">
@@ -71,12 +72,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-        <c:if test="<%= isPaid%>">
-         <c:if test="${message == null}">
-	       <div class="company_name_action">
-				<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
-			</div>
-		 </c:if>
+        <c:if test="<%= canCreate%>">
       	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	</c:if>
       	<ul><li>

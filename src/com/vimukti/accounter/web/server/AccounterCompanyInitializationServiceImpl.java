@@ -172,7 +172,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			user.setSecretKey(userSecret);
 
 			session.save(user);
-
+			company.setCreatedBy(user);
 			client.getUsers().add(user);
 			session.saveOrUpdate(client);
 

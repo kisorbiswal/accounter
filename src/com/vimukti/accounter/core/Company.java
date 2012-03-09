@@ -53,6 +53,8 @@ public class Company implements IAccounterServerCore {
 
 	private Date createdDate;
 
+	private User createdBy;
+
 	private boolean isConfigured;
 
 	Address registeredAddress;
@@ -1625,5 +1627,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setContactSupport(Boolean contactSupport) {
 		this.contactSupport = contactSupport;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
 	}
 }

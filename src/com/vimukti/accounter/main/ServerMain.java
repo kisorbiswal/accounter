@@ -164,9 +164,9 @@ public class ServerMain extends Main {
 
 			@Override
 			public void run() {
-				new SubscryptionTool().start();
+				new SubscryptionTool().run();
 			}
-		}, 0, 24 * 60 * 1000);
+		}, 0, 24 * 60 * 60 * 1000);
 	}
 
 	private static void createMailLogListener() {

@@ -192,6 +192,7 @@
 		</id>
 		<property name="isConfigured" column="IS_CONFIGURED"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"></many-to-one>
 
 		<set name="users" cascade="save-update,delete">
 			<key column="COMPANY_ID"></key>

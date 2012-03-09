@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,10 +15,12 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 
@@ -77,62 +80,35 @@ public class CompaniesServlet extends BaseServlet {
 				redirectExternal(req, resp, LOGIN_URL);
 				return;
 			}
-			boolean isSupportedUser = isSupportUser(emailID);
-			httpSession.setAttribute(IS_SUPPORTED_USER, isSupportedUser);
-			Set<User> users = client.getUsers();
-			List<Company> list = new ArrayList<Company>();
-			if (isSupportedUser) {
-				// get.CompanyId.Tradingname.and.Country.of.supportUser
-				List<Object[]> objects = session.getNamedQuery(
-						"get.CompanyId.Tradingname.and.Country.of.supportUser")
-						.list();
-				addCompanies(list, objects);
-				req.getSession().setAttribute(SUPPORTED_EMAIL_ID, emailID);
+
+			String type = req.getParameter("type");
+			if (client.getClientSubscription().isInTracePeriod()
+					&& (type == null)) {
+				if (hasMoreUsers(client.getClientSubscription())) {
+					dispatchTracePeriod(req, resp, client);
+					return;
+				}
+			}
+			List<Company> list = getCompanyList(client.getUsers());
+
+			req.setAttribute("emailId", emailID);
+			req.setAttribute("enableEncryption",
+					ServerConfiguration.isEnableEncryption());
+			if (!client.getClientSubscription().getSubscription().isPaidUser()) {
+				req.setAttribute("canCreate", (list.size() == 0));
+				req.setAttribute("isPaid", false);
 			} else {
-				List<Long> userIds = new ArrayList<Long>();
-				for (User user : users) {
-					if (!user.isDeleted()) {
-						userIds.add(user.getID());
-					}
-				}
-				List<Object[]> objects = new ArrayList<Object[]>();
-				if (!userIds.isEmpty()) {
-					objects = session
-							.getNamedQuery(
-									"get.CompanyId.Tradingname.and.Country.of.user")
-							.setParameterList("userIds", userIds).list();
-					addCompanies(list, objects);
-				}
+				req.setAttribute("canCreate", true);
+				req.setAttribute("isPaid", true);
+			}
 
-				req.setAttribute("emailId", emailID);
-				req.setAttribute("enableEncryption",
-						ServerConfiguration.isEnableEncryption());
-				if (!client.getClientSubscription().getSubscription()
-						.isPaidUser()) {
-					if (list.size() == 0) {
-						createCompany(req, resp);
-						return;
-					}
-					String parameter = req.getParameter("type");
-					if (list.size() == 1
-							&& (parameter == null || !parameter.equals("list"))) {
-						openCompany(req, resp, list.get(0).getId());
-						return;
-					}
-					req.setAttribute("isPaid", false);
-				} else {
-					req.setAttribute("isPaid", true);
-				}
-
-				if (list.isEmpty()
-						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
-					req.setAttribute(
-							"message",
-							Global.get()
-									.messages()
-									.youDontHaveAny(
-											Global.get().messages().companies()));
-				}
+			if (list.isEmpty()
+					&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
+				req.setAttribute("message", Global.get().messages()
+						.youDontHaveAny(Global.get().messages().companies()));
+			} else {
+				req.setAttribute("message", Global.get().messages()
+						.clickOnTheCompanyNameToOpen());
 			}
 			req.setAttribute(ATTR_COMPANY_LIST, list);
 			req.getSession().removeAttribute(COMPANY_ID);
@@ -145,6 +121,59 @@ public class CompaniesServlet extends BaseServlet {
 					.yourCompanyHasBeenLocked());
 		}
 		dispatch(req, resp, companiedListView);
+	}
+
+	private List<Company> getCompanyList(Set<User> users) {
+		List<Company> list = new ArrayList<Company>();
+		List<Long> userIds = new ArrayList<Long>();
+		for (User user : users) {
+			if (!user.isDeleted()) {
+				userIds.add(user.getID());
+			}
+		}
+		List<Object[]> objects = new ArrayList<Object[]>();
+		if (!userIds.isEmpty()) {
+			Session session = HibernateUtil.getCurrentSession();
+			objects = session
+					.getNamedQuery(
+							"get.CompanyId.Tradingname.and.Country.of.user")
+					.setParameterList("userIds", userIds).list();
+			addCompanies(list, objects);
+		}
+		return list;
+	}
+
+	private boolean hasMoreUsers(ClientSubscription clientSubscription) {
+		int size = clientSubscription.getMembers().size();
+		int premiumType = clientSubscription.getPremiumType();
+		switch (premiumType) {
+		case ClientSubscription.UNLIMITED_USERS:
+			return false;
+		case ClientSubscription.FIVE_USERS:
+			return size > 5;
+		case ClientSubscription.TWO_USERS:
+			return size > 2;
+		case ClientSubscription.ONE_USER:
+			return size > 1;
+		default:
+			return size > 1;
+		}
+	}
+
+	private void dispatchTracePeriod(HttpServletRequest req,
+			HttpServletResponse resp, Client client) {
+		ClientSubscription subscription = client.getClientSubscription();
+		req.setAttribute("expiredDate", subscription.getExpiredDateAsString());
+		int days = (int) (subscription.getTracePeriodDate().getTime() - (new Date()
+				.getTime())) / (24 * 60 * 60 * 1000);
+		req.setAttribute("remainigDays", days);
+		req.setAttribute("premiumType", subscription.getPremiumType());
+		Set<String> members = SubscryptionTool.getDeletedMembers(
+				subscription.getMembers(), client.getEmailId(),
+				subscription.getPremiumType());
+		req.setAttribute("users", members);
+
+		dispatch(req, resp, "/WEB-INF/traceperiod.jsp");
 	}
 
 	private void addCompanies(List<Company> list, List<Object[]> objects) {

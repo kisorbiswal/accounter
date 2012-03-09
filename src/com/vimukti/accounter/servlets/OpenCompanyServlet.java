@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
@@ -18,7 +20,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -121,30 +122,30 @@ public class OpenCompanyServlet extends BaseServlet {
 					entrySet.setValue(value);
 				}
 			}
-
+			Long serverCompanyID = (Long) request.getSession().getAttribute(
+					COMPANY_ID);
 			request.setAttribute("messages", keyAndValues);
 			// Load locale aware date time constants, number format constants
 
 			HashMap<String, String> accounterLocale = getLocaleConstants();
 			request.setAttribute("accounterLocale", accounterLocale);
-			Set<String> features = client.getClientSubscription()
-					.getSubscription().getFeatures();
-			Set<String> features2 = new HashSet<String>(features);
-			if (!ServerConfiguration.isEnableEncryption()) {
-				features2.remove(Features.ENCRYPTION);
-			}
-			request.setAttribute("features", features2);
+
 			if (client.getClientSubscription().getSubscription().isPaidUser()) {
 				request.setAttribute("isPaid", true);
 			} else {
 				request.setAttribute("isPaid", false);
 			}
 
-			Long serverCompanyID = (Long) request.getSession().getAttribute(
-					COMPANY_ID);
 			String create = (String) request.getSession().getAttribute(CREATE);
 			if (serverCompanyID == null) {
 				if (create != null && create.equals("true")) {
+					if (!canCreateCompany(client)) {
+						response.sendRedirect(COMPANIES_URL);
+						return;
+					}
+					request.setAttribute("features", loadFeatures(client
+							.getClientSubscription().getSubscription()
+							.getFeatures()));
 					RequestDispatcher dispatcher = getServletContext()
 							.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 					dispatcher.forward(request, response);
@@ -161,9 +162,6 @@ public class OpenCompanyServlet extends BaseServlet {
 			try {
 				Transaction transaction = session.beginTransaction();
 
-				HttpSession httpSession = request.getSession();
-				Boolean isSupportedUser = (Boolean) httpSession
-						.getAttribute(IS_SUPPORTED_USER);
 				User user = getUser(emailID, serverCompanyID);
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
@@ -197,14 +195,21 @@ public class OpenCompanyServlet extends BaseServlet {
 					response.sendRedirect(COMPANIES_URL + "?message=locked");
 					return;
 				}
+				User createdBy = company.getCreatedBy();
+				if (createdBy != null) {
+					request.setAttribute("features", loadFeatures(createdBy
+							.getClient().getClientSubscription()
+							.getSubscription().getFeatures()));
+				} else {
+					request.setAttribute("features", new HashSet<String>());
+				}
+
 				request.setAttribute("emailId", emailID);
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
-				if (!isSupportedUser) {
-					Activity activity = new Activity(getCompany(request), user,
-							ActivityType.LOGIN);
-					session.save(activity);
-				}
+				Activity activity = new Activity(getCompany(request), user,
+						ActivityType.LOGIN);
+				session.save(activity);
 				transaction.commit();
 				// if (client.getClientSubscription() != null) {
 				// request.setAttribute(SUBSCRIPTION, client
@@ -220,6 +225,38 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private boolean canCreateCompany(Client client) {
+		return client.getClientSubscription().getSubscription().isPaidUser()
+				|| getCompaniesCount(client.getUsers()) == 0;
+	}
+
+	private int getCompaniesCount(Set<User> users) {
+		List<Company> list = new ArrayList<Company>();
+		List<Long> userIds = new ArrayList<Long>();
+		for (User user : users) {
+			if (!user.isDeleted()) {
+				userIds.add(user.getID());
+			}
+		}
+		List<Object[]> objects = new ArrayList<Object[]>();
+		if (!userIds.isEmpty()) {
+			Session session = HibernateUtil.getCurrentSession();
+			objects = session
+					.getNamedQuery(
+							"get.CompanyId.Tradingname.and.Country.of.user")
+					.setParameterList("userIds", userIds).list();
+		}
+		return objects.size();
+	}
+
+	private Set<String> loadFeatures(Set<String> features) {
+		Set<String> features2 = new HashSet<String>(features);
+		if (!ServerConfiguration.isEnableEncryption()) {
+			features2.remove(Features.ENCRYPTION);
+		}
+		return features2;
 	}
 
 	private boolean canResetPassword(Long serverCompanyID) {

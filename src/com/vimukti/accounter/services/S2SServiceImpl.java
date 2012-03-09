@@ -104,6 +104,7 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			companySession.save(user);
 
 			AccounterThreadLocal.set(user);
+			company.setCreatedBy(user);
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getClient().getEmailId());
 
