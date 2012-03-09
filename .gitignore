@@ -12,3 +12,4 @@ build
 build/*
 gwt-unitCache
 gwt-unitCache/*
+.gwt/*
