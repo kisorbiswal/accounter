@@ -9,11 +9,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author vimukti36
@@ -26,7 +26,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	Label inventoryScheme;
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
 	RadioButton servicesOnly;
 	@UiField
@@ -42,7 +42,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	Label bothText;
 	@UiField
-	StyledPanel sell;
+	FlowPanel sell;
 	@UiField
 	CheckBox warehousesCheckBox;
 	@UiField
@@ -50,11 +50,11 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox unitsCheckBox;
 	@UiField
-	StyledPanel hiddenPanel;
+	FlowPanel hiddenPanel;
 	@UiField
-	StyledPanel totalPanel;
+	FlowPanel totalPanel;
 	@UiField
-	StyledPanel subpanel;
+	FlowPanel subpanel;
 	@UiField
 	ListBox inventorySchemeListBox;
 

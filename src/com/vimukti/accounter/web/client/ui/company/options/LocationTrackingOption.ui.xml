@@ -8,20 +8,18 @@
 	</ui:style>
 	<g:VerticalPanel spacing="8" styleName="companyInfoPanel"
 		horizontalAlignment="ALIGN_CENTER">
-		<g:HorizontalPanel spacing="10" ui:field="hpanel"
-			horizontalAlignment="ALIGN_LEFT">
+		<g:FlowPanel  ui:field="hpanel">
 			<g:CheckBox ui:field="locationTrackingCheckBoxItm" width="" />
 			<g:Label ui:field="locationTrackingCheckBoxLabel" styleName="header" />
-		</g:HorizontalPanel>
+		</g:FlowPanel>
 		<g:HorizontalPanel>
 			<g:Label ui:field="locationTrackingDescriptionLabel" />
 		</g:HorizontalPanel>
-		<g:VerticalPanel spacing="5" ui:field="radioButtonsPanel"
-			horizontalAlignment="ALIGN_CENTER">
+		<g:FlowPanel  ui:field="radioButtonsPanel">
 			<g:HorizontalPanel>
 				<g:Label ui:field="radioButtonsHeaderLabel" styleName="header" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel spacing="6" ui:field="radioButtonPanel">
+			<g:FlowPanel ui:field="radioButtonPanel">
 				<g:HorizontalPanel>
 					<g:RadioButton name="new name" ui:field="buisinessRadioButton" />
 				</g:HorizontalPanel>
@@ -43,7 +41,7 @@
 				<g:HorizontalPanel>
 					<g:RadioButton name="new name" ui:field="territoryRadioButton" />
 				</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

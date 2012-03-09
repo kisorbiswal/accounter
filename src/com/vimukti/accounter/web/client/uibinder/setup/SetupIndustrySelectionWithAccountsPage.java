@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -30,13 +31,13 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	private static SetupIndustrySelectionWithAccountsPageUiBinder uiBinder = GWT
 			.create(SetupIndustrySelectionWithAccountsPageUiBinder.class);
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
-	StyledPanel industryAccountsPanel;
+	FlowPanel industryAccountsPanel;
 	@UiField
 	ListBox industryList;
 	@UiField
-	StyledPanel accountsPanel;
+	FlowPanel accountsPanel;
 	@UiField
 	HTML selectIndustryhead, customizeAccounter;
 	@UiField

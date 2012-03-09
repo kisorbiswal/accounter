@@ -17,7 +17,7 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel" styleName="setupstartpagepanel">
+		<g:FlowPanel ui:field="viewPanel" styleName="setupstartpagepanel">
 			<g:HTML ui:field="setupInfo" wordWrap="true" styleName="setup_Info"></g:HTML>
 			<g:HorizontalPanel>
 				<g:Grid styleName="skip_setup">
@@ -46,6 +46,6 @@
 				</g:Grid>
 			</g:HorizontalPanel>
 				<g:Button ui:field="cancelBtn"/>
-		</g:VerticalPanel>
+		</g:FlowPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

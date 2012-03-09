@@ -13,22 +13,22 @@
 				<g:CheckBox ui:field="trackCheckbox" styleName="header" />
 			</g:HorizontalPanel>
 			<g:Label ui:field="trackCheckBoxDescLabel" />
-			<g:VerticalPanel ui:field="hidePanel">
+			<g:FlowPanel ui:field="hidePanel">
 				<g:Label ui:field="trackLabel" />
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:VerticalPanel spacing="5">
-					<g:VerticalPanel ui:field="radioButtonPanel">
+					<g:FlowPanel ui:field="radioButtonPanel">
 						<g:RadioButton name="" ui:field="onepeTransactionRadioButton" />
 						<g:Label ui:field="oneperTransactionLabel" />
 						<g:RadioButton name="" ui:field="oneperdetaillineRadioButton" />
 						<g:Label ui:field="oneperdetaillineLabel" />
-					</g:VerticalPanel>
+					</g:FlowPanel>
 					<g:CheckBox ui:field="enableTaxCheckbox" />
 					<g:Label ui:field="enableTaxLabel" styleName="header" />
 				</g:VerticalPanel>
 				<g:CheckBox ui:field="enableTaxTdsCheckbox"  styleName="header" />
 				<g:Label ui:field="enableTDSdecs" />
-			</g:VerticalPanel>
+			</g:FlowPanel>
 			
 		</g:VerticalPanel>
 

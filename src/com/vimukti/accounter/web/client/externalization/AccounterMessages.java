@@ -2622,9 +2622,9 @@ public interface AccounterMessages extends Messages {
 	public String mergeItems();
 
 	public String mergeVendors(String vendor);
-	
+
 	public String merging(String name);
-	
+
 	public String mergingCompleted(String name);
 
 	public String messagesAndTasks();
@@ -3698,7 +3698,7 @@ public interface AccounterMessages extends Messages {
 	public String readTermsAndConditions();
 
 	public String readyToCreate(String transactionName);
-	
+
 	public String readyToMerge(String name);
 
 	public String readyToUpdate(String transactionName);
@@ -5947,12 +5947,6 @@ public interface AccounterMessages extends Messages {
 
 	public String uploadCsvFileDialog();
 
-	public String reconciledAmount();
-
-	public String effectofChange();
-
-	public String reconcilationDiscrepany();
-
 	public String trackingPriceLevelenabled();
 
 	public String trackingPriceLeveldisabled();
@@ -6049,8 +6043,6 @@ public interface AccounterMessages extends Messages {
 
 	public String wareHouses();
 
-	public String purchaseOrderTaskDesc(String vendor, String orderNo);
-
 	public String pleaseSelectAnyObjToViewDetails(String obj);
 
 	public String list();
@@ -6099,6 +6091,22 @@ public interface AccounterMessages extends Messages {
 
 	public String adjustedQtyNegative();
 
+	public String reconciledAmount();
+
+	public String effectofChange();
+
+	public String reconcilationDiscrepany();
+
+	public String trackclass();
+
+	public String classInAllTransaction();
+
+	public String onePerTransactionclassTrackingDescription();
+
+	public String onePerDetailLineclassTrackingDescription();
+
+	public String purchaseOrderTaskDesc(String vendor, String orderNo);
+
 	public String missingchecks();
 
 	public String reconcilationDiscrepancyReport();
@@ -6106,5 +6114,13 @@ public interface AccounterMessages extends Messages {
 	public String jobList();
 
 	public String accountisParenttoThisAccount();
+	
+	public String purchaseOrderTemplate();
+
+	public String purchaseOrderTitle();
+
+	public String purchaseOrderValue();
+
+	public String notMoveDiffTypeAccount();
 
 }

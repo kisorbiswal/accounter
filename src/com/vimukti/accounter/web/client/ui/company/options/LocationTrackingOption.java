@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,11 +39,11 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 	@UiField
 	Label locationTrackingCheckBoxLabel;
 	@UiField
-	StyledPanel radioButtonsPanel;
+	FlowPanel radioButtonsPanel;
 	@UiField
-	StyledPanel hpanel;
+	FlowPanel hpanel;
 	@UiField
-	StyledPanel radioButtonPanel;
+	FlowPanel radioButtonPanel;
 	@UiField
 	Label locationTrackingDescriptionLabel;
 	private static LocationTrackingOptionUiBinder uiBinder = GWT

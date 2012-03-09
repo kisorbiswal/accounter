@@ -13,11 +13,11 @@
 			<g:RadioButton name="trackEstimates" ui:field="yesRadioButton" />
 			<g:RadioButton name="trackEstimates" ui:field="noRadioButton" />
 		</g:HorizontalPanel>
-		<g:VerticalPanel spacing="5" ui:field="hiddenPanel">
+		<g:FlowPanel ui:field="hiddenPanel">
 			<g:RadioButton name="useEstimatesGroup" ui:field="dontInclude" />
 			<g:RadioButton name="useEstimatesGroup" ui:field="includeAccepted" />
 			<g:RadioButton name="useEstimatesGroup" ui:field="includePendingAndAccepted" />
-		</g:VerticalPanel>
+		</g:FlowPanel>
 		<g:CheckBox ui:field="useDelayedCharges" />
 	</g:VerticalPanel>
 </ui:UiBinder> 

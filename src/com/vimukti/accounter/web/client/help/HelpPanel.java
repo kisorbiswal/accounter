@@ -7,6 +7,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.CustomButton.Face;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
@@ -16,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class HelpPanel extends Composite implements HasText {
 	private static HelpContentUiBinder uiBinder = GWT
@@ -56,7 +56,7 @@ public class HelpPanel extends Composite implements HasText {
 	}
 
 	@UiField
-	StyledPanel verticalPannel;
+	FlowPanel verticalPannel;
 
 	@UiField
 	Frame frame;
@@ -66,13 +66,13 @@ public class HelpPanel extends Composite implements HasText {
 	}
 
 	@UiField
-	StyledPanel horizontalhelpPanel;
+	FlowPanel horizontalhelpPanel;
 
-	public StyledPanel getHorizontalPannel() {
+	public FlowPanel getHorizontalPannel() {
 		return horizontalhelpPanel;
 	}
 
-	public void setStyledPanel(StyledPanel horizontalPanel) {
+	public void setStyledPanel(FlowPanel horizontalPanel) {
 		this.horizontalhelpPanel = horizontalPanel;
 	}
 

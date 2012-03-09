@@ -9,7 +9,7 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel" width="" height="">
+		<g:FlowPanel ui:field="viewPanel" width="" height="">
 			<g:HTML ui:field="customizeAccounter" styleName="customize_account">
 			</g:HTML>
 			<g:HTML ui:field="settingsLater" styleName="settings_later">
@@ -18,6 +18,6 @@
 			</g:HTML>
 			<g:Label ui:field="selectIndustry" styleName="select_industry" />
 			<g:ListBox ui:field="industryList" styleName="industry_list" />
-		</g:VerticalPanel>
+		</g:FlowPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

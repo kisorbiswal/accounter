@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -60,15 +59,15 @@ public class RecentTransactionHistoryGrid extends
 
 	private String getStringByType(int type) {
 		String title = null;
-		if (type == Estimate.QUOTES) {
-			title = messages.quote();
-		} else if (type == Estimate.CHARGES) {
-			title = messages.charge();
-		} else if (type == Estimate.CREDITS) {
-			title = messages.credit();
-		} else if (type == Estimate.SALES_ORDER) {
-			title = messages.salesOrder();
-		}
+//		if (type == Estimate.QUOTES) {
+//			title = messages.quote();
+//		} else if (type == Estimate.CHARGES) {
+//			title = messages.charge();
+//		} else if (type == Estimate.CREDITS) {
+//			title = messages.credit();
+//		} else if (type == Estimate.SALES_ORDER) {
+//			title = messages.salesOrder();
+//		}
 		return title;
 	}
 

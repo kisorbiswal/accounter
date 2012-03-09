@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
@@ -19,7 +20,7 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	private static SetupPremiumPageUiBinder uiBinder = GWT
 			.create(SetupPremiumPageUiBinder.class);
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
 	Label headerLabel;
 	@UiField

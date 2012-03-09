@@ -9,33 +9,32 @@
 	</ui:style>
 	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
 		<g:Label ui:field="headerLabel" styleName="header" />
-		<g:VerticalPanel ui:field="viewPanel">
-			<g:VerticalPanel ui:field="sell" styleName="sell_panel">
+		<g:FlowPanel ui:field="viewPanel">
+			<g:FlowPanel ui:field="sell" styleName="sell_panel">
 				<g:RadioButton name="sell_type" ui:field="servicesOnly" />
 				<g:Label ui:field="servicesOnlyText" styleName="organisation_comment" />
 				<g:RadioButton name="sell_type" ui:field="productsOnly" />
 				<g:Label ui:field="productsOnlyText" styleName="organisation_comment" />
 				<g:RadioButton name="sell_type" ui:field="both" />
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-		<g:VerticalPanel spacing="8" ui:field="totalPanel">
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel ui:field="totalPanel">
 			<g:HorizontalPanel spacing="10">
 				<g:CheckBox ui:field="inventoryCheckBox" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel ui:field="hiddenPanel"
-				horizontalAlignment="ALIGN_LEFT" spacing="20">
+			<g:FlowPanel ui:field="hiddenPanel">
 				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT">
-					<g:VerticalPanel ui:field="subpanel">
+					<g:FlowPanel ui:field="subpanel">
 						<g:CheckBox ui:field="warehousesCheckBox" />
 						<g:CheckBox ui:field="unitsCheckBox" />
 						<g:HorizontalPanel>
 							<g:Label ui:field="inventoryScheme" />
 							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
 						</g:HorizontalPanel>
-					</g:VerticalPanel>
+					</g:FlowPanel>
 				</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

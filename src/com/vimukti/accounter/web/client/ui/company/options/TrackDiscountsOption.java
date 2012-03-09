@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -16,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class TrackDiscountsOption extends AbstractPreferenceOption {
 
@@ -42,16 +42,16 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 	Label oneperdetaillineLabel;
 
 	@UiField
-	StyledPanel hidePanel;
+	FlowPanel hidePanel;
 
 	@UiField
-	StyledPanel radioButtonPanel;
+	FlowPanel radioButtonPanel;
 
 	@UiField
 	Label selectDiscountAccount;
 
 	@UiField
-	StyledPanel accountPanel;
+	FlowPanel accountPanel;
 
 	@UiField
 	Label discountAccount;

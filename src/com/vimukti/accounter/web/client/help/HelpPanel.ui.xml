@@ -27,23 +27,19 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:VerticalPanel ui:field="verticalPannel" styleName="{style.helpPanel}">
-			<g:Cell width="">
-				<g:HorizontalPanel styleName="{style.helpHPanel}"
+		<g:FlowPanel ui:field="verticalPannel" styleName="{style.helpPanel}">
+				<g:FlowPanel styleName="{style.helpHPanel}"
 					ui:field="horizontalhelpPanel" width="100%">
 					<g:Label styleName="{style.helpLabel}" ui:field="helpLabel"></g:Label>
-					<g:Cell horizontalAlignment="ALIGN_RIGHT">
 						<g:ToggleButton ui:field="button" styleName="{style.helpButton}">
 							<g:upFace>
 							</g:upFace>
 							<g:downFace>
 							</g:downFace>
 						</g:ToggleButton>
-					</g:Cell>
-				</g:HorizontalPanel>
-			</g:Cell>
+				</g:FlowPanel>
 			<g:Frame ui:field="frame" styleName="{style.helpFrame}"></g:Frame>
-		</g:VerticalPanel>
+		</g:FlowPanel>
 		<!-- <g:Button styleName="{style.important}" ui:field="button" /> -->
 	</g:HTMLPanel>
 </ui:UiBinder> 

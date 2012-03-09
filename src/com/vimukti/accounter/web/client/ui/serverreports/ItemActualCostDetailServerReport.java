@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -96,16 +96,16 @@ public class ItemActualCostDetailServerReport extends
 	}
 
 	public String getItemType(int itemType) {
-		String itemTypeName = null;
+	String itemTypeName = null;
 		switch (itemType) {
-		case Item.TYPE_SERVICE:
-		case Item.TYPE_NON_INVENTORY_PART:
+		case ClientItem.TYPE_SERVICE:
+		case ClientItem.TYPE_NON_INVENTORY_PART:
 			itemTypeName = Global.get().messages().productOrServiceItem();
 			break;
-		case Item.TYPE_INVENTORY_PART:
+		case ClientItem.TYPE_INVENTORY_PART:
 			itemTypeName = Global.get().messages().inventory();
 			break;
-		case Item.TYPE_INVENTORY_ASSEMBLY:
+		case ClientItem.TYPE_INVENTORY_ASSEMBLY:
 			itemTypeName = Global.get().messages().assemblyItem();
 		default:
 			break;

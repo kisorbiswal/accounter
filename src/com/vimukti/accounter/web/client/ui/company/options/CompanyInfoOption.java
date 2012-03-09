@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -28,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class CompanyInfoOption extends AbstractPreferenceOption {
@@ -89,13 +92,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@UiField
 	Label tradingAddressDescription;
 	@UiField
-	StyledPanel registeredAddressSubPanel;
+	FlowPanel registeredAddressSubPanel;
 	@UiField
-	StyledPanel tradingAddressSubPanel;
+	FlowPanel tradingAddressSubPanel;
 	@UiField
-	StyledPanel tradingAddressPanel;
+	FlowPanel tradingAddressPanel;
 	@UiField
-	StyledPanel registeredAddressPanel;
+	FlowPanel registeredAddressPanel;
 	@UiField
 	CheckBox isShowRegisteredAddressCheckBox;
 	// Website
@@ -122,14 +125,22 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox isShowLegalName;
 	@UiField
-	StyledPanel legalNamePanel;
+	FlowPanel legalNamePanel;
 	// Phone Number
 	@UiField
 	Label companyPhoneNumberLabel;
 	@UiField
 	TextBox companyPhoneNumberTextBox;
 	@UiField
-	StyledPanel mainPanel;
+	FlowPanel mainPanel;
+	@UiField
+	Label fiscalYearLabel;
+	@UiField
+	Label fiscalStarts;
+	@UiField
+	ListBox fiscalStartsList;
+	private List<String> monthsList;
+	String[] monthNames;
 
 	private static CompanyInfoOptionUiBinder uiBinder = GWT
 			.create(CompanyInfoOptionUiBinder.class);
@@ -179,6 +190,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		legalNamePanel.setVisible(getCompanyPreferences().isShowLegalName());
 		// Phone Number
 		companyPhoneNumberTextBox.setText(getCompany().getPhone());
+		fiscalStartsList.setSelectedIndex(getCompanyPreferences()
+				.getFiscalYearFirstMonth());
 
 		addFields(getCompany().getPreferences().getCompanyFields());
 	}
@@ -283,6 +296,23 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				.addClassName("company-preferences-labels");
 		companyPhoneNumberLabel.getElement().getParentElement()
 				.addClassName("company-preferences-labels");
+		fiscalYearLabel.setText(messages.selectFirstMonthOfFiscalYear());
+		fiscalYearLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
+		fiscalStarts.setText(messages.myFiscalYearsStartsIn());
+		monthNames = new String[] { DayAndMonthUtil.january(),
+				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
+				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
+				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
+				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+				DayAndMonthUtil.december() };
+		monthsList = new ArrayList<String>();
+		// fiscalStartsList = null;
+		for (int i = 0; i < monthNames.length; i++) {
+			monthsList.add(monthNames[i]);
+			fiscalStartsList.addItem(monthNames[i]);
+		}
 	}
 
 	private void rCountryChanged() {
@@ -429,6 +459,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			companyFields.put(fieldName, itemsField.get(fieldName).getValue());
 		}
 		getCompany().getPreferences().setCompanyFields(companyFields);
+		getCompany().getPreferences().setFiscalYearFirstMonth(
+				fiscalStartsList.getSelectedIndex());
 
 	}
 

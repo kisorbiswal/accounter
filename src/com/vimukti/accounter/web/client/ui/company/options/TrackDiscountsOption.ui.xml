@@ -11,20 +11,20 @@
 			<g:HorizontalPanel>
 				<g:CheckBox ui:field="trackDiscountCheckBox" styleName="header" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel ui:field="hidePanel">
+			<g:FlowPanel ui:field="hidePanel">
 				<g:Label ui:field="discountLabel" />
-				<g:VerticalPanel spacing="5" ui:field="radioButtonPanel">
+				<g:FlowPanel ui:field="radioButtonPanel">
 					<g:RadioButton name="" ui:field="onepeTransactionRadioButton" />
 					<g:Label ui:field="oneperTransactionLabel" />
 					<g:RadioButton name="" ui:field="oneperdetaillineRadioButton" />
 					<g:Label ui:field="oneperdetaillineLabel" />
-				</g:VerticalPanel>
+				</g:FlowPanel>
 				<g:Label ui:field="selectDiscountAccount" />
-				<g:HorizontalPanel spacing="5" ui:field="accountPanel">
+				<g:FlowPanel ui:field="accountPanel">
 				<g:Label ui:field="discountAccount" />
 				<g:ListBox ui:field="accountsCombo" />
-			</g:HorizontalPanel>
-			</g:VerticalPanel>
+			</g:FlowPanel>
+			</g:FlowPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

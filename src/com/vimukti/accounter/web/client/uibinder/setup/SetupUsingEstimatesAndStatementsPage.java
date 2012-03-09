@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -15,7 +16,7 @@ public class SetupUsingEstimatesAndStatementsPage extends AbstractSetupPage {
 	private static SetupUsingEstimatesAndStatementsPageUiBinder uiBinder = GWT
 			.create(SetupUsingEstimatesAndStatementsPageUiBinder.class);
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
 	RadioButton estimatesYes;
 	@UiField

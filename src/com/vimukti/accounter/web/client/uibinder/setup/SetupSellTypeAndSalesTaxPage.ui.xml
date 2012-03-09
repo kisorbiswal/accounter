@@ -13,24 +13,23 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel">
-			<g:VerticalPanel ui:field="sell" styleName="sell_panel">
+		<g:FlowPanel ui:field="viewPanel">
+			<g:FlowPanel ui:field="sell" styleName="sell_panel">
 				<g:RadioButton name="sell_type" ui:field="servicesOnly" />
 				<g:Label ui:field="servicesOnlyText" styleName="organisation_comment" />
 				<g:RadioButton name="sell_type" ui:field="productsOnly" />
 				<g:Label ui:field="productsOnlyText" styleName="organisation_comment" />
 				<g:RadioButton name="sell_type" ui:field="both" />
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
-			</g:VerticalPanel>
-		</g:VerticalPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
 
-		<g:VerticalPanel spacing="8" ui:field="totalPanel" styleName="{style.subPanel}">
+		<g:FlowPanel ui:field="totalPanel" styleName="{style.subPanel}">
 			<g:VerticalPanel>
 				<g:CheckBox ui:field="inventoryCheckBox" />
 				<g:Label ui:field="inventoryCommentLabel" styleName="organisation_comment" />
 			</g:VerticalPanel>
-			<g:VerticalPanel ui:field="hiddenPanel"
-				horizontalAlignment="ALIGN_LEFT" styleName="{style.subPanel}">
+			<g:FlowPanel ui:field="hiddenPanel" styleName="{style.subPanel}">
 				<g:CheckBox ui:field="warehousesCheckBox" />
 				<g:Label ui:field="wareHouseCommentLabel" styleName="organisation_comment" />
 				<g:CheckBox ui:field="unitsCheckBox" />
@@ -38,8 +37,8 @@
 							<g:Label ui:field="inventoryScheme" />
 							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
 						</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
 		<!--
 			<g:VerticalPanel ui:field="vat" styleName="sales_tax"> <g:HTML
 			wordWrap="true" ui:field="vatHeader" styleName="setup_header_label"
@@ -58,7 +57,7 @@
 				<g:CheckBox ui:field="trackCheckbox" styleName="header" />
 			</g:HorizontalPanel>
 			<g:Label ui:field="trackLabel" styleName="organisation_comment" />
-			<g:VerticalPanel spacing="5" ui:field="hidePanel">
+			<g:FlowPanel  ui:field="hidePanel">
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
 				<g:Label ui:field="oneperTransactionLabel" styleName="organisation_comment" />
@@ -66,7 +65,7 @@
 				<g:Label ui:field="oneperdetaillineLabel" styleName="organisation_comment" />
 				<g:CheckBox ui:field="enableTaxCheckbox" />
 				<g:Label ui:field="enableTaxLabel" styleName="organisation_comment" />
-			</g:VerticalPanel>
+			</g:FlowPanel>
 		</g:VerticalPanel>
 
 	</g:VerticalPanel>

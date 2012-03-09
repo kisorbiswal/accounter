@@ -7,7 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel ui:field="mainViewPanel">
+		<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:Label ui:field="customerCommentLabel" styleName="refer_customer"/>
 		<g:HorizontalPanel styleName="refer_panel">
@@ -19,5 +19,5 @@
 			<g:Label ui:field="vendorsLabel"/>
 			<g:ListBox ui:field="vendorListBox" styleName="refer_listbox"/>
 		</g:HorizontalPanel>
-		</g:VerticalPanel>
+		</g:FlowPanel>
 </ui:UiBinder> 

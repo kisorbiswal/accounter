@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -22,11 +23,11 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	private static SetupTrackBillsAndTimePageUiBinder uiBinder = GWT
 			.create(SetupTrackBillsAndTimePageUiBinder.class);
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
-	StyledPanel trackingBillsPanel;
+	FlowPanel trackingBillsPanel;
 	@UiField
-	StyledPanel managing;
+	FlowPanel managing;
 	@UiField
 	HTML trackOfBillsText;
 	@UiField

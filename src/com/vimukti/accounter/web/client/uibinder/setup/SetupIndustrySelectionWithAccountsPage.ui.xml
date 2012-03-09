@@ -9,10 +9,10 @@
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel" width="100%" height="100%">
+		<g:FlowPanel ui:field="viewPanel" width="100%" height="100%">
 			<g:HTML ui:field="customizeAccounter" styleName="customize_Accounter_labels">
 			</g:HTML>
-			<g:HorizontalPanel ui:field="industryAccountsPanel">
+			<g:FlowPanel ui:field="industryAccountsPanel">
 				<g:VerticalPanel styleName="industry_list_table">
 					<g:HTML ui:field="selectIndustryhead" styleName="select_industry" />
 					<g:ListBox ui:field="industryList" visibleItemCount="15" styleName="industry_list" />
@@ -20,11 +20,11 @@
 				<g:VerticalPanel styleName="sub_industry_listpanel">
 					<g:HTML ui:field="accountsLabel" styleName="accounts_label"/>
 					<g:ScrollPanel height="230px" width="250px">
-					<g:VerticalPanel ui:field="accountsPanel"/>
+					<g:FlowPanel ui:field="accountsPanel"/>
 					</g:ScrollPanel> 
 				</g:VerticalPanel>
-			</g:HorizontalPanel>
+			</g:FlowPanel>
 			
-		</g:VerticalPanel>
+		</g:FlowPanel>
 </g:VerticalPanel>
 </ui:UiBinder> 

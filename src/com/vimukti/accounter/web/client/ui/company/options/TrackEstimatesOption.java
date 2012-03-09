@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,7 +29,7 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox useDelayedCharges;
 	@UiField
-	StyledPanel hiddenPanel;
+	FlowPanel hiddenPanel;
 
 	@UiField
 	RadioButton dontInclude;

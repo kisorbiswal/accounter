@@ -9,12 +9,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Administrator
@@ -25,7 +25,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	private static SetupSellTypeAndSalesTaxPageUiBinder uiBinder = GWT
 			.create(SetupSellTypeAndSalesTaxPageUiBinder.class);
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 	@UiField
 	RadioButton servicesOnly;
 	@UiField
@@ -39,7 +39,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	Label bothText;
 	@UiField
-	StyledPanel sell;
+	FlowPanel sell;
 
 	@UiField
 	Label headerLabel;
@@ -62,13 +62,13 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	@UiField
 	Label trackLabel;
 	@UiField
-	StyledPanel hidePanel;
+	FlowPanel hidePanel;
 	@UiField
 	CheckBox inventoryCheckBox;
 	@UiField
-	StyledPanel hiddenPanel;
+	FlowPanel hiddenPanel;
 	@UiField
-	StyledPanel totalPanel;
+	FlowPanel totalPanel;
 	@UiField
 	CheckBox warehousesCheckBox;
 	@UiField
