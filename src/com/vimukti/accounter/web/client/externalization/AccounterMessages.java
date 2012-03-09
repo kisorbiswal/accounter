@@ -1046,6 +1046,8 @@ public interface AccounterMessages extends Messages {
 	public String creditCardExpensesList();
 
 	public String creditLimit();
+	
+	public String creditLimitExceed(String payee, String creditLimit, String balance);
 
 	public String creditLimitShouldBeInTheRange();
 

@@ -1162,6 +1162,12 @@ public class VendorBillView extends
 			}
 		}
 
+		String creditLimitWarning = isExceedCreditLimit(vendor,
+				transaction.getTotal());
+		if (creditLimitWarning != null) {
+			result.addWarning(vendorCombo, creditLimitWarning);
+		}
+
 		// if (getAllTransactionItems().isEmpty()) {
 		// result.addError(vendorAccountTransactionTable,
 		// messages.blankTransaction());

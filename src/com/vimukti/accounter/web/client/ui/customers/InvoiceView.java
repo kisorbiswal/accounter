@@ -1474,6 +1474,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						messages.pleaseSelect(messages.taxCode()));
 			}
 		}
+
+		String creditLimitWarning = isExceedCreditLimit(customer,
+				transaction.getTotal());
+		if (creditLimitWarning != null) {
+			result.addWarning(customerCombo, creditLimitWarning);
+		}
+
 		return result;
 	}
 

@@ -1319,6 +1319,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			currencyWidget.setSelectedCurrency(selectCurrency);
 			openingBalText.setCurrency(selectCurrency);
 			balanceText.setCurrency(selectCurrency);
+			creditLimitText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
 				currencyWidget.disabledFactorField(false);
@@ -1581,6 +1582,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				selectCurrency = currency;
 				openingBalText.setCurrency(selectCurrency);
 				balanceText.setCurrency(selectCurrency);
+				creditLimitText.setCurrency(selectCurrency);
 			}
 		});
 		widget.setDisabled(isInViewMode());
