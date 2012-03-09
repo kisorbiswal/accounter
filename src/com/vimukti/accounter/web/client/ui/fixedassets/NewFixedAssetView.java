@@ -330,6 +330,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 									.getSelectedValue();
 							// if (givenDepRate != 0.0) {
 							if (accumltdAccVPanel != null) {
+								if (accumulatedDepreciationAccountForm != null) {
+									accumulatedDepreciationAccountForm.clear();
+								}
 								accumltdAccVPanel.clear();
 								mainVPanel.remove(accumltdAccVPanel);
 							}
@@ -951,7 +954,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		}
 		if (data != null
 				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
-			if (result.haveErrors()) {
+			if (result.haveErrors() && registerButton.isAttached()) {
 				data.setStatus(ClientFixedAsset.STATUS_PENDING);
 			}
 		}

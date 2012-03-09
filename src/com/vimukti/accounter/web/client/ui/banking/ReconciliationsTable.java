@@ -74,8 +74,11 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(object
-						.getOpeningBalance());
+
+				return DataUtils.getAmountAsStringInCurrency(
+						object.getOpeningBalance(), Accounter.getCompany()
+								.getCurrency(object.getAccount().getCurrency())
+								.getSymbol());
 			}
 		};
 
@@ -83,8 +86,10 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(object
-						.getClosingBalance());
+				return DataUtils.getAmountAsStringInCurrency(
+						object.getClosingBalance(), Accounter.getCompany()
+								.getCurrency(object.getAccount().getCurrency())
+								.getSymbol());
 			}
 		};
 
