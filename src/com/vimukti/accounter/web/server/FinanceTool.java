@@ -3948,11 +3948,11 @@ public class FinanceTool {
 							.getChalanSerialNumber());
 					eTDSObj.setSectionForPayment(chalan.getPaymentSection());
 					eTDSObj.setTotalTDSfordeductees(total);
-					eTDSObj.setDateTaxDeposited(item.getTransactionDate()
-							.getDate());
+					eTDSObj.setDateTaxDeposited(chalan.getDateTaxPaid());
 					eTDSObj.setDeducteeID(item.getVendor().getID());
 					eTDSObj.setPanOfDeductee(item.getVendor().getTaxId());
-					eTDSObj.setDateOFpayment(chalan.getDateTaxPaid());
+					eTDSObj.setDateOFpayment(item.getTransactionDate()
+							.getDate());
 					eTDSObj.setAmountPaid(item.getTotalAmount());
 					eTDSObj.setTds(item.getTdsAmount());
 					eTDSObj.setSurcharge(item.getSurchargeAmount());
