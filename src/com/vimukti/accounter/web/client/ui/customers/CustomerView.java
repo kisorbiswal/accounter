@@ -1015,7 +1015,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				.financialDetails());
 
 		financeDitailsForm.setFields(salesPersonSelect, creditRatingSelect,
-				bankNameSelect, bankAccountSelect, bankBranchSelect);
+				creditLimitText, bankNameSelect, bankAccountSelect,
+				bankBranchSelect);
 
 		if (getPreferences().isTrackTax()) {
 
@@ -1359,6 +1360,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			currencyCombo.setSelectedCurrency(selectCurrency);
 			openingBalText.setCurrency(selectCurrency);
 			balanceText.setCurrency(selectCurrency);
+			creditLimitText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
 				currencyCombo.disabledFactorField(false);
@@ -1537,6 +1539,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				selectCurrency = currency;
 				openingBalText.setCurrency(selectCurrency);
 				balanceText.setCurrency(selectCurrency);
+				creditLimitText.setCurrency(selectCurrency);
 			}
 		});
 		widget.setDisabled(isInViewMode());
