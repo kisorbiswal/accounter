@@ -398,13 +398,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		// checkingCustomerNull(customer);
-		checkAccountNull(depositIn);
-		checkPaymentMethodNull();
-	}
-
-	@Override
 	public boolean isDebitTransaction() {
 		return false;
 	}
