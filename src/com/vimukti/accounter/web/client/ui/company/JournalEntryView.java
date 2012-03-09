@@ -719,7 +719,11 @@ public class JournalEntryView extends
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-		// TODO Auto-generated method stub
-
+		this.accounterClass = clientAccounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+		} else {
+			classListCombo.setValue("");
+		}
 	}
 }
