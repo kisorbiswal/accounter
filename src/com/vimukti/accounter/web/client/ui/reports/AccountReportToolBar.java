@@ -40,7 +40,6 @@ public class AccountReportToolBar extends DateRangeReportToolbar {
 					}
 				});
 
-		addItems(accountCombo);
 		super.createControls();
 	}
 
@@ -62,6 +61,10 @@ public class AccountReportToolBar extends DateRangeReportToolbar {
 		if (getAccId() != 0) {
 			accData(Accounter.getCompany().getAccount(getAccId()));
 		}
+	}
+
+	protected com.vimukti.accounter.web.client.ui.forms.FormItem<?> getItem() {
+		return accountCombo;
 	}
 
 	protected void accData(ClientAccount selectItem) {

@@ -38,26 +38,18 @@ public class ExpenseReportToolbar extends ReportToolbar {
 		if (Global.get().preferences().isHaveEpmloyees()
 				&& Global.get().preferences().isTrackEmployeeExpenses()) {
 			statusArray = new String[] { messages.allExpenses(),
-					messages.cash(),
-					messages.creditCard(),
-					messages.employee() };
+					messages.cash(), messages.creditCard(), messages.employee() };
 		} else {
 			statusArray = new String[] { messages.allExpenses(),
-					messages.cash(),
-					messages.creditCard() };
+					messages.cash(), messages.creditCard() };
 		}
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(),
-				messages.custom() };
+				messages.financialYearToDate(), messages.custom() };
 
 		expenseCombo = new SelectCombo(messages.expenseRealtedTo());
 		expenseCombo.setHelpInformation(true);
@@ -72,16 +64,16 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						if (selectItem.toString().equals(
-								messages.allExpenses())) {
+						if (selectItem.toString()
+								.equals(messages.allExpenses())) {
 							/*
 							 * status 0 used to get all expenses like Cash,
 							 * Credit Card
 							 */
 
 							expenseType = 0;
-						} else if (selectItem.toString().equals(
-								messages.cash())) {
+						} else if (selectItem.toString()
+								.equals(messages.cash())) {
 							expenseType = ClientTransaction.TYPE_CASH_EXPENSE;
 						} else if (selectItem.toString().equals(
 								messages.creditCard())) {
@@ -191,10 +183,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
+		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
+				endDate);
 		reportview.makeReportRequest(expenseType, startDate, endDate);
-
-		// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
-		// endDate);
 	}
 
 	@Override
