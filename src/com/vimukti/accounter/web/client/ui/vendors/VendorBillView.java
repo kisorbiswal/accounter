@@ -639,6 +639,11 @@ public class VendorBillView extends
 				}
 				VendorBillView.this.updateNonEditableItems();
 			}
+			
+			@Override
+			protected int getTransactionType() {
+				return ClientTransaction.TYPE_ENTER_BILL;
+			}
 		};
 
 		vendorItemTransactionTable.setDisabled(isInViewMode());
