@@ -20,25 +20,29 @@ import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class InventoryCentreView<T> extends AbstractBaseView<T> implements
-		ISavableView<Map<String, Object>> {
+		ISavableView<Map<String, Object>>, IEditableView {
 
 	private ClientItem selectedItem;
 	private List<ClientItem> listOfItems;
@@ -762,5 +766,32 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			callRPC(0, getPageSize());
 		}
 
+	}
+
+	@Override
+	public boolean canEdit() {
+		return selectedItem == null ? false : Utility
+				.isUserHavePermissions(selectedItem.getObjectType());
+	}
+
+	@Override
+	public void onEdit() {
+		if (selectedItem.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+			InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
+			inventoryAssemblyAction.setisItemEditable(true);
+			inventoryAssemblyAction.run((ClientInventoryAssembly) selectedItem,
+					false);
+
+		} else {
+			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+			itemAction.setType(selectedItem.getType());
+			itemAction.setisItemEditable(true);
+			itemAction.run(selectedItem, false);
+		}
+	}
+
+	@Override
+	public boolean isDirty() {
+		return false;
 	}
 }
