@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * 
@@ -21,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 
-public abstract class BizDecorPanel extends FlexTable {
+public abstract class BizDecorPanel extends FlowPanel {
 	private Label TC;
 	private AutoFillWidget MC;
 	private Image closeImage;
@@ -45,7 +47,6 @@ public abstract class BizDecorPanel extends FlexTable {
 
 	public BizDecorPanel(String title, String gotoString, String width) {
 		this(title, gotoString);
-		TC.getElement().getParentElement().setAttribute("width", width);
 	}
 
 	private void setTitleActions() {
@@ -71,10 +72,12 @@ public abstract class BizDecorPanel extends FlexTable {
 	 * Initiates the layout
 	 */
 	private void setDecorator(String title, String gotoString) {
-		setFirstRow();
-		setSecondRow();
-		setThirdRow();
-		setStyles(title);
+		StyledPanel decorator = new StyledPanel("decorator");
+		decorator.add(setFirstRow());
+		decorator.add(setSecondRow());
+		decorator.add(setThirdRow());
+		this.add(decorator);
+//		setStyles(title);
 	}
 
 	protected void setPortletTitle(String title) {
@@ -83,8 +86,9 @@ public abstract class BizDecorPanel extends FlexTable {
 
 	/**
 	 * Creates the first row of Panel
+	 * @return 
 	 */
-	private void setFirstRow() {
+	private StyledPanel setFirstRow() {
 		Label TL = new Label();
 		TC = new Label();
 		closeImage = new Image(Accounter.getFinanceImages().portletClose());
@@ -109,9 +113,15 @@ public abstract class BizDecorPanel extends FlexTable {
 		Label TR = new Label();
 		TR.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		TL.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		this.setWidget(0, 0, TL);
-		this.setWidget(0, 1, titleTable);
-		this.setWidget(0, 2, TR);
+		
+		StyledPanel firstRow = new StyledPanel("firstRow");
+		firstRow.add(TL);
+		firstRow.add(titleTable);
+		firstRow.add(TR);
+		return firstRow;
+//		this.setWidget(0, 0, TL);
+//		this.setWidget(0, 1, titleTable);
+//		this.setWidget(0, 2, TR);
 	}
 
 	private void setGoToAction(String title, String gotoString) {
@@ -135,41 +145,53 @@ public abstract class BizDecorPanel extends FlexTable {
 	/**
 	 * Creates the second row of Panel
 	 */
-	private void setSecondRow() {
+	private StyledPanel setSecondRow() {
 		MC = new AutoFillWidget();
 		AutoFillWidget c = new AutoFillWidget();
 		c.add(MC);
 
 		MC.setStyleName("decor-left");
-		this.setWidget(1, 0, c);
-		this.getFlexCellFormatter().setColSpan(1, 0, 3);
+		
+		StyledPanel secondRow = new StyledPanel("secondRow");
+		secondRow.add(c);
+		return secondRow;
+		
+//		this.setWidget(1, 0, c);
+//		this.getFlexCellFormatter().setColSpan(1, 0, 3);
 	}
 
 	/**
 	 * Creates the third row of Panel
 	 */
-	private void setThirdRow() {
+	private StyledPanel setThirdRow() {
 		Label BL = new Label();
 		Label BC = new Label();
 		Label BR = new Label();
-		this.setWidget(2, 0, BL);
-		this.setWidget(2, 1, BC);
-		this.setWidget(2, 2, BR);
+		
+		StyledPanel setThirdRow = new StyledPanel("setThirdRow");
+		setThirdRow.add(BL);
+		setThirdRow.add(BC);
+		setThirdRow.add(BR);
+		return setThirdRow;
+		
+//		this.setWidget(2, 0, BL);
+//		this.setWidget(2, 1, BC);
+//		this.setWidget(2, 2, BR);
 	}
 
-	/**
-	 * Sets the required styles to cells
-	 */
-	private void setStyles(String title) {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				if (i == 1 && j != 0)
-					break;
-				this.getCellFormatter().setStyleName(i, j, "td" + i + j);
-				this.getWidget(i, j).addStyleName("decor" + i + j);
-			}
-		}
-	}
+//	/**
+//	 * Sets the required styles to cells
+//	 */
+//	private void setStyles(String title) {
+//		for (int i = 0; i < 3; i++) {
+//			for (int j = 0; j < 3; j++) {
+//				if (i == 1 && j != 0)
+//					break;
+//				this.getCellFormatter().setStyleName(i, j, "td" + i + j);
+//				this.getWidget(i, j).addStyleName("decor" + i + j);
+//			}
+//		}
+//	}
 
 	/**
 	 * Sets the panel title.
@@ -203,14 +225,14 @@ public abstract class BizDecorPanel extends FlexTable {
 		widget.addStyleName("main-w");
 	}
 
-	/**
-	 * Returns the added widget
-	 * 
-	 * @return
-	 */
-	public Widget getWidget() {
-		return super.getWidget(1, 1);
-	}
+//	/**
+//	 * Returns the added widget
+//	 * 
+//	 * @return
+//	 */
+//	public Widget getWidget() {
+//		return super.getWidget(1, 1);
+//	}
 
 	@Override
 	public void setHeight(String height) {
@@ -244,12 +266,12 @@ public abstract class BizDecorPanel extends FlexTable {
 	/**
 	 * Behaves same as setWidget()
 	 */
-	@Override
-	public void add(Widget widget) {
-		MC.add(widget);
-		widget.addStyleName("main-w-finance");
-		widget.setWidth("");
-	}
+//	@Override
+//	public void add(Widget widget) {
+//		MC.add(widget);
+//		widget.addStyleName("main-w-finance");
+//		widget.setWidth("");
+//	}
 
 	public void doAnimate(final Boolean isMinimizing) {
 		if (isMinimizing) {

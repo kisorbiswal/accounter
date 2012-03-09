@@ -49,8 +49,8 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("StockAdjustmentView");
 		createControls();
-		// setSize("100%", "100%");
 	}
 
 	private void createControls() {

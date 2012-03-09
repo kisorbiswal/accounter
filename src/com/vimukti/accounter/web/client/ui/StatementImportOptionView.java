@@ -68,8 +68,8 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("StatementImportOptionView");
 		createControls();
-		setSize("100%", "100%");
 	}
 
 	@Override

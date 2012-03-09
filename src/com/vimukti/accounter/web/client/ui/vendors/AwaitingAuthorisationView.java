@@ -31,6 +31,7 @@ public class AwaitingAuthorisationView extends BaseView {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("AwaitingAuthorisationView");
 		createControls();
 	}
 

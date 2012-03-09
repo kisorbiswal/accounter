@@ -35,7 +35,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	private HTML title = new HTML();
 	private String name;
 	protected Label all;
-	private ScrollPanel vPanel;
+	private StyledPanel vPanel;
 	private int previousIndex;
 	public HTML refresh;
 	private int row;
@@ -66,7 +66,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	}
 
 	private void createControls() {
-		vPanel = new ScrollPanel();
+		vPanel = new StyledPanel("vPanel");
 		body = new StyledPanel("body");
 		body.setStyleName("portlet-body");
 		addStyleName("portlet");

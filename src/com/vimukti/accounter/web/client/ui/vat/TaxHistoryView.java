@@ -44,6 +44,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		setMode(EditMode.EDIT);
 		super.init();
 		initListGrid();
+		this.getElement().setId("TaxHistoryView");
 		createControls();
 	}
 

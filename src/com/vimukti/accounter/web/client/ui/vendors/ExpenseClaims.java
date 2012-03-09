@@ -33,6 +33,7 @@ public class ExpenseClaims extends BaseView {
 	public void init() {
 		this.clear();
 		super.init();
+		this.getElement().setId("ExpenseClaims");
 		createControls();
 	}
 

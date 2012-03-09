@@ -597,19 +597,38 @@ public class ViewManager extends FlowPanel {
 	void initilizeToolBar() {
 
 		group1 = new ButtonGroup();
+		group1.getElement().setId("group1");
+		
 		group2 = new ButtonGroup();
+		group2.getElement().setId("group2");
+		
 		group3 = new ButtonGroup();
+		group3.getElement().setId("group3");
+		
 		group4 = new ButtonGroup();
+		group4.getElement().setId("group4");
+		
 		group5 = new ButtonGroup();
+		group5.getElement().setId("group5");
+		
 		group6 = new ButtonGroup();
+		group6.getElement().setId("group6");
+		
 		group7 = new ButtonGroup();
+		group7.getElement().setId("group7");
+		
 		group8 = new ButtonGroup();
+		group8.getElement().setId("group8");
+		
 		group9 = new ButtonGroup();
+		group9.getElement().setId("group9");
+		
 		viewTitleLabel = new Label(messages.dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
+		previousButton.getElement().setId("previousButton");
 		previousButton.setTitle(messages.clickThisToOpen(messages.previous()));
 		previousButton.addClickHandler(new ClickHandler() {
 
@@ -619,6 +638,7 @@ public class ViewManager extends FlowPanel {
 			}
 		});
 		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
+		nextButton.getElement().setId("nextButton");
 		nextButton.setTitle(messages.clickThisToOpen(messages.next()));
 		nextButton.addClickHandler(new ClickHandler() {
 
@@ -629,7 +649,7 @@ public class ViewManager extends FlowPanel {
 		});
 		printButton = new ImageButton(messages.print(), Accounter
 				.getFinanceImages().Print1Icon());
-
+		printButton.getElement().setId("printButton");
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -641,6 +661,7 @@ public class ViewManager extends FlowPanel {
 
 		exportButton = new ImageButton(messages.exportToCSV(), Accounter
 				.getFinanceImages().exportIcon());
+		exportButton.getElement().setId("exportButton");
 		exportButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -652,6 +673,7 @@ public class ViewManager extends FlowPanel {
 
 		editButton = new ImageButton(messages.edit(), Accounter
 				.getFinanceImages().editIcon());
+		editButton.getElement().setId("editButton");
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -665,6 +687,7 @@ public class ViewManager extends FlowPanel {
 		configButton = new ImageButton(messages.configurePortlets(), Accounter
 				.getFinanceImages().portletPageSettings());
 		configButton.addStyleName("settingsButton");
+		configButton.getElement().setId("configButton");
 		configButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -678,6 +701,7 @@ public class ViewManager extends FlowPanel {
 				.Customer()), Accounter.getFinanceImages()
 				.portletPageSettings());
 		addCustomerButton.addStyleName("settingsButton");
+		addCustomerButton.getElement().setId("addCustomerButton");
 		addCustomerButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -690,6 +714,7 @@ public class ViewManager extends FlowPanel {
 				messages.addNew(Global.get().Vendor()), Accounter
 						.getFinanceImages().portletPageSettings());
 		addVendorButton.addStyleName("settingsButton");
+		addVendorButton.getElement().setId("addVendorButton");
 		addVendorButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -702,6 +727,7 @@ public class ViewManager extends FlowPanel {
 				.closeButton());
 		closeButton.setTitle(messages.clickThisTo(messages.close(),
 				messages.view()));
+		closeButton.getElement().setId("addVendorButton");
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -714,6 +740,7 @@ public class ViewManager extends FlowPanel {
 				.searchButton());
 		searchButton.setTitle(messages.clickThisTo(messages.open(),
 				messages.search()));
+		searchButton.getElement().setId("searchButton");
 		searchButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -728,6 +755,7 @@ public class ViewManager extends FlowPanel {
 
 		addNewButton = new ImageButton("", Accounter.getFinanceImages()
 				.createAction());
+		addNewButton.getElement().setId("addNewButton");
 		addNewButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -756,24 +784,17 @@ public class ViewManager extends FlowPanel {
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		nextButton.getElement().setAttribute("lang",
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		
 		group1.add(previousButton);
 		group1.add(nextButton);
-		previousButton.getElement().getParentElement()
-				.addClassName("prebutton");
-		nextButton.getElement().getParentElement().addClassName("nextbutton");
-
 		group1.add(viewTitleLabel);
-
+		
 		group4.add(editButton);
-
 		group9.add(addNewButton);
 		group2.add(exportButton);
 		group2.add(printButton);
-		group2.addStyleName("print_export_button");
-
 		group3.add(closeButton);
 		group5.add(configButton);
-
 		group6.add(searchButton);
 		group7.add(addCustomerButton);
 		group8.add(addVendorButton);

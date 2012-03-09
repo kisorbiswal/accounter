@@ -52,7 +52,6 @@ public class VendorMergeDialog extends BaseView<ClientCustomer> implements
 		createControls();
 		saveAndNewButton.setVisible(false);
 		saveAndCloseButton.setText(messages.merge());
-		setSize("100%", "100%");
 	}
 
 	private void createControls() {

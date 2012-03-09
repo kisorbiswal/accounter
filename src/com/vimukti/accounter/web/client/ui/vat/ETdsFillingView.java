@@ -60,8 +60,8 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("ETdsFillingView");
 		createControls();
-		setSize("100%", "100%");
 	}
 
 	public void initData() {

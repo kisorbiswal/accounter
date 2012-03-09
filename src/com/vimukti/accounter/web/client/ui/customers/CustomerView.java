@@ -1114,7 +1114,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public void init() {
+		
 		super.init();
+		this.getElement().setId("CustomerView");
 		createControls();
 	}
 

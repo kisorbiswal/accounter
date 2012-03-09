@@ -27,11 +27,11 @@ public class BankAccountsView extends BaseView<ClientAccount> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("BankAccountsView");
 		createControls();
 		if (saveAndCloseButton != null)
 			saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(false);
-		setSize("100%", "100%");
 	}
 
 	private void createControls() {

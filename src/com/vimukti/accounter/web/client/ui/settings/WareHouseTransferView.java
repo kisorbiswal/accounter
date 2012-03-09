@@ -40,8 +40,8 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("WareHouseTransferView");
 		createControls();
-		setSize("100%", "100%");
 	}
 
 	private void createControls() {

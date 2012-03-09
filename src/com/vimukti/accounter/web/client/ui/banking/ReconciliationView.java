@@ -276,8 +276,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	@Override
 	public void init() {
 		super.init();
-		// if(getData())
-		// setMode(EditMode.CREATE);
+		this.getElement().setId("reconcilationView");
 		createControls();
 	}
 

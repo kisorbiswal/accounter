@@ -48,6 +48,7 @@ public class AuditHistoryView extends BaseView {
 	public void init() {
 
 		super.init();
+		this.getElement().setId("audithistory");
 		createControls();
 		setSize("100%", "100%");
 

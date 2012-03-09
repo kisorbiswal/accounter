@@ -46,8 +46,8 @@ public class JobView extends BaseView<ClientJob> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("JobView");
 		createControls();
-		setSize("100%", "100%");
 	}
 
 	@Override

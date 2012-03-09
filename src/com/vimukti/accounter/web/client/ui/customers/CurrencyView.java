@@ -27,6 +27,7 @@ public class CurrencyView extends BaseView<ClientCurrency> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("CurrencyView");
 		createControls();
 		// setSize("100%", "100%");
 

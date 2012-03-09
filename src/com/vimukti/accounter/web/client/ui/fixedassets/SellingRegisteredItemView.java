@@ -69,6 +69,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("SellingRegisteredItemView");
 		createControls();
 		dateSelected();
 	}

@@ -41,6 +41,7 @@ public class ExpenseClaimList extends BaseView {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("ExpenseClaimList");
 		createControls();
 	}
 

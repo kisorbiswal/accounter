@@ -53,6 +53,7 @@ public class StatementTransactionsReconcileView extends
 	public StatementTransactionsReconcileView(long accountid,
 			ClientStatement statement) {
 		super();
+		this.getElement().setId("StatementTransactionsReconcileView");
 		this.account = getCompany().getAccount(accountid);
 		this.statement = statement;
 

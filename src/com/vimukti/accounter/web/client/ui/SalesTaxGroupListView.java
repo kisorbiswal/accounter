@@ -36,6 +36,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 	private GroupDialogButtonsHandler dialogButtonsHandler;
 
 	public SalesTaxGroupListView() {
+		this.getElement().setId("SalesTaxGroupListView");
 	}
 
 	@Override
@@ -86,11 +87,9 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		lab.addStyleName("lable-title");
 
 		bodyLayout = new StyledPanel("bodyLayout");
-		bodyLayout.setSize("100%", "100%");
 
 		grid = new TaxGroupGrid(false);
 		grid.init();
-		grid.setWidth("100%");
 		// grid.setSize("100%", "250px");
 		grid.addRecords(getRecords());
 		/**

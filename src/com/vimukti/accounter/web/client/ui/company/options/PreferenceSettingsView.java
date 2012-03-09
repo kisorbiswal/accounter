@@ -36,6 +36,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("PreferenceSettingsView");
 		createControls();
 	}
 

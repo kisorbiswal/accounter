@@ -1169,8 +1169,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("VendorView");
 		createControls();
-		// setSize("100%", "100%");
 
 	}
 

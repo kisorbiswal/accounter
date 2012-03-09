@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public class PortletPage extends AbsolutePanel implements DragHandler {
+public class PortletPage extends FlowPanel implements DragHandler {
 
 	public static final String DASHBOARD = "dashboard";
 
@@ -30,6 +30,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	public PortletPage(String pageName) {
 		this.name = pageName;
 		refreshPage();
+		this.getElement().setId("PortletPage");
 	}
 
 	public void refreshPage() {
@@ -48,9 +49,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	}
 
 	private void setup() {
-		StyledPanel panel = new StyledPanel("panel");
-		// panel.setWidth("100%");
-		// panel.setHeight("100%");
+		StyledPanel panel = new StyledPanel("portletPagePanel");
 		this.add(panel);
 		dragController = new PickupDragController(this, false);
 		dragController.setBehaviorMultipleSelection(false);

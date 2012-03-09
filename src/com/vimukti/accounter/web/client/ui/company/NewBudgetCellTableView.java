@@ -78,8 +78,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("NewBudgetCellTableView");
 		createControls();
-		setSize("100%", "100%");
 
 		if (data != null) {
 			onEdit();

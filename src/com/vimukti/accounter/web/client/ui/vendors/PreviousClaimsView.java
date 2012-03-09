@@ -38,6 +38,7 @@ public class PreviousClaimsView extends BaseView {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("PreviousClaimsView");
 		createControls();
 	}
 

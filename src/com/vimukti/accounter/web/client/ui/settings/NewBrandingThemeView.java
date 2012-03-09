@@ -83,6 +83,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("NewBrandingThemeView");
 		try {
 			createControls();
 		} catch (Exception e) {

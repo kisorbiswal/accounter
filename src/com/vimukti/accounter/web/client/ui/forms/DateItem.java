@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class DateItem extends FormItem<ClientFinanceDate> {
 
-	StyledPanel datePanel = new StyledPanel("datePanel");
+	StyledPanel datePanel = new StyledPanel("dateItem_datePanel");
 
 	// TextBox textBox;
 	boolean enableTextFieldView;

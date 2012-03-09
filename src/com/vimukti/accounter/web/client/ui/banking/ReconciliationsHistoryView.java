@@ -45,7 +45,6 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 					}
 				});
 		this.grid = new ReconciliationsTable();
-		grid.setWidth("100%");
 
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		DynamicForm form = new DynamicForm("form");
@@ -93,6 +92,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("ReconciliationsHistoryView");
 		createControls();
 	}
 

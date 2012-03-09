@@ -48,7 +48,7 @@ public class ItemMergeDialog extends BaseView implements AsyncCallback<Void> {
 	@Override
 	public void init() {
 		super.init();
-		this.getElement().setId("accountMergeDialog");
+		this.getElement().setId("ItemMergeDialog");
 		createControls();
 		saveAndNewButton.setVisible(false);
 		saveAndCloseButton.setText(messages.merge());

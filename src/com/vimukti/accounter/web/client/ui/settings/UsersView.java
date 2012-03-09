@@ -54,6 +54,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("UsersView");
 		createControls();
 	}
 

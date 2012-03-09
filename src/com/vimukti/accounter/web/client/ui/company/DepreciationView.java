@@ -71,7 +71,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public void init() {
 		super.init();
-
+		this.getElement().setId("DepreciationView");
 		createControls();
 
 	}

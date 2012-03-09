@@ -51,6 +51,7 @@ public class ConversionBalancesView extends BaseView {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("ConversionBalancesView");
 		createControls();
 	}
 

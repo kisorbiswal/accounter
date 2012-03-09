@@ -30,6 +30,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("WareHouseView");
 		createControls();
 	}
 
