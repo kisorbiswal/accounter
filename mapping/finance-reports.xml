@@ -4674,6 +4674,7 @@
 
 		WHERE TI.IS_BILLABLE = TRUE
 		OR A.A_TYPE=15 AND
+		I.TYPE IN (2,4) AND
 		(T.T_DATE BETWEEN :startDate
 		AND :endDate))
 		THEN

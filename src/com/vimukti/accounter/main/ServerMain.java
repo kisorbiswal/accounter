@@ -191,7 +191,7 @@ public class ServerMain extends Main {
 			public void run() {
 				new RecurringTool().start();
 			}
-		}, 0, 60 * 1000);
+		}, 0, 60 * 60 * 1000);
 	}
 
 	private static void loadAccounterMessages() throws IOException {

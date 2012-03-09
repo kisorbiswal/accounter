@@ -265,6 +265,9 @@ public class VendorBillView extends
 	}
 
 	public void selectedVendor(ClientVendor vendor) {
+		if (vendor == null) {
+			return;
+		}
 		updatePurchaseOrderOrItemReceipt(vendor);
 		if (!transaction.isTemplate()) {
 			getPurchaseOrdersAndItemReceipt();
