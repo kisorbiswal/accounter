@@ -395,25 +395,25 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			String one, two, three, four;
 
 			if (quater1Amount.getAmount() != null)
-				one = Double.toString(round(false, 0, roundOff, calendarType,
+				one = Double.toString(round(0,
 						quater1Amount.getAmount() / 3.00, 2));
 			else
 				one = "0.00";
 
 			if (quater2Amount.getAmount() != null)
-				two = Double.toString(round(false, 0, roundOff, calendarType,
+				two = Double.toString(round(0,
 						quater2Amount.getAmount() / 3.00, 2));
 			else
 				two = "0.00";
 
 			if (quater3Amount.getAmount() != null)
-				three = Double.toString(round(false, 0, roundOff, calendarType,
+				three = Double.toString(round(0,
 						quater3Amount.getAmount() / 3.00, 2));
 			else
 				three = "0.00";
 
 			if (quater4Amount.getAmount() != null)
-				four = Double.toString(round(false, 0, roundOff, calendarType,
+				four = Double.toString(round(0,
 						quater4Amount.getAmount() / 3.00, 2));
 			else
 				four = "0.00";
@@ -450,59 +450,55 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		} else if (budgetAddBy.getSelectedValue() == YEARS) {
 
-			double valueToDivide = 12.00;
-			if (calendarType == 1) {
-				valueToDivide = 365.00;
-			}
 			if (annualAmount.getAmount() != null) {
 
-				newMap.put(DayAndMonthUtil.jan(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.jan(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.feb(), Double.toString(round(true,
-						28, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.feb(), Double
+						.toString(getAmountByYear(calendarType, 28,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.mar(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.mar(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.apr(), Double.toString(round(true,
-						30, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.apr(), Double
+						.toString(getAmountByYear(calendarType, 30,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.mayS(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.mayS(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.jun(), Double.toString(round(true,
-						30, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.jun(), Double
+						.toString(getAmountByYear(calendarType, 30,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.jul(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.jul(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.aug(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.aug(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.sep(), Double.toString(round(true,
-						30, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.sep(), Double
+						.toString(getAmountByYear(calendarType, 30,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.oct(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.oct(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.nov(), Double.toString(round(true,
-						30, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.nov(), Double
+						.toString(getAmountByYear(calendarType, 30,
+								annualAmount.getAmount())));
 
-				newMap.put(DayAndMonthUtil.dec(), Double.toString(round(true,
-						31, roundOff, calendarType, annualAmount.getAmount()
-								/ valueToDivide, 2)));
+				newMap.put(DayAndMonthUtil.dec(), Double
+						.toString(getAmountByYear(calendarType, 31,
+								annualAmount.getAmount())));
 			} else {
 				String one;
 				one = "0.00";
@@ -545,6 +541,18 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		return true;
 	}
 
+	private double getAmountByYear(int calendarType, int NoOfDays, double amount) {
+		double result;
+		if (calendarType == 1) {
+			result = (amount * NoOfDays) / 365;
+		} else {
+			result = amount / 12;
+		}
+		double value = calculateValue(result, NoOfDays);
+		return round(31, value, 2);
+
+	}
+
 	public void setDefaultValues() {
 
 		janAmount.setAmount(defaultValues.getJanuaryAmount());
@@ -568,8 +576,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	}
 
-	public static double round(boolean year, int month, int round,
-			int calandertype, double value, int places) {
+	public double round(int month, double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
 
@@ -579,33 +586,25 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		double valueFinal = tmp / factor;
 
-		double valueToReturn = calculateValue(valueFinal, round, calandertype,
-				month, year);
+		double valueToReturn = calculateValue(valueFinal, month);
 
 		return valueToReturn;
 	}
 
-	private static double calculateValue(double valueFinal, int round,
-			int calandertype, int monthDays, boolean year) {
+	private double calculateValue(double valueFinal, int monthDays) {
 
 		long round2 = Math.round(valueFinal);
 
-		if (round == 1) {
+		if (roundOff == 1) {
 			valueFinal = round2;
-		} else if (round == 2) {
+		} else if (roundOff == 2) {
 			round2 = (round2 / 10);
 			round2 = round2 * 10;
 			valueFinal = round2;
-		} else if (round == 3) {
+		} else if (roundOff == 3) {
 			round2 = (round2 / 100);
 			round2 = round2 * 100;
 			valueFinal = round2;
-		}
-
-		if (year == true) {
-			if (calandertype == CALANDERTYPE_MONTHS) {
-				valueFinal = valueFinal * monthDays;
-			}
 		}
 
 		return valueFinal;
