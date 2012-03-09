@@ -672,7 +672,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		initCombo(autocompleteItems);
 
 		showPopup();
-
+		textBox.setFocus(true);
 	}
 
 	// protected List<T> getComboitemsByName(String value) {
