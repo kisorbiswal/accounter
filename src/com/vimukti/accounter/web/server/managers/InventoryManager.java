@@ -669,6 +669,38 @@ public class InventoryManager extends Manager {
 					.setParameter("itemId", itemId)
 					.setParameter("estimateType", typeOfEstiate);
 
+		} else if (transactionType == Transaction.TYPE_SALES_ORDER) {
+
+			int typeOfEstiate = 6;
+			if (transactionStatusType == TransactionHistory.ALL_SALES_ORDERS) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+			query = session.getNamedQuery("getEstimatesForItem")
+					.setParameter("companyId", companyId)
+					.setParameter("saveStatus", saveStatus)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("itemId", itemId)
+					.setParameter("estimateType", typeOfEstiate);
+
+		} else if (transactionType == TransactionHistory.TYPE_PURCHASE_ORDER) {
+
+			if (transactionStatusType == TransactionHistory.ALL_PURCHASE_ORDERS) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+			query = session.getNamedQuery("getPurchaseOrderForItem")
+					.setParameter("companyId", companyId)
+					.setParameter("saveStatus", saveStatus)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("itemId", itemId);
+
 		} else if (transactionType == Transaction.TYPE_CASH_PURCHASE) {
 			if (transactionStatusType == TransactionHistory.ALL_CASH_PURCHASES) {
 				saveStatus = 0;

@@ -61,7 +61,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			messages.payeeCreditNotes(Global.get().Customer()),
 			messages.cashPurchases(),
 			messages.payeeCreditNotes(Global.get().Vendor()), messages.bills(),
-			messages.expenses(), };
+			messages.expenses(), messages.salesOrders(),
+			messages.purchaseOrders() };
 
 	@Override
 	public void init() {
@@ -352,6 +353,23 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			transactiontypebyStatusMap.put(
 					TransactionHistory.DRAFT_CASH_EXPENSES,
 					messages.draftTransaction(messages.cashExpenses()));
+
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.salesOrders())) {
+
+			transactiontypebyStatusMap.put(TransactionHistory.ALL_SALES_ORDERS,
+					messages.all());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_SALES_ORDERS, messages.drafts());
+
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.purchaseOrders())) {
+
+			transactiontypebyStatusMap.put(
+					TransactionHistory.ALL_PURCHASE_ORDERS, messages.all());
+			transactiontypebyStatusMap
+					.put(TransactionHistory.DRAFT_PURCHASE_ORDERS,
+							messages.drafts());
 
 		}
 		List<String> typeList = new ArrayList<String>(
@@ -672,6 +690,12 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.expenses())) {
 			return ClientTransaction.TYPE_EXPENSE;
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.salesOrders())) {
+			return TransactionHistory.TYPE_SALES_ORDER;
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.purchaseOrders())) {
+			return TransactionHistory.TYPE_PURCHASE_ORDER;
 		}
 		return 0;
 
