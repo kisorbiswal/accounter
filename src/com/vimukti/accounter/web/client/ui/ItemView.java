@@ -769,7 +769,7 @@ public class ItemView extends BaseView<ClientItem> {
 				}
 				ClientMeasurement measurement = null;
 				if (this.measurement.getSelectedValue() != null) {
-					measurement = this.measurement.getSelectedValue();
+					measurement = getCompany().getMeasurement(this.measurement.getSelectedValue().getId());
 				} else {
 					measurement = getCompany().getMeasurement(
 							getCompany().getDefaultMeasurement());
