@@ -111,6 +111,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (saveAndNewButton != null) {
 			saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
 			saveAndNewButton.setText(messages.payTax());
+			this.buttonBar.add(saveAndNewButton);
 		}
 		deleteButton.setVisible(false);
 
@@ -197,7 +198,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			ClientPayTAX clientPayTAX = new ClientPayTAX();
 			clientPayTAX.setTransactionPayTax(payTaxEntriesList);
 
-			ActionFactory.getpayTAXAction().run(clientPayTAX, true);
+			ActionFactory.getpayTAXAction().run(clientPayTAX, false);
 		}
 	}
 

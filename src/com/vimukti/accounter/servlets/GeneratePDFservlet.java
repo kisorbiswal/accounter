@@ -55,6 +55,8 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceivePaymentPdfGeneration;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
+import com.vimukti.accounter.core.SalesOrder;
+import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.vat.IndianVATTemplate;
@@ -380,9 +382,17 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getManager().getServerObjectForid(
 											AccounterCoreType.ESTIMATE,
 											Long.parseLong(ids[i]));
-							fileName = "Quote" + estimate.getNumber();
-							map = Odt2PdfGeneration(estimate, company,
-									brandingTheme, isMultipleId, fileNames);
+
+							if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
+								fileName = "SalesOrder_" + estimate.getNumber();
+								map = Odt2PdfGeneration(estimate, company,
+										brandingTheme, isMultipleId, fileNames);
+
+							} else if (estimate.getEstimateType() == Estimate.QUOTES) {
+								fileName = "Quote" + estimate.getNumber();
+								map = Odt2PdfGeneration(estimate, company,
+										brandingTheme, isMultipleId, fileNames);
+							}
 						}
 						if (transactionType == Transaction.TYPE_CASH_SALES) {
 							CashSales cashSales = (CashSales) financetool
@@ -404,7 +414,7 @@ public class GeneratePDFservlet extends BaseServlet {
 							map = Odt2PdfGeneration(receivepayment, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
-						
+
 						if (transactionType == Transaction.TYPE_PURCHASE_ORDER) {
 							PurchaseOrder order = (PurchaseOrder) financetool
 									.getManager().getServerObjectForid(
@@ -417,6 +427,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									brandingTheme, isMultipleId, fileNames);
 
 						}
+						
 
 					}
 
@@ -583,7 +594,9 @@ public class GeneratePDFservlet extends BaseServlet {
 					// for genearting reports using XdocReport
 					generateCustom2PDF(request, response, companyName);
 				} else {
-					if (type == Transaction.TYPE_CASH_SALES || type == Transaction.TYPE_PURCHASE_ORDER) {
+					if (type == Transaction.TYPE_CASH_SALES
+							|| type == Transaction.TYPE_PURCHASE_ORDER
+							) {
 						generateCustom2PDF(request, response, companyName);
 					} else {
 						generateHtmlPDF(request, response, companyName);
@@ -686,6 +699,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			CashSalePdfGeneration cashSalePdfGeneration = null;
 			ReceivePaymentPdfGeneration receivePaymentPdfGeneration = null;
 			PurchaseOrderPdfGeneration purchaseOrderPdfGeneration = null;
+			SalesOrderPdfGeneration salesOrderPdfGeneration = null;
 			String templeteName = null;
 			String fileName = null;
 
@@ -750,22 +764,43 @@ public class GeneratePDFservlet extends BaseServlet {
 						(CashSales) transaction, company, brandingTheme);
 			}
 			if (transaction instanceof Estimate) {
-				// For Quote
-				if (brandingTheme.getQuoteTemplateName().contains(
-						"Classic Template")) {
-					templeteName = "templetes" + File.separator
-							+ "QuoteDocx.docx";
-				} else {
-					templeteName = ServerConfiguration.getAttachmentsDir()
-							+ "/" + company.getId() + "/" + "templateFiles"
-							+ "/" + brandingTheme.getID() + "/"
-							+ brandingTheme.getQuoteTemplateName();
+
+				Estimate est = (Estimate) transaction;
+
+				if (est.getEstimateType() == Estimate.QUOTES) {
+					// For Quote
+					if (brandingTheme.getQuoteTemplateName().contains(
+							"Classic Template")) {
+						templeteName = "templetes" + File.separator
+								+ "QuoteDocx.docx";
+					} else {
+						templeteName = ServerConfiguration.getAttachmentsDir()
+								+ "/" + company.getId() + "/" + "templateFiles"
+								+ "/" + brandingTheme.getID() + "/"
+								+ brandingTheme.getQuoteTemplateName();
+					}
+					fileName = "Quote_" + transaction.getNumber();
+					quotePdfGeneration = new QuotePdfGeneration(
+							(Estimate) transaction, company, brandingTheme);
+				} else if (est.getEstimateType() == Estimate.SALES_ORDER) {
+					// for sales Order
+					if (brandingTheme.getSalesOrderTemplateName().contains(
+							"Classic Template")) {
+						templeteName = "templetes" + File.separator
+								+ "SalesOrder.docx";
+					} else {
+
+						templeteName = ServerConfiguration.getAttachmentsDir()
+								+ "/" + company.getId() + "/" + "templateFiles"
+								+ "/" + brandingTheme.getID() + "/"
+								+ brandingTheme.getSalesOrderTemplateName();
+					}
+					fileName = "SalesOrder_" + transaction.getNumber();
+					salesOrderPdfGeneration = new SalesOrderPdfGeneration(
+							(Estimate) transaction, company, brandingTheme);
 				}
-				fileName = "Quote_" + transaction.getNumber();
-				quotePdfGeneration = new QuotePdfGeneration(
-						(Estimate) transaction, company, brandingTheme);
 			}
-			
+
 			if (transaction instanceof PurchaseOrder) {
 				// for Purchase Order
 				if (brandingTheme.getPurchaseOrderTemplateName().contains(
@@ -784,6 +819,8 @@ public class GeneratePDFservlet extends BaseServlet {
 						(PurchaseOrder) transaction, company, brandingTheme);
 			}
 
+			
+
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
 
@@ -796,13 +833,18 @@ public class GeneratePDFservlet extends BaseServlet {
 			} else if (transaction instanceof Invoice) {
 				context = invoicePdfGeneration.assignValues(context, report);
 			} else if (transaction instanceof Estimate) {
-				context = quotePdfGeneration.assignValues(context, report);
+				if (((Estimate) transaction).getEstimateType() == Estimate.QUOTES) {
+					context = quotePdfGeneration.assignValues(context, report);
+				} else {
+					context = salesOrderPdfGeneration.assignValues(context,
+							report);
+				}
 			} else if (transaction instanceof CashSales) {
 				context = cashSalePdfGeneration.assignValues(context, report);
 			} else if (transaction instanceof ReceivePayment) {
 				context = receivePaymentPdfGeneration.assignValues(context,
 						report);
-			}else if (transaction instanceof PurchaseOrder) {
+			} else if (transaction instanceof PurchaseOrder) {
 				context = purchaseOrderPdfGeneration.assignValues(context,
 						report);
 			}

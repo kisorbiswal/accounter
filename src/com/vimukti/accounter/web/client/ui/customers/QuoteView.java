@@ -1331,10 +1331,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
 		} else {
 			// if there is only one branding theme
+			
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
-			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_ESTIMATE,
-					clientBrandingTheme.getID());
+			
+				UIUtils.downloadAttachment(transaction.getID(),
+						ClientTransaction.TYPE_ESTIMATE,
+						clientBrandingTheme.getID());
+			
 		}
 
 	}
@@ -1467,7 +1470,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
-		if (type == ClientEstimate.QUOTES) {
+		if (type == ClientEstimate.QUOTES || type== ClientEstimate.SALES_ORDER) {
 			if (mode == EditMode.CREATE || mode == EditMode.EDIT
 					|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 				return false;

@@ -20,6 +20,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 	private final BrandingTheme brandingTheme;
 	private final Company company;
 	private final String templateName;
+	private CompanyPreferences preferences;
 
 	public InvoicePDFTemplete(Invoice invoice, BrandingTheme brandingTheme,
 			Company company, String templateName) {
@@ -27,6 +28,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		this.brandingTheme = brandingTheme;
 		this.company = company;
 		this.templateName = templateName;
+		preferences = company.getPreferences();
 	}
 
 	public String getTempleteName() {
@@ -112,6 +114,71 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 			}
 
+			t.setVariable("orderNumber", invoice.getOrderNum());
+			t.setVariable("deliveryDate",
+					Utility.getDateInSelectedFormat(invoice.getDeliverydate()));
+			t.setVariable("shippingTerms", invoice.getShippingTerm().getName());
+			t.setVariable("customerName", invoice.getCustomer().getName());
+
+			List<TransactionItem> items = invoice.getTransactionItems();
+
+			if (preferences.isLocationTrackingEnabled()) {
+				if(invoice.getLocation()!= null){
+				t.setVariable("location", invoice.getLocation().getName());
+				t.addBlock("locationTracking");
+				}
+			}
+			if (preferences.isJobTrackingEnabled()) {
+				if(invoice.getJob()!= null){
+				t.setVariable("job", invoice.getJob().getJobName());
+				t.addBlock("jobTracking");
+				}
+			}
+			if (preferences.isClassTrackingEnabled()
+					&& (preferences.isClassPerDetailLine() == false)) {
+				String accounterClass = "";
+				for (TransactionItem trItem : items) {
+					if (trItem.getAccounterClass() != null) {
+						
+						if(trItem.getAccounterClass() != null){
+						accounterClass = trItem.getAccounterClass()
+								.getclassName();
+						}
+						if (accounterClass != null) {
+							break;
+						} else {
+							continue;
+						}
+					}
+
+				}
+				t.setVariable("class", accounterClass);
+				t.addBlock("classTracking");
+			}
+
+			if (preferences.isTrackDiscounts()
+					&& (preferences.isDiscountPerDetailLine() == false)) {
+				double discount = 0;
+
+				for (TransactionItem trItem : items) {
+					if (trItem != null) {
+						Double discountValue = trItem.getDiscount();
+						if (discountValue != null) {
+							discount = discountValue.doubleValue();
+							if (discount != 0.0D)
+								break;
+							else
+								continue;
+						}
+					}
+				}
+
+				String discountVal = Utility.decimalConversation(discount, "");
+
+				t.setVariable("outerDiscount", discountVal);
+				t.addBlock("outerDiscount");
+
+			}
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
@@ -214,10 +281,16 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						&& brandingTheme.isShowTaxColumn()) {
 					t.addBlock("vatBlock");
 				}
-				if (company.getPreferences().isTrackDiscounts()) {
+				if (company.getPreferences().isTrackDiscounts() &&  preferences.isDiscountPerDetailLine()) {
 
 					t.addBlock("discountBlock");
 				}
+				if (preferences.isClassTrackingEnabled()) {
+					if (preferences.isClassPerDetailLine()) {
+						t.addBlock("classBlock");
+					}
+				}
+
 				t.addBlock("showLabels");
 			}
 
@@ -254,12 +327,22 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.setVariable("quantity", qty);
 				t.setVariable("itemUnitPrice", unitPrice);
 
-				if (company.getPreferences().isTrackDiscounts()) {
+				if (company.getPreferences().isTrackDiscounts()&&  preferences.isDiscountPerDetailLine()) {
 					// if Discounts is enabled in Company Preferences, then
 					// only we need to show Discount Column
 					t.setVariable("discount",
 							Utility.decimalConversation(item.getDiscount(), ""));
 					t.addBlock("discountValueBlock");
+				}
+
+				if (preferences.isClassTrackingEnabled()) {
+					if (preferences.isClassPerDetailLine()) {
+						if(item.getAccounterClass() != null){
+						t.setVariable("itemClass", item.getAccounterClass()
+								.getName());
+						t.addBlock("classValueBlock");
+						}
+					}
 				}
 				t.setVariable("itemTotalPrice", totalPrice);
 
@@ -300,6 +383,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable(
 					"payment",
 					Utility.decimalConversation(invoice.getPayments()
+							/ currencyFactor, symbol));
+			t.setVariable(
+					"netAmount",
+					Utility.decimalConversation(invoice.getNetAmount()
 							/ currencyFactor, symbol));
 			t.setVariable(
 					"balancedue",
@@ -394,6 +481,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		t.setVariable("i18_NetAmount", messages.netAmount());
 		t.setVariable("i18_VATRate", messages.taxCode());
 		t.setVariable("i18_VATAmount", messages.tax());
+		t.setVariable("i18_Order_Number", messages.orderNumber());
+		t.setVariable("i18_Delivery_Date", messages.deliveryDate());
+		t.setVariable("i18_Shipping_Terms", messages.shippingTerms());
+		t.setVariable("i18_Customer", messages.customer());
+		t.setVariable("i18_Job", messages.job());
+		t.setVariable("i18_Class", messages.className());
+		t.setVariable("i18_Location", messages.location());
+		t.setVariable("i18_Net_Amount", messages.netAmount());
 		Map<String, String> variables = t.getVariables();
 		System.out.println(variables);
 	}

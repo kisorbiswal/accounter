@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -48,9 +51,10 @@ public class RecentTransactionHistoryGrid extends
 					Math.abs(obj.getAmount()),
 					getCompany().getCurrency(obj.getCurrecyId()));
 		case 0:
-			return DateUtills.getSelectedFormatDate(
+			return /*DateUtills.getSelectedFormatDate(
 					DateUtills.getDateAsString(obj.getTransactionDate()),
-					getCompany().getPreferences().getDateFormat());
+					getCompany().getPreferences().getDateFormat());*/
+					getDateByCompanyType(obj.getTransactionDate());
 		case 3:
 			return obj.getName();
 		default:
@@ -115,7 +119,7 @@ public class RecentTransactionHistoryGrid extends
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
-			return 60;
+			return 100;
 		case 3:
 			return 100;
 		default:
@@ -128,5 +132,18 @@ public class RecentTransactionHistoryGrid extends
 	protected String[] getColumns() {
 		return new String[] { "", "", "", "" };
 	}
+	public String getDateByCompanyType(ClientFinanceDate date) {
+		
+		if (date == null) {
+			return "";
+		}
+		String dateFormat = Global.get().preferences().getDateFormat();
+		if (dateFormat == null) {
+			dateFormat = "dd/MM/yyyy";
+		}
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+		String format = dateFormatter.format(date.getDateAsObject());
+		return format;
 
+	}
 }

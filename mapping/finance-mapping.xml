@@ -1711,6 +1711,10 @@
 			column="PURCHASEORDER_TEMPLETE_NAME" not-null="true" />
 		<property name="purchaseOrderTitle" type="encryptedstring"
 			column="PURCHASEORDER_TITLE" />
+			<property name="salesOrderTemplateName" type="encryptedstring"
+			column="SALESORDER_TEMPLETE_NAME" not-null="true" />
+		<property name="salesOrderTitle" type="encryptedstring"
+			column="SALESORDER_TITLE" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">

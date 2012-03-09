@@ -28,6 +28,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	private static final String CREDITNOTE = "CREDITNOTE";
 	private static final String CASHSALE = "CASHSALE";
 	private static final String PURCHASEORDER = "PURCHASEORDER";
+	private static final String SALESORDER = "SALESORDER";
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private FormPanel uploadForm;
 	private VerticalPanel mainLayout;
@@ -38,10 +39,10 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	private boolean closeAfterUploaded = true;
 	private String title;
 	private HTML detailsHtml1, detailsHtml2, detailsHtml3, detailsHtml4,
-			detailsHtml5, detailsHtml6,detailsHtml7;
+			detailsHtml5, detailsHtml6,detailsHtml7,detailsHtml8;
 
 	// private TextItem invoiceBox, creditNoteBox, quoteBox;
-	private FileUpload invoiceBtn, creditNoteBtn, quoteBtn, cashSaleBtn, purchaseOrderBtn;
+	private FileUpload invoiceBtn, creditNoteBtn, quoteBtn, cashSaleBtn, purchaseOrderBtn,salesOrderBtn;
 	private String[] fileTypes;
 	private ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
 
@@ -86,6 +87,8 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		detailsHtml6.addStyleName("bold_HTML");
 		detailsHtml7 = new HTML(messages.purchaseOrder());
 		detailsHtml7.addStyleName("bold_HTML");
+		detailsHtml8 = new HTML(messages.salesOrder());
+		detailsHtml8.addStyleName("bold_HTML");
 		
 
 		invoiceBtn = new FileUpload();
@@ -106,12 +109,16 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		
 		purchaseOrderBtn= new FileUpload();
 		purchaseOrderBtn.setName(PURCHASEORDER);
+		
+		salesOrderBtn= new FileUpload();
+		salesOrderBtn.setName(SALESORDER);
 
 		uploadItems.add(invoiceBtn);
 		uploadItems.add(creditNoteBtn);
 		uploadItems.add(quoteBtn);
 		uploadItems.add(cashSaleBtn);
 		uploadItems.add(purchaseOrderBtn);
+		uploadItems.add(salesOrderBtn);
 
 		panel.add(detailsHtml1);
 		panel.setSpacing(5);
@@ -155,6 +162,14 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		VerticalPanel purchaseOrderPanel = new VerticalPanel();
 		purchaseOrderPanel.add(purchaseOrderBtn);
 		panel.add(purchaseOrderPanel);
+		
+		panel.setSpacing(5);
+		panel.add(detailsHtml8);
+		panel.setSpacing(5);
+		
+		VerticalPanel salesOrderPanel = new VerticalPanel();
+		salesOrderPanel.add(salesOrderBtn);
+		panel.add(salesOrderPanel);
 
 		vpaPanel.add(panel);
 
@@ -240,6 +255,8 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 				brandingTheme.setCashSaleTemplateName(split[3]);
 			if (split[4].trim().length() > 0)
 				brandingTheme.setPurchaseOrderTemplateName(split[4]);
+			if (split[5].trim().length() > 0)
+				brandingTheme.setSalesOrderTemplateName(split[5]);
 
 			processUploadAttachments(brandingTheme, callback);
 		}
@@ -257,8 +274,10 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 				: uploadItems.get(3).getFilename();
 		String file_5 = uploadItems.get(4).getFilename() == null ? ""
 				: uploadItems.get(4).getFilename();
+		String file_6 = uploadItems.get(5).getFilename() == null ? ""
+				: uploadItems.get(5).getFilename();
 		if (file_1.equals("") && file_2.equals("") && file_3.equals("")
-				&& file_4.equals("")&& file_5.equals("")) {
+				&& file_4.equals("")&& file_5.equals("")&& file_6.equals("")) {
 			Accounter.showInformation(messages.noFileSelected());
 			return;
 		}

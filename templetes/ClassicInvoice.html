@@ -25,31 +25,65 @@
 		</tr>
   		
  </table>
-   	 <table id="header-part-invoice" class="margin" style="clear:both;font-family:${fontStyle};font-size:${font};" width="100%">
-		 <tr>
-			 <td style="vertical-align: top;" align="left">
-	    <!-- $BeginBlock billhead -->
-	     <table  id="billto"  style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
-          <tr>
-			<td class="gridHeaderBackGround"><p class="fontSetting"><center>${i18_Bill_To}</center></p></td>
-		  </tr>
-		  <tr>
-			<td align="left" style="vertical-align:top;height:130px">
-			   <p class="fontSetting">
-			     <div align="left">${billingAddress}</div>
-			   </p>
-			</td>
-		  </tr>
+   	<table class="margin">
+   <tr>
+      <td style="vertical-align: top;" align="left">
+		    <!-- $BeginBlock billhead -->
+		     <table id="header-part-invoice" class="margin" style="font-family:${fontStyle};font-size:${font};" width="100%">
+			   
+			    <tr>
+				  <td >
+				      <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
+						 <tr>
+						   <td style="vertical-align: top;" align="left">
+							 <table  id="billto" class="billto_quick" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+							
+							  <tr>
+								<td class="table-head"><p class="fontSetting"><center>${i18_Bill_To}</center></p></td>
+							  </tr>
+							  <tr>
+								<td align="left" style="vertical-align:top;height:130px">
+								   <p class="fontSetting">
+									 <div align="left">${billingAddress}</div>
+								   </p>
+								</td>
+							  </tr>
+							
+							 </table>
+							</td>
+						 </tr>
+					
+					 </table>
+					 	  <!-- $EndBlock billhead -->
+				  </td>
+				  <td style="vertical-align: top;" align="right">
+		<!-- $BeginBlock shiphead -->
+		 <table  id = "shippingAddressTable"  class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
+		    <colgroup><col></colgroup>
+			<tr>
+			  <td class="gridHeaderBackGround" ><center class="fontSetting">${i18_Ship_To}</center></td>
+			</tr>
+			<tr>
+			  <td align="left" style="vertical-align:top;height:130px">
+				<p class="fontSetting">${shippingAddress}</p>
+			  </td>
+			</tr> 
 		 </table>
-		 <!-- $EndBlock billhead -->
+		 <!-- $EndBlock shiphead -->
 		</td>
-				  <td width="40%">
-				     <table width="100%" class="invoice_details_table"   style="font-family:${fontStyle};font-size:${font};">
+   </tr>
+</table>
+<table style="font-family:${fontStyle};font-size:${font};" width="100%">
+	 
+		<tr>
+		 
+				  <td width="40%" style="vertical-align: top;" align="right">
+		            <table class="invoice_zoho_table margin"   style="font-family:${fontStyle};font-size:${font};">
 					    <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
-						   <td id ="invoiceNumber"> ${i18_Invoice_Number}</td>
-						   <td align="right" width="40%">
+						   <td id ="invoiceNumber">${i18_Invoice_Number}</td>
+						    <td align="right" width="40%">
 							 ${invoiceNumber}
 						   </td>
 						</tr>
@@ -70,51 +104,73 @@
 						  </td>
 						</tr>
 						<!-- $EndBlock invOrderNumHead -->
-						<!-- $BeginBlock paymentTermsBlock -->
+						<!-- $BeginBlock currency -->
 						<tr>
-						  <td id = "paymentTerms">${i18_Payment_Terms}</td>
-						  <td align="right">${paymentTerms} </td>
-						 </tr>
-						 <!-- $EndBlock paymentTermsBlock -->
-						   <!-- $BeginBlock currency -->
-						<tr>
-						  <td id = "currency">${i18_Currency}</td>
+						  <td id = "customerNumber">${i18_Currency}</td>
 						  <td align="right"> ${currency} </td>
 						 </tr>
 						 <!-- $EndBlock currency -->
+						  <!-- $BeginBlock paymentTermsBlock -->
+						<tr>
+						  <td id = "customerNumber">${i18_Payment_Terms}</td>
+						  <td align="right">
+							 ${paymentTerms}
+						  </td>
+						 </tr>
+						 <!-- $EndBlock paymentTermsBlock -->
 						 <!-- $BeginBlock dueDateDetails -->
 						 <tr>
-                            <td id="duedate">${i18_Due_Date}</td>
-	                        <td align="right">${dueDate}</td>
-						 </tr><!-- $EndBlock dueDateDetails -->
-						 <!-- $BeginBlock customerVat -->
+							<td id="duedate">${i18_Due_Date}</td>
+							<td align="right">${dueDate}</td>
+						</tr>
+                        <!-- $EndBlock dueDateDetails -->
+                         <!-- $BeginBlock customerVat -->
 						 <tr>
-                            <td id="vatNumber">${i18_Customer_TAX_Registration_Number}</td>
+                            <td id="duedate">${i18_Customer_TAX_Registration_Number}</td>
 	                        <td align="right">${customerVATNumber}</td>
 						 </tr><!-- $EndBlock customerVat -->
+						 <!-- $BeginBlock jobTracking -->
+						 <tr>
+                            <td id="vatNumber">${i18_Job}</td>
+	                        <td align="right">${job}</td>
+						 </tr>
+						 <!-- $EndBlock jobTracking -->
+						  <!-- $BeginBlock classTracking -->
+						 <tr>
+                            <td id="vatNumber">${i18_Class}</td>
+	                        <td align="right">${class}</td>
+						 </tr>
+						  <!-- $EndBlock classTracking -->
+						 <!-- $BeginBlock locationTracking -->
+						  <tr>
+                            <td id="vatNumber">${i18_Location}</td>
+	                        <td align="right">${location}</td>
+						 </tr>
+						 <!-- $EndBlock locationTracking -->
+						 <tr>
+                            <td id="vatNumber">${i18_Order_Number}</td>
+	                        <td align="right">${orderNumber}</td>
+						 </tr>
+						 <tr>
+                            <td id="vatNumber">${i18_Delivery_Date}</td>
+	                        <td align="right">${deliveryDate}</td>
+						 </tr>
+						 <tr>
+                            <td id="vatNumber">${i18_Shipping_Terms}</td>
+	                        <td align="right">${shippingTerms}</td>
+						 </tr>
+						 <tr>
+                            <td id="vatNumber">${i18_Customer}</td>
+	                        <td align="right">${customerName}</td>
+						 </tr>
+						 
 					 </table> 
 				  </td>
 				</tr>
 			 </table>
-   <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
-     <tr>
-		<td style="vertical-align: top;" align="right">
-		<!-- $BeginBlock shiphead -->
-		 <table  id = "shippingAddressTable"  class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
-		    <colgroup><col></colgroup>
-			<tr>
-			  <td class="gridHeaderBackGround" ><center class="fontSetting">${i18_Ship_To}</center></td>
-			</tr>
-			<tr>
-			  <td align="left" style="vertical-align:top;height:130px">
-				<p class="fontSetting">${shippingAddress}</p>
-			  </td>
-			</tr> 
-		 </table>
-		 <!-- $EndBlock shiphead -->
-		</td>
-	 </tr>
- </table>
+		   </td>
+		</tr> 
+   </table>
  <!-- $BeginBlock salesNShipping -->
 <table width="100%" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
 		 <tr>
@@ -125,24 +181,19 @@
 			   <center><p class="fontSetting">${i18_Sales_Person}</p></center>
 			</td>
 			<!-- $EndBlock salespersonhead -->
-			</tr>
-			<tr>
+			
 			 <!-- $BeginBlock salesperson -->
 			<td align="center">
 			  <p class="fontSetting">${salesPersonName}</p>
 			</td>
 			<!-- $EndBlock salesperson -->
-			</tr>
-			</table>
-			<table>
-			<tr>
+			
 			<!-- $BeginBlock shippingmethodhead -->
 	        <td id = "shippingMethod"  class="gridHeaderBackGround">
 			   <center><p class="fontSetting">${i18_Shipping_Method}</p></center>
 			</td>
 			<!-- $EndBlock shippingmethodhead -->
-			</tr>
-			 <tr>
+			
 			<!-- $BeginBlock shippingmethod -->
 			<td align="center">
 			   <p class="fontSetting">${shippingMethodName}</p>            
@@ -151,7 +202,7 @@
 		 </tr>
 		 </table>
 		 </tr>
- </table>
+	 </table>
   <!-- $EndBlock salesNShipping -->
 <table width="100%"  class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
@@ -163,6 +214,9 @@
 	<!-- $BeginBlock discountBlock -->
 	<th><p class="fontSetting">${i18_Discount}</p></th>
 	<!-- $EndBlock discountBlock -->
+	<!-- $BeginBlock classBlock -->
+	<th><p class="fontSetting">${i18_Class}</p></th>
+	<!-- $EndBlock classBlock -->
 	<th><p class="fontSetting">${i18_Total_Price}</p></th>
 	<!-- $BeginBlock vatBlock -->
 	<th><p class="fontSetting">${i18_VATRate}</p></th>
@@ -192,6 +246,13 @@
 	   </div>
 	</td>
 	<!-- $EndBlock discountValueBlock -->
+		<!-- $BeginBlock classValueBlock -->
+	<td>
+	   <div class="cost">
+	     <p class="fontSetting">${itemClass}</p>
+	   </div>
+	</td>
+	<!-- $EndBlock classValueBlock -->
     <td align="right">
 	   <div class="price">
 	     <p class="fontSetting">${itemTotalPrice}</p>
@@ -209,7 +270,7 @@
 </table>
 <table width="100%" id="items">
  <tr>
-	<td class="blank" colspan="4" rowspan="5" width="63%">
+	<td class="blank" colspan="4" rowspan="7" width="63%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	 <!-- $BeginBlock subtotal -->
@@ -249,6 +310,20 @@
 	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
 	</td>
   </tr>
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Net_Amount}</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${netAmount}</p></div>
+	</td>
+  </tr>
+  <!-- $BeginBlock outerDiscount -->
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Discount}</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${outerDiscount}</p></div>
+	</td>
+  </tr>
+    <!-- $EndBlock outerDiscount -->
   <!-- $EndBlock itemDetails -->
 </table>
 <!-- $BeginBlock termsNpaypalId -->

@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.reports.BudgetVsActualsServerReport;
+import com.vimukti.accounter.web.client.ui.reports.TDSAcknowledgmentsReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -66,6 +67,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServer
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.TAXItemExceptionDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.TDSAcknowledgmentServerReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
@@ -159,7 +161,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_PROFITANDLOSSBYJOB = 189;
 	public final static int REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID = 190;
 	public final static int REPORT_TYPE_ESTIMATE_BY_JOB = 191;
-
+	public final static int REPORT_TYPE_TDS_ACKNOWLEDGEMENT_REPORT = 192;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1746,6 +1748,27 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return checksServerReport.getGridTemplate();
+
+		case REPORT_TYPE_TDS_ACKNOWLEDGEMENT_REPORT:
+
+			TDSAcknowledgmentServerReportView tdsView = new TDSAcknowledgmentServerReportView(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(tdsView, finaTool);
+			try {
+				tdsView.onResultSuccess(finaTool.getReportManager()
+						.getTDSAcknowledgments(this.startDate, this.endDate,
+								company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return tdsView.getGridTemplate();
+
 		default:
 			break;
 		}
@@ -2067,6 +2090,8 @@ public class ReportsGenerator {
 			return "Job Profitability Detail";
 		case REPORT_TYPE_PROFITANDLOSSBYJOB:
 			return "Profit and Loss by Job";
+		case REPORT_TYPE_TDS_ACKNOWLEDGEMENT_REPORT:
+			return "TDS Acknowledgement Report";
 
 		default:
 			break;

@@ -36,6 +36,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String quoteTemplateName;
 	private String cashSaleTemplateName;
 	private String purchaseOrderTemplateName;
+	private String salesOrderTemplateName;
 
 	private long id;
 	private String themeName;
@@ -53,6 +54,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String quoteTitle;
 	private String cashSaleTitle;
 	private String purchaseOrderTitle;
+	private String salesOrderTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -425,6 +427,22 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public void setPurchaseOrderTitle(String purchaseOrderTitle) {
 		this.purchaseOrderTitle = purchaseOrderTitle;
+	}
+
+	public String getSalesOrderTemplateName() {
+		return salesOrderTemplateName;
+	}
+
+	public void setSalesOrderTemplateName(String salesOrderTemplateName) {
+		this.salesOrderTemplateName = salesOrderTemplateName;
+	}
+
+	public String getSalesOrderTitle() {
+		return salesOrderTitle;
+	}
+
+	public void setSalesOrderTitle(String salesOrderTitle) {
+		this.salesOrderTitle = salesOrderTitle;
 	}
 
 }

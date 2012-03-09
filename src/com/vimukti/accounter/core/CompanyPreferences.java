@@ -122,7 +122,11 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x400000000000000L;
 	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
 	private static final long UNITS = 0x1000000000000000L;
+
 	private static final long TRANSACTION_CLASS_PER_DETAIL_LINE = 0x2000000000000000L;
+
+
+	private static final long JOB_TRACKING = 0x2000000000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -1231,7 +1235,13 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public String getCompanyEmail() {
 		return companyEmail;
 	}
+	public void setJobTrackingEnabled(boolean value) {
+		set(JOB_TRACKING, value);
+	}
 
+	public boolean isJobTrackingEnabled() {
+		return get(JOB_TRACKING);
+	}
 	/**
 	 * @param companyEmail
 	 *            the companyEmail to set

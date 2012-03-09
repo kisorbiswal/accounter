@@ -59,6 +59,7 @@ public class BrandingTheme extends CreatableObject implements
 	private String quoteTemplateName;
 	private String cashSaleTemplateName;
 	private String purchaseOrderTemplateName;
+	private String salesOrderTemplateName;
 
 	private String themeName;
 	private int pageSizeType;
@@ -74,6 +75,7 @@ public class BrandingTheme extends CreatableObject implements
 	private String quoteTitle;
 	private String cashSaleTitle;
 	private String purchaseOrderTitle;
+	private String salesOrderTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -474,11 +476,11 @@ public class BrandingTheme extends CreatableObject implements
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
 			String statementTitle, String quoteTitle,
-			String purchaseOrderTitle, String payPalEmailID, boolean isDefault,
+			String purchaseOrderTitle,String salesOrderTitle, String payPalEmailID, boolean isDefault,
 			String contactDetails, String Terms_And_Payment_Advice,
 			String invoiceTemplete, String creditNoteTemplete,
 			String quoteTemplateName, String cashSaleTempleteName,
-			String cashSaleTitle, String purchaseOrderTempleteName) {
+			String cashSaleTitle, String purchaseOrderTempleteName, String salesOrderTempleteName) {
 
 		this.themeName = themeName;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
@@ -494,6 +496,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.statementTitle = statementTitle;
 		this.quoteTitle = quoteTitle;
 		this.purchaseOrderTitle = purchaseOrderTitle;
+		this.salesOrderTitle = salesOrderTitle;
 		this.isShowTaxNumber = true;
 		this.isShowColumnHeadings = true;
 		this.isShowUnitPrice_And_Quantity = true;
@@ -513,6 +516,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.cashSaleTemplateName = cashSaleTempleteName;
 		this.cashSaleTitle = cashSaleTitle;
 		this.purchaseOrderTemplateName = purchaseOrderTempleteName;
+		this.salesOrderTemplateName= salesOrderTempleteName;
 	}
 
 	@Override
@@ -726,6 +730,22 @@ public class BrandingTheme extends CreatableObject implements
 
 	public void setPurchaseOrderTitle(String purchaseOrderTitle) {
 		this.purchaseOrderTitle = purchaseOrderTitle;
+	}
+
+	public String getSalesOrderTemplateName() {
+		return salesOrderTemplateName;
+	}
+
+	public void setSalesOrderTemplateName(String salesOrderTemplateName) {
+		this.salesOrderTemplateName = salesOrderTemplateName;
+	}
+
+	public String getSalesOrderTitle() {
+		return salesOrderTitle;
+	}
+
+	public void setSalesOrderTitle(String salesOrderTitle) {
+		this.salesOrderTitle = salesOrderTitle;
 	}
 
 }

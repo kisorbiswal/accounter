@@ -54,7 +54,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
-			logoNameBox, quoteBox, cashSaleBox,purchaseOrderBox;
+			logoNameBox, quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox;
 	private AmountField topMarginBox, bottomMarginBox, addressPadBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -123,6 +123,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		quoteBox.setValue(brandingTheme.getQuoteTitle());
 		cashSaleBox.setValue(brandingTheme.getCashSaleTitle());
 		purchaseOrderBox.setValue(brandingTheme.getPurchaseOrderTitle());
+		salesOrderBox.setValue(brandingTheme.getSalesOrderTitle());
 		taxNumItem.setValue(brandingTheme.isShowTaxNumber());
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
@@ -300,6 +301,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		data.setQuoteTitle(String.valueOf(quoteBox.getValue()));
 		data.setCashSaleTitle(String.valueOf(cashSaleBox.getValue()));
 		data.setPurchaseOrderTitle(String.valueOf(purchaseOrderBox.getValue()));
+		data.setSalesOrderTitle(salesOrderBox.getValue());
 		data.setShowTaxNumber(taxNumItem.isChecked());
 		data.setShowColumnHeadings(headingItem.isChecked());
 		data.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
@@ -335,6 +337,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		}
 
 		data.setPurchaseOrderTemplateName("Classic Template");
+		data.setSalesOrderTemplateName("Classic Template");
 		return data;
 	}
 
@@ -559,6 +562,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		cashSaleBox.setValue(messages.cashSaleValue());
 		purchaseOrderBox = new TextItem(messages.purchaseOrderTitle());
 		purchaseOrderBox.setValue(messages.purchaseOrderValue());
+		salesOrderBox = new TextItem(messages.salesOrderTitle());
+		salesOrderBox.setValue(messages.salesOrderValue());
 		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),
 				messages.usLetter());
@@ -670,7 +675,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		dynamicForm.setNumCols(2);
 		dynamicForm.setFields(topMarginBox, bottomMarginBox, addressPadBox,
 				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
-				statementBox, quoteBox, cashSaleBox,purchaseOrderBox, logoNameBox);
+				statementBox, quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, logoNameBox);
 
 		// textBoxTable.setWidget(2, 1, );
 		// textBoxTable.setWidget(3, 0, bottomMarginLabel);

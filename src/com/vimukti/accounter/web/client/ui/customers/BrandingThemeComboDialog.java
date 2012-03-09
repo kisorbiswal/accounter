@@ -96,6 +96,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 						ClientTransaction.TYPE_PURCHASE_ORDER,
 						brandingTheme.getID());
 			}
+			
 		} else {
 			// for printing multiple documents
 			StringBuffer ids = new StringBuffer();
@@ -143,7 +144,13 @@ public class BrandingThemeComboDialog extends BaseDialog {
 				UIUtils.downloadMultipleAttachment(ids.toString(),
 						ClientTransaction.TYPE_CASH_SALES,
 						brandingTheme.getID());
+			}else if (type == ClientTransaction.TYPE_PURCHASE_ORDER
+					) {
+				UIUtils.downloadAttachment(clientTransaction.getID(),
+						ClientTransaction.TYPE_PURCHASE_ORDER,
+						brandingTheme.getID());
 			}
+			
 
 		}
 
