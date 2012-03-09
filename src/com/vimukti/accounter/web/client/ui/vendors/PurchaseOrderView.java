@@ -505,6 +505,11 @@ public class PurchaseOrderView extends
 				}
 				PurchaseOrderView.this.updateNonEditableItems();
 			}
+			
+			@Override
+			protected int getTransactionType() {
+				return ClientTransaction.TYPE_PURCHASE_ORDER;
+			}
 
 		};
 

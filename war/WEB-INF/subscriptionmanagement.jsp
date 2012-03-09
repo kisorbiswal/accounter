@@ -47,7 +47,7 @@
 	<td> Subscription Type : </td>
 	<td><select  id="subScriptionTypeCombo" disabled>
     <option value="One User ">One user </option>
-    <option value="Two User ">Two users </option>
+    <option value="Two Users ">Two users </option>
     <option value="Five Users ">Five users </option>
     <option value="Unlimited Users ">Unlimited </option>
 	</select></td>

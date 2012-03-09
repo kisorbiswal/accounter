@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -14,10 +15,10 @@ import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
-
 	private ListFilter<ClientItem> filter;
 	private int type;
 	private boolean isForCustomer = true;
+	private int transactionType = 0;
 
 	public ItemsDropDownTable(ListFilter<ClientItem> filter) {
 		super(getItems(filter));
@@ -36,7 +37,16 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 			@Override
 			public String getValue(ClientItem object) {
-				return object.getDisplayName();
+
+				if ((transactionType == ClientTransaction.TYPE_PURCHASE_ORDER
+						|| transactionType == ClientTransaction.TYPE_CASH_PURCHASE || transactionType == ClientTransaction.TYPE_ENTER_BILL)
+						&& object.getVendorItemNumber() != null
+						&& !object.getVendorItemNumber().isEmpty()) {
+					return object.getDisplayName() + "("
+							+ object.getVendorItemNumber() + ")";
+				} else {
+					return object.getDisplayName();
+				}
 			}
 		};
 		this.addColumn(textColumn);
@@ -44,12 +54,21 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 
 	@Override
 	protected boolean filter(ClientItem t, String string) {
-		return t.getDisplayName().toLowerCase().startsWith(string);
+		return getDisplayValue(t).toLowerCase().startsWith(string);
 	}
 
 	@Override
-	protected String getDisplayValue(ClientItem value) {
-		return value.getDisplayName();
+	protected String getDisplayValue(ClientItem object) {
+		if ((transactionType == ClientTransaction.TYPE_PURCHASE_ORDER
+				|| transactionType == ClientTransaction.TYPE_CASH_PURCHASE || transactionType == ClientTransaction.TYPE_ENTER_BILL)
+				&& object.getVendorItemNumber() != null
+				&& !object.getVendorItemNumber().isEmpty()) {
+			return object.getDisplayName() + "(" + object.getVendorItemNumber()
+					+ ")";
+		} else {
+			return object.getDisplayName();
+		}
+
 	}
 
 	@Override
@@ -120,4 +139,7 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 		this.isForCustomer = isForCustomer;
 	}
 
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
+	}
 }

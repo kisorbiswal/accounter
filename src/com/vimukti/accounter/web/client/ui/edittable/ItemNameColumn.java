@@ -21,7 +21,13 @@ public abstract class ItemNameColumn extends
 	public ItemNameColumn(boolean isSales, ICurrencyProvider currencyProvider) {
 		this.isSales = isSales;
 		this.currencyProvider = currencyProvider;
+		itemsList.setTransactionType(getTransactionType());
 	}
+
+	protected int getTransactionType() {
+		return 0;
+	}
+
 
 	@Override
 	protected ClientItem getValue(ClientTransactionItem row) {

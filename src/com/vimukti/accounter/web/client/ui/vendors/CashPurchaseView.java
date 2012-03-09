@@ -354,6 +354,12 @@ public class CashPurchaseView extends
 				}
 				CashPurchaseView.this.updateNonEditableItems();
 			}
+			
+			@Override
+			protected int getTransactionType() {
+				return ClientTransaction.TYPE_CASH_PURCHASE;
+			}
+			
 		};
 
 		vendorItemTransactionTable.setDisabled(isInViewMode());

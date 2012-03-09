@@ -153,6 +153,11 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			protected String getDiscription(ClientItem item) {
 				return item.getPurchaseDescription();
 			}
+
+			@Override
+			protected int getTransactionType() {
+				return VendorItemTransactionTable.this.getTransactionType();
+			}
 		};
 		transactionItemNameColumn.setItemForCustomer(false);
 
@@ -263,5 +268,9 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
+	}
+
+	protected int getTransactionType() {
+		return 0;
 	}
 }
