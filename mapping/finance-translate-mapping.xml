@@ -123,7 +123,12 @@
 		BY LM.MESSAGE_ID ) AS T ; </sql-query> -->
 
 	<sql-query name="getNoOfMessages">
-		SELECT COUNT(*) FROM MESSAGE;
+	
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   MESSAGE;  
+				]]>
+		
 	</sql-query>
 
 	<query name="getMessages">
@@ -142,26 +147,39 @@
 		<query-param name="limt" type="int" />
 		<query-param name="lang" type="string" />
 		<query-param name="searchTerm" type="string" />
-		SELECT * FROM MESSAGE M WHERE M.VALUE LIKE :searchTerm ORDER BY (
-		SELECT
-		COUNT(*) FROM LOCAL_MESSAGE
-		LM WHERE LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,
-		(SELECT
-		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,
-		(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE )=1
-		ASC ,M.VALUE LIMIT :limt OFFSET :fm
+		
+		<![CDATA[
+				SELECT *
+				FROM   MESSAGE M
+				WHERE  M.VALUE LIKE :searchTerm
+				ORDER  BY (SELECT COUNT(*)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang) ASC,
+				          (SELECT Max(VOTES)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang) ASC,
+				          (SELECT COUNT(*)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang
+				                  AND LM.IS_APPROVED = TRUE) = 1 ASC,
+				          M.VALUE
+				LIMIT  :limt OFFSET :fm  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="getCountOfMessages">
 		<query-param name="searchTerm" type="string" />
-		SELECT COUNT(*) FROM MESSAGE M WHERE M.VALUE LIKE :searchTerm
+		
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   MESSAGE M
+				WHERE  M.VALUE LIKE :searchTerm  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="getUntranslatedMessages">
@@ -169,20 +187,35 @@
 		<query-param name="fm" type="int" />
 		<query-param name="limt" type="int" />
 		<query-param name="searchTerm" type="string" />
-		SELECT * FROM MESSAGE M WHERE(SELECT COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 AND M.VALUE LIKE
-		:searchTerm ORDER BY M.VALUE
-		LIMIT :limt OFFSET :fm
+		
+		<![CDATA[
+				SELECT *
+				FROM   MESSAGE M
+				WHERE (SELECT COUNT(*)
+				       FROM   LOCAL_MESSAGE LM
+				       WHERE  LM.MESSAGE_ID = M.ID
+				              AND LM.LANGUAGE = :lang) = 0
+				      AND M.VALUE LIKE :searchTerm
+				ORDER  BY M.VALUE
+				LIMIT  :limt OFFSET :fm  
+				]]>
+
 	</sql-query>
 
 	<sql-query name="getCountOfUntranslatedMessages">
 		<query-param name="lang" type="string" />
 		<query-param name="searchTerm" type="string" />
-		SELECT COUNT(*) FROM MESSAGE M WHERE(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)=0 AND
-		M.VALUE LIKE
-		:searchTerm
+		
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   MESSAGE M
+				WHERE (SELECT COUNT(*)
+				       FROM   LOCAL_MESSAGE LM
+				       WHERE  LM.MESSAGE_ID = M.ID
+				              AND LM.LANGUAGE = :lang) = 0
+				      AND M.VALUE LIKE :searchTerm  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="getMyTranslations">
@@ -191,34 +224,51 @@
 		<query-param name="limt" type="int" />
 		<query-param name="clientId" type="long" />
 		<query-param name="searchTerm" type="string" />
-		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.CLIENT=:clientId)=1 AND M.VALUE LIKE :searchTerm
-		ORDER BY (SELECT
-		COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,(SELECT MAX(VOTES)
-		FROM
-		LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang)
-		ASC
-		,(SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM WHERE LM.MESSAGE_ID=M.ID
-		AND
-		LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE )=1 ASC ,M.VALUE LIMIT
-		:limt OFFSET :fm
+		
+		<![CDATA[
+				SELECT *
+				FROM   MESSAGE M
+				WHERE  (SELECT COUNT(*)
+				        FROM   LOCAL_MESSAGE LM
+				        WHERE  LM.MESSAGE_ID = M.ID
+				               AND LM.LANGUAGE = :lang
+				               AND LM.CLIENT = :clientId) = 1
+				       AND M.VALUE LIKE :searchTerm
+				ORDER  BY (SELECT COUNT(*)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang) ASC,
+				          (SELECT Max(VOTES)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang) ASC,
+				          (SELECT COUNT(*)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang
+				                  AND LM.IS_APPROVED = TRUE) = 1 ASC,
+				          M.VALUE
+				LIMIT  :limt OFFSET :fm  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="getCountOfMyTranslations">
 		<query-param name="lang" type="string" />
 		<query-param name="clientId" type="long" />
 		<query-param name="searchTerm" type="string" />
-		SELECT COUNT(*) FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.CLIENT=:clientId)=1 AND M.VALUE LIKE :searchTerm
+		
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   MESSAGE M
+				WHERE  (SELECT COUNT(*)
+				        FROM   LOCAL_MESSAGE LM
+				        WHERE  LM.MESSAGE_ID = M.ID
+				               AND LM.LANGUAGE = :lang
+				               AND LM.CLIENT = :clientId) = 1
+				       AND M.VALUE LIKE :searchTerm  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="getUnApprovedMessages">
@@ -226,26 +276,45 @@
 		<query-param name="limt" type="int" />
 		<query-param name="lang" type="string" />
 		<query-param name="searchTerm" type="string" />
-		SELECT * FROM MESSAGE M WHERE (SELECT COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm ORDER BY (SELECT
-		COUNT(*) FROM LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC ,(SELECT
-		MAX(VOTES) FROM LOCAL_MESSAGE LM WHERE
-		LM.MESSAGE_ID=M.ID AND
-		LM.LANGUAGE=:lang) ASC , M.VALUE LIMIT
-		:limt
-		OFFSET :fm
+		
+		<![CDATA[
+				SELECT *
+				FROM   MESSAGE M
+				WHERE  (SELECT COUNT(*)
+				        FROM   LOCAL_MESSAGE LM
+				        WHERE  LM.MESSAGE_ID = M.ID
+				               AND LM.LANGUAGE = :lang
+				               AND LM.IS_APPROVED = TRUE) = 0
+				       AND M.VALUE LIKE :searchTerm
+				ORDER  BY (SELECT COUNT(*)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang) ASC,
+				          (SELECT Max(VOTES)
+				           FROM   LOCAL_MESSAGE LM
+				           WHERE  LM.MESSAGE_ID = M.ID
+				                  AND LM.LANGUAGE = :lang) ASC,
+				          M.VALUE
+				LIMIT  :limt OFFSET :fm  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="getCountOfUnApprovedMessages">
 		<query-param name="lang" type="string" />
 		<query-param name="searchTerm" type="string" />
-		SELECT COUNT(*) FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
-		LOCAL_MESSAGE LM
-		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm
+		
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   MESSAGE M
+				WHERE  (SELECT COUNT(*)
+				        FROM   LOCAL_MESSAGE LM
+				        WHERE  LM.MESSAGE_ID = M.ID
+				               AND LM.LANGUAGE = :lang
+				               AND LM.IS_APPROVED = TRUE) = 0
+				       AND M.VALUE LIKE :searchTerm  
+				]]>
+		
 	</sql-query>
 
 	<query name="getLanguageById">
@@ -270,49 +339,74 @@
 	<sql-query name="getKeyAndValues">
 		<query-param name="clientId" type="long" />
 		<query-param name="lang" type="string" />
-		SELECT K.KEY,(CASE
-		WHEN (LM.VALUE IS NOT NULL)
-		THEN LM.VALUE
-		ELSE
-		M.VALUE
-		END) AS VALUE
-		FROM KEY K LEFT JOIN KEY_MESSAGES KM ON KM.KEY_ID = K.ID
-		LEFT JOIN MESSAGE M ON M.ID=KM.MESSAGE_ID
-		LEFT JOIN LOCAL_MESSAGE LM ON
-		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang
-		AND (LM.IS_APPROVED OR
-		LM.CLIENT=:clientId) ORDER BY K.KEY,LM.IS_APPROVED DESC ;
+		
+		<![CDATA[
+				SELECT K.KEY,
+				       ( CASE
+				           WHEN ( LM.VALUE IS NOT NULL ) THEN LM.VALUE
+				           ELSE M.VALUE
+				         END ) AS VALUE
+				FROM   KEY K
+				       LEFT JOIN KEY_MESSAGES KM
+				         ON KM.KEY_ID = K.ID
+				       LEFT JOIN MESSAGE M
+				         ON M.ID = KM.MESSAGE_ID
+				       LEFT JOIN LOCAL_MESSAGE LM
+				         ON LM.MESSAGE_ID = M.ID
+				            AND LM.LANGUAGE = :lang
+				            AND ( LM.IS_APPROVED
+				                   OR LM.CLIENT = :clientId )
+				ORDER  BY K.KEY,
+				          LM.IS_APPROVED DESC;  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="deleteLocalMessage">
 		<query-param name="id" type="long" />
-		DELETE FROM LOCAL_MESSAGE LM WHERE LM.ID=:id ;
+		
+		<![CDATA[
+				DELETE FROM LOCAL_MESSAGE LM
+				WHERE  LM.ID = :id;  
+				]]>
+		
 	</sql-query>
 
 	<sql-query name="deleteVotesByLocalMessage">
 		<query-param name="id" type="long" />
-		DELETE FROM VOTE V WHERE V.LOCAL_MESSAGE_ID = :id;
+		
+		<![CDATA[
+				DELETE FROM VOTE V
+				WHERE  V.LOCAL_MESSAGE_ID = :id;  
+				]]>
+				
 	</sql-query>
 
 	<sql-query name="getLocalMessageForKey">
 		<query-param name="client" type="long" />
 		<query-param name="language" type="string" />
 		<query-param name="key" type="string" />
-		SELECT (CASE
-		WHEN (LM.VALUE IS NOT NULL)
-		THEN LM.VALUE
-		ELSE
-		M.VALUE
-		END) AS
-		VALUE
-		FROM KEY K LEFT JOIN KEY_MESSAGES KM ON KM.KEY_ID = K.ID
-		LEFT JOIN
-		MESSAGE M ON M.ID=KM.MESSAGE_ID
-		LEFT JOIN LOCAL_MESSAGE LM ON
-		LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:language
-		AND (LM.IS_APPROVED OR
-		LM.CLIENT=:client) WHERE K.KEY=:key ORDER BY K.KEY,LM.IS_APPROVED
-		DESC;
+		
+		<![CDATA[
+				SELECT ( CASE
+				           WHEN ( LM.VALUE IS NOT NULL ) THEN LM.VALUE
+				           ELSE M.VALUE
+				         END ) AS VALUE
+				FROM   KEY K
+				       LEFT JOIN KEY_MESSAGES KM
+				         ON KM.KEY_ID = K.ID
+				       LEFT JOIN MESSAGE M
+				         ON M.ID = KM.MESSAGE_ID
+				       LEFT JOIN LOCAL_MESSAGE LM
+				         ON LM.MESSAGE_ID = M.ID
+				            AND LM.LANGUAGE = :language
+				            AND ( LM.IS_APPROVED
+				                   OR LM.CLIENT = :client )
+				WHERE  K.KEY = :key
+				ORDER  BY K.KEY,
+				          LM.IS_APPROVED DESC;  
+				]]>
+				
 	</sql-query>
 
 </hibernate-mapping>
