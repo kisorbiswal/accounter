@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
 
 public class ClientSubscription implements IsSerializable {
 	public static final int ONE_USER = 1;
@@ -109,8 +110,14 @@ public class ClientSubscription implements IsSerializable {
 		if (expiredDate == null) {
 			return "Unlimited";
 		}
+		if (Global.get().preferences() != null) {
+			String dateInSelectedFormat = Utility
+					.getDateInSelectedFormat(new FinanceDate(expiredDate));
+			return dateInSelectedFormat;
+		}
 		SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat(
 				"MMM/dd/yyyy");
 		return dateformatMMDDYYYY.format(expiredDate);
+
 	}
 }
