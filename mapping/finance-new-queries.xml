@@ -159,7 +159,6 @@
 		(SELECT C.ID FROM COMPANY C WHERE C.CREATED_BY IN
 		(SELECT U1.ID FROM USERS U1 WHERE U1.CLIENT_ID=:clientId)))
 	</sql-query>
-
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />
 		delete from com.vimukti.accounter.core.RememberMeKey rk where
