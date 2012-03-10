@@ -721,7 +721,7 @@ public class WriteChequeView extends
 
 		balText = new AmountField(messages.balance(), this, getBaseCurrency(),
 				"balText");
-		balText.setWidth(100);
+//		balText.setWidth(100);
 		balText.setEnabled(!true);
 
 		bankAccSelect = new PayFromAccountsCombo(messages.bankAccount());
@@ -839,7 +839,7 @@ public class WriteChequeView extends
 				});
 		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
 				"amtText");
-		amtText.setWidth(100);
+//		amtText.setWidth(100);
 		amtText.setAmount(0.00);
 		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
@@ -857,11 +857,11 @@ public class WriteChequeView extends
 		});
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+//		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setEnabled(!false);
 
 		DynamicForm memoForm = new DynamicForm(" memoForm");
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
@@ -898,8 +898,8 @@ public class WriteChequeView extends
 
 		vatPanel = new StyledPanel("vatPanel");
 		amountPanel = new StyledPanel("amountPanel");
-		vatPanel.setWidth("100%");
-		amountPanel.setWidth("100%");
+//		vatPanel.setWidth("100%");
+//		amountPanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
@@ -1079,7 +1079,7 @@ public class WriteChequeView extends
 		vendorAccountFlowPanel.add(accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);
 		vendorAccountsDisclosurePanel.setOpen(true);
-		vendorAccountsDisclosurePanel.setWidth("100%");
+//		vendorAccountsDisclosurePanel.setWidth("100%");
 
 		if (isInViewMode()) {
 			transactionItems = transaction.getTransactionItems();
@@ -1102,7 +1102,7 @@ public class WriteChequeView extends
 		mainVLay.add(vendorAccountsDisclosurePanel);
 
 		StyledPanel vPanel = new StyledPanel("vPanel");
-		vPanel.setWidth("100%");
+//		vPanel.setWidth("100%");
 		// vPanel.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 
@@ -1129,7 +1129,7 @@ public class WriteChequeView extends
 
 		mainVLay.add(vPanel);
 
-		this.setWidth("100%");
+//		this.setWidth("100%");
 		this.add(mainVLay);
 
 		/* Adding dynamic forms in list */

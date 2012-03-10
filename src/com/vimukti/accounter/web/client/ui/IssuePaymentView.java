@@ -284,7 +284,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	private void createControls() {
-		setWidth("100%");
+//		setWidth("100%");
 		Label titleLabel = new Label(messages.printCheque());
 		titleLabel.setStyleName("label-title");
 

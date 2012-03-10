@@ -26,7 +26,7 @@ public class ReconcileCreateDialog extends BaseDialog {
 		this.statementRecord = statementRecord;
 		setText("Create");
 		createControls();
-		setWidth("500px");
+//		setWidth("500px");
 		center();
 	}
 

@@ -149,7 +149,7 @@ public class CustomerRefundView extends
 		labeldateNoLayout.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		StyledPanel totalLabel = new StyledPanel("totalLabel");
-		totalLabel.setWidth("100%");
+//		totalLabel.setWidth("100%");
 		totalLabel.add(labeldateNoLayout);
 		// totalLabel.setCellHorizontalAlignment(labeldateNoLayout,
 		// ALIGN_RIGHT);
@@ -162,12 +162,12 @@ public class CustomerRefundView extends
 
 		custForm = new DynamicForm("custForm");
 
-		custForm.setWidth("100%");
+//		custForm.setWidth("100%");
 
 		payFromSelect = new PayFromAccountsCombo(messages.payFrom());
 		payFromSelect.setRequired(true);
 		payFromSelect.setEnabled(!isInViewMode());
-		payFromSelect.setPopupWidth("500px");
+//		payFromSelect.setPopupWidth("500px");
 
 		payFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -188,7 +188,7 @@ public class CustomerRefundView extends
 		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
 				"amtText");
 		amtText.setRequired(true);
-		amtText.setWidth(100);
+//		amtText.setWidth(100);
 		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -211,7 +211,7 @@ public class CustomerRefundView extends
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
-		printCheck.setWidth(100);
+//		printCheck.setWidth(100);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -238,7 +238,7 @@ public class CustomerRefundView extends
 
 		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-		checkNoText.setWidth(100);
+//		checkNoText.setWidth(100);
 		if (!paymentMethodCombo.getSelectedValue().equals(
 				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
 			checkNoText.setEnabled(false);
@@ -262,7 +262,7 @@ public class CustomerRefundView extends
 
 		custForm.add(customerCombo, billToCombo, payFromSelect, amtText,
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
-		custForm.setWidth("100%");
+//		custForm.setWidth("100%");
 		// custForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		DynamicForm balForm = new DynamicForm("balForm");

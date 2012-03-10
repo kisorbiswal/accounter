@@ -89,11 +89,11 @@ public class UploadStatementDialog extends BaseDialog implements
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.save());
-		uploadSubmitButton.setWidth("80px");
+//		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
-		closeButton.setWidth("80px");
+//		closeButton.setWidth("80px");
 		buttonHlay = new StyledPanel("buttonHlay");
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);

@@ -42,7 +42,7 @@ public class InputDialog extends BaseDialog {
 	private void initialise() {
 		// mainPanel.setSpacing(3);
 		form = new DynamicForm("form");
-		form.setWidth("100%");
+//		form.setWidth("100%");
 		StyledPanel layout = new StyledPanel("layout");
 		for (String item : itemsNames)
 			addTextItem(item);

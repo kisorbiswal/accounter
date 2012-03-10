@@ -137,7 +137,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		// footerLayout.addStyleName("dialogfooter");
 
 		this.okbtn = new Button(messages.ok());
-		okbtn.setWidth("80px");
+//		okbtn.setWidth("80px");
 		this.okbtn.setFocus(true);
 
 		okbtn.addClickHandler(new ClickHandler() {
@@ -150,7 +150,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		okbtn.setFocus(true);
 
 		cancelBtn = new Button(messages.cancel());
-		cancelBtn.setWidth("80px");
+//		cancelBtn.setWidth("80px");
 		cancelBtn.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

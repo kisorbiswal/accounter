@@ -84,11 +84,11 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private void createControls() {
-		setWidth("570px");
+//		setWidth("570px");
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		addButton = new Button(messages.add());
-		addButton.setWidth("80px");
+//		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
@@ -112,7 +112,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		addButton.setEnabled(false);
 
 		removeButton = new Button(messages.remove());
-		removeButton.setWidth("80px");
+//		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (selectItemsGrid.getSelection() != null) {

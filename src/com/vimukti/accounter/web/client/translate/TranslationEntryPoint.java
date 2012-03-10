@@ -21,7 +21,7 @@ public class TranslationEntryPoint implements EntryPoint {
 					.setServiceEntryPoint(TRANSLATE_SERVICE_ENTRY_POINT);
 		}
 		TranslationWizard translationWizard = new TranslationWizard();
-		translationWizard.setWidth("100%");
+//		translationWizard.setWidth("100%");
 		RootPanel.get("translationPanel").add(translationWizard);
 
 	}

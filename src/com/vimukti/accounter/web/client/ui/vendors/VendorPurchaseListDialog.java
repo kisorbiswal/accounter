@@ -88,7 +88,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		StyledPanel okButtonLayout = new StyledPanel("okButtonLayout");
 		Button okButton = new Button(messages.ok());
-		okButton.setWidth("100px");
+//		okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -103,7 +103,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		});
 		okButtonLayout.add(okButton);
 		Button cancelButton = new Button(messages.cancel());
-		cancelButton.setWidth("100px");
+//		cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

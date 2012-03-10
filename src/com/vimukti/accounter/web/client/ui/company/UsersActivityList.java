@@ -88,7 +88,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		setPageSize(50);
 		listDataProvider.addDataDisplay(this);
 
-		this.setWidth("100%", true);
+//		this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		initTableColumns();

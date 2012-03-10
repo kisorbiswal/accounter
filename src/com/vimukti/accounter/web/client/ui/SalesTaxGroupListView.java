@@ -98,7 +98,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		buttonsLayout = new StyledPanel("buttonsLayout");
 
 		button1 = new AddButton(this);
-		button1.setWidth("80px");
+//		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -111,7 +111,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button2 = new Button(messages.edit());
 		button2.setEnabled(false);
-		button2.setWidth("80px");
+//		button2.setWidth("80px");
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -122,7 +122,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 
 		button3 = new Button(messages.remove());
 		button3.setEnabled(false);
-		button3.setWidth("80px");
+//		button3.setWidth("80px");
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -141,7 +141,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		itemsGrid = new SalesTaxItemsGrid(false);
 		itemsGrid.addStyleName("itemGrid");
 		itemsGrid.init();
-		itemsGrid.setWidth("100%");
+//		itemsGrid.setWidth("100%");
 		// itemsGrid.setSize("100%", "250px");
 
 		button1.setFocus(true);

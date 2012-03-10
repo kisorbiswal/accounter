@@ -52,7 +52,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 		Label label = new Label();
 		label.removeStyleName("gwt-style");
-		label.setWidth("100%");
+//		label.setWidth("100%");
 		label.addStyleName("label-title");
 		label.setText(messages.taxHistory());
 		this.optionsCombo = new SelectCombo(messages.taxFillings());

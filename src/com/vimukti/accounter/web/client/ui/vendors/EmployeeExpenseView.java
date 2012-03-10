@@ -156,12 +156,12 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		StyledPanel verticalPanel = (StyledPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
-		vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 		verticalPanel.add(vendorForm);
 
 		StyledPanel vPanel = (StyledPanel) termsForm.getParent();
 		termsForm.removeFromParent();
-		termsForm.setWidth("100%");
+//		termsForm.setWidth("100%");
 		vPanel.add(termsForm);
 
 		if (isInViewMode()) {

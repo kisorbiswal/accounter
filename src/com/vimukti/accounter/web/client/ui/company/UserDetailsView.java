@@ -82,7 +82,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		mainPanel.add(changePasswordHtml);
 		mainPanel.add(changeProfileHtml);
 		mainPanel.add(deleteAccountHtml);
-		mainPanel.setWidth("100%");
+//		mainPanel.setWidth("100%");
 		mainPanel.addStyleName("change_password_view");
 		add(mainPanel);
 	}

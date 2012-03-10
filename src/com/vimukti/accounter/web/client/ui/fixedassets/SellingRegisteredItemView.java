@@ -113,7 +113,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioForm.add(QuestionItem);
 		dateItemCombo = new SelectItem(messages.date(), "dateItemCombo");
 		dateForm = new DynamicForm("dateForm");
-		dateForm.setWidth("50%");
+//		dateForm.setWidth("50%");
 		dateForm.add(dateItemCombo);
 		changeDateCombo(noDepOption);
 
@@ -123,7 +123,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioVlayout.add(dateForm);
 
 		notesArea = new TextAreaItem("", "notesArea");
-		notesArea.setWidth(100);
+//		notesArea.setWidth(100);
 		notesArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()).replace(messages.comments(),
 				messages.notes()));
@@ -175,7 +175,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		salepriceText = new AmountField(messages.salepriceExcludingTax(), this,
 				getBaseCurrency(), "salepriceText");
 		salepriceText.setRequired(true);
-		salepriceText.setWidth(100);
+//		salepriceText.setWidth(100);
 		DynamicForm detailForm = new DynamicForm("detailForm");
 		detailForm.add(datesold, accountCombo, salepriceText);
 		return detailForm;

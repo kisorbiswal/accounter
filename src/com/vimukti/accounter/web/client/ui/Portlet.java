@@ -97,16 +97,16 @@ public abstract class Portlet extends WorkbenchPanel {
 		return name;
 	}
 
-	@Override
-	public void add(Widget w) {
-		this.vPanel.add(w);
-	}
+//	@Override
+//	public void add(Widget w) {
+//		this.vPanel.add(w);
+//	}
 
 	public void fitToSize(int width, int height) {
 		width = Math.max(width, 300);
 		height = Math.max(height, 100);
-		this.setWidth(width + "px");
-		this.setHeight(height + "px");
+//		this.setWidth(width + "px");
+//		this.setHeight(height + "px");
 		// setGridWidth(width - 10, height - 40);
 	}
 

@@ -423,7 +423,7 @@ public class CustomerPrePaymentView extends
 
 		// payment
 		depositInCombo = createDepositInComboItem(bankBalText);
-		depositInCombo.setPopupWidth("500px");
+//		depositInCombo.setPopupWidth("500px");
 
 		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency(), "amountText");

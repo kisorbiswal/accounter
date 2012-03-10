@@ -32,10 +32,10 @@ public class CustomFieldDialog extends BaseDialog {
 			String description) {
 		super(title, description);
 		this.parentView = view;
-		setWidth("650px");
+//		setWidth("650px");
 		okbtn.setText(messages.save());
 		createControls();
-		setPopupPosition(200, 200);
+//		setPopupPosition(200, 200);
 		initData();
 
 	}

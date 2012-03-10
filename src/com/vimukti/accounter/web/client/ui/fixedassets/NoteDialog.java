@@ -24,18 +24,18 @@ public class NoteDialog extends BaseDialog {
 		// mainPanel.setSpacing(3);
 		Label noteLbl = new Label(messages.note());
 		noteArea = new TextAreaItem("", "noteArea");
-		noteArea.setWidth(100);
+//		noteArea.setWidth(100);
 		DynamicForm noteForm = new DynamicForm("noteForm");
-		noteForm.setWidth("100%");
+//		noteForm.setWidth("100%");
 		noteForm.add(noteArea);
 		// noteForm.removeCell(0, 0);
 		StyledPanel notePanel = new StyledPanel("notePanel");
-		notePanel.setWidth("100%");
+//		notePanel.setWidth("100%");
 		notePanel.add(noteLbl);
 		notePanel.add(noteForm);
 		setBodyLayout(notePanel);
 		okbtn.setText(messages.save());
-		setWidth("350px");
+//		setWidth("350px");
 	}
 
 	@Override

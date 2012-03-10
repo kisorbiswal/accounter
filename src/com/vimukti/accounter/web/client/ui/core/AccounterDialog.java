@@ -89,7 +89,7 @@ public class AccounterDialog extends CustomDialog {
 			}
 
 			okButton = new Button(messages.ok());
-			okButton.setWidth("80px");
+//			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			buttonLayout.add(okButton);
@@ -119,7 +119,7 @@ public class AccounterDialog extends CustomDialog {
 			}
 
 			okButton = new Button(Accounter.getMessages().cancel());
-			okButton.setWidth("80px");
+//			okButton.setWidth("80px");
 			okButton.setEnabled(true);
 			okButton.addClickHandler(new ClickHandler() {
 
@@ -142,9 +142,9 @@ public class AccounterDialog extends CustomDialog {
 			imageUrl = Accounter.getFinanceImages().warnIcon();
 			setText(messages.WARNING());
 			yesButton = new Button(messages.yes());
-			yesButton.setWidth("60px");
+//			yesButton.setWidth("60px");
 			noButton = new Button(messages.no());
-			noButton.setWidth("60px");
+//			noButton.setWidth("60px");
 			yesButton.addClickHandler(new ClickHandler() {
 
 				@Override

@@ -93,7 +93,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		}
 		messages = Global.get().messages();
 		setText(title);
-		setWidth("800px");
+//		setWidth("800px");
 		createControls();
 		center();
 		show();

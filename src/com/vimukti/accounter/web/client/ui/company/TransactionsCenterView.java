@@ -47,8 +47,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		mainPanel.setStyleName("Transactions_center");
 		createTreeItems();
 		this.add(mainPanel);
-		setSize("100%", "100%");
-		mainPanel.setWidth("100");
+//		setSize("100%", "100%");
+//		mainPanel.setWidth("100");
 	}
 
 	@SuppressWarnings("unchecked")

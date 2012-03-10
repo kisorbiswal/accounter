@@ -69,9 +69,9 @@ public class DatePopupCalendar extends PopupPanel {
 
 	private void nextButton(StyledPanel panel) {
 		prevButton = new Button("-");
-		prevButton.setWidth("60%");
+//		prevButton.setWidth("60%");
 		nextButton = new Button("+");
-		nextButton.setWidth("60%");
+//		nextButton.setWidth("60%");
 	}
 
 	private void drawButtons(final StyledPanel panel) {
@@ -229,7 +229,7 @@ public class DatePopupCalendar extends PopupPanel {
 		StyledPanel h = new StyledPanel("h");
 
 		// h.setSpacing(10);
-		h.setWidth("100%");
+//		h.setWidth("100%");
 		h.add(okButton);
 
 		// h.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);

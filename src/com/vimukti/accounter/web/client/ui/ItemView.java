@@ -161,7 +161,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		nameText.setValue(itemName);
-		nameText.setWidth(100);
+//		nameText.setWidth(100);
 		nameText.setRequired(true);
 		nameText.setEnabled(!isInViewMode());
 
@@ -172,11 +172,11 @@ public class ItemView extends BaseView<ClientItem> {
 		integerRangeValidator.setMin(0);
 
 		skuText = new TextItem(messages.upcsku(), "skuText");
-		skuText.setWidth(100);
+//		skuText.setWidth(100);
 		skuText.setEnabled(!isInViewMode());
 
 		weightText = new IntegerField(this, messages.weight());
-		weightText.setWidth(100);
+//		weightText.setWidth(100);
 		weightText.setEnabled(!isInViewMode());
 		weightText.setValidators(integerRangeValidator);
 		commodityCode = new ItemGroupCombo(messages.commodityCode());
@@ -197,7 +197,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		salesDescArea = new TextAreaItem(messages.salesDescription(),
 				"salesDescArea");
-		salesDescArea.setWidth(100);
+//		salesDescArea.setWidth(100);
 
 		salesDescArea.setEnabled(!isInViewMode());
 
@@ -206,7 +206,7 @@ public class ItemView extends BaseView<ClientItem> {
 				messages.salesDescription()));
 		salesPriceText = new AmountField(messages.salesPrice(), this,
 				getBaseCurrency(), "salesPriceText");
-		salesPriceText.setWidth(100);
+//		salesPriceText.setWidth(100);
 		salesPriceText.setEnabled(!isInViewMode());
 
 		accountCombo = new SalesItemCombo(messages.incomeAccount());
@@ -286,19 +286,19 @@ public class ItemView extends BaseView<ClientItem> {
 		// unitCombo.setPopupWidth("500px");
 
 		reorderPoint = new IntegerField(this, messages.reorderPoint());
-		reorderPoint.setWidth(100);
+//		reorderPoint.setWidth(100);
 		reorderPoint.setEnabled(!isInViewMode());
 		reorderPoint.setValidators(integerRangeValidator);
 
 		itemTotalValue = new AmountField(messages.total(), this,
 				getBaseCurrency(), "itemTotalValue");
-		itemTotalValue.setWidth(100);
+//		itemTotalValue.setWidth(100);
 		itemTotalValue.setAmount(0.00D);
 		itemTotalValue.setEnabled(!true);
 
 		onHandQuantity = new IntegerField(this, messages.onHandQty());
 		onHandQuantity.setNumber(0l);
-		onHandQuantity.setWidth(100);
+//		onHandQuantity.setWidth(100);
 		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
@@ -344,7 +344,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		stdCostText = new AmountField(messages.standardCost(), this,
 				getBaseCurrency(), "stdCostText");
-		stdCostText.setWidth(100);
+//		stdCostText.setWidth(100);
 		stdCostText.setEnabled(!isInViewMode());
 
 		itemGroupCombo = new ItemGroupCombo(messages.itemGroup());
@@ -373,13 +373,13 @@ public class ItemView extends BaseView<ClientItem> {
 		activeCheck.setEnabled(!isInViewMode());
 		purchaseDescArea = new TextAreaItem(messages.purchaseDescription(),
 				"purchaseDescArea");
-		purchaseDescArea.setWidth(100);
+//		purchaseDescArea.setWidth(100);
 		purchaseDescArea.setEnabled(!isInViewMode());
 		purchasePriceTxt = new AmountField(
 				type == ClientItem.TYPE_INVENTORY_PART ? messages.standardCost()
 						: messages.purchasePrice(), this, getBaseCurrency(),
 				"purchasePriceTxt");
-		purchasePriceTxt.setWidth(100);
+//		purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setEnabled(!isInViewMode());
 		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
@@ -438,7 +438,7 @@ public class ItemView extends BaseView<ClientItem> {
 				this.type != ClientItem.TYPE_SERVICE ? messages
 						.vendorProductNo(Global.get().Vendor()) : messages
 						.vendorServiceNo(Global.get().Vendor()));
-		vendItemNumText.setWidth(100);
+//		vendItemNumText.setWidth(100);
 		vendItemNumText.setEnabled(!isInViewMode());
 
 		isellCheck = new CheckboxItem(
@@ -524,7 +524,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// "memoFormAlign");
 
 		StyledPanel salesVPanel = new StyledPanel("salesVPanel");
-		salesVPanel.setWidth("100%");
+//		salesVPanel.setWidth("100%");
 		StyledPanel itemHPanel = new StyledPanel("itemHPanel");
 
 		// itemHPanel.setCellHorizontalAlignment(itemForm, ALIGN_LEFT);
@@ -557,14 +557,14 @@ public class ItemView extends BaseView<ClientItem> {
 		// topPanel1.setCellWidth(itemInfoForm, "50%");
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 
 		StyledPanel topPanel2 = new StyledPanel("topPanel2");
 		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
-		emptyPanel.setWidth("100%");
+//		emptyPanel.setWidth("100%");
 
 		// topPanel2.setHorizontalAlignment(ALIGN_RIGHT);
-		topPanel2.setWidth("100%");
+//		topPanel2.setWidth("100%");
 		topPanel2.add(salesVPanel);
 		// topPanel2.setCellHorizontalAlignment(purchzVPanel, ALIGN_LEFT);
 		topPanel2.add(purchzVPanel);
@@ -663,7 +663,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 		listforms.add(stockForm);
 
-		stockPanel.setWidth("100%");
+//		stockPanel.setWidth("100%");
 		return stockPanel;
 
 	}

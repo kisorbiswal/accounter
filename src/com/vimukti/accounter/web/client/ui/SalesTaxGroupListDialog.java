@@ -32,7 +32,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	public SalesTaxGroupListDialog(String title, String desc) {
 		super(title, desc);
-		setWidth("400px");
+//		setWidth("400px");
 		initialise();
 		// mainPanel.setSpacing(3);
 		center();

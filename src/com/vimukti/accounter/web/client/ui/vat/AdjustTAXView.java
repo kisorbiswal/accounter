@@ -89,7 +89,7 @@ public class AdjustTAXView extends
 
 		entryNo = new IntegerField(this, messages.no());
 		entryNo.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
-		entryNo.setWidth(100);
+//		entryNo.setWidth(100);
 		entryNo.setEnabled(isInViewMode());
 
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
@@ -171,7 +171,7 @@ public class AdjustTAXView extends
 		adjustAccountCombo = new OtherAccountsCombo(
 				messages.adjustmentAccount());
 		// adjustAccountCombo.setWidth(100);
-		adjustAccountCombo.setPopupWidth("600px");
+//		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
 		adjustAccountCombo.setEnabled(!isInViewMode());
 		amount = new AmountField(messages.amount(), this, getBaseCurrency(),

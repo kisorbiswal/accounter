@@ -45,13 +45,13 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		// typeForm.setIsGroup(true);
 		// typeForm.setGroupTitle("Account Type");
 		typeForm.add(typeRadio);
-		typeForm.setWidth("100%");
+//		typeForm.setWidth("100%");
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-		setWidth("350px");
+//		setWidth("350px");
 	}
 
 	@Override

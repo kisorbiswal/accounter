@@ -234,7 +234,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);

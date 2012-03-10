@@ -137,7 +137,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 //		topForm.setGroupTitle(messages.top());
 //		topForm.setNumCols(6);
 		topForm.add(taxAgencyCombo, fromDate, toDate);
-		topForm.setWidth("100%");
+//		topForm.setWidth("100%");
 
 		ListGrid grid = getGrid();
 

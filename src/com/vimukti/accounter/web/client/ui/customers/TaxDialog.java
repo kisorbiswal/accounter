@@ -60,7 +60,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-		setWidth("300px");
+//		setWidth("300px");
 
 	}
 

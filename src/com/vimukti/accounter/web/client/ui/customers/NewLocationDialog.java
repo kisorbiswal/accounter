@@ -41,7 +41,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 	public NewLocationDialog(String title) {
 		super(title, "");
-		setWidth("400px");
+//		setWidth("400px");
 		initilize();
 		createControls();
 		initData();
@@ -119,7 +119,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 	private void createControls() {
 		form = new DynamicForm("form");
-		form.setWidth("100%");
+//		form.setWidth("100%");
 
 		locationName = new TextItem(messages.locationName(Global.get()
 				.Location()), "locationName");
@@ -129,7 +129,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		form.add(locationName);
 		if (clientLocation != null) {
 			allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-			companyAdressTextArea.setWidth(100);
+//			companyAdressTextArea.setWidth(100);
 			companyAdressTextArea.setTitle(messages.address());
 			companyAdressTextArea.addClickHandler(new ClickHandler() {
 

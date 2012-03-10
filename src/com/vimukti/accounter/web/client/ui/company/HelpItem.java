@@ -23,7 +23,7 @@ public class HelpItem extends FlowPanel {
 
 	private void createControls() {
 		StyledPanel panel = new StyledPanel("panel");
-		panel.setWidth("100%");
+//		panel.setWidth("100%");
 		table = new FlexTable();
 		panel.add(table);
 		add(panel);
@@ -71,7 +71,7 @@ public class HelpItem extends FlowPanel {
 			}
 		});
 		table.setWidget(currentrow, currentcolumn, hyperlink);
-		table.setWidth("70%");
+//		table.setWidth("70%");
 		currentcolumn++;
 		if (currentcolumn > 1) {
 			currentrow++;

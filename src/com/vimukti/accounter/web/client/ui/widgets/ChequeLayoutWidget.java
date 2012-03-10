@@ -148,9 +148,9 @@ public class ChequeLayoutWidget extends SimplePanel {
 
 	private void createParameter(Label label, double top, double left,
 			double width) {
-		label.setWidth(width + "cm");
+//		label.setWidth(width + "cm");
 		label.setStyleName("chequeParameter");
-		DOM.setStyleAttribute(label.getElement(), "position", "relative");
+//		DOM.setStyleAttribute(label.getElement(), "position", "relative");
 		chequeBody.add(label, getPixel(left), getPixel(top));
 	}
 
@@ -205,8 +205,8 @@ public class ChequeLayoutWidget extends SimplePanel {
 
 		setChequeWidth(chequeLayout.getChequeWidth());
 		setChequeHeight(chequeLayout.getChequeHeight());
-		// chequeBody.setHeight(chequeLayout.getChequeHeight() + "cm");
-		// chequeBody.setWidth(chequeLayout.getChequeWidth() + "cm");
+		 chequeBody.setHeight(chequeLayout.getChequeHeight() + "cm");
+		 chequeBody.setWidth(chequeLayout.getChequeWidth() + "cm");
 	}
 
 	public void setPayeeNameTop(double payeeNameTop) {

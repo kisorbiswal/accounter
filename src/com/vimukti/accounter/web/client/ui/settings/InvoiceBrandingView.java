@@ -160,7 +160,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		}
 
-		mainPanel.setWidth("100%");
+//		mainPanel.setWidth("100%");
 		add(mainPanel);
 
 	}
@@ -299,12 +299,12 @@ public class InvoiceBrandingView<T> extends
 
 		nameAndMenuPanel.add(buttonPanel2);
 
-		buttonPanel2.getElement().getParentElement()
-				.setAttribute("width", "18%");
-		buttonPanel2.setWidth("100%");
+//		buttonPanel2.getElement().getParentElement()
+//				.setAttribute("width", "18%");
+//		buttonPanel2.setWidth("100%");
 
 		vPanel.add(nameAndMenuPanel);
-		vPanel.setWidth("100%");
+//		vPanel.setWidth("100%");
 
 		StyledPanel invoicePanel = new StyledPanel("invoicePanel");
 		invoiceHtml = new HTML("<p>" + messages.invoice()
@@ -348,7 +348,7 @@ public class InvoiceBrandingView<T> extends
 		uploadHtml = new HTML("<p>" + messages.themeUploadMessage() + "</p>");
 
 		detailsPanel = new StyledPanel("detailsPanel");
-		detailsPanel.setWidth("100%");
+//		detailsPanel.setWidth("100%");
 
 		StyledPanel downloadPanel = new StyledPanel("downloadPanel");
 		// downloadPanel.setWidth("30%");
@@ -542,7 +542,7 @@ public class InvoiceBrandingView<T> extends
 
 		if ((theme.getFileName() == null)) {
 			uploadPictureHtml = new HTML(messages.uploadLogo());
-			uploadPictureHtml.setWidth("104px");
+//			uploadPictureHtml.setWidth("104px");
 			uploadPictureHtml.setVisible(true);
 			uploadPictureHtml.addMouseOverHandler(new MouseOverHandler() {
 
@@ -652,9 +652,9 @@ public class InvoiceBrandingView<T> extends
 		uploadPanel.setStyleName("upload-logo");
 		uploadPanel.add(uploadPictureHtml);
 		verticalPanel.add(uploadPanel);
-		verticalPanel.setWidth("100%");
+//		verticalPanel.setWidth("100%");
 		verticalPanel.add(panel);
-		panel.getElement().getParentElement().setAttribute("align", "center");
+//		panel.getElement().getParentElement().setAttribute("align", "center");
 
 		if (theme.getFileName() == null) {
 			panel.setVisible(false);
@@ -673,7 +673,7 @@ public class InvoiceBrandingView<T> extends
 		// subLayPanel.setWidth("560px");
 
 		subLayPanel.setStyleName("general-setting-invoice");
-		contactDetailsPanel.setWidth("125px");
+//		contactDetailsPanel.setWidth("125px");
 		// uploadPanel.setWidth("185px");
 		allPanel = new StyledPanel("allPanel");
 		allPanel.add(subLayPanel);
@@ -700,22 +700,22 @@ public class InvoiceBrandingView<T> extends
 
 		nameAndMenuPanel.add(buttonPanel2);
 
-		buttonPanel2.getElement().getParentElement()
-				.setAttribute("width", "18%");
-		buttonPanel2.setWidth("100%");
+//		buttonPanel2.getElement().getParentElement()
+//				.setAttribute("width", "18%");
+//		buttonPanel2.setWidth("100%");
 
 		// optionsButton.setStyleName("ibutton-right-align") ;
 		if (theme.getName().equalsIgnoreCase(messages.standard())) {
 			deleteButton.setVisible(false);
-			buttonPanel2.getElement().getParentElement()
-					.setAttribute("width", "12%");
+//			buttonPanel2.getElement().getParentElement()
+//					.setAttribute("width", "12%");
 		} else {
 			deleteButton.setVisible(true);
 		}
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
-		allPanel.setWidth("100%");
-		vPanel.setWidth("100%");
+//		allPanel.setWidth("100%");
+//		vPanel.setWidth("100%");
 		SimplePanel simplePanel = new SimplePanel();
 		simplePanel.setStyleName("setting-class-panel");
 		simplePanel.add(vPanel);

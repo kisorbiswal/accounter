@@ -199,11 +199,11 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 				});
 
 		dynamicFormLeft = UIUtils.form(messages.chartOfAccountsInformation());
-		dynamicFormLeft.setWidth("100%");
+//		dynamicFormLeft.setWidth("100%");
 		dynamicFormLeft.add(formType, financialYearCombo);
 
 		dynamicFormRight = UIUtils.form(messages.chartOfAccountsInformation());
-		dynamicFormRight.setWidth("100%");
+//		dynamicFormRight.setWidth("100%");
 		dynamicFormRight.add(quaterSelectionCombo, slectAssecementYear);
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
@@ -231,7 +231,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
-		scroll.setWidth("910px");
+//		scroll.setWidth("910px");
 		scroll.setTouchScrollingDisabled(false);
 		scroll.addStyleName("tds-scroll-panel");
 

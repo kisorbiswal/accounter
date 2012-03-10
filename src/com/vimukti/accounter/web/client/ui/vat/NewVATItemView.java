@@ -148,7 +148,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		// mainPanel.setSpacing(25);
-		mainPanel.setWidth("100%");
+//		mainPanel.setWidth("100%");
 		mainPanel.add(infolabel1);
 		mainPanel.add(form1);
 

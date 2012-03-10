@@ -796,7 +796,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				super.onAttach();
 			}
 		};
-		panel.setWidth("100%");
+//		panel.setWidth("100%");
 		panel.add(l1);
 		panel.add(gridView);
 		StyledPanel hPanel = new StyledPanel("hPanel");

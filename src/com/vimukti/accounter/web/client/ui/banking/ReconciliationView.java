@@ -95,7 +95,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		datesForm.add(startdateLable, enddateLable);
 
 		StyledPanel hPanel = new StyledPanel("hPanel");
-		hPanel.setWidth("100%");
+//		hPanel.setWidth("100%");
 		hPanel.add(form);
 		hPanel.add(datesForm);
 		// hPanel.setCellWidth(form, "40%");
@@ -117,7 +117,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		});
 
 		StyledPanel btnPanel = new StyledPanel("btnPanel");
-		btnPanel.setWidth("100%");
+//		btnPanel.setWidth("100%");
 		btnPanel.add(changeBtn);
 		btnPanel.setStyleName("recoucilation_change");
 		// btnPanel.setCellHorizontalAlignment(changeBtn,
@@ -140,7 +140,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		difference = new AmountLabel(messages.Difference());
 		difference.setEnabled(false);
 		DynamicForm amountsForm = new DynamicForm("amountsForm");
-		amountsForm.setWidth("50%");
+//		amountsForm.setWidth("50%");
 		amountsForm.add(openingBalance, closingBalance, clearedAmount,
 				difference);
 		amountsPanel.add(amountsForm);
@@ -157,7 +157,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 						}
 					}
 				});
-		grid.setWidth("100%");
+//		grid.setWidth("100%");
 		// grid.setHeight("200px");
 
 		this.mainPanel = new StyledPanel("mainPanel");

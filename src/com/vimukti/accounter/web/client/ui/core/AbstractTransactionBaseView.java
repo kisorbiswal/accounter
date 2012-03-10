@@ -469,7 +469,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// else
 		dateItem.setShowTitle(false);
 
-		dateItem.setWidth(100);
+//		dateItem.setWidth(100);
 		dateItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override

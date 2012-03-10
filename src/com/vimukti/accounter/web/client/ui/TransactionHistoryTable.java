@@ -37,7 +37,7 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 
 		listDataProvider.addDataDisplay(this);
 
-		this.setWidth("100%", true);
+//		this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		initTableColumns();
 		updateColumnsData();

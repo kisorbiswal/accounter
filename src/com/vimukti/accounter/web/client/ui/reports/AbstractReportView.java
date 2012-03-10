@@ -265,7 +265,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 		printableLayout = new StyledPanel("printableLayout");
 		// printableLayout.setSize("100%", "100%");
-		printableLayout.setWidth("100%");
+//		printableLayout.setWidth("100%");
 		printableLayout.add(topLayout);
 		printableLayout.add(title);
 		this.tableLayout = new ScrollPanel() {

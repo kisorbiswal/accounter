@@ -575,8 +575,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 				final int row) {
 			if (isParent) {
 				final Image parentImg = new Image();
-				parentImg.setHeight("20px");
-				parentImg.setWidth("18px");
+//				parentImg.setHeight("20px");
+//				parentImg.setWidth("18px");
 				changeImg(isCollapse, parentImg);
 
 				parentImg.addClickHandler(new ClickHandler() {
@@ -601,8 +601,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 				this.addStyleName("childNode");
 			}
 			image = new Image();
-			image.setHeight("15px");
-			image.setWidth("15px");
+//			image.setHeight("15px");
+//			image.setWidth("15px");
 			image.setResource(url);
 			image.addStyleName("treeCellIcon");
 

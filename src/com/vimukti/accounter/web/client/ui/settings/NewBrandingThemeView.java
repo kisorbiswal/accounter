@@ -582,7 +582,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				});
 
 		fontSizeBox = new SelectCombo(messages.fontSize());
-		fontSizeBox.setWidth(100);
+//		fontSizeBox.setWidth(100);
 		listOfFontSizes = new ArrayList<String>();
 		for (int i = 0; i < fontSizeArray.length; i++) {
 			listOfFontSizes.add(fontSizeArray[i]);
@@ -679,7 +679,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		StyledPanel textBoxPanel = new StyledPanel("textBoxPanel");
 		textBoxPanel.add(nameForm);
 		textBoxPanel.add(textBoxTable);
-		textBoxTable.setWidth("86%");
+//		textBoxTable.setWidth("86%");
 		textBoxPanel.add(dynamicForm);
 		textBoxStyledPanel.add(textBoxPanel);
 		textBoxStyledPanel.add(measurePanel);

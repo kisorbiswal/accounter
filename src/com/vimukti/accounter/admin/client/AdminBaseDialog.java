@@ -135,7 +135,7 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 		// footerLayout.addStyleName("dialogfooter");
 
 		this.okbtn = new Button("ok");
-		okbtn.setWidth("80px");
+		okbtn.getElement().setId("OkButton");
 		this.okbtn.setFocus(true);
 
 		okbtn.addClickHandler(new ClickHandler() {
@@ -148,7 +148,7 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 		okbtn.setFocus(true);
 
 		cancelBtn = new Button("cancel");
-		cancelBtn.setWidth("80px");
+		cancelBtn.getElement().setId("cancelBtn");
 		cancelBtn.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

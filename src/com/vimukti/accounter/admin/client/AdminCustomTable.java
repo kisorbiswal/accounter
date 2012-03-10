@@ -105,8 +105,6 @@ public abstract class AdminCustomTable extends FlowPanel {
 		this.body = new FlexTable();
 		this.body.setStyleName("gridBody");
 
-		this.body.setWidth("100%");
-
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
@@ -202,8 +200,6 @@ public abstract class AdminCustomTable extends FlowPanel {
 		if (isShowFooter) {
 			initFooter();
 		}
-		this.setWidth("100%");
-		// this.setSize("100%", "120px");
 	}
 
 	private void initFooter() {
@@ -404,8 +400,8 @@ public abstract class AdminCustomTable extends FlowPanel {
 		// this.header.setWidth(width);
 		// if (width.contains("px"))
 		// this.width = Integer.parseInt(width.replace("px", ""));
-		this.body.setWidth("100%");
-		this.panel.setWidth("100%");
+		// this.body.setWidth("100%");
+		// this.panel.setWidth("100%");
 		super.setWidth(width);
 		// adjustCellsWidth(0, header);
 		// // body.setWidth(header.getOffsetWidth() + "px");
@@ -432,8 +428,8 @@ public abstract class AdminCustomTable extends FlowPanel {
 
 	public void setWidget(int row, final int column, final FocusWidget widget) {
 
-		widget.setWidth("100%");
-		widget.setHeight("100%");
+//		widget.setWidth("100%");
+//		widget.setHeight("100%");
 		this.body.setWidget(row, isMultiSelectionEnable ? column + 1 : column,
 				widget);
 		widget.addBlurHandler(new BlurHandler() {

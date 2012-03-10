@@ -273,7 +273,7 @@ public class ReceiveVATView extends
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
@@ -410,7 +410,7 @@ public class ReceiveVATView extends
 		// .getAmountAsString(totalAmount), 2);
 		// }
 		gridLayout.add(grid);
-		gridLayout.setWidth("100%");
+//		gridLayout.setWidth("100%");
 
 	}
 

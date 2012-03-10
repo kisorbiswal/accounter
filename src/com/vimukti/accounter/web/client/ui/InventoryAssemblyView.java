@@ -218,7 +218,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		onHandQuantity = new IntegerField(this, "On Hand Quantity");
 		onHandQuantity.setNumber(0l);
-		onHandQuantity.setWidth(100);
+//		onHandQuantity.setWidth(100);
 		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
@@ -364,7 +364,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		StyledPanel topPanel2 = new StyledPanel("topPanel2");
 		StyledPanel emptyPanel = new StyledPanel("emptyPanel");
 
-		topPanel2.setWidth("100%");
+//		topPanel2.setWidth("100%");
 		topPanel2.add(salesVPanel);
 		topPanel2.add(purchzVPanel);
 		topHLay.add(topPanel1);
@@ -512,7 +512,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		}
 		listforms.add(stockForm);
 
-		stockPanel.setWidth("100%");
+//		stockPanel.setWidth("100%");
 		return stockPanel;
 
 	}

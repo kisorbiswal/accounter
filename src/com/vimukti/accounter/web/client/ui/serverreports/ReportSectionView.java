@@ -157,8 +157,8 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for Sales type reports
 
 		DynamicForm salesForm = UIUtils.form(messages.sales());
-		salesForm.setWidth("50%");
-		salesForm.setHeight("40%");
+//		salesForm.setWidth("50%");
+//		salesForm.setHeight("40%");
 		// salesForm.setNumCols(1);
 
 		LinkItem salesByCustomerSummaryLink = new LinkItem();
@@ -223,8 +223,8 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for purchase type reports
 
 		DynamicForm purchaseForm = UIUtils.form(messages.purchase());
-		purchaseForm.setWidth("50%");
-		purchaseForm.setHeight("40%");
+//		purchaseForm.setWidth("50%");
+//		purchaseForm.setHeight("40%");
 		// purchaseForm.setNumCols(1);
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
@@ -291,9 +291,9 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for Other type reports
 
 		DynamicForm otherForm = UIUtils.form(messages.other());
-		otherForm.setWidth("50%");
-		otherForm.setHeight("40%");
-		// otherForm.setNumCols(1);
+//		otherForm.setWidth("50%");
+//		otherForm.setHeight("40%");
+//		// otherForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(messages

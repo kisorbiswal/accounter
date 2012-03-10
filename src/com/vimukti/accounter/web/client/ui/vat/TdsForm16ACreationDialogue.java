@@ -84,8 +84,8 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	@SuppressWarnings({ "unchecked" })
 	private void createControls() {
 		form = new DynamicForm("form");
-		form.setWidth("100%");
-		form.setHeight("100%");
+//		form.setWidth("100%");
+//		form.setHeight("100%");
 
 		StyledPanel layout = new StyledPanel("layout");
 		StyledPanel layout1 = new StyledPanel("layout1");

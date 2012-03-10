@@ -62,7 +62,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 
 		label = new Label();
 		label.removeStyleName("gwt-style");
-		label.setWidth("100%");
+//		label.setWidth("100%");
 		label.addStyleName("label-title");
 		label.setText(messages.tdsVendorsList());
 		this.fromDate = new DateItem(messages.from(), "fromDate");

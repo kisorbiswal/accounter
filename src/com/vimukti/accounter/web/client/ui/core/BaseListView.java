@@ -148,7 +148,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected void createControls() {
 		StyledPanel hlay = new StyledPanel("hlay");
-		hlay.setWidth("100%");
+//		hlay.setWidth("100%");
 
 		viewSelect = getSelectItem();
 		if (this instanceof BudgetListView) {
@@ -272,7 +272,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		});
 
 		budgetEdit = new Button(messages.edit());
-		budgetEdit.setWidth("10");
+//		budgetEdit.setWidth("10");
 
 		budgetEdit.addClickHandler(new ClickHandler() {
 
@@ -328,7 +328,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		StyledPanel vlayTop = new StyledPanel("vlayTop");
 		StyledPanel hlayTop = new StyledPanel("hlayTop");
-		hlayTop.setWidth("100%");
+//		hlayTop.setWidth("100%");
 		if (isTransactionListView()) {
 			// vlayTop.add(addNewLabel);
 			vlayTop.add(hlayTop);
@@ -346,7 +346,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		Label lab1 = new Label(getListViewHeading());
 		lab1.addStyleName("label-title-list");
-		lab1.setWidth("100%");
+//		lab1.setWidth("100%");
 
 		initGrid();
 
@@ -639,13 +639,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void fitToSize(int height, int width) {
-		if (grid.isShowFooter())
-			grid.setHeight(height - TOP - FOOTER + "px");
-		else
-			grid.setHeight(height - TOP + "px");
-		// grid.setHeight("100%");
-
-		grid.setWidth("100%");
+//		if (grid.isShowFooter())
+//			grid.setHeight(height - TOP - FOOTER + "px");
+//		else
+//			grid.setHeight(height - TOP + "px");
+//		// grid.setHeight("100%");
+//
+//		grid.setWidth("100%");
 
 	}
 

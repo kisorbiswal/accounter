@@ -222,12 +222,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
 				.Customer()));
-		customerCombo.setWidth("100%");
+//		customerCombo.setWidth("100%");
 
 		contactCombo = createContactComboItem();
 
 		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
-		billToTextArea.setWidth(100);
+//		billToTextArea.setWidth(100);
 
 		billToTextArea.setDisabled(isInViewMode());
 
@@ -295,7 +295,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		deliveryDate.setEnteredDate(getTransactionDate());
 
 		orderNumText = new TextItem(messages.orderNumber(), "orderNumText");
-		orderNumText.setWidth(38);
+//		orderNumText.setWidth(38);
 		if (transaction != null)
 			orderNumText.setEnabled(false);
 
@@ -341,7 +341,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// messages.width(), "200px");
 		// multi
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth("400px");
+//		memoTextAreaItem.setWidth("400px");
 
 		Button printButton = new Button();
 
@@ -359,7 +359,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		});
 
-		prodAndServiceForm1.setWidth("100%");
+//		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.add(memoTextAreaItem);
 
 		// StyledPanel vPanel = new StyledPanel();
@@ -457,7 +457,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		});
 
-		prodAndServiceForm2.setWidth("50%");
+//		prodAndServiceForm2.setWidth("50%");
 		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 		// prodAndServiceHLay.setWidth("100%");
 
@@ -515,7 +515,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		nonEditablePanel.add(totalForm);
 		nonEditablePanel.setStyleName("boldtext");
-		nonEditablePanel.setWidth("100%");
+//		nonEditablePanel.setWidth("100%");
 		prodAndServiceHLay.add(nonEditablePanel);
 
 		/*
@@ -566,7 +566,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			leftVLay.add(shipToAddress);
 
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
-		rightVLay.setWidth("100%");
+//		rightVLay.setWidth("100%");
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
@@ -574,7 +574,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		// topHLay.setSpacing(10);

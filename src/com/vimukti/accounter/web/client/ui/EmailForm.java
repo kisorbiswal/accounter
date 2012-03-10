@@ -103,7 +103,7 @@ public class EmailForm extends DynamicForm {
 		webText = new TextItem(messages.webPageAddress(),"webText");
 		webText.setToolTip(messages.giveOf(
 				messages.webSite(), view));
-		webText.setWidth(100);
+//		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();
 		emptyItem.setShowTitle(false);
 

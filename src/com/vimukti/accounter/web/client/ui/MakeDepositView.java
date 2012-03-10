@@ -443,7 +443,7 @@ public class MakeDepositView extends
 		}
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-		datepanel.setWidth("100%");
+//		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
 		// datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 		currencyWidget = createCurrencyFactorWidget();
@@ -474,7 +474,7 @@ public class MakeDepositView extends
 		};
 		depositInSelect.setRequired(true);
 		// depositInSelect.setWidth(100);
-		depositInSelect.setPopupWidth("450px");
+//		depositInSelect.setPopupWidth("450px");
 		depositInSelect.setEnabled(!isInViewMode());
 		depositInSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -512,8 +512,8 @@ public class MakeDepositView extends
 			}
 		};
 		depositFromSelect.setRequired(true);
-		depositFromSelect.setWidth(100);
-		depositFromSelect.setPopupWidth("450px");
+//		depositFromSelect.setWidth(100);
+//		depositFromSelect.setPopupWidth("450px");
 		depositFromSelect.setEnabled(!isInViewMode());
 		depositFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -570,7 +570,7 @@ public class MakeDepositView extends
 		});
 		memoText = new TextAreaItem(messages.memo(), "memoText");
 		memoText.setMemo(true, this);
-		memoText.setWidth(100);
+//		memoText.setWidth(100);
 		memoText.setEnabled(!isInViewMode());
 
 		memoForm = new DynamicForm("memoForm");
@@ -604,16 +604,16 @@ public class MakeDepositView extends
 
 		cashBackMemoText = new TextItem(messages.cashBackMemo(),
 				"cashBackMemoText");
-		cashBackMemoText.setWidth(100);
+//		cashBackMemoText.setWidth(100);
 
 		form1 = new DynamicForm("form1");
 		form1.add(cashBackMemoText, cashBackAccountSelect);
 		// form1.getCellFormatter().setWidth(0, 0, "180px");
-		form1.setWidth("70%");
+//		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(messages.cashBackAmount(), this,
 				getBaseCurrency(), "cashBackAmountText");
-		cashBackAmountText.setWidth(100);
+//		cashBackAmountText.setWidth(100);
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
 		cashBackAmountText.addChangedHandler(new ChangeHandler() {
@@ -644,10 +644,10 @@ public class MakeDepositView extends
 
 		form2.addStyleName("textbold");
 		// form2.setWidth("50%");
-		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
+//		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		topHLay.addStyleName("fields-panel");
 		topHLay.add(depoForm);
 
@@ -673,7 +673,7 @@ public class MakeDepositView extends
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		StyledPanel botHLay = new StyledPanel("botHLay");
-		botHLay.setWidth("100%");
+//		botHLay.setWidth("100%");
 		botHLay.add(memoForm);
 		// botHLay.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		botHLay.add(form2);

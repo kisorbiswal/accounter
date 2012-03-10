@@ -122,7 +122,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 		});
-		depreciatedToCombo.setWidth("100px");
+//		depreciatedToCombo.setWidth("100px");
 
 		Button updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {

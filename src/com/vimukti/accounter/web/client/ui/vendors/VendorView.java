@@ -350,22 +350,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 		// vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
-		vendorNameText.setWidth(100);
+//		vendorNameText.setWidth(100);
 		vendorNameText.setEnabled(!isInViewMode());
 
 		vendorNoText = new TextItem(
 				messages.payeeNumber(Global.get().Vendor()), "vendorNoText");
 		// vendorNoText.setHelpInformation(true);
 		vendorNoText.setRequired(true);
-		vendorNoText.setWidth(100);
+//		vendorNoText.setWidth(100);
 
 		fileAsText = new TextItem(messages.fileAs(), "fileAsText");
 		// fileAsText.setHelpInformation(true);
-		fileAsText.setWidth(100);
+//		fileAsText.setWidth(100);
 
 		taxID = new TextItem("Tax ID", "taxID");
 		// taxID.setHelpInformation(true);
-		taxID.setWidth(100);
+//		taxID.setWidth(100);
 		taxID.setEnabled(!isInViewMode());
 		vendorNameText.addChangeHandler(new ChangeHandler() {
 
@@ -617,7 +617,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		creditLimitText = new AmountField(messages.creditLimit(), this,
 				getBaseCurrency(), "creditLimitText");
 		// creditLimitText.setHelpInformation(true);
-		creditLimitText.setWidth(100);
+//		creditLimitText.setWidth(100);
 		creditLimitText.setEnabled(!isInViewMode());
 
 		preferredShippingSelect = new ShippingMethodsCombo(

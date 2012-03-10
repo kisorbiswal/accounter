@@ -100,64 +100,64 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		janAmount = new AmountField(DayAndMonthUtil.january(), this);
 		janAmount.setRequired(false);
-		janAmount.setWidth(100);
+//		janAmount.setWidth(100);
 
 		febAmount = new AmountField(DayAndMonthUtil.february(), this);
 		febAmount.setRequired(false);
-		febAmount.setWidth(100);
+//		febAmount.setWidth(100);
 
 		marAmount = new AmountField(DayAndMonthUtil.march(), this);
 		marAmount.setRequired(false);
-		marAmount.setWidth(100);
+//		marAmount.setWidth(100);
 
 		aprAmount = new AmountField(DayAndMonthUtil.april(), this);
 		aprAmount.setRequired(false);
-		aprAmount.setWidth(100);
+//		aprAmount.setWidth(100);
 
 		mayAmount = new AmountField(DayAndMonthUtil.may_full(), this);
 		mayAmount.setRequired(false);
-		mayAmount.setWidth(100);
+//		mayAmount.setWidth(100);
 
 		junAmount = new AmountField(DayAndMonthUtil.june(), this);
 		junAmount.setRequired(false);
-		junAmount.setWidth(100);
+//		junAmount.setWidth(100);
 
 		julAmount = new AmountField(DayAndMonthUtil.july(), this);
 		julAmount.setRequired(false);
-		julAmount.setWidth(100);
+//		julAmount.setWidth(100);
 
 		augAmount = new AmountField(DayAndMonthUtil.august(), this);
 		augAmount.setRequired(false);
-		augAmount.setWidth(100);
+//		augAmount.setWidth(100);
 
 		septAmount = new AmountField(DayAndMonthUtil.september(), this);
 		septAmount.setRequired(false);
-		septAmount.setWidth(100);
+//		septAmount.setWidth(100);
 
 		octAmount = new AmountField(DayAndMonthUtil.october(), this);
 		octAmount.setRequired(false);
-		octAmount.setWidth(100);
+//		octAmount.setWidth(100);
 
 		novAmount = new AmountField(DayAndMonthUtil.november(), this);
 		novAmount.setRequired(false);
-		novAmount.setWidth(100);
+//		novAmount.setWidth(100);/
 
 		decAmount = new AmountField(DayAndMonthUtil.december(), this);
 		decAmount.setRequired(false);
-		decAmount.setWidth(100);
+//		decAmount.setWidth(100);
 
 		annualAmount = new AmountField(messages.annual(), this);
 		annualAmount.setRequired(false);
-		annualAmount.setWidth(100);
+//		annualAmount.setWidth(100);
 
 		budgetAddForm = UIUtils.form(messages.chartOfAccountsInformation());
-		budgetAddForm.setWidth("100%");
+//		budgetAddForm.setWidth("100%");/
 		budgetAddForm.add(janAmount, febAmount, marAmount, aprAmount,
 				mayAmount, junAmount, julAmount, augAmount, septAmount,
 				octAmount, novAmount, decAmount);
 
 		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
-		budgetInfoForm.setWidth("100%");
+//		budgetInfoForm.setWidth("100%");
 
 		budgetInfoForm.add(budgetAddBy);
 
@@ -271,28 +271,28 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater1Amount = new AmountField(messages.quarterPeriod("1",
 					DayAndMonthUtil.jan(), DayAndMonthUtil.apr()), this);
 			quater1Amount.setRequired(false);
-			quater1Amount.setWidth(100);
+//			quater1Amount.setWidth(100);
 			quater1Amount.setAmount(janAmount.getAmount()
 					+ febAmount.getAmount() + marAmount.getAmount());
 
 			quater2Amount = new AmountField(messages.quarterPeriod("2",
 					DayAndMonthUtil.apr(), DayAndMonthUtil.mayS()), this);
 			quater2Amount.setRequired(false);
-			quater2Amount.setWidth(100);
+//			quater2Amount.setWidth(100);
 			quater2Amount.setAmount(aprAmount.getAmount()
 					+ mayAmount.getAmount() + junAmount.getAmount());
 
 			quater3Amount = new AmountField(messages.quarterPeriod("3",
 					DayAndMonthUtil.jun(), DayAndMonthUtil.sep()), this);
 			quater3Amount.setRequired(false);
-			quater3Amount.setWidth(100);
+//			quater3Amount.setWidth(100);
 			quater3Amount.setAmount(julAmount.getAmount()
 					+ augAmount.getAmount() + septAmount.getAmount());
 
 			quater4Amount = new AmountField(messages.quarterPeriod("4",
 					DayAndMonthUtil.oct(), DayAndMonthUtil.dec()), this);
 			quater4Amount.setRequired(false);
-			quater4Amount.setWidth(100);
+//			quater4Amount.setWidth(100);
 			quater4Amount.setAmount(octAmount.getAmount()
 					+ novAmount.getAmount() + decAmount.getAmount());
 

@@ -325,17 +325,17 @@ public class JournalEntryView extends
 		}
 
 		StyledPanel datepannel = new StyledPanel("datepannel");
-		datepannel.setWidth("100%");
+//		datepannel.setWidth("100%");
 		datepannel.add(dateForm);
 		// datepannel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
 		memoForm = new DynamicForm("memoForm");
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.add(memoText);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		deditTotalText = new AmountLabel(messages.debitTotalColon());
-		deditTotalText.setWidth("180px");
+//		deditTotalText.setWidth("180px");
 		((Label) deditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		deditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
@@ -343,7 +343,7 @@ public class JournalEntryView extends
 		deditTotalText.setEnabled(false);
 
 		creditTotalText = new AmountLabel(messages.creditTotalColon());
-		creditTotalText.setWidth("180px");
+//		creditTotalText.setWidth("180px");
 		((Label) creditTotalText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		creditTotalText.setDefaultValue("" + UIUtils.getCurrencySymbol()
@@ -356,7 +356,7 @@ public class JournalEntryView extends
 		totalForm.add(deditTotalText, creditTotalText);
 
 		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
-		bottomPanel.setWidth("100%");
+//		bottomPanel.setWidth("100%");
 		bottomPanel.add(memoForm);
 		// bottomPanel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		bottomPanel.add(totalForm);

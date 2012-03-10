@@ -44,7 +44,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	private void createControl() {
 
 		StyledPanel typeForm = new StyledPanel("typeForm");
-		typeForm.setWidth("100%");
+//		typeForm.setWidth("100%");
 
 		StyledPanel contentPanel = new StyledPanel("contentPanel");
 		contentPanel.setStyleName("margin-b");
@@ -62,20 +62,20 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			dateBox.addItem(date);
 		}
 
-		okbtn.setWidth("50px");
-		cancelBtn.setWidth("80px");
+//		okbtn.setWidth("50px");
+//		cancelBtn.setWidth("80px");
 
 		// footerLayout.setCellHorizontalAlignment(okbtn,
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(contentPanel);
 		mainVLay.add(prefixText);
 		mainVLay.add(dateBox);
 
 		setBodyLayout(mainVLay);
-		footerLayout.getElement().getStyle().setMarginLeft(29, Unit.PCT);
-		setWidth("300px");
+//		footerLayout.getElement().getStyle().setMarginLeft(29, Unit.PCT);
+//		setWidth("300px");
 		// mainPanel.setSpacing(3);
 
 	}

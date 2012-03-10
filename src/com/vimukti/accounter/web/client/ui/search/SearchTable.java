@@ -71,7 +71,7 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		setPageSize(10);
 		listDataProvider.addDataDisplay(this);
 
-		this.setWidth("100%", true);
+//		this.setWidth("100%", true);
 		this.setStyleName("search_result_table");
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 

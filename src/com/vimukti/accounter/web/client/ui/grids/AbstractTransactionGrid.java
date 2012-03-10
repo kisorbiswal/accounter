@@ -96,7 +96,7 @@ public abstract class AbstractTransactionGrid<T> extends ListGrid<T> {
 		if (box != null) {
 			Widget widget = box.getMainWidget();
 			this.widgetsMap.put(currentCol, widget);
-			widget.getElement().getStyle().setWidth(100, Unit.PCT);
+//			widget.getElement().getStyle().setWidth(100, Unit.PCT);
 			this.setWidget(currentRow, currentCol, widget);
 			//box.setFocus();
 		} else

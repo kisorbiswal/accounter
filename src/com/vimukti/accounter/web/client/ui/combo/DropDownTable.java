@@ -59,7 +59,7 @@ public abstract class DropDownTable<T> extends CellTable<T> {
 		this.body = new FlexTable();
 		this.setStyleName("dropdownFlex");
 
-		this.setWidth("100%");
+//		this.setWidth("100%");
 
 		clickableTextCell = new ClickableTextCell();
 		Column[] columns = getColumns();

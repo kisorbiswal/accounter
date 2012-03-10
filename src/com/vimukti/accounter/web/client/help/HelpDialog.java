@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 public class HelpDialog extends CustomDialog {
 
 	public HelpDialog(HelpPanel helpPannel) {
-		this.setWidth("100%");
-		this.setHeight("100%");
+//		this.setWidth("100%");
+//		this.setHeight("100%");
 		this.setModal(false);
 		this.addStyleName("helpdialog");
 		Element td = getCellElement(0, 1);

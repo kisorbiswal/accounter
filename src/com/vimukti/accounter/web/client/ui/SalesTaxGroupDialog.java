@@ -218,7 +218,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		addButton.setEnabled(false);
 
 		removeButton = new Button(messages.remove());
-		removeButton.setWidth("80px");
+//		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (selectTaxItemsGrid.getSelection() != null) {

@@ -36,7 +36,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		this.numOfRowsPerObject = numOfRowsPerObject;
 		this.addStyleName("editTable");
 		table = new FlexTable();
-		table.setWidth("100%");
+//		table.setWidth("100%");
 		this.add(table);
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();
@@ -61,7 +61,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		// Set width
 		int width = column.getWidth();
 		if (width != -1) {
-			cellFormatter.setWidth(rowIndex, index, width + "px");
+//			cellFormatter.setWidth(rowIndex, index, width + "px");
 		}
 	}
 

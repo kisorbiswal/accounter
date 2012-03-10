@@ -467,7 +467,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(messages.startingChequeNo(),
 					"checkNoText");
-			checkNoText.setWidth(100);
+//			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);
 			// if (selectedPayFromAccount != null)
 			// setStartingCheckNumber(selectedPayFromAccount);

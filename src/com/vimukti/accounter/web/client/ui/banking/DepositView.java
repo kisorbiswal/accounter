@@ -240,7 +240,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		memoTextAreaItem.setDisabled(this.isInViewMode());
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 
 		totalLabel = new AmountLabel(
@@ -259,17 +259,17 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		transactionDepositTable.setEnabled(!isInViewMode());
 
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
-		bottomLayout.setWidth("100%");
+//		bottomLayout.setWidth("100%");
 
 		StyledPanel bottompanel = new StyledPanel("bottompanel");
-		bottompanel.setWidth("100%");
+//		bottompanel.setWidth("100%");
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
 
 		bottompanel.add(bottomLayout);
 
-		mainPanel.setSize("100%", "100%");
+//		mainPanel.setSize("100%", "100%");
 		mainPanel.add(lab);
 		mainPanel.add(voidedPanel);
 		mainPanel.add(datepanel);

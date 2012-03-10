@@ -145,7 +145,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// Unit.PX);
 		// memoForm.getCellFormatter().setWidth(0, 0, "200");
 		salesPersonInfoForm = UIUtils.form(messages.salesPersonInformation());
-		salesPersonInfoForm.setStyleName("align-form");
+		salesPersonInfoForm.setStyleName("salesPersonInfoForm");
 		// salesPersonInfoForm.setWidth("100%");
 		statusCheck = new CheckboxItem(messages.active(), "status");
 		statusCheck.setValue(true);
@@ -319,7 +319,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
-		addrsForm.setWidth("100%");
+//		addrsForm.setWidth("100%");
 		// addrsForm.getCellFormatter().setWidth(0, 0, "200");
 		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
 		addrsForm.add(addrArea);

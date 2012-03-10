@@ -270,18 +270,18 @@ public class CreditCardExpenseView extends
 		// formItems.add(billToCombo);
 
 		creditCardCombo = createCreditCardItem();
-		creditCardCombo.setWidth("100%");
-		creditCardCombo.setPopupWidth("450px");
+//		creditCardCombo.setWidth("100%");
+//		creditCardCombo.setPopupWidth("450px");
 		creditCardCombo.setTitle(messages.payFrom());
 
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setWidth(100);
+//		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(messages.Vendor());
-		vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 		vendorForm.add(creditCardCombo, vendorCombo, contactCombo, phoneSelect
 		/* billToAreaItem */);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
@@ -312,7 +312,7 @@ public class CreditCardExpenseView extends
 		// formItems.add(delivDate);
 
 		termsForm = UIUtils.form(messages.terms());
-		termsForm.setWidth("100%");
+//		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.add(locationCombo);
 		if (!isTemplate) {
@@ -390,7 +390,7 @@ public class CreditCardExpenseView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
+//		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), this) {
@@ -440,9 +440,9 @@ public class CreditCardExpenseView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
+//		itemsDisclosurePanel.setWidth("100%");
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+//		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setDisabled(false);
 
 		// refText = new TextItem(messages.reference());
@@ -451,7 +451,7 @@ public class CreditCardExpenseView extends
 		// refText.setDisabled(false);
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
@@ -471,7 +471,7 @@ public class CreditCardExpenseView extends
 		botPanel = new StyledPanel("botPanel");
 
 		StyledPanel bottompanel = new StyledPanel("bottompanel");
-		bottompanel.setWidth("100%");
+//		bottompanel.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
 
 		discountField = getDiscountField();
@@ -551,7 +551,7 @@ public class CreditCardExpenseView extends
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightHLay);
 
@@ -563,11 +563,11 @@ public class CreditCardExpenseView extends
 		vLay1.add(itemsDisclosurePanel);
 		// vLay1.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
-		vLay1.setWidth("100%");
+//		vLay1.setWidth("100%");
 		vLay1.add(bottompanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);

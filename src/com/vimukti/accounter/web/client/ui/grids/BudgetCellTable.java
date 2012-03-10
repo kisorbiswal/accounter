@@ -71,7 +71,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 		}
 
-		this.setWidth("100%", true);
+//		this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		initTableColumns();

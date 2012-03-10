@@ -148,7 +148,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 				"attachmentItem");
 		attachmentItem.setValue("Invoice_" + invoice.getNumber() + ".pdf");
 		attachmentItem.setDisabled(true);
-		attachmentItem.setWidth(60);
+//		attachmentItem.setWidth(60);
 
 		form2.add(attachmentItem);
 		vPanel.add(attachmentLabel);

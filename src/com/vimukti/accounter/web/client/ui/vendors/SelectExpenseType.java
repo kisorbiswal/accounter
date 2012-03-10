@@ -64,7 +64,7 @@ public class SelectExpenseType extends BaseDialog {
 		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-		setWidth("300px");
+//		setWidth("300px");
 
 	}
 

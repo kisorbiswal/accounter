@@ -543,7 +543,7 @@ public class UIUtils {
 
 		busyindicator.setStyleName("busyindicator");
 		Label label = new Label(message);
-		label.setWidth("100%");
+//		label.setWidth("100%");
 		label.setStyleName("busyindicatorLabel");
 		busyindicator.add(img);
 		busyindicator.add(label);
@@ -782,7 +782,7 @@ public class UIUtils {
 		panel.center();
 		panel.setModal(true);
 		panel.add(imageLayout);
-		panel.setWidth("180px");
+//		panel.setWidth("180px");
 		panel.show();
 
 		Timer timer = new Timer() {
@@ -827,7 +827,7 @@ public class UIUtils {
 		panel.center();
 		panel.setModal(true);
 		panel.add(imageLayout);
-		panel.setWidth("247px");
+//		panel.setWidth("247px");
 		panel.show();
 
 		Timer timer = new Timer() {
@@ -1263,11 +1263,11 @@ public class UIUtils {
 		document.body.appendChild(scr);
 
 		// Width of the inner div sans scrollbar
-		wNoScroll = inn.offsetWidth;
+//		wNoScroll = inn.offsetWidth;
 		// Add the scrollbar
 		scr.style.overflow = 'auto';
 		// Width of the inner div width scrollbar
-		wScroll = inn.offsetWidth;
+//		wScroll = inn.offsetWidth;
 
 		// Remove the scrolling div from the doc
 		document.body.removeChild(document.body.lastChild);

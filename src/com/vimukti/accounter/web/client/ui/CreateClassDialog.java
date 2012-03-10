@@ -23,7 +23,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 			String desc) {
 		super(title, desc);
 		this.addStyleName("create-class-dialog");
-		setWidth("300px");
+//		setWidth("300px");
 		this.accounterClass = accounterClass;
 		initTrackClassDialog();
 	}

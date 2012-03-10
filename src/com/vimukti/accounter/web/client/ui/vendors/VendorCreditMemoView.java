@@ -221,7 +221,7 @@ public class VendorCreditMemoView extends
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setEnabled(isInViewMode());
-		phoneSelect.setWidth(100);
+//		phoneSelect.setWidth(100);
 
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
@@ -295,7 +295,7 @@ public class VendorCreditMemoView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
+//		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), this) {
@@ -397,7 +397,7 @@ public class VendorCreditMemoView extends
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 		leftVLay.add(vendorForm);
 		StyledPanel rightVLay1 = new StyledPanel("rightVLay1");
-		rightVLay1.setWidth("100%");
+//		rightVLay1.setWidth("100%");
 		StyledPanel topHLay1 = new StyledPanel("topHLay1");
 		topHLay1.addStyleName("fields-panel");
 		topHLay1.add(leftVLay);

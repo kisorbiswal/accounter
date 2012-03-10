@@ -101,7 +101,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		addressForm = new AddressForm(null);
 		vatAgencyForm = new DynamicForm("vatAgencyForm");
 		vatAgencyForm = UIUtils.form(messages.vatAgency());
-		vatAgencyForm.setWidth("100%");
+//		vatAgencyForm.setWidth("100%");
 		// vatAgencyForm.setAutoHeight();
 		vatAgencyForm.add(vatAgency);
 
@@ -128,7 +128,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		paymentInformationForm = new DynamicForm("paymentInformationForm");
 		// paymentInformationForm.setIsGroup(true);
-		paymentInformationForm.setWidth("100%");
+//		paymentInformationForm.setWidth("100%");
 		// paymentInformationForm.setAutoHeight();
 		// paymentInformationForm.setGroupTitle(messages.paymentInformation());
 		paymentInformationForm.add(vatBalance, amount, memo, referenceNo);
@@ -203,25 +203,25 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentMethodForm.add(paymentMethodCombo, toBePrinted, checkNoText);
 
 		StyledPanel lLayout = new StyledPanel("lLayout");
-		lLayout.setWidth("100%");
+//		lLayout.setWidth("100%");
 		// lLayout.setAutoHeight();
 		lLayout.add(vatAgencyForm);
 		lLayout.add(addressForm);
 		lLayout.add(paymentInformationForm);
 		StyledPanel rLayout = new StyledPanel("rLayout");
-		rLayout.setWidth("100%");
+//		rLayout.setWidth("100%");
 		// rLayout.setAutoHeight();
 		rLayout.add(accountInformationForm);
 		rLayout.add(paymentMethodForm);
 
 		StyledPanel hPanel = new StyledPanel("hPanel");
-		hPanel.setWidth("100%");
+//		hPanel.setWidth("100%");
 		hPanel.add(lLayout);
 		hPanel.add(rLayout);
 		// StyledPanel.setMembersMargin(20);
 
 		StyledPanel mainLayout = new StyledPanel("mainLayout");
-		mainLayout.setWidth("100%");
+//		mainLayout.setWidth("100%");
 		// mainLayout.setMembersMargin(10);
 		// mainLayout.setMargin(10);
 		mainLayout.add(lab);

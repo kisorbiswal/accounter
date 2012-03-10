@@ -35,7 +35,7 @@ public class AddBankDialog extends BaseDialog {
 		bankForm.add(bankNameText);
 
 		setBodyLayout(bankForm);
-		setWidth("275px");
+//		setWidth("275px");
 
 	}
 

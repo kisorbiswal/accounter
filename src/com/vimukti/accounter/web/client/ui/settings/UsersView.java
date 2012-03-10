@@ -144,7 +144,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		}
 
 		mainLayPanel.add(getUsersPanel());
-		mainLayPanel.setWidth("100%");
+//		mainLayPanel.setWidth("100%");
 
 		// saveAndCloseButton.setVisible(false);
 		// saveAndNewButton.setVisible(false);

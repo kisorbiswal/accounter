@@ -58,7 +58,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 		StyledPanel hPanel = new StyledPanel("hPanel");
 		FlexTable fTable = new FlexTable();
-		hPanel.setWidth("100%");
+//		hPanel.setWidth("100%");
 
 		hPanel.addHandler(new ResizeHandler() {
 

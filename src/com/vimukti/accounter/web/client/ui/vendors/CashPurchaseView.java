@@ -98,7 +98,7 @@ public class CashPurchaseView extends
 						}
 					}
 				});
-		transactionDateItem.setWidth(100);
+//		transactionDateItem.setWidth(100);
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
@@ -130,12 +130,12 @@ public class CashPurchaseView extends
 		contactCombo = createContactComboItem();
 		// contactCombo.setWidth(100);
 		billToAreaItem = new TextAreaItem(messages.billTo(), "billToAreaItem");
-		billToAreaItem.setWidth(100);
+//		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setWidth(100);
+//		phoneSelect.setWidth(100);
 		if (isInViewMode())
 			phoneSelect.setEnabled(false);
 
@@ -170,7 +170,7 @@ public class CashPurchaseView extends
 
 		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
-		printCheck.setWidth(100);
+//		printCheck.setWidth(100);
 		printCheck.setEnabled(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -198,7 +198,7 @@ public class CashPurchaseView extends
 
 		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-		checkNoText.setWidth(100);
+//		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
@@ -305,7 +305,7 @@ public class CashPurchaseView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
+//		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -357,7 +357,7 @@ public class CashPurchaseView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
+//		itemsDisclosurePanel.setWidth("100%");
 
 		// Inventory table..
 		// inventoryTransactionTable = new WarehouseAllocationTable();
@@ -372,7 +372,7 @@ public class CashPurchaseView extends
 		// ---Inverntory table-----
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+//		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 

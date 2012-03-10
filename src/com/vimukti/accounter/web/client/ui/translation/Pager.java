@@ -65,7 +65,7 @@ public abstract class Pager extends FlowPanel implements PagerListener {
 		pagerPanel.add(rangeLabel);
 		pagerPanel.add(nextButton);
 		this.add(pagerPanel);
-		this.setWidth("100%");
+//		this.setWidth("100%");
 		// this.setCellHorizontalAlignment(pagerPanel,
 		// HasAlignment.ALIGN_CENTER);
 	}

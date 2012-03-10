@@ -390,7 +390,7 @@ public class VendorBillView extends
 		}
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-		datepanel.setWidth("100%");
+//		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
@@ -422,7 +422,7 @@ public class VendorBillView extends
 		contactCombo = createContactComboItem();
 		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
-		billToCombo.setWidth(100);
+//		billToCombo.setWidth(100);
 		if (this.isInViewMode())
 			billToCombo.setEnabled(true);
 
@@ -583,7 +583,7 @@ public class VendorBillView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-		accountsDisclosurePanel.setWidth("100%");
+//		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -635,7 +635,7 @@ public class VendorBillView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-		itemsDisclosurePanel.setWidth("100%");
+//		itemsDisclosurePanel.setWidth("100%");
 		// Inventory table..
 		// inventoryTransactionTable = new WarehouseAllocationTable();
 		// inventoryTransactionTable.setDesable(isInViewMode());
@@ -664,11 +664,11 @@ public class VendorBillView extends
 		// formItems.add(linksText);
 		currencyWidget = createCurrencyFactorWidget();
 		DynamicForm tdsForm = new DynamicForm("tdsForm");
-		tdsForm.setWidth("100%");
+//		tdsForm.setWidth("100%");
 		tdsForm.add();
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
-		memoForm.setWidth("100%");
+//		memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
@@ -678,7 +678,7 @@ public class VendorBillView extends
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
 		// vatCheckform.setFields(vatinclusiveCheck);
 
-		totalForm.setWidth("100%");
+//		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")

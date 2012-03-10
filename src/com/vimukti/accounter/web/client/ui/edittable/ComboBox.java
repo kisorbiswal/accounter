@@ -160,7 +160,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 
 		popupPanel.getElement().setAttribute("style",
 				"min-width:" + textBox.getOffsetWidth() + "px");
-		popupPanel.setHeight("100px");
+//		popupPanel.setHeight("100px");
 
 		if ((x + popupWdth) > clientwidth) {
 			x = x - (popupPanel.getOffsetWidth() - this.getOffsetWidth());

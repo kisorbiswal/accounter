@@ -245,7 +245,7 @@ public class RecurringTransactionDialog extends
 		setBodyLayout(mainLayout);
 
 		okbtn.setText(messages.saveTemplate());
-		okbtn.setWidth("100px");
+//		okbtn.setWidth("100px");
 
 		initDataForNewTemplate();
 	}

@@ -92,7 +92,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.save());
-		uploadSubmitButton.setWidth("80px");
+//		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());

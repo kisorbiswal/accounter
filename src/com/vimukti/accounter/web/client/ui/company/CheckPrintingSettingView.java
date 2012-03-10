@@ -136,7 +136,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 				"cheque_print_text");
 		widthLabelItem.setValue(messages.width());
 		widthLabelItem.addStyleName("cheque_print_text");
-		sizesForm.setWidth("100%");
+//		sizesForm.setWidth("100%");
 
 		chequeWidth = new AmountField(messages.chequeWidth(), this);
 		addHandelers(chequeWidth, new ValueChangeHandler() {
@@ -485,7 +485,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		item.setValue("");
 
 		DynamicForm allFields = new DynamicForm("allFields");
-		allFields.setWidth("100%");
+//		allFields.setWidth("100%");
 		// allFields.setNumCols(8);
 		allFields.add(item, topLabelItem, leftLabelItem, widthLabelItem,
 				payeeLabel, payeeTop, payeeLeft, payeeWidth,
@@ -503,7 +503,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		chequeForm.addStyleName("cheque_form");
 
 		pageFormatPanel.addStyleName("pageformatpanel");
-		panel.setWidth("100%");
+//		panel.setWidth("100%");
 		panel.addStyleName("checkprintbox");
 		panel.add(pageFormatPanel);
 		panel.add(allFields);
@@ -514,7 +514,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		allPanel.add(panel);
 
 		this.add(allPanel);
-		allPanel.setWidth("100%");
+//		allPanel.setWidth("100%");
 
 		ImageButton saveButton = new ImageButton(messages.saveAndClose(),
 				Accounter.getFinanceImages().saveAndClose());

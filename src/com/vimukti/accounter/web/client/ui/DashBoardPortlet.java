@@ -48,7 +48,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		// panel.getElement().getStyle().setPadding(0, Unit.PX);
 		// panel.setSize("98.9%", "100%");
 		panel.add(body);
-		panel.setWidth("100%");
+//		panel.setWidth("100%");
 		super.add(panel);
 
 	}

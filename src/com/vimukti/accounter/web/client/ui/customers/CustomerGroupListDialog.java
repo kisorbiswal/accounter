@@ -29,7 +29,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	public CustomerGroupListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("380", "300");
-		setWidth("380px");
+//		setWidth("380px");
 		initialise();
 		center();
 	}

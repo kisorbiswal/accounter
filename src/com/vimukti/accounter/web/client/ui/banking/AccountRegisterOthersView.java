@@ -103,8 +103,8 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 		totalLabel.setText(messages.totalEndingBalance()
 				+ DataUtils.getAmountAsStringInPrimaryCurrency(total));
 		mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setHeight("100%");
-		mainVLay.setWidth("100%");
+//		mainVLay.setHeight("100%");
+//		mainVLay.setWidth("100%");
 		mainVLay.add(lableHpanel);
 		AccounterDOM.setParentElementHeight(lableHpanel.getElement(), 4);
 		mainVLay.add(gridLayout);
@@ -230,12 +230,12 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 	@Override
 	public void fitToSize(int height, int width) {
 
-		if (grid.isShowFooter())
-			grid.setHeight(height - TOP - FOOTER + "px");
-		else
-			grid.setHeight(height - TOP + "px");
-
-		grid.setWidth(width - BORDER + "px");
+//		if (grid.isShowFooter())
+//			grid.setHeight(height - TOP - FOOTER + "px");
+//		else
+//			grid.setHeight(height - TOP + "px");
+//
+//		grid.setWidth(width - BORDER + "px");
 
 	}
 

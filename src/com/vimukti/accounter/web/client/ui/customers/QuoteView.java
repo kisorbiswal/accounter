@@ -362,14 +362,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 		StyledPanel datepanel = new StyledPanel("datepanel");
-		datepanel.setWidth("100%");
+//		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
 		// datepanel.setCellHorizontalAlignment(dateNoForm,
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 		// datepanel.getElement().getStyle().setPaddingRight(15, Unit.PX);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
-		labeldateNoLayout.setWidth("100%");
+//		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
@@ -377,7 +377,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				.customer()));
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem(messages.billTo(), "billToTextArea");
-		billToTextArea.setWidth(100);
+//		billToTextArea.setWidth(100);
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -405,7 +405,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setWidth(100);
+//		phoneSelect.setWidth(100);
 		phoneSelect.setEnabled(!isInViewMode());
 
 		custForm = UIUtils.form(Global.get().customer());
@@ -428,7 +428,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		customerOrderText = new TextItem(messages.payeeOrderNo(Global.get()
 				.customer()), "customerOrderText");
-		customerOrderText.setWidth(50);
+//		customerOrderText.setWidth(50);
 		customerOrderText.setEnabled(!isInViewMode());
 
 		shippingTermsCombo = createShippingTermsCombo();
@@ -595,7 +595,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		// disabletextbox.setVisible(false);
 
 		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
-		prodAndServiceForm1.setWidth("100%");
+//		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.add(memoTextAreaItem);
 
 		StyledPanel nonEditablePanel = new StyledPanel("nonEditablePanel");
@@ -633,7 +633,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 
 		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
-		prodAndServiceHLay.setWidth("100%");
+//		prodAndServiceHLay.setWidth("100%");
 
 		StyledPanel vPanel = new StyledPanel("vPanel");
 		// vPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -677,7 +677,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
@@ -704,7 +704,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

@@ -43,7 +43,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		super(reconciliation, "");
 		this.reconciliationCallback = callback;
 		this.reconcilition = reconcilition;
-		setWidth("400px");
+//		setWidth("400px");
 		createControls();
 		center();
 	}
@@ -108,7 +108,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		closingBalance.setAmount(reconcilition.getClosingBalance());
 
 		DynamicForm form = new DynamicForm("form");
-		form.setWidth("100%");
+//		form.setWidth("100%");
 		form.add(reconcileAccountCombo, closingBalance, startDate,
 				endDate);
 
@@ -123,7 +123,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
-		okbtn.setWidth("130px");
+//		okbtn.setWidth("130px");
 		okbtn.setText(messages.startReconciliation());
 
 	}

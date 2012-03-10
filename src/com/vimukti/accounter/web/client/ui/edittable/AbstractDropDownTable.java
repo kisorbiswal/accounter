@@ -79,7 +79,7 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 
 		});
 		setSelectionModel(singleSelectionModel);
-		setWidth("100%");
+//		setWidth("100%");
 		initColumns();
 	}
 

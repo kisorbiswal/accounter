@@ -397,7 +397,7 @@ public class CreditCardChargeView extends
 			taxCodeSelect = createTaxCodeSelectItem();
 		vendorNameSelect = new VendorCombo(Global.get().messages()
 				.payeeName(Global.get().Vendor()));
-		vendorNameSelect.setWidth(100);
+//		vendorNameSelect.setWidth(100);
 		// vendorNameSelect.setRequired(true);
 		vendorNameSelect.setEnabled(true);
 
@@ -464,7 +464,7 @@ public class CreditCardChargeView extends
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
 		billToAreaItem = new TextAreaItem(messages.billTo(), "billToAreaItem");
-		billToAreaItem.setWidth(100);
+//		billToAreaItem.setWidth(100);
 		billToAreaItem.setEnabled(!true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
@@ -623,7 +623,7 @@ public class CreditCardChargeView extends
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+//		memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setEnabled(!false);
 
 		// refText = new TextItem(messages.reference());

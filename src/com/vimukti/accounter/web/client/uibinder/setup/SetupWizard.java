@@ -153,7 +153,7 @@ public class SetupWizard extends FlowPanel {
 			buttonPanel.add(backNextButtonPanel);
 			// buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
 			// HasAlignment.ALIGN_RIGHT);
-			buttonPanel.setWidth("100%");
+//			buttonPanel.setWidth("100%");
 			loadIndustriesDefaultAccounts();
 
 			gotoButton.addClickHandler(new ClickHandler() {

@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public class PortletPage extends FlowPanel implements DragHandler {
+public class PortletPage extends AbsolutePanel implements DragHandler {
 
 	public static final String DASHBOARD = "dashboard";
 

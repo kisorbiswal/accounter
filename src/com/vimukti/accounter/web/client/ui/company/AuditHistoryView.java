@@ -269,7 +269,7 @@ public class AuditHistoryView extends BaseView {
 				timeFormat);
 
 		DisclosurePanel panel = new DisclosurePanel(title);
-		panel.setWidth("100%");
+//		panel.setWidth("100%");
 		JSONValue value = JSONParser.parseLenient(activity.getAuditHistory());
 		AuditHistoryItem item = new AuditHistoryItem(jSONValue2.isArray());
 		panel.setContent(item);

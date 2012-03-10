@@ -70,7 +70,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 		footerLayout.insert(downloadTxt, getAbsoluteLeft());
 
 		setBodyLayout(verticalPanel);
-		setWidth("370px");
+//		setWidth("370px");
 	}
 
 	protected void createFile(final boolean isXml) {

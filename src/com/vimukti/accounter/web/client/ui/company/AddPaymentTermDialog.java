@@ -166,7 +166,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		// dueForm.setFields(dayText);
 
-		dueForm.setWidth("100%");
+//		dueForm.setWidth("100%");
 		dueForm.setStyleName("due_form_table");
 
 		// dayLabel = new Label();
@@ -176,17 +176,17 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// duePanel.setSize("100%", "100%");
 		duePanel.add(dueForm);
 		// duePanel.add(dayLabel);
-		duePanel.setWidth("100%");
+//		duePanel.setWidth("100%");
 		// duePanel.setCellVerticalAlignment(dayLabel,
 		// HasVerticalAlignment.ALIGN_MIDDLE);
 
 		discForm = new DynamicForm("discForm");
-		discForm.setWidth("100%");
+//		discForm.setWidth("100%");
 		// discForm.setNumCols(4);
 		// discForm.setIsGroup(true);
 		// discForm.setGroupTitle(messages.cashDiscount());
 		// discForm.setFields(discText, discDayText);
-		discForm.setSize("100%", "100%");
+//		discForm.setSize("100%", "100%");
 
 		// Label label2 = new Label();
 		// label2.setText(messages.days());
@@ -207,7 +207,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		// mainVLay.add(discountPanel);
 
 		setBodyLayout(mainVLay);
-		setWidth("450px");
+//		setWidth("450px");
 
 	}
 

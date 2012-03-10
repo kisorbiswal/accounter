@@ -74,8 +74,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private void createView() {
 
-		setWidth("100%");
-		setHeight("100%");
+//		setWidth("100%");
+//		setHeight("100%");
 
 		buttonBar = new ButtonBar(this);
 		buttonBar.setStyleName("button_bar");

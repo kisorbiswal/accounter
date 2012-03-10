@@ -378,7 +378,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		TextItem textField = new TextItem(messages.quantity(), "textField");
 		SelectCombo selectCombo = new SelectCombo(messages.units());
-		selectCombo.setWidth("50%");
+//		selectCombo.setWidth("50%");
 		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
 		// dynamicForm.setNumCols(4);
 		dynamicForm.add(textField, selectCombo);
@@ -611,7 +611,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		if (widgetsMap.get(currentCol) == null) {
 			textBox = new TextBox();
 			textBox.removeStyleName("gwt-TextBox");
-			textBox.setWidth("100%");
+//			textBox.setWidth("100%");
 			if (getColumnType(currentCol) == COLUMN_TYPE_DECIMAL_TEXTBOX)
 				textBox.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
 			textBox.addChangeHandler(new ChangeHandler() {

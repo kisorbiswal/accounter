@@ -82,7 +82,7 @@ public class StockSettingsView extends BaseView {
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 
 		entryNo = new IntegerField(this, messages.no());
-		entryNo.setWidth(100);
+//		entryNo.setWidth(100);
 
 		warehouseComboSelect = new WarehouseCombo(messages.wareHouse());
 
@@ -94,7 +94,7 @@ public class StockSettingsView extends BaseView {
 		itemGroupComboSelect = new ItemCombo(messages.stockItemName(), 0);
 		adjustmentQuantity = new IntegerField(this,
 				messages.stockAdjustmentQuantity());
-		entryNo.setWidth(100);
+//		entryNo.setWidth(100);
 		itemIncomeAmoutText = new LabelItem("", "itemIncomeAmoutText");
 		itemExpenseAmountText = new LabelItem("", "itemExpenseAmountText");
 		itemIncomeAmoutTextlabel = new LabelItem("", "itemIncomeAmoutTextlabel");
@@ -106,7 +106,7 @@ public class StockSettingsView extends BaseView {
 				getBaseCurrency(), "amount_Text");
 		memo = new TextAreaItem(messages.memo(), "memo_textbox");
 		memo.setMemo(false, this);
-		memo.setWidth(100);
+//		memo.setWidth(100);
 
 		vatform = new DynamicForm("vatform");
 		lowerform = new DynamicForm("lowerform");
@@ -125,7 +125,7 @@ public class StockSettingsView extends BaseView {
 		dateForm.add(adjustDate, entryNo);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
 		StyledPanel datepanel = new StyledPanel("datepanel");
-		datepanel.setWidth("100%");
+//		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
 		// datepanel.setCellHorizontalAlignment(dateForm,
 		// HasHorizontalAlignment.ALIGN_RIGHT);

@@ -160,7 +160,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private StyledPanel createPageView(final PreferencePage page) {
 		final StyledPanel pageView = new StyledPanel("pageView");
-		pageView.setWidth("100%");
+//		pageView.setWidth("100%");
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (int index = 0; index < options.size(); index++) {
 			final AbstractPreferenceOption option = options.get(index);

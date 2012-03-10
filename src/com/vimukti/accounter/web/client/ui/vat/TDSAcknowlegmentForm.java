@@ -35,7 +35,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	public TDSAcknowlegmentForm() {
 		super(messages.TDSAcknowledgementForm(), messages
 				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
-		setWidth("650px");
+//		setWidth("650px");
 		createControls();
 		center();
 	}
@@ -43,10 +43,10 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	private void createControls() {
 		form = new DynamicForm("form");
 		form1 = new DynamicForm("form1");
-		form.setWidth("100%");
-		form.setHeight("100%");
-		form1.setHeight("100%");
-		form1.setWidth("100%");
+//		form.setWidth("100%");
+//		form.setHeight("100%");
+//		form1.setHeight("100%");
+//		form1.setWidth("100%");
 		StyledPanel layout1 = new StyledPanel("layout1");
 		StyledPanel vPanel = new StyledPanel("vPanel");
 

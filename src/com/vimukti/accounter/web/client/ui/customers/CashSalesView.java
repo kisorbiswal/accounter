@@ -214,7 +214,7 @@ public class CashSalesView extends
 		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setVisible(false);
-		checkNoText.setWidth(100);
+//		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
@@ -267,7 +267,7 @@ public class CashSalesView extends
 		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(160);
+//		memoTextAreaItem.setWidth(160);
 
 		taxCodeSelect = createTaxCodeSelectItem();
 

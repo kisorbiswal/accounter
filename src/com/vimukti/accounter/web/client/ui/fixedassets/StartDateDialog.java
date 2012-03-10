@@ -76,8 +76,8 @@ public class StartDateDialog extends BaseDialog {
 		fillDateCombo();
 		initialDate = dateBox.getValue(dateBox.getSelectedIndex());
 
-		okbtn.setWidth("50px");
-		cancelBtn.setWidth("80px");
+//		okbtn.setWidth("50px");
+//		cancelBtn.setWidth("80px");
 		// footerLayout.setCellWidth(okbtn, "80%");
 
 		StyledPanel contentPanel = new StyledPanel("contentPanel");
@@ -86,7 +86,7 @@ public class StartDateDialog extends BaseDialog {
 		contentPanel.add(prefixText);
 		contentPanel.add(dateBox);
 		bodyLayout.add(contentPanel);
-		setWidth("350px");
+//		setWidth("350px");
 		// mainPanel.setSpacing(20);
 	}
 

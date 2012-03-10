@@ -127,7 +127,7 @@ public class PurchaseOrderView extends
 
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setTitle(messages.orderNo());
-		transactionNumber.setWidth(50);
+//		transactionNumber.setWidth(50);
 
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
@@ -136,19 +136,19 @@ public class PurchaseOrderView extends
 		dateNoForm.add(statusSelect, transactionDateItem);
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-		datepanel.setWidth("98%");
+//		datepanel.setWidth("98%");
 		datepanel.add(dateNoForm);
 		// datepanel.setCellHorizontalAlignment(dateNoForm,
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
-		labeldateNoLayout.setWidth("100%");
+//		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 		// final TextItem disabletextbox = new TextItem();
 		// disabletextbox.setVisible(false);
 		amountsForm = new StyledPanel("amountsForm");
-		amountsForm.setWidth("100%");
+//		amountsForm.setWidth("100%");
 
 		netAmount = createNetAmountLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
@@ -166,7 +166,7 @@ public class PurchaseOrderView extends
 		// createVendorComboItem(messages.vendorName());
 
 		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
-		prodAndServiceHLay.setWidth("100%");
+//		prodAndServiceHLay.setWidth("100%");
 
 		DynamicForm transactionTotalForm = new DynamicForm(
 				"transactionTotalForm");
@@ -286,7 +286,7 @@ public class PurchaseOrderView extends
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.constants().billTo());
 		billtoAreaItem = new TextAreaItem(messages.billTo(), "billtoAreaItem");
-		billtoAreaItem.setWidth("100%");
+//		billtoAreaItem.setWidth("100%");
 		billtoAreaItem.setDisabled(true);
 
 		// shipToCombo = createShipToComboItem();
@@ -326,7 +326,7 @@ public class PurchaseOrderView extends
 
 		purchaseOrderText = new TextItem(messages.payeeOrderNo(Global.get()
 				.Vendor()), "purchaseOrderText");
-		purchaseOrderText.setWidth(50);
+//		purchaseOrderText.setWidth(50);
 		// purchaseOrderText.setColSpan(1);
 		purchaseOrderText.setEnabled(isInViewMode());
 
@@ -386,7 +386,7 @@ public class PurchaseOrderView extends
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
 		DynamicForm dateform = new DynamicForm("dateform");
-		dateform.setWidth("100%");
+//		dateform.setWidth("100%");
 		if (locationTrackingEnabled)
 			dateform.add(locationCombo);
 		dateform.add(dueDateItem, /* despatchDateItem, */deliveryDateItem);
@@ -398,7 +398,7 @@ public class PurchaseOrderView extends
 		}
 
 		termsForm = new DynamicForm("termsForm");
-		termsForm.setWidth("100%");
+//		termsForm.setWidth("100%");
 		termsForm.add(transactionNumber, purchaseOrderText, payTermsSelect);
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.add(shippingTermsCombo, shippingMethodsCombo);
@@ -512,7 +512,7 @@ public class PurchaseOrderView extends
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 		memoTextAreaItem = createMemoTextAreaItem();
-		memoTextAreaItem.setWidth(100);
+//		memoTextAreaItem.setWidth(100);
 
 		// refText = createRefereceText();
 		// refText.setWidth(100);
@@ -521,7 +521,7 @@ public class PurchaseOrderView extends
 
 		// addLinksButton.setEnabled(true);
 		linksText = new TextItem("", "linksText");
-		linksText.setWidth(100);
+//		linksText.setWidth(100);
 		linksText.setShowTitle(false);
 		linksText.setEnabled(isInViewMode());
 		// formItems.add(linksText);
@@ -531,16 +531,16 @@ public class PurchaseOrderView extends
 		memoForm.add(memoTextAreaItem);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 		DynamicForm linksform = new DynamicForm("linksform");
-		linksform.setWidth("100%");
+//		linksform.setWidth("100%");
 		linksform.add(linksText);
 		StyledPanel linkspanel = new StyledPanel("linkspanel");
-		linkspanel.setWidth("70%");
+//		linkspanel.setWidth("70%");
 		linkspanel.add(addLinksButton);
 		addLinksButton.setEnabled(isInViewMode());
 		linkspanel.add(linksform);
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
-		leftVLay.setWidth("100%");
+//		leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 		if (getPreferences().isDoProductShipMents()) {
 			leftVLay.add(shipToAddress);
@@ -561,7 +561,7 @@ public class PurchaseOrderView extends
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		// topHLay.setStyleName("toplayout");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 		// topHLay.setCellWidth(leftVLay, "50%");
@@ -570,14 +570,14 @@ public class PurchaseOrderView extends
 		// topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
 		StyledPanel panel = new StyledPanel("panel");
-		panel.setWidth("100%");
+//		panel.setWidth("100%");
 		panel.add(memoForm);
 		panel.add(prodAndServiceHLay);
 
 		// panel.setHorizontalAlignment(ALIGN_RIGHT);
 
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
-		bottomLayout.setWidth("100%");
+//		bottomLayout.setWidth("100%");
 
 		bottomLayout.add(panel);
 		// panel.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
@@ -586,7 +586,7 @@ public class PurchaseOrderView extends
 		// bottomLayout.add(linkspanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
@@ -611,7 +611,7 @@ public class PurchaseOrderView extends
 		this.add(mainVLay);
 		// addChild(mainVLay);
 
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

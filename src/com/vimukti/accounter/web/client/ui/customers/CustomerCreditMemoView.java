@@ -135,7 +135,7 @@ public class CustomerCreditMemoView extends
 		// phoneForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			phoneForm.add(locationCombo);
-		phoneForm.setStyleName("align-form");
+		phoneForm.setStyleName("phoneForm");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {

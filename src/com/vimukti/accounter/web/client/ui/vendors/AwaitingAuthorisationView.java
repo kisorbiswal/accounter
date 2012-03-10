@@ -108,7 +108,7 @@ public class AwaitingAuthorisationView extends BaseView {
 		buttonPanel.add(decline);
 		buttonPanel.add(delete);
 		approve.getElement().getStyle().setMarginLeft(25, Unit.PX);
-		approve.setWidth("105px");
+//		approve.setWidth("105px");
 
 		panel.add(grid);
 		panel.add(buttonPanel);

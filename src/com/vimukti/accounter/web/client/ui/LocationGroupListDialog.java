@@ -20,7 +20,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	public LocationGroupListDialog(String title, String descript) {
 		super(title, descript);
-		setWidth("400px");
+//		setWidth("400px");
 		initialise();
 		center();
 	}

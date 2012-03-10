@@ -52,7 +52,7 @@ public class CreateRecurringTemplateDialog extends
 		initTypesMap();
 
 		form = new DynamicForm("form");
-		form.setWidth("100%");
+//		form.setWidth("100%");
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
 		transactionTypeCombo
 				.initCombo(new ArrayList<String>(typesMap.keySet()));

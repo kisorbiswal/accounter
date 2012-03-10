@@ -107,7 +107,7 @@ public abstract class CustomTable extends FlowPanel {
 		this.body = new FlexTable();
 		this.body.setStyleName("gridBody");
 
-		this.body.setWidth("100%");
+//		this.body.setWidth("100%");
 
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
@@ -204,7 +204,7 @@ public abstract class CustomTable extends FlowPanel {
 		if (isShowFooter) {
 			initFooter();
 		}
-		this.setWidth("100%");
+//		this.setWidth("100%");
 		// this.setSize("100%", "120px");
 	}
 
@@ -416,8 +416,8 @@ public abstract class CustomTable extends FlowPanel {
 		// this.header.setWidth(width);
 		// if (width.contains("px"))
 		// this.width = Integer.parseInt(width.replace("px", ""));
-		this.body.setWidth("100%");
-		this.panel.setWidth("100%");
+//		this.body.setWidth("100%");
+//		this.panel.setWidth("100%");
 		super.setWidth(width);
 		// adjustCellsWidth(0, header);
 		// // body.setWidth(header.getOffsetWidth() + "px");
@@ -444,8 +444,8 @@ public abstract class CustomTable extends FlowPanel {
 
 	public void setWidget(int row, final int column, final FocusWidget widget) {
 
-		widget.setWidth("100%");
-		widget.setHeight("100%");
+//		widget.setWidth("100%");
+//		widget.setHeight("100%");
 		this.body.setWidget(row, isMultiSelectionEnable ? column + 1 : column,
 				widget);
 		widget.addBlurHandler(new BlurHandler() {
@@ -606,7 +606,7 @@ public abstract class CustomTable extends FlowPanel {
 
 	private void bodyCellWidth() {
 		bodyCellCount = 1;
-		body.setWidth((header.getOffsetWidth()) + "px");
+//		body.setWidth((header.getOffsetWidth()) + "px");
 		for (int row = 0; row < this.body.getRowCount(); row++) {
 			adjustCellsWidth(row, body);
 		}

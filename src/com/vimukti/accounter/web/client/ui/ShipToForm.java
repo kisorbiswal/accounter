@@ -51,7 +51,7 @@ public class ShipToForm extends DynamicForm {
 		businessSelect.setDefaultToFirstOption(true);
 
 		addrArea = new TextAreaItem("Address Area","addrArea");
-		addrArea.setWidth(100);
+//		addrArea.setWidth(100);
 		addrArea.setShowTitle(true);
 		// addrArea.setDisabled(true);
 		addrArea.addClickHandler(new ClickHandler() {

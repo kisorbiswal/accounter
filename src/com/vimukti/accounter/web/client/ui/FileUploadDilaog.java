@@ -163,7 +163,7 @@ public class FileUploadDilaog extends CustomDialog {
 		}
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.upload());
-		uploadSubmitButton.setWidth("80px");
+//		uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());

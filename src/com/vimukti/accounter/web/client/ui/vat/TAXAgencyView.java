@@ -313,13 +313,13 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyText = new TextItem(messages.taxAgency(), "taxAgencyText");
 		lab.removeStyleName("gwt-Label");
 		lab.addStyleName("label-title");
-		lab.setHeight("35px");
-		taxAgencyText.setWidth(100);
+//		lab.setHeight("35px");
+//		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);
 		taxAgencyText.setEnabled(!isInViewMode());
 
 		fileAsText = new TextItem(messages.fileAs(), "fileAsText");
-		fileAsText.setWidth(100);
+//		fileAsText.setWidth(100);
 		fileAsText.setEnabled(!isInViewMode());
 		taxAgencyText.addChangeHandler(new ChangeHandler() {
 
@@ -484,7 +484,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		// emailForm.getCellFormatter().setWidth(0, 1, "");
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
-		leftVLay.setWidth("100%");
+//		leftVLay.setWidth("100%");
 		leftVLay.add(taxAgencyForm);
 		leftVLay.add(accInfoForm);
 
@@ -515,7 +515,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
+//		topHLay.setWidth("100%");
 		// topHLay.setSpacing(5);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
@@ -537,7 +537,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		panel.getElement().getStyle().setFloat(Float.RIGHT);
 
 		mainVlay.add(gridView);
-		mainVlay.setWidth("100%");
+//		mainVlay.setWidth("100%");
 		mainVlay.add(panel);
 		// mainVlay.add(memoForm);
 
