@@ -72,7 +72,8 @@
 
 	<sql-query name="get.created.users">
 		<query-param name="users" type="String" />
-		SELECT C.EMAIL_ID AS EMAIL_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users) GROUP BY C.EMAIL_ID
+		SELECT C.EMAIL_ID AS EMAIL_ID FROM USERS U LEFT JOIN CLIENT C ON
+		C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users) GROUP BY C.EMAIL_ID
 	</sql-query>
 
 	<query name="getServerCompany.by.id">
@@ -87,7 +88,8 @@
 		<return-scalar column="FIRST_NAME" type="string" />
 		<return-scalar column="LAST_NAME" type="string" />
 		<return-scalar column="COMPANY_ID" type="long" />
-		SELECT C.EMAIL_ID,C.FIRST_NAME,C.LAST_NAME,U.COMPANY_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users)
+		SELECT C.EMAIL_ID,C.FIRST_NAME,C.LAST_NAME,U.COMPANY_ID FROM USERS U
+		LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users)
 	</sql-query>
 
 	<sql-query name="delete.Client.Companies">
@@ -120,14 +122,14 @@
 	<sql-query name="getUserIds.invited.by.client">
 		<query-param name="emailId" type="String" />
 		<query-param name="clientId" type="long" />
-		<return-scalar column="USER_ID" type="long" />
-		select u.id as USER_ID from users u left join client c2 on c2.id=u.client_id 
-		where u.is_deleted=false AND c2.email_Id=:emailId AND 
-		u.company_id in 
-		(select c.id from company c where c.created_by in 
-		(select u1.id from users u1 where u1.client_id=:clientId))
+		SELECT * FROM USERS U2 WHERE U2.ID IN (SELECT U.ID AS USER_ID
+		FROM USERS U LEFT JOIN CLIENT C2 ON C2.ID=U.CLIENT_ID
+		WHERE U.IS_DELETED=FALSE AND C2.EMAIL_ID=:emailId AND
+		U.COMPANY_ID IN
+		(SELECT C.ID FROM COMPANY C WHERE C.CREATED_BY IN
+		(SELECT U1.ID FROM USERS U1 WHERE U1.CLIENT_ID=:clientId)))
 	</sql-query>
-	
+
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />
 		delete from com.vimukti.accounter.core.RememberMeKey rk where
