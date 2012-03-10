@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -86,6 +88,11 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	}
 
 	private void createControls() {
+
+		Label titleLabel = new Label(messages.deducatorMastersDetails());
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.addStyleName("label-title");
+		titleLabel.getElement().getStyle().setPaddingBottom(10, Unit.PX);
 
 		deductorName = new TextItem(messages.name());
 		deductorName.setHelpInformation(true);
@@ -335,6 +342,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		horizontalPanel.add(otherDynamicForm);
 
 		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(titleLabel);
 		verticalPanel.add(horizontalPanel);
 		verticalPanel.setWidth("100%");
 

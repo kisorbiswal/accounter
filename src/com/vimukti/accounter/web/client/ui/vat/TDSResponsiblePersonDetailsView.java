@@ -3,7 +3,9 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
@@ -62,6 +64,11 @@ public class TDSResponsiblePersonDetailsView extends
 	}
 
 	private void createControls() {
+
+		Label titleLabel = new Label(messages.responsePersonDetails());
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.addStyleName("label-title");
+		titleLabel.getElement().getStyle().setPaddingBottom(10,Unit.PX);
 
 		responsiblePersonName = new TextItem(messages.name());
 		responsiblePersonName.setHelpInformation(true);
@@ -233,6 +240,7 @@ public class TDSResponsiblePersonDetailsView extends
 		horizontalPanel.add(otherDynamicForm);
 
 		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(titleLabel);
 		verticalPanel.add(horizontalPanel);
 
 		verticalPanel.setSize("100%", "100%");
