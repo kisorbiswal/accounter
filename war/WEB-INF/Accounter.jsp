@@ -339,7 +339,7 @@
 	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
 	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-	       <a id="support" target="_blank" href="/site/support"> Support </a>
+	       <a id="support" target="_blank" href="/site/support"> Support </a> |
 	    </div>
 	    <script type="text/javascript" >
 	    <% 
