@@ -1,6 +1,5 @@
 package com.vimukti.accounter.services;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,6 +9,8 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -18,7 +19,6 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -88,11 +88,11 @@ public class SubscryptionTool extends Thread {
 		HibernateUtil.getCurrentSession().saveOrUpdate(
 				c.getClientSubscription());
 		log.info("Complted..:" + c.getEmailId());
-		try {
-			UsersMailSendar.sendMailToSubscriptionExpiredUser(c);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// try {
+		// UsersMailSendar.sendMailToSubscriptionExpiredUser(c);
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	public static Set<String> getDeletedMembers(Set<String> members,
@@ -133,10 +133,12 @@ public class SubscryptionTool extends Thread {
 
 	public static void deleteUser(Client client, String emailId)
 			throws AccounterException {
+		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
+				"getUserIds.invited.by.client");
 
-		List<User> users = (List<User>) HibernateUtil.getCurrentSession()
-				.getNamedQuery("getUserIds.invited.by.client")
-				.setParameter("emailId", emailId)
+		((SQLQuery) query).addEntity(User.class);
+
+		List<User> users = (List<User>) query.setParameter("emailId", emailId)
 				.setParameter("clientId", client.getID()).list();
 		for (User user : users) {
 			ClientUser coreUser = new ClientConvertUtil().toClientObject(user,
