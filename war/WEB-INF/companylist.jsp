@@ -95,7 +95,7 @@
 	      <c:choose>
 				<c:when test="<%= isPaid %>">
 				<td>
-			       <a href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
+			       <a href="/site/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>
 				</td>
 				</c:when>
 				<c:otherwise>
