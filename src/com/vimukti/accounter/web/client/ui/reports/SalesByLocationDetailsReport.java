@@ -14,10 +14,13 @@ public class SalesByLocationDetailsReport extends
 		AbstractReportView<SalesByLocationDetails> {
 
 	private boolean isLocation;
+	private boolean isCustomer;
 
-	public SalesByLocationDetailsReport(boolean isLocation) {
-		this.serverReport = new SalesByLocationDetailsServerReport(this,isLocation);
+	public SalesByLocationDetailsReport(boolean isLocation, boolean isCustomer) {
+		this.serverReport = new SalesByLocationDetailsServerReport(this,
+				isLocation);
 		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
 	}
 
 	@Override
@@ -25,7 +28,7 @@ public class SalesByLocationDetailsReport extends
 		SalesByLocationSummary record = (SalesByLocationSummary) data;
 		if (record == null) {
 			Accounter.createReportService().getSalesByLocationDetailsReport(
-					isLocation, start, end, this);
+					isLocation, isCustomer, start, end, this);
 		} else {
 			Accounter.createReportService()
 					.getSalesByLocationDetailsForLocation(isLocation,
@@ -70,7 +73,7 @@ public class SalesByLocationDetailsReport extends
 				Integer.parseInt(String.valueOf(endDate.getDate())),
 				reportType, "", "");
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

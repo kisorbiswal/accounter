@@ -378,7 +378,7 @@ public class ReportManager extends Manager {
 				long location = object[4] == null ? 0 : ((Long) object[4])
 						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
-
+				record.setCategoryId(location);
 				record.getMap().put(location, amount);
 				// record.setParentAccount(object[6] == null ? 0
 				// : ((Long) object[6]).longValue());
@@ -4029,6 +4029,43 @@ public class ReportManager extends Manager {
 
 		}
 		return list;
+	}
+
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccountAndCategory(
+			int categoryType, long categoryId, long accountId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query query = session
+				.getNamedQuery(
+						"getTransactionDetailByAccount_ForParticularAccountAndCategory")
+				.setParameter("companyId", companyId)
+				.setParameter("categoryId", categoryId)
+				.setParameter("categoryType", categoryType)
+				.setParameter("accountID", accountId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
+
+		List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
+		List list = query.list();
+
+		if (list != null && list.size() > 0) {
+			try {
+				createTransasctionDetailByAccount(list,
+						transactionDetailByAccountList);
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (transactionDetailByAccountList != null) {
+			return new ArrayList<TransactionDetailByAccount>(
+					transactionDetailByAccountList);
+		}
+		return new ArrayList<TransactionDetailByAccount>();
+
 	}
 
 	/**

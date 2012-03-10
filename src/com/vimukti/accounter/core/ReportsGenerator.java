@@ -69,6 +69,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerRepo
 import com.vimukti.accounter.web.client.ui.serverreports.TAXItemExceptionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TDSAcknowledgmentServerReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByCatgoryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.UnBilledCostsByJobServerReport;
@@ -162,6 +163,10 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID = 190;
 	public final static int REPORT_TYPE_ESTIMATE_BY_JOB = 191;
 	public final static int REPORT_TYPE_TDS_ACKNOWLEDGEMENT_REPORT = 192;
+	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_JOB = 193;
+	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_CLASS = 194;
+	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_LOCATION = 195;
+
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -436,6 +441,29 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return transactionDetailByTaxItemServerReport.getGridTemplate();
+		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_LOCATION:
+			TransactionDetailByCatgoryServerReport byCatgoryServerReport = new TransactionDetailByCatgoryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(byCatgoryServerReport, finaTool);
+			byCatgoryServerReport.resetVariables();
+
+			long categoryid = Long.valueOf(navigateObjectName).longValue();
+			long accountId = Long.valueOf(status).longValue();
+			byCatgoryServerReport
+					.onResultSuccess(finaTool.getReportManager()
+							.getTransactionDetailByAccountAndCategory(2,
+									categoryid, accountId,
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate(),
+									getCompany().getId()));
+
+			return byCatgoryServerReport.getGridTemplate();
 		case REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT:
 		case REPORT_TYPE_GENERAL_LEDGER_REPORT:
 			TransactionDetailByAccountServerReport transactionDetailByAccountServerReport = new TransactionDetailByAccountServerReport(
@@ -1938,6 +1966,8 @@ public class ReportsGenerator {
 		case REPORT_TYPE_TRANSACTIONDETAILBYTAXITEM:
 			return "Transaction Detail By Tax Item Report";
 		case REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT:
+			return "Transaction Detail By Account Report";
+		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_LOCATION:
 			return "Transaction Detail By Account Report";
 		case REPORT_TYPE_EXPENSE:
 			return "Expense Report";

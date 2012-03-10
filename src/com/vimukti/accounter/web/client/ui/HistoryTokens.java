@@ -381,6 +381,8 @@ public class HistoryTokens {
 	public static final String JOB = "newjob";
 	public static final String JOBSLIST = "jobList";
 	public static final String INVENTORY_ASSEMBLY_ITEMS = "inventoryAssemblyItems";
+	public static final String PURCHASESBYCLASSDETAIL = "PurchasesbyClassDetail";
+	public static final String PURCHASESBYLOCATIONDETAIL = "PurchasesByLocationDetails";
 
 	public HistoryTokens() {
 

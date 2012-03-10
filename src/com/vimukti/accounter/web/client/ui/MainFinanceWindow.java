@@ -597,6 +597,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getTransactionDetailByAccountAction()
 				.getHistoryToken(), ActionFactory
 				.getTransactionDetailByAccountAction());
+		actions.put(ActionFactory
+				.getTransactionDetailByAccountAndCategoryAction()
+				.getHistoryToken(), ActionFactory
+				.getTransactionDetailByAccountAndCategoryAction());
 		actions.put(ActionFactory.getGlReportAction().getHistoryToken(),
 				ActionFactory.getGlReportAction());
 		actions.put(ActionFactory.getExpenseReportAction().getHistoryToken(),
@@ -741,7 +745,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(reconcilationsAction.getHistoryToken(),
 				reconcilationsAction);
 		SalesByLocationDetailsAction salesByLocationDetailActionTrue = ActionFactory
-				.getSalesByLocationDetailsAction(true);
+				.getSalesByLocationDetailsAction(true, true);
 		SalesByLocationSummaryAction salesByLocationSummaryActionTrue = ActionFactory
 				.getSalesByLocationSummaryAction(true);
 
@@ -752,10 +756,20 @@ public class MainFinanceWindow extends VerticalPanel {
 				salesByLocationSummaryActionTrue);
 
 		SalesByLocationDetailsAction salesByLocationDetailActionFalse = ActionFactory
-				.getSalesByLocationDetailsAction(false);
+				.getSalesByLocationDetailsAction(false, true);
 
 		SalesByLocationSummaryAction salesByLocationSummaryActionFalse = ActionFactory
 				.getSalesByLocationSummaryAction(false);
+		// CLASS TRACKING
+		SalesByLocationDetailsAction purchaseByLocationDetailActiontrue = ActionFactory
+				.getSalesByLocationDetailsAction(true, false);
+		SalesByLocationDetailsAction purchaseByLocationDetailActionFalse = ActionFactory
+				.getSalesByLocationDetailsAction(false, false);
+
+		actions.put(purchaseByLocationDetailActiontrue.getHistoryToken(),
+				purchaseByLocationDetailActiontrue);
+		actions.put(purchaseByLocationDetailActionFalse.getHistoryToken(),
+				purchaseByLocationDetailActionFalse);
 
 		actions.put(salesByLocationDetailActionFalse.getHistoryToken(),
 				salesByLocationDetailActionFalse);

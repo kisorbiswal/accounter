@@ -174,14 +174,16 @@ public class ReportSectionView extends BaseHomeView {
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
 			salesMap.put(messages.getSalesByLocationDetails(Global.get()
 					.Location()), ActionFactory
-					.getSalesByLocationDetailsAction(true).getHistoryToken());
+					.getSalesByLocationDetailsAction(true, true)
+					.getHistoryToken());
 			salesMap.put(messages.salesByLocationSummary(Global.get()
 					.Location()), ActionFactory
 					.getSalesByLocationSummaryAction(true).getHistoryToken());
 		}
 		if (Global.get().preferences().isClassTrackingEnabled()) {
 			salesMap.put(messages.salesByClassDetails(), ActionFactory
-					.getSalesByLocationDetailsAction(false).getHistoryToken());
+					.getSalesByLocationDetailsAction(false, true)
+					.getHistoryToken());
 			salesMap.put(messages.salesByClassSummary(), ActionFactory
 					.getSalesByLocationSummaryAction(false).getHistoryToken());
 

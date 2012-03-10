@@ -170,6 +170,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
+import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.ImporterType;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
@@ -4556,4 +4557,6 @@ public class FinanceTool {
 		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
 		return importerByType.getFields();
 	}
+
+	
 }

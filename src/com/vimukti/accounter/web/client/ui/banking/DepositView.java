@@ -226,7 +226,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		}
 
 		transactionDepositTable = new TransactionDepositTable(
-				isCustomerAllowedToAdd(), this) {
+				isCustomerAllowedToAdd(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected boolean isInViewMode() {
@@ -610,8 +611,13 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-		if (clientAccounterClass != null) {
-			classListCombo.setComboItem(clientAccounterClass);
+		this.accounterClass = clientAccounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			transactionDepositTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
+	
 }

@@ -762,9 +762,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				transactionItem.setTaxCode(taxCode.getID());
 			}
 		}
-		if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
-			transactionItem.setAccounterClass(accounterClass.getID());
-		}
+		if (accounterClass != null)
+			if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+				transactionItem.setAccounterClass(accounterClass.getID());
+			}
 		addItemTransactionItem(transactionItem);
 	}
 
