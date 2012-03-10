@@ -45,7 +45,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			messages.billsAndPayments(), messages.bankingAndReconcialiation(),
 			messages.changeCompanySettings(), messages.manageAccounts(),
 			messages.manageUsers(), messages.viewReports(),
-			messages.inventoryWarehouse(), messages.Saveasdraft() };
+			messages.Saveasdraft() };
 	List<CheckBox> permissionsBoxes;
 	private RadioButton readOnly;
 	private RadioButton custom;
@@ -214,6 +214,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		for (String permission : permissions) {
 			CheckBox checkBox = new CheckBox(permission);
 			checkBox.setName(permission);
+			checkBox.setEnabled(!isInViewMode());
+			permissionOptions.add(checkBox);
+			permissionsBoxes.add(checkBox);
+		}
+		if (getPreferences().isInventoryEnabled()) {
+			CheckBox checkBox = new CheckBox(messages.inventoryWarehouse());
+			checkBox.setName(messages.inventoryWarehouse());
 			checkBox.setEnabled(!isInViewMode());
 			permissionOptions.add(checkBox);
 			permissionsBoxes.add(checkBox);

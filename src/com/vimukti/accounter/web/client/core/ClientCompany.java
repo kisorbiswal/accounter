@@ -2201,8 +2201,13 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
-	private void deleteJob(long id2) {
+	private void deleteJob(long id) {
 		ClientJob object = Utility.getObject(this.jobs, id);
+		if (object != null) {
+			ClientCustomer customer = getCustomer(object.getCustomer());
+			customer.getJobs().remove(object);
+			processUpdateOrCreateObject(customer);
+		}
 		this.jobs.remove(object);
 
 	}
