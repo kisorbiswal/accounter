@@ -13919,6 +13919,58 @@
 			ORDER BY T.ID
 	</sql-query>
 	
+	
+	<sql-query name="getPurchaseOrderForItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="saveStatus" type="int" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT T.ID AS TRANSACTION_ID,
+			T.T_DATE AS TRANSACTION_DATE,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.NUMBER AS TRANSACTION_NUMBER,
+			T.MEMO AS TRANSACTION_MEMO,
+			TI.QTY_VALUE AS QUANTITY,
+			TI.QTY_UNIT AS UNIT,
+			TI.LINE_TOTAL AS AMOUNT,
+			CASE
+			WHEN
+			T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+			END AS ISVOIDED,
+			T.CURRENCY AS CURRENCY_ID 
+
+			FROM TRANSACTION T
+			LEFT OUTER JOIN PURCHASE_ORDER E ON E.ID = T.ID
+			LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+			LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+
+			WHERE TI.TYPE = 1 AND IT.ID =:itemId AND T.T_DATE BETWEEN :fromDate AND :toDate
+					AND T.T_TYPE =22 AND 
+					CASE WHEN :saveStatus !=0
+					THEN T.SAVE_STATUS=:saveStatus
+					ELSE TRUE
+					END
+					AND T.COMPANY_ID =:companyId
+					 AND T.SAVE_STATUS !=202
+			ORDER BY T.ID
+	</sql-query>
+	
 	<sql-query name="getDraftBillsListByItem">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
