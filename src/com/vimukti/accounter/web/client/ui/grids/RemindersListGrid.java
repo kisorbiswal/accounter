@@ -1,20 +1,38 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	public RemindersListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		ClientUser user = Accounter.getUser();
+		((CheckBox) this.header.getWidget(0, 0))
+				.setEnabled(user.isAdmin()
+						|| user.getUserRole().equals(
+								RolePermissions.FINANCIAL_ADVISER));
 	}
 
 	@Override
@@ -94,5 +112,45 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 					.getTransaction().getType(), obj.getRecurringTransaction()
 					.getTransaction().getID());
 		}
+	}
+
+	@Override
+	protected void addCheckBox(final ClientReminder obj, Boolean value) {
+		final CheckBox checkBox = new CheckBox();
+		if (isCanOpenTransactionView(0, obj.getRecurringTransaction()
+				.getTransaction().getType())) {
+			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					CheckBox box = ((CheckBox) event.getSource());
+					Object col = UIUtils.getKey(widgetsMap, box);
+					if (col != null)
+						editComplete(obj, box.getValue(), (Integer) col);
+				}
+			});
+			if (value != null)
+				checkBox.setValue(value);
+			if (disable) {
+				checkBox.setEnabled(false);
+			}
+		} else {
+			checkBox.setEnabled(false);
+		}
+
+		setWidget(currentRow, currentCol, checkBox);
+	}
+
+	@Override
+	public List<ClientReminder> getSelectedRecords() {
+		List<ClientReminder> reminders = new ArrayList<ClientReminder>();
+		List<ClientReminder> selectedRecords = super.getSelectedRecords();
+		for (ClientReminder clientReminder : selectedRecords) {
+			if (isCanOpenTransactionView(0, clientReminder
+					.getRecurringTransaction().getTransaction().getType())) {
+				reminders.add(clientReminder);
+			}
+		}
+		return reminders;
 	}
 }
