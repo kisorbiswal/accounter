@@ -285,7 +285,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
-		bottomLayout.setCellWidth(totalForm, "30%");
+		bottomLayout.setCellWidth(totalForm, "20%");
 
 		bottompanel.add(bottomLayout);
 
