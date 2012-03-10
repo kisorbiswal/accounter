@@ -11058,8 +11058,8 @@
 				             OR P.ID = RP.CUSTOMER_ID
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.PAYMENT_METHOD = 'Cheque'
-				       AND ( T.T_DATE < = :endDate
-				             AND T.T_DATE > = :startDate );  
+				       AND ( T.T_DATE <= :endDate
+				             AND T.T_DATE >= :startDate );  
 				]]>
 		
 	</sql-query>
