@@ -818,6 +818,11 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 	public void setJobId(long jobId) {
 		this.jobId = jobId;
+		jobData();
+	}
+
+	protected void jobData() {
+
 	}
 
 	public long getAccId() {
