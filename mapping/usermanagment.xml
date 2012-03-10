@@ -22,11 +22,22 @@
 		type="string" /> <element column="ACESS_VALUE" type="string" /> </map> </class> -->
 
 	<sql-query name="getAllUsersIds">
-		SELECT U.USERID FROM `USER` U
+	
+		<![CDATA[
+				SELECT U.USERID
+				FROM   `USER` U  
+				]]>
+				
 	</sql-query>
+	
 	<sql-query name="getAllInternalUserIds">
-		SELECT U.USERID FROM `USER` U where
-		U.isExternal=false
+		
+		<![CDATA[
+				SELECT U.USERID
+				FROM   `USER` U
+				WHERE  U.ISEXTERNAL = FALSE  
+				]]>
+				
 	</sql-query>
 
 	<query name="user.by.userId">
@@ -43,14 +54,23 @@
 
 	<!-- full user count -->
 	<sql-query name="active_userscount">
-		SELECT count( * ) FROM `USER` WHERE
-		ISEXTERNAL=FALSE;
+		
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   `USER`
+				WHERE  ISEXTERNAL = FALSE;  
+				]]>
+				
 	</sql-query>
 
 	<!-- lite user count -->
 	<sql-query name="lite_userscount">
-		SELECT count( * ) FROM `USER` WHERE
-		ISEXTERNAL=TRUE;
+		
+		<![CDATA[
+				SELECT COUNT(*)
+				FROM   `USER`
+				WHERE  ISEXTERNAL = TRUE;  
+				]]>
 	</sql-query>
 
 	<!-- CHAT -->

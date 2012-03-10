@@ -13,10 +13,16 @@
 	<sql-query name="getNextAccountNumber">
 		<query-param name="companyId" type="long" />
 		<query-param name="subbaseType" type="int" />
+		
 		<return-scalar column="A_NUMBER" type="encryptedstring" />
-		SELECT A_NUMBER FROM ACCOUNT A 
-		WHERE SUB_BASE_TYPE=:subbaseType AND A.COMPANY_ID=:companyId
-	
+		
+		<![CDATA[
+				SELECT A_NUMBER
+				FROM   ACCOUNT A
+				WHERE  SUB_BASE_TYPE = :subbaseType
+				       AND A.COMPANY_ID = :companyId  
+				]]>
+
 	</sql-query> 
 	
 	<query name="get.AssetsAccountOfCompany">
@@ -46,9 +52,16 @@
 	
 	<sql-query name="delete.InventoryPurchases.Of.Company">
 		<query-param name="companyId" type="long" />
-		DELETE FROM INVENTORY_PURCHASE IP USING TRANSACTION_ITEM , TRANSACTION  
-		WHERE TRANSACTION_ITEM_ID=TRANSACTION_ITEM.ID AND TRANSACTION_ITEM.TRANSACTION_ID= TRANSACTION.ID
-		AND TRANSACTION.COMPANY_ID=:companyId
+		
+		<![CDATA[
+				DELETE FROM INVENTORY_PURCHASE IP
+				USING  TRANSACTION_ITEM,
+				       TRANSACTION
+				WHERE  TRANSACTION_ITEM_ID = TRANSACTION_ITEM.ID
+				       AND TRANSACTION_ITEM.TRANSACTION_ID = TRANSACTION.ID
+				       AND TRANSACTION.COMPANY_ID = :companyId  
+				]]>
+		
 	</sql-query>	
 	
 	
