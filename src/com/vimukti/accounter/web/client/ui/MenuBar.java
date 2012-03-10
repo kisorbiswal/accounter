@@ -465,6 +465,15 @@ public class MenuBar {
 			purchaseMenuBar.addMenuItem(messages.purchaseOrderReport(),
 					HistoryTokens.PURCHASEORDERREPORT);
 		}
+		if (isClassTracking) {
+			purchaseMenuBar.addMenuItem("Purchases by Class Detail",
+					HistoryTokens.PURCHASESBYCLASSDETAIL);
+		}
+
+		if (isJobTrackingEnabled) {
+			purchaseMenuBar.addMenuItem("Purchases by Location Detail",
+					HistoryTokens.PURCHASESBYLOCATIONDETAIL);
+		}
 
 		return purchaseMenuBar;
 	}

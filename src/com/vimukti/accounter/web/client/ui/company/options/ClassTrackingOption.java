@@ -78,7 +78,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		trackClassCheckBox.setText(messages.trackclass());
+		trackClassCheckBox.setText(messages.classTracking());
 		classLabel.setText(messages.classInAllTransaction());
 
 		onepeTransactionRadioButton.setText(messages.onepertransaction());

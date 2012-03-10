@@ -176,14 +176,24 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		}
 		if (enableClass) {
 			if (showClass) {
-				this.addColumn(new TransactionClassColumn() {
+				this.addColumn(new TransactionClassColumn<ClientTransactionItem>() {
+
+					@Override
+					protected ClientAccounterClass getValue(
+							ClientTransactionItem row) {
+						return Accounter.getCompany().getAccounterClass(
+								row.getAccounterClass());
+					}
 
 					@Override
 					protected void setValue(ClientTransactionItem row,
 							ClientAccounterClass newValue) {
-						super.setValue(row, newValue);
-						update(row);
+						if (newValue != null) {
+							row.setAccounterClass(newValue.getID());
+							getTable().update(row);
+						}
 					}
+
 				});
 			}
 		}

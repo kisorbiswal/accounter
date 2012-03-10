@@ -118,6 +118,9 @@ public class InventoryManager extends Manager {
 					invoicesList.setStatus((Integer) object[10]);
 					invoicesList.setCurrency((Long) object[11]);
 					invoicesList.setSaveStatus((Integer) object[12]);
+					if (invoicesType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+						invoicesList.setRemainingCredits((Double) object[13]);
+					}
 					queryResult.add(invoicesList);
 				}
 				queryResult.setTotalCount(total);

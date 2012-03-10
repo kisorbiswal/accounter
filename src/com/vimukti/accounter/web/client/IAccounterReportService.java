@@ -63,6 +63,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByCatgoryReport;
 
 public interface IAccounterReportService extends RemoteService {
 
@@ -183,8 +184,8 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate endDate);
 
 	ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
@@ -394,5 +395,9 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
 			long payeeId, long jobId, ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException;
+
+	ArrayList<TransactionDetailByAccount> getTransactionDetailByAccountAndCategory(
+			int categoryType, long categoryId, long accountId,
+			ClientFinanceDate start, ClientFinanceDate end);
 
 }

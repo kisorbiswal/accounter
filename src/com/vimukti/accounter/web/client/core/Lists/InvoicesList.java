@@ -51,7 +51,9 @@ public class InvoicesList implements IsSerializable, Serializable {
 	private int saveStatus;
 
 	boolean isPrint;
-
+	
+	private double remainingCredits;
+	
 	public boolean isVoided() {
 		return isVoided;
 	}
@@ -236,5 +238,13 @@ public class InvoicesList implements IsSerializable, Serializable {
 
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public double getRemainingCredits() {
+		return remainingCredits;
+	}
+
+	public void setRemainingCredits(double remainingCredits) {
+		this.remainingCredits = remainingCredits;
 	}
 }

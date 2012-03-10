@@ -16,6 +16,7 @@ public class ProfitAndLossByLocation extends BaseReport implements
 	private int accountType;
 	private String accountNumber;
 	private Map<Long, Double> map = new HashMap<Long, Double>();
+	private long categoryId;
 
 	public long getAccountId() {
 		return accountId;
@@ -63,5 +64,13 @@ public class ProfitAndLossByLocation extends BaseReport implements
 
 	public void setParentAccount(long parentAccount) {
 		this.parentAccount = parentAccount;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 }

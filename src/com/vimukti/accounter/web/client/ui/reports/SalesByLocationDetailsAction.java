@@ -11,10 +11,13 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class SalesByLocationDetailsAction extends Action {
 
 	private boolean isLocation;
+	private boolean isCustomer;
 
-	public SalesByLocationDetailsAction(boolean isLocation) {
+	public SalesByLocationDetailsAction(boolean isLocation, boolean isCustomer) {
 		super();
+		this.catagory = messages.report();
 		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
 	}
 
 	@Override
@@ -32,7 +35,7 @@ public class SalesByLocationDetailsAction extends Action {
 			public void onCreated() {
 
 				AbstractReportView<SalesByLocationDetails> report = new SalesByLocationDetailsReport(
-						isLoction);
+						isLoction, isCustomer);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesByLocationDetailsAction.this);
 
@@ -59,28 +62,56 @@ public class SalesByLocationDetailsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (!isLocation) {
-			return "salesByLocationDetails";
+		if (isCustomer) {
+			if (isLocation) {
+				return "salesByLocationDetails";
+			} else {
+				return "salesByClassDetails";
+			}
+		} else {
+			if (!isLocation) {
+				return "PurchasesByLocationDetails";
+			} else {
+				return "PurchasesbyClassDetail";
+			}
 		}
-		return "salesByClassDetails";
 	}
 
 	@Override
 	public String getHelpToken() {
-		if (!isLocation) {
-			return "sales-by-class";
+		if (isCustomer) {
+			if (isLocation) {
+				return "sales-by-class";
+			} else {
+				return "sales-by-location";
+			}
+		} else {
+			if (!isLocation) {
+				return "Purchases-by-class";
+			} else {
+				return "Purchases-by-location";
+			}
 		}
-		return "sales-by-location";
 	}
 
 	@Override
 	public String getText() {
-		String actionsting = messages.getSalesByLocationDetails(Global.get()
-				.Location());
-		if (!isLocation) {
-			actionsting = messages.salesByClassDetails();
+		String actionsting = null;
+		if (isCustomer) {
+			if (!isLocation) {
+				actionsting = messages.salesByClassDetails();
+			} else {
+				actionsting = messages.getSalesByLocationDetails(Global.get()
+						.Location());
+			}
+		} else {
+			if (!isLocation) {
+				actionsting = "Purchases by Location Detail";
+			} else {
+				actionsting = "Purchases by Class Detail";
+			}
 		}
+
 		return actionsting;
 	}
-
 }

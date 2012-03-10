@@ -7,8 +7,10 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
@@ -163,14 +165,24 @@ public abstract class CustomerAccountTransactionTable extends
 		}
 		if (enableClass) {
 			if (showClass) {
-				this.addColumn(new TransactionClassColumn() {
+				this.addColumn(new TransactionClassColumn<ClientTransactionItem>() {
+
+					@Override
+					protected ClientAccounterClass getValue(
+							ClientTransactionItem row) {
+						return Accounter.getCompany().getAccounterClass(
+								row.getAccounterClass());
+					}
 
 					@Override
 					protected void setValue(ClientTransactionItem row,
 							ClientAccounterClass newValue) {
-						super.setValue(row, newValue);
-						update(row);
+						if (newValue != null) {
+							row.setAccounterClass(newValue.getID());
+							getTable().update(row);
+						}
 					}
+
 				});
 			}
 		}

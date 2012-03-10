@@ -1046,8 +1046,9 @@ public interface AccounterMessages extends Messages {
 	public String creditCardExpensesList();
 
 	public String creditLimit();
-	
-	public String creditLimitExceed(String payee, String creditLimit, String balance);
+
+	public String creditLimitExceed(String payee, String creditLimit,
+			String balance);
 
 	public String creditLimitShouldBeInTheRange();
 
@@ -6114,20 +6115,22 @@ public interface AccounterMessages extends Messages {
 	public String jobList();
 
 	public String accountisParenttoThisAccount();
-	
+
 	public String purchaseOrderTemplate();
 
 	public String purchaseOrderTitle();
 
 	public String purchaseOrderValue();
-	
+
 	public String notMoveDiffTypeAccount();
-	
+
 	public String clickOnTheCompanyNameToOpen();
-	
+
 	public String salesOrderTemplate();
 
+	public String remainingCredits();
+
 	public String salesOrderTitle();
-	
+
 	public String salesOrderValue();
 }

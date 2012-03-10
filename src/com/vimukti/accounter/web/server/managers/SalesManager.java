@@ -403,13 +403,14 @@ public class SalesManager extends Manager {
 	/**
 	 * 
 	 * @param isLocation
+	 * @param isCustomer
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetail(
-			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
-			long companyId) {
+			boolean isLocation, boolean isCustomer, FinanceDate startDate,
+			FinanceDate endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
@@ -426,19 +427,33 @@ public class SalesManager extends Manager {
 
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
-		List l;
-		if (isLocation) {
-			l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
-					.setParameter("companyId", companyId)
 
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())).list();
+		List l = null;
+		if (isCustomer) {
+			if (isLocation) {
+				l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			} else {
+				l = ((Query) session.getNamedQuery("getSalesByClassDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			}
 		} else {
-			l = ((Query) session.getNamedQuery("getSalesByClassDetail")
-					.setParameter("companyId", companyId)
-
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())).list();
+			if (!isLocation) {
+				l = ((Query) session
+						.getNamedQuery("getPurchaseByLocationDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			} else {
+				l = ((Query) session.getNamedQuery("getPurchaseByClassDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			}
 		}
 
 		Iterator iterator = l.iterator();
