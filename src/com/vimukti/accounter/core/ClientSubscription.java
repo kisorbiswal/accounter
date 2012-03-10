@@ -146,5 +146,6 @@ public class ClientSubscription implements IsSerializable {
 
 	public void setGracePeriodDate(Date gracePeriodDate) {
 		this.gracePeriodDate = gracePeriodDate;
+
 	}
 }
