@@ -6133,4 +6133,7 @@ public interface AccounterMessages extends Messages {
 	public String salesOrderTitle();
 
 	public String salesOrderValue();
+
+	public String purchasesbyLocationDetail();
+	public String purchasesbyClassDetail();
 }
