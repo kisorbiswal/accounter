@@ -221,7 +221,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			@Override
 			public String getValue(ClientActivity object) {
 				if (object.getObjectID() == 0
-						|| object.getDataType().equalsIgnoreCase(messages.vatReturn())) {
+						|| object.getDataType().equalsIgnoreCase(
+								messages.vatReturn())) {
 					return null;
 				} else {
 					return "->";
@@ -231,9 +232,12 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		imageColumn.setFieldUpdater(new FieldUpdater<ClientActivity, String>() {
 			@Override
 			public void update(int index, ClientActivity object, String value) {
-				if (object.getObjectID() != 0) {
-
-					ActionFactory.getAuditHistory(object).run();
+				if (object.getObjType() == ClientTransaction.TYPE_TAX_RETURN) {
+					return;
+				} else {
+					if (object.getObjectID() != 0) {
+						ActionFactory.getAuditHistory(object).run();
+					}
 				}
 			}
 		});
@@ -272,7 +276,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				final String value = object.getDataType() != null ? object
 						.getDataType() : "";
 				SafeHtmlBuilder shb = new SafeHtmlBuilder();
-				if (value.equalsIgnoreCase(messages.issuePayment())) {
+				if (value.equalsIgnoreCase(messages.issuePayment())
+						|| object.getObjType() == ClientTransaction.TYPE_TAX_RETURN) {
 					shb.appendEscaped(value);
 				} else {
 					shb.appendHtmlConstant("<a href='#'>");
@@ -282,6 +287,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				return shb.toSafeHtml();
 			}
 		};
+
 		linkColumn
 				.setFieldUpdater(new FieldUpdater<ClientActivity, SafeHtml>() {
 
