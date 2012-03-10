@@ -976,7 +976,7 @@
 				         ON PT.ID = I.PAYMENT_TERMS_ID
 				WHERE  T.T_TYPE IN ( 5, 8 )
 				       AND T.SAVE_STATUS != 202
-				       AND T.T_DATE < =:paymentDate
+				       AND T.T_DATE <= :paymentDate
 				       AND ( I.BALANCE_DUE > 0.0
 				              OR CR.BALANCE_DUE > 0.0 )
 				       AND ( I.CUSTOMER_ID = :customerId
