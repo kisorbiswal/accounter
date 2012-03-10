@@ -169,7 +169,7 @@
 				                                                    WHERE
 				                                   U1.CLIENT_ID = :clientId))  
 				]]>
-		
+
 	</sql-query>
 	
 	<query name="delete.remembermeKeys">
