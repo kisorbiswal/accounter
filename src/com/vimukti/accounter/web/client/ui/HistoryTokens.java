@@ -380,6 +380,7 @@ public class HistoryTokens {
 	public static final String JOB_PROFITABILITY_DETAIL = "jobProfitabilityDetail";
 	public static final String JOB = "newjob";
 	public static final String JOBSLIST = "jobList";
+	public static final String INVENTORY_ASSEMBLY_ITEMS = "inventoryAssemblyItems";
 
 	public HistoryTokens() {
 

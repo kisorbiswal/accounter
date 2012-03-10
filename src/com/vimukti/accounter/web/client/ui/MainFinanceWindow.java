@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -807,8 +808,18 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getAddMeasurementAction().getHistoryToken(),
 				ActionFactory.getAddMeasurementAction());
 
-		actions.put(ActionFactory.getInventoryItemsAction().getHistoryToken(),
-				ActionFactory.getInventoryItemsAction());
+		actions.put(
+				ActionFactory.getInventoryItemsAction(
+						ClientItem.TYPE_INVENTORY_PART).getHistoryToken(),
+				ActionFactory
+						.getInventoryItemsAction(ClientItem.TYPE_INVENTORY_PART));
+
+		actions.put(
+				ActionFactory.getInventoryItemsAction(
+						ClientItem.TYPE_INVENTORY_ASSEMBLY).getHistoryToken(),
+				ActionFactory
+						.getInventoryItemsAction(ClientItem.TYPE_INVENTORY_ASSEMBLY));
+
 		actions.put(ActionFactory.getWarehouseListAction().getHistoryToken(),
 				ActionFactory.getWarehouseListAction());
 		actions.put(ActionFactory.getWarehouseTransferListAction()

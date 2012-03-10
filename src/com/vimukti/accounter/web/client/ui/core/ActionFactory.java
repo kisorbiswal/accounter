@@ -290,8 +290,8 @@ public class ActionFactory {
 		return new ReconciliationDiscrepancyReportAction();
 	}
 
-	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction();
+	public static InventoryItemsAction getInventoryItemsAction(int type) {
+		return new InventoryItemsAction(type);
 	}
 
 	public static BankDepositDetailReportAction getBankDepositDetailReportAction() {
