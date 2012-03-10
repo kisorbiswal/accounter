@@ -18,7 +18,7 @@ public class ClientSubscription implements IsSerializable {
 	private Date createdDate;
 	private Date lastModified;
 	private Date expiredDate;
-	private Date tracePeriodDate;
+	private Date gracePeriodDate;
 	private Set<String> members = new HashSet<String>();
 	private int premiumType;
 
@@ -116,28 +116,28 @@ public class ClientSubscription implements IsSerializable {
 	}
 
 	public boolean isInTracePeriod() {
-		if (tracePeriodDate == null) {
+		if (gracePeriodDate == null) {
 			return false;
 		}
-		return tracePeriodDate.after(new Date());
+		return gracePeriodDate.after(new Date());
 	}
 
 	public boolean isTracePeriodExpired() {
-		if (tracePeriodDate == null) {
+		if (gracePeriodDate == null) {
 			return false;
 		}
-		return tracePeriodDate.before(new Date());
+		return gracePeriodDate.before(new Date());
 	}
 
 	public boolean isExpired() {
 		return expiredDate == null ? false : expiredDate.before(new Date());
 	}
 
-	public Date getTracePeriodDate() {
-		return tracePeriodDate;
+	public Date getGracePeriodDate() {
+		return gracePeriodDate;
 	}
 
-	public void setTracePeriodDate(Date tracePeriodDate) {
-		this.tracePeriodDate = tracePeriodDate;
+	public void setGracePeriodDate(Date gracePeriodDate) {
+		this.gracePeriodDate = gracePeriodDate;
 	}
 }

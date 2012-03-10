@@ -85,7 +85,7 @@ public class CompaniesServlet extends BaseServlet {
 			if (client.getClientSubscription().isInTracePeriod()
 					&& (type == null)) {
 				if (hasMoreUsers(client.getClientSubscription())) {
-					dispatchTracePeriod(req, resp, client);
+					dispatchGracePeriod(req, resp, client);
 					return;
 				}
 			}
@@ -160,20 +160,21 @@ public class CompaniesServlet extends BaseServlet {
 		}
 	}
 
-	private void dispatchTracePeriod(HttpServletRequest req,
+	private void dispatchGracePeriod(HttpServletRequest req,
 			HttpServletResponse resp, Client client) {
 		ClientSubscription subscription = client.getClientSubscription();
 		req.setAttribute("expiredDate", subscription.getExpiredDateAsString());
-		int days = (int) (subscription.getTracePeriodDate().getTime() - (new Date()
+		int days = (int) (subscription.getGracePeriodDate().getTime() - (new Date()
 				.getTime())) / (24 * 60 * 60 * 1000);
 		req.setAttribute("remainigDays", days);
+		req.setAttribute("userName", client.getFullName());
 		req.setAttribute("premiumType", subscription.getPremiumType());
 		Set<String> members = SubscryptionTool.getDeletedMembers(
 				subscription.getMembers(), client.getEmailId(),
 				subscription.getPremiumType());
 		req.setAttribute("users", members);
 
-		dispatch(req, resp, "/WEB-INF/traceperiod.jsp");
+		dispatch(req, resp, "/WEB-INF/graceperiod.jsp");
 	}
 
 	private void addCompanies(List<Company> list, List<Object[]> objects) {

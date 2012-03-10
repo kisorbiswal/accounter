@@ -48,12 +48,12 @@ public class SubscryptionTool extends Thread {
 					continue;
 				}
 				if (subscription.isExpired()) {
-					Date tracePeriodDate = subscription.getTracePeriodDate();
+					Date tracePeriodDate = subscription.getGracePeriodDate();
 					if (tracePeriodDate == null) {
 						subscription.setSubscription(Subscription
 								.getInstance(Subscription.FREE_CLIENT));
 						subscription.setPremiumType(0);
-						subscription.setTracePeriodDate(getTracePeriodDate());
+						subscription.setGracePeriodDate(getTracePeriodDate());
 					}
 				}
 			}
@@ -76,7 +76,7 @@ public class SubscryptionTool extends Thread {
 
 	private void doExpireSubscription(Client c) throws AccounterException {
 		ClientSubscription subscription = c.getClientSubscription();
-		subscription.setTracePeriodDate(null);
+		subscription.setGracePeriodDate(null);
 		Set<String> members = subscription.getMembers();
 		int premiumType = subscription.getPremiumType();
 		Set<String> deletedMembers = getDeletedMembers(members, c.getEmailId(),
@@ -131,21 +131,14 @@ public class SubscryptionTool extends Thread {
 		}
 	}
 
-	private void sendMail(Client c) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static void deleteUser(Client client, String emailId)
 			throws AccounterException {
 
-		List<Long> userId = (List<Long>) HibernateUtil.getCurrentSession()
+		List<User> users = (List<User>) HibernateUtil.getCurrentSession()
 				.getNamedQuery("getUserIds.invited.by.client")
 				.setParameter("emailId", emailId)
 				.setParameter("clientId", client.getID()).list();
-		for (Long i : userId) {
-			Session session = HibernateUtil.getCurrentSession();
-			User user = (User) session.load(User.class, i);
+		for (User user : users) {
 			ClientUser coreUser = new ClientConvertUtil().toClientObject(user,
 					ClientUser.class);
 			String clientClassSimpleName = coreUser.getObjectType()
@@ -164,9 +157,4 @@ public class SubscryptionTool extends Thread {
 		return list;
 	}
 
-	@Override
-	public synchronized void start() {
-		// TODO Auto-generated method stub
-		super.start();
-	}
 }

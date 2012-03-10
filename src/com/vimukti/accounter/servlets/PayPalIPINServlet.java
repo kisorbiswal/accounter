@@ -181,10 +181,10 @@ public class PayPalIPINServlet extends BaseServlet {
 		ClientSubscription clientSubscription = client.getClientSubscription();
 		clientSubscription.getMembers().add(emailId);
 		if (clientSubscription.getPremiumType() > paymentType) {
-			clientSubscription.setTracePeriodDate(SubscryptionTool
+			clientSubscription.setGracePeriodDate(SubscryptionTool
 					.getTracePeriodDate());
 		} else {
-			clientSubscription.setTracePeriodDate(null);
+			clientSubscription.setGracePeriodDate(null);
 		}
 		clientSubscription.setPremiumType(paymentType);
 		clientSubscription.setExpiredDate(expiredDate);
