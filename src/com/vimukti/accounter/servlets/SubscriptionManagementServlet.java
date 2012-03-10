@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
@@ -60,7 +61,7 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			throws ServletException, IOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
+		Transaction transaction = session.beginTransaction();
 		HttpSession session2 = req.getSession();
 		if (session2 == null) {
 			resp.sendRedirect(LOGIN_URL);
@@ -84,11 +85,7 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		List<String> existedUsers = getExistedUsers(oldMembers);
 		Set<String> members = getMembers(string);
 		members.add(emailId);
-		try {
-			mergeUsers(client, oldMembers, existedUsers, members);
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
+
 		if (!checkTotalMembers(members, client.getClientSubscription()
 				.getPremiumType())) {
 			req.setAttribute("error", "No of users should be limit");
@@ -98,8 +95,13 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		clientSubscription.setMembers(members);
 
 		saveEntry(clientSubscription);
-		transaction.commit();
 
+		try {
+			mergeUsers(client, oldMembers, existedUsers, members);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		transaction.commit();
 		resp.sendRedirect(COMPANIES_URL);
 	}
 
@@ -113,16 +115,14 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		}
 	}
 
-	private boolean checkTotalMembers(Set<String> oldMembers, int type) {
-		System.out.println("Total Members:" + oldMembers.size() + ","
-				+ oldMembers);
+	private boolean checkTotalMembers(Set<String> members, int type) {
 		switch (type) {
 		case ClientSubscription.ONE_USER:
-			return oldMembers.size() <= 1;
+			return members.size() <= 1;
 		case ClientSubscription.TWO_USERS:
-			return oldMembers.size() <= 2;
+			return members.size() <= 2;
 		case ClientSubscription.FIVE_USERS:
-			return oldMembers.size() <= 5;
+			return members.size() <= 5;
 		default:
 			return true;
 		}
