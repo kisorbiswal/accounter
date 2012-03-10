@@ -160,6 +160,10 @@ public class MenuBar {
 		inventoryMenu.addMenuItem(messages.inventoryItems(),
 				HistoryTokens.INVENTORYITEMS);
 
+		inventoryMenu.addMenuItem(
+				messages.inventoryAssembly() + " " + messages.items(),
+				HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
+
 		if (iswareHouseEnabled) {
 			inventoryMenu.addMenuItem(messages.warehouseList(),
 					HistoryTokens.WAREHOUSELIST);

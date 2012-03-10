@@ -10,8 +10,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class InventoryItemsAction extends Action<ClientItem> {
 
-	public InventoryItemsAction() {
+	private int type;
+
+	public InventoryItemsAction(int type) {
 		super();
+		this.type = type;
 		this.catagory = messages.inventory();
 	}
 
@@ -36,7 +39,8 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 			@Override
 			public void onCreated() {
-				InventoryItemsListView listview = new InventoryItemsListView();
+				InventoryItemsListView listview = new InventoryItemsListView(
+						type);
 				MainFinanceWindow.getViewManager().showView(listview, data,
 						isDependent, InventoryItemsAction.this);
 			}
@@ -45,17 +49,33 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	@Override
 	public String getHistoryToken() {
-		return HistoryTokens.INVENTORYITEMS;
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			return HistoryTokens.INVENTORYITEMS;
+		} else {
+			return HistoryTokens.INVENTORY_ASSEMBLY_ITEMS;
+		}
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "inventoryItem";
+
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			return "inventoryItem";
+		} else {
+			return "assemblyItem";
+		}
+
 	}
 
 	@Override
 	public String getText() {
-		return messages.inventoryItems();
+
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			return messages.inventoryItems();
+		} else {
+			return messages.inventoryAssembly() + " " + messages.items();
+		}
+
 	}
 
 }
