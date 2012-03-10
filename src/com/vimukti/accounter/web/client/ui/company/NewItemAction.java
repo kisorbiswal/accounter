@@ -25,6 +25,7 @@ public class NewItemAction extends Action<ClientItem> {
 	private boolean forCustomer;
 	private String itemName;
 	private boolean fromCompany;
+	private boolean isItemEditable;
 
 	public NewItemAction() {
 		super();
@@ -72,16 +73,12 @@ public class NewItemAction extends Action<ClientItem> {
 						if (data != null) {
 							type = data.getType();
 						}
-						if (type == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-							InventoryAssemblyView assemblyView = new InventoryAssemblyView();
-							MainFinanceWindow.getViewManager().showView(
-									assemblyView, data, isDependent,
-									NewItemAction.this);
-						} else {
-							ItemView view = new ItemView(type, forCustomer);
-							view.setItemName(itemName);
-							MainFinanceWindow.getViewManager().showView(view,
-									data, isDependent, NewItemAction.this);
+						ItemView view = new ItemView(type, forCustomer);
+						view.setItemName(itemName);
+						MainFinanceWindow.getViewManager().showView(view, data,
+								isDependent, NewItemAction.this);
+						if (isItemEditable) {
+							view.onEdit();
 						}
 					}
 				} else if (sellServices) {
@@ -90,6 +87,9 @@ public class NewItemAction extends Action<ClientItem> {
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
+					if (isItemEditable) {
+						view.onEdit();
+					}
 				} else if (sellProducts) {
 					if (Accounter.getCompany().getPreferences()
 							.isInventoryEnabled()) {
@@ -108,6 +108,9 @@ public class NewItemAction extends Action<ClientItem> {
 							view.setItemName(itemName);
 							MainFinanceWindow.getViewManager().showView(view,
 									data, isDependent, NewItemAction.this);
+							if (isItemEditable) {
+								view.onEdit();
+							}
 						}
 
 					} else {
@@ -116,6 +119,9 @@ public class NewItemAction extends Action<ClientItem> {
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
+						if (isItemEditable) {
+							view.onEdit();
+						}
 					}
 
 				}
@@ -173,5 +179,9 @@ public class NewItemAction extends Action<ClientItem> {
 	@Override
 	public String getText() {
 		return messages.newItem();
+	}
+
+	public void setisItemEditable(boolean isItemViewEditable) {
+		this.isItemEditable = isItemViewEditable;
 	}
 }

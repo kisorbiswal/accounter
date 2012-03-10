@@ -173,13 +173,13 @@ public class AccountMergeDialog extends BaseDialog implements
 						"Currencies of the both Accounts must be same ");
 				return result;
 			}
-			result = form.validate();
-
-			result = form1.validate();
 
 			return result;
 
 		}
+
+		result.add(form1.validate());
+
 		return result;
 	}
 
