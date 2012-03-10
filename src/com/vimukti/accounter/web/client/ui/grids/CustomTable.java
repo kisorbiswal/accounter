@@ -532,7 +532,7 @@ public abstract class CustomTable extends FlowPanel {
 				if (cellWidth == -2)
 					continue;
 				if (cellWidth == -1) {
-					cell.setAttribute("width", "100%");
+//					cell.setAttribute("width", "100%");
 					colsUpdate[colCounts++] = i;
 				} else {
 					try {
@@ -542,11 +542,11 @@ public abstract class CustomTable extends FlowPanel {
 						}
 
 						parentWidth = parentWidth - cellWidth;
-						if (table.equals(body) && BODY_WIDTH == 1)
-							cell.setAttribute("width", ""
-									+ (cellWidth - (20 / nofCols)));
-						else
-							cell.setAttribute("width", "" + cellWidth);
+//						if (table.equals(body) && BODY_WIDTH == 1)
+////							cell.setAttribute("width", ""
+////									+ (cellWidth - (20 / nofCols)));
+//						else
+////							cell.setAttribute("width", "" + cellWidth);
 					} catch (IndexOutOfBoundsException e) {
 						e.printStackTrace();
 					}
@@ -576,8 +576,8 @@ public abstract class CustomTable extends FlowPanel {
 				// table.getCellFormatter().getElement(row, 0)
 				// .setAttribute("width", "" + 25);
 				// else
-				table.getCellFormatter().getElement(row, 0)
-						.setAttribute("width", "" + 15);
+//				table.getCellFormatter().getElement(row, 0)
+//						.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -589,8 +589,6 @@ public abstract class CustomTable extends FlowPanel {
 	public void addEmptyMessage(String msg) {
 		this.body.setText(0, 0, msg);
 		this.body.addStyleName("no_records");
-		this.cellFormatter.setHorizontalAlignment(0, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
 	}
 
 	@Override

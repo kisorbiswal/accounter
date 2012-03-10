@@ -23,13 +23,14 @@ public abstract class EditTable<R> extends SimplePanel {
 	private CellFormatter cellFormatter;
 	private RowFormatter rowFormatter;
 	private List<R> rows = new ArrayList<R>();
-	private boolean isDisabled;
+	private boolean isEnabled = true;
 	private boolean columnsCreated;
 	private int numOfRowsPerObject;
 	private FlexCellFormatter flexCellFormatter;
 
 	public EditTable() {
 		this(1);
+		
 	}
 
 	public EditTable(int numOfRowsPerObject) {
@@ -65,10 +66,10 @@ public abstract class EditTable<R> extends SimplePanel {
 		}
 	}
 
-	public void setEnabled(boolean isDesabled) {
-		if (this.isDisabled = isDesabled) {
-			this.isDisabled = isDesabled;
-			updateHeaderState(isDesabled);
+	public void setEnabled(boolean isEnabled) {
+		if (this.isEnabled != isEnabled) {
+			this.isEnabled = isEnabled;
+			updateHeaderState(isEnabled);
 			for (R r : rows) {
 				update(r);
 			}
@@ -84,7 +85,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		int index = rows.indexOf(row) * numOfRowsPerObject;
 		index += numOfRowsPerObject;// for header
 		RenderContext<R> context = new RenderContext<R>(this, row);
-		context.setDesable(isDisabled);
+		context.setDesable(!isEnabled);
 		context.setCellFormatter(cellFormatter);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
@@ -124,7 +125,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		int index = rows.size() * numOfRowsPerObject;
 		RenderContext<R> context = new RenderContext<R>(this, row);
 		context.setCellFormatter(cellFormatter);
-		context.setDesable(isDisabled);
+		context.setDesable(!isEnabled);
 		context.setRowFormatter(rowFormatter);
 		for (int x = 0; x < columns.size(); x++) {
 			ArrayList<EditColumn<R>> list = columns.get(x);
@@ -248,7 +249,7 @@ public abstract class EditTable<R> extends SimplePanel {
 	}
 
 	public boolean isDisabled() {
-		return isDisabled;
+		return !isEnabled;
 	}
 
 	protected void onDelete(R obj) {

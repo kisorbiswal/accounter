@@ -72,6 +72,7 @@ public class CashPurchaseView extends
 
 	public CashPurchaseView() {
 		super(ClientTransaction.TYPE_CASH_PURCHASE);
+		this.getElement().setId("CashPurchaseView");
 	}
 
 	protected CashPurchaseView(int type) {

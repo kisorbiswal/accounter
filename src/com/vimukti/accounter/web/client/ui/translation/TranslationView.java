@@ -34,6 +34,7 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 
 	public TranslationView() {
 		super();
+		this.getElement().setId("TranslationView");
 	}
 
 	@Override
