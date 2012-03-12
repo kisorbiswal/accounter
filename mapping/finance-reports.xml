@@ -6,6 +6,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
+		<query-param name="toDay" type="long" />
 		<query-param name="type" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
@@ -33,11 +34,15 @@
 				       AND SO.ESTIMATETYPE = 6
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.COMPANY_ID = :companyId
-				       AND ( CASE
-				               WHEN :type =- 1 THEN TRUE
-				               WHEN T.STATUS = :type THEN T.SAVE_STATUS != 201
-				               ELSE T.SAVE_STATUS = :type
-				             END )
+				       AND (CASE 
+			               WHEN :type = -1 THEN TRUE 
+			               WHEN :type = 6 THEN SO.DELIVERY_DATE < :toDay 
+			                                   AND T.STATUS != 102 
+			                                   AND T.SAVE_STATUS != 204 
+			               WHEN T.STATUS = :type THEN T.SAVE_STATUS != 201 
+			                                          AND T.SAVE_STATUS != 204 
+			               ELSE T.SAVE_STATUS = :type 
+			             END )
 				       AND T.SAVE_STATUS != 202
 				ORDER  BY P.NAME,
 				          T.T_DATE  
