@@ -42,7 +42,6 @@ public class CompaniesServlet extends BaseServlet {
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -101,17 +100,22 @@ public class CompaniesServlet extends BaseServlet {
 				req.setAttribute("canCreate", true);
 				req.setAttribute("isPaid", true);
 			}
-
-			if (list.isEmpty()
-					&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
-				req.setAttribute("message", Global.get().messages()
-						.youDontHaveAny(Global.get().messages().companies()));
-			} else {
-				req.setAttribute("message", Global.get().messages()
-						.clickOnTheCompanyNameToOpen());
+			if (req.getAttribute("message") == null) {
+				if (list.isEmpty()
+						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
+					req.setAttribute(
+							"message",
+							Global.get()
+									.messages()
+									.youDontHaveAny(
+											Global.get().messages().companies()));
+				} else {
+					req.setAttribute("message", Global.get().messages()
+							.clickOnTheCompanyNameToOpen());
+				}
+				req.setAttribute(ATTR_COMPANY_LIST, list);
+				req.getSession().removeAttribute(COMPANY_ID);
 			}
-			req.setAttribute(ATTR_COMPANY_LIST, list);
-			req.getSession().removeAttribute(COMPANY_ID);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
