@@ -44,7 +44,9 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 		if (Accounter.hasPermission(Features.BRANDING_THEME)) {
 			runAysnc(data, isDependent);
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 	}
 

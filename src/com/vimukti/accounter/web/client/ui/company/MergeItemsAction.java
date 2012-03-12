@@ -21,7 +21,9 @@ public class MergeItemsAction extends Action {
 
 			dialog.show();
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 	}
 

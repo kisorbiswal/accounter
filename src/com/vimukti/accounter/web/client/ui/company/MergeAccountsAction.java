@@ -20,7 +20,9 @@ public class MergeAccountsAction extends Action {
 					messages.mergeAccounts(), messages.mergeDescription());
 			accountMergeDialog.show();
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 	}
 

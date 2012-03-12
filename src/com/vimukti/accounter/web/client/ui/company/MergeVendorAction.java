@@ -22,7 +22,9 @@ public class MergeVendorAction extends Action {
 					messages.payeeMergeDescription(Global.get().vendor()));
 			vendorMergeDialog.show();
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 	}
 
