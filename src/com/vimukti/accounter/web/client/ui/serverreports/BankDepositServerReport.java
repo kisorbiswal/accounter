@@ -51,7 +51,7 @@ public class BankDepositServerReport extends
 				processRecord(record);
 			} else {
 				record.setTransactionType(0);
-				record.setNumber(0);
+				record.setNumber("0");
 				return;
 			}
 		}
@@ -73,7 +73,7 @@ public class BankDepositServerReport extends
 			return record.getTransactionType() == 0 ? "" : ReportUtility
 					.getTransactionName(record.getTransactionType());
 		case 1:
-			return record.getNumber() == 0 ? "" : record.getNumber();
+			return record.getNumber() == null ? "" : record.getNumber();
 		case 2:
 			return record.getTransactionDate() == null ? "" : record
 					.getTransactionDate();

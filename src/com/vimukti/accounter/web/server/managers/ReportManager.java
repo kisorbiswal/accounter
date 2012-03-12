@@ -3775,7 +3775,7 @@ public class ReportManager extends Manager {
 			BankDepositDetail depositDetail = new BankDepositDetail();
 			depositDetail.setTransactionId((Long) objects[0]);
 			depositDetail.setTransactionType((Integer) objects[1]);
-			depositDetail.setNumber((Long) objects[2]);
+			depositDetail.setNumber((String) objects[2]);
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3840,7 +3840,7 @@ public class ReportManager extends Manager {
 			BankCheckDetail checkDetail = new BankCheckDetail();
 			checkDetail.setTransactionId((Long) objects[0]);
 			checkDetail.setTransactionType((Integer) objects[1]);
-			checkDetail.setTransactionNumber((Long) objects[2]);
+			checkDetail.setTransactionNumber((String) objects[2]);
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
