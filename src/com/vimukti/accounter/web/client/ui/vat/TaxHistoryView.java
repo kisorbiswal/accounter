@@ -349,4 +349,19 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 				|| taxReturn.getPeriodEndDate() == taxAgency
 						.getLastTAXReturnDate().getDate();
 	}
+
+	@Override
+	public ClientTAXReturn saveView() {
+		ClientTAXReturn taxReturn = new ClientTAXReturn();
+		taxReturn.setNumber(optionsCombo.getSelectedValue());
+		return taxReturn;
+
+	}
+
+	@Override
+	public void restoreView(ClientTAXReturn viewDate) {
+		optionsCombo.setSelected(viewDate.getNumber());
+		filterList(viewDate.getNumber());
+		hideButtons();
+	}
 }
