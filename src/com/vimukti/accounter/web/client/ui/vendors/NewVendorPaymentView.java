@@ -143,8 +143,6 @@ public class NewVendorPaymentView extends
 					printCheck.setValue(false);
 				}
 			}
-			printCheck.setDisabled(isInViewMode());
-			checkNo.setDisabled(isInViewMode());
 			if (getPreferences().isTDSEnabled()) {
 				long tdsTaxItem = transaction.getTdsTaxItem();
 				ClientTAXItem taxItem = getCompany().getTAXItem(tdsTaxItem);
@@ -528,8 +526,8 @@ public class NewVendorPaymentView extends
 
 		this.paymentMethod = paymentMethod;
 		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-			printCheck.setDisabled(false);
-			checkNo.setDisabled(false);
+			printCheck.setDisabled(isInViewMode());
+			checkNo.setDisabled(isInViewMode());
 		} else {
 			printCheck.setDisabled(true);
 			checkNo.setDisabled(true);
