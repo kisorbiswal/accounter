@@ -109,7 +109,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (saveAndCloseButton != null)
 			saveAndCloseButton.setVisible(false);
 		if (saveAndNewButton != null) {
-			saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
+			saveAndNewButton.setVisible(!grid.getSelectedRecords().isEmpty());
 			saveAndNewButton.setText(messages.payTax());
 			this.buttonBar.add(saveAndNewButton);
 		}
@@ -255,7 +255,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 						Window.scrollTo(0, 0);
 						updateRecordsCount(result.getStart(),
 								grid.getTableRowCount(), result.getTotalCount());
-						saveAndNewButton.setVisible(!grid.getRecords()
+						saveAndNewButton.setVisible(!grid.getSelectedRecords()
 								.isEmpty());
 
 					}
