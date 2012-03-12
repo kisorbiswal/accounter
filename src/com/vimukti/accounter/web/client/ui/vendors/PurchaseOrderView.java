@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -84,7 +83,6 @@ public class PurchaseOrderView extends
 	protected ClientShippingMethod shippingMethod;
 	private TextAreaItem billtoAreaItem;
 	private ShipToForm shipToAddress;
-	private DateField dueDateItem;
 
 	VerticalPanel amountsForm;
 
@@ -347,31 +345,6 @@ public class PurchaseOrderView extends
 
 		shippingMethodsCombo = createShippingMethodCombo();
 
-		dueDateItem = new DateField(messages.dueDate());
-		dueDateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
-				.getViewName()));
-		dueDateItem.setDisabled(isInViewMode());
-		// dueDateItem.setWidth(100);
-		if (isInViewMode()) {
-			// setDueDate(((ClientEnterBill) transactionObject).getDueDate());
-		} else {
-			setDueDate(new ClientFinanceDate().getDate());
-		}
-		dueDateItem.addChangedHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				try {
-					ClientFinanceDate newDate = ((DateField) event.getSource())
-							.getValue();
-					setDueDate(newDate.getDate());
-				} catch (Exception e) {
-					Accounter.showError(messages.invalidDueDate());
-				}
-
-			}
-
-		});
 		despatchDateItem = new DateField(messages.dispatchDate());
 		despatchDateItem.setDisabled(isInViewMode());
 		if (isInViewMode()) {
@@ -401,7 +374,7 @@ public class PurchaseOrderView extends
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
-		dateform.setItems(dueDateItem, /* despatchDateItem, */deliveryDateItem);
+		dateform.setItems( /* despatchDateItem, */deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -505,7 +478,7 @@ public class PurchaseOrderView extends
 				}
 				PurchaseOrderView.this.updateNonEditableItems();
 			}
-			
+
 			@Override
 			protected int getTransactionType() {
 				return ClientTransaction.TYPE_PURCHASE_ORDER;
@@ -877,8 +850,6 @@ public class PurchaseOrderView extends
 					.getShippingTerms()));
 			shippingMethodSelected(company.getShippingMethod(transaction
 					.getShippingMethod()));
-			dueDateItem.setEnteredDate(new ClientFinanceDate(transaction
-					.getDueDate()));
 			despatchDateItem.setEnteredDate(new ClientFinanceDate(transaction
 					.getDespatchDate()));
 			deliveryDateItem.setEnteredDate(new ClientFinanceDate(transaction
@@ -1156,9 +1127,6 @@ public class PurchaseOrderView extends
 			transaction.setShippingTerms(shippingTerms.getID());
 		if (shippingMethod != null)
 			transaction.setShippingMethod(shippingMethod.getID());
-		if (dueDateItem.getEnteredDate() != null) {
-			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
-		}
 		if (despatchDateItem.getEnteredDate() != null) {
 			transaction.setDespatchDate(despatchDateItem.getEnteredDate()
 					.getDate());
@@ -1269,11 +1237,6 @@ public class PurchaseOrderView extends
 		if (paymentTerms != null) {
 			this.paymentTerms = paymentTerms;
 			payTermsSelect.setComboItem(paymentTerms);
-			ClientFinanceDate dueDate = Utility.getCalculatedDueDate(
-					getTransactionDate(), paymentTerms);
-			if (dueDate != null) {
-				dueDateItem.setValue(dueDate);
-			}
 		}
 	}
 
@@ -1289,10 +1252,6 @@ public class PurchaseOrderView extends
 			this.shippingMethod = shippingMethod;
 			shippingMethodsCombo.setComboItem(shippingMethod);
 		}
-	}
-
-	private void setDueDate(long date) {
-		dueDateItem.setEnteredDate(new ClientFinanceDate(date));
 	}
 
 	private void setDespatchDate(long date) {
@@ -1361,13 +1320,6 @@ public class PurchaseOrderView extends
 
 		if (!statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());
-		}
-
-		if (!AccounterValidator.isValidDueOrDelivaryDates(
-				dueDateItem.getDate(), transactionDateItem.getDate())) {
-			result.addError(dueDateItem,
-					messages.the() + " " + messages.dueDate() + " " + " "
-							+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		result.add(vendorForm.validate());
@@ -1468,7 +1420,6 @@ public class PurchaseOrderView extends
 		shippingTermsCombo.setDisabled(isInViewMode());
 		shippingMethodsCombo.setDisabled(isInViewMode());
 
-		dueDateItem.setDisabled(isInViewMode());
 		despatchDateItem.setDisabled(isInViewMode());
 
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -1578,16 +1529,15 @@ public class PurchaseOrderView extends
 		transactionNumber.setTabIndex(7);
 		purchaseOrderText.setTabIndex(8);
 		payTermsSelect.setTabIndex(9);
-		dueDateItem.setTabIndex(10);
-		despatchDateItem.setTabIndex(11);
-		deliveryDateItem.setTabIndex(12);
-		memoTextAreaItem.setTabIndex(13);
+		despatchDateItem.setTabIndex(10);
+		deliveryDateItem.setTabIndex(11);
+		memoTextAreaItem.setTabIndex(12);
 		// menuButton.setTabIndex(14);
 		if (saveAndCloseButton != null)
-			saveAndCloseButton.setTabIndex(15);
+			saveAndCloseButton.setTabIndex(13);
 		if (saveAndNewButton != null)
-			saveAndNewButton.setTabIndex(16);
-		cancelButton.setTabIndex(17);
+			saveAndNewButton.setTabIndex(14);
+		cancelButton.setTabIndex(15);
 	}
 
 	@Override
@@ -1639,7 +1589,7 @@ public class PurchaseOrderView extends
 	public boolean canExportToCsv() {
 		return false;
 	}
-	
+
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 

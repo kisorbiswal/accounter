@@ -28,8 +28,8 @@ public class PurchaseOrderPdfGeneration {
 	private Company company;
 	private BrandingTheme brandingTheme;
 
-	public PurchaseOrderPdfGeneration(PurchaseOrder purchaseOrder, Company company,
-			BrandingTheme brandingTheme) {
+	public PurchaseOrderPdfGeneration(PurchaseOrder purchaseOrder,
+			Company company, BrandingTheme brandingTheme) {
 		this.purchaseOrder = purchaseOrder;
 		this.company = company;
 		this.brandingTheme = brandingTheme;
@@ -58,7 +58,8 @@ public class PurchaseOrderPdfGeneration {
 			i.setTitle(title);
 			i.setBillAddress(getBillingAddress());
 			i.setNumber(purchaseOrder.getNumber());
-			i.setDate(Utility.getDateInSelectedFormat(purchaseOrder.getDespatchDate()));
+			i.setDate(Utility.getDateInSelectedFormat(purchaseOrder
+					.getDespatchDate()));
 			i.setVendorNo(purchaseOrder.getPurchaseOrderNumber());
 
 			// for primary curreny
@@ -72,7 +73,6 @@ public class PurchaseOrderPdfGeneration {
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
 
-			i.setDueDate(Utility.getDateInSelectedFormat(purchaseOrder.getDueDate()));
 			i.setShipAddress(getShippingAddress());
 			i.setVendorName(purchaseOrder.getVendor().getName());
 
@@ -137,12 +137,12 @@ public class PurchaseOrderPdfGeneration {
 			}
 
 			context.put("item", itemList);
-			String total = Utility.decimalConversation(purchaseOrder.getTotal(),
-					symbol);
+			String total = Utility.decimalConversation(
+					purchaseOrder.getTotal(), symbol);
 
 			i.setTotal(total);
-			String netAmount = Utility.decimalConversation(purchaseOrder.getNetAmount(),
-					symbol);
+			String netAmount = Utility.decimalConversation(
+					purchaseOrder.getNetAmount(), symbol);
 			i.setNetAmount(netAmount);
 
 			i.setMemo(purchaseOrder.getMemo());
@@ -206,7 +206,6 @@ public class PurchaseOrderPdfGeneration {
 
 	}
 
-
 	public String getImage() {
 		StringBuffer original = new StringBuffer();
 
@@ -236,8 +235,8 @@ public class PurchaseOrderPdfGeneration {
 
 		// setting billing address
 		Address bill = purchaseOrder.getVendorAddress();
-		String customerName = forUnusedAddress(purchaseOrder.getVendor().getName(),
-				false);
+		String customerName = forUnusedAddress(purchaseOrder.getVendor()
+				.getName(), false);
 		StringBuffer billAddress = new StringBuffer();
 		if (bill != null) {
 			billAddress = billAddress.append(forUnusedAddress(cname, false)
@@ -319,7 +318,6 @@ public class PurchaseOrderPdfGeneration {
 		private String date;
 		private String currency;
 		private String terms;
-		private String dueDate;
 		private String billAddress;
 		private String shipAddress;
 		private String vendorName;
@@ -331,8 +329,6 @@ public class PurchaseOrderPdfGeneration {
 		private String email;
 		private String registrationAddress;
 
-		
-
 		public String getCurrency() {
 			return currency;
 		}
@@ -341,7 +337,6 @@ public class PurchaseOrderPdfGeneration {
 			this.currency = currency;
 		}
 
-		
 		public String getTotal() {
 			return total;
 		}
@@ -349,8 +344,6 @@ public class PurchaseOrderPdfGeneration {
 		public void setTotal(String total) {
 			this.total = total;
 		}
-
-		
 
 		public String getMemo() {
 			return memo;
@@ -463,15 +456,6 @@ public class PurchaseOrderPdfGeneration {
 		public void setVendorNo(String vendorNo) {
 			this.vendorNo = vendorNo;
 		}
-
-		public String getDueDate() {
-			return dueDate;
-		}
-
-		public void setDueDate(String dueDate) {
-			this.dueDate = dueDate;
-		}
-
 	}
 
 	public class ItemList {

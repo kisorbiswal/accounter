@@ -6867,12 +6867,12 @@
 		DELETE FROM users
 		WHERE  company_id = cid;
 
-		DELETE FROM activity
-		WHERE  company_id = cid;
-
 		DELETE FROM currency
 		WHERE  company_id = cid;
 		
+		DELETE FROM activity
+		WHERE  company_id = cid;
+
 		DELETE FROM email_account
 		WHERE  company_id = cid;  
 		

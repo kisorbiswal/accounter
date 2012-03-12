@@ -28,8 +28,6 @@ public class ClientPurchaseOrder extends ClientTransaction {
 
 	long paymentTerm;
 
-	long dueDate;
-
 	long deliveryDate;
 
 	private long dispatchDate;
@@ -213,21 +211,6 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	 */
 	public void setPurchaseOrderDate(long purchaseOrderDate) {
 		this.purchaseOrderDate = purchaseOrderDate;
-	}
-
-	/**
-	 * @return the dueDate
-	 */
-	public long getDueDate() {
-		return dueDate;
-	}
-
-	/**
-	 * @param dueDate
-	 *            the dueDate to set
-	 */
-	public void setDueDate(long dueDate) {
-		this.dueDate = dueDate;
 	}
 
 	public void setDespatchDate(long despatchDate) {
