@@ -120,8 +120,6 @@ public class NewVendorPaymentView extends
 			if (payFromAccount != null)
 				payFromCombo.select(payFromAccount);
 			amountText.setDisabled(isInViewMode());
-			printCheck.setDisabled(true);
-			checkNo.setDisabled(true);
 			ClientPayBill clientPayBill = transaction;
 			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
@@ -145,6 +143,8 @@ public class NewVendorPaymentView extends
 					printCheck.setValue(false);
 				}
 			}
+			printCheck.setDisabled(isInViewMode());
+			checkNo.setDisabled(isInViewMode());
 			if (getPreferences().isTDSEnabled()) {
 				long tdsTaxItem = transaction.getTdsTaxItem();
 				ClientTAXItem taxItem = getCompany().getTAXItem(tdsTaxItem);
