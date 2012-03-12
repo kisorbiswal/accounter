@@ -10688,7 +10688,7 @@
 				       IT.ID                                       AS TRANSACTION_ITEM_ID,
 				       IT.COMPANY_ID                               AS COMPANY,
 				       IT.ID                                       AS ITEM_ID,
-				       T.T_DATE                                    AS TRANSACTION_DATE,
+				       IT.AS_OF_DATE                               AS TRANSACTION_DATE,
 				       T.T_TYPE                                    AS TRANSACTION_TYPE,
 				       T.NUMBER                                    AS TRANSACTION_NUMBER,
 				       CASE
@@ -10705,6 +10705,7 @@
 				       IT.SALES_PRICE                              AS ITEM_SALE_PRICE,
 				       P.ID                                        AS PAYEE_ID,
 				       P.NAME                                      AS PAYEE_NAME,
+				       IT.TYPE                                     AS ITEM_TYPE,
 				       (SELECT SUM(AT.AMOUNT) AS ASSET_VALUE
 				        FROM   ACCOUNT_TRANSACTION AT
 				               LEFT JOIN TRANSACTION T2
@@ -10814,7 +10815,7 @@
 				       PAYEE_NAME,
 				       PAYEE_ID
 				FROM   INVENTORY_HISTORY_VIEW V
-				WHERE  V.COMPANY = :companyId
+				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE=2
 				       AND ( V.TRANSACTION_DATE IS NULL
 				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )
 				       AND CASE
