@@ -3067,10 +3067,6 @@
 				       T.MEMO     AS MEMO,
 				       P.NAME     AS CUSTOMER_NAME,
 				       T.T_DATE   AS TR_DATE,
-				        <!-- CASE
-				                WHEN TI.TYPE = 4 THEN TI.ACCOUNT_ID
-				                ELSE IT.EXPENSE_ACCOUNT_ID
-				              END AS ITEM_ACCOUNT,-->
 				       A.NAME     AS ACCOUNTNAME,
 				       CASE
 				         WHEN T.T_TYPE = 6 THEN TI.CUSTOMER_ID

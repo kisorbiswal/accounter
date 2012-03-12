@@ -3055,7 +3055,7 @@
 				       END                               AS QUANTITY,
 				       TI.QTY_UNIT                       AS UNIT,
 				       TI.UNIT_PRICE * T.CURRENCY_FACTOR AS UNIT_PRICE,
-				       TI.DISCOUNT * T.CURRENCY_FACTOR   AS DISCOUNT,
+				       TI.DISCOUNT    AS DISCOUNT,
 				       CASE
 				         WHEN T.T_TYPE = 4
 				               OR T_TYPE = 14 THEN -1 * TI.LINE_TOTAL * T.CURRENCY_FACTOR
