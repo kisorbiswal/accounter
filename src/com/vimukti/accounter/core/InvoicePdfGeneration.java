@@ -249,7 +249,10 @@ public class InvoicePdfGeneration {
 			}
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(invoice
 					.getDeliverydate()));
-			i.setShippingTerms(invoice.getShippingTerm().getName());
+			if (invoice.getShippingTerm() != null) {
+				i.setShippingTerms(invoice.getShippingTerm().getName());
+			}
+
 			context.put("logo", logo);
 			context.put("invoice", i);
 			context.put("companyImg", footerImg);

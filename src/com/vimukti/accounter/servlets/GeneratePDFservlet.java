@@ -55,7 +55,6 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceivePaymentPdfGeneration;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
-import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
