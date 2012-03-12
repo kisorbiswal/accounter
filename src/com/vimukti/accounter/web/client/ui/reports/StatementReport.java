@@ -205,7 +205,8 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		long status1 = ((Long) map.get("statement"));
 
 		int view_Id = (Integer) map.get("viewId");
-		if (this.payeeId == 0) {
+		if (this.payeeId == 0
+				&& Accounter.getCompany().getPayee(status1) != null) {
 			setPayeeId(status1);
 			toolbar.setPayeeId(status1);
 			Boolean isVendor = (Boolean) map.get("isVendor");
