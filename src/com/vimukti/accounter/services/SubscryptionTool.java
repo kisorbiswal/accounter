@@ -14,6 +14,8 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.ClientSubscription;
@@ -133,23 +135,19 @@ public class SubscryptionTool extends Thread {
 
 	public static void deleteUser(Client client, String emailId)
 			throws AccounterException {
-		Query query = HibernateUtil.getCurrentSession().getNamedQuery(
-				"getUserIds.invited.by.client");
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getUserIds.invited.by.client");
 
 		((SQLQuery) query).addEntity(User.class);
 
 		List<User> users = (List<User>) query.setParameter("emailId", emailId)
 				.setParameter("clientId", client.getID()).list();
 		for (User user : users) {
-			ClientUser coreUser = new ClientConvertUtil().toClientObject(user,
-					ClientUser.class);
-			String clientClassSimpleName = coreUser.getObjectType()
-					.getClientClassSimpleName();
-			FinanceTool financeTool = new FinanceTool();
-			OperationContext context = new OperationContext(user.getCompany()
-					.getId(), coreUser, emailId, String.valueOf(coreUser
-					.getID()), clientClassSimpleName);
-			financeTool.delete(context);
+			user.setDeleted(true);
+			session.saveOrUpdate(user);
+			Activity activity = new Activity(user.getCompany(), user
+					.getCompany().getCreatedBy(), ActivityType.DELETE, user);
+			session.save(activity);
 		}
 	}
 

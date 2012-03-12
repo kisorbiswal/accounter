@@ -98,10 +98,11 @@ public class SubscriptionManagementServlet extends BaseServlet {
 
 		try {
 			mergeUsers(client, oldMembers, existedUsers, members);
+			transaction.commit();
 		} catch (AccounterException e) {
+			transaction.rollback();
 			e.printStackTrace();
 		}
-		transaction.commit();
 		resp.sendRedirect(COMPANIES_URL);
 	}
 
