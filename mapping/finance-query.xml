@@ -3716,6 +3716,7 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                           WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE FROM JOURNAL_ENTRY J WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T1
 				                 WHERE  T.ID = T1.ID
@@ -3745,6 +3746,7 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                           WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE FROM JOURNAL_ENTRY J WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T2
 				                 WHERE  T.ID = T2.ID
@@ -3775,6 +3777,7 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                           WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE FROM JOURNAL_ENTRY J WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T3
 				                 WHERE  T.ID = T3.ID
@@ -3805,6 +3808,7 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                           WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE FROM JOURNAL_ENTRY J WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T4
 				                 WHERE  T.ID = T4.ID
@@ -3835,6 +3839,7 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                          WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE FROM JOURNAL_ENTRY J WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T5
 				                 WHERE  T.ID = T5.ID
@@ -3865,6 +3870,7 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                           WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE FROM JOURNAL_ENTRY J WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T6
 				                 WHERE  T.ID = T6.ID
@@ -3892,6 +3898,9 @@
 				                          WHEN T.T_TYPE = 5 THEN (SELECT CR1.BALANCE_DUE
 				                                                  FROM   CUSTOMER_REFUND CR1
 				                                                  WHERE  CR1.ID = T.ID)
+				                          WHEN T.T_TYPE = 16 THEN (SELECT J.BALANCE_DUE 
+				                          						   FROM JOURNAL_ENTRY J 
+				                          						   WHERE J.ID = T.ID)
 				                        END
 				                 FROM   TRANSACTION T7
 				                 WHERE  T.ID = T7.ID
@@ -3913,11 +3922,14 @@
 				         ON CP.CUSTOMER_ID = P.ID
 				       LEFT OUTER JOIN CUSTOMER_REFUND CR
 				         ON CR.CUSTOMER_ID = P.ID
+				       LEFT OUTER JOIN JOURNAL_ENTRY JE
+				         ON JE.PAYEE_ID = P.ID
 				       LEFT OUTER JOIN TRANSACTION T
 				         ON T.ID = I.ID
 				             OR T.ID = CCM.ID
 				             OR T.ID = CP.ID
 				             OR T.ID = CR.ID
+				             OR T.ID = JE.ID
 				WHERE  P.TYPE = 1
 				       AND P.COMPANY_ID = :companyId
 				       AND P.IS_ACTIVE = :isActive
