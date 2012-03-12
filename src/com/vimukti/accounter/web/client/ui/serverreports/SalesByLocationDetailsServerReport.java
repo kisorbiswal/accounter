@@ -111,7 +111,7 @@ public class SalesByLocationDetailsServerReport extends
 		case 0:
 			return "";
 		case 1:
-			return DateUtills.getDateAsString(record.getDate());
+			return getDateByCompanyType(new ClientFinanceDate(record.getDate()));
 		case 2:
 			return ReportUtility.getTransactionName(record.getType());
 		case 3:
