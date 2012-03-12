@@ -120,15 +120,12 @@ public class NewVendorPaymentView extends
 			if (payFromAccount != null)
 				payFromCombo.select(payFromAccount);
 			amountText.setDisabled(isInViewMode());
+			printCheck.setDisabled(true);
+			checkNo.setDisabled(true);
+			ClientPayBill clientPayBill = transaction;
+			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
+			paymentMethodCombo.setDisabled(isInViewMode());
 			paymentMethodSelected(transaction.getPaymentMethod());
-			if (transaction != null) {
-				printCheck.setDisabled(true);
-				checkNo.setDisabled(true);
-				ClientPayBill clientPayBill = transaction;
-				paymentMethodCombo.setComboItem(clientPayBill
-						.getPaymentMethod());
-				paymentMethodCombo.setDisabled(isInViewMode());
-			}
 
 			// if (currency != null) {
 			// currencyCombo.setValue(currency.getFormalName());
@@ -482,23 +479,21 @@ public class NewVendorPaymentView extends
 				transaction.setPaymentMethod(paymentMethodCombo
 						.getSelectedValue());
 
-				if (checkNo.getValue() != null
-						&& !checkNo.getValue().equals("")) {
-					String value;
-					if (checkNo.getValue().toString()
-							.equalsIgnoreCase(messages.toBePrinted())) {
-						value = String.valueOf(messages.toBePrinted());
+				if (paymentMethod != null) {
+					transaction.setPaymentMethod(paymentMethod);
+					if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+						if (checkNo.getValue() != null
+								&& !checkNo.getValue().equals("")) {
+							String value = String.valueOf(checkNo.getValue());
+							transaction.setCheckNumber(value);
+						} else {
+							transaction.setCheckNumber("");
+
+						}
 					} else {
-						value = String.valueOf(checkNo.getValue());
+						transaction.setCheckNumber("");
 					}
-					transaction.setCheckNumber(value);
-				} else {
-					transaction.setCheckNumber("");
 				}
-				if (transaction.getID() != 0) {
-					printCheck.setValue(transaction.isToBePrinted());
-				} else
-					printCheck.setValue(true);
 
 				// if (currencyCombo.getSelectedValue() != null)
 				// transaction.setCurrency(currencyCombo.getSelectedValue()
@@ -531,15 +526,13 @@ public class NewVendorPaymentView extends
 		if (paymentMethod == null)
 			return;
 
-		if (paymentMethod != null) {
-			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNo.setDisabled(false);
-			} else {
-				printCheck.setDisabled(true);
-				checkNo.setDisabled(true);
-			}
+		this.paymentMethod = paymentMethod;
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+			printCheck.setDisabled(false);
+			checkNo.setDisabled(false);
+		} else {
+			printCheck.setDisabled(true);
+			checkNo.setDisabled(true);
 		}
 
 	}

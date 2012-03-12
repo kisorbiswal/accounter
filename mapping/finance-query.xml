@@ -177,6 +177,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
+		<query-param name="toDay" type="long" />
 		<query-param name="type" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
@@ -206,12 +207,16 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				       AND ( CASE
-				               WHEN :type =- 1 THEN TRUE
-				               WHEN T.STATUS = :type THEN T.SAVE_STATUS != 201
-				                                          AND T.SAVE_STATUS != 204
-				               ELSE T.SAVE_STATUS = :type
-				             END )
+				       AND (CASE 
+			               WHEN :type = -1 THEN TRUE 
+			               WHEN :type = -2 THEN T.SAVE_STATUS != 204 
+			               WHEN :type = 6 THEN PO.DELIVERY_DATE < :toDay 
+			                                   AND T.STATUS != 102 
+			                                   AND T.SAVE_STATUS != 204 
+			               WHEN T.STATUS = :type THEN T.SAVE_STATUS != 201 
+			                                          AND T.SAVE_STATUS != 204 
+			               ELSE T.SAVE_STATUS = :type 
+			             END)
 				       AND T.SAVE_STATUS != 202
 				ORDER  BY T.T_DATE  
 				]]>
@@ -3055,7 +3060,7 @@
 				       END                               AS QUANTITY,
 				       TI.QTY_UNIT                       AS UNIT,
 				       TI.UNIT_PRICE * T.CURRENCY_FACTOR AS UNIT_PRICE,
-				       TI.DISCOUNT * T.CURRENCY_FACTOR   AS DISCOUNT,
+				       TI.DISCOUNT    AS DISCOUNT,
 				       CASE
 				         WHEN T.T_TYPE = 4
 				               OR T_TYPE = 14 THEN -1 * TI.LINE_TOTAL * T.CURRENCY_FACTOR
@@ -4746,8 +4751,6 @@
 				         WHEN T.T_TYPE = 16 THEN T.TOTAL
 				         WHEN T.T_TYPE = 29 THEN -1 * CPP.BALANCE_DUE
 				       END                AS BALANCE,
-				        <!-- SUM(T.TOTAL) AS TOTAL,
-				       SUM(I.BALANCE_DUE) AS BALANCE,-->
 				       P.NAME             AS CUSTOMER_NAME,
 				       PA.ADDRESS1        AS ADDRESS1,
 				       PA.STREET          AS ADDRESS2,
@@ -10688,7 +10691,7 @@
 				       IT.ID                                       AS TRANSACTION_ITEM_ID,
 				       IT.COMPANY_ID                               AS COMPANY,
 				       IT.ID                                       AS ITEM_ID,
-				       T.T_DATE                                    AS TRANSACTION_DATE,
+				       IT.AS_OF_DATE                               AS TRANSACTION_DATE,
 				       T.T_TYPE                                    AS TRANSACTION_TYPE,
 				       T.NUMBER                                    AS TRANSACTION_NUMBER,
 				       CASE
@@ -10705,6 +10708,7 @@
 				       IT.SALES_PRICE                              AS ITEM_SALE_PRICE,
 				       P.ID                                        AS PAYEE_ID,
 				       P.NAME                                      AS PAYEE_NAME,
+				       IT.TYPE                                     AS ITEM_TYPE,
 				       (SELECT SUM(AT.AMOUNT) AS ASSET_VALUE
 				        FROM   ACCOUNT_TRANSACTION AT
 				               LEFT JOIN TRANSACTION T2
@@ -10814,7 +10818,7 @@
 				       PAYEE_NAME,
 				       PAYEE_ID
 				FROM   INVENTORY_HISTORY_VIEW V
-				WHERE  V.COMPANY = :companyId
+				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE=2
 				       AND ( V.TRANSACTION_DATE IS NULL
 				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )
 				       AND CASE
@@ -11058,8 +11062,8 @@
 				             OR P.ID = RP.CUSTOMER_ID
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.PAYMENT_METHOD = 'Cheque'
-				       AND ( T.T_DATE < = :endDate
-				             AND T.T_DATE > = :startDate );  
+				       AND ( T.T_DATE <= :endDate
+				             AND T.T_DATE >= :startDate );  
 				]]>
 		
 	</sql-query>

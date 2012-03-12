@@ -931,6 +931,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			accTypeSelect.setComboItem(Utility
 					.getAccountTypeString(accountType));
 			// accTypeSelect.setDisabled(true);
+			getNextAccountNo();
 			accTypeSelect.initCombo(getAccountsList());
 			accNoText.setToolTip(messages.accountNumberToolTipDesc("1100",
 					"1179"));
@@ -1290,13 +1291,15 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
 				getSubAccounts();
 			}
-			setCashFlowType();
-			resetView();
-			statusBox.setValue(true);
-			getNextAccountNo();
-			currencyCombo.setVisible(ClientAccount
-					.isAllowCurrencyChange(accountType));
-			initAccountTypeSelect();
+			if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+				accounttype_selected();
+				initAccountTypeSelect();
+				int subBaseType = UIUtils.getAccountSubBaseType(accountType);
+				Integer[] ranges = getCompany()
+						.getNominalCodeRange(subBaseType);
+				accNoText.setToolTip(messages.accountNumberToolTipDesc(
+						String.valueOf(ranges[0]), String.valueOf(ranges[1])));
+			}
 			if (accountType == ClientAccount.TYPE_PAYPAL) {
 				getPaypalData();
 			}
