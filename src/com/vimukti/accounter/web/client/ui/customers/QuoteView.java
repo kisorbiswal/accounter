@@ -86,8 +86,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	private String title;
 	private SelectCombo statusCombo;
 
-	private DateField dueDateItem;
-
 	private TextItem customerOrderText;
 
 	public QuoteView(int type, String title) {
@@ -239,14 +237,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
 		calculateDatesforPayterm(transDate);
-
-		if (transDate != null && paymentTerm != null) {
-			ClientFinanceDate dueDate = Utility.getCalculatedDueDate(transDate,
-					paymentTerm);
-			if (dueDate != null) {
-				dueDateItem.setValue(dueDate);
-			}
-		}
 	}
 
 	private void calculateDatesforPayterm(ClientFinanceDate transDate) {
@@ -458,7 +448,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
-		dueDateItem = createDueDateItem();
 		quoteExpiryDate = new DateField(messages.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
@@ -488,9 +477,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (getPreferences().isSalesPersonEnabled()) {
 			if (isTemplate) {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+					phoneForm.setFields(statusCombo, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect);
 				} else {
 					phoneForm.setFields(statusCombo, salesPersonCombo,
 							payTermsSelect);
@@ -498,9 +487,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 			} else {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect, deliveryDate);
+					phoneForm.setFields(statusCombo, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect, deliveryDate);
 				} else {
 					phoneForm.setFields(statusCombo, salesPersonCombo,
 							payTermsSelect, quoteExpiryDate, deliveryDate);
@@ -509,17 +498,17 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		} else {
 			if (isTemplate) {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect);
+					phoneForm.setFields(statusCombo, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect);
 				} else {
 					phoneForm.setFields(statusCombo, payTermsSelect);
 				}
 			} else {
 				if (type == ClientEstimate.SALES_ORDER) {
-					phoneForm.setFields(statusCombo, dueDateItem,
-							customerOrderText, shippingTermsCombo,
-							shippingMethodsCombo, payTermsSelect, deliveryDate);
+					phoneForm.setFields(statusCombo, customerOrderText,
+							shippingTermsCombo, shippingMethodsCombo,
+							payTermsSelect, deliveryDate);
 				} else {
 					phoneForm.setFields(statusCombo, payTermsSelect,
 							quoteExpiryDate, deliveryDate);
@@ -850,8 +839,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				.getID());
 		if (shippingMethod != null)
 			transaction.setShippingMethod(shippingMethod.getID());
-		if (dueDateItem.getEnteredDate() != null)
-			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -909,9 +896,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		if (transaction == null) {
 			setData(new ClientEstimate());
-			if (type == ClientEstimate.SALES_ORDER) {
-				dueDateItem.setEnteredDate(new ClientFinanceDate());
-			}
 		} else {
 
 			if (currencyWidget != null) {
@@ -963,8 +947,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			paymentTermsSelected(this.paymentTerm);
 			priceLevelSelected(this.priceLevel);
 			salesPersonSelected(this.salesPerson);
-			dueDateItem.setEnteredDate(new ClientFinanceDate(transaction
-					.getDueDate()));
 			this.shippingTerm = company.getShippingTerms(transaction
 					.getShippingTerm());
 			if (this.shippingTerm != null) {
@@ -1175,13 +1157,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		ValidationResult result = super.validate();
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
-		if (type == ClientEstimate.SALES_ORDER
-				&& !AccounterValidator.isValidDueOrDelivaryDates(
-						this.dueDateItem.getDate(), getTransactionDate())) {
-			result.addError(this.dueDateItem,
-					messages.the() + " " + messages.dueDate() + " " + " "
-							+ messages.cannotbeearlierthantransactiondate());
-		}
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(
@@ -1308,7 +1283,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		customerOrderText.setDisabled(isInViewMode());
 		shippingTermsCombo.setDisabled(isInViewMode());
-		dueDateItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -1331,13 +1305,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
 		} else {
 			// if there is only one branding theme
-			
+
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
-			
-				UIUtils.downloadAttachment(transaction.getID(),
-						ClientTransaction.TYPE_ESTIMATE,
-						clientBrandingTheme.getID());
-			
+
+			UIUtils.downloadAttachment(transaction.getID(),
+					ClientTransaction.TYPE_ESTIMATE,
+					clientBrandingTheme.getID());
+
 		}
 
 	}
@@ -1470,7 +1444,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
-		if (type == ClientEstimate.QUOTES || type== ClientEstimate.SALES_ORDER) {
+		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
 			if (mode == EditMode.CREATE || mode == EditMode.EDIT
 					|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 				return false;

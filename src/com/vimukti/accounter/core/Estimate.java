@@ -133,8 +133,6 @@ public class Estimate extends Transaction {
 
 	private ShippingMethod shippingMethod;
 
-	private FinanceDate dueDate;
-
 	public Estimate() {
 		setType(Transaction.TYPE_ESTIMATE);
 	}
@@ -536,13 +534,5 @@ public class Estimate extends Transaction {
 
 	public void setShippingMethod(ShippingMethod shippingMethod) {
 		this.shippingMethod = shippingMethod;
-	}
-
-	public FinanceDate getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(FinanceDate dueDate) {
-		this.dueDate = dueDate;
 	}
 }

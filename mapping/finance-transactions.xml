@@ -483,8 +483,6 @@
 			</many-to-one> 
 			<many-to-one name="shippingMethod" class="ShippingMethod" 
 			column="SHIPPING_METHOD_ID"> </many-to-one> 
-			<property name="dueDate" column="DUE_DATE" 
-			type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="expirationDate" column="EXPIRATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property> 
@@ -657,8 +655,6 @@
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				column="PAYMENT_TERM_ID">
 			</many-to-one>
-			<property name="dueDate" column="DUE_DATE"
-				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="dispatchDate" column="DISPATCH_DATE"

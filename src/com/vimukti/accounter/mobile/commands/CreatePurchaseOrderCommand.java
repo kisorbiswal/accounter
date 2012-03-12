@@ -106,8 +106,6 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 				CommandUtils.getServerObjectById(
 						purchaseOrder.getPaymentTerm(),
 						AccounterCoreType.PAYMENT_TERM));
-		get(DUE_DATE).setValue(
-				new ClientFinanceDate(purchaseOrder.getDueDate()));
 		get(RECIEVED_DATE).setValue(purchaseOrder.getDate());
 		get(DISPATCH_DATE).setValue(
 				new ClientFinanceDate(purchaseOrder.getDespatchDate()));
@@ -153,7 +151,6 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
 		}
-		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(DISPATCH_DATE).setDefaultValue(new ClientFinanceDate());
 		get(RECIEVED_DATE).setDefaultValue(new ClientFinanceDate());
 		get(STATUS).setDefaultValue(getMessages().open());
@@ -398,8 +395,6 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 		});
 
-		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-				getMessages().dueDate()), getMessages().dueDate(), true, true));
 		list.add(new DateRequirement(DISPATCH_DATE, getMessages().pleaseEnter(
 				getMessages().dispatchDate()), getMessages().dispatchDate(),
 				true, true));
@@ -508,9 +503,6 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		if (newPaymentTerms != null)
 			purchaseOrder.setPaymentTerm(newPaymentTerms.getID());
-
-		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
-		purchaseOrder.setDate(dueDate.getDate());
 
 		ClientFinanceDate receivedDate = get(RECIEVED_DATE).getValue();
 		purchaseOrder.setDate(receivedDate.getDate());

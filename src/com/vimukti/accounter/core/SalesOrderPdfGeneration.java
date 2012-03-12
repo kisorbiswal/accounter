@@ -73,8 +73,6 @@ public class SalesOrderPdfGeneration {
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
 
-			i.setDueDate(Utility.getDateInSelectedFormat(salesOrder
-					.getDueDate()));
 			i.setShipAddress(getShippingAddress());
 			i.setCustomerName(salesOrder.getCustomer().getName());
 
@@ -320,7 +318,6 @@ public class SalesOrderPdfGeneration {
 		private String date;
 		private String currency;
 		private String terms;
-		private String dueDate;
 		private String billAddress;
 		private String shipAddress;
 		private String customerName;
@@ -443,14 +440,6 @@ public class SalesOrderPdfGeneration {
 
 		public void setNetAmount(String netAmount) {
 			this.netAmount = netAmount;
-		}
-
-		public String getDueDate() {
-			return dueDate;
-		}
-
-		public void setDueDate(String dueDate) {
-			this.dueDate = dueDate;
 		}
 
 		public String getCustomerNo() {

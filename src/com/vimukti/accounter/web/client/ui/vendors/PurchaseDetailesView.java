@@ -195,8 +195,6 @@ public class PurchaseDetailesView extends AbstractView {
 		if (purchaseOrder.getPurchaseOrderNumber() != null)
 			customerNumberField.setText(String.valueOf(purchaseOrder
 					.getPurchaseOrderNumber()));
-		dueDateField.setText(DateUtills.getDateAsString(purchaseOrder
-				.getDueDate()));
 
 		if (purchaseOrder.getStatus() == 101)
 			statusField.setText(messages.open());

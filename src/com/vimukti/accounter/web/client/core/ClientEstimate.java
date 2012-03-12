@@ -63,8 +63,6 @@ public class ClientEstimate extends ClientTransaction {
 
 	private long shippingMethod;
 
-	private long dueDate;
-
 	/**
 	 * @return the version
 	 */
@@ -358,13 +356,4 @@ public class ClientEstimate extends ClientTransaction {
 	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
 	}
-
-	public long getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(long dueDate) {
-		this.dueDate = dueDate;
-	}
-
 }
