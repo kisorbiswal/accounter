@@ -217,9 +217,16 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 
 	@Override
 	public void exportToCsv() {
-		Accounter.createExportCSVService().getItemsExportCsv(
-				ItemListView.isPurchaseType, ItemListView.isSalesType,
-				viewSelect.getSelectedValue(), 1,
-				getExportCSVCallback(messages.items()));
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			Accounter.createExportCSVService().getItemsExportCsv(
+					ItemListView.isPurchaseType, ItemListView.isSalesType,
+					viewSelect.getSelectedValue(), 1,
+					getExportCSVCallback(messages.items()));
+		} else {
+			Accounter.createExportCSVService().getItemsExportCsv(
+					ItemListView.isPurchaseType, ItemListView.isSalesType,
+					viewSelect.getSelectedValue(), 2,
+					getExportCSVCallback(messages.items()));
+		}
 	}
 }
