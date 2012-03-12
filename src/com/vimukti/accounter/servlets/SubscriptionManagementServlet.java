@@ -97,22 +97,29 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		saveEntry(clientSubscription);
 
 		try {
-			mergeUsers(client, oldMembers, existedUsers, members);
+			int deletedUsers = mergeUsers(client, oldMembers, existedUsers,
+					members);
+			if (deletedUsers == 0) {
+				transaction.commit();
+			}
+
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
-		transaction.commit();
 		resp.sendRedirect(COMPANIES_URL);
 	}
 
-	private void mergeUsers(Client client, Set<String> oldMembers,
+	private int mergeUsers(Client client, Set<String> oldMembers,
 			List<String> existedUsers, Set<String> members)
 			throws AccounterException {
+		int deletedUsers = 0;
 		for (String o : oldMembers) {
 			if (!members.contains(o) && existedUsers.contains(o)) {
 				SubscryptionTool.deleteUser(client, o);
+				deletedUsers++;
 			}
 		}
+		return deletedUsers;
 	}
 
 	private boolean checkTotalMembers(Set<String> members, int type) {
