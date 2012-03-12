@@ -8022,7 +8022,7 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
-		
+		<return-scalar column="REMAING_CREDITS" type="double" />
 		<![CDATA[
 				SELECT T.SAVE_STATUS AS SAVE_STATUS,
 				       T.CURRENCY    AS CURRENCY_ID,
@@ -8039,7 +8039,8 @@
 				       END           AS ISVOIDED,
 				       NULL          AS DUE_DATE,
 				       0.0           AS BALANCE,
-				       T.STATUS      AS TRANSACTION_STATUS
+				       T.STATUS      AS TRANSACTION_STATUS,
+				       CCM.BALANCE_DUE AS REMAING_CREDITS
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM
 				         ON T.ID = CCM.ID
