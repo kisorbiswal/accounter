@@ -3970,8 +3970,7 @@ public class ReportManager extends Manager {
 	 * @return
 	 */
 	public ArrayList<TransactionDetailByAccount> getMissionChecksByAccount(
-			long accountId, ClientFinanceDate start, ClientFinanceDate end,
-			long companyId) {
+			long accountId, FinanceDate start, FinanceDate end, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
 

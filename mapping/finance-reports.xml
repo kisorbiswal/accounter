@@ -3699,7 +3699,7 @@
 	</sql-query>
 
 	<sql-query name="get.all.invoices.by.account">
-		<!-- <query-param name="accountId" type="long" /> -->
+		<query-param name="accountId" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
@@ -3708,7 +3708,7 @@
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
@@ -3723,7 +3723,7 @@
 				               P.NAME   AS NAME,
 				               A.NAME   AS ACCOUNT_NAME,
 				               T.MEMO   AS MEMO,
-				               T.TOTAL  AS TOTAL_AMOUNT,
+				               T.TOTAL * T.CURRENCY_FACTOR AS TOTAL_AMOUNT,				               
 				               CASE
 				                 WHEN T.T_TYPE = 15 THEN W.CHECK_NUMBER
 				                 WHEN T_TYPE IN( 2, 26, 28 ) THEN CP.CHECK_NUMBER

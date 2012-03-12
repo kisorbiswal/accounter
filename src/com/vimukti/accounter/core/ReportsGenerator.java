@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.reports.BudgetVsActualsServerReport;
-import com.vimukti.accounter.web.client.ui.reports.TDSAcknowledgmentsReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -1811,13 +1810,9 @@ public class ReportsGenerator {
 			};
 			updateReport(checksServerReport, finaTool);
 			try {
-				checksServerReport
-						.onResultSuccess(finaTool.getReportManager()
-								.getMissionChecksByAccount(
-										Long.valueOf(status),
-										startDate.toClientFinanceDate(),
-										endDate.toClientFinanceDate(),
-										company.getID()));
+				checksServerReport.onResultSuccess(finaTool.getReportManager()
+						.getMissionChecksByAccount(Long.valueOf(status),
+								startDate, endDate, company.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
