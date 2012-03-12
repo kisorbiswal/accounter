@@ -160,8 +160,10 @@ public class CurrencyFormatDialog extends BaseDialog {
 				String readNumber = JNSI.readNumber(value);
 				if (readNumber == null || readNumber.equals("null")
 						|| readNumber.isEmpty()) {
-					digitGroupingFormat = digitGroupingFormat.replaceAll(
-							digitGroupSymbol, value);
+					if (!digitGroupSymbol.isEmpty()) {
+						digitGroupingFormat = digitGroupingFormat.replaceAll(
+								digitGroupSymbol, value);
+					}
 					digitGroupSymbol = value;
 					initDigitGroupingValues();
 					update();
