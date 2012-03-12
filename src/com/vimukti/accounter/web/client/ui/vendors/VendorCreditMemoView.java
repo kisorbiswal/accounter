@@ -45,6 +45,7 @@ public class VendorCreditMemoView extends
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
+		this.getElement().setId("VendorCreditMemoView");
 	}
 
 	@Override
@@ -471,7 +472,7 @@ public class VendorCreditMemoView extends
 		totalForm.add(transactionTotalForm);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
@@ -486,7 +487,7 @@ public class VendorCreditMemoView extends
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

@@ -24,6 +24,7 @@ public abstract class VendorTransactionsHistoryGrid extends
 
 	public VendorTransactionsHistoryGrid() {
 		super(false);
+		this.getElement().setId("VendorTransactionsHistoryGrid");
 	}
 
 	boolean isDeleted;

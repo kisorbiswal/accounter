@@ -77,6 +77,7 @@ public class VendorBillView extends
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
+		this.getElement().setId("VendorBillView");
 	}
 
 	private void resetGlobalVariables() {
@@ -796,7 +797,7 @@ public class VendorBillView extends
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		// mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
@@ -813,7 +814,7 @@ public class VendorBillView extends
 		// }
 
 		this.add(mainVLay);
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

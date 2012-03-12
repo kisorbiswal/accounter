@@ -21,6 +21,7 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 
 	public TAXAgencyListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable, true);
+		this.getElement().setId("TAXAgencyListGrid");
 	}
 
 	@Override

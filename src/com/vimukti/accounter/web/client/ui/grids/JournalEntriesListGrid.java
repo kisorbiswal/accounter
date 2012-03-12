@@ -17,6 +17,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	public JournalEntriesListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("JournalEntriesListGrid");
 	}
 
 	boolean isDeleted;

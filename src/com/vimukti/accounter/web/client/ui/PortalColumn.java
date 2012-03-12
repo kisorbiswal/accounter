@@ -17,7 +17,7 @@ public class PortalColumn extends FlowPanel {
 	public PortalColumn(int colNum) {
 
 		// setMembersMargin(3);
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 		setColNum(colNum);
 		// setAnimateMembers(true);
 

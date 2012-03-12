@@ -25,6 +25,7 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 	public ReconcilListGrid(ClientAccount account) {
 		super(false, true);
 		this.bankAccount = account;
+		this.getElement().setId("ReconcilListGrid");
 
 	}
 

@@ -59,6 +59,7 @@ public class CashExpenseView extends
 
 	public CashExpenseView() {
 		super(ClientTransaction.TYPE_CASH_EXPENSE);
+		this.getElement().setId("CashExpenseView");
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	public void init() {
 		super.init();
 		createControl();
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 
 	}
 
@@ -253,7 +253,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		this.payeeGrid.setHeight((height - 130) + "px");
+//		this.payeeGrid.setHeight((height - 130) + "px");
 
 	}
 

@@ -10,6 +10,7 @@ public class JobListGrid extends BaseListGrid<ClientJob> {
 
 	public JobListGrid() {
 		super(false);
+		this.getElement().setId("JobListGrid");
 	}
 
 	@Override

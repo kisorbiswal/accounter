@@ -462,7 +462,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		this.add(mainVPanel);
 
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(itmNameForm);

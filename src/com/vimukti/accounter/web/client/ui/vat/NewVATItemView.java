@@ -174,7 +174,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	@Override

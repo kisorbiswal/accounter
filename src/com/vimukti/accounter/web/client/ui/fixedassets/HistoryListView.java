@@ -23,6 +23,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	private int start;
 
 	public HistoryListView(ClientFixedAsset asset) {
+		this.getElement().setId("HistoryListView");
 		this.asset = asset;
 		this.isViewSelectRequired = false;
 	}

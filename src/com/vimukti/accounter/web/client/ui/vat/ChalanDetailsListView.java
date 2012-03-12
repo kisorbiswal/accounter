@@ -17,7 +17,7 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 	private ArrayList<ClientTDSChalanDetail> listOfCHalans;
 
 	public ChalanDetailsListView() {
-
+		this.getElement().setId("ChalanDetailsListView");
 	}
 
 	@Override

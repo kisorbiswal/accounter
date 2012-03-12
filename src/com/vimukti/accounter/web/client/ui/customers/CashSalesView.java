@@ -89,6 +89,7 @@ public class CashSalesView extends
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
+		this.getElement().setId("CashSalesView");
 	}
 
 	private void initCashSalesView() {
@@ -480,7 +481,7 @@ public class CashSalesView extends
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

@@ -403,7 +403,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			mainVLay.add(pager);
 		}
 		add(mainVLay);
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 
 	}
 

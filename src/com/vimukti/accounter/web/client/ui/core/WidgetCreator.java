@@ -84,7 +84,7 @@ public class WidgetCreator {
 		// StyledPanel layout = new StyledPanel();
 		grid = new CompanyFinancialWidgetGrid();
 		grid.init();
-		grid.setHeight("180px");
+//		grid.setHeight("180px");
 		grid.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
 		grid.getElement().getStyle().setBorderWidth(0, Unit.PX);
@@ -143,7 +143,7 @@ public class WidgetCreator {
 		// welcomePortlet.setTitle("Key Financial Indicators"reloadKeyIndicators);
 		// layout.setBackgroundColor("white");
 		welcomePortlet.add(grid);
-		welcomePortlet.setHeight("184px");
+//		welcomePortlet.setHeight("184px");
 		reloadKeyIndicators(grid);
 		return welcomePortlet;
 
@@ -244,7 +244,7 @@ public class WidgetCreator {
 		customerWidgetGrid.isEnable = false;
 		customerWidgetGrid.init();
 		// grid.addLoadingImagePanel();
-		customerWidgetGrid.setHeight("250px");
+//		customerWidgetGrid.setHeight("250px");
 		customerWidgetGrid.getElement().getStyle().setBorderWidth(0, Unit.PX);
 		customerWidgetGrid.addLoadingImagePanel();
 
@@ -331,19 +331,19 @@ public class WidgetCreator {
 	}
 
 	public void setCustomerWidgetHeight(int height) {
-		if (height >= 180) {
-			bankingSummaryPortlet.setHeight(height - 110 + "px");
-			customerWidgetGrid.setHeight(height - 110 + "px");
-		} else {
-			bankingSummaryPortlet.setHeight(80 + "px");
-			customerWidgetGrid.setHeight(80 + "px");
-		}
+//		if (height >= 180) {
+//			bankingSummaryPortlet.setHeight(height - 110 + "px");
+//			customerWidgetGrid.setHeight(height - 110 + "px");
+//		} else {
+//			bankingSummaryPortlet.setHeight(80 + "px");
+//			customerWidgetGrid.setHeight(80 + "px");
+//		}
 	}
 
 	public void setCompanyFinancialWidgetHeight(int height) {
-		if (height > 50)
-			welcomePortlet.setHeight(height - 42 + "px");
-		grid.setHeight("100%");
+//		if (height > 50)
+//			welcomePortlet.setHeight(height - 42 + "px");
+//		grid.setHeight("100%");
 	}
 	/*
 	 * private void getBankSummaryData(final ListGrid bankingSummaryGrid) {

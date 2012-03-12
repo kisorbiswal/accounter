@@ -575,7 +575,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		// mainVLay.getElement().getStyle().setMarginBottom(15, Unit.PX);
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
@@ -864,7 +864,7 @@ public class ItemView extends BaseView<ClientItem> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	@Override

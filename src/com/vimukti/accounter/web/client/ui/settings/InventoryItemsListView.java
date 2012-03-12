@@ -31,6 +31,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 
 	public InventoryItemsListView() {
 		super();
+		this.getElement().setId("InventoryItemsListView");
 	}
 
 	public static ItemListView getInstance() {

@@ -20,6 +20,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	public MeasurementsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("MeasurementsListGrid");
 	}
 
 	@Override

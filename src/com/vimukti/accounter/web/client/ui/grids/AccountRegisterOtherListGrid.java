@@ -27,6 +27,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	public AccountRegisterOtherListGrid(boolean isMultiSelectionEnable) {
 		super(false, true);
+		this.getElement().setId("AccountRegisterOtherListGrid");
 	}
 
 	@Override

@@ -40,10 +40,12 @@ public class ItemListView extends BaseListView<ClientItem> implements
 
 	public ItemListView() {
 		super();
+		this.getElement().setId("ItemListView");
 	}
 
 	public static ItemListView getInstance() {
 		return new ItemListView();
+		
 	}
 
 	@Override

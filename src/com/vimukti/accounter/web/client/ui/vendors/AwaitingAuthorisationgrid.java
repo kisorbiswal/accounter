@@ -18,6 +18,7 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 
 	public AwaitingAuthorisationgrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("AwaitingAuthorisationgrid");
 	}
 
 	@Override

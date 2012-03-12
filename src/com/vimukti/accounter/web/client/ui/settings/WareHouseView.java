@@ -163,7 +163,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		vPanel = new StyledPanel("vPanel");
 		vPanel.add(mainHLay);
 
-		this.setSize("100%", "100%");
+	//	this.setSize("100%", "100%");
 		this.add(vPanel);
 
 	}

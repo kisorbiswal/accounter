@@ -46,7 +46,7 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 		createControls();
 		saveAndNewButton.setVisible(false);
 		saveAndCloseButton.setText(messages.merge());
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	private void createControls() {

@@ -25,10 +25,12 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	public BillsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("BillsListGrid");
 	}
 
 	public BillsListGrid(boolean isMultiSelectionEnable, int transactionType) {
 		super(isMultiSelectionEnable, transactionType);
+		this.getElement().setId("BillsListGrid");
 	}
 
 	boolean isDeleted;

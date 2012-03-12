@@ -179,7 +179,7 @@ public class GraphChart {
 	private Options createYearOverYearOptionsForBarChart() {
 		Options options = Options.create();
 		options.setWidth(444);
-		options.setHeight(225);
+//		options.setHeight(225);
 		options.setType(Type.BARS);
 		options.setTitle(getTitle());
 		options.setLegend(LegendPosition.NONE);
@@ -194,7 +194,7 @@ public class GraphChart {
 	private Options createIncomeAndExpenseOptionsForBarChart() {
 		Options options = Options.create();
 		options.setWidth(444);
-		options.setHeight(225);
+//		options.setHeight(225);
 		options.setType(Type.BARS);
 		options.setLegend(LegendPosition.RIGHT);
 		options.setColors("#6CA92F", "#FF4000");
@@ -207,8 +207,8 @@ public class GraphChart {
 
 	private Options createOptionsForPieChart() {
 		Options options = (PieOptions) Options.create();
-		options.setWidth(444);
-		options.setHeight(225);
+//		options.setWidth(444);
+//		options.setHeight(225);
 		options.setLegend(LegendPosition.RIGHT);
 		options.setColors("#6CA92F", "#e0440e", "#91AB56", "#40640e",
 				"#07891D", "#800000", "#628906", "#0000FF", "#800080",
@@ -246,8 +246,8 @@ public class GraphChart {
 	private Options createOptionsToAccountReceivableChart() {
 
 		Options options = Options.create();
-		options.setWidth(444);
-		options.setHeight(225);
+//		options.setWidth(444);
+//		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);
 		options.setColors("#6CA92F");
@@ -278,8 +278,8 @@ public class GraphChart {
 
 	private Options createOptionsToBankingAccountsListChart() {
 		Options options = Options.create();
-		options.setWidth(630);
-		options.setHeight(225);
+//		options.setWidth(630);
+//		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);
 		options.setColors("#6CA92F");
@@ -301,8 +301,8 @@ public class GraphChart {
 		// options.setDisplayExactValues(true);
 		// options.setAllowHtml(true);
 		// options.setWindowMode(WindowMode.OPAQUE);
-		options.setWidth(425);
-		options.setHeight(225);
+//		options.setWidth(425);
+//		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);
 		options.setColors("#6CA92F");

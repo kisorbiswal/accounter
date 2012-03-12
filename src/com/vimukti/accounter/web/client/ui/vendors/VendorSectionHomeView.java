@@ -48,7 +48,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		payeeGrid = new VendorListGrid(false);
 		payeeGrid.init();
 		super.init();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 	}
 
@@ -248,7 +248,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		// if (UIUtils.isMSIEBrowser())
 		// this.listGrid.setHeight((height - 140) + "px");
 		// else
-		this.payeeGrid.setHeight((height - 130) + "px");
+//		this.payeeGrid.setHeight((height - 130) + "px");
 
 	}
 

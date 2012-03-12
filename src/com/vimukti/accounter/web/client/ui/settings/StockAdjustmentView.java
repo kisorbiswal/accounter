@@ -126,7 +126,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		mainPanel.add(form);
 		mainPanel.add(table);
 		mainPanel.add(addButton);
-		mainPanel.setSize("100%", "100%");
+	//	mainPanel.setSize("100%", "100%");
 
 		this.add(mainPanel);
 	}

@@ -28,6 +28,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	public PendingItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("PendingItemsListGrid");
 	}
 
 	/*

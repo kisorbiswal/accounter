@@ -22,6 +22,7 @@ public class BankStatementsView extends BaseListView<ClientStatement> {
 
 	public BankStatementsView(ClientAccount account) {
 		this.account = account;
+		this.getElement().setId("BankStatementsView");
 
 	}
 

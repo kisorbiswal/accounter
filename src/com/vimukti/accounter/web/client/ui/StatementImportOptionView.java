@@ -133,7 +133,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 
 		mainVLay.add(controlsPanel);
 
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 
 		StyledPanel datePanel = new StyledPanel("datePanel");
 		dateFormat_Label = new Label(messages.DateFormat());
@@ -162,7 +162,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 		mainVLay.add(datePanel);
 
 		this.add(mainVLay);
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	/**

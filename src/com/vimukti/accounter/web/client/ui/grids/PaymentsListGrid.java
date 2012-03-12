@@ -19,10 +19,12 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	public PaymentsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("PaymentsListGrid");
 	}
 
 	public PaymentsListGrid(boolean isMultiSelectionEnable, int checkType) {
 		super(isMultiSelectionEnable, checkType);
+		this.getElement().setId("PaymentsListGrid");
 	}
 
 	@Override

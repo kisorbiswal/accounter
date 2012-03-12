@@ -22,6 +22,7 @@ public abstract class CustomerTransactionsHistoryGrid extends
 
 	public CustomerTransactionsHistoryGrid() {
 		super(false);
+		this.getElement().setId("CustomerTransactionsHistoryGrid");
 	}
 
 	boolean isDeleted;

@@ -31,6 +31,7 @@ public class SoldAndDisposedItemsListGrid extends
 	 */
 	public SoldAndDisposedItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("SoldAndDisposedItemsListGrid");
 	}
 
 	/**

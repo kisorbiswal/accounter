@@ -175,7 +175,7 @@ public class MainFinanceWindow extends FlowPanel {
 		// view.getButtonPanel().setHeight("30px");
 		// }
 		super.onLoad();
-		viewManager.fitToSize(this.getOffsetHeight(), 960);
+//		viewManager.fitToSize(this.getOffsetHeight(), 960);
 		// if (GWT.isScript())
 		startCometService();
 		this.getElement().getParentElement()

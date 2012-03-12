@@ -47,8 +47,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		mainPanel.setStyleName("Transactions_center");
 		createTreeItems();
 		this.add(mainPanel);
-//		setSize("100%", "100%");
-//		mainPanel.setWidth("100");
+		
+		// setSize("100%", "100%");
+		// mainPanel.setWidth("100");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -65,17 +66,16 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			}
 
 		};
+		listPanel.getElement().setId("listPanel");
 		mainPanel.add(listPanel);
 
 		listPanel.addMenuPanel(Global.get().Customers(),
 				getCustomerCenterItems());
-
 		listPanel.addMenuPanel(Global.get().Vendors(), getVendorCenterItems());
-
 		listPanel.addMenuPanel(messages.banking(), getBankCenterItems());
-
 		listPanel.addMenuPanel(messages.others(), getOtherCenterItems());
 		baseListView = (TransactionsListView<T>) new InvoiceListView();
+
 		initGridData(getMessages().invoices());
 	}
 

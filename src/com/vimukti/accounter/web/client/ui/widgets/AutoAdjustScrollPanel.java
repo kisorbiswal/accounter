@@ -21,13 +21,13 @@ public class AutoAdjustScrollPanel extends ScrollPanel {
 
 	@Override
 	protected void onLoad() {
-		setHeight("1px");
+//		setHeight("1px");
 		new Timer() {
 
 			@Override
 			public void run() {
-				int height = getParent().getElement().getOffsetHeight();
-				setHeight(height + "px");
+//				int height = getParent().getElement().getOffsetHeight();
+//				setHeight(height + "px");
 
 			}
 		}.schedule(100);

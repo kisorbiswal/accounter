@@ -22,6 +22,7 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 
 	public TransactionHistoryTable(long id) {
 		this.transctionId = id;
+		this.getElement().setId("TransactionHistoryTable");
 		createControls();
 	}
 
@@ -29,6 +30,7 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 			AbstractTransactionBaseView<ClientTransaction> baseView) {
 		this.baseView = baseView;
 		this.transctionId = id;
+		this.getElement().setId("TransactionHistoryTable");
 		createControls();
 	}
 

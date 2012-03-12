@@ -45,6 +45,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	public VATPaymentView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
+		this.getElement().setId("VATPaymentView");
 	}
 
 	@Override

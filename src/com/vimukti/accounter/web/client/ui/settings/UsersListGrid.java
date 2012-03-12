@@ -19,6 +19,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 
 	public UsersListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("UsersListGrid");
 	}
 
 	@Override

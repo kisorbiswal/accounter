@@ -14,6 +14,10 @@ import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 public class MeasurementListView extends BaseListView<ClientMeasurement>
 		implements IPrintableView {
 
+	public MeasurementListView() {
+		this.getElement().setId("JobListView");
+	}
+	
 	@Override
 	public void init() {
 		super.init();

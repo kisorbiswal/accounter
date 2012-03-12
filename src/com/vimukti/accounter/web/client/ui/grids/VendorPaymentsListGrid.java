@@ -19,11 +19,13 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	public VendorPaymentsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("VendorPaymentsListGrid");
 	}
 
 	public VendorPaymentsListGrid(boolean isMultiSelectionEnable,
 			int transactionType) {
 		super(isMultiSelectionEnable, transactionType);
+		this.getElement().setId("VendorPaymentsListGrid");
 	}
 
 	boolean isDeleted;

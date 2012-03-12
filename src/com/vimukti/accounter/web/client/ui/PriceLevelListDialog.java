@@ -30,7 +30,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 		super(title, descript);
 		// setSize("400px", "");
-		setWidth("400px");
+//		setWidth("400px");
 		initialise();
 		center();
 

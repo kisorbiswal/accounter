@@ -201,8 +201,8 @@ public class AccounterDialog extends CustomDialog {
 		// headerLayout.setCellVerticalAlignment(msgLabel,
 		// HasVerticalAlignment.ALIGN_MIDDLE);
 		// headerLayout.setSpacing(5);
-		headerLayout.setHeight("10%");
-		buttonLayout.setHeight("10%");
+//		headerLayout.setHeight("10%");
+//		buttonLayout.setHeight("10%");
 
 		bodyLayout.add(headerLayout);
 		bodyLayout.add(buttonLayout);

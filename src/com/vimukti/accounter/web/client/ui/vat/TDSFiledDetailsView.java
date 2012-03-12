@@ -52,7 +52,7 @@ public class TDSFiledDetailsView extends BaseView {
 		super.init();
 		this.getElement().setId("TDSFiledDetailsView");
 		createControls();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	@Override

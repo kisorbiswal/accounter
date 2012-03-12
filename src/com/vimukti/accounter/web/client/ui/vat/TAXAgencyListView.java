@@ -28,7 +28,9 @@ public class TAXAgencyListView extends BaseListView<PayeeList> implements
 
 	public TAXAgencyListView() {
 		super();
+		this.getElement().setId("TAXAgencyListView");
 	}
+	
 
 	@Override
 	public void deleteFailed(AccounterException caught) {

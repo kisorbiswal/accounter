@@ -20,6 +20,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
 	public BudgetAccountGrid() {
 		super(false);
+		this.getElement().setId("BudgetAccountGrid");
 	}
 
 	@Override

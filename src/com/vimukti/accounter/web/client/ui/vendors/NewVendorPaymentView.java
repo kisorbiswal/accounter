@@ -67,6 +67,7 @@ public class NewVendorPaymentView extends
 
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
+		this.getElement().setId("NewVendorPaymentView");
 
 	}
 
@@ -185,11 +186,11 @@ public class NewVendorPaymentView extends
 		dateNoForm.add(transactionDateItem, transactionNumber);
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-//		datepanel.setWidth("100%");
+		// datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
-//		labeldateNoLayout.setWidth("100%");
+		// labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
 		vendorCombo = createVendorComboItem(messages.payTo());
@@ -200,13 +201,13 @@ public class NewVendorPaymentView extends
 		// Ending and Vendor Balance
 		endBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "endBalText");
-//		endBalText.setWidth(100);
+		// endBalText.setWidth(100);
 		endBalText.setEnabled(false);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
 				.Vendor()), this, getBaseCurrency(), "vendorBalText");
 		vendorBalText.setEnabled(false);
-//		vendorBalText.setWidth(100);
+		// vendorBalText.setWidth(100);
 
 		// currencyCombo = new CurrencyCombo(messages.currency());
 		// currencyCombo.setDisabled(isInViewMode());
@@ -236,10 +237,10 @@ public class NewVendorPaymentView extends
 
 		// Payment
 		payFromCombo = createPayFromCombo(messages.payFrom());
-//		payFromCombo.setPopupWidth("500px");
+		// payFromCombo.setPopupWidth("500px");
 		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency(), "amountText");
-//		amountText.setWidth(100);
+		// amountText.setWidth(100);
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
 
@@ -275,7 +276,7 @@ public class NewVendorPaymentView extends
 		});
 		checkNo = createCheckNumberItem();
 		checkNo.setValue(messages.toBePrinted());
-//		checkNo.setWidth(100);
+		// checkNo.setWidth(100);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -288,7 +289,7 @@ public class NewVendorPaymentView extends
 		// payForm.setWidth("80%");
 		// payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
-//		memoTextAreaItem.setWidth(100);
+		// memoTextAreaItem.setWidth(100);
 		payForm.add(vendorCombo, billToCombo, payFromCombo, amountText,
 				paymentMethodCombo, printCheck, checkNo, memoTextAreaItem);
 
@@ -329,7 +330,7 @@ public class NewVendorPaymentView extends
 		this.totalAmount = new AmountLabel(messages.total());
 
 		this.tdsPanel = new StyledPanel("tdsPanel");
-//		this.tdsPanel.setWidth("100%");
+		// this.tdsPanel.setWidth("100%");
 
 		if (getPreferences().isTDSEnabled()) {
 			DynamicForm form = new DynamicForm("form");
@@ -337,7 +338,7 @@ public class NewVendorPaymentView extends
 			tdsPanel.add(form);
 
 			DynamicForm amountsForm = new DynamicForm("amountsForm");
-//			amountsForm.setHeight("70px");
+			// amountsForm.setHeight("70px");
 			amountsForm.setStyleName("boldtext");
 			amountsForm.add(vendorPayment);
 			amountsForm.add(tdsAmount);
@@ -353,20 +354,20 @@ public class NewVendorPaymentView extends
 		}
 
 		StyledPanel hLay = new StyledPanel("hLay");
-//		hLay.setWidth("100%");
+		// hLay.setWidth("100%");
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
-//		mainVLay.setSize("100%", "100%");
+		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
 
 		this.add(mainVLay);
 
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
 		listforms.add(balForm);

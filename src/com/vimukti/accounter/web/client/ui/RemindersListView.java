@@ -46,6 +46,11 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	List<ClientReminder> reminders = new ArrayList<ClientReminder>();
 	public String viewType;
 
+	public RemindersListView() {
+		super();
+		this.getElement().setId("RemindersListView");
+	}
+	
 	@Override
 	public void initListCallback() {
 		super.initListCallback();

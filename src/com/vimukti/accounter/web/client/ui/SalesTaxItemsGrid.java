@@ -8,6 +8,7 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 
 	public SalesTaxItemsGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("SalesTaxItemsGrid");
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public abstract class TextAreaEditColumn<T> extends TextEditColumn<T> {
 
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				textArea.setHeight("2px");
+//				textArea.setHeight("2px");
 				updateHeight(textArea.getElement());
 			}
 		});

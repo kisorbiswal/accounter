@@ -19,11 +19,13 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	public ReceivedPaymentListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("ReceivedPaymentListGrid");
 	}
 
 	public ReceivedPaymentListGrid(boolean isMultiSelectionEnable,
 			int transactionType) {
 		super(isMultiSelectionEnable, transactionType);
+		this.getElement().setId("ReceivedPaymentListGrid");
 	}
 
 	boolean isDeleted;

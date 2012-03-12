@@ -117,7 +117,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		buttonLayout.add(okButtonLayout);
 
 		mainLayout.add(buttonLayout);
-		mainLayout.setSize("100%", "100%");
+//		mainLayout.setSize("100%", "100%");
 
 		add(mainLayout);
 	}

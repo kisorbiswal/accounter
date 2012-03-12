@@ -15,6 +15,7 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	public RemindersListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("RemindersListGrid");
 	}
 
 	@Override

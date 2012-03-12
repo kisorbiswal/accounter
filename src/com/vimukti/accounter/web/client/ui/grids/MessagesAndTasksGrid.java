@@ -9,6 +9,7 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 
 	public MessagesAndTasksGrid() {
 		super(false);
+		this.getElement().setId("MessagesAndTasksGrid");
 	}
 
 	@Override

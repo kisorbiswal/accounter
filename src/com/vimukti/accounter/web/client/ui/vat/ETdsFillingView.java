@@ -224,7 +224,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		};
 
 		mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "300px");
+	//	mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 		topHLay.getElement().getStyle().setPaddingTop(10, Unit.PX);

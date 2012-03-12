@@ -26,6 +26,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	public QuoteListGrid(int type) {
 		super(false, type);
+		this.getElement().setId("QuoteListGrid");
 	}
 
 	boolean isDeleted;

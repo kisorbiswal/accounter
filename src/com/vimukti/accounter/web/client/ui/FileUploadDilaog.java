@@ -297,8 +297,8 @@ public class FileUploadDilaog extends CustomDialog {
 				panel.removeFromParent();
 				uploadItems.remove(upload);
 				count--;
-				uploadFormLayout.setHeight(new StringBuilder(uploadFormLayout
-						.getOffsetHeight() - 30).toString());
+//				uploadFormLayout.setHeight(new StringBuilder(uploadFormLayout
+//						.getOffsetHeight() - 30).toString());
 			}
 		});
 

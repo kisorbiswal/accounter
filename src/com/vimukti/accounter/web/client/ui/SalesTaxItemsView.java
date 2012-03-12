@@ -14,6 +14,11 @@ import com.vimukti.accounter.web.client.ui.grids.ManageSalesTaxItemListGrid;
 public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	private List<ClientTAXItem> listOfTaxItems;
 
+	public SalesTaxItemsView() {
+		super();
+		this.getElement().setId("SalesTaxItemsView");
+	}
+
 	@Override
 	protected Action getAddNewAction() {
 

@@ -68,7 +68,7 @@ public class StatementTransactionsReconcileView extends
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(false);
 		createControls();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class StatementTransactionsReconcileView extends
 		tabSet.add(getReconcileTab(), "Reconcile");
 		tabSet.add(getBankStatementsTab(), "Bank transactions");
 		tabSet.selectTab(0);
-		tabSet.setSize("100%", "100%");
+//		tabSet.setSize("100%", "100%");
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(tabSet);
 		Vpanel.add(mainVLay);

@@ -46,7 +46,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 	@Override
 	public void init() {
 		getLeftLayout().add(createControl());
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 	}
 
 	private StyledPanel createControl() {
@@ -256,7 +256,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		this.accounts.setHeight((height - 130) + "px");
+//		this.accounts.setHeight((height - 130) + "px");
 
 	}
 

@@ -133,7 +133,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(transactionHistoryGrid);
 		rightVpPanel.add(pager);
-		transactionHistoryGrid.setHeight("494px");
+//		transactionHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		add(mainPanel);

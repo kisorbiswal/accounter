@@ -21,6 +21,7 @@ public class MatchedReconcileItemsListGrid extends
 
 	public MatchedReconcileItemsListGrid(int transactionType) {
 		super(false, transactionType);
+		this.getElement().setId("MatchedReconcileItemsListGrid");
 	}
 
 	public MatchedReconcileItemsListGrid(ReconcileItemsListDialog dialog,
@@ -28,6 +29,7 @@ public class MatchedReconcileItemsListGrid extends
 		super(false);
 		this.isSpent = isSpent;
 		this.dialog = dialog;
+		this.getElement().setId("MatchedReconcileItemsListGrid");
 	}
 
 	@Override

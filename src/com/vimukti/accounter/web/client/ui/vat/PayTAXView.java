@@ -223,7 +223,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
-		leftVLay.setWidth("100%");
+//		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
 
 		StyledPanel rightVlay = new StyledPanel("rightVlay");
@@ -254,7 +254,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 		/* Adding dynamic forms in list */
 		listforms.add(mainform);
 		listforms.add(balForm);

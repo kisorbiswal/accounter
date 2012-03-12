@@ -64,9 +64,9 @@ public class ManageVATView extends AbstractBaseView {
 		AbsolutePanel payVatPanel = new AbsolutePanel();
 		AbsolutePanel taskPanel = new AbsolutePanel();
 
-		assignPanel.setSize("600px", "100px");
-		payVatPanel.setSize("600px", "100px");
-		taskPanel.setSize("600px", "300px");
+//		assignPanel.setSize("600px", "100px");
+//		payVatPanel.setSize("600px", "100px");
+//		taskPanel.setSize("600px", "300px");
 
 		assignPanel.add(icon, 30, 10);
 		assignPanel.add(assignlink, 80, 10);

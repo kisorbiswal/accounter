@@ -64,6 +64,7 @@ public class ItemReceiptView extends
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT);
+		this.getElement().setId("ItemReceiptView");
 	}
 
 	@Override

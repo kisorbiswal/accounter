@@ -90,6 +90,7 @@ public class CreditCardExpenseView extends
 
 	public CreditCardExpenseView() {
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
+		this.getElement().setId("CreditCardExpenseView");
 	}
 
 	@Override
@@ -576,7 +577,7 @@ public class CreditCardExpenseView extends
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

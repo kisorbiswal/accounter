@@ -276,7 +276,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			}
 		};
 		this.tableLayout.addStyleName("tableLayout");
-		this.tableLayout.setSize("100%", "100%");
+		//this.tableLayout.setSize("100%", "100%");
 		this.printableLayout.addStyleName("printableLayout");
 		printableLayout.add(tableLayout);
 		mainLayout.add(printableLayout);
@@ -287,7 +287,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		AccounterDOM.setParentElementHeight(topLayout.getElement(), 7);
 
 		add(mainLayout);
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 
 	}
 
@@ -325,10 +325,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		this.tableLayout = new ScrollPanel() {
 			@Override
 			public void setHeight(String height) {
-				long hgt = Long.parseLong(height.replace("%", "").replace("px",
-						""));
-				super.setHeight(height);
-				grid.setHeight(hgt - 25 + "px");
+//				long hgt = Long.parseLong(height.replace("%", "").replace("px",
+//						""));
+//				super.setHeight(height);
+//				grid.setHeight(hgt - 25 + "px");
 			}
 
 		};

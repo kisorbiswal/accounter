@@ -31,6 +31,7 @@ public class VendorListView extends BaseListView<PayeeList> implements
 
 	public VendorListView() {
 		super();
+		this.getElement().setId("VendorListView");
 	}
 
 	@Override

@@ -187,8 +187,8 @@ public abstract class AdminCustomTable extends FlowPanel {
 
 		Element par = this.header.getElement().getParentElement().cast();
 		par.addClassName("gridHeaderParent");
-		this.header.getElement().getParentElement().getStyle()
-				.setHeight(10, Unit.PX);
+//		this.header.getElement().getParentElement().getStyle()
+//				.setHeight(10, Unit.PX);
 
 		panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
@@ -339,13 +339,13 @@ public abstract class AdminCustomTable extends FlowPanel {
 
 		if (height.contains("%")) {
 			// this.panel.setHeight(height);
-			super.setHeight(height);
+//			super.setHeight(height);
 			return;
 		}
 
 		int heightIn = Integer.parseInt(height.replace("px", ""));
 		// this.panel.setHeight(heightIn + "px");
-		super.setHeight(heightIn + "px");
+//		super.setHeight(heightIn + "px");
 		fixHeader();
 	}
 

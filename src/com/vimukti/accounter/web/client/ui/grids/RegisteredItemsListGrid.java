@@ -32,6 +32,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	public RegisteredItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("RegisteredItemsListGrid");
 	}
 
 	/*

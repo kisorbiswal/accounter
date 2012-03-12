@@ -1,0 +1,1232 @@
+body {
+	font-size: 13px;
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+}
+
+* {
+	padding: 0px;
+	margin: 0px
+}
+
+.main-finance-window {
+	min-height: 100%;
+	height: auto;
+}
+
+.gwt-Label {
+	font-size: 13px;
+	font-family: Arial Unicode MS, Arial, sans-serif;
+}
+
+#overlay,#contactable,#contactForm {
+	right: 0;
+}
+
+#contactable {
+	background-image: url("../images/contact.png");
+	height: 93px;
+	margin-right: -5px;
+	position: fixed;
+	text-indent: -100000px;
+	top: 102px;
+	width: 44px;
+	z-index: 100000;
+}
+
+#contactForm {
+	background-color: #333333;
+	border: 2px solid #FFFFFF;
+	margin-right: -400px;
+	margin-top: -160px;
+	padding-left: 30px;
+	position: fixed;
+	top: 200px;
+	width: 360px;
+	z-index: 99;
+}
+
+.page_header {
+	width: 100%;
+	overflow: auto;
+	padding-top: 10px;
+}
+
+.companies_title td:first-child a {
+	background: url("/images/companiesArrow.png") no-repeat scroll right
+		center transparent;
+	color: #454343;
+	display: block;
+	font-size: 1.4em;
+	height: 30px;
+	padding: 3px 5px 0 10px;
+	text-decoration: none;
+	width: 110px;
+}
+
+.hpanel {
+	display: -webkit-box;
+}
+
+.panel2 {
+	width: 40%;
+	display: -webkit-box;
+	background: lightgray;
+}
+
+.companies_link_parent {
+	background: url("/images/companiesArrow.png") no-repeat scroll right
+		center lightgray;
+	color: #454343;
+	display: block;
+	font-size: 1.4em;
+	height: 30px;
+	padding: 3px 5px 0 10px;
+	width: 110px;
+}
+
+.companyName {
+	background: lightgray;
+	font-size: 1.4em;
+	padding: 4px 0 0;
+	color: #454343;
+	text-align: left;
+}
+
+.userName-style {
+	background: url("/images/User.png") no-repeat scroll left;
+}
+
+.help-style {
+	background: url("/images/Help.png") no-repeat scroll left;
+}
+
+.logout-html {
+	background: url("/images/logout.png") no-repeat scroll left;
+}
+
+.panel3 .gwt-Anchor {
+	color: #3299A4;
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
+.panel1 {
+	width: 30%;
+}
+
+.header_links {
+	width: 30%;
+}
+
+.panel3 {
+	position: absolute;
+	right: 0;
+}
+
+.MENU_BAR_BG {
+	background: -moz-linear-gradient(top, #3299A4, #1A5158);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) );
+	margin-top: 5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.MENU_BAR_BG .gwt-MenuItem {
+	color: white;
+	background: url("../images/Dropdown_indicator_5x3.png") no-repeat scroll
+		right center;
+	padding: 2px 10px 8px;
+}
+
+.MENU_BAR_BG .menuSeparatorInner {
+	background: url("../images/Seperator_2x20.png") no-repeat scroll 7px 3px
+		transparent;
+	height: 21px;
+	padding: 2px;
+	width: 5px;
+}
+
+.panel1 .logo {
+	padding-left: 5px;
+}
+
+.companies_link_parent .companiesLink {
+	text-decoration: none;
+	color: #454343;
+}
+
+.gwt-MenuBarPopup {
+	background: none repeat scroll 0 0 #39828B;
+	color: white;
+}
+
+.gwt-MenuBarPopup .gwt-MenuItem {
+	padding: 4px 14px 4px 10px;
+}
+
+.gwt-MenuBarPopup  .menuSeparatorInner {
+	background: url("../images/Menu list seperator.png") repeat scroll 0 0
+		transparent !important;
+	height: 2px;
+}
+
+.gwt-MenuItem-selected,.subMenuIcon-selected {
+	background: #29646c;
+}
+
+.gwt-MenuBar table {
+	border-collapse: collapse;
+}
+
+.subMenuIcon img {
+	background: url("/images/Sub_menu_indicator_side.png") repeat-x scroll 0
+		0 transparent !important;
+}
+
+.Empty-text {
+	border-radius: 0 5px 5px 0;
+	padding: 3px 12px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.group-toolbar {
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	display: -webkit-box;
+	padding: 5px 0px;
+	-webkit-box-pack: justify;
+}
+
+.view_manager {
+	width: 100%;
+	padding-bottom: 90px;
+}
+
+.view_manager_body {
+	width: 100%;
+}
+
+.prebutton {
+	position: relative;
+	display: -webkit-box;
+}
+
+.main_manager {
+	width: 960px;
+	padding-bottom: 90px;
+}
+
+.viewholder {
+	-moz-box-shadow: 0 2px 10px #1A5158;
+	-webkit-box-shadow: 0 2px 10px #1A5158;
+	box-shadow: 0 2px 10px #1A5158;
+	padding: 15px;
+}
+
+.prebutton .viewTitle {
+	color: white;
+}
+
+.portletColumn {
+	float: left
+}
+
+#appVersions {
+	clear: both;
+	margin-top: -75px;
+	padding-top: 8px;
+	text-align: center;
+	border-top: 1px solid #CCC;
+	position: relative;
+	width: 100%;
+	height: 25px;
+}
+
+#appVersion a {
+	text-decoration: none;
+	color: lightgray;
+}
+
+.biz-decor-panel {
+	border: 1px solid #1A5158;
+	height: 300px;
+	width: 400px;
+	margin: 10px;
+}
+
+.datenumber-panel {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: end;
+	-webkit-box-align: end;
+}
+
+.datenumber-panel .formItem {
+	display: -webkit-box;
+}
+
+.mainVLay .topHLay {
+	clear: both;
+}
+
+.fields-panel {
+	display: -webkit-box;
+	margin: 10px 0px;
+}
+
+.fields-panel .leftVLay,.fields-panel .rightVLay {
+	width: 50%
+}
+
+.formItem {
+	display: -webkit-box;
+	margin-bottom: 5px;
+}
+
+.formItem .gwt-Label {
+	width: 200px;
+}
+
+.labeldateNoLayout .formItem .gwt-Label {
+	width: 100px;
+}
+
+.labeldateNoLayout .formItem {
+	margin-right: 20px;
+}
+
+.formItem input[type=text] {
+	width: 172px;
+	height: 22px;
+	border-radius: 3px 3px 3px 3px;
+	border: 1px solid #AAA;
+	padding: 0 5px;
+}
+
+.button_bar .image-button,.viewholder .image-button {
+	background-repeat: no-repeat;
+	border-radius: 5px;
+	background-color: #1A5158;
+	color: white;
+	padding: 0 5px 0 27px;
+	border: 1px solid #002E36;
+	height: 25px;
+	background-position: 5px center;
+}
+
+.button_bar {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: end;
+	-webkit-box-align: right;
+	padding: 10px 10px 10px 0;
+}
+
+.editTable table {
+	border-collapse: collapse;
+	border: 1px solid #2D8B93;
+	width: 100%;
+}
+
+.editheader {
+	background: #2D8B93;
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+}
+
+.editheader .gwt-Label {
+	color: white;
+}
+
+.editTable table td {
+	border: 1px solid #ccc;
+	padding: 0px;
+	margin: 0px;
+}
+
+.editTable table td .gwt-TextBox {
+	height: 22px;
+	background: white;
+	border-radius: 0px;
+	border: 0 none;
+}
+
+.editTable {
+	min-height: 130px;
+	border: 1px solid #2D8B93;
+	background: white;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.detailsTab {
+	display: -webkit-box;
+	padding: 10px 0px
+}
+
+.detailsTab .leftVLay,.detailsTab .rightVLay {
+	width: 50%;
+}
+
+.formItem .gwt-TextArea {
+	width: 172px;
+	height: 65px;
+}
+
+.detailsTab .customField .gwt-Button {
+	background: none repeat scroll 0 0 #29646C;;
+	padding: 5px 5px 5px;
+	height: 25px;
+	border-radius: 5px;
+	color: white;
+	border: 1px solid #002E36;
+}
+
+.detailsTab .customField {
+	display: -webkit-box;
+	display: -moz-box;
+}
+
+.detailsTab .gwt-Label {
+	width: 200px;
+}
+
+.editTable .editheader td,.gridHeader td {
+	border-color: #55B8C1;
+	border-style: solid;
+	border-width: 0 1px 1px 0;
+}
+
+.star {
+	color: #E23333;
+	margin-left: 2px;
+}
+
+.datenumber-panel .formItem .gwt-Label {
+	width: 50px;
+}
+
+.calendar-picker {
+	background: url("../images/calendarPicker1.png") no-repeat scroll 0 0;
+	width: 25px;
+	height: 25px;
+	margin-top: 1px;
+	position: relative;
+	margin-left: -22px;
+}
+
+.dateItem_datePanel {
+	display: -webkit-box;
+}
+
+.memoTextArea,.memoArea .gwt-TextArea {
+	width: 360px;
+	height: 65px;
+}
+
+.gwt-TextArea,.textArea,.memoArea .gwt-TextArea {
+	background: white none repeat scroll 0 0;
+	border: 1px solid #AAA;
+	border-radius: 3px 3px 3px 3px;
+	padding: 0 5px;
+}
+
+#paybillview .bottompanel {
+	margin: 10px 0;
+	display: -webkit-box;
+}
+
+#paybillview .bottompanel .memoForm,#paybillview .bottompanel .unused-payments
+	{
+	width: 50%;
+}
+
+#paybillview .bottompanel .unused-payments,.bottomPanel .totalForm {
+	display: -webkit-box;
+	-webkit-box-pack: end;
+	-webkit-box-orient: vertical;
+	font-weight: bold;
+}
+
+.bottomPanel .memoText .gwt-Label {
+	width: 50px;
+}
+
+.label-title {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#itemView .topHLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: -moz-box;
+	-moz-box-orient: vertical;
+}
+
+#itemView .service-item-group {
+	display: -webkit-box;
+	display: -moz-box;
+}
+
+#itemView .topPanel2 {
+	display: -webkit-box;
+	display: -moz-box;
+	width: 100%;
+	margin: 10px 0px;
+}
+
+#itemView .service-item-group .item-form-view,#itemView .topPanel2 .salesVPanel
+	{
+	width: 50%;
+}
+
+#itemView .checkboxItem {
+	display: -webkit-box;
+	-webkit-box-direction: reverse;
+	-webkit-box-pack: start;
+}
+
+#itemView .checkboxItem .gwt-Label {
+	width: auto !important;
+}
+
+.memoForm .gwt-Label {
+	width: 50px;
+}
+
+.downarrow-button {
+	background: url("/images/Drop-down-button_20x22.png") no-repeat scroll 0
+		0 transparent !important;
+	margin-left: -22px;
+	width: 22px;
+	margin-top: 1px;
+	position: relative;
+}
+
+.customComboItem {
+	display: -webkit-box;
+}
+
+.datepanel {
+	margin: 10px 0px;
+}
+
+.memoArea .gwt-Label {
+	width: 50px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: center;
+}
+
+.bottomPanel {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+}
+
+.bottompanel .memoForm,.bottomPanel .totalForm {
+	width: 50%;
+}
+
+#newAccountView .fields-panel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#newAccountView .topHLay {
+	display: -webkit-box;
+}
+
+#newAccountView .leftLayout {
+	width: 50%;
+}
+
+.disable-TextField {
+	background-color: #EBEBE4;
+	margin-bottom: 5px;
+}
+
+.button_bar .cancle-Btn {
+	border: 1px solid #002E36;
+	background-color: #A0A0A0;
+	color: black;
+}
+
+.gwt-Button {
+	border-radius: 5px;
+	background-color: #002E36 !important;
+	color: white;
+	border: 1px solid #002E36;
+	height: 25px;
+	padding: 2px 5px 5px;
+}
+
+.gridHeader {
+	background: #2D8B93;
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	height: 22px;
+	width: 100%;
+}
+
+.gridHeader td {
+	color: white;
+}
+
+.listgrid {
+	border: 1px solid #2D8B93;
+	min-height: 150px !important;
+}
+
+#UsersView .usersPanel {
+	padding: 10px 0px;
+}
+
+#group1 {
+	position: relative;
+	width: 30%;
+	display: -webkit-box;
+}
+
+#addNewButton,#exportButton {
+	padding: 3px 5px 5px 27px;
+}
+
+#addNewButton,#exportButton,#closeButton,#searchButton {
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	background-color: #E4E4E4;
+	height: 25px;
+	border-width: 1px 0 1px 1px;
+	border-color: #A0A0A0;
+}
+
+#previousButton:hover {
+	background-color: #5F5F5F;
+}
+
+#previousButton {
+	border-radius: 5px 0 0 5px;
+	border-width: 1px 0 1px 1px;
+	border-color: #A0A0A0;
+	background-color: #E4E4E4;
+	color: white;
+	border-style: solid;
+	padding: 3px 12px;
+}
+
+#nextButton {
+	border-radius: 0 5px 5px 0;
+	padding: 3px 12px;
+	background-color: #E4E4E4;
+	background-repeat: no-repeat;
+	border: 1px solid #A0A0A0;
+	margin-left: -3px;
+	100
+}
+
+#group1 .viewTitle {
+	color: white;
+	padding-top: 3px;
+}
+
+.label-title-list {
+	clear: both;
+	margin-top: 5px;
+	font-weight: bold;
+}
+
+.editTable .comboBox {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+}
+
+#invoiceview .prodAndServiceHLay {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	margin: 10px 0;
+}
+
+#invoiceview .prodAndServiceHLay .memoArea {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding-right: 5px;
+}
+
+#invoiceview .prodAndServiceHLay .vatForm .gwt-Label {
+	width: 60px;
+}
+
+#invoiceview .prodAndServiceHLay .vatForm .vatinclusiveCheck .gwt-Label
+	{
+	width: auto;
+}
+
+#invoiceview .prodAndServiceHLay .vatForm .vatinclusiveCheck {
+	direction: rtl;
+}
+
+.boldtext {
+	font-weight: bold;
+}
+
+#invoiceview .prodAndServiceHLay .boldtext {
+	padding-left: 10px;
+}
+
+#invoiceview .No .gwt-Label {
+	width: auto;
+	padding-right: 5px;
+	padding-top: 3px;
+}
+
+#invoiceview .datenumber-panel .gwt-TextBox {
+	width: 120px;
+}
+
+#invoiceview .dateItem .NoWrapping {
+	display: none;
+}
+
+#QuoteView .mainpanel {
+	display: -webkit-box;
+}
+
+#QuoteView .mainpanel .prodAndServiceHLay {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+}
+
+#QuoteView .mainpanel .memoArea {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding-right: 5px;
+}
+
+#QuoteView .vatForm .gwt-Label {
+	width: 60px;
+}
+
+#QuoteView .vatForm .vatinclusiveCheck .gwt-Label {
+	width: auto;
+}
+
+#QuoteView .datenumber-panel .dateItem .NoWrapping {
+	display: none;
+}
+
+.button_bar .image-button {
+	margin-right: 10px;
+}
+
+#CashSalesView .prodAndServiceHLay {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+	margin: 10px 0px;
+}
+
+#CashSalesView .taxForm .gwt-Label {
+	width: 60px;
+}
+
+#CashSalesView .taxForm .vatinclusiveCheck .gwt-Label {
+	width: auto;
+}
+
+#CashSalesView .datenumber-panel input {
+	width: 120px;
+}
+
+.editTable .gwt-TextArea {
+	border: 0px none;
+}
+
+.disclosurePanelTitle {
+	color: #3299A4;
+	cursor: pointer;
+}
+
+.disclosurePanelcontent {
+	margin-top: 10px;
+}
+
+#JournalEntryView .datenumber-panel input {
+	width: 120px;
+}
+
+#JournalEntryView .totalForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: end;
+}
+
+#BudgetListView .form {
+	display: -webkit-box;
+}
+
+#BudgetListView .hlay {
+	display: -webkit-box;
+	-webkit-box-pack: end;
+}
+
+#BudgetListView .hlay button {
+	margin: 0 50px 0 10px;
+}
+
+#BudgetListView .hlay .SelectCombo .NoWrapping {
+	width: auto;
+	padding-right: 5px;
+}
+
+.Transactions_center {
+	display: -webkit-box;
+}
+
+.Transactions_center #listPanel {
+	width: 175px;
+	background: #CCC;
+	padding-left: 5px;
+}
+
+.Transactions_center .tree_menu {
+	font-weight: bold;
+	color: #44700C;
+	font-size: 15px !important;
+}
+
+.Transactions_center .tree_list_panel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.Transactions_center .tree_menu_item {
+	margin-left: 10px;
+	text-decoration: none;
+	display: block;
+	height: 20px;
+	padding: 4px 5px 4px 18px;
+	color: black
+}
+
+.Transactions_center .tree_menu_item:hover {
+	background: #226B73;
+	background: -moz-linear-gradient(top, #3299A4, #1A5158);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#1A5158' );
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) );
+	background: -o-linear-gradient(top, #3299A4, #1A5158);
+	color: white;
+	font-weight: bold;
+}
+
+}
+.Transactions_center .transations_list_table {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+}
+
+.Transactions_center .transations_list_table .formItem .gwt-Label {
+	width: auto;
+}
+
+.Transactions_center .transations_list_table .formItem input {
+	width: 120px;
+}
+
+.Transactions_center #TransactionsListView {
+	width: 80%;
+	margin-top: 10px;
+}
+
+.Transactions_center #TransactionsListView .hlay {
+	display: -webkit-box;
+}
+
+.Transactions_center .calendar-picker {
+	margin-left: 0px;
+}
+
+.Transactions_center .transations_list_table .NoWrapping {
+	padding: 0 2px;
+}
+
+.Transactions_center .hlay .gwt-Button {
+	margin-left: 5px;
+}
+
+#SalesTaxGroupListView .bodyLayout {
+	display: -webkit-box;
+}
+
+#SalesTaxGroupListView .sales_tax_buttons {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#SalesTaxGroupListView .lable-title {
+	font-weight: bold;
+	margin: 10px 0 0 0px;
+}
+
+#SalesTaxGroupListView #TaxGroupGrid {
+	width: 90%;
+}
+
+#SalesTaxGroupListView .sales_tax_buttons button {
+	display: block;
+	margin: 5px;
+}
+
+#SalesTaxGroupListView #SalesTaxItemsGrid {
+	margin: 20px 0;
+}
+
+#SalesTaxItemsView .hlayTop {
+	float: right;
+	margin: 10px 10px 0 0;
+}
+
+#SalesTaxItemsView .hlayTop .formItem .gwt-Label {
+	width: auto;
+	padding: 3px 5px 0 0;
+}
+
+#NewTAXCodeView .fields-panel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#NewTAXCodeView .mainVPanel {
+	padding-top: 20px;
+}
+
+table.gridBody {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.gridOddRow {
+	background: none repeat scroll 0 0 #E8E8E8;
+}
+
+.gridBody tr td {
+	border-width: 0 1px 0 0;
+	border-color: #CCC;
+	padding: 2px;
+	border-style: solid;
+}
+
+table.gridHeader {
+	border-collapse: collapse;
+}
+
+table.gridHeader tr td {
+	padding: 2px;
+}
+
+#NewVATItemView .new_vat_item {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#adjusttaxview .mainPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#adjusttaxview .mainPanel .topform {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#adjusttaxview .mainPanel .memoForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#adjusttaxview .mainPanel .RadioGroupItem .panel span {
+	display: block;
+}
+
+#adjusttaxview .mainPanel .accountCombo .gwt-Label {
+	width: 200px;
+}
+
+#adjusttaxview .mainPanel .amount .gwt-Label {
+	width: 200px;
+}
+
+#adjusttaxview .mainPanel .readioGropuitem .gwt-Label {
+	width: 200px;
+}
+
+#adjusttaxview .mainPanel .memoForm .readioGropuitem {
+	display: -webkit-box;
+}
+
+#adjusttaxview .mainPanel .memoForm .RadioGroupItem .NoWrapping {
+	display: none;
+}
+
+#adjusttaxview .mainPanel .memo .gwt-Label {
+	width: 200px;
+}
+
+#adjusttaxview .datenumber-panel input {
+	width: 120px;
+}
+
+#DepositView .bottomLayout {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	margin: 10px 0px
+}
+
+.datenumber-panel input[type="text"] {
+	width: 120px;
+}
+
+#PreferenceSettingsView .company_settings_panel {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#PreferenceSettingsView .titlesPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 20%;
+	background: none repeat scroll 0 0 #F0F0F0;
+	height: 650px;
+}
+
+#PreferenceSettingsView .pre_scroll_table {
+	width: 80%;
+	height: 650px;
+	background: none repeat scroll 0 0 white;
+	overflow: auto;
+	border: 1px solid #1A5158;
+	padding-bottom: 2px;
+}
+
+#PreferenceSettingsView .preferences_option {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#PreferenceSettingsView .preferences_option a {
+	display: block;
+	color: black;
+	text-decoration: none;
+	padding: 5px 0 4px 8px;
+}
+
+#PreferenceSettingsView .preferences_option a:hover {
+	background: none repeat scroll 0 0 #3299a4;
+	color: white;
+}
+
+#PreferenceSettingsView .preferences_option_title {
+	font-weight: bold;
+}
+
+#PreferenceSettingsView .header {
+	font-weight: bold;
+	padding: 5px 0px;
+	width: 200px;
+}
+
+#PreferenceSettingsView .companyInfoPanel {
+	width: 100%;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #2D8B93;
+	padding: 10px;
+}
+
+#PreferenceSettingsView .organisation_comment {
+	color: gray;
+	padding: 5px 0 15px 22px;
+}
+
+#PreferenceSettingsView .referComment {
+	color: gray;
+}
+
+#PreferenceSettingsView .account_comment {
+	color: gray;
+}
+
+#PreferenceSettingsView input[type=text] {
+	width: 172px !important;
+	padding: 0 5px;
+	border: 1px solid #AAA;
+	height: 22px;
+	border-radius: 3px 3px 3px 3px;
+	background: white;
+}
+
+#PreferenceSettingsView .gwt-Label {
+	width: 200px;
+}
+
+#PreferenceSettingsView .gwt-ListBox {
+	border: 1px solid #B1B1B1;
+	width: 185px;
+	border-radius: 3px 3px 3px 3px;
+}
+
+#PreferenceSettingsView .bold label {
+	font-weight: bold;
+}
+
+#PreferenceSettingsView .company-preferences-labels {
+	display: -webkit-box;
+	width: 200px;
+}
+
+.report-section {
+	display: -webkit-box;
+}
+
+.report-section .report-left-panel {
+	width: 50%
+}
+
+.report-section .report-right-panel {
+	width: 50%;
+}
+
+.report-section .section {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	margin-bottom: 20px;
+}
+
+.report-section .section a {
+	display: block;
+	color: black;
+	padding: 5px 0 0px 5px;
+}
+
+.report-section .gwt-Label {
+	font-weight: bold;
+}
+
+.gwt-DialogBox {
+	box-shadow: 0 0 10px #1A5158;
+	-moz-box-shadow: 0 0 10px #1A5158;
+	-webkit-box-shadow: 0 0 10px #1A5158;
+	border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	background: none repeat scroll 0 0 #29646C;
+	width:auto;
+}
+
+.gwt-DialogBox .caption {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	height: 20px;
+	padding: 6px 4px 3px 6px;
+}
+
+.dialogMiddleCenter {
+	background: none repeat scroll 0 0 #EEE;
+	padding: 5px;
+}
+
+.gwt-DialogBox .caption .gwt-HTML {
+	color: white;
+}
+
+.dialogMiddleCenterInner .bodyLayout .bodyLayout {
+	display: -webkit-box;
+}
+
+.dialogMiddleCenterInner .bodyLayout .bodyLayout .buttonsLayout {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 50px;;
+	margin-top:10px;
+	margin-right:10px;
+}
+
+.dialogMiddleCenterInner .bodyLayout .bodyLayout .buttonsLayout button {
+	margin: 5px 0px;
+	width: 60px;
+}
+
+.gwt-DialogBox .dialogMiddleCenterInner .listgrid {
+	overflow-y: visible;
+	height: 150px !important;
+	background:white;
+	width:500px;
+	margin: 10px;
+}
+.gwt-DialogBox .dialogBottomCenter{
+	height:5px;
+}
+.gwt-DialogBox .dialogTopLeft {
+height: 16px;
+}
+.dialogMiddleRight .dialogMiddleRightInner{
+	width:5px;
+}
+.dialogMiddleLeft .dialogMiddleLeftInner{
+	width:5px;
+}
+.imageStyledPanel .dialog_help_icon{
+	margin-right:5px;
+}
+.footerLayout .gwt-Button{
+	width:60px;
+	margin:0 2px 2px 0
+}
+.footerLayout{
+	display: -webkit-box;
+	-webkit-box-pack:end;
+}
+.report-toolbar .form{
+		display: -webkit-box;
+
+}
+.report-toolbar .form .gwt-Label{
+	width:auto;
+	padding-right:5px;
+}
+.report-toolbar .form .formItem .gwt-TextBox{
+	width:120px;
+}
+.report-toolbar .form .formItem{
+	margin-right: 10px;
+}
+.report-toolbar{
+	display: -webkit-box;
+	background: none repeat scroll 0 0 #CCC !important;
+}

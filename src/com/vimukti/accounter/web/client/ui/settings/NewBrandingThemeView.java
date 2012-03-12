@@ -144,7 +144,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		tabSet.add(getGeneralLayout(), messages.general());
 		tabSet.add(getTemplateLayout(), messages.templates());
 		tabSet.selectTab(0);
-		tabSet.setSize("100%", "100%");
+		//tabSet.setSize("100%", "100%");
 
 		this.add(tabSet);
 	}

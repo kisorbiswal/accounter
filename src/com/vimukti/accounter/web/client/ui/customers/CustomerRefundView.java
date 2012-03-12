@@ -61,6 +61,7 @@ public class CustomerRefundView extends
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+this.getElement().setId("CustomerRefundView");
 
 	}
 

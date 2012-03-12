@@ -144,7 +144,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(vendHistoryGrid);
 		rightVpPanel.add(pager);
-		vendHistoryGrid.setHeight("494px");
+//		vendHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		deleteButtonPanel = new StyledPanel("deleteButtonPanel");

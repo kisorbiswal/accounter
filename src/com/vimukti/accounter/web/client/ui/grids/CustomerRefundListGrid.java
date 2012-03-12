@@ -18,6 +18,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	public CustomerRefundListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+this.getElement().setId("CustomerRefundListGrid");
 	}
 
 	boolean isDeleted;

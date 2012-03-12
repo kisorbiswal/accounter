@@ -27,6 +27,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	public VATItemsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("VATItemsListGrid");
 	}
 
 	/*

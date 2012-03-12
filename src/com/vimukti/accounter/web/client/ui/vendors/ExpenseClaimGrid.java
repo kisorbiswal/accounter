@@ -19,6 +19,7 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	public ExpenseClaimGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("ExpenseClaimGrid");
 	}
 
 	@Override

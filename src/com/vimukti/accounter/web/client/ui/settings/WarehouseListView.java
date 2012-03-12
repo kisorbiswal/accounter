@@ -15,8 +15,9 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> implements
 
 	private int start;
 
-	// private ArrayList<ClientWarehouse> listOfWarehouses = new
-	// ArrayList<ClientWarehouse>();
+	public WarehouseListView() {
+		this.getElement().setId("WareHouseItemsListView");
+	}
 
 	@Override
 	public void init() {

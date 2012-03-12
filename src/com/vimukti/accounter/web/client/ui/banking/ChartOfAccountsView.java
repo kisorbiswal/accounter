@@ -30,6 +30,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 
 	public ChartOfAccountsView() {
 		this(0);
+		this.getElement().setId("ChartOfAccountsView");
 		isDeleteDisable = true;
 	}
 

@@ -15,6 +15,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
 	public BudgetListGrid() {
 		super(false, true);
+		this.getElement().setId("BudgetListGrid");
 	}
 
 	public void initBudgetItems(List<ClientBudgetItem> allBudgetItems) {

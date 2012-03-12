@@ -18,6 +18,10 @@ public class WarehouseTransferListView extends
 
 	private int start;
 
+	public WarehouseTransferListView() {
+		this.getElement().setId("WarehouseTransferListView");
+	}
+	
 	@Override
 	public void init() {
 		super.init();

@@ -18,6 +18,7 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 
 	public WareHouseItemsListView(long wareHouse) {
 		this.wareHouse = wareHouse;
+		this.getElement().setId("WareHouseItemsListView");
 	}
 
 	@Override

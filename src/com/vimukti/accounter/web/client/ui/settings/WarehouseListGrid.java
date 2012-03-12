@@ -15,6 +15,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	public WarehouseListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("WarehouseListGrid");
 	}
 
 	@Override

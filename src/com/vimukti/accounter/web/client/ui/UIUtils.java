@@ -547,7 +547,7 @@ public class UIUtils {
 		label.setStyleName("busyindicatorLabel");
 		busyindicator.add(img);
 		busyindicator.add(label);
-		busyindicator.setSize("100%", "100%");
+//		busyindicator.setSize("100%", "100%");
 		return busyindicator;
 	}
 

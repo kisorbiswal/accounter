@@ -143,7 +143,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		nameDescForm = new DynamicForm("nameDescForm");
 		nameDescForm.add(payTermText);
-		nameDescForm.setSize("100%", "100%");
+		//nameDescForm.setSize("100%", "100%");
 
 		// discText = new PercentageField(this,
 		// messages.discount());

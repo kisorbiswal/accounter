@@ -21,8 +21,10 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	public double totalBalance = 0.0;
 
 	public AccountRegisterListGrid(boolean isMultiSelectionEnable, int type) {
-		super(isMultiSelectionEnable, true);
+		super(isMultiSelectionEnable
+				, true);
 		accountType = type;
+		this.getElement().setId("AccountRegisterListGrid");
 	}
 
 	@Override

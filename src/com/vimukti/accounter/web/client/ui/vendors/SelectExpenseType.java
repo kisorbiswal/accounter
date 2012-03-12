@@ -57,7 +57,7 @@ public class SelectExpenseType extends BaseDialog {
 		typeForm.add(typeRadio);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
 
 		// okbtn.setWidth("60px");

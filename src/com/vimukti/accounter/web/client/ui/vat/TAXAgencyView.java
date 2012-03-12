@@ -113,11 +113,11 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		StyledPanel topLayout = getTopLayout();
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		mainVLay.setSize("100%", "100%");
+//		mainVLay.setSize("100%", "100%");
 		mainVLay.add(topLayout);
 
 		this.add(mainVLay);
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	@Override
@@ -533,8 +533,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		StyledPanel panel = new StyledPanel("panel");
 		panel.add(addButton);
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
-		panel.getElement().getStyle().setFloat(Float.RIGHT);
+//		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
+//		panel.getElement().getStyle().setFloat(Float.RIGHT);
 
 		mainVlay.add(gridView);
 //		mainVlay.setWidth("100%");
@@ -581,7 +581,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	@Override

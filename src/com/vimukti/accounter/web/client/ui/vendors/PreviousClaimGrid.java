@@ -18,6 +18,7 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 
 	public PreviousClaimGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("PreviousClaimGrid");
 	}
 
 	public void setView(PreviousClaimsView view) {

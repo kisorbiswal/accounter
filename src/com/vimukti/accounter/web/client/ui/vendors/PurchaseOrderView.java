@@ -94,6 +94,7 @@ public class PurchaseOrderView extends
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
+		this.getElement().setId("PurchaseOrderView");
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 	}

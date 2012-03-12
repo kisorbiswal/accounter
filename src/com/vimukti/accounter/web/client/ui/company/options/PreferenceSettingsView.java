@@ -70,7 +70,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				.addClassName("page_details_panel_td");
 		mainPanel.addStyleName("company_settings_panel");
 		this.add(mainPanel);
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 	}
 
 	private List<PreferencePage> getPreferencePages() {

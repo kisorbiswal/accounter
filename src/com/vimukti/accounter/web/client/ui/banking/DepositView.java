@@ -51,6 +51,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	private DepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		this.getElement().setId("DepositView");
 	}
 
 	public static DepositView getInstance() {

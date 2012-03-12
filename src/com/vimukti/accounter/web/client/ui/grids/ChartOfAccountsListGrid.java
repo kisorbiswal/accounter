@@ -18,6 +18,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("ChartOfAccountsListGrid");
 		// super.disable = true;
 
 	}

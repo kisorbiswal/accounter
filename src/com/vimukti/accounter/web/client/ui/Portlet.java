@@ -223,8 +223,8 @@ public abstract class Portlet extends WorkbenchPanel {
 
 	@Override
 	public void setHeight(String height) {
-		super.setHeight(height);
-		vPanel.setHeight(height);
+//		super.setHeight(height);
+//		vPanel.setHeight(height);
 	}
 
 	public void setConfiguration(ClientPortletConfiguration configuration) {

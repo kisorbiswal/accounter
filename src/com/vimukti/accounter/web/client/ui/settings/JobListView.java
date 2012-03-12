@@ -12,6 +12,10 @@ import com.vimukti.accounter.web.client.ui.grids.JobListGrid;
 public class JobListView extends BaseListView<ClientJob> implements
 		IPrintableView {
 
+	public JobListView() {
+		this.getElement().setId("JobListView");
+	}
+	
 	@Override
 	public void updateInGrid(ClientJob objectTobeModified) {
 		// TODO Auto-generated method stub

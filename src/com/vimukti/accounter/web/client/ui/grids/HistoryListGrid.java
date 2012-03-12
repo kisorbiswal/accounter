@@ -18,6 +18,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 	public HistoryListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("HistoryListGrid");
 	}
 
 	@Override

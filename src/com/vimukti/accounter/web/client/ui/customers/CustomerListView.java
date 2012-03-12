@@ -25,7 +25,7 @@ public class CustomerListView extends BaseListView<PayeeList> implements
 		IPrintableView {
 
 	public CustomerListView() {
-
+		this.getElement().setId("CustomerListView");
 	}
 
 	@Override

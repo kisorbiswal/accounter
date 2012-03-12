@@ -17,7 +17,7 @@ public class ReportSectionView extends BaseHomeView {
 	@Override
 	public void init() {
 		getLeftLayout().add(createControl());
-		setSize("100%", "100%");
+		//setSize("100%", "100%");
 
 	}
 

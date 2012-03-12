@@ -139,7 +139,7 @@ public class AwaitingAuthorisationView extends BaseView {
 	private void initGrid() {
 		grid = new AwaitingAuthorisationgrid(true);
 		grid.init();
-		grid.setSize("100%", "100%");
+//		grid.setSize("100%", "100%");
 	}
 
 	protected void updateRecords(List<BillsList> records,

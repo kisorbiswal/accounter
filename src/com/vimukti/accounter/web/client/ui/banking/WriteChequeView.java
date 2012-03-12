@@ -130,6 +130,7 @@ public class WriteChequeView extends
 	public static WriteChequeView getInstance() {
 
 		return new WriteChequeView();
+		
 	}
 
 	// private void getPayFromAccounts() {

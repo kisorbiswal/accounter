@@ -69,6 +69,7 @@ public class JournalEntryView extends
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
+		this.getElement().setId("JournalEntryView");
 		locationTrackingEnabled = Global.get().preferences()
 				.isLocationTrackingEnabled();
 	}

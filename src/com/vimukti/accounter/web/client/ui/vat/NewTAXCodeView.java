@@ -60,7 +60,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "");
+//		setSize("100%", "");
 
 	}
 

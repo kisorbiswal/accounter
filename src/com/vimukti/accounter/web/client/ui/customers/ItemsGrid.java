@@ -21,6 +21,7 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	public ItemsGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("ItemsGrid");
 	}
 
 	@Override

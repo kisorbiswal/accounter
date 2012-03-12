@@ -25,6 +25,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 
 	public VendorListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable, true);
+		this.getElement().setId("VendorListGrid");
 	}
 
 	@Override

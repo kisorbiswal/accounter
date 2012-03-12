@@ -138,12 +138,12 @@ public class ImportView extends AbstractBaseView {
 		mainTable.setWidget(2, 1, previewPanel);
 		mainTable.setWidget(3, 1, buttonPanel2);
 		add(mainTable);
-		mainTable.setSize("100%", "100%");
+	//	mainTable.setSize("100%", "100%");
 		previewPanel.addStyleName("import-preview-panel");
-		previewPanel.getElement().getParentElement()
-				.setAttribute("height", "100%");
-		buttonPanel.getElement().getParentElement()
-				.setAttribute("width", "500px");
+//		previewPanel.getElement().getParentElement()
+//				.setAttribute("height", "100%");
+//		buttonPanel.getElement().getParentElement()
+//				.setAttribute("width", "500px");
 		initMappingGUI();
 		initPreviewGUI();
 		showOrHideButtons();

@@ -22,10 +22,12 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	public InvoiceListGrid() {
 		super(false);
+		this.getElement().setId("InvoiceListGrid");
 	}
 
 	public InvoiceListGrid(int transactionType) {
 		super(false, transactionType);
+		this.getElement().setId("InvoiceListGrid");
 	}
 
 	boolean isDeleted;

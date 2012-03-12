@@ -23,6 +23,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	public ManageTAXCodeListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("ManageTAXCodeListGrid");
 	}
 
 	/*

@@ -13,6 +13,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	public PurchaseOrderListGrid(PurchaseOrderListView purchaseOrderListView) {
 		super(false);
+		this.getElement().setId("PurchaseOrderListGrid");
 	}
 
 	@Override

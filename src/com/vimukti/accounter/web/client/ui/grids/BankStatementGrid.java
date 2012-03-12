@@ -12,6 +12,7 @@ public class BankStatementGrid extends BaseListGrid<ClientStatementRecord> {
 
 	public BankStatementGrid() {
 		super(false, true);
+		this.getElement().setId("BankStatementGrid");
 	}
 
 	@Override

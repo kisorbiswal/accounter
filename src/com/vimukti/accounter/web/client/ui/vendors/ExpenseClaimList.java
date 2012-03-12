@@ -113,7 +113,7 @@ public class ExpenseClaimList extends BaseView {
 		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
-		grid.setSize("100%", "100%");
+//		grid.setSize("100%", "100%");
 	}
 
 	protected void updateSelectedRecords(List<BillsList> records,

@@ -14,6 +14,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	public SalesPersonListGrid() {
 		super(false, false);
+		this.getElement().setId("SalesPersonListGrid");
 	}
 
 	@Override

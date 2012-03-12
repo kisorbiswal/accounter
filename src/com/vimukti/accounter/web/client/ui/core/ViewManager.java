@@ -727,7 +727,7 @@ public class ViewManager extends FlowPanel {
 				.closeButton());
 		closeButton.setTitle(messages.clickThisTo(messages.close(),
 				messages.view()));
-		closeButton.getElement().setId("addVendorButton");
+		closeButton.getElement().setId("closeButton");
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -788,7 +788,6 @@ public class ViewManager extends FlowPanel {
 		group1.add(previousButton);
 		group1.add(nextButton);
 		group1.add(viewTitleLabel);
-		
 		group4.add(editButton);
 		group9.add(addNewButton);
 		group2.add(exportButton);
@@ -820,14 +819,14 @@ public class ViewManager extends FlowPanel {
 
 		toolBar.add(group1);
 		group1.getElement().getStyle().setFloat(Float.LEFT);
-		toolBar.add(group3);
-		toolBar.add(group6);
 		toolBar.add(group5);
 		toolBar.add(group2);
 		toolBar.add(group9);
 		toolBar.add(group4);
 		toolBar.add(group7);
 		toolBar.add(group8);
+		toolBar.add(group6);
+		toolBar.add(group3);
 		toolBar.addStyleName("group-toolbar");
 	}
 

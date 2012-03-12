@@ -91,12 +91,14 @@ public class CreditCardChargeView extends
 	public CreditCardChargeView() {
 
 		super(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+		this.getElement().setId("CreditCardChargeView");
 
 	}
 
 	protected CreditCardChargeView(int type) {
 
 		super(type);
+		this.getElement().setId("CreditCardChargeView");
 
 	}
 
@@ -744,7 +746,7 @@ public class CreditCardChargeView extends
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

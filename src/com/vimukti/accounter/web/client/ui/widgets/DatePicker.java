@@ -447,7 +447,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 			x = x - (popup.getOffsetWidth() - this.getOffsetWidth());
 			popup.setPopupPosition(x + 1, y);
 		}
-		popup.setHeight(Math.min(this.getOffsetHeight(), 200) + "px");
+//		popup.setHeight(Math.min(this.getOffsetHeight(), 200) + "px");
 		popup.displayMonth();
 		doAfterShowPopup(popup);
 	}

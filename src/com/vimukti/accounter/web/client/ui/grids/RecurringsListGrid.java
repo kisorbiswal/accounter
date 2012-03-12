@@ -13,6 +13,7 @@ public class RecurringsListGrid extends
 
 	public RecurringsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("RecurringsListGrid");
 	}
 
 	@Override

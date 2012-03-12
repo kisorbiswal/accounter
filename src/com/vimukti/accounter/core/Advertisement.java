@@ -53,7 +53,7 @@ public class Advertisement extends CreatableObject implements
 	 *            the height to set
 	 */
 	public void setHeight(double height) {
-		this.height = height;
+//		this.height = height;
 	}
 
 	/**

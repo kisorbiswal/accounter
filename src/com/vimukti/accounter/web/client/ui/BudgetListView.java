@@ -31,7 +31,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 	List<ClientBudget> listOfBudgets = new ArrayList<ClientBudget>();
 
 	public BudgetListView() {
-		// TODO Auto-generated constructor stub
+		this.getElement().setId("BudgetListView");
 	}
 
 	@Override

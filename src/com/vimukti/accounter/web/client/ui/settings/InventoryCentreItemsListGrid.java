@@ -17,6 +17,7 @@ public class InventoryCentreItemsListGrid extends BaseListGrid<ClientItem> {
 
 	public InventoryCentreItemsListGrid() {
 		super(false, true);
+		this.getElement().setId("InventoryCentreItemsListGrid");
 	}
 
 	@Override

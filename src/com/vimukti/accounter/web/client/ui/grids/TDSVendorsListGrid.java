@@ -11,6 +11,7 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 	public TDSVendorsListGrid(boolean isMultiSelectionEnable, boolean isTdsView) {
 		super(isMultiSelectionEnable, true);
 		this.isTdsView = isTdsView;
+		this.getElement().setId("TDSVendorsListGrid");
 
 	}
 

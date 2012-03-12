@@ -28,7 +28,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 	public BankingPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.banking(), messages.gotoBanking(), "75%");
-		setHeight("270px");
+//		setHeight("270px");
 	}
 
 	@SuppressWarnings("unchecked")

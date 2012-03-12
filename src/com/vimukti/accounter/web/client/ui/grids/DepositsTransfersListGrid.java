@@ -19,11 +19,13 @@ public class DepositsTransfersListGrid extends
 
 	public DepositsTransfersListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("DepositsTransfersListGrid");
 	}
 
 	public DepositsTransfersListGrid(boolean isMultiSelectionEnable,
 			int transactionType) {
 		super(isMultiSelectionEnable, transactionType);
+		this.getElement().setId("DepositsTransfersListGrid");
 	}
 
 	@Override

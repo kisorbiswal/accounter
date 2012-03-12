@@ -719,7 +719,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	public void init() {
 		super.init();
 		createControls();
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	@Override

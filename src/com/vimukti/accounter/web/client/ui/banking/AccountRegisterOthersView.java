@@ -111,7 +111,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 		add(mainVLay);
 
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 
 	}
 

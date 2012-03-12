@@ -88,7 +88,7 @@ public class PurchaseDetailesView extends AbstractView {
 		// });
 
 		Label headerLabel = new Label();
-		headerLabel.setHeight("22px");
+//		headerLabel.setHeight("22px");
 		headerLabel.setText(messages.purchaseOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);

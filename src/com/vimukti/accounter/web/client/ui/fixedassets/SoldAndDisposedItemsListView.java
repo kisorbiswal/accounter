@@ -27,6 +27,7 @@ public class SoldAndDisposedItemsListView extends
 
 	public SoldAndDisposedItemsListView() {
 		this.isViewSelectRequired = false;
+		this.getElement().setId("SoldAndDisposedItemsListView");
 	}
 
 	@Override

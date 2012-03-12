@@ -25,6 +25,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset>
 
 	public RegisteredItemsListView() {
 		this.isViewSelectRequired = false;
+		this.getElement().setId("RegisteredItemsListView");
 	}
 
 	/*

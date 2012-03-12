@@ -24,6 +24,7 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 
 	public VendorsListGrid() {
 		super(false, true);
+		this.getElement().setId("VendorsListGrid");
 	}
 
 	@Override

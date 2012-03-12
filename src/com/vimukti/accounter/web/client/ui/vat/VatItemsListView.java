@@ -19,6 +19,11 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> implements
 	private List<ClientTAXItem> listOfVatItems;
 	private int start;
 
+	
+	public VatItemsListView() {
+		this.getElement().setId("VatItemsListView");
+	}
+	
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {

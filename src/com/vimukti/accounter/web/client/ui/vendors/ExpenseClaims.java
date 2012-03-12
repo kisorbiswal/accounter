@@ -49,7 +49,7 @@ public class ExpenseClaims extends BaseView {
 		if (Accounter.getUser().canApproveExpences())
 			tabset.add(awaitingview, messages
 					.awaitingAuthorisation());
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 		this.add(tabset);
 		tabset.selectTab(selectTab);
 	}

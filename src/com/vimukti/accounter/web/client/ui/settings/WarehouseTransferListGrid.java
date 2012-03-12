@@ -16,6 +16,7 @@ public class WarehouseTransferListGrid extends
 
 	public WarehouseTransferListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("WarehouseTransferListGrid");
 	}
 
 	@Override

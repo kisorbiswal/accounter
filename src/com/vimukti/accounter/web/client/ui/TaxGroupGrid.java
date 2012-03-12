@@ -10,6 +10,7 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 
 	public TaxGroupGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("TaxGroupGrid");
 	}
 
 	@Override

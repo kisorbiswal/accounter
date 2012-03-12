@@ -25,6 +25,8 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset>
 
 	public PendingItemsListView() {
 		this.isViewSelectRequired = false;
+		
+		this.getElement().setId("PendingItemsListView");
 	}
 
 	@Override

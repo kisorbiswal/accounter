@@ -12,6 +12,7 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	public ChalanDetailsListGrid() {
 		super(false, true);
+		this.getElement().setId("ChalanDetailsListGrid");
 	}
 
 	public void initWithItems(List<ClientTDSChalanDetail> allItems) {

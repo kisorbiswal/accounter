@@ -26,7 +26,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	public ItemGroupListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-		setWidth("400px");
+//		setWidth("400px");
 		initialise();
 		center();
 	}

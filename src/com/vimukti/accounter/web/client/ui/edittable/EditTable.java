@@ -62,7 +62,7 @@ public abstract class EditTable<R> extends SimplePanel {
 		// Set width
 		int width = column.getWidth();
 		if (width != -1) {
-//			cellFormatter.setWidth(rowIndex, index, width + "px");
+			cellFormatter.setWidth(rowIndex, index, width + "px");
 		}
 	}
 

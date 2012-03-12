@@ -25,6 +25,10 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode>
 
 	private List<ClientTAXCode> listOfTaxCodes;
 
+	public ManageTAXCodesListView() {
+		this.getElement().setId("ManageTAXCodesListView");
+	}
+	
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {

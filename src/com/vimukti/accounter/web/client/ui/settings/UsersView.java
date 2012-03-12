@@ -197,9 +197,9 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-		this.setHeight(height + "");
-		usersListGrid.setHeight(height + "");
-		activityListGrid.setHeight(height + "");
+//		this.setHeight(height + "");
+//		usersListGrid.setHeight(height + "");
+//		activityListGrid.setHeight(height + "");
 	}
 
 	@Override

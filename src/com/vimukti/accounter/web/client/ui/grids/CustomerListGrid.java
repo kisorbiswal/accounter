@@ -25,6 +25,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	public CustomerListGrid() {
 		super(false, true);
+		this.getElement().setId("CustomerListGrid");
 	}
 
 	@Override

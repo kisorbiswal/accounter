@@ -40,7 +40,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 	public TransactionAttachmentPanel() {
 		createControls();
 		this.addStyleName("attachment_panel");
-		setSize("100%", "100%");
+//		setSize("100%", "100%");
 	}
 
 	private void createControls() {

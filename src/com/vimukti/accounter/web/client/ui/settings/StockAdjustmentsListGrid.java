@@ -18,6 +18,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 
 	public StockAdjustmentsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
+		this.getElement().setId("StockAdjustmentsListGrid");
 	}
 
 	@Override

@@ -89,6 +89,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		super(ClientTransaction.TYPE_ESTIMATE);
 		this.title = title;
 		this.type = type;
+		this.getElement().setId("QuoteView");
 	}
 
 	private void initAllItems() {

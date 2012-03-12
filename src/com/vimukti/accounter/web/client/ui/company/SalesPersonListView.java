@@ -24,7 +24,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> implements
 	private List<ClientSalesPerson> listOfsalesPerson;
 
 	public SalesPersonListView() {
-
+		this.getElement().setId("SalesPersonListView");
 	}
 
 	@Override
