@@ -464,6 +464,52 @@ public class ReportsGenerator {
 									getCompany().getId()));
 
 			return byCatgoryServerReport.getGridTemplate();
+		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_CLASS:
+			TransactionDetailByCatgoryServerReport byCatgoryServerReportbyClass = new TransactionDetailByCatgoryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(byCatgoryServerReportbyClass, finaTool);
+			byCatgoryServerReportbyClass.resetVariables();
+
+			long classtype = Long.valueOf(navigateObjectName).longValue();
+			long id = Long.valueOf(status).longValue();
+			byCatgoryServerReportbyClass
+					.onResultSuccess(finaTool.getReportManager()
+							.getTransactionDetailByAccountAndCategory(1,
+									classtype, id,
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate(),
+									getCompany().getId()));
+
+			return byCatgoryServerReportbyClass.getGridTemplate();
+		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_JOB:
+			TransactionDetailByCatgoryServerReport byCatgoryServerReportByJOB = new TransactionDetailByCatgoryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(byCatgoryServerReportByJOB, finaTool);
+			byCatgoryServerReportByJOB.resetVariables();
+
+			long jobType = Long.valueOf(navigateObjectName).longValue();
+			long account_id = Long.valueOf(status).longValue();
+			byCatgoryServerReportByJOB
+					.onResultSuccess(finaTool.getReportManager()
+							.getTransactionDetailByAccountAndCategory(3,
+									jobType, account_id,
+									startDate.toClientFinanceDate(),
+									endDate.toClientFinanceDate(),
+									getCompany().getId()));
+
+			return byCatgoryServerReportByJOB.getGridTemplate();
 		case REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT:
 		case REPORT_TYPE_GENERAL_LEDGER_REPORT:
 			TransactionDetailByAccountServerReport transactionDetailByAccountServerReport = new TransactionDetailByAccountServerReport(
@@ -1968,6 +2014,10 @@ public class ReportsGenerator {
 		case REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT:
 			return "Transaction Detail By Account Report";
 		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_LOCATION:
+			return "Transaction Detail By Account Report";
+		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_JOB:
+			return "Transaction Detail By Account Report";
+		case REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_CLASS:
 			return "Transaction Detail By Account Report";
 		case REPORT_TYPE_EXPENSE:
 			return "Expense Report";

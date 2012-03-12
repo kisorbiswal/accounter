@@ -106,9 +106,9 @@ public class SalesByLocationDetailsAction extends Action {
 			}
 		} else {
 			if (!isLocation) {
-				actionsting = "Purchases by Location Detail";
+				actionsting = messages.purchasesbyLocationDetail();
 			} else {
-				actionsting = "Purchases by Class Detail";
+				actionsting = messages.purchasesbyClassDetail();
 			}
 		}
 
