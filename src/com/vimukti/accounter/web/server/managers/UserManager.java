@@ -402,7 +402,7 @@ public class UserManager extends Manager {
 			Set<User> users = invitedClient.getUsers();
 			boolean flag = false;
 			for (User u : users) {
-				if (company == u.getCompany()) {
+				if (company.getID() == u.getCompany().getID()) {
 					flag = true;
 				}
 			}

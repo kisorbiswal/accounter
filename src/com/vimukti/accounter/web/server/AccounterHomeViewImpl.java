@@ -2218,8 +2218,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		userMailds.add("support@accounterlive.com");
 		Session currentSession = HibernateUtil.getCurrentSession();
 		long companyId = getCompanyId();
-		Company company = (Company) currentSession
-				.get(Company.class, companyId);
 
 		Iterator iterator = currentSession
 				.getNamedQuery("list.Users.by.emailIds")
