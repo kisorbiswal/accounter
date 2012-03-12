@@ -117,21 +117,25 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.setVariable("orderNumber", invoice.getOrderNum());
 			t.setVariable("deliveryDate",
 					Utility.getDateInSelectedFormat(invoice.getDeliverydate()));
-			t.setVariable("shippingTerms", invoice.getShippingTerm().getName());
+			if (invoice.getShippingTerm() != null) {
+				t.setVariable("shippingTerms", invoice.getShippingTerm()
+						.getName());
+			}
+
 			t.setVariable("customerName", invoice.getCustomer().getName());
 
 			List<TransactionItem> items = invoice.getTransactionItems();
 
 			if (preferences.isLocationTrackingEnabled()) {
-				if(invoice.getLocation()!= null){
-				t.setVariable("location", invoice.getLocation().getName());
-				t.addBlock("locationTracking");
+				if (invoice.getLocation() != null) {
+					t.setVariable("location", invoice.getLocation().getName());
+					t.addBlock("locationTracking");
 				}
 			}
 			if (preferences.isJobTrackingEnabled()) {
-				if(invoice.getJob()!= null){
-				t.setVariable("job", invoice.getJob().getJobName());
-				t.addBlock("jobTracking");
+				if (invoice.getJob() != null) {
+					t.setVariable("job", invoice.getJob().getJobName());
+					t.addBlock("jobTracking");
 				}
 			}
 			if (preferences.isClassTrackingEnabled()
@@ -139,10 +143,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				String accounterClass = "";
 				for (TransactionItem trItem : items) {
 					if (trItem.getAccounterClass() != null) {
-						
-						if(trItem.getAccounterClass() != null){
-						accounterClass = trItem.getAccounterClass()
-								.getclassName();
+
+						if (trItem.getAccounterClass() != null) {
+							accounterClass = trItem.getAccounterClass()
+									.getclassName();
 						}
 						if (accounterClass != null) {
 							break;
@@ -281,7 +285,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						&& brandingTheme.isShowTaxColumn()) {
 					t.addBlock("vatBlock");
 				}
-				if (company.getPreferences().isTrackDiscounts() &&  preferences.isDiscountPerDetailLine()) {
+				if (company.getPreferences().isTrackDiscounts()
+						&& preferences.isDiscountPerDetailLine()) {
 
 					t.addBlock("discountBlock");
 				}
@@ -327,7 +332,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.setVariable("quantity", qty);
 				t.setVariable("itemUnitPrice", unitPrice);
 
-				if (company.getPreferences().isTrackDiscounts()&&  preferences.isDiscountPerDetailLine()) {
+				if (company.getPreferences().isTrackDiscounts()
+						&& preferences.isDiscountPerDetailLine()) {
 					// if Discounts is enabled in Company Preferences, then
 					// only we need to show Discount Column
 					t.setVariable("discount",
@@ -337,10 +343,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 				if (preferences.isClassTrackingEnabled()) {
 					if (preferences.isClassPerDetailLine()) {
-						if(item.getAccounterClass() != null){
-						t.setVariable("itemClass", item.getAccounterClass()
-								.getName());
-						t.addBlock("classValueBlock");
+						if (item.getAccounterClass() != null) {
+							t.setVariable("itemClass", item.getAccounterClass()
+									.getName());
+							t.addBlock("classValueBlock");
 						}
 					}
 				}
