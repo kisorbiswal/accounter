@@ -23,7 +23,9 @@ public class MergeCustomerAction extends Action {
 
 			customerMergeDialog.show();
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 
 	}

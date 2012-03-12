@@ -21,7 +21,9 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 		if (Accounter.hasPermission(Features.USER_ACTIVITY)) {
 			runAsynce(data, isDependent);
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 	}
 
