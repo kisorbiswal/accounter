@@ -84,10 +84,10 @@
 		var isPaid=${isPaid};
 		var user_emailId='<%=user_emailId%>';
 		if(isPaid){
-       $('#support').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>');
+       $('#support').after(' | <a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>');
        }
        else{
-        $('#support').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+user_emailId+'">Go Premium</a>');
+        $('#support').after(' | <a target="_blank" href="/site/subscription/gopremium?emailId='+user_emailId+'">Go Premium</a>');
        }
        
        });
@@ -339,7 +339,7 @@
 	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
 	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-	       <a id="support" target="_blank" href="/site/support"> Support </a> |
+	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
 	    <script type="text/javascript" >
 	    <% 
