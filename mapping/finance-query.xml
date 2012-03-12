@@ -11284,7 +11284,6 @@
 				         ON IT.ID = TI.ITEM_ID
 				WHERE  T.T_TYPE = 6
 				       AND T.SAVE_STATUS = 201
-				       AND EB.BALANCE_DUE > 0.0
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
 				       AND IT.ID = :itemId
