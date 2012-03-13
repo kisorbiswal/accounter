@@ -31,6 +31,9 @@ public class ForgetPasswordServlet extends BaseServlet {
 		HttpSession session = req.getSession();
 		Object attribute = session.getAttribute(EMAIL_ID);
 		session.removeAttribute(EMAIL_ID);
+		if (attribute == null) {
+			attribute = "";
+		}
 		req.setAttribute(EMAIL_ID, attribute);
 		dispatch(req, resp, view);
 	}
