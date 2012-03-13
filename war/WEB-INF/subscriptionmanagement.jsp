@@ -30,15 +30,17 @@
   <body>
   <div id="commanContainer" style="width:420px;  font-size: 13px;">
   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
-	<form id="subscription_complition_form" method="post"  class="form-box"  action="/main/subscriptionmanagement">
-	<table cellspacing="10">
-	<tr></tr>
-	<tr>
+
+	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
 	<p id="error" style="color:red;">
 	  <% if(error!=null){ %>
 		<%= error %>
 	  <%}%>
 	 </p> 
+	<table cellspacing="10">
+	<tr></tr>
+	<tr>
+	
 	</tr>
 	<tr>
 	<td> Subscription expire date : </td> 

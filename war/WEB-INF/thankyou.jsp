@@ -29,8 +29,6 @@
 			    You can manage your subscription by clicking "Manage Subscription" link after login.
 			    </p>
 			    </br>
-			    <a href="/main/login">Login here</a>
-			    <>
 			   </div>
 		   </div>
 		</div>
