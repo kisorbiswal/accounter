@@ -2879,7 +2879,7 @@ public class ReportManager extends Manager {
 			if (viewType == 0) {
 				Query balanceQuery = session
 						.getNamedQuery("getOpeningBalanceForCustomerByDate")
-						.setParameter("uptoDate", fromDate.getDate())
+						.setParameter("uptoDate", toDate.getDate())
 						.setParameter("payeeId", id)
 						.setParameter("companyId", companyId);
 				Object balance = balanceQuery.uniqueResult();
