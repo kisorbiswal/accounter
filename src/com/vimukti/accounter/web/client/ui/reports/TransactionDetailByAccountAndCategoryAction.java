@@ -61,12 +61,12 @@ public class TransactionDetailByAccountAndCategoryAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "transactionDetailByAccount";
+		return "transactionDetailByAccountAndCategory";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "transaction-by-account";
+		return "transaction-by-account-category";
 	}
 
 	@Override
