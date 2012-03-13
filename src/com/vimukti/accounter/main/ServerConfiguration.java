@@ -43,6 +43,7 @@ public class ServerConfiguration {
 	private static boolean enableEncryption;
 	private static boolean isSandBoxPaypal;
 	private static int tracePeriod;
+	private static boolean isInLive;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -167,6 +168,8 @@ public class ServerConfiguration {
 					.equalsIgnoreCase("true"));
 			tracePeriod = Integer
 					.parseInt(prop.getProperty("tracePeriod", "0"));
+			isInLive = Boolean.parseBoolean(prop
+					.getProperty("isInLive", "true"));
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
@@ -348,5 +351,9 @@ public class ServerConfiguration {
 
 	public static void setSandBoxPaypal(boolean isSandBoxPaypal) {
 		ServerConfiguration.isSandBoxPaypal = isSandBoxPaypal;
+	}
+
+	public static boolean isInLive() {
+		return isInLive;
 	}
 }

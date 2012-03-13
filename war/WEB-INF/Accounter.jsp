@@ -87,7 +87,7 @@
        $('#support').after(' | <a style="padding-left:25px" href="/main/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>');
        }
        else{
-        $('#support').after(' | <a target="_blank" href="/content/go-premium?emailId='+user_emailId+'">Go Premium</a>');
+        $('#support').after(' | <a target="_blank" href="/main/gopremium?emailId='+user_emailId+'">Go Premium</a>');
        }
        
        });

@@ -103,7 +103,7 @@
 				</c:when>
 				<c:otherwise>
 				<td>
-					<a target="_blank" href="/content/go-premium?emailId=<%=userEmail %>">Go Premium</a>
+					<a target="_blank" href="/main/gopremium?emailId=<%=userEmail %>">Go Premium</a>
 				</td>
 				</c:otherwise>
 		   </c:choose>
