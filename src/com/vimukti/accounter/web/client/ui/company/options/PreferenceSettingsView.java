@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -76,7 +77,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	private List<PreferencePage> getPreferencePages() {
 		List<PreferencePage> preferenceList = new ArrayList<PreferencePage>();
 		preferenceList.add(getCompanyInfoPage());
-		preferenceList.add(getCatogiriesInfoPage());
+		if (hasPermission(Features.LOCATION) || hasPermission(Features.CLASS)
+				|| hasPermission(Features.JOB_COSTING)) {
+			preferenceList.add(getCatogiriesInfoPage());
+		}
 		preferenceList.add(getVendorAndPurchasesPage());
 		preferenceList.add(getCustomerAndSalesPage());
 		return preferenceList;
@@ -108,8 +112,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		ExpensesByCustomerOption expensesByCustomerOption = new ExpensesByCustomerOption();
 
 		vendorsAndPurchasesPage.addPreferenceOption(manageBillsOption);
-		vendorsAndPurchasesPage.addPreferenceOption(expensesByCustomerOption);
-
+		if (hasPermission(Features.BILLABLE_EXPENSE)) {
+			vendorsAndPurchasesPage
+					.addPreferenceOption(expensesByCustomerOption);
+		}
 		return vendorsAndPurchasesPage;
 	}
 
@@ -119,10 +125,20 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		LocationTrackingOption locationTrackingOption = new LocationTrackingOption();
 		ClassTrackingOption classTrackingPage = new ClassTrackingOption();
 		JobTrackingOption jobTrackingOption = new JobTrackingOption();
-		catogiriesInfoPage.addPreferenceOption(locationTrackingOption);
-		catogiriesInfoPage.addPreferenceOption(classTrackingPage);
-		catogiriesInfoPage.addPreferenceOption(jobTrackingOption);
+		if (hasPermission(Features.LOCATION)) {
+			catogiriesInfoPage.addPreferenceOption(locationTrackingOption);
+		}
+		if (hasPermission(Features.CLASS)) {
+			catogiriesInfoPage.addPreferenceOption(classTrackingPage);
+		}
+		if (hasPermission(Features.JOB_COSTING)) {
+			catogiriesInfoPage.addPreferenceOption(jobTrackingOption);
+		}
 		return catogiriesInfoPage;
+	}
+
+	public boolean hasPermission(String feature) {
+		return Accounter.hasPermission(feature);
 	}
 
 	private PreferencePage getCompanyInfoPage() {

@@ -1,8 +1,10 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import net.n3.nanoxml.XMLElement;
 import net.n3.nanoxml.XMLWriter;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -97,7 +100,12 @@ public class MacMenuServlet extends BaseServlet {
 		addHeader(mainElement);
 
 		ClientUser clientUser = null;
-
+		Client client = getClient(emailId);
+		Set<String> features = new HashSet<String>();
+		if (client != null) {
+			features = client.getClientSubscription().getSubscription()
+					.getFeatures();
+		}
 		try {
 			clientUser = new ClientConvertUtil().toClientObject(user,
 					ClientUser.class);
@@ -106,19 +114,20 @@ public class MacMenuServlet extends BaseServlet {
 		}
 
 		createMenu(mainElement, preferences, clientUser,
-				company.getCountryPreferences());
+				company.getCountryPreferences(), features);
 
 		writer.write(mainElement);
 	}
 
 	private void createMenu(XMLElement mainElement,
 			ClientCompanyPreferences preferences, ClientUser clientUser,
-			ICountryPreferences countryPreferences) throws IOException {
+			ICountryPreferences countryPreferences, Set<String> feature)
+			throws IOException {
 
 		MenuBar menuBar = new MenuBar();
 
 		menuBar.setPreferencesandPermissions(preferences, clientUser,
-				countryPreferences);
+				countryPreferences, feature);
 		List<Menu> menus = menuBar.getMenus();
 
 		generateMenu(mainElement, menus);

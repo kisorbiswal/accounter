@@ -2,10 +2,12 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -88,6 +90,8 @@ public class MenuBar {
 	private boolean isAdmin;
 
 	private boolean canSaveDrafts;
+
+	private Set<String> features;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -217,7 +221,7 @@ public class MenuBar {
 			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS,
 					"U");
 		}
-		if (canChangeSettings) {
+		if (canChangeSettings && hasPermission(Features.BRANDING_THEME)) {
 			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
 					HistoryTokens.INVOICEBRANDING, "i");
 		}
@@ -706,7 +710,8 @@ public class MenuBar {
 						HistoryTokens.VENDORPREPAYMENT);
 			}
 		}
-		if (canDoInvoiceAndBillTransactions) {
+		if (canDoInvoiceAndBillTransactions
+				&& hasPermission(Features.CREDITS_CHARGES)) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
 					HistoryTokens.RECORDEXPENSES);
 		}
@@ -849,7 +854,7 @@ public class MenuBar {
 						HistoryTokens.SALESORDERLIST);
 			}
 		}
-		if (isJobTrackingEnabled) {
+		if (isJobTrackingEnabled && hasPermission(Features.JOB_COSTING)) {
 			customerMenuBar.addMenuItem(messages.jobList(),
 					HistoryTokens.JOBSLIST);
 		}
@@ -872,7 +877,7 @@ public class MenuBar {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
-			if (isJobTrackingEnabled) {
+			if (isJobTrackingEnabled && hasPermission(Features.JOB_COSTING)) {
 				newCustomerMenuBar.addMenuItem(messages.newJob(),
 						HistoryTokens.JOB);
 			}
@@ -968,9 +973,11 @@ public class MenuBar {
 			companyMenuBar.addMenuItem(getFixedAssetsMenu(messages
 					.fixedAssets()));
 			companyMenuBar.addSeparatorItem();
-			companyMenuBar
-					.addMenuItem(getMergeSubMenu(messages.mergeAccounts()));
-			companyMenuBar.addSeparatorItem();
+			if (hasPermission(Features.MERGING)) {
+				companyMenuBar.addMenuItem(getMergeSubMenu(messages
+						.mergeAccounts()));
+				companyMenuBar.addSeparatorItem();
+			}
 		}
 		companyMenuBar.addMenuItem(getCompanyListMenu(messages.companyLists()));
 
@@ -1026,8 +1033,10 @@ public class MenuBar {
 		}
 		companyListMenuBar.addMenuItem(messages.salesPersons(),
 				HistoryTokens.SALESPRESONS);
-		companyListMenuBar.addMenuItem(messages.usersActivityLogTitle(),
-				HistoryTokens.USERACTIVITY);
+		if (hasPermission(Features.USER_ACTIVITY)) {
+			companyListMenuBar.addMenuItem(messages.usersActivityLogTitle(),
+					HistoryTokens.USERACTIVITY);
+		}
 		companyListMenuBar.addMenuItem(messages.recurringTransactions(),
 				HistoryTokens.RECURRINGTRANSACTIONS);
 		companyListMenuBar.addMenuItem(messages.remindersList(),
@@ -1055,14 +1064,19 @@ public class MenuBar {
 				HistoryTokens.ITEMGROUPLIST);
 		manageSupportListMenuBar.addMenuItem(messages.currencyList(),
 				HistoryTokens.CURRENCYGROUPLIST);
-		if (isClassTracking) {
-			manageSupportListMenuBar.addMenuItem(messages.accounterClassList(),
-					HistoryTokens.ACCOUNTERCLASSLIST);
+		if (hasPermission(Features.CLASS)) {
+			if (isClassTracking) {
+				manageSupportListMenuBar.addMenuItem(
+						messages.accounterClassList(),
+						HistoryTokens.ACCOUNTERCLASSLIST);
+			}
 		}
-		if (isLocationTracking) {
-			manageSupportListMenuBar.addMenuItem(
-					messages.locationsList(Global.get().Location()),
-					HistoryTokens.LOCATIONGROUPLIST);
+		if (hasPermission(Features.LOCATION)) {
+			if (isLocationTracking) {
+				manageSupportListMenuBar.addMenuItem(
+						messages.locationsList(Global.get().Location()),
+						HistoryTokens.LOCATIONGROUPLIST);
+			}
 		}
 		if (isPriceLevelEnabled) {
 			manageSupportListMenuBar.addMenuItem(messages.priceLevelList(),
@@ -1107,7 +1121,9 @@ public class MenuBar {
 
 	public void setPreferencesandPermissions(
 			ClientCompanyPreferences preferences, ClientUser clientUser,
-			ICountryPreferences countryPreferences) {
+			ICountryPreferences countryPreferences, Set<String> features) {
+
+		this.features = features;
 
 		this.canDoInvoiceAndBillTransactions = canDoInvoiceTransactions(clientUser);
 
@@ -1185,6 +1201,10 @@ public class MenuBar {
 		this.canSaveDrafts = canSaveDrafts(clientUser);
 
 		getMenuBar();
+	}
+
+	public boolean hasPermission(String feature) {
+		return features.contains(feature);
 	}
 
 	private boolean canSaveDrafts(ClientUser clientUser) {
