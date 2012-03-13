@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Element;
@@ -122,25 +120,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 						}
 					}
 				});
-		emailCombo.addBlurHandler(new BlurHandler() {
 
-			@Override
-			public void onBlur(BlurEvent event) {
-				List<String> comboItems = emailCombo.getComboItems();
-				boolean value = false;
-				for (String s : comboItems) {
-					if (s.equalsIgnoreCase(emailCombo.getValue().toString())) {
-						break;
-					}
-					value = true;
-				}
-				if (value == true) {
-					Accounter.showError(messages
-							.pleaseSubscribeToInviteMoreUsers());
-				}
-			}
-
-		});
 		userManagementBox = new CheckBox(
 				messages.allowThisUsertoAddorRemoveusers());
 		// userManagementBox.getElement().getStyle().setPadding(5, Unit.PX);
