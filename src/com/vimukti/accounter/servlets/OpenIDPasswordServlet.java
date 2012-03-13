@@ -44,7 +44,8 @@ public class OpenIDPasswordServlet extends BaseServlet {
 				String passwordHash = HexUtil.bytesToHex(Security
 						.makeHash(emailId + password.trim()));
 				String passwordWord = HexUtil.bytesToHex(Security
-						.makeHash(emailId + password.trim()));
+						.makeHash(emailId + Client.PASSWORD_HASH_STRING
+								+ password.trim()));
 				if (client.getPassword().equals(passwordHash)) {
 					client.setPassword(passwordWord);
 					HibernateUtil.getCurrentSession().saveOrUpdate(client);
