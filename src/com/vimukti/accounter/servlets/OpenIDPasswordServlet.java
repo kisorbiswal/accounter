@@ -50,7 +50,7 @@ public class OpenIDPasswordServlet extends BaseServlet {
 					HibernateUtil.getCurrentSession().saveOrUpdate(client);
 				}
 				if (!client.getPassword().equals(passwordWord)) {
-					req.setAttribute("error", Global.get().messages()
+					req.setAttribute("errormessage", Global.get().messages()
 							.youHaveEnteredWrongPassword());
 					dispatch(req, resp, VIEW);
 					return;
@@ -61,6 +61,7 @@ public class OpenIDPasswordServlet extends BaseServlet {
 					e.printStackTrace();
 				}
 				redirectExternal(req, resp, LOGIN_URL);
+				return;
 			}
 		}
 		resp.sendRedirect(LOGIN_URL);

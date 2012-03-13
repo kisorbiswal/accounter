@@ -69,11 +69,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			if (isValidSession(request)) {
 				Session session = HibernateUtil.openSession();
 				try {
+					Long serverCompanyID = (Long) request.getSession()
+							.getAttribute(COMPANY_ID);
 					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
 						super.service(request, response);
 						try {
-							Long serverCompanyID = (Long) request.getSession()
-									.getAttribute(COMPANY_ID);
 							getFinanceTool().putChangesInCometStream(
 									serverCompanyID);
 						} catch (AccounterException e) {

@@ -95,12 +95,12 @@
 	      <c:choose>
 				<c:when test="<%= isPaid %>">
 				<td>
-			       <a href="/site/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>
+			       <a href="/main/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>
 				</td>
 				</c:when>
 				<c:otherwise>
 				<td>
-					<a target="_blank" href="/site/subscription/gopremium?emailId=<%=userEmail %>">Go Premium</a>
+					<a target="_blank" href="/content/go-premium?emailId=<%=userEmail %>">Go Premium</a>
 				</td>
 				</c:otherwise>
 		   </c:choose>

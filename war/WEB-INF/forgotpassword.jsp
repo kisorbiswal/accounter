@@ -47,7 +47,7 @@ $(document).ready(function() {
 		      <div>
 			    <label><i18n:i18n msg='email'/></label>
 				<br></br>
-				<input id="mid-box"  type="text" name="emailId" tabindex="1" value="${emailId}" />
+				<input id="mid-box"  type="text" name="emailId" tabindex="1" value="<%= request.getAttribute("emailId")%>" />
 			  </div>
 			  <div id="forgot-login">
 			     <input type="submit" tabindex="3" value="<i18n:i18n msg='getNewPassword'/>" name="ok" class="allviews-common-button" id="submitButton" />

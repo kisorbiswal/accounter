@@ -35,7 +35,7 @@ String userName=(String)request.getAttribute("userName");
 				</c:forEach>
 			    </br>
 			    Clieck here to <a href="/company/accounter?type=gracePeriod">Continue</a></br>
-				If you want to upgrade <a href="/site/subscriptionmanagement">Clieck here</a>
+				If you want to upgrade <a href="/main/subscriptionmanagement">Clieck here</a>
 		</div>
 	     <!-- Footer Section-->
 	<%@ include file="./scripts.jsp" %>

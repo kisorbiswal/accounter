@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -27,6 +28,10 @@ public class ForgetPasswordServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		Object attribute = session.getAttribute(EMAIL_ID);
+		session.removeAttribute(EMAIL_ID);
+		req.setAttribute(EMAIL_ID, attribute);
 		dispatch(req, resp, view);
 	}
 
