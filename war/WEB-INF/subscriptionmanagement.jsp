@@ -160,6 +160,10 @@
  						$('#error').text("Wrong emailId '"+textArray[i]+"'");
  						return false;
  					}
+ 					if(textArray[i]==userEmail){
+ 						$('#error').text("You can't invite yourself");
+ 						return false;
+ 					}
  				}
  				if(maxLimit<0){
  					return true;

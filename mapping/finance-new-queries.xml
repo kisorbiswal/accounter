@@ -103,11 +103,13 @@
 		<return-scalar column="FIRST_NAME" type="string" />
 		<return-scalar column="LAST_NAME" type="string" />
 		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="IS_DELETED" type="boolean" />
 		<![CDATA[
 				SELECT C.EMAIL_ID,
 				       C.FIRST_NAME,
 				       C.LAST_NAME,
-				       U.COMPANY_ID
+				       U.COMPANY_ID,
+				       U.IS_DELETED
 				FROM   USERS U
 				       LEFT JOIN CLIENT C
 				         ON C.ID = U.CLIENT_ID
