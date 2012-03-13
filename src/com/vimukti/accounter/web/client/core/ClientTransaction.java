@@ -863,7 +863,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	/**
 	 * For Class Tracking
 	 * 
-	 * @return 
+	 * @return
 	 */
 	public boolean usesDifferentclasses() {
 		if (transactionItems == null) {
@@ -910,6 +910,10 @@ public abstract class ClientTransaction implements IAccounterCore {
 			}
 		}
 		return false;
+	}
+
+	public boolean hasJob() {
+		return job != 0;
 	}
 
 	/**

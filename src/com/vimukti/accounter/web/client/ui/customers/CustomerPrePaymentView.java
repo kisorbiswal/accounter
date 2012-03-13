@@ -188,7 +188,7 @@ public class CustomerPrePaymentView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
@@ -267,7 +267,7 @@ public class CustomerPrePaymentView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (customer != null) {
 				jobListCombo.setCustomer(customer);
 			}
@@ -446,8 +446,8 @@ public class CustomerPrePaymentView extends
 		if (isTrackClass()) {
 			balForm.setFields(classListCombo);
 		}
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
+		jobListCombo = createJobListCombo();
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(true);
 			balForm.setFields(jobListCombo);
 		}
@@ -678,7 +678,7 @@ public class CustomerPrePaymentView extends
 			return;
 
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setValue("");
 			jobListCombo.setDisabled(isInViewMode());
 			jobListCombo.setCustomer(customer);
@@ -763,7 +763,7 @@ public class CustomerPrePaymentView extends
 			locationCombo.setDisabled(isInViewMode());
 		if (isTrackClass())
 			classListCombo.setDisabled(isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(isInViewMode());
 		}
 		if (currencyWidget != null) {

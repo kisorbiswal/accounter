@@ -162,7 +162,7 @@ public class CustomerCreditMemoView extends
 			phoneForm.setFields(classListCombo);
 		}
 		jobListCombo = createJobListCombo();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(true);
 			phoneForm.setFields(jobListCombo);
 		}
@@ -518,7 +518,7 @@ public class CustomerCreditMemoView extends
 		}
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
@@ -621,7 +621,7 @@ public class CustomerCreditMemoView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (customer != null) {
 				jobListCombo.setCustomer(customer);
 			}
@@ -810,7 +810,7 @@ public class CustomerCreditMemoView extends
 		}
 
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 			jobListCombo.setDisabled(false);

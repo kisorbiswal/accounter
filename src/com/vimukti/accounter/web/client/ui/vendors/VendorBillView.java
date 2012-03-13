@@ -588,6 +588,11 @@ public class VendorBillView extends
 				}
 				VendorBillView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected boolean isTrackJob() {
+				return VendorBillView.this.isTrackJob();
+			}
 		};
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.getElement().getStyle()
@@ -642,10 +647,15 @@ public class VendorBillView extends
 				}
 				VendorBillView.this.updateNonEditableItems();
 			}
-			
+
 			@Override
 			protected int getTransactionType() {
 				return ClientTransaction.TYPE_ENTER_BILL;
+			}
+
+			@Override
+			protected boolean isTrackJob() {
+				return VendorBillView.this.isTrackJob();
 			}
 		};
 

@@ -6295,7 +6295,7 @@
 				       LEFT JOIN CLIENT C
 				         ON C.ID = U.CLIENT_ID
 				       LEFT JOIN ESTIMATE E
-				         ON E.ID = T.ID
+				         ON E.ID = T.ID AND E.ESTIMATETYPE NOT IN (4,5)
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
 				ORDER  BY T.CREATED_DATE DESC
@@ -7072,7 +7072,7 @@
 				       TI.LINE_TOTAL AS AMOUNT
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN ESTIMATE E
-				         ON E.ID = T.ID
+				         ON E.ID = T.ID AND E.ESTIMATETYPE NOT IN (4,5)
 				       LEFT OUTER JOIN INVOICE I
 				         ON T.ID = I.ID
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
@@ -7253,7 +7253,7 @@
 				       END           AS ESTIMATE_TYPE
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN ESTIMATE E
-				         ON E.ID = T.ID
+				         ON E.ID = T.ID AND E.ESTIMATETYPE NOT IN (4,5)
 				       LEFT OUTER JOIN INVOICE I
 				         ON T.ID = I.ID
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
@@ -7527,13 +7527,8 @@
 				       TI.QTY_VALUE  AS QUANTITY,
 				       TI.QTY_UNIT   AS UNIT,
 				       TI.LINE_TOTAL AS AMOUNT,
-				       CASE
-				         WHEN T.T_TYPE = 7 THEN E.ESTIMATETYPE
-				         ELSE 0
-				       END           AS ESTIMATE_TYPE
-				FROM   TRANSACTION T
-				       LEFT OUTER JOIN ESTIMATE E
-				         ON E.ID = T.ID
+				       0 AS ESTIMATE_TYPE
+				FROM   TRANSACTION T				     
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON TI.TRANSACTION_ID = T.ID
 				       LEFT OUTER JOIN ITEM IT
@@ -7979,7 +7974,7 @@
 				       LEFT JOIN CUSTOMER_REFUND CR
 				         ON CR.ID = T.ID
 				       LEFT JOIN ESTIMATE E
-				         ON E.ID = T.ID
+				         ON E.ID = T.ID AND E.ESTIMATETYPE NOT IN (4,5) 
 				       LEFT JOIN RECEIVE_PAYMENT RP
 				         ON RP.ID = T.ID
 				       LEFT JOIN CUSTOMER_PREPAYMENT CP
@@ -8545,13 +8540,8 @@
 				       TI.QTY_VALUE  AS QUANTITY,
 				       TI.QTY_UNIT   AS UNIT,
 				       TI.LINE_TOTAL AS AMOUNT,
-				       CASE
-				         WHEN T.T_TYPE = 7 THEN E.ESTIMATETYPE
-				         ELSE 0
-				       END           AS ESTIMATE_TYPE
-				FROM   TRANSACTION T
-				       LEFT OUTER JOIN ESTIMATE E
-				         ON E.ID = T.ID
+				       0 AS ESTIMATE_TYPE
+				FROM   TRANSACTION T				       
 				       LEFT OUTER JOIN ENTER_BILL EB
 				         ON T.ID = EB.ID
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
@@ -8712,13 +8702,8 @@
 				       TI.QTY_VALUE  AS QUANTITY,
 				       TI.QTY_UNIT   AS UNIT,
 				       TI.LINE_TOTAL AS AMOUNT,
-				       CASE
-				         WHEN T.T_TYPE = 7 THEN E.ESTIMATETYPE
-				         ELSE 0
-				       END           AS ESTIMATE_TYPE
+				       0 AS ESTIMATE_TYPE
 				FROM   TRANSACTION T
-				       LEFT OUTER JOIN ESTIMATE E
-				         ON E.ID = T.ID
 				       LEFT OUTER JOIN ENTER_BILL EB
 				         ON T.ID = EB.ID
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
@@ -9341,13 +9326,8 @@
 				       TI.QTY_VALUE  AS QUANTITY,
 				       TI.QTY_UNIT   AS UNIT,
 				       TI.LINE_TOTAL AS AMOUNT,
-				       CASE
-				         WHEN T.T_TYPE = 7 THEN E.ESTIMATETYPE
-				         ELSE 0
-				       END           AS ESTIMATE_TYPE
+				       0 AS ESTIMATE_TYPE
 				FROM   TRANSACTION T
-				       LEFT OUTER JOIN ESTIMATE E
-				         ON E.ID = T.ID
 				       LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
 				         ON T.ID = CCC.ID
 				       LEFT OUTER JOIN CASH_PURCHASE CP

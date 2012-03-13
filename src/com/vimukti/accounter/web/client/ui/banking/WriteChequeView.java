@@ -375,7 +375,7 @@ public class WriteChequeView extends
 					payee = customer;
 					paytoSelect.setComboItem(customer);
 
-					if (getPreferences().isJobTrackingEnabled()) {
+					if (isTrackJob()) {
 						jobListCombo.setVisible(true);
 						jobSelected(company.getjob(transaction.getJob()));
 					}
@@ -669,7 +669,7 @@ public class WriteChequeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		setAmountIncludeTAX();
 
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null) {
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 			}
@@ -762,7 +762,7 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			bankAccForm.setFields(locationCombo);
 		jobListCombo = createJobListCombo();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setVisible(false);
 			bankAccForm.setFields(jobListCombo);
 		}
@@ -820,7 +820,7 @@ public class WriteChequeView extends
 								PayToSelected(selectItem);
 								// Job Tracking
 
-								if (getPreferences().isJobTrackingEnabled()) {
+								if (isTrackJob()) {
 									if (selectItem instanceof ClientCustomer) {
 										jobListCombo.setValue("");
 										// jobListCombo.setDisabled(false);
@@ -835,7 +835,7 @@ public class WriteChequeView extends
 							}
 						} else {
 							if (selectItem instanceof ClientCustomer
-									&& getPreferences().isJobTrackingEnabled()) {
+									&& isTrackJob()) {
 								jobListCombo.setValue("");
 								// jobListCombo.setDisabled(false);
 								jobListCombo
@@ -1495,7 +1495,7 @@ public class WriteChequeView extends
 		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(isInViewMode());
 			if (payee != null) {
 				if (payee instanceof ClientCustomer) {

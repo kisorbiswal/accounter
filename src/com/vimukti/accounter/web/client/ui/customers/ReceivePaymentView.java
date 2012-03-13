@@ -116,7 +116,7 @@ public class ReceivePaymentView extends
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
 
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(selectedCustomer);
@@ -668,7 +668,7 @@ public class ReceivePaymentView extends
 		if (isTrackClass()) {
 			depoForm.setFields(classListCombo);
 		}
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			depoForm.setFields(jobListCombo);
@@ -871,7 +871,7 @@ public class ReceivePaymentView extends
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
@@ -985,7 +985,7 @@ public class ReceivePaymentView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (customer != null) {
 				jobListCombo.setCustomer(customer);
 			}
@@ -1218,7 +1218,7 @@ public class ReceivePaymentView extends
 		tdsAmount.setAmount(0.0D);
 		paymentAmountChanged(0.00D);
 		updateTotalWithTDS();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(isInViewMode());
 		}
 	}

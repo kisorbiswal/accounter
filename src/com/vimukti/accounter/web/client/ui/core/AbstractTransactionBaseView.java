@@ -1726,6 +1726,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 	}
 
+	public boolean isTrackJob() {
+		if (transaction != null && transaction.getID() != 0
+				&& transaction.hasJob()) {
+			return true;
+		} else {
+			return getPreferences().isJobTrackingEnabled();
+		}
+	}
+
 	/**
 	 * 
 	 * @return

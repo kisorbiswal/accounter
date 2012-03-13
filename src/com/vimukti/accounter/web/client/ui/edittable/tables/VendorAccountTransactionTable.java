@@ -289,13 +289,17 @@ public abstract class VendorAccountTransactionTable extends
 				}
 
 			});
-			if (Accounter.getCompany().getPreferences().isJobTrackingEnabled()) {
+			if (isTrackJob()) {
 				this.addColumn(jobColumn);
 			}
 			this.addColumn(new TransactionBillableColumn());
 		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
+	}
+
+	protected boolean isTrackJob() {
+		return false;
 	}
 
 	@Override

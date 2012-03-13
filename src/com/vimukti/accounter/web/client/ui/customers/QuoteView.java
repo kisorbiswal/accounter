@@ -119,7 +119,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
@@ -458,7 +458,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		deliveryDate.setEnteredDate(getTransactionDate());
 		DynamicForm locationform = new DynamicForm();
 		jobListCombo = createJobListCombo();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(true);
 			if (type == ClientEstimate.QUOTES
 					|| type == ClientEstimate.SALES_ORDER) {
@@ -826,7 +826,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		transaction = quote;
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
@@ -1040,7 +1040,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (customer != null) {
 				jobListCombo.setCustomer(customer);
 			}
@@ -1278,7 +1278,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			classListCombo.setDisabled(isInViewMode());
 		}
 		statusCombo.setDisabled(isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(isInViewMode());
 		}
 		customerOrderText.setDisabled(isInViewMode());

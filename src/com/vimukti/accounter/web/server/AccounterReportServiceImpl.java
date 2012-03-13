@@ -3044,11 +3044,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 							transactionStatusType, dates[0].getDate(),
 							dates[1].getDate(), companyId, start, length);
 
-			TransactionHistory obj = new TransactionHistory();
-			if (resultList != null)
-				// resultList.add((TransactionHistory) setStartEndDates(obj,
-				// financeDates));
-				return resultList;
+			return resultList;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
