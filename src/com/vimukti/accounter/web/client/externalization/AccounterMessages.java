@@ -6126,8 +6126,6 @@ public interface AccounterMessages extends Messages {
 
 	public String clickOnTheCompanyNameToOpen();
 	
-	public String pleaseSubscribeToInviteMoreUsers();
-
 	public String salesOrderTemplate();
 
 	public String remainingCredits();
