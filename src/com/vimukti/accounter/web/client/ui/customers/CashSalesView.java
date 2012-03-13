@@ -288,8 +288,8 @@ public class CashSalesView extends
 		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.setFields(classListCombo);
 		}
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
+		jobListCombo = createJobListCombo();
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(true);
 			termsForm.setFields(jobListCombo);
 		}

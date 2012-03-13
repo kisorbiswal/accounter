@@ -352,7 +352,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		jobListCombo = createJobListCombo();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(true);
 			termsForm.setFields(jobListCombo);
 		}
@@ -848,7 +848,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			salesTaxTextNonEditable.setTransaction(transaction);
 		}
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 			jobListCombo.setDisabled(false);
@@ -1070,7 +1070,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
 
-			if (getPreferences().isJobTrackingEnabled()) {
+			if (isTrackJob()) {
 				if (customer != null) {
 					jobListCombo.setCustomer(customer);
 				}
@@ -1376,7 +1376,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 			}
 		}
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null) {
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 			}

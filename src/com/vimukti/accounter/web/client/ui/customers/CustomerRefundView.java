@@ -90,7 +90,7 @@ public class CustomerRefundView extends
 
 		// Job Tracking
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 			jobListCombo.setDisabled(false);
@@ -284,7 +284,7 @@ public class CustomerRefundView extends
 			balForm.setFields(classListCombo);
 		}
 		jobListCombo = createJobListCombo();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setDisabled(true);
 			balForm.setFields(jobListCombo);
 		}
@@ -407,7 +407,7 @@ public class CustomerRefundView extends
 				&& classListCombo.getSelectedValue() != null)
 			transaction.setAccounterClass(classListCombo.getSelectedValue()
 					.getID());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
@@ -533,7 +533,7 @@ public class CustomerRefundView extends
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 
-			if (getPreferences().isJobTrackingEnabled()) {
+			if (isTrackJob()) {
 				if (customer != null) {
 					jobListCombo.setCustomer(customer);
 				}
