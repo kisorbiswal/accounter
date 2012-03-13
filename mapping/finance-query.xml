@@ -6008,8 +6008,8 @@
 		<query-param name="userIds" type="long" />
 
 		<return-scalar column="COMPANY_ID" type="long" />
-		<return-scalar column="TRADING_NAME" type="encryptedstring" />
-		<return-scalar column="REGISTRED_COUNTRY" type="encryptedstring" />
+		<return-scalar column="TRADING_NAME" type="string" />
+		<return-scalar column="REGISTRED_COUNTRY" type="string" />
 		
 		<![CDATA[
 				SELECT B.COMPANY_ID        AS COMPANY_ID,

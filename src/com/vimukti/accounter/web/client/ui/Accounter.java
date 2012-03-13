@@ -417,8 +417,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static void showSubscriptionWarning() {
-
-		new AccounterDialog("You are not Subscribed",
+		new AccounterDialog(
+				"This feature is available only in premium versions.",
 				AccounterType.SUBSCRIPTION).show();
 	}
 
