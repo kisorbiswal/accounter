@@ -45,10 +45,14 @@
 	<td><%= expDate %></td>
 	</tr><tr></tr><tr>
 	<td> Subscription type : </td> 
-	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
+	<td id="subscriptionTypevalue"></td></tr><tr></tr>
+	 <% if(subscriptionType==2||subscriptionType==3){ %>
+	<tr>
 	<td>Users invited by you : </td> 
 	<td id="emailIdsList"></td>
-	</tr></tr><tr>
+	</tr>
+	<%}%>
+	<tr>
 	<tr>
 	<input type="hidden" name="subscriptionType" value="${subscriptionType}" >
 	<td> Subscription Type : </td>
@@ -60,19 +64,24 @@
     <option value="Unlimited Users ">Unlimited </option>
 	</select></td>
 	</tr>
-	<tr>
+	<% if(subscriptionType==2||subscriptionType==3){ %>
+	<tr>	
 	<td> Users Emails : </td>
 	<td> <textarea id="mailIdsTextArea"  name="userMailds" onsubmit="";></textarea> </td>
 	</tr>
+	 <%}%>
 	<tr>
-	<td>   </td></tr>
+	<td></td></tr>
 	</table>
 	
 	
 		<div class="subscribtionManagementButton" align="center">
-   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/>
+			<% if(subscriptionType==2||subscriptionType==3){ %>
+   				<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/>
+   			<%}%>
    			<a target="_blank" href="/site/subscription/gopremium?emailId=<%= userEmail %>">Upgrade Premium</a>
 		</div>
+		<a href="/main/companies">Companies List</a>
 		<script type="text/javascript">
 		$('document').ready(function(){
 		   var userEmail='<%=userEmail%>';
