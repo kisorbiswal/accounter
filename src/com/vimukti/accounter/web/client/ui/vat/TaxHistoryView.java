@@ -218,7 +218,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		gridLayout.setWidth("100%");
 		grid = new TAXHistoryGrid(this, false);
 		grid.setCanEdit(!isInViewMode());
-		grid.isEnable = false;
 		grid.init();
 		grid.setDisabled(isInViewMode());
 
@@ -250,13 +249,13 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 							grid.addEmptyMessage(messages.noRecordsToShow());
 							return;
 						}
-						grid.sort(10, false);
 						grid.setRecords(result);
 						Window.scrollTo(0, 0);
 						updateRecordsCount(result.getStart(),
 								grid.getTableRowCount(), result.getTotalCount());
 						saveAndNewButton.setVisible(!grid.getSelectedRecords()
 								.isEmpty());
+						grid.sort(10, false);
 
 					}
 				});

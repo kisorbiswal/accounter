@@ -292,4 +292,58 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			boolean isChecked) {
 		taxHistoryView.taxReturnSelected(obj);
 	}
+
+	@Override
+	protected int sort(ClientTAXReturn obj1, ClientTAXReturn obj2, int index) {
+		switch (index) {
+		case 0:
+			String type1 = getCompany().getTaxAgency(obj1.getTAXAgency())
+					.getName();
+			String type2 = getCompany().getTaxAgency(obj2.getTAXAgency())
+					.getName();
+			return type1.toLowerCase().compareTo(type2.toLowerCase());
+		case 1:
+			ClientFinanceDate date1 = new ClientFinanceDate(
+					obj1.getPeriodStartDate());
+			ClientFinanceDate date2 = new ClientFinanceDate(
+					obj2.getPeriodStartDate());
+			if (date1 != null && date2 != null)
+				return date1.compareTo(date2);
+			break;
+		case 2:
+			ClientFinanceDate periodEndDate1 = new ClientFinanceDate(
+					obj1.getPeriodEndDate());
+			ClientFinanceDate periodEndDate2 = new ClientFinanceDate(
+					obj2.getPeriodEndDate());
+			if (periodEndDate1 != null && periodEndDate2 != null)
+				return periodEndDate1.compareTo(periodEndDate2);
+			break;
+		case 3:
+			ClientFinanceDate transactionDate1 = new ClientFinanceDate(
+					obj1.getTransactionDate());
+			ClientFinanceDate transactionDate2 = new ClientFinanceDate(
+					obj2.getTransactionDate());
+			if (transactionDate1 != null && transactionDate2 != null)
+				return transactionDate1.compareTo(transactionDate2);
+			break;
+
+		case 4:
+			Double dueDate1 = obj1.getTotalTAXAmount();
+			Double dueDate2 = obj2.getTotalTAXAmount();
+			if (dueDate1 != null && dueDate2 != null) {
+				return dueDate1.compareTo(dueDate2);
+			}
+			break;
+
+		case 5:
+			Double netPrice1 = obj1.getTotalTAXAmount() - obj1.getBalance();
+			Double netPrice2 = obj2.getTotalTAXAmount() - obj2.getBalance();
+			return netPrice1.compareTo(netPrice2);
+		default:
+			break;
+		}
+
+		return 0;
+	}
+
 }

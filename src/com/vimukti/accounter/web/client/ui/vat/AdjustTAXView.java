@@ -548,11 +548,6 @@ public class AdjustTAXView extends
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
 	protected boolean canRecur() {
 		return false;
 	}

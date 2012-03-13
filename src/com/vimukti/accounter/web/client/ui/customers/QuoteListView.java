@@ -88,6 +88,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 	@Override
 	public void onSuccess(PaginationList<ClientEstimate> result) {
 		grid.setViewType(viewSelect.getSelectedValue());
+		grid.removeLoadingImage();
 		grid.removeAllRecords();
 		if (result.isEmpty()) {
 			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
@@ -244,6 +245,8 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 		} else if (getViewType().equalsIgnoreCase(messages.cancelled())) {
 			viwType = ClientTransaction.STATUS_CANCELLED;
 		}
+		grid.removeAllRecords();
+		grid.addLoadingImagePanel();
 		Accounter.createHomeService().getEstimates(type, viwType,
 				getStartDate().getDate(), getEndDate().getDate(), start,
 				length, this);
