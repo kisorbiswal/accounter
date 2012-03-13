@@ -257,6 +257,12 @@ public class VendorView extends BaseView<ClientVendor> {
 			return result;
 		}
 
+		if (currencyWidget != null && !currencyWidget.isShowFactorField()) {
+			if (currencyWidget.getCurrencyFactor() <= 0) {
+				result.addError(currencyWidget,
+						messages.pleaseEntervalidCurrencyFactor());
+			}
+		}
 		data.setName(name);
 		data.setVendorNumber(vendorNoText.getValue().toString());
 		String error = objectExist(data);

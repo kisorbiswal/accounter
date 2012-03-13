@@ -401,6 +401,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			result.addError(custNameText, messages.alreadyExist());
 			return result;
 		}
+		if (currencyCombo != null && !currencyCombo.isShowFactorField()) {
+			if (currencyCombo.getCurrencyFactor() <= 0) {
+				result.addError(currencyCombo,
+						messages.pleaseEntervalidCurrencyFactor());
+			}
+		}
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
