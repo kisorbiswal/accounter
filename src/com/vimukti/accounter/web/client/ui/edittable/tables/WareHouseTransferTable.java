@@ -60,7 +60,7 @@ public abstract class WareHouseTransferTable extends
 			protected String getColumnName() {
 				return messages.itemName();
 			}
-			
+
 			@Override
 			public int getWidth() {
 				return 200;
@@ -107,7 +107,7 @@ public abstract class WareHouseTransferTable extends
 				protected String getColumnName() {
 					return messages.totalQuantity();
 				}
-				
+
 				@Override
 				public int getWidth() {
 					return 200;
@@ -136,14 +136,13 @@ public abstract class WareHouseTransferTable extends
 		List<ClientStockTransferItem> selectedRecords = getSelectedRecords();
 		List<ClientStockTransferItem> allRows = getAllRows();
 		if (allRows == null || allRows.isEmpty()) {
-			result.addError(this, messages
-					.youDontHaveAnyItemsToTransfer());
+			result.addError(this, messages.youDontHaveAnyItemsToTransfer());
 		} else if (selectedRecords == null || selectedRecords.isEmpty()) {
-			result.addError(this, messages
-					.pleaseSelectAtLeastOneRecord());
+			result.addError(this, messages.pleaseSelectAtLeastOneRecord());
 		} else {
 			for (ClientStockTransferItem item : selectedRecords) {
-				if (item.getQuantity().getValue() == 0) {
+				if (item.getQuantity().getValue() == 0
+						|| item.getQuantity().getValue() < 0) {
 					result.addError(this, messages
 							.transferQuantityShouldntbeZeroForSelectedRecords());
 				}

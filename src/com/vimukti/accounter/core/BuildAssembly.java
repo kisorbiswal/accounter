@@ -29,9 +29,6 @@ public class BuildAssembly extends Transaction {
 			setNumber(number);
 		}
 
-		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
-		quantityToBuild.setValue(this.quantityToBuild);
-
 		for (InventoryAssemblyItem assemblyItem : inventoryAssembly
 				.getComponents()) {
 
@@ -39,8 +36,9 @@ public class BuildAssembly extends Transaction {
 			TransactionItem transactionItem = new TransactionItem();
 			transactionItem.setType(TransactionItem.TYPE_ITEM);
 			transactionItem.setTransaction(this);
-			transactionItem.setQuantity(assemblyItem.getQuantity().multiply(
-					quantityToBuild));
+			Quantity quantity = assemblyItem.getQuantity().copy();
+			quantity.setValue(quantity.getValue() * quantityToBuild);
+			transactionItem.setQuantity(quantity);
 			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
 
 			transactionItem.setItem(inventoryItem);
@@ -51,6 +49,9 @@ public class BuildAssembly extends Transaction {
 					.calculatePrice(assemblyItem.getUnitPrice()));
 			getTransactionItems().add(transactionItem);
 		}
+
+		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
+		quantityToBuild.setValue(this.quantityToBuild);
 
 		inventoryAssembly.setOnhandQuantity(inventoryAssembly.getOnhandQty()
 				.add(quantityToBuild));

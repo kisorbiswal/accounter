@@ -185,11 +185,11 @@ public class ServerMain extends Main {
 
 	private static void startRecurringTimer() {
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				new RecurringTool().start();
+				new RecurringTool().run();
 			}
 		}, 0, 60 * 60 * 1000);
 	}
