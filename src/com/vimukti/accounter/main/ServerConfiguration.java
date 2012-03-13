@@ -44,6 +44,7 @@ public class ServerConfiguration {
 	private static boolean isSandBoxPaypal;
 	private static int tracePeriod;
 	private static boolean isInLive;
+	private static String paypalButtonId;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -92,9 +93,9 @@ public class ServerConfiguration {
 					"mobileSSLChatServer", null));
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
-
 			enableEncryption = prop.getProperty("enableEncryption", "false")
 					.equalsIgnoreCase("true");
+			paypalButtonId = prop.getProperty("paypalButtonId", "No Id");
 
 			setValidIP(prop.getProperty("validIP", null));
 			setEmailLogger(prop.getProperty("emailLogger", null));
@@ -355,5 +356,9 @@ public class ServerConfiguration {
 
 	public static boolean isInLive() {
 		return isInLive;
+	}
+
+	public static String getPaypalButtonId() {
+		return paypalButtonId;
 	}
 }

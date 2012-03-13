@@ -33,6 +33,7 @@ public class GoPremiumServlet extends BaseServlet {
 			req.setAttribute(EMAIL_ID, emailId);
 			dispatch(req, resp, view);
 		} else {
+			req.setAttribute("paypalButtonId", ServerConfiguration.getPaypalButtonId());
 			req.setAttribute(PARAM_DESTINATION, "/site/gopremium");
 			resp.sendRedirect(LOGIN_URL + "?destination=/site/gopremium");
 		}
