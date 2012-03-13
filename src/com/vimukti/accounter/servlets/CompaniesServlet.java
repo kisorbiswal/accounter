@@ -89,6 +89,11 @@ public class CompaniesServlet extends BaseServlet {
 				}
 			}
 			List<Company> list = getCompanyList(client.getUsers());
+			List<Object[]> encrypt = getCompaniesToEncrypt(client.getUsers());
+			boolean canEncrypt = false;
+			if (encrypt.size() > 0) {
+				canEncrypt = true;
+			}
 
 			req.setAttribute("emailId", emailID);
 			req.setAttribute("enableEncryption",
@@ -113,9 +118,10 @@ public class CompaniesServlet extends BaseServlet {
 					req.setAttribute("message", Global.get().messages()
 							.clickOnTheCompanyNameToOpen());
 				}
-				req.setAttribute(ATTR_COMPANY_LIST, list);
-				req.getSession().removeAttribute(COMPANY_ID);
 			}
+			req.setAttribute(ATTR_COMPANY_LIST, list);
+			req.setAttribute("encrypt", canEncrypt);
+			req.getSession().removeAttribute(COMPANY_ID);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -125,6 +131,23 @@ public class CompaniesServlet extends BaseServlet {
 					.yourCompanyHasBeenLocked());
 		}
 		dispatch(req, resp, companiedListView);
+	}
+
+	private List<Object[]> getCompaniesToEncrypt(Set<User> users) {
+		List<Long> userIds = new ArrayList<Long>();
+		for (User user : users) {
+			if (!user.isDeleted()) {
+				userIds.add(user.getID());
+			}
+		}
+		List<Object[]> list = new ArrayList<Object[]>();
+		if (!userIds.isEmpty()) {
+			Session session = HibernateUtil.getCurrentSession();
+			list = session
+					.getNamedQuery("get.NonEncrypted.CompanyNames.by.client")
+					.setParameterList("userIds", userIds).list();
+		}
+		return list;
 	}
 
 	private List<Company> getCompanyList(Set<User> users) {

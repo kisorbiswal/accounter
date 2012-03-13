@@ -14,10 +14,13 @@
 		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
+		<%	Boolean canEncrypt=(Boolean) request.getAttribute("encrypt");	%>
 		<%	String userEmail=(String) request.getAttribute("emailId");	%>
 		<%	Boolean canCreate=(Boolean) request.getAttribute("canCreate");	%>
 		<%	isPaid=isPaid==null?false:isPaid;	%>
-		<%	enableEncryption=enableEncryption&&isPaid;	%>
+		<%	canEncrypt=canEncrypt==null?false:canEncrypt;	%>
+		<%	enableEncryption=enableEncryption&&isPaid&&canEncrypt;	%>
+		
 	<script type="text/javascript">
 		window.onload=function(){
 		document.body.style.direction=(<%= isConListRTL %>)?"rtl":"ltr";
