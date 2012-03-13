@@ -30,7 +30,7 @@
   <body>
   <div id="commanContainer" style="width:420px;  font-size: 13px;">
   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
-	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
+	<form id="subscription_complition_form" method="post"  class="form-box"  action="/main/subscriptionmanagement">
 	<table cellspacing="10">
 	<tr></tr>
 	<tr>
@@ -79,7 +79,7 @@
 			<% if(subscriptionType==2||subscriptionType==3){ %>
    				<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/>
    			<%}%>
-   			<a target="_blank" href="/site/subscription/gopremium?emailId=<%= userEmail %>">Upgrade Premium</a>
+   			<a target="_blank" href="/main/subscription/gopremium?emailId=<%= userEmail %>">Upgrade Premium</a>
 		</div>
 		<a href="/main/companies">Companies List</a>
 		<script type="text/javascript">

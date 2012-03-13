@@ -806,7 +806,7 @@
 	<servlet-mapping>
 		<servlet-name>GoPremiumServlet </servlet-name>
 		<url-pattern>/main/subscription/cancel</url-pattern>
-		<url-pattern>/site/subscription/gopremium</url-pattern>
+		<url-pattern>/main/subscription/gopremium</url-pattern>
 	</servlet-mapping>
 	<servlet>
 
@@ -840,7 +840,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SubscriptionManagementServlet </servlet-name>
-		<url-pattern>/site/subscriptionmanagement</url-pattern>
+		<url-pattern>/main/subscriptionmanagement</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
