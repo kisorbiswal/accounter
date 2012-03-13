@@ -172,10 +172,10 @@ public class PayPalIPINServlet extends BaseServlet {
 			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("Unlimited Users monthly")) {
 			paymentType = ClientSubscription.UNLIMITED_USERS;
-			expiredDate = null;
+			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("Unlimited Users yearly")) {
 			paymentType = ClientSubscription.UNLIMITED_USERS;
-			expiredDate = null;
+			expiredDate = getNextMonthDate(12);
 		}
 		Client client = getClient(emailId);
 		ClientSubscription clientSubscription = client.getClientSubscription();
