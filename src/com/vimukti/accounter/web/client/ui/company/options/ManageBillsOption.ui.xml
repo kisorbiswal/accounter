@@ -15,5 +15,6 @@
 		<g:HorizontalPanel spacing="10">
 				<g:CheckBox ui:field="isPriceLevelsEnabled" />
 			</g:HorizontalPanel>
+			<g:CheckBox ui:field="purchaseOrderCheckBox" />
 	</g:VerticalPanel>
 </ui:UiBinder> 
