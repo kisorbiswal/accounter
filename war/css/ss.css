@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =   0.5) !important;
+	filter: alpha(opacity =     0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -1366,3 +1366,13 @@ a#fdbk_tab:hover {
 	width: 700px !important;
 }
 
+#delete_user_confirm li {
+	color: #28757D;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 10px;
+	padding-left: 10px;
+}
+#delete_user_confirm{
+	min-height:120px;
+}

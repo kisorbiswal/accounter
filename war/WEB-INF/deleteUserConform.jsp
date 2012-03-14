@@ -26,27 +26,26 @@
   <body>
   <div id="commanContainer" style="width:420px;  font-size: 13px;">
  	 <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
-		<form id="subscription_complition_form" method="post"  class="form-box"  action="/main/subsdeleteuserconform">
-			<table cellspacing="10">
-				<tr>				
+		<form id="delete_user_confirm" method="post"  class="form-box"  action="/main/subsdeleteuserconform">
+			<div>
 	    			<% if(users != null){%>
-	    				Do you really wants to delete following users?
-	    				<br />
+	    				<div style="font-weight:bold;">Do you really wants to delete following users?
+	    				</div>
 		   				<% for(String s:users) { %>
 			   				<li>
 		   						<%=s%>
 		   					</li>
 		   				<% } %>
 	    			<% } %>
-				</tr>
-			</table>		
+	    			
 			<div>
-		    	<div style="float:right;">
+		    	<div style="float:right;margin-left:10px;">
 		   			<input type="button" class="allviews-common-button" value="Cancel" onclick="parent.location='/main/subscriptionmanagement'" />
 				</div>
-				<div style="float: right; width: 75px;">
+				<div style="float: right;">
 		   			<input type="submit" class="allviews-common-button" value="Okay" />
 				</div>
+			</div>
 			</div>
 	 	</form>  
 	</div>
