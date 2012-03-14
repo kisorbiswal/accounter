@@ -90,12 +90,14 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				Transaction beginTransaction = currentSession
 						.beginTransaction();
 				currentSession.saveOrUpdate(company);
-				beginTransaction.commit();
+
 				try {
 					new Encrypter(company.getId(), password, getD2(req),
 							emailId, session.getId()).start();
 				} catch (Exception e) {
+					company.setLocked(false);
 				}
+				beginTransaction.commit();
 			} else {
 				dispatch(req, resp, ENCRYPT_VIEW);
 				return;
