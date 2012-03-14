@@ -22,6 +22,8 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	Label managingBilldescritionLabel;
 	@UiField
 	CheckBox isPriceLevelsEnabled;
+	@UiField
+	CheckBox purchaseOrderCheckBox;
 
 	interface ManageBillsOptionUiBinder extends
 			UiBinder<Widget, ManageBillsOption> {
@@ -46,6 +48,8 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		}else{
 			isPriceLevelsEnabled.setValue(false);
 		}
+		purchaseOrderCheckBox.setValue(getCompanyPreferences()
+				.isPurchaseOrderEnabled());
 	}
 
 	public void createControls() {
@@ -58,6 +62,9 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		managingBillNoRadioButton.setText(messages.no());
 		isPriceLevelsEnabled.setText(messages.enabled() + " " +messages.priceLevel());
 		isPriceLevelsEnabled.setStyleName("header");
+		purchaseOrderCheckBox.setText(messages.enablePreference(messages
+				.purchaseOrder()));
+		purchaseOrderCheckBox.setStyleName("bold");
 
 	}
 
@@ -82,6 +89,8 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		}else{
 			getCompanyPreferences().setPricingLevelsEnabled(false);
 		}
+		getCompanyPreferences().setPurchaseOrderEnabled(
+				purchaseOrderCheckBox.getValue());
 	}
 
 	@Override
