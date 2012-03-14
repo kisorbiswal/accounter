@@ -2213,12 +2213,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public Set<InvitableUser> getIvitableUsers() throws AccounterException {
 		Set<InvitableUser> invitableUsers = new HashSet<InvitableUser>();
-		Client client = AccounterThreadLocal.get().getClient();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		long companyId = getCompanyId();
+		Company company = (Company) currentSession
+				.get(Company.class, companyId);
+		Client client = company.getCreatedBy().getClient();
 
 		Set<String> userMailds = client.getClientSubscription().getMembers();
 		userMailds.add("support@accounterlive.com");
-		Session currentSession = HibernateUtil.getCurrentSession();
-		long companyId = getCompanyId();
 		List list = currentSession.getNamedQuery("list.Users.by.emailIds")
 				.setParameterList("users", userMailds).list();
 

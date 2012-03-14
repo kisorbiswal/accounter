@@ -1,12 +1,11 @@
 package com.vimukti.accounter.encryption;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.h2.tools.Server;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
@@ -14,10 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import com.vimukti.accounter.core.AccounterThreadLocal;
-import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.EU;
-import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.*;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -31,40 +27,23 @@ public class Encrypter extends Thread {
 	private byte[] s2;
 	private String sessionId;
 	private String emailId;
-	private static List<String> classes;
+	private static List<Class<?>> classes;
 
 	public static void init() {
-		classes = new ArrayList<String>();
+		classes = new ArrayList<Class<?>>();
 		Logger logger = Logger.getLogger(Encrypter.class);
 
 		// File core = getDirectoryFile();
 		// File[] listFiles = core.listFiles();
-		String[] list = getClassesNames();
-		logger.info("Total classes: " + list.length);
+		Class<?>[] allClasses = getClasses();
+		logger.info("Total classes: " + allClasses.length);
 		try {
-			Class<?> create = Class
-					.forName("com.vimukti.accounter.core.CreatableObject");
+			Class<?> create = CreatableObject.class;
 
-			List<String> skip = new ArrayList<String>();
-			String[] skips = "Currency,Unit,Measurement,Payee".split(",");
-			for (String s : skips) {
-				skip.add(s);
-			}
-
-			for (String string : list) {
-				if (string.endsWith(".java")) {
-					string = string.substring(0, string.indexOf(".java"));
-				} else {
-					continue;
-				}
-				if (skip.contains(string)) {
-					continue;
-				}
+			for (Class<?> cls : allClasses) {
 				try {
-					Class<?> clazz = Class
-							.forName("com.vimukti.accounter.core." + string);
-					if (create.isAssignableFrom(clazz)) {
-						classes.add(string);
+					if (create.isAssignableFrom(cls)) {
+						classes.add(cls);
 					} else {
 						// System.out.println(string);
 					}
@@ -77,25 +56,99 @@ public class Encrypter extends Thread {
 		}
 	}
 
-	private static String[] getClassesNames() {
-		String string = "Account.java,AccountComparator.java,AccounterClass.java,AccounterServerConstants.java,AccounterThreadLocal.java,AccountTransaction.java,AccountTransactionByAccount.java,AccountTransactionByTaxCode.java,AccountTransactionItem.java,Activation.java,Activity.java,ActivityType.java,Address.java,AdjustmentReason.java,Advertisement.java,Attachment.java,AuditWriter.java,AuditWriterImpl.java,Bank.java,BankAccount.java,BankRule.java,Box.java,BrandingTheme.java,Budget.java,BudgetItem.java,BudgetReportTemplate.java,BuildAssembly.java,CashPurchase.java,CashSalePdfGeneration.java,CashSales.java,ChequeLayout.java,ChequePdfGenerator.java,Client.java,ClientConvertUtil.java,ClientPaypalDetails.java,ClientSubscription.java,CloneUtil.java,CloneUtil2.java,CommodityCode.java,Company.java,CompanyPreferences.java,Contact.java,CreatableObject.java,CreditCardCharge.java,CreditNotePdfGeneration.java,CreditNotePDFTemplete.java,CreditNoteTemplete.java,CreditRating.java,CreditsAndPayments.java,CSVReportTemplate.java,Currency.java,CurrencyRate.java,Customer.java,CustomerCreditMemo.java,CustomerGroup.java,CustomerPrePayment.java,CustomerRefund.java,CustomerStatementTemplate.java,CustomField.java,CustomFieldValue.java,DeleteReason.java,Depreciation.java,Developer.java,Email.java,EmailAccount.java,Employee.java,EmployeeCategory.java,EmployeeGroup.java,EmployeePayHeadComponent.java,EnterBill.java,Estimate.java,ETDSAnnexuresGenerator.java,EU.java,Exempted.java,Expense.java,Fax.java,FinanceDate.java,FinanceLogger.java,FiscalYear.java,FixedAsset.java,FixedAssetHistory.java,FixedAssetNote.java,Form16ApdfTemplate.java,Form26QAnnexureGenerator.java,Form27EQAnnexureGenerator.java,Form27QAnnexureGenerator.java,IAccounterServerCore.java,IMActivation.java,IMUser.java,INamedObject.java,InventoryAssembly.java,InventoryAssemblyItem.java,InventoryPurchase.java,Invoice.java,InvoiceExcelTemplete.java,InvoicePdfGeneration.java,InvoicePDFTemplete.java,IRASCompanyInfo.java,IRASGeneralLedgerLineInfo.java,IRASInformation.java,IRASPurchaseLineInfo.java,IRASSupplyLineInfo.java,IssuePayment.java,Item.java,ItemGroup.java,ITemplate.java,ItemReceipt.java,ItemStatus.java,Job.java,JournalEntry.java,Location.java,LongUseType.java,MaintananceInfoUser.java,MakeDeposit.java,Measurement.java,MessageOrTask.java,Misc1099PDFTemplate.java,Misc1099SamplePDFTemplate.java,MISCInformationTemplate.java,MobileCookie.java,News.java,NominalCodeRange.java,NumberUtils.java,ObjectConvertUtil.java,PayBill.java,Payee.java,PayEmployee.java,PayExpense.java,PayHead.java,PayHeadField.java,PaymentTerms.java,PayrollUnit.java,PayRun.java,PayStructure.java,PayStructureItem.java,PayTAX.java,PayTAXEntries.java,PayTDS.java,Phone.java,PortletConfiguration.java,PortletPageConfiguration.java,PriceLevel.java,PrintTemplete.java,PurchaseOrder.java,Quantity.java,QuotePdfGeneration.java,QuotePdfTemplate.java,ReceivePayment.java,ReceivePaymentPdfGeneration.java,ReceiveVAT.java,ReceiveVATEntries.java,Reconciliation.java,ReconciliationItem.java,RecurringTransaction.java,ReffereredObject.java,RememberMeKey.java,Reminder.java,ReportsGenerator.java,ReportTemplate.java,ResetPasswordToken.java,SalesOrder.java,SalesPerson.java,Server.java,ServerCompany.java,ServerConvertUtil.java,ServerMaintanance.java,ShippingMethod.java,ShippingTerms.java,Statement.java,StatementRecord.java,StockAdjustment.java,StockTransfer.java,StockTransferItem.java,Subscription.java,SupportedUser.java,TAXAdjustment.java,TAXAgency.java,TAXCode.java,TAXGroup.java,TAXItem.java,TAXItemGroup.java,TAXRateCalculation.java,TaxRates.java,TAXReturn.java,TAXReturnEntry.java,TDSChalanDetail.java,TDSCoveringLetterTemplate.java,TDSDeductorMasters.java,TDSInfo.java,TDSResponsiblePerson.java,TDSTransactionItem.java,TemplateBuilder.java,Transaction.java,TransactionCreditsAndPayments.java,TransactionDepositItem.java,TransactionExpense.java,TransactionIssuePayment.java,TransactionItem.java,TransactionLog.java,TransactionMakeDepositEntries.java,TransactionPayBill.java,TransactionPayExpense.java,TransactionPayTAX.java,TransactionReceivePayment.java,TransactionReceiveVAT.java,TransferFund.java,Unit.java,UnitOfMeasure.java,User.java,UserPermissions.java,UserPreferences.java,UserUtils.java,Util.java,Utility_R.java,Utility.java,VATReturnBox.java,Vendor.java,VendorCreditMemo.java,VendorGroup.java,Warehouse.java,WareHouseAllocation.java,WriteCheck.java";
-		return string.split(",");
-	}
-
-	private static File getDirectoryFile() {
-		Logger logger = Logger.getLogger(Encrypter.class);
-		try {
-			ClassLoader classLoader = Thread.currentThread()
-					.getContextClassLoader();
-			URL resource = classLoader
-					.getResource("com/vimukti/accounter/core/");
-			File core = new File(resource.getFile());
-			logger.info("Parent file -->:" + resource.getFile());
-			return core;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	private static Class<?>[] getClasses() {
+		Class<?>[] classes = new Class<?>[] { Account.class,
+				AccountComparator.class, AccounterClass.class,
+				AccounterServerConstants.class, AccounterThreadLocal.class,
+				AccountTransaction.class, AccountTransactionByAccount.class,
+				AccountTransactionByTaxCode.class,
+				AccountTransactionItem.class, Activation.class, Activity.class,
+				ActivityType.class, Address.class, AdjustmentReason.class,
+				Advertisement.class, Attachment.class, AuditWriter.class,
+				AuditWriterImpl.class, Bank.class, BankAccount.class,
+				BankRule.class, Box.class, BrandingTheme.class, Budget.class,
+				BudgetItem.class, BudgetReportTemplate.class,
+				BuildAssembly.class, CashPurchase.class,
+				CashSalePdfGeneration.class, CashSales.class,
+				ChequeLayout.class, ChequePdfGenerator.class, Client.class,
+				ClientConvertUtil.class, ClientPaypalDetails.class,
+				ClientSubscription.class, CloneUtil.class, CloneUtil2.class,
+				CommodityCode.class, Company.class, CompanyPreferences.class,
+				Contact.class, CreatableObject.class, CreditCardCharge.class,
+				CreditNotePdfGeneration.class, CreditNotePDFTemplete.class,
+				CreditNoteTemplete.class, CreditRating.class,
+				CreditsAndPayments.class, CSVReportTemplate.class,
+				Currency.class, CurrencyRate.class, Customer.class,
+				CustomerCreditMemo.class, CustomerGroup.class,
+				CustomerPrePayment.class, CustomerRefund.class,
+				CustomerStatementTemplate.class, CustomField.class,
+				CustomFieldValue.class, DeleteReason.class, Depreciation.class,
+				Developer.class, EmailAccount.class, Employee.class,
+				EmployeeCategory.class, EmployeeGroup.class,
+				EmployeePayHeadComponent.class, EnterBill.class,
+				Estimate.class, ETDSAnnexuresGenerator.class, EU.class,
+				Exempted.class, Expense.class, Fax.class, FinanceDate.class,
+				FinanceLogger.class, FiscalYear.class, FixedAsset.class,
+				FixedAssetHistory.class, FixedAssetNote.class,
+				Form16ApdfTemplate.class, Form26QAnnexureGenerator.class,
+				Form27EQAnnexureGenerator.class,
+				Form27QAnnexureGenerator.class, IAccounterServerCore.class,
+				IMActivation.class, IMUser.class, INamedObject.class,
+				InventoryAssembly.class, InventoryAssemblyItem.class,
+				InventoryPurchase.class, Invoice.class,
+				InvoiceExcelTemplete.class, InvoicePdfGeneration.class,
+				InvoicePDFTemplete.class, IRASCompanyInfo.class,
+				IRASGeneralLedgerLineInfo.class, IRASInformation.class,
+				IRASPurchaseLineInfo.class, IRASSupplyLineInfo.class,
+				Item.class, ItemGroup.class, ITemplate.class,
+				ItemReceipt.class, ItemStatus.class, Job.class,
+				JournalEntry.class, Location.class, LongUseType.class,
+				MaintananceInfoUser.class, MakeDeposit.class,
+				Measurement.class, MessageOrTask.class,
+				Misc1099PDFTemplate.class, Misc1099SamplePDFTemplate.class,
+				MISCInformationTemplate.class, MobileCookie.class, News.class,
+				NominalCodeRange.class, NumberUtils.class,
+				ObjectConvertUtil.class, PayBill.class, Payee.class,
+				PayEmployee.class, PayExpense.class, PayHead.class,
+				PayHeadField.class, PaymentTerms.class, PayrollUnit.class,
+				PayRun.class, PayStructure.class, PayStructureItem.class,
+				PayTAX.class, PayTAXEntries.class, PayTDS.class, Phone.class,
+				PortletConfiguration.class, PortletPageConfiguration.class,
+				PriceLevel.class, PrintTemplete.class, PurchaseOrder.class,
+				PurchaseOrderPdfGeneration.class, Quantity.class,
+				QuotePdfGeneration.class, QuotePdfTemplate.class,
+				ReceivePayment.class, ReceivePaymentPdfGeneration.class,
+				ReceiveVAT.class, ReceiveVATEntries.class,
+				Reconciliation.class, ReconciliationItem.class,
+				RecurringTransaction.class, ReffereredObject.class,
+				RememberMeKey.class, Reminder.class, ReportsGenerator.class,
+				ReportTemplate.class, ResetPasswordToken.class,
+				SalesOrder.class, SalesOrderPdfGeneration.class,
+				SalesPerson.class, Server.class, ServerConvertUtil.class,
+				ServerMaintanance.class, ShippingMethod.class,
+				ShippingTerms.class, Statement.class, StatementRecord.class,
+				StockAdjustment.class, StockTransfer.class,
+				StockTransferItem.class, Subscription.class,
+				SupportedUser.class, TAXAdjustment.class, TAXAgency.class,
+				TAXCode.class, TAXGroup.class, TAXItem.class,
+				TAXItemGroup.class, TAXRateCalculation.class, TaxRates.class,
+				TAXReturn.class, TAXReturnEntry.class, TDSChalanDetail.class,
+				TDSCoveringLetterTemplate.class, TDSDeductorMasters.class,
+				TDSInfo.class, TDSResponsiblePerson.class,
+				TDSTransactionItem.class, TemplateBuilder.class,
+				Transaction.class, TransactionCreditsAndPayments.class,
+				TransactionDepositItem.class, TransactionExpense.class,
+				TransactionItem.class, TransactionLog.class,
+				TransactionMakeDepositEntries.class, TransactionPayBill.class,
+				TransactionPayExpense.class, TransactionPayTAX.class,
+				TransactionReceivePayment.class, TransactionReceiveVAT.class,
+				TransferFund.class, Unit.class, UnitOfMeasure.class,
+				User.class, UserPermissions.class, UserPreferences.class,
+				UserUtils.class, Util.class, Utility_R.class, Utility.class,
+				VATReturnBox.class, Vendor.class, VendorCreditMemo.class,
+				VendorGroup.class, Warehouse.class, WareHouseAllocation.class,
+				WriteCheck.class };
+		return classes;
 	}
 
 	public Encrypter(long companyId, String password, byte[] d2,
@@ -121,21 +174,24 @@ public class Encrypter extends Thread {
 	private void updateAll(List<List> lists) {
 		Session session = HibernateUtil.openSession();
 		AccounterThreadLocal.set(getUser());
+		Transaction beginTransaction = session.beginTransaction();
 		try {
-			Transaction beginTransaction = session.beginTransaction();
 			for (List l : lists) {
 				for (Object o : l) {
 					session.replicate(o, ReplicationMode.OVERWRITE);
 				}
 			}
 			initChipher();
+			beginTransaction.commit();
+		} catch (Exception e) {
+			beginTransaction.rollback();
+			e.printStackTrace();
+		} finally {
+			beginTransaction.begin();
 			Company company = getCompany();
 			company.setLocked(false);
 			session.saveOrUpdate(company);
 			beginTransaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
 			session.close();
 		}
 	}
@@ -189,9 +245,8 @@ public class Encrypter extends Thread {
 			List<List> lists = new ArrayList<List>();
 			// classes.clear();
 			// classes.add("FixedAsset");
-			for (String cls : classes) {
-				Criteria criteria = session.createCriteria(Class
-						.forName("com.vimukti.accounter.core." + cls));
+			for (Class<?> cls : classes) {
+				Criteria criteria = session.createCriteria(cls);
 				criteria.add(Restrictions.eq("company", company));
 				try {
 					List list = criteria.list();
