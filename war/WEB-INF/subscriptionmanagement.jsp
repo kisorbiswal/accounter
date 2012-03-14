@@ -30,17 +30,15 @@
   <body>
   <div id="commanContainer" style="width:420px;  font-size: 13px;">
   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
-
-	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
+	<form id="subscription_complition_form" method="get"  class="form-box"  action="/main/subsdeleteuserconform">
+	<table cellspacing="10">
+	<tr></tr>
+	<tr>
 	<p id="error" style="color:red;">
 	  <% if(error!=null){ %>
 		<%= error %>
 	  <%}%>
 	 </p> 
-	<table cellspacing="10">
-	<tr></tr>
-	<tr>
-	
 	</tr>
 	<tr>
 	<td> Subscription expire date : </td> 
@@ -93,11 +91,11 @@
 		   var textDiv="";
 		   
 			if(users.length>0){
-				textAre = users[0].emailId ;
-				textDiv = users[0].emailId ;
-                for(var i=1; i <  users.length; i++){
-					textAre +='\n'+ users[i].emailId ;
-					textDiv +=', '+ users[i].emailId ;
+				textAre = users[0];
+				textDiv = users[0];
+                for(var i=1; i < users.length; i++){
+					textAre +='\n'+ users[i];
+					textDiv +=', '+ users[i];
 				}
 				$('#mailIdsTextArea').val(textAre);
 				$('#emailIdsList').text(textDiv);
@@ -120,24 +118,7 @@
 				if(!validate(textArray)){
 					return false;
 				}
-				for(var i=0; i <  users.length; i++){
-					var isExists=false;
-					for(var j=0; j < textArray.length; j++){
-						if(users[i].emailId ==textArray[j]){
-							isExists=true;
-							break;
-						}
-					}
-					if(!isExists){
-						if(users[i].isCreated ==true){
-							var r=confirm("Do you want to delete the existing user '"+users[i].emailId+"'");
-							if (r!=true){
-								$('#error').text("Please add '"+users[i].emailId+"'");
-				  				return false;	
-				  			}
-						}
-					}	
-				}
+
 				$('#error').text("");
 				$('#subscription_complition_form').submit();
 				return true;

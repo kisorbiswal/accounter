@@ -844,6 +844,18 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>SubDeleteUserConformServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.SubDeleteUserConformServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubDeleteUserConformServlet </servlet-name>
+		<url-pattern>/main/subsdeleteuserconform</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>iAccounterExportCSVImpl
 		</servlet-name>
 		<servlet-class>
@@ -877,7 +889,7 @@
 		<servlet-name>EncryptCompaniesServlet </servlet-name>
 		<url-pattern>/main/encryption</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>PremiumServlet</servlet-name>
 		<servlet-class>
@@ -888,5 +900,5 @@
 		<servlet-name>PremiumServlet </servlet-name>
 		<url-pattern>/main/gopremium</url-pattern>
 	</servlet-mapping>
-	
+
 </web-app>
