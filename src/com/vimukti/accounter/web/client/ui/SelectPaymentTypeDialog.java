@@ -17,6 +17,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 
 	public SelectPaymentTypeDialog() {
 		super(messages.selectPaymentType(), messages.selectPaymentType());
+		this.getElement().setId("SelectPaymentTypeDialog");
 		createControls();
 		center();
 

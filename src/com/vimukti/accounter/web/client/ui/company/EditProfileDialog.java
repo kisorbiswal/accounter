@@ -20,6 +20,7 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 
 	public EditProfileDialog(String editProfile, String desc) {
 		super(editProfile, desc);
+		this.getElement().setId("EditProfileDialog");
 		clientUser = Accounter.getUser();
 		createControls();
 	}

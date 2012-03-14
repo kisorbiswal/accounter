@@ -36,6 +36,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		super(messages.TDSAcknowledgementForm(), messages
 				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
 //		setWidth("650px");
+		this.getElement().setId("TDSAcknowlegmentForm");
 		createControls();
 		center();
 	}

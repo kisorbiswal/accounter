@@ -23,7 +23,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 	// private ClientCompany company;
 	public SelectPayeeDialog() {
 		super(messages.selectPayeeType(), messages.selectOneOfFollowingPayee());
-
+		this.getElement().setId("SelectPayeeDialog");
 		// company = FinanceApplication.getCompany();
 		createControls();
 		center();

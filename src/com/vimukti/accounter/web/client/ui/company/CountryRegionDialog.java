@@ -15,7 +15,7 @@ public class CountryRegionDialog extends BaseDialog {
 	public CountryRegionDialog(String title, String desc) {
 
 		super(title, desc);
-
+		this.getElement().setId("CountryRegionDialog");
 		createControls();
 		center();
 	}

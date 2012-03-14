@@ -39,7 +39,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
 		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
-		this.addStyleName("cash-discount-dialog");
+		this.getElement().setId("CashDiscountDialog");
 		this.callback = callback;
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;

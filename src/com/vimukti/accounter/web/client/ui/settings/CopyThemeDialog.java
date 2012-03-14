@@ -17,6 +17,7 @@ public class CopyThemeDialog extends BaseDialog {
 	public CopyThemeDialog(String title, String desc,
 			ClientBrandingTheme brandingTheme) {
 		super(title, desc);
+		this.getElement().setId("CopyThemeDialog");
 		this.theme = brandingTheme;
 		createControls();
 	}

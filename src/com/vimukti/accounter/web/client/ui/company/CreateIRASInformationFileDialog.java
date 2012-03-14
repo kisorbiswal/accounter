@@ -23,6 +23,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 
 	public CreateIRASInformationFileDialog() {
 		super(messages.createGST(), null);
+		this.getElement().setId("CreateIRASInformationFileDialog");
 		createControls();
 		center();
 	}

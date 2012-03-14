@@ -27,6 +27,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	public RollBackDepreciationDialog() {
 		super(messages.rollBackDepreciation(), "");
+		this.getElement().setId("RollBackDepreciationDialog");
 		getLastDepreciationDate();
 		this.addStyleName("depreciation_table");
 		// getAllDepreciationDates();

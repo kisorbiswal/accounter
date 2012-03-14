@@ -18,6 +18,7 @@ public class EmailTestDialog extends BaseDialog {
 
 	public EmailTestDialog(ClientEmailAccount emailAccount) {
 		super(messages.emailAddress());
+		this.getElement().setId("EmailTestDialog");
 		createControls();
 		this.emailAccount = emailAccount;
 	}

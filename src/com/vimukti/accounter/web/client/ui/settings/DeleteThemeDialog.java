@@ -18,6 +18,7 @@ public class DeleteThemeDialog extends BaseDialog {
 	public DeleteThemeDialog(String title, String desc,
 			ClientBrandingTheme theme) {
 		super(title, desc);
+		this.getElement().setId("DeleteThemeDialog");
 		this.brandingTheme = theme;
 		createControls();
 	}

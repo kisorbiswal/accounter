@@ -24,6 +24,7 @@ public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 
 	public QuickAddDialog(String header) {
 		super(header);
+		this.getElement().setId("QuickAddDialog");
 		createControls();
 	}
 

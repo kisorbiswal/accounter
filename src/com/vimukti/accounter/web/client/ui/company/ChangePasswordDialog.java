@@ -20,6 +20,7 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	public ChangePasswordDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("ChangePasswordDialog");
 		createControls();
 	}
 

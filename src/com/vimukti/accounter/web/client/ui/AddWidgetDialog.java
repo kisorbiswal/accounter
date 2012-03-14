@@ -28,6 +28,7 @@ public class AddWidgetDialog extends BaseDialog {
 
 	public AddWidgetDialog(BaseHomeView parent) {
 		super(messages.addWidget());
+		this.getElement().setId("AddWidgetDialog");
 
 		if (parent instanceof CustomerSectionHomeView) {
 			this.customerParent = (CustomerSectionHomeView) parent;

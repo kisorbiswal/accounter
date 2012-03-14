@@ -23,6 +23,7 @@ public class SelectExpenseType extends BaseDialog {
 
 	public SelectExpenseType() {
 		super(messages.recordExpenses(), "");
+		this.getElement().setId("SelectExpenseType");
 		setText(messages.recordExpenses());
 		createControls();
 		center();

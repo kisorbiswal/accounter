@@ -33,6 +33,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	public ManageFiscalYearDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("ManageFiscalYearDialog");
 		createControls();
 //		setWidth("550px");
 		center();

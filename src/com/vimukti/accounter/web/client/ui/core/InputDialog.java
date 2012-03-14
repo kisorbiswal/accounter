@@ -30,6 +30,7 @@ public class InputDialog extends BaseDialog {
 	public InputDialog(GroupDialog<?> parentDialog, String title, String desc,
 			String... itemNames) {
 		super(title, desc);
+		this.getElement().setId("InputDialog");
 		this.itemsNames = itemNames;
 		initialise();
 		center();

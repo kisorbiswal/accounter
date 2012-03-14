@@ -21,7 +21,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	public BrandingThemeComboDialog(String title, String desc,
 			ClientTransaction clientTransaction) {
 		super(title, desc);
-		this.addStyleName("branding-theme-combo-dialog");
+		this.getElement().setId("BrandingThemeComboDialog");
 		this.clientTransaction = clientTransaction;
 		createControls();
 	}

@@ -39,6 +39,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientTransactionCreditsAndPayments> usedCredits,
 			double amountDue, ICurrencyProvider currencyProvider) {
 		super(messages.applyCreditsandPayments());
+		this.getElement().setId("NewApplyCreditsDialog");
 		this.currencyProvider = currencyProvider;
 		this.totalCredits = totalCredits;
 		for (ClientCreditsAndPayments ccap : this.totalCredits) {

@@ -28,7 +28,7 @@ public class ActivityCustomizationDialog extends BaseDialog {
 
 	public ActivityCustomizationDialog(String string) {
 		super(string);
-		this.getElement().setId("activity-customization-dialog");
+		this.getElement().setId("ActivityCustomizationDialog");
 		createControl();
 	}
 

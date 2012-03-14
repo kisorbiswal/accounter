@@ -16,6 +16,7 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 
 	public AddItemTaxDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("AddItemTaxDialog");
 		initiliase();
 		center();
 	}

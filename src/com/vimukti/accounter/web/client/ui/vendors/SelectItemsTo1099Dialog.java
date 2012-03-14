@@ -34,6 +34,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 
 	public SelectItemsTo1099Dialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("SelectItemsTo1099Dialog");
 		createControls();
 
 		center();

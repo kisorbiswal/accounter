@@ -21,6 +21,8 @@ public class AddBankDialog extends BaseDialog {
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
 		super(messages.addBank(), null);
+		this.getElement().setId("AddBankDialog");
+
 		createControls();
 		center();
 	}

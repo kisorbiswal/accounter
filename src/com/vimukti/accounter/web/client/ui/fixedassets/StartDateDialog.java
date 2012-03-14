@@ -31,6 +31,7 @@ public class StartDateDialog extends BaseDialog {
 
 	public StartDateDialog() {
 		super(messages.startDate(), "");
+		this.getElement().setId("StartDateDialog");
 		getStartdates();
 		Timer timer = new Timer() {
 			@Override

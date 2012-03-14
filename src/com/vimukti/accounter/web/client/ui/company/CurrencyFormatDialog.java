@@ -61,6 +61,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 	public CurrencyFormatDialog(String string) {
 		super(string);
+		this.getElement().setId("CurrencyFormatDialog");
 		this.preferences = Accounter.getCompany().getPreferences();
 		assignGroupValues();
 		createControl();

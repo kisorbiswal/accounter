@@ -41,6 +41,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 	public NewLocationDialog(String title) {
 		super(title, "");
+		this.getElement().setId("NewLocationDialog");
 //		setWidth("400px");
 		initilize();
 		createControls();

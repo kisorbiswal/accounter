@@ -26,6 +26,7 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	public CreateFiscalYearDialog(String title, String desc,
 			FiscalYearListGrid listOfperiods) {
 		super(title, desc);
+		this.getElement().setId("CreateFiscalYearDialog");
 		this.title = title;
 		this.listOfFiscalYear = listOfperiods;
 		createControls();

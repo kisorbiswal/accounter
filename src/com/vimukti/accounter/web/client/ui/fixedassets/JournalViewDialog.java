@@ -49,6 +49,7 @@ public class JournalViewDialog extends BaseDialog {
 	public JournalViewDialog(String title, String desc,
 			FixedAssetSellOrDisposeReviewJournal journalObject) {
 		super(title, desc);
+		this.getElement().setId("JournalViewDialog");
 		this.addStyleName("journal-view-dialog");
 		this.journalAsset = journalObject;
 		init();

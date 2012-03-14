@@ -20,6 +20,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			ClientBrandingTheme brandingTheme, boolean isNew) {
 		super(title, "");
 		this.addStyleName("new-custom-theme-dialog");
+		this.getElement().setId("NewCustomThemeDialog");
 		this.brandingTheme = brandingTheme;
 		this.isEdit = isNew;
 		createControls();

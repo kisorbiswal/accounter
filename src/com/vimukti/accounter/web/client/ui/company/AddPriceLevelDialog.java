@@ -26,6 +26,7 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 	public AddPriceLevelDialog(PriceLevelListDialog parent, String title,
 			String desc) {
 		super(title, desc);
+		this.getElement().setId("AddPriceLevelDialog");
 		initiliase();
 		this.parent = parent;
 		center();

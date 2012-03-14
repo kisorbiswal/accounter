@@ -11,7 +11,7 @@ if("true".equals(isTouch)){
 %>
 <link type="text/css" rel="stylesheet" href="/css/Tabletcss.css?version=<%= version%>" />
 <% }else{ %>
-<link type="text/css" rel="stylesheet" href="/css/Finance.css?version=<%= version%>" />
+<link type="text/css" rel="stylesheet" href="/css/web.css?version=<%= version%>" />
 <% } %>
 
 <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>

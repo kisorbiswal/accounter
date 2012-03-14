@@ -31,6 +31,8 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 
 	public EmailAccountDialog(ClientEmailAccount data) {
 		super(messages.emailAccount());
+		this.getElement().setId("EmailAccountDialog");
+
 		createControls();
 		this.data = data;
 		initData();

@@ -34,7 +34,7 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 			final TextAreaItem textAreaItem, final String addressType,
 			final LinkedHashMap<Integer, ClientAddress> allAddresses) {
 		super(messages.address(), "");
-		this.getElement().setId("address-dialog");
+		this.getElement().setId("AddressDialog");
 		this.addressType = addressType;
 		this.allAddresses = allAddresses;
 		createControls(textAreaItem, allAddresses);

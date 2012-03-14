@@ -50,6 +50,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		// super(false, true);
 		this.title = title;
 		setText(title);
+		this.getElement().setId("UploadTemplateFileDialog");
 		this.callback = callback;
 		this.brandingTheme = theme;
 		this.fileTypes = new String[] { "odt", "docx" };

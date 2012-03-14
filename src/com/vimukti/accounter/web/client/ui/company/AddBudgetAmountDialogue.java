@@ -52,6 +52,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	public AddBudgetAmountDialogue(String title, String desc,
 			HashMap<String, String> map, ClientBudgetItem budgetItem) {
 		super(title, desc);
+		this.getElement().setId("AddBudgetAmountDialogue");
 		newMap = new HashMap<String, String>();
 		defaultValues = budgetItem;
 		map = newMap;

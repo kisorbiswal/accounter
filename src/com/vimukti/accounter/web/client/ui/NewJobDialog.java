@@ -36,6 +36,7 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 	public NewJobDialog(ClientJob job, String title, String desc,
 			ClientCustomer customer) {
 		super(title, desc);
+		this.getElement().setId("NewJobDialog");
 //		setWidth("300px");
 		this.job = job;
 		this.customer = customer;

@@ -35,6 +35,7 @@ public class AccountMergeDialog extends BaseDialog implements
 
 	public AccountMergeDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("AccountMergeDialog");
 		okbtn.setText(messages.merge());
 		createControls();
 		center();

@@ -15,6 +15,7 @@ public class PaymentDialog extends BaseDialog {
 	public PaymentDialog() {
 		super(messages.payments(), "");
 		this.addStyleName("payment-dialog");
+		this.getElement().setId("PaymentDialog");
 		setText(messages.payments());
 		createControls();
 		center();

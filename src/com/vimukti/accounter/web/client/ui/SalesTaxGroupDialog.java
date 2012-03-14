@@ -45,6 +45,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			ClientTAXGroup taxGroup) {
 
 		super(title, desc);
+		this.getElement().setId("SalesTaxGroupDialog");
 		this.taxGroup = taxGroup;
 		createControls(taxGroup);
 		if (taxGroup != null)

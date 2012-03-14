@@ -1,9 +1,10 @@
 body {
 	font-size: 13px;
 	font-family: Arial Unicode MS, Arial, sans-serif;
+}
+
+html,body {
 	width: 100%;
-	padding: 0px;
-	margin: 0px;
 	height: 100%;
 }
 
@@ -67,13 +68,17 @@ body {
 	width: 110px;
 }
 
-.hpanel {
+.page_header .hpanel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
-.panel2 {
+.page_header .panel2 {
 	width: 40%;
+	display: box;
 	display: -webkit-box;
+	display: -moz-box;
 	background: lightgray;
 }
 
@@ -114,15 +119,15 @@ body {
 	padding-right: 10px;
 }
 
-.panel1 {
+.page_header .panel1 {
 	width: 30%;
 }
 
-.header_links {
+.page_header .header_links {
 	width: 30%;
 }
 
-.panel3 {
+.page_header .panel3 {
 	position: absolute;
 	right: 0;
 }
@@ -202,9 +207,13 @@ body {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
 		endColorstr='#2D8B93' );
 	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	display: box;
 	display: -webkit-box;
-	padding: 5px 0px;
+	display: -moz-box;
+	padding: 5px;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 }
 
 .view_manager {
@@ -219,6 +228,8 @@ body {
 .prebutton {
 	position: relative;
 	display: -webkit-box;
+	display: box;
+	display: -moz-box;
 }
 
 .main_manager {
@@ -269,10 +280,20 @@ body {
 	-webkit-box-orient: horizontal;
 	-webkit-box-pack: end;
 	-webkit-box-align: end;
+	display: -moz-box;
+	-moz-box-align: end;
+	-moz-box--orient: horizontal;
+	-moz-box-pack: end;
+	display: box;
+	box-orient: horizontal;
+	box-pack: end;
+	box-align: end;
 }
 
 .datenumber-panel .formItem {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 .mainVLay .topHLay {
@@ -281,7 +302,10 @@ body {
 
 .fields-panel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	margin: 10px 0px;
+	display: box;
 }
 
 .fields-panel .leftVLay,.fields-panel .rightVLay {
@@ -290,7 +314,10 @@ body {
 
 .formItem {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	margin-bottom: 5px;
+	display: box;
 }
 
 .formItem .gwt-Label {
@@ -326,9 +353,17 @@ body {
 
 .button_bar {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: horizontal;
 	-webkit-box-pack: end;
 	-webkit-box-align: right;
+	-moz-box-orient: horizontal;
+	-moz-box-pack: end;
+	-moz-box-align: right;
+	box-orient: horizontal;
+	box-pack: end;
+	box-align: right;
 	padding: 10px 10px 10px 0;
 }
 
@@ -375,7 +410,9 @@ body {
 
 .detailsTab {
 	display: -webkit-box;
-	padding: 10px 0px
+	display: -moz-box;
+	display: box;
+	padding: 10px 0px;
 }
 
 .detailsTab .leftVLay,.detailsTab .rightVLay {
@@ -399,6 +436,7 @@ body {
 .detailsTab .customField {
 	display: -webkit-box;
 	display: -moz-box;
+	display: box;
 }
 
 .detailsTab .gwt-Label {
@@ -431,6 +469,8 @@ body {
 
 .dateItem_datePanel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 .memoTextArea,.memoArea .gwt-TextArea {
@@ -448,6 +488,8 @@ body {
 #paybillview .bottompanel {
 	margin: 10px 0;
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #paybillview .bottompanel .memoForm,#paybillview .bottompanel .unused-payments
@@ -457,8 +499,14 @@ body {
 
 #paybillview .bottompanel .unused-payments,.bottomPanel .totalForm {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: end;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-moz-box-pack: end;
+	box-orient: vertical;
+	box-pack: end;
 	font-weight: bold;
 }
 
@@ -473,19 +521,23 @@ body {
 
 #itemView .topHLay {
 	display: -webkit-box;
-	-webkit-box-orient: vertical;
 	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
 	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #itemView .service-item-group {
 	display: -webkit-box;
 	display: -moz-box;
+	display: box;
 }
 
 #itemView .topPanel2 {
 	display: -webkit-box;
 	display: -moz-box;
+	display: box;
 	width: 100%;
 	margin: 10px 0px;
 }
@@ -497,8 +549,14 @@ body {
 
 #itemView .checkboxItem {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-direction: reverse;
 	-webkit-box-pack: start;
+	-moz-box-direction: reverse;
+	-moz-box-pack: start;
+	box-direction: reverse;
+	box-pack: start;
 }
 
 #itemView .checkboxItem .gwt-Label {
@@ -520,6 +578,8 @@ body {
 
 .customComboItem {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 .datepanel {
@@ -529,14 +589,26 @@ body {
 .memoArea .gwt-Label {
 	width: 50px;
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
 	-webkit-box-pack: center;
+	-moz-box-orient: vertical;
+	-moz-box-pack: center;
+	box-orient: vertical;
+	box-pack: center;
+	box-orient: vertical;
 }
 
 .bottomPanel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	width: 100%;
+	margin-top: 15px;
 }
 
 .bottompanel .memoForm,.bottomPanel .totalForm {
@@ -545,11 +617,17 @@ body {
 
 #newAccountView .fields-panel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #newAccountView .topHLay {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #newAccountView .leftLayout {
@@ -563,7 +641,7 @@ body {
 
 .button_bar .cancle-Btn {
 	border: 1px solid #002E36;
-	background-color: #A0A0A0;
+	background-color: #E4E4E4;;
 	color: black;
 }
 
@@ -605,13 +683,16 @@ body {
 	position: relative;
 	width: 30%;
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #addNewButton,#exportButton {
 	padding: 3px 5px 5px 27px;
 }
 
-#addNewButton,#exportButton,#closeButton,#searchButton {
+#addNewButton,#exportButton,#closeButton,#searchButton,#configButton,#printButton,#addVendorButton
+	{
 	background-repeat: no-repeat;
 	background-position: 5px center;
 	border-radius: 5px 5px 5px 5px;
@@ -621,6 +702,19 @@ body {
 	height: 25px;
 	border-width: 1px 0 1px 1px;
 	border-color: #A0A0A0;
+}
+
+#addVendorButton {
+	padding-left: 25px;
+	padding-right: 5px;
+}
+
+#configButton {
+	padding-left: 25px;
+}
+
+#printButton {
+	padding: 0 5px 2px 25px;
 }
 
 #previousButton:hover {
@@ -644,7 +738,6 @@ body {
 	background-repeat: no-repeat;
 	border: 1px solid #A0A0A0;
 	margin-left: -3px;
-	100
 }
 
 #group1 .viewTitle {
@@ -660,19 +753,35 @@ body {
 
 .editTable .comboBox {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	width: 100%;
 }
 
 #invoiceview .prodAndServiceHLay {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	margin: 10px 0;
+	display: box;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 }
 
 #invoiceview .prodAndServiceHLay .memoArea {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 	padding-right: 5px;
 }
 
@@ -713,17 +822,27 @@ body {
 
 #QuoteView .mainpanel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #QuoteView .mainpanel .prodAndServiceHLay {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	width: 100%;
 }
 
 #QuoteView .mainpanel .memoArea {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 	padding-right: 5px;
 }
 
@@ -745,9 +864,14 @@ body {
 
 #CashSalesView .prodAndServiceHLay {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	width: 100%;
 	margin: 10px 0px;
+	width: 100%;
 }
 
 #CashSalesView .taxForm .gwt-Label {
@@ -781,17 +905,29 @@ body {
 
 #JournalEntryView .totalForm {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
 	-webkit-box-align: end;
+	-moz-box-orient: vertical;
+	-moz-box-align: end;
+	box-orient: vertical;
+	box-align: end;
 }
 
 #BudgetListView .form {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #BudgetListView .hlay {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	box-pack: end;
 }
 
 #BudgetListView .hlay button {
@@ -805,6 +941,9 @@ body {
 
 .Transactions_center {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	margin: -15px 0 0 -15px;
 }
 
 .Transactions_center #listPanel {
@@ -821,7 +960,11 @@ body {
 
 .Transactions_center .tree_list_panel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 .Transactions_center .tree_menu_item {
@@ -846,9 +989,13 @@ body {
 }
 
 }
-.Transactions_center .transations_list_table {
+.Transactions_center #TransactionsListView .transations_list_table {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 }
 
 .Transactions_center .transations_list_table .formItem .gwt-Label {
@@ -866,6 +1013,8 @@ body {
 
 .Transactions_center #TransactionsListView .hlay {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 .Transactions_center .calendar-picker {
@@ -882,11 +1031,17 @@ body {
 
 #SalesTaxGroupListView .bodyLayout {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #SalesTaxGroupListView .sales_tax_buttons {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #SalesTaxGroupListView .lable-title {
@@ -919,7 +1074,11 @@ body {
 
 #NewTAXCodeView .fields-panel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #NewTAXCodeView .mainVPanel {
@@ -952,22 +1111,38 @@ table.gridHeader tr td {
 
 #NewVATItemView .new_vat_item {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #adjusttaxview .mainPanel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #adjusttaxview .mainPanel .topform {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #adjusttaxview .mainPanel .memoForm {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #adjusttaxview .mainPanel .RadioGroupItem .panel span {
@@ -988,6 +1163,8 @@ table.gridHeader tr td {
 
 #adjusttaxview .mainPanel .memoForm .readioGropuitem {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 #adjusttaxview .mainPanel .memoForm .RadioGroupItem .NoWrapping {
@@ -1004,7 +1181,11 @@ table.gridHeader tr td {
 
 #DepositView .bottomLayout {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	margin: 10px 0px
 }
 
@@ -1014,12 +1195,19 @@ table.gridHeader tr td {
 
 #PreferenceSettingsView .company_settings_panel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	width: 100%;
+	display: box;
 }
 
 #PreferenceSettingsView .titlesPanel {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 	width: 20%;
 	background: none repeat scroll 0 0 #F0F0F0;
 	height: 650px;
@@ -1036,7 +1224,11 @@ table.gridHeader tr td {
 
 #PreferenceSettingsView .preferences_option {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #PreferenceSettingsView .preferences_option a {
@@ -1107,11 +1299,16 @@ table.gridHeader tr td {
 
 #PreferenceSettingsView .company-preferences-labels {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	width: 200px;
+	display: box;
 }
 
 .report-section {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 .report-section .report-left-panel {
@@ -1124,7 +1321,11 @@ table.gridHeader tr td {
 
 .report-section .section {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 	margin-bottom: 20px;
 }
 
@@ -1146,14 +1347,19 @@ table.gridHeader tr td {
 	-webkit-border-radius: 5px 5px 5px 5px;
 	-moz-border-radius: 5px 5px 5px 5px;
 	background: none repeat scroll 0 0 #29646C;
-	width:auto;
+	width: auto;
 }
 
 .gwt-DialogBox .caption {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
 	height: 20px;
 	padding: 6px 4px 3px 6px;
+	height: 20px;
 }
 
 .dialogMiddleCenter {
@@ -1167,14 +1373,24 @@ table.gridHeader tr td {
 
 .dialogMiddleCenterInner .bodyLayout .bodyLayout {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 }
 
 .dialogMiddleCenterInner .bodyLayout .bodyLayout .buttonsLayout {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 	width: 50px;;
-	margin-top:10px;
-	margin-right:10px;
+	margin-top: 10px;
+	margin-right: 10px;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 .dialogMiddleCenterInner .bodyLayout .bodyLayout .buttonsLayout button {
@@ -1185,48 +1401,541 @@ table.gridHeader tr td {
 .gwt-DialogBox .dialogMiddleCenterInner .listgrid {
 	overflow-y: visible;
 	height: 150px !important;
-	background:white;
-	width:500px;
+	background: white;
+	width: 500px;
 	margin: 10px;
 }
-.gwt-DialogBox .dialogBottomCenter{
-	height:5px;
-}
-.gwt-DialogBox .dialogTopLeft {
-height: 16px;
-}
-.dialogMiddleRight .dialogMiddleRightInner{
-	width:5px;
-}
-.dialogMiddleLeft .dialogMiddleLeftInner{
-	width:5px;
-}
-.imageStyledPanel .dialog_help_icon{
-	margin-right:5px;
-}
-.footerLayout .gwt-Button{
-	width:60px;
-	margin:0 2px 2px 0
-}
-.footerLayout{
-	display: -webkit-box;
-	-webkit-box-pack:end;
-}
-.report-toolbar .form{
-		display: -webkit-box;
 
+.gwt-DialogBox .dialogBottomCenter {
+	height: 5px;
 }
-.report-toolbar .form .gwt-Label{
-	width:auto;
-	padding-right:5px;
+
+.gwt-DialogBox .dialogTopLeft {
+	height: 16px;
 }
-.report-toolbar .form .formItem .gwt-TextBox{
-	width:120px;
+
+.dialogMiddleRight .dialogMiddleRightInner {
+	width: 5px;
 }
-.report-toolbar .form .formItem{
-	margin-right: 10px;
+
+.dialogMiddleLeft .dialogMiddleLeftInner {
+	width: 5px;
 }
-.report-toolbar{
+
+.imageStyledPanel .dialog_help_icon {
+	margin-right: 5px;
+}
+
+.footerLayout .gwt-Button {
+	width: 60px;
+	margin: 0 2px 2px 0
+}
+
+.footerLayout {
 	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	box-pack: end;
+}
+
+.report-toolbar .form {
+	width: 90%;
+}
+
+.report-toolbar .form .gwt-Label {
+	width: auto;
+	padding: 3px 5px 0 0;
+}
+
+.report-toolbar .form .formItem {
+	margin-right: 10px;
+	float: left;
+}
+
+.report-toolbar {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
 	background: none repeat scroll 0 0 #CCC !important;
+	padding-top: 8px;
+	margin-bottom: 10px;
+}
+
+.report-toolbar .formItem .dateItem_datePanel div {
+	width: 25px !important;
+}
+
+.no_records td {
+	text-align: center;
+}
+
+.report-toolbar .formItem input[type=text] {
+	width: 140px;
+}
+
+.no_records .norecord-empty-message {
+	margin-left: 400px;
+	position: absolute;
+}
+
+.no_records .norecord-empty-message td {
+	border: 0 none;
+}
+
+.gwt-Button[disabled],.gwt-Button[disabled]:hover {
+	background: none repeat scroll 0 0 #B7B7B7;
+	border: 1px solid #858585;
+}
+
+#DepreciationView .panel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	margin: 10px 0;
+	padding-left: 10px;
+}
+
+#DepreciationView .panel .gwt-Label {
+	margin-right: 15px;
+}
+
+#DepreciationView .panel .gwt-HTML {
+	margin-right: 15px;
+}
+
+#DepreciationView .buttonPanel {
+	margin: 5px 0;
+	padding-left: 10px;
+}
+
+#DepreciationView .border,.treeGrid {
+	border: 1px solid #A7ABB4;
+	height: 300px;
+}
+
+#TDSDeductorDetailsView .panel1 {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#TDSDeductorDetailsView .panel1 .taxDynamicForm {
+	width: 50%;
+}
+
+#TDSDeductorDetailsView .panel1 .otherDynamicForm {
+	width: 50%;
+}
+
+#TDSResponsiblePersonDetailsView .mainPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#TDSResponsiblePersonDetailsView .mainPanel .taxDynamicForm {
+	width: 50%;
+}
+
+#TDSResponsiblePersonDetailsView .mainPanel .otherDynamicForm {
+	width: 50%;
+}
+
+#ETdsFillingView .editTable {
+	height: 385px;
+	border: 0 none;
+}
+
+#ETdsFillingView .tds-scroll-panel {
+	border: 1px solid #2D8B93;
+}
+
+#ETdsFillingView .mainVLay .topHLay {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	padding: 10px 0;
+}
+
+#CustomerCenterView .customerCenter {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#CustomerCenterView .customerCenter .leftPanel {
+	width: 25%;
+	paddomg-right: 10px;
+}
+
+#CustomerCenterView .customerCenter .rightPanel {
+	width: 75%;
+}
+
+#CustomerCenterView .filterPanel .gwt-Label {
+	width: auto;
+	padding-right: 5px;
+}
+
+#CustomerCenterView #CustomersListGrid {
+	border: 1px solid #2D8B93;
+	height: 600px;
+}
+
+#CustomerCenterView .rightPanel {
+	padding-left: 5px;
+}
+
+#CustomerCenterView .customers_detail_panel {
+	background: #2D8B93;
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	padding: 3px;
+	color: white;
+}
+
+#CustomerCenterView .customerDetailsPanel .panel {
+	border: 1px solid #2D8B93;
+	padding: 3px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#CustomerCenterView .customerDetailsPanel .panel .leftForm {
+	width: 50%;
+}
+
+#CustomerCenterView .customerDetailsPanel .panel .rightform {
+	width: 50%;
+}
+
+#CustomerCenterView .transactionViewform {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	margin: 5px 0px;
+}
+
+#CustomerCenterView .transactionViewform .gwt-Label {
+	width: auto;
+	padding: 2px 3px 0;
+}
+
+#CustomerListView .hlay .form .formItem {
+	float: right;
+}
+
+#CustomerListView .hlay .form .formItem .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 0;
+}
+
+#TransactionsListView .hlay {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#TransactionsListView .hlay .transations_list_table {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#TransactionsListView .hlay .transations_list_table .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0px 5px;
+}
+
+#TransactionsListView .hlay .transations_list_table input {
+	width: 120px;
+}
+
+#TransactionsListView .hlay .transations_list_table .dateItem_datePanel .calendar-picker
+	{
+	width: 20px;
+}
+
+#ItemListView .hlay .formItem {
+	float: right;
+}
+
+#ItemListView .hlay .formItem .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 0;
+}
+
+#vendorCenterView .mainPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#vendorCenterView .mainPanel .leftVpPanel {
+	width: 25%;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel {
+	width: 75%;
+	padding-left: 10px;
+}
+
+#vendorCenterView .mainPanel .leftVpPanel .viewform .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 0;
+}
+
+#vendorCenterView .mainPanel #VendorsListGrid {
+	height: 600px;
+	border: 1px solid #2D8B93;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	padding: 5px;
+	border: 1px solid #2D8B93;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .headingPanel
+	{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	background: #2D8B93;
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	padding: 3px;
+	color: white;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp .leftform
+	{
+	width: 50%;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp .rightform
+	{
+	width: 50%;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .headingPanel .gwt-Label
+	{
+	width: 50%;
+}
+
+#vendorCenterView .mainPanel .transactionViewform {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	margin: 10px 0px;
+}
+
+#vendorCenterView .mainPanel .transactionViewform .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 0;
+}
+
+#VendorView .detailsTab {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#writechequeview .gwt-DisclosurePanel {
+	width: 100%;
+}
+
+#writechequeview .accPanel .payForm {
+	width: 50%;
+}
+
+#writechequeview .accPanel .currencyPanel {
+	width: 50%;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#NewVendorPaymentView .hLay {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#NewVendorPaymentView .hLay .leftPanel {
+	width: 50%;
+}
+
+#NewVendorPaymentView .hLay .rightPanel {
+	width: 50%;
+}
+
+#NewVendorPaymentView .hLay .leftPanel .memoArea .gwt-Label {
+	width: 200px;
+}
+
+#NewVendorPaymentView .hLay .leftPanel .memoArea textarea {
+	width: 172px !important;
+}
+
+.empty_menu_bar {
+	background: #226B73;
+	background: -moz-linear-gradient(top, #3299A4, #1A5158);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#1A5158' );
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) );
+	background: -o-linear-gradient(top, #3299A4, #1A5158);
+	padding: 16px 0;
+	margin-top: 13px;
+}
+
+.setup_panel {
+	margin: 7em auto;
+	width: 800px;
+	border: 1px solid gray;
+	height: 500px;
+	padding: 10px;
+}
+
+.setup_header_label {
+	color: #0079C6;
+	font-size: 23px;
+	padding-bottom: 15px;
+}
+
+.setup_Info {
+	margin: 10px 0px 20px;
+}
+
+.skip_setup {
+	border: 1px solid gray;
+	margin: 20px 15px 10px;
+	padding: 10px;
+}
+
+.skip_setup td button {
+	float: right;
+	margin: 10px;
+}
+
+.start_setup td button {
+	float: right;
+	margin: 10px;
+}
+
+.start_setup {
+	border: 1px solid gray;
+	margin: 20px 15px 10px;
+	padding: 10px;
+}
+
+.setupstartpagepanel .gwt-Button {
+	float: right;
+	margin: 10px;
+}
+
+.skip_setup td:last-child,.start_setup td:last-child {
+	text-align: center;
+}
+
+.setup_panel .progress_panel_show {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	height: 100%;
+}
+
+.progress_panel_show .progressPanel {
+	background: none repeat scroll 0 0 #ECECEC;
+	padding-right: 15px;
+	width: 25%;
+	margin-top: -10px;
+	margin-left: -10px;
+	margin-bottom: -10px;
+}
+
+.progressPanel .progress_header {
+	color: #4E9E19;
+	font-size: 16px;
+}
+
+.progress_panel_data {
+	padding-top: 15px;
+	padding-left: 10px;
+}
+
+.progress_panel_data td .gwt-Label {
+	padding: 5px 0px;
+}
+
+.tick_hidden {
+	padding: 5px;
+	visibility: hidden;
+}
+
+.viewButtonPanel {
+	width: 75%;
+	padding: 10px 0px 10px 10px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-pack: justify;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-moz-box-pack: justify;
+	box-orient: vertical;
+	box-pack: justify;
+}
+
+.viewButtonPanel .company_Info_table {
+	width: 100%;
+}
+
+.company_Info_table tr td:first-child {
+	padding-right: 25px;
+	text-align: right;
+}
+
+.setup_panel .gwt-TextBox {
+	width: 172px;
+	border: 1px solid #AAA;
+	height: 22px;
+	border-radius: 3px;
+}
+
+.setup_panel .gwt-ListBox {
+	width: 172px;
+	border: 1px solid #AAA;
+	height: 22px;
+	border-radius: 3px;
+}
+
+.setup_panel .back_next_buttons {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
+}
+
+.setup_panel .backNextButtonPanel button {
+	margin: 0 10px;
 }

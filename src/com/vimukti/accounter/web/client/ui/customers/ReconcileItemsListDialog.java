@@ -84,6 +84,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 	public ReconcileItemsListDialog(String title, ClientStatementRecord obj,
 			ClientAccount account) {
 		super(title);
+		this.getElement().setId("ReconcileItemsListDialog");
 		this.title = title;
 		this.record = obj;
 		this.bankAccount = account;

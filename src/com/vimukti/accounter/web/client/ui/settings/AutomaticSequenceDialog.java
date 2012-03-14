@@ -17,6 +17,7 @@ public class AutomaticSequenceDialog extends BaseDialog {
 
 	public AutomaticSequenceDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("AutomaticSequenceDialog");
 		createControls();
 	}
 

@@ -13,7 +13,7 @@ public class AddEditFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	public AddEditFiscalYearDialog(String title, String desc,
 			ClientFiscalYear fiscalYear) {
 		super(title, desc);
-		this.getElement().setId("add-edit-fiscal-year-dialog");
+		this.getElement().setId("AddEditFiscalYearDialog");
 		createControls(fiscalYear);
 		center();
 	}

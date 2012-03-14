@@ -28,6 +28,7 @@ public class PortletPageConfigureDialog extends
 		this.prefferedPortlets = PortletFactory.get()
 				.getPrefferedConfiguration(page.getName())
 				.getPortletConfigurations();
+		this.getElement().setId("PortletPageConfigureDialog");
 		createControl();
 	}
 

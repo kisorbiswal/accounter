@@ -17,7 +17,9 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 
 	public SelectChallanTypeDialog() {
 		super(messages.selectItemType(), messages.selectOneOfItem());
+		this.getElement().setId("SelectChallanTypeDialog");
 		createControls();
+		
 		center();
 	}
 

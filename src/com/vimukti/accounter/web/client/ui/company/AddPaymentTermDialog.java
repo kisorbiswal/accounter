@@ -47,6 +47,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 	public AddPaymentTermDialog(PaymentTermListDialog parent, String title,
 			String desc) {
 		super(title, desc);
+		this.addStyleName("AddPaymentTermDialog");
 		initiliase();
 		this.parent = parent;
 		center();

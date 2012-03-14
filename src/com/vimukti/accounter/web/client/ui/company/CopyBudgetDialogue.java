@@ -19,6 +19,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 
 	public CopyBudgetDialogue(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("CopyBudgetDialogue");
 		createControls();
 	}
 

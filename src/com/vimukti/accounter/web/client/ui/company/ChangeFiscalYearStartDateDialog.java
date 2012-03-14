@@ -26,6 +26,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	public ChangeFiscalYearStartDateDialog(String title, String desc,
 			FiscalYearListGrid listOfperiods) {
 		super(title, desc);
+		this.getElement().setId("ChangeFiscalYearStartDateDialog");
 		this.listofperiods = listOfperiods;
 		createControls();
 		initData();

@@ -22,6 +22,7 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 	public EnterExchangeRatesDialog() {
 		super(messages.enterExchangeRates());
 		this.addStyleName("enter-exchange-rates-dialog");
+		this.getElement().setId("EnterExchangeRatesDialog");
 		createControls();
 		center();
 	}

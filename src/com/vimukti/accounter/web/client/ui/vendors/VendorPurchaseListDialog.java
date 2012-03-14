@@ -35,7 +35,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		setText(messages.purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
-		setWidth("600px");
+		this.getElement().setId("VendorPurchaseListDialog");
 		show();
 		center();
 	}

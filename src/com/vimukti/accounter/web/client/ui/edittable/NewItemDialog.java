@@ -7,6 +7,7 @@ public class NewItemDialog extends BaseDialog<ClientItem> {
 
 	public NewItemDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("NewItemDialog");
 //		setWidth("300px");
 		show();
 	}

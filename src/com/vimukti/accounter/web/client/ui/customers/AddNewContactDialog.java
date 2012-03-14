@@ -23,7 +23,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 
 	public AddNewContactDialog(String title, String descript) {
 		super(title, descript);
-		this.getElement().setId("add-new-contact-dialog");
+		this.getElement().setId("AddNewContactDialog");
 		createControls();
 		center();
 	}

@@ -44,6 +44,7 @@ public class UploadStatementDialog extends BaseDialog implements
 
 	public UploadStatementDialog(String title, ClientAccount account) {
 		setText(title);
+		this.getElement().setId("UploadStatementDialog");
 		this.account = account;
 		getStatementRecordsByAccountId();
 		doCreateContents();

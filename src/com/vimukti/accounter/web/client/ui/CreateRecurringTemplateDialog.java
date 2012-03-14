@@ -42,7 +42,7 @@ public class CreateRecurringTemplateDialog extends
 
 	public CreateRecurringTemplateDialog() {
 		super(messages.selectTransactionType(), "");
-		this.addStyleName("create-recurring-template-dialog");
+		this.getElement().setId("CreateRecurringTemplateDialog");
 		createControls();
 		center();
 	}

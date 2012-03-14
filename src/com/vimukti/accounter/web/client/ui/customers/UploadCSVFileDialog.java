@@ -53,6 +53,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 	public UploadCSVFileDialog() {
 		doCreateContents();
+		this.getElement().setId("UploadCSVFileDialog");
 	}
 
 	@SuppressWarnings("deprecation")

@@ -28,6 +28,7 @@ public class FormatingConfilctDialog extends BaseDialog {
 			String previousSelectedValue, String presentheading,
 			String nextSelectIndexValue) {
 		super(messages.formattingConflict(), "");
+		this.getElement().setId("FormatingConfilctDialog");
 		this.previousSelectedValue = previousSelectedValue;
 		this.previpousHeading = previpousHeading;
 		this.presentheading = presentheading;

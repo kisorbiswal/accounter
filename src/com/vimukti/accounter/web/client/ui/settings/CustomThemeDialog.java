@@ -15,6 +15,7 @@ public class CustomThemeDialog extends BaseDialog {
 
 	public CustomThemeDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("CustomThemeDialog");
 		createControls();
 	}
 

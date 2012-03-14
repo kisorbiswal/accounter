@@ -9,6 +9,7 @@ public class InvoicePrintDialog extends BaseDialog {
 
 	public InvoicePrintDialog(String title, String desc, String description) {
 		super(title, desc);
+		this.getElement().setId("InvoicePrintDialog");
 		this.description = description;
 		createControls();
 	}

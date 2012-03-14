@@ -26,6 +26,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
 		super(messages.selectItemType(), messages.selectOneOfItem());
 		this.forCustomer = isGeneratedFromCustomer;
+		this.getElement().setId("SelectItemTypeDialog");
 		createControls();
 		center();
 	}

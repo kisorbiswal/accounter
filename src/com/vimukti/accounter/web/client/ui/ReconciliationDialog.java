@@ -35,6 +35,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 	public ReconciliationDialog(String reconciliation,
 			ClientReconciliation reconcilition) {
 		this(reconciliation, reconcilition, null);
+		this.getElement().setId("ReconciliationDialog");
 	}
 
 	public ReconciliationDialog(String reconciliation,
@@ -43,6 +44,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		super(reconciliation, "");
 		this.reconciliationCallback = callback;
 		this.reconcilition = reconcilition;
+		this.getElement().setId("ReconciliationDialog");
 //		setWidth("400px");
 		createControls();
 		center();

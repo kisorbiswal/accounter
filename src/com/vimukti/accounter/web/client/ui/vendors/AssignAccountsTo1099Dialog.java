@@ -36,7 +36,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 
 	public AssignAccountsTo1099Dialog(String title, String desc) {
 		super(title, desc);
-		this.addStyleName("assign-accounts-to-1099-dialog");
+		this.getElement().setId("AssignAccountsTo1099Dialog");
 		AccounterMessages c = messages;
 		strings = new String[] { c.box1Label(), c.box2Label(), c.box3Label(),
 				c.box4Label(), c.box5Label(), c.box6Label(), c.box7Label(),

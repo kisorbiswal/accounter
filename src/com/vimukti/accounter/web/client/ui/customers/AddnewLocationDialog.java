@@ -26,7 +26,7 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 
 	public AddnewLocationDialog(String title) {
 		super(title, "");
-		this.addStyleName("addNewLocationDialog");
+		this.addStyleName("AddnewLocationDialog");
 		createControls();
 		center();
 	}
