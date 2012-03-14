@@ -327,6 +327,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 									.getSelectedValue();
 							// if (givenDepRate != 0.0) {
 							if (accumltdAccVPanel != null) {
+								if (accumulatedDepreciationAccountForm != null) {
+									accumulatedDepreciationAccountForm.clear();
+								}
 								accumltdAccVPanel.clear();
 								mainVPanel.remove(accumltdAccVPanel);
 							}
@@ -906,10 +909,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			result.add(validateDepreciationRate());
 			result.add(depreciationForm.validate());
 			result.add(validateAccountsForSame());
-			if (isInViewMode()) {
+			if (isInViewMode() && accumltdAccVPanel.getWidgetCount() != 0) {
 				result.add(accumulatedDepreciationAccountForm.validate());
 			} else {
-				if (accumulatedDepreciationAccountForm != null) {
+				if (accumulatedDepreciationAccountForm != null
+						&& accumltdAccVPanel.getWidgetCount() != 0) {
 					result.add(accumulatedDepreciationAccountForm.validate());
 				}
 			}
@@ -934,6 +938,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				 */messages.accandaccumulatedDepreciationAccShouldnotbesame());
 			}
 		}
+		if (data != null
+				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+			if (result.haveErrors() && registerButton.isAttached()) {
+				data.setStatus(ClientFixedAsset.STATUS_PENDING);
+			}
+		}
 		return result;
 	}
 
@@ -947,7 +957,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								.getLinkedAccumulatedDepreciationAccount()) {
 					result.addError(accumulatedDepreciationAccount, messages
 							.accandaccumulatedDepreciationAccShouldnotbesame());
-					showAccumltdAccountForm();
 				}
 			}
 
@@ -1117,6 +1126,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	protected void registerAsset() {
 		data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
 		setRequiredFields();
+		updateAssetObject();
 		this.onSave(false);
 	}
 

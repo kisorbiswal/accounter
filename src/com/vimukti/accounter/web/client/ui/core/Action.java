@@ -56,13 +56,14 @@ public abstract class Action<T> implements Command {
 	public long id;
 
 	protected boolean isDependent;
-
+	public boolean isCalledFromHistory;
 	private ActionCallback<T> callback;
 
 	/**
 	 * setting Text for Action
 	 */
 	public Action() {
+		this.isCalledFromHistory=false;
 		setViewName(null);
 	}
 

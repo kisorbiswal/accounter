@@ -860,6 +860,32 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return false;
 	}
 
+	/**
+	 * For Class Tracking
+	 * 
+	 * @return
+	 */
+	public boolean usesDifferentclasses() {
+		if (transactionItems == null) {
+			return false;
+		}
+		long classCode = -1;
+		for (ClientTransactionItem item : this.transactionItems) {
+			if (item.referringTransactionItem != 0) {
+				continue;
+			}
+			long code = item.getAccounterClass();
+			if (classCode == -1) {
+				classCode = code;
+				continue;
+			}
+			if (code != classCode) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean haveTax() {
 		if (transactionItems == null) {
 			return false;
@@ -871,6 +897,23 @@ public abstract class ClientTransaction implements IAccounterCore {
 			}
 		}
 		return false;
+	}
+
+	public boolean haveClass() {
+		if (transactionItems == null) {
+			return false;
+		}
+		for (ClientTransactionItem item : this.transactionItems) {
+			long classCode = item.getAccounterClass();
+			if (classCode != 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasJob() {
+		return job != 0;
 	}
 
 	/**

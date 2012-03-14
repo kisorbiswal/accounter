@@ -55,7 +55,7 @@ public class ProfitAndLossByLocationReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ActionFactory.getTransactionDetailByAccountAction());
+				ActionFactory.getTransactionDetailByAccountAndCategoryAction());
 
 	}
 
@@ -66,7 +66,7 @@ public class ProfitAndLossByLocationReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ActionFactory.getTransactionDetailByAccountAction());
+				ActionFactory.getTransactionDetailByAccountAndCategoryAction());
 	}
 
 	private TrialBalance getTrailBalance(ProfitAndLossByLocation p) {
@@ -75,6 +75,8 @@ public class ProfitAndLossByLocationReport extends
 		record.setAccountType(p.getAccountType());
 		record.setAccountName(p.getAccountName());
 		record.setAccountNumber(p.getAccountNumber());
+		record.setCategoryId(p.getCategoryId());
+		record.setCategoryType(category_type);
 		return record;
 	}
 

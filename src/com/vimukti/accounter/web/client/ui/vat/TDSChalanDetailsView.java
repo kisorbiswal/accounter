@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
@@ -825,9 +826,11 @@ public class TDSChalanDetailsView extends
 	protected void initTransactionViewData() {
 		if (transaction == null) {
 			setData(new ClientTDSChalanDetail());
-			initCallBack();
 		} else {
 			updateControls();
+		}
+		if (transaction.getID() == 0) {
+			initCallBack();
 		}
 	}
 
@@ -866,5 +869,20 @@ public class TDSChalanDetailsView extends
 	@Override
 	protected boolean canRecur() {
 		return false;
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ClientTDSChalanDetail saveView() {
+		ClientTDSChalanDetail saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
 	}
 }

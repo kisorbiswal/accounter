@@ -812,6 +812,11 @@ public abstract class ReportToolbar extends DynamicForm {
 
 	public void setJobId(long jobId) {
 		this.jobId = jobId;
+		jobData();
+	}
+
+	protected void jobData() {
+
 	}
 
 	public long getAccId() {

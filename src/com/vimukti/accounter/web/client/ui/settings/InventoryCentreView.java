@@ -18,27 +18,30 @@ import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class InventoryCentreView<T> extends AbstractBaseView<T> implements
-		ISavableView<T> {
+		ISavableView<Map<String, Object>>, IEditableView {
 
 	private ClientItem selectedItem;
 	private List<ClientItem> listOfItems;
@@ -61,7 +64,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			messages.payeeCreditNotes(Global.get().Customer()),
 			messages.cashPurchases(),
 			messages.payeeCreditNotes(Global.get().Vendor()), messages.bills(),
-			messages.expenses(), };
+			messages.expenses(), messages.salesOrders(),
+			messages.purchaseOrders() };
 
 	@Override
 	public void init() {
@@ -339,6 +343,23 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 					TransactionHistory.DRAFT_CASH_EXPENSES,
 					messages.draftTransaction(messages.cashExpenses()));
 
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.salesOrders())) {
+
+			transactiontypebyStatusMap.put(TransactionHistory.ALL_SALES_ORDERS,
+					messages.all());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_SALES_ORDERS, messages.drafts());
+
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.purchaseOrders())) {
+
+			transactiontypebyStatusMap.put(
+					TransactionHistory.ALL_PURCHASE_ORDERS, messages.all());
+			transactiontypebyStatusMap
+					.put(TransactionHistory.DRAFT_PURCHASE_ORDERS,
+							messages.drafts());
+
 		}
 		List<String> typeList = new ArrayList<String>(
 				transactiontypebyStatusMap.values());
@@ -546,18 +567,6 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public T saveView() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void restoreView(T viewDate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected String getViewTitle() {
 		// TODO Auto-generated method stub
 		return null;
@@ -669,6 +678,12 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.expenses())) {
 			return ClientTransaction.TYPE_EXPENSE;
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.salesOrders())) {
+			return TransactionHistory.TYPE_SALES_ORDER;
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.purchaseOrders())) {
+			return TransactionHistory.TYPE_PURCHASE_ORDER;
 		}
 		return 0;
 
@@ -701,5 +716,90 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			action.setType(ClientItem.TYPE_INVENTORY_PART);
 			return action;
 		}
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
+		map.put("currentView", trasactionViewSelect.getSelectedValue());
+		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());
+		map.put("dateRange", dateRangeSelector.getSelectedValue());
+		map.put("selectedItem",
+				selectedItem == null ? "" : selectedItem.getName());
+		map.put("itemSelection", itemsListGrid.getSelection());
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> map) {
+
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+		String activeInactive = (String) map.get("activeInActive");
+		activeInActiveSelect.setComboItem(activeInactive);
+		if (activeInactive.equalsIgnoreCase(messages.active())) {
+			refreshActiveinactiveList(true);
+		} else {
+			refreshActiveinactiveList(false);
+		}
+
+		String currentView = (String) map.get("currentView");
+		trasactionViewSelect.setComboItem(currentView);
+		if (currentView != null) {
+			getMessagesList();
+		}
+
+		String transctionType = (String) map.get("transactionType");
+		trasactionViewTypeSelect.setComboItem(transctionType);
+
+		String dateRange1 = (String) map.get("dateRange");
+		dateRangeSelector.setComboItem(dateRange1);
+		if (dateRange1 != null) {
+			dateRangeChanged(dateRange1);
+		}
+		ClientItem object = (ClientItem) map.get("itemSelection");
+		itemsListGrid.setSelection(object);
+
+		String customer = (String) map.get("selectedItem");
+
+		if (customer != null && !(customer.isEmpty())) {
+			selectedItem = getCompany().getItemByName(customer);
+		}
+		if (this.selectedItem != null) {
+			itemsListGrid.setSelectedItem(selectedItem);
+			onItemSelected();
+		} else {
+			callRPC(0, getPageSize());
+		}
+
+	}
+
+	@Override
+	public boolean canEdit() {
+		return selectedItem == null ? false : Utility
+				.isUserHavePermissions(selectedItem.getObjectType());
+	}
+
+	@Override
+	public void onEdit() {
+		if (selectedItem.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+			InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
+			inventoryAssemblyAction.setisItemEditable(true);
+			inventoryAssemblyAction.run((ClientInventoryAssembly) selectedItem,
+					false);
+
+		} else {
+			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+			itemAction.setType(selectedItem.getType());
+			itemAction.setisItemEditable(true);
+			itemAction.run(selectedItem, false);
+		}
+	}
+
+	@Override
+	public boolean isDirty() {
+		return false;
 	}
 }

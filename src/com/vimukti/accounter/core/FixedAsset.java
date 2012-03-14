@@ -2049,7 +2049,7 @@ public class FixedAsset extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.fixedAssest()).gap();
+		w.put(messages.type(), messages.fixedAsset()).gap();
 		w.put(messages.name(), this.name);
 	}
 

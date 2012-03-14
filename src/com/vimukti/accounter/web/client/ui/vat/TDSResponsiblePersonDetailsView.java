@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -62,6 +63,9 @@ public class TDSResponsiblePersonDetailsView extends
 
 	private void createControls() {
 
+		Label titleLabel = new Label(messages.responsePersonDetails());
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.addStyleName("label-title");
 		responsiblePersonName = new TextItem(messages.name(),
 				"responsiblePersonName");
 		responsiblePersonName.setRequired(true);
@@ -206,11 +210,16 @@ public class TDSResponsiblePersonDetailsView extends
 		otherDynamicForm.add(stdNumber, telephoneNumber, mobileNumber,
 				faxNumber, email, returnType, existingTdsassess);
 
-		StyledPanel styledPanel = new StyledPanel("mainPanel");
-		styledPanel.add(taxDynamicForm);
-		styledPanel.add(otherDynamicForm);
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
+		horizontalPanel.setWidth("100%");
+		horizontalPanel.add(taxDynamicForm);
+		horizontalPanel.add(otherDynamicForm);
 
-		this.add(styledPanel);
+		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
+		verticalPanel.add(titleLabel);
+		verticalPanel.add(horizontalPanel);
+
+		this.add(verticalPanel);
 
 		if (data != null) {
 			upDateControls();

@@ -164,9 +164,9 @@ public class ServerMain extends Main {
 
 			@Override
 			public void run() {
-				new SubscryptionTool().start();
+				new SubscryptionTool().run();
 			}
-		}, 0, 24 * 60 * 1000);
+		}, 0, 24 * 60 * 60 * 1000);
 	}
 
 	private static void createMailLogListener() {
@@ -185,13 +185,13 @@ public class ServerMain extends Main {
 
 	private static void startRecurringTimer() {
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
-				new RecurringTool().start();
+				new RecurringTool().run();
 			}
-		}, 0, 60 * 1000);
+		}, 0, 60 * 60 * 1000);
 	}
 
 	private static void loadAccounterMessages() throws IOException {

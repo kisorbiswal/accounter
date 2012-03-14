@@ -44,13 +44,14 @@ public class OpenIDPasswordServlet extends BaseServlet {
 				String passwordHash = HexUtil.bytesToHex(Security
 						.makeHash(emailId + password.trim()));
 				String passwordWord = HexUtil.bytesToHex(Security
-						.makeHash(emailId + password.trim()));
+						.makeHash(emailId + Client.PASSWORD_HASH_STRING
+								+ password.trim()));
 				if (client.getPassword().equals(passwordHash)) {
 					client.setPassword(passwordWord);
 					HibernateUtil.getCurrentSession().saveOrUpdate(client);
 				}
 				if (!client.getPassword().equals(passwordWord)) {
-					req.setAttribute("error", Global.get().messages()
+					req.setAttribute("errormessage", Global.get().messages()
 							.youHaveEnteredWrongPassword());
 					dispatch(req, resp, VIEW);
 					return;
@@ -61,6 +62,7 @@ public class OpenIDPasswordServlet extends BaseServlet {
 					e.printStackTrace();
 				}
 				redirectExternal(req, resp, LOGIN_URL);
+				return;
 			}
 		}
 		resp.sendRedirect(LOGIN_URL);

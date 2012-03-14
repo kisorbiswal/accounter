@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -153,6 +155,7 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 		this.sectionDepth = 0;
 		this.sectionName = "";
 		this.currentsectionName = "";
+		this.accountBalance = 0.0D;
 	}
 
 	// private void printDataForIEBrowser() {
@@ -255,4 +258,9 @@ public class ExpenseServerReport extends AbstractFinaneReport<ExpenseList> {
 
 	}
 
+	@Override
+	public void initRecords(List<ExpenseList> records) {
+		resetVariables();
+		super.initRecords(records);
+	}
 }

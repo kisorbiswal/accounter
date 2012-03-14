@@ -5,16 +5,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -51,7 +56,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	// protected TextItem refText;
 	protected AmountField amtText;
-
+	public ClientAccounterClass accounterClass;
 	// protected PaymentMethod paymentMethod;
 	protected ClientAccount account;
 
@@ -394,7 +399,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				transactionItem.setTaxCode(taxCode.getID());
 			}
 		}
-
+		if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+			transactionItem.setAccounterClass(accounterClass.getID());
+		}
 		addItemTransactionItem(transactionItem);
 	}
 
@@ -410,4 +417,56 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			return getPreferences().isTrackTax() && isTrackPaidTax();
 		}
 	}
+
+	/**
+	 * Create for class Tracking
+	 * 
+	 * @return
+	 */
+	public ClassListCombo createAccounterClassListCombo() {
+		classListCombo = new ClassListCombo(messages.accounterClass(), true);
+		classListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAccounterClass selectItem) {
+						accounterClass = selectItem;
+						classSelected(selectItem);
+					}
+				});
+
+		classListCombo
+				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(final ClientAccounterClass accouterClass) {
+						accounterClass = accouterClass;
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										getCompany()
+												.processUpdateOrCreateObject(
+														accounterClass);
+										classSelected(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										caught.printStackTrace();
+									}
+								});
+					}
+				});
+
+		classListCombo.setEnabled(!isInViewMode());
+
+		return classListCombo;
+	}
+
+	protected abstract void classSelected(
+			ClientAccounterClass clientAccounterClass);
 }

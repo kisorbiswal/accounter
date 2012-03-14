@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
@@ -107,6 +108,10 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 			if (depositTo != null) {
 				depositToCombo.setSelected(depositTo.getName());
+			}
+			if (isTrackClass()) {
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
 			}
 
 			transactionDateItem.setValue(transaction.getDate());
@@ -210,7 +215,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		}
 
 		transactionDepositTable = new TransactionDepositTable(
-				isCustomerAllowedToAdd(), this) {
+				isCustomerAllowedToAdd(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected boolean isInViewMode() {
@@ -267,7 +273,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
-
 		bottompanel.add(bottomLayout);
 
 //		mainPanel.setSize("100%", "100%");
@@ -415,12 +420,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 				} else {
 					result.addError("TransactionItem",
 							messages.pleaseEnterAccAndAmount());
-				}
-				if (getPreferences().isClassTrackingEnabled()
-						&& !getPreferences().isClassOnePerTransaction()
-						&& getPreferences().isWarnOnEmptyClass()
-						&& transactionItem.getAccounterClass() == null) {
-					// TODO
 				}
 			}
 		} else {
@@ -587,4 +586,16 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	public String getTitle() {
 		return messages.makeDeposit();
 	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		this.accounterClass = clientAccounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			transactionDepositTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
+	}
+	
 }

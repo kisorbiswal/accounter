@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -67,7 +68,6 @@ public class NewVendorPaymentView extends
 
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
-		this.getElement().setId("NewVendorPaymentView");
 
 	}
 
@@ -116,15 +116,10 @@ public class NewVendorPaymentView extends
 			if (payFromAccount != null)
 				payFromCombo.select(payFromAccount);
 			amountText.setEnabled(!isInViewMode());
+			ClientPayBill clientPayBill = transaction;
+			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
+			paymentMethodCombo.setEnabled(!isInViewMode());
 			paymentMethodSelected(transaction.getPaymentMethod());
-			if (transaction != null) {
-				printCheck.setEnabled(false);
-				checkNo.setEnabled(false);
-				ClientPayBill clientPayBill = transaction;
-				paymentMethodCombo.setComboItem(clientPayBill
-						.getPaymentMethod());
-				paymentMethodCombo.setEnabled(!isInViewMode());
-			}
 
 			// if (currency != null) {
 			// currencyCombo.setValue(currency.getFormalName());
@@ -144,16 +139,19 @@ public class NewVendorPaymentView extends
 					printCheck.setValue(false);
 				}
 			}
-			initAccounterClass();
 			if (getPreferences().isTDSEnabled()) {
 				long tdsTaxItem = transaction.getTdsTaxItem();
 				ClientTAXItem taxItem = getCompany().getTAXItem(tdsTaxItem);
 				tdsCombo.select(taxItem);
 				amountIncludeTds.setValue(transaction.isAmountIncludeTDS());
-				tdsCombo.setEnabled(false);
-				amountIncludeTds.setEnabled(false);
+				tdsCombo.setEnabled(!true);
+				amountIncludeTds.setEnabled(!true);
 			}
 			adjustBalance();
+		}
+		if (isTrackClass()) {
+			classListCombo.setComboItem(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
 		}
 		initMemoAndReference();
 		initTransactionNumber();
@@ -166,7 +164,7 @@ public class NewVendorPaymentView extends
 	@Override
 	protected void initMemoAndReference() {
 		memoTextAreaItem.setValue(transaction.getMemo());
-		memoTextAreaItem.setDisabled(isInViewMode());
+		memoTextAreaItem.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -186,31 +184,27 @@ public class NewVendorPaymentView extends
 		dateNoForm.add(transactionDateItem, transactionNumber);
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-		// datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
-		// labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
 		vendorCombo = createVendorComboItem(messages.payTo());
 
 		billToCombo = createBillToComboItem();
-		billToCombo.setEnabled(false);
+		billToCombo.setEnabled(!true);
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency(), "endBalText");
-		// endBalText.setWidth(100);
-		endBalText.setEnabled(false);
+				getBaseCurrency(),"endBalText");
+		endBalText.setEnabled(!true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency(), "vendorBalText");
-		vendorBalText.setEnabled(false);
-		// vendorBalText.setWidth(100);
+				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+		vendorBalText.setEnabled(!true);
 
 		// currencyCombo = new CurrencyCombo(messages.currency());
-		// currencyCombo.setDisabled(isInViewMode());
+		// currencyCombo.setEnabled(!isInViewMode());
 		// currencyCombo
 		// .addSelectionChangeHandler(new
 		// IAccounterComboSelectionChangeHandler<ClientCurrency>() {
@@ -224,23 +218,15 @@ public class NewVendorPaymentView extends
 		DynamicForm balForm = new DynamicForm("balForm");
 		if (locationTrackingEnabled)
 			balForm.add(locationCombo);
-		// balForm.setWidth("100%");
-		// if (isMultiCurrencyEnabled())
-		// balForm.setFields(currencyCombo);
 		balForm.add(endBalText, vendorBalText);
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
 			balForm.add(classListCombo);
 		}
-		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// Payment
 		payFromCombo = createPayFromCombo(messages.payFrom());
-		// payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(messages.amount(), this,
-				getBaseCurrency(), "amountText");
-		// amountText.setWidth(100);
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency(),"amountText");
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
 
@@ -248,7 +234,7 @@ public class NewVendorPaymentView extends
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 
-		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -259,7 +245,7 @@ public class NewVendorPaymentView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNo.setValue(messages.toBePrinted());
-						checkNo.setEnabled(false);
+						checkNo.setEnabled(!true);
 					} else {
 						if (payFromAccount == null)
 							checkNo.setValue(messages.toBePrinted());
@@ -270,13 +256,12 @@ public class NewVendorPaymentView extends
 				} else
 
 					checkNo.setValue("");
-				checkNo.setEnabled(true);
+				checkNo.setEnabled(!false);
 
 			}
 		});
 		checkNo = createCheckNumberItem();
 		checkNo.setValue(messages.toBePrinted());
-		// checkNo.setWidth(100);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -289,7 +274,6 @@ public class NewVendorPaymentView extends
 		// payForm.setWidth("80%");
 		// payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
-		// memoTextAreaItem.setWidth(100);
 		payForm.add(vendorCombo, billToCombo, payFromCombo, amountText,
 				paymentMethodCombo, printCheck, checkNo, memoTextAreaItem);
 
@@ -297,8 +281,6 @@ public class NewVendorPaymentView extends
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
 						.getSelectedValue().getCurrentBalance() : 0.00);
 
-		// payForm.setWidth("100%");
-		// payForm.getCellFormatter().setWidth(0, 0, "160px");
 
 		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		// leftPanel.setWidth("100%");
@@ -315,8 +297,7 @@ public class NewVendorPaymentView extends
 				adjustBalance();
 			}
 		});
-		this.amountIncludeTds = new CheckboxItem(messages.amountIncludesTDS(),
-				"amountIncludeTds");
+		this.amountIncludeTds = new CheckboxItem(messages.amountIncludesTDS(),"amountIncludeTds");
 		amountIncludeTds.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -330,7 +311,6 @@ public class NewVendorPaymentView extends
 		this.totalAmount = new AmountLabel(messages.total());
 
 		this.tdsPanel = new StyledPanel("tdsPanel");
-		// this.tdsPanel.setWidth("100%");
 
 		if (getPreferences().isTDSEnabled()) {
 			DynamicForm form = new DynamicForm("form");
@@ -338,7 +318,6 @@ public class NewVendorPaymentView extends
 			tdsPanel.add(form);
 
 			DynamicForm amountsForm = new DynamicForm("amountsForm");
-			// amountsForm.setHeight("70px");
 			amountsForm.setStyleName("boldtext");
 			amountsForm.add(vendorPayment);
 			amountsForm.add(tdsAmount);
@@ -354,20 +333,18 @@ public class NewVendorPaymentView extends
 		}
 
 		StyledPanel hLay = new StyledPanel("hLay");
-		// hLay.setWidth("100%");
+		hLay.addStyleName("fields-panel");
 		hLay.add(leftPanel);
 		hLay.add(rightPanel);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
-		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(hLay);
 
 		this.add(mainVLay);
 
-		// setSize("100%", "100%");
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
 		listforms.add(balForm);
@@ -455,28 +432,29 @@ public class NewVendorPaymentView extends
 				transaction.setPaymentMethod(paymentMethodCombo
 						.getSelectedValue());
 
-				if (checkNo.getValue() != null
-						&& !checkNo.getValue().equals("")) {
-					String value;
-					if (checkNo.getValue().toString()
-							.equalsIgnoreCase(messages.toBePrinted())) {
-						value = String.valueOf(messages.toBePrinted());
+				if (paymentMethod != null) {
+					transaction.setPaymentMethod(paymentMethod);
+					if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+						if (checkNo.getValue() != null
+								&& !checkNo.getValue().equals("")) {
+							String value = String.valueOf(checkNo.getValue());
+							transaction.setCheckNumber(value);
+						} else {
+							transaction.setCheckNumber("");
+
+						}
 					} else {
-						value = String.valueOf(checkNo.getValue());
+						transaction.setCheckNumber("");
 					}
-					transaction.setCheckNumber(value);
-				} else {
-					transaction.setCheckNumber("");
 				}
-				if (transaction.getID() != 0) {
-					printCheck.setValue(transaction.isToBePrinted());
-				} else
-					printCheck.setValue(true);
 
 				// if (currencyCombo.getSelectedValue() != null)
 				// transaction.setCurrency(currencyCombo.getSelectedValue()
 				// .getID());
-
+				if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+					transaction.setAccounterClass(classListCombo
+							.getSelectedValue().getID());
+				}
 				// Setting Memo
 				transaction.setMemo(getMemoTextAreaItem());
 
@@ -501,15 +479,13 @@ public class NewVendorPaymentView extends
 		if (paymentMethod == null)
 			return;
 
-		if (paymentMethod != null) {
-			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setEnabled(true);
-				checkNo.setEnabled(true);
-			} else {
-				printCheck.setEnabled(false);
-				checkNo.setEnabled(false);
-			}
+		this.paymentMethod = paymentMethod;
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+			printCheck.setEnabled(!isInViewMode());
+			checkNo.setEnabled(!isInViewMode());
+		} else {
+			printCheck.setEnabled(!true);
+			checkNo.setEnabled(!true);
 		}
 
 	}
@@ -795,23 +771,26 @@ public class NewVendorPaymentView extends
 		checkNo.setEnabled(!isInViewMode());
 		amountText.setEnabled(!isInViewMode());
 		paymentMethodCombo.setEnabled(!isInViewMode());
-		// currencyCombo.setDisabled(isInViewMode());
+		// currencyCombo.setEnabled(!isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(messages.toBePrinted());
-			checkNo.setEnabled(false);
+			checkNo.setEnabled(!true);
 		}
 		if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
 				messages.cheque())
 				&& printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNo.setValue(messages.toBePrinted());
-			checkNo.setEnabled(true);
+			checkNo.setEnabled(!false);
 		}
-		memoTextAreaItem.setDisabled(false);
+		memoTextAreaItem.setEnabled(!false);
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
-		tdsCombo.setEnabled(true);
-		amountIncludeTds.setEnabled(true);
+		tdsCombo.setEnabled(!false);
+		amountIncludeTds.setEnabled(!false);
+		if (isTrackClass()) {
+			classListCombo.setEnabled(!isInViewMode());
+		}
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
@@ -858,5 +837,12 @@ public class NewVendorPaymentView extends
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 	}
 }

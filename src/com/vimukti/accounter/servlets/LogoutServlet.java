@@ -27,15 +27,11 @@ public class LogoutServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String userid = (String) req.getSession().getAttribute(EMAIL_ID);
-		Boolean isSupportedUser = (Boolean) req.getSession().getAttribute(
-				IS_SUPPORTED_USER);
 		Long cid = (Long) req.getSession().getAttribute(COMPANY_ID);
 		if (userid != null) {
 			if (cid != null) {
 				try {
-					if (!isSupportedUser) {
-						updateActivity(userid, cid);
-					}
+					updateActivity(userid, cid);
 
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), cid,
@@ -46,23 +42,13 @@ public class LogoutServlet extends BaseServlet {
 				}
 			}
 			// if is Support user then put his email Id back
-			if (isSupportedUser) {
-				req.getSession().setAttribute(EMAIL_ID,
-						req.getSession().getAttribute(SUPPORTED_EMAIL_ID));
-			} else {
-				req.getSession().removeAttribute(EMAIL_ID);
-			}
+			req.getSession().removeAttribute(EMAIL_ID);
 			req.getSession().removeAttribute(USER_ID);
 		}
 		// Support user and OpendCompany
-		if (isSupportedUser != null && isSupportedUser && cid != null) {
-			redirectExternal(req, resp, COMPANIES_URL);
-			req.getSession().removeAttribute(COMPANY_ID);
-		} else {
-			req.getSession().invalidate();
-			deleteCookie(req, resp);
-			redirectExternal(req, resp, LOGIN_URL);
-		}
+		req.getSession().invalidate();
+		deleteCookie(req, resp);
+		redirectExternal(req, resp, LOGIN_URL);
 	}
 
 	/**

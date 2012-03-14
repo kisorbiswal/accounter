@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
-import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
  * 
@@ -193,8 +192,6 @@ public class PurchaseDetailesView extends AbstractView {
 		if (purchaseOrder.getPurchaseOrderNumber() != null)
 			customerNumberField.setText(String.valueOf(purchaseOrder
 					.getPurchaseOrderNumber()));
-		dueDateField.setText(DateUtills.getDateAsString(purchaseOrder
-				.getDueDate()));
 
 		if (purchaseOrder.getStatus() == 101)
 			statusField.setText(messages.open());

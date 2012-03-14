@@ -249,6 +249,12 @@ public class VendorView extends BaseView<ClientVendor> {
 			return result;
 		}
 
+		if (currencyWidget != null && !currencyWidget.isShowFactorField()) {
+			if (currencyWidget.getCurrencyFactor() <= 0) {
+				result.addError(currencyWidget,
+						messages.pleaseEntervalidCurrencyFactor());
+			}
+		}
 		data.setName(name);
 		data.setVendorNumber(vendorNoText.getValue().toString());
 		String error = objectExist(data);
@@ -596,7 +602,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(messages.Account());
+		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
+
+		};
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
@@ -847,7 +855,10 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	public void createCustomFieldControls() {
-
+		if (data != null && data.getCustomFieldValues() != null) {
+			customFieldForm.updateValues(data.getCustomFieldValues(),
+					getCompany(), false);
+		}
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), false);
 		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
@@ -1266,6 +1277,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			currencyWidget.setSelectedCurrency(selectCurrency);
 			openingBalText.setCurrency(selectCurrency);
 			balanceText.setCurrency(selectCurrency);
+			creditLimitText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
 				currencyWidget.disabledFactorField(false);
@@ -1528,6 +1540,7 @@ public class VendorView extends BaseView<ClientVendor> {
 				selectCurrency = currency;
 				openingBalText.setCurrency(selectCurrency);
 				balanceText.setCurrency(selectCurrency);
+				creditLimitText.setCurrency(selectCurrency);
 			}
 		});
 		widget.setEnabled(!isInViewMode());

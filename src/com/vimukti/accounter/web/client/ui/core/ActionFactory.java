@@ -182,6 +182,7 @@ import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemExceptionDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAction;
+import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAndCategoryAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemAction;
 import com.vimukti.accounter.web.client.ui.reports.TrialBalanceAction;
 import com.vimukti.accounter.web.client.ui.reports.UnRealisedExchangeLossesAndGainsAction;
@@ -290,8 +291,8 @@ public class ActionFactory {
 		return new ReconciliationDiscrepancyReportAction();
 	}
 
-	public static InventoryItemsAction getInventoryItemsAction() {
-		return new InventoryItemsAction();
+	public static InventoryItemsAction getInventoryItemsAction(int type) {
+		return new InventoryItemsAction(type);
 	}
 
 	public static BankDepositDetailReportAction getBankDepositDetailReportAction() {
@@ -881,6 +882,10 @@ public class ActionFactory {
 		return new TransactionDetailByAccountAction();
 	}
 
+	public static TransactionDetailByAccountAndCategoryAction getTransactionDetailByAccountAndCategoryAction() {
+		return new TransactionDetailByAccountAndCategoryAction();
+	}
+
 	public static AutomaticTransactionsAction getAutomaticTransactionsAction() {
 		return new AutomaticTransactionsAction();
 	}
@@ -1233,8 +1238,8 @@ public class ActionFactory {
 	}
 
 	public static SalesByLocationDetailsAction getSalesByLocationDetailsAction(
-			boolean isLocation) {
-		return new SalesByLocationDetailsAction(isLocation);
+			boolean isLocation, boolean isCustomer) {
+		return new SalesByLocationDetailsAction(isLocation, isCustomer);
 	}
 
 	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(

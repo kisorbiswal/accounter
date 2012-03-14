@@ -133,8 +133,8 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<ClientTransaction>> callBackResult);
 
 	public void getAccountRegister(ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long accountId,
-			AsyncCallback<ArrayList<AccountRegister>> callBackResult);
+			ClientFinanceDate endDate, long accountId, int start, int lenght,
+			AsyncCallback<PaginationList<AccountRegister>> callBackResult);
 
 	public void getTransactionHistoryCustomers(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
@@ -208,7 +208,8 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<ProfitAndLossByLocation>> callBack);
 
 	public void getSalesByLocationDetailsReport(boolean isLocation,
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			boolean isCustomer, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
 
 	public void getSalesByLocationDetailsForLocation(boolean isLocation,
@@ -466,5 +467,13 @@ public interface IAccounterReportServiceAsync {
 	public void getBankCheckDetils(ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<BankCheckDetail>> callback);
+
+	public void getTransactionDetailByAccountAndCategory(
+			int categoryType,
+			long categoryId,
+			long accountId,
+			ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<TransactionDetailByAccount>> transactionDetailByCatgoryReport);
 
 }

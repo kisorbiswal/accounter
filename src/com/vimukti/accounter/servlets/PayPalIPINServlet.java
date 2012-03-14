@@ -27,6 +27,7 @@ import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class PayPalIPINServlet extends BaseServlet {
@@ -171,13 +172,20 @@ public class PayPalIPINServlet extends BaseServlet {
 			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("Unlimited Users monthly")) {
 			paymentType = ClientSubscription.UNLIMITED_USERS;
-			expiredDate = null;
+			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("Unlimited Users yearly")) {
 			paymentType = ClientSubscription.UNLIMITED_USERS;
-			expiredDate = null;
+			expiredDate = getNextMonthDate(12);
 		}
 		Client client = getClient(emailId);
 		ClientSubscription clientSubscription = client.getClientSubscription();
+		clientSubscription.getMembers().add(emailId);
+		if (clientSubscription.getPremiumType() > paymentType) {
+			clientSubscription.setGracePeriodDate(SubscryptionTool
+					.getTracePeriodDate());
+		} else {
+			clientSubscription.setGracePeriodDate(null);
+		}
 		clientSubscription.setPremiumType(paymentType);
 		clientSubscription.setExpiredDate(expiredDate);
 		clientSubscription.setSubscription(Subscription

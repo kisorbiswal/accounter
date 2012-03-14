@@ -23,7 +23,9 @@ public class MergeVendorAction extends Action {
 			MainFinanceWindow.getViewManager().showView(customerMergeDialog, data,
 					isDependent, MergeVendorAction.this);
 		} else {
-			Accounter.showSubscriptionWarning();
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
 		}
 	}
 

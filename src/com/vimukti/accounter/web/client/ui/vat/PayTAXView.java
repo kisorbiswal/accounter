@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
@@ -396,7 +397,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		initAccounterClass();
 		selectedPayFromAccount = getCompany().getAccount(
 				transaction.getPayFrom());
 
@@ -798,8 +798,15 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	protected void updateDiscountValues() {
+		
+	}
 		// TODO Auto-generated method stub
 
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 	}
 
 }

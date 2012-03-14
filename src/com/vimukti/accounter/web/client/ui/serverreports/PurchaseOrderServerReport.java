@@ -130,7 +130,8 @@ public class PurchaseOrderServerReport extends
 			addSection(sectionName, getMessages().total(), new int[] { col });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
-			if (!sectionName.equals(record.getVendorOrCustomerName())) {
+			if (sectionName != null
+					&& !sectionName.equals(record.getVendorOrCustomerName())) {
 				endSection();
 			} else {
 				return;
@@ -210,8 +211,8 @@ public class PurchaseOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getNumber().toLowerCase()
-					.compareTo(obj2.getNumber().toLowerCase());
+			return UIUtils.compareToInt(obj1.getNumber(), obj2.getNumber()
+					.toLowerCase());
 		case 2:
 			return obj1.getVendorOrCustomerName().toLowerCase()
 					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());

@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Box;
@@ -269,7 +270,7 @@ public class Manager {
 			Query hibernateQuery = session
 					.getNamedQuery(
 							"unique.name." + type.getServerClassSimpleName())
-					.setString("name", name)
+					.setParameter("name", name, EncryptedStringType.INSTANCE)
 					.setEntity("company", getCompany(companyId));
 
 			List objects = hibernateQuery.list();

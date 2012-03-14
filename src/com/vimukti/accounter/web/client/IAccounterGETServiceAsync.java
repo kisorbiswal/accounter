@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 
 /**
@@ -426,7 +427,10 @@ public interface IAccounterGETServiceAsync {
 			AsyncCallback<List<ClientTAXReturnEntry>> accounterAsyncCallback);
 
 	public void getAllTAXReturns(
-			AsyncCallback<List<ClientTAXReturn>> accounterAsyncCallback);
+			int start,
+			int lenght,
+			int viewType,
+			AsyncCallback<PaginationList<ClientTAXReturn>> accounterAsyncCallback);
 
 	public void getAssetValuesForInventories(
 			AsyncCallback<Map<Long, Double>> callback);

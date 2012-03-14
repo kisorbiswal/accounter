@@ -7,10 +7,12 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -172,6 +174,10 @@ public class CustomerPrePaymentView extends
 		if (transactionDate != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 		transaction.setMemo(getMemoTextAreaItem());
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 
 		// if (toBeSetEndingBalance != null)
 		// transaction.setEndingBalance(toBeSetEndingBalance);
@@ -180,7 +186,7 @@ public class CustomerPrePaymentView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null)
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
@@ -231,7 +237,10 @@ public class CustomerPrePaymentView extends
 				bankBalText.setCurrency(getCompany().getCurrency(
 						depositInAccount.getCurrency()));
 			}
-
+			if (isTrackClass()) {
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
+			
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			checkNo.setValue(transaction.getCheckNumber());
 			// if (transaction.getPaymentMethod().equals(constants.check())) {
@@ -253,18 +262,21 @@ public class CustomerPrePaymentView extends
 			// }
 			// }
 		}
-		if (locationTrackingEnabled)
-			locationSelected(getCompany()
-					.getLocation(transaction.getLocation()));
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
-		}
-		initMemoAndReference();
-		initTransactionNumber();
-		initCustomers();
-		initAccounterClass();
-		if (isMultiCurrencyEnabled()) {
-			updateAmountsFromGUI();
+			if (locationTrackingEnabled)
+				locationSelected(getCompany()
+						.getLocation(transaction.getLocation()));
+			if (isTrackJob()) {
+				if (customer != null) {
+					jobListCombo.setCustomer(customer);
+				}
+				jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+			}
+			initMemoAndReference();
+			initTransactionNumber();
+			initCustomers();
+			if (isMultiCurrencyEnabled()) {
+				updateAmountsFromGUI();
+			}
 		}
 	}
 
@@ -379,6 +391,10 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void createControls() {
+		Label lab1 = new Label(
+				messages.payeePrePayment(Global.get().Customer()));
+		lab1.setStyleName("label-title");
+		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
@@ -413,8 +429,12 @@ public class CustomerPrePaymentView extends
 		DynamicForm balForm = new DynamicForm("balForm");
 		if (locationTrackingEnabled)
 			balForm.add(locationCombo);
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
+			balForm.add(classListCombo);
+		}
+		jobListCombo = createJobListCombo();
+		if (isTrackJob()) {
 			jobListCombo.setEnabled(false);
 			balForm.add(jobListCombo);
 		}
@@ -624,7 +644,7 @@ public class CustomerPrePaymentView extends
 			return;
 
 		// Job Tracking
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setValue("");
 			jobListCombo.setEnabled(!isInViewMode());
 			jobListCombo.setCustomer(customer);
@@ -707,11 +727,10 @@ public class CustomerPrePaymentView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackClass())
+			classListCombo.setEnabled(!isInViewMode());
+		if (isTrackJob()) {
 			jobListCombo.setEnabled(!isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
@@ -860,5 +879,10 @@ public class CustomerPrePaymentView extends
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		classListCombo.setComboItem(accounterClass);
 	}
 }

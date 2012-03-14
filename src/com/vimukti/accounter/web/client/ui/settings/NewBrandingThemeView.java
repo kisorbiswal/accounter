@@ -53,7 +53,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
-			logoNameBox, quoteBox, cashSaleBox;
+			logoNameBox, quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox;
 	private AmountField topMarginBox, bottomMarginBox, addressPadBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -122,6 +122,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		statementBox.setValue(brandingTheme.getStatementTitle());
 		quoteBox.setValue(brandingTheme.getQuoteTitle());
 		cashSaleBox.setValue(brandingTheme.getCashSaleTitle());
+		purchaseOrderBox.setValue(brandingTheme.getPurchaseOrderTitle());
+		salesOrderBox.setValue(brandingTheme.getSalesOrderTitle());
 		taxNumItem.setValue(brandingTheme.isShowTaxNumber());
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
@@ -291,6 +293,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		data.setStatementTitle(String.valueOf(statementBox.getValue()));
 		data.setQuoteTitle(String.valueOf(quoteBox.getValue()));
 		data.setCashSaleTitle(String.valueOf(cashSaleBox.getValue()));
+		data.setPurchaseOrderTitle(String.valueOf(purchaseOrderBox.getValue()));
+		data.setSalesOrderTitle(salesOrderBox.getValue());
 		data.setShowTaxNumber(taxNumItem.isChecked());
 		data.setShowColumnHeadings(headingItem.isChecked());
 		data.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
@@ -324,6 +328,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 			data.setLogoAdded(true);
 		}
 
+		data.setPurchaseOrderTemplateName("Classic Template");
+		data.setSalesOrderTemplateName("Classic Template");
 		return data;
 	}
 
@@ -542,6 +548,10 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		quoteBox.setValue(messages.QuoteOverDueTitle());
 		cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 		cashSaleBox.setValue(messages.cashSaleValue());
+		purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
+		purchaseOrderBox.setValue(messages.purchaseOrderValue());
+		salesOrderBox = new TextItem(messages.salesOrderTitle(),"salesOrderBox");
+		salesOrderBox.setValue(messages.salesOrderValue());
 		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),
 				messages.usLetter());
@@ -650,7 +660,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		textBoxTable.setWidget(1, 1, usLetterButton);
 		dynamicForm.add(topMarginBox, bottomMarginBox, addressPadBox,
 				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
-				statementBox, quoteBox, cashSaleBox, logoNameBox);
+				statementBox, quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, logoNameBox);
 
 		// textBoxTable.setWidget(2, 1, );
 		// textBoxTable.setWidget(3, 0, bottomMarginLabel);

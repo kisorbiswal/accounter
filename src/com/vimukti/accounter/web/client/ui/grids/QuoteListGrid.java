@@ -321,8 +321,8 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				return date1.compareTo(date2);
 			break;
 		case 1:
-			String num1 = obj1.getNumber();
-			String num2 = obj2.getNumber();
+			Integer num1 = Integer.parseInt(obj1.getNumber());
+			Integer num2 = Integer.parseInt(obj2.getNumber());
 			return num1.compareTo(num2);
 
 		case 2:

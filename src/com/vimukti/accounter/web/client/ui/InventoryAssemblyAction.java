@@ -11,6 +11,7 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	private String itemname;
 	private boolean forCustomer;
+	private boolean isItemEditable;
 
 	public InventoryAssemblyAction() {
 		super();
@@ -42,6 +43,9 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 				view.setItemName(itemname);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, InventoryAssemblyAction.this);
+				if (isItemEditable) {
+					view.onEdit();
+				}
 			}
 		});
 	}
@@ -78,6 +82,10 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	public void setItemText(String itemname) {
 		this.itemname = itemname;
+	}
+
+	public void setisItemEditable(boolean isItemEditable) {
+		this.isItemEditable = isItemEditable;
 	}
 
 }

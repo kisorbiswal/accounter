@@ -9,11 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -31,7 +33,9 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -41,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -745,6 +750,10 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				transactionItem.setTaxCode(taxCode.getID());
 			}
 		}
+		if (accounterClass != null)
+			if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+				transactionItem.setAccounterClass(accounterClass.getID());
+			}
 		addItemTransactionItem(transactionItem);
 	}
 
@@ -813,5 +822,71 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		} else {
 			return getPreferences().isTrackTax() && isTrackPaidTax();
 		}
+	}
+
+	/**
+	 * Create for class Tracking
+	 * 
+	 * @return
+	 */
+	public ClassListCombo createAccounterClassListCombo() {
+		classListCombo = new ClassListCombo(messages.accounterClass(), true);
+		classListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAccounterClass selectItem) {
+						accounterClass = selectItem;
+						classSelected(selectItem);
+					}
+				});
+
+		classListCombo
+				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(final ClientAccounterClass accouterClass) {
+						accounterClass = accouterClass;
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										getCompany()
+												.processUpdateOrCreateObject(
+														accounterClass);
+										classSelected(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										caught.printStackTrace();
+									}
+								});
+					}
+				});
+
+		classListCombo.setEnabled(!isInViewMode());
+
+		return classListCombo;
+	}
+
+	protected abstract void classSelected(
+			ClientAccounterClass clientAccounterClass);
+
+	protected String isExceedCreditLimit(ClientVendor vendor, double total) {
+		if (vendor == null || DecimalUtil.isEquals(vendor.getCreditLimit(), 0)) {
+			return null;
+		}
+		double customerBalance = vendor.getBalance();
+		double finalBalance = customerBalance + total;
+		if (DecimalUtil.isGreaterThan(finalBalance, vendor.getCreditLimit())) {
+			return messages.creditLimitExceed(vendor.getName(),
+					DataUtils.getAmountAsStrings(vendor.getCreditLimit()),
+					DataUtils.getAmountAsStrings(finalBalance));
+		}
+		return null;
 	}
 }

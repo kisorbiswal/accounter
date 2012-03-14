@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.fixedassets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;

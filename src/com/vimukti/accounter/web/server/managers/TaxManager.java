@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -1114,7 +1115,8 @@ public class TaxManager extends Manager {
 				newEntry.setTaxItem((Long) (entry[6]));
 				newEntry.setTaxAgency(taxAgency);
 				newEntry.setTAXGroupEntry(false);
-				newEntry.setCategory(UIUtils.getTransactionCategory(newEntry.getTransactionType()));
+				newEntry.setCategory(UIUtils.getTransactionCategory(newEntry
+						.getTransactionType()));
 				resultTAXReturnEntries.add(newEntry);
 			}
 		}
@@ -1132,20 +1134,24 @@ public class TaxManager extends Manager {
 			newEntry.setTaxItem((Long) objects[5]);
 			newEntry.setTaxAgency(taxAgency);
 			newEntry.setTAXGroupEntry(false);
-			newEntry.setCategory(UIUtils.getTransactionCategory(newEntry.getTransactionType()));
+			newEntry.setCategory(UIUtils.getTransactionCategory(newEntry
+					.getTransactionType()));
 			resultTAXReturnEntries.add(newEntry);
 		}
 
 		return resultTAXReturnEntries;
 	}
 
-	public List<ClientTAXReturn> getAllTAXReturns(Long companyID)
-			throws AccounterException {
+	public PaginationList<ClientTAXReturn> getAllTAXReturns(Long companyID,
+			int start, int lenght, int viewType) throws AccounterException {
+		int total = 0;
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyID);
 			List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
-					.setEntity("company", company).list();
+					.setEntity("company", company)
+					.setParameter("viewType", viewType).list();
+			PaginationList<ClientTAXReturn> paginationList = new PaginationList<ClientTAXReturn>();
 			// for (TAXReturn taxReturn : list) {
 			// for (TAXReturnEntry entry : taxReturn.getTaxReturnEntries()) {
 			// Transaction transaction = entry.getTransaction();
@@ -1153,7 +1159,6 @@ public class TaxManager extends Manager {
 			// entry.setTransactionType(transaction.getType());
 			// }
 			// }
-			List<ClientTAXReturn> taxReturns = new ArrayList<ClientTAXReturn>();
 			ClientConvertUtil convertUttils = new ClientConvertUtil();
 			for (TAXReturn taxReturn : list) {
 				ClientTAXReturn clientObject = convertUttils.toClientObject(
@@ -1163,13 +1168,26 @@ public class TaxManager extends Manager {
 							clientObject.getTaxReturnEntries(),
 							taxReturn.getTaxAgency()));
 				}
-				taxReturns.add(clientObject);
+				paginationList.add(clientObject);
 			}
-			return taxReturns;
+			total = paginationList.size();
+			PaginationList<ClientTAXReturn> result = new PaginationList<ClientTAXReturn>();
+			if (lenght < 0) {
+				result.addAll(paginationList);
+			} else {
+				int toIndex = start + lenght;
+				if (toIndex > paginationList.size()) {
+					toIndex = paginationList.size();
+				}
+				result.addAll(paginationList.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ClientTAXReturn>();
+		return new PaginationList<ClientTAXReturn>();
 
 	}
 

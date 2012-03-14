@@ -49,7 +49,6 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 	@Override
 	public void init() {
 		super.init();
-		this.getElement().setId("StockAdjustmentView");
 		createControls();
 	}
 
@@ -119,14 +118,13 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			}
 		});
 
-		form = new DynamicForm("formItems");
+		form = new DynamicForm("form");
 		form.add(wareHouseCombo, adjustmentAccountCombo);
 		listForms.add(form);
 
 		mainPanel.add(form);
 		mainPanel.add(table);
 		mainPanel.add(addButton);
-	//	mainPanel.setSize("100%", "100%");
 
 		this.add(mainPanel);
 	}
@@ -216,6 +214,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	@Override
 	public void initData() {
+		super.initData();
 		getAssetValuesForItems();
 		if (data == null) {
 			setData(new ClientStockAdjustment());
@@ -282,13 +281,13 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		wareHouseCombo.setEnabled(!getCompany().getPreferences()
-				.iswareHouseEnabled() || isInViewMode());
-		table.setEnabled(isInViewMode());
+		wareHouseCombo.setEnabled(getCompany().getPreferences()
+				.iswareHouseEnabled() || !isInViewMode());
+		table.setEnabled(!isInViewMode());
 		table.clear();
 		table.setAllRows(data.getTransactionItems());
 		addButton.setEnabled(!isInViewMode());
-		adjustmentAccountCombo.setEnabled(isInViewMode());
+		adjustmentAccountCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -316,6 +315,11 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	public Double getAmountInBaseCurrency(Double amount) {
 		return amount;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return true;
 	}
 
 	@Override

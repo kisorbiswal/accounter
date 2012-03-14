@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -2218,35 +2219,44 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		userMailds.add("support@accounterlive.com");
 		Session currentSession = HibernateUtil.getCurrentSession();
 		long companyId = getCompanyId();
-		Company company = (Company) currentSession
-				.get(Company.class, companyId);
+		List list = currentSession.getNamedQuery("list.Users.by.emailIds")
+				.setParameterList("users", userMailds).list();
 
-		Iterator iterator = currentSession
-				.getNamedQuery("list.Users.by.emailIds")
-				.setParameterList("users", userMailds).list().iterator();
+		Iterator iterator = list.iterator();
+		Map<String, InvitableUser> invitableUsersMap = new HashMap<String, InvitableUser>();
 		Set<String> existed = new HashSet<String>();
+		Set<String> notExisted = new HashSet<String>();
 		while (iterator.hasNext()) {
 			Object[] next = (Object[]) iterator.next();
-			InvitableUser in1 = new InvitableUser();
-			existed.add((String) next[0]);
-			if (userMailds.contains(next[0])) {
-				if (companyId != (Long) next[3]) {
-					in1.setFirstName((String) next[1]);
-					in1.setLastName((String) next[2]);
-					in1.setEmail((String) next[0]);
-				} else {
+			String email = (String) next[0];
+			if (invitableUsersMap.get(email) == null) {
+				InvitableUser in = new InvitableUser();
+				in.setEmail(email);
+				in.setFirstName((String) next[1]);
+				in.setLastName((String) next[2]);
+				invitableUsersMap.put(email, in);
+			}
+
+			if (companyId == (Long) next[3]) {
+				if (!(Boolean) next[4]) {
+					existed.add(email);
 					continue;
 				}
 			}
-			invitableUsers.add(in1);
+			notExisted.add(email);
 		}
-		for (String s : userMailds) {
-			if (!existed.contains(s)) {
-				InvitableUser in1 = new InvitableUser();
-				in1.setEmail(s);
 
-				invitableUsers.add(in1);
+		for (String s : userMailds) {
+			if (existed.contains(s)) {
+				continue;
 			}
+
+			InvitableUser user = invitableUsersMap.get(s);
+			if (user == null) {
+				user = new InvitableUser();
+				user.setEmail(s);
+			}
+			invitableUsers.add(user);
 		}
 		return invitableUsers;
 	}

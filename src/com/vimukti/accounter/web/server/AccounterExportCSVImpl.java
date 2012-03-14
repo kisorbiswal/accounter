@@ -1368,8 +1368,10 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 				} else if (isSalesType) {
 					allItems = getSalesItems(items, viewType);
 				}
-			} else {
+			} else if (itemType == 1) {
 				allItems = getInventoryItems(items, viewType);
+			} else {
+				allItems = getInventoryAssemblyItems(items, viewType);
 			}
 			ICSVExportRunner<Item> icsvExportRunner = new ICSVExportRunner<Item>() {
 
@@ -1450,6 +1452,25 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private List<Item> getInventoryAssemblyItems(List<Item> allItems,
+			String viewType) {
+		List<Item> items = new ArrayList<Item>();
+		for (Item item : allItems) {
+			if (viewType.equalsIgnoreCase(messages.active())) {
+				if (item.isActive() == true
+						&& item.getType() == Item.TYPE_INVENTORY_ASSEMBLY) {
+					items.add(item);
+				}
+			} else {
+				if (item.isActive() == false
+						&& item.getType() == Item.TYPE_INVENTORY_ASSEMBLY) {
+					items.add(item);
+				}
+			}
+		}
+		return items;
 	}
 
 	private List<Item> getInventoryItems(List<Item> allItems, String viewType) {

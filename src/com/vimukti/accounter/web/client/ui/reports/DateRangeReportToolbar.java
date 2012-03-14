@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class DateRangeReportToolbar extends ReportToolbar {
@@ -181,11 +182,18 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// if (UIUtils.isMSIEBrowser()) {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
-
-		addItems(report, dateRangeItemCombo, fromItem, toItem);
+		if (getItem() != null) {
+			addItems(getItem(), dateRangeItemCombo, fromItem, toItem);
+		} else {
+			addItems(report, dateRangeItemCombo, fromItem, toItem);
+		}
 		add(updateButton);
 //		this.setCellVerticalAlignment(updateButton,
 //				HasVerticalAlignment.ALIGN_MIDDLE);
+	}
+
+	protected FormItem<?> getItem() {
+		return null;
 	}
 
 	@Override

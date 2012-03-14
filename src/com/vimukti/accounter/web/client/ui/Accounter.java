@@ -350,7 +350,7 @@ public class Accounter implements EntryPoint {
 		}
 		String[] split = string.split(",");
 		for (String s : split) {
-			features.add(s);
+			getFeatures().add(s);
 		}
 	}
 
@@ -415,8 +415,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static void showSubscriptionWarning() {
-
-		new AccounterDialog("You are not Subscribed",
+		new AccounterDialog(
+				"This feature is available only in premium versions.",
 				AccounterType.SUBSCRIPTION).show();
 	}
 
@@ -673,7 +673,7 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static boolean hasPermission(String feature) {
-		return features.contains(feature);
+		return getFeatures().contains(feature);
 	}
 
 	public static boolean isShutdown() {
@@ -682,5 +682,9 @@ public class Accounter implements EntryPoint {
 
 	public static void setShutdown(boolean isShutdown) {
 		Accounter.isShutdown = isShutdown;
+	}
+
+	public static Set<String> getFeatures() {
+		return features;
 	}
 }

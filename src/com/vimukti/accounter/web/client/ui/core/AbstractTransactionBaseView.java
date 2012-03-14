@@ -17,8 +17,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -108,6 +110,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				.getPrimaryCurrency();
 	}
 
+	public ClientAccounterClass accounterClass;
 	protected T transaction;
 
 	private StyledPanel addNotesPanel;
@@ -293,6 +296,29 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return taxCode;
 	}
 
+	/**
+	 * 
+	 * @param transactionItems
+	 * @return
+	 */
+	protected ClientAccounterClass getClassForTransactionItem(
+			List<ClientTransactionItem> transactionItems) {
+		ClientAccounterClass accounterClass = null;
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getAccounterClass() != 0
+					&& clientTransactionItem.getReferringTransactionItem() == 0) {
+				accounterClass = getCompany().getAccounterClass(
+						clientTransactionItem.getAccounterClass());
+				if (accounterClass != null) {
+					break;
+				} else {
+					continue;
+				}
+			}
+		}
+		return accounterClass;
+	}
+
 	protected StyledPanel getVoidedPanel() {
 		voidedPanel = new StyledPanel("voidedPanel");
 		voidedLabel = new Label();
@@ -356,8 +382,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),
-				"vatinclusiveCheck");
+		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),"vatinclusiveCheck");
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -461,7 +486,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(messages.date(), "dateItem");
+		final DateField dateItem = new DateField(messages.date(),"dateItem");
 		dateItem.setToolTip(messages.selectDateWhenTransactioCreated(this
 				.getAction().getViewName()));
 		// if (this instanceof VendorBillView)
@@ -469,7 +494,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// else
 		dateItem.setShowTitle(false);
 
-//		dateItem.setWidth(100);
 		dateItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -513,23 +537,30 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(messages.no(), messages.no());
+		final TextItem item = new TextItem(messages.no(),"item");
 		item.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
 
 		item.setEnabled(!isInViewMode());
+
+		// formItems.add(item);
+
+		// if (UIUtils.isMSIEBrowser())
+		// item.setWidth("150px");
+
 		return item;
 
 	}
 
 	protected TextItem createRefereceText() {
-		TextItem refText = new TextItem(messages.reference(),
-				messages.reference());
+
+		TextItem refText = new TextItem(messages.reference(),"refText");
 		return refText;
+
 	}
 
 	protected AmountField createNetAmountField() {
 		AmountField netAmountField = new AmountField(messages.netAmount(),
-				this, getBaseCurrency(), "netAmountField");
+				this, getBaseCurrency(),"netAmountField");
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setEnabled(false);
 		return netAmountField;
@@ -574,11 +605,19 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextAreaItem createMemoTextAreaItem() {
 
-		TextAreaItem memoArea = new TextAreaItem(messages.memo(), "memoArea");
+		TextAreaItem memoArea = new TextAreaItem("","memoArea");
 		if (!(this instanceof CustomerPrePaymentView
 				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
 			memoArea.setMemo(true, this);
+
+		memoArea.setTitle(messages.memo());
+		// memoArea.setRowSpan(2);
+		// memoArea.setColSpan(3);
+
+		// formItems.add(memoArea);
+
 		return memoArea;
+
 	}
 
 	protected final void transactionSuccess(Object result) {
@@ -587,8 +626,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (result == null)
 				throw new Exception();
 			if (!saveAndClose) {
-				if (!com.google.gwt.user.client.History.getToken().equals(
-						getAction().getHistoryToken())) {
+				if (!History.getToken().equals(getAction().getHistoryToken())) {
 
 				}
 				getManager().closeCurrentView(false);
@@ -764,7 +802,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.cheque(), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro() };
+				messages.switchMaestro(), messages.paypal() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
@@ -810,11 +848,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		getVoidedPanel();
 		createControls();
-		// setSize("100%", "100%");
 	}
 
 	private void createRecurringPanel() {
-		StyledPanel panel = new StyledPanel("recurringPanel");
+		StyledPanel panel = new StyledPanel("panel");
 
 		HTML text = new HTML();
 		text.setHTML("<a>" + messages.ThisisatemplateusedinRecurring() + "</a>");
@@ -915,11 +952,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return isVATInclusive;
 	}
 
-	public void setMenuItems(Widget button, Map<String, String> items) {
+	public void setMenuItems(Widget button, Map<String, ImageResource> items) {
 		createPopupMenu(button);
 		popupMenuBar.clearItems();
 		for (final String itm : items.keySet()) {
-			String imgSrc = items.get(itm);
+			ImageResource imgSrc = items.get(itm);
 			Command cmd = new Command() {
 
 				@Override
@@ -930,7 +967,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			};
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
-			// item.setIcon(imgSrc);
+			item.setIcon(imgSrc);
 			popupMenuBar.addItem(item);
 		}
 	}
@@ -955,28 +992,28 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			CustomMenuItem item = new CustomMenuItem(itm, cmd);
 			item.addStyleName(itm);
-			String image = null;
+			ImageResource image = null;
 			if (itm.equalsIgnoreCase(messages.Accounts())) {
-				image = "/images/Accounts.png";
+				image = Accounter.getFinanceMenuImages().Accounts();
 			} else if (itm.equals(messages.productOrServiceItem())) {
 				if (sellProducts) {
-					image = "/images/items.png";
+					image = Accounter.getFinanceMenuImages().items();
 				} else {
 					continue;
 				}
 			} else if (itm.equals(messages.comment())) {
-				image = "/images/comments.png";
+				image = Accounter.getFinanceMenuImages().comments();
 			} else if (itm.equals(messages.salesTax())
 					|| (itm.equals(messages.serviceItem()))
 					|| (itm.equals(messages.service()))) {
 				if (sellServices) {
-					image = "/images/salestax.png";
+					image = Accounter.getFinanceMenuImages().salestax();
 				} else {
 					continue;
 				}
 			}
 
-			// item.setIcon(image);
+			item.setIcon(image);
 
 			// item.getElement().getStyle().setProperty("background",
 			// "url(" + image + ") no-repeat scroll 0 0 transparent");
@@ -1064,15 +1101,23 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// menuButton.setEnabled(!isInViewMode());
 		setMode(EditMode.EDIT);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()
-				&& classListCombo != null) {
-			classListCombo.setEnabled(!isInViewMode());
-		}
+		// if (getPreferences().isClassTrackingEnabled()
+		// /* && getPreferences().isClassOnePerTransaction() */
+		// && classListCombo != null) {
+		// classListCombo.setDisabled(isInViewMode());
+		// }
 	}
 
 	public boolean isEdit() {
 		return isInViewMode();
+	}
+
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		// if (menuButton != null) {
+		// menuButton.setEnabled(!isInViewMode());
+		// }
 	}
 
 	@Override
@@ -1108,12 +1153,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return result;
 		}
 		isValidCurrencyFactor(result);
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()
-				&& getPreferences().isWarnOnEmptyClass()
-				&& this.transaction.getAccounterClass() == 0) {
-			result.addWarning(classListCombo, messages.W_105());
-		}
+		/*
+		 * if (getPreferences().isClassTrackingEnabled() &&
+		 * getPreferences().isClassOnePerTransaction() &&
+		 * getPreferences().isWarnOnEmptyClass() &&
+		 * this.transaction.getAccounterClass() == 0) {
+		 * result.addWarning(classListCombo, messages.W_105());
+		 */
+		// }
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView
@@ -1140,12 +1187,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					} else {
 						result.addError("TransactionItem", messages
 								.pleaseEnter(messages.transactionItem()));
-					}
-					if (getPreferences().isClassTrackingEnabled()
-							&& !getPreferences().isClassOnePerTransaction()
-							&& getPreferences().isWarnOnEmptyClass()
-							&& transactionItem.getClientAccounterClass() == null) {
-						// TODO
 					}
 				}
 			} else {
@@ -1248,11 +1289,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (location != null)
 				transaction.setLocation(location.getID());
 
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& clientAccounterClass != null) {
-				transaction.setAccounterClass(clientAccounterClass.getID());
-			}
 			if (currency == null) {
 				currency = getCompany().getPrimaryCurrency();
 			}
@@ -1522,9 +1558,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createCheckNumberItem() {
 
-		final TextItem checkNo = new TextItem(messages.chequeNo(),
-				messages.chequeNo());
+		final TextItem checkNo = new TextItem(messages.chequeNo(),"checkNo");
 		checkNo.setEnabled(!isInViewMode());
+		// checkNo.setShowDisabled(false);
 		if (transaction != null) {
 			if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
 				ClientCashPurchase clientCashPurchase = (ClientCashPurchase) transaction;
@@ -1604,6 +1640,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			}
 		});
+		jobListCombo.setEnabled(!isInViewMode());
 		return jobListCombo;
 
 	}
@@ -1618,79 +1655,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			this.job = selectItem;
 			jobListCombo.setComboItem(selectItem);
 		}
-	}
-
-	public ClassListCombo createAccounterClassListCombo() {
-		classListCombo = new ClassListCombo(messages.accounterClass(), true);
-		classListCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
-
-					@Override
-					public void selectedComboBoxItem(
-							ClientAccounterClass selectItem) {
-						classSelected(selectItem);
-					}
-				});
-
-		classListCombo
-				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
-
-					@Override
-					public void execute(
-							final ClientAccounterClass accounterClass) {
-						Accounter.createCRUDService().create(accounterClass,
-								new AsyncCallback<Long>() {
-
-									@Override
-									public void onSuccess(Long result) {
-										accounterClass.setID(result);
-										classSelected(accounterClass);
-									}
-
-									@Override
-									public void onFailure(Throwable caught) {
-										// TODO Auto-generated method stub
-									}
-								});
-					}
-				});
-
-		return classListCombo;
-	}
-
-	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-		if (clientAccounterClass != null) {
-			this.clientAccounterClass = clientAccounterClass;
-			classListCombo.setComboItem(clientAccounterClass);
-		}
-	}
-
-	protected void initAccounterClass() {
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()
-				&& transaction.getAccounterClass() != 0) {
-
-			classSelected(getCompany().getAccounterClass(
-					transaction.getAccounterClass()));
-		}
-	}
-
-	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
-		return clientAccounterClasses;
-	}
-
-	public void setClientAccounterClasses(
-			ArrayList<ClientAccounterClass> clientAccounterClasses) {
-		this.clientAccounterClasses = clientAccounterClasses;
-	}
-
-	public ClientAccounterClass getClientAccounterClass() {
-		return clientAccounterClass;
-	}
-
-	public void setClientAccounterClass(
-			ClientAccounterClass clientAccounterClass) {
-		this.clientAccounterClass = clientAccounterClass;
 	}
 
 	public List<ClientTransactionItem> getAccountTransactionItems(
@@ -1722,6 +1686,39 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return true;
 		} else {
 			return getPreferences().isTrackTax();
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isTrackClass() {
+		if (transaction != null && transaction.haveClass()) {
+			return true;
+		} else {
+			return getPreferences().isClassTrackingEnabled();
+		}
+	}
+
+	public boolean isTrackJob() {
+		if (transaction != null && transaction.getID() != 0
+				&& transaction.hasJob()) {
+			return true;
+		} else {
+			return getPreferences().isJobTrackingEnabled();
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isClassPerDetailLine() {
+		if (transaction != null && transaction.usesDifferentclasses()) {
+			return true;
+		} else {
+			return getPreferences().isClassPerDetailLine();
 		}
 	}
 
@@ -1840,18 +1837,37 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		StyledPanel tablesPanel = new StyledPanel("tablesPanel");
 		StyledPanel headersPanel = new StyledPanel("headersPanel");
 
-		// final Anchor historyLink = new Anchor(messages.showHistory());
+		final Anchor historyLink = new Anchor(messages.showHistory());
 		Anchor addNotesLink = new Anchor(messages.addNote());
-		// historyLink.addStyleName("history_notes_link");
+		historyLink.addStyleName("history_notes_link");
 		addNotesLink.addStyleName("history_notes_link");
 
 		addNotesPanel = getNotesPanel();
 		addNotesPanel.setVisible(false);
+
+		headersPanel.add(historyLink);
 		headersPanel.add(addNotesLink);
 		headersPanel.addStyleName("history_links");
 
 		tablesPanel.add(headersPanel);
 		tablesPanel.add(addNotesPanel);
+
+		final StyledPanel historyPanel = getHistoryPanel(data.getID());
+		historyPanel.setVisible(false);
+		tablesPanel.add(historyPanel);
+		historyLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				historyPanel.setVisible(!historyPanel.isVisible());
+				if (historyPanel.isVisible())
+					historyLink.setHTML(messages.hideHistory());
+				else
+					historyLink.setHTML(messages.showHistory());
+			}
+		});
+
+		historyPanel.addStyleName("history_notes_view");
 
 		addNotesLink.addClickHandler(new ClickHandler() {
 
@@ -1889,7 +1905,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		final TextArea notesArea = new TextArea();
 		notesArea.removeStyleName("gwt-TextArea");
 		notesArea.addStyleName("memoTextArea");
-		// notesArea.setHeight("85px");
+		notesArea.setHeight("85px");
 
 		// buttons...
 		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
@@ -1935,6 +1951,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		notesPanel.add(noteLabel);
 		notesPanel.add(notesArea);
 		notesPanel.add(buttonPanel);
+		buttonPanel.addStyleName("notes_button_panel");
 
 		notesPanel.addStyleName("notes_Panel");
 		return notesPanel;
@@ -2060,6 +2077,58 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return discount;
 
 	}
+
+	/**
+	 * Create for class Tracking
+	 * 
+	 * @return
+	 */
+	public ClassListCombo createAccounterClassListCombo() {
+		classListCombo = new ClassListCombo(messages.accounterClass(), true);
+		classListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAccounterClass selectItem) {
+						accounterClass = selectItem;
+						classSelected(selectItem);
+					}
+				});
+
+		classListCombo
+				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(final ClientAccounterClass accouterClass) {
+						accounterClass = accouterClass;
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										getCompany()
+												.processUpdateOrCreateObject(
+														accouterClass);
+										classSelected(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										caught.printStackTrace();
+									}
+								});
+					}
+				});
+
+		classListCombo.setEnabled(!isInViewMode());
+
+		return classListCombo;
+	}
+
+	protected abstract void classSelected(
+			ClientAccounterClass clientAccounterClass);
 
 	@Override
 	protected boolean canDelete() {

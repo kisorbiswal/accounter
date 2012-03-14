@@ -501,6 +501,7 @@ public class ViewManager extends FlowPanel {
 	/**
 	 * Called when we want to remove current view and put previous view back
 	 */
+	@SuppressWarnings("unchecked")
 	public void closeCurrentView(boolean restorePreviousView) {
 		if (this.existingView == null) {
 			return;
@@ -519,6 +520,7 @@ public class ViewManager extends FlowPanel {
 
 		if (restorePreviousView) {
 			if (item.view == null) {
+				item.action.isCalledFromHistory = true;
 				item.action.run();
 			} else {
 				// Save history

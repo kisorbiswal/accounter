@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class SetupSelectAccountsPage extends AbstractSetupPage {
 

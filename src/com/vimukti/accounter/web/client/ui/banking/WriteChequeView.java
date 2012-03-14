@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -371,7 +372,7 @@ public class WriteChequeView extends
 					payee = customer;
 					paytoSelect.setComboItem(customer);
 
-					if (getPreferences().isJobTrackingEnabled()) {
+					if (isTrackJob()) {
 						jobListCombo.setVisible(true);
 						jobSelected(company.getjob(transaction.getJob()));
 					}
@@ -659,7 +660,7 @@ public class WriteChequeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		setAmountIncludeTAX();
 
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			if (jobListCombo.getSelectedValue() != null) {
 				transaction.setJob(jobListCombo.getSelectedValue().getID());
 			}
@@ -747,7 +748,7 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			bankAccForm.add(locationCombo);
 		jobListCombo = createJobListCombo();
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setVisible(false);
 			bankAccForm.add(jobListCombo);
 		}
@@ -807,7 +808,7 @@ public class WriteChequeView extends
 								PayToSelected(selectItem);
 								// Job Tracking
 
-								if (getPreferences().isJobTrackingEnabled()) {
+								if (isTrackJob()) {
 									if (selectItem instanceof ClientCustomer) {
 										jobListCombo.setValue("");
 										// jobListCombo.setEnabled(!false);
@@ -822,7 +823,7 @@ public class WriteChequeView extends
 							}
 						} else {
 							if (selectItem instanceof ClientCustomer
-									&& getPreferences().isJobTrackingEnabled()) {
+									&& isTrackJob()) {
 								jobListCombo.setValue("");
 								// jobListCombo.setEnabled(!false);
 								jobListCombo
@@ -1469,11 +1470,14 @@ public class WriteChequeView extends
 		discountField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
+		if (isTrackJob()) {
 			jobListCombo.setEnabled(!isInViewMode());
 			if (payee != null) {
-				if (payee instanceof ClientCustomer)
+				if (payee instanceof ClientCustomer) {
 					jobListCombo.setCustomer((ClientCustomer) payee);
+					jobListCombo.setComboItem(company.getjob(transaction
+							.getJob()));
+				}
 			}
 		}
 		if (isTrackTax()) {
@@ -1581,7 +1585,16 @@ public class WriteChequeView extends
 					}
 				}
 			}
-
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(transaction
+							.getTransactionItems());
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
+				}
+			}
 			if (transaction.getTransactionItems() != null) {
 				this.transactionItems = transaction.getTransactionItems();
 				transactionVendorAccountTable
@@ -1600,7 +1613,6 @@ public class WriteChequeView extends
 
 			}
 			initMemoAndReference();
-			initAccounterClass();
 		}
 		initTransactionNumber();
 		initPayToCombo();
@@ -1713,6 +1725,17 @@ public class WriteChequeView extends
 					.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			transactionVendorAccountTable
+					.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 

@@ -24,6 +24,7 @@ public class NewItemAction extends Action<ClientItem> {
 	private boolean forCustomer;
 	private String itemName;
 	private boolean fromCompany;
+	private boolean isItemEditable;
 
 	public NewItemAction() {
 		super();
@@ -75,6 +76,9 @@ public class NewItemAction extends Action<ClientItem> {
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
+						if (isItemEditable) {
+							view.onEdit();
+						}
 					}
 				} else if (sellServices) {
 					ItemView view = new ItemView(ClientItem.TYPE_SERVICE,
@@ -82,6 +86,9 @@ public class NewItemAction extends Action<ClientItem> {
 					view.setItemName(itemName);
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, NewItemAction.this);
+					if (isItemEditable) {
+						view.onEdit();
+					}
 				} else if (sellProducts) {
 					if (Accounter.getCompany().getPreferences()
 							.isInventoryEnabled()) {
@@ -100,6 +107,9 @@ public class NewItemAction extends Action<ClientItem> {
 							view.setItemName(itemName);
 							MainFinanceWindow.getViewManager().showView(view,
 									data, isDependent, NewItemAction.this);
+							if (isItemEditable) {
+								view.onEdit();
+							}
 						}
 
 					} else {
@@ -108,6 +118,9 @@ public class NewItemAction extends Action<ClientItem> {
 						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
+						if (isItemEditable) {
+							view.onEdit();
+						}
 					}
 
 				}
@@ -165,5 +178,9 @@ public class NewItemAction extends Action<ClientItem> {
 	@Override
 	public String getText() {
 		return messages.newItem();
+	}
+
+	public void setisItemEditable(boolean isItemViewEditable) {
+		this.isItemEditable = isItemViewEditable;
 	}
 }

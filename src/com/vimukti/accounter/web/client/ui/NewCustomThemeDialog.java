@@ -12,7 +12,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 	private DynamicForm form;
 	private TextItem themeName, overdueBox, creditNoteBox, statementBox,
-			quoteBox, cashSaleBox, payPalEmail;
+			quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, payPalEmail;
 	private ClientBrandingTheme brandingTheme;
 	private boolean isEdit;
 
@@ -52,6 +52,13 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 			cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 			cashSaleBox.setValue(messages.cashSaleValue());
+			
+			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
+			purchaseOrderBox.setValue(messages.purchaseOrderValue());
+			
+			salesOrderBox = new TextItem(messages.salesOrderTitle(),"salesOrderBox");
+			
+			salesOrderBox.setValue(messages.salesOrderValue());
 
 			payPalEmail = new TextItem("PayPal Email", "payPalEmail");
 
@@ -60,7 +67,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			payPalEmail.setValue(emailId);
 
 			form.add(themeName, overdueBox, creditNoteBox, statementBox,
-					quoteBox, cashSaleBox, payPalEmail);
+					quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, payPalEmail);
 		} else {
 			form.add(themeName);
 		}
@@ -78,6 +85,8 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setCreditNoteTempleteName(messages.classicTemplate());
 			brandingTheme.setQuoteTemplateName(messages.classicTemplate());
 			brandingTheme.setCashSaleTemplateName(messages.classicTemplate());
+			brandingTheme.setPurchaseOrderTemplateName(messages.classicTemplate());
+			brandingTheme.setSalesOrderTemplateName(messages.classicTemplate());
 
 		}
 
@@ -89,7 +98,9 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setStatementTitle(this.statementBox.getValue()
 					.toString());
 			brandingTheme.setQuoteTitle(this.quoteBox.getValue().toString());
-			brandingTheme.setCashSaleTitle(this.quoteBox.getValue().toString());
+			brandingTheme.setCashSaleTitle(this.cashSaleBox.getValue().toString());
+			brandingTheme.setPurchaseOrderTitle(this.purchaseOrderBox.getValue().toString());
+			brandingTheme.setSalesOrderTemplateName(this.salesOrderBox.getValue().toString());
 			brandingTheme.setPayPalEmailID(this.payPalEmail.getValue()
 					.toString());
 		}

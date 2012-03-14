@@ -283,12 +283,12 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 			return type1.toLowerCase().compareTo(type2.toLowerCase());
 		case 2:
 			if (accountType == ClientAccount.TYPE_BANK) {
-				String num1 = obj1.getCheckNumber();
-				String num2 = obj2.getCheckNumber();
+				Integer num1 = Integer.parseInt(obj1.getCheckNumber());
+				Integer num2 = Integer.parseInt(obj2.getCheckNumber());
 				return num1.compareTo(num2);
 			} else {
-				String num1 = obj1.getNumber();
-				String num2 = obj2.getNumber();
+				Integer num1 = Integer.parseInt(obj1.getNumber());
+				Integer num2 = Integer.parseInt(obj2.getNumber());
 				return num1.compareTo(num2);
 			}
 		case 3:

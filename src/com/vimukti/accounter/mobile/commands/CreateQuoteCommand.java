@@ -298,18 +298,6 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			}
 		});
 
-		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
-				getMessages().dueDate()), getMessages().dueDate(), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
-
 		list.add(new DateRequirement(EXPIRATION_DATE, getMessages()
 				.pleaseEnter(getMessages().expirationDate()), getMessages()
 				.expirationDate(), true, false) {
@@ -530,9 +518,6 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		String customerOrderNo = get(CUSTOMER_ORDER_NO).getValue();
 		estimate.setCustomerOrderNumber(customerOrderNo);
 
-		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
-		estimate.setDueDate(dueDate.getDate());
-
 		estimate.setTransactionItems(items);
 
 		PaymentTerms paymentTerm = get(PAYMENT_TERMS).getValue();
@@ -617,7 +602,6 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
 		}
-		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
 		get(CUSTOMER_ORDER_NO).setDefaultValue(" ");
 		get(STATUS).setDefaultValue(getMessages().open());
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
@@ -770,7 +754,6 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		get(SHIPPING_TERM).setValue(
 				CommandUtils.getServerObjectById(estimate.getShippingTerm(),
 						AccounterCoreType.SHIPPING_TERM));
-		get(DUE_DATE).setValue(new ClientFinanceDate(estimate.getDueDate()));
 		get(STATUS).setValue(getSaveStatusAsString(estimate.getSaveStatus()));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(estimate.getDeliveryDate()));

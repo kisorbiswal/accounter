@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity = 0.5) !important;
+	filter: alpha(opacity =   0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -821,6 +821,30 @@ form {
 	height: 28px;
 }
 
+#subscription_complition_form textarea,#subscription_complition_form select
+	{
+	width: 210px;
+}
+
+#subscription_complition_form table td {
+	display: table-cell;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+#subscription_complition_form {
+	overflow: hidden;
+}
+
+#subscription_complition_form #error {
+	word-wrap: break-word;
+}
+
+#subscription_complition_form table {
+	table-layout: fixed;
+	width: 367px;
+}
+
 .loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton {
 	margin-right: 8px;
 }
@@ -832,16 +856,19 @@ form {
 input [type="checkbox"] {
 	border: 1px solid #7A7777;
 }
-#subscription_complition_form table td{
-    padding: 0 10px 5px 0;
+
+#subscription_complition_form table td {
+	padding: 0 10px 5px 0;
 }
-.subscribtionManagementButton a{
+
+.subscribtionManagementButton a {
 	color: white !important;
-    font-weight: bold;
-    margin-left: 8px;
-    text-decoration: none !important;
+	font-weight: bold;
+	margin-left: 8px;
+	text-decoration: none !important;
 }
-.allviews-common-button, .subscribtionManagementButton a {
+
+.allviews-common-button,.subscribtionManagementButton a {
 	background: none repeat scroll 0 0 #28757D;
 	border: 1px solid #002e36;
 	border-radius: 5px 5px 5px 5px;
@@ -1339,20 +1366,3 @@ a#fdbk_tab:hover {
 	width: 700px !important;
 }
 
-.thankyou-header {
-	text-align: center !important;
-}
-
-.thankyou-header  p {
-	font-size: 25px;
-	line-height: 30px;
-}
-
-.thank-you-data {
-	background: -moz-linear-gradient(center top, #3299A4, #2D8B93) repeat
-		scroll 0 0 transparent;
-	border: thin solid #1A5158;
-	box-shadow: 2px 2px 18px 2px #FFFFFF inset;
-	color: #FFFFFF;
-	padding: 37px;
-}

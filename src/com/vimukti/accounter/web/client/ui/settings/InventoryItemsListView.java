@@ -11,8 +11,10 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -28,10 +30,12 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 
 	private String catageory;
 	private boolean isActiveAccounts = true;
+	private int type;
 
-	public InventoryItemsListView() {
+	public InventoryItemsListView(int type) {
 		super();
 		this.getElement().setId("InventoryItemsListView");
+		this.type = type;
 	}
 
 	public static ItemListView getInstance() {
@@ -74,22 +78,31 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 	}
 
 	@Override
-	protected NewItemAction getAddNewAction() {
+	protected Action getAddNewAction() {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return null;
-		else {
+
+		else if (type == ClientItem.TYPE_INVENTORY_PART) {
 			NewItemAction action = ActionFactory.getNewItemAction(true);
-			action.setType(ClientItem.TYPE_INVENTORY_PART);
+			action.setType(type);
+			return action;
+		} else {
+			InventoryAssemblyAction action = ActionFactory
+					.getInventoryAssemblyAction();
 			return action;
 		}
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addaNewInventoryItem();
-		else
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (type == ClientItem.TYPE_INVENTORY_PART)
+				return messages.addaNewInventoryItem();
+			else
+				return messages.addaNew(messages.inventoryAssembly());
+		} else {
 			return "";
+		}
 	}
 
 	@Override
@@ -120,11 +133,9 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 		grid.removeAllRecords();
 		for (ClientItem item : listOfItems) {
 			if (isActive) {
-				if ((item.isActive() == true)
-						&& (item.getType() == ClientItem.TYPE_INVENTORY_PART))
+				if ((item.isActive() == true) && (item.getType() == type))
 					grid.addData(item);
-			} else if ((item.isActive() == false)
-					&& (item.getType() == ClientItem.TYPE_INVENTORY_PART)) {
+			} else if ((item.isActive() == false) && (item.getType() == type)) {
 				grid.addData(item);
 			}
 
@@ -206,9 +217,16 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 
 	@Override
 	public void exportToCsv() {
-		Accounter.createExportCSVService().getItemsExportCsv(
-				ItemListView.isPurchaseType, ItemListView.isSalesType,
-				viewSelect.getSelectedValue(), 1,
-				getExportCSVCallback(messages.items()));
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			Accounter.createExportCSVService().getItemsExportCsv(
+					ItemListView.isPurchaseType, ItemListView.isSalesType,
+					viewSelect.getSelectedValue(), 1,
+					getExportCSVCallback(messages.items()));
+		} else {
+			Accounter.createExportCSVService().getItemsExportCsv(
+					ItemListView.isPurchaseType, ItemListView.isSalesType,
+					viewSelect.getSelectedValue(), 2,
+					getExportCSVCallback(messages.items()));
+		}
 	}
 }

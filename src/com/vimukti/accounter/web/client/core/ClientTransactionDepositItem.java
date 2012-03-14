@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientTransactionDepositItem implements IAccounterCore {
 
 	/**
@@ -17,7 +16,7 @@ public class ClientTransactionDepositItem implements IAccounterCore {
 	private long customer;
 	private String description;
 	private String paymentMethod;
-	private ClientAccounterClass accounterClass;
+	private long accounterClass;
 
 	private ClientTransaction transaction;
 
@@ -120,11 +119,11 @@ public class ClientTransactionDepositItem implements IAccounterCore {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public ClientAccounterClass getAccounterClass() {
+	public long getAccounterClass() {
 		return accounterClass;
 	}
 
-	public void setAccounterClass(ClientAccounterClass accounterClass) {
+	public void setAccounterClass(long accounterClass) {
 		this.accounterClass = accounterClass;
 	}
 

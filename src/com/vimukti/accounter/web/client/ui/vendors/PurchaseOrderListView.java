@@ -93,6 +93,7 @@ public class PurchaseOrderListView extends
 		listOfTypes.add(messages.completed());
 		listOfTypes.add(messages.cancelled());
 		listOfTypes.add(messages.drafts());
+		listOfTypes.add(messages.expired());
 		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
@@ -114,6 +115,8 @@ public class PurchaseOrderListView extends
 			type = ClientTransaction.STATUS_CANCELLED;
 		} else if (getViewType().equals(messages.drafts())) {
 			type = ClientTransaction.STATUS_DRAFT;
+		} else if (getViewType().equalsIgnoreCase(messages.expired())) {
+			type = 6;
 		}
 		Accounter.createHomeService().getPurchaseOrders(
 				getStartDate().getDate(), getEndDate().getDate(), type, start,

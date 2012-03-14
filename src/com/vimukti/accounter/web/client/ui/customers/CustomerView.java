@@ -425,6 +425,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	// return true;
 	// }
 	public void createCustomFieldControls() {
+		if (data != null && data.getCustomFieldValues() != null) {
+			customFieldForm.updateValues(data.getCustomFieldValues(),
+					getCompany(), true);
+		}
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), true);
 		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
@@ -741,12 +745,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		currencyCombo = createCurrencyComboWidget();
 		currencyCombo.setEnabled(!isInViewMode());
-
-		accInfoForm = new DynamicForm("accInfoForm");
-
 		accInfoForm.add(statusCheck, customerSinceDate);
-
-		balanceForm = new DynamicForm("balanceForm");
 		if (getPreferences().isPricingLevelsEnabled()) {
 			balanceForm.add(openingBalText, balanceDate, balanceText,
 					priceLevelSelect);
@@ -796,7 +795,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				super.onAttach();
 			}
 		};
-//		panel.setWidth("100%");
+		panel.setWidth("100%");
 		panel.add(l1);
 		panel.add(gridView);
 		StyledPanel hPanel = new StyledPanel("hPanel");
@@ -952,7 +951,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				.financialDetails());
 
 		financeDitailsForm.add(salesPersonSelect, creditRatingSelect,
-				bankNameSelect, bankAccountSelect, bankBranchSelect);
+				creditLimitText, bankNameSelect, bankAccountSelect,
+				bankBranchSelect);
 
 		if (getPreferences().isTrackTax()) {
 
@@ -1082,9 +1082,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
 				customFieldDialog.show();
-
 			}
 		});
 		addCustomFieldButton.setEnabled(!isInViewMode());
@@ -1114,9 +1112,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	@Override
 	public void init() {
-		
 		super.init();
-		this.getElement().setId("CustomerView");
 		createControls();
 	}
 
@@ -1264,6 +1260,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			currencyCombo.setSelectedCurrency(selectCurrency);
 			openingBalText.setCurrency(selectCurrency);
 			balanceText.setCurrency(selectCurrency);
+			creditLimitText.setCurrency(selectCurrency);
 			if (!selectCurrency.equals(getCompany().getPreferences()
 					.getPrimaryCurrency())) {
 				currencyCombo.disabledFactorField(false);
@@ -1429,6 +1426,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				selectCurrency = currency;
 				openingBalText.setCurrency(selectCurrency);
 				balanceText.setCurrency(selectCurrency);
+				creditLimitText.setCurrency(selectCurrency);
 			}
 		});
 		widget.setEnabled(isInViewMode());

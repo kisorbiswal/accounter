@@ -15,7 +15,6 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
-import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class InventoryUtils {
@@ -33,8 +32,8 @@ public class InventoryUtils {
 					item,
 					inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
 					sales, purchases);
+			item.onUpdate(session);
 			session.saveOrUpdate(item);
-			ChangeTracker.put(item);
 		}
 	}
 

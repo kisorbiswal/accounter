@@ -1218,8 +1218,18 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			accountType = data.getType();
 			if (accountType != ClientAccount.TYPE_BANK
-					&& accountType != ClientAccount.TYPE_CREDIT_CARD)
+					&& accountType != ClientAccount.TYPE_CREDIT_CARD) {
 				getSubAccounts();
+			}
+			if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+				accounttype_selected();
+				initAccountTypeSelect();
+				int subBaseType = UIUtils.getAccountSubBaseType(accountType);
+				Integer[] ranges = getCompany()
+						.getNominalCodeRange(subBaseType);
+				accNoText.setToolTip(messages.accountNumberToolTipDesc(
+						String.valueOf(ranges[0]), String.valueOf(ranges[1])));
+			}
 			if (accountType == ClientAccount.TYPE_PAYPAL) {
 				getPaypalData();
 			}

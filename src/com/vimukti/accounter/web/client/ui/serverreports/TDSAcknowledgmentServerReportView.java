@@ -11,6 +11,11 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 public class TDSAcknowledgmentServerReportView extends
 		AbstractFinaneReport<TDSAcknowledgmentsReport> {
 
+	public TDSAcknowledgmentServerReportView(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+	
 	public TDSAcknowledgmentServerReportView(
 			IFinanceReport<TDSAcknowledgmentsReport> reportView) {
 		this.reportView = reportView;

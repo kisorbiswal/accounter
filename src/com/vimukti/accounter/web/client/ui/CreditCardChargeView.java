@@ -324,7 +324,6 @@ public class CreditCardChargeView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
-		initAccounterClass();
 		// accountsDisclosurePanel.setOpen(checkOpen(
 		// transaction.getTransactionItems(),
 		// ClientTransactionItem.TYPE_ACCOUNT, true));

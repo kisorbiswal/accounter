@@ -25,7 +25,7 @@ public class ClientMeasurement implements IAccounterCore {
 
 	private String name;
 
-	private List<ClientUnit> units;
+	private List<ClientUnit> units = new ArrayList<ClientUnit>();
 
 	private int version;
 
@@ -192,7 +192,6 @@ public class ClientMeasurement implements IAccounterCore {
 	public long getID() {
 		return id;
 	}
-
 
 	public ClientMeasurement clone() {
 		ClientMeasurement measurement = (ClientMeasurement) this.clone();

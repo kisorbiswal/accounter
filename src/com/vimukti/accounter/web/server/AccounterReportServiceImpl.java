@@ -167,19 +167,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	// }
 
 	@Override
-	public ArrayList<AccountRegister> getAccountRegister(
+	public PaginationList<AccountRegister> getAccountRegister(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long accountId) {
-		ArrayList<AccountRegister> accountRegisterList = new ArrayList<AccountRegister>();
+			long accountId, int start, int length) {
+		PaginationList<AccountRegister> accountRegisterList = new PaginationList<AccountRegister>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, getCompanyId());
 
 		try {
 
-			accountRegisterList = getFinanceTool()
-					.getAccountRegister(financeDates[0], financeDates[1],
-							accountId, getCompanyId());
+			accountRegisterList = getFinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], accountId,
+					getCompanyId(), start, length);
 
 			// if (accountRegisterList != null)
 			// accountRegisterList.add((AccountRegister) setStartEndDates(obj,
@@ -1457,15 +1457,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		return salesByLocationDetailsReport(isLocation, startDate, endDate,
-				getCompanyId());
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return salesByLocationDetailsReport(isLocation, isCustomer, startDate,
+				endDate, getCompanyId());
 	}
 
 	private ArrayList<SalesByLocationDetails> salesByLocationDetailsReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long companyId) {
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 
 		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
 
@@ -1474,8 +1475,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool().getSalesManager()
-					.getSalesByLocationDetail(isLocation, financeDates[0],
-							financeDates[1], companyId);
+					.getSalesByLocationDetail(isLocation, isCustomer,
+							financeDates[0], financeDates[1], companyId);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList
@@ -2739,8 +2740,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
 			boolean isLocation, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
-		return salesByLocationDetailsReport(isLocation, startDate, endDate,
-				companyId);
+		return salesByLocationDetailsReport(isLocation, true, startDate,
+				endDate, companyId);
 	}
 
 	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
@@ -3043,11 +3044,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 							transactionStatusType, dates[0].getDate(),
 							dates[1].getDate(), companyId, start, length);
 
-			TransactionHistory obj = new TransactionHistory();
-			if (resultList != null)
-				// resultList.add((TransactionHistory) setStartEndDates(obj,
-				// financeDates));
-				return resultList;
+			return resultList;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -3236,11 +3233,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<TransactionDetailByAccount> getMissingCheckDetils(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		ArrayList<TransactionDetailByAccount> missionChecksByAccount = getFinanceTool()
-				.getReportManager().getMissionChecksByAccount(accountId, start,
-						end, getCompanyId());
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
+		ArrayList<TransactionDetailByAccount> missionChecksByAccount = getFinanceTool()
+				.getReportManager().getMissionChecksByAccount(accountId,
+						minimumAndMaximumDates[0], minimumAndMaximumDates[1],
+						getCompanyId());
 		TransactionDetailByAccount detailByAccount = new TransactionDetailByAccount();
 		if (detailByAccount != null) {
 			missionChecksByAccount
@@ -3419,5 +3417,37 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		if (list != null)
 			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj, dates));
 		return list;
+	}
+
+	@Override
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccountAndCategory(
+			int categoryType, long categoryId, long accountid,
+			ClientFinanceDate start, ClientFinanceDate end) {
+		TransactionDetailByAccount obj = new TransactionDetailByAccount();
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
+		try {
+			list = getFinanceTool().getReportManager()
+					.getTransactionDetailByAccountAndCategory(categoryType,
+							categoryId, accountid,
+							dates[0].toClientFinanceDate(),
+							dates[1].toClientFinanceDate(), getCompanyId());
+			if (list != null)
+				list.add((TransactionDetailByAccount) setStartEndDates(obj,
+						dates));
+
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccountAndCategory(
+			int i, long categoryid, String status,
+			ClientFinanceDate clientFinanceDate,
+			ClientFinanceDate clientFinanceDate2, long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

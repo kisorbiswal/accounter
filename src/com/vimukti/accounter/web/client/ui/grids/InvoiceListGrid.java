@@ -35,15 +35,29 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected int[] setColTypes() {
 		if (type != 0) {
-			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
-					ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-					ListGrid.COLUMN_TYPE_IMAGE,
-			// ListGrid.COLUMN_TYPE_IMAGE
-			};
+			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+						ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+						ListGrid.COLUMN_TYPE_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_IMAGE,
+				// ListGrid.COLUMN_TYPE_IMAGE
+				};
+			} else {
+				return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+						ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+						ListGrid.COLUMN_TYPE_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_IMAGE,
+				// ListGrid.COLUMN_TYPE_IMAGE
+				};
+			}
+
 		}
 		return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
@@ -76,7 +90,6 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 				return UIUtils.getDateByCompanyType(invoicesList.getDueDate());
 			else
 				return "";
-
 		case 6:
 			return DataUtils.amountAsStringWithCurrency(
 					invoicesList.getNetAmount(), invoicesList.getCurrency());
@@ -87,6 +100,18 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 			return DataUtils.amountAsStringWithCurrency(
 					invoicesList.getBalance(), invoicesList.getCurrency());
 		case 9:
+			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return DataUtils.amountAsStringWithCurrency(
+						invoicesList.getRemainingCredits(),
+						invoicesList.getCurrency());
+			} else {
+				if (!invoicesList.isVoided())
+					return Accounter.getFinanceImages().notvoid();
+				// return "/images/not-void.png";
+				else
+					return Accounter.getFinanceImages().voided();
+			}
+		case 10:
 
 			if (!invoicesList.isVoided())
 				return Accounter.getFinanceImages().notvoid();
@@ -112,13 +137,30 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	protected String[] getColumns() {
 		messages = messages;
 		if (type != 0) {
-			return new String[] { messages.date(), messages.no(),
-					Global.get().messages().payeeName(Global.get().Customer()),
-					messages.dueDate(), messages.netPrice(),
-					messages.totalPrice(), messages.balance(),
-					messages.voided()
-			// , ""
-			};
+			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return new String[] {
+						messages.date(),
+						messages.no(),
+						Global.get().messages()
+								.payeeName(Global.get().Customer()),
+						messages.dueDate(), messages.netPrice(),
+						messages.totalPrice(), messages.balance(),
+						messages.remainingCredits(), messages.voided()
+				// , ""
+				};
+			} else {
+				return new String[] {
+						messages.date(),
+						messages.no(),
+						Global.get().messages()
+								.payeeName(Global.get().Customer()),
+						messages.dueDate(), messages.netPrice(),
+						messages.totalPrice(), messages.balance(),
+						messages.voided()
+				// , ""
+				};
+			}
+
 		}
 		return new String[] { " ", messages.type(), messages.date(),
 				messages.no(),
@@ -153,6 +195,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	@Override
 	protected void onClick(InvoicesList obj, int row, int col) {
 		if (type != 0) {
+
 			col += 2;
 		}
 		if (col == 0) {
@@ -168,7 +211,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
-		if (col == 9 && !obj.isVoided()) {
+		if (((col == 9 && type != ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) || col == 10)
+				&& !obj.isVoided()) {
 			if (obj.getType() == ClientTransaction.TYPE_INVOICE
 					&& (obj.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED || obj
 							.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
@@ -188,10 +232,11 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT
-				&& !obj.isVoided() && col == 9) {
+				&& !obj.isVoided()
+				&& ((col == 9 && type != ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) || col == 10)) {
 			msg = messages.doyouwanttoVoidtheTransaction();
 		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
-				&& col == 9) {
+				&& ((col == 9 && type != ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) || col == 10)) {
 			Accounter.showError(messages.youCannotVoidDraftedTransaction());
 			return;
 		}
@@ -216,7 +261,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 9) {
+						if (((col == 9 && type != ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) || col == 10)) {
 							voidTransaction(obj);
 						} else if (col == 10) {
 							deleteTransaction(obj);
@@ -286,6 +331,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 8:
 			return 100;
 		case 9:
+			return 100;
+		case 10:
 			return 43;
 		default:
 			return -1;
@@ -317,8 +364,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 				return date1.compareTo(date2);
 			break;
 		case 2:
-			String num1 = obj1.getNumber();
-			String num2 = obj2.getNumber();
+			Integer num1 = Integer.parseInt(obj1.getNumber());
+			Integer num2 = Integer.parseInt(obj2.getNumber());
 			return num1.compareTo(num2);
 
 		case 3:

@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -41,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
-		KeyPressHandler, FocusHandler, MouseWheelHandler {
+		KeyUpHandler, FocusHandler, MouseWheelHandler {
 
 	private PopupCalendar popup;
 	private Date selectedDate;
@@ -80,9 +82,10 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		sinkEvents(Event.ONBLUR);
 		// addClickHandler(this);
 		addChangeHandler(this);
-		addKeyPressHandler(this);
+//		addKeyPressHandler(this);
 		addFocusHandler(this);
 		addMouseWheelHandler(this);
+		addKeyUpHandler(this);
 
 		// addBlurHandler(this);
 	}
@@ -594,6 +597,29 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	public void setDate(Date dateAsObject) {
 		selectedDate = dateAsObject;
 		this.setText(dateFormatter.format(this.selectedDate));
+	}
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		int keyCode = event.getNativeEvent().getKeyCode();
+
+		switch (keyCode) {
+		case KeyCodes.KEY_ENTER:
+			parseDate();
+			showPopup();
+			break;
+		case KeyCodes.KEY_ESCAPE:
+			popup.hide();
+			break;
+		case KeyCodes.KEY_UP:
+			processIncrementDate(this.getCursorPos());
+			break;
+		case KeyCodes.KEY_DOWN:
+			processDecrementDate(this.getCursorPos());
+			break;
+		default:
+			break;
+		}
 	}
 
 }

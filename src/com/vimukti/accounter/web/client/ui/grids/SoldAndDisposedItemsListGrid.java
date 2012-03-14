@@ -199,9 +199,9 @@ public class SoldAndDisposedItemsListGrid extends
 			return obj1.getName().compareTo(obj2.getName());
 
 		case 1:
-			String number1 = obj1.getAssetNumber();
-			String number2 = obj2.getAssetNumber();
-			return number1.compareTo(number2);
+			Integer num1 = Integer.parseInt(obj1.getAssetNumber());
+			Integer num2 = Integer.parseInt(obj2.getAssetNumber());
+			return num1.compareTo(num2);
 
 		case 2:
 			return getAccount(obj1).compareTo(getAccount(obj2));

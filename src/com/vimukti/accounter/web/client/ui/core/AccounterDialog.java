@@ -130,9 +130,8 @@ public class AccounterDialog extends CustomDialog {
 
 			});
 			String emailId = Accounter.getUser().getEmail();
-			goPremiumLink = new HTML(
-					"<a href='/site/subscription/gopremium?emailId=" + emailId
-							+ "' target='_blank'>go premium </a>");
+			goPremiumLink = new HTML("<a href='/main/gopremium?emailId="
+					+ emailId + "' target='_blank'>go premium </a>");
 
 			buttonLayout.add(goPremiumLink);
 			buttonLayout.add(okButton);

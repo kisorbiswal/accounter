@@ -217,9 +217,9 @@ public class AccountRegisterCommand extends AbstractCommand {
 		FinanceDate[] financeDates = CommandUtils.getMinimumAndMaximumDates(
 				startDate, endDate, getCompanyId());
 		try {
-			accountRegisterList = new FinanceTool().getAccountRegister(
-					financeDates[0], financeDates[1], account.getID(),
-					getCompanyId());
+			// accountRegisterList = new FinanceTool().getAccountRegister(
+			// financeDates[0], financeDates[1], account.getID(), 0, -1,
+			// getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

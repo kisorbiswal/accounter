@@ -2909,5 +2909,36 @@ button.disable,button.disable:hover {
 .import-preview-panel .preview-header {
 	font-size: 1.5em;
 	font-weight: bold;
->>>>>>> single
+}
+.fiscal-year-width{
+	width: 386px !important;
+	margin-bottom: 10px;
+}
+.thankyou-header {
+	text-align: center !important;
+}
+
+.thankyou-header  p {
+	font-size: 25px;
+	line-height: 30px;
+}
+
+.thank-you-data {
+	background: -moz-linear-gradient(center top, #3299A4, #2D8B93) repeat
+		scroll 0 0 transparent;
+	border: thin solid #1A5158;
+	color: #FFFFFF;
+	padding: 37px;
+}
+
+.thankyou-form {
+	margin: 7em auto;
+	width: 600px;
+}
+
+.thankyou-form .thank-you-data {
+	border: 1px solid #3299A4;
+    border-radius: 10px 10px 10px 10px;
+    margin: 10px 0;
+    padding: 15px;
 }

@@ -214,13 +214,10 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setAmount(object[9] == null ? 0
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setSoOrQuoteNumber((String) object[10]);
-			salesByCustomerDetail
-					.setDueDate(((Long) object[11]) == null ? null
-							: new ClientFinanceDate(((Long) object[11])
-									.longValue()));
+			salesByCustomerDetail.setDueDate(((Long) object[11]) == null ? null
+					: new ClientFinanceDate(((Long) object[11]).longValue()));
 			salesByCustomerDetail.setDeliveryDate(object[12] == null ? null
-					: new ClientFinanceDate(((Long) object[12])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[12]).longValue()));
 			salesByCustomerDetail.setItemGroup((String) object[13]);
 			salesByCustomerDetail.setDescription((String) object[14]);
 			// salesByCustomerDetail.setIsVoid(object[15] == null ? true
@@ -406,13 +403,14 @@ public class SalesManager extends Manager {
 	/**
 	 * 
 	 * @param isLocation
+	 * @param isCustomer
 	 * @param startDate
 	 * @param endDate
 	 * @return
 	 */
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetail(
-			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
-			long companyId) {
+			boolean isLocation, boolean isCustomer, FinanceDate startDate,
+			FinanceDate endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
@@ -429,19 +427,33 @@ public class SalesManager extends Manager {
 
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
-		List l;
-		if (isLocation) {
-			l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
-					.setParameter("companyId", companyId)
 
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())).list();
+		List l = null;
+		if (isCustomer) {
+			if (isLocation) {
+				l = ((Query) session.getNamedQuery("getSalesByLocationDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			} else {
+				l = ((Query) session.getNamedQuery("getSalesByClassDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			}
 		} else {
-			l = ((Query) session.getNamedQuery("getSalesByClassDetail")
-					.setParameter("companyId", companyId)
-
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())).list();
+			if (!isLocation) {
+				l = ((Query) session
+						.getNamedQuery("getPurchaseByLocationDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			} else {
+				l = ((Query) session.getNamedQuery("getPurchaseByClassDetail")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			}
 		}
 
 		Iterator iterator = l.iterator();
@@ -651,7 +663,9 @@ public class SalesManager extends Manager {
 		List l = ((Query) session.getNamedQuery("getSalesOrders")
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("companyId", companyId)
-				.setParameter("endDate", endDate.getDate()).setParameter("type", type)).list();
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("toDay", new ClientFinanceDate().getDate())
+				.setParameter("type", type)).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 

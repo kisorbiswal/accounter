@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
-import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class RecentTransactionHistoryGrid extends
 		ListGrid<RecentTransactionsList> {
@@ -46,9 +49,10 @@ public class RecentTransactionHistoryGrid extends
 					Math.abs(obj.getAmount()),
 					getCompany().getCurrency(obj.getCurrecyId()));
 		case 0:
-			return DateUtills.getSelectedFormatDate(
+			return /*DateUtills.getSelectedFormatDate(
 					DateUtills.getDateAsString(obj.getTransactionDate()),
-					getCompany().getPreferences().getDateFormat());
+					getCompany().getPreferences().getDateFormat());*/
+					getDateByCompanyType(obj.getTransactionDate());
 		case 3:
 			return obj.getName();
 		default:
@@ -59,15 +63,15 @@ public class RecentTransactionHistoryGrid extends
 
 	private String getStringByType(int type) {
 		String title = null;
-//		if (type == Estimate.QUOTES) {
-//			title = messages.quote();
-//		} else if (type == Estimate.CHARGES) {
-//			title = messages.charge();
-//		} else if (type == Estimate.CREDITS) {
-//			title = messages.credit();
-//		} else if (type == Estimate.SALES_ORDER) {
-//			title = messages.salesOrder();
-//		}
+		if (type == Estimate.QUOTES) {
+			title = messages.quote();
+		} else if (type == Estimate.CHARGES) {
+			title = messages.charge();
+		} else if (type == Estimate.CREDITS) {
+			title = messages.credit();
+		} else if (type == Estimate.SALES_ORDER) {
+			title = messages.salesOrder();
+		}
 		return title;
 	}
 
@@ -113,7 +117,7 @@ public class RecentTransactionHistoryGrid extends
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
-			return 60;
+			return 100;
 		case 3:
 			return 100;
 		default:
@@ -126,5 +130,18 @@ public class RecentTransactionHistoryGrid extends
 	protected String[] getColumns() {
 		return new String[] { "", "", "", "" };
 	}
+	public String getDateByCompanyType(ClientFinanceDate date) {
+		
+		if (date == null) {
+			return "";
+		}
+		String dateFormat = Global.get().preferences().getDateFormat();
+		if (dateFormat == null) {
+			dateFormat = "dd/MM/yyyy";
+		}
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+		String format = dateFormatter.format(date.getDateAsObject());
+		return format;
 
+	}
 }

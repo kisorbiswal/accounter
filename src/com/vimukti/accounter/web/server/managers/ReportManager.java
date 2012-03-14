@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server.managers;
 
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -349,7 +348,6 @@ public class ReportManager extends Manager {
 		} else if (categoryType == 1) {
 			l = session.getNamedQuery("getProfitAndLossByClass")
 					.setParameter("companyId", companyId)
-
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
 		} else {
@@ -380,10 +378,10 @@ public class ReportManager extends Manager {
 				long location = object[4] == null ? 0 : ((Long) object[4])
 						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
-
+				record.setCategoryId(location);
 				record.getMap().put(location, amount);
-				record.setParentAccount(object[6] == null ? 0
-						: ((Long) object[6]).longValue());
+				// record.setParentAccount(object[6] == null ? 0
+				// : ((Long) object[6]).longValue());
 				queryResult.add(record);
 			} else {
 				ProfitAndLossByLocation record = queryResult.get(queryResult
@@ -2881,7 +2879,7 @@ public class ReportManager extends Manager {
 			if (viewType == 0) {
 				Query balanceQuery = session
 						.getNamedQuery("getOpeningBalanceForCustomerByDate")
-						.setParameter("uptoDate", fromDate.getDate())
+						.setParameter("uptoDate", toDate.getDate())
 						.setParameter("payeeId", id)
 						.setParameter("companyId", companyId);
 				Object balance = balanceQuery.uniqueResult();
@@ -2989,7 +2987,7 @@ public class ReportManager extends Manager {
 			if (viewType == 0) {
 				Query balanceQuery = session
 						.getNamedQuery("getOpeningBalanceForVendorByDate")
-						.setParameter("uptoDate", fromDate.getDate())
+						.setParameter("uptoDate", toDate.getDate())
 						.setParameter("payeeId", id)
 						.setParameter("companyId", companyId);
 				Object balance = balanceQuery.uniqueResult();
@@ -3777,7 +3775,7 @@ public class ReportManager extends Manager {
 			BankDepositDetail depositDetail = new BankDepositDetail();
 			depositDetail.setTransactionId((Long) objects[0]);
 			depositDetail.setTransactionType((Integer) objects[1]);
-			depositDetail.setNumber((Long) objects[2]);
+			depositDetail.setNumber((String) objects[2]);
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3842,7 +3840,7 @@ public class ReportManager extends Manager {
 			BankCheckDetail checkDetail = new BankCheckDetail();
 			checkDetail.setTransactionId((Long) objects[0]);
 			checkDetail.setTransactionType((Integer) objects[1]);
-			checkDetail.setTransactionNumber((Long) objects[2]);
+			checkDetail.setTransactionNumber((String) objects[2]);
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
@@ -3911,7 +3909,8 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long companyId, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
@@ -3971,25 +3970,34 @@ public class ReportManager extends Manager {
 	 * @return
 	 */
 	public ArrayList<TransactionDetailByAccount> getMissionChecksByAccount(
-			long accountId, ClientFinanceDate start, ClientFinanceDate end,
-			long companyId) {
+			long accountId, FinanceDate start, FinanceDate end, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
 
 		Account account = (Account) session.get(Account.class, accountId);
 		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
-			result = session.getNamedQuery("get.all.invoices.by.account")
+			result = session
+					.getNamedQuery("get.all.invoices.by.account")
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
 					.setParameter("companyId", companyId)
-					.setParameter("accountId", accountId).list();
+					.setParameter("accountId", accountId)
+					.setParameter("tobePrint", "TO BE PRINTED",
+							EncryptedStringType.INSTANCE)
+					.setParameter("empty", "", EncryptedStringType.INSTANCE)
+					.list();
 		} else if (account.getType() == ClientAccount.TYPE_BANK) {
-			result = session.getNamedQuery("get.missing.checks.by.account")
+			result = session
+					.getNamedQuery("get.missing.checks.by.account")
 					.setParameter("accountId", accountId)
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
-					.setParameter("companyId", companyId).list();
+					.setParameter("companyId", companyId)
+					.setParameter("tobePrint", "TO BE PRINTED",
+							EncryptedStringType.INSTANCE)
+					.setParameter("empty", "", EncryptedStringType.INSTANCE)
+					.list();
 		}
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
@@ -4020,6 +4028,43 @@ public class ReportManager extends Manager {
 
 		}
 		return list;
+	}
+
+	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccountAndCategory(
+			int categoryType, long categoryId, long accountId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query query = session
+				.getNamedQuery(
+						"getTransactionDetailByAccount_ForParticularAccountAndCategory")
+				.setParameter("companyId", companyId)
+				.setParameter("categoryId", categoryId)
+				.setParameter("categoryType", categoryType)
+				.setParameter("accountID", accountId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
+
+		List<TransactionDetailByAccount> transactionDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
+		List list = query.list();
+
+		if (list != null && list.size() > 0) {
+			try {
+				createTransasctionDetailByAccount(list,
+						transactionDetailByAccountList);
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (transactionDetailByAccountList != null) {
+			return new ArrayList<TransactionDetailByAccount>(
+					transactionDetailByAccountList);
+		}
+		return new ArrayList<TransactionDetailByAccount>();
+
 	}
 
 	/**

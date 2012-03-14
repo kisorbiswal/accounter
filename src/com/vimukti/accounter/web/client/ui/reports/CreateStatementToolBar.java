@@ -314,16 +314,23 @@ public class CreateStatementToolBar extends ReportToolbar {
 	}
 
 	public void setStatus(Integer status) {
+		String string = null;
 		if (status == VIEW_OPEN) {
-			viewSelect.setComboItem(messages.open());
+			string = messages.open();
 		} else if (status == VIEW_VOIDED) {
-			viewSelect.setComboItem(messages.voided());
+			string = messages.voided();
 		} else if (status == VIEW_OVERDUE) {
-			viewSelect.setComboItem(messages.overDue());
+			string = messages.overDue();
 		} else if (status == VIEW_ALL) {
-			viewSelect.setComboItem(messages.all());
+			string = messages.all();
 		} else if (status == VIEW_DRAFT) {
-			viewSelect.setComboItem(messages.drafts());
+			string = messages.drafts();
 		}
+		if (string == null) {
+			return;
+		}
+		viewSelect.setComboItem(string);
+		setFilter(string);
+		payeeData();
 	}
 }

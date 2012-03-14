@@ -475,27 +475,27 @@ public class StatementTransactionsReconcileView extends
 
 		this.account = takenaccount;
 		grid.setAccount(takenaccount);
-		Accounter.createReportService().getAccountRegister(null, null,
-				takenaccount.getID(),
-				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
-
-					@Override
-					public void onException(AccounterException caught) {
-						Accounter.showError(messages
-								.failedtoGetListofAccounts(takenaccount
-										.getName()));
-
-					}
-
-					@Override
-					public void onResultSuccess(
-							ArrayList<AccountRegister> result) {
-						accountRegister = result;
-						getAccountRegisterGrid(result);
-
-					}
-
-				});
+		// Accounter.createReportService().getAccountRegister(null, null,0,-1,
+		// takenaccount.getID(),
+		// new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
+		//
+		// @Override
+		// public void onException(AccounterException caught) {
+		// Accounter.showError(messages
+		// .failedtoGetListofAccounts(takenaccount
+		// .getName()));
+		//
+		// }
+		//
+		// @Override
+		// public void onResultSuccess(
+		// ArrayList<AccountRegister> result) {
+		// accountRegister = result;
+		// getAccountRegisterGrid(result);
+		//
+		// }
+		//
+		// });
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
 

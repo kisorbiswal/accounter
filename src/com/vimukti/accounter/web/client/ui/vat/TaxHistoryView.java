@@ -3,15 +3,23 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Resources;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -75,16 +83,34 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		mainPanel.add(label);
 		mainPanel.add(form2);
 		mainPanel.add(gridLayout);
+		int pageSize = getPageSize();
+		if (pageSize != -1) {
+			grid.addRangeChangeHandler2(new Handler() {
+
+				@Override
+				public void onRangeChange(RangeChangeEvent event) {
+					onPageChange(event.getNewRange().getStart(), event
+							.getNewRange().getLength());
+				}
+			});
+			SimplePager pager = new SimplePager(TextLocation.CENTER,
+					(Resources) GWT.create(Resources.class), false,
+					pageSize * 2, true);
+			pager.setDisplay(grid);
+			updateRecordsCount(0, 0, 0);
+			mainPanel.add(pager);
+		}
 
 		// grid.getElement().getParentElement()
 		// .addClassName("recounciliation_grid");
-		setData();
+		setData(0, getPageSize());
 		this.add(mainPanel);
 		if (saveAndCloseButton != null)
 			saveAndCloseButton.setVisible(false);
 		if (saveAndNewButton != null) {
-			saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
+			saveAndNewButton.setVisible(!grid.getSelectedRecords().isEmpty());
 			saveAndNewButton.setText(messages.payTax());
+			this.buttonBar.add(saveAndNewButton);
 		}
 		deleteButton.setVisible(false);
 
@@ -125,6 +151,19 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		});
 	}
 
+	private void updateRecordsCount(int start, int length, int total) {
+		grid.updateRange(new Range(start, getPageSize()));
+		grid.setRowCount(total, (start + length) == total);
+	}
+
+	protected void onPageChange(int start, int length) {
+		setData(start, getPageSize());
+	}
+
+	private int getPageSize() {
+		return 25;
+	}
+
 	protected void hideButtons() {
 		if (deleteButton != null) {
 			deleteButton.setVisible(false);
@@ -158,7 +197,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			ClientPayTAX clientPayTAX = new ClientPayTAX();
 			clientPayTAX.setTransactionPayTax(payTaxEntriesList);
 
-			ActionFactory.getpayTAXAction().run(clientPayTAX, true);
+			ActionFactory.getpayTAXAction().run(clientPayTAX, false);
 		}
 	}
 
@@ -177,7 +216,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		gridLayout = new StyledPanel("gridLayout");
 		grid = new TAXHistoryGrid(this, false);
 		grid.setCanEdit(!isInViewMode());
-		grid.isEnable = false;
 		grid.init();
 		grid.setEnabled(!isInViewMode());
 
@@ -185,11 +223,11 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	}
 
-	private void setData() {
+	private void setData(int start, int lenght) {
 		grid.clear();
 		grid.addLoadingImagePanel();
-		rpcGetService
-				.getAllTAXReturns(new AccounterAsyncCallback<List<ClientTAXReturn>>() {
+		rpcGetService.getAllTAXReturns(start, lenght, getViewType(),
+				new AccounterAsyncCallback<PaginationList<ClientTAXReturn>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -198,46 +236,44 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 					}
 
 					@Override
-					public void onResultSuccess(List<ClientTAXReturn> result) {
+					public void onResultSuccess(
+							PaginationList<ClientTAXReturn> result) {
 						grid.removeLoadingImage();
-						if (result == null) {
-
+						grid.removeAllRecords();
+						if (result.isEmpty()) {
+							updateRecordsCount(result.getStart(),
+									grid.getTableRowCount(),
+									result.getTotalCount());
+							grid.addEmptyMessage(messages.noRecordsToShow());
 							return;
 						}
-						clientAbstractTAXReturns = result;
-						for (ClientTAXReturn a : result) {
-							grid.addData(a);
-						}
+						updateRecordsCount(result.getStart(),
+								grid.getTableRowCount(), result.getTotalCount());
+						saveAndNewButton.setVisible(!grid.getSelectedRecords()
+								.isEmpty());
+						grid.sort(10, false);
+
 					}
 				});
 
 	}
 
-	private void filterList(String selectItem) {
-		grid.showLoadingImage();
-		grid.removeAllRecords();
-		if (selectItem.equals(messages.paid())) {
-			for (ClientTAXReturn a : clientAbstractTAXReturns) {
-				if (a.getBalance() <= 0) {
-					this.grid.addData(a);
-				}
-			}
-		} else if (selectItem.equals(messages.unPaid())) {
-			for (ClientTAXReturn a : clientAbstractTAXReturns) {
-				if (a.getBalance() > 0) {
-					this.grid.addData(a);
-				}
-			}
+	private int getViewType() {
+		String selectedValue = optionsCombo.getSelectedValue();
+		if (selectedValue == null || selectedValue.isEmpty()) {
+			return 0;
+		}
+		if (selectedValue.equals(messages.paid())) {
+			return 1;
+		} else if (selectedValue.equals(messages.unPaid())) {
+			return 2;
 		} else {
-			for (ClientTAXReturn a : clientAbstractTAXReturns) {
-				this.grid.addData(a);
-			}
+			return 0;
 		}
-		grid.removeLoadingImage();
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
-		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
+	}
+
+	private void filterList(String selectItem) {
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -307,5 +343,20 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		return taxAgency.getLastTAXReturnDate() == null
 				|| taxReturn.getPeriodEndDate() == taxAgency
 						.getLastTAXReturnDate().getDate();
+	}
+
+	@Override
+	public ClientTAXReturn saveView() {
+		ClientTAXReturn taxReturn = new ClientTAXReturn();
+		taxReturn.setNumber(optionsCombo.getSelectedValue());
+		return taxReturn;
+
+	}
+
+	@Override
+	public void restoreView(ClientTAXReturn viewDate) {
+		optionsCombo.setSelected(viewDate.getNumber());
+		filterList(viewDate.getNumber());
+		hideButtons();
 	}
 }

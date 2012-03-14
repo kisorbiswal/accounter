@@ -326,9 +326,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 					.compareTo(obj2.getPaymentMethodName().toLowerCase());
 
 		case 7:
-			String checkNumber1 = obj1.getCheckNumber().toLowerCase();
-			String checkNumber2 = obj2.getCheckNumber().toLowerCase();
-			return checkNumber1.compareTo(checkNumber2);
+			Integer num = Integer.parseInt(obj1.getCheckNumber());
+			Integer num3 = Integer.parseInt(obj2.getCheckNumber());
+			return num.compareTo(num3);
 
 		case 8:
 			return obj1.getAmountPaid().compareTo(obj2.getAmountPaid());

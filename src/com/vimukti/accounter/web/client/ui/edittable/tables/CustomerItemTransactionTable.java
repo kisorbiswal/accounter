@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.NewQuantityColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionClassColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
@@ -34,13 +36,15 @@ public abstract class CustomerItemTransactionTable extends
 	}
 
 	public CustomerItemTransactionTable(boolean enableTax, boolean showTaxCode,
-			boolean enableDisCount, boolean showDisCount,
-			ICurrencyProvider currencyProvider) {
+			boolean enableDisCount, boolean showDisCount, boolean isTrackClass,
+			boolean isClassPerDetailLine, ICurrencyProvider currencyProvider) {
 		super(1, enableDisCount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		this.enableDisCount = enableDisCount;
 		this.showDiscount = showDisCount;
+		this.enableClass = isTrackClass;
+		this.showClass = isClassPerDetailLine;
 		addEmptyRecords();
 	}
 
@@ -153,6 +157,29 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		}
 
+		if (enableClass) {
+			if (showClass) {
+				this.addColumn(new TransactionClassColumn<ClientTransactionItem>() {
+
+					@Override
+					protected ClientAccounterClass getValue(
+							ClientTransactionItem row) {
+						return Accounter.getCompany().getAccounterClass(
+								row.getAccounterClass());
+					}
+
+					@Override
+					protected void setValue(ClientTransactionItem row,
+							ClientAccounterClass newValue) {
+						if (newValue != null) {
+							row.setAccounterClass(newValue.getID());
+							getTable().update(row);
+						}
+					}
+
+				});
+			}
+		}
 		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		// if (getCompany().getPreferences().isChargeSalesTax()) {

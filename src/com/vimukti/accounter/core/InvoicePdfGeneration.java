@@ -27,13 +27,14 @@ public class InvoicePdfGeneration {
 	private Invoice invoice;
 	private Company company;
 	private BrandingTheme brandingTheme;
+	private CompanyPreferences preferences;
 
 	public InvoicePdfGeneration(Invoice invoice, Company company,
 			BrandingTheme brandingTheme) {
 		this.invoice = invoice;
 		this.company = company;
 		this.brandingTheme = brandingTheme;
-
+		preferences = company.getPreferences();
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
@@ -88,6 +89,7 @@ public class InvoicePdfGeneration {
 			headersMetaData.addFieldAsList("item.itemUnitPrice");
 			headersMetaData.addFieldAsList("item.discount");
 			headersMetaData.addFieldAsList("item.itemTotalPrice");
+			headersMetaData.addFieldAsList("item.className");
 			headersMetaData.addFieldAsList("item.itemVatRate");
 			headersMetaData.addFieldAsList("item.itemVatAmount");
 			report.setFieldsMetadata(headersMetaData);
@@ -122,17 +124,29 @@ public class InvoicePdfGeneration {
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
-
-				String discount = Utility.decimalConversation(
-						item.getDiscount(), "");
+				String discount = "";
+				if (preferences.isTrackDiscounts()
+						&& preferences.isDiscountPerDetailLine()) {
+					discount = Utility.decimalConversation(item.getDiscount(),
+							"");
+				}
 
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
 				if (taxCode != null) {
 					vatRate = item.getTaxCode().getName();
 				}
+
+				String className = "";
+				if (preferences.isClassTrackingEnabled()) {
+					if (preferences.isClassPerDetailLine()) {
+						if (item.getAccounterClass() != null) {
+							className = item.getAccounterClass().getName();
+						}
+					}
+				}
 				itemList.add(new ItemList(name, description, qty, unitPrice,
-						discount, totalPrice, vatRate, vatAmount));
+						className, discount, totalPrice, vatRate, vatAmount));
 			}
 
 			context.put("item", itemList);
@@ -140,11 +154,15 @@ public class InvoicePdfGeneration {
 					symbol);
 
 			i.setTotal(total);
+			String netAmount = Utility.decimalConversation(
+					invoice.getNetAmount(), symbol);
+			i.setNetAmount(netAmount);
+
 			i.setPayment(Utility.decimalConversation(invoice.getPayments(),
 					symbol));
 			i.setBalancedue(Utility.decimalConversation(
 					invoice.getBalanceDue(), symbol));
-
+			i.setOrderNumber(invoice.getOrderNum());
 			i.setMemo(invoice.getMemo());
 			String termsNCondn = forNullValue(brandingTheme
 					.getTerms_And_Payment_Advice());
@@ -161,6 +179,76 @@ public class InvoicePdfGeneration {
 			i.setEmail(paypalEmail);
 
 			i.setRegistrationAddress(getRegistrationAddress());
+
+			if (preferences.isJobTrackingEnabled()) {
+				if (invoice.getJob() != null) {
+					i.setJob(invoice.getJob().getJobName());
+				}
+			} else {
+				i.setJob("");
+			}
+
+			if (preferences.isLocationTrackingEnabled()) {
+				if (invoice.getLocation() != null) {
+					i.setLocation(invoice.getLocation().getName());
+				}
+			} else {
+				i.setLocation("");
+			}
+
+			i.setCustomerName(invoice.getCustomer().getName());
+
+			List<TransactionItem> items = invoice.getTransactionItems();
+			if (preferences.isTrackDiscounts()
+					&& (preferences.isDiscountPerDetailLine() == false)) {
+				double discount = 0;
+
+				for (TransactionItem trItem : items) {
+					if (trItem != null) {
+						Double discountValue = trItem.getDiscount();
+						if (discountValue != null) {
+							discount = discountValue.doubleValue();
+							if (discount != 0.0D)
+								break;
+							else
+								continue;
+						}
+					}
+				}
+
+				String discountVal = Utility.decimalConversation(discount,
+						symbol);
+				i.setDiscount(discountVal);
+
+			} else {
+				i.setDiscount("");
+			}
+			if (preferences.isClassTrackingEnabled()
+					&& (!preferences.isClassPerDetailLine() == false)) {
+				String accounterClass = "";
+				for (TransactionItem trItem : items) {
+					if (trItem.getAccounterClass() != null) {
+						if (trItem.getAccounterClass() != null) {
+							accounterClass = trItem.getAccounterClass()
+									.getclassName();
+						}
+						if (accounterClass != null) {
+							break;
+						} else {
+							continue;
+						}
+					}
+
+				}
+				i.setClassName(accounterClass);
+			} else {
+				i.setClassName("");
+			}
+			i.setDeliveryDate(Utility.getDateInSelectedFormat(invoice
+					.getDeliverydate()));
+			if (invoice.getShippingTerm() != null) {
+				i.setShippingTerms(invoice.getShippingTerm().getName());
+			}
 
 			context.put("logo", logo);
 			context.put("invoice", i);
@@ -329,6 +417,7 @@ public class InvoicePdfGeneration {
 		private String title;
 		private String invoiceNumber;
 		private String invoiceDate;
+		private String orderNumber;
 		private String currency;
 		private String terms;
 		private String dueDate;
@@ -343,6 +432,14 @@ public class InvoicePdfGeneration {
 		private String adviceTerms;
 		private String email;
 		private String registrationAddress;
+		private String discount;
+		private String netAmount;
+		private String customerName;
+		private String job;
+		private String className;
+		private String location;
+		private String deliveryDate;
+		private String shippingTerms;
 
 		public String getInvoiceNumber() {
 			return invoiceNumber;
@@ -480,6 +577,78 @@ public class InvoicePdfGeneration {
 			this.registrationAddress = registrationAddress;
 		}
 
+		public String getDiscount() {
+			return discount;
+		}
+
+		public void setDiscount(String discount) {
+			this.discount = discount;
+		}
+
+		public String getOrderNumber() {
+			return orderNumber;
+		}
+
+		public void setOrderNumber(String orderNumber) {
+			this.orderNumber = orderNumber;
+		}
+
+		public String getNetAmount() {
+			return netAmount;
+		}
+
+		public void setNetAmount(String netAmount) {
+			this.netAmount = netAmount;
+		}
+
+		public String getJob() {
+			return job;
+		}
+
+		public void setJob(String job) {
+			this.job = job;
+		}
+
+		public String getClassName() {
+			return className;
+		}
+
+		public void setClassName(String className) {
+			this.className = className;
+		}
+
+		public String getLocation() {
+			return location;
+		}
+
+		public void setLocation(String location) {
+			this.location = location;
+		}
+
+		public String getDeliveryDate() {
+			return deliveryDate;
+		}
+
+		public void setDeliveryDate(String deliveryDate) {
+			this.deliveryDate = deliveryDate;
+		}
+
+		public String getShippingTerms() {
+			return shippingTerms;
+		}
+
+		public void setShippingTerms(String shippingTerms) {
+			this.shippingTerms = shippingTerms;
+		}
+
+		public String getCustomerName() {
+			return customerName;
+		}
+
+		public void setCustomerName(String customerName) {
+			this.customerName = customerName;
+		}
+
 	}
 
 	public class ItemList {
@@ -491,14 +660,16 @@ public class InvoicePdfGeneration {
 		private String itemTotalPrice;
 		private String itemVatRate;
 		private String itemVatAmount;
+		private String className;
 
 		ItemList(String name, String description, String quantity,
-				String itemUnitPrice, String discount, String itemTotalPrice,
-				String itemVatRate, String itemVatAmount) {
+				String itemUnitPrice, String className, String discount,
+				String itemTotalPrice, String itemVatRate, String itemVatAmount) {
 			this.name = name;
 			this.description = description;
 			this.quantity = quantity;
 			this.itemUnitPrice = itemUnitPrice;
+			this.className = className;
 			this.discount = discount;
 			this.itemTotalPrice = itemTotalPrice;
 			this.itemVatRate = itemVatRate;
@@ -567,6 +738,14 @@ public class InvoicePdfGeneration {
 
 		public void setItemVatAmount(String itemVatAmount) {
 			this.itemVatAmount = itemVatAmount;
+		}
+
+		public String getClassName() {
+			return className;
+		}
+
+		public void setClassName(String className) {
+			this.className = className;
 		}
 
 	}

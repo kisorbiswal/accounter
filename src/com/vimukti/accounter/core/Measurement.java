@@ -74,13 +74,14 @@ public class Measurement extends CreatableObject implements
 	}
 
 	private String getDefaultUnitType() {
-		for (Unit unit : this.units) {
+		for (Unit unit : this.getUnits()) {
 			if (unit.isDefault()) {
 				return unit.getType();
-			} else
+			} else {
 				return "";
+			}
 		}
-		return null;
+		return "";
 	}
 
 	/**
@@ -116,8 +117,8 @@ public class Measurement extends CreatableObject implements
 	 */
 	public double getFactor(String unitType) {
 
-		for (Unit unit : units) {
-			if (unit.getType().equals(unitType)) {
+		for (Unit unit : getUnits()) {
+			if (unit.getType() != null && unit.getType().equals(unitType)) {
 				return unit.getFactor();
 			}
 		}

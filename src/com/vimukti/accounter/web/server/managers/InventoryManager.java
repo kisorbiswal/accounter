@@ -117,6 +117,9 @@ public class InventoryManager extends Manager {
 					invoicesList.setStatus((Integer) object[10]);
 					invoicesList.setCurrency((Long) object[11]);
 					invoicesList.setSaveStatus((Integer) object[12]);
+					if (invoicesType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+						invoicesList.setRemainingCredits((Double) object[13]);
+					}
 					queryResult.add(invoicesList);
 				}
 				queryResult.setTotalCount(total);
@@ -667,6 +670,38 @@ public class InventoryManager extends Manager {
 					.setParameter("toDate", endDate)
 					.setParameter("itemId", itemId)
 					.setParameter("estimateType", typeOfEstiate);
+
+		} else if (transactionType == Transaction.TYPE_SALES_ORDER) {
+
+			int typeOfEstiate = 6;
+			if (transactionStatusType == TransactionHistory.ALL_SALES_ORDERS) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+			query = session.getNamedQuery("getEstimatesForItem")
+					.setParameter("companyId", companyId)
+					.setParameter("saveStatus", saveStatus)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("itemId", itemId)
+					.setParameter("estimateType", typeOfEstiate);
+
+		} else if (transactionType == TransactionHistory.TYPE_PURCHASE_ORDER) {
+
+			if (transactionStatusType == TransactionHistory.ALL_PURCHASE_ORDERS) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+			query = session.getNamedQuery("getPurchaseOrderForItem")
+					.setParameter("companyId", companyId)
+					.setParameter("saveStatus", saveStatus)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("itemId", itemId);
 
 		} else if (transactionType == Transaction.TYPE_CASH_PURCHASE) {
 			if (transactionStatusType == TransactionHistory.ALL_CASH_PURCHASES) {

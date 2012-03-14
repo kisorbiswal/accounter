@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.widgets;
 
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;

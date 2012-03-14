@@ -113,6 +113,7 @@ public class CreateCompanyServlet extends BaseServlet {
 			session.saveOrUpdate(client);
 
 			AccounterThreadLocal.set(user);
+			company.setCreatedBy(user);
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getClient().getEmailId());
 

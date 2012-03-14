@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -64,7 +66,10 @@ public class JobListView extends BaseListView<ClientJob> implements
 
 	@Override
 	protected String getAddNewLabelString() {
+		if (Utility.isUserHavePermissions(AccounterCoreType.JOB)) {
 		return messages.addNew(messages.job());
+		}
+		return null;
 
 	}
 

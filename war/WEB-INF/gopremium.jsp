@@ -8,6 +8,7 @@
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 <%
 String info =(String) request.getAttribute("info");
+String paypalButtonId =(String) request.getAttribute("paypalButtonId");
 Boolean isSandBoxPaypal = (Boolean) request.getAttribute("isSandBoxPaypal");
 String emailId = (String) request.getAttribute("emailId");
  if(emailId ==null){
@@ -32,14 +33,13 @@ if(isSandBoxPaypal ==null){
 <div class="form-box">
 
 
-<c:if test="${isSandBoxPaypal}"> 
+<% if(isSandBoxPaypal){ %> 
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="hosted_button_id" value="JZ5R2VVPJUVKG">
-</c:if>
-<c:if test="${!isSandBoxPaypal}"> 
+<input type="hidden" name="hosted_button_id" value="<%= paypalButtonId%>">
+<%}else{%>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="hosted_button_id" value="JZ5R2VVPJUVKG">
-</c:if>
+<input type="hidden" name="hosted_button_id" value="<%= paypalButtonId%>">
+<%}%>
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="custom"  value = "<%= emailId %>"   >
 <table>

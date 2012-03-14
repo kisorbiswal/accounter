@@ -71,11 +71,6 @@ public class PurchaseOrder extends Transaction {
 	PaymentTerms paymentTerm;
 
 	/**
-	 * Due FinanceDate, for this Purchase Order
-	 */
-	FinanceDate dueDate;
-
-	/**
 	 * Despatch Date, for this Purchase Order
 	 */
 
@@ -267,27 +262,12 @@ public class PurchaseOrder extends Transaction {
 		this.paymentTerm = paymentTerm;
 	}
 
-	/**
-	 * @return the dueDate
-	 */
-	public FinanceDate getDueDate() {
-		return dueDate;
-	}
-
 	public void setDespatchDate(FinanceDate despatchDate) {
 		this.dispatchDate = despatchDate;
 	}
 
 	public FinanceDate getDespatchDate() {
 		return dispatchDate;
-	}
-
-	/**
-	 * @param dueDate
-	 *            the dueDate to set
-	 */
-	public void setDueDate(FinanceDate dueDate) {
-		this.dueDate = dueDate;
 	}
 
 	/**
@@ -564,9 +544,6 @@ public class PurchaseOrder extends Transaction {
 
 		if (this.dispatchDate != null)
 			w.put(messages.memo(), this.dispatchDate.toString());
-
-		if (this.dueDate != null)
-			w.put(messages.memo(), this.dueDate.toString()).gap();
 
 		if (this.deliveryDate != null)
 			w.put(messages.memo(), this.deliveryDate.toString());

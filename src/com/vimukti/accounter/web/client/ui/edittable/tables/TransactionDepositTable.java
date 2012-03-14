@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
@@ -25,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.PayeeNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextAreaEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionClassColumn;
 
 public abstract class TransactionDepositTable extends
 		EditTable<ClientTransactionDepositItem> {
@@ -32,12 +34,17 @@ public abstract class TransactionDepositTable extends
 	private double total;
 	private boolean isCustomerAllowedToAdd;
 	private ICurrencyProvider currencyProvider;
+	protected boolean enableClass;
+	protected boolean showClass;
 
 	public TransactionDepositTable(boolean isCustomerAllowedToAdd,
+			boolean isTrackClass, boolean isClassPerDetailLine,
 			ICurrencyProvider currencyProvider) {
 		super();
 		this.isCustomerAllowedToAdd = isCustomerAllowedToAdd;
 		this.currencyProvider = currencyProvider;
+		this.enableClass = isTrackClass;
+		this.showClass = isClassPerDetailLine;
 		addEmptyRecords();
 	}
 
@@ -135,7 +142,28 @@ public abstract class TransactionDepositTable extends
 				return messages.total();
 			}
 		});
+		if (enableClass) {
 
+			this.addColumn(new TransactionClassColumn<ClientTransactionDepositItem>() {
+
+				@Override
+				protected ClientAccounterClass getValue(
+						ClientTransactionDepositItem row) {
+					return Accounter.getCompany().getAccounterClass(
+							row.getAccounterClass());
+				}
+
+				@Override
+				protected void setValue(ClientTransactionDepositItem row,
+						ClientAccounterClass newValue) {
+					if (newValue != null) {
+						row.setAccounterClass(newValue.getID());
+						getTable().update(row);
+					}
+				}
+
+			});
+		}
 		if (isCustomerAllowedToAdd) {
 			this.addColumn(new CustomerColumn<ClientTransactionDepositItem>() {
 
@@ -288,6 +316,15 @@ public abstract class TransactionDepositTable extends
 		clear();
 		addEmptyRecords();
 		updateTotals();
+	}
+
+	public void setClass(long classId, boolean force) {
+		for (ClientTransactionDepositItem item : getAllRows()) {
+			if ((item.getAccounterClass() == 0) || force) {
+				item.setAccounterClass(classId);
+			}
+			update(item);
+		}
 	}
 
 }

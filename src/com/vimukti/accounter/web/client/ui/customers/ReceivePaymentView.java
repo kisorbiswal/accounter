@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -513,8 +514,8 @@ public class ReceivePaymentView extends
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
 		lab.setStyleName("label-title");
-		transactionDateItem = new DateField(messages.date(),
-				"transactionDateItem");
+		// transactionDateItem = createTransactionDateItem();
+		transactionDateItem = new DateField(messages.date(),"transactionDateItem");
 		transactionDateItem
 				.setToolTip(messages.selectDateWhenTransactioCreated(this
 						.getAction().getViewName()));
@@ -645,96 +646,98 @@ public class ReceivePaymentView extends
 			depoForm.add(locationCombo);
 		depoForm.add(customerNonEditablebalText, depositInCombo);
 		// depoForm.getCellFormatter().setWidth(0, 0, "203px");
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
+			depoForm.add(classListCombo);
+		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setEnabled(false);
+			depoForm.add(jobListCombo);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
 			depoForm.add(classListCombo);
-
-			if (getPreferences().isJobTrackingEnabled()) {
-				jobListCombo = createJobListCombo();
-				jobListCombo.setEnabled(false);
-				depoForm.add(jobListCombo);
-			}
-
-			depoForm.add(tdsAmount);
-			tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
-
-			currencyWidget = createCurrencyFactorWidget();
-			Label lab1 = new Label(messages.dueForPayment());
-
-			initListGrid();
-
-			unUsedCreditsText = new AmountLabel(
-					messages.unusedCreditsWithCurrencyName(getCompany()
-							.getPrimaryCurrency().getFormalName()));
-			unUsedCreditsText.setEnabled(false);
-
-			unUsedPaymentsText = new AmountLabel(
-					messages.unusedPayments(getCompany().getPrimaryCurrency()
-							.getFormalName()));
-			unUsedPaymentsText.setEnabled(false);
-
-			DynamicForm textForm = new DynamicForm("textForm");
-			textForm.add(unUsedCreditsText, unUsedPaymentsText);
-			unUsedCreditsText.setVisible(!isInViewMode());
-
-			totalWithTDS = new AmountLabel(messages.total());
-			textForm.add(totalWithTDS);
-			// textForm.addStyleName("textbold");
-
-			DynamicForm memoForm = new DynamicForm("memoForm");
-			memoForm.add(memoTextAreaItem);
-
-			StyledPanel bottompanel = new StyledPanel("bottompanel");
-			bottompanel.add(memoForm);
-			bottompanel.add(textForm);
-
-			StyledPanel leftVLay = new StyledPanel("leftVLay");
-			leftVLay.add(payForm);
-
-			StyledPanel rightVLay = new StyledPanel("rightVLay");
-			rightVLay.add(depoForm);
-			if (isMultiCurrencyEnabled()) {
-				rightVLay.add(currencyWidget);
-				currencyWidget.setEnabled(!isInViewMode());
-			}
-
-			topHLay = new StyledPanel("topHLay");
-			topHLay.add(leftVLay);
-			topHLay.add(rightVLay);
-
-			StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
-			gridLayout = new StyledPanel("gridLayout");
-			gridLayout.add(lab1);
-			gridLayout.add(gridView);
-			gridLayout.add(bottomAmtsLayout);
-			gridLayout.add(bottompanel);
-
-			mainVLay = new StyledPanel("mainVLay");
-			mainVLay.add(voidedPanel);
-			mainVLay.add(labeldateNoLayout);
-			mainVLay.add(topHLay);
-			mainVLay.add(gridLayout);
-
-			this.add(mainVLay);
-
-			/* Adding dynamic forms in list */
-			listforms.add(dateNoForm);
-			listforms.add(payForm);
-			listforms.add(depoForm);
-			listforms.add(textForm);
-
-			settabIndexes();
-
-			// if (isMultiCurrencyEnabled()) {
-			// if (!isInViewMode()) {
-			// unUsedCreditsTextForeignCurrency.hide();
-			// }
-			// unUsedPaymentsTextForeignCurrency.hide();
-			// }
 		}
 
+		depoForm.add(tdsAmount);
+		tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
+
+		currencyWidget = createCurrencyFactorWidget();
+		Label lab1 = new Label(messages.dueForPayment());
+
+		initListGrid();
+
+		unUsedCreditsText = new AmountLabel(
+				messages.unusedCreditsWithCurrencyName(getCompany()
+						.getPrimaryCurrency().getFormalName()));
+		unUsedCreditsText.setEnabled(false);
+
+		unUsedPaymentsText = new AmountLabel(
+				messages.unusedPayments(getCompany().getPrimaryCurrency()
+						.getFormalName()));
+		unUsedPaymentsText.setEnabled(false);
+
+		DynamicForm textForm = new DynamicForm("textForm");
+		textForm.add(unUsedCreditsText, unUsedPaymentsText);
+		unUsedCreditsText.setVisible(!isInViewMode());
+
+		totalWithTDS = new AmountLabel(messages.total());
+		textForm.add(totalWithTDS);
+		// textForm.addStyleName("textbold");
+
+		DynamicForm memoForm = new DynamicForm("memoForm");
+		memoForm.add(memoTextAreaItem);
+
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
+		bottompanel.add(memoForm);
+		bottompanel.add(textForm);
+
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
+		leftVLay.add(payForm);
+
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
+		rightVLay.add(depoForm);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			currencyWidget.setEnabled(!isInViewMode());
+		}
+
+		topHLay = new StyledPanel("topHLay");
+		topHLay.add(leftVLay);
+		topHLay.add(rightVLay);
+
+		StyledPanel bottomAmtsLayout = new StyledPanel("bottomAmtsLayout");
+		gridLayout = new StyledPanel("gridLayout");
+		gridLayout.add(lab1);
+		gridLayout.add(gridView);
+		gridLayout.add(bottomAmtsLayout);
+		gridLayout.add(bottompanel);
+
+		mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(voidedPanel);
+		mainVLay.add(labeldateNoLayout);
+		mainVLay.add(topHLay);
+		mainVLay.add(gridLayout);
+
+		this.add(mainVLay);
+
+		/* Adding dynamic forms in list */
+		listforms.add(dateNoForm);
+		listforms.add(payForm);
+		listforms.add(depoForm);
+		listforms.add(textForm);
+
+		settabIndexes();
+
+		// if (isMultiCurrencyEnabled()) {
+		// if (!isInViewMode()) {
+		// unUsedCreditsTextForeignCurrency.hide();
+		// }
+		// unUsedPaymentsTextForeignCurrency.hide();
+		// }
+		}
 	}
 
 	protected void updateTotalWithTDS() {
@@ -815,7 +818,9 @@ public class ReceivePaymentView extends
 
 		transaction
 				.setTransactionReceivePayment(getTransactionRecievePayments(transaction));
-
+		if (isTrackClass() && classListCombo.getSelectedValue() != null)
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
 		transaction.setUnUsedPayments(this.unUsedPayments);
 		transaction.setTotal(totalWithTDS.getAmount());
 		transaction.setUnUsedCredits(this.unUsedCreditsText.getAmount());
@@ -918,18 +923,15 @@ public class ReceivePaymentView extends
 			// refText.setValue(paymentToBeEdited.getReference());
 			paymentMethod = transaction.getPaymentMethod();
 			setAmountRecieved(transaction.getAmount());
-
+			// For Class Tracking
+			if (isTrackClass()) {
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
+			}
 			initTransactionTotalNonEditableItem();
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
 					.getTransactionReceivePayment();
 			initListGridData(tranReceivePaymnetsList);
-			this.clientAccounterClass = getCompany().getAccounterClass(
-					transaction.getAccounterClass());
-			if (getPreferences().isClassTrackingEnabled()
-					&& this.clientAccounterClass != null
-					&& classListCombo != null) {
-				classListCombo.setComboItem(this.getClientAccounterClass());
-			}
 			if (!tranReceivePaymnetsList.isEmpty()) {
 				gridView.setTranReceivePayments(tranReceivePaymnetsList);
 			} else {
@@ -937,11 +939,13 @@ public class ReceivePaymentView extends
 			}
 		}
 		initTransactionNumber();
-		initAccounterClass();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
 		initCustomers();
@@ -1162,18 +1166,18 @@ public class ReceivePaymentView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		if (isTrackClass()) {
+			classListCombo.setEnabled(!isInViewMode());
+		}
 		tdsAmount.setEnabled(!isInViewMode());
 		tdsAmount.setVisible(isTDSEnable());
 		amtText.setAmount(0.00D);
 		tdsAmount.setAmount(0.0D);
 		paymentAmountChanged(0.00D);
 		updateTotalWithTDS();
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setEnabled(!isInViewMode());
 			if (customer != null) {
 				jobListCombo.setCustomer(customer);
 			}
-		}
 	}
 
 	@Override
@@ -1321,6 +1325,14 @@ public class ReceivePaymentView extends
 	@Override
 	public boolean canExportToCsv() {
 		return false;
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
+
 	}
 
 }

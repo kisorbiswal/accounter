@@ -10,13 +10,13 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.JNSI;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -69,7 +69,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 	private void createControl() {
 
-		StyledPanel allPanels = new StyledPanel("allPanels");
+		VerticalPanel allPanels = new VerticalPanel();
+		allPanels.setWidth("100%");
 
 		CaptionPanel panel = new CaptionPanel(messages.exampleFormat());
 		DOM.setStyleAttribute(panel.getElement(), "border", "1px solid #ccc");
@@ -79,21 +80,20 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 		DynamicForm formatForm = new DynamicForm("formatForm");
 
-		positiveTextItem = new TextItem(messages.positive(), "positiveTextItem");
-		positiveTextItem.setEnabled(false);
-		negativeTextItem = new TextItem(messages.negative(), "negativeTextItem");
-		negativeTextItem.setEnabled(false);
+		positiveTextItem = new TextItem(messages.positive(),"positiveTextItem");
+		positiveTextItem.setEnabled(!true);
+		negativeTextItem = new TextItem(messages.negative(),"negativeTextItem");
+		negativeTextItem.setEnabled(!true);
 
 		formatForm.add(positiveTextItem, negativeTextItem);
 
 		DynamicForm form = new DynamicForm("form");
 		form.addStyleName("currency_format_align");
 
-		currencySymbolItem = new TextItem(messages.currencySymbol(),
-				"currencySymbolItem");
+		currencySymbolItem = new TextItem(messages.currencySymbol(),"currencySymbolItem");
 		currencySymbolItem.setValue(getCompanyPreferences()
 				.getPrimaryCurrency().getSymbol());
-		currencySymbolItem.setEnabled(false);
+		currencySymbolItem.setEnabled(!true);
 		positiveCurrencyFormatCombo = new SelectCombo(
 				messages.postiveCurrencyFormat(), false);
 		positiveCurrencyFormatCombo
@@ -118,8 +118,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 					}
 				});
 
-		decimalSymbolItem = new TextItem(messages.decimalSymbol(),
-				"decimalSymbolItem");
+		decimalSymbolItem = new TextItem(messages.decimalSymbol(),"decimalSymbolItem");
 		decimalSymbolItem.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -150,8 +149,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 			}
 		});
 
-		digitGroupingSymbolItem = new TextItem(messages.digitGroupingDecimal(),
-				"digitGroupingSymbolItem");
+		digitGroupingSymbolItem = new TextItem(messages.digitGroupingDecimal(),"digitGroupingSymbolItem");
 		digitGroupingSymbolItem.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -160,6 +158,10 @@ public class CurrencyFormatDialog extends BaseDialog {
 				String readNumber = JNSI.readNumber(value);
 				if (readNumber == null || readNumber.equals("null")
 						|| readNumber.isEmpty()) {
+					if (!digitGroupSymbol.isEmpty()) {
+						digitGroupingFormat = digitGroupingFormat.replaceAll(
+								digitGroupSymbol, value);
+					}
 					digitGroupSymbol = value;
 					initDigitGroupingValues();
 					update();
@@ -232,6 +234,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 			}
 		}
 
+		digitGroupingFormat = digitGroupingFormat.replaceAll(",",
+				digitGroupSymbol);
 		initPositiveFormatValues();
 		initNegativeFormatValues();
 		initDigitGroupingValues();
@@ -267,11 +271,11 @@ public class CurrencyFormatDialog extends BaseDialog {
 		}
 
 		if (noOfDigitsAfterDecimal == 0) {
-			decimalSymbolItem.setEnabled(false);
+			decimalSymbolItem.setEnabled(!true);
 			decimalSymbolItem.setValue("");
 			decimalSymbol = "";
 		} else {
-			decimalSymbolItem.setEnabled(true);
+			decimalSymbolItem.setEnabled(!false);
 		}
 
 		String pValue = posForValue[posNum].replaceAll("S",
@@ -330,10 +334,13 @@ public class CurrencyFormatDialog extends BaseDialog {
 		companyPreferences.setDecimalNumber((int) noOfDigitsAfterDecimal);
 		companyPreferences.setDecimalCharacte(decimalSymbol);
 		companyPreferences.setDigitGroupCharacter(digitGroupSymbol);
-		companyPreferences.setDigitGroupingFormat(groups
-				.get(digitGroupingFormat));
+		String format = digitGroupingFormat;
+		if (digitGroupSymbol != null && !digitGroupSymbol.isEmpty()) {
+			format = digitGroupingFormat.replaceAll(digitGroupSymbol, ",");
+		}
+		companyPreferences.setDigitGroupingFormat(groups.get(format));
 
-		String value = groups.get(digitGroupingFormat);
+		String value = groups.get(format);
 		// String value = "#,##";
 
 		value += getDecimalString();

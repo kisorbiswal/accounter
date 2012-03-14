@@ -806,7 +806,7 @@
 	<servlet-mapping>
 		<servlet-name>GoPremiumServlet </servlet-name>
 		<url-pattern>/main/subscription/cancel</url-pattern>
-		<url-pattern>/site/subscription/gopremium</url-pattern>
+		<url-pattern>/main/subscription/gopremium</url-pattern>
 	</servlet-mapping>
 	<servlet>
 
@@ -840,7 +840,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SubscriptionManagementServlet </servlet-name>
-		<url-pattern>/site/subscriptionmanagement</url-pattern>
+		<url-pattern>/main/subscriptionmanagement</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -877,4 +877,16 @@
 		<servlet-name>EncryptCompaniesServlet </servlet-name>
 		<url-pattern>/main/encryption</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PremiumServlet</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.PremiumServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PremiumServlet </servlet-name>
+		<url-pattern>/main/gopremium</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

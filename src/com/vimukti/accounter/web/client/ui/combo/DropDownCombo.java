@@ -9,7 +9,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -672,7 +671,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		initCombo(autocompleteItems);
 
 		showPopup();
-
+		textBox.setFocus(true);
 	}
 
 	// protected List<T> getComboitemsByName(String value) {

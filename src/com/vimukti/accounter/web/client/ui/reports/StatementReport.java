@@ -202,12 +202,13 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
-		long status1 = ((Long) map.get("statement"));
+		long payeeID = ((Long) map.get("payeeID"));
 
 		int view_Id = (Integer) map.get("viewId");
-		if (this.payeeId == 0) {
-			setPayeeId(status1);
-			toolbar.setPayeeId(status1);
+		if (this.payeeId == 0
+				&& Accounter.getCompany().getPayee(payeeID) != null) {
+			setPayeeId(payeeID);
+			toolbar.setPayeeId(payeeID);
 			Boolean isVendor = (Boolean) map.get("isVendor");
 			this.isVendor = isVendor == null ? false : isVendor;
 		}
@@ -226,9 +227,9 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();
 		int viewId = toolbar.getViewId();
-		long status = getPayeeId();
+		long payeeID = getPayeeId();
 		map.put("selectedDateRange", selectedDateRange);
-		map.put("statement", status);
+		map.put("payeeID", payeeID);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		map.put("isVendor", isVendor);

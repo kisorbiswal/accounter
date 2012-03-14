@@ -12,7 +12,7 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	long id;
 	long accountId;
 	String accountName;
@@ -30,6 +30,10 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 	private transient boolean isIncrease;
 	String accountFlow;
 	double totalAmount;
+	// JOB ,LOCATION,CLASS ID
+	private long categoryId;
+	// JOB ,LOCATION,CLASS type
+	private int categoryType;
 
 	/**
 	 * @return the id
@@ -288,5 +292,21 @@ public class TrialBalance extends BaseReport implements IsSerializable,
 			return true;
 
 		return false;
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public int getCategoryType() {
+		return categoryType;
+	}
+
+	public void setCategoryType(int categoryType) {
+		this.categoryType = categoryType;
 	}
 }

@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -50,6 +51,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -1011,6 +1013,10 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				transactionItem.setDiscount(discountField.getAmount());
 			}
 		}
+		if (isTrackClass() && !getPreferences().isClassPerDetailLine()
+				&& accounterClass != null) {
+			transactionItem.setAccounterClass(accounterClass.getID());
+		}
 		addItemTransactionItem(transactionItem);
 
 	}
@@ -1042,4 +1048,19 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
 
 	protected abstract void addItemTransactionItem(ClientTransactionItem item);
+
+	protected String isExceedCreditLimit(ClientCustomer customer, double total) {
+		if (customer == null
+				|| DecimalUtil.isEquals(customer.getCreditLimit(), 0)) {
+			return null;
+		}
+		double customerBalance = customer.getBalance();
+		double finalBalance = customerBalance + total;
+		if (DecimalUtil.isGreaterThan(finalBalance, customer.getCreditLimit())) {
+			return messages.creditLimitExceed(customer.getName(),
+					DataUtils.getAmountAsStrings(customer.getCreditLimit()),
+					DataUtils.getAmountAsStrings(finalBalance));
+		}
+		return null;
+	}
 }

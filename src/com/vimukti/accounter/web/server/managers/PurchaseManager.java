@@ -224,7 +224,9 @@ public class PurchaseManager extends Manager {
 		Query query = session.getNamedQuery("getPurchaseOrdersList")
 				.setParameter("companyId", companyId)
 				.setParameter("fromDate", fromDate)
-				.setParameter("toDate", toDate).setParameter("type", type);
+				.setParameter("toDate", toDate)
+				.setParameter("toDay", new ClientFinanceDate().getDate())
+				.setParameter("type", type);
 
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
@@ -288,11 +290,15 @@ public class PurchaseManager extends Manager {
 	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(int type,
 			FinanceDate startDate, FinanceDate endDate, long companyId)
 			throws DAOException {
+		if (type == -1) {
+			type = -2;
+		}
 		Session session = HibernateUtil.getCurrentSession();
 		List l = ((Query) session.getNamedQuery("getPurchaseOrdersList")
 				.setParameter("companyId", companyId)
 				.setParameter("fromDate", startDate.getDate())
 				.setParameter("toDate", endDate.getDate())
+				.setParameter("toDay", new ClientFinanceDate().getDate())
 				.setParameter("type", type)).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
@@ -347,8 +353,7 @@ public class PurchaseManager extends Manager {
 					((Long) object[4]).longValue()));
 			salesByCustomerDetail.setPaymentTermName((String) object[5]);
 			salesByCustomerDetail.setDueDate(object[6] == null ? null
-					: new ClientFinanceDate(((Long) object[6])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[6]).longValue()));
 			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[7] == null ? 0 : ((Double) object[7])
 					.intValue());
@@ -358,8 +363,7 @@ public class PurchaseManager extends Manager {
 			salesByCustomerDetail.setAmount(object[9] == null ? 0
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setDeliveryDate(object[10] == null ? null
-					: new ClientFinanceDate(((Long) object[10])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[10]).longValue()));
 			// salesByCustomerDetail.setIsVoid(object[11] == null ? true
 			// : ((Boolean) object[11]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[11]);

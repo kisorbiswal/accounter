@@ -16,7 +16,7 @@ public class BankCheckDetail extends BaseReport implements Serializable,
 	private int transactionType;
 	private long transactionId;
 	private ClientFinanceDate transactionDate;
-	private long transactionNumber;
+	private String transactionNumber;
 	private String payeeName;
 	private String checkNumber;
 	private double checkAmount;
@@ -61,12 +61,12 @@ public class BankCheckDetail extends BaseReport implements Serializable,
 		this.transactionType = transactionType;
 	}
 
-	public long getTransactionNumber() {
+	public String getTransactionNumber() {
 		return transactionNumber;
 	}
 
-	public void setTransactionNumber(long transactionNumber) {
-		this.transactionNumber = transactionNumber;
+	public void setTransactionNumber(String number) {
+		this.transactionNumber = number;
 	}
 
 	public String getCheckNumber() {

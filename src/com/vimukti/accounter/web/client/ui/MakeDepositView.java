@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -306,9 +305,9 @@ public class MakeDepositView extends
 		if (reconcilationAccount != null) {
 			depositFromSelect.setComboItem(reconcilationAccount);
 			this.selectedDepositFromAccount = reconcilationAccount;
-			depositFromSelect.setEnabled(!true);
+			depositFromSelect.setEnabled(false);
 			this.amtText.setAmount(reconcilAmount);
-			amtText.setEnabled(!true);
+			amtText.setEnabled(false);
 			date.setValue(statementRecord.getStatementDate());
 		} else {
 			depositFromSelect.setComboItem(getCompany().getAccount(
@@ -389,7 +388,6 @@ public class MakeDepositView extends
 				amtText.setCurrency(getCurrency(selectedDepositFromAccount
 						.getCurrency()));
 			}
-			initAccounterClass();
 			// gridView.setCanEdit(false);
 			updateTotals();
 		}
@@ -399,6 +397,11 @@ public class MakeDepositView extends
 		// gridView.canDelete(true);
 		// FIMXE--need to add this type
 		// gridView.setEditEvent();
+		if (isTrackClass()) {
+			classListCombo.setComboItem(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
+		}
+
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
@@ -443,10 +446,7 @@ public class MakeDepositView extends
 		}
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-//		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
-		// datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
-		currencyWidget = createCurrencyFactorWidget();
 
 		depositInSelect = new MakeDepositAccountCombo(messages.depositIn()) {
 			@Override
@@ -473,8 +473,6 @@ public class MakeDepositView extends
 			}
 		};
 		depositInSelect.setRequired(true);
-		// depositInSelect.setWidth(100);
-//		depositInSelect.setPopupWidth("450px");
 		depositInSelect.setEnabled(!isInViewMode());
 		depositInSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -512,8 +510,6 @@ public class MakeDepositView extends
 			}
 		};
 		depositFromSelect.setRequired(true);
-//		depositFromSelect.setWidth(100);
-//		depositFromSelect.setPopupWidth("450px");
 		depositFromSelect.setEnabled(!isInViewMode());
 		depositFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -558,8 +554,7 @@ public class MakeDepositView extends
 
 					}
 				});
-		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
-				"amtText");
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),"amtText");
 		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -568,9 +563,8 @@ public class MakeDepositView extends
 				updateTotals();
 			}
 		});
-		memoText = new TextAreaItem(messages.memo(), "memoText");
+		memoText = new TextAreaItem(messages.memo(),"memoText");
 		memoText.setMemo(true, this);
-//		memoText.setWidth(100);
 		memoText.setEnabled(!isInViewMode());
 
 		memoForm = new DynamicForm("memoForm");
@@ -578,9 +572,8 @@ public class MakeDepositView extends
 
 		depoForm = new DynamicForm("depoForm");
 		depoForm.add(depositFromSelect, depositInSelect, amtText);
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (getPreferences().isClassTrackingEnabled()) {
 			depoForm.add(classListCombo);
 		}
 
@@ -602,18 +595,16 @@ public class MakeDepositView extends
 
 				});
 
-		cashBackMemoText = new TextItem(messages.cashBackMemo(),
-				"cashBackMemoText");
-//		cashBackMemoText.setWidth(100);
+		cashBackMemoText = new TextItem(messages.cashBackMemo(),"cashBackMemoText");
+		cashBackMemoText.setWidth(100);
 
 		form1 = new DynamicForm("form1");
 		form1.add(cashBackMemoText, cashBackAccountSelect);
 		// form1.getCellFormatter().setWidth(0, 0, "180px");
-//		form1.setWidth("70%");
+		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(messages.cashBackAmount(), this,
-				getBaseCurrency(), "cashBackAmountText");
-//		cashBackAmountText.setWidth(100);
+				getBaseCurrency(),"cashBackAmountText");
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
 		cashBackAmountText.addChangedHandler(new ChangeHandler() {
@@ -632,8 +623,6 @@ public class MakeDepositView extends
 		transactionTotalBaseCurrencyText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + "0.00");
 		transactionTotalBaseCurrencyText.setEnabled(!true);
-		((Label) transactionTotalBaseCurrencyText.getMainWidget())
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
 		form2 = new DynamicForm("form2");
 
@@ -644,10 +633,9 @@ public class MakeDepositView extends
 
 		form2.addStyleName("textbold");
 		// form2.setWidth("50%");
-//		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
-//		topHLay.setWidth("100%");
+		topHLay.setWidth("100%");
 		topHLay.addStyleName("fields-panel");
 		topHLay.add(depoForm);
 
@@ -664,20 +652,13 @@ public class MakeDepositView extends
 		currencyPanel.add(dynamicForm);
 		currencyPanel.add(currencyWidget);
 		topHLay.add(currencyPanel);
-		// topHLay.setCellHorizontalAlignment(currencyPanel,
-		// HasAlignment.ALIGN_RIGHT);
 
 		StyledPanel panel = new StyledPanel("panel");
-		// panel.setHorizontalAlignment(ALIGN_LEFT);
 		// panel.add(addButton);
-		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
 		StyledPanel botHLay = new StyledPanel("botHLay");
-//		botHLay.setWidth("100%");
 		botHLay.add(memoForm);
-		// botHLay.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		botHLay.add(form2);
-		// botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
 
 		StyledPanel vPanel = new StyledPanel("vPanel");
 		vPanel.add(panel);
@@ -688,9 +669,20 @@ public class MakeDepositView extends
 		mainVLay.add(voidedPanel);
 		mainVLay.add(datepanel);
 		mainVLay.add(topHLay);
+		// mainVLay.add(lab1);
+		// mainVLay.add(addButton);
+
+		// mainVLay.add(gridView);
+
 		mainVLay.add(vPanel);
 
+		// if (UIUtils.isMSIEBrowser()) {
+		// resetFormView();
+		// }
+
 		this.add(mainVLay);
+
+		// setSize("700", "600");
 
 		/* Adding dynamic forms in list */
 		listforms.add(depoForm);
@@ -708,10 +700,30 @@ public class MakeDepositView extends
 
 	protected void updateTotals() {
 		Double amount = amtText.getAmount();
+		if (amtText.getCurrency().getID() != getCompany().getPrimaryCurrency()
+				.getID()) {
 		transactionTotalBaseCurrencyText
 				.setAmount(getAmountInBaseCurrency(amount));
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.setAmount(amount);
+		}
+		} else {
+			transactionTotalBaseCurrencyText.setAmount(amount);
+			if (isMultiCurrencyEnabled()) {
+				foreignCurrencyamountLabel
+						.setAmount(calculateTransactionCurrencyAmount(amount));
+			}
+		}
+	}
+
+	private double calculateTransactionCurrencyAmount(Double amount) {
+		if (currency != null && amount != null) {
+			if (currencyFactor < 0.0) {
+				currencyFactor = 1.0;
+			}
+			return amount / currencyFactor;
+		} else {
+			return amount;
 		}
 	}
 
@@ -942,6 +954,8 @@ public class MakeDepositView extends
 		if (isMultiCurrencyEnabled()) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		if (isTrackClass())
+			classListCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -1005,7 +1019,10 @@ public class MakeDepositView extends
 		// Setting Cash back amount
 		transaction.setCashBackAmount(cashBackAmountText.getAmount());
 		// Setting Total amount
-
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 		// Setting Total
 		transaction.setTotal(amtText.getAmount());
 
@@ -1147,5 +1164,12 @@ public class MakeDepositView extends
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 	}
 }

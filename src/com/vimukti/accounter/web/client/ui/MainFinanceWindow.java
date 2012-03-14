@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -596,6 +597,10 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(ActionFactory.getTransactionDetailByAccountAction()
 				.getHistoryToken(), ActionFactory
 				.getTransactionDetailByAccountAction());
+		actions.put(ActionFactory
+				.getTransactionDetailByAccountAndCategoryAction()
+				.getHistoryToken(), ActionFactory
+				.getTransactionDetailByAccountAndCategoryAction());
 		actions.put(ActionFactory.getGlReportAction().getHistoryToken(),
 				ActionFactory.getGlReportAction());
 		actions.put(ActionFactory.getExpenseReportAction().getHistoryToken(),
@@ -740,7 +745,7 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(reconcilationsAction.getHistoryToken(),
 				reconcilationsAction);
 		SalesByLocationDetailsAction salesByLocationDetailActionTrue = ActionFactory
-				.getSalesByLocationDetailsAction(true);
+				.getSalesByLocationDetailsAction(true, true);
 		SalesByLocationSummaryAction salesByLocationSummaryActionTrue = ActionFactory
 				.getSalesByLocationSummaryAction(true);
 
@@ -751,10 +756,20 @@ public class MainFinanceWindow extends FlowPanel {
 				salesByLocationSummaryActionTrue);
 
 		SalesByLocationDetailsAction salesByLocationDetailActionFalse = ActionFactory
-				.getSalesByLocationDetailsAction(false);
+				.getSalesByLocationDetailsAction(false, true);
 
 		SalesByLocationSummaryAction salesByLocationSummaryActionFalse = ActionFactory
 				.getSalesByLocationSummaryAction(false);
+		// CLASS TRACKING
+		SalesByLocationDetailsAction purchaseByLocationDetailActiontrue = ActionFactory
+				.getSalesByLocationDetailsAction(true, false);
+		SalesByLocationDetailsAction purchaseByLocationDetailActionFalse = ActionFactory
+				.getSalesByLocationDetailsAction(false, false);
+
+		actions.put(purchaseByLocationDetailActiontrue.getHistoryToken(),
+				purchaseByLocationDetailActiontrue);
+		actions.put(purchaseByLocationDetailActionFalse.getHistoryToken(),
+				purchaseByLocationDetailActionFalse);
 
 		actions.put(salesByLocationDetailActionFalse.getHistoryToken(),
 				salesByLocationDetailActionFalse);
@@ -807,8 +822,18 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(ActionFactory.getAddMeasurementAction().getHistoryToken(),
 				ActionFactory.getAddMeasurementAction());
 
-		actions.put(ActionFactory.getInventoryItemsAction().getHistoryToken(),
-				ActionFactory.getInventoryItemsAction());
+		actions.put(
+				ActionFactory.getInventoryItemsAction(
+						ClientItem.TYPE_INVENTORY_PART).getHistoryToken(),
+				ActionFactory
+						.getInventoryItemsAction(ClientItem.TYPE_INVENTORY_PART));
+
+		actions.put(
+				ActionFactory.getInventoryItemsAction(
+						ClientItem.TYPE_INVENTORY_ASSEMBLY).getHistoryToken(),
+				ActionFactory
+						.getInventoryItemsAction(ClientItem.TYPE_INVENTORY_ASSEMBLY));
+
 		actions.put(ActionFactory.getWarehouseListAction().getHistoryToken(),
 				ActionFactory.getWarehouseListAction());
 		actions.put(ActionFactory.getWarehouseTransferListAction()

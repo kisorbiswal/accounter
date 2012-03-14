@@ -55,23 +55,23 @@ public class NewQuoteAction extends Action {
 
 			@Override
 			public void onCreated() {
-				if (type == 0 && data != null) {
+				if (data != null) {
 					type = ((ClientEstimate) data).getEstimateType();
-					switch (type) {
-					case ClientEstimate.QUOTES:
-						title = messages.quote();
-						break;
-					case ClientEstimate.CHARGES:
-						title = messages.charge();
-						break;
-					case ClientEstimate.CREDITS:
-						title = messages.credit();
-						break;
-					case ClientEstimate.SALES_ORDER:
-						title = messages.salesOrder();
-					default:
-						break;
-					}
+				}
+				switch (type) {
+				case ClientEstimate.QUOTES:
+					title = messages.quote();
+					break;
+				case ClientEstimate.CHARGES:
+					title = messages.charge();
+					break;
+				case ClientEstimate.CREDITS:
+					title = messages.credit();
+					break;
+				case ClientEstimate.SALES_ORDER:
+					title = messages.salesOrder();
+				default:
+					break;
 				}
 				view = QuoteView.getInstance(type, title);
 

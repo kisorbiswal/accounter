@@ -36,7 +36,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		String[] statusArray = { messages.open(), messages.completed(),
-				messages.cancelled(), messages.all() };
+				messages.cancelled(), messages.expired(), messages.all() };
 
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
@@ -68,6 +68,9 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 						} else if (statusCombo.getSelectedValue().equals(
 								messages.all())) {
 							status = -1;
+						} else if (statusCombo.getSelectedValue().equals(
+								messages.expired())) {
+							status = 6;
 						} else
 							status = ClientTransaction.STATUS_CANCELLED;
 						ClientFinanceDate startDate = fromItem.getDate();
@@ -97,10 +100,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 				});
 
-		fromItem = new DateItem(messages.from(), "fromItem");
+		fromItem = new DateItem(messages.from(),"fromItem");
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
 
-		toItem = new DateItem(messages.to(), "toItem");
+		toItem = new DateItem(messages.to(),"toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -110,6 +113,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
+		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -154,7 +158,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		// dateRangeCombo.setWidth("200px");
 		// statusCombo.setWidth("200px");
 		// }
-		add(statusCombo, dateRangeCombo, fromItem, toItem);
+		addItems(statusCombo, dateRangeCombo, fromItem, toItem);
 		add(updateButton);
 	}
 

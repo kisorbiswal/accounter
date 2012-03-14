@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -73,7 +74,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	@Override
 	public void init() {
 		super.init();
-		
 		this.getElement().setId("TDSDeductorDetailsView");
 		taxOfficeAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		createControls();
@@ -86,6 +86,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	private void createControls() {
 
+		Label titleLabel = new Label(messages.deducatorMastersDetails());
+		titleLabel.removeStyleName("gwt-Label");
+		titleLabel.addStyleName("label-title");
 		deductorName = new TextItem(messages.name(), "deductorName");
 		deductorName.setRequired(true);
 		deductorName.setEnabled(isInViewMode());
@@ -304,7 +307,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		StyledPanel styledPanel = new StyledPanel("panel1");
 		styledPanel.add(taxDynamicForm);
 		styledPanel.add(otherDynamicForm);
-
 		StyledPanel styledPanel1 = new StyledPanel("panel2");
 		styledPanel1.add(styledPanel);
 

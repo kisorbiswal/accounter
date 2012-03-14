@@ -14,9 +14,13 @@
 		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
+		<%	Boolean canEncrypt=(Boolean) request.getAttribute("encrypt");	%>
 		<%	String userEmail=(String) request.getAttribute("emailId");	%>
+		<%	Boolean canCreate=(Boolean) request.getAttribute("canCreate");	%>
 		<%	isPaid=isPaid==null?false:isPaid;	%>
-		<%	enableEncryption=enableEncryption&&isPaid;	%>
+		<%	canEncrypt=canEncrypt==null?false:canEncrypt;	%>
+		<%	enableEncryption=enableEncryption&&isPaid&&canEncrypt;	%>
+		
 	<script type="text/javascript">
 		window.onload=function(){
 		document.body.style.direction=(<%= isConListRTL %>)?"rtl":"ltr";
@@ -71,12 +75,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-        <c:if test="<%= isPaid%>">
-         <c:if test="${message == null}">
-	       <div class="company_name_action">
-				<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
-			</div>
-		 </c:if>
+        <c:if test="<%= canCreate%>">
       	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	</c:if>
       	<ul><li>
@@ -99,12 +98,12 @@
 	      <c:choose>
 				<c:when test="<%= isPaid %>">
 				<td>
-			       <a href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
+			       <a href="/main/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>
 				</td>
 				</c:when>
 				<c:otherwise>
 				<td>
-					<a target="_blank" href="/site/subscription/gopremium?emailId='+userEmail+'">Go Premium</a>
+					<a target="_blank" href="/main/gopremium?emailId=<%=userEmail %>">Go Premium</a>
 				</td>
 				</c:otherwise>
 		   </c:choose>

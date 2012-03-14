@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -435,5 +436,10 @@ public class BuildAssemblyView extends
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		// TODO Auto-generated method stub
+
 	}
 }

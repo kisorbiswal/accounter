@@ -1291,16 +1291,16 @@ public class FinanceTool {
 		return new ArrayList<Long>();
 	}
 
-	public ArrayList<AccountRegister> getAccountRegister(
+	public PaginationList<AccountRegister> getAccountRegister(
 			final FinanceDate startDate, final FinanceDate endDate,
-			final long accountId, long companyId) throws DAOException {
-
+			final long accountId, long companyId, int start, int length)
+			throws DAOException {
+		int total = 0;
 		List<Long> parents = new ArrayList<Long>();
 		parents.add(accountId);
 		parents.addAll(getSubAccs(accountId, companyId));
-
 		List<AccountRegister> queryResult = new ArrayList<AccountRegister>();
-
+		PaginationList<AccountRegister> result = new PaginationList<AccountRegister>();
 		for (Long account : parents) {
 
 			Session session = HibernateUtil.getCurrentSession();
@@ -1312,61 +1312,85 @@ public class FinanceTool {
 					.setParameter("endDate", endDate.getDate())
 					.setParameter("openingBalance",
 							AccounterServerConstants.OPENING_BALANCE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("creditors",
+							AccounterServerConstants.ACCOUNTS_PAYABLE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("debtors",
+							AccounterServerConstants.ACCOUNTS_RECEIVABLE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("multiple", "Multiple",
 							EncryptedStringType.INSTANCE);
 
 			List l = query.list();
+			if (l != null && !(l.isEmpty())) {
+				Object[] object = null;
+				String payeeName = null;
+				PayeeList payeeList = null;
+				Iterator iterator = l.iterator();
 
-			Object[] object = null;
-			Iterator iterator = l.iterator();
+				while ((iterator).hasNext()) {
 
-			while ((iterator).hasNext()) {
+					AccountRegister accountRegister = new AccountRegister();
+					object = (Object[]) iterator.next();
 
-				AccountRegister accountRegister = new AccountRegister();
-				object = (Object[]) iterator.next();
+					accountRegister.setDate(new ClientFinanceDate(
+							(Long) object[0]));
+					accountRegister.setType(object[1] == null ? 0
+							: (Integer) object[1]);
+					accountRegister.setNumber((String) object[2]);
+					accountRegister.setAmount(object[3] == null ? 0
+							: ((Double) object[3]).doubleValue());
+					accountRegister.setPayTo((String) object[4]);
+					accountRegister.setCheckNumber(object[5] == null ? null
+							: ((String) object[5]));
+					accountRegister.setAccount((String) object[6]);
+					/*
+					 * Clob cl = (Clob) object[7]; if (cl == null) {
+					 * 
+					 * accountRegister.setMemo("");
+					 * 
+					 * } else {
+					 * 
+					 * StringBuffer strOut = new StringBuffer(); String aux; try
+					 * { BufferedReader br = new BufferedReader(cl
+					 * .getCharacterStream()); while ((aux = br.readLine()) !=
+					 * null) strOut.append(aux);
+					 * accountRegister.setMemo(strOut.toString()); } catch
+					 * (java.sql.SQLException e1) {
+					 * 
+					 * } catch (java.io.IOException e2) {
+					 * 
+					 * } }
+					 */
+					accountRegister.setMemo((String) object[7]);
+					accountRegister.setBalance(object[8] == null ? 0
+							: ((Double) object[8]).doubleValue());
+					accountRegister.setTransactionId((Long) object[9]);
+					accountRegister.setVoided(object[10] == null ? false
+							: (Boolean) object[10]);
+					accountRegister.setCurrency(object[11] == null ? 0
+							: (Long) object[11]);
+					accountRegister.setCurrencyfactor(object[12] == null ? 0
+							: (Double) object[12]);
+					queryResult.add(accountRegister);
+				}
+				total = queryResult.size();
 
-				accountRegister
-						.setDate(new ClientFinanceDate((Long) object[0]));
-				accountRegister.setType(object[1] == null ? 0
-						: (Integer) object[1]);
-				accountRegister.setNumber((String) object[2]);
-				accountRegister.setAmount(object[3] == null ? 0
-						: ((Double) object[3]).doubleValue());
-				accountRegister.setPayTo((String) object[4]);
-				accountRegister.setCheckNumber(object[5] == null ? null
-						: ((String) object[5]));
-				accountRegister.setAccount((String) object[6]);
-				/*
-				 * Clob cl = (Clob) object[7]; if (cl == null) {
-				 * 
-				 * accountRegister.setMemo("");
-				 * 
-				 * } else {
-				 * 
-				 * StringBuffer strOut = new StringBuffer(); String aux; try {
-				 * BufferedReader br = new BufferedReader(cl
-				 * .getCharacterStream()); while ((aux = br.readLine()) != null)
-				 * strOut.append(aux);
-				 * accountRegister.setMemo(strOut.toString()); } catch
-				 * (java.sql.SQLException e1) {
-				 * 
-				 * } catch (java.io.IOException e2) {
-				 * 
-				 * } }
-				 */
-				accountRegister.setMemo((String) object[7]);
-				accountRegister.setBalance(object[8] == null ? 0
-						: ((Double) object[8]).doubleValue());
-				accountRegister.setTransactionId((Long) object[9]);
-				accountRegister.setVoided(object[10] == null ? false
-						: (Boolean) object[10]);
-				accountRegister.setCurrency(object[11] == null ? 0
-						: (Long) object[11]);
-				accountRegister.setCurrencyfactor(object[12] == null ? 0
-						: (Double) object[12]);
-				queryResult.add(accountRegister);
+				if (length < 0) {
+					result.addAll(queryResult);
+				} else {
+					int toIndex = start + length;
+					if (toIndex > queryResult.size()) {
+						toIndex = queryResult.size();
+					}
+					result.addAll(queryResult.subList(start, toIndex));
+				}
+				result.setTotalCount(total);
+				result.setStart(start);
 			}
 		}
-		return new ArrayList<AccountRegister>(queryResult);
+		return result;
 	}
 
 	public String getNextTransactionNumber(int transactionType, long companyId) {
@@ -3924,11 +3948,11 @@ public class FinanceTool {
 							.getChalanSerialNumber());
 					eTDSObj.setSectionForPayment(chalan.getPaymentSection());
 					eTDSObj.setTotalTDSfordeductees(total);
-					eTDSObj.setDateTaxDeposited(item.getTransactionDate()
-							.getDate());
+					eTDSObj.setDateTaxDeposited(chalan.getDateTaxPaid());
 					eTDSObj.setDeducteeID(item.getVendor().getID());
 					eTDSObj.setPanOfDeductee(item.getVendor().getTaxId());
-					eTDSObj.setDateOFpayment(chalan.getDateTaxPaid());
+					eTDSObj.setDateOFpayment(item.getTransactionDate()
+							.getDate());
 					eTDSObj.setAmountPaid(item.getTotalAmount());
 					eTDSObj.setTds(item.getTdsAmount());
 					eTDSObj.setSurcharge(item.getSurchargeAmount());
@@ -4532,4 +4556,5 @@ public class FinanceTool {
 		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
 		return importerByType.getFields();
 	}
+
 }

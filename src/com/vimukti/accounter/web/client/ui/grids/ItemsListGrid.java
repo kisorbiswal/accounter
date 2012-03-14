@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -157,8 +158,13 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return Utility.getItemTypeText(obj) != null ? Utility
 						.getItemTypeText(obj) : "";
 			case 4:
+				ClientMeasurement measurement = getCompany().getMeasurement(
+						obj.getMeasurement());
+
 				return obj.getOnhandQty() != null ? obj.getOnhandQty()
-						.getValue() : "";
+						.getValue()
+						+ "("
+						+ measurement.getDefaultUnit().getType() + ")" : "";
 			case 5:
 				return DataUtils.amountAsStringWithCurrency(
 						obj.getAverageCost(), currency) != null ? DataUtils

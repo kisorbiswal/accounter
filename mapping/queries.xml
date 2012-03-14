@@ -1114,7 +1114,7 @@
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
-		e.transactionDate between :fromDate and :toDate and e.expirationDate
+		e.transactionDate between :fromDate and :toDate and e.deliveryDate
 		&lt;:today and e.usedInvoice =null
 		order by e.transactionDate desc
 	</query>
@@ -1476,8 +1476,10 @@
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.taxItem.taxAgency.id=:taxAgency and v.transactionDate between
 		:startDate
-		and :endDate and v.company=:company order by v.taxItem.name,
-		v.transactionDate
+		and :endDate and v.company=:company and v.saveStatus != 204 
+		and v.saveStatus != 201 and	
+		v.saveStatus != 202 order by v.taxItem.name,
+		v.transactionDate 
 	</query>
 
 	<query name="getTAXCode.for.TAXItemGroup">

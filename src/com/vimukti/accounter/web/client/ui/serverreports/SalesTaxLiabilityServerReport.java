@@ -29,13 +29,12 @@ public class SalesTaxLiabilityServerReport extends
 			return record.getTaxRate() + " %";
 		case 2:
 			return record.getTaxCollected();
+			/*
+			 * case 3: return record.getTotalSales(); case 4: return
+			 * record.getNonTaxable(); case 5: return
+			 * record.getNonTaxableOther();
+			 */
 		case 3:
-			return record.getTotalSales();
-		case 4:
-			return record.getNonTaxable();
-		case 5:
-			return record.getNonTaxableOther();
-		case 6:
 			return record.getTaxable();
 		}
 		return null;
@@ -44,16 +43,20 @@ public class SalesTaxLiabilityServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_AMOUNT, /*
+									 * COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+									 * COLUMN_TYPE_AMOUNT,
+									 */COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getMessages().taxCode(),
-				getMessages().taxRate(), getMessages().taxCollected(),
-				getMessages().totalSales(), getMessages().nonTaxable(),
-				getMessages().nonTaxableOther(), getMessages().taxable() };
+		return new String[] { getMessages().taxCode(), getMessages().taxRate(),
+				getMessages().taxCollected(),
+				/*
+				 * getMessages().totalSales(), getMessages().nonTaxable(),
+				 * getMessages().nonTaxableOther(),
+				 */getMessages().taxable() };
 
 	}
 
@@ -85,8 +88,8 @@ public class SalesTaxLiabilityServerReport extends
 			addSection(sectionName, "", new int[0]);
 		} else if (sectionDepth == 1) {
 			// Inside fist section
-			addSection(getMessages().beginingBalance(),
-					getMessages().total(), new int[] { 2, 3, 4, 5, 6 });
+			addSection(getMessages().beginingBalance(), getMessages().total(),
+					new int[] { 2, 3 });
 		} else if (sectionDepth == 2) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getTaxAgencyName())) {
@@ -117,10 +120,12 @@ public class SalesTaxLiabilityServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().taxCode(),
-				getMessages().taxRate(), getMessages().taxCollected(),
-				getMessages().totalSales(), getMessages().nonTaxable(),
-				getMessages().nonTaxableOther(), getMessages().taxable() };
+		return new String[] { getMessages().taxCode(), getMessages().taxRate(),
+				getMessages().taxCollected(),
+				/*
+				 * getMessages().totalSales(), getMessages().nonTaxable(),
+				 * getMessages().nonTaxableOther(),
+				 */getMessages().taxable() };
 	}
 
 	@Override
@@ -128,17 +133,11 @@ public class SalesTaxLiabilityServerReport extends
 
 		switch (index) {
 		case 1:
-			return 100;
-		case 2:
-			return 120;
-		case 3:
-			return 120;
-		case 4:
-			return 120;
-		case 5:
-			return 120;
-		case 6:
-			return 120;
+			return 200;
+			/*
+			 * case 2: return 120; case 3: return 120; case 4: return 120; case
+			 * 5: return 120; case 6: return 120;
+			 */
 
 		default:
 			return -1;

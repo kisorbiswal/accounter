@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -227,7 +228,10 @@ public class JournalEntryView extends
 			// FIXME
 			// grid.setEditDisableCells(0, 1, 2, 3, 4, 5, 6, 7);
 		}
-
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 		transaction.setNumber(jourNoText.getValue().toString());
 		transaction.setDate(transactionDateItem.getEnteredDate().getDate());
 		transaction.setMemo(memoText.getValue().toString() != null ? memoText
@@ -415,9 +419,12 @@ public class JournalEntryView extends
 			if (transaction.getMemo() != null)
 				memoText.setValue(transaction.getMemo());
 			updateTransaction();
-			initAccounterClass();
 		} else {
 			setData(new ClientJournalEntry());
+		}
+		if (isTrackClass()) {
+			classListCombo.setComboItem(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
 		}
 		initJournalNumber();
 		if (locationTrackingEnabled)
@@ -532,6 +539,8 @@ public class JournalEntryView extends
 		addButton.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
+		if (isTrackClass())
+			classListCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -700,5 +709,15 @@ public class JournalEntryView extends
 
 		return super.canRecur();
 
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+		this.accounterClass = clientAccounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+		} else {
+			classListCombo.setValue("");
+		}
 	}
 }

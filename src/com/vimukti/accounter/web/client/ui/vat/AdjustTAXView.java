@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -530,11 +531,6 @@ public class AdjustTAXView extends
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
 	protected boolean canRecur() {
 		return false;
 	}
@@ -542,6 +538,11 @@ public class AdjustTAXView extends
 	@Override
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 
 	}
 

@@ -66,6 +66,40 @@
 	                        	 <td>${customerVATNumber}</td>
 						 </tr>
 						 <!-- $EndBlock customerVat -->
+						 <!-- $BeginBlock jobTracking -->
+						 <tr>
+                            <td id="vatNumber">${i18_Job}</td>
+	                        <td >${job}</td>
+						 </tr>
+						 <!-- $EndBlock jobTracking -->
+						  <!-- $BeginBlock classTracking -->
+						 <tr>
+                            <td id="vatNumber">${i18_Class}</td>
+	                        <td >${class}</td>
+						 </tr>
+						  <!-- $EndBlock classTracking -->
+						 <!-- $BeginBlock locationTracking -->
+						  <tr>
+                            <td id="vatNumber">${i18_Location}</td>
+	                        <td >${location}</td>
+						 </tr>
+						 <!-- $EndBlock locationTracking -->
+						 <tr>
+                            <td id="vatNumber">${i18_Order_Number}</td>
+	                        <td >${orderNumber}</td>
+						 </tr>
+						 <tr>
+                            <td id="vatNumber">${i18_Delivery_Date}</td>
+	                        <td >${deliveryDate}</td>
+						 </tr>
+						 <tr>
+                            <td id="vatNumber">${i18_Shipping_Terms}</td>
+	                        <td >${shippingTerms}</td>
+						 </tr>
+						 <tr>
+                            <td id="vatNumber">${i18_Customer}</td>
+	                        <td >${customerName}</td>
+						 </tr>
 					 </table> 
 		   </td>
 		   <td style="vertical-align: top;" align="right">
@@ -155,6 +189,9 @@
 	<!-- $BeginBlock discountBlock -->
 	<th><p class="fontSetting">${i18_Discount}</p></th>
 	<!-- $EndBlock discountBlock -->
+	<!-- $BeginBlock classBlock -->
+	<th><p class="fontSetting">${i18_Class}</p></th>
+	<!-- $EndBlock classBlock -->
 	<th><p class="fontSetting">${i18_Total_Price}</p></th>
 	<!-- $BeginBlock vatBlock -->
 	<th><p class="fontSetting">${i18_VATRate}</p></th>
@@ -184,6 +221,13 @@
 	   </div>
 	</td>
 	<!-- $EndBlock discountValueBlock -->
+	<!-- $BeginBlock classValueBlock -->
+	<td>
+	   <div class="cost">
+	     <p class="fontSetting">${itemClass}</p>
+	   </div>
+	</td>
+	<!-- $EndBlock classValueBlock -->
     <td align="center">
 	   <div class="price">
 	     <p class="fontSetting">${itemTotalPrice}</p>
@@ -202,7 +246,7 @@
   </table>
   <table class="xero_sub_total " >
   <tr>
-	<td class="blank memo-text" colspan="4" rowspan="5" width="40%">
+	<td class="blank memo-text" colspan="4" rowspan="7" width="40%">
 	  <p class="fontSetting">${blankText}</p>
 	</td>
 	 <!-- $BeginBlock subtotal -->
@@ -243,6 +287,20 @@
 	  <div class="total"><p class="fontSetting">${balancedue}</p></div>
 	</td>
   </tr>
+      <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Net_Amount}</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${netAmount}</p></div>
+	</td>
+  </tr>
+  <!-- $BeginBlock outerDiscount -->
+  <tr>
+	<td class="total-line balance, item-column"><p class="fontSetting">&nbsp;&nbsp;${i18_Discount}</p></td>
+	<td class="total-value, item-column" align="right">
+	  <div class="total"><p class="fontSetting">${outerDiscount}</p></div>
+	</td>
+  </tr>
+    <!-- $EndBlock outerDiscount -->
   <!-- $EndBlock itemDetails -->
 </table>
 <!-- $BeginBlock termsNpaypalId -->

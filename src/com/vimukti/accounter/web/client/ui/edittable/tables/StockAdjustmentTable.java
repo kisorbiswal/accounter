@@ -366,7 +366,10 @@ public abstract class StockAdjustmentTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		for (ClientTransactionItem transactionItem : this.getRecords()) {
-			if (transactionItem.getQuantity().getValue() <= 0) {
+			ClientItem item = getCompany().getItem(transactionItem.getItem());
+			double onhandQty = item.getOnhandQty().getValue();
+			double adjustQty = transactionItem.getQuantity().getValue();
+			if ((-1 * onhandQty) > adjustQty) {
 				result.addError(transactionItem.getQuantity(),
 						messages.adjustedQtyNegative());
 			}

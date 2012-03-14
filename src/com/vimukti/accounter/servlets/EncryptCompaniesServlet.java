@@ -31,6 +31,10 @@ public class EncryptCompaniesServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		if (!ServerConfiguration.isEnableEncryption()) {
+			resp.sendRedirect(COMPANIES_URL);
+			return;
+		}
 		HttpSession session = req.getSession();
 		if (session != null && session.getAttribute(EMAIL_ID) != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);

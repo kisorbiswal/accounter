@@ -175,10 +175,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
+		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
+				endDate);
 		reportview.makeReportRequest(expenseType, startDate, endDate);
-
-		// itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
-		// endDate);
 	}
 
 	@Override

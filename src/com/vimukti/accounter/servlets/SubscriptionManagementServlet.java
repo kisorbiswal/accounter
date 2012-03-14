@@ -12,16 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.ClientSubscription;
-import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
-import com.vimukti.accounter.web.server.OperationContext;
 
 public class SubscriptionManagementServlet extends BaseServlet {
 
@@ -34,111 +31,6 @@ public class SubscriptionManagementServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		showSubscriptionManagementDetails(req, resp);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		Session session = HibernateUtil.getCurrentSession();
-		org.hibernate.Transaction transaction = session.beginTransaction();
-		HttpSession session2 = req.getSession();
-		if (session2 == null) {
-			resp.sendRedirect(LOGIN_URL);
-			return;
-		}
-		String emailId = req.getSession().getAttribute(EMAIL_ID).toString();
-		Client client = getClient(emailId);
-		if (client == null) {
-			resp.sendRedirect(LOGIN_URL);
-			return;
-		}
-		String string = req.getParameter("userMailds");
-		ClientSubscription clientSubscription = client.getClientSubscription();
-		Set<String> oldMembers = client.getClientSubscription().getMembers();
-		List<String> existedUsers = getExistedUsers(oldMembers);
-		Set<String> members = getMembers(string);
-		try {
-			mergeUsers(client, oldMembers, existedUsers, members);
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
-		if (!checkTotalMembers(oldMembers, client.getClientSubscription()
-				.getPremiumType())) {
-			req.setAttribute("info", "No of users should be limit");
-			dispatch(req, resp, view);
-			return;
-		}
-		clientSubscription.setMembers(members);
-
-		saveEntry(clientSubscription);
-		transaction.commit();
-
-		resp.sendRedirect(COMPANIES_URL);
-	}
-
-	private void mergeUsers(Client client, Set<String> oldMembers,
-			List<String> existedUsers, Set<String> members)
-			throws AccounterException {
-		for (String o : oldMembers) {
-			if (!members.contains(o) && existedUsers.contains(o)) {
-				deleteUser(client, o);
-			}
-		}
-	}
-
-	private void deleteUser(Client client, String emailId)
-			throws AccounterException {
-		Set<User> users = client.getUsers();
-		User user = (User) HibernateUtil.getCurrentSession()
-				.getNamedQuery("getUser.by.mailId")
-				.setParameter("emailId", emailId).uniqueResult();
-		boolean canDelete = false;
-		for (User u : users) {
-			if (u.getID() == user.getID()) {
-				canDelete = true;
-			}
-		}
-		if (!canDelete) {
-			return;
-		}
-
-		ClientUser coreUser = new ClientConvertUtil().toClientObject(user,
-				ClientUser.class);
-		String clientClassSimpleName = coreUser.getObjectType()
-				.getClientClassSimpleName();
-		FinanceTool financeTool = new FinanceTool();
-		OperationContext context = new OperationContext(user.getCompany()
-				.getId(), coreUser, emailId, String.valueOf(coreUser.getID()),
-				clientClassSimpleName);
-		financeTool.delete(context);
-	}
-
-	private boolean checkTotalMembers(Set<String> oldMembers, int type) {
-		switch (type) {
-		case ClientSubscription.ONE_USER:
-			return oldMembers.size() == 1;
-		case ClientSubscription.TWO_USERS:
-			return oldMembers.size() == 2;
-		case ClientSubscription.FIVE_USERS:
-			return oldMembers.size() == 5;
-		default:
-			return true;
-		}
-	}
-
-	private Set<String> getMembers(String string) {
-		Set<String> emailIds = new HashSet<String>();
-		String[] stringArray = string.split("\r\n");
-		for (String string2 : stringArray) {
-			emailIds.add(string2);
-		}
-		return emailIds;
-	}
-
-	private void showSubscriptionManagementDetails(HttpServletRequest req,
-			HttpServletResponse resp) throws IOException {
 		HttpSession session = req.getSession();
 		if (session == null) {
 			resp.sendRedirect(LOGIN_URL);
@@ -151,33 +43,134 @@ public class SubscriptionManagementServlet extends BaseServlet {
 				resp.sendRedirect(LOGIN_URL);
 				return;
 			}
-			req.setAttribute("premiumType", client.getClientSubscription()
-					.getPremiumType());
-			req.setAttribute("expiredDate", client.getClientSubscription()
-					.getExpiredDateAsString());
-
-			String finalString = "";
-			Set<String> members = client.getClientSubscription().getMembers();
-			List<String> createdUsers = getExistedUsers(members);
-			boolean isFirst = true;
-			finalString = "[";
-			for (String string2 : members) {
-				if (isFirst) {
-					finalString += getDict(string2,
-							createdUsers.contains(string2));
-					isFirst = false;
-				} else {
-					finalString += ","
-							+ getDict(string2, createdUsers.contains(string2));
-				}
+			ClientSubscription clientSubscription = client
+					.getClientSubscription();
+			if (clientSubscription.getPremiumType() == 0) {
+				req.setAttribute("error", "Your not premium user");
 			}
-			finalString += "]";
-			req.setAttribute("userIdsList", finalString);
-			dispatch(req, resp, view);
+			showSubscriptionManagementDetails(client,
+					clientSubscription.getMembers(), req, resp);
 		} else {
 			resp.sendRedirect(LOGIN_URL);
 			return;
 		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		HttpSession session2 = req.getSession();
+		if (session2 == null) {
+			resp.sendRedirect(LOGIN_URL);
+			return;
+		}
+		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
+		Client client = getClient(emailId);
+		if (client == null) {
+			resp.sendRedirect(LOGIN_URL);
+			return;
+		}
+		String string = req.getParameter("userMailds");
+		ClientSubscription clientSubscription = client.getClientSubscription();
+		if (clientSubscription.getPremiumType() == 0) {
+			req.setAttribute("error", "Your not premium user");
+			showSubscriptionManagementDetails(client,
+					clientSubscription.getMembers(), req, resp);
+			return;
+		}
+		Set<String> oldMembers = client.getClientSubscription().getMembers();
+		List<String> existedUsers = getExistedUsers(oldMembers);
+		Set<String> members = getMembers(string);
+		members.add(emailId);
+
+		if (!checkTotalMembers(members, client.getClientSubscription()
+				.getPremiumType())) {
+			req.setAttribute("error", "No of users should be limit");
+			showSubscriptionManagementDetails(client, members, req, resp);
+			return;
+		}
+		clientSubscription.setMembers(members);
+
+		saveEntry(clientSubscription);
+
+		try {
+			mergeUsers(client, oldMembers, existedUsers, members);
+			transaction.commit();
+		} catch (AccounterException e) {
+			transaction.rollback();
+			e.printStackTrace();
+		}
+		resp.sendRedirect(COMPANIES_URL);
+	}
+
+	private void mergeUsers(Client client, Set<String> oldMembers,
+			List<String> existedUsers, Set<String> members)
+			throws AccounterException {
+		for (String o : oldMembers) {
+			if (!members.contains(o) && existedUsers.contains(o)) {
+				SubscryptionTool.deleteUser(client, o);
+			}
+		}
+	}
+
+	private boolean checkTotalMembers(Set<String> members, int type) {
+		switch (type) {
+		case ClientSubscription.ONE_USER:
+			return members.size() <= 1;
+		case ClientSubscription.TWO_USERS:
+			return members.size() <= 2;
+		case ClientSubscription.FIVE_USERS:
+			return members.size() <= 5;
+		default:
+			return true;
+		}
+	}
+
+	private Set<String> getMembers(String string) {
+		Set<String> emailIds = new HashSet<String>();
+		String[] stringArray = string.split("\r\n");
+		for (String string2 : stringArray) {
+			if (!string2.isEmpty()) {
+				emailIds.add(string2);
+			}
+		}
+		return emailIds;
+	}
+
+	private void showSubscriptionManagementDetails(Client client,
+			Set<String> members, HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
+		members = new HashSet<String>(members);
+		members.remove(client.getEmailId());
+		req.setAttribute("emailId", client.getEmailId());
+
+		req.setAttribute("premiumType", client.getClientSubscription()
+				.getPremiumType());
+		req.setAttribute("expiredDate", client.getClientSubscription()
+				.getExpiredDateAsString());
+
+		String finalString = "";
+		List<String> createdUsers = getExistedUsers(members);
+		boolean isFirst = true;
+		finalString = "[";
+		for (String string2 : members) {
+			if (string2.isEmpty()) {
+				continue;
+			}
+			if (isFirst) {
+				finalString += getDict(string2, createdUsers.contains(string2));
+				isFirst = false;
+			} else {
+				finalString += ","
+						+ getDict(string2, createdUsers.contains(string2));
+			}
+		}
+		finalString += "]";
+		req.setAttribute("userIdsList", finalString);
+		dispatch(req, resp, view);
 	}
 
 	@SuppressWarnings("unchecked")

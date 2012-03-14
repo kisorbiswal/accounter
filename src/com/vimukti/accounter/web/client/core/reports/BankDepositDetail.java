@@ -15,17 +15,17 @@ public class BankDepositDetail extends BaseReport implements Serializable,
 
 	private long transactionId;
 	private int transactionType;
-	private long number;
+	private String number;
 	private ClientFinanceDate transactionDate;
 	private String payeeName;
 	private String accountName;
 	private double amount;
 
-	public long getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(long number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 

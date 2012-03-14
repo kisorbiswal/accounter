@@ -71,7 +71,7 @@ public class ReportSectionView extends BaseHomeView {
 				messages.vendorsAndPayables(Global.get().Vendors()));
 		Label salesHeader = new Label(messages.sales());
 		Label purchaseHeader = new Label(messages.purchase());
-		Label fixedAssetHeader = new Label(messages.fixedAssest());
+		Label fixedAssetHeader = new Label(messages.fixedAsset());
 		Label mainTaxHeader = new Label(messages.tax());
 
 		companyAndFinancialPanel = new FlowPanel();
@@ -174,14 +174,16 @@ public class ReportSectionView extends BaseHomeView {
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
 			salesMap.put(messages.getSalesByLocationDetails(Global.get()
 					.Location()), ActionFactory
-					.getSalesByLocationDetailsAction(true).getHistoryToken());
+					.getSalesByLocationDetailsAction(true, true)
+					.getHistoryToken());
 			salesMap.put(messages.salesByLocationSummary(Global.get()
 					.Location()), ActionFactory
 					.getSalesByLocationSummaryAction(true).getHistoryToken());
 		}
 		if (Global.get().preferences().isClassTrackingEnabled()) {
 			salesMap.put(messages.salesByClassDetails(), ActionFactory
-					.getSalesByLocationDetailsAction(false).getHistoryToken());
+					.getSalesByLocationDetailsAction(false, true)
+					.getHistoryToken());
 			salesMap.put(messages.salesByClassSummary(), ActionFactory
 					.getSalesByLocationSummaryAction(false).getHistoryToken());
 

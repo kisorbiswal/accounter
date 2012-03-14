@@ -29,6 +29,7 @@ public class GoPremiumServlet extends BaseServlet {
 
 		if (emailId != null) {
 			boolean sandBoxPaypal = ServerConfiguration.isSandBoxPaypal();
+			req.setAttribute("paypalButtonId", ServerConfiguration.getPaypalButtonId());
 			req.setAttribute("isSandBoxPaypal", sandBoxPaypal);
 			req.setAttribute(EMAIL_ID, emailId);
 			dispatch(req, resp, view);

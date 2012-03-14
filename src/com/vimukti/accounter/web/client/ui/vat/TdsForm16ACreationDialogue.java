@@ -92,9 +92,16 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		StyledPanel vPanel = new StyledPanel("vPanel");
 
 		List<ClientVendor> vendors = getCompany().getActiveVendors();
+		List<ClientVendor> tdsVendors = new ArrayList<ClientVendor>();
+		for (ClientVendor clientVendor : vendors) {
+			if (clientVendor.isTdsApplicable()) {
+				tdsVendors.add(clientVendor);
+			}
+		}
+
 		vendorCombo = new VendorCombo(messages.deductee(), false);
 		vendorCombo.setRequired(true);
-		vendorCombo.initCombo(vendors);
+		vendorCombo.initCombo(tdsVendors);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 

@@ -8,302 +8,364 @@
 <!--  @author Devesh Satwani-->	
 	
 	<database-object>
-		<create> CREATE VIEW SALES_PURCHASES_VIEW AS select
-T.COMPANY_ID as COMPANY_ID,
-T.ID as TRANSACTION_ID,
-C.ID as CUSTOMER_ID,
-V.ID as VENDOR_ID,
-P.NAME as NAME,
-case 
-	when T.T_TYPE = 1 or T.T_TYPE = 4 or T.T_TYPE = 8 then CG.NAME
-	when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE = 14 then VG.NAME
-end as GROUP_NAME,
-	IT.TYPE as ITEM_TYPE, 
-	IG.NAME as ITEM_GROUP,
-T.T_TYPE as Type,
-
-        T.T_DATE as DATE,
-	T.NUMBER,
-T.MEMO as MEMO,
-case 
-	when T.T_TYPE=8 then I.DUE_DATE
-	when T.T_TYPE=6 then EB.DUE_DATE
-	else null
-end as DUE_DATE,
-	PT.NAME as PAYMENT_TERMS,
-case
-	when TI.ITEM_ID is not null then IT.NAME
-	when TI.ACCOUNT_ID is not null then A.NAME
-end as ITEM_NAME,
-case
-	when T.T_TYPE = 4 OR T.T_TYPE = 14 then -1*TI.QTY_VALUE
-	else TI.QTY_VALUE
-end as QUANTITY,
-
-	TI.UNIT_PRICE as UNIT_PRICE,
-	TI.DISCOUNT as DISCOUNT,
-	
-case
-	when T.T_TYPE = 4 OR T_TYPE = 14 then -1*LINE_TOTAL
-	else TI.LINE_TOTAL
-end as AMOUNT,
-case 
-	when T.T_TYPE = 8 then (select T.NUMBER from TRANSACTION T left outer join
-		INVOICE_ESTIMATES IE
-		on T.ID=IE.ESTIAMTE_ID)
-end as SO_OR_QUOTE_NO,
-case
-	when T.T_TYPE = 1 then CS.DELIVERY_DATE 
-	When T.T_TYPE = 8 then I.DELIVERY_DATE 
-	when T.T_TYPE = 2 then CP.DELIVERY_DATE 
-	When T.T_TYPE = 6 then EB.DELIVERY_DATE 
-			  else null 
-end as SHIPMENT_OR_DELIVERY_DATE,
-	
-	IT.SALES_DESCRIPTION,
-	IT.PURCHASE_DESCRIPTION,
-	T.IS_VOID as VOID,
-T.REFERENCE as REFERENCE
-   from
-        TRANSACTION T
-    left outer join
-        CASH_SALES CS 
-            on T.ID=CS.ID 
-    left outer join
-        CUSTOMER_CREDIT_MEMO CCM 
-            on T.ID=CCM.ID 
-    left outer join
-        INVOICE I 
-            on T.ID=I.ID
-    left outer join
-        CASH_PURCHASE CP 
-            on T.ID=CP.ID 
-    left outer join
-        VENDOR_CREDIT_MEMO VCM 
-            on T.ID=VCM.ID 
-    left outer join
-        ENTER_BILL EB 
-            on T.ID=EB.ID
-    left outer join
-	TRANSACTION_ITEM TI
-	    on T.ID = TI.TRANSACTION_ID 
-    left outer join 
-	CUSTOMER C 
-	    on C.ID = CS.CUSTOMER_ID or C.ID = CCM.CUSTOMER_ID or C.ID = I.CUSTOMER_ID
-    left outer join 
-	VENDOR V 
-	    on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID = EB.VENDOR_ID
-	left outer join 
-	PAYEE P 
-	    on P.ID = C.ID OR P.ID = V.ID
-    left outer join 
-	PAYMENTTERMS PT 
-	    on PT.ID = EB.PAYMENT_TERM_ID or  PT.ID = I.PAYMENT_TERMS_ID
-    left outer join
-	CUSTOMER_GROUP CG
-	    on CG.ID = C.CUSTOMER_GROUP_ID
-    left outer join
-	VENDOR_GROUP VG
-	    on VG.ID = V.VENDOR_GROUP_ID
-    left outer join
-	 ITEM IT 
-	    on IT.ID = TI.ITEM_ID
-    left outer join 
-	 ITEMGROUP IG 
-	    on IG.ID = IT.ITEMGROUP_ID
-    left outer join 
-	 ACCOUNT A 
-	    on A.ID = TI.ACCOUNT_ID
-    where T.STATUS != 3 AND (TI.ITEM_ID is not null or TI.ACCOUNT_ID is not null) 
-    group by GROUP_NAME, T.COMPANY_ID
-    order by T.ID
+		<create> 
+			
+			<![CDATA[
+					CREATE VIEW SALES_PURCHASES_VIEW AS
+					SELECT T.COMPANY_ID  AS COMPANY_ID,
+					       T.ID          AS TRANSACTION_ID,
+					       C.ID          AS CUSTOMER_ID,
+					       V.ID          AS VENDOR_ID,
+					       P.NAME        AS NAME,
+					       CASE
+					         WHEN T.T_TYPE = 1
+					               OR T.T_TYPE = 4
+					               OR T.T_TYPE = 8 THEN CG.NAME
+					         WHEN T.T_TYPE = 2
+					               OR T.T_TYPE = 6
+					               OR T.T_TYPE = 14 THEN VG.NAME
+					       END           AS GROUP_NAME,
+					       IT.TYPE       AS ITEM_TYPE,
+					       IG.NAME       AS ITEM_GROUP,
+					       T.T_TYPE      AS TYPE,
+					       T.T_DATE      AS DATE,
+					       T.NUMBER,
+					       T.MEMO        AS MEMO,
+					       CASE
+					         WHEN T.T_TYPE = 8 THEN I.DUE_DATE
+					         WHEN T.T_TYPE = 6 THEN EB.DUE_DATE
+					         ELSE NULL
+					       END           AS DUE_DATE,
+					       PT.NAME       AS PAYMENT_TERMS,
+					       CASE
+					         WHEN TI.ITEM_ID IS NOT NULL THEN IT.NAME
+					         WHEN TI.ACCOUNT_ID IS NOT NULL THEN A.NAME
+					       END           AS ITEM_NAME,
+					       CASE
+					         WHEN T.T_TYPE = 4
+					               OR T.T_TYPE = 14 THEN -1 * TI.QTY_VALUE
+					         ELSE TI.QTY_VALUE
+					       END           AS QUANTITY,
+					       TI.UNIT_PRICE AS UNIT_PRICE,
+					       TI.DISCOUNT   AS DISCOUNT,
+					       CASE
+					         WHEN T.T_TYPE = 4
+					               OR T_TYPE = 14 THEN -1 * LINE_TOTAL
+					         ELSE TI.LINE_TOTAL
+					       END           AS AMOUNT,
+					       CASE
+					         WHEN T.T_TYPE = 8 THEN (SELECT T.NUMBER
+					                                 FROM   TRANSACTION T
+					                                        LEFT OUTER JOIN INVOICE_ESTIMATES IE
+					                                          ON T.ID = IE.ESTIAMTE_ID)
+					       END           AS SO_OR_QUOTE_NO,
+					       CASE
+					         WHEN T.T_TYPE = 1 THEN CS.DELIVERY_DATE
+					         WHEN T.T_TYPE = 8 THEN I.DELIVERY_DATE
+					         WHEN T.T_TYPE = 2 THEN CP.DELIVERY_DATE
+					         WHEN T.T_TYPE = 6 THEN EB.DELIVERY_DATE
+					         ELSE NULL
+					       END           AS SHIPMENT_OR_DELIVERY_DATE,
+					       IT.SALES_DESCRIPTION,
+					       IT.PURCHASE_DESCRIPTION,
+					       T.IS_VOID     AS VOID,
+					       T.REFERENCE   AS REFERENCE
+					FROM   TRANSACTION T
+					       LEFT OUTER JOIN CASH_SALES CS
+					         ON T.ID = CS.ID
+					       LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM
+					         ON T.ID = CCM.ID
+					       LEFT OUTER JOIN INVOICE I
+					         ON T.ID = I.ID
+					       LEFT OUTER JOIN CASH_PURCHASE CP
+					         ON T.ID = CP.ID
+					       LEFT OUTER JOIN VENDOR_CREDIT_MEMO VCM
+					         ON T.ID = VCM.ID
+					       LEFT OUTER JOIN ENTER_BILL EB
+					         ON T.ID = EB.ID
+					       LEFT OUTER JOIN TRANSACTION_ITEM TI
+					         ON T.ID = TI.TRANSACTION_ID
+					       LEFT OUTER JOIN CUSTOMER C
+					         ON C.ID = CS.CUSTOMER_ID
+					             OR C.ID = CCM.CUSTOMER_ID
+					             OR C.ID = I.CUSTOMER_ID
+					       LEFT OUTER JOIN VENDOR V
+					         ON V.ID = CP.VENDOR_ID
+					             OR V.ID = VCM.VENDOR_ID
+					             OR V.ID = EB.VENDOR_ID
+					       LEFT OUTER JOIN PAYEE P
+					         ON P.ID = C.ID
+					             OR P.ID = V.ID
+					       LEFT OUTER JOIN PAYMENTTERMS PT
+					         ON PT.ID = EB.PAYMENT_TERM_ID
+					             OR PT.ID = I.PAYMENT_TERMS_ID
+					       LEFT OUTER JOIN CUSTOMER_GROUP CG
+					         ON CG.ID = C.CUSTOMER_GROUP_ID
+					       LEFT OUTER JOIN VENDOR_GROUP VG
+					         ON VG.ID = V.VENDOR_GROUP_ID
+					       LEFT OUTER JOIN ITEM IT
+					         ON IT.ID = TI.ITEM_ID
+					       LEFT OUTER JOIN ITEMGROUP IG
+					         ON IG.ID = IT.ITEMGROUP_ID
+					       LEFT OUTER JOIN ACCOUNT A
+					         ON A.ID = TI.ACCOUNT_ID
+					WHERE  T.STATUS != 3
+					       AND ( TI.ITEM_ID IS NOT NULL
+					              OR TI.ACCOUNT_ID IS NOT NULL )
+					GROUP  BY GROUP_NAME,
+					          T.COMPANY_ID
+					ORDER  BY T.ID   
+					]]>
      </create>
 		<drop> DROP VIEW SALES_PURCHASES_VIEW</drop>
 	</database-object>
 	<database-object>
-		<create> CREATE VIEW TRANSACTION_HISTORY_VIEW AS 
-select
-T.COMPANY_ID as COMPANY_ID,
-T.ID as TRANSACTION_ID,
-C.ID as CUSTOMER_ID,
-V.ID as VENDOR_ID,
-A.ID as ACCOUNT_ID,
-case 
-	when T.T_TYPE = 1 or T.T_TYPE = 4 or T.T_TYPE = 5 or T.T_TYPE = 8 or T.T_TYPE = 12 or (T.T_TYPE = 10 AND TMD.CUSTOMER_ID IS NOT NULL) or (T.T_TYPE = 15 AND WC.CUSTOMER_ID IS NOT NULL)  or (T.T_TYPE = 16 AND E.TYPE = 3)  or T.T_TYPE = 29 then P.NAME
-	when T.T_TYPE = 2 or T.T_TYPE = 6 or T.T_TYPE = 11 or T.T_TYPE = 14 or T.T_TYPE = 3 or (T.T_TYPE = 10 AND TMD.VENDOR_ID IS NOT NULL) or (T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT NULL)  or (T.T_TYPE = 16 AND E.TYPE = 2) or T.T_TYPE = 27 or T.T_TYPE = 23 or 
-T.T_TYPE = 20 or T.T_TYPE = 25 then P.NAME
-	WHEN (T.T_TYPE = 16 AND T.ID=(SELECT VAAD.JOURNAL_ENTRY FROM TAX_ADJUSTMENT VAAD WHERE VAAD.JOURNAL_ENTRY=T.ID)) THEN (SELECT PP.NAME FROM TAX_ADJUSTMENT VAD LEFT OUTER JOIN TAX_ITEM VVI ON VVI.ID=VAD.TAX_ITEM LEFT OUTER JOIN PAYEE PP ON PP.ID=VVI.VAT_AGENCY WHERE VAD.JOURNAL_ENTRY=T.ID)
-	when T.T_TYPE = 26 then A.NAME
-	when T.T_TYPE = 28 then CL.FULL_NAME
-end as NAME,
-
-T.T_TYPE as Type,
-
- T.T_DATE as DATE,
-T.NUMBER,
-case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 6  or T.T_TYPE = 29 then T.TOTAL*T.CURRENCY_FACTOR 
-	when T.T_TYPE = 4 or T.T_TYPE = 14 then -1*T.TOTAL*T.CURRENCY_FACTOR 
-	when T.T_TYPE = 10 then 
-		case 
-			when TMD.TYPE = 3 then -1*TMD.AMOUNT*T.CURRENCY_FACTOR 
-			when TMD.TYPE = 2 then TMD.AMOUNT*T.CURRENCY_FACTOR 
-			else 0.0
-		end
-	when T.T_TYPE = 15 then 
-		case 
-			when WC.PAY_TO_TYPE = 1 then -1*T.TOTAL*T.CURRENCY_FACTOR 
-			when WC.PAY_TO_TYPE = 2 then T.TOTAL*T.CURRENCY_FACTOR 
-			else 0.0
-		end
-	
-	when T.T_TYPE = 16 then
-
-		case
-			when E.TYPE = 2 then E.CREDIT*T.CURRENCY_FACTOR 
-			else E.DEBIT
-		end
-
-	else 0.0
-end as INVOICED_OR_TRANSASCTION_AMOUNT,
-case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 12 or T.T_TYPE = 2 or  T.T_TYPE = 11 then T.TOTAL*T.CURRENCY_FACTOR 
-	when T.T_TYPE = 5 or T.T_TYPE = 15 then -1*T.TOTAL*T.CURRENCY_FACTOR 
-	else 0.0
-end as PAID_AMOUNT,
-
-case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 5 or T.T_TYPE = 8 or T.T_TYPE = 2 or T.T_TYPE = 14 or T.T_TYPE = 15 then  T.TOTAL*T.CURRENCY_FACTOR 
-	when T.T_TYPE = 11 then 
-		case 
-			when PB.PAYBILL_TYPE = 1 then (T.TOTAL + (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID and TPB.DISCOUNT_ID IS NOT NULL and TPB.CASH_DISCOUNT >0.0))*T.CURRENCY_FACTOR 
-			when PB.PAYBILL_TYPE = 2 then T.TOTAL*T.CURRENCY_FACTOR 
-		end
-	when T.T_TYPE = 16 then 
-
-		case
-			when E.TYPE = 3 then E.DEBIT*T.CURRENCY_FACTOR 
-			else 0.0
-		end
-	else 0.0
-end as DEBIT,
-case
-	when T.T_TYPE = 1 or T.T_TYPE = 3 or T.T_TYPE = 4 or  T.T_TYPE = 2 or  T.T_TYPE = 10 or T.T_TYPE = 6 or T.T_TYPE = 15 or T.T_TYPE = 29 then T.TOTAL*T.CURRENCY_FACTOR 
-	when T.T_TYPE = 12 then (RP.AMOUNT + RP.TOTAL_CASH_DISCOUNT + RP.TOTAL_WRITE_OFF)*T.CURRENCY_FACTOR  
-	when T.T_TYPE = 16 then 
-		case
-			when E.TYPE = 2 then E.CREDIT*T.CURRENCY_FACTOR 
-			else 0.0
-		end
-	else 0.0
-end as CREDIT,
-case
-	when T.T_TYPE = 12 then RP.TOTAL_CASH_DISCOUNT *T.CURRENCY_FACTOR 
-	when T.T_TYPE = 11 then (select sum(TPB.CASH_DISCOUNT) from TRANSACTION_PAYBILL TPB where TPB.TRANSACTION_ID = T.ID)*T.CURRENCY_FACTOR 
-	else 0.0
-end as DISCOUNT,
-
-	I.DUE_DATE as DUE_DATE,
-	PT.NAME as PAYMENT_TERMS,
-
-T.IS_VOID as VOID,
-T.REFERENCE as REFERENCE,
-T.MEMO as MEMO,
-case
-	when T.T_TYPE = 12 then RP.TOTAL_WRITE_OFF 
-	else 0.0
-end as WRITE_OFF,
-T.STATUS as PAYMENT_STATUS
-   from
-        TRANSACTION T
-    left outer join
-        CASH_SALES CS 
-            on T.ID=CS.ID 
-    left outer join
-        CREDIT_CARD_CHARGES CCC 
-            on T.ID=CCC.ID 
-    left outer join
-        CUSTOMER_CREDIT_MEMO CCM 
-            on T.ID=CCM.ID 
-    left outer join
-        INVOICE I 
-            on T.ID=I.ID
-    left outer join
-	CUSTOMER_REFUND CR
-	    on T.ID=CR.ID
-    left outer join 
-	RECEIVE_PAYMENT RP
-	    on T.ID=RP.ID
-    left outer join
-        CASH_PURCHASE CP 
-            on T.ID=CP.ID 
-    left outer join
-        VENDOR_CREDIT_MEMO VCM 
-            on T.ID=VCM.ID 
-    left outer join
-        ENTER_BILL EB 
-            on T.ID=EB.ID
-    left outer join 
-	PAY_BILL PB
-	    on T.ID=PB.ID
-    left outer join 
-	TRANSACTION_PAYBILL TPB
-	    on TPB.TRANSACTION_ID=PB.ID
-    left outer join 
-	TRANSFER_FUND TF
-	    on T.ID=TF.ID
-    left outer join 
-	TRANSACTION_MAKE_DEPOSIT TMD
-	    on TMD.TRANSACTION_ID=TF.ID and TMD.IS_NEW_ENTRY = TRUE
-    left outer join
-        WRITE_CHECKS WC 
-            on T.ID=WC.ID
-    left outer join
-	ITEM_RECEIPT IR
-		on T.ID = IR.ID
-    left outer join
-        TAX_RETURN VR 
-            on T.ID=VR.ID
-   left outer join
-	ENTRY E
-	    on E.TRANSACTION_ID=T.ID AND ((E.TYPE = 2 AND E.VENDOR_ID IS NOT NULL) OR (E.TYPE = 3 AND E.CUSTOMER_ID IS NOT NULL))
-   left outer join
-	CUSTOMER_PREPAYMENT CPP
-	    on CPP.ID = T.ID	
-    left outer join 
-	CUSTOMER C 
-	    on C.ID = CS.CUSTOMER_ID or C.ID = CCM.CUSTOMER_ID or C.ID = I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or C.ID = RP.CUSTOMER_ID or C.ID = TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID or C.ID = E.CUSTOMER_ID or C.ID = CPP.CUSTOMER_ID
-    left outer join
-	PAYMENTTERMS PT 
-	    on PT.ID = EB.PAYMENT_TERM_ID or  PT.ID = I.PAYMENT_TERMS_ID
-    
-    left outer join 
-	VENDOR V 
-	    on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID = EB.VENDOR_ID or V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID  or V.ID = CCC.VENDOR_ID or V.ID = WC.VENDOR_ID or V.ID = E.VENDOR_ID or V.ID = IR.VENDOR_ID
-
-    left outer join
-	TAX_ADJUSTMENT VAD
-		on T.ID=VAD.ID
-    left outer join
-	TAX_ITEM VITEM
-	    on VITEM.ID = VAD.TAX_ITEM
-    left outer join 
-	TAXAGENCY VA 
-	     ON VA.ID = VR.TAX_AGENCY
-	     OR VA.ID = VITEM.TAX_AGENCY
-    left outer join 
-	PAYEE P 
-	    on P.ID = C.ID OR P.ID = V.ID OR P.ID=VA.ID
-    left outer join    
-	ACCOUNT A
-		on A.ID = CP.CASH_EXPENSE_ACCOUNT_ID    
-	left outer join
-	USERS U 
-		on U.ID = CP.EMPLOYEE
-	LEFT OUTER JOIN
-		CLIENT CL ON CL.ID = U.CLIENT_ID
-	WHERE T.STATUS != 3 	
-    order by T.ID
+		<create> 
+			
+			<![CDATA[
+					CREATE VIEW TRANSACTION_HISTORY_VIEW AS 
+					SELECT T.COMPANY_ID AS COMPANY_ID,
+					       T.ID         AS TRANSACTION_ID,
+					       C.ID         AS CUSTOMER_ID,
+					       V.ID         AS VENDOR_ID,
+					       A.ID         AS ACCOUNT_ID,
+					       CASE
+					         WHEN T.T_TYPE = 1
+					               OR T.T_TYPE = 4
+					               OR T.T_TYPE = 5
+					               OR T.T_TYPE = 8
+					               OR T.T_TYPE = 12
+					               OR ( T.T_TYPE = 10
+					                    AND TMD.CUSTOMER_ID IS NOT NULL )
+					               OR ( T.T_TYPE = 15
+					                    AND WC.CUSTOMER_ID IS NOT NULL )
+					               OR ( T.T_TYPE = 16
+					                    AND E.TYPE = 3 )
+					               OR T.T_TYPE = 29 THEN P.NAME
+					         WHEN T.T_TYPE = 2
+					               OR T.T_TYPE = 6
+					               OR T.T_TYPE = 11
+					               OR T.T_TYPE = 14
+					               OR T.T_TYPE = 3
+					               OR ( T.T_TYPE = 10
+					                    AND TMD.VENDOR_ID IS NOT NULL )
+					               OR ( T.T_TYPE = 15
+					                    AND WC.VENDOR_ID IS NOT NULL )
+					               OR ( T.T_TYPE = 16
+					                    AND E.TYPE = 2 )
+					               OR T.T_TYPE = 27
+					               OR T.T_TYPE = 23
+					               OR T.T_TYPE = 20
+					               OR T.T_TYPE = 25 THEN P.NAME
+					         WHEN ( T.T_TYPE = 16
+					                AND T.ID = (SELECT VAAD.JOURNAL_ENTRY
+					                            FROM   TAX_ADJUSTMENT VAAD
+					                            WHERE  VAAD.JOURNAL_ENTRY = T.ID) ) THEN
+					         (SELECT PP.NAME
+					          FROM
+					       TAX_ADJUSTMENT VAD
+					       LEFT OUTER JOIN TAX_ITEM VVI
+					         ON VVI.ID = VAD.TAX_ITEM
+					       LEFT OUTER JOIN PAYEE PP
+					         ON PP.ID = VVI.VAT_AGENCY
+					                                                                      WHERE
+					         VAD.JOURNAL_ENTRY = T.ID)
+					         WHEN T.T_TYPE = 26 THEN A.NAME
+					         WHEN T.T_TYPE = 28 THEN CL.FULL_NAME
+					       END          AS NAME,
+					       T.T_TYPE     AS TYPE,
+					       T.T_DATE     AS DATE,
+					       T.NUMBER,
+					       CASE
+					         WHEN T.T_TYPE = 1
+					               OR T.T_TYPE = 3
+					               OR T.T_TYPE = 8
+					               OR T.T_TYPE = 2
+					               OR T.T_TYPE = 6
+					               OR T.T_TYPE = 29 THEN T.TOTAL * T.CURRENCY_FACTOR
+					         WHEN T.T_TYPE = 4
+					               OR T.T_TYPE = 14 THEN -1 * T.TOTAL * T.CURRENCY_FACTOR
+					         WHEN T.T_TYPE = 10 THEN CASE
+					                                   WHEN TMD.TYPE = 3 THEN
+					                                   -1 * TMD.AMOUNT * T.CURRENCY_FACTOR
+					                                   WHEN TMD.TYPE = 2 THEN
+					                                   TMD.AMOUNT * T.CURRENCY_FACTOR
+					                                   ELSE 0.0
+					                                 END
+					         WHEN T.T_TYPE = 15 THEN CASE
+					                                   WHEN WC.PAY_TO_TYPE = 1 THEN
+					                                   -1 * T.TOTAL * T.CURRENCY_FACTOR
+					                                   WHEN WC.PAY_TO_TYPE = 2 THEN
+					                                   T.TOTAL * T.CURRENCY_FACTOR
+					                                   ELSE 0.0
+					                                 END
+					         WHEN T.T_TYPE = 16 THEN CASE
+					                                   WHEN E.TYPE = 2 THEN
+					                                   E.CREDIT * T.CURRENCY_FACTOR
+					                                   ELSE E.DEBIT
+					                                 END
+					         ELSE 0.0
+					       END          AS INVOICED_OR_TRANSASCTION_AMOUNT,
+					       CASE
+					         WHEN T.T_TYPE = 1
+					               OR T.T_TYPE = 3
+					               OR T.T_TYPE = 12
+					               OR T.T_TYPE = 2
+					               OR T.T_TYPE = 11 THEN T.TOTAL * T.CURRENCY_FACTOR
+					         WHEN T.T_TYPE = 5
+					               OR T.T_TYPE = 15 THEN -1 * T.TOTAL * T.CURRENCY_FACTOR
+					         ELSE 0.0
+					       END          AS PAID_AMOUNT,
+					       CASE
+					         WHEN T.T_TYPE = 1
+					               OR T.T_TYPE = 3
+					               OR T.T_TYPE = 5
+					               OR T.T_TYPE = 8
+					               OR T.T_TYPE = 2
+					               OR T.T_TYPE = 14
+					               OR T.T_TYPE = 15 THEN T.TOTAL * T.CURRENCY_FACTOR
+					         WHEN T.T_TYPE = 11 THEN CASE
+					                                   WHEN PB.PAYBILL_TYPE = 1 THEN (
+					                                   T.TOTAL + (SELECT SUM(TPB.CASH_DISCOUNT)
+					                                              FROM   TRANSACTION_PAYBILL TPB
+					                                              WHERE  TPB.TRANSACTION_ID = T.ID
+					                                                     AND TPB.DISCOUNT_ID IS NOT
+					                                                         NULL
+					                                                     AND TPB.CASH_DISCOUNT
+					> 0.0
+					          )
+					                              ) * T.CURRENCY_FACTOR
+					WHEN PB.PAYBILL_TYPE = 2 THEN
+					T.TOTAL * T.CURRENCY_FACTOR
+					END
+					WHEN T.T_TYPE = 16 THEN CASE
+					WHEN E.TYPE = 3 THEN
+					E.DEBIT * T.CURRENCY_FACTOR
+					ELSE 0.0
+					END
+					ELSE 0.0
+					END          AS DEBIT,
+					CASE
+					WHEN T.T_TYPE = 1
+					OR T.T_TYPE = 3
+					OR T.T_TYPE = 4
+					OR T.T_TYPE = 2
+					OR T.T_TYPE = 10
+					OR T.T_TYPE = 6
+					OR T.T_TYPE = 15
+					OR T.T_TYPE = 29 THEN T.TOTAL * T.CURRENCY_FACTOR
+					WHEN T.T_TYPE = 12 THEN ( RP.AMOUNT + RP.TOTAL_CASH_DISCOUNT +
+					RP.TOTAL_WRITE_OFF ) * T.CURRENCY_FACTOR
+					WHEN T.T_TYPE = 16 THEN CASE
+					WHEN E.TYPE = 2 THEN
+					E.CREDIT * T.CURRENCY_FACTOR
+					ELSE 0.0
+					END
+					ELSE 0.0
+					END          AS CREDIT,
+					CASE
+					WHEN T.T_TYPE = 12 THEN RP.TOTAL_CASH_DISCOUNT * T.CURRENCY_FACTOR
+					WHEN T.T_TYPE = 11 THEN (SELECT SUM(TPB.CASH_DISCOUNT)
+					FROM   TRANSACTION_PAYBILL TPB
+					WHERE  TPB.TRANSACTION_ID =
+					T.ID) * T.CURRENCY_FACTOR
+					ELSE 0.0
+					END          AS DISCOUNT,
+					I.DUE_DATE   AS DUE_DATE,
+					PT.NAME      AS PAYMENT_TERMS,
+					T.IS_VOID    AS VOID,
+					T.REFERENCE  AS REFERENCE,
+					T.MEMO       AS MEMO,
+					CASE
+					WHEN T.T_TYPE = 12 THEN RP.TOTAL_WRITE_OFF
+					ELSE 0.0
+					END          AS WRITE_OFF,
+					T.STATUS     AS PAYMENT_STATUS
+					FROM   TRANSACTION T
+					LEFT OUTER JOIN CASH_SALES CS
+					ON T.ID = CS.ID
+					LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
+					ON T.ID = CCC.ID
+					LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM
+					ON T.ID = CCM.ID
+					LEFT OUTER JOIN INVOICE I
+					ON T.ID = I.ID
+					LEFT OUTER JOIN CUSTOMER_REFUND CR
+					ON T.ID = CR.ID
+					LEFT OUTER JOIN RECEIVE_PAYMENT RP
+					ON T.ID = RP.ID
+					LEFT OUTER JOIN CASH_PURCHASE CP
+					ON T.ID = CP.ID
+					LEFT OUTER JOIN VENDOR_CREDIT_MEMO VCM
+					ON T.ID = VCM.ID
+					LEFT OUTER JOIN ENTER_BILL EB
+					ON T.ID = EB.ID
+					LEFT OUTER JOIN PAY_BILL PB
+					ON T.ID = PB.ID
+					LEFT OUTER JOIN TRANSACTION_PAYBILL TPB
+					ON TPB.TRANSACTION_ID = PB.ID
+					LEFT OUTER JOIN TRANSFER_FUND TF
+					ON T.ID = TF.ID
+					LEFT OUTER JOIN TRANSACTION_MAKE_DEPOSIT TMD
+					ON TMD.TRANSACTION_ID = TF.ID
+					AND TMD.IS_NEW_ENTRY = TRUE
+					LEFT OUTER JOIN WRITE_CHECKS WC
+					ON T.ID = WC.ID
+					LEFT OUTER JOIN ITEM_RECEIPT IR
+					ON T.ID = IR.ID
+					LEFT OUTER JOIN TAX_RETURN VR
+					ON T.ID = VR.ID
+					LEFT OUTER JOIN ENTRY E
+					ON E.TRANSACTION_ID = T.ID
+					AND ( ( E.TYPE = 2
+					AND E.VENDOR_ID IS NOT NULL )
+					OR ( E.TYPE = 3
+					AND E.CUSTOMER_ID IS NOT NULL ) )
+					LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP
+					ON CPP.ID = T.ID
+					LEFT OUTER JOIN CUSTOMER C
+					ON C.ID = CS.CUSTOMER_ID
+					OR C.ID = CCM.CUSTOMER_ID
+					OR C.ID = I.CUSTOMER_ID
+					OR C.ID = CR.CUSTOMER_ID
+					OR C.ID = RP.CUSTOMER_ID
+					OR C.ID = TMD.CUSTOMER_ID
+					OR C.ID = WC.CUSTOMER_ID
+					OR C.ID = E.CUSTOMER_ID
+					OR C.ID = CPP.CUSTOMER_ID
+					LEFT OUTER JOIN PAYMENTTERMS PT
+					ON PT.ID = EB.PAYMENT_TERM_ID
+					OR PT.ID = I.PAYMENT_TERMS_ID
+					LEFT OUTER JOIN VENDOR V
+					ON V.ID = CP.VENDOR_ID
+					OR V.ID = VCM.VENDOR_ID
+					OR V.ID = EB.VENDOR_ID
+					OR V.ID = PB.VENDOR_ID
+					OR V.ID = TMD.VENDOR_ID
+					OR V.ID = CCC.VENDOR_ID
+					OR V.ID = WC.VENDOR_ID
+					OR V.ID = E.VENDOR_ID
+					OR V.ID = IR.VENDOR_ID
+					LEFT OUTER JOIN TAX_ADJUSTMENT VAD
+					ON T.ID = VAD.ID
+					LEFT OUTER JOIN TAX_ITEM VITEM
+					ON VITEM.ID = VAD.TAX_ITEM
+					LEFT OUTER JOIN TAXAGENCY VA
+					ON VA.ID = VR.TAX_AGENCY
+					OR VA.ID = VITEM.TAX_AGENCY
+					LEFT OUTER JOIN PAYEE P
+					ON P.ID = C.ID
+					OR P.ID = V.ID
+					OR P.ID = VA.ID
+					LEFT OUTER JOIN ACCOUNT A
+					ON A.ID = CP.CASH_EXPENSE_ACCOUNT_ID
+					LEFT OUTER JOIN USERS U
+					ON U.ID = CP.EMPLOYEE
+					LEFT OUTER JOIN CLIENT CL
+					ON CL.ID = U.CLIENT_ID
+					WHERE  T.STATUS != 3
+					ORDER  BY T.ID  
+					]]>
 		</create>
 		<drop>DROP VIEW TRANSACTION_HISTORY_VIEW</drop>
 	</database-object>

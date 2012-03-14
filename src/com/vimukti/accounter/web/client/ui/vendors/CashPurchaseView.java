@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -338,6 +339,12 @@ public class CashPurchaseView extends
 				}
 				CashPurchaseView.this.updateNonEditableItems();
 			}
+			
+			@Override
+			protected int getTransactionType() {
+				return ClientTransaction.TYPE_CASH_PURCHASE;
+			}
+			
 		};
 
 		vendorItemTransactionTable.setEnabled(isInViewMode());
@@ -628,7 +635,6 @@ public class CashPurchaseView extends
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
-			initAccounterClass();
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1046,6 +1052,7 @@ public class CashPurchaseView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
@@ -1188,6 +1195,19 @@ public class CashPurchaseView extends
 					.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 }

@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author vimukti36
@@ -79,7 +78,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		trackClassCheckBox.setText(messages.trackclass());
+		trackClassCheckBox.setText(messages.classTracking());
 		classLabel.setText(messages.classInAllTransaction());
 
 		onepeTransactionRadioButton.setText(messages.onepertransaction());

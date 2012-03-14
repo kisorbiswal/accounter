@@ -32,6 +32,8 @@ public class UploadTemplateFileServlet extends BaseServlet {
 	private static final String QUOTE = "QUOTE";
 	private static final String CREDITNOTE = "CREDITNOTE";
 	private static final String CASHSALE = "CASHSALE";
+	private static final String PURCHASEORDER = "PURCHASEORDER";
+	private static final String SALESORDER = "SALESORDER";
 
 	@Override
 	protected void doPost(HttpServletRequest request,
@@ -63,6 +65,10 @@ public class UploadTemplateFileServlet extends BaseServlet {
 			builder.append(processFile(multi, QUOTE, companyID, themeId));
 			builder.append(';');
 			builder.append(processFile(multi, CASHSALE, companyID, themeId));
+			builder.append(';');
+			builder.append(processFile(multi, PURCHASEORDER, companyID, themeId));
+			builder.append(';');
+			builder.append(processFile(multi, SALESORDER, companyID, themeId));
 			builder.append(';');
 
 			response.getWriter().print(builder);

@@ -72,7 +72,15 @@ public class Activity extends CreatableObject {
 			} else {
 				this.setDataType(Utility.getTransactionName(tr.getType()));
 			}
+			if (tr instanceof PayBill) {
+				PayBill bill = (PayBill) tr;
+				if (bill.getPayBillType() == 1)
+					this.setObjType(Transaction.TYPE_PAY_BILL);
+				else
+					this.setObjType(Transaction.TYPE_VENDOR_PAYMENT);
+			} else {
 			this.setObjType(tr.getType());
+			}
 			this.setObjStatus(tr.getSaveStatus());
 		} else {
 			if (obj instanceof INamedObject) {

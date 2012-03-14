@@ -1047,6 +1047,9 @@ public interface AccounterMessages extends Messages {
 
 	public String creditLimit();
 
+	public String creditLimitExceed(String payee, String creditLimit,
+			String balance);
+
 	public String creditLimitShouldBeInTheRange();
 
 	public String creditLimitShouldNotBeNull();
@@ -1856,8 +1859,6 @@ public interface AccounterMessages extends Messages {
 	public String fiscalYearStartDateAlreadyExists();
 
 	public String FIVE();
-
-	public String fixedAssest();
 
 	public String fixedAsset();
 
@@ -5921,7 +5922,7 @@ public interface AccounterMessages extends Messages {
 
 	public String inventoryName();
 
-	public String subscribtionManagement();
+	public String subscriptionManagement();
 
 	public String youCannotBuildWithoutComponents();
 
@@ -6114,7 +6115,7 @@ public interface AccounterMessages extends Messages {
 	public String jobList();
 
 	public String accountisParenttoThisAccount();
-	
+
 	public String purchaseOrderTemplate();
 
 	public String purchaseOrderTitle();
@@ -6122,5 +6123,19 @@ public interface AccounterMessages extends Messages {
 	public String purchaseOrderValue();
 
 	public String notMoveDiffTypeAccount();
+
+	public String clickOnTheCompanyNameToOpen();
+	
+	public String salesOrderTemplate();
+
+	public String remainingCredits();
+
+	public String salesOrderTitle();
+
+	public String salesOrderValue();
+
+	public String purchasesbyLocationDetail();
+	
+	public String purchasesbyClassDetail();
 
 }

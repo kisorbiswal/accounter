@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -16,6 +15,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -278,7 +278,6 @@ public class CashExpenseView extends
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 
@@ -355,13 +354,10 @@ public class CashExpenseView extends
 		accountBalText.setEnabled(true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency(), "vendorBalText");
-		vendorBalText.setEnabled(true);
-//		vendorBalText.setWidth(100);
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+		vendorBalText.setEnabled(false);
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			vendorForm.add(classListCombo);
 		}
 
@@ -381,7 +377,8 @@ public class CashExpenseView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackDiscounts(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTaxPerDetailLine(), isTrackClass(), isClassPerDetailLine(),
+				this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -432,7 +429,8 @@ public class CashExpenseView extends
 //		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackDiscounts(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackDiscounts(), isTrackTax(), isTaxPerDetailLine(),
+				isTrackClass(), isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -727,7 +725,6 @@ public class CashExpenseView extends
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
-			initAccounterClass();
 			if (vendor != null) {
 				vendorBalText.setAmount(vendor.getBalance());
 			}
@@ -744,7 +741,14 @@ public class CashExpenseView extends
 				}
 			}
 		}
-
+		if (isTrackClass() && !isClassPerDetailLine()) {
+			this.accounterClass = getClassForTransactionItem(transaction
+					.getTransactionItems());
+			if (accounterClass != null) {
+				this.classListCombo.setComboItem(accounterClass);
+				classSelected(accounterClass);
+			}
+		}
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
@@ -945,6 +949,9 @@ public class CashExpenseView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		if (isTrackClass()) {
+			classListCombo.setEnabled(!isInViewMode());
+		}
 		super.onEdit();
 	}
 
@@ -1059,6 +1066,18 @@ public class CashExpenseView extends
 	}
 
 	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
+	}
+
 	protected boolean isSaveButtonAllowed() {
 		ClientUserPermissions permissions = Accounter.getUser()
 				.getPermissions();

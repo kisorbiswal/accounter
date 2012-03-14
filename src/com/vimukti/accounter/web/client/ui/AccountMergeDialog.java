@@ -1,16 +1,13 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
-
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -19,10 +16,11 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Sai Prasad N
  * 
  */
-public class AccountMergeDialog extends BaseView<ClientAccount> {
+public class AccountMergeDialog extends BaseDialog implements
+		AsyncCallback<Void> {
 
-	private DynamicForm firstForm;
-	private DynamicForm secondForm;
+	private DynamicForm form;
+	private DynamicForm form1;
 
 	private OtherAccountsCombo accountCombo;
 	private OtherAccountsCombo accountCombo1;
@@ -35,51 +33,46 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 	private ClientAccount fromAccount;
 	private ClientAccount toAccount;
 
-	public AccountMergeDialog() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		this.getElement().setId("accountMergeDialog");
+	public AccountMergeDialog(String title, String descript) {
+		super(title, descript);
+		okbtn.setText(messages.merge());
 		createControls();
-		saveAndNewButton.setVisible(false);
-		saveAndCloseButton.setText(messages.merge());
-//		setSize("100%", "100%");
+		center();
 	}
 
 	private void createControls() {
-		firstForm = new DynamicForm("firstForm");
-		secondForm = new DynamicForm("secondForm");
+		form = new DynamicForm("form");
+		form1 = new DynamicForm("form1");
 		StyledPanel layout = new StyledPanel("layout");
 		StyledPanel layout1 = new StyledPanel("layout1");
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		accountCombo = createAccountCombo();
 		accountCombo1 = createAccountCombo1();
 
 		accountNumberTextItem = new TextItem(messages.payeeNumber(messages
-				.Account()), "accountNumberTextItem");
+				.Account()),"accountNumberTextItem");
 
 		accountNumberTextItem1 = new TextItem(messages.payeeNumber(messages
-				.Account()), "accountNumberTextItem");
+				.Account()),"accountNumberTextItem1");
 
-		name = new TextItem(messages.accountName(), "name");
-		name1 = new TextItem(messages.accountName(), "name");
+		name = new TextItem(messages.accountName(),"name");
+		name1 = new TextItem(messages.accountName(),"name1");
 
-		balanceTextItem = new TextItem(messages.balance(), "balanceTextItem");
+		balanceTextItem = new TextItem(messages.balance(),"balanceTextItem");
 
-		balanceTextItem1 = new TextItem(messages.balance(), "balanceTextItem");
+		balanceTextItem1 = new TextItem(messages.balance(),"balanceTextItem1");
 
-		firstForm.add(accountCombo, accountNumberTextItem, name,
+		form.add(accountCombo, accountNumberTextItem, name,
 				balanceTextItem);
 
-		secondForm.add(accountCombo1, accountNumberTextItem1, name1,
+		form1.add(accountCombo1, accountNumberTextItem1, name1,
 				balanceTextItem1);
 		// form.setItems(getTextItems());
-		layout.add(firstForm);
-		layout1.add(secondForm);
-		add(layout);
-		add(layout1);
+		layout.add(form);
+		layout1.add(form1);
+		horizontalPanel.add(layout);
+		horizontalPanel.add(layout1);
+		setBodyLayout(horizontalPanel);
 
 	}
 
@@ -143,104 +136,76 @@ public class AccountMergeDialog extends BaseView<ClientAccount> {
 
 	}
 
-	public ValidationResult validate() {
-		ValidationResult result = firstForm.validate();
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = form.validate();
 		if (toAccount != null && fromAccount != null) {
-			if ((toAccount.getID() == fromAccount.getID())
-					|| !(toAccount.getType() == fromAccount.getType())) {
+			if ((toAccount.getID() == fromAccount.getID())) {
 				result.addError(fromAccount, messages.notMoveAccount());
 				return result;
 			}
-
-			if ((toAccount.getID() == fromAccount.getID())
-					|| !(toAccount.getType() == fromAccount.getType())) {
-				result.addError(fromAccount, messages.notMoveAccount());
+			if (toAccount.getType() != fromAccount.getType()) {
+				result.addError(fromAccount, messages.notMoveDiffTypeAccount());
 				return result;
 			}
-			result = firstForm.validate();
+			if (fromAccount.getID() == toAccount.getID()) {
+				result.addError(fromAccount, "Accounts must be different");
+				return result;
+			}
 
-			result = secondForm.validate();
+			if (fromAccount.getCurrency() != toAccount.getCurrency()) {
+				result.addError(fromAccount,
+						"Currencies of the both Accounts must be same ");
+				return result;
+			}
 
 			return result;
 
 		}
+
+		result.add(form1.validate());
+
 		return result;
 	}
 
 	@Override
-	public void saveAndUpdateView() {
+	protected boolean onOK() {
 
-		if (fromAccount != null && toAccount != null) {
-			if (fromAccount.getID() == toAccount.getID()) {
-				Accounter.showError("Accounts must be different");
-			}
-		}
-		ClientCurrency currency1 = getCompany().getCurrency(
-				fromAccount.getCurrency());
-		ClientCurrency currency2 = getCompany().getCurrency(
-				toAccount.getCurrency());
+		Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
+				new AccounterAsyncCallback<ClientAccount>() {
 
-		if (currency1 != currency2) {
-			Accounter
-					.showError("Currencies of the both Accounts must be same ");
-		} else if (fromAccount.getType() != toAccount.getType()) {
-			Accounter.showError("Type of the both Accounts must be same ");
-		} else {
-			Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
-					new AccounterAsyncCallback<ClientAccount>() {
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
 
-						@Override
-						public void onException(AccounterException exception) {
-							// TODO Auto-generated method stub
+					}
 
-						}
+					@Override
+					public void onResultSuccess(ClientAccount result) {
+						getCompany().deleteAccount(fromAccount.getID());
+						getCompany().processUpdateOrCreateObject(result);
+						com.google.gwt.user.client.History.back();
+					}
 
-						@Override
-						public void onResultSuccess(ClientAccount result) {
-							getCompany().processUpdateOrCreateObject(result);
-							com.google.gwt.user.client.History.back();
-						}
-
-					});
-		}
+				});
+		return true;
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void onFailure(Throwable caught) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public String getViewTitle() {
-		return messages.mergeAccounts();
-	}
-
-	@Override
-	public List getForms() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
+		accountCombo.setFocus();
 
 	}
 

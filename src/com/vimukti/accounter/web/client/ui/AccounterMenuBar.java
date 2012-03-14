@@ -25,7 +25,8 @@ public class AccounterMenuBar extends FlowPanel {
 
 		MenuBar accounterMenuBar = new MenuBar();
 		accounterMenuBar.setPreferencesandPermissions(preferences,
-				Accounter.getUser(), countryPreferences);
+				Accounter.getUser(), countryPreferences,
+				Accounter.getFeatures());
 
 		generateMenu(accounterMenuBar.getMenus());
 	}

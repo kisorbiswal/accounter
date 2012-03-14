@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;

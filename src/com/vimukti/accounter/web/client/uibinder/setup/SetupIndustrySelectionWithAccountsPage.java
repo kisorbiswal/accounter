@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author Prasanna Kumar G

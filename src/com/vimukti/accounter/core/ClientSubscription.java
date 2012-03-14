@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
 
 public class ClientSubscription implements IsSerializable {
 	public static final int ONE_USER = 1;
@@ -18,6 +19,7 @@ public class ClientSubscription implements IsSerializable {
 	private Date createdDate;
 	private Date lastModified;
 	private Date expiredDate;
+	private Date gracePeriodDate;
 	private Set<String> members = new HashSet<String>();
 	private int premiumType;
 
@@ -109,8 +111,41 @@ public class ClientSubscription implements IsSerializable {
 		if (expiredDate == null) {
 			return "Unlimited";
 		}
+		if (Global.get().preferences() != null) {
+			String dateInSelectedFormat = Utility
+					.getDateInSelectedFormat(new FinanceDate(expiredDate));
+			return dateInSelectedFormat;
+		}
 		SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat(
 				"MMM/dd/yyyy");
 		return dateformatMMDDYYYY.format(expiredDate);
+
+	}
+
+	public boolean isInTracePeriod() {
+		if (gracePeriodDate == null) {
+			return false;
+		}
+		return gracePeriodDate.after(new Date());
+	}
+
+	public boolean isTracePeriodExpired() {
+		if (gracePeriodDate == null) {
+			return false;
+		}
+		return gracePeriodDate.before(new Date());
+	}
+
+	public boolean isExpired() {
+		return expiredDate == null ? false : expiredDate.before(new Date());
+	}
+
+	public Date getGracePeriodDate() {
+		return gracePeriodDate;
+	}
+
+	public void setGracePeriodDate(Date gracePeriodDate) {
+		this.gracePeriodDate = gracePeriodDate;
+
 	}
 }

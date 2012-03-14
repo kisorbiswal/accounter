@@ -1346,6 +1346,21 @@ public class UIUtils {
 		if (obj2 == null)
 			return 1;
 		return obj1.compareTo(obj2);
+
+	}
+
+	public static <T extends Object> int compareToInt(String obj1, String obj2) {
+		if (obj1 == null) {
+			return -1;
+		}
+		{
+			if (obj2 == null)
+				return 1;
+		}
+		Integer num1 = Integer.parseInt(obj1);
+		Integer num2 = Integer.parseInt(obj2);
+		return num1.compareTo(num2);
+
 	}
 
 	public static String getDateByCompanyType(ClientFinanceDate date) {

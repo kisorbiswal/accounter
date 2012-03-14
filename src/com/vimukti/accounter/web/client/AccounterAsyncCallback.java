@@ -25,6 +25,9 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 
 	@Override
 	public void onFailure(Throwable exception) {
+		if (Accounter.isShutdown()) {
+			return;
+		}
 		// processDialog.removeFromParent();
 		if (exception instanceof AccounterException) {
 			AccounterException accounterException = (AccounterException) exception;
@@ -35,12 +38,11 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 				Accounter.showMessage(Global.get().messages().sessionExpired());
 				Accounter.getMainFinanceWindow().onSessionExpired();
 			} else {
-				if (Accounter.isShutdown()) {
+
 					Accounter.showInformation(Global.get().messages()
 							.unableToPerformTryAfterSomeTime());
 				}
 			}
-		}
 		exception.printStackTrace();
 
 	}
