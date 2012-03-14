@@ -19,11 +19,6 @@ public class SubscribtionComplitionServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
-		if (emailId == null) {
-			resp.sendRedirect(LOGIN_URL);
-			return;
-		}
 		EU.removeKey(req.getSession().getId());
 		req.getSession().removeAttribute(EMAIL_ID);
 		req.getSession().removeAttribute(USER_ID);
