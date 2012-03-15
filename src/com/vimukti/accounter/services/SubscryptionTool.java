@@ -101,13 +101,13 @@ public class SubscryptionTool extends Thread {
 		newMembers.remove(emailId);
 		int noOfUsers = 0;
 		switch (premiumType) {
-		case 1:
+		case ClientSubscription.ONE_USER:
 			noOfUsers = 1;
 			break;
-		case 2:
+		case ClientSubscription.TWO_USERS:
 			noOfUsers = 2;
 			break;
-		case 3:
+		case ClientSubscription.FIVE_USERS:
 			noOfUsers = 5;
 			break;
 		default:

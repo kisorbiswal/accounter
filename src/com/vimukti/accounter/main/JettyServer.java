@@ -29,6 +29,10 @@ public class JettyServer {
 
 		webappcontext.setContextPath("/");
 		// webappcontext.setWar("webapp");
+
+		webappcontext.getSessionHandler().getSessionManager()
+				.setSessionIdPathParameterName("none");
+
 		Resource resource = Resource.newClassPathResource("war");
 
 		webappcontext.setBaseResource(resource);

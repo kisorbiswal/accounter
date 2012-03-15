@@ -97,9 +97,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 <%
    String app = request.getHeader( "Nativeapp" );
-	String userEmailId = request.getAttribute("email").toString();
-	String userFirstname = request.getAttribute("firstname").toString(); 
-	String userLastname = request.getAttribute("lastname").toString(); 
+	String userEmailId = (String)request.getAttribute("email");
+	String userFirstname = (String)request.getAttribute("firstname"); 
+	String userLastname = (String)request.getAttribute("lastname"); 
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
    <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>" />

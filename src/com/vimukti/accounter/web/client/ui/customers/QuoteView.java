@@ -930,12 +930,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 						}
 					}
 				}
-				netAmountLabel.setAmount(transaction.getNetAmount());
 				// vatTotalNonEditableText.setValue(DataUtils
 				// .getAmountAsString(transaction.getTotal()
 				// - transaction.getNetAmount()));
 				vatTotalNonEditableText.setTransaction(transaction);
 			}
+			netAmountLabel.setAmount(transaction.getNetAmount());
 			if (isTrackClass()) {
 				if (!isClassPerDetailLine()) {
 					this.accounterClass = getClassForTransactionItem(this.transactionItems);
@@ -1053,8 +1053,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				item.setTaxCode(tax.getID());
 			}
 		}
+		netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 		if (isTrackTax()) {
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			// vatTotalNonEditableText.setAmount(customerTransactionTable
 			// .getTotalTax());
 			if (transaction.getTransactionItems() != null && !isInViewMode()) {

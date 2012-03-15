@@ -67,8 +67,8 @@ public class CashExpenseView extends
 		ClientCashPurchase saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
+			transaction.setNetAmount(netAmount.getAmount());
 			if (getPreferences().isTrackPaidTax()) {
-				transaction.setNetAmount(netAmount.getAmount());
 				setAmountIncludeTAX();
 			}
 
@@ -707,10 +707,9 @@ public class CashExpenseView extends
 			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
 			initMemoAndReference();
 			checkNo.setEnabled(false);
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
-
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					selectTAXCode();
@@ -827,8 +826,8 @@ public class CashExpenseView extends
 	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
+		transaction.setNetAmount(netAmount.getAmount());
 		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
 			setAmountIncludeTAX();
 		}
 		createAlterObject();

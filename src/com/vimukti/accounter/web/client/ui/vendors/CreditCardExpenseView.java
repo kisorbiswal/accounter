@@ -740,9 +740,9 @@ public class CreditCardExpenseView extends
 					.getDeliveryDate()));
 			delivDate.setEnabled(!isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
@@ -1081,8 +1081,7 @@ public class CreditCardExpenseView extends
 		ClientCreditCardCharge saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
-			if (getPreferences().isTrackPaidTax())
-				transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(netAmount.getAmount());
 		}
 		return saveView;
 	}
@@ -1092,8 +1091,7 @@ public class CreditCardExpenseView extends
 
 		updateTransaction();
 
-		if (getPreferences().isTrackPaidTax())
-			transaction.setNetAmount(netAmount.getAmount());
+		transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 

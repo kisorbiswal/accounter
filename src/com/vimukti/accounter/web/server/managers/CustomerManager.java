@@ -263,7 +263,8 @@ public class CustomerManager extends PayeeManager {
 			el.setTotal(((Double) obj[3]).doubleValue());
 			el.setDate(new ClientFinanceDate((Long) obj[4]));
 			el.setCustomerName((String) obj[5]);
-			el.setRemainingTotal(((Double) obj[6]).doubleValue());
+			el.setRemainingTotal(obj[6] == null ? 0.0 : ((Double) obj[6])
+					.doubleValue());
 			if (obj[7] != null) {
 				el.setEstimateType(((Integer) obj[7]).intValue());
 			}
@@ -884,15 +885,15 @@ public class CustomerManager extends PayeeManager {
 			transactionHistory
 					.setTransactionId(((Long) object[12]).longValue());
 
+			// transactionHistory
+			// .setBeginningBalance((object[13] != null ? ((Double) object[13])
+			// .doubleValue() : 0.0));
 			transactionHistory
-					.setBeginningBalance((object[13] != null ? ((Double) object[13])
-							.doubleValue() : 0.0));
-			transactionHistory
-					.setIsVoid(object[14] != null ? (Boolean) object[14]
+					.setIsVoid(object[13] != null ? (Boolean) object[13]
 							: false);
 			transactionHistory
-					.setStatus((object[15] != null) ? (Integer) object[15] : 0);
-			transactionHistory.setMemo((String) object[16]);
+					.setStatus((object[14] != null) ? (Integer) object[14] : 0);
+			transactionHistory.setMemo((String) object[15]);
 
 			// Transaction t = (Transaction) getServerObjectForid(
 			// AccounterCoreType.TRANSACTION,
@@ -902,7 +903,7 @@ public class CustomerManager extends PayeeManager {
 			// : t.getPayee().getAccount()
 			// : t.getEffectingAccount();
 
-			transactionHistory.setAccount((String) object[17]);
+			transactionHistory.setAccount((String) object[16]);
 
 			if (transactionHistory.getType() == 0) {
 				openingBalnaceEntries.put(transactionHistory.getName(),

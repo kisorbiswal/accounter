@@ -205,6 +205,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		readOnly = new RadioButton("permissions", messages.readOnly()
 				+ messages.readOnlyDesc());
 		custom = new RadioButton("permissions", messages.custom());
+
 		admin = new RadioButton("permissions", messages.admin()
 				+ messages.adminDesc());
 		financialAdviser = new RadioButton("permissions",
@@ -502,10 +503,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	private RolePermissions getCustomPermission() {
-		RolePermissions custom = new RolePermissions();
-		custom.setRoleName(RolePermissions.CUSTOM);
+		RolePermissions custom = null;
+
 		for (CheckBox box : permissionsBoxes) {
 			if (box.getValue()) {
+				if (custom == null) {
+					custom = new RolePermissions();
+					custom.setRoleName(RolePermissions.CUSTOM);
+				}
 				if (box.getName().equals(messages.createInvoicesAndBills())) {
 					custom.setTypeOfInvoicesBills(RolePermissions.TYPE_YES);
 				} else if (box.getName().equals(messages.billsAndPayments())) {
@@ -698,6 +703,12 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 						messages.pleaseSelect(messages.levelOfAccess()));
 			}
 		}
+
+		if (custom.getValue() && getCustomPermission() == null) {
+			result.addError(custForm,
+					messages.pleaseSelect(messages.permissions()));
+		}
+
 		// for checking the userList for another admin role
 		ArrayList<ClientUserInfo> usersList = getCompany().getUsersList();
 		boolean hasAnotherAdmin = false;

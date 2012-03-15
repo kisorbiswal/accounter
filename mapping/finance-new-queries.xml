@@ -216,6 +216,19 @@
 				]]>
 		
 	</sql-query>
+	
+	<sql-query name="isCompanyExists">
+		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="COMPANY_ID" type="long" />
+		
+		<![CDATA[
+				SELECT ID AS COMPANY_ID
+				FROM   COMPANY
+				WHERE  ID = :companyId  
+				]]>
+		
+	</sql-query>
 
 	<sql-query name="getCompaniesByClientId">
 		<query-param name="clientId" type="long" />

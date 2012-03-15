@@ -785,8 +785,7 @@ public class CreditCardChargeView extends
 		ClientCreditCardCharge saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
-			if (isTrackTax())
-				transaction.setNetAmount(netAmount.getAmount());
+			transaction.setNetAmount(netAmount.getAmount());
 		}
 		return saveView;
 	}
@@ -796,8 +795,7 @@ public class CreditCardChargeView extends
 
 		updateTransaction();
 
-		if (isTrackTax())
-			transaction.setNetAmount(netAmount.getAmount());
+		transaction.setNetAmount(netAmount.getAmount());
 		// creditCardCharge.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
@@ -917,8 +915,8 @@ public class CreditCardChargeView extends
 		transactionTotalBaseCurrencyText
 				.setAmount(getAmountInBaseCurrency(grandTotal));
 		foreignCurrencyamountLabel.setAmount(grandTotal);
+		netAmount.setAmount(lineTotal);
 		if (isTrackTax()) {
-			netAmount.setAmount(lineTotal);
 			if ((transaction.getTransactionItems() != null && transaction
 					.getTransactionItems().isEmpty()) && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable

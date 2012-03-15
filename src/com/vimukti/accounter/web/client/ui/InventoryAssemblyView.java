@@ -618,7 +618,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		ClientMeasurement measurement = null;
 
 		if (this.measurement.getSelectedValue() != null) {
-			measurement = this.measurement.getSelectedValue();
+			measurement = getCompany().getMeasurement(
+					this.measurement.getSelectedValue().getID());
 		} else {
 			measurement = getCompany().getMeasurement(
 					getCompany().getDefaultMeasurement());

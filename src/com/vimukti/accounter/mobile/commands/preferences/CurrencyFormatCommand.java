@@ -8,6 +8,7 @@ import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.IntegerRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
@@ -42,8 +43,7 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		ClientCompanyPreferences preferences = context.getPreferences();
-		get(NO_OF_DIGITS_AFTER_NO).setValue(
-				String.valueOf(preferences.getDecimalNumber()));
+		get(NO_OF_DIGITS_AFTER_NO).setValue(preferences.getDecimalNumber());
 		get(DECIMAL_SYMBOL).setValue(preferences.getDecimalCharacter());
 		get(DIGIT_GROUPING_SYMBOL).setValue(
 				preferences.getDigitGroupCharacter());
@@ -58,14 +58,14 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 			return null;
 		}
 		String digitGroupSymbol = get(DIGIT_GROUPING_SYMBOL).getValue();
-		String noOfDigitsAfterDecimal = get(NO_OF_DIGITS_AFTER_NO).getValue();
+		Integer noOfDigitsAfterDecimal = get(NO_OF_DIGITS_AFTER_NO).getValue();
 		String decimalSymbol = get(DECIMAL_SYMBOL).getValue();
 		String value = groups[0].replaceAll(",",
 				quoteReplacement(digitGroupSymbol));
 		String currencySymbol = getPreferences().getPrimaryCurrency()
 				.getSymbol();
 		value += decimalSymbol;
-		for (int i = 0; i < Integer.valueOf(noOfDigitsAfterDecimal); i++) {
+		for (int i = 0; i < noOfDigitsAfterDecimal; i++) {
 			value += "0";
 		}
 
@@ -185,10 +185,17 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 		};
 		list.add(decimalSymbolReq);
 
-		list.add(new NumberRequirement(NO_OF_DIGITS_AFTER_NO, "", getMessages()
-				.noOfDigitsAfterDecimal(), false, true) {
+		list.add(new IntegerRequirement(NO_OF_DIGITS_AFTER_NO,
+				"Enter number of digits after decimal point", getMessages()
+						.noOfDigitsAfterDecimal(), false, true) {
 			@Override
 			public void setValue(Object value) {
+				try {
+					Integer.valueOf((String) value);
+				} catch (Exception e) {
+					addFirstMessage(getMessages().pleaseEnterValidNumber());
+					return;
+				}
 				super.setValue(value);
 				update();
 			}
@@ -316,8 +323,7 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientCompanyPreferences companyPreferences = context.getPreferences();
-		int noOfDigitsAfterDecimal = Integer.valueOf((String) get(
-				NO_OF_DIGITS_AFTER_NO).getValue());
+		Integer noOfDigitsAfterDecimal = get(NO_OF_DIGITS_AFTER_NO).getValue();
 		companyPreferences.setDecimalNumber(noOfDigitsAfterDecimal);
 		String decimalSymbol = get(DECIMAL_SYMBOL).getValue();
 		companyPreferences.setDecimalCharacte(decimalSymbol);

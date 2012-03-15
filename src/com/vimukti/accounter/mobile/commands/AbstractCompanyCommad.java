@@ -396,7 +396,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		get(TIME_ZONE)
 				.setValue(
 						countryPreferences
-								.getDefaultTimeZone((states == null || states.length < 0) ? ""
+								.getDefaultTimeZone((states == null || states.length <= 0) ? ""
 										: states[0]));
 	}
 

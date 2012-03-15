@@ -181,7 +181,10 @@ public class Encrypter extends Thread {
 					session.replicate(o, ReplicationMode.OVERWRITE);
 				}
 			}
+			Company company = getCompany();
 			initChipher();
+			company.setLocked(false);
+			session.saveOrUpdate(company);
 			beginTransaction.commit();
 		} catch (Exception e) {
 			beginTransaction.rollback();

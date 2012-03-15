@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerRepo
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.AutomaticTransactionsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BankCheckDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BankDepositServerReport;
@@ -165,6 +166,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_JOB = 193;
 	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_CLASS = 194;
 	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_LOCATION = 195;
+	public final static int REPORT_TYPE_AUTOMATIC_TRANSACTIONS = 196;
 
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
@@ -1837,6 +1839,38 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return tdsView.getGridTemplate();
+			
+		case REPORT_TYPE_AUTOMATIC_TRANSACTIONS:
+
+			AutomaticTransactionsServerReport automaticTransactions = new AutomaticTransactionsServerReport(
+					startDate.getDate(), endDate.getDate(), generationType1) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate(company);
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate(company);
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(automaticTransactions, finaTool);
+			automaticTransactions.resetVariables();
+			try {
+				automaticTransactions.onResultSuccess(finaTool.getReportManager()
+						.getAutomaticTransactions(this.startDate, this.endDate,
+								company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return automaticTransactions.getGridTemplate();
 
 		default:
 			break;
@@ -2167,6 +2201,8 @@ public class ReportsGenerator {
 			return "Profit and Loss by Job";
 		case REPORT_TYPE_TDS_ACKNOWLEDGEMENT_REPORT:
 			return "TDS Acknowledgement Report";
+		case REPORT_TYPE_AUTOMATIC_TRANSACTIONS:
+			return "Automatic Transactions";
 
 		default:
 			break;

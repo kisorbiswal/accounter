@@ -6125,7 +6125,7 @@ public interface AccounterMessages extends Messages {
 	public String notMoveDiffTypeAccount();
 
 	public String clickOnTheCompanyNameToOpen();
-	
+
 	public String salesOrderTemplate();
 
 	public String remainingCredits();
@@ -6135,7 +6135,19 @@ public interface AccounterMessages extends Messages {
 	public String salesOrderValue();
 
 	public String purchasesbyLocationDetail();
-	
+
 	public String purchasesbyClassDetail();
+
+	public String subscription(String users);
+
+	public String OneUser();
+
+	public String TwoUsers();
+
+	public String FiveUsers();
+
+	public String UnlimitedUsers();
+
+	public String wrongFormat(String value);
 
 }

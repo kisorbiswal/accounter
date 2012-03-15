@@ -41,8 +41,8 @@ public class MobileServerMessages {
 			global = Global.get().Customers();
 		} else if (innerKey.equals("Vendors")) {
 			global = Global.get().Vendors();
-		} else {
-			global = null;
+		} else if (innerKey.equals("about")) {
+			global = ServerSideMessages.getMessage("About");
 		}
 		return global;
 	}

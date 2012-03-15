@@ -206,7 +206,8 @@ public class PurchaseOrderView extends
 		} else {
 
 			salesTaxTextNonEditable = new TaxItemsForm();// createSalesTaxNonEditableLabel();
-			transactionTotalNonEditableText = createTransactionTotalNonEditableLabelforPurchase();
+			transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
+					.getPrimaryCurrency());
 
 			paymentsNonEditableText = new AmountLabel(messages.payments());
 			paymentsNonEditableText.setEnabled(!true);

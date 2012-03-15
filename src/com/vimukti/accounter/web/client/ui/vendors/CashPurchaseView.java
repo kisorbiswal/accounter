@@ -339,12 +339,12 @@ public class CashPurchaseView extends
 				}
 				CashPurchaseView.this.updateNonEditableItems();
 			}
-			
+
 			@Override
 			protected int getTransactionType() {
 				return ClientTransaction.TYPE_CASH_PURCHASE;
 			}
-			
+
 		};
 
 		vendorItemTransactionTable.setEnabled(isInViewMode());
@@ -594,9 +594,9 @@ public class CashPurchaseView extends
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
 			initMemoAndReference();
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					selectTAXCode();
@@ -840,9 +840,8 @@ public class CashPurchaseView extends
 				}
 			}
 		}
-
+		transaction.setNetAmount(netAmount.getAmount());
 		if (isTrackPaidTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
 			setAmountIncludeTAX();
 		}
 	}

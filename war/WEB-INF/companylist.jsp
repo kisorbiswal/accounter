@@ -19,6 +19,7 @@
 		<%	Boolean canCreate=(Boolean) request.getAttribute("canCreate");	%>
 		<%	isPaid=isPaid==null?false:isPaid;	%>
 		<%	canEncrypt=canEncrypt==null?false:canEncrypt;	%>
+		<%	canCreate=canCreate==null?false:canCreate;	%>
 		<%	enableEncryption=enableEncryption&&isPaid&&canEncrypt;	%>
 		
 	<script type="text/javascript">

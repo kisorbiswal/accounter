@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -76,6 +77,7 @@ public class EncryptCompaniesServlet extends BaseServlet {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			String companyId = req.getParameter("companyname");
 			Session session2 = HibernateUtil.getCurrentSession();
+			EU.removeCipher();
 			Company company = (Company) session2.get(Company.class,
 					Long.parseLong(companyId));
 			if (company != null) {

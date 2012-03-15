@@ -121,9 +121,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		Session session = HibernateUtil.getCurrentSession();
 		Long serverCompanyID = (Long) request.getSession().getAttribute(
 				COMPANY_ID);
-		if (serverCompanyID == null) {
+
+		if (!isCompanyExists(serverCompanyID)) {
 			return false;
 		}
+		EU.removeCipher();
 		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
@@ -134,6 +136,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				e.printStackTrace();
 			}
 		}
+		
 		if (islockedCompany(serverCompanyID)) {
 			return false;
 		}
@@ -151,6 +154,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		CompanyPreferenceThreadLocal.set(preferences);
 
 		return true;
+	}
+
+	private boolean isCompanyExists(Long companyID) {
+		if (companyID == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Long id = (Long) session.getNamedQuery("isCompanyExists")
+				.setLong("companyId", companyID).uniqueResult();
+		return id != null;
 	}
 
 	private boolean islockedCompany(Long companyID) {

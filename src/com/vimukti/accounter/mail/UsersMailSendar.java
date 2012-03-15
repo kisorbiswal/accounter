@@ -7,11 +7,14 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.MaintananceInfoUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.PropertyParser;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class UsersMailSendar {
 	private static PropertyParser propertyParser;
@@ -453,9 +456,11 @@ public class UsersMailSendar {
 				"");
 		content = content
 				.replaceAll("%USER%", getUserName(client.getEmailId()))
-				.replaceAll("%TYPE%",
-						client.getClientSubscription().getTypeToString())
-				.replaceAll("EXPIRY",
+				.replaceAll(
+						"%TYPE%",
+						getTypeStringByType(client.getClientSubscription()
+								.getPremiumType()))
+				.replaceAll("%EXPIRY%",
 						client.getClientSubscription().getExpiredDateAsString());
 
 		String subject = propertyParser.getProperty("subjectForSubscribedUser",
@@ -467,6 +472,23 @@ public class UsersMailSendar {
 		emailMsg.setRecepeant(client.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 		EmailManager.getInstance().addJob(job);
+	}
+
+	private static String getTypeStringByType(int premiumType) {
+		AccounterMessages messages = Global.get().messages();
+		switch (premiumType) {
+		case ClientSubscription.ONE_USER:
+			return messages.subscription(messages.OneUser());
+		case ClientSubscription.TWO_USERS:
+			return messages.subscription(messages.TwoUsers());
+		case ClientSubscription.FIVE_USERS:
+			return messages.subscription(messages.FiveUsers());
+		case ClientSubscription.UNLIMITED_USERS:
+			return messages.subscription(messages.UnlimitedUsers());
+		default:
+			break;
+		}
+		return "";
 	}
 
 	public static void sendMailToSubscriptionExpiredUser(Client client)
@@ -486,9 +508,11 @@ public class UsersMailSendar {
 				"contentForSubscriptionExpiredUser", "");
 		content = content
 				.replaceAll("%USER%", getUserName(client.getEmailId()))
-				.replaceAll("%TYPE%",
-						client.getClientSubscription().getTypeToString())
-				.replaceAll("EXPIRY",
+				.replaceAll(
+						"%TYPE%",
+						getTypeStringByType(client.getClientSubscription()
+								.getPremiumType()))
+				.replaceAll("%EXPIRY%",
 						client.getClientSubscription().getExpiredDateAsString());
 
 		String subject = propertyParser.getProperty(

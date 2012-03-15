@@ -481,7 +481,9 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 						context.getCompany()));
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
-		get(DISCOUNT).setDefaultValue(0.0);
+		if (get(DISCOUNT) != null) {
+			get(DISCOUNT).setDefaultValue(0.0);
+		}
 	}
 
 	private void setAmountValue() {

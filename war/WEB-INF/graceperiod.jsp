@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title> Trace Period
+<title> Grace Period
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 <%
@@ -13,7 +13,7 @@ String expireDate = (String)request.getAttribute("expiredDate");
 Integer remainigDays =(Integer) request.getAttribute("remainigDays");
 java.util.Set<String> users =(java.util.Set<String>) request.getAttribute("users");
 Integer premiumType =(Integer) request.getAttribute("premiumType");
-String userName=(String)request.getAttribute("userName");
+String user_Name=(String)request.getAttribute("userName");
 %>
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
@@ -25,16 +25,18 @@ String userName=(String)request.getAttribute("userName");
 		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 			  	<p>Subscription Notification</p>
 			  	<% if(premiumType==0){ %>
-			  		<p>Dear <%= userName %>, Your subscription will be expired  on <%= expireDate %>.
+			  		<p>Dear <%= user_Name %>, Your subscription will be expired  on <%= expireDate %>.
 			  	<% } else { %>
-			  		<p>Dear <%= userName %>, Your subscription will be degraded on <%= expireDate %>.
+			  		<p>Dear <%= user_Name %>, Your subscription will be degraded on <%= expireDate %>.
 			  	<% } %>		    
 			  	We will provide <%= remainigDays %> grace period. After this period following users are deleted.
-			  	<c:forEach items="<% users %>" var="name">  
-				<span>${name}</span></br>
-				</c:forEach>
+			  	<c:if test="${users!=null}"> 
+				  	<c:forEach items="<%= users %>" var="name">  
+					<span>${name}</span></br>
+					</c:forEach>
+				</c:if>
 			    </br>
-			    Clieck here to <a href="/company/accounter?type=gracePeriod">Continue</a></br>
+			    Click here to <a href="/main/companies?type=gracePeriod">Continue</a></br>
 				If you want to upgrade <a href="/main/subscriptionmanagement">Clieck here</a>
 		</div>
 	     <!-- Footer Section-->

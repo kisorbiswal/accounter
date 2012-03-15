@@ -24,7 +24,7 @@
   		var AccounterMessages={
   		<%
   		HashMap<String,String> messages=(HashMap<String,String>)request.getAttribute("messages");
-  		String user_emailId=(String)request.getAttribute("emailId");
+  		String user_emailId=(String)request.getSession().getAttribute("emailId");
   		if(messages!=null){
 	  		for(String key:messages.keySet()){
 	  			String value=messages.get(key);
@@ -336,7 +336,7 @@
 	</div>
 	<div id="mainFooter" style="visibility:hidden" >
 	    <div>
-	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
+	       <span>&copy 2012 Vimukti Technologies Pvt Ltd</span> |
 	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
 	       <a id="support" target="_blank" href="/site/support"> Support </a>

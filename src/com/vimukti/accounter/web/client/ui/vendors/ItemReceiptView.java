@@ -451,9 +451,8 @@ public class ItemReceiptView extends
 
 			vendorSelected(this.getVendor());
 			paymentTermsSelected(this.paymentTerm);
-
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
-				netAmount.setAmount(transaction.getNetAmount());
 				vatTotalNonEditableText.setTransaction(transaction);
 			}
 			transactionTotalNonEditableText
@@ -567,9 +566,7 @@ public class ItemReceiptView extends
 
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 
-		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
-		}
+		transaction.setNetAmount(netAmount.getAmount());
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 	}
 

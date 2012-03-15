@@ -57,20 +57,9 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 		yesRadioButton.setText(messages.yes());
 		noRadioButton.setText(messages.no());
 		useDelayedCharges.setText(messages.delayedCharges());
+		useDelayedCharges.setVisible(Accounter
+				.hasPermission(Features.CREDITS_CHARGES));
 		useDelayedCharges.setStyleName("bold");
-		useDelayedCharges.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (Accounter.hasPermission(
-						Features.CREDITS_CHARGES)) {
-				} else {
-					useDelayedCharges.setValue(false);
-					Accounter.showSubscriptionWarning();
-				}
-
-			}
-		});
 		hiddenPanel.setVisible(getCompanyPreferences().isDoyouwantEstimates());
 
 		noRadioButton.addClickHandler(new ClickHandler() {

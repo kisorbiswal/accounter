@@ -710,8 +710,7 @@ public class MenuBar {
 						HistoryTokens.VENDORPREPAYMENT);
 			}
 		}
-		if (canDoInvoiceAndBillTransactions
-				&& hasPermission(Features.CREDITS_CHARGES)) {
+		if (canDoInvoiceAndBillTransactions) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
 					HistoryTokens.RECORDEXPENSES);
 		}

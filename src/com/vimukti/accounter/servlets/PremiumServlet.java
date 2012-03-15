@@ -15,13 +15,12 @@ public class PremiumServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String LIVE_PREMIUM = "/content/go-premium";
-	public static final String TEST_PREMIUM = "/main/subscription/gopremium";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String url = (ServerConfiguration.isInLive() ? LIVE_PREMIUM
-				: TEST_PREMIUM) + "?emailId=" + req.getParameter("emailId");
+				: GO_PREMIUM_URL) + "?emailId=" + req.getParameter("emailId");
 		resp.sendRedirect(url);
 	}
 }

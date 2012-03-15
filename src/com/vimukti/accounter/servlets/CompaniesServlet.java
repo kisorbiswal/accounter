@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -122,6 +123,7 @@ public class CompaniesServlet extends BaseServlet {
 			req.setAttribute(ATTR_COMPANY_LIST, list);
 			req.setAttribute("encrypt", canEncrypt);
 			req.getSession().removeAttribute(COMPANY_ID);
+			EU.removeCipher();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -199,6 +201,9 @@ public class CompaniesServlet extends BaseServlet {
 		Set<String> members = SubscryptionTool.getDeletedMembers(
 				subscription.getMembers(), client.getEmailId(),
 				subscription.getPremiumType());
+		if (members.isEmpty()) {
+			members = null;
+		}
 		req.setAttribute("users", members);
 
 		dispatch(req, resp, "/WEB-INF/graceperiod.jsp");

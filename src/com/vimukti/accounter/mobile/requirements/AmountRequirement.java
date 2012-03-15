@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
+import com.vimukti.accounter.mobile.MobileException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
@@ -35,13 +36,15 @@ public class AmountRequirement extends SingleRequirement<Double> {
 	}
 
 	@Override
-	protected Double getInputFromContext(Context context) {
+	protected Double getInputFromContext(Context context)
+			throws MobileException {
 		String string = context.getString();
 		try {
 			return DataUtils.getAmountStringAsDouble(string);
 		} catch (Exception e) {
+			throw new MobileException(getMessages().wrongFormat(
+					getMessages().amount()));
 		}
-		return 0.0d;
 	}
 
 	@Override

@@ -67,7 +67,7 @@ $('#submitButton').click(function() {
 			 Enter password
 			<input type="password" id= "pass1" name="password" >Confirm password
 			<input type="password" id= "pass2"  name="confirm" >
-			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="submit">
+			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="<i18n:i18n msg='submit'/>">
 			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
 			<div>
 			</div>

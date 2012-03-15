@@ -79,6 +79,8 @@ public class BaseServlet extends HttpServlet {
 	protected static final String ACTIVATION_URL = "/main/activation";
 	protected static final String CREATE_COMPANY_URL = "/main/createcompany";
 	protected static final String DELETE_COMPANY_URL = "/main/deletecompany";
+	protected static final String GO_PREMIUM_URL = "/main/subscription/gopremium";
+
 	protected String COMPANY_STATUS_URL = "/main/companystatus";
 
 	public static final String ACT_FROM_SIGNUP = "108";
@@ -108,10 +110,12 @@ public class BaseServlet extends HttpServlet {
 			Long companyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
 			if (islockedCompany(companyID)) {
+				request.getSession().removeAttribute(COMPANY_ID);
 				response.sendError(HttpServletResponse.SC_FORBIDDEN,
 						"Your Company has been locked.");
 				return;
 			}
+			EU.removeCipher();
 			byte[] d2 = getD2(request);
 			if (emailId != null && d2 != null && companyID != null) {
 				User user = getUser(emailId, companyID);

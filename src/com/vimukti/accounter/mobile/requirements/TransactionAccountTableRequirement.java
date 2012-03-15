@@ -319,7 +319,7 @@ public abstract class TransactionAccountTableRequirement extends
 	public <T> T getValue() {
 		List<ClientTransactionItem> oldValues = super.getValue();
 		for (ClientTransactionItem obj : oldValues) {
-			double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
+			double lt = obj.getUnitPrice();
 			if (getPreferences().isTrackDiscounts()
 					&& !getPreferences().isDiscountPerDetailLine()) {
 				obj.setDiscount(getDiscount());

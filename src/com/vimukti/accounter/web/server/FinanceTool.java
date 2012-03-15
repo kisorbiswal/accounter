@@ -1384,7 +1384,11 @@ public class FinanceTool {
 					if (toIndex > queryResult.size()) {
 						toIndex = queryResult.size();
 					}
-					result.addAll(queryResult.subList(start, toIndex));
+					if (start < toIndex) {
+						result.addAll(queryResult.subList(start, toIndex));
+					} else {
+						return result;
+					}
 				}
 				result.setTotalCount(total);
 				result.setStart(start);

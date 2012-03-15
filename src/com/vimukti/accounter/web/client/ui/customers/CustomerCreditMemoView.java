@@ -448,8 +448,8 @@ public class CustomerCreditMemoView extends
 			transaction.setPriceLevel(priceLevel.getID());
 		transaction.setMemo(getMemoTextAreaItem());
 		// transaction.setReference(getRefText());
+		transaction.setNetAmount(netAmountLabel.getAmount());
 		if (isTrackTax()) {
-			transaction.setNetAmount(netAmountLabel.getAmount());
 			setAmountIncludeTAX();
 			transaction.setTaxTotal(this.salesTax);
 		}
@@ -518,11 +518,9 @@ public class CustomerCreditMemoView extends
 
 			} else
 				billToTextArea.setValue("");
-
+			netAmountLabel.setAmount(transaction.getNetAmount());
 			if (isTrackTax()) {
-				if (isTaxPerDetailLine()) {
-					netAmountLabel.setAmount(transaction.getNetAmount());
-				} else {
+				if (!isTaxPerDetailLine()) {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
 						this.taxCodeSelect

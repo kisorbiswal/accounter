@@ -1,7 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,6 @@ import net.n3.nanoxml.XMLWriter;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
@@ -80,12 +78,8 @@ public class NewMenuServlet extends BaseServlet {
 			return;
 		}
 		User user = null;
-		Client client = getClient(emailId);
-		Set<String> features = new HashSet<String>();
-		if (client != null) {
-			features = client.getClientSubscription().getSubscription()
-					.getFeatures();
-		}
+		Set<String> features = company.getCreatedBy().getClient()
+				.getClientSubscription().getSubscription().getFeatures();
 		Iterator<User> iterator = company.getUsers().iterator();
 
 		while (iterator.hasNext()) {

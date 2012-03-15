@@ -378,7 +378,6 @@ public class ReportManager extends Manager {
 				long location = object[4] == null ? 0 : ((Long) object[4])
 						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
-				record.setCategoryId(location);
 				record.getMap().put(location, amount);
 				// record.setParentAccount(object[6] == null ? 0
 				// : ((Long) object[6]).longValue());
@@ -391,7 +390,7 @@ public class ReportManager extends Manager {
 				double amount = object[5] == null ? 0 : (Double) object[5];
 				/* + record.getMap().get(location) */;
 				record.getMap().get(location);
-				record.getMap().put(location, amount);
+				record.setCategoryId(location);
 			}
 		}
 

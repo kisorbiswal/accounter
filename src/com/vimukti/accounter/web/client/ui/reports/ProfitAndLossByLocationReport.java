@@ -3,7 +3,10 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientJob;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -56,12 +59,26 @@ public class ProfitAndLossByLocationReport extends
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
 				ActionFactory.getTransactionDetailByAccountAndCategoryAction());
-
 	}
 
 	public void OnClick(ProfitAndLossByLocation pAndLossByLocation,
 			int rowIndex, int cellIndex) {
 		TrialBalance record = getTrailBalance(pAndLossByLocation);
+
+		if (category_type == ProfitAndLossByLocationServerReport.JOB) {
+			ClientJob clientJob = ProfitAndLossByLocationServerReport.jobs
+					.get(cellIndex - 1);
+			record.setCategoryId(clientJob.getID());
+		} else if (category_type == ProfitAndLossByLocationServerReport.LOCATION) {
+			ClientLocation clientLocation = ProfitAndLossByLocationServerReport.locations
+					.get(cellIndex - 1);
+			record.setCategoryId(clientLocation.getID());
+		} else {
+			ClientAccounterClass clientAccounterClass = ProfitAndLossByLocationServerReport.classes
+					.get(cellIndex - 1);
+			record.setCategoryId(clientAccounterClass.getID());
+		}
+
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
@@ -75,7 +92,6 @@ public class ProfitAndLossByLocationReport extends
 		record.setAccountType(p.getAccountType());
 		record.setAccountName(p.getAccountName());
 		record.setAccountNumber(p.getAccountNumber());
-		record.setCategoryId(p.getCategoryId());
 		record.setCategoryType(category_type);
 		return record;
 	}

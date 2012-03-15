@@ -121,9 +121,9 @@ public class VendorCreditMemoView extends
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					selectTAXCode();

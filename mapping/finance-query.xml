@@ -193,7 +193,7 @@
 				SELECT T.ID             AS TRANSACTION_ID,
 				       T.T_TYPE         AS TRANSACTION_TYPE,
 				       T.NUMBER         AS TRANSACTION_NUMBER,
-				       T.TOTAL          AS ORIGINAL_AMOUNT,
+				       T.TOTAL * T.CURRENCY          AS ORIGINAL_AMOUNT,
 				       PO.DELIVERY_DATE AS TRANSACTION_DATE,
 				       P.NAME           AS VENDOR_NAME,
 				       T.STATUS         AS TRANSACTION_STATUS,
@@ -10533,38 +10533,38 @@
 		<return-scalar column="SAVE_STATUS" type="int" />
 		
 		<![CDATA[
-				SELECT T.SAVE_STATUS AS SAVE_STATUS,
-				       T.ID          AS TRANSACTION_ID,
-				       T.T_DATE      AS TRANSACTION_DATE,
-				       T.T_TYPE      AS TRANSACTION_TYPE,
-				       T.NUMBER      AS TRANSACTION_NUMBER,
-				       A1.NAME       AS IN_ACCOUNT,
-				       A2.NAME       AS FROM_ACCOUNT,
-				       T.TOTAL       AS AMOUNT,
-				       T.CURRENCY    AS CURRENCY
-				FROM   TRANSFER_FUND TF
-				       LEFT JOIN TRANSACTION T
-				         ON T.ID = TF.ID
-				       LEFT JOIN ACCOUNT A1
-				         ON A1.ID = TF.DEPOSIT_IN_ID
-				       LEFT JOIN ACCOUNT A2
-				         ON A2.ID = TF.DEPOSIT_FROM_ID
-				WHERE  T.COMPANY_ID = :companyId
-				       AND CASE
-				             WHEN 0 = :viewType THEN ( ( T.STATUS = 0
-				                                          OR T.STATUS = 1 )
-				                                       AND T.SAVE_STATUS != 204
-				                                       AND T.SAVE_STATUS!=201 )
-				             WHEN 2 = :viewType THEN ( T.STATUS = 2
-				                                       AND T.SAVE_STATUS != 204
-				                                       AND T.SAVE_STATUS!=201 )
-				             WHEN 3 = :viewType THEN ( T.SAVE_STATUS = 204 )
-				             WHEN 4 = :viewType THEN ( T.SAVE_STATUS = 201 )
-				             ELSE TRUE
-				           END
-				       AND T.SAVE_STATUS != 202
-				       AND T.T_DATE BETWEEN :fromDate AND :toDate  
-				]]>
+			SELECT t.save_status       AS save_status,
+			       t.id                AS transaction_id,
+			       t.t_date            AS transaction_date,
+			       t.t_type            AS transaction_type,
+			       t.NUMBER            AS transaction_number,
+			       a1.name             AS in_account,
+			       a2.name             AS from_account,
+			       t.total             AS amount,
+			       a2.account_currency AS currency
+			FROM   transfer_fund tf
+			       LEFT JOIN TRANSACTION t
+			         ON t.id = tf.id
+			       LEFT JOIN ACCOUNT a1
+			         ON a1.id = tf.deposit_in_id
+			       LEFT JOIN ACCOUNT a2
+			         ON a2.id = tf.deposit_from_id
+			WHERE  t.company_id = :companyId
+			       AND CASE
+			             WHEN 0 = :viewType THEN ( ( t.status = 0
+			                                          OR t.status = 1 )
+			                                       AND t.save_status != 204
+			                                       AND t.save_status != 201 )
+			             WHEN 2 = :viewType THEN ( t.status = 2
+			                                       AND t.save_status != 204
+			                                       AND t.save_status != 201 )
+			             WHEN 3 = :viewType THEN ( t.save_status = 204 )
+			             WHEN 4 = :viewType THEN ( t.save_status = 201 )
+			             ELSE true
+			           END
+			       AND t.save_status != 202
+			       AND t.t_date BETWEEN :fromDate AND :toDate  
+		]]>
 		
 	</sql-query>
 

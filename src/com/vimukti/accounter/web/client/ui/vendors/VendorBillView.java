@@ -155,10 +155,9 @@ public class VendorBillView extends
 			// vatTotalNonEditableText.setAmount(transaction.getTotal()
 			// - transaction.getNetAmount());
 			// }
-
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					selectTAXCode();

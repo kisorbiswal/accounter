@@ -1,6 +1,7 @@
 package com.vimukti.accounter.mobile.requirements;
 
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.MobileException;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
@@ -20,7 +21,14 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 		if (input.equals(getName())) {
 			T selection = context.getSelection(getName());
 			if (selection == null) {
-				selection = getInputFromContext(context);
+				try {
+					selection = getInputFromContext(context);
+				} catch (MobileException e) {
+					context.setAttribute(INPUT_ATTR, getName());
+					addFirstMessage(e.getMessage());
+					return show(context, getEnterString(), context.getString(),
+							null);
+				}
 			}
 			setValue(selection);
 			context.setAttribute(INPUT_ATTR, "");
@@ -44,7 +52,8 @@ public abstract class SingleRequirement<T> extends AbstractRequirement<T> {
 
 	protected abstract String getDisplayValue(T value);
 
-	protected abstract T getInputFromContext(Context context);
+	protected abstract T getInputFromContext(Context context)
+			throws MobileException;
 
 	protected void createRecord(ResultList list) {
 		T t = getValue();

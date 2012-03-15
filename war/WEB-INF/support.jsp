@@ -89,7 +89,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 					    <a href="/site/home" id="home-bg" >Home</a>
 					 </li> 
 					 <li>
-					    <a href="/site/features" id="fea-bg">Features</a>
+					    <a href="/content/features" id="fea-bg">Features</a>
 					 </li> 
 					 <li>
 						<a href="/site/support" id="sup-bg" class="header-hover">Support</a>

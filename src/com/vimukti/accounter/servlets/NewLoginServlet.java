@@ -240,7 +240,13 @@ public class NewLoginServlet extends BaseServlet {
 						rememberMeKey.getClientKey());
 				if (rememberMeKey.getServerKey() != null) {
 					EU.storeKey(rememberMeKey.getServerKey(),
-							rememberMeKey.getEmailID());
+							httpSession.getId());
+				} else {
+					// This is happen for old users.(before develop encryption)
+					session.delete(rememberMeKey);
+					transaction.commit();
+					showLogin(request, response);
+					return;
 				}
 				client.setLoginCount(client.getLoginCount() + 1);
 				client.setLastLoginTime(System.currentTimeMillis());

@@ -29,13 +29,14 @@ public class GoPremiumServlet extends BaseServlet {
 
 		if (emailId != null) {
 			boolean sandBoxPaypal = ServerConfiguration.isSandBoxPaypal();
-			req.setAttribute("paypalButtonId", ServerConfiguration.getPaypalButtonId());
+			req.setAttribute("paypalButtonId",
+					ServerConfiguration.getPaypalButtonId());
 			req.setAttribute("isSandBoxPaypal", sandBoxPaypal);
 			req.setAttribute(EMAIL_ID, emailId);
 			dispatch(req, resp, view);
 		} else {
-			req.setAttribute(PARAM_DESTINATION, "/site/gopremium");
-			resp.sendRedirect(LOGIN_URL + "?destination=/site/gopremium");
+			req.setAttribute(PARAM_DESTINATION, GO_PREMIUM_URL);
+			resp.sendRedirect(LOGIN_URL + "?destination=" + GO_PREMIUM_URL);
 		}
 	}
 

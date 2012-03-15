@@ -1574,9 +1574,9 @@ public class WriteChequeView extends
 			// vatTotalNonEditableText.setAmount(transaction.getTotal()
 			// - transaction.getNetAmount());
 			// }
+			netAmount.setAmount(transaction.getNetAmount());
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);

@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ThirdPartySignupServlet extends BaseServlet {
@@ -32,7 +33,7 @@ public class ThirdPartySignupServlet extends BaseServlet {
 			Client client = (Client) session
 					.getNamedQuery("getClient.by.mailId")
 					.setString("emailId", email).uniqueResult();
-			if (client != null) {
+			if (client != null && !client.isDeleted()) {
 				// if valid credentials are there we redirect to <dest> param or
 				// /companies
 
@@ -48,8 +49,9 @@ public class ThirdPartySignupServlet extends BaseServlet {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
 					if (destUrl == null || destUrl.isEmpty()) {
-						if (client.getClientSubscription().getSubscription()
-								.isPaidUser()) {
+						if (ServerConfiguration.isEnableEncryption()
+								&& client.getClientSubscription()
+										.getSubscription().isPaidUser()) {
 							if (client.getPassword() == null) {
 								response.sendRedirect("/main/resetpassword?type=openid");
 							} else {

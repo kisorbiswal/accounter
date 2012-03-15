@@ -3,7 +3,6 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,6 @@ public class SignupOpenIdServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// Take userName from request
-		Map parameterMap = req.getParameterMap();
 		String emailId = req.getParameter("emailId").trim();
 		String firstName = req.getParameter("firstName").trim();
 		String lastName = req.getParameter("lastName").trim();
@@ -76,7 +74,8 @@ public class SignupOpenIdServlet extends BaseServlet {
 		try {
 			transaction = hibernateSession.beginTransaction();
 			// Have to check UserExistence
-			if (getClient(emailId) != null) {
+			Client client = getClient(emailId);
+			if (client != null) {
 				// If Exists then send to login password with username
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
@@ -84,21 +83,45 @@ public class SignupOpenIdServlet extends BaseServlet {
 				// HttpSession session = req.getSession(true);
 				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
-				req.setAttribute("errormessage", Global.get().messages()
-						.alreadyRegisteredWithAccounter()
-						+ " <a href=\"/main/login\">"
-						+ Global.get().messages().here()
-						+ "</a> "
-						+ Global.get().messages().toLogin());
-				dispatch(req, resp, view);
-				return;
+
+				if (client.isDeleted()) {
+					client.setActive(false);
+					client.setUsers(new HashSet<User>());
+					client.setEmailId(emailId);
+					client.setFirstName(firstName);
+					client.setLastName(lastName);
+					client.setFullName(Global.get().messages()
+							.fullName(firstName, lastName));
+					client.setPhoneNo(phoneNumber);
+					client.setCountry(country);
+					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
+					ClientSubscription clientSubscription = new ClientSubscription();
+					clientSubscription.setCreatedDate(new Date());
+					clientSubscription.setSubscription(Subscription
+							.getInstance(Subscription.FREE_CLIENT));
+					saveEntry(clientSubscription);
+
+					client.setClientSubscription(clientSubscription);
+					client.setLoginCount(0);
+					client.setDeleted(false);
+					saveEntry(client);
+				} else {
+					req.setAttribute("errormessage", Global.get().messages()
+							.alreadyRegisteredWithAccounter()
+							+ " <a href=\"/main/login\">"
+							+ Global.get().messages().here()
+							+ "</a> "
+							+ Global.get().messages().toLogin());
+					dispatch(req, resp, view);
+					return;
+				}
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
 				// String token = createActivation(emailId);
 
 				// Create Client and Save
-				Client client = new Client();
+				client = new Client();
 				client.setActive(false);
 				client.setUsers(new HashSet<User>());
 				client.setEmailId(emailId);
@@ -118,22 +141,22 @@ public class SignupOpenIdServlet extends BaseServlet {
 				saveEntry(clientSubscription);
 				client.setClientSubscription(clientSubscription);
 
-				// Email to that user.
-				// sendActivationEmail(token, client);
-				// Send to SignUp Success View
-				String destUrl = req.getParameter(PARAM_DESTINATION);
-				HttpSession httpSession = req.getSession();
-				httpSession.setAttribute(EMAIL_ID, client.getEmailId());
-				if (destUrl == null || destUrl.isEmpty()) {
-					client.setLoginCount(client.getLoginCount() + 1);
-					client.setLastLoginTime(System.currentTimeMillis());
-					hibernateSession.saveOrUpdate(client);
-					redirectExternal(req, resp, COMPANIES_URL);
-				} else {
-					redirectExternal(req, resp, destUrl);
-				}
-				transaction.commit();
 			}
+			// Email to that user.
+			// sendActivationEmail(token, client);
+			// Send to SignUp Success View
+			String destUrl = req.getParameter(PARAM_DESTINATION);
+			HttpSession httpSession = req.getSession();
+			httpSession.setAttribute(EMAIL_ID, client.getEmailId());
+			if (destUrl == null || destUrl.isEmpty()) {
+				client.setLoginCount(client.getLoginCount() + 1);
+				client.setLastLoginTime(System.currentTimeMillis());
+				hibernateSession.saveOrUpdate(client);
+				redirectExternal(req, resp, COMPANIES_URL);
+			} else {
+				redirectExternal(req, resp, destUrl);
+			}
+			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (transaction != null) {

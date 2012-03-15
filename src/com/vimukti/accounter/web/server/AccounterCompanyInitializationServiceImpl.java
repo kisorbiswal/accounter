@@ -136,6 +136,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			byte[] companySecret = null;
 			byte[] userSecret = null;
 			byte[] encryptedPass = null;
+			EU.removeCipher();
 			if (password != null) {
 				try {
 					byte[] s3 = EU.generateSymetric();
@@ -312,6 +313,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		if (islockedCompany(serverCompanyID)) {
 			return false;
 		}
+		EU.removeCipher();
 		String userEmail = (String) request.getSession().getAttribute(
 				BaseServlet.EMAIL_ID);
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);

@@ -214,9 +214,10 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		}
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
-		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
 		CreateStatementToolBar bar = (CreateStatementToolBar) toolbar;
 		bar.setStatus(view_Id);
+		toolbar.setViewId(view_Id);
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
 		isDatesArranged = true;
 	}
 

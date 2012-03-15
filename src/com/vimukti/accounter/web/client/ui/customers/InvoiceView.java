@@ -72,6 +72,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @author Fernandez
  * @modified by B.Srinivasa Rao
  * 
+ * 
  */
 public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		implements IPrintableView {
