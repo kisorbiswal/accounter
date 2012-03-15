@@ -140,4 +140,16 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		}
 		return false;
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "warehousecode", "warehousename", "ddinumber",
+				"items", "delete" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "warehousecode-value", "warehousename-value",
+				"ddinumber-value", "items-value", "delete-value" };
+	}
 }

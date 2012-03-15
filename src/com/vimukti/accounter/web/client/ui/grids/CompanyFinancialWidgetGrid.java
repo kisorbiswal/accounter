@@ -205,4 +205,16 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 
 		return 0;
 	}
+
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -19,8 +19,6 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
 		this.getElement().setId("ChartOfAccountsListGrid");
-		// super.disable = true;
-
 	}
 
 	@Override
@@ -240,6 +238,34 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		super.headerCellClicked(colIndex);
 		for (int i = 0; i < this.getTableRowCount(); i++) {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
+		}
+	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+
+		if (getPreferences().getUseAccountNumbers() == true) {
+			return new String[] { "active", "no",
+					"name", "type", "balance",
+					"register", "unknown" };
+		} else {
+			return new String[] { "active", "name",
+					"type", "balance", "register",
+					"unknown" };
+		}
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+
+		if (getPreferences().getUseAccountNumbers() == true) {
+			return new String[] { "activeValue", "noValue",
+					"nameValue", "typeValue", "balanceValue",
+					"registerValue", "unknownValue", };
+		} else {
+			return new String[] { "activeValue", "nameValue",
+					"typeValue", "balanceValue", "registerValue",
+					"unknownValue", };
 		}
 	}
 }

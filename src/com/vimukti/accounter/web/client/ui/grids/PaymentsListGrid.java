@@ -412,4 +412,30 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return UIUtils.getAccounterCoreType(obj.getType());
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		if (type == 0) {
+			return new String[] { "paydate", "payno", "status", "issuedate",
+					"name", "type", "paymethod", "checkno", "amountpaid",
+					"voided" };
+		} else {
+			return new String[] { "paydate", "payno", "status", "issuedate",
+					"name", "checkno", "amountpaid", "voided" };
+		}
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (type == 0) {
+			return new String[] { "paydate-value", "payno-value",
+					"status-value", "issuedate-value", "name-value",
+					"type-value", "paymethod-value", "checkno-value",
+					"amountpaid-value", "voided-value" };
+		} else {
+			return new String[] { "paydate-value", "payno-value",
+					"status-value", "issuedate-value", "name-value",
+					"checkno-value", "amountpaid-value", "voided-value" };
+		}
+	}
+
 }

@@ -124,4 +124,17 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 		return colArray;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "active", "payee-name", "date",
+				"original-amount", "payment", "percentage", "tds" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "active-value", "payee-name-value", "date-value",
+				"original-amount-value", "payment-value", "percentage-value",
+				"tds-value" };
+	}
+
 }

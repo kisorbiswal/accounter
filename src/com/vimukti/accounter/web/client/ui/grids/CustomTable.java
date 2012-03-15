@@ -444,8 +444,6 @@ public abstract class CustomTable extends FlowPanel {
 
 	public void setWidget(int row, final int column, final FocusWidget widget) {
 
-		// widget.setWidth("100%");
-		// widget.setHeight("100%");
 		this.body.setWidget(row, isMultiSelectionEnable ? column + 1 : column,
 				widget);
 		widget.addBlurHandler(new BlurHandler() {

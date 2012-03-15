@@ -83,4 +83,14 @@ public class InventoryCentreItemsListGrid extends BaseListGrid<ClientItem> {
 		this.selectedItem = selectedItem;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "name" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "nameValue" };
+	}
+
 }

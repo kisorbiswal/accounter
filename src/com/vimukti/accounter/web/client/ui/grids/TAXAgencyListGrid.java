@@ -375,4 +375,21 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 		}
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "check", "tax-agency-name", "this-month",
+				"before-month", "this-month-two", "this-month-three",
+				"this-month-four", "this-month-five", "year-to-date",
+				"balance", "image-col" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "check-value", "tax-agency-name-value",
+				"this-month-value", "before-month-value",
+				"this-month-two-value", "this-month-three-value",
+				"this-month-four-value", "this-month-five-value",
+				"year-to-date-value", "balance-value", "image-col-value" };
+	}
+
 }

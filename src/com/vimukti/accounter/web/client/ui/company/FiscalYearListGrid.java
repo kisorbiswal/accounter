@@ -106,5 +106,17 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 
 	public void sortList() {
 		this.headerCellClicked(1);
+	}
+
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
 	};
 }

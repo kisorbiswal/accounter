@@ -179,6 +179,18 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 				int column);
 	}
 
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	// public void addRecordDoubleClickHandler(
 	// RecordDoubleClickHandler<ClientDepreciationDummyEntry>
 	// doubleClickHandler) {

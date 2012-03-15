@@ -199,4 +199,16 @@ public class UserRoleGrid extends ListGrid<RolePermissions> {
 			return "";
 		}
 	}
+
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

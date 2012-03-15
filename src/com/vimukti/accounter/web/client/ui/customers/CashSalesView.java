@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -82,8 +84,8 @@ public class CashSalesView extends
 	private TaxItemsForm taxTotalNonEditableText;
 	private Double transactionTotal = 0.0D;
 	private AddNewButton accountTableButton, itemTableButton;
-	private StyledDiscosurePanel accountsDisclosurePanel;
-	private StyledDiscosurePanel itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel;
+	private GwtDisclosurePanel itemsDisclosurePanel;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private boolean isChecked = false;
@@ -335,8 +337,10 @@ public class CashSalesView extends
 		});
 
 		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
-		accountsDisclosurePanel = new StyledDiscosurePanel(
-				messages.ItemizebyAccount());
+
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -384,8 +388,9 @@ public class CashSalesView extends
 		});
 
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
-		itemsDisclosurePanel = new StyledDiscosurePanel(
-				messages.ItemizebyProductService());
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -1286,12 +1291,12 @@ public class CashSalesView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		// accountsDisclosurePanel.setOpen(checkOpen(
-		// transaction.getTransactionItems(),
-		// ClientTransactionItem.TYPE_ACCOUNT, true));
-		// itemsDisclosurePanel.setOpen(checkOpen(
-		// transaction.getTransactionItems(),
-		// ClientTransactionItem.TYPE_ITEM, false));
+		 accountsDisclosurePanel.setOpen(checkOpen(
+		 transaction.getTransactionItems(),
+		 ClientTransactionItem.TYPE_ACCOUNT, true));
+		 itemsDisclosurePanel.setOpen(checkOpen(
+		 transaction.getTransactionItems(),
+		 ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override

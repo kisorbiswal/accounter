@@ -159,4 +159,17 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 				messages.spent(), messages.received(), messages.status() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "no", "date", "description", "referenceNo",
+				"spent", "received", "status" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "no-value", "date-value", "description-value",
+				"referenceNo-value", "spent-value", "received-value",
+				"status-value" };
+	}
+
 }

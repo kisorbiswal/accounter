@@ -246,4 +246,19 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		return null;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "item", "assetnumber", "account", "purchasedate",
+				"purchaseprice", "bookvalue", "showhistory", "addnote",
+				"last-col" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "item-value", "assetnumber-value",
+				"account-value", "purchasedate-value", "purchaseprice-value",
+				"bookvalue-value", "showhistory-value", "addnote-value",
+				"last-col-value" };
+	}
+
 }

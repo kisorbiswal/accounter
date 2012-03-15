@@ -118,4 +118,19 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 				messages.startDate(), messages.endDate(),
 				messages.startingBalance(), messages.ClosingBalance() };
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "no", "totalRecords", "reconciledRecords",
+				"importedDate", "startDate", "endDate", "startingBalance",
+				"ClosingBalance" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "no-value", "totalRecords-value",
+				"reconciledRecords-value", "importedDate-value",
+				"startDate-value", "endDate-value", "startingBalance-value",
+				"ClosingBalance-value" };
+	}
 }

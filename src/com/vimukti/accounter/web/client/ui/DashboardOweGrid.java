@@ -100,4 +100,16 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 		return 0;
 	}
 
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

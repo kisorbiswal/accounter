@@ -169,4 +169,16 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 				messages.adjustedQty(), messages.delete() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "ware-house", "item-name", "adj-quantity",
+		"delete-img" };
+}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "ware-house-value", "item-name-value",
+				"adj-quantity-value", "delete-img-value" };
+	}
+
 }

@@ -223,4 +223,28 @@ public class DepositsTransfersListGrid extends
 		}
 
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		if (type == 0) {
+			return new String[] { "transactionDate-value", "type-value",
+					"number-value", "depositTo-value", "amount-value",
+					"delete-value" };
+		} else {
+			return new String[] { "transactionDate-value", "type-value",
+					"number-value", "transferTo-value", "transferFrom-value",
+					"amount-value", "delete-value" };
+		}
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (type == 0) {
+			return new String[] { "transactionDate", "type", "number",
+					"depositTo", "amount", "delete" };
+		} else {
+			return new String[] { "transactionDate", "type", "number",
+					"transferTo", "transferFrom", "amount", "delete" };
+		}
+	}
 }

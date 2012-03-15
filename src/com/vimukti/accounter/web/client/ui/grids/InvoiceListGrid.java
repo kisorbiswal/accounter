@@ -135,7 +135,6 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		if (type != 0) {
 			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 				return new String[] {
@@ -425,5 +424,40 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		}
 		// TODO Auto-generated method stub
 		super.editComplete(item, value, col);
+	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		if (type != 0) {
+			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return new String[] { "date", "no", "Customer", "dueDate",
+						"netPrice", "totalPrice", "balance",
+						"remainingCredits", "voided" };
+			} else {
+				return new String[] { "date", "no", "Customer", "dueDate",
+						"netPrice", "totalPrice", "balance", "voided" };
+			}
+
+		}
+		return new String[] { "unknown", "type", "date", "no", "Customer",
+				"dueDate", "netPrice", "totalPrice", "balance", "voided" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (type != 0) {
+			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+				return new String[] { "dateValue", "noValue", "CustomerValue", "dueDateValue",
+						"netPriceValue", "totalPriceValue", "balanceValue",
+						"remainingCreditsValue", "voidedValue", };
+			} else {
+				return new String[] { "dateValue", "noValue", "CustomerValue", "dueDateValue",
+						"netPriceValue", "totalPriceValue", "balanceValue", "voidedValue", };
+			}
+
+		}
+		return new String[] { "unknownValue", "typeValue", "dateValue", "noValue", "CustomerValue", "dueDateValue",
+				"netPriceValue", "totalPriceValue", "balanceValue", "voidedValue",
+		};
 	}
 }

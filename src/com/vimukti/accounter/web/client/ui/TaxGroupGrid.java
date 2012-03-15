@@ -47,4 +47,14 @@ public class TaxGroupGrid extends BaseListGrid<ClientTAXGroup> {
 		return new String[] { messages.name() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "name" };
+		}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "name-val" };
+		}
+
 }

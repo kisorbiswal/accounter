@@ -124,4 +124,15 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 		return AccounterCoreType.FIXEDASSETHISTORY;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "changes", "date", "user", "details" };
+		}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "changes-value", "date-value", "user-value",
+		"details-value" };
+}
+
 }

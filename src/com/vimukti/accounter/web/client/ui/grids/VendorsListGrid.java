@@ -192,4 +192,14 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 		return selectedVendor;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "name", "balance" };
+		}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "name-value", "balance-value" };
+		}
+
 }

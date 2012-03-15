@@ -94,5 +94,17 @@ public class PreviousClaimGrid extends BaseListGrid<BillsList> {
 				messages.status(), messages.amount() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "receiptfrom", "receiptdate", "dateentered",
+				"status", "amount" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "receiptfrom-value", "receiptdate-value",
+				"dateentered-value", "status-value", "amount-value" };
+	}
+
 
 }

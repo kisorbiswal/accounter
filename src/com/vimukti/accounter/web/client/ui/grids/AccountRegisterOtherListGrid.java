@@ -259,4 +259,17 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	public void setAccount(ClientAccount account) {
 		this.currency = getCompany().getCurrency(account.getCurrency());
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "date", "type", "doc-no", "increase", "reduce",
+				"account", "memo", "current-balance", "is-voided" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "date-value", "type-value", "doc-no-value",
+				"increase-value", "reduce-value", "account-value",
+				"memo-value", "current-balance-value", "is-voided-value" };
+	}
 }

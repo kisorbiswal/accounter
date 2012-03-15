@@ -83,4 +83,18 @@ public class BankStatementGrid extends BaseListGrid<ClientStatementRecord> {
 
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "date", "description",
+				"referenceNo", "reconciled",
+				"spend", "received" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "dateValue", "descriptionValue",
+				"referenceNoValue", "reconciledValue",
+				"spendValue", "receivedValue"};
+	}
+
 }

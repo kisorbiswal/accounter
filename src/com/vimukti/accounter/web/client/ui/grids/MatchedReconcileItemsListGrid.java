@@ -141,4 +141,16 @@ public class MatchedReconcileItemsListGrid extends
 		// TODO Auto-generated method stub
 		super.editComplete(item, value, col);
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "col-1-value", "type-value", "date-value",
+				"payeeName-value", "amountHeading-value" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "col-1", "type", "date", "payeeName",
+		"amountHeading" };
+}
 }

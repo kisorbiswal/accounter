@@ -244,4 +244,17 @@ public class SoldAndDisposedItemsListGrid extends
 		return null;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "item", "assetnumber", "account", "disposaldate",
+				"disposalprice", "gainsorlosses", "showhistory", "addnote" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "item-value", "assetnumber-value",
+				"account-value", "disposaldate-value", "disposalprice-value",
+				"gainsorlosses-value", "showhistory-value", "addnote-value" };
+	}
+
 }

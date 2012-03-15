@@ -116,6 +116,18 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 
 				onItemSelected();
 			}
+
+			@Override
+			protected String[] setHeaderStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		transactionHistoryGrid.init();
 		transactionHistoryGrid.addEmptyMessage(messages.pleaseSelectAnItem());

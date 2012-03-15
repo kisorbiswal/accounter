@@ -44,11 +44,11 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 		case 1:
 			return obj.getQuantity();
 		case 2:
-			return DataUtils.amountAsStringWithCurrency(obj.getUnitPrice(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(obj.getUnitPrice(),
+					getCompany().getPrimaryCurrency());
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(obj.getLineTotal(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(obj.getLineTotal(),
+					getCompany().getPrimaryCurrency());
 		default:
 			return null;
 		}
@@ -90,10 +90,8 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.name(),
-				messages.quantity(),
-				messages.unitPrice(),
-				messages.total() };
+		return new String[] { messages.name(), messages.quantity(),
+				messages.unitPrice(), messages.total() };
 	}
 
 	@Override
@@ -114,6 +112,17 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ITEM;
+	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "name", "quantity", "unitprice", "total" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "name-value", "quantity-value",
+				"unitprice-value", "total-value" };
 	}
 
 }

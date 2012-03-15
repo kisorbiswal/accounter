@@ -135,4 +135,18 @@ public class RecurringsListGrid extends
 		view.deleteSuccess(result);
 		deleteRecord(this.getSelection());
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "name", "type", "transactiontype", "interval",
+				"prevschedule", "nextschedule", "amount", "last-col" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "name-value", "type-value",
+				"transactiontype-value", "interval-value",
+				"prevschedule-value", "nextschedule-value", "amount-value",
+				"last-col-value" };
+	}
 }

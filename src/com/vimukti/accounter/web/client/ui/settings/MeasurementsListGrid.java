@@ -158,4 +158,17 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 		}
 		return false;
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "measurementname", "measurementdescription",
+				"unitname", "factor", "delete" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "measurementname-value",
+				"measurementdescription-value", "unitname-value",
+				"factor-value", "delete-value" };
+	}
 }

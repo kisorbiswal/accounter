@@ -219,4 +219,17 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		super.deleteFailed(caught);
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "active", "product", "vatagency", "description",
+				"rate", "col-last" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "active-value", "product-value",
+				"vatagency-value", "description-value", "rate-value",
+				"col-last-value" };
+	}
+
 }

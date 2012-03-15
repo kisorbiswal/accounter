@@ -122,6 +122,18 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 
 				onVendorSelected();
 			}
+
+			@Override
+			protected String[] setHeaderStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 		};
 		vendHistoryGrid.init();
 		vendHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global

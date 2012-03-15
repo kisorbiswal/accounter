@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,13 +37,13 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -57,7 +58,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 	int vendorComboSelected;
 	private ListDataProvider<Client1099Form> listDataProvider;
 
-	private StyledDiscosurePanel disclosurePanel;
+	private GwtDisclosurePanel disclosurePanel;
 	private StyledPanel setupPanel, amountPanel, preview1099panel,
 			companyAddressPanel, einNumPanel;
 	private StyledPanel companyInfopanel, setVendorsPanel, setAccountsPanel;
@@ -289,8 +290,11 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private Widget getSetupPanel() {
 
-		disclosurePanel = new StyledDiscosurePanel(
-				messages.setupVendorsAndAccounts(Global.get().vendors()));
+
+		
+		disclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		disclosurePanel.setTitle(	messages.setupVendorsAndAccounts(Global.get().vendors()));
 		// disclosurePanel.setOpen(true);
 
 		setVendorsPanel = new StyledPanel("setVendorsPanel");

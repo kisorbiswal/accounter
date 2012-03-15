@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
@@ -86,7 +87,7 @@ public class CreditCardChargeView extends
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private TAXCodeCombo taxCodeSelect;
-	private StyledDiscosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public CreditCardChargeView() {
 
@@ -324,12 +325,12 @@ public class CreditCardChargeView extends
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
-		// accountsDisclosurePanel.setOpen(checkOpen(
-		// transaction.getTransactionItems(),
-		// ClientTransactionItem.TYPE_ACCOUNT, true));
-		// itemsDisclosurePanel.setOpen(checkOpen(
-		// transaction.getTransactionItems(),
-		// ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
@@ -398,7 +399,7 @@ public class CreditCardChargeView extends
 			taxCodeSelect = createTaxCodeSelectItem();
 		vendorNameSelect = new VendorCombo(Global.get().messages()
 				.payeeName(Global.get().Vendor()));
-//		vendorNameSelect.setWidth(100);
+		// vendorNameSelect.setWidth(100);
 		// vendorNameSelect.setRequired(true);
 		vendorNameSelect.setEnabled(true);
 
@@ -465,7 +466,7 @@ public class CreditCardChargeView extends
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
 		billToAreaItem = new TextAreaItem(messages.billTo(), "billToAreaItem");
-//		billToAreaItem.setWidth(100);
+		// billToAreaItem.setWidth(100);
 		billToAreaItem.setEnabled(!true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
@@ -569,8 +570,10 @@ public class CreditCardChargeView extends
 		});
 
 		StyledPanel accountFlowPanel = new StyledPanel("StyledPanel");
-		accountsDisclosurePanel = new StyledDiscosurePanel(
-				messages.ItemizebyAccount());
+
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -617,14 +620,16 @@ public class CreditCardChargeView extends
 		});
 
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
-		itemsDisclosurePanel = new StyledDiscosurePanel(
-				messages.ItemizebyProductService());
+
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		memoTextAreaItem = createMemoTextAreaItem();
-//		memoTextAreaItem.setWidth(100);
+		// memoTextAreaItem.setWidth(100);
 		memoTextAreaItem.setEnabled(!false);
 
 		// refText = new TextItem(messages.reference());
@@ -745,7 +750,7 @@ public class CreditCardChargeView extends
 
 		this.add(mainVLay);
 
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

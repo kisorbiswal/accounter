@@ -309,4 +309,26 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 		return UIUtils.getAccounterCoreType(obj.getType());
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		if (type != 0) {
+			return new String[] { "paymentDate", "no", "payeeName",
+					"payMethod", "checkNo", "amountPaid", "voided" };
+		}
+		return new String[] { "type", "paymentDate", "no", "payeeName",
+				"payMethod", "checkNo", "amountPaid", "voided" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (type != 0) {
+			return new String[] { "paymentDate-value", "no-value",
+					"payeeName-value", "payMethod-value", "checkNo-value",
+					"amountPaid-value", "voided-value" };
+		}
+		return new String[] { "type-value", "paymentDate-value", "no-value",
+				"payeeName-value", "payMethod-value", "checkNo-value",
+				"amountPaid-value", "voided-value" };
+	}
 }

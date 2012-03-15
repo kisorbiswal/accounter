@@ -156,4 +156,16 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "active", "code", "description", "taxable",
+		"col-last" };
+}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "active-value", "code-value",
+				"description-value", "taxable-value", "col-last-value" };
+	}
 }

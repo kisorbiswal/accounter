@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -26,6 +27,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
@@ -34,7 +36,6 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
@@ -61,8 +62,8 @@ public class CustomerCreditMemoView extends
 	private AmountLabel netAmountLabel;
 	private TaxItemsForm taxTotalNonEditableText;
 	private AddNewButton accountTableButton, itemTableButton;
-	private StyledDiscosurePanel accountsDisclosurePanel;
-	private StyledDiscosurePanel itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel;
+	private GwtDisclosurePanel itemsDisclosurePanel;
 
 	public CustomerCreditMemoView() {
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
@@ -209,8 +210,9 @@ public class CustomerCreditMemoView extends
 		});
 
 		StyledPanel accountStyledPanel = new StyledPanel("accountStyledPanel");
-		accountsDisclosurePanel = new StyledDiscosurePanel(
-				messages.ItemizebyAccount());
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountStyledPanel.add(customerAccountTransactionTable);
 		accountStyledPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountStyledPanel);
@@ -261,8 +263,10 @@ public class CustomerCreditMemoView extends
 		});
 		currencyWidget = createCurrencyFactorWidget();
 		StyledPanel itemsStyledPanel = new StyledPanel("itemsStyledPanel");
-		itemsDisclosurePanel = new StyledDiscosurePanel(
-				messages.ItemizebyProductService());
+
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsStyledPanel.add(customerItemTransactionTable);
 		itemsStyledPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsStyledPanel);
@@ -993,12 +997,12 @@ public class CustomerCreditMemoView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		// accountsDisclosurePanel.setOpen(checkOpen(
-		// transaction.getTransactionItems(),
-		// ClientTransactionItem.TYPE_ACCOUNT, true));
-		// itemsDisclosurePanel.setOpen(checkOpen(
-		// transaction.getTransactionItems(),
-		// ClientTransactionItem.TYPE_ITEM, false));
+		 accountsDisclosurePanel.setOpen(checkOpen(
+		 transaction.getTransactionItems(),
+		 ClientTransactionItem.TYPE_ACCOUNT, true));
+		 itemsDisclosurePanel.setOpen(checkOpen(
+		 transaction.getTransactionItems(),
+		 ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override

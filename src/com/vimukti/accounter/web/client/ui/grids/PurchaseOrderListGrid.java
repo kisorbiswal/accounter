@@ -109,4 +109,15 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		return 0;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "date", "number", "payeename", "purchaseprice" };
+		}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "date-value", "number-value", "payeename-value",
+		"purchaseprice-value" };
+}
+
 }

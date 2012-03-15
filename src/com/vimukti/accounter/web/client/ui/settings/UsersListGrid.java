@@ -182,4 +182,16 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		usersView.deleteSuccess(result);
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "firstname", "lastname", "userrole", "emailid",
+				"status", "img" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "firstname-value", "lastname-value",
+				"userrole-value", "emailid-value", "status-value", "img-value" };
+	}
+
 }

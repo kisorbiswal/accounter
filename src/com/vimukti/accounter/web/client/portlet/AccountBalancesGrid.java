@@ -80,4 +80,16 @@ public class AccountBalancesGrid extends ListGrid<ClientAccount> {
 		return new String[] { messages.accountName(), messages.balance() };
 	}
 
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

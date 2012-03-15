@@ -150,4 +150,14 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "account", "total" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "account-value", "total-value" };
+	}
+
 }

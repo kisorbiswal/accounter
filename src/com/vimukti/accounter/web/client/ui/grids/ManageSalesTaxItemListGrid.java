@@ -141,4 +141,14 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		}
 		return 0;
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {	return new String[] { "taxitem", "description", "taxrates",
+			"taxagency", "col-last" };}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "taxitem-value", "description-value",
+				"taxrates-value", "taxagency-value", "col-last-value" };
+	}
 }

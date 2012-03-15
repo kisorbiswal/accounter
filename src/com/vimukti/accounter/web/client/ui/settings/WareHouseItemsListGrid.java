@@ -56,4 +56,14 @@ public class WareHouseItemsListGrid extends BaseListGrid<ClientItemStatus> {
 				messages.availableQty() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "itemname", "availableqty" };
+		}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "itemname-value", "availableqty-value" };
+		}
+
 }

@@ -121,4 +121,19 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 		}
 		return -1;
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "formType", "assessmentYear",
+				"totalAmount", "challanPeriod",
+				"dateofPayment", "bankBSRCode", "unknown" };
+
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "formTypeValue", "assessmentYearValue",
+				"totalAmountValue", "challanPeriodValue",
+				"dateofPaymentValue", "bankBSRCodeValue", "unknownValue", };
+	}
 }

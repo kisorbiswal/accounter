@@ -246,5 +246,18 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 			((CheckBox) this.getWidget(i, 0)).setEnabled(false);
 		}
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "active", "salesperson", "address", "city",
+				"state", "zipcode", "phone", "fax", "last-col" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "active-value", "salesperson-value",
+				"address-value", "city-value", "state-value", "zipcode-value",
+				"phone-value", "fax-value", "last-col-value" };
+	}
 	
 }

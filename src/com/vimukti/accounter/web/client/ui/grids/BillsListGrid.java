@@ -333,4 +333,36 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		return UIUtils.getAccounterCoreType(obj.getType());
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		if (type != 0) {
+			return new String[] { "date", "no",
+					"Vendor",
+					"originalAmount", "balance",
+					"voided"
+			};
+		}
+		return new String[] { "type", "date", "no",
+				"Vendor",
+				"originalAmount", "balance",
+				"voided"
+		};
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (type != 0) {
+			return new String[] { "dateValue", "noValue",
+					"VendorValue",
+					"originalAmountValue", "balanceValue",
+					"voidedValue"
+			};
+		}
+		return new String[] { "typeValue", "dateValue", "noValue",
+				"VendorValue",
+				"originalAmountValue", "balanceValue",
+				"voidedValue"
+		};
+	}
+
 }

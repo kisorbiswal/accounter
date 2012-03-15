@@ -293,4 +293,18 @@ this.getElement().setId("CustomerRefundListGrid");
 
 		return UIUtils.getAccounterCoreType(obj.getType());
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "payment-date", "payment-no", "status",
+				"issue-date", "name", "payment-method", "amount-paid", "voided" };
+
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "payment-date-value", "payment-no-value",
+				"status-value", "issue-date-value", "name-value",
+				"payment-method-value", "amount-paid-value", "voided-value" };
+	}
 }

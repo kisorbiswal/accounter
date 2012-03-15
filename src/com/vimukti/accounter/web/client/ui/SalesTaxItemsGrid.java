@@ -32,12 +32,13 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 		}
 		return null;
 	}
+
 	@Override
 	protected int getCellWidth(int index) {
-		 if(index  ==1)
-			 return 450;
-		 else
-			 return -1;
+		if (index == 1)
+			return 450;
+		else
+			return -1;
 	}
 
 	@Override
@@ -47,9 +48,17 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.name(),
-				messages.currentRate() };
+		return new String[] { messages.name(), messages.currentRate() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "name", "current-rate" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "name-value", "current-rate-value" };
+	}
 
 }

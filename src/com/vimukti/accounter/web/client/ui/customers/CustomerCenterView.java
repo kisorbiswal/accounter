@@ -125,6 +125,18 @@ public class CustomerCenterView<T> extends
 				OncusotmerSelected();
 			}
 
+			@Override
+			protected String[] setHeaderStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 		};
 		custHistoryGrid.init();
 		custHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global

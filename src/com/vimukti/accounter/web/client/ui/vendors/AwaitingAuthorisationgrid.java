@@ -93,5 +93,21 @@ public class AwaitingAuthorisationgrid extends BaseListGrid<BillsList> {
 				messages.total() };
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "status",
+				"paidTo",
+				"receiptDate",
+				"total" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "statusValue",
+				"paidToValue",
+				"receiptDateValue",
+				"totalValue", };
+	}
+
 
 }

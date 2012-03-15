@@ -256,4 +256,15 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 		return AccounterCoreType.JOURNALENTRY;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "no", "date", "memo", "amount", "voided" };
+		}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "no-value", "date-value", "memo-value",
+				"amount-value", "voided-value" };
+	}
+
 }

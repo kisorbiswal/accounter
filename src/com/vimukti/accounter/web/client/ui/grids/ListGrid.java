@@ -542,6 +542,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			setText(currentRow, currentCol, (String) data);
 			break;
 		}
+		
+		addCellStyles(getRowElementsStyle(currentCol));
 	}
 
 	private void addLink(final T obj, final Object value) {
@@ -594,6 +596,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			this.header.setText(0, x,
 					getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
 			headerCellFormater.addStyleName(0, x, "gridHeaderCell");
+			headerCellFormater.addStyleName(0, x, getHeaderStyle(x));
 			if (getColumnType(isMultiSelectionEnable ? (x - 1) : x) == COLUMN_TYPE_DECIMAL_TEXT)
 				this.header.getCellFormatter().addStyleName(0, x,
 						"gridDecimalCell");
@@ -982,6 +985,24 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	protected abstract boolean isEditable(T obj, int row, int index);
 
 	protected abstract void onClick(T obj, int row, int index);
+	
+	
+	/**
+	 * to get the header style names 
+	 * required mainly in windows8
+	 * @param index
+	 * @return
+	 */
+	protected abstract String getHeaderStyle(int index);
+	
+	
+	/**
+	 * to get the row style name
+	 * @param index
+	 * @return
+	 */
+	protected abstract String getRowElementsStyle(int index);
+	
 
 	protected void onSelectionChanged(T obj, int row, boolean isChecked) {
 	}
@@ -1195,4 +1216,6 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		}
 		setVisibleRange(start, length);// Reload page
 	}
+	
+	
 }

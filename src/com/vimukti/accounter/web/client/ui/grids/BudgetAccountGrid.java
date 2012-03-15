@@ -272,4 +272,19 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 		// TODO Auto-generated method stub
 		super.addRecords(list);
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "account", "jan", "feb", "mar", "apr", "may",
+				"jun", "jul", "aug", "sep", "oct", "nov", "dec", "total", "add" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "account-value", "jan-value", "feb-value",
+				"mar-value", "apr-value", "may-value", "jun-value",
+				"jul-value", "aug-value", "sep-value", "oct-value",
+				"nov-value", "dec-value", "total-value", "add-value" };
+	}
+	
 }

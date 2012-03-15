@@ -110,4 +110,16 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 		}
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "receipt-from", "receipt-date", "date-entered",
+				"status", "amount" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "receipt-from-value", "receipt-date-value",
+				"date-entered-value", "status-value", "amount-value" };
+	}
+
 }

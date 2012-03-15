@@ -33,6 +33,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	// long id;
 
 	BaseListView<T> view;
+	private String[] headerStyles;
+	private String[] rowElementStyles;
 
 	public BaseListView<T> getView() {
 		return view;
@@ -48,6 +50,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		super(isMultiSelectionEnable);
 		initRPCService();
 		this.columnType = setColTypes();
+		this.headerStyles = setHeaderStyle();
+		this.rowElementStyles = setRowElementsStyle();
 	}
 
 	int type;
@@ -57,6 +61,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		initRPCService();
 		this.type = type;
 		this.columnType = setColTypes();
+		this.headerStyles = setHeaderStyle();
+		this.rowElementStyles = setRowElementsStyle();
+		
 	}
 
 	public BaseListGrid(boolean isMultiSelectionEnable, boolean showFooter) {
@@ -76,6 +83,16 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected int getColumnType(int col) {
 
 		return columnType[col];
+	}
+	
+	@Override
+	protected String getHeaderStyle(int index) {
+		return headerStyles[index];
+	}
+	
+	@Override
+	protected String getRowElementsStyle(int index) {
+		return rowElementStyles[index];
 	}
 
 	@Override
@@ -167,6 +184,11 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	// }
 
 	abstract protected int[] setColTypes();
+	
+	
+	abstract protected String[] setHeaderStyle();
+	
+	abstract protected String[] setRowElementsStyle();
 
 	protected void showWarnDialog(final T object) {
 		Accounter.showWarning(messages

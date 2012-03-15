@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
+import com.vimukti.accounter.web.client.ui.GwtTabPanel;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -149,6 +151,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private final ClientCompany company = getCompany();
 	private ArrayList<DynamicForm> listforms;
 	private TextItem custNoText;
+	private GwtTabPanel tabSet;
 
 	// private ClientCustomer customer;
 
@@ -246,15 +249,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void createControls() {
 
-		customerTabForm = new DynamicForm("customerTabForm");
-
+		tabSet = new GwtTabPanel();
 		listforms = new ArrayList<DynamicForm>();
 
-		customerTabForm.add(getGeneralTab());
-		customerTabForm.add(getDetailsTab());
+		tabSet.add(getGeneralTab(), messages.general());
+		tabSet.add(getDetailsTab(), messages.details());
 
 		createCustomFieldControls();
-		add(customerTabForm);
+
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(tabSet.getPanel());
+
+		this.add(mainVLay);
+
 	}
 
 	@Override
@@ -745,7 +752,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		currencyCombo = createCurrencyComboWidget();
 		currencyCombo.setEnabled(!isInViewMode());
+		accInfoForm = new DynamicForm("accInfoForm");
 		accInfoForm.add(statusCheck, customerSinceDate);
+		
+		balanceForm = new DynamicForm("balanceForm");
 		if (getPreferences().isPricingLevelsEnabled()) {
 			balanceForm.add(openingBalText, balanceDate, balanceText,
 					priceLevelSelect);

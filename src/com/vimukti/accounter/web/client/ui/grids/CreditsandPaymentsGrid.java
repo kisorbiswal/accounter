@@ -116,4 +116,16 @@ public class CreditsandPaymentsGrid extends
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	protected String getHeaderStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String getRowElementsStyle(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

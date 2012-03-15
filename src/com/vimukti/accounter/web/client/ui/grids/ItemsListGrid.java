@@ -418,4 +418,35 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		}
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+			return new String[] { "active", "itemname", "description", "type",
+					"salesprice", "purchaseprice", "col-last" };
+		} else if (ItemListView.isPurchaseType) {
+			return new String[] { "active", "itemname", "description", "type",
+					"purchaseprice", "col-last" };
+		} else {
+			return new String[] { "active", "itemname", "description", "type",
+					"salesprice", "col-last" };
+		}
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+			return new String[] { "active-value", "itemname-value",
+					"description-value", "type-value", "salesprice-value",
+					"purchaseprice-value", "col-last-value" };
+		} else if (ItemListView.isPurchaseType) {
+			return new String[] { "active-value", "itemname-value",
+					"description-value", "type-value", "purchaseprice-value",
+					"col-last-value" };
+		} else {
+			return new String[] { "active-value", "itemname-value",
+					"description-value", "type-value", "salesprice-value",
+					"col-last-value" };
+		}
+	}
+
 }

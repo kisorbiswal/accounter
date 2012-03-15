@@ -334,4 +334,36 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 		}
 		return 0;
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		if (accountType == ClientAccount.TYPE_BANK)
+			return new String[] { "date", "type",
+					"checkNo", "payTo",
+					"memo", "Account", "payment",
+					"deposit", "currentBalance",
+					"voided" };
+		else 
+			return new String[] { "date", "type",
+					"docNo", "payTo", "memo",
+					"Account", "charge", "payment",
+					"currentBalance", "voided" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+
+		if (accountType == ClientAccount.TYPE_BANK)
+			return new String[] { "dateValue", "typeValue",
+					"checkNoValue", "payToValue",
+					"memoValue", "AccountValue", "paymentValue",
+					"depositValue", "currentBalanceValue",
+					"voided" };
+		else 
+			return new String[] { "dateValue", "typeValue",
+					"docNoValue", "payToValue", "memoValue",
+					"AccountValue", "chargeValue", "paymentValue",
+					"currentBalanceValue", "voidedValue" };
+	
+	}
 }

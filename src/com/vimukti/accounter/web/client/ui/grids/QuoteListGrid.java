@@ -455,4 +455,27 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		return null;
 
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		if (type == ClientEstimate.QUOTES) {
+			return new String[] { "date", "no", "payeename", "phone",
+					"expirationdate", "deliverydate", "totalprice", "reject" };
+		} else {
+			return new String[] { "date", "no", "payeename", "totalprice",
+					"reject" };
+		}
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		if (type == ClientEstimate.QUOTES) {
+			return new String[] { "date-value", "no-value", "payeename-value",
+					"phone-value", "expirationdate-value",
+					"deliverydate-value", "totalprice-value", "reject-value" };
+		} else {
+			return new String[] { "date-value", "no-value", "payeename-value",
+					"totalprice-value", "reject-value" };
+		}
+	}
 }

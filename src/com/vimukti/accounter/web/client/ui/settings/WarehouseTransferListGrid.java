@@ -112,4 +112,16 @@ public class WarehouseTransferListGrid extends
 		}
 		return -1;
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "fromwarehouse", "towarehouse", "itemstatus",
+		"last-col" };
+}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "fromwarehouse-value", "towarehouse-value",
+				"itemstatus-value", "last-col-value" };
+	}
 }

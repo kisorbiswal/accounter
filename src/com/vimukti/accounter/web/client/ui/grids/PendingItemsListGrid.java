@@ -207,4 +207,17 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		return AccounterCoreType.FIXEDASSET;
 	}
 
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "item", "assetnumber", "account", "purchasedate",
+				"purchaseprice", "showhistory", "addnote", "col-last" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "item-value", "assetnumber-value",
+				"account-value", "purchasedate-value", "purchaseprice-value",
+				"showhistory-value", "addnote-value", "col-last-value" };
+	}
+
 }
