@@ -50,7 +50,7 @@ public class CustomerMergeDialog extends BaseView<ClientCustomer> {
 		createControls();
 		saveAndNewButton.setVisible(false);
 		saveAndCloseButton.setText(messages.merge());
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 		clientCustomer1 = null;
 		clientCustomer = null;
 	}
@@ -150,6 +150,7 @@ public class CustomerMergeDialog extends BaseView<ClientCustomer> {
 		status1.setValue(selectItem.isActive());
 	}
 
+	@Override
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();

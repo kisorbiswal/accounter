@@ -149,7 +149,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(transactionHistoryGrid);
 		rightVpPanel.add(pager);
-//		transactionHistoryGrid.setHeight("494px");
+		// transactionHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		add(mainPanel);
@@ -233,7 +233,16 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
 			for (String type : transactionTypes) {
-				transactionTypeList.add(type);
+				if (type.equalsIgnoreCase(messages.Charges())
+						|| type.equalsIgnoreCase(messages.credits())) {
+					if (getPreferences().isDelayedchargesEnabled()) {
+						transactionTypeList.add(type);
+					} else {
+						continue;
+					}
+				} else {
+					transactionTypeList.add(type);
+				}
 			}
 			trasactionViewSelect.initCombo(transactionTypeList);
 			trasactionViewSelect.setComboItem(messages.allTransactions());
@@ -605,7 +614,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		ArrayList<ClientItem> items = getCompany().getItems();
 		ArrayList<ClientItem> result = new ArrayList<ClientItem>();
 		for (ClientItem item : items) {
-			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+			if (item.getType() == ClientItem.TYPE_INVENTORY_PART
+					|| item.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 				if (isActiveItems == item.isActive()) {
 					result.add(item);
 				}

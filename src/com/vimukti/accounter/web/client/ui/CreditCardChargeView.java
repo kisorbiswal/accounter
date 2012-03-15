@@ -226,7 +226,7 @@ public class CreditCardChargeView extends
 	@Override
 	protected void initMemoAndReference() {
 		if (isInViewMode()) {
-			memoTextAreaItem.setEnabled(!true);
+			memoTextAreaItem.setEnabled(false);
 			setMemoTextAreaItem(transaction.getMemo());
 		}
 
@@ -245,10 +245,10 @@ public class CreditCardChargeView extends
 								.getCheckNumber() : "");
 
 			}
-			cheqNoText.setEnabled(!false);
+			cheqNoText.setEnabled(true);
 		} else {
 			cheqNoText.setValue("");
-			cheqNoText.setEnabled(!true);
+			cheqNoText.setEnabled(false);
 		}
 	}
 
@@ -835,6 +835,13 @@ public class CreditCardChargeView extends
 			// }
 		}
 
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
+
 		// Setting Address
 		if (billingAddress != null)
 			transaction.setVendorAddress(billingAddress);
@@ -1042,6 +1049,7 @@ public class CreditCardChargeView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
