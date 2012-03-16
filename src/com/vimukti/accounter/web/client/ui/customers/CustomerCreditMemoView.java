@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -73,6 +75,9 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void createControls() {
 
+		Label lab1 = new Label(messages.customerCreditNote(Global.get()
+				.Customer()));
+		lab1.setStyleName("label-title");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -263,10 +268,9 @@ public class CustomerCreditMemoView extends
 		});
 		currencyWidget = createCurrencyFactorWidget();
 		StyledPanel itemsStyledPanel = new StyledPanel("itemsStyledPanel");
-
-		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		accountsDisclosurePanel.setTitle(messages.ItemizebyProductService());
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsStyledPanel.add(customerItemTransactionTable);
 		itemsStyledPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsStyledPanel);
@@ -321,6 +325,7 @@ public class CustomerCreditMemoView extends
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(voidedPanel);
+		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 		mainVLay.add(prodAndServiceHLay);

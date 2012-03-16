@@ -240,7 +240,7 @@ public class CustomerPrePaymentView extends
 			if (isTrackClass()) {
 				classListCombo.setComboItem(getCompany().getAccounterClass(
 						transaction.getAccounterClass()));
-			
+			}			
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			checkNo.setValue(transaction.getCheckNumber());
 			// if (transaction.getPaymentMethod().equals(constants.check())) {
@@ -278,7 +278,7 @@ public class CustomerPrePaymentView extends
 				updateAmountsFromGUI();
 			}
 		}
-	}
+	 
 
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
