@@ -181,14 +181,30 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "Account";
+		case 1:
+			return "amounttobeDepreciated";
+		case 2:
+			return "accumulatedDepreciationAccount";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "Account-value";
+		case 1:
+			return "amounttobeDepreciated-value";
+		case 2:
+			return "accumulatedDepreciationAccount-value";
+		default:
+			return "";
+		}
 	}
 
 	// public void addRecordDoubleClickHandler(

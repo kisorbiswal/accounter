@@ -111,14 +111,35 @@ public class WareHouseTransferGrid extends
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "quantity";
+		case 2:
+			return "comment";
+		case 3:
+			return "delete";
+
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "name-value";
+		case 1:
+			return "quantity-value";
+		case 2:
+			return "comment-value";
+		case 3:
+			return "delete-value";
+		default:
+			return "";
+		}
 	}
 
 }

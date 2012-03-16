@@ -348,14 +348,46 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxAgency";
+		case 1:
+			return "periodStartDate";
+		case 2:
+			return "periodEndDate";
+		case 3:
+			return "taxFiledDate";
+		case 4:
+			return "taxAmount";
+		case 5:
+			return "totalPaymentMade";
+		case 6:
+			return "report";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxAgency-value";
+		case 1:
+			return "periodStartDate-value";
+		case 2:
+			return "periodEndDate-value";
+		case 3:
+			return "taxFiledDate-value";
+		case 4:
+			return "taxAmount-value";
+		case 5:
+			return "totalPaymentMade-value";
+		case 6:
+			return "report-value";
+		default:
+			return "";
+		}
 	}
 
 }

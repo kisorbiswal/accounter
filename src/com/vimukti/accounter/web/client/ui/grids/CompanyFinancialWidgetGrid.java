@@ -208,13 +208,48 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		switch (index) {
+		case 0:
+			return "number";
+		case 1:
+			return "current-month";
+		case 2:
+			return "month-1";
+		case 3:
+			return "month-2";
+		case 4:
+			return "month-3";
+		case 5:
+			return "month-4";
+		case 6:
+			return "month-5";
 
+		default:
+			return "";
+		}
+	}
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "number-value";
+		case 1:
+			return "current-month-value";
+		case 2:
+			return "month-1-value";
+		case 3:
+			return "month-2-value";
+		case 4:
+			return "month-3-value";
+		case 5:
+			return "month-4-value";
+		case 6:
+			return "month-5-value";
+
+		default:
+			return "";
+		}
 	}
+}
+
 }

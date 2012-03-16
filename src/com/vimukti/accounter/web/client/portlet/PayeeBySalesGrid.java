@@ -132,13 +132,77 @@ public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
+		if (portletType == TopPayeesBySalesPortlet.ITEM_PORTLET) {
+			switch (index) {
+			case 0:
+				return "item";
+			case 1:
+				return "quantity";
+			default:
+				return "";
+			}
+
+		} else if (portletType == TopPayeesBySalesPortlet.CUSTOMER_PORTLET) {
+			switch (index) {
+			case 0:
+				return "payeeName";
+			case 1:
+				return "noOfTransactions";
+			case 2:
+				return "amount";
+			default:
+				return "";
+			}
+		} else if (portletType == TopPayeesBySalesPortlet.VENDOR_PORTLET) {
+			switch (index) {
+			case 0:
+				return "payeeName";
+			case 1:
+				return "noOfTransactions";
+			case 2:
+				return "amount";
+			default:
+				return "";
+			}
+		}
 		return null;
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
+		if (portletType == TopPayeesBySalesPortlet.ITEM_PORTLET) {
+			switch (index) {
+			case 0:
+				return "item-value";
+			case 1:
+				return "quantity-value";
+			default:
+				return "";
+			}
+
+		} else if (portletType == TopPayeesBySalesPortlet.CUSTOMER_PORTLET) {
+			switch (index) {
+			case 0:
+				return "payeeName-value";
+			case 1:
+				return "noOfTransactions-value";
+			case 2:
+				return "amount-value";
+			default:
+				return "";
+			}
+		} else if (portletType == TopPayeesBySalesPortlet.VENDOR_PORTLET) {
+			switch (index) {
+			case 0:
+				return "payeeName-value";
+			case 1:
+				return "noOfTransactions-value";
+			case 2:
+				return "amount-value";
+			default:
+				return "";
+			}
+		}
 		return null;
 	}
 

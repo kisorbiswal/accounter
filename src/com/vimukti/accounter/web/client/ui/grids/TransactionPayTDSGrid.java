@@ -75,14 +75,30 @@ public class TransactionPayTDSGrid extends
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxAgency";
+		case 1:
+			return "taxDue";
+		case 2:
+			return "amountToPay";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxAgency-value";
+		case 1:
+			return "taxDue-value";
+		case 2:
+			return "amountTopay-value";
+		default:
+			return "";
+		}
 	}
 
 }

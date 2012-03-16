@@ -147,13 +147,33 @@ public class RecentTransactionHistoryGrid extends
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "col-1";
+		case 1:
+			return "col-2";
+		case 2:
+			return "col-2";
+		case 3:
+			return "col-3";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "col-1-value";
+		case 1:
+			return "col-2-value";
+		case 2:
+			return "col-2-value";
+		case 3:
+			return "col-3-value";
+		default:
+			return "";
+		}
 	}
 }

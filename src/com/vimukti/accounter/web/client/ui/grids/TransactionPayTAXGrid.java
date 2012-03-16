@@ -201,13 +201,29 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxFiledDate";
+		case 1:
+			return "taxDue";
+		case 2:
+			return "payment";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxFiledDate-value";
+		case 1:
+			return "taxDue-value";
+		case 2:
+			return "payment-value";
+		default:
+			return "";
+		}
 	}
 }
