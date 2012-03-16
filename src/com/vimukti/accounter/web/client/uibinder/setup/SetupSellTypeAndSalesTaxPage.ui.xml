@@ -1,16 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		/* Add CSS here. See the GWT docs on UI Binder for more details */
-		.important {
-			font-weight: bold;
-		}
-		
-		.subPanel {
-			padding-left: 20px;
-		}
-	</ui:style>
 	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel">
@@ -24,40 +14,35 @@
 			</g:FlowPanel>
 		</g:FlowPanel>
 
-		<g:FlowPanel ui:field="totalPanel" styleName="{style.subPanel}">
+		<g:FlowPanel ui:field="totalPanel" styleName="subPanel">
 			<g:FlowPanel>
 				<g:CheckBox ui:field="inventoryCheckBox" />
 				<g:Label ui:field="inventoryCommentLabel" styleName="organisation_comment" />
 			</g:FlowPanel>
-			<g:FlowPanel ui:field="hiddenPanel" styleName="{style.subPanel}">
+			<g:FlowPanel ui:field="hiddenPanel" styleName="subPanel">
 				<g:CheckBox ui:field="warehousesCheckBox" />
 				<g:Label ui:field="wareHouseCommentLabel" styleName="organisation_comment" />
 				<g:CheckBox ui:field="unitsCheckBox" />
-						<g:FlowPanel>
-							<g:Label ui:field="inventoryScheme" />
-							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
-						</g:FlowPanel>
+				<g:FlowPanel>
+					<g:Label ui:field="inventoryScheme" />
+					<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
+				</g:FlowPanel>
 			</g:FlowPanel>
 		</g:FlowPanel>
-		<!--
-			<g:FlowPanel ui:field="vat" styleName="sales_tax"> <g:HTML
-			wordWrap="true" ui:field="vatHeader" styleName="setup_header_label"
-			/> <g:RadioButton name="vat" ui:field="vatYes"
-			styleName="employee_yesno" /> <g:RadioButton name="vat"
-			ui:field="vatNo" styleName="employee_yesno" /> </g:FlowPanel>
-			<g:FlowPanel ui:field="salesTax" styleName="sales_tax"> <g:HTML
-			wordWrap="true" ui:field="salesTaxHead"
-			styleName="setup_header_label" /> <g:RadioButton name="sales_tax"
-			ui:field="salesTaxYes" styleName="employee_yesno" /> <g:RadioButton
-			name="sales_tax" ui:field="salesTaxNo" styleName="employee_yesno" />
-			</g:FlowPanel>
-		-->
-		<g:FlowPanel  styleName="companyInfoPanel">
+		<!-- <g:FlowPanel ui:field="vat" styleName="sales_tax"> <g:HTML wordWrap="true" 
+			ui:field="vatHeader" styleName="setup_header_label" /> <g:RadioButton name="vat" 
+			ui:field="vatYes" styleName="employee_yesno" /> <g:RadioButton name="vat" 
+			ui:field="vatNo" styleName="employee_yesno" /> </g:FlowPanel> <g:FlowPanel 
+			ui:field="salesTax" styleName="sales_tax"> <g:HTML wordWrap="true" ui:field="salesTaxHead" 
+			styleName="setup_header_label" /> <g:RadioButton name="sales_tax" ui:field="salesTaxYes" 
+			styleName="employee_yesno" /> <g:RadioButton name="sales_tax" ui:field="salesTaxNo" 
+			styleName="employee_yesno" /> </g:FlowPanel> -->
+		<g:FlowPanel styleName="companyInfoPanel">
 			<g:FlowPanel>
 				<g:CheckBox ui:field="trackCheckbox" styleName="header" />
 			</g:FlowPanel>
 			<g:Label ui:field="trackLabel" styleName="organisation_comment" />
-			<g:FlowPanel  ui:field="hidePanel">
+			<g:FlowPanel ui:field="hidePanel">
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
 				<g:Label ui:field="oneperTransactionLabel" styleName="organisation_comment" />

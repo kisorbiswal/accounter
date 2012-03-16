@@ -993,9 +993,11 @@ input.dropdown-button {
 	-webkit-border-radius: 0 5px 0 0;
 	-moz-border-radius: 0 5px 0 0;
 }
+
 .calendar-picker {
-    margin-left: -22px !important;
+	margin-left: -22px !important;
 }
+
 .selectedview {
 	margin-left: 3px;
 }
@@ -1088,7 +1090,7 @@ iframe,.address div {
 	border-width: 1px;
 }
 
-.date-number td:nth-child(2),.datenumber-panel table {
+.date-number td:nth-child (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2910,10 +2912,12 @@ button.disable,button.disable:hover {
 	font-size: 1.5em;
 	font-weight: bold;
 }
-.fiscal-year-width{
+
+.fiscal-year-width {
 	width: 386px !important;
 	margin-bottom: 10px;
 }
+
 .thankyou-header {
 	text-align: center !important;
 }
@@ -2938,7 +2942,11 @@ button.disable,button.disable:hover {
 
 .thankyou-form .thank-you-data {
 	border: 1px solid #3299A4;
-    border-radius: 10px 10px 10px 10px;
-    margin: 10px 0;
-    padding: 15px;
+	border-radius: 10px 10px 10px 10px;
+	margin: 10px 0;
+	padding: 15px;
+}
+
+.subPanel {
+	padding-left: 20px;
 }
