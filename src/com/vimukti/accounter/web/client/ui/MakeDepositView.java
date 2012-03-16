@@ -447,6 +447,7 @@ public class MakeDepositView extends
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateForm);
+		currencyWidget = createCurrencyFactorWidget();
 
 		depositInSelect = new MakeDepositAccountCombo(messages.depositIn()) {
 			@Override

@@ -609,7 +609,12 @@ public class WriteChequeView extends
 		if (selectBankAcc != null) {
 			transaction.setBankAccount(selectBankAcc.getID());
 		}
-
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 		// setting paymentmethod
 		transaction.setPaymentMethod(messages.check());
 
@@ -1035,7 +1040,8 @@ public class WriteChequeView extends
 
 		transactionVendorAccountTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1488,6 +1494,7 @@ public class WriteChequeView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
