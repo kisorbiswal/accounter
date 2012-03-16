@@ -231,7 +231,7 @@ public class VendorCreditMemoView extends
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setEnabled(isInViewMode());
+		phoneSelect.setEnabled(!isInViewMode());
 //		phoneSelect.setWidth(100);
 
 		if (this.isInViewMode()) {
@@ -242,7 +242,7 @@ public class VendorCreditMemoView extends
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue("£0.00");
-		netAmount.setEnabled(true);
+		netAmount.setEnabled(false);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
@@ -286,7 +286,7 @@ public class VendorCreditMemoView extends
 			}
 		};
 
-		vendorAccountTransactionTable.setEnabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
 
@@ -340,7 +340,7 @@ public class VendorCreditMemoView extends
 			}
 		};
 
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -737,22 +737,22 @@ public class VendorCreditMemoView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		vendorCombo.setEnabled(isInViewMode());
-		transactionDateItem.setEnabled(isInViewMode());
+		vendorCombo.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		transactionNumber.setEnabled(isInViewMode());
-		vendorAccountTransactionTable.setEnabled(isInViewMode());
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
-		discountField.setEnabled(isInViewMode());
-		phoneSelect.setEnabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
+		phoneSelect.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
-			locationCombo.setEnabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setEnabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setEnabled(isInViewMode());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 

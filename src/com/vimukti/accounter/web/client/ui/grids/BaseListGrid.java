@@ -70,6 +70,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		super(isMultiSelectionEnable, showFooter);
 		initRPCService();
 		this.columnType = setColTypes();
+		this.headerStyles = setHeaderStyle();
+		this.rowElementStyles = setRowElementsStyle();
 	}
 
 	@Override

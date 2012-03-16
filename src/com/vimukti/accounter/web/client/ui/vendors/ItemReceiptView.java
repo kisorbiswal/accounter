@@ -77,10 +77,10 @@ public class ItemReceiptView extends
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
-//		transactionDateItem.setWidth(100);
+		// transactionDateItem.setWidth(100);
 
 		transactionNumber = createTransactionNumberItem();
-//		transactionNumber.setWidth(100);
+		// transactionNumber.setWidth(100);
 
 		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
 		dateNoForm.add(transactionDateItem, transactionNumber);
@@ -89,7 +89,7 @@ public class ItemReceiptView extends
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 
-//		labeldateNoLayout.setWidth("100%");
+		// labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
@@ -102,7 +102,7 @@ public class ItemReceiptView extends
 
 		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
-//		vendorCombo.setWidth(100);
+		// vendorCombo.setWidth(100);
 		purchaseLabel = new LinkItem();
 		purchaseLabel.setLinkTitle(messages.purchaseOrders());
 		purchaseLabel.setShowTitle(false);
@@ -120,9 +120,9 @@ public class ItemReceiptView extends
 		emptylabel.setShowTitle(false);
 
 		contactCombo = createContactComboItem();
-//		contactCombo.setWidth(100);
+		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
-//		billToCombo.setWidth(100);
+		// billToCombo.setWidth(100);
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
@@ -131,7 +131,7 @@ public class ItemReceiptView extends
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Global.get().vendor());
-//		vendorForm.setWidth("100%");
+		// vendorForm.setWidth("100%");
 		vendorForm.add(vendorCombo, purchaseLabel, contactCombo, emptylabel,
 				phoneSelect, emptylabel, billToCombo, emptylabel);
 
@@ -143,11 +143,11 @@ public class ItemReceiptView extends
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
 		termsForm = new DynamicForm("termsForm");
-//		termsForm.setWidth("100%");
+		// termsForm.setWidth("100%");
 		termsForm.add(payTermsSelect, deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
+		/* && getPreferences().isClassOnePerTransaction() */) {
 			classListCombo = createAccounterClassListCombo();
 			termsForm.add(classListCombo);
 		}
@@ -209,7 +209,7 @@ public class ItemReceiptView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-//		accountsDisclosurePanel.setWidth("100%");
+		// accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), this) {
@@ -255,11 +255,11 @@ public class ItemReceiptView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-//		itemsDisclosurePanel.setWidth("100%");
+		// itemsDisclosurePanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		memoTextAreaItem = createMemoTextAreaItem();
-//		memoTextAreaItem.setWidth(100);
+		// memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");

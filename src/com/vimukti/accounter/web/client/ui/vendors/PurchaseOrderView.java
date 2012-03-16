@@ -210,7 +210,7 @@ public class PurchaseOrderView extends
 					.getPrimaryCurrency());
 
 			paymentsNonEditableText = new AmountLabel(messages.payments());
-			paymentsNonEditableText.setEnabled(!true);
+			paymentsNonEditableText.setEnabled(false);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
@@ -218,7 +218,7 @@ public class PurchaseOrderView extends
 			// balanceDueNonEditableText = new
 			// AmountField(messages.balanceDue(),
 			// this, getBaseCurrency());
-			balanceDueNonEditableText.setEnabled(!true);
+			balanceDueNonEditableText.setEnabled(false);
 			balanceDueNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 			// prodAndServiceForm2.add(salesTaxTextNonEditable,
@@ -270,7 +270,7 @@ public class PurchaseOrderView extends
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.constants().billTo());
 		billtoAreaItem = new TextAreaItem(messages.billTo(),"billtoAreaItem");
-		billtoAreaItem.setEnabled(!true);
+		billtoAreaItem.setEnabled(false);
 
 		// shipToCombo = createShipToComboItem();
 		shipToAddress = new ShipToForm(null);
@@ -287,10 +287,10 @@ public class PurchaseOrderView extends
 			}
 		});
 		if (isInViewMode())
-			shipToAddress.businessSelect.setEnabled(!true);
+			shipToAddress.businessSelect.setEnabled(false);
 		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumber());
-		phoneSelect.setEnabled(!false);
+		phoneSelect.setEnabled(true);
 
 		// formItems.add(phoneSelect);
 
@@ -763,7 +763,7 @@ public class PurchaseOrderView extends
 				shipToAddress.businessSelect.setValue(add.getAddressTypes()
 						.get(1));
 			}
-			shipToAddress.businessSelect.setEnabled(!true);
+			shipToAddress.businessSelect.setEnabled(false);
 			if (getVendor() != null) {
 				this.addressListOfVendor = getVendor().getAddress();
 			}
@@ -1335,7 +1335,7 @@ public class PurchaseOrderView extends
 				item.getInvoiced() == null ? 0 : item.getInvoiced(), 0)) {
 			vendorCombo.setEnabled(!isInViewMode());
 		} else {
-			vendorCombo.setEnabled(!true);
+			vendorCombo.setEnabled(false);
 			if (this.transaction.getVendorAddress() == null) {
 				this.addressListOfVendor = vendor.getAddress();
 				billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);

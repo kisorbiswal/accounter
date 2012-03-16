@@ -457,7 +457,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
 		// checkNoText.setHelpInformation(true);
-//		checkNoText.setWidth(100);
+		// checkNoText.setWidth(100);
 
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
@@ -563,7 +563,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		endBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "endBalText");
 		// endBalText.setHelpInformation(true);
-//		endBalText.setWidth(100);
+		// endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setEnabled(true);
 		tdsCombo = new TaxItemCombo(messages.tds(),
@@ -648,6 +648,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		gridLayout.add(grid);
 		gridLayout.add(bottompanel);
 
+		this.add(lab);
 		this.add(voidedPanel);
 		this.add(datepanel);
 		this.add(topHLay);

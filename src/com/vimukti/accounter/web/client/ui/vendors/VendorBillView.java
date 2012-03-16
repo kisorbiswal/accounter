@@ -122,7 +122,7 @@ public class VendorBillView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setEnabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			if (!getAccountTransactionItems(transaction.getTransactionItems())
 					.isEmpty()) {
@@ -148,7 +148,7 @@ public class VendorBillView extends
 			selectedVendor(vendor);
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
-			phoneSelect.setEnabled(isInViewMode());
+			phoneSelect.setEnabled(!isInViewMode());
 			transactionNumber.setValue(transaction.getNumber());
 			// if (isTrackTax()) {
 			// netAmount.setAmount(transaction.getNetAmount());
@@ -242,7 +242,7 @@ public class VendorBillView extends
 		paymentTermsList = getCompany().getPaymentsTerms();
 
 		paymentTermsCombo.initCombo(paymentTermsList);
-		paymentTermsCombo.setEnabled(isInViewMode());
+		paymentTermsCombo.setEnabled(!isInViewMode());
 
 		if (isInViewMode() && transaction.getPaymentTerm() != 0) {
 			ClientPaymentTerms paymentTerm = getCompany().getPaymentTerms(
@@ -402,7 +402,7 @@ public class VendorBillView extends
 		}
 
 		StyledPanel datepanel = new StyledPanel("datepanel");
-//		datepanel.setWidth("100%");
+		// datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
@@ -434,9 +434,9 @@ public class VendorBillView extends
 		contactCombo = createContactComboItem();
 		// contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
-//		billToCombo.setWidth(100);
+		// billToCombo.setWidth(100);
 		if (this.isInViewMode())
-			billToCombo.setEnabled(true);
+			billToCombo.setEnabled(false);
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		// vendorForm.setWidth("100%");
@@ -455,7 +455,7 @@ public class VendorBillView extends
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		// phoneSelect.setWidth(80);
-		phoneSelect.setEnabled(false);
+		phoneSelect.setEnabled(true);
 		// formItems.add(phoneSelect);
 
 		dueDateItem = new DateField(messages.dueDate(), "dueDateItem");
@@ -463,11 +463,11 @@ public class VendorBillView extends
 				.getViewName()));
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setTitle(messages.dueDate());
-		dueDateItem.setEnabled(isInViewMode());
+		dueDateItem.setEnabled(!isInViewMode());
 
 		paymentTermsCombo = new PaymentTermsCombo(messages.paymentTerms());
 		// paymentTermsCombo.setWidth(80);
-		paymentTermsCombo.setEnabled(isInViewMode());
+		paymentTermsCombo.setEnabled(!isInViewMode());
 		paymentTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -504,7 +504,7 @@ public class VendorBillView extends
 		netAmount = new AmountLabel(messages.currencyNetAmount(getCompany()
 				.getPrimaryCurrency().getFormalName()));
 		netAmount.setDefaultValue("£0.00");
-		netAmount.setEnabled(true);
+		netAmount.setEnabled(false);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
@@ -518,7 +518,7 @@ public class VendorBillView extends
 		// balanceDueNonEditableText = new AmountField(messages
 		// .balanceDue(), this, getBaseCurrency());
 		balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
-		balanceDueNonEditableText.setEnabled(true);
+		balanceDueNonEditableText.setEnabled(false);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
 
@@ -580,7 +580,7 @@ public class VendorBillView extends
 				return VendorBillView.this.isTrackJob();
 			}
 		};
-		vendorAccountTransactionTable.setEnabled(isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.getElement().getStyle()
 				.setMarginTop(10, Unit.PX);
 
@@ -600,7 +600,7 @@ public class VendorBillView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-//		accountsDisclosurePanel.setWidth("100%");
+		// accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -645,7 +645,7 @@ public class VendorBillView extends
 			}
 		};
 
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -663,7 +663,7 @@ public class VendorBillView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-//		itemsDisclosurePanel.setWidth("100%");
+		// itemsDisclosurePanel.setWidth("100%");
 		// Inventory table..
 		// inventoryTransactionTable = new WarehouseAllocationTable();
 		// inventoryTransactionTable.setDesable(isInViewMode());
@@ -692,11 +692,11 @@ public class VendorBillView extends
 		// formItems.add(linksText);
 		currencyWidget = createCurrencyFactorWidget();
 		DynamicForm tdsForm = new DynamicForm("tdsForm");
-//		tdsForm.setWidth("100%");
+		// tdsForm.setWidth("100%");
 		tdsForm.add();
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
-//		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
@@ -706,7 +706,7 @@ public class VendorBillView extends
 		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
 		// vatCheckform.setFields(vatinclusiveCheck);
 
-//		totalForm.setWidth("100%");
+		// totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() +
 		// "102")
@@ -761,7 +761,7 @@ public class VendorBillView extends
 		rightVLay.add(dateform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			currencyWidget.setEnabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
@@ -824,7 +824,7 @@ public class VendorBillView extends
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
-//		mainVLay.setSize("100%", "100%");
+		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
 		// mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
@@ -841,7 +841,7 @@ public class VendorBillView extends
 		// }
 
 		this.add(mainVLay);
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -1325,21 +1325,21 @@ public class VendorBillView extends
 		transactionDateItem.setEnabled(!isInViewMode());
 		transactionNumber.setEnabled(!isInViewMode());
 		// purchaseLabel.setDisabled(isEdit);
-		paymentTermsCombo.setEnabled(isInViewMode());
-		dueDateItem.setEnabled(isInViewMode());
-		deliveryDateItem.setEnabled(isInViewMode());
-		vendorAccountTransactionTable.setEnabled(isInViewMode());
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		paymentTermsCombo.setEnabled(!isInViewMode());
+		dueDateItem.setEnabled(!isInViewMode());
+		deliveryDateItem.setEnabled(!isInViewMode());
+		vendorAccountTransactionTable.setEnabled(!isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		balanceDueNonEditableText.setEnabled(true);
 		memoTextAreaItem.setDisabled(isInViewMode());
-		discountField.setEnabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
-		taxCodeSelect.setEnabled(isInViewMode());
+		taxCodeSelect.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setEnabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		transactionsTree.setEnabled(!isInViewMode());
 		classListCombo.setEnabled(!isInViewMode());
