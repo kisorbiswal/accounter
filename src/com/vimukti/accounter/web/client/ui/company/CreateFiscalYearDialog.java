@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -11,11 +10,12 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
-	private HTML createFiscalYearLabel;
-	private HTML descriptionLabel;
+	private LabelItem createFiscalYearLabel;
+	private LabelItem descriptionLabel;
 	private DateItem startOfFiscalYear;
 	private DateItem endOfFiscalYear;
 	private DynamicForm dynamicForm;
@@ -91,10 +91,10 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	}
 
 	private void createControls() {
-		createFiscalYearLabel = new HTML();
-		createFiscalYearLabel.setHTML(messages.createFascalYear());
-		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(messages.enterAppropriateFiscalYear());
+		createFiscalYearLabel = new LabelItem(messages.createFascalYear(),
+				"createFiscalYearLabel");
+		descriptionLabel = new LabelItem(messages.enterAppropriateFiscalYear(),
+				"descriptionLabel");
 		startOfFiscalYear = new DateItem(messages.startOfFiscalYear(),
 				"startOfFiscalYear");
 		startOfFiscalYear.setRequired(true);

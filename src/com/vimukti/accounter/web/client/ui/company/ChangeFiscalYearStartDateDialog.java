@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -14,10 +13,11 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
-	private HTML enterStartDateLabel;
+	private LabelItem enterStartDateLabel;
 	private DateField startDateItem;
 	private DynamicForm dynamicForm;
 	private StyledPanel mainVlayout;
@@ -52,8 +52,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		enterStartDateLabel = new HTML();
-		enterStartDateLabel.setHTML(messages.pleaseEnterNewStartDate());
+		enterStartDateLabel = new LabelItem(messages.pleaseEnterNewStartDate(),
+				"startdateLable");
 		startDateItem = new DateField(messages.startDate(), "startDateItem");
 
 		long startdate = getCompany().getPreferences().getStartOfFiscalYear();
