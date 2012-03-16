@@ -178,9 +178,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 			newItemTxt.setValue(data.getName() != null ? data.getName() : "");
 			assetNumberTxt.setValue(data.getAssetNumber());
-			if (getCompany().getAccount(data.getAssetAccount()) != null) {
-				accountCombo.setComboItem(getCompany().getAccount(
-						data.getAssetAccount()));
+			ClientAccount assetAccount = getCompany().getAccount(
+					data.getAssetAccount());
+			if (assetAccount != null) {
+				accountCombo.setComboItem(assetAccount);
+				if (assetAccount.getLinkedAccumulatedDepreciationAccount() == 0) {
+					showAccumltdAccountForm();
+				}
 			}
 			purchaseDateTxt.setEnteredDate(new ClientFinanceDate(data
 					.getPurchaseDate()));
@@ -216,9 +220,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (strID != 0)
 					data.setAccumulatedDepreciationAccount(strID);
 			}
-			if (data.getAccumulatedDepreciationAccount() == 0) {
-				showAccumltdAccountForm();
-			}
+			// if (data.getAccumulatedDepreciationAccount() == 0) {
+			// showAccumltdAccountForm();
+			// }
 			showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
 			StyledPanel bookValueVPanel = new StyledPanel("bookValueVPanel");
 			mainVPanel.add(bookValueVPanel);
@@ -465,7 +469,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		this.add(mainVPanel);
 
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(itmNameForm);
@@ -902,7 +906,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (data != null
 				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
 			result.add(itemInfoForm.validate());
-			result.add(itmNameForm.validate());
+			// result.add(itmNameForm.validate());
 			result.add(purchaseInfoForm.validate());
 			result.add(validatePurchaseAmount());
 			result.add(assetTypeForm.validate());
@@ -919,12 +923,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			}
 
 		}
-		if (data != null
-				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
-			if (result.haveErrors()) {
-				data.setStatus(ClientFixedAsset.STATUS_PENDING);
-			}
-		}
+		// if (data != null
+		// && data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+		// if (result.haveErrors()) {
+		// data.setStatus(ClientFixedAsset.STATUS_PENDING);
+		// }
+		// }
 		if (purchaseDateTxt.getEnteredDate().isEmpty()) {
 			result.addError(purchaseDateTxt,
 					messages.pleaseSelect(messages.purchaseDate()));
@@ -964,16 +968,16 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		return result;
 	}
 
-	private ValidationResult validateAccumulatedDepreciationAccount() {
-		ValidationResult result = new ValidationResult();
-		if (accumulatedDepreciationAccount != null) {
-			if (accumulatedDepreciationAccount.getSelectedValue() == null) {
-				result.addError(accumulatedDepreciationAccount,
-						messages.pleaseChooseAnAccount());
-			}
-		}
-		return result;
-	}
+	// private ValidationResult validateAccumulatedDepreciationAccount() {
+	// ValidationResult result = new ValidationResult();
+	// if (accumulatedDepreciationAccount != null) {
+	// if (accumulatedDepreciationAccount.getSelectedValue() == null) {
+	// result.addError(accumulatedDepreciationAccount,
+	// messages.pleaseChooseAnAccount());
+	// }
+	// }
+	// return result;
+	// }
 
 	private ValidationResult validateDepreciationRate() {
 		ValidationResult result = new ValidationResult();
@@ -1003,18 +1007,19 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		return result;
 	}
 
-	private boolean validateName(String name) {
-		if (!(!isInViewMode() && getCompany().getFixedAssetByName(name) != null ? true
-				: false)
-				|| !(isInViewMode() && !(data.getName().equalsIgnoreCase(name) ? true
-						: getCompany().getFixedAssetByName(name) != null ? false
-								: true))) {
-			isVerified = true;
-			return false;
-		}
-		return true;
-
-	}
+	// private boolean validateName(String name) {
+	// if (!(!isInViewMode() && getCompany().getFixedAssetByName(name) != null ?
+	// true
+	// : false)
+	// || !(isInViewMode() && !(data.getName().equalsIgnoreCase(name) ? true
+	// : getCompany().getFixedAssetByName(name) != null ? false
+	// : true))) {
+	// isVerified = true;
+	// return false;
+	// }
+	// return true;
+	//
+	// }
 
 	@Override
 	public List<DynamicForm> getForms() {
@@ -1094,16 +1099,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
-		this.saveAndCloseButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (data != null) {
-					data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-					onSave(false);
-				}
-			}
-		});
+		buttonBar.add(this.saveAndCloseButton);
 
 		registerButton = new ImageButton(messages.register(), Accounter
 				.getFinanceImages().register());
@@ -1114,6 +1110,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				registerAsset();
 			}
 		});
+		buttonBar.add(registerButton);
 		this.cancelButton = new CancelButton(this);
 		cancelButton.addClickHandler(new ClickHandler() {
 
@@ -1121,6 +1118,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			public void onClick(ClickEvent event) {
 			}
 		});
+		buttonBar.add(this.cancelButton);
 	}
 
 	protected void registerAsset() {
