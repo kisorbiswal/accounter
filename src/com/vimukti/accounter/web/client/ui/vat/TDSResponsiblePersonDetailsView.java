@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -69,37 +70,37 @@ public class TDSResponsiblePersonDetailsView extends
 		responsiblePersonName = new TextItem(messages.name(),
 				"responsiblePersonName");
 		responsiblePersonName.setRequired(true);
-		responsiblePersonName.setEnabled(isInViewMode());
+		responsiblePersonName.setEnabled(!isInViewMode());
 
 		designation = new TextItem(messages.designation(), "designation");
 		designation.setRequired(true);
-		designation.setEnabled(isInViewMode());
+		designation.setEnabled(!isInViewMode());
 
 		branchName = new TextItem(messages.branchOrdivison(), "branchName");
-		branchName.setEnabled(isInViewMode());
+		branchName.setEnabled(!isInViewMode());
 
 		flatNo = new TextItem(messages.flatNo(), "flatNo");
 
 		flatNo.setRequired(true);
-		flatNo.setEnabled(isInViewMode());
+		flatNo.setEnabled(!isInViewMode());
 
 		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName");
-		buildingName.setEnabled(isInViewMode());
+		buildingName.setEnabled(!isInViewMode());
 
 		streetName = new TextItem(messages.streetOrRoadName(), "streetName");
-		streetName.setEnabled(isInViewMode());
+		streetName.setEnabled(!isInViewMode());
 
 		areaName = new TextItem(messages.area(), "areaName");
-		areaName.setEnabled(isInViewMode());
+		areaName.setEnabled(!isInViewMode());
 
 		cityName = new TextItem(messages.cityOrTown(), "cityName");
 		cityName.setRequired(true);
-		cityName.setEnabled(isInViewMode());
+		cityName.setEnabled(!isInViewMode());
 
 		stateCombo = new SelectCombo(messages.state());
 		stateCombo.initCombo(getStatesList());
 		stateCombo.setSelectedItem(0);
-		stateCombo.setEnabled(isInViewMode());
+		stateCombo.setEnabled(!isInViewMode());
 		stateCombo.setRequired(true);
 		stateCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -112,12 +113,12 @@ public class TDSResponsiblePersonDetailsView extends
 
 		pinNumber = new IntegerField(this, messages.postalCode());
 		pinNumber.setRequired(true);
-		pinNumber.setEnabled(isInViewMode());
+		pinNumber.setEnabled(!isInViewMode());
 
 		addressChangeCombo = new SelectCombo(
 				messages.hasAddressChangedSinceLastReturn());
 		addressChangeCombo.initCombo(getYESNOList());
-		addressChangeCombo.setEnabled(isInViewMode());
+		addressChangeCombo.setEnabled(!isInViewMode());
 		addressChangeCombo.setRequired(true);
 		addressChangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -129,20 +130,20 @@ public class TDSResponsiblePersonDetailsView extends
 				});
 
 		stdNumber = new IntegerField(this, messages.STDCode());
-		stdNumber.setEnabled(isInViewMode());
+		stdNumber.setEnabled(!isInViewMode());
 
 		telephoneNumber = new IntegerField(this, messages.telephoneNo());
-		telephoneNumber.setEnabled(isInViewMode());
+		telephoneNumber.setEnabled(!isInViewMode());
 
 		mobileNumber = new IntegerField(this, messages.mobileNumber());
 		mobileNumber.setRequired(true);
-		mobileNumber.setEnabled(isInViewMode());
+		mobileNumber.setEnabled(!isInViewMode());
 
 		faxNumber = new IntegerField(this, messages.faxNumber());
-		faxNumber.setEnabled(isInViewMode());
+		faxNumber.setEnabled(!isInViewMode());
 
 		email = new EmailField(messages.email());
-		email.setEnabled(isInViewMode());
+		email.setEnabled(!isInViewMode());
 
 		taxDynamicForm = new DynamicForm("taxDynamicForm");
 		taxDynamicForm.add(responsiblePersonName, designation, branchName,
@@ -151,7 +152,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.initCombo(getFinancialYearList());
-		financialYearCombo.setEnabled(isInViewMode());
+		financialYearCombo.setEnabled(!isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -169,7 +170,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		returnType = new SelectCombo(messages.retutnType());
 		returnType.initCombo(getReturnTypeList());
-		returnType.setEnabled(isInViewMode());
+		returnType.setEnabled(!isInViewMode());
 		returnType.setRequired(true);
 		returnType
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -183,7 +184,7 @@ public class TDSResponsiblePersonDetailsView extends
 		existingTdsassess = new SelectCombo(messages.existingTDSAssesses());
 		existingTdsassess.initCombo(getYESNOList());
 		existingTdsassess.setSelectedItem(0);
-		existingTdsassess.setEnabled(isInViewMode());
+		existingTdsassess.setEnabled(!isInViewMode());
 		existingTdsassess.setRequired(true);
 		existingTdsassess
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -196,11 +197,11 @@ public class TDSResponsiblePersonDetailsView extends
 
 		panCode = new TextItem(messages.panNumber(), "panCode");
 		panCode.setRequired(true);
-		panCode.setEnabled(isInViewMode());
+		panCode.setEnabled(!isInViewMode());
 
 		tanNumber = new TextItem(messages.tanNumber(), "tanNumber");
 		tanNumber.setRequired(true);
-		tanNumber.setEnabled(isInViewMode());
+		tanNumber.setEnabled(!isInViewMode());
 
 		otherDynamicForm = new DynamicForm("otherDynamicForm");
 		// otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
@@ -460,4 +461,14 @@ public class TDSResponsiblePersonDetailsView extends
 		saveAndNewButton.setVisible(false);
 	}
 
+	@Override
+	public void setData(ClientTDSResponsiblePerson data) {
+		super.setData(data);
+		if (data == null || data.getID() == 0) {
+			this.setMode(EditMode.CREATE);
+		} else {
+			this.setMode(EditMode.EDIT);
+		}
+		showSaveButtons();
+	}
 }

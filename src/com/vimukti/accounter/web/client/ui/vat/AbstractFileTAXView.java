@@ -8,7 +8,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -62,9 +61,6 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	}
 
 	private void createControls() {
-		Label infolabel = new Label(messages.fileTAX());
-		infolabel.removeStyleName("gwt-Label");
-		infolabel.addStyleName("label-title");
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
 		taxAgencyCombo.setRequired(true);
 
@@ -133,11 +129,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		});
 
 		DynamicForm topForm = new DynamicForm("topForm");
-//		topForm.setIsGroup(true);
-//		topForm.setGroupTitle(messages.top());
-//		topForm.setNumCols(6);
+		// topForm.setIsGroup(true);
+		// topForm.setGroupTitle(messages.top());
+		// topForm.setNumCols(6);
 		topForm.add(taxAgencyCombo, fromDate, toDate);
-//		topForm.setWidth("100%");
+		// topForm.setWidth("100%");
 
 		ListGrid grid = getGrid();
 
@@ -222,7 +218,6 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		mainLayout.add(adjustForm);
 		mainLayout.add(printForm);
 
-		AccounterDOM.setParentElementHeight(infolabel.getElement(), 5);
 		AccounterDOM.setParentElementHeight(topLayout.getElement(), 10);
 		AccounterDOM.setParentElementHeight(grid.getElement(), 60);
 
@@ -346,9 +341,9 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			buttonBar.add(saveAndCloseButton);
 		}
 		buttonBar.add(cancelButton);
-		if (this instanceof FileVATView){
+		if (this instanceof FileVATView) {
 			this.saveAndCloseButton.setText(messages.fileVATReturn());
-		}else{
+		} else {
 			this.saveAndCloseButton.setText(messages.fileTAXReturn());
 		}
 	}

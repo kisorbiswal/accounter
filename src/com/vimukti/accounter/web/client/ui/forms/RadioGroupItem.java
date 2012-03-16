@@ -64,6 +64,7 @@ public class RadioGroupItem extends FormItem<String> {
 				this.grouoName = "radioButtonGroup";
 			}
 			radioButton = new RadioButton(this.grouoName, string);
+			vPanel.add(radioButton);
 			this.radioButtonList.add(radioButton);
 			if (this.clickHandler != null) {
 				this.radioButton.addClickHandler(clickHandler);
@@ -80,11 +81,13 @@ public class RadioGroupItem extends FormItem<String> {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
+		vPanel.add(radioButton);
 
 		radioButton = new RadioButton("radioButtonGroup", title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
+		vPanel.add(radioButton);
 		this.radioButtonList.add(radioButton);
 
 	}
@@ -96,17 +99,20 @@ public class RadioGroupItem extends FormItem<String> {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
+		vPanel.add(radioButton);
 
 		radioButton = new RadioButton("radioButtonGroup", title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
+		vPanel.add(radioButton);
 
 		radioButton = new RadioButton("radioButtonGroup", title3);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
+		vPanel.add(radioButton);
 		this.radioButtonList.add(radioButton);
 
 	}
@@ -161,6 +167,7 @@ public class RadioGroupItem extends FormItem<String> {
 
 	@Override
 	public Widget getMainWidget() {
+		this.vPanel.clear();
 		if (this.isShowTitle()) {
 
 			String title = this.getTitle();

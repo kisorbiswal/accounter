@@ -218,26 +218,30 @@ public class TransactionReceiveVATGrid extends
 	@Override
 	protected String getHeaderStyle(int index) {
 		switch (index) {
-		case 0:
-			return "taxAgency";
 		case 1:
-			return "taxDue";
+			return "taxAgency";
 		case 2:
+			return "taxDue";
+		case 3:
 			return "amountToReceive";
+		case 0:
+			return "selectBox";
 		default:
 			return "";
 		}
-		}
+	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
 		switch (index) {
-		case 0:
-			return "taxAgency-value";
 		case 1:
-			return "taxDue-value";
+			return "taxAgency";
 		case 2:
-			return "amountToReceive-value";
+			return "taxDue";
+		case 3:
+			return "amountToReceive";
+		case 0:
+			return "selectBox";
 		default:
 			return "";
 		}

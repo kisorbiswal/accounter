@@ -139,7 +139,7 @@ public class TDSChalanDetailsView extends
 				getBaseCurrency(), "incomeTaxAmount");
 		// incomeTaxAmount.setHelpInformation(true);
 		incomeTaxAmount.setValue("0.00");
-		incomeTaxAmount.setEnabled(true);
+		incomeTaxAmount.setEnabled(false);
 		incomeTaxAmount.addBlurHandler(new BlurHandler() {
 
 			@Override

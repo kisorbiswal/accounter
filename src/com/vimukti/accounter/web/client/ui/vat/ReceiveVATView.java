@@ -273,7 +273,7 @@ public class ReceiveVATView extends
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-//		topHLay.setWidth("100%");
+		// topHLay.setWidth("100%");
 		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
@@ -293,7 +293,7 @@ public class ReceiveVATView extends
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 		listforms.add(mainform);
 		listforms.add(balForm);
 
@@ -402,7 +402,7 @@ public class ReceiveVATView extends
 		grid.init();
 		grid.setRecieveVATView(this);
 		grid.setEnabled(!isInViewMode());
-//		grid.setHeight("200px");
+		// grid.setHeight("200px");
 		// if (!isEdit) {
 		// // grid.addFooterValue("Total", 1);
 		// grid
@@ -410,7 +410,7 @@ public class ReceiveVATView extends
 		// .getAmountAsString(totalAmount), 2);
 		// }
 		gridLayout.add(grid);
-//		gridLayout.setWidth("100%");
+		// gridLayout.setWidth("100%");
 
 	}
 
