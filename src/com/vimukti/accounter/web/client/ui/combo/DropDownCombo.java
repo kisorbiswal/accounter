@@ -787,9 +787,4 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return cols;
 	}
 
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// addDiv();}
-	}
 }
