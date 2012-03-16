@@ -420,32 +420,70 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			return new String[] { "active", "itemname", "description", "type",
-					"salesprice", "purchaseprice", "col-last" };
-		} else if (ItemListView.isPurchaseType) {
-			return new String[] { "active", "itemname", "description", "type",
-					"purchaseprice", "col-last" };
+		if (getCompany().getPreferences().isInventoryEnabled()) {
+			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+				return new String[] { "active", "itemName", "description",
+						"type", "onHandQty", "salesPrice", "purchasePrice",
+						"col-last" };
+			} else if (ItemListView.isPurchaseType) {
+				return new String[] { "active", "itemName", "description",
+						"type", "onHandQty", "avarageCost", "purchasePrice",
+						"col-last" };
+
+			} else {
+				return new String[] { "active", "itemName", "description",
+						"type", "onHandQty", "avarageCost", "salesPrice",
+						"col-last" };
+			}
 		} else {
-			return new String[] { "active", "itemname", "description", "type",
-					"salesprice", "col-last" };
+			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+				return new String[] { "active", "itemName", "description",
+						"type", "salesPrice", "purchasePrice", "col-last" };
+			} else if (ItemListView.isPurchaseType) {
+				return new String[] { "active", "itemName", "description",
+						"type", "purchasePrice", "col-last" };
+
+			} else {
+				return new String[] { "active", "itemName", "description",
+						"type", "salesPrice", "col-last" };
+			}
 		}
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			return new String[] { "active-value", "itemname-value",
-					"description-value", "type-value", "salesprice-value",
-					"purchaseprice-value", "col-last-value" };
-		} else if (ItemListView.isPurchaseType) {
-			return new String[] { "active-value", "itemname-value",
-					"description-value", "type-value", "purchaseprice-value",
-					"col-last-value" };
+		if (getCompany().getPreferences().isInventoryEnabled()) {
+			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+				return new String[] { "active-value", "itemName-value",
+						"description-value", "type-value", "onHandQty-value",
+						"salesPrice-value", "purchasePrice-value",
+						"col-last-value" };
+			} else if (ItemListView.isPurchaseType) {
+				return new String[] { "active-value", "itemName-value",
+						"description-value", "type-value", "onHandQty-value",
+						"avarageCost-value", "purchasePrice-value",
+						"col-last-value" };
+
+			} else {
+				return new String[] { "active-value", "itemName-value",
+						"description-value", "type-value", "onHandQty-value",
+						"avarageCost-value", "salesPrice-value",
+						"col-last-value" };
+			}
 		} else {
-			return new String[] { "active-value", "itemname-value",
-					"description-value", "type-value", "salesprice-value",
-					"col-last-value" };
+			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+				return new String[] { "active-value", "itemName-value",
+						"description-value", "type-value", "salesPrice-value",
+						"purchasePrice-value", "col-last-value" };
+			} else if (ItemListView.isPurchaseType) {
+				return new String[] { "active-value", "itemName-value",
+						"description-value", "type-value",
+						"purchasePrice-value", "col-last-value" };
+			} else {
+				return new String[] { "active-value", "itemName-value",
+						"description-value", "type-value", "salesPrice-value",
+						"col-last-value" };
+			}
 		}
 	}
 
