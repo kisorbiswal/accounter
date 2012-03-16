@@ -80,13 +80,11 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		DynamicForm viewform = new DynamicForm("viewform");
 		viewform.add(activeInActiveSelect);
 		leftVpPanel.add(viewform);
-		viewform.getElement().getParentElement().setAttribute("align", "left");
 		itemsListGrid = new InventoryCentreItemsListGrid();
 		itemsListGrid.init();
 		initItemsListGrid();
 		leftVpPanel.add(itemsListGrid);
-		itemsListGrid.getElement().getParentElement()
-				.setAttribute("width", "15%");
+
 		itemsListGrid.setStyleName("cusotmerCentrGrid");
 		StyledPanel rightVpPanel = new StyledPanel("rightVpPanel");
 		itemDetailsPanel = new ItemDetailsPanel(selectedItem);
@@ -115,6 +113,18 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			public void initListData() {
 
 				onItemSelected();
+			}
+
+			@Override
+			protected String[] setHeaderStyle() {
+				return new String[] { "date", "type", "no", "memo", "quantity",
+						"amount" };
+			}
+
+			@Override
+			protected String[] setRowElementsStyle() {
+				return new String[] { "date-value", "type-value", "no-value",
+						"memo-value", "quantity-value", "amount" };
 			}
 		};
 		transactionHistoryGrid.init();

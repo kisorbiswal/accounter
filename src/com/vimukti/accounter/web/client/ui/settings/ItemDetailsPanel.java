@@ -75,7 +75,7 @@ public class ItemDetailsPanel extends FlowPanel {
 		// hp.setCellWidth(leftform, "50%");
 		// hp.setCellWidth(rightform, "50%");
 
-		// add(hp);
+		add(hp);
 		// headingPanel.setWidth("100%");
 		// hp.setWidth("100%");
 		// this.setWidth("100%");
