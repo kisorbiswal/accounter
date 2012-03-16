@@ -955,11 +955,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		salesDescArea.setEnabled(!isInViewMode());
 		accountCombo.setEnabled(!isInViewMode());
 		salesPriceText.setEnabled(!isInViewMode());
-		assetsAccount.setEnabled(!isInViewMode());
-		reorderPoint.setEnabled(!isInViewMode());
-		onHandQuantity.setEnabled(!isInViewMode());
-		totalLabel.setEnabled(!isInViewMode());
-		asOfDate.setEnabled(!isInViewMode());
+		assetsAccount.setEnabled(isInViewMode());
+		reorderPoint.setEnabled(isInViewMode());
+		onHandQuantity.setEnabled(isInViewMode());
+		totalLabel.setEnabled(isInViewMode());
+		asOfDate.setEnabled(isInViewMode());
 
 		table.setEnabled(!isInViewMode());
 		measurement.setEnabled(!isInViewMode());
