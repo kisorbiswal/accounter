@@ -252,4 +252,3 @@ public class CompanyFinancialWidgetGrid extends ListGrid<KeyFinancialIndicator> 
 	}
 }
 
-}
