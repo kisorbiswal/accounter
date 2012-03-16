@@ -137,7 +137,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		nameText = new TextItem(messages.inventoryAssembly(), "nameText");
 		nameText.setValue(itemName);
 		nameText.setRequired(true);
-		nameText.setEnabled(isInViewMode());
+		nameText.setEnabled(!isInViewMode());
 
 		floatRangeValidator = new FloatRangeValidator();
 		floatRangeValidator.setMin(0);
