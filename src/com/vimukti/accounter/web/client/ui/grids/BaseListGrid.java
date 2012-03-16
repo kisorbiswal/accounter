@@ -63,7 +63,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		this.columnType = setColTypes();
 		this.headerStyles = setHeaderStyle();
 		this.rowElementStyles = setRowElementsStyle();
-		
+
 	}
 
 	public BaseListGrid(boolean isMultiSelectionEnable, boolean showFooter) {
@@ -86,12 +86,12 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 		return columnType[col];
 	}
-	
+
 	@Override
 	protected String getHeaderStyle(int index) {
 		return headerStyles[index];
 	}
-	
+
 	@Override
 	protected String getRowElementsStyle(int index) {
 		return rowElementStyles[index];
@@ -186,10 +186,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	// }
 
 	abstract protected int[] setColTypes();
-	
-	
+
 	abstract protected String[] setHeaderStyle();
-	
+
 	abstract protected String[] setRowElementsStyle();
 
 	protected void showWarnDialog(final T object) {
