@@ -91,14 +91,26 @@ public class RecentActivityListGrid extends ListGrid<ClientUser> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "ligin-date";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "name-val";
+		case 1:
+			return "ligin-date-val";
+		default:
+			return "";
+		}
 	}
 
 }

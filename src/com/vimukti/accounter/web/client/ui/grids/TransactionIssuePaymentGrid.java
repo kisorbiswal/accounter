@@ -177,14 +177,42 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "date";
+		case 1:
+			return "number";
+		case 2:
+			return "type";
+		case 3:
+			return "name";
+		case 4:
+			return "memo";
+		case 5:
+			return "amount";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "date-value";
+		case 1:
+			return "number-value";
+		case 2:
+			return "type-value";
+		case 3:
+			return "name-value";
+		case 4:
+			return "memo-value";
+		case 5:
+			return "amount-value";
+		default:
+			return "";
+		}
 	}
 
 }

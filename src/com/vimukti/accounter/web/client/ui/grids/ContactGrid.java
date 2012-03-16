@@ -232,13 +232,40 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "primary";
+		case 1:
+			return "contactName";
+		case 2:
+			return "title";
+		case 3:
+			return "businessPhone";
+		case 4:
+			return "email";
+		default:
+			return "";
+		}
+
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "primary-value";
+		case 1:
+			return "contactName-value";
+		case 2:
+			return "title-value";
+		case 3:
+			return "businessPhone-value";
+		case 4:
+			return "email-value";
+		default:
+			return "";
+		}
 	}
+}
+
 }

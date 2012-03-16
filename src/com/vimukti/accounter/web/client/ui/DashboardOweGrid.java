@@ -102,14 +102,26 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "balance";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "name-val";
+		case 1:
+			return "balance-val";
+		default:
+			return "";
+		}
 	}
 
 }

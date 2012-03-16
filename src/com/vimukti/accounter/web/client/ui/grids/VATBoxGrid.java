@@ -101,14 +101,26 @@ public class VATBoxGrid extends ListGrid<ClientBox> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxLine";
+		case 1:
+			return "amount";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxLine-value";
+		case 1:
+			return "amount-value";
+		default:
+			return "";
+		}
 	}
 
 }

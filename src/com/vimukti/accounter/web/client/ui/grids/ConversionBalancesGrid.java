@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-
 public class ConversionBalancesGrid extends ListGrid {
 
 	public ConversionBalancesGrid(boolean isMultiSelectionEnable) {
@@ -75,14 +74,26 @@ public class ConversionBalancesGrid extends ListGrid {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "item";
+		case 1:
+			return "quantity";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "item-value";
+		case 1:
+			return "quantity-value";
+		default:
+			return "";
+		}
 	}
 
 }

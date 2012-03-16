@@ -118,14 +118,39 @@ public class CreditsandPaymentsGrid extends
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "date";
+		case 1:
+			return "memo";
+		case 2:
+			return "creditAmount";
+		case 3:
+			return "balance";
+		case 4:
+			return "amountToUse";
+		default:
+			return "";
+		}
+
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "date-value";
+		case 1:
+			return "memo-value";
+		case 2:
+			return "creditAmount-value";
+		case 3:
+			return "balance-value";
+		case 4:
+			return "amountToUse-value";
+		default:
+			return "";
+		}
 	}
 
 }

@@ -1494,7 +1494,9 @@ public class WriteChequeView extends
 		if (currencyWidget != null) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
-		classListCombo.setEnabled(!isInViewMode());
+		if (classListCombo != null) {
+			classListCombo.setEnabled(!isInViewMode());
+		}
 		super.onEdit();
 
 	}

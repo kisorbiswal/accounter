@@ -68,9 +68,9 @@ public class AccountBalancesGrid extends ListGrid<ClientAccount> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if(index==1){
+		if (index == 1) {
 			return 200;
-		}else{
+		} else {
 			return -1;
 		}
 	}
@@ -82,14 +82,26 @@ public class AccountBalancesGrid extends ListGrid<ClientAccount> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "accountName";
+		case 1:
+			return "balance";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "accountName-value";
+		case 1:
+			return "balance-value";
+		default:
+			return "";
+		}
 	}
 
 }

@@ -122,14 +122,42 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxItem";
+		case 1:
+			return "transactionType";
+		case 2:
+			return "transactionDate";
+		case 3:
+			return "grossAmount";
+		case 4:
+			return "taxAmount";
+		case 5:
+			return "netAmount";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "taxItem-value";
+		case 1:
+			return "transactionType-value";
+		case 2:
+			return "transactionDate-value";
+		case 3:
+			return "grossAmount-value";
+		case 4:
+			return "taxAmount-value";
+		case 5:
+			return "netAmount-value";
+		default:
+			return "";
+		}
 	}
 
 }

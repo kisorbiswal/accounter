@@ -154,14 +154,26 @@ public class ItemDialogGrid extends ListGrid<ClientItem> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "item";
+		case 1:
+			return "price";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "item-value";
+		case 1:
+			return "price-value";
+		default:
+			return "";
+		}
 	}
 
 }

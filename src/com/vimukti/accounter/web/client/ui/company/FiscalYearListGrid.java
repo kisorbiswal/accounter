@@ -110,13 +110,29 @@ public class FiscalYearListGrid extends ListGrid<ClientFiscalYear> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "startdate";
+		case 1:
+			return "enddate";
+		case 2:
+			return "status";
+		default:
+			return "";
+		}
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		switch (index) {
+		case 0:
+			return "startdate-value";
+		case 1:
+			return "enddate-value";
+		case 2:
+			return "status-value";
+		default:
+			return "";
+		}
 	};
 }
