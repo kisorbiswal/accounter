@@ -215,16 +215,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		balForm = UIUtils.form(messages.balances());
 		balForm.add(amountText, endingBalanceText, printCheck, checkNoText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (getPreferences().isClassTrackingEnabled()) {
 			balForm.add(classListCombo);
 		}
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
-//		leftVLay.setWidth("100%");
+		// leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
 
 		StyledPanel rightVlay = new StyledPanel("rightVlay");
@@ -235,7 +233,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-//		topHLay.setWidth("100%");
+		// topHLay.setWidth("100%");
 		// topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);
@@ -255,7 +253,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		mainVLay.add(lab1);
 		mainVLay.add(gridLayout);
 		this.add(mainVLay);
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 		/* Adding dynamic forms in list */
 		listforms.add(mainform);
 		listforms.add(balForm);
@@ -396,6 +394,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 			currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
 			currencyWidget.setEnabled(!isInViewMode());
+		}
+		if (isTrackClass()) {
+			classListCombo.setComboItem(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
 		}
 		selectedPayFromAccount = getCompany().getAccount(
 				transaction.getPayFrom());
@@ -619,7 +621,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			transaction.setCheckNumber("");
 
 		// transaction.setIsToBePrinted(isChecked);
-
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 		if (billsDue.getValue() != null) {
 			transaction.setBillsDueOnOrBefore((billsDue.getValue()).getDate());
 		}
@@ -754,6 +759,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		if (isMultiCurrencyEnabled()) {
 			currencyWidget.setEnabled(!isInViewMode());
 		}
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 		// fillGrid();
@@ -798,9 +804,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	protected void updateDiscountValues() {
-		
+
 	}
-		// TODO Auto-generated method stub
+
+	// TODO Auto-generated method stub
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {

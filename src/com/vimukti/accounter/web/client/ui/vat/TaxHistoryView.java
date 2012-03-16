@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -60,7 +61,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 		Label label = new Label();
 		label.removeStyleName("gwt-style");
-//		label.setWidth("100%");
+		// label.setWidth("100%");
 		label.addStyleName("label-title");
 		label.setText(messages.taxHistory());
 		this.optionsCombo = new SelectCombo(messages.taxFillings());
@@ -247,6 +248,8 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 							grid.addEmptyMessage(messages.noRecordsToShow());
 							return;
 						}
+						grid.setRecords(result);
+						Window.scrollTo(0, 0);
 						updateRecordsCount(result.getStart(),
 								grid.getTableRowCount(), result.getTotalCount());
 						saveAndNewButton.setVisible(!grid.getSelectedRecords()

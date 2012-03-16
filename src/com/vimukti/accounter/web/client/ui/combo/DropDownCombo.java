@@ -135,7 +135,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		};
 
 		if (!UIUtils.isMSIEBrowser()) {
-//			popup.setWidth("100%");
+			// popup.setWidth("100%");
 		}
 
 		popup.add(panel);
@@ -212,7 +212,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 		if (!isAddNewRequire && comboItems.isEmpty())
 			return;
-//		dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
+		// dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 27;
 		// dropDown.setWidth(getMainWidget().getOffsetWidth() - 2 + "px");
@@ -232,12 +232,14 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			popupHeight = popup.getWidget().getOffsetHeight();
 
 		if (UIUtils.isMSIEBrowser()) {
-//			dropDown.setHeight(Math.min((comboItems.size() * 10), 100) + "px");
-//			popup.setHeight(Math.min(dropDown.getOffsetHeight(), 100) + "px");
+			// dropDown.setHeight(Math.min((comboItems.size() * 10), 100) +
+			// "px");
+			// popup.setHeight(Math.min(dropDown.getOffsetHeight(), 100) +
+			// "px");
 			// panel.setWidth(dropDown.getOffsetWidth() + "px");
 		}
-//		panel.getElement().setAttribute("style", "min-width:165px");
-//		panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
+		// panel.getElement().setAttribute("style", "min-width:165px");
+		// panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
 
 		if ((x + popupWdth) > clientwidth) {
 			x = x - (popup.getOffsetWidth() - getMainWidget().getOffsetWidth());
@@ -250,7 +252,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		// .getOffsetHeight());
 		// popup.setPopupPosition(x, y - 42);
 		// }
-//		panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
+		// panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
 	}
 
 	private void resetComboList() {
@@ -637,7 +639,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	}
 
 	public void setWidth(int width) {
-//		this.getMainWidget().setWidth(width + "%");
+		// this.getMainWidget().setWidth(width + "%");
 	}
 
 	public void setPopupWidth(String width) {
@@ -783,5 +785,11 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	public int getNoOfCols() {
 		return cols;
+	}
+
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		// addDiv();}
 	}
 }

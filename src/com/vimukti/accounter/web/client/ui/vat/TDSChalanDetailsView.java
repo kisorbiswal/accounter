@@ -657,6 +657,13 @@ public class TDSChalanDetailsView extends
 		if (allRows.size() < 1) {
 			result.addError(table, "No transaction added to chalan details");
 		}
+		ClientAccount selectedValue = payFromAccCombo.getSelectedValue();
+		if (selectedValue != null
+				&& selectedValue.getCurrency() != getCompany()
+						.getPrimaryCurrency().getID()) {
+			result.addError(payFromAccCombo,
+					"Selected pay from account must be in base currency");
+		}
 		return result;
 
 	}
@@ -677,13 +684,13 @@ public class TDSChalanDetailsView extends
 
 		transaction.setFormType(formTypeSeclected);
 
-		String delims = "-";
-		String[] tokens = slectAssecementYear.getSelectedValue().split(delims);
-
-		transaction.setAssesmentYearStart(Integer.parseInt(tokens[0]));
-		transaction.setAssessmentYearEnd(Integer.parseInt(tokens[1]));
-
-		transaction.setChalanSerialNumber(chalanSerialNumber.getNumber());
+		if (slectAssecementYear.getSelectedValue() != null) {
+			String delims = "-";
+			String[] tokens = slectAssecementYear.getSelectedValue().split(
+					delims);
+			transaction.setAssesmentYearStart(Integer.parseInt(tokens[0]));
+			transaction.setAssessmentYearEnd(Integer.parseInt(tokens[1]));
+		}
 
 		transaction.setIncomeTaxAmount(incomeTaxAmount.getAmount());
 		transaction.setSurchangePaidAmount(surchargePaidAmount.getAmount());
@@ -694,8 +701,10 @@ public class TDSChalanDetailsView extends
 
 		transaction.setPaymentSection(paymentSectionSelected);
 		transaction.setPaymentMethod(modeOFPaymentCombo.getSelectedValue());
-
-		transaction.setBankChalanNumber(chalanSerialNumber.getNumber());
+		if (chalanSerialNumber.getNumber() != null) {
+			transaction.setBankChalanNumber(chalanSerialNumber.getNumber());
+			transaction.setChalanSerialNumber(chalanSerialNumber.getNumber());
+		}
 		transaction.setChalanPeriod(chalanQuarterPeriod.getSelectedIndex() + 1);
 
 		if (checkNumber.getNumber() != null) {
@@ -816,7 +825,7 @@ public class TDSChalanDetailsView extends
 		// selectFormTypeCombo.setDisabled(false);
 		// slectAssecementYear.setDisabled(false);
 		financialYearCombo.setEnabled(false);
-		endingBalanceText.setEnabled(false);
+		// endingBalanceText.setEnabled(false);
 		payFromAccCombo.setEnabled(false);
 
 		super.onEdit();
