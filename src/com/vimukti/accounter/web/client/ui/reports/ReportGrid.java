@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.grids.CustomTable;
+import com.vimukti.accounter.web.client.ui.grids.GwtFlexTable;
 
 /**
  * ReportGrid is Table which is used to display reports data in tree structure.
@@ -316,7 +317,7 @@ public class ReportGrid<R> extends CustomTable {
 	}
 
 	@Override
-	protected void adjustCellsWidth(int row, FlexTable table) {
+	protected void adjustCellsWidth(int row, GwtFlexTable table) {
 
 		try {
 			int parentWidth = table.getOffsetWidth();
@@ -395,7 +396,7 @@ public class ReportGrid<R> extends CustomTable {
 		return this.footer != null ? this.footer.toString() : "";
 	}
 
-	public FlexTable getFooterTable() {
+	public GwtFlexTable getFooterTable() {
 		return this.footer;
 	}
 
@@ -407,7 +408,7 @@ public class ReportGrid<R> extends CustomTable {
 				bodyrowElem.removeClassName("report-hover");
 			bodyrowElem = (Element) DOM.eventGetTarget(event)
 					.getParentElement();
-			if (DOM.isOrHasChild(this.body.getElement(), bodyrowElem)) {
+			if (DOM.isOrHasChild(this.body.getPanel().getElement(), bodyrowElem)) {
 				bodyrowElem.addClassName("report-hover");
 
 			}

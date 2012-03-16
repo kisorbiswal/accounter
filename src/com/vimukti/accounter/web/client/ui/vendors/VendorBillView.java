@@ -581,8 +581,6 @@ public class VendorBillView extends
 			}
 		};
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
-		vendorAccountTransactionTable.getElement().getStyle()
-				.setMarginTop(10, Unit.PX);
 
 		accountTableButton = new AddNewButton();
 		accountTableButton.setEnabled(!isInViewMode());
@@ -593,7 +591,7 @@ public class VendorBillView extends
 				addAccount();
 			}
 		});
-		FlowPanel accountFlowPanel = new FlowPanel();
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = new DisclosurePanel(
 				messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);

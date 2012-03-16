@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -10,7 +11,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -37,8 +37,8 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
  */
 public abstract class CustomTable extends FlowPanel {
 
-	protected FlexTable header;
-	protected FlexTable body;
+	protected GwtFlexTable header;
+	protected GwtFlexTable body;
 	private ScrollPanel panel;
 
 	protected int nofCols;
@@ -53,7 +53,7 @@ public abstract class CustomTable extends FlowPanel {
 	protected boolean isMultiSelectionEnable;
 	protected boolean isSingleClick;
 
-	protected FlexTable footer;
+	protected GwtFlexTable footer;
 	protected boolean isShowFooter;
 	public boolean isEnable = true;
 
@@ -103,7 +103,8 @@ public abstract class CustomTable extends FlowPanel {
 	 */
 	private void initGrid() {
 
-		this.body = new FlexTable();
+		this.body = (GwtFlexTable) GWT.create(GwtFlexTable.class);
+
 		this.body.setStyleName("gridBody");
 
 		// this.body.setWidth("100%");
@@ -119,7 +120,7 @@ public abstract class CustomTable extends FlowPanel {
 		cellFormatter = this.body.getCellFormatter();
 
 		// adding handler for Table
-		this.body.addClickHandler(new ClickHandler() {
+		this.body.getFlexTable().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -135,7 +136,7 @@ public abstract class CustomTable extends FlowPanel {
 			}
 		});
 
-		this.header = new FlexTable();
+		this.header = (GwtFlexTable) GWT.create(GwtFlexTable.class);
 		// this.header.setWidth("100%");
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
 
@@ -155,7 +156,7 @@ public abstract class CustomTable extends FlowPanel {
 					.setClassName("header_check_box");
 		}
 		if (isEnable) {
-			this.header.addClickHandler(new ClickHandler() {
+			this.header.getFlexTable().addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -186,18 +187,18 @@ public abstract class CustomTable extends FlowPanel {
 		this.header.getRowFormatter().addStyleName(0, "gridHeaderRow");
 		this.header.setStyleName("gridHeader");
 
-		this.add(this.header);
+		this.add(this.header.getPanel());
 
 		Element par = this.header.getElement().getParentElement().cast();
 		par.addClassName("gridHeaderParent");
-//DONT ENABLE THIS
-//		 this.header.getElement().getParentElement().getStyle()
-//		 .setHeight(10, Unit.PX);
+		// DONT ENABLE THIS
+		// this.header.getElement().getParentElement().getStyle()
+		// .setHeight(10, Unit.PX);
 
 		panel = new ScrollPanel();
 		panel.getElement().removeAttribute("style");
 		panel.addStyleName("gridBodyContainer");
-		panel.add(this.body);
+		panel.add(this.body.getPanel());
 		// addLoadingImagePanel(body);
 		this.add(panel);
 
@@ -211,7 +212,7 @@ public abstract class CustomTable extends FlowPanel {
 	private void initFooter() {
 		if (this.footer != null)
 			return;
-		this.footer = new FlexTable();
+		this.footer = (GwtFlexTable) GWT.create(GwtFlexTable.class);
 		for (int i = (isMultiSelectionEnable ? 1 : 0); i < nofCols; i++) {
 			this.footer.setText(0, i, " ");
 		}
@@ -361,7 +362,7 @@ public abstract class CustomTable extends FlowPanel {
 
 		int heightIn = Integer.parseInt(height.replace("px", ""));
 		// this.panel.setHeight(heightIn + "px");
-		 super.setHeight(heightIn + "px");
+		super.setHeight(heightIn + "px");
 		fixHeader();
 	}
 
@@ -512,7 +513,7 @@ public abstract class CustomTable extends FlowPanel {
 	 * @param row
 	 * @param table
 	 */
-	protected void adjustCellsWidth(int row, FlexTable table) {
+	protected void adjustCellsWidth(int row, GwtFlexTable table) {
 
 		try {
 			int parentWidth = width;
@@ -574,8 +575,8 @@ public abstract class CustomTable extends FlowPanel {
 				// table.getCellFormatter().getElement(row, 0)
 				// .setAttribute("width", "" + 25);
 				// else
-				 table.getCellFormatter().getElement(row, 0)
-				 .setAttribute("width", "" + 15);
+				table.getCellFormatter().getElement(row, 0)
+						.setAttribute("width", "" + 15);
 			}
 
 		} catch (Exception e) {
@@ -586,7 +587,7 @@ public abstract class CustomTable extends FlowPanel {
 
 	public void addEmptyMessage(String msg) {
 		this.body.setText(0, 0, msg);
-		this.body.addStyleName("no_records");
+		this.body.setStyleName("no_records");
 	}
 
 	@Override
@@ -649,7 +650,7 @@ public abstract class CustomTable extends FlowPanel {
 				bodyrowElem.removeClassName("report-hover");
 			bodyrowElem = (Element) DOM.eventGetTarget(event)
 					.getParentElement();
-			if (DOM.isOrHasChild(this.body.getElement(), bodyrowElem)) {
+			if (DOM.isOrHasChild(this.body.getPanel().getElement(), bodyrowElem)) {
 				bodyrowElem.addClassName("report-hover");
 
 			}

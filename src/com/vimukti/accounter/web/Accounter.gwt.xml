@@ -36,7 +36,7 @@
     var ua = window.navigator.userAgent.toLowerCase();
     if (ua.indexOf('android') != -1) { return 'android'; }
     if (ua.indexOf('ipad') != -1) { return 'ipad'; }
-    if (ua.indexOf('MSIE 10.0') != -1) { return 'ie10'; }
+    if (ua.indexOf('msie 10.0') != -1) { return 'ie10'; }
     return 'not_tablet';
   }
 ]]></property-provider>
@@ -44,7 +44,10 @@
 	<!-- Constrain the value for non-webkit browsers -->
 	<set-property name="tablet.user.agent" value="not_tablet">
 		<none> <!-- Actually means NOR, in this case "not safari" -->
-			<when-property-is name="user.agent" value="safari" />
+			<any>
+				<when-property-is name="user.agent" value="safari" />
+				<when-property-is name="user.agent" value="ie9" />
+			</any>
 		</none>
 	</set-property>
 
@@ -72,6 +75,20 @@
 	<replace-with
 		class="com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.GwtDisclosurePanel" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.ui.AccounterInitialiser" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.WebsocketAccounterRPCInitialiser">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.ui.AccounterRPCInitialiser" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 

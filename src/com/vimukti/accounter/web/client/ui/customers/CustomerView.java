@@ -249,9 +249,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void createControls() {
 
-		tabSet = new GwtTabPanel();
+		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class); 
+		
 		listforms = new ArrayList<DynamicForm>();
-
 		tabSet.add(getGeneralTab(), messages.general());
 		tabSet.add(getDetailsTab(), messages.details());
 

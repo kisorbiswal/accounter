@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,7 +49,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressForm;
 import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
+import com.vimukti.accounter.web.client.ui.GwtTabPanel;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
+import com.vimukti.accounter.web.client.ui.StyleTabPanelImpl;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -163,7 +166,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected ClientTAXCode selectTaxCodeFromDetailsTab;
 	protected ClientTAXItem selectTaxItemFromDetailsTab;
 	public CustomFieldDialog customFieldDialog;
-	private StyledPanel tabSet;
+	private GwtTabPanel tabSet;
 
 	public VendorView() {
 		super();
@@ -191,15 +194,19 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		// setTitle(UIUtils.title(messages.newVendor()));
-		tabSet = new StyledPanel("vendorTab");
-		// tabSet.setSize("100%", "100%");
-		tabSet.add(getGeneralTab());
-		tabSet.add(getDetailsTab());
-		// tabSet.setSize("100%", "100%");
-		createCustomFieldControls();
-		this.add(tabSet);
+		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class); 
+		
+		listforms = new ArrayList<DynamicForm>();
+		tabSet.add(getGeneralTab(), messages.general());
+		tabSet.add(getDetailsTab(), messages.details());
 
+		createCustomFieldControls();
+
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(tabSet.getPanel());
+
+		this.add(mainVLay);
+		
 	}
 
 	@Override

@@ -17,7 +17,6 @@ public class StyleTabPanelImpl extends GwtTabPanel{
 		
 		Label tabTitle = new Label(general);
 		tabTitle.setStyleName("tabTitle");
-		
 		tabPanel.add(tabTitle);
 		tabPanel.add(generalTab);
 	}

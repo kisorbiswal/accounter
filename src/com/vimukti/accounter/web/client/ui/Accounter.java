@@ -13,7 +13,6 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,18 +20,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ClientGlobal;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterExportCSVService;
 import com.vimukti.accounter.web.client.IAccounterExportCSVServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
+import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
@@ -48,7 +42,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
-import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -63,6 +56,7 @@ public class Accounter implements EntryPoint {
 	private static boolean isShutdown = false;
 	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
+	private static AccounterRPCInitialiser rpcInitialiser;
 	private static Set<String> features;
 	private static ClientFinanceDate endDate;
 	private static PlaceController placeController;
@@ -79,8 +73,9 @@ public class Accounter implements EntryPoint {
 	public final static String HOME_SERVICE_ENTRY_POINT = "/do/accounter/home/rpc/service";
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
-	private static final String TRANSLATE_SERVICE_ENTRY_POINT = "/do/accounter/translate/rpc/service";
-	private final static String EXPORT_CSV_SERVICE_ENTRY_POINT = "/do/accounter/exportcsv/rpc/service";
+	public static final String TRANSLATE_SERVICE_ENTRY_POINT = "/do/accounter/translate/rpc/service";
+	public final static String EXPORT_CSV_SERVICE_ENTRY_POINT = "/do/accounter/exportcsv/rpc/service";
+	public final static String WINDOW_RPC_SERVICE_ENTRY_POINT = "/do/accounter/windows/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
 	private static IAccounterCompanyInitializationServiceAsync cIService;
@@ -88,6 +83,7 @@ public class Accounter implements EntryPoint {
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
 	private static IAccounterExportCSVServiceAsync exportCSVService;
+	private static IAccounterWindowsHomeServiceAsync windowsService;
 
 	private static AccounterMessages messages;
 	private static FinanceImages financeImages;
@@ -98,7 +94,7 @@ public class Accounter implements EntryPoint {
 	private static boolean isMacApp;
 	private static TranslateServiceAsync translateService;
 
-	public void loadCompany() {
+	public static void loadCompany() {
 
 		IAccounterCompanyInitializationServiceAsync cIService = createCompanyInitializationService();
 
@@ -110,47 +106,52 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(ClientCompany company) {
-				removeLoadingImage();
-				if (company == null) {
-					// and, now we are ready to start the application.
-					removeLoadingImage();
-
-					header = new Header();
-					vpanel = new SimplePanel();
-					vpanel.addStyleName("empty_menu_bar");
-					setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
-						@Override
-						public void onSuccess(Boolean result) {
-							if (result) {
-								RootPanel.get("mainWindow").remove(setupWizard);
-								RootPanel.get("mainWindow").remove(header);
-								RootPanel.get("mainWindow").remove(vpanel);
-								loadCompany();
-							}
-						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-							Accounter.showError(Accounter.messages
-									.AccounterLoadingFailed());
-						}
-					});
-					RootPanel.get("mainWindow").add(header);
-					RootPanel.get("mainWindow").add(vpanel);
-					RootPanel.get("mainWindow").add(setupWizard);
-				} else {
-					Accounter.setCompany(company);
-					Accounter.setUser(company.getLoggedInUser());
-					startDate = company.getTransactionStartDate();
-					endDate = company.getTransactionStartDate();
-
-					initGUI();
-				}
-
+				gotCompany(company);
 			}
 
 		};
 		cIService.getCompany(getCompanyCallback);
+
+	}
+
+	public static void gotCompany(ClientCompany company) {
+
+		removeLoadingImage();
+		if (company == null) {
+			// and, now we are ready to start the application.
+			removeLoadingImage();
+
+			header = new Header();
+			vpanel = new SimplePanel();
+			vpanel.addStyleName("empty_menu_bar");
+			setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result) {
+						RootPanel.get("mainWindow").remove(setupWizard);
+						RootPanel.get("mainWindow").remove(header);
+						RootPanel.get("mainWindow").remove(vpanel);
+						loadCompany();
+					}
+				}
+
+				@Override
+				public void onFailure(Throwable caught) {
+					Accounter.showError(Accounter.messages
+							.AccounterLoadingFailed());
+				}
+			});
+			RootPanel.get("mainWindow").add(header);
+			RootPanel.get("mainWindow").add(vpanel);
+			RootPanel.get("mainWindow").add(setupWizard);
+		} else {
+			Accounter.setCompany(company);
+			Accounter.setUser(company.getLoggedInUser());
+			startDate = company.getTransactionStartDate();
+			endDate = company.getTransactionStartDate();
+
+			initGUI();
+		}
 
 	}
 
@@ -206,10 +207,7 @@ public class Accounter implements EntryPoint {
 
 	public static IAccounterCompanyInitializationServiceAsync createCompanyInitializationService() {
 		if (cIService == null) {
-			cIService = (IAccounterCompanyInitializationServiceAsync) GWT
-					.create(IAccounterCompanyInitializationService.class);
-			((ServiceDefTarget) cIService)
-					.setServiceEntryPoint(Accounter.CI_SERVICE_ENTRY_POINT);
+			cIService = rpcInitialiser.createCompanyInitializationService();
 		}
 
 		return cIService;
@@ -218,10 +216,7 @@ public class Accounter implements EntryPoint {
 
 	public static IAccounterCRUDServiceAsync createCRUDService() {
 		if (crudService == null) {
-			crudService = (IAccounterCRUDServiceAsync) GWT
-					.create(IAccounterCRUDService.class);
-			((ServiceDefTarget) crudService)
-					.setServiceEntryPoint(Accounter.CRUD_SERVICE_ENTRY_POINT);
+			crudService = rpcInitialiser.createCRUDService();
 		}
 
 		return crudService;
@@ -230,20 +225,14 @@ public class Accounter implements EntryPoint {
 
 	public static IAccounterGETServiceAsync createGETService() {
 		if (getService == null) {
-			getService = (IAccounterGETServiceAsync) GWT
-					.create(IAccounterGETService.class);
-			((ServiceDefTarget) getService)
-					.setServiceEntryPoint(Accounter.GET_SERVICE_ENTRY_POINT);
+			getService = rpcInitialiser.createGETService();
 		}
 		return getService;
 	}
 
 	public static IAccounterHomeViewServiceAsync createHomeService() {
 		if (homeViewService == null) {
-			homeViewService = (IAccounterHomeViewServiceAsync) GWT
-					.create(IAccounterHomeViewService.class);
-			((ServiceDefTarget) homeViewService)
-					.setServiceEntryPoint(Accounter.HOME_SERVICE_ENTRY_POINT);
+			homeViewService = rpcInitialiser.createHomeService();
 		}
 		return homeViewService;
 	}
@@ -255,30 +244,21 @@ public class Accounter implements EntryPoint {
 	 */
 	public static IAccounterExportCSVServiceAsync createExportCSVService() {
 		if (exportCSVService == null) {
-			exportCSVService = (IAccounterExportCSVServiceAsync) GWT
-					.create(IAccounterExportCSVService.class);
-			((ServiceDefTarget) exportCSVService)
-					.setServiceEntryPoint(Accounter.EXPORT_CSV_SERVICE_ENTRY_POINT);
+			exportCSVService = rpcInitialiser.createExportCSVService();
 		}
 		return exportCSVService;
 	}
 
 	public static IAccounterReportServiceAsync createReportService() {
 		if (reportService == null) {
-			reportService = (IAccounterReportServiceAsync) GWT
-					.create(IAccounterReportService.class);
-			((ServiceDefTarget) reportService)
-					.setServiceEntryPoint(Accounter.REPORT_SERVICE_ENTRY_POINT);
+			reportService = rpcInitialiser.createReportService();
 		}
 		return reportService;
 	}
 
 	public static TranslateServiceAsync createTranslateService() {
 		if (translateService == null) {
-			translateService = (TranslateServiceAsync) GWT
-					.create(TranslateService.class);
-			((ServiceDefTarget) translateService)
-					.setServiceEntryPoint(TRANSLATE_SERVICE_ENTRY_POINT);
+			translateService = rpcInitialiser.createTranslateService();
 		}
 		return translateService;
 	}
@@ -338,7 +318,12 @@ public class Accounter implements EntryPoint {
 
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
-		loadCompany();
+		rpcInitialiser = GWT.create(AccounterRPCInitialiser.class);
+		
+		AccounterInitialiser create = GWT.create(AccounterInitialiser.class);
+		create.initalize();
+
+		// loadCompany();
 	}
 
 	private void loadFeatures() {
@@ -373,7 +358,7 @@ public class Accounter implements EntryPoint {
 		ERROR, WARNING, WARNINGWITHCANCEL, INFORMATION, SUBSCRIPTION;
 	}
 
-	private static native void removeLoadingImage() /*-{
+	static native void removeLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
 		var footer = $wnd.document.getElementById('mainFooter');
 		var appVersions = $wnd.document.getElementById('appVersions');
@@ -686,5 +671,15 @@ public class Accounter implements EntryPoint {
 
 	public static Set<String> getFeatures() {
 		return features;
+	}
+
+	public static IAccounterWindowsHomeServiceAsync createWindowsRPCService() {
+		if (windowsService == null) {
+			WebsocketAccounterRPCInitialiser rpcInitialiser = GWT
+					.create(WebsocketAccounterRPCInitialiser.class);
+			windowsService = rpcInitialiser.createWindowsRPCService();
+		}
+
+		return windowsService;
 	}
 }
