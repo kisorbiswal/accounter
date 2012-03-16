@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -13,11 +12,12 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class ManageFiscalYearDialog extends BaseDialog {
 
-	private HTML manageFiscalyearLabel;
-	private HTML descriptionLabel;
+	private LabelItem manageFiscalyearLabel;
+	private LabelItem descriptionLabel;
 	private FiscalYearListGrid listOfperiods;
 	private StyledPanel buttonVlayout;
 	private Button newFiscalYearButton;
@@ -35,20 +35,21 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		super(title, desc);
 		this.getElement().setId("ManageFiscalYearDialog");
 		createControls();
-//		setWidth("550px");
+		// setWidth("550px");
 		center();
 
 	}
 
 	public void createControls() {
-		manageFiscalyearLabel = new HTML();
-		manageFiscalyearLabel.setHTML(messages.manageFiscalYear());
-		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(messages.toCloseBooksOrFascalYear());
+		manageFiscalyearLabel = new LabelItem(messages.manageFiscalYear(),
+				"manageFiscalyearLabel");
+
+		descriptionLabel = new LabelItem(messages.toCloseBooksOrFascalYear(),
+				"descriptionLabel");
 		listOfperiods = new FiscalYearListGrid(this, false);
 		listOfperiods.setTitle(messages.listOfPeriods());
 		listHpanel = new StyledPanel("listHpanel");
-//		listHpanel.setWidth("100%");
+		// listHpanel.setWidth("100%");
 		listHpanel.add(listOfperiods);
 		listHpanel.add(getButtonLayout());
 		mainVlayout = new StyledPanel("mainVlayout");
@@ -71,7 +72,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		buttonVlayout = new StyledPanel("buttonVlayout");
 		buttonVlayout.setStyleName("fisclaYearButtons");
 		newFiscalYearButton = new Button();
-//		newFiscalYearButton.setWidth("140px");
+		// newFiscalYearButton.setWidth("140px");
 		newFiscalYearButton.setText(messages.newFiscalYear());
 		newFiscalYearButton.addClickHandler(new ClickHandler() {
 
@@ -82,7 +83,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		closeFiscalYearButton = new Button();
-//		closeFiscalYearButton.setWidth("140px");
+		// closeFiscalYearButton.setWidth("140px");
 		closeFiscalYearButton.setEnabled(false);
 		closeFiscalYearButton.setText(messages.closeFiscalYear());
 		closeFiscalYearButton.addClickHandler(new ClickHandler() {
@@ -93,7 +94,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		openFiscalYearButoon = new Button();
-//		openFiscalYearButoon.setWidth("140px");
+		// openFiscalYearButoon.setWidth("140px");
 		openFiscalYearButoon.setEnabled(false);
 		openFiscalYearButoon.setText(messages.openFiscalYear());
 		openFiscalYearButoon.addClickHandler(new ClickHandler() {
@@ -108,7 +109,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		});
 
 		editFiscalYear = new Button();
-//		editFiscalYear.setWidth("140px");
+		// editFiscalYear.setWidth("140px");
 		editFiscalYear.setEnabled(false);
 		editFiscalYear.setText(messages.editFiscalYear());
 		editFiscalYear.addClickHandler(new ClickHandler() {
@@ -119,9 +120,9 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		deleteFiscalYear = new Button();
-//		deleteFiscalYear.setWidth("140px");
+		// deleteFiscalYear.setWidth("140px");
 		deleteFiscalYear.setText(messages.deleteFiscalYear());
-//		deleteFiscalYear.setWidth("140px");
+		// deleteFiscalYear.setWidth("140px");
 		// deleteFiscalYear.setEnabled(false);
 		deleteFiscalYear.addClickHandler(new ClickHandler() {
 
@@ -131,7 +132,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 		changeStartDate = new Button();
-//		changeStartDate.setWidth("140px");
+		// changeStartDate.setWidth("140px");
 		changeStartDate.setText(messages.changeStartDate());
 		changeStartDate.addClickHandler(new ClickHandler() {
 
@@ -142,7 +143,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			}
 		});
 
-//		buttonVlayout.setWidth("160px");
+		// buttonVlayout.setWidth("160px");
 		buttonVlayout.add(newFiscalYearButton);
 		buttonVlayout.add(closeFiscalYearButton);
 		buttonVlayout.add(openFiscalYearButoon);

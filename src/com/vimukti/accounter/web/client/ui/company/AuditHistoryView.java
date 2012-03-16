@@ -50,7 +50,7 @@ public class AuditHistoryView extends BaseView {
 		super.init();
 		this.getElement().setId("audithistory");
 		createControls();
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 	}
 
@@ -220,7 +220,7 @@ public class AuditHistoryView extends BaseView {
 		pageNameLabel.addStyleName("historyPageTitle");
 
 		mainStyledPanel.add(pageNameLabel);
-		mainStyledPanel.setWidth("100%");
+		// mainStyledPanel.setWidth("100%");
 
 		if (activityList.size() > 1) {
 			JSONValue val = JSONParser.parseLenient(activityList.get(0)
@@ -269,7 +269,7 @@ public class AuditHistoryView extends BaseView {
 				timeFormat);
 
 		DisclosurePanel panel = new DisclosurePanel(title);
-//		panel.setWidth("100%");
+		// panel.setWidth("100%");
 		JSONValue value = JSONParser.parseLenient(activity.getAuditHistory());
 		AuditHistoryItem item = new AuditHistoryItem(jSONValue2.isArray());
 		panel.setContent(item);

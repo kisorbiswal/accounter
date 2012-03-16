@@ -7,10 +7,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class HelpItem extends FlowPanel {
 	public FlexTable table;
@@ -23,7 +23,7 @@ public class HelpItem extends FlowPanel {
 
 	private void createControls() {
 		StyledPanel panel = new StyledPanel("panel");
-//		panel.setWidth("100%");
+		// panel.setWidth("100%");
 		table = new FlexTable();
 		panel.add(table);
 		add(panel);
@@ -59,8 +59,8 @@ public class HelpItem extends FlowPanel {
 			public void onClick(ClickEvent event) {
 
 				CustomDialog dialog = new CustomDialog(false, true);
-				HTML data = new HTML("<p>" + helpLink.getMessage() + "</p");
-				data.setStyleName("help-data");
+				LabelItem data = new LabelItem(helpLink.getMessage(),
+						"help-data");
 				dialog.add(data);
 				dialog.setSize("350px", "350px");
 				dialog.setPopupPosition(hyperlink.getAbsoluteLeft(),
@@ -71,7 +71,7 @@ public class HelpItem extends FlowPanel {
 			}
 		});
 		table.setWidget(currentrow, currentcolumn, hyperlink);
-//		table.setWidth("70%");
+		// table.setWidth("70%");
 		currentcolumn++;
 		if (currentcolumn > 1) {
 			currentrow++;
