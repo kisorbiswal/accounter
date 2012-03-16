@@ -228,7 +228,6 @@ public class TransactionReceiveVATGrid extends
 			return "";
 		}
 		}
-	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {

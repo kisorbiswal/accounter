@@ -268,4 +268,3 @@ public class ContactGrid extends ListGrid<ClientContact> {
 	}
 }
 
-}
