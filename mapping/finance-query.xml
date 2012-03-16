@@ -2027,21 +2027,17 @@
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
 		<return-scalar column="BUILD_ASSEMBLY_ID" type="long" />
 		
 		<![CDATA[
-				SELECT SO.ID AS SALES_ORDER_ID,
-				       TI.ID AS TRANSACTION_ITEM_ID,
+				SELECT TI.ID AS TRANSACTION_ITEM_ID,
 				       TE.ID AS TRANSACTION_EXPENSE_ID,
 				       ST.ID AS STOCK_TRANSFER_ID,
 				       BA.ID AS BUILD_ASSEMBLY_ID
 				FROM   ITEM I
-				       LEFT OUTER JOIN SALES_ORDER SO
-				         ON I.ID = SO.ITEM_ID
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON I.ID = TI.ITEM_ID
 				       LEFT OUTER JOIN TRANSACTION_EXPENSE TE
@@ -6694,6 +6690,12 @@
 					  credits_and_payments.id
 			   AND credits_and_payments.transaction_id = TRANSACTION.id
 			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_credits_and_payments
+		USING  transaction_paybill
+		WHERE  transaction_credits_and_payments.transaction_paybill_id =
+					  transaction_paybill.id
+			   AND transaction_paybill.company_id = cid;
 
 		DELETE FROM credits_and_payments
 		USING  TRANSACTION
