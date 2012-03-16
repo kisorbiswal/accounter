@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.ui.HasEnabled;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem.KeyPressListener;
@@ -24,7 +25,7 @@ public class CustomComboItem extends FormItem {
 
 	public CustomComboItem(String title, String styleName) {
 		super(title, styleName);
-		StyledPanel panel = new StyledPanel("panel");
+		ComboPanel panel = new ComboPanel("panel");
 
 		textBox = new TextBoxItem();
 		textBox.sinkEvents(0);
@@ -135,6 +136,7 @@ public class CustomComboItem extends FormItem {
 			this.textBox.removeStyleName("disable-TextField");
 		}
 		this.textBox.setEnabled(value);
+		((HasEnabled) this.mainWidget).setEnabled(value);
 	}
 
 	public void removeStyleName(String style) {
