@@ -7,17 +7,17 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:FlowPanel ui:field="viewPanel" width="" height="">
-			<g:HTML ui:field="customizeAccounter" styleName="customize_account">
-			</g:HTML>
-			<g:HTML ui:field="settingsLater" styleName="settings_later">
-			</g:HTML>
-			<g:HTML ui:field="industry" styleName="industry">
-			</g:HTML>
+		<g:FlowPanel ui:field="viewPanel">
+			<g:Label ui:field="customizeAccounter" styleName="customize_account">
+			</g:Label>
+			<g:Label ui:field="settingsLater" styleName="settings_later">
+			</g:Label>
+			<g:Label ui:field="industry" styleName="industry">
+			</g:Label>
 			<g:Label ui:field="selectIndustry" styleName="select_industry" />
 			<g:ListBox ui:field="industryList" styleName="industry_list" />
 		</g:FlowPanel>
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

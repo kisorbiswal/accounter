@@ -38,11 +38,11 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@UiField
 	FlowPanel accountsPanel;
 	@UiField
-	HTML selectIndustryhead, customizeAccounter;
+	Label selectIndustryhead, customizeAccounter;
 	@UiField
 	Label headerLabel;
 	@UiField
-	HTML accountsLabel;
+	Label accountsLabel;
 
 	private SetupWizard setupWizard;
 	private Map<Integer, List<TemplateAccount>> industriesWithAccounts = new HashMap<Integer, List<TemplateAccount>>();
@@ -100,8 +100,8 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		selectIndustryhead.setText(messages.industry());
 		headerLabel.setText(messages.selectYourIndustry());
 
-		customizeAccounter.setHTML(messages.selectIndustryInfoHTML1()
-				+ "<br/>" + messages.selectIndustryInfoHTML2() + "<a>"
+		customizeAccounter.setText(messages.selectIndustryInfoHTML1() + "<br/>"
+				+ messages.selectIndustryInfoHTML2() + "<a>"
 				+ messages.selectIndustryInfoAchor1() + "</a>"
 				+ messages.selectIndustryInfoHTML3() + "<br/><a>"
 				+ messages.selectIndustryInfoAchor2() + "</a>"
@@ -122,7 +122,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		});
 		industryList.setVisibleItemCount(15);
 
-		accountsLabel.setHTML("<b>" + messages.Accounts() + "</b>");
+		accountsLabel.setText("<b>" + messages.Accounts() + "</b>");
 
 		// accountsList
 		// .setName(accounterMessages.accounts(Global.get().Account()));

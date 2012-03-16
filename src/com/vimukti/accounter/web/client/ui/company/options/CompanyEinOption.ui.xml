@@ -7,13 +7,13 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel  styleName="companyInfoPanel">
-		<g:HorizontalPanel>
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel styleName="einLabelAndTexBoxPanel">
 			<g:Label ui:field="EINLabel" styleName="header" />
 			<g:TextBox ui:field="EINTextBox" visibleLength="35" />
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
+		</g:FlowPanel>
+		<g:FlowPanel styleName="einDescPanel">
 			<g:Label ui:field="EindescriptionLabel" />
-		</g:HorizontalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

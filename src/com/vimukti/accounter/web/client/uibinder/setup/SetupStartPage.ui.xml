@@ -15,15 +15,15 @@
 			float: right !important;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel" styleName="setupstartpagepanel">
-			<g:HTML ui:field="setupInfo" wordWrap="true" styleName="setup_Info"></g:HTML>
-			<g:HorizontalPanel>
+			<g:Label ui:field="setupInfo" wordWrap="true" styleName="setup_Info"></g:Label>
+			<g:FlowPanel>
 				<g:Grid styleName="skip_setup">
 					<g:row>
 						<g:customCell>
-							<g:HTML ui:field="skipSetupInfo" wordWrap="true"></g:HTML>
+							<g:Label ui:field="skipSetupInfo" wordWrap="true"></g:Label>
 						</g:customCell>
 					</g:row>
 					<g:row>
@@ -35,7 +35,7 @@
 				<g:Grid styleName="start_setup">
 					<g:row>
 						<g:customCell>
-							<g:HTML ui:field="startSetupInfo" wordWrap="true"></g:HTML>
+							<g:Label ui:field="startSetupInfo" wordWrap="true"></g:Label>
 						</g:customCell>
 					</g:row>
 					<g:row>
@@ -44,8 +44,8 @@
 						</g:customCell>
 					</g:row>
 				</g:Grid>
-			</g:HorizontalPanel>
-				<g:Button ui:field="cancelBtn"/>
+			</g:FlowPanel>
+			<g:Button ui:field="cancelBtn" />
 		</g:FlowPanel>
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

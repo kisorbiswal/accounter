@@ -7,10 +7,10 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="companyInfoPanel">
-		<g:VerticalPanel spacing="5">
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel styleName="expenseByCustomerPanel">
 			<g:CheckBox ui:field="expenseandProductandServiceTrackingbyCustomer" />
 			<g:CheckBox ui:field="UseBillableExpenseCheckBox" />
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

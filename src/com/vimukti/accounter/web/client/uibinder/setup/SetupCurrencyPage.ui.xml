@@ -7,7 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:Grid styleName="select_grid">
 			<g:row>
@@ -21,5 +21,5 @@
 		</g:Grid>
 		<g:CheckBox ui:field="isMultiCurrencyAllowed"/>
 		<!-- <g:VerticalPanel ui:field="currencyListGridPanel"/> -->
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

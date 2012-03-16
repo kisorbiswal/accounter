@@ -32,7 +32,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 	@UiField
 	ListBox fiscalStartsList;
 	@UiField
-	HTML fiscalInfo;
+	Label fiscalInfo;
 	@UiField
 	Label headerLabel;
 	private List<String> monthsList;
@@ -74,7 +74,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 			monthsList.add(monthNames[i]);
 			fiscalStartsList.addItem(monthNames[i]);
 		}
-		fiscalInfo.setHTML(messages.fiscalYearsaemasTaxyear());
+		fiscalInfo.setText(messages.fiscalYearsaemasTaxyear());
 	}
 
 	@Override

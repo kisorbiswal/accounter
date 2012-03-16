@@ -19,7 +19,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -101,7 +100,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@UiField
 	Label webSiteLabel;
 	@UiField
-	HTML useFormat;
+	Label useFormat;
 	@UiField
 	Label headerLabel;
 	@UiField
@@ -160,7 +159,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		faxLabel.setText(messages.fax());
 		emailAdressLabel.setText(messages.emailId());
 		webSiteLabel.setText(messages.webSite());
-		useFormat.setHTML("");
+		useFormat.setText("");
 		timezone.setText(messages.timezone());
 
 		countries = CoreUtils.getCountriesAsList();
@@ -261,7 +260,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		DynamicForm form = new DynamicForm("form");
 		for (String key : companyFields.keySet()) {
 			String value = companyFields.get(key);
-			TextItem item = new TextItem(key,"item");
+			TextItem item = new TextItem(key, "item");
 			item.setValue(value);
 			form.add(item);
 			itemsField.put(key, item);

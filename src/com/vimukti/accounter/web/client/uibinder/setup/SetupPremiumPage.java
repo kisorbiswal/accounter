@@ -27,7 +27,7 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	@UiField
 	Label conformPasswordLabel;
 	@UiField
-	HTML encryptionInfo;
+	Label encryptionInfo;
 	@UiField
 	CheckBox enableBox;
 	@UiField
@@ -35,7 +35,7 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	@UiField
 	PasswordTextBox conformPasswordField;
 	@UiField
-	HTML passwordInfo;
+	Label passwordInfo;
 	@UiField
 	Hyperlink moreInfoLink;
 	private SetupWizard setupWizard;
@@ -68,9 +68,9 @@ public class SetupPremiumPage extends AbstractSetupPage {
 		conformPasswordLabel.setText(messages.confirmPassword());
 		passwordField.setEnabled(false);
 		conformPasswordField.setEnabled(false);
-		encryptionInfo.setHTML(messages.encryptionEnablesyourCompanydata());
+		encryptionInfo.setText(messages.encryptionEnablesyourCompanydata());
 		encryptionInfo.setStyleName("organisation_comment");
-		passwordInfo.setHTML(messages.encryptionPasswordisImportant());
+		passwordInfo.setText(messages.encryptionPasswordisImportant());
 		passwordInfo.setStyleName("organisation_comment");
 		moreInfoLink.setText(messages.forMoreInfoOnEncryption());
 		enableBox.addClickHandler(new ClickHandler() {

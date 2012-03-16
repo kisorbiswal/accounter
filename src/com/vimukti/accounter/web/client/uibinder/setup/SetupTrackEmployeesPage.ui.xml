@@ -7,24 +7,24 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel">
+		<g:FlowPanel ui:field="viewPanel">
 			<g:RadioButton name="trackEmployee" ui:field="trackEmployeeYes"
 				styleName="employee_yesno" />
-			<g:VerticalPanel styleName="check_label">
+			<g:FlowPanel styleName="check_label">
 				<g:CheckBox ui:field="w2Employees" />
 				<g:CheckBox ui:field="contractors" />
-			</g:VerticalPanel>
+			</g:FlowPanel>
 			<g:RadioButton name="trackEmployee" ui:field="trackEmployeeNo"
 				styleName="employee_yesno" />
-		</g:VerticalPanel>
-		<g:VerticalPanel ui:field="trackPanel" styleName="track_emp_vpanel">
-			<g:HTML wordWrap="true" ui:field="trackExpenses" styleName="setup_header_label" />
+		</g:FlowPanel>
+		<g:FlowPanel ui:field="trackPanel" styleName="track_emp_vpanel">
+			<g:Label wordWrap="true" ui:field="trackExpenses" styleName="setup_header_label" />
 			<g:RadioButton name="trackEmployeeType" ui:field="trackEmployeeExpenseYes"
 				styleName="employee_yesno" />
 			<g:RadioButton name="trackEmployeeType" ui:field="trackEmployeeExpenseNo"
 				styleName="employee_yesno" />
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

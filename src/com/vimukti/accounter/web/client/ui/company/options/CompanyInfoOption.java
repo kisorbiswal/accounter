@@ -16,12 +16,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -93,13 +91,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@UiField
 	Label tradingAddressDescription;
 	@UiField
-	VerticalPanel registeredAddressSubPanel;
+	FlowPanel registeredAddressSubPanel;
 	@UiField
-	VerticalPanel tradingAddressSubPanel;
+	FlowPanel tradingAddressSubPanel;
 	@UiField
-	VerticalPanel tradingAddressPanel;
+	FlowPanel tradingAddressPanel;
 	@UiField
-	VerticalPanel registeredAddressPanel;
+	FlowPanel registeredAddressPanel;
 	@UiField
 	CheckBox isShowRegisteredAddressCheckBox;
 	// Website
@@ -126,14 +124,14 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox isShowLegalName;
 	@UiField
-	HorizontalPanel legalNamePanel;
+	FlowPanel legalNamePanel;
 	// Phone Number
 	@UiField
 	Label companyPhoneNumberLabel;
 	@UiField
 	TextBox companyPhoneNumberTextBox;
 	@UiField
-	VerticalPanel mainPanel;
+	FlowPanel mainPanel;
 	@UiField
 	Label fiscalYearLabel;
 	@UiField
@@ -361,7 +359,6 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			itemsField.put(key, item);
 		}
 		mainPanel.add(form);
-		mainPanel.setCellHorizontalAlignment(form, HasAlignment.ALIGN_CENTER);
 		form.addStyleName("company_fields");
 	}
 

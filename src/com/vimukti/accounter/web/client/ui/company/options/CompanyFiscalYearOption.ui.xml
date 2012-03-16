@@ -6,15 +6,15 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="companyInfoPanel">
-		<g:HorizontalPanel spacing="10">
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel>
 			<g:Label ui:field="monthsCheckboxLabel" styleName="header" />
-			<g:ListBox width="200px" ui:field="monthNameComboBox" />
-		</g:HorizontalPanel>
+			<g:ListBox ui:field="monthNameComboBox" />
+		</g:FlowPanel>
 		<g:Label ui:field="fiscalYearDescriptionLabel" />
-		<g:HorizontalPanel spacing="10">
+		<g:FlowPanel>
 			<g:Label ui:field="dateItemLable" styleName="header" />
-			<p1:DateBox ui:field="dateItem" width="100" height="25" />
-		</g:HorizontalPanel>
-	</g:VerticalPanel>
+			<p1:DateBox ui:field="dateItem" />
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

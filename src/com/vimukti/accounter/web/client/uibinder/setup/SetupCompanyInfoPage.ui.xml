@@ -10,8 +10,8 @@
 	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel">
-			<g:HTML wordWrap="true" ui:field="AccounterInfo"></g:HTML>
-			<g:Grid width="500px" height="198px" ui:field="companyInfoField" styleName="company_Info_table">
+			<g:Label ui:field="AccounterInfo"></g:Label>
+			<g:Grid ui:field="companyInfoField" styleName="company_Info_table">
 				<g:row>
 					<g:customCell>
 						<g:Label width="" height="" ui:field="displayNameLabel" />
@@ -33,7 +33,7 @@
 						<g:Label />
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true" ui:field="LegalForm"></g:HTML>
+						<g:Label wordWrap="true" ui:field="LegalForm"></g:Label>
 					</g:customCell>
 				</g:row>
 				<g:row>
@@ -49,7 +49,7 @@
 						<g:Label />
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true" ui:field="EIN"></g:HTML>
+						<g:Label wordWrap="true" ui:field="EIN"></g:Label>
 					</g:customCell>
 				</g:row>
 					<g:row>
@@ -121,7 +121,7 @@
 						<g:Label />
 					</g:customCell>
 					<g:customCell>
-						<g:HTML wordWrap="true" ui:field="useFormat"></g:HTML>
+						<g:Label wordWrap="true" ui:field="useFormat"></g:Label>
 					</g:customCell>
 				</g:row>
 				<g:row>

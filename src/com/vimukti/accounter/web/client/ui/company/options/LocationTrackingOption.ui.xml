@@ -6,42 +6,41 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel"
-		horizontalAlignment="ALIGN_CENTER">
-		<g:FlowPanel  ui:field="hpanel">
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel ui:field="hpanel" styleName="locationTrackLabelAndCheckPanel">
 			<g:CheckBox ui:field="locationTrackingCheckBoxItm" width="" />
 			<g:Label ui:field="locationTrackingCheckBoxLabel" styleName="header" />
 		</g:FlowPanel>
-		<g:HorizontalPanel>
+		<g:FlowPanel styleName="locationTrackDescPanel">
 			<g:Label ui:field="locationTrackingDescriptionLabel" />
-		</g:HorizontalPanel>
-		<g:FlowPanel  ui:field="radioButtonsPanel">
-			<g:HorizontalPanel>
+		</g:FlowPanel>
+		<g:FlowPanel ui:field="radioButtonsPanel">
+			<g:FlowPanel>
 				<g:Label ui:field="radioButtonsHeaderLabel" styleName="header" />
-			</g:HorizontalPanel>
+			</g:FlowPanel>
 			<g:FlowPanel ui:field="radioButtonPanel">
-				<g:HorizontalPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="buisinessRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="locationRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="departmentRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="divisionRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="propertyRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="storeRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="territoryRadioButton" />
-				</g:HorizontalPanel>
+				</g:FlowPanel>
 			</g:FlowPanel>
 		</g:FlowPanel>
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

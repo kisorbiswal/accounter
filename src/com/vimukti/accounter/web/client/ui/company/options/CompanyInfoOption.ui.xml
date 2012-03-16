@@ -10,28 +10,25 @@
 			padding-left: 15px;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="companyInfoPanel">
-		<g:VerticalPanel ui:field="mainPanel">
-			<g:HorizontalPanel>
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel ui:field="mainPanel">
+			<g:FlowPanel>
 				<g:Label ui:field="companyNameLabel" styleName="header" />
 				<g:TextBox ui:field="companyNameTextBox" visibleLength="60" />
-			</g:HorizontalPanel>
-			<g:HorizontalPanel>
+			</g:FlowPanel>
+			<g:FlowPanel>
 				<g:CheckBox ui:field="isShowLegalName" />
-			</g:HorizontalPanel>
-			<g:HorizontalPanel ui:field="legalNamePanel">
+			</g:FlowPanel>
+			<g:FlowPanel ui:field="legalNamePanel">
 				<g:Label ui:field="legalNameLabel" styleName="header" />
 				<g:TextBox ui:field="legalNameTextBox" />
-			</g:HorizontalPanel>
-		</g:VerticalPanel>
-		<g:VerticalPanel>
-			<g:VerticalPanel ui:field="tradingAddressPanel"
-				styleName="address_panel">
-				<g:Label ui:field="tradingAddressTitle" horizontalAlignment="ALIGN_LEFT"
-					styleName="header" />
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel>
+			<g:FlowPanel ui:field="tradingAddressPanel" styleName="address_panel">
+				<g:Label ui:field="tradingAddressTitle" styleName="header" />
 				<g:Label ui:field="tradingAddressDescription" />
-				<g:VerticalPanel horizontalAlignment="ALIGN_LEFT"
-					ui:field="tradingAddressSubPanel">
+				<g:FlowPanel ui:field="tradingAddressSubPanel">
 					<g:Grid>
 						<g:row>
 							<g:customCell>
@@ -70,7 +67,7 @@
 								<g:Label ui:field="tCountryLabel" />
 							</g:customCell>
 							<g:customCell>
-								<g:ListBox width="185px" ui:field="tCountryCombo"
+								<g:ListBox ui:field="tCountryCombo"
 									enabled="false" />
 							</g:customCell>
 						</g:row>
@@ -79,22 +76,20 @@
 								<g:Label ui:field="tStateLabel" />
 							</g:customCell>
 							<g:customCell>
-								<g:ListBox width="185px" ui:field="tStateCombo" />
+								<g:ListBox ui:field="tStateCombo" />
 							</g:customCell>
 						</g:row>
 					</g:Grid>
-				</g:VerticalPanel>
-			</g:VerticalPanel>
-			<g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:FlowPanel>
+			<g:FlowPanel>
 				<g:CheckBox ui:field="isShowRegisteredAddressCheckBox" />
-			</g:HorizontalPanel>
-			<g:VerticalPanel ui:field="registeredAddressPanel">
-				<g:Label ui:field="registeredAddressTitle"
-					horizontalAlignment="ALIGN_LEFT" styleName="header" />
+			</g:FlowPanel>
+			<g:FlowPanel ui:field="registeredAddressPanel">
+				<g:Label ui:field="registeredAddressTitle" styleName="header" />
 				<g:Label ui:field="registeredAddressDescription" />
 
-				<g:VerticalPanel ui:field="registeredAddressSubPanel"
-					horizontalAlignment="ALIGN_LEFT">
+				<g:FlowPanel ui:field="registeredAddressSubPanel">
 					<g:Grid>
 						<g:row>
 							<g:customCell>
@@ -133,8 +128,7 @@
 								<g:Label ui:field="rCountryComboLabel" />
 							</g:customCell>
 							<g:customCell>
-								<g:ListBox width="185px" ui:field="rCountryCombo"
-									enabled="false" />
+								<g:ListBox ui:field="rCountryCombo" enabled="false" />
 							</g:customCell>
 						</g:row>
 						<g:row>
@@ -142,15 +136,15 @@
 								<g:Label ui:field="rStateComboLabel" />
 							</g:customCell>
 							<g:customCell>
-								<g:ListBox width="185px" ui:field="rStateCombo" />
+								<g:ListBox ui:field="rStateCombo" />
 							</g:customCell>
 						</g:row>
 					</g:Grid>
-				</g:VerticalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-		<g:VerticalPanel>
-			<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
+				</g:FlowPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel>
+			<g:FlowPanel>
 				<g:Grid>
 					<g:row>
 						<g:customCell>
@@ -161,13 +155,13 @@
 						</g:customCell>
 					</g:row>
 				</g:Grid>
-			</g:VerticalPanel>
-			<g:HorizontalPanel>
+			</g:FlowPanel>
+			<g:FlowPanel>
 				<g:Label ui:field="emailIDDescriptionLabel" />
-			</g:HorizontalPanel>
-		</g:VerticalPanel>
-		<g:VerticalPanel>
-			<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel>
+			<g:FlowPanel>
 				<g:Grid>
 					<g:row>
 						<g:customCell>
@@ -178,10 +172,10 @@
 						</g:customCell>
 					</g:row>
 				</g:Grid>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-		<g:VerticalPanel>
-			<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel>
+			<g:FlowPanel>
 				<g:Grid>
 					<g:row>
 						<g:customCell>
@@ -192,14 +186,14 @@
 						</g:customCell>
 					</g:row>
 				</g:Grid>
-			</g:VerticalPanel>
-			<g:VerticalPanel>
+			</g:FlowPanel>
+			<g:FlowPanel>
 				<g:Label ui:field="fiscalYearLabel" styleName="header" />
-					<g:HorizontalPanel styleName="fiscal-year-width">
-						<g:Label ui:field="fiscalStarts" styleName="company-preferences-labels"/>
-						<g:ListBox width="185px" ui:field="fiscalStartsList"/>
-					</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+				<g:FlowPanel styleName="fiscal-year-width">
+					<g:Label ui:field="fiscalStarts" styleName="company-preferences-labels" />
+					<g:ListBox ui:field="fiscalStartsList" />
+				</g:FlowPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

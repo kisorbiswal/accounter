@@ -9,7 +9,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,7 +28,7 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	@UiField
 	ListBox industryList;
 	@UiField
-	HTML customizeAccounter, settingsLater, industry;
+	Label customizeAccounter, settingsLater, industry;
 	@UiField
 	Label selectIndustry;
 	@UiField
@@ -61,11 +60,9 @@ public class SetupIndustrySelectionPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(messages.selectYourIndustry());
 
-		customizeAccounter.setHTML(messages.selectIndustryInfoHTML1()
-				+ "<br/>" + messages.selectIndustryInfoHTML2() + "<a>"
-				+ messages.selectIndustryInfoAchor1() + "</a>"
-				+ messages.selectIndustryInfoHTML3() + "<br/><a>"
-				+ messages.selectIndustryInfoAchor2() + "</a>"
+		customizeAccounter.setText(messages.selectIndustryInfoHTML1()
+				+ messages.selectIndustryInfoHTML2()
+				+ messages.selectIndustryInfoHTML3()
 				+ messages.selectIndustryInfoHTML4());
 		industryList.setName(messages.industry());
 		selectIndustry.setText(messages.selectIndustry());

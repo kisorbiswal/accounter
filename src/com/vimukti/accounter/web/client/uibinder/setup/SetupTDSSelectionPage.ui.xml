@@ -6,15 +6,15 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel">
-			<g:VerticalPanel styleName="estimate_stmt_acc">
+		<g:FlowPanel ui:field="viewPanel">
+			<g:FlowPanel styleName="estimate_stmt_acc">
 				<g:RadioButton name="tdsGroup" ui:field="tdsYes"
 					styleName="employee_yesno" />
 				<g:RadioButton name="tdsGroup" ui:field="tdsNo"
 					styleName="employee_yesno" />
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

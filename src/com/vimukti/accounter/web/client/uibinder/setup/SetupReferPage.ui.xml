@@ -7,17 +7,17 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:FlowPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:Label ui:field="customerCommentLabel" styleName="refer_customer"/>
-		<g:HorizontalPanel styleName="refer_panel">
-			<g:Label ui:field="customerLabel"/>
-			<g:ListBox ui:field="customerListBox" styleName="refer_listbox"/>
-		</g:HorizontalPanel>
-		<g:Label ui:field="supplierCommentLabel" styleName="refer_supplier"/>
-		<g:HorizontalPanel styleName="refer_panel">
-			<g:Label ui:field="vendorsLabel"/>
-			<g:ListBox ui:field="vendorListBox" styleName="refer_listbox"/>
-		</g:HorizontalPanel>
+		<g:Label ui:field="customerCommentLabel" styleName="refer_customer" />
+		<g:FlowPanel styleName="refer_panel">
+			<g:Label ui:field="customerLabel" />
+			<g:ListBox ui:field="customerListBox" styleName="refer_listbox" />
 		</g:FlowPanel>
+		<g:Label ui:field="supplierCommentLabel" styleName="refer_supplier" />
+		<g:FlowPanel styleName="refer_panel">
+			<g:Label ui:field="vendorsLabel" />
+			<g:ListBox ui:field="vendorListBox" styleName="refer_listbox" />
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

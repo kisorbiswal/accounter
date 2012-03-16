@@ -10,7 +10,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,7 +23,7 @@ public class SetupStartPage extends AbstractSetupPage {
 	private static SetupStartPageUiBinder uiBinder = GWT
 			.create(SetupStartPageUiBinder.class);
 	@UiField
-	HTML startSetupInfo, skipSetupInfo, setupInfo;
+	Label startSetupInfo, skipSetupInfo, setupInfo;
 	@UiField
 	FlowPanel viewPanel;
 	@UiField
@@ -76,9 +75,9 @@ public class SetupStartPage extends AbstractSetupPage {
 		this.startButton.setText(messages.startSetup());
 		this.skipButton.setText(messages.skipSetup());
 		this.cancelBtn.setText(messages.cancel());
-		this.setupInfo.setHTML(messages.userGuidelinesMessage());
-		this.startSetupInfo.setHTML(messages.startSetupInfo());
-		this.skipSetupInfo.setHTML(messages.skipSetupInfo());
+		this.setupInfo.setText(messages.userGuidelinesMessage());
+		this.startSetupInfo.setText(messages.startSetupInfo());
+		this.skipSetupInfo.setText(messages.skipSetupInfo());
 
 		startButton.addClickHandler(new ClickHandler() {
 

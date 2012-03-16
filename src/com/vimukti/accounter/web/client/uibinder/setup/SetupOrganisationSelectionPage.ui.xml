@@ -7,9 +7,9 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
-		<g:VerticalPanel ui:field="viewPanel">
+		<g:FlowPanel ui:field="viewPanel">
 			<g:Label ui:field="organizeText" styleName="organisation_Info" />
 			<g:RadioButton name="new name" ui:field="propriterShip" styleName="organized_radio" />
 			<g:Label ui:field="uninCorporated" />
@@ -25,7 +25,7 @@
 			<g:RadioButton name="new name" ui:field="nonProfit" styleName="organized_radio" />
 			<g:Label ui:field="nonProfitText" />
 			<g:RadioButton name="new name" ui:field="other" styleName="organized_radio" />
-			<g:HTML wordWrap="true" ui:field="organizationLink" />
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+			<g:Label wordWrap="true" ui:field="organizationLink" />
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

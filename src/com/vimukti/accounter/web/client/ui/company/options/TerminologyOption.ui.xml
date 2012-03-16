@@ -7,56 +7,55 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="companyInfoPanel">
-		<g:VerticalPanel spacing="6" height="145">
-			<g:HorizontalPanel spacing="6">
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel>
+			<g:FlowPanel>
 				<g:Label ui:field="terminologyforCustomerLabel" styleName="header" />
-			</g:HorizontalPanel>
-			<g:HorizontalPanel spacing="6">
+			</g:FlowPanel>
+			<g:FlowPanel>
 				<g:Label ui:field="customerDescriptionLabel" />
-			</g:HorizontalPanel>
-			<g:VerticalPanel horizontalAlignment="ALIGN_CENTER"
-				spacing="6" height="116" width="430">
-				<g:HorizontalPanel>
+			</g:FlowPanel>
+			<g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="clientsRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="custimersRadioBuitton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="DonorsRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="guestardioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="membersRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="PatientRadioButton" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="tenantsLabelRadioButton" />
-				</g:HorizontalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-		<g:VerticalPanel>
-			<g:VerticalPanel spacing="6">
-				<g:HorizontalPanel spacing="6">
+				</g:FlowPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel>
+			<g:FlowPanel>
+				<g:FlowPanel>
 					<g:Label ui:field="vendorsHeaderLabel" styleName="header" />
-				</g:HorizontalPanel>
-				<g:HorizontalPanel spacing="6">
+				</g:FlowPanel>
+				<g:FlowPanel>
 					<g:Label ui:field="vendorsDescriptionLabel" />
-				</g:HorizontalPanel>
-				<g:VerticalPanel spacing="6">
-					<g:HorizontalPanel>
+				</g:FlowPanel>
+				<g:FlowPanel>
+					<g:FlowPanel>
 						<g:RadioButton name="new name" ui:field="vendorRadioButton" />
-					</g:HorizontalPanel>
-					<g:HorizontalPanel>
+					</g:FlowPanel>
+					<g:FlowPanel>
 						<g:RadioButton name="new name" ui:field="supplierRadioButton" />
-					</g:HorizontalPanel>
-				</g:VerticalPanel>
-			</g:VerticalPanel>
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+					</g:FlowPanel>
+				</g:FlowPanel>
+			</g:FlowPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

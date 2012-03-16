@@ -7,11 +7,11 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="6">
-		<g:HorizontalPanel spacing="10">
-			<g:Label ui:field="deafaultDisplayAndPrintSettingsLabel"/>
-		</g:HorizontalPanel>
-		<g:CheckBox ui:field="deafaultDisplayAndPrintSettingsCheckBox"/>
-	</g:VerticalPanel>
-	
+	<g:FlowPanel>
+		<g:FlowPanel>
+			<g:Label ui:field="deafaultDisplayAndPrintSettingsLabel" />
+		</g:FlowPanel>
+		<g:CheckBox ui:field="deafaultDisplayAndPrintSettingsCheckBox" />
+	</g:FlowPanel>
+
 </ui:UiBinder> 

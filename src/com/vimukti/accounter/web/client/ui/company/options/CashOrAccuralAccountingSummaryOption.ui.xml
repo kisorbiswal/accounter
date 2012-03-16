@@ -6,11 +6,11 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel >
-		<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" >
-			<g:Label ui:field="accountingMethodForSummaryLabel"/>
-		</g:HorizontalPanel>
-		<g:RadioButton name="new name" ui:field="cashRadioButton"/>
-		<g:RadioButton name="new name" ui:field="accuralRadioButton"/>
-	</g:VerticalPanel>
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel styleName="cashOrAccuralPanel">
+			<g:Label ui:field="accountingMethodForSummaryLabel" />
+		</g:FlowPanel>
+		<g:RadioButton name="new name" ui:field="cashRadioButton" />
+		<g:RadioButton name="new name" ui:field="accuralRadioButton" />
+	</g:FlowPanel>
 </ui:UiBinder> 

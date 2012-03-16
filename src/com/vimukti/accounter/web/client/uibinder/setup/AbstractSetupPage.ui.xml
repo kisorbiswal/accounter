@@ -6,6 +6,6 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel >
-		</g:VerticalPanel>
+		<g:FlowPanel >
+		</g:FlowPanel>
 </ui:UiBinder> 

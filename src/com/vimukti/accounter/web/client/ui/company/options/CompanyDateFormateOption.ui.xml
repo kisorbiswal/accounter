@@ -6,14 +6,14 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel styleName="companyInfoPanel" >
-		<g:HorizontalPanel >
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel styleName="dateFormatPanel">
 			<g:Label ui:field="comboBoxLabel" styleName="header" />
 			<g:ListBox ui:field="dateFormateComboBox" />
 			<g:Label ui:field="exampleDateFomateLabel" />
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
+		</g:FlowPanel>
+		<g:FlowPanel styleName="dateFormatDescPanel">
 			<g:Label ui:field="dateFormateDescriptionlabel" />
-		</g:HorizontalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

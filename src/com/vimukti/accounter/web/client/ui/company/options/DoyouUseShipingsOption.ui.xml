@@ -4,13 +4,13 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:VerticalPanel spacing="5">
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel>
 			<!-- <g:Label ui:field="doYouLabelItem" styleName="header" /> -->
-			<g:VerticalPanel spacing="8" horizontalAlignment="ALIGN_LEFT">
+			<g:FlowPanel>
 				<g:CheckBox ui:field="useShipMethods" />
-			</g:VerticalPanel>
+			</g:FlowPanel>
 			<g:Label ui:field="shippingmedescritionLabel" />
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

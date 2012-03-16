@@ -6,20 +6,20 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel ui:field="mainViewPanel">
+	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel">
 			<g:Label ui:field="expensesInfo" />
-			<g:HTML wordWrap="true" ui:field="recommendedInfo" />
+			<g:Label wordWrap="true" ui:field="recommendedInfo" />
 			<g:ScrollPanel  height="300px" styleName="review_expense_account">
 				<g:FlexTable ui:field="accountsTable"/>
 			</g:ScrollPanel>
-			<g:HorizontalPanel>
+			<g:FlowPanel>
 				<g:Button enabled="true" ui:field="restoreButton" />
 				<g:Button ui:field="selectAllButton"/>
-			</g:HorizontalPanel>
+			</g:FlowPanel>
 			<g:Anchor wordWrap="true" ui:field="expensesLink" styleName="expense_question_link" />
-			<g:HTML wordWrap="true" ui:field="expensesNote" />
+			<g:Label wordWrap="true" ui:field="expensesNote" />
 		</g:FlowPanel>
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

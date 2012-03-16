@@ -6,8 +6,8 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HorizontalPanel spacing="8" styleName="companyInfoPanel">
+	<g:FlowPanel styleName="companyInfoPanel">
 		<g:Label ui:field="currencyFormatLabel" styleName="header" />
-		<g:Button ui:field="currencyFormatButton"/>
-	</g:HorizontalPanel>
+		<g:Button ui:field="currencyFormatButton" />
+	</g:FlowPanel>
 </ui:UiBinder> 

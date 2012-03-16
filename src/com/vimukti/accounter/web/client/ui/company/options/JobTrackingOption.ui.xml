@@ -4,14 +4,13 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:HorizontalPanel spacing="10">
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel styleName="jobTrackCheckAndLabelPanel">
 			<g:CheckBox ui:field="jobTrackingCheckBox" />
-			<g:Label ui:field="jobTrackingCheckBoxLabel" styleName="header"
-				horizontalAlignment="ALIGN_LEFT" />
-		</g:HorizontalPanel>
-		<g:HorizontalPanel>
+			<g:Label ui:field="jobTrackingCheckBoxLabel" styleName="header" />
+		</g:FlowPanel>
+		<g:FlowPanel styleName="jobTrackDescPanel">
 			<g:Label ui:field="jobTrackingdescriptionLabel" />
-		</g:HorizontalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

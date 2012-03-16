@@ -8,12 +8,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 /**
  * @author vimukti36
@@ -26,11 +26,11 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 	@UiField
 	Label radioButtonHeaderLabel;
 	@UiField
-	StyledPanel headerLabelPanel;
+	FlowPanel headerLabelPanel;
 	@UiField
-	StyledPanel radioButtonsMainPanel;
+	FlowPanel radioButtonsMainPanel;
 	@UiField
-	StyledPanel viewPanel;
+	FlowPanel viewPanel;
 
 	RadioButton propriterShip;
 	RadioButton partnership;

@@ -7,7 +7,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
+	<g:FlowPanel styleName="companyInfoPanel">
 		<g:Label ui:field="headerLabel" styleName="header" />
 		<g:FlowPanel ui:field="viewPanel">
 			<g:FlowPanel ui:field="sell" styleName="sell_panel">
@@ -20,21 +20,21 @@
 			</g:FlowPanel>
 		</g:FlowPanel>
 		<g:FlowPanel ui:field="totalPanel">
-			<g:HorizontalPanel spacing="10">
+			<g:FlowPanel>
 				<g:CheckBox ui:field="inventoryCheckBox" />
-			</g:HorizontalPanel>
+			</g:FlowPanel>
 			<g:FlowPanel ui:field="hiddenPanel">
-				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT">
+				<g:FlowPanel>
 					<g:FlowPanel ui:field="subpanel">
 						<g:CheckBox ui:field="warehousesCheckBox" />
 						<g:CheckBox ui:field="unitsCheckBox" />
-						<g:HorizontalPanel>
+						<g:FlowPanel>
 							<g:Label ui:field="inventoryScheme" />
 							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
-						</g:HorizontalPanel>
+						</g:FlowPanel>
 					</g:FlowPanel>
-				</g:HorizontalPanel>
+				</g:FlowPanel>
 			</g:FlowPanel>
 		</g:FlowPanel>
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

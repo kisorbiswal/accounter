@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,7 +25,7 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	@UiField
 	Label congratulationLabel1;
 	@UiField
-	HTML congratulationInfo;
+	Label congratulationInfo;
 	@UiField
 	Label headerLabel;
 
@@ -63,7 +62,7 @@ public class SetupComplitionPage extends AbstractSetupPage {
 	@Override
 	protected void createControls() {
 		headerLabel.setText(messages.congratulations());
-		congratulationInfo.setHTML(messages.setupComplitionDesc());
+		congratulationInfo.setText(messages.setupComplitionDesc());
 	}
 
 	@Override

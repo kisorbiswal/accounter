@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -46,13 +45,13 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@UiField
 	Label expensesInfo;
 	@UiField
-	HTML recommendedInfo;
+	Label recommendedInfo;
 	@UiField
 	Button restoreButton;
 	@UiField
 	Anchor expensesLink;
 	@UiField
-	HTML expensesNote;
+	Label expensesNote;
 	@UiField
 	Label headerLabel;
 	@UiField
@@ -70,16 +69,15 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(messages
-				.reviewIncomeAndExpensesAccounts());
+		headerLabel.setText(messages.reviewIncomeAndExpensesAccounts());
 
 		expensesInfo.setText(messages.doyouWantToUseStatements());
-		recommendedInfo.setHTML("<b>" + messages.noteColon() + "</b>"
-				+ messages.recommendedAccounts() + "<br>"
+		recommendedInfo.setText(messages.noteColon()
+				+ messages.recommendedAccounts()
 				+ messages.recommendedAccountsComment());
 		restoreButton.setText(messages.restoreRecommendations());
 		expensesLink.setHTML(messages.whyshoudIUseRecommended());
-		expensesNote.setHTML(messages.recommendedNote());
+		expensesNote.setText(messages.recommendedNote());
 		selectAllButton.setText(messages.selectAll());
 		restoreButton.addClickHandler(new ClickHandler() {
 

@@ -6,8 +6,8 @@
 			font-weight: bold;
 		}
 	</ui:style>
-		<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
+	<g:FlowPanel styleName="companyInfoPanel">
 		<g:CheckBox ui:field="accountNumberRangeCheck" />
 		<g:Label ui:field="label" styleName="organisation_comment" />
-	</g:VerticalPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 

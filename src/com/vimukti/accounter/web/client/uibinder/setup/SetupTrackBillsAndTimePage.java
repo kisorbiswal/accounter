@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,13 +27,13 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@UiField
 	FlowPanel managing;
 	@UiField
-	HTML trackOfBillsText;
+	Label trackOfBillsText;
 	@UiField
-	HTML trackOfBillsList;
+	Label trackOfBillsList;
 	@UiField
-	HTML managingList;
+	Label managingList;
 	@UiField
-	HTML trackTimeText;
+	Label trackTimeText;
 	@UiField
 	RadioButton managingYes;
 	@UiField
@@ -44,9 +43,9 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@UiField
 	// RadioButton trackingNo;
 	// @UiField
-	HTML managingInfo;
+	Label managingInfo;
 	@UiField
-	HTML trackingTimeDes;
+	Label trackingTimeDes;
 	@UiField
 	Label headerLabel;
 	@UiField
@@ -76,16 +75,15 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 		// trackOfBillsText.setHTML(messages.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
-		managingList.setHTML("<ui><li>" + messages.managingList1()
-				+ "</li><li>" + messages.managingList2() + "</li><li>"
-				+ messages.managingList3() + "</li></ui>");
+		managingList.setText(messages.managingList1()
+				+ messages.managingList2() + messages.managingList3());
 		// trackTimeText.setHTML(messages.doyouwantTrackBills());
 		managingYes.setText(messages.yes());
 		// trackingTimeYes.setText(messages.yes());
 		managingNo.setText(messages.no());
 		// trackingNo.setText(messages.no());
 		// trackingTimeDes.setHTML(messages.timetrackingdescription());
-		managingInfo.setHTML(messages.billstrackingdescription());
+		managingInfo.setText(messages.billstrackingdescription());
 		// track_time_head.setText(accounterMessages.trackingtimehead());
 
 	}

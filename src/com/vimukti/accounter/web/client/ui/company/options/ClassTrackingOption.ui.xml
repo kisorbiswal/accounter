@@ -6,11 +6,11 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
-		<g:VerticalPanel spacing="5">
-			<g:HorizontalPanel>
+	<g:FlowPanel styleName="companyInfoPanel">
+		<g:FlowPanel styleName="classTrackingPanel">
+			<g:FlowPanel>
 				<g:CheckBox ui:field="trackClassCheckBox" styleName="header" />
-			</g:HorizontalPanel>
+			</g:FlowPanel>
 			<g:FlowPanel ui:field="hidePanel">
 				<g:Label ui:field="classLabel" />
 				<g:FlowPanel ui:field="radioButtonPanel">
@@ -20,6 +20,6 @@
 					<g:Label ui:field="oneperdetaillineLabel" />
 				</g:FlowPanel>
 			</g:FlowPanel>
-		</g:VerticalPanel>
-	</g:VerticalPanel>
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder> 
