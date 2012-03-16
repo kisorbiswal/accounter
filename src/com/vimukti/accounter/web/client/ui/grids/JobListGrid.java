@@ -109,14 +109,14 @@ public class JobListGrid extends BaseListGrid<ClientJob> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "isActive", "jobName", "payeeName", "jobStatus",
+				"delete" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "isActiveValue", "jobNameValue",
+				"payeeNameValue", "jobStatusValue", "deleteValue" };
 	}
 
 }

@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -91,30 +92,30 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		titleLabel.addStyleName("label-title");
 		deductorName = new TextItem(messages.name(), "deductorName");
 		deductorName.setRequired(true);
-		deductorName.setEnabled(isInViewMode());
+		deductorName.setEnabled(!isInViewMode());
 
 		branchName = new TextItem(messages.branchOrdivison(), "branchName");
-		branchName.setEnabled(isInViewMode());
+		branchName.setEnabled(!isInViewMode());
 
 		flatNo = new TextItem(messages.flatNo(), "flatNo");
 		flatNo.setRequired(true);
-		flatNo.setEnabled(isInViewMode());
+		flatNo.setEnabled(!isInViewMode());
 
 		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName");
-		buildingName.setEnabled(isInViewMode());
+		buildingName.setEnabled(!isInViewMode());
 
 		streetName = new TextItem(messages.streetOrRoadName(), "streetName");
-		streetName.setEnabled(isInViewMode());
+		streetName.setEnabled(!isInViewMode());
 
 		areaName = new TextItem(messages.area(), "areaName");
-		areaName.setEnabled(isInViewMode());
+		areaName.setEnabled(!isInViewMode());
 
 		cityName = new TextItem(messages.cityOrTown(), "cityName");
-		cityName.setEnabled(isInViewMode());
+		cityName.setEnabled(!isInViewMode());
 
 		stateCombo = new SelectCombo(messages.state());
 		stateCombo.initCombo(getStatesList());
-		stateCombo.setEnabled(isInViewMode());
+		stateCombo.setEnabled(!isInViewMode());
 		stateCombo.setRequired(true);
 		stateCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -126,13 +127,13 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		pinNumber = new IntegerField(this, messages.postalCode());
-		pinNumber.setEnabled(isInViewMode());
+		pinNumber.setEnabled(!isInViewMode());
 		pinNumber.setRequired(true);
 
 		addressChangeCombo = new SelectCombo(
 				messages.hasAddressChangedSinceLastReturn());
 		addressChangeCombo.initCombo(getYESNOList());
-		addressChangeCombo.setEnabled(isInViewMode());
+		addressChangeCombo.setEnabled(!isInViewMode());
 		addressChangeCombo.setRequired(true);
 		addressChangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -147,26 +148,26 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 		stdNumber = new TextItem(messages.STDCode(), "stdNumber");
-		stdNumber.setEnabled(isInViewMode());
+		stdNumber.setEnabled(!isInViewMode());
 
 		telephoneNumber = new IntegerField(this, messages.telephoneNo());
-		telephoneNumber.setEnabled(isInViewMode());
+		telephoneNumber.setEnabled(!isInViewMode());
 
 		faxNumber = new IntegerField(this, messages.faxNumber());
-		faxNumber.setEnabled(isInViewMode());
+		faxNumber.setEnabled(!isInViewMode());
 
 		panNumber = new TextItem(messages.panNumber(), "panNumber");
-		panNumber.setEnabled(isInViewMode());
+		panNumber.setEnabled(!isInViewMode());
 		panNumber.setRequired(true);
 
 		tanNumber = new TextItem(messages.tanNumber(), "tanNumber");
-		tanNumber.setEnabled(isInViewMode());
+		tanNumber.setEnabled(!isInViewMode());
 		tanNumber.setRequired(true);
 
 		addressSameBox = new CheckboxItem(
 				messages.addressSameForResponsiblePersonAlso(),
 				"addressSameBox");
-		addressSameBox.setEnabled(isInViewMode());
+		addressSameBox.setEnabled(!isInViewMode());
 
 		taxOfficeAddrItem = new TextAreaItem(messages.taxOfficeAddress(),
 				"taxOfficeAddress");
@@ -182,7 +183,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		});
 		email = new EmailField(messages.email());
 		// email.setHelpInformation(true);
-		email.setEnabled(isInViewMode());
+		email.setEnabled(!isInViewMode());
 
 		taxDynamicForm = new DynamicForm("taxDynamicForm");
 		taxDynamicForm.add(deductorName, branchName, flatNo, buildingName,
@@ -192,7 +193,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		statusCombo = new SelectCombo(messages.status());
 		statusCombo.initCombo(getStatusTypes());
-		statusCombo.setEnabled(isInViewMode());
+		statusCombo.setEnabled(!isInViewMode());
 		statusCombo.setRequired(true);
 		statusCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -213,7 +214,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		deductorTypeOther = new SelectCombo(messages.deducatorType());
 		deductorTypeOther.initCombo(getOthersList());
 		deductorTypeOther.setSelectedItem(0);
-		deductorTypeOther.setEnabled(isInViewMode());
+		deductorTypeOther.setEnabled(!isInViewMode());
 		deductorTypeOther.setRequired(true);
 		deductorTypeOther
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -253,17 +254,17 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		paoCode = new TextItem(messages.PAOCode(), "paoCode");
-		paoCode.setEnabled(isInViewMode());
+		paoCode.setEnabled(!isInViewMode());
 
 		paoRegistration = new IntegerField(this, messages.PAORegistration());
-		paoRegistration.setEnabled(isInViewMode());
+		paoRegistration.setEnabled(!isInViewMode());
 
 		ddoCode = new TextItem(messages.ddoCode(), "telephoneNumber");
-		ddoCode.setEnabled(isInViewMode());
+		ddoCode.setEnabled(!isInViewMode());
 
 		ddoRegistration = new TextItem(messages.ddoRegistrationNumber(),
 				"ddoRegistration");
-		ddoRegistration.setEnabled(isInViewMode());
+		ddoRegistration.setEnabled(!isInViewMode());
 
 		ministryCombo = new SelectCombo(messages.ministry());
 		ministryCombo.initCombo(getMinistryType());
@@ -328,13 +329,14 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void governmentSelected() {
 		deductorTypeOther.hide();
 		deductorTypeGovernment.show();
-		paoCode.setEnabled(false);
-		paoRegistration.setEnabled(false);
-		ddoCode.setEnabled(false);
-		ddoRegistration.setEnabled(false);
-		ministryCombo.setEnabled(false);
-		ministryNameOtehr.setEnabled(false);
-		govtState.setEnabled(false);
+		deductorTypeSelected = deductorTypeGovernment.getSelectedValue();
+		paoCode.setEnabled(true);
+		paoRegistration.setEnabled(true);
+		ddoCode.setEnabled(true);
+		ddoRegistration.setEnabled(true);
+		ministryCombo.setEnabled(true);
+		ministryNameOtehr.setEnabled(true);
+		govtState.setEnabled(true);
 
 		paoCode.setRequired(true);
 		paoRegistration.setRequired(true);
@@ -349,13 +351,14 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void otherSelected() {
 		deductorTypeOther.show();
 		deductorTypeGovernment.hide();
-		paoCode.setEnabled(true);
-		paoRegistration.setEnabled(true);
-		ddoCode.setEnabled(true);
-		ddoRegistration.setEnabled(true);
-		ministryCombo.setEnabled(true);
-		ministryNameOtehr.setEnabled(true);
-		govtState.setEnabled(true);
+		deductorTypeSelected = deductorTypeOther.getSelectedValue();
+		paoCode.setEnabled(false);
+		paoRegistration.setEnabled(false);
+		ddoCode.setEnabled(false);
+		ddoRegistration.setEnabled(false);
+		ministryCombo.setEnabled(false);
+		ministryNameOtehr.setEnabled(false);
+		govtState.setEnabled(false);
 
 		paoCode.setRequired(false);
 		paoRegistration.setRequired(false);
@@ -680,6 +683,17 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
+	}
+
+	@Override
+	public void setData(ClientTDSDeductorMasters data) {
+		super.setData(data);
+		if (data == null || data.getID() == 0) {
+			this.setMode(EditMode.CREATE);
+		} else {
+			this.setMode(EditMode.EDIT);
+		}
+		showSaveButtons();
 	}
 
 	private void updateControlsForNew() {

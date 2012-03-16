@@ -36,7 +36,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private void createControls() {
 		listGridView.setType(AccounterCoreType.PAYMENT_TERM);
 		listGridView.setCellsWidth(new Integer[] { 120, 140, 130 /* , 135 */});
-//		listGridView.setSize("515px", "500px");
+		// listGridView.setSize("515px", "500px");
 		listGridView
 				.addRecordClickHandler(new GridRecordClickHandler<ClientPaymentTerms>() {
 
@@ -295,6 +295,38 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		return new String[] { messages.name(), messages.description(),
 				messages.dueDays(),
 		/* messages.cashDiscount() */};
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "description";
+		case 2:
+			return "dueDays";
+		default:
+			break;
+
+		}
+		return "";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		switch (index) {
+		case 0:
+			return "nameValue";
+		case 1:
+			return "descriptionValue";
+		case 2:
+			return "dueDaysValue";
+		default:
+			break;
+
+		}
+		return "";
 	}
 
 	@Override

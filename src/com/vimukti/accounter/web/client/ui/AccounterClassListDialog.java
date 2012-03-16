@@ -20,7 +20,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 
 	public AccounterClassListDialog(String title, String descript) {
 		super(title, descript);
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -120,6 +120,16 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "accounterClass";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "accounterClassValue";
 	}
 
 }

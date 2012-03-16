@@ -29,7 +29,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	public CustomerGroupListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("380", "300");
-//		setWidth("380px");
+		// setWidth("380px");
 		initialise();
 		center();
 	}
@@ -127,6 +127,16 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	@Override
 	public String[] setColumns() {
 		return new String[] { messages.name() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "name";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "nameValue";
 	}
 
 	@Override

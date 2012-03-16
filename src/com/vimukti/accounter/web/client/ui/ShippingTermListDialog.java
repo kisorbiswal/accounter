@@ -27,7 +27,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 	public ShippingTermListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -101,8 +101,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 		String arr[] = new String[2];
 		arr[0] = messages.shippingTerm();
 		arr[1] = messages.description();
-		inputDlg = new InputDialog(this, messages.shippingTerm(),
-				"", arr) {
+		inputDlg = new InputDialog(this, messages.shippingTerm(), "", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 
@@ -132,8 +131,35 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { messages.name(),
-				messages.description() };
+		return new String[] { messages.name(), messages.description() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "description";
+		default:
+			break;
+
+		}
+		return "";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		switch (index) {
+		case 0:
+			return "nameValue";
+		case 1:
+			return "descriptionValue";
+		default:
+			break;
+
+		}
+		return "";
 	}
 
 	@Override
@@ -155,8 +181,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 				}
 			} else {
 				if (shippingTermByName != null) {
-					result.addError(this, messages
-							.shippingTermAlreadyExists());
+					result.addError(this, messages.shippingTermAlreadyExists());
 				}
 			}
 		}

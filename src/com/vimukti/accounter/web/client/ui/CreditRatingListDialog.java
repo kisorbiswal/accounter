@@ -26,7 +26,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	public CreditRatingListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -96,8 +96,8 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
 		String creditRateString = messages.creditRating();
-		inputDlg = new InputDialog(this, messages.creditRating(),
-				"", creditRateString) {
+		inputDlg = new InputDialog(this, messages.creditRating(), "",
+				creditRateString) {
 		};
 
 		if (creditRating != null) {
@@ -149,8 +149,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			ClientCreditRating creditRating = company
 					.getCreditRatingByName(name);
 			if (creditRating != null) {
-				result.addError(this, messages
-						.creditRatingAlreadyExists());
+				result.addError(this, messages.creditRatingAlreadyExists());
 			}
 		}
 		return result;
@@ -174,6 +173,16 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "name";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "nameValue";
 	}
 
 }

@@ -46,7 +46,7 @@ public class DialogGrid<T extends IAccounterCore> extends ListGrid<T> {
 	@Override
 	public void init() {
 		super.init();
-//		super.setWidth("100%");
+		// super.setWidth("100%");
 		// super.setSize("100%", "170px");
 	}
 
@@ -96,7 +96,6 @@ public class DialogGrid<T extends IAccounterCore> extends ListGrid<T> {
 			this.cellsWidth.add(wth);
 		}
 	}
-	
 
 	@Override
 	protected int getCellWidth(int index) {

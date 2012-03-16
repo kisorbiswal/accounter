@@ -18,7 +18,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 	public CurrencyGroupListDialog(String title, String desc) {
 		super(title, desc);
-//		setWidth("400px");
+		// setWidth("400px");
 		createLayout();
 		center();
 	}
@@ -96,6 +96,16 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 	@Override
 	public String[] setColumns() {
 		return new String[] { messages.currency() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "currency";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "currencyValue";
 	}
 
 	@Override

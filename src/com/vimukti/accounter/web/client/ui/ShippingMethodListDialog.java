@@ -30,7 +30,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 	public ShippingMethodListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -102,8 +102,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 		String arr[] = new String[2];
 		arr[0] = messages.shippingMethod();
 		arr[1] = messages.description();
-		inputDlg = new InputDialog(this,
-				messages.shippingMethod(), "", arr) {
+		inputDlg = new InputDialog(this, messages.shippingMethod(), "", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 		inputDlg.setWidth("325px");
@@ -138,8 +137,35 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { messages.name(),
-				messages.description() };
+		return new String[] { messages.name(), messages.description() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "description";
+		default:
+			break;
+
+		}
+		return "";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		switch (index) {
+		case 0:
+			return "nameValue";
+		case 1:
+			return "descriptionValue";
+		default:
+			break;
+
+		}
+		return "";
 	}
 
 	@Override
@@ -162,8 +188,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 			if (shippingMethod == null) {
 				if (shippingMethodByName != null) {
-					result.addError(this, messages
-							.shippingMethodAlreadyExists());
+					result.addError(this,
+							messages.shippingMethodAlreadyExists());
 				}
 			} else {
 				if (!(shippingMethod.getName().equalsIgnoreCase(methodName) ? true

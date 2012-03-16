@@ -83,13 +83,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		StyledPanel vPanel = new StyledPanel("vPanel");
 		firstNametext = new TextItem(messages.firstName(), "firstNametext");
 		firstNametext.setRequired(true);
-		firstNametext.setEnabled(isInViewMode());
+		firstNametext.setEnabled(!isInViewMode());
 		lastNametext = new TextItem(messages.lastName(), "lastNametext");
 		lastNametext.setRequired(true);
-		lastNametext.setEnabled(isInViewMode());
+		lastNametext.setEnabled(!isInViewMode());
 		emailField = new EmailField(messages.email());
 		emailField.setRequired(true);
-		emailField.setEnabled(isInViewMode());
+		emailField.setEnabled(!isInViewMode());
 		emailField.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -102,7 +102,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		});
 		emailCombo = new SelectCombo(messages.email());
 		emailCombo.setRequired(true);
-		emailCombo.setEnabled(isInViewMode());
+		emailCombo.setEnabled(!isInViewMode());
 		emailCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -369,7 +369,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		lastNametext.setEnabled(!isInViewMode());
 		if (!Accounter.getUser().getEmail().equals(data.getEmail()))
 			emailField.setEnabled(!isInViewMode());
-		emailCombo.setEnabled(!isInViewMode());
+		emailCombo.setEnabled(isInViewMode());
 		// grid.setDisabled(isInViewMode());
 		ClientUser user = Accounter.getUser();
 		if (data.isAdmin()) {

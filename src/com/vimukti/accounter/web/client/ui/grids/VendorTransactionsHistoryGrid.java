@@ -90,6 +90,18 @@ public abstract class VendorTransactionsHistoryGrid extends
 	}
 
 	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "date", "type", "no", "memo", "dueDate",
+				"amount", "account", "status" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "dateValue", "typeValue", "noValue", "memoValue",
+				"dueDateValue", "amountValue", "accountValue", "statusValue" };
+	}
+
+	@Override
 	public void onDoubleClick(final TransactionHistory obj) {
 		if (!isCanOpenTransactionView(obj.getSavestaus(), obj.getType())) {
 			return;

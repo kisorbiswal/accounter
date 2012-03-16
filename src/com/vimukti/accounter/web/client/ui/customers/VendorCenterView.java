@@ -122,18 +122,6 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 
 				onVendorSelected();
 			}
-
-			@Override
-			protected String[] setHeaderStyle() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			protected String[] setRowElementsStyle() {
-				// TODO Auto-generated method stub
-				return null;
-			}
 		};
 		vendHistoryGrid.init();
 		vendHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global
@@ -156,7 +144,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(vendHistoryGrid);
 		rightVpPanel.add(pager);
-//		vendHistoryGrid.setHeight("494px");
+		// vendHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		deleteButtonPanel = new StyledPanel("deleteButtonPanel");

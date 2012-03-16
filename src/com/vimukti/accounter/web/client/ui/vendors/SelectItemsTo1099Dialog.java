@@ -85,11 +85,11 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private void createControls() {
-//		setWidth("570px");
+		// setWidth("570px");
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		addButton = new Button(messages.add());
-//		addButton.setWidth("80px");
+		// addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
@@ -113,7 +113,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		addButton.setEnabled(false);
 
 		removeButton = new Button(messages.remove());
-//		removeButton.setWidth("80px");
+		// removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (selectItemsGrid.getSelection() != null) {
@@ -135,7 +135,31 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		});
 		removeButton.setEnabled(false);
 
-		availItemsGrid = new DialogGrid<T>(false);
+		availItemsGrid = new DialogGrid<T>(false) {
+
+			@Override
+			protected String getHeaderStyle(int index) {
+				switch (index) {
+				case 0:
+					return "selectFromList";
+				default:
+					break;
+				}
+				return "";
+			}
+
+			@Override
+			protected String getRowElementsStyle(int index) {
+				switch (index) {
+				case 0:
+					return "selectFromList";
+				default:
+					break;
+				}
+				return "";
+			}
+
+		};
 
 		availItemsGrid.setName(messages.available());
 		setAvailVendorsGridFields();
@@ -157,7 +181,31 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		buttonsLayout.add(addButton);
 		buttonsLayout.add(removeButton);
 
-		selectItemsGrid = new DialogGrid<T>(false);
+		selectItemsGrid = new DialogGrid<T>(false) {
+
+			@Override
+			protected String getHeaderStyle(int index) {
+				switch (index) {
+				case 0:
+					return "trackPaymentsFor1099";
+				default:
+					break;
+				}
+				return "";
+			}
+
+			@Override
+			protected String getRowElementsStyle(int index) {
+				switch (index) {
+				case 0:
+					return "trackPaymentsFor1099";
+				default:
+					break;
+				}
+				return "";
+			}
+
+		};
 		selectItemsGrid.setName(messages.selected());
 		setSelectedVendorsGridFields();
 		setSelectedVendorGridCellWidths();

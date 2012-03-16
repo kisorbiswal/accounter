@@ -82,6 +82,18 @@ public abstract class CustomerTransactionsHistoryGrid extends
 	}
 
 	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "date", "type", "no", "memo", "dueDate",
+				"amount", "status" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "dateValue", "typeValue", "noValue", "memoValue",
+				"dueDateValue", "amountValue", "statusValue" };
+	}
+
+	@Override
 	public void onDoubleClick(TransactionHistory obj) {
 		if (isCanOpenTransactionView(obj.getSavestaus(), obj.getType())) {
 			ReportsRPC.openTransactionView(obj.getType(),

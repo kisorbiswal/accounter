@@ -61,14 +61,24 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		// bodyLayout.setWidth("100%");
 		// bodyLayout.setSpacing(5);
 
-		listGridView = new DialogGrid(false);
+		listGridView = new DialogGrid(false) {
+			@Override
+			protected String getHeaderStyle(int index) {
+				return GroupDialog.this.getHeaderStyle(index);
+			}
+
+			@Override
+			protected String getRowElementsStyle(int index) {
+				return GroupDialog.this.getRowElementsStyle(index);
+			}
+		};
 		listGridView.setView(this);
 		listGridView.addColumns(setColumns());
 		listGridView.setColumnTypes(getColunmTypes());
 		DialogGrid.BODY_WIDTH = 1;
 		listGridView.isEnable = false;
 		listGridView.init();
-//		listGridView.setWidth("100%");
+		// listGridView.setWidth("100%");
 		initGrid(getRecords());
 
 		/**
@@ -79,7 +89,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		button1 = new Button(messages.add());
 		button1.setTitle(messages.clickThisTo(messages.addNewLine() + " "
 				+ this.getText().replace(messages.manage(), ""), ""));
-//		button1.setWidth("80px");
+		// button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
 
@@ -92,7 +102,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 		button2 = new Button(messages.edit());
 		button2.setEnabled(false);
-//		button2.setWidth("80px");
+		// button2.setWidth("80px");
 		button2.setTitle(messages.clickThisTo(messages.edit(), this.getText()
 				.replace(messages.manage(), "")));
 		button2.addClickHandler(new ClickHandler() {
@@ -105,7 +115,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 		button3 = new Button(this.messages.remove());
 		button3.setEnabled(false);
-//		button3.setWidth("80px");
+		// button3.setWidth("80px");
 		button2.setTitle(messages.clickThisTo(messages.delete(), this.getText()
 				.replace(messages.manage(), "")));
 		button3.addClickHandler(new ClickHandler() {
@@ -145,6 +155,10 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		addInputDialogHandler(dialogHandler);
 
 	}
+
+	public abstract String getHeaderStyle(int index);
+
+	public abstract String getRowElementsStyle(int index);
 
 	public Integer[] getColunmTypes() {
 		return null;

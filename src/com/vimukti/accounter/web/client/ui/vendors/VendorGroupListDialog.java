@@ -28,7 +28,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	public VendorGroupListDialog() {
 		super(Global.get().messages().manageVendorGroup(Global.get().Vendor()),
 				Global.get().messages().toAddPayeeGroup(Global.get().Vendor()));
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -140,6 +140,16 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 	@Override
 	public String[] setColumns() {
 		return new String[] { messages.name() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "name";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "nameValue";
 	}
 
 	@Override

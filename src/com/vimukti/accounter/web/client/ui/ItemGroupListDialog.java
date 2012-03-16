@@ -26,7 +26,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 	public ItemGroupListDialog(String title, String descript) {
 		super(title, descript);
 		// setSize("400", "330");
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -118,6 +118,16 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 		return new String[] { messages.name(),
 		// FinanceApplication.constants().price()
 		};
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "itemgroupname";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "itemgroupnameValue";
 	}
 
 	@Override

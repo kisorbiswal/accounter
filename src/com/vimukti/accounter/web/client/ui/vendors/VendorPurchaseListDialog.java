@@ -48,7 +48,46 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		mainLayout.add(infoLabel);
 
-		grid = new DialogGrid(false);
+		grid = new DialogGrid(false) {
+
+			@Override
+			protected String getHeaderStyle(int index) {
+				switch (index) {
+				case 0:
+					return "date";
+				case 1:
+					return "number";
+				case 2:
+					return "type";
+				case 3:
+					return "vendorname";
+				case 4:
+					return "total";
+				default:
+					break;
+				}
+				return "";
+			}
+
+			@Override
+			protected String getRowElementsStyle(int index) {
+				switch (index) {
+				case 0:
+					return "dateValue";
+				case 1:
+					return "numberValue";
+				case 2:
+					return "typeValue";
+				case 3:
+					return "vendornameValue";
+				case 4:
+					return "totalValue";
+				default:
+					break;
+				}
+				return "";
+			}
+		};
 		grid.addColumns(messages.date(), messages.no(), messages.type(),
 				messages.payeeName(Global.get().Vendor()), messages.total());
 		grid.setView(this);
@@ -88,7 +127,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 		StyledPanel okButtonLayout = new StyledPanel("okButtonLayout");
 		Button okButton = new Button(messages.ok());
-//		okButton.setWidth("100px");
+		// okButton.setWidth("100px");
 		okButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -103,7 +142,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		});
 		okButtonLayout.add(okButton);
 		Button cancelButton = new Button(messages.cancel());
-//		cancelButton.setWidth("100px");
+		// cancelButton.setWidth("100px");
 		cancelButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -117,7 +156,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		buttonLayout.add(okButtonLayout);
 
 		mainLayout.add(buttonLayout);
-//		mainLayout.setSize("100%", "100%");
+		// mainLayout.setSize("100%", "100%");
 
 		add(mainLayout);
 	}

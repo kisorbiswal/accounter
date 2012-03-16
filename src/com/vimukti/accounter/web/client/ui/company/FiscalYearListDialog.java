@@ -88,8 +88,8 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(messages.title(),
-						messages.description()).show();
+				new ChangeStartDateDialog(messages.title(), messages
+						.description()).show();
 			}
 		});
 		// setHeight(250);
@@ -137,6 +137,16 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	}
 
 	@Override
+	public String getHeaderStyle(int index) {
+		return "fiscalyear";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "fiscalyear";
+	}
+
+	@Override
 	protected List<ClientFiscalYear> getRecords() {
 		return null;
 	}
@@ -159,6 +169,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

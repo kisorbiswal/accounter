@@ -219,7 +219,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		addButton.setEnabled(false);
 
 		removeButton = new Button(messages.remove());
-//		removeButton.setWidth("80px");
+		// removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (selectTaxItemsGrid.getSelection() != null) {
@@ -253,6 +253,34 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			@Override
 			protected Object getColumnValue(ClientTAXItem obj, int index) {
 				return getAvailTaxItemsGridColumnValue(obj, index);
+			}
+
+			@Override
+			public String getHeaderStyle(int index) {
+				switch (index) {
+				case 0:
+					return "name";
+				case 1:
+					return "currentRate";
+				default:
+					break;
+
+				}
+				return "";
+			}
+
+			@Override
+			public String getRowElementsStyle(int index) {
+				switch (index) {
+				case 0:
+					return "nameValue";
+				case 1:
+					return "currentRateValue";
+				default:
+					break;
+
+				}
+				return "";
 			}
 		};
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
@@ -289,6 +317,34 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			@Override
 			protected Object getColumnValue(ClientTAXItem obj, int index) {
 				return getAvailTaxItemsGridColumnValue(obj, index);
+			}
+
+			@Override
+			public String getHeaderStyle(int index) {
+				switch (index) {
+				case 0:
+					return "name";
+				case 1:
+					return "currentRate";
+				default:
+					break;
+
+				}
+				return "";
+			}
+
+			@Override
+			public String getRowElementsStyle(int index) {
+				switch (index) {
+				case 0:
+					return "nameValue";
+				case 1:
+					return "currentRateValue";
+				default:
+					break;
+
+				}
+				return "";
 			}
 		};
 		selectTaxItemsGrid.setName(messages.selected());

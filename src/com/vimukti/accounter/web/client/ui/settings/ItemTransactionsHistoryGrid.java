@@ -226,4 +226,16 @@ public abstract class ItemTransactionsHistoryGrid extends
 		result.append(unit.getName());
 		return result.toString();
 	}
+
+	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "date", "type", "no", "memo", "quantity",
+				"amount" };
+	}
+
+	@Override
+	protected String[] setRowElementsStyle() {
+		return new String[] { "dateValue", "typeValue", "noValue", "memoValue",
+				"quantityValue", "amountValue" };
+	}
 }

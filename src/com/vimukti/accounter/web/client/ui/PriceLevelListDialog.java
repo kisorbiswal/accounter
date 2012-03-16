@@ -30,7 +30,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 		super(title, descript);
 		// setSize("400px", "");
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 
@@ -161,6 +161,34 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	@Override
 	public String[] setColumns() {
 		return new String[] { messages.name(), messages.percentage() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		switch (index) {
+		case 0:
+			return "name";
+		case 1:
+			return "percentage";
+		default:
+			break;
+
+		}
+		return "";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		switch (index) {
+		case 0:
+			return "nameValue";
+		case 1:
+			return "percentageValue";
+		default:
+			break;
+
+		}
+		return "";
 	}
 
 	@Override

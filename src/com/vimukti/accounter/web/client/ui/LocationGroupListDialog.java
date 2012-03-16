@@ -20,7 +20,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	public LocationGroupListDialog(String title, String descript) {
 		super(title, descript);
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		center();
 	}
@@ -89,6 +89,16 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 	@Override
 	public String[] setColumns() {
 		return new String[] { messages.locationName(Global.get().Location()), };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "locationName";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "locationNameValue";
 	}
 
 	@Override

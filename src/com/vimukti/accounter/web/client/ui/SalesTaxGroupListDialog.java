@@ -32,7 +32,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	public SalesTaxGroupListDialog(String title, String desc) {
 		super(title, desc);
-//		setWidth("400px");
+		// setWidth("400px");
 		initialise();
 		// mainPanel.setSpacing(3);
 		center();
@@ -200,6 +200,16 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	public String[] setColumns() {
 
 		return new String[] { messages.name() };
+	}
+
+	@Override
+	public String getHeaderStyle(int index) {
+		return "name";
+	}
+
+	@Override
+	public String getRowElementsStyle(int index) {
+		return "nameValue";
 	}
 
 	@Override
