@@ -152,6 +152,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
 		noteDialog = new NoteDialog(messages.addNote(), "");
+		noteDialog.setAsset(asset);
 		noteDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
