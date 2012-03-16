@@ -51,7 +51,6 @@ import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.EmailForm;
 import com.vimukti.accounter.web.client.ui.GwtTabPanel;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
-import com.vimukti.accounter.web.client.ui.StyleTabPanelImpl;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -194,19 +193,19 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class); 
-		
+		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class);
+
 		listforms = new ArrayList<DynamicForm>();
 		tabSet.add(getGeneralTab(), messages.general());
 		tabSet.add(getDetailsTab(), messages.details());
-
+		tabSet.selectTab(0);
 		createCustomFieldControls();
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(tabSet.getPanel());
 
 		this.add(mainVLay);
-		
+
 	}
 
 	@Override
@@ -363,22 +362,22 @@ public class VendorView extends BaseView<ClientVendor> {
 		}
 		// vendorNameText.setHelpInformation(true);
 		vendorNameText.setRequired(true);
-//		vendorNameText.setWidth(100);
+		// vendorNameText.setWidth(100);
 		vendorNameText.setEnabled(!isInViewMode());
 
 		vendorNoText = new TextItem(
 				messages.payeeNumber(Global.get().Vendor()), "vendorNoText");
 		// vendorNoText.setHelpInformation(true);
 		vendorNoText.setRequired(true);
-//		vendorNoText.setWidth(100);
+		// vendorNoText.setWidth(100);
 
 		fileAsText = new TextItem(messages.fileAs(), "fileAsText");
 		// fileAsText.setHelpInformation(true);
-//		fileAsText.setWidth(100);
+		// fileAsText.setWidth(100);
 
 		taxID = new TextItem("Tax ID", "taxID");
 		// taxID.setHelpInformation(true);
-//		taxID.setWidth(100);
+		// taxID.setWidth(100);
 		taxID.setEnabled(!isInViewMode());
 		vendorNameText.addChangeHandler(new ChangeHandler() {
 
@@ -632,7 +631,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		creditLimitText = new AmountField(messages.creditLimit(), this,
 				getBaseCurrency(), "creditLimitText");
 		// creditLimitText.setHelpInformation(true);
-//		creditLimitText.setWidth(100);
+		// creditLimitText.setWidth(100);
 		creditLimitText.setEnabled(!isInViewMode());
 
 		preferredShippingSelect = new ShippingMethodsCombo(

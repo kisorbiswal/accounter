@@ -255,7 +255,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		listforms = new ArrayList<DynamicForm>();
 		tabSet.add(getGeneralTab(), messages.general());
 		tabSet.add(getDetailsTab(), messages.details());
-
+		tabSet.selectTab(0);
 		createCustomFieldControls();
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
