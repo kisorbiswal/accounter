@@ -397,7 +397,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			result.addError(custNameText, messages.alreadyExist());
 			return result;
 		}
-
+		if (currencyCombo != null && !currencyCombo.isShowFactorField()) {
+			if (currencyCombo.getCurrencyFactor() <= 0) {
+				result.addError(currencyCombo,
+						messages.pleaseEntervalidCurrencyFactor());
+			}
+		}
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
 		gridView.validate(result);
@@ -1456,6 +1461,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			String value = payeeFields.get(key);
 			TextItem item = new TextItem(key, "key");
 			item.setValue(value);
+			item.setTitle(key);
 			balanceForm.add(item);
 			itemsField.put(key, item);
 			item.setEnabled(!isInViewMode());

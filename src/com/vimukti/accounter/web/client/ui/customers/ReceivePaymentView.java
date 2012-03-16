@@ -654,7 +654,7 @@ public class ReceivePaymentView extends
 			jobListCombo = createJobListCombo();
 			jobListCombo.setEnabled(false);
 			depoForm.add(jobListCombo);
-
+		}
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
@@ -737,7 +737,7 @@ public class ReceivePaymentView extends
 		// }
 		// unUsedPaymentsTextForeignCurrency.hide();
 		// }
-		}
+		
 	}
 
 	protected void updateTotalWithTDS() {

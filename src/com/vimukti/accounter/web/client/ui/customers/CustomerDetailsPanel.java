@@ -21,7 +21,7 @@ public class CustomerDetailsPanel extends FlowPanel {
 	LabelItem name, email, currency, fax, customersince, webpageadress, notes,
 			address;
 	AmountLabel balance, openingBalance;
-	Label heading;
+	Label heading, custname;
 	private ClientAddress payeeAddress;
 	private Set<ClientAddress> addressListOfCustomer;
 	private DynamicForm leftform, rightform;
@@ -72,11 +72,11 @@ public class CustomerDetailsPanel extends FlowPanel {
 
 		heading = new Label(messages.payeeDetails(Global.get().Customers())
 				+ " :");
-//		custname = new Label();
-//		custname.setText(messages.noPayeeSelected(Global.get().Customer()));
+		custname = new Label();
+		custname.setText(messages.noPayeeSelected(Global.get().Customer()));
 
 		headingPanel.add(heading);
-		//headingPanel.add(custname);
+		 headingPanel.add(custname);
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
@@ -88,7 +88,7 @@ public class CustomerDetailsPanel extends FlowPanel {
 	protected void showCustomerDetails(ClientCustomer selectedCustomer) {
 		if (selectedCustomer != null) {
 			addressListOfCustomer = selectedCustomer.getAddress();
-			//custname.setText(selectedCustomer.getName());
+			 custname.setText(selectedCustomer.getName());
 			name.setValue(selectedCustomer.getName());
 
 			email.setValue(selectedCustomer.getEmail());
