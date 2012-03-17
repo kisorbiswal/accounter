@@ -19,6 +19,7 @@ public class CurrencyComboWidget extends DynamicForm {
 	private List<ClientCurrency> currencies;
 	private boolean showFactorField = true;
 	private final CurrencyFormItem currencyForm;
+	private double factor = 1.0;
 
 	public CurrencyComboWidget(List<ClientCurrency> currencies,
 			ClientCurrency baseCurrency) {
@@ -62,10 +63,16 @@ public class CurrencyComboWidget extends DynamicForm {
 	}
 
 	private void factorFieldChagned(double factor) {
+		this.factor = factor;
+		// when enter the negative factor then set the factor to 1.0
+		if (factor <= 0.0) {
+			factor = 1.0;
+			this.factor = 1.0;
+			currencyForm.setValue(factor);
+		}
 		if (listener != null) {
 			ClientCurrency selectedValue = currencyCombo.getSelectedValue();
 			listener.currencyChanged(selectedValue, factor);
-
 		}
 	}
 
