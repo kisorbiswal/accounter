@@ -10925,7 +10925,7 @@
 				          v.item_name,
 				          v.item_purchase_description,
 				          v.preffered_vendor,
-				          v.item_total_quantity,v.reorder_point,p.id;  
+				          v.item_total_quantity,v.reorder_point,p.id,v.item_measurement;  
 		]]>
 		
 	</sql-query>
@@ -10983,7 +10983,7 @@
 				          v.item_total_quantity,
 				          v.reorder_point, 
 				          v.item_id,
-				          p.id;   
+				          p.id, v.item_measurement;   
 		]]>
 		
 	</sql-query>
