@@ -109,10 +109,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			if (depositTo != null) {
 				depositToCombo.setSelected(depositTo.getName());
 			}
-			if (isTrackClass()) {
-				classListCombo.setComboItem(getCompany().getAccounterClass(
-						transaction.getAccounterClass()));
-			}
 
 			transactionDateItem.setValue(transaction.getDate());
 			transactionNumber.setValue(transaction.getNumber());
@@ -134,10 +130,41 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 			totalLabel
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionDepositItem(this.transactionDepositItems);
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
+				}
+			}
 		}
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
+	}
+
+	/**
+	 * 
+	 * @param transactionDepositItems
+	 * @return
+	 */
+	private ClientAccounterClass getClassForTransactionDepositItem(
+			List<ClientTransactionDepositItem> transactionDepositItems) {
+		ClientAccounterClass accounterClass = null;
+		for (ClientTransactionDepositItem clientTransactionItem : transactionDepositItems) {
+			if (clientTransactionItem.getAccounterClass() != 0) {
+				accounterClass = getCompany().getAccounterClass(
+						clientTransactionItem.getAccounterClass());
+				if (accounterClass != null) {
+					break;
+				} else {
+					continue;
+				}
+			}
+		}
+		return accounterClass;
 	}
 
 	@Override
@@ -207,7 +234,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			depositToForm.add(locationCombo);
 		depositToForm.add(paymentMethodCombo);
 		classListCombo = createAccounterClassListCombo();
-		if (isTrackClass()) {
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			depositToForm.add(classListCombo);
 		}
 		leftPanel.add(depositToForm);
@@ -250,7 +277,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		memoTextAreaItem.setDisabled(this.isInViewMode());
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
-//		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 
 		totalLabel = new AmountLabel(
@@ -269,16 +296,16 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		transactionDepositTable.setEnabled(!isInViewMode());
 
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
-//		bottomLayout.setWidth("100%");
+		// bottomLayout.setWidth("100%");
 
 		StyledPanel bottompanel = new StyledPanel("bottompanel");
-//		bottompanel.setWidth("100%");
+		// bottompanel.setWidth("100%");
 
 		bottomLayout.add(memoForm);
 		bottomLayout.add(totalForm);
 		bottompanel.add(bottomLayout);
 
-//		mainPanel.setSize("100%", "100%");
+		// mainPanel.setSize("100%", "100%");
 		mainPanel.add(lab);
 		mainPanel.add(voidedPanel);
 		mainPanel.add(datepanel);
@@ -349,7 +376,13 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			}
 			transaction.setTransactionDepositItems(transactionDepositItems);
 		}
-
+		// CLASS TRACKING
+		if (!isClassPerDetailLine() && accounterClass != null
+				&& transactionDepositItems != null) {
+			for (ClientTransactionDepositItem item : transactionDepositItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 		// Setting Payee
 		ClientAccount depositTo = depositToCombo.getSelectedValue();
 		if (depositTo != null)
@@ -367,10 +400,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
-		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
-			transaction.setAccounterClass(classListCombo.getSelectedValue()
-					.getID());
-		}
 	}
 
 	@Override
@@ -605,5 +634,5 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			classListCombo.setValue("");
 		}
 	}
-	
+
 }
