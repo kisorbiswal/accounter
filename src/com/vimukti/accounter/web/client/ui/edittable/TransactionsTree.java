@@ -461,7 +461,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	double grandTotal = 0.0;
 
 	private void updateEstimateTotal(ClientEstimate transaction) {
-		if (transaction.getEstimateType() == ClientEstimate.CREDITS) {
+		if (transaction.getEstimateType() == ClientEstimate.CREDITS
+				|| transaction.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
 			grandTotal -= transaction.getTotal();
 			lineTotal -= transaction.getNetAmount();
 			totalTax -= transaction.getTaxTotal();
@@ -473,6 +474,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			lineTotal += transaction.getNetAmount()
 					/ currencyProvider.getCurrencyFactor();
 			totalTax += transaction.getTaxTotal()
+					/ currencyProvider.getCurrencyFactor();
+		} else if (transaction.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES
+				&& currencyProvider.getTransactionCurrency().getID() != transaction
+						.getCurrency()) {
+			grandTotal -= transaction.getTotal()
+					/ currencyProvider.getCurrencyFactor();
+			lineTotal -= transaction.getNetAmount()
+					/ currencyProvider.getCurrencyFactor();
+			totalTax -= transaction.getTaxTotal()
 					/ currencyProvider.getCurrencyFactor();
 		} else {
 			grandTotal += transaction.getTotal();

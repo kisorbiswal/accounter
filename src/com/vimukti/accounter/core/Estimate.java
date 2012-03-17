@@ -282,7 +282,8 @@ public class Estimate extends Transaction {
 
 	@Override
 	public boolean isPositiveTransaction() {
-		if (this.estimateType == CREDITS) {
+		if (this.estimateType == CREDITS
+				|| this.estimateType == DEPOSIT_EXPENSES) {
 			return false;
 		}
 		return true;

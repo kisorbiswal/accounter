@@ -133,7 +133,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setEnabled(true);
+						checkNoText.setEnabled(false);
 					} else {
 						if (payFromCombo.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -143,7 +143,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setEnabled(false);
+				checkNoText.setEnabled(true);
 
 			}
 		});
@@ -229,7 +229,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		rightVlay.add(balForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVlay.add(currencyWidget);
-			currencyWidget.setEnabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
@@ -363,7 +363,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		grid.isEnable = false;
 		grid.init();
 		grid.setPayVATView(this);
-		grid.setEnabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		gridLayout.add(grid);
 
 	}

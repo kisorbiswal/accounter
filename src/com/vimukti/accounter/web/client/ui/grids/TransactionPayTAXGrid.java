@@ -216,11 +216,11 @@ public class TransactionPayTAXGrid extends
 	@Override
 	protected String getRowElementsStyle(int index) {
 		switch (index) {
-		case 1:
+		case 0:
 			return "taxFiledDate-value";
-		case 2:
+		case 1:
 			return "taxDue-value";
-		case 3:
+		case 2:
 			return "payment-value";
 		default:
 			return "";

@@ -735,7 +735,7 @@ public abstract class CustomTable extends FlowPanel {
 	}
 
 	public void setEnabled(boolean disable) {
-		this.disable = disable;
+		this.disable = !disable;
 		this.addStyleName("disableGrid");
 		if (isMultiSelectionEnable) {
 			Widget widget = this.header.getWidget(0, 0);
