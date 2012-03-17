@@ -100,7 +100,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	CheckboxItem statusCheck, selectCheckBox, tdsCheckBox;
 
 	PriceLevelCombo priceLevelSelect;
-	CreditRatingCombo creditRatingSelect;
+	// CreditRatingCombo creditRatingSelect;
 
 	TextItem bankAccountSelect;
 	TextItem bankNameSelect;
@@ -223,13 +223,13 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					.getShippingMethod()));
 	}
 
-	private void initCreditRatingList() {
-		creditRatingSelect.initCombo(company.getCreditRatings());
-
-		if (data != null && data.getCreditRating() != 0)
-			creditRatingSelect.setComboItem(company.getCreditRating(data
-					.getCreditRating()));
-	}
+	// private void initCreditRatingList() {
+	// creditRatingSelect.initCombo(company.getCreditRatings());
+	//
+	// if (data != null && data.getCreditRating() != 0)
+	// creditRatingSelect.setComboItem(company.getCreditRating(data
+	// .getCreditRating()));
+	// }
 
 	private void initPriceLevelList() {
 
@@ -939,17 +939,18 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		creditLimitText = new AmountField(messages.creditLimit(), this,
 				getBaseCurrency(), "creditLimitText");
 
-		creditRatingSelect = new CreditRatingCombo(messages.creditRating());
-		creditRatingSelect
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
-
-					@Override
-					public void selectedComboBoxItem(
-							ClientCreditRating selectItem) {
-						selectCreditRatingFromDetailsTab = selectItem;
-					}
-
-				});
+		// creditRatingSelect = new CreditRatingCombo(messages.creditRating());
+		// creditRatingSelect
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<ClientCreditRating>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(
+		// ClientCreditRating selectItem) {
+		// selectCreditRatingFromDetailsTab = selectItem;
+		// }
+		//
+		// });
 
 		bankAccountSelect = new TextItem(messages.bankAccountNumber(),
 				"bankAccountSelect");
@@ -966,9 +967,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		DynamicForm financeDitailsForm = UIUtils.form(messages
 				.financialDetails());
 
-		financeDitailsForm.add(salesPersonSelect, creditRatingSelect,
-				creditLimitText, bankNameSelect, bankAccountSelect,
-				bankBranchSelect);
+		financeDitailsForm.add(salesPersonSelect, creditLimitText,
+				bankNameSelect, bankAccountSelect, bankBranchSelect);
 
 		if (getPreferences().isTrackTax()) {
 
@@ -1074,7 +1074,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		salesPersonSelect.setEnabled(!isInViewMode());
 		creditLimitText.setEnabled(!isInViewMode());
 		priceLevelSelect.setEnabled(!isInViewMode());
-		creditRatingSelect.setEnabled(!isInViewMode());
+		// creditRatingSelect.setEnabled(!isInViewMode());
 		bankAccountSelect.setEnabled(!isInViewMode());
 		bankNameSelect.setEnabled(!isInViewMode());
 		bankBranchSelect.setEnabled(!isInViewMode());
@@ -1147,7 +1147,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		initCustomerGroupList();
 		initPaymentTermsList();
 		initShippingMethodList();
-		initCreditRatingList();
+		// initCreditRatingList();
 		// initPriceLevelList();
 		if (data != null && data.getPhoneNo() != null)
 			data.setPhoneNo(data.getPhoneNo());
@@ -1380,7 +1380,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		salesPersonSelect.setEnabled(isInViewMode());
 		creditLimitText.setEnabled(!isInViewMode());
 		priceLevelSelect.setEnabled(isInViewMode());
-		creditRatingSelect.setEnabled(isInViewMode());
+		// creditRatingSelect.setEnabled(isInViewMode());
 		// currencyCombo.setDisabled(!isInViewMode(), isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
 		// .getPrimaryCurrency())) {

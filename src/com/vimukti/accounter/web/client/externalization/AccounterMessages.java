@@ -6140,6 +6140,8 @@ public interface AccounterMessages extends Messages {
 
 	public String subscription(String users);
 
+	public String manageSalesGroups();
+
 	public String OneUser();
 
 	public String TwoUsers();

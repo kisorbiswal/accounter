@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PayVatTableRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -55,8 +56,8 @@ public class PayVATCommand extends AbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							if (e.getIsActive()
-									&& (e.getType() == Account.TYPE_BANK || e
-											.getType() == Account.TYPE_OTHER_ASSET)) {
+									&& (e.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET || e
+											.getType() == ClientAccount.TYPE_CREDIT_CARD)) {
 								return true;
 							}
 							return false;
@@ -83,7 +84,7 @@ public class PayVATCommand extends AbstractTransactionCommand {
 
 		list.add(new StringListRequirement(PAYMENT_METHOD, getMessages()
 				.pleaseEnterName(getMessages().paymentMethod()), getMessages()
-				.paymentMethod(), false, true, null) {
+				.paymentMethod(), false, false, null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -207,7 +208,8 @@ public class PayVATCommand extends AbstractTransactionCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, getMessages().youDoNotHavePermissionToDoThisAction());
+			addFirstMessage(context, getMessages()
+					.youDoNotHavePermissionToDoThisAction());
 			return "cancel";
 		}
 		return null;
