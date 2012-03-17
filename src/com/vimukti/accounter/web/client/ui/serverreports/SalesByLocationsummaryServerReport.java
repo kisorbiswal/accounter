@@ -11,12 +11,15 @@ public class SalesByLocationsummaryServerReport extends
 	private String currentsectionName = "";
 	private double accountBalance = 0.0D;
 	private boolean isLocation;
+	private boolean isCustomer;
 
 	public SalesByLocationsummaryServerReport(
 			IFinanceReport<SalesByLocationSummary> reportView,
-			boolean isLocation) {
+			boolean isLocation, boolean isCustomer) {
 		this.reportView = reportView;
 		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
+
 	}
 
 	public SalesByLocationsummaryServerReport(long startDate, long endDate,
@@ -31,10 +34,22 @@ public class SalesByLocationsummaryServerReport extends
 
 	@Override
 	public String getTitle() {
-		if (!isLocation) {
-			return messages.salesByClassSummary();
+		String actionsting = null;
+		if (isCustomer) {
+			if (isLocation) {
+				actionsting = messages.salesByLocationSummary(Global.get()
+						.Location());
+			} else {
+				actionsting = messages.salesByClassSummary();
+			}
+		} else {
+			if (isLocation) {
+				actionsting = messages.purchasesbyLocationSummary();
+			} else {
+				actionsting = messages.purchasesbyClassSummary();
+			}
 		}
-		return messages.salesByLocationSummary(Global.get().Location());
+		return actionsting;
 	}
 
 	@Override

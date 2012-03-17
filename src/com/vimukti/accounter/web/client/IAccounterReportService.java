@@ -280,11 +280,11 @@ public interface IAccounterReportService extends RemoteService {
 			long fromDate, long toDate) throws AccounterException;
 
 	ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
-			boolean isLocation, String locationName,
+			boolean isLocation, boolean isCustomer, String locationName,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<MISC1099TransactionDetail> getMISC1099TransactionDetailReport(

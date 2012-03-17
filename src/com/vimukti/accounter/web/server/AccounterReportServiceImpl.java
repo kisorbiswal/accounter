@@ -1493,18 +1493,26 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
-			boolean isLocation, String locationName,
+			boolean isLocation, boolean isCustomer, String locationName,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return getSalesByLocationDetailsForLocation(isLocation, isCustomer,
+				locationName, startDate, endDate, getCompanyId());
+	}
+
+	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsForLocation(
+			boolean isLocation, boolean isCustomer, String locationName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 		ArrayList<SalesByLocationDetails> salesByLocationDetailList = new ArrayList<SalesByLocationDetails>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
+				endDate, companyId);
 
 		try {
 			salesByLocationDetailList = getFinanceTool().getSalesManager()
 					.getSalesByLocationDetailForLocation(isLocation,
-							locationName, financeDates[0], financeDates[1],
-							getCompanyId());
+							isCustomer, locationName, financeDates[0],
+							financeDates[1], companyId);
 			SalesByLocationDetails obj = new SalesByLocationDetails();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList
@@ -1520,15 +1528,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		return salesByLocationSummary(isLocation, startDate, endDate,
-				getCompanyId());
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return salesByLocationSummary(isLocation, isCustomer, startDate,
+				endDate, getCompanyId());
 	}
 
 	private ArrayList<SalesByLocationSummary> salesByLocationSummary(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long companyId) {
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 
 		ArrayList<SalesByLocationSummary> salesByLocationDetailList = new ArrayList<SalesByLocationSummary>();
 
@@ -1537,8 +1546,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			salesByLocationDetailList = getFinanceTool().getSalesManager()
-					.getSalesByLocationSummary(isLocation, financeDates[0],
-							financeDates[1], companyId);
+					.getSalesByLocationSummary(isLocation, isCustomer,
+							financeDates[0], financeDates[1], companyId);
 			SalesByLocationSummary obj = new SalesByLocationSummary();
 			if (salesByLocationDetailList != null)
 				salesByLocationDetailList
@@ -2738,16 +2747,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long companyId) {
-		return salesByLocationDetailsReport(isLocation, true, startDate,
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		return salesByLocationDetailsReport(isLocation, isCustomer, startDate,
 				endDate, companyId);
 	}
 
 	public ArrayList<SalesByLocationSummary> getSalesByLocationSummaryReport(
-			boolean isLocation, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long companyId) {
-		return salesByLocationSummary(isLocation, startDate, endDate, companyId);
+			boolean isLocation, boolean isCustomer,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+		return salesByLocationSummary(isLocation, isCustomer, startDate,
+				endDate, companyId);
 	}
 
 	public ArrayList<AgedDebtors> getAgedCreditors(ClientFinanceDate startDate,

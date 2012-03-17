@@ -213,12 +213,13 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
 
 	public void getSalesByLocationDetailsForLocation(boolean isLocation,
-			String locationName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
+			boolean isCustomer, String locationName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationDetails>> callBack);
 
 	public void getSalesByLocationSummaryReport(boolean isLocation,
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			boolean isCustomer, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByLocationSummary>> callBack);
 
 	public void getCashFlowReport(ClientFinanceDate startDate,

@@ -269,8 +269,8 @@ public class SalesManager extends Manager {
 	}
 
 	public ArrayList<SalesByLocationSummary> getSalesByLocationSummary(
-			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
-			long companyId) {
+			boolean isLocation, boolean isCustomer, FinanceDate startDate,
+			FinanceDate endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
@@ -289,20 +289,34 @@ public class SalesManager extends Manager {
 			startDate1 = new FinanceDate(year, 01, 01);
 
 		List l;
-		if (isLocation) {
-			l = ((Query) session.getNamedQuery("getSalesByLocationSummary")
-					.setParameter("companyId", companyId)
 
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())).list();
+		if (isCustomer) {
+			if (isLocation) {
+				l = ((Query) session.getNamedQuery("getSalesByLocationSummary")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			} else {
+				l = ((Query) session.getNamedQuery("getSalesByClassSummary")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			}
 		} else {
-			l = ((Query) session.getNamedQuery("getSalesByClassSummary")
-					.setParameter("companyId", companyId)
+			if (isLocation) {
+				l = ((Query) session
+						.getNamedQuery("getPurchaseByLocationSummary")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
 
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())).list();
+			} else {
+				l = ((Query) session.getNamedQuery("getPurchaseByClassSummary")
+						.setParameter("companyId", companyId)
+						.setParameter("startDate", startDate.getDate())
+						.setParameter("endDate", endDate.getDate())).list();
+			}
 		}
-
 		Iterator iterator = l.iterator();
 		Object[] object = null;
 		if (iterator != null) {
@@ -321,8 +335,8 @@ public class SalesManager extends Manager {
 	}
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailForLocation(
-			boolean isLocation, String locationName, FinanceDate startDate,
-			FinanceDate endDate, long companyId) {
+			boolean isLocation, boolean isCustomer, String locationName,
+			FinanceDate startDate, FinanceDate endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
@@ -345,29 +359,54 @@ public class SalesManager extends Manager {
 		if (locationName == null) {
 			locationName = "";
 		}
-		if (isLocation) {
-			l = ((Query) session
-					.getNamedQuery("getSalesByLocationDetailForLocation")
-					.setParameter("companyId", companyId)
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())
-					.setParameter(
-							"locationName",
-							locationName == null || locationName.isEmpty() ? null
-									: locationName,
-							EncryptedStringType.INSTANCE)).list();
+		String queryName = null;
+
+		if (isCustomer) {
+			if (isLocation) {
+				queryName = "getSalesByLocationDetailForLocation";
+			} else {
+				queryName = "getSalesByClassDetailForClass";
+			}
 		} else {
-			l = ((Query) session
-					.getNamedQuery("getSalesByClassDetailForClass")
-					.setParameter("companyId", companyId)
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())
-					.setParameter(
-							"className",
-							locationName == null || locationName.isEmpty() ? null
-									: locationName,
-							EncryptedStringType.INSTANCE)).list();
+			if (isLocation) {
+				queryName = "getPurchaseByLocationDetailForLocation";
+			} else {
+				queryName = "getPurchaseByClassDetailForClass";
+			}
 		}
+		l = ((Query) session
+				.getNamedQuery(queryName)
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter(
+						"locationORClassName",
+						locationName == null || locationName.isEmpty() ? null
+								: locationName, EncryptedStringType.INSTANCE))
+				.list();
+		// if (isLocation) {
+		// l = ((Query) session
+		// .getNamedQuery("getSalesByLocationDetailForLocation")
+		// .setParameter("companyId", companyId)
+		// .setParameter("startDate", startDate.getDate())
+		// .setParameter("endDate", endDate.getDate())
+		// .setParameter(
+		// "locationName",
+		// locationName == null || locationName.isEmpty() ? null
+		// : locationName,
+		// EncryptedStringType.INSTANCE)).list();
+		// } else {
+		// l = ((Query) session
+		// .getNamedQuery("getSalesByClassDetailForClass")
+		// .setParameter("companyId", companyId)
+		// .setParameter("startDate", startDate.getDate())
+		// .setParameter("endDate", endDate.getDate())
+		// .setParameter(
+		// "className",
+		// locationName == null || locationName.isEmpty() ? null
+		// : locationName,
+		// EncryptedStringType.INSTANCE)).list();
+		// }
 
 		Iterator iterator = l.iterator();
 		Object[] object = null;
@@ -442,7 +481,7 @@ public class SalesManager extends Manager {
 						.setParameter("endDate", endDate.getDate())).list();
 			}
 		} else {
-			if (!isLocation) {
+			if (isLocation) {
 				l = ((Query) session
 						.getNamedQuery("getPurchaseByLocationDetail")
 						.setParameter("companyId", companyId)

@@ -383,6 +383,8 @@ public class HistoryTokens {
 	public static final String INVENTORY_ASSEMBLY_ITEMS = "inventoryAssemblyItems";
 	public static final String PURCHASESBYCLASSDETAIL = "PurchasesbyClassDetail";
 	public static final String PURCHASESBYLOCATIONDETAIL = "PurchasesByLocationDetails";
+	public static final String PURCHASESBYLOCATIONSUMMARY = "PurchasesByLocationSummary";
+	public static final String PURCHASESBYCLASSSUMMARY = "PurchasesbyClassSummary";
 
 	public HistoryTokens() {
 

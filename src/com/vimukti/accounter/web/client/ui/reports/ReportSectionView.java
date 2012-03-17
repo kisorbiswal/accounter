@@ -38,7 +38,7 @@ public class ReportSectionView extends BaseHomeView {
 	@Override
 	public void init() {
 		getLeftLayout().add(createControl());
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 	}
 
 	private StyledPanel createControl() {
@@ -178,14 +178,16 @@ public class ReportSectionView extends BaseHomeView {
 					.getHistoryToken());
 			salesMap.put(messages.salesByLocationSummary(Global.get()
 					.Location()), ActionFactory
-					.getSalesByLocationSummaryAction(true).getHistoryToken());
+					.getSalesByLocationSummaryAction(true, true)
+					.getHistoryToken());
 		}
 		if (Global.get().preferences().isClassTrackingEnabled()) {
 			salesMap.put(messages.salesByClassDetails(), ActionFactory
 					.getSalesByLocationDetailsAction(false, true)
 					.getHistoryToken());
 			salesMap.put(messages.salesByClassSummary(), ActionFactory
-					.getSalesByLocationSummaryAction(false).getHistoryToken());
+					.getSalesByLocationSummaryAction(false, true)
+					.getHistoryToken());
 
 		}
 

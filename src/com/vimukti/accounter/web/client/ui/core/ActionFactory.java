@@ -1243,9 +1243,8 @@ public class ActionFactory {
 	}
 
 	public static SalesByLocationSummaryAction getSalesByLocationSummaryAction(
-			boolean isLocation) {
-
-		return new SalesByLocationSummaryAction(isLocation);
+			boolean isLocation, boolean isCustomer) {
+		return new SalesByLocationSummaryAction(isLocation, isCustomer);
 	}
 
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction(
