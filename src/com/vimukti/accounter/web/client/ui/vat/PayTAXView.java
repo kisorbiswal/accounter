@@ -115,7 +115,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 				});
 
-		payFromAccCombo.setEnabled(isInViewMode());
+		payFromAccCombo.setEnabled(!isInViewMode());
 		payFromAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
@@ -123,7 +123,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
-		printCheck.setEnabled(true);
+		printCheck.setEnabled(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -154,7 +154,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
 								.check())))
-			checkNoText.setEnabled(true);
+			checkNoText.setEnabled(false);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -165,7 +165,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		billsDue = new DateField(messages.returnsDueOnOrBefore(), "billsDue");
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
-		billsDue.setEnabled(isInViewMode());
+		billsDue.setEnabled(!isInViewMode());
 		billsDue.setEnteredDate(new ClientFinanceDate());
 
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -204,12 +204,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency(), "amountText");
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		amountText.setEnabled(true);
+		amountText.setEnabled(false);
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "endingBalanceText");
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		endingBalanceText.setEnabled(true);
+		endingBalanceText.setEnabled(false);
 
 		balForm = new DynamicForm("balForm");
 		balForm = UIUtils.form(messages.balances());

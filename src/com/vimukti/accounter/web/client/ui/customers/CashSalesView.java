@@ -48,7 +48,6 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
-import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
@@ -387,9 +386,6 @@ public class CashSalesView extends
 		});
 
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
-		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
-				.create(GwtDisclosurePanel.class);
-		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT

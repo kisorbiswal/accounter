@@ -274,22 +274,17 @@ public class CustomerCreditMemoView extends
 		itemsStyledPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsStyledPanel);
 
-		StyledPanel taxPanel = new StyledPanel("nonEditablePanel");
-		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
-		DynamicForm totalForm = new DynamicForm("totalForm");
-
 		DynamicForm form = new DynamicForm("boldtext");
-
+		DynamicForm taxForm = new DynamicForm("taxForm");
 		discountField = getDiscountField();
 
 		if (isTrackTax()) {
-			netAmountForm.add(netAmountLabel);
-			taxPanel.add(netAmountForm);
-			taxPanel.add(taxTotalNonEditableText);
+			form.add(netAmountLabel);
+			form.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				form.add(taxCodeSelect);
+				taxForm.add(taxCodeSelect);
 			}
-			form.add(vatinclusiveCheck);
+			taxForm.add(vatinclusiveCheck);
 		}
 
 		if (isTrackDiscounts()) {
@@ -297,15 +292,15 @@ public class CustomerCreditMemoView extends
 				form.add(discountField);
 			}
 		}
-		totalForm.add(transactionTotalBaseCurrencyText);
+		form.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			totalForm.add(foreignCurrencyamountLabel);
+			form.add(foreignCurrencyamountLabel);
 		}
-		taxPanel.add(totalForm);
 
 		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 
 		prodAndServiceHLay.add(prodAndServiceForm1);
+		prodAndServiceHLay.add(taxForm);
 		prodAndServiceHLay.add(form);
 
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
@@ -327,7 +322,6 @@ public class CustomerCreditMemoView extends
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-		mainVLay.add(prodAndServiceHLay);
 
 		StyledPanel disPanel = new StyledPanel("dislosurePanel");
 		disPanel.add(accountsDisclosurePanel.getPanel());
@@ -340,15 +334,14 @@ public class CustomerCreditMemoView extends
 		StyledPanel customerCreditMemoViewPanel = new StyledPanel(
 				"customerCreditMemoViewPanel");
 		customerCreditMemoViewPanel.add(mainControlsPanel);
-		customerCreditMemoViewPanel.add(taxPanel);
+		customerCreditMemoViewPanel.add(prodAndServiceHLay);
 		this.add(customerCreditMemoViewPanel);
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
 		listforms.add(phoneForm);
 		listforms.add(prodAndServiceForm1);
-		listforms.add(netAmountForm);
-		listforms.add(totalForm);
+		listforms.add(taxForm);
 
 		settabIndexes();
 		if (isMultiCurrencyEnabled()) {
@@ -999,12 +992,12 @@ public class CustomerCreditMemoView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		 accountsDisclosurePanel.setOpen(checkOpen(
-		 transaction.getTransactionItems(),
-		 ClientTransactionItem.TYPE_ACCOUNT, true));
-		 itemsDisclosurePanel.setOpen(checkOpen(
-		 transaction.getTransactionItems(),
-		 ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
