@@ -3164,8 +3164,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByVendor(
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getInventoryManager()
-				.getInventoryStockStatusByVendor(getCompanyId(), start, end);
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<InventoryStockStatusDetail> list = getFinanceTool()
+				.getInventoryManager().getInventoryStockStatusByVendor(
+						getCompanyId(), start, end);
+		InventoryStockStatusDetail obj = new InventoryStockStatusDetail();
+		if (list != null)
+			list.add((InventoryStockStatusDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
 	}
 
 	@Override
@@ -3191,8 +3199,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByItem(
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getInventoryManager()
-				.getInventoryStockStatusByItem(getCompanyId(), start, end);
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<InventoryStockStatusDetail> list = getFinanceTool()
+				.getInventoryManager().getInventoryStockStatusByItem(
+						getCompanyId(), start, end);
+		InventoryStockStatusDetail obj = new InventoryStockStatusDetail();
+		if (list != null)
+			list.add((InventoryStockStatusDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
 	}
 
 	@Override

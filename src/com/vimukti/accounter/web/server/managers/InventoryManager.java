@@ -523,9 +523,13 @@ public class InventoryManager extends Manager {
 			InventoryStockStatusDetail detail = new InventoryStockStatusDetail();
 			detail.setItemName((String) next[0]);
 			detail.setItemDesc((String) next[1]);
-			detail.setPreferVendor(((Long) next[2]));
+			detail.setPreferVendor((String) next[2]);
 			detail.setOnHand(((Long) next[3]));
 			detail.setItemId((Long) next[4]);
+			detail.setAssemblies(next[5] != null ? (Long) next[5] : 0);
+			detail.setOrderOnPo(next[6] != null ? (Long) next[6] : 0);
+			detail.setOnSalesOrder(next[7] != null ? (Long) next[7] : 0);
+			detail.setReorderPts(next[8] != null ? (Integer) next[8] : 0);
 			result.add(detail);
 		}
 		return result;
@@ -588,9 +592,13 @@ public class InventoryManager extends Manager {
 			InventoryStockStatusDetail detail = new InventoryStockStatusDetail();
 			detail.setItemName((String) next[0]);
 			detail.setItemDesc((String) next[1]);
-			detail.setPreferVendor(((Long) next[2]));
-			detail.setOnHand(((Long) next[3]));
-			detail.setItemId((Long) next[4]);
+			detail.setPreferVendor((String) next[2]);
+			detail.setOnHand(next[3] != null ? (Long) next[3] : 0);
+			detail.setItemId(next[4] != null ? (Long) next[4] : 0);
+			detail.setAssemblies(next[5] != null ? (Long) next[5] : 0);
+			detail.setOrderOnPo(next[6] != null ? (Long) next[6] : 0);
+			detail.setOnSalesOrder(next[7] != null ? (Long) next[7] : 0);
+			detail.setReorderPts(next[8] != null ? (Integer) next[8] : 0);
 			result.add(detail);
 		}
 		return result;
