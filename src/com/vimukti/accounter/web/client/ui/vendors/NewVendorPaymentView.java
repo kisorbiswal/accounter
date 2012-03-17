@@ -516,6 +516,7 @@ public class NewVendorPaymentView extends
 				transactionDateItem.getValue().getDate());
 		if (!isInViewMode()) {
 			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
+			paymentMethodSelected(vendor.getPaymentMethod());
 		}
 	}
 
