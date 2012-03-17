@@ -101,12 +101,12 @@ public class VendorManager extends PayeeManager {
 
 			// /If length will be -1 then get list for mobile With out limits
 
-			if (length == -1) {
-				list = query.list();
-			} else {
-				total = query.list().size();
-				list = query.setFirstResult(start).setMaxResults(length).list();
-			}
+			// if (length == -1) {
+			list = query.list();
+			// } else {
+			// total = query.list().size();
+			// list = query.setFirstResult(start).setMaxResults(length).list();
+			// }
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
@@ -160,9 +160,21 @@ public class VendorManager extends PayeeManager {
 							queryResult.set(j + 1, tmpBillsList);
 						}
 				}
-				queryResult.setTotalCount(total);
-				queryResult.setStart(start);
-				return queryResult;
+				total = queryResult.size();
+				PaginationList<BillsList> result = new PaginationList<BillsList>();
+				int toIndex = start + length;
+				if (toIndex > queryResult.size()) {
+					toIndex = queryResult.size();
+				}
+				if (length == -1) {
+					result.addAll(queryResult);
+				} else {
+					result.addAll(queryResult.subList(start, toIndex));
+				}
+
+				result.setTotalCount(total);
+				result.setStart(start);
+				return result;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));
