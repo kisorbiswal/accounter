@@ -63,7 +63,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	private void createControls() {
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
 		taxAgencyCombo.setRequired(true);
-
+		taxAgencyCombo.setEnabled(!isInViewMode());
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
 
