@@ -101,6 +101,7 @@ public class PurchaseOrderView extends
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
+		this.getElement().setId("PurchaseOrderView");
 	}
 
 	@Override
@@ -164,7 +165,8 @@ public class PurchaseOrderView extends
 
 		StyledPanel prodAndServiceHLay = new StyledPanel("prodAndServiceHLay");
 
-		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
+		DynamicForm transactionTotalForm = new DynamicForm(
+				"transactionTotalForm");
 
 		DynamicForm form = new DynamicForm("form");
 
@@ -243,7 +245,6 @@ public class PurchaseOrderView extends
 		}
 		amountsForm.add(transactionTotalForm);
 
-
 		prodAndServiceHLay.add(amountsForm);
 
 		vendorCombo = new VendorCombo(Global.get().Vendor(), true);
@@ -269,7 +270,7 @@ public class PurchaseOrderView extends
 		// contactCombo.setWidth(100);
 		// billToCombo = createVendorAddressComboItem();
 		// billToCombo.setTitle(FinanceApplication.constants().billTo());
-		billtoAreaItem = new TextAreaItem(messages.billTo(),"billtoAreaItem");
+		billtoAreaItem = new TextAreaItem(messages.billTo(), "billtoAreaItem");
 		billtoAreaItem.setEnabled(false);
 
 		// shipToCombo = createShipToComboItem();
@@ -288,7 +289,7 @@ public class PurchaseOrderView extends
 		});
 		if (isInViewMode())
 			shipToAddress.businessSelect.setEnabled(false);
-		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
+		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumber());
 		phoneSelect.setEnabled(true);
 
@@ -296,14 +297,13 @@ public class PurchaseOrderView extends
 
 		vendorForm = UIUtils.form(Global.get().Vendor());
 		// vendorForm.setWidth("100%");
-		vendorForm.add(vendorCombo, contactCombo, phoneSelect,
-				billtoAreaItem);
+		vendorForm.add(vendorCombo, contactCombo, phoneSelect, billtoAreaItem);
 		// vendorForm.getCellFormatter().setWidth(0, 0, "226px");
 
 		// formItems.add(billToCombo);
 
 		purchaseOrderText = new TextItem(messages.payeeOrderNo(Global.get()
-				.Vendor()),"purchaseOrderText");
+				.Vendor()), "purchaseOrderText");
 		purchaseOrderText.setEnabled(!isInViewMode());
 
 		payTermsSelect = createPaymentTermsSelectItem();
@@ -312,7 +312,8 @@ public class PurchaseOrderView extends
 
 		shippingMethodsCombo = createShippingMethodCombo();
 
-		despatchDateItem = new DateField(messages.dispatchDate(),"despatchDateItem");
+		despatchDateItem = new DateField(messages.dispatchDate(),
+				"despatchDateItem");
 		despatchDateItem.setEnabled(!isInViewMode());
 		if (isInViewMode()) {
 		} else
@@ -348,8 +349,7 @@ public class PurchaseOrderView extends
 		}
 
 		termsForm = new DynamicForm("termsForm");
-		termsForm.add(transactionNumber, purchaseOrderText,
-				payTermsSelect);
+		termsForm.add(transactionNumber, purchaseOrderText, payTermsSelect);
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.add(shippingTermsCombo, shippingMethodsCombo);
 		}
@@ -408,7 +408,7 @@ public class PurchaseOrderView extends
 		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
 		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		accountsDisclosurePanel.setTitle(	messages.ItemizebyAccount());
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -463,11 +463,11 @@ public class PurchaseOrderView extends
 		});
 		currencyWidget = createCurrencyFactorWidget();
 		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
-		
+
 		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		itemsDisclosurePanel.setTitle(	messages.ItemizebyProductService());
-		
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
+
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -479,7 +479,7 @@ public class PurchaseOrderView extends
 		// FIXME--need to disable basing on the mode of the view being opened
 
 		// addLinksButton.setEnabled(true);
-		linksText = new TextItem("","linksText");
+		linksText = new TextItem("", "linksText");
 		linksText.setShowTitle(false);
 		linksText.setEnabled(!isInViewMode());
 		// formItems.add(linksText);

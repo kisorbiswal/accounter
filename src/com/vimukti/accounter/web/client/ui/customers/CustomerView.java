@@ -157,6 +157,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	public CustomerView() {
 		super();
+		this.getElement().setId("CustomerView");
 	}
 
 	// private void initFiscalYear() {
@@ -249,8 +250,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	private void createControls() {
 
-		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class); 
-		
+		tabSet = (GwtTabPanel) GWT.create(GwtTabPanel.class);
+
 		listforms = new ArrayList<DynamicForm>();
 		tabSet.add(getGeneralTab(), messages.general());
 		tabSet.add(getDetailsTab(), messages.details());
@@ -759,7 +760,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		currencyCombo.setEnabled(!isInViewMode());
 		accInfoForm = new DynamicForm("accInfoForm");
 		accInfoForm.add(statusCheck, customerSinceDate);
-		
+
 		balanceForm = new DynamicForm("balanceForm");
 		if (getPreferences().isPricingLevelsEnabled()) {
 			balanceForm.add(openingBalText, balanceDate, balanceText,

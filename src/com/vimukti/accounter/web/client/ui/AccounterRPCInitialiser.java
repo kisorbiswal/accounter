@@ -14,6 +14,8 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
+import com.vimukti.accounter.web.client.IAccounterWindowsHomeService;
+import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.translate.TranslateService;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 
@@ -77,5 +79,13 @@ public class AccounterRPCInitialiser {
 		((ServiceDefTarget) translateService)
 				.setServiceEntryPoint(Accounter.TRANSLATE_SERVICE_ENTRY_POINT);
 		return translateService;
+	}
+
+	public IAccounterWindowsHomeServiceAsync createWindowsRPCService() {
+		IAccounterWindowsHomeServiceAsync windowsService = (IAccounterWindowsHomeServiceAsync) GWT
+				.create(IAccounterWindowsHomeService.class);
+		((ServiceDefTarget) windowsService)
+				.setServiceEntryPoint(Accounter.WINDOW_RPC_SERVICE_ENTRY_POINT);
+		return windowsService;
 	}
 }

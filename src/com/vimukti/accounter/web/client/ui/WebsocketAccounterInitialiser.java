@@ -15,9 +15,13 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 		initWindowsGui();
 	}
 
+	public WebsocketAccounterInitialiser() {
+		initWindowsGui();
+	}
+
 	private void initWindowsGui() {
 		LoginPanel loginPanel = new LoginPanel(this);
-		accounter.removeLoadingImage();
+		// accounter.removeLoadingImage();
 		showView(loginPanel);
 	}
 

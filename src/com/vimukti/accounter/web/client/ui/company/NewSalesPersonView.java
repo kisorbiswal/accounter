@@ -319,38 +319,40 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 			genderSelect.setDefaultToFirstOption(Boolean.TRUE);
 			// gender = ClientSalesPerson.GENDER_UNSPECIFIED;
 		}
-//		addrsForm.setWidth("100%");
+		// addrsForm.setWidth("100%");
 		// addrsForm.getCellFormatter().setWidth(0, 0, "200");
 		// addrsForm.getCellFormatter().setWidth(0, 1, "125");
 		addrsForm.add(addrArea);
 		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(salesPersonForm);
 		leftVLay.add(addrsForm);
-//		addrsForm.getCellFormatter().addStyleName(0, 0, "addrsFormCellAlign");
-//		addrsForm.getCellFormatter().addStyleName(0, 1, "addrsFormCellAlign");
+		// addrsForm.getCellFormatter().addStyleName(0, 0,
+		// "addrsFormCellAlign");
+		// addrsForm.getCellFormatter().addStyleName(0, 1,
+		// "addrsFormCellAlign");
 		leftVLay.add(fonFaxForm);
 		fonFaxForm.setStyleName("phone-fax-formatter");
 		leftVLay.add(expenseAccountForm);
 
-			StyledPanel rightVLay = new StyledPanel("rightVLay");
-			rightVLay.add(emailForm);
-			rightVLay.add(salesPersonInfoForm);
-			StyledPanel topHLay = new StyledPanel("topHLay");
-			topHLay.addStyleName("fields-panel");
-			topHLay.add(leftVLay);
-			topHLay.add(rightVLay);
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
+		rightVLay.add(emailForm);
+		rightVLay.add(salesPersonInfoForm);
+		StyledPanel topHLay = new StyledPanel("topHLay");
+		topHLay.addStyleName("fields-panel");
+		topHLay.add(leftVLay);
+		topHLay.add(rightVLay);
 
-			StyledPanel mainVlay = new StyledPanel("salesPersonmainVlay");
-			mainVlay.add(topHLay);
-			this.add(mainVlay);
+		StyledPanel mainVlay = new StyledPanel("salesPersonmainVlay");
+		mainVlay.add(topHLay);
+		this.add(mainVlay);
 
-			/* Adding dynamic forms in list */
-			listforms.add(salesPersonForm);
+		/* Adding dynamic forms in list */
+		listforms.add(salesPersonForm);
 
-			listforms.add(addrsForm);
-			listforms.add(fonFaxForm);
-			listforms.add(expenseAccountForm);
-			listforms.add(memoForm);
+		listforms.add(addrsForm);
+		listforms.add(fonFaxForm);
+		listforms.add(expenseAccountForm);
+		listforms.add(memoForm);
 	}
 
 	@Override

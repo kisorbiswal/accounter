@@ -120,6 +120,7 @@ public class MakeDepositView extends
 	public MakeDepositView(ClientAccount reconcilationAccount,
 			double reconcilAmount, ClientStatementRecord statementRecord) {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		this.getElement().setId("MakeDepositView");
 		calculatedTotal = reconcilAmount;
 		this.reconcilationAccount = reconcilationAccount;
 		this.reconcilAmount = reconcilAmount;
@@ -555,7 +556,8 @@ public class MakeDepositView extends
 
 					}
 				});
-		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),"amtText");
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amtText");
 		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
@@ -564,7 +566,7 @@ public class MakeDepositView extends
 				updateTotals();
 			}
 		});
-		memoText = new TextAreaItem(messages.memo(),"memoText");
+		memoText = new TextAreaItem(messages.memo(), "memoText");
 		memoText.setMemo(true, this);
 		memoText.setEnabled(!isInViewMode());
 
@@ -596,7 +598,8 @@ public class MakeDepositView extends
 
 				});
 
-		cashBackMemoText = new TextItem(messages.cashBackMemo(),"cashBackMemoText");
+		cashBackMemoText = new TextItem(messages.cashBackMemo(),
+				"cashBackMemoText");
 		cashBackMemoText.setWidth(100);
 
 		form1 = new DynamicForm("form1");
@@ -605,7 +608,7 @@ public class MakeDepositView extends
 		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(messages.cashBackAmount(), this,
-				getBaseCurrency(),"cashBackAmountText");
+				getBaseCurrency(), "cashBackAmountText");
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
 		cashBackAmountText.addChangedHandler(new ChangeHandler() {
@@ -703,11 +706,11 @@ public class MakeDepositView extends
 		Double amount = amtText.getAmount();
 		if (amtText.getCurrency().getID() != getCompany().getPrimaryCurrency()
 				.getID()) {
-		transactionTotalBaseCurrencyText
-				.setAmount(getAmountInBaseCurrency(amount));
-		if (isMultiCurrencyEnabled()) {
-			foreignCurrencyamountLabel.setAmount(amount);
-		}
+			transactionTotalBaseCurrencyText
+					.setAmount(getAmountInBaseCurrency(amount));
+			if (isMultiCurrencyEnabled()) {
+				foreignCurrencyamountLabel.setAmount(amount);
+			}
 		} else {
 			transactionTotalBaseCurrencyText.setAmount(amount);
 			if (isMultiCurrencyEnabled()) {

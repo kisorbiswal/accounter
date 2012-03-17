@@ -901,4 +901,29 @@
 		<url-pattern>/main/gopremium</url-pattern>
 	</servlet-mapping>
 
+
+	<!-- used for creating websocket connection -->
+
+	<servlet>
+		<servlet-name>ws</servlet-name>
+		<servlet-class>com.vimukti.accounter.ws.WebSocketHandler
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ws</servlet-name>
+		<url-pattern>/main/ws</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>windowsServiceImpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.web.server.AccounterWindowsHomeServiceImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>windowsServiceImpl</servlet-name>
+		<url-pattern>/do/accounter/windows/rpc/service</url-pattern>
+	</servlet-mapping>
+
 </web-app>

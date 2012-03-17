@@ -37,6 +37,8 @@ public class AuditHistoryView extends BaseView {
 	}
 
 	public AuditHistoryView(ClientActivity obj) {
+		super();
+		this.getElement().setId("AuditHistoryView");
 		objType = obj.getObjType();
 		objID = obj.getObjectID();
 		mainStyledPanel = new StyledPanel("mainStyledPanel");

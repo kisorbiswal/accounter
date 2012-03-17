@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
@@ -8,7 +7,6 @@ import com.vimukti.accounter.web.client.IAccounterExportCSVServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterWindowsHomeService;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.rpc.WebSocketRpcRequestBuilder;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
@@ -73,10 +71,8 @@ public class WebsocketAccounterRPCInitialiser extends AccounterRPCInitialiser {
 	}
 
 	public IAccounterWindowsHomeServiceAsync createWindowsRPCService() {
-		IAccounterWindowsHomeServiceAsync windowsService = (IAccounterWindowsHomeServiceAsync) GWT
-				.create(IAccounterWindowsHomeService.class);
-		((ServiceDefTarget) windowsService)
-				.setServiceEntryPoint(Accounter.WINDOW_RPC_SERVICE_ENTRY_POINT);
+		IAccounterWindowsHomeServiceAsync windowsService = super
+				.createWindowsRPCService();
 		((ServiceDefTarget) windowsService)
 				.setRpcRequestBuilder(new WebSocketRpcRequestBuilder());
 

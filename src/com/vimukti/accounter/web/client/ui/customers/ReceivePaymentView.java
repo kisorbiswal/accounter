@@ -108,7 +108,7 @@ public class ReceivePaymentView extends
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
-		this.getElement().setId("receivepaymentview");
+		this.getElement().setId("ReceivePaymentView");
 	}
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
@@ -515,7 +515,8 @@ public class ReceivePaymentView extends
 		}
 		lab.setStyleName("label-title");
 		// transactionDateItem = createTransactionDateItem();
-		transactionDateItem = new DateField(messages.date(),"transactionDateItem");
+		transactionDateItem = new DateField(messages.date(),
+				"transactionDateItem");
 		transactionDateItem
 				.setToolTip(messages.selectDateWhenTransactioCreated(this
 						.getAction().getViewName()));
@@ -737,7 +738,7 @@ public class ReceivePaymentView extends
 		// }
 		// unUsedPaymentsTextForeignCurrency.hide();
 		// }
-		
+
 	}
 
 	protected void updateTotalWithTDS() {
@@ -1175,9 +1176,9 @@ public class ReceivePaymentView extends
 		tdsAmount.setAmount(0.0D);
 		paymentAmountChanged(0.00D);
 		updateTotalWithTDS();
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
+		if (customer != null) {
+			jobListCombo.setCustomer(customer);
+		}
 	}
 
 	@Override

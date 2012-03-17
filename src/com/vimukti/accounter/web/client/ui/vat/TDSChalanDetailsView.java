@@ -39,6 +39,7 @@ public class TDSChalanDetailsView extends
 	public TDSChalanDetailsView(int formType) {
 		super(ClientTransaction.TYPE_TDS_CHALLAN);
 		this.formTypeSeclected = formType;
+		this.getElement().setId("TDSChalanDetailsView");
 	}
 
 	private AmountField incomeTaxAmount;

@@ -68,6 +68,7 @@ public class NewVendorPaymentView extends
 
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
+		this.getElement().setId("NewVendorPaymentView");
 
 	}
 
@@ -196,11 +197,11 @@ public class NewVendorPaymentView extends
 
 		// Ending and Vendor Balance
 		endBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency(),"endBalText");
+				getBaseCurrency(), "endBalText");
 		endBalText.setEnabled(!true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+				.Vendor()), this, getBaseCurrency(), "vendorBalText");
 		vendorBalText.setEnabled(!true);
 
 		// currencyCombo = new CurrencyCombo(messages.currency());
@@ -226,7 +227,8 @@ public class NewVendorPaymentView extends
 
 		// Payment
 		payFromCombo = createPayFromCombo(messages.payFrom());
-		amountText = new AmountField(messages.amount(), this, getBaseCurrency(),"amountText");
+		amountText = new AmountField(messages.amount(), this,
+				getBaseCurrency(), "amountText");
 		amountText.setRequired(true);
 		amountText.addBlurHandler(getBlurHandler());
 
@@ -234,7 +236,7 @@ public class NewVendorPaymentView extends
 		paymentMethodCombo.setComboItem(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 
-		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -281,7 +283,6 @@ public class NewVendorPaymentView extends
 				.setAmount(payFromCombo.getSelectedValue() != null ? payFromCombo
 						.getSelectedValue().getCurrentBalance() : 0.00);
 
-
 		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		// leftPanel.setWidth("100%");
 		leftPanel.add(payForm);
@@ -297,7 +298,8 @@ public class NewVendorPaymentView extends
 				adjustBalance();
 			}
 		});
-		this.amountIncludeTds = new CheckboxItem(messages.amountIncludesTDS(),"amountIncludeTds");
+		this.amountIncludeTds = new CheckboxItem(messages.amountIncludesTDS(),
+				"amountIncludeTds");
 		amountIncludeTds.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
