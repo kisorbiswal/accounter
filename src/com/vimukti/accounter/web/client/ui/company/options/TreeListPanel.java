@@ -59,8 +59,7 @@ public abstract class TreeListPanel extends SimplePanel {
 								.getParentElement().removeAttribute("class");
 					}
 					TreeListPanel.this.prevElement = menuItemLink;
-					menuItemLink.getElement().getParentElement()
-							.addClassName("menu_item_clicked");
+					menuItemLink.addStyleName("menu_item_clicked");
 				}
 			});
 
@@ -71,13 +70,11 @@ public abstract class TreeListPanel extends SimplePanel {
 					if (TreeListPanel.this.prevMouseOverElement != null) {
 						int widgetIndex = mainListPanel
 								.getWidgetIndex(prevMouseOverElement);
-						mainListPanel.getWidget(widgetIndex).getElement()
-
-						.removeClassName("menu_item_hover");
+						mainListPanel.getWidget(widgetIndex).removeStyleName(
+								"menu_item_hover");
 					}
 					TreeListPanel.this.prevMouseOverElement = menuItemLink;
-					menuItemLink.getElement().getParentElement()
-							.addClassName("menu_item_hover");
+					menuItemLink.addStyleName("menu_item_hover");
 
 				}
 			});
@@ -89,17 +86,15 @@ public abstract class TreeListPanel extends SimplePanel {
 					if (TreeListPanel.this.prevMouseOverElement != null) {
 						int widgetIndex = mainListPanel
 								.getWidgetIndex(prevMouseOverElement);
-						mainListPanel.getWidget(widgetIndex).getElement()
-								.getParentElement()
-								.removeClassName("menu_item_hover");
+						mainListPanel.getWidget(widgetIndex).removeStyleName(
+								"menu_item_hover");
 					}
 				}
 			});
 			mainListPanel.add(menuItemLink);
 		}
 		prevElement = (Anchor) mainListPanel.getWidget(1);
-		mainListPanel.getWidget(1).getElement().getParentElement()
-				.addClassName("menu_item_clicked");
+		mainListPanel.getWidget(1).addStyleName("menu_item_clicked");
 	}
 
 	public void addMenuPanel(final String menuTitle,
@@ -152,8 +147,7 @@ public abstract class TreeListPanel extends SimplePanel {
 							.getParentElement().removeAttribute("class");
 				}
 				TreeListPanel.this.prevElement = anchor;
-				anchor.getElement().getParentElement()
-						.addClassName("menu_item_clicked");
+				anchor.addStyleName("menu_item_clicked");
 			}
 		}
 	}

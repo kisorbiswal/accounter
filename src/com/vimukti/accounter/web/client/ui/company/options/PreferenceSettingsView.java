@@ -71,7 +71,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				.addClassName("page_details_panel_td");
 		mainPanel.addStyleName("company_settings_panel");
 		this.add(mainPanel);
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 	}
 
 	private List<PreferencePage> getPreferencePages() {
@@ -176,7 +176,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private StyledPanel createPageView(final PreferencePage page) {
 		final StyledPanel pageView = new StyledPanel("pageView");
-//		pageView.setWidth("100%");
+		// pageView.setWidth("100%");
 		List<AbstractPreferenceOption> options = page.getOptions();
 		for (int index = 0; index < options.size(); index++) {
 			final AbstractPreferenceOption option = options.get(index);
@@ -190,16 +190,14 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
-					optionLink.getElement().getParentElement()
-							.addClassName("optionFocused");
+					optionLink.addStyleName("optionFocused");
 				}
 			});
 			optionLink.addMouseOutHandler(new MouseOutHandler() {
 
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
-					optionLink.getElement().getParentElement()
-							.removeClassName("optionFocused");
+					optionLink.removeStyleName("optionFocused");
 				}
 			});
 			optionLink.addClickHandler(new ClickHandler() {
@@ -216,14 +214,12 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 									.getWidgetCount(); index++) {
 								Widget widget = ((ComplexPanel) pageview)
 										.getWidget(index);
-								widget.getElement().getParentElement()
-										.removeClassName("optionClicked");
+								widget.removeStyleName("optionClicked");
 							}
 						}
 					}
 
-					optionLink.getElement().getParentElement()
-							.addClassName("optionClicked");
+					optionLink.addStyleName("optionClicked");
 					if (!page.isAttached()) {
 						pageDetailsPanel.clear();
 						pageDetailsPanel.add(page);
