@@ -912,8 +912,10 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.getUserName() : " ";
 						break;
 					case 2:
-						columnValue = Utility.getActivityType(obj
-								.getActivityType());
+						String dataType = obj.getDataType() == null ? "" : obj
+								.getDataType();
+						columnValue = Utility.getActivityType(
+								obj.getActivityType()).concat(dataType);
 						break;
 					case 3:
 						columnValue = obj.getName() != null ? obj.getName()
