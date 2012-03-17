@@ -4222,102 +4222,103 @@
 		<return-scalar column="memo" type="encryptedstring" />
 		<return-scalar column="c_name" type="encryptedstring" />
 			<![CDATA[
-				   SELECT A.NAME         AS ACCOUNT_NAME,
-					       CASE
-					         WHEN T.T_TYPE = 28 THEN NULL
-					         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
-					         ELSE P.NAME
-					       END            AS PAYEE_NAME,
-					       T.ID           AS TRANSACTION_ID,
-					       CASE
-					         WHEN T.T_TYPE = 11
-					              AND PB.PAYBILL_TYPE = 2 THEN 25
-					         ELSE T.T_TYPE
-					       END            AS TRANSACTION_TYPE,
-					       T.T_DATE       AS TRANSACTION_DATE,
-					       T.NUMBER       AS TRANSACTION_NUMBER,
-					       SUM(AT.AMOUNT) AS AMOUNT,
-					       CASE
-					         WHEN T.T_TYPE = 11
-					              AND PB.PAYBILL_TYPE = 2 THEN NULL
-					         ELSE T.MEMO
-					       END            AS MEMO,
-					       C.FULL_NAME    AS C_NAME
-					FROM   ACCOUNT_TRANSACTION AT
-					       LEFT OUTER JOIN TRANSACTION T
-					         ON AT.TRANSACTION_ID = T.ID
-					       LEFT OUTER JOIN TRANSACTION_ITEM TI
-					         ON TI.TRANSACTION_ID = T.ID
-					       LEFT OUTER JOIN LOCATION L
-					         ON L.ID = T.LOCATION_ID
-					       LEFT OUTER JOIN JOB J
-					         ON J.ID = T.JOB_ID
-					       LEFT OUTER JOIN ACCOUNTER_CLASS AC
-					         ON AC.ID = TI.TRANS_ITEM_ACCOUNTER_CLASS
-					       LEFT OUTER JOIN ACCOUNT A
-					         ON A.ID = AT.ACCOUNT_ID
-					       LEFT OUTER JOIN CASH_PURCHASE CP
-					         ON T.ID = CP.ID
-					       LEFT OUTER JOIN CASH_SALES CS
-					         ON T.ID = CS.ID
-					       LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
-					         ON T.ID = CCC.ID
-					       LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM
-					         ON T.ID = CCM.ID
-					       LEFT OUTER JOIN ENTER_BILL EB
-					         ON T.ID = EB.ID
-					       LEFT OUTER JOIN INVOICE I
-					         ON T.ID = I.ID
-					       LEFT OUTER JOIN VENDOR_CREDIT_MEMO VCM
-					         ON T.ID = VCM.ID
-					       LEFT OUTER JOIN WRITE_CHECKS WC
-					         ON T.ID = WC.ID
-					       LEFT OUTER JOIN RECEIVE_PAYMENT RP
-					         ON T.ID = RP.ID
-					       LEFT OUTER JOIN PAY_BILL PB
-					         ON T.ID = PB.ID
-					       LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP
-					         ON T.ID = CPP.ID
-					       LEFT OUTER JOIN CUSTOMER_REFUND CR
-					         ON T.ID = CR.ID
-					       LEFT JOIN JOURNAL_ENTRY JE
-					         ON T.ID = JE.ID
-					       LEFT OUTER JOIN PAYEE P
-					         ON P.ID = CP.VENDOR_ID
-					             OR P.ID = CCC.VENDOR_ID
-					             OR P.ID = EB.VENDOR_ID
-					             OR P.ID = VCM.VENDOR_ID
-					             OR P.ID = WC.VENDOR_ID
-					             OR P.ID = CS.CUSTOMER_ID
-					             OR P.ID = CCM.CUSTOMER_ID
-					             OR P.ID = WC.CUSTOMER_ID
-					             OR P.ID = WC.TAX_AGENCY_ID
-					             OR P.ID = I.CUSTOMER_ID
-					             OR P.ID = RP.CUSTOMER_ID
-					             OR P.ID = PB.VENDOR_ID
-					             OR P.ID = CPP.CUSTOMER_ID
-					             OR P.ID = CR.CUSTOMER_ID
-					       LEFT OUTER JOIN USERS U
-					         ON U.ID = CP.EMPLOYEE
-					       LEFT OUTER JOIN CLIENT C
-					         ON C.ID = U.CLIENT_ID
-					WHERE  T.COMPANY_ID = :companyId
-					       AND 
-					           CASE WHEN 2=:categoryType THEN L.ID=:categoryId 
-								WHEN 3=:categoryType THEN J.ID=:categoryId
-								WHEN 1=:categoryType THEN AC.ID=:categoryId
-							 END
-					       AND A.ID =:accountID
-					       AND T.T_TYPE NOT IN ( 9 )
-					       AND T.T_DATE BETWEEN :startDate AND :endDate
-					       AND AT.AMOUNT != 0
-					GROUP  BY T.ID,
-					          PB.ID,
-					          A.NAME,
-					          P.NAME,
-					          C.FULL_NAME,
-					          WC.IN_FAVOUR_OF
-					ORDER  BY A.NAME  
+						    SELECT A.NAME         AS ACCOUNT_NAME,
+							       CASE
+							         WHEN T.T_TYPE = 28 THEN NULL
+							         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
+							         ELSE P.NAME
+							       END            AS PAYEE_NAME,
+							       T.ID           AS TRANSACTION_ID,
+							       CASE
+							         WHEN T.T_TYPE = 11
+							              AND PB.PAYBILL_TYPE = 2 THEN 25
+							         ELSE T.T_TYPE
+							       END            AS TRANSACTION_TYPE,
+							       T.T_DATE       AS TRANSACTION_DATE,
+							       T.NUMBER       AS TRANSACTION_NUMBER,
+							       SUM(AT.AMOUNT) AS AMOUNT,
+							       CASE
+							         WHEN T.T_TYPE = 11
+							              AND PB.PAYBILL_TYPE = 2 THEN NULL
+							         ELSE T.MEMO
+							       END            AS MEMO,
+							       C.FULL_NAME    AS C_NAME
+							FROM   ACCOUNT_TRANSACTION AT
+							       LEFT OUTER JOIN TRANSACTION T
+							         ON AT.TRANSACTION_ID = T.ID
+							       LEFT OUTER JOIN LOCATION L
+							         ON L.ID = T.LOCATION_ID
+							       LEFT OUTER JOIN JOB J
+							         ON J.ID = T.JOB_ID
+							       LEFT OUTER JOIN ACCOUNTER_CLASS AC
+							         ON AC.ID = T.TRANSACTION_ACCOUNTER_CLASS
+							       LEFT OUTER JOIN ACCOUNT A
+							         ON A.ID = AT.ACCOUNT_ID
+							       LEFT OUTER JOIN CASH_PURCHASE CP
+							         ON T.ID = CP.ID
+							       LEFT OUTER JOIN CASH_SALES CS
+							         ON T.ID = CS.ID
+							       LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
+							         ON T.ID = CCC.ID
+							       LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CCM
+							         ON T.ID = CCM.ID
+							       LEFT OUTER JOIN ENTER_BILL EB
+							         ON T.ID = EB.ID
+							       LEFT OUTER JOIN INVOICE I
+							         ON T.ID = I.ID
+							       LEFT OUTER JOIN VENDOR_CREDIT_MEMO VCM
+							         ON T.ID = VCM.ID
+							       LEFT OUTER JOIN WRITE_CHECKS WC
+							         ON T.ID = WC.ID
+							       LEFT OUTER JOIN RECEIVE_PAYMENT RP
+							         ON T.ID = RP.ID
+							       LEFT OUTER JOIN PAY_BILL PB
+							         ON T.ID = PB.ID
+							       LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP
+							         ON T.ID = CPP.ID
+							       LEFT OUTER JOIN CUSTOMER_REFUND CR
+							         ON T.ID = CR.ID
+							       LEFT JOIN JOURNAL_ENTRY JE
+							         ON T.ID = JE.ID
+							       LEFT OUTER JOIN PAYEE P
+							         ON P.ID = CP.VENDOR_ID
+							             OR P.ID = CCC.VENDOR_ID
+							             OR P.ID = EB.VENDOR_ID
+							             OR P.ID = VCM.VENDOR_ID
+							             OR P.ID = WC.VENDOR_ID
+							             OR P.ID = CS.CUSTOMER_ID
+							             OR P.ID = CCM.CUSTOMER_ID
+							             OR P.ID = WC.CUSTOMER_ID
+							             OR P.ID = WC.TAX_AGENCY_ID
+							             OR P.ID = I.CUSTOMER_ID
+							             OR P.ID = RP.CUSTOMER_ID
+							             OR P.ID = PB.VENDOR_ID
+							             OR P.ID = CPP.CUSTOMER_ID
+							             OR P.ID = CR.CUSTOMER_ID
+							       LEFT OUTER JOIN USERS U
+							         ON U.ID = CP.EMPLOYEE
+							       LEFT OUTER JOIN CLIENT C
+							         ON C.ID = U.CLIENT_ID
+							WHERE  T.COMPANY_ID = :companyId
+							        AND A.ID =:accountID
+							       AND T.T_TYPE NOT IN ( 9 )
+							       AND T.T_DATE BETWEEN :startDate AND :endDate
+							       AND AT.AMOUNT != 0
+							       AND CASE WHEN 2=:categoryType THEN L.ID=:categoryId 
+								         WHEN 3=:categoryType THEN J.ID=:categoryId
+							                 WHEN 1=:categoryType THEN ( T.TRANSACTION_ACCOUNTER_CLASS = :categoryId
+							                               OR T.ID IN (SELECT TI.TRANSACTION_ID
+							                                           FROM   TRANSACTION_ITEM TI
+							                                           WHERE  TI.TRANS_ITEM_ACCOUNTER_CLASS
+							                                                  = :categoryId))
+							           END
+							GROUP  BY T.ID,
+							          PB.ID,
+							          A.NAME,
+							          P.NAME,
+							          C.FULL_NAME,
+							          WC.IN_FAVOUR_OF
+							ORDER  BY A.NAME    
 				 ]]>
 	</sql-query>
 	<sql-query name="getPurchaseByLocationDetail">
