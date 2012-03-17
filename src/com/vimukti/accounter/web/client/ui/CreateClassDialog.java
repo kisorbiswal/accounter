@@ -23,7 +23,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 			String desc) {
 		super(title, desc);
 		this.getElement().setId("CreateClassDialog");
-//		setWidth("300px");
+		// setWidth("300px");
 		this.accounterClass = accounterClass;
 		initTrackClassDialog();
 	}
@@ -37,6 +37,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 		if (accounterClass != null && !accounterClass.getClassName().isEmpty()) {
 			createClassTextItem.setValue(accounterClass.getClassName());
 		}
+		trackClassForm = new DynamicForm("trackClassForm");
 
 		trackClassForm.add(createClassTextItem);
 

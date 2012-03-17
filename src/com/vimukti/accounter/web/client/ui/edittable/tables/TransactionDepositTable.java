@@ -143,26 +143,26 @@ public abstract class TransactionDepositTable extends
 			}
 		});
 		if (enableClass) {
+			if (showClass) {
+				this.addColumn(new TransactionClassColumn<ClientTransactionDepositItem>() {
 
-			this.addColumn(new TransactionClassColumn<ClientTransactionDepositItem>() {
-
-				@Override
-				protected ClientAccounterClass getValue(
-						ClientTransactionDepositItem row) {
-					return Accounter.getCompany().getAccounterClass(
-							row.getAccounterClass());
-				}
-
-				@Override
-				protected void setValue(ClientTransactionDepositItem row,
-						ClientAccounterClass newValue) {
-					if (newValue != null) {
-						row.setAccounterClass(newValue.getID());
-						getTable().update(row);
+					@Override
+					protected ClientAccounterClass getValue(
+							ClientTransactionDepositItem row) {
+						return Accounter.getCompany().getAccounterClass(
+								row.getAccounterClass());
 					}
-				}
 
-			});
+					@Override
+					protected void setValue(ClientTransactionDepositItem row,
+							ClientAccounterClass newValue) {
+						if (newValue != null) {
+							row.setAccounterClass(newValue.getID());
+							getTable().update(row);
+						}
+					}
+				});
+			}
 		}
 		if (isCustomerAllowedToAdd) {
 			this.addColumn(new CustomerColumn<ClientTransactionDepositItem>() {
