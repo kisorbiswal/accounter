@@ -393,6 +393,9 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
+		itemsDisclosurePanel= (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
 
 		// Inventory table..
