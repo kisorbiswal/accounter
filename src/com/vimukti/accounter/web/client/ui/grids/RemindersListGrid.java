@@ -157,13 +157,13 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { "name", "col-new", "transactiondate",
+		return new String[] {"col-0", "name", "col-new", "transactiondate",
 				"transactiontype", "amount" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { "name-value", "col-new-value",
+		return new String[] { "col-0-value","name-value", "col-new-value",
 				"transactiondate-value", "transactiontype-value",
 				"amount-value" };
 	}

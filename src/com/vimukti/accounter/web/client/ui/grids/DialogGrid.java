@@ -313,14 +313,12 @@ public class DialogGrid<T extends IAccounterCore> extends ListGrid<T> {
 
 	@Override
 	protected String getHeaderStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return "Col-" + index;
 	}
 
 	@Override
 	protected String getRowElementsStyle(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return "Col-val-" + index;
 	}
 
 }
