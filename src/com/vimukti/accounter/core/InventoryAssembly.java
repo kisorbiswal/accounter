@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
 public class InventoryAssembly extends Item {
 
 	/**
@@ -32,6 +34,10 @@ public class InventoryAssembly extends Item {
 
 	public void setPurhasedThisItem(boolean isPurhasedThisItem) {
 		this.isPurhasedThisItem = isPurhasedThisItem;
+	}
+	@Override
+	public int getObjType() {
+		return IAccounterCore.ASSEMBLY;
 	}
 
 }

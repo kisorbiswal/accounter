@@ -23,6 +23,7 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int VENDOR = 53;
 	public static final int TAXAGENCY = 54;
 	public static final int ITEM = 55;
+	public static final int ASSEMBLY = 91;
 	public static final int BANK = 56;
 	public static final int BRANDING_THEME = 57;
 	public static final int CREDIT_RATING = 58;
