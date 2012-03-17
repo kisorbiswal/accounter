@@ -218,7 +218,7 @@ public class CashSalesView extends
 		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setVisible(false);
-//		checkNoText.setWidth(100);
+		// checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
@@ -268,9 +268,8 @@ public class CashSalesView extends
 			termsForm.add(jobListCombo);
 		}
 
-
 		memoTextAreaItem = createMemoTextAreaItem();
-//		memoTextAreaItem.setWidth(160);
+		// memoTextAreaItem.setWidth(160);
 
 		taxCodeSelect = createTaxCodeSelectItem();
 
@@ -393,7 +392,7 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
-		itemsDisclosurePanel= (GwtDisclosurePanel) GWT
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
 		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -490,7 +489,7 @@ public class CashSalesView extends
 
 		this.add(mainVLay);
 
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -1110,6 +1109,15 @@ public class CashSalesView extends
 	}
 
 	@Override
+	protected ValidationResult validateBaseRequirement() {
+		ValidationResult result = new ValidationResult();
+		result.add(FormItem.validate(this.paymentMethodCombo,
+				this.depositInCombo));
+		result.add(super.validateBaseRequirement());
+		return result;
+	}
+
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1295,12 +1303,12 @@ public class CashSalesView extends
 				customerItemTransactionTable.setAllRows(list);
 			}
 		}
-		 accountsDisclosurePanel.setOpen(checkOpen(
-		 transaction.getTransactionItems(),
-		 ClientTransactionItem.TYPE_ACCOUNT, true));
-		 itemsDisclosurePanel.setOpen(checkOpen(
-		 transaction.getTransactionItems(),
-		 ClientTransactionItem.TYPE_ITEM, false));
+		accountsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ACCOUNT, true));
+		itemsDisclosurePanel.setOpen(checkOpen(
+				transaction.getTransactionItems(),
+				ClientTransactionItem.TYPE_ITEM, false));
 	}
 
 	@Override
@@ -1404,6 +1412,7 @@ public class CashSalesView extends
 	public boolean canExportToCsv() {
 		return false;
 	}
+
 	@Override
 	protected void classSelected(ClientAccounterClass accounterClass) {
 		this.accounterClass = accounterClass;
