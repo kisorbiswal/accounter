@@ -67,6 +67,15 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	    	$('#mid-box2').val(mailid);
 	        $('.indication-box').remove();
 	    });
+	    
+	     $('#mid-box7').click(function(){
+	    $('.indication-box').remove();
+	        $('#confirmemail_id_box').append('<div class="indication-box"><div class="left-arrow"></div><div class="box-data">Please confirm your email address.</div></div>');
+	    }).blur(function() {
+	    	var mailid = jQuery.trim($('#mid-box7').val());
+	    	$('#mid-box7').val(mailid);
+	        $('.indication-box').remove();
+	    });
 	   
 		$('#submitButton').click(function() {
 			$("#accounterForm").validate({
@@ -92,6 +101,11 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 				required: true,
 				email: true
 			},
+			confirmemailId: {
+				required: true,
+				email: true,
+				equalTo: "#mid-box2"
+			},
 			agree: "required"
 		},
 		messages: {
@@ -114,6 +128,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 				equalTo: "<i18n:i18n msg='pleaseenterthesamepasswordasabove'/>"
 			},
 			emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>",
+			confirmemailId:{
+			required:"<i18n:i18n msg='pleaseEnterConfirmEmailAddress'/>",
+			equalTo :"<i18n:i18n msg='emailIdAndConfirmEmaildMustBeSame'/>"
+			},
 			agree: "<i18n:i18n msg='pleaseacceptTermsofuse'/>"
 		}
 	});
@@ -173,20 +191,24 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 <input id="mid-box2"  type="text" tabindex="3" name="emailId" />	
 	   </div>
 	   <div class="check_label">
+	     <label><i18n:i18n msg='confirmEmailAddress'/></label><br />
+		 <input id="mid-box7"  type="text" tabindex="4" name="confirmemailId" />	
+	   </div>
+	   <div class="check_label">
 	     <label><i18n:i18n msg='password'/></label><br />
-		 <input id="mid-box4"  type="password" tabindex="4" name="password" />
+		 <input id="mid-box4"  type="password" tabindex="5" name="password" />
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='confirmPassword'/></label><br />
-		 <input id="mid-box5" type="password" tabindex="5" name="confirmPassword" />
+		 <input id="mid-box5" type="password" tabindex="6" name="confirmPassword" />
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='phoneNumber'/></label><br />
-		 <input id="mid-box6"  type="text" tabindex="6" name="phoneNumber" />
+		 <input id="mid-box6"  type="text" tabindex="7" name="phoneNumber" />
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='country'/></label><br />
-		 <select id="select-box" tabindex="7" name="country">
+		 <select id="select-box" tabindex="8" name="country">
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
 											<option value="India">India</option>
@@ -429,15 +451,15 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   <div>
 	     <label style="padding-left:5px;"><i18n:i18n msg='readAccept'/><a href="/site/termsandconditions" target="_blank" ><i18n:i18n msg='termsofUse'/></a></label>
-	     <input id="checkbox" type="checkbox" name="agree" tabindex="8" style="float:left" />
+	     <input id="checkbox" type="checkbox" name="agree" tabindex="9" style="float:left" />
 		 
 	   </div>
 	   <div>
-	      <input id="newsletter" type="checkbox" name="newsletter" tabindex="9"/>
+	      <input id="newsletter" type="checkbox" name="newsletter" tabindex="10"/>
 		  <label><i18n:i18n msg='newsletter'/><b>(<i18n:i18n msg='optional'/>)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="10" />
+	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="11" />
 	   </div>
 	   </form>
 	 </div>
@@ -447,10 +469,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	 <div>
 	   <h3><i18n:i18n msg='signInusing'/> : </h3></div>
 	  
-	   <a id="google" href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="12"> </a>
-	   <a id="yahoo" href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="13"></a>
-	   <a id="aol" href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="14"></a>
-	   <a id="facebook" href ="/main/fbauth"  class="facebook_icon" tabindex="15"></a>
+	   <a id="google" href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="13"> </a>
+	   <a id="yahoo" href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="14"></a>
+	   <a id="aol" href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="15"></a>
+	   <a id="facebook" href ="/main/fbauth"  class="facebook_icon" tabindex="16"></a>
 	  
 	 <div>
 	     <div class="simple-get-started">
@@ -475,7 +497,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	</div>
   </c:if>
   <div class="form-bottom-options">
-  <a href="/main/login" id="forget-link1" tabindex="11"><i18n:i18n msg='alreadyAccount' /></a>
+  <a href="/main/login" id="forget-link1" tabindex="12"><i18n:i18n msg='alreadyAccount' /></a>
   <br />
   </div> 
 </div>

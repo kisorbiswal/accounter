@@ -6151,5 +6151,11 @@ public interface AccounterMessages extends Messages {
 	public String UnlimitedUsers();
 
 	public String wrongFormat(String value);
+	
+	public String pleaseEnterConfirmEmailAddress();
+	
+	public String emailIdAndConfirmEmaildMustBeSame();
+	
+	public String confirmEmailAddress();
 
 }

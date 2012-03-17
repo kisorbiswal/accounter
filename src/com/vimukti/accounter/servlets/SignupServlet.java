@@ -41,6 +41,7 @@ public class SignupServlet extends BaseServlet {
 			throws ServletException, IOException {
 		// Take userName from request
 		String emailId = req.getParameter("emailId").trim();
+		String confirmEmailId = req.getParameter("confirmemailId").trim();
 		String firstName = req.getParameter("firstName").trim();
 		String lastName = req.getParameter("lastName").trim();
 		String password = req.getParameter("password").trim();
@@ -61,9 +62,14 @@ public class SignupServlet extends BaseServlet {
 		}
 
 		if (!isValidInputs(NAME, firstName, lastName, country)
-				|| !isValidInputs(MAIL_ID, emailId)) {
+				|| !isValidInputs(MAIL_ID, emailId, confirmEmailId)) {
 			dispatchMessage(Global.get().messages().incorrectEmailOrPassWord(),
 					req, resp, view);
+			return;
+		}
+		if (!emailId.equals(confirmEmailId)) {
+			dispatchMessage(Global.get().messages()
+					.emailIdAndConfirmEmaildMustBeSame(), req, resp, view);
 			return;
 		}
 		emailId = emailId.toLowerCase();
@@ -103,14 +109,17 @@ public class SignupServlet extends BaseServlet {
 
 					client.setClientSubscription(clientSubscription);
 					client.setDeleted(false);
+					client.setActive(true);
 					saveEntry(client);
 					session.setAttribute(EMAIL_ID, emailId);
 
-					// Email to that user.
-					sendActivationEmail(token, client);
-					// Send to SignUp Success View
-					String message = "?message=" + ACT_FROM_SIGNUP;
-					redirectExternal(req, resp, ACTIVATION_URL + message);
+					/*
+					 * // Email to that user. sendActivationEmail(token,
+					 * client); // Send to SignUp Success View String message =
+					 * "?message=" + ACT_FROM_SIGNUP; redirectExternal(req,
+					 * resp, ACTIVATION_URL + message);
+					 */
+					redirectExternal(req, resp, COMPANIES_URL);
 					transaction.commit();
 				} else {
 					req.setAttribute("errormessage", Global.get().messages()
@@ -159,16 +168,19 @@ public class SignupServlet extends BaseServlet {
 				client.setClientSubscription(clientSubscription);
 
 				client.setDeleted(false);
-
+				client.setActive(true);
 				saveEntry(client);
 				session.setAttribute(EMAIL_ID, emailId);
 
 				// Email to that user.
-				sendActivationEmail(token, client);
-				// Send to SignUp Success View
-				String message = "?message=" + ACT_FROM_SIGNUP;
+				/*
+				 * sendActivationEmail(token, client); // Send to SignUp Success
+				 * View String message = "?message=" + ACT_FROM_SIGNUP;
+				 * 
+				 * redirectExternal(req, resp, ACTIVATION_URL + message);
+				 */
 
-				redirectExternal(req, resp, ACTIVATION_URL + message);
+				redirectExternal(req, resp, COMPANIES_URL);
 				transaction.commit();
 				try {
 					NewLoginServlet.createD2(req, emailId, password);
