@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -282,6 +283,10 @@ public class ReportsRPC {
 		case IAccounterCore.ITEM:
 			initCallBack(new ClientItem(),
 					ActionFactory.getNewItemAction(true), transactionId);
+			break;
+		case IAccounterCore.ASSEMBLY:
+			initCallBack(new ClientInventoryAssembly(),
+					ActionFactory.getInventoryAssemblyAction(), transactionId);
 			break;
 		case IAccounterCore.VENDOR:
 			initCallBack(new ClientVendor(),
