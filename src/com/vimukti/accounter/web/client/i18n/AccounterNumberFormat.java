@@ -1630,10 +1630,10 @@ public class AccounterNumberFormat {
 				decimalChar = decimalCharacter.charAt(0);
 			}
 
-			String digitGrouping = preferences.getDecimalCharacter();
+			String digitGrouping = preferences.getDigitGroupCharacter();
 			char groupingChar = 0;
 			if (digitGrouping != null && !digitGrouping.isEmpty()) {
-				groupingChar = decimalCharacter.charAt(0);
+				groupingChar = digitGrouping.charAt(0);
 			}
 
 			cachedCurrencyFormat = new AccounterNumberFormat(

@@ -5348,9 +5348,11 @@
 		<![CDATA[
 				SELECT BA.ID AS BA_ID
 				FROM   BUILD_ASSEMBLY BA
+				LEFT JOIN TRANSACTION T 
+				ON T.ID=BA.ID
 				WHERE  BA.ID IS NULL
 				       AND BA.ID = :inputId
-				       AND BA.COMPANY_ID = :companyId  
+				       AND T.COMPANY_ID = :companyId  
 				]]>
 
 	</sql-query>
