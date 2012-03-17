@@ -10686,7 +10686,7 @@
 		<![CDATA[
 				CREATE OR REPLACE VIEW INVENTORY_HISTORY_VIEW AS
 				SELECT T.ID                                        AS TRANSACTION_ID,
-				       IT.ID                                       AS TRANSACTION_ITEM_ID,
+				       TI.ID                                       AS TRANSACTION_ITEM_ID,
 				       IT.COMPANY_ID                               AS COMPANY,
 				       IT.ID                                       AS ITEM_ID,
 				       IT.AS_OF_DATE                               AS TRANSACTION_DATE,
@@ -10707,6 +10707,7 @@
 				       P.ID                                        AS PAYEE_ID,
 				       P.NAME                                      AS PAYEE_NAME,
 				       IT.TYPE                                     AS ITEM_TYPE,
+				       IT.REORDER_POINT							   AS REORDER_POINT,
 				       (SELECT SUM(AT.AMOUNT) AS ASSET_VALUE
 				        FROM   ACCOUNT_TRANSACTION AT
 				               LEFT JOIN TRANSACTION T2
@@ -10736,7 +10737,8 @@
 				               AND AT.COMPANY_ID = IT.COMPANY_ID
 				               AND IT2.COMPANY_ID = IT.COMPANY_ID) AS TOTAL_ASSET,
 				       IT.PURCHASE_DESCRIPTION                     AS ITEM_PURCHASE_DESCRIPTION,
-				       IT.AS_OF_DATE                               AS ASOFDATE
+				       IT.AS_OF_DATE                               AS ASOFDATE,
+				       IT.MEASUREMENT							   AS ITEM_MEASUREMENT
 				FROM   ITEM IT
 				       LEFT JOIN TRANSACTION_ITEM TI
 				         ON TI.TYPE = 1
@@ -10771,8 +10773,8 @@
 				       LEFT JOIN PAYEE P
 				         ON P.ID = C.ID
 				             OR P.ID = V.ID
-				WHERE  TI.ID IS NULL
-				        OR ( T.T_TYPE IN ( 1, 2, 4, 6,
+				WHERE  TI.ID IS NOT NULL
+				        AND ( T.T_TYPE IN ( 1, 2, 4, 6,
 				                           8, 14, 26, 27, 36 )
 				             AND T.SAVE_STATUS NOT IN ( 201, 202 ) )
 				ORDER  BY T.T_DATE,
@@ -10816,7 +10818,7 @@
 				       PAYEE_NAME,
 				       PAYEE_ID
 				FROM   INVENTORY_HISTORY_VIEW V
-				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE=2
+				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE IN (2,4)
 				       AND ( V.TRANSACTION_DATE IS NULL
 				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )
 				       AND CASE
@@ -10877,20 +10879,54 @@
 		
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="DESCRIPTION" type="encryptedstring" />
-		<return-scalar column="PREFFERED_VENDOR" type="long" />
+		<return-scalar column="PREFFERED_VENDOR" type="encryptedstring" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="ASSEMBLIES" type="long" />
+		<return-scalar column="PURCHASE_ORDERS" type="long" />
+		<return-scalar column="SALES_ORDERS" type="long" />
+		<return-scalar column="REORDER_POIN" type="int" />
+		<return-scalar column="ITEM_MEASUREMENT" type="long" />
+		
+		
 		
 		<![CDATA[
-				SELECT ITEM_NAME,
-				       DESCRIPTION,
-				       PREFFERED_VENDOR,
-				       ITEM_TOTAL_QUANTITY,
-				       ITEM_ID
-				FROM   INVENTORY_HISTORY_VIEW V
-				WHERE  V.COMPANY = :companyId
-				       AND ( V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate );  
-				]]>
+				SELECT item_name,
+				       item_purchase_description AS description,
+				       p.name                    AS preffered_vendor,
+				       item_total_quantity,
+				       item_id,
+				       (SELECT COUNT(*)
+				        FROM   inventory_history_view ihv2
+				        WHERE  ihv2.transaction_type = 37
+				               AND ihv2.item_id = v.item_id
+				        GROUP  BY ihv2.item_id)  AS assemblies,
+				       (SELECT COUNT(*)
+				        FROM   inventory_history_view ihv2
+				        WHERE  ihv2.transaction_type = 22
+				               AND ihv2.item_id = v.item_id
+				        GROUP  BY ihv2.item_id)  AS purchase_orders,
+				       (SELECT COUNT(*)
+				        FROM   inventory_history_view ihv2
+				               LEFT JOIN estimate e
+				                 ON e.id = ihv2.transaction_id
+				        WHERE  ihv2.transaction_type = 7
+				               AND e.estimatetype = 6
+				               AND ihv2.item_id = v.item_id
+				        GROUP  BY ihv2.item_id)  AS sales_orders,
+				       v.reorder_point           AS reorder_poin,
+				       v.item_measurement		 AS item_measurement
+				FROM   inventory_history_view v
+				       LEFT JOIN payee p
+				         ON p.id = v.preffered_vendor 
+				WHERE  v.company = :companyId
+				       AND ( v.transaction_date BETWEEN :fromDate AND :toDate )
+				GROUP  BY v.item_id,
+				          v.item_name,
+				          v.item_purchase_description,
+				          v.preffered_vendor,
+				          v.item_total_quantity,v.reorder_point,p.id;  
+		]]>
 		
 	</sql-query>
 	
@@ -10901,20 +10937,54 @@
 		
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="DESCRIPTION" type="encryptedstring" />
-		<return-scalar column="PREFFERED_VENDOR" type="long" />
+		<return-scalar column="PREFFERED_VENDOR" type="encryptedstring" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="ASSEMBLIES" type="long" />
+		<return-scalar column="PURCHASE_ORDERS" type="long" />
+		<return-scalar column="SALES_ORDERS" type="long" />
+		<return-scalar column="REORDER_POIN" type="int" />
+		<return-scalar column="ITEM_MEASUREMENT" type="long" />
 		
 		<![CDATA[
-				SELECT ITEM_NAME,
-				       DESCRIPTION,
-				       PREFFERED_VENDOR,
-				       ITEM_TOTAL_QUANTITY,
-				       ITEM_ID
-				FROM   INVENTORY_HISTORY_VIEW V
-				WHERE  V.COMPANY = :companyId
-				       AND ( V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate );  
-				]]>
+				SELECT item_name,
+				       item_purchase_description AS description,
+				       p.name                    AS preffered_vendor,
+				       item_total_quantity,
+				       item_id,
+				       (SELECT COUNT(*)
+				        FROM   inventory_history_view ihv2
+				        WHERE  ihv2.transaction_type = 37
+				               AND ihv2.item_id = v.item_id
+				        GROUP  BY ihv2.item_id)  AS assemblies,
+				       (SELECT COUNT(*)
+				        FROM   inventory_history_view ihv2
+				        WHERE  ihv2.transaction_type = 22
+				               AND ihv2.item_id = v.item_id
+				        GROUP  BY ihv2.item_id)  AS purchase_orders,
+				       (SELECT COUNT(*)
+				        FROM   inventory_history_view ihv2
+				               LEFT JOIN estimate e
+				                 ON e.id = ihv2.transaction_id
+				        WHERE  ihv2.transaction_type = 7
+				               AND e.estimatetype = 6
+				               AND ihv2.item_id = v.item_id
+				        GROUP  BY ihv2.item_id)  AS sales_orders,
+				       v.reorder_point           AS reorder_poin,
+				       v.item_measurement		 AS item_measurement
+				FROM   inventory_history_view v
+				       LEFT JOIN payee p
+				         ON p.id = v.preffered_vendor
+				WHERE  v.company = :companyId
+				       AND ( v.transaction_date BETWEEN :fromDate AND :toDate )
+				GROUP  BY v.preffered_vendor,
+				          v.item_name,
+				          v.item_purchase_description,
+				          v.item_total_quantity,
+				          v.reorder_point, 
+				          v.item_id,
+				          p.id;   
+		]]>
 		
 	</sql-query>
 

@@ -5848,15 +5848,15 @@ public interface AccounterMessages extends Messages {
 
 	public String reportPts();
 
-	public String onSalesOrder();
+	public String onSO();
 
 	public String forAssemblies();
 
 	public String order();
 
-	public String orderOnPo();
+	public String onPO();
 
-	public String nextDeliveryDate();
+	public String nextDeliv();
 
 	public String salesPerWeek();
 

@@ -30,13 +30,15 @@ public class InventoryStockStatusDetail extends BaseReport implements
 
 	private long salesPerWeek;
 
-	private Long preferVendor;
+	private String preferVendor;
 
 	private long order;
 
 	private String itemName;
 
 	private long itemId;
+
+	private long measurmentID;
 
 	public String getItemDesc() {
 		return itemDesc;
@@ -110,11 +112,11 @@ public class InventoryStockStatusDetail extends BaseReport implements
 		this.salesPerWeek = salesPerWeek;
 	}
 
-	public Long getPreferVendor() {
+	public String getPreferVendor() {
 		return preferVendor;
 	}
 
-	public void setPreferVendor(Long next) {
+	public void setPreferVendor(String next) {
 		this.preferVendor = next;
 	}
 
@@ -138,16 +140,27 @@ public class InventoryStockStatusDetail extends BaseReport implements
 		this.itemName = itemName;
 	}
 
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
-	}
-
 	public long getItemId() {
 		return itemId;
 	}
 
 	public void setItemId(long itemId) {
 		this.itemId = itemId;
+	}
+
+	/**
+	 * @return the measurmentID
+	 */
+	public long getMeasurmentID() {
+		return measurmentID;
+	}
+
+	/**
+	 * @param measurmentID
+	 *            the measurmentID to set
+	 */
+	public void setMeasurmentID(long measurmentID) {
+		this.measurmentID = measurmentID;
 	}
 
 }

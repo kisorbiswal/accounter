@@ -514,10 +514,10 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm.setStyleName("purchase_info_form");
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			purchaseInfoForm.add(purchaseDescArea, purchasePriceTxt,
-					expAccCombo, vendItemNumText);
+					expAccCombo, prefVendorCombo, vendItemNumText);
 		} else {
 			purchaseInfoForm.add(ibuyCheck, purchaseDescArea, purchasePriceTxt,
-					expAccCombo, vendItemNumText);
+					expAccCombo, prefVendorCombo, vendItemNumText);
 		}
 
 		// purchaseInfoForm.getCellFormatter().addStyleName(1, 0,
