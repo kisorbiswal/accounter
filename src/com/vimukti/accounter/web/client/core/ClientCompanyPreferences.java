@@ -945,7 +945,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isLocationTrackingEnabled() {
-		return get(LOCATION_TRACKING);
+		return true;
 	}
 
 	public void setLocationTrackingEnabled(boolean value) {

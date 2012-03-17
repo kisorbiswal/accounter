@@ -18,7 +18,7 @@ public class SalesByLocationDetailsReport extends
 
 	public SalesByLocationDetailsReport(boolean isLocation, boolean isCustomer) {
 		this.serverReport = new SalesByLocationDetailsServerReport(this,
-				isLocation);
+				isLocation, isCustomer);
 		this.isLocation = isLocation;
 		this.isCustomer = isCustomer;
 	}
@@ -32,7 +32,8 @@ public class SalesByLocationDetailsReport extends
 		} else {
 			Accounter.createReportService()
 					.getSalesByLocationDetailsForLocation(isLocation,
-							record.getLocationName(), start, end, this);
+							isCustomer, record.getLocationName(), start, end,
+							this);
 		}
 	}
 
@@ -52,26 +53,60 @@ public class SalesByLocationDetailsReport extends
 
 	@Override
 	public void print() {
-		int reportType = 151;
-		if (!isLocation) {
-			reportType = 159;
+		SalesByLocationSummary record = (SalesByLocationSummary) data;
+		int reportType;
+		if (isCustomer) {
+			if (isLocation) {
+				reportType = 151;
+			} else {
+				reportType = 159;
+			}
+		} else {
+			if (isLocation) {
+				reportType = 199;
+			} else {
+				reportType = 200;
+			}
+		}
+		String locationOrClassName;
+		if (record != null && record.getLocationName() != null) {
+			locationOrClassName = record.getLocationName();
+		} else {
+			locationOrClassName = "";
 		}
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
+				reportType, locationOrClassName, "");
 	}
 
 	@Override
 	public void exportToCsv() {
-		int reportType = 151;
-		if (!isLocation) {
-			reportType = 159;
+		SalesByLocationSummary record = (SalesByLocationSummary) data;
+		int reportType;
+		if (isCustomer) {
+			if (isLocation) {
+				reportType = 151;
+			} else {
+				reportType = 159;
+			}
+		} else {
+			if (isLocation) {
+				reportType = 198;
+			} else {
+				reportType = 199;
+			}
+		}
+		String locationOrClassName;
+		if (record != null && record.getLocationName() != null) {
+			locationOrClassName = record.getLocationName();
+		} else {
+			locationOrClassName = "";
 		}
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
+				reportType, locationOrClassName, "");
 	}
 
 	@Override

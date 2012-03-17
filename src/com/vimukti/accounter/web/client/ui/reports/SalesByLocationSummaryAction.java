@@ -11,27 +11,32 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class SalesByLocationSummaryAction extends Action {
 
 	private boolean isLocation;
+	private boolean isCustomer;
 
-	public SalesByLocationSummaryAction(boolean isLocation) {
+	public SalesByLocationSummaryAction(boolean isLocation, boolean isCustomer) {
 		super();
 		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
+
 	}
 
 	@Override
 	public void run() {
 		final boolean isLocation = this.isLocation;
-		runAsync(data, isDependent, isLocation);
+		final boolean isCustomer = this.isCustomer;
+		runAsync(data, isDependent, isLocation, isCustomer);
+
 	}
 
 	private void runAsync(final Object data, final boolean isDependent,
-			final boolean isLocation) {
+			final boolean isLocation, final boolean isCustomer) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
 				AbstractReportView<SalesByLocationSummary> report = new SalesByLocationsummaryReport(
-						isLocation);
+						isLocation, isCustomer);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesByLocationSummaryAction.this);
 
@@ -56,30 +61,56 @@ public class SalesByLocationSummaryAction extends Action {
 		return null;
 	}
 
-	@Override
 	public String getHistoryToken() {
-		if (!isLocation) {
-			return "salesByLocationSummary";
+		if (isCustomer) {
+			if (isLocation) {
+				return "salesByLocationSummary";
+			} else {
+				return "salesByClassSummary";
+			}
+		} else {
+			if (isLocation) {
+				return "PurchasesByLocationSummary";
+			} else {
+				return "PurchasesbyClassSummary";
+			}
 		}
-		return "salesByClassSummary";
 	}
 
 	@Override
 	public String getHelpToken() {
-		if (!isLocation) {
-			return "sales-by-class-summary";
+		if (isCustomer) {
+			if (isLocation) {
+				return "sales-by-location-summary";
+			} else {
+				return "sales-by-class-summary";
+			}
+		} else {
+			if (isLocation) {
+				return "Purchases-by-location-summary";
+			} else {
+				return "Purchases-by-class-summary";
+			}
 		}
-		return "sales-by-location-summary";
 	}
 
 	@Override
 	public String getText() {
-		String actionsting = messages.salesByLocationSummary(Global.get()
-				.Location());
-		if (!isLocation) {
-			actionsting = messages.salesByClassSummary();
+		String actionsting = null;
+		if (isCustomer) {
+			if (isLocation) {
+				actionsting = messages.salesByLocationSummary(Global.get()
+						.Location());
+			} else {
+				actionsting = messages.salesByClassSummary();
+			}
+		} else {
+			if (isLocation) {
+				actionsting = messages.purchasesbyLocationSummary();
+			} else {
+				actionsting = messages.purchasesbyClassSummary();
+			}
 		}
 		return actionsting;
 	}
-
 }

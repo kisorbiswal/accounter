@@ -167,6 +167,10 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_CLASS = 194;
 	public final static int REPORT_TYPE_TRANSACTION_DETAILS_BY_ACCOUNT_AND_LOCATION = 195;
 	public final static int REPORT_TYPE_AUTOMATIC_TRANSACTIONS = 196;
+	public final static int REPORT_TYPE_PURCHASEBYLOCATIONDETAILFORLOCATION = 197;
+	public final static int REPORT_TYPE_PURCHASEBYCLASSDETAILFORCLASS = 198;
+	public final static int REPORT_TYPE_PURCHASEBYLOCATIONDETAIL = 199;
+	public final static int REPORT_TYPE_PURCHASEBYCLASSDETAIL = 200;
 
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
@@ -357,17 +361,28 @@ public class ReportsGenerator {
 			return profitAndLossServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESBYCLASSDETAILFORCLASS:
 			return generateSalesByClassorLocationTemplate(reportsSerivce,
-					false, generationType1, finaTool);
-
+					false, true, generationType1, finaTool);
 		case REPORT_TYPE_SALESBYLOCATIONDETAILFORLOCATION:
 			return generateSalesByClassorLocationTemplate(reportsSerivce, true,
-					generationType1, finaTool);
+					true, generationType1, finaTool);
+		case REPORT_TYPE_PURCHASEBYLOCATIONDETAILFORLOCATION:
+			return generateSalesByClassorLocationTemplate(reportsSerivce, true,
+					false, generationType1, finaTool);
+		case REPORT_TYPE_PURCHASEBYCLASSDETAILFORCLASS:
+			return generateSalesByClassorLocationTemplate(reportsSerivce,
+					false, false, generationType1, finaTool);
 		case REPORT_TYPE_SALESBYCLASSDETAIL:
 			return generateSalesByLocationorClassDetailReport(reportsSerivce,
-					false, generationType1, finaTool);
+					false, true, generationType1, finaTool);
 		case REPORT_TYPE_SALESBYLOCATIONDETAIL:
 			return generateSalesByLocationorClassDetailReport(reportsSerivce,
-					true, generationType1, finaTool);
+					true, true, generationType1, finaTool);
+		case REPORT_TYPE_PURCHASEBYLOCATIONDETAIL:
+			return generateSalesByLocationorClassDetailReport(reportsSerivce,
+					true, false, generationType1, finaTool);
+		case REPORT_TYPE_PURCHASEBYCLASSDETAIL:
+			return generateSalesByLocationorClassDetailReport(reportsSerivce,
+					false, false, generationType1, finaTool);
 		case REPORT_TYPE_BALANCESHEET:
 			BalanceSheetServerReport balanceSheetServerReport = new BalanceSheetServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1839,7 +1854,7 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return tdsView.getGridTemplate();
-			
+
 		case REPORT_TYPE_AUTOMATIC_TRANSACTIONS:
 
 			AutomaticTransactionsServerReport automaticTransactions = new AutomaticTransactionsServerReport(
@@ -1864,9 +1879,9 @@ public class ReportsGenerator {
 			updateReport(automaticTransactions, finaTool);
 			automaticTransactions.resetVariables();
 			try {
-				automaticTransactions.onResultSuccess(finaTool.getReportManager()
-						.getAutomaticTransactions(this.startDate, this.endDate,
-								company.getID()));
+				automaticTransactions.onResultSuccess(finaTool
+						.getReportManager().getAutomaticTransactions(
+								this.startDate, this.endDate, company.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1927,9 +1942,10 @@ public class ReportsGenerator {
 
 	private ReportGridTemplate<?> generateSalesByLocationorClassDetailReport(
 			AccounterReportServiceImpl reportsSerivce, boolean isLocation,
-			int generationType1, FinanceTool finaTool) {
+			boolean isCustomer, int generationType1, FinanceTool finaTool) {
 		SalesByLocationDetailsServerReport salesByLocationDetailsServerReport = new SalesByLocationDetailsServerReport(
-				startDate.getDate(), endDate.getDate(), generationType1) {
+				startDate.getDate(), endDate.getDate(), generationType1,
+				isLocation, isCustomer) {
 
 			@Override
 			public ClientFinanceDate getCurrentFiscalYearEndDate() {
@@ -1950,12 +1966,24 @@ public class ReportsGenerator {
 		updateReport(salesByLocationDetailsServerReport, finaTool);
 		salesByLocationDetailsServerReport.resetVariables();
 		try {
-			salesByLocationDetailsServerReport
-					.onResultSuccess(reportsSerivce
-							.getSalesByLocationDetailsReport(isLocation,
-									startDate.toClientFinanceDate(), endDate
-											.toClientFinanceDate(),
-									getCompany().getID()));
+			if (navigateObjectName == "" || navigateObjectName == null) {
+				salesByLocationDetailsServerReport
+						.onResultSuccess(reportsSerivce
+								.getSalesByLocationDetailsReport(isLocation,
+										isCustomer,
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										getCompany().getID()));
+			} else {
+				salesByLocationDetailsServerReport
+						.onResultSuccess(reportsSerivce
+								.getSalesByLocationDetailsForLocation(
+										isLocation, isCustomer,
+										navigateObjectName,
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										getCompany().getID()));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1964,7 +1992,7 @@ public class ReportsGenerator {
 
 	private ReportGridTemplate<?> generateSalesByClassorLocationTemplate(
 			AccounterReportServiceImpl reportsSerivce, boolean isLocation,
-			int generationType1, FinanceTool finaTool) {
+			boolean isCustomer, int generationType1, FinanceTool finaTool) {
 		SalesByLocationsummaryServerReport salesByLocationsummaryServerReport = new SalesByLocationsummaryServerReport(
 				startDate.getDate(), endDate.getDate(), generationType1) {
 
@@ -1990,6 +2018,7 @@ public class ReportsGenerator {
 			salesByLocationsummaryServerReport
 					.onResultSuccess(reportsSerivce
 							.getSalesByLocationSummaryReport(isLocation,
+									isCustomer,
 									startDate.toClientFinanceDate(), endDate
 											.toClientFinanceDate(),
 									getCompany().getID()));
@@ -2080,6 +2109,14 @@ public class ReportsGenerator {
 			 */
 		case REPORT_TYPE_AP_AGEINGSUMMARY:
 			return "AP Ageing Summary Report";
+		case REPORT_TYPE_PURCHASEBYLOCATIONDETAIL:
+			return "Purchase By Location Details Report";
+		case REPORT_TYPE_PURCHASEBYCLASSDETAIL:
+			return "Purchase By Class Details Report";
+		case REPORT_TYPE_PURCHASEBYCLASSDETAILFORCLASS:
+			return "Purchase By Class Summary Report";
+		case REPORT_TYPE_PURCHASEBYLOCATIONDETAILFORLOCATION:
+			return "Purchase By Location Summary Report";
 		case REPORT_TYPE_AP_AGEINGDETAIL:
 			return "AP Ageing Detail Report";
 		case REPORT_TYPE_VENDORTRANSACTIONHISTORY:

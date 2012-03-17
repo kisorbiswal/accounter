@@ -14,17 +14,22 @@ public class SalesByLocationDetailsServerReport extends
 
 	private String currentsectionName = "";
 	private boolean isLocation;
+	private boolean isCustomer;
 
 	public SalesByLocationDetailsServerReport(
 			IFinanceReport<SalesByLocationDetails> reportView,
-			boolean isLocation) {
+			boolean isLocation, boolean isCustomer) {
 		this.reportView = reportView;
 		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
+
 	}
 
 	public SalesByLocationDetailsServerReport(long startDate, long endDate,
-			int generationType) {
+			int generationType, boolean isLocation, boolean isCustomer) {
 		super(startDate, endDate, generationType);
+		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
 	}
 
 	@Override
@@ -37,10 +42,22 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public String getTitle() {
-		if (!isLocation) {
-			return messages.salesByClassDetails();
+		String actionsting = null;
+		if (isCustomer) {
+			if (isLocation) {
+				actionsting = messages.getSalesByLocationDetails(Global.get()
+						.Location());
+			} else {
+				actionsting = messages.salesByClassDetails();
+			}
+		} else {
+			if (isLocation) {
+				actionsting = messages.purchasesbyLocationDetail();
+			} else {
+				actionsting = messages.purchasesbyClassDetail();
+			}
 		}
-		return messages.getSalesByLocationDetails(Global.get().Location());
+		return actionsting;
 	}
 
 	@Override

@@ -470,11 +470,15 @@ public class MenuBar {
 					HistoryTokens.PURCHASEORDERREPORT);
 		}
 		if (isClassTracking) {
+			purchaseMenuBar.addMenuItem(messages.purchasesbyClassSummary(),
+					HistoryTokens.PURCHASESBYCLASSSUMMARY);
 			purchaseMenuBar.addMenuItem("Purchases by Class Detail",
 					HistoryTokens.PURCHASESBYCLASSDETAIL);
 		}
 
-		if (isJobTrackingEnabled) {
+		if (isLocationTracking) {
+			purchaseMenuBar.addMenuItem(messages.purchasesbyLocationSummary(),
+					HistoryTokens.PURCHASESBYLOCATIONSUMMARY);
 			purchaseMenuBar.addMenuItem("Purchases by Location Detail",
 					HistoryTokens.PURCHASESBYLOCATIONDETAIL);
 		}
@@ -538,20 +542,20 @@ public class MenuBar {
 					HistoryTokens.SALESORDERREPORT);
 		}
 		if (isLocationTrackingEnabled) {
+			salesMenuBar.addMenuItem(
+					messages.salesByLocationSummary(Global.get().Location()),
+					HistoryTokens.SALESBYLOCATIONSUMMARY);
 			salesMenuBar
 					.addMenuItem(messages.getSalesByLocationDetails(Global
 							.get().Location()),
-							HistoryTokens.SALESBYCLASSDETAILS);
-			salesMenuBar.addMenuItem(
-					messages.salesByLocationSummary(Global.get().Location()),
-					HistoryTokens.SALESBYCLASSSUMMARY);
+							HistoryTokens.SALESBYLOCATIONDETAILS);
 		}
 
 		if (isClassTrackingEnabled) {
-			salesMenuBar.addMenuItem(messages.salesByClassDetails(),
-					HistoryTokens.SALESBYLOCATIONDETAILS);
 			salesMenuBar.addMenuItem(messages.salesByClassSummary(),
-					HistoryTokens.SALESBYLOCATIONSUMMARY);
+					HistoryTokens.SALESBYCLASSSUMMARY);
+			salesMenuBar.addMenuItem(messages.salesByClassDetails(),
+					HistoryTokens.SALESBYCLASSDETAILS);
 		}
 
 		return salesMenuBar;

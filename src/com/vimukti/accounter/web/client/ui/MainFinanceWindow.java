@@ -176,7 +176,7 @@ public class MainFinanceWindow extends FlowPanel {
 		// view.getButtonPanel().setHeight("30px");
 		// }
 		super.onLoad();
-//		viewManager.fitToSize(this.getOffsetHeight(), 960);
+		// viewManager.fitToSize(this.getOffsetHeight(), 960);
 		// if (GWT.isScript())
 		startCometService();
 		this.getElement().getParentElement()
@@ -744,38 +744,41 @@ public class MainFinanceWindow extends FlowPanel {
 				.getReconcilationsAction();
 		actions.put(reconcilationsAction.getHistoryToken(),
 				reconcilationsAction);
-		SalesByLocationDetailsAction salesByLocationDetailActionTrue = ActionFactory
-				.getSalesByLocationDetailsAction(true, true);
+		// Location,class Summary Reports
 		SalesByLocationSummaryAction salesByLocationSummaryActionTrue = ActionFactory
-				.getSalesByLocationSummaryAction(true);
-
-		actions.put(salesByLocationDetailActionTrue.getHistoryToken(),
-				salesByLocationDetailActionTrue);
-
+				.getSalesByLocationSummaryAction(true, true);
+		SalesByLocationSummaryAction salesByLocationSummaryActionFalse = ActionFactory
+				.getSalesByLocationSummaryAction(false, true);
+		SalesByLocationSummaryAction purchaseByLocationSummaryActionTrue = ActionFactory
+				.getSalesByLocationSummaryAction(true, false);
+		SalesByLocationSummaryAction purchaseByLocationSummaryActionFalse = ActionFactory
+				.getSalesByLocationSummaryAction(false, false);
+		actions.put(purchaseByLocationSummaryActionTrue.getHistoryToken(),
+				purchaseByLocationSummaryActionTrue);
+		actions.put(purchaseByLocationSummaryActionFalse.getHistoryToken(),
+				purchaseByLocationSummaryActionFalse);
 		actions.put(salesByLocationSummaryActionTrue.getHistoryToken(),
 				salesByLocationSummaryActionTrue);
+		actions.put(salesByLocationSummaryActionFalse.getHistoryToken(),
+				salesByLocationSummaryActionFalse);
 
+		// CLASS TRACKING
+		SalesByLocationDetailsAction salesByLocationDetailActionTrue = ActionFactory
+				.getSalesByLocationDetailsAction(true, true);
 		SalesByLocationDetailsAction salesByLocationDetailActionFalse = ActionFactory
 				.getSalesByLocationDetailsAction(false, true);
-
-		SalesByLocationSummaryAction salesByLocationSummaryActionFalse = ActionFactory
-				.getSalesByLocationSummaryAction(false);
-		// CLASS TRACKING
 		SalesByLocationDetailsAction purchaseByLocationDetailActiontrue = ActionFactory
 				.getSalesByLocationDetailsAction(true, false);
 		SalesByLocationDetailsAction purchaseByLocationDetailActionFalse = ActionFactory
 				.getSalesByLocationDetailsAction(false, false);
-
+		actions.put(salesByLocationDetailActionTrue.getHistoryToken(),
+				salesByLocationDetailActionTrue);
 		actions.put(purchaseByLocationDetailActiontrue.getHistoryToken(),
 				purchaseByLocationDetailActiontrue);
 		actions.put(purchaseByLocationDetailActionFalse.getHistoryToken(),
 				purchaseByLocationDetailActionFalse);
-
 		actions.put(salesByLocationDetailActionFalse.getHistoryToken(),
 				salesByLocationDetailActionFalse);
-
-		actions.put(salesByLocationSummaryActionFalse.getHistoryToken(),
-				salesByLocationSummaryActionFalse);
 
 		actions.put(ActionFactory.getUsersActivityListAction()
 				.getHistoryToken(), ActionFactory.getUsersActivityListAction());

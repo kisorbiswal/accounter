@@ -14,17 +14,20 @@ public class SalesByLocationsummaryReport extends
 		AbstractReportView<SalesByLocationSummary> {
 
 	private boolean isLocation;
+	private boolean isCustomer;
 
-	public SalesByLocationsummaryReport(boolean isLocation) {
+	public SalesByLocationsummaryReport(boolean isLocation, boolean isCustomer) {
 		this.isLocation = isLocation;
+		this.isCustomer = isCustomer;
+
 		this.serverReport = new SalesByLocationsummaryServerReport(this,
-				isLocation);
+				isLocation, isCustomer);
 	}
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getSalesByLocationSummaryReport(
-				isLocation, start, end, this);
+				isLocation, isCustomer, start, end, this);
 	}
 
 	@Override
@@ -37,16 +40,28 @@ public class SalesByLocationsummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record,
-				ActionFactory.getSalesByLocationDetailsAction(isLocation, true));
+		UIUtils.runAction(record, ActionFactory
+				.getSalesByLocationDetailsAction(isLocation, isCustomer));
+
 	}
 
 	@Override
 	public void print() {
-		int reportType = 152;
-		if (!isLocation) {
-			reportType = 160;
+		int reportType;
+		if (isCustomer) {
+			if (isLocation) {
+				reportType = 152;
+			} else {
+				reportType = 160;
+			}
+		} else {
+			if (isLocation) {
+				reportType = 197;
+			} else {
+				reportType = 198;
+			}
 		}
+
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
@@ -56,9 +71,19 @@ public class SalesByLocationsummaryReport extends
 
 	@Override
 	public void exportToCsv() {
-		int reportType = 152;
-		if (!isLocation) {
-			reportType = 160;
+		int reportType;
+		if (isCustomer) {
+			if (isLocation) {
+				reportType = 152;
+			} else {
+				reportType = 160;
+			}
+		} else {
+			if (isLocation) {
+				reportType = 196;
+			} else {
+				reportType = 197;
+			}
 		}
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),

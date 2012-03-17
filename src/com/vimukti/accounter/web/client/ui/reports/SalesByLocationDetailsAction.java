@@ -69,7 +69,7 @@ public class SalesByLocationDetailsAction extends Action {
 				return "salesByClassDetails";
 			}
 		} else {
-			if (!isLocation) {
+			if (isLocation) {
 				return "PurchasesByLocationDetails";
 			} else {
 				return "PurchasesbyClassDetail";
@@ -81,15 +81,15 @@ public class SalesByLocationDetailsAction extends Action {
 	public String getHelpToken() {
 		if (isCustomer) {
 			if (isLocation) {
-				return "sales-by-class";
-			} else {
 				return "sales-by-location";
+			} else {
+				return "sales-by-class";
 			}
 		} else {
-			if (!isLocation) {
-				return "Purchases-by-class";
-			} else {
+			if (isLocation) {
 				return "Purchases-by-location";
+			} else {
+				return "Purchases-by-class";
 			}
 		}
 	}
@@ -98,14 +98,14 @@ public class SalesByLocationDetailsAction extends Action {
 	public String getText() {
 		String actionsting = null;
 		if (isCustomer) {
-			if (!isLocation) {
-				actionsting = messages.salesByClassDetails();
-			} else {
+			if (isLocation) {
 				actionsting = messages.getSalesByLocationDetails(Global.get()
 						.Location());
+			} else {
+				actionsting = messages.salesByClassDetails();
 			}
 		} else {
-			if (!isLocation) {
+			if (isLocation) {
 				actionsting = messages.purchasesbyLocationDetail();
 			} else {
 				actionsting = messages.purchasesbyClassDetail();

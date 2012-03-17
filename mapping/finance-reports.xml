@@ -2603,7 +2603,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="locationName" type="String" />
+		<query-param name="locationORClassName" type="String" />
 
 		<return-scalar column="TRANSACTIONDATE" type="long" />
 		<return-scalar column="TRANSACTIONTYPE" type="int" />
@@ -2636,8 +2636,8 @@
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.T_TYPE IN ( 8, 1 )
 				       AND CASE
-				             WHEN :locationName IS NULL THEN L.LOCATION_NAME IS NULL
-				             ELSE L.LOCATION_NAME = :locationName
+				             WHEN :locationORClassName IS NULL THEN L.LOCATION_NAME IS NULL
+				             ELSE L.LOCATION_NAME = :locationORClassName
 				           END
 				ORDER  BY L.LOCATION_NAME  
 				]]>
@@ -2716,7 +2716,7 @@
 	<sql-query name="getSalesByClassDetailForClass">
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="className" type="string" />
+		<query-param name="locationORClassName" type="string" />
 		<query-param name="companyId" type="long" />
 		<query-param name="P_ACCOUNT" type="long" />
 
@@ -2751,8 +2751,8 @@
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.T_TYPE IN ( 8, 1 )
 				       AND CASE
-				             WHEN :className IS NULL THEN AC.CLASS_NAME IS NULL
-				             ELSE AC.CLASS_NAME = :className
+				             WHEN :locationORClassName IS NULL THEN AC.CLASS_NAME IS NULL
+				             ELSE AC.CLASS_NAME = :locationORClassName
 				           END
 				ORDER  BY AC.CLASS_NAME  
 				]]>
@@ -4397,6 +4397,149 @@
 					       AND AC.CLASS_NAME IS NOT NULL
 					ORDER  BY AC.CLASS_NAME  
 			]]>
+	</sql-query>
+	<sql-query name="getPurchaseByLocationSummary">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="LOCATIONNAME" type="encryptedstring" />
+		<![CDATA[
+			SELECT SUM(TI.LINE_TOTAL * T.CURRENCY_FACTOR) AS ITEMTOTAL,
+			       L.LOCATION_NAME                        AS LOCATIONNAME
+			FROM   TRANSACTION T
+			       LEFT OUTER JOIN TRANSACTION_ITEM TI
+			         ON TI.TRANSACTION_ID = T.ID
+			       LEFT OUTER JOIN ACCOUNT A
+			         ON A.ID = TI.ACCOUNT_ID
+			       LEFT OUTER JOIN ITEM I
+			         ON I.ID = TI.ITEM_ID
+			       LEFT OUTER JOIN LOCATION L
+			         ON L.ID = T.LOCATION_ID
+			WHERE  T.T_DATE BETWEEN :startDate AND :endDate
+			       AND T.T_TYPE IN ( 2, 6, 14 )
+			       AND T.COMPANY_ID = :companyId
+			GROUP  BY L.LOCATION_NAME
+			ORDER  BY L.LOCATION_NAME  
+			]]>
+	</sql-query>
+	<sql-query name="getPurchaseByLocationDetailForLocation">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="locationORClassName" type="String" />
+
+		<return-scalar column="TRANSACTIONDATE" type="long" />
+		<return-scalar column="TRANSACTIONTYPE" type="int" />
+		<return-scalar column="TRANSACTIONNUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="ITEMNAME" type="encryptedstring" />
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="LOCATIONNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTIONID" type="long" />
+		
+		<![CDATA[
+				SELECT T.T_DATE        AS TRANSACTIONDATE,
+				       T.T_TYPE        AS TRANSACTIONTYPE,
+				       T.NUMBER        AS TRANSACTIONNUMBER,
+				       A.NAME          AS ACCOUNTNAME,
+				       I.NAME          AS ITEMNAME,
+				       TI.LINE_TOTAL * T.CURRENCY_FACTOR   AS ITEMTOTAL,
+				       L.LOCATION_NAME AS LOCATIONNAME,
+				       T.ID            AS TRANSACTIONID
+				FROM   TRANSACTION T
+				       LEFT OUTER JOIN TRANSACTION_ITEM TI
+				         ON TI.TRANSACTION_ID = T.ID
+				       LEFT OUTER JOIN ACCOUNT A
+				         ON A.ID = TI.ACCOUNT_ID
+				       LEFT OUTER JOIN ITEM I
+				         ON I.ID = TI.ITEM_ID
+				       LEFT OUTER JOIN LOCATION L
+				         ON L.ID = T.LOCATION_ID
+				WHERE  T.COMPANY_ID = :companyId
+				       AND T.T_DATE BETWEEN :startDate AND :endDate
+				       AND T.T_TYPE IN ( 2,6,14 )
+				       AND CASE
+				             WHEN :locationORClassName IS NULL THEN L.LOCATION_NAME IS NULL
+				             ELSE L.LOCATION_NAME = :locationORClassName
+				           END
+				ORDER  BY L.LOCATION_NAME  
+				]]>
+
+	</sql-query>
+	<sql-query name="getPurchaseByClassSummary">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="CLASSNAME" type="encryptedstring" />
+		
+		<![CDATA[
+				SELECT SUM(TI.LINE_TOTAL * T.CURRENCY_FACTOR) AS ITEMTOTAL,
+				       AC.CLASS_NAME                          AS CLASSNAME
+				FROM   TRANSACTION T
+				       LEFT OUTER JOIN TRANSACTION_ITEM TI
+				         ON TI.TRANSACTION_ID = T.ID
+				       LEFT OUTER JOIN ACCOUNT A
+				         ON A.ID = TI.ACCOUNT_ID
+				       LEFT OUTER JOIN ITEM I
+				         ON I.ID = TI.ITEM_ID
+				       LEFT OUTER JOIN ACCOUNTER_CLASS AC
+				         ON AC.ID = TI.TRANS_ITEM_ACCOUNTER_CLASS
+				WHERE  T.COMPANY_ID = :companyId
+				       AND T.T_DATE BETWEEN :startDate AND :endDate
+				       AND T.T_TYPE IN (2,6,14 )
+				GROUP  BY AC.CLASS_NAME
+				ORDER  BY AC.CLASS_NAME  
+				]]>
+
+	</sql-query>
+	<sql-query name="getPurchaseByClassDetailForClass">
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="locationORClassName" type="string" />
+		<query-param name="companyId" type="long" />
+		<query-param name="P_ACCOUNT" type="long" />
+
+		<return-scalar column="TRANSACTIONDATE" type="long" />
+		<return-scalar column="TRANSACTIONTYPE" type="int" />
+		<return-scalar column="TRANSACTIONNUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="ITEMNAME" type="encryptedstring" />
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="CLASSNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTIONID" type="long" />
+
+		<![CDATA[
+				SELECT T.T_DATE      AS TRANSACTIONDATE,
+				       T.T_TYPE      AS TRANSACTIONTYPE,
+				       T.NUMBER      AS TRANSACTIONNUMBER,
+				       A.NAME        AS ACCOUNTNAME,
+				       I.NAME        AS ITEMNAME,
+				       TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
+				       AC.CLASS_NAME AS CLASSNAME,
+				       T.ID          AS TRANSACTIONID
+				FROM   TRANSACTION T
+				       LEFT OUTER JOIN TRANSACTION_ITEM TI
+				         ON TI.TRANSACTION_ID = T.ID
+				       LEFT OUTER JOIN ACCOUNT A
+				         ON A.ID = TI.ACCOUNT_ID
+				       LEFT OUTER JOIN ITEM I
+				         ON I.ID = TI.ITEM_ID
+				       LEFT OUTER JOIN ACCOUNTER_CLASS AC
+				         ON AC.ID = TI.TRANS_ITEM_ACCOUNTER_CLASS
+				WHERE  T.COMPANY_ID = :companyId
+				       AND T.T_DATE BETWEEN :startDate AND :endDate
+				       AND T.T_TYPE IN ( 2,6,14 )
+				       AND CASE
+				             WHEN :locationORClassName IS NULL THEN AC.CLASS_NAME IS NULL
+				             ELSE AC.CLASS_NAME = :locationORClassName
+				           END
+				ORDER  BY AC.CLASS_NAME  
+				]]>
+
 	</sql-query>
 	<!-- <sql-query name="getClosedSalesOrders"> <query-param name="companyId" 
 		type="long" /> <query-param name="startDate" type="long" /> <query-param 
