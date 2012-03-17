@@ -264,7 +264,7 @@ public class CashExpenseView extends
 						}
 					}
 				});
-//		transactionDateItem.setWidth(100);
+		// transactionDateItem.setWidth(100);
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
@@ -306,7 +306,7 @@ public class CashExpenseView extends
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(messages.chequeNo());
 		checkNo.setEnabled(true);
-//		checkNo.setWidth(100);
+		// checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
@@ -350,11 +350,11 @@ public class CashExpenseView extends
 		// Ending and Vendor Balance
 		accountBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "accountBalText");
-//		accountBalText.setWidth(100);
+		// accountBalText.setWidth(100);
 		accountBalText.setEnabled(true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+				.Vendor()), this, getBaseCurrency(), "vendorBalText");
 		vendorBalText.setEnabled(false);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
@@ -426,7 +426,7 @@ public class CashExpenseView extends
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-//		accountsDisclosurePanel.setWidth("100%");
+		// accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackDiscounts(), isTrackTax(), isTaxPerDetailLine(),
@@ -459,7 +459,7 @@ public class CashExpenseView extends
 				CashExpenseView.this.updateNonEditableItems();
 			}
 		};
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -477,15 +477,15 @@ public class CashExpenseView extends
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
-//		itemsDisclosurePanel.setWidth("100%");
+		// itemsDisclosurePanel.setWidth("100%");
 
 		memoTextAreaItem = createMemoTextAreaItem();
-//		memoTextAreaItem.setWidth(100);
+		// memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		currencyWidget = createCurrencyFactorWidget();
 		DynamicForm memoForm = new DynamicForm("memoForm");
-//		memoForm.setWidth("100%");
+		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 
 		StyledPanel totalForm = new StyledPanel("totalForm");
@@ -496,7 +496,7 @@ public class CashExpenseView extends
 		leftVLay.add(vendorForm);
 
 		StyledPanel rightVLay = new StyledPanel("rightVLay");
-//		rightVLay.setWidth("100%");
+		// rightVLay.setWidth("100%");
 		DynamicForm locationform = new DynamicForm("locationform");
 		if (locationTrackingEnabled) {
 			locationform.add(locationCombo);

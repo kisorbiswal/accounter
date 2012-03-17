@@ -151,7 +151,7 @@ public class CashPurchaseView extends
 
 		payFromCombo = createPayFromCombo(messages.payFrom());
 		// payFromCombo.setWidth(100);
-		payFromCombo.setPopupWidth("500px");
+		// payFromCombo.setPopupWidth("500px");
 		// checkNo = createCheckNumberItem(messages.chequeNo());
 		// checkNo.setDisabled(true);
 		// checkNo.setWidth(100);
