@@ -148,7 +148,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		// mainPanel.setSpacing(25);
-//		mainPanel.setWidth("100%");
+		// mainPanel.setWidth("100%");
 		mainPanel.add(infolabel1);
 		mainPanel.add(form1);
 
@@ -174,7 +174,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 	public void init() {
 		super.init();
 		createControls();
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 	}
 
 	@Override
@@ -346,12 +346,12 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		vatItemNameText.setEnabled(isInViewMode());
+		vatItemNameText.setEnabled(!isInViewMode());
 		descriptionText.setDisabled(isInViewMode());
-		vatRateTextPerT.setEnabled(isInViewMode());
-		vatReturnBoxCombo.setEnabled(isInViewMode());
-		vatAgencyCombo.setEnabled(isInViewMode());
-		statusCheck.setEnabled(isInViewMode());
+		vatRateTextPerT.setEnabled(!isInViewMode());
+		vatReturnBoxCombo.setEnabled(!isInViewMode());
+		vatAgencyCombo.setEnabled(!isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
 		// isPercentatateAmtCheck.setDisabled(isInViewMode());
 		super.onEdit();
 

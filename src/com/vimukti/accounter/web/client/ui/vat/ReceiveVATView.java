@@ -149,7 +149,7 @@ public class ReceiveVATView extends
 		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
 		// printCheck.setWidth(100);
-		printCheck.setEnabled(true);
+		printCheck.setEnabled(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -182,7 +182,7 @@ public class ReceiveVATView extends
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
 								.check())))
-			checkNoText.setEnabled(true);
+			checkNoText.setEnabled(false);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -195,7 +195,7 @@ public class ReceiveVATView extends
 		// billsDue.setHelpInformation(true);
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
 		billsDue.setEnteredDate(new ClientFinanceDate());
-		billsDue.setEnabled(isInViewMode());
+		billsDue.setEnabled(!isInViewMode());
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -242,13 +242,13 @@ public class ReceiveVATView extends
 				getBaseCurrency(), "amountText");
 		// amountText.setHelpInformation(true);
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		amountText.setEnabled(true);
+		amountText.setEnabled(false);
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "endingBalanceText");
 		// endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		endingBalanceText.setEnabled(true);
+		endingBalanceText.setEnabled(false);
 
 		balForm = new DynamicForm("balForm");
 		balForm = UIUtils.form(messages.balances());
