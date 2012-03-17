@@ -60,10 +60,9 @@ public abstract class ItemTransactionsHistoryGrid extends
 		case 4:
 			return getQty(transactionHistory.getQuantity());
 		case 5:
-			return DataUtils.getAmountAsStringInCurrency(transactionHistory
-					.getAmount(),
-					getCompany().getCurrency(transactionHistory.getCurrency())
-							.getSymbol());
+			return DataUtils.amountAsStringWithCurrency(
+					transactionHistory.getAmount(),
+					transactionHistory.getCurrency());
 		default:
 			break;
 		}
