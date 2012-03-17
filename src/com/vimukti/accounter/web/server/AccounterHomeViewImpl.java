@@ -1957,6 +1957,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		FinanceTool tool = new FinanceTool();
 		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
 				getCompanyId());
+		if(startDate.equals(new ClientFinanceDate())&&endDate.equals(new ClientFinanceDate())){
+			startDate=new ClientFinanceDate(0);
+			endDate=new ClientFinanceDate(0);
+		}
 		ExpensePortletData portletData = tool.getDashboardManager()
 				.getIncomeAccountsBalances(getCompanyId(), dates[0].getDate(),
 						dates[1].getDate());
