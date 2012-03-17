@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.HasEnabled;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class ComboPanel extends StyledPanel implements HasEnabled {
-	private boolean enabled;
+	private boolean enabled=true;
 
 	public ComboPanel(String styleName) {
 		super(styleName);
