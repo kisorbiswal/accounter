@@ -323,9 +323,6 @@ public class Vendor extends Payee {
 		}
 
 		Vendor vendor = (Vendor) clientObject;
-		if (this.getID() == 0) {
-			return super.canEdit(clientObject);
-		}
 		FlushMode flushMode = session.getFlushMode();
 
 		session.setFlushMode(FlushMode.COMMIT);

@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.imports.FinanceDateField;
 import com.vimukti.accounter.web.client.imports.Integer2Field;
 import com.vimukti.accounter.web.client.imports.LongField;
 import com.vimukti.accounter.web.client.imports.StringField;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * @author Prasanna Kumar G
@@ -37,6 +37,16 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 	private Map<String, String> importedData = new HashMap<String, String>();
 
 	AccounterMessages messages = Global.get().messages();
+
+	private String dateFormat;
+
+	protected long accountId;
+
+	private long payeeId;
+
+	private long companyId;
+
+	private Company comapny;
 
 	public AbstractImporter() {
 		fields = getAllFields();
@@ -65,6 +75,9 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 	public void loadData(Map<String, String> data) {
 		for (ImportField field : fields) {
 			String value = data.get(field.getColumnName());
+			if (field.isFinanceDate()) {
+				((FinanceDateField) field).setDateFormate(dateFormat);
+			}
 			if (value != null) {
 				field.validate(value);
 			}
@@ -73,6 +86,16 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 
 	protected String getString(String fieldName) {
 		return ((StringField) getFieldByName(fieldName)).getValue();
+	}
+
+	protected long getAccountByNumberOrName(String accountNumber,
+			boolean isAccountName) {
+		String accountNoOrName = getString(accountNumber);
+		if (accountNoOrName != null && (!accountNoOrName.isEmpty())) {
+			accountId = new FinanceTool().getAccountByNumberOrName(
+					getCompanyId(), accountNoOrName, isAccountName);
+		}
+		return accountId;
 	}
 
 	protected ClientFinanceDate getFinanceDate(String fieldName) {
@@ -107,22 +130,16 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 		return ((Integer2Field) getFieldByName(fieldName)).getValue();
 	}
 
-	protected ClientQuantity getClientQty(String quantity) {
-		ClientQuantity qty = new ClientQuantity();
-		qty.setValue(getDouble(quantity));
-		if (getLong("measurement") != null) {
-			qty.setUnit(getLong("measurement"));
-		} else if (getDouble(quantity) != null) {
-			long defaultMeasurement = Accounter.getCompany()
-					.getDefaultMeasurement();
-			qty.setUnit(defaultMeasurement);
-		}
-		return qty;
+	protected long getCurrencyAsLong(String currency) {
+		return 0;
 	}
 
-	protected long getPayeeByName(String fieldName) {
-		// TODO
-		return 0;
+	protected long getPayeeByName(String payeeName) {
+		String payee = getString(payeeName);
+		if (payee != null && (!payee.isEmpty())) {
+			payeeId = new FinanceTool().getPayeeByName(getCompanyId(), payee);
+		}
+		return payeeId;
 	}
 
 	/**
@@ -167,8 +184,23 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 		return address;
 	}
 
-	protected long getCustomerByName(String customerName) {
-		return 0;
+	@Override
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return companyId;
+	}
+
+	@Override
+	public void setCompanyId(long CompanyId) {
+		this.companyId = CompanyId;
+	}
+
+	public Company getCompanyById(long companyId) {
+		return new FinanceTool().getCompany(companyId);
 	}
 
 }

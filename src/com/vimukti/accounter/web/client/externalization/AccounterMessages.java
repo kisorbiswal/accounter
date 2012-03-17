@@ -6155,6 +6155,14 @@ public interface AccounterMessages extends Messages {
 	public String emailIdAndConfirmEmaildMustBeSame();
 
 	public String confirmEmailAddress();
+	
+	public String pleaseMapAtLeastOneField();
+
+	public String importer();
+
+	public String importSuccessCount();
+
+	public String importFailureCount();
 
 	public String purchasesbyLocationSummary();
 

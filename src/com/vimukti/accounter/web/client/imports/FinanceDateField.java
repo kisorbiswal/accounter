@@ -1,13 +1,14 @@
 package com.vimukti.accounter.web.client.imports;
 
-import java.util.Date;
-
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ImportField;
 
 public class FinanceDateField extends ImportField {
 
 	private ClientFinanceDate financeDate;
+
+	private String dateFormate;
 
 	public FinanceDateField() {
 		super();
@@ -35,14 +36,13 @@ public class FinanceDateField extends ImportField {
 		this.financeDate = value;
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
 	public boolean validate(String value) {
-		try {
-			Date date = new Date(value);
-			setValue(new ClientFinanceDate(date));
-		} catch (Exception e) {
+		ClientFinanceDate date = Global.get().stringAsFinanceDate(value,
+				dateFormate);
+		if (date == null) {
 			return false;
+		} else {
+			this.setValue(date);
 		}
 		return true;
 	}
@@ -53,6 +53,14 @@ public class FinanceDateField extends ImportField {
 			return null;
 		}
 		return getValue().toString();
+	}
+
+	public String getDateFormate() {
+		return dateFormate;
+	}
+
+	public void setDateFormate(String dateFormate) {
+		this.dateFormate = dateFormate;
 	}
 
 }

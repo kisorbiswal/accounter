@@ -55,7 +55,7 @@ public abstract class TransactionImporter<T> extends
 		item.setAccount(getLong(messages.account()));
 		item.setItem(getLong(messages.itemName()));
 		item.setDescription(getString(messages.description()));
-		item.setQuantity(getClientQty(messages.quantity()));
+		// item.setQuantity(getClientQty(messages.quantity()));
 		item.setUnitPrice(getDouble(messages.unitPrice()));
 		item.setTaxCode(getLong(messages.taxCode()));
 		item.setDiscount(getDouble(messages.discount()));

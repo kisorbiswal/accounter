@@ -2305,11 +2305,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public boolean importData(String filePath, int importerType,
-			Map<String, String> importMap) throws AccounterException {
-		getFinanceTool().importData(getCompanyId(), getUserEmail(), filePath,
-				importerType, importMap);
-		return true;
+	public List<Object> importData(String filePath, int importerType,
+			Map<String, String> importMap, String dateFormate)
+			throws AccounterException {
+
+		return getFinanceTool().importData(getCompanyId(), getUserEmail(),
+				filePath, importerType, importMap, dateFormate);
 	}
 
 	@Override

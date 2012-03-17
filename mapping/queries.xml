@@ -2222,11 +2222,47 @@
 		and sale.quantity.value &lt; 0))
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>
-	<query name="getJobsByCustomer">
-		<query-param name="customerId" type="long" />
-		<query-param name="companyId" type="long" />
-		from com.vimukti.accounter.core.Job j where j.customer.id=:customerId
-		and
-		j.company.id=:companyId order by j.id
+	 <query name="getJobsByCustomer">
+ 		<query-param name="customerId" type="long" />
+ 		<query-param name="companyId" type="long" />
+ 		from com.vimukti.accounter.core.Job j where j.customer.id=:customerId
+ 		and
+ 		j.company.id=:companyId order by j.id
+ 	</query>
+ 	<query name="getAccountByNumber">
+		<query-param name="company" type="Company" />
+		<query-param name="accountNumber" type="String" />
+		select ac.id from com.vimukti.accounter.core.Account ac where
+		ac.number=:accountNumber and ac.company=:company
+	</query>
+	<query name="getAccountByName">
+		<query-param name="company" type="Company" />
+		<query-param name="accountName" type="String" />
+		select ac.id from com.vimukti.accounter.core.Account ac where
+		ac.name=:accountName and ac.company=:company
+	</query>
+	<query name="getItemGrupByName">
+		<query-param name="company" type="Company" />
+		<query-param name="itemGrupName" type="String" />
+		select ig.id from com.vimukti.accounter.core.ItemGroup ig where
+		ig.name=:itemGrupName and ig.company=:company
+	</query>
+	<query name="getMeasurementByName">
+		<query-param name="company" type="Company" />
+		<query-param name="measurement" type="String" />
+		select m.id from com.vimukti.accounter.core.Measurement m where
+		m.name=:measurement and m.company=:company
+	</query>
+	<query name="getWarehouseByName">
+		<query-param name="company" type="Company" />
+		<query-param name="warehouse" type="String" />
+		select wh.id from com.vimukti.accounter.core.Warehouse wh where
+		wh.name=:warehouse and wh.company=:company
+	</query>
+	<query name="getPayeeIdByName">
+		<query-param name="company" type="Company" />
+		<query-param name="payee" type="String" />
+		select p.id from com.vimukti.accounter.core.Payee p where
+		p.name=:payee and p.company=:company
 	</query>
 </hibernate-mapping>
