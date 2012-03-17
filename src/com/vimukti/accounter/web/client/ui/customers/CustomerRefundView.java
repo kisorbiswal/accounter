@@ -158,7 +158,6 @@ public class CustomerRefundView extends
 
 		custForm = new DynamicForm("custForm");
 
-
 		payFromSelect = new PayFromAccountsCombo(messages.payFrom());
 		payFromSelect.setRequired(true);
 		payFromSelect.setEnabled(!isInViewMode());
@@ -179,7 +178,8 @@ public class CustomerRefundView extends
 
 				});
 
-		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),"amtText");
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amtText");
 		amtText.setRequired(true);
 		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
@@ -201,9 +201,9 @@ public class CustomerRefundView extends
 		setRefundAmount(null);
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		printCheck = new CheckboxItem(messages.toBePrinted(),"printCheck");
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
-		printCheck.setWidth(100);
+		printCheck.setEnabled(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -213,7 +213,7 @@ public class CustomerRefundView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setEnabled(!true);
+						checkNoText.setEnabled(false);
 					} else {
 						if (payFromSelect.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -223,16 +223,16 @@ public class CustomerRefundView extends
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setEnabled(!false);
+				checkNoText.setEnabled(true);
 
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo(),"checkNoText");
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
 		if (!paymentMethodCombo.getSelectedValue().equals(
 				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
-			checkNoText.setEnabled(!true);
+			checkNoText.setEnabled(false);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -244,12 +244,12 @@ public class CustomerRefundView extends
 		memoTextAreaItem = createMemoTextAreaItem();
 
 		bankBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency(),"bankBalText");
-		bankBalText.setEnabled(!true);
+				getBaseCurrency(), "bankBalText");
+		bankBalText.setEnabled(false);
 
 		custBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Customer()), this, getBaseCurrency(),"custBalText");
-		custBalText.setEnabled(!true);
+				.Customer()), this, getBaseCurrency(), "custBalText");
+		custBalText.setEnabled(false);
 
 		custForm.add(customerCombo, billToCombo, payFromSelect, amtText,
 				paymentMethodCombo, printCheck, checkNoText, memoTextAreaItem);
@@ -291,7 +291,6 @@ public class CustomerRefundView extends
 		mainVLay.add(hLay);
 
 		this.add(mainVLay);
-
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

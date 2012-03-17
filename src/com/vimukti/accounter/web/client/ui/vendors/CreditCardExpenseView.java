@@ -427,7 +427,7 @@ public class CreditCardExpenseView extends
 			}
 		};
 
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());

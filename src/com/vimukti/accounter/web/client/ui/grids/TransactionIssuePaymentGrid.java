@@ -179,16 +179,18 @@ public class TransactionIssuePaymentGrid extends
 	protected String getHeaderStyle(int index) {
 		switch (index) {
 		case 0:
-			return "date";
+			return "selectBox";
 		case 1:
-			return "number";
+			return "date";
 		case 2:
-			return "type";
+			return "number";
 		case 3:
-			return "name";
+			return "type";
 		case 4:
-			return "memo";
+			return "name";
 		case 5:
+			return "memo";
+		case 6:
 			return "amount";
 		default:
 			return "";
@@ -199,16 +201,18 @@ public class TransactionIssuePaymentGrid extends
 	protected String getRowElementsStyle(int index) {
 		switch (index) {
 		case 0:
-			return "date-value";
+			return "selectBox-value";
 		case 1:
-			return "number-value";
+			return "date-value";
 		case 2:
-			return "type-value";
+			return "number-value";
 		case 3:
-			return "name-value";
+			return "type-value";
 		case 4:
-			return "memo-value";
+			return "name-value";
 		case 5:
+			return "memo-value";
+		case 6:
 			return "amount-value";
 		default:
 			return "";
