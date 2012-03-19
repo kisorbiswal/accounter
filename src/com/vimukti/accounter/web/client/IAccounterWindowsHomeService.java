@@ -30,6 +30,6 @@ public interface IAccounterWindowsHomeService extends RemoteService {
 	ArrayList<CompanyDetails> updateClient(String password,
 			String confirmPassword) throws StartupException;
 
-	ClientCompany getCompany(Long companyId) throws AccounterException;
+	CompanyAndFeatures getCompany(Long companyId) throws AccounterException;
 
 }

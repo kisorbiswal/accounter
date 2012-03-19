@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.CompanyAndFeatures;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.win8.LoginPanel;
 
@@ -32,17 +35,18 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 
 	public void loadCompany(Long companyId) {
 		accounter.createWindowsRPCService().getCompany(companyId,
-				new AccounterAsyncCallback<ClientCompany>() {
+				new AccounterAsyncCallback<CompanyAndFeatures>() {
 
 					@Override
 					public void onException(AccounterException exception) {
-						// TODO Auto-generated method stub
 
 					}
 
 					@Override
-					public void onResultSuccess(ClientCompany result) {
-						accounter.gotCompany(result);
+					public void onResultSuccess(CompanyAndFeatures result) {
+						accounter.gotCompany(result.getClientCompany());
+						Set features = new HashSet(result.getFeatures());
+						accounter.setFeatures(features);
 					}
 				});
 	}

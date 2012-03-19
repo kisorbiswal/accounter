@@ -18,9 +18,10 @@ public class MergeItemsAction extends Action {
 	public void run() {
 		if (Accounter.hasPermission(Features.MERGING)) {
 			
-			ItemMergeDialog customerMergeDialog = new ItemMergeDialog();
-			MainFinanceWindow.getViewManager().showView(customerMergeDialog, data,
-					isDependent, MergeItemsAction.this);
+			ItemMergeDialog dialog = new ItemMergeDialog(messages.mergeItems(),
+					messages.itemDescription());
+
+			dialog.show();
 		} else {
 			if (!isCalledFromHistory) {
 				Accounter.showSubscriptionWarning();

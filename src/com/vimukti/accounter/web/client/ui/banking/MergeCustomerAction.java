@@ -18,9 +18,11 @@ public class MergeCustomerAction extends Action {
 	@Override
 	public void run() {
 		if (Accounter.hasPermission(Features.MERGING)) {
-			CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog();
-			MainFinanceWindow.getViewManager().showView(customerMergeDialog,
-					data, isDependent, MergeCustomerAction.this);
+			CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
+					messages.mergeCustomers(Global.get().customers()),
+					messages.payeeMergeDescription(Global.get().customer()));
+
+			customerMergeDialog.show();
 		} else {
 			if (!isCalledFromHistory) {
 				Accounter.showSubscriptionWarning();

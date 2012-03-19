@@ -25,7 +25,7 @@ public interface IAccounterCompanyInitializationService extends RemoteService {
 	public List<AccountsTemplate> getAccountsTemplate()
 			throws AccounterException;
 
-	public ClientCompany getCompany() throws AccounterException;
+	public CompanyAndFeatures getCompany() throws AccounterException;
 
 	public String getCountry();
 

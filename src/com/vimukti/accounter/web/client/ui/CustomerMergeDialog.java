@@ -1,17 +1,13 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -21,7 +17,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Sai Prasad N
  * 
  */
-public class CustomerMergeDialog extends BaseView<ClientCustomer> {
+public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
+		AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
@@ -39,55 +36,59 @@ public class CustomerMergeDialog extends BaseView<ClientCustomer> {
 	private ClientCustomer clientCustomer;
 	private ClientCustomer clientCustomer1;
 
-	public CustomerMergeDialog() {
-
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		this.getElement().setId("accountMergeDialog");
+	public CustomerMergeDialog(String title, String descript) {
+		super(title, descript);
+		this.getElement().setId("CustomerMergeDialog");
+		okbtn.setText(messages.merge());
 		createControls();
-		saveAndNewButton.setVisible(false);
-		saveAndCloseButton.setText(messages.merge());
-		// setSize("100%", "100%");
+		center();
 		clientCustomer1 = null;
 		clientCustomer = null;
 	}
 
 	private void createControls() {
-
-		form = new DynamicForm("firstForm");
-		form1 = new DynamicForm("secondForm");
-
+		form = new DynamicForm("form");
+		form1 = new DynamicForm("form1");
+		StyledPanel layout = new StyledPanel("layout");
+		StyledPanel layout1 = new StyledPanel("layout1");
 		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		customerCombo = createCustomerCombo();
 		customerCombo1 = createCustomerCombo1();
 
 		customerIDTextItem = new TextItem(messages.payeeID(Global.get()
-				.Customer()), "customerIDTextItem");
+				.Customer()),"customerIDTextItem");
+
+		customerIDTextItem.setEnabled(false);
 
 		customerIDTextItem1 = new TextItem(messages.payeeID(Global.get()
-				.Customer()), "customerIDTextItem");
+				.Customer()),"customerIDTextItem1");
 
-		status = new CheckboxItem(messages.active(), "status");
+		customerIDTextItem1.setEnabled(false);
+
+		status = new CheckboxItem(messages.active(),"status");
 		status.setValue(false);
 
-		status1 = new CheckboxItem(messages.active(), "status");
+
+		status1 = new CheckboxItem(messages.active(),"status1");
 		status1.setValue(false);
 
-		balanceTextItem = new TextItem(messages.balance(), "balanceTextItem");
+		balanceTextItem = new TextItem(messages.balance(),"balanceTextItem");
+		balanceTextItem.setEnabled(false);
 
-		balanceTextItem1 = new TextItem(messages.balance(), "balanceTextItem");
+		balanceTextItem1 = new TextItem(messages.balance(),"balanceTextItem1");
+		balanceTextItem1.setEnabled(false);
 		customerCombo.setRequired(true);
 		customerCombo1.setRequired(true);
-		form.add(customerCombo, customerIDTextItem, status, balanceTextItem);
+		form.add(customerCombo, customerIDTextItem, status,
+				balanceTextItem);
 		form1.add(customerCombo1, customerIDTextItem1, status1,
 				balanceTextItem1);
-
-		horizontalPanel.add(form);
-		horizontalPanel.add(form1);
-		this.add(horizontalPanel);
+		// form.setItems(getTextItems());
+		layout.add(form);
+		layout1.add(form1);
+		horizontalPanel.add(layout);
+		horizontalPanel.add(layout1);
+		setBodyLayout(horizontalPanel);
 
 	}
 
@@ -151,7 +152,7 @@ public class CustomerMergeDialog extends BaseView<ClientCustomer> {
 	}
 
 	@Override
-	public ValidationResult validate() {
+	protected ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
 		if (clientCustomer != null && clientCustomer1 != null) {
@@ -164,15 +165,15 @@ public class CustomerMergeDialog extends BaseView<ClientCustomer> {
 		result = form.validate();
 		result = form1.validate();
 		return result;
+
 	}
 
 	@Override
-	public void saveAndUpdateView() {
-
-		validate();
+	protected boolean onOK() {
 
 		if (clientCustomer1 != null && clientCustomer != null) {
 			if (clientCustomer1.getID() == clientCustomer.getID()) {
+				return false;
 			}
 		}
 		ClientCurrency currency1 = getCompany().getCurrency(
@@ -184,52 +185,30 @@ public class CustomerMergeDialog extends BaseView<ClientCustomer> {
 					.currenciesOfTheBothCustomersMustBeSame(Global.get()
 							.customers()));
 		} else {
-
 			Accounter.createHomeService().mergeCustomer(clientCustomer,
-					clientCustomer1, new AsyncCallback<Void>() {
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
-						}
-
-						@Override
-						public void onSuccess(Void result) {
-							Accounter.showInformation("Merge Sucessful");
-
-						}
-					});
+					clientCustomer1, this);
+			com.google.gwt.user.client.History.back();
+			return true;
 		}
 
+		return true;
 	}
 
 	@Override
-	public void deleteFailed(AccounterException caught) {
+	public void onFailure(Throwable caught) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteSuccess(IAccounterCore result) {
+	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public String getViewTitle() {
-		return "Customer Merge View";
-	}
-
-	@Override
-	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		customerCombo.setFocus();
 
 	}
 

@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.CompanyAndFeatures;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -221,24 +223,43 @@ public class AccounterCompanyInitializationServiceImpl extends
 	}
 
 	@Override
-	public ClientCompany getCompany() throws AccounterException {
+	public CompanyAndFeatures getCompany() throws AccounterException {
 		Long companyID = (Long) getThreadLocalRequest().getSession()
 				.getAttribute(BaseServlet.COMPANY_ID);
+		CompanyAndFeatures companyAndFeatures = new CompanyAndFeatures();
 		if (companyID == null) {
-			return null;
+		
+			companyAndFeatures.setClientCompany(null);
+
+			ArrayList<String> list = new ArrayList<String>(getClient(
+					getUserEmail()).getClientSubscription().getSubscription()
+					.getFeatures());
+			companyAndFeatures.setFeatures(list);
+
+			return companyAndFeatures;
+		} else {
+
+			FinanceTool tool = new FinanceTool();
+
+			ClientCompany clientCompany = tool.getCompanyManager()
+					.getClientCompany(getUserEmail(), companyID);
+
+			CometSession cometSession = CometServlet
+					.getCometSession(getThreadLocalRequest().getSession());
+			CometManager.initStream(getThreadLocalRequest().getSession()
+					.getId(), companyID, clientCompany.getLoggedInUser()
+					.getEmail(), cometSession);
+
+			companyAndFeatures.setClientCompany(clientCompany);
+
+			ArrayList<String> list = new ArrayList<String>(getClient(
+					getUserEmail()).getClientSubscription().getSubscription()
+					.getFeatures());
+			companyAndFeatures.setFeatures(list);
+
+			return companyAndFeatures;
+
 		}
-
-		FinanceTool tool = new FinanceTool();
-		ClientCompany clientCompany = tool.getCompanyManager()
-				.getClientCompany(getUserEmail(), companyID);
-
-		CometSession cometSession = CometServlet
-				.getCometSession(getThreadLocalRequest().getSession());
-		CometManager.initStream(getThreadLocalRequest().getSession().getId(),
-				companyID, clientCompany.getLoggedInUser().getEmail(),
-				cometSession);
-
-		return clientCompany;
 	}
 
 	protected String getUserEmail() {

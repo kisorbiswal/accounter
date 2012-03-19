@@ -29,6 +29,6 @@ public interface IAccounterWindowsHomeServiceAsync {
 			AsyncCallback<ArrayList<CompanyDetails>> callback);
 
 	void getCompany(Long companyId,
-			AsyncCallback<ClientCompany> accounterAsyncCallback);
+			AsyncCallback<CompanyAndFeatures> accounterAsyncCallback);
 
 }

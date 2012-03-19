@@ -27,7 +27,7 @@
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
-	<!-- <set-property name="user.agent" value="gecko1_8" /> -->
+<!-- 	<set-property name="user.agent" value="ie9" /> -->
 	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
 		value="true" />
 	<define-property name="tablet.user.agent" values="ie10, android, ipad, not_tablet" />
@@ -89,6 +89,21 @@
 		class="com.vimukti.accounter.web.client.ui.WebsocketAccounterRPCInitialiser">
 		<when-type-is
 			class="com.vimukti.accounter.web.client.ui.AccounterRPCInitialiser" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.core.AccounterCometInitializer">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.core.WebsocketCometInitializer" />
+		<when-property-is name="tablet.user.agent" value="ie10" />
+	</replace-with>
+
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.grids.StyledFlexTable">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.grids.GwtFlexTable" />
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 

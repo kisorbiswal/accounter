@@ -19,9 +19,10 @@ public class MergeVendorAction extends Action {
 	public void run() {
 		if (Accounter.hasPermission(Features.MERGING)) {
 			
-			VendorMergeDialog customerMergeDialog = new VendorMergeDialog();
-			MainFinanceWindow.getViewManager().showView(customerMergeDialog, data,
-					isDependent, MergeVendorAction.this);
+			VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
+					messages.mergeVendors(Global.get().vendors()),
+					messages.payeeMergeDescription(Global.get().vendor()));
+			vendorMergeDialog.show();
 		} else {
 			if (!isCalledFromHistory) {
 				Accounter.showSubscriptionWarning();

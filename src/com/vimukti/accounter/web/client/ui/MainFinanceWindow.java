@@ -58,13 +58,11 @@ public class MainFinanceWindow extends FlowPanel {
 	private int width;
 	private HelpItem item;
 	public static Map<String, Action> actions;
-	private CometClient cometClient;
 	private static final int CLASS = 1;
 	private static final int LOCATION = 2;
 	private static final int JOB = 3;
 
 	protected AccounterMessages messages = Global.get().messages();
-	private boolean shouldReconnect = true;
 
 	public MainFinanceWindow() {
 		initializeActionsWithTokens();
@@ -153,109 +151,16 @@ public class MainFinanceWindow extends FlowPanel {
 	}
 
 	public void fitToSize(int height, int width) {
-
 		this.height = height;
 		this.width = width - 20;
-
 		viewManager.fitToSize(height, width - 10 - 15);
-
 	}
 
 	@Override
 	public void onLoad() {
-		// ClientCometManager.getInstance().initComet();
-		//
-		// BaseView<?> view = viewManager.getContentPanel();
-		// viewManager.fitToSize(height, width);
-
-		// setHeight(this.height + "px");
-		// if (view == null)
-		// viewManager.fitToSize(width - 10, height);
-		// else {
-		// view.setHeightForCanvas((height * 80.6 / 100) + "");
-		// view.getButtonPanel().setHeight("30px");
-		// }
 		super.onLoad();
-		// viewManager.fitToSize(this.getOffsetHeight(), 960);
-		// if (GWT.isScript())
-		startCometService();
 		this.getElement().getParentElement()
 				.addClassName("main-finance-window");
-	}
-
-	private void startCometService() {
-		shouldReconnect = true;
-		AccounterCometSerializer serializer = GWT
-				.create(AccounterCometSerializer.class);
-		this.cometClient = new CometClient("/do/comet", serializer,
-				new CometListener() {
-					private int attempts;
-					private int interval = 1;
-
-					@Override
-					public void onRefresh() {
-						JNSI.log("onRefresh");
-					}
-
-					@Override
-					public void onMessage(List<? extends Serializable> messages) {
-						for (Serializable serializableObj : messages) {
-							Accounter.getCompany().processCommand(
-									serializableObj);
-						}
-					}
-
-					@Override
-					public void onHeartbeat() {
-						JNSI.log("onHeartbeat");
-					}
-
-					@Override
-					public void onError(Throwable exception, boolean connected) {
-						JNSI.log("onError ->" + exception.getMessage());
-						onDisconnected();
-					}
-
-					@Override
-					public void onDisconnected() {
-						JNSI.log("onDisconnected->" + interval);
-						cometClient.stop();
-						if (!shouldReconnect) {
-							return;
-						}
-						if (attempts > 20) {
-							attempts = 0;
-							shouldReconnect = false;
-							return;
-						}
-						attempts++;
-						startTimer();
-						interval++;
-
-					}
-
-					private void startTimer() {
-						Scheduler.get().scheduleFixedDelay(
-								new RepeatingCommand() {
-
-									@Override
-									public boolean execute() {
-										JNSI.log("Re-Connecting->" + interval);
-										cometClient.start();
-										return false;
-									}
-								}, interval * 1000);
-					}
-
-					@Override
-					public void onConnected(int heartbeat) {
-						JNSI.log("onConnected->" + heartbeat);
-						attempts = 0;
-						interval = 0;
-						shouldReconnect = true;
-					}
-				});
-		cometClient.start();
 	}
 
 	@Override
@@ -287,9 +192,9 @@ public class MainFinanceWindow extends FlowPanel {
 
 	@Override
 	protected void onDetach() {
-		if (cometClient != null) {
-			this.cometClient.stop();
-		}
+
+		Accounter.getComet().stopComet();
+
 		this.getParent().removeStyleName("noScroll");
 		super.onDetach();
 
@@ -1019,7 +924,6 @@ public class MainFinanceWindow extends FlowPanel {
 	}
 
 	public void onSessionExpired() {
-		cometClient.stop();
-		shouldReconnect = false;
+		Accounter.getComet().stopComet();
 	}
 }

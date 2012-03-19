@@ -48,8 +48,6 @@ class AccounterWebSocket implements OnTextMessage {
 			ByteArrayBuffer responses = connector.getResponses(
 					new ByteArrayBuffer(msg, "UTF-8"), true);
 			connection.sendMessage(id + ":" + responses.toString("UTF-8"));
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
