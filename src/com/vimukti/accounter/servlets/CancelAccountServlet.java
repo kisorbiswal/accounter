@@ -96,6 +96,7 @@ public class CancelAccountServlet extends BaseServlet {
 				deleteComapny(httpSession, list);
 			}
 			client.setDeleted(true);
+			client.setPassword(null);
 			session.saveOrUpdate(client);
 			transaction.commit();
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, "Success");
