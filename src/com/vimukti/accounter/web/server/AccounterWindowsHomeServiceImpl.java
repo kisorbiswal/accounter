@@ -492,8 +492,8 @@ public class AccounterWindowsHomeServiceImpl extends
 			return null;
 		}
 		emailId = emailId.trim();
-		password = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ password.trim()));
+		String passwordWord = HexUtil.bytesToHex(Security.makeHash(emailId
+				+ Client.PASSWORD_HASH_STRING + password.trim()));
 
 		Session session = HibernateUtil.getCurrentSession();
 		try {
@@ -501,10 +501,24 @@ public class AccounterWindowsHomeServiceImpl extends
 			Query query = session
 					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
 			query.setParameter(EMAIL_ID, emailId);
-			query.setParameter(PASSWORD, password);
+			query.setParameter(PASSWORD, passwordWord);
 			client = (Client) query.uniqueResult();
+			String passwordHash = HexUtil.bytesToHex(Security.makeHash(emailId
+					+ password.trim()));
+			if (client == null) {
+				query = session
+						.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
+				query.setParameter(EMAIL_ID, emailId);
+				query.setParameter(PASSWORD, passwordHash);
+				client = (Client) query.uniqueResult();
+				if (client != null) {
+					client.setPassword(passwordWord);
+					session.saveOrUpdate(client);
+				}
+			}
 			return client;
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -876,27 +890,38 @@ public class AccounterWindowsHomeServiceImpl extends
 				.setAttribute(COMPANY_ID, companyId);
 		String loginEmail = (String) getThreadLocalRequest().getSession()
 				.getAttribute(EMAIL_ID);
-		if (companyId == null || companyId == 0) {
-			return null;
-		}
-
-		FinanceTool tool = new FinanceTool();
-		ClientCompany clientCompany = tool.getCompanyManager()
-				.getClientCompany(loginEmail, companyId);
-
-		CometSession cometSession = CometServlet
-				.getCometSession(getThreadLocalRequest().getSession());
-		CometManager.initStream(getThreadLocalRequest().getSession().getId(),
-				companyId, clientCompany.getLoggedInUser().getEmail(),
-				cometSession);
 
 		CompanyAndFeatures comFeatures = new CompanyAndFeatures();
-		comFeatures.setClientCompany(clientCompany);
-		ArrayList<String> list = new ArrayList<String>(getClient(getUserEmail())
-				.getClientSubscription().getSubscription().getFeatures());
-		comFeatures.setFeatures(list);
 
-		return comFeatures;
+		if (companyId == null || companyId == 0) {
+			comFeatures.setClientCompany(null);
+
+			ArrayList<String> list = new ArrayList<String>(getClient(
+					getUserEmail()).getClientSubscription().getSubscription()
+					.getFeatures());
+			comFeatures.setFeatures(list);
+			return comFeatures;
+		} else {
+
+			FinanceTool tool = new FinanceTool();
+			ClientCompany clientCompany = tool.getCompanyManager()
+					.getClientCompany(loginEmail, companyId);
+
+			CometSession cometSession = CometServlet
+					.getCometSession(getThreadLocalRequest().getSession());
+			CometManager.initStream(getThreadLocalRequest().getSession()
+					.getId(), companyId, clientCompany.getLoggedInUser()
+					.getEmail(), cometSession);
+
+			comFeatures.setClientCompany(clientCompany);
+			ArrayList<String> list = new ArrayList<String>(getClient(
+					getUserEmail()).getClientSubscription().getSubscription()
+					.getFeatures());
+			comFeatures.setFeatures(list);
+
+			return comFeatures;
+
+		}
 	}
 
 	protected String getUserEmail() {

@@ -806,7 +806,7 @@ public class InvoiceBrandingView<T> extends
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		this.getElement().setId("invoicebrandingview");
 	}
 
 	@Override

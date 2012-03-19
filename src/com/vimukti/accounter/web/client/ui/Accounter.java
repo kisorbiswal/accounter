@@ -115,12 +115,12 @@ public class Accounter implements EntryPoint {
 				}
 				Set features = new HashSet(result.getFeatures());
 				setFeatures(features);
-				
+
 				if (result.getClientCompany() != null)
 					gotCompany(result.getClientCompany());
 				else
 					gotCompany(null);
-				
+
 			}
 
 		};
@@ -132,6 +132,7 @@ public class Accounter implements EntryPoint {
 
 		if (company == null) {
 			// and, now we are ready to start the application.
+
 			removeLoadingImage();
 
 			header = new Header();
@@ -169,6 +170,7 @@ public class Accounter implements EntryPoint {
 
 	}
 
+
 	public static ClientUser getUser() {
 		return user;
 	}
@@ -200,6 +202,7 @@ public class Accounter implements EntryPoint {
 
 	public static void initiateComet() {
 		cometInitializer = GWT.create(AccounterCometInitializer.class);
+		cometInitializer.initiateComet();
 	}
 
 	public static AccounterCometInitializer getComet() {
@@ -383,13 +386,7 @@ public class Accounter implements EntryPoint {
 
 	static native void removeLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
-		var footer = $wnd.document.getElementById('mainFooter');
-		var appVersions = $wnd.document.getElementById('appVersions');
-		//		feedbackimg.style.visibility = 'visible';
-		//var header = $wnd.document.getElementById('mainHeader');
 		parent.style.visibility = 'hidden';
-		footer.style.visibility = 'visible';
-		appVersions.style.visibility = 'visible';
 	}-*/;
 
 	/**

@@ -1,16 +1,9 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import net.zschech.gwt.comet.client.CometClient;
-import net.zschech.gwt.comet.client.CometListener;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -24,7 +17,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -82,16 +74,17 @@ public class MainFinanceWindow extends FlowPanel {
 		// if (!Accounter.isMacApp()) {
 		// add(hMenuBar);
 		// }
-		boolean isTouch = false;
-		IMenuFactory menuFactory = null;
-		if (isTouch) {
-			menuFactory = new TouchMenuFactory();
-		} else {
-			menuFactory = new DesktopMenuFactory();
-		}
+		// boolean isTouch = false;
+		// IMenuFactory menuFactory = null;
+		// if (isTouch) {
+		// menuFactory = new TouchMenuFactory();
+		// } else {
+		// menuFactory = new DesktopMenuFactory();
+		// }
 
-		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
-		add(menubar);
+		WebMenu menubar = GWT.create(WebMenu.class);
+		menubar.initialize();
+		menubar.hasWidget(this);
 
 		add(viewManager);
 		Label help = new Label(messages.helpLinks());
@@ -192,9 +185,7 @@ public class MainFinanceWindow extends FlowPanel {
 
 	@Override
 	protected void onDetach() {
-
 		Accounter.getComet().stopComet();
-
 		this.getParent().removeStyleName("noScroll");
 		super.onDetach();
 
@@ -924,6 +915,6 @@ public class MainFinanceWindow extends FlowPanel {
 	}
 
 	public void onSessionExpired() {
-		Accounter.getComet().stopComet();
+		//Accounter.getComet().stopComet();
 	}
 }

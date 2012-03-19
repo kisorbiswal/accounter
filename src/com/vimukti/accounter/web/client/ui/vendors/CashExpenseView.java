@@ -502,7 +502,6 @@ public class CashExpenseView extends
 			locationform.add(locationCombo);
 		}
 		locationform.add(accountBalText, vendorBalText);
-		locationform.getElement().getStyle().setFloat(Float.RIGHT);
 		rightVLay.add(locationform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
