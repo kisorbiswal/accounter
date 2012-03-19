@@ -2950,3 +2950,6 @@ button.disable,button.disable:hover {
 .subPanel {
 	padding-left: 20px;
 }
+.combo-scroll-panel{
+	max-height: 100px;
+}
