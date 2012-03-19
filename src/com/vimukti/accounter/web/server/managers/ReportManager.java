@@ -334,18 +334,21 @@ public class ReportManager extends Manager {
 		year = (month == 0) ? year - 1 : year;
 		month = (month == 0) ? 12 : month;
 		FinanceDate endDate1 = new FinanceDate(year, month, 31);
-
+		Map<Long, Long> inneequeryMap = new HashMap<Long, Long>();
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
 		List l;
+		List inerlist = null;
 
 		if (categoryType == 2) {
 			l = session.getNamedQuery("getProfitAndLossByLocation")
 					.setParameter("companyId", companyId)
-
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
 		} else if (categoryType == 1) {
+			inerlist = session.getNamedQuery("getclassIDByTransactionItem")
+					.list();
+
 			l = session.getNamedQuery("getProfitAndLossByClass")
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
@@ -356,7 +359,16 @@ public class ReportManager extends Manager {
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
 		}
-
+		if (categoryType == 1) {
+			Object[] object = null;
+			Iterator iterator = inerlist.iterator();
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				long transactionId = ((Long) object[0]).longValue();
+				long classId = ((Long) object[1]).longValue();
+				inneequeryMap.put(transactionId, classId);
+			}
+		}
 		Object[] object = null;
 		Iterator iterator = l.iterator();
 		List<ProfitAndLossByLocation> queryResult = new ArrayList<ProfitAndLossByLocation>();
@@ -374,23 +386,35 @@ public class ReportManager extends Manager {
 						: (String) object[2]);
 				record.setAccountType(object[3] == null ? 0
 						: ((Integer) object[3]).intValue());
+				long transactionID = (object[6] == null ? 0
+						: ((Long) object[6]).longValue());
+				long location;
+				if (object[4] == null) {
+					location = inneequeryMap.get(transactionID);
+				} else {
+					location = object[4] == null ? 0 : ((Long) object[4])
+							.longValue();
+				}
 
-				long location = object[4] == null ? 0 : ((Long) object[4])
-						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
 				record.getMap().put(location, amount);
-				// record.setParentAccount(object[6] == null ? 0
-				// : ((Long) object[6]).longValue());
+
 				queryResult.add(record);
 			} else {
 				ProfitAndLossByLocation record = queryResult.get(queryResult
 						.size() - 1);
-				long location = object[4] == null ? 0 : ((Long) object[4])
-						.longValue();
+				long transactionID = (object[6] == null ? 0
+						: ((Long) object[6]).longValue());
+				long location;
+				if (object[4] == null) {
+					location = inneequeryMap.get(transactionID);
+				} else {
+					location = object[4] == null ? 0 : ((Long) object[4])
+							.longValue();
+				}
 				double amount = object[5] == null ? 0 : (Double) object[5];
 				/* + record.getMap().get(location) */;
 				record.getMap().get(location);
-				record.setCategoryId(location);
 			}
 		}
 
