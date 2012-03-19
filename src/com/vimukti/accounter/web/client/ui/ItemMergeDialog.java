@@ -1,15 +1,11 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -19,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Sai Prasad N
  * 
  */
-public class ItemMergeDialog extends BaseView implements AsyncCallback<Void> {
+public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 
 	private DynamicForm form;
 	private DynamicForm form1;
@@ -38,58 +34,50 @@ public class ItemMergeDialog extends BaseView implements AsyncCallback<Void> {
 	private ClientItem toClientItem;
 
 	public ItemMergeDialog(String title, String descript) {
-
-	}
-
-	public ItemMergeDialog() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void init() {
-		super.init();
+		super(title, descript);
 		this.getElement().setId("ItemMergeDialog");
+		setWidth("650px");
+		okbtn.setText(messages.merge());
 		createControls();
-		saveAndNewButton.setVisible(false);
-		saveAndCloseButton.setText(messages.merge());
+		center();
 	}
 
 	private void createControls() {
-		form = new DynamicForm("firstForm");
-		form1 = new DynamicForm("seondForm");
-		StyledPanel styledPanel = new StyledPanel("mainPanel");
+		form = new DynamicForm("form");
+		form1 = new DynamicForm("form1");
+		StyledPanel layout = new StyledPanel("layout");
+		StyledPanel layout1 = new StyledPanel("layout1");
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		itemCombo = createItemCombo();
 		itemCombo1 = createItemCombo1();
 
-		status = new CheckboxItem(messages.active(), "status");
+		status = new CheckboxItem(messages.active(),"status");
 		status.setValue(false);
 
-		status1 = new CheckboxItem(messages.active(), "status");
+
+		status1 = new CheckboxItem(messages.active(),"status1");
 		status1.setValue(false);
 
-		itemType = new TextItem(messages.itemType(), "itemType");
+		itemType = new TextItem(messages.itemType(),"itemType");
 		itemType.setEnabled(false);
 
-		itemType1 = new TextItem(messages.itemType(), "itemType");
+		itemType1 = new TextItem(messages.itemType(),"itemType1");
 		itemType1.setEnabled(false);
-
-		price = new TextItem(messages.salesPrice(), "price");
+		
+		price = new TextItem(messages.salesPrice(),"price");
 		price.setEnabled(false);
 
-		price1 = new TextItem(messages.salesPrice(), "price");
+		price1 = new TextItem(messages.salesPrice(),"price1");
 		price1.setEnabled(false);
-		form.add(itemCombo);
-		form.add(itemType);
-		form.add(status);
-		form.add(price);
-		form1.add(itemCombo1);
-		form1.add(itemType1);
-		form1.add(status1);
-		form1.add(price1);
+
+		form.add(itemCombo, itemType, status, price);
+		form1.add(itemCombo1, itemType1, status1, price1);
 		// form.setItems(getTextItems());
-		styledPanel.add(form);
-		styledPanel.add(form1);
-		this.add(styledPanel);
+		layout.add(form);
+		layout1.add(form1);
+		horizontalPanel.add(layout);
+		horizontalPanel.add(layout1);
+		setBodyLayout(horizontalPanel);
 
 	}
 
@@ -151,7 +139,8 @@ public class ItemMergeDialog extends BaseView implements AsyncCallback<Void> {
 		price1.setValue(String.valueOf(selectItem.getSalesPrice()));
 	}
 
-	public ValidationResult validate() {
+	@Override
+	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		result.add(form1.validate());
 		if (fromClientItem != null && toClientItem != null) {
@@ -169,20 +158,21 @@ public class ItemMergeDialog extends BaseView implements AsyncCallback<Void> {
 	}
 
 	@Override
-	public void saveAndUpdateView() {
-
-		validate();
-
+	protected boolean onOK() {
 		if (fromClientItem != null && toClientItem != null) {
 			if (fromClientItem.getID() == toClientItem.getID()) {
+				return false;
 			}
 		}
 		if (fromClientItem.getType() != toClientItem.getType()) {
-			Accounter.showError("Both Items must belong to the same type");
+			Accounter.showError(messages.bothItemsMustBelongsTheSameType());
 		} else {
 			Accounter.createHomeService().mergeItem(fromClientItem,
 					toClientItem, this);
+			com.google.gwt.user.client.History.back();
+			return true;
 		}
+		return false;
 	}
 
 	@Override
@@ -201,29 +191,6 @@ public class ItemMergeDialog extends BaseView implements AsyncCallback<Void> {
 	public void setFocus() {
 		itemCombo.setFocus();
 
-	}
-
-	@Override
-	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getViewTitle() {
-		return messages.mergeItems();
-	}
-
-	@Override
-	public List getForms() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

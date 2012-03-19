@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.ClientGlobal;
+import com.vimukti.accounter.web.client.CompanyAndFeatures;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
@@ -29,6 +30,8 @@ import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
+import com.vimukti.accounter.web.client.core.AccounterCometInitializer;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
@@ -93,20 +96,31 @@ public class Accounter implements EntryPoint {
 	private static ClientFinanceDate startDate;
 	private static boolean isMacApp;
 	private static TranslateServiceAsync translateService;
+	private static AccounterCometInitializer cometInitializer;
 
 	public static void loadCompany() {
 
 		IAccounterCompanyInitializationServiceAsync cIService = createCompanyInitializationService();
 
-		final AccounterAsyncCallback<ClientCompany> getCompanyCallback = new AccounterAsyncCallback<ClientCompany>() {
+		final AccounterAsyncCallback<CompanyAndFeatures> getCompanyCallback = new AccounterAsyncCallback<CompanyAndFeatures>() {
 			public void onException(AccounterException caught) {
 				showError(messages.unableToLoadCompany());
-				// //UIUtils.log(caught.toString());
 				caught.printStackTrace();
 			}
 
-			public void onResultSuccess(ClientCompany company) {
-				gotCompany(company);
+			@Override
+			public void onResultSuccess(CompanyAndFeatures result) {
+				if (result == null) {
+					gotCompany(null);
+				}
+				Set features = new HashSet(result.getFeatures());
+				setFeatures(features);
+				
+				if (result.getClientCompany() != null)
+					gotCompany(result.getClientCompany());
+				else
+					gotCompany(null);
+				
 			}
 
 		};
@@ -116,7 +130,6 @@ public class Accounter implements EntryPoint {
 
 	public static void gotCompany(ClientCompany company) {
 
-		removeLoadingImage();
 		if (company == null) {
 			// and, now we are ready to start the application.
 			removeLoadingImage();
@@ -145,6 +158,7 @@ public class Accounter implements EntryPoint {
 			RootPanel.get("mainWindow").add(vpanel);
 			RootPanel.get("mainWindow").add(setupWizard);
 		} else {
+			removeLoadingImage();
 			Accounter.setCompany(company);
 			Accounter.setUser(company.getLoggedInUser());
 			startDate = company.getTransactionStartDate();
@@ -178,8 +192,18 @@ public class Accounter implements EntryPoint {
 	private static void initGUI() {
 		// Setting currency format
 		reloadMacMenu();
+		initiateComet();
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
+
+	}
+
+	public static void initiateComet() {
+		cometInitializer = GWT.create(AccounterCometInitializer.class);
+	}
+
+	public static AccounterCometInitializer getComet() {
+		return cometInitializer;
 	}
 
 	public static void reset() {
@@ -311,7 +335,7 @@ public class Accounter implements EntryPoint {
 		boolean isAdmin = JNSI.getIsAdmin("isAdmin");
 		IGlobal global = GWT.create(ClientGlobal.class);
 		Global.set(global);
-		loadFeatures();
+		// loadFeatures();
 		if (isAdmin) {
 			return;
 		}
@@ -319,7 +343,7 @@ public class Accounter implements EntryPoint {
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		rpcInitialiser = GWT.create(AccounterRPCInitialiser.class);
-		
+
 		AccounterInitialiser create = GWT.create(AccounterInitialiser.class);
 		create.initalize();
 
@@ -328,7 +352,7 @@ public class Accounter implements EntryPoint {
 
 	private void loadFeatures() {
 		Object obj = JNSI.getFeatures();
-		features = new HashSet<String>();
+		setFeatures(new HashSet<String>());
 		String string = obj.toString().trim();
 		if (string.isEmpty()) {
 			return;
@@ -348,7 +372,6 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static boolean isLoggedInFromDomain() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -445,7 +468,6 @@ public class Accounter implements EntryPoint {
 			public void onException(AccounterException caught) {
 				source.saveFailed(caught);
 				caught.printStackTrace();
-				// TODO handle other kind of errors
 			}
 
 			public void onResultSuccess(Long result) {
@@ -474,7 +496,6 @@ public class Accounter implements EntryPoint {
 			public void onException(AccounterException caught) {
 				source.saveFailed(caught);
 				caught.printStackTrace();
-				// TODO handle other kind of errors
 			}
 
 			public void onResultSuccess(Long result) {
@@ -603,7 +624,6 @@ public class Accounter implements EntryPoint {
 			public void onException(AccounterException caught) {
 				source.saveFailed(caught);
 				caught.printStackTrace();
-				// TODO handle other kind of errors
 			}
 
 			public void onResultSuccess(Long result) {
@@ -644,7 +664,6 @@ public class Accounter implements EntryPoint {
 			public void onException(AccounterException caught) {
 				source.saveFailed(caught);
 				caught.printStackTrace();
-				// TODO handle other kind of errors
 			}
 
 			public void onResultSuccess(Boolean result) {
@@ -681,5 +700,13 @@ public class Accounter implements EntryPoint {
 		}
 
 		return windowsService;
+	}
+
+	/**
+	 * @param features
+	 *            the features to set
+	 */
+	public static void setFeatures(Set<String> feature) {
+		features = feature;
 	}
 }

@@ -587,7 +587,7 @@ public abstract class CustomTable extends FlowPanel {
 
 	public void addEmptyMessage(String msg) {
 		this.body.setText(0, 0, msg);
-		this.body.setStyleName("no_records");
+		this.body.addStyleName("no_records");
 	}
 
 	@Override

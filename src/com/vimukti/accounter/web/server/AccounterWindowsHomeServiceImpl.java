@@ -44,6 +44,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.CompanyAndFeatures;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeService;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -869,7 +870,8 @@ public class AccounterWindowsHomeServiceImpl extends
 	}
 
 	@Override
-	public ClientCompany getCompany(Long companyId) throws AccounterException {
+	public CompanyAndFeatures getCompany(Long companyId)
+			throws AccounterException {
 		getThreadLocalRequest().getSession()
 				.setAttribute(COMPANY_ID, companyId);
 		String loginEmail = (String) getThreadLocalRequest().getSession()
@@ -888,7 +890,17 @@ public class AccounterWindowsHomeServiceImpl extends
 				companyId, clientCompany.getLoggedInUser().getEmail(),
 				cometSession);
 
-		return clientCompany;
+		CompanyAndFeatures comFeatures = new CompanyAndFeatures();
+		comFeatures.setClientCompany(clientCompany);
+		ArrayList<String> list = new ArrayList<String>(getClient(getUserEmail())
+				.getClientSubscription().getSubscription().getFeatures());
+		comFeatures.setFeatures(list);
+
+		return comFeatures;
 	}
 
+	protected String getUserEmail() {
+		return (String) getThreadLocalRequest().getSession().getAttribute(
+				BaseServlet.EMAIL_ID);
+	}
 }

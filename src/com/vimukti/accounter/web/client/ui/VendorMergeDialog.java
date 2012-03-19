@@ -1,18 +1,14 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -22,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Sai Prasad N
  * 
  */
-public class VendorMergeDialog extends BaseView<ClientCustomer> implements
+public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		AsyncCallback<Void> {
 
 	private DynamicForm form;
@@ -41,57 +37,53 @@ public class VendorMergeDialog extends BaseView<ClientCustomer> implements
 	private ClientVendor fromclientVendor;
 	private ClientVendor toClientVendor;
 
-	public VendorMergeDialog() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		this.getElement().setId("accountMergeDialog");
+	public VendorMergeDialog(String title, String descript) {
+		super(title, descript);
+		this.getElement().setId("VendorMergeDialog");
+		setWidth("650px");
+		okbtn.setText(messages.merge());
 		createControls();
-		saveAndNewButton.setVisible(false);
-		saveAndCloseButton.setText(messages.merge());
+		center();
 	}
 
 	private void createControls() {
-		form = new DynamicForm("firstForm");
-		form1 = new DynamicForm("secondForm");
-		StyledPanel styledPanel = new StyledPanel("mainPanel");
+		form = new DynamicForm("form");
+		form1 = new DynamicForm("form1");
+		StyledPanel layout = new StyledPanel("layout");
+		StyledPanel layout1 = new StyledPanel("layout1");
+		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		vendorCombo = createVendorCombo();
 		vendorCombo1 = createVendorCombo1();
 
-		vendorIDTextItem = new TextItem(
-				messages.payeeID(Global.get().Vendor()), "vendorIDTextItem");
+		vendorIDTextItem = new TextItem(messages.payeeID(Global.get().Vendor()),"vendorIDTextItem");
 
 		vendorIDTextItem1 = new TextItem(
-				messages.payeeID(Global.get().Vendor()), "vendorIDTextItem");
+				messages.payeeID(Global.get().Vendor()),"vendorIDTextItem1");
 		vendorIDTextItem.setEnabled(false);
 		vendorIDTextItem1.setEnabled(false);
 
-		status = new CheckboxItem(messages.active(), "status");
+		status = new CheckboxItem(messages.active(),"status");
 		status.setValue(false);
 
-		status1 = new CheckboxItem(messages.active(), "status");
+
+		status1 = new CheckboxItem(messages.active(),"status1");
 		status1.setValue(false);
 
-		balanceTextItem = new TextItem(messages.balance(), "balanceTextItem");
+		balanceTextItem = new TextItem(messages.balance(),"balanceTextItem");
 
-		balanceTextItem1 = new TextItem(messages.balance(), "balanceTextItem");
+		balanceTextItem1 = new TextItem(messages.balance(),"balanceTextItem1");
 		balanceTextItem.setEnabled(false);
 		balanceTextItem1.setEnabled(false);
-		form.add(vendorCombo);
-		form.add(vendorIDTextItem);
-		form.add(status);
-		form.add(balanceTextItem);
-		form1.add(vendorCombo1);
-		form1.add(vendorIDTextItem1);
-		form1.add(status1);
-		form1.add(balanceTextItem1);
+
+		form.add(vendorCombo, vendorIDTextItem, status, balanceTextItem);
+		form1.add(vendorCombo1, vendorIDTextItem1, status1,
+				balanceTextItem1);
 		// form.setItems(getTextItems());
-		styledPanel.add(form);
-		styledPanel.add(form1);
-		this.add(styledPanel);
+		layout.add(form);
+		layout1.add(form1);
+		horizontalPanel.add(layout);
+		horizontalPanel.add(layout1);
+		setBodyLayout(horizontalPanel);
 
 	}
 
@@ -147,7 +139,8 @@ public class VendorMergeDialog extends BaseView<ClientCustomer> implements
 		status1.setValue(selectItem.isActive());
 	}
 
-	public ValidationResult validate() {
+	@Override
+	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		if (fromclientVendor != null && toClientVendor != null) {
 			if (fromclientVendor.getID() == toClientVendor.getID()) {
@@ -164,10 +157,11 @@ public class VendorMergeDialog extends BaseView<ClientCustomer> implements
 	}
 
 	@Override
-	public void saveAndUpdateView() {
-		validate();
+	protected boolean onOK() {
+
 		if (fromclientVendor != null && toClientVendor != null) {
 			if (fromclientVendor.getID() == toClientVendor.getID()) {
+				return false;
 			}
 		}
 		ClientCurrency currency1 = getCompany().getCurrency(
@@ -181,7 +175,10 @@ public class VendorMergeDialog extends BaseView<ClientCustomer> implements
 		} else {
 			Accounter.createHomeService().mergeVendor(fromclientVendor,
 					toClientVendor, this);
+			com.google.gwt.user.client.History.back();
+			return true;
 		}
+		return false;
 	}
 
 	@Override
@@ -200,28 +197,5 @@ public class VendorMergeDialog extends BaseView<ClientCustomer> implements
 	public void setFocus() {
 		vendorCombo.setFocus();
 
-	}
-
-	@Override
-	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getViewTitle() {
-		return messages.mergeVendors(Global.get().Vendor());
-	}
-
-	@Override
-	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

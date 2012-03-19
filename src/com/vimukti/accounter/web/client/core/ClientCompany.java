@@ -216,7 +216,7 @@ public class ClientCompany implements IAccounterCore {
 	private int version;
 
 	private long cashDiscountAccount;
-
+	
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
 	}

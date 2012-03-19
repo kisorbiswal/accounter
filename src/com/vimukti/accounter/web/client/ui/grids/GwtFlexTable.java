@@ -124,6 +124,10 @@ public  class GwtFlexTable {
 	public FlexTable getFlexTable() {
 		return flexTable;
 	}
+
+	public void addStyleName(String string) {
+		flexTable.addStyleName(string);
+	}
 	
 
 }

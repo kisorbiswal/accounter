@@ -3,6 +3,7 @@ package com.vimukti.accounter.main;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.LocalConnector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.session.AbstractSessionManager;
@@ -28,6 +29,8 @@ public class JettyServer {
 				securityHandler, null, null);
 
 		webappcontext.setContextPath("/");
+		LocalConnector wsConnector=new LocalConnector();
+		webappcontext.setAttribute("wsConnector", wsConnector);
 		// webappcontext.setWar("webapp");
 
 		webappcontext.getSessionHandler().getSessionManager()
@@ -37,7 +40,7 @@ public class JettyServer {
 
 		webappcontext.setBaseResource(resource);
 
-		jettyServer.setConnectors(new Connector[] { connector });
+		jettyServer.setConnectors(new Connector[] { connector,wsConnector });
 		webappcontext.setClassLoader(JettyServer.class.getClassLoader());
 
 		webappcontext.setAttribute("documentDomain",

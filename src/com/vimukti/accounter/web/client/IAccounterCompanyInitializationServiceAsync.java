@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 
@@ -25,7 +24,7 @@ public interface IAccounterCompanyInitializationServiceAsync {
 
 	void getCountry(AsyncCallback<String> callback);
 
-	void getCompany(AsyncCallback<ClientCompany> callback);
+	void getCompany(AsyncCallback<CompanyAndFeatures> callback);
 
 	void isCompanyNameExists(String companyName, AsyncCallback<Boolean> callback);
 
