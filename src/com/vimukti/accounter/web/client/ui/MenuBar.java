@@ -152,35 +152,30 @@ public class MenuBar {
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
 		inventoryMenuBar.addSeparatorItem();
-		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
-				.InventoryLists()));
 
-		return inventoryMenuBar;
-	}
-
-	private Menu getInventoryListsMenu(String string) {
-		Menu inventoryMenu = new Menu(string);
-
-		inventoryMenu.addMenuItem(messages.inventoryItems(),
+		inventoryMenuBar.addMenuItem(messages.inventoryItems(),
 				HistoryTokens.INVENTORYITEMS);
 
-		inventoryMenu.addMenuItem(
-				messages.inventoryAssembly() + " " + messages.items(),
-				HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
+		inventoryMenuBar.addMenuItem(messages.inventoryAssembly() + " "
+				+ messages.items(), HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
 
 		if (iswareHouseEnabled) {
-			inventoryMenu.addMenuItem(messages.warehouseList(),
+			inventoryMenuBar.addMenuItem(messages.warehouseList(),
 					HistoryTokens.WAREHOUSELIST);
-			inventoryMenu.addMenuItem(messages.warehouseTransferList(),
+			inventoryMenuBar.addMenuItem(messages.warehouseTransferList(),
 					HistoryTokens.WAREHOUSETRANSFERLIST);
 		}
-		inventoryMenu.addMenuItem(messages.stockAdjustments(),
+		inventoryMenuBar.addMenuItem(messages.stockAdjustments(),
 				HistoryTokens.STOCKADJUSTMENTS);
 		if (isUnitsEnalbled) {
-			inventoryMenu.addMenuItem(messages.measurementList(),
+			inventoryMenuBar.addMenuItem(messages.measurementList(),
 					HistoryTokens.MEASUREMENTLIST);
 		}
-		return inventoryMenu;
+
+		// inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
+		// .InventoryLists()));
+
+		return inventoryMenuBar;
 	}
 
 	private Menu getNewInventoryMenu(String string) {
@@ -1386,6 +1381,27 @@ public class MenuBar {
 	 * HistoryTokens.CUSTOMERREFUNDS); }
 	 * 
 	 * return customerListMenuBar; }
+	 */
+	
+	/*
+	 * private Menu getInventoryListsMenu(String string) { Menu inventoryMenu =
+	 * new Menu(string);
+	 * 
+	 * inventoryMenu.addMenuItem(messages.inventoryItems(),
+	 * HistoryTokens.INVENTORYITEMS);
+	 * 
+	 * inventoryMenu.addMenuItem( messages.inventoryAssembly() + " " +
+	 * messages.items(), HistoryTokens.INVENTORY_ASSEMBLY_ITEMS);
+	 * 
+	 * if (iswareHouseEnabled) {
+	 * inventoryMenu.addMenuItem(messages.warehouseList(),
+	 * HistoryTokens.WAREHOUSELIST);
+	 * inventoryMenu.addMenuItem(messages.warehouseTransferList(),
+	 * HistoryTokens.WAREHOUSETRANSFERLIST); }
+	 * inventoryMenu.addMenuItem(messages.stockAdjustments(),
+	 * HistoryTokens.STOCKADJUSTMENTS); if (isUnitsEnalbled) {
+	 * inventoryMenu.addMenuItem(messages.measurementList(),
+	 * HistoryTokens.MEASUREMENTLIST); } return inventoryMenu; }
 	 */
 
 }
