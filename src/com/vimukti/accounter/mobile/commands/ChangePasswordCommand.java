@@ -80,8 +80,8 @@ public class ChangePasswordCommand extends AbstractCommand {
 				String passwordWithWord = HexUtil.bytesToHex(Security
 						.makeHash(client.getEmailId()
 								+ Client.PASSWORD_HASH_STRING + value));
-				if (!client.getPassword().equals(passwordWithHash)
-						&& !client.getPassword().equals(passwordWithWord)) {
+				if (client.getPassword().equals(passwordWithHash)
+						|| client.getPassword().equals(passwordWithWord)) {
 					addFirstMessage(getMessages()
 							.newpasswordAndPreviouspasswordAreSame());
 					return;

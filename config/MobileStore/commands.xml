@@ -1172,6 +1172,10 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.ChangePasswordCommand"
 		name="changePassword">
 	</command>
+	
+	<command clazz="com.vimukti.accounter.mobile.commands.PasswordResetCommand"
+		name="resetPassword">
+	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.TaxHistoryCommand"
 		name="taxHistory">

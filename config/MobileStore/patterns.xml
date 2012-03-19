@@ -543,6 +543,7 @@
 		<outputs>
 			<command if="canChangeSettings" title="companySettingsTitle" />
 			<command if="canDoUserManagement" title="users" />
+			<command  title="changePassword" />
 			<!-- <command title="Invoice Branding" /> -->
 		</outputs>
 	</pattern>
