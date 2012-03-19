@@ -213,6 +213,11 @@
 			<many-to-one name="employee" class="User" cascade="save-update"
 				column="EMPLOYEE">
 			</many-to-one>
+			<list name="purchaseOrders" table="CASH_PURCHASE_ORDERS">
+				<key column="CASH_PURCHASE_ID"></key>
+				<list-index column="VTX" />
+				<many-to-many column="PURCHASE_ORDER_ID" class="PurchaseOrder" />
+			</list>
 			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
 			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
@@ -266,6 +271,11 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				column="SHIPPING_METHOD_ID">
 			</many-to-one>
+			<list name="salesOrders" table="CASH_SALE_ORDERS">
+				<key column="CASHSALE_ID"></key>
+				<list-index column="VTX" />
+				<many-to-many column="ESTIMATE_ID" class="Estimate" />
+			</list>
 			<property name="deliverydate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
@@ -494,6 +504,9 @@
 			<!-- <property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property> -->
 			<many-to-one name="usedInvoice" class="Invoice" column="USED_INVOICE">
 			</many-to-one>
+			<many-to-one name="usedCashSale" class="CashSales"
+				column="USED_CASHSALES">
+			</many-to-one>
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
 			<key column="ID" />
@@ -678,6 +691,8 @@
 			</many-to-one>
 			<property name="purchaseOrderNumber"  type="encryptedstring" column="PURCHASE_ORDER_NUMBER"></property>
 			<many-to-one name="usedBill" class="EnterBill" column="USED_BILL">
+			</many-to-one>
+			<many-to-one name="usedCashPurchase" class="CashPurchase" column="USED_CASHPURCHASE">
 			</many-to-one>
 			<!-- <list name="enterBills" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
 				/> <list-index column="EBX" /> <one-to-many class="EnterBill" /> </list> 

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -8,6 +11,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -100,6 +104,8 @@ public class CashPurchase extends Transaction {
 	 * It specifies the employee expense status
 	 */
 	int expenseStatus;
+
+	private List<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
 
 	//
 
@@ -299,6 +305,15 @@ public class CashPurchase extends Transaction {
 			return true;
 		super.onSave(session);
 		isOnSaveProccessed = true;
+		if (isDraftOrTemplate()) {
+			this.purchaseOrders.clear();
+			return false;
+		}
+
+		if (this.transactionItems == null) {
+			this.transactionItems = new ArrayList<TransactionItem>();
+		}
+		modifyPurchaseOrder(this, true);
 
 		if (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& this.expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
@@ -317,6 +332,135 @@ public class CashPurchase extends Transaction {
 		}
 
 		return false;
+	}
+
+	private void modifyPurchaseOrder(CashPurchase cashPurchase,
+			boolean isCreated) {
+
+		if (cashPurchase.purchaseOrders == null)
+			return;
+		for (PurchaseOrder billOrder : cashPurchase.purchaseOrders) {
+
+			Session session = HibernateUtil.getCurrentSession();
+			PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
+					PurchaseOrder.class, billOrder.getID());
+
+			if (purchaseOrder != null) {
+
+				boolean isPartiallyInvoiced = false;
+
+				if (cashPurchase.transactionItems != null
+						&& cashPurchase.transactionItems.size() > 0) {
+					isPartiallyInvoiced = updateReferringTransactionItems(
+							cashPurchase, isCreated);
+				}
+				/**
+				 * Updating the Status of the Sales Order involved in this
+				 * Invoice depending on the above Analysis.
+				 */
+				if (!isPartiallyInvoiced) {
+					double usdAmount = 0;
+					for (TransactionItem orderTransactionItem : billOrder.transactionItems)
+						// if (orderTransactionItem.getType() != 6)
+						usdAmount += orderTransactionItem.usedamt;
+					// else
+					// usdAmount += orderTransactionItem.lineTotal;
+					if (DecimalUtil.isLessThan(usdAmount, billOrder.netAmount))
+						isPartiallyInvoiced = true;
+				}
+				if (isCreated) {
+					try {
+						for (TransactionItem item : billOrder.transactionItems) {
+							TransactionItem clone = item.clone();
+							clone.transaction = this;
+							clone.setReferringTransactionItem(item);
+							this.transactionItems.add(clone);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (!this.isVoid()) {
+						billOrder.setUsedCashPurchase(cashPurchase, session);
+					}
+				}
+				billOrder.onUpdate(session);
+				session.saveOrUpdate(billOrder);
+			}
+		}
+	}
+
+	private boolean updateReferringTransactionItems(CashPurchase cashPurchase,
+			boolean isCreated) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		boolean isPartiallyInvoiced = true;
+		boolean flag = true;
+		for (TransactionItem transactionItem : cashPurchase.transactionItems) {
+			/**
+			 * This is to know whether this transaction item is of new one or
+			 * it's came from any Sales Order.
+			 */
+
+			if (transactionItem.getReferringTransactionItem() != null) {
+				TransactionItem referringTransactionItem = (TransactionItem) session
+						.get(TransactionItem.class, transactionItem
+								.getReferringTransactionItem().getID());
+				double amount = 0d;
+
+				if (!isCreated) {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
+							referringTransactionItem.usedamt -= transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt -= transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt -= transactionItem.lineTotal;
+
+				} else {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
+							referringTransactionItem.usedamt += transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt += transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt += transactionItem.lineTotal;
+				}
+				amount = referringTransactionItem.usedamt;
+				/**
+				 * This is to save changes to the invoiced amount of the
+				 * referring transaction item to this transaction item.
+				 */
+				session.update(referringTransactionItem);
+
+				if (flag
+						&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								.getQuantity().compareTo(
+										referringTransactionItem.getQuantity()) < 0)))) {
+					if (isCreated ? DecimalUtil.isLessThan(amount,
+							referringTransactionItem.lineTotal) : DecimalUtil
+							.isGreaterThan(amount, 0)) {
+						isPartiallyInvoiced = true;
+						flag = false;
+					}
+				}
+				// if (id != 0l && !invoice.isVoid())
+				// referringTransactionItem.usedamt +=
+				// transactionItem.lineTotal;
+
+			}
+
+		}
+		return isPartiallyInvoiced;
 	}
 
 	@Override
@@ -376,7 +520,7 @@ public class CashPurchase extends Transaction {
 		 */
 
 		if (this.isVoid() && !cashPurchase.isVoid()) {
-
+			doVoidEffect(session, this);
 		} else {
 
 			this.cleanTransactionitems(this);
@@ -413,10 +557,23 @@ public class CashPurchase extends Transaction {
 					isDebitTransaction() ? this.total : -this.total,
 					this.currencyFactor);
 			this.payFrom.onUpdate(session);
-
+			doUpdateEffectPurchaseOrders(this, cashPurchase, session);
 		}
 
 		super.onEdit(cashPurchase);
+	}
+
+	private void doVoidEffect(Session session, CashPurchase cashPurchase) {
+
+		cashPurchase.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+
+		for (PurchaseOrder order : cashPurchase.getPurchaseOrders()) {
+			PurchaseOrder est = (PurchaseOrder) session.get(
+					PurchaseOrder.class, order.getID());
+			est.setUsedCashPurchase(null, session);
+			session.saveOrUpdate(est);
+		}
+
 	}
 
 	@Override
@@ -531,5 +688,65 @@ public class CashPurchase extends Transaction {
 	@Override
 	protected void updatePayee(boolean onCreate) {
 
+	}
+
+	public List<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doVoidEffect(session, this);
+		}
+		return super.onDelete(session);
+	}
+
+	private void doUpdateEffectPurchaseOrders(CashPurchase cashPurchase,
+			CashPurchase oldCashPurchase, Session session) {
+		List<PurchaseOrder> estimatesExistsInOldInvoice = new ArrayList<PurchaseOrder>();
+		for (PurchaseOrder oldEstiamte : oldCashPurchase.getPurchaseOrders()) {
+			PurchaseOrder est = null;
+			for (PurchaseOrder newEstimate : cashPurchase.getPurchaseOrders()) {
+				if (oldEstiamte.getID() == newEstimate.getID()) {
+					est = newEstimate;
+					estimatesExistsInOldInvoice.add(newEstimate);
+					break;
+				}
+			}
+			if (est != null && !this.isVoid()) {
+				est.setUsedCashPurchase(cashPurchase, session);
+			} else {
+				est = (PurchaseOrder) session.get(PurchaseOrder.class,
+						oldEstiamte.getID());
+				est.setUsedCashPurchase(null, session);
+			}
+			if (est != null) {
+				session.saveOrUpdate(est);
+			}
+		}
+
+		for (PurchaseOrder est : cashPurchase.getPurchaseOrders()) {
+			try {
+				for (TransactionItem item : est.transactionItems) {
+
+					TransactionItem clone = item.clone();
+					clone.transaction = this;
+					clone.setReferringTransactionItem(item);
+					// super.chekingTaxCodeNull(clone.taxCode);
+					this.transactionItems.add(clone);
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to clone TransactionItems");
+			}
+			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
+				est.setUsedCashPurchase(cashPurchase, session);
+				session.saveOrUpdate(est);
+			}
+		}
 	}
 }

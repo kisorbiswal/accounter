@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -126,6 +128,10 @@ public class Estimate extends Transaction {
 	private Invoice usedInvoice;
 
 	private Invoice oldUsedInvoice;
+
+	private CashSales usedCashSale;
+
+	private CashSales oldUsedCashSale;
 
 	private String customerOrderNumber;
 
@@ -328,6 +334,7 @@ public class Estimate extends Transaction {
 	@Override
 	public void onLoad(Session session, Serializable arg1) {
 		super.onLoad(session, arg1);
+		this.oldUsedCashSale = usedCashSale;
 		this.oldUsedInvoice = usedInvoice;
 	}
 
@@ -421,6 +428,21 @@ public class Estimate extends Transaction {
 
 	public void setTaxTotal(double taxTotal) {
 		this.taxTotal = taxTotal;
+	}
+
+	/**
+	 * @return the oldUsedCashSale
+	 */
+	public CashSales getOldUsedCashSale() {
+		return oldUsedCashSale;
+	}
+
+	/**
+	 * @param oldUsedCashSale
+	 *            the oldUsedCashSale to set
+	 */
+	public void setOldUsedCashSale(CashSales oldUsedCashSale) {
+		this.oldUsedCashSale = oldUsedCashSale;
 	}
 
 	/**
@@ -535,5 +557,19 @@ public class Estimate extends Transaction {
 
 	public void setShippingMethod(ShippingMethod shippingMethod) {
 		this.shippingMethod = shippingMethod;
+	}
+
+	public CashSales getUsedCashSale() {
+		return this.usedCashSale;
+	}
+
+	public void setUsedCashSale(CashSales usedTransaction, Session session) {
+		if (this.usedCashSale == null && usedTransaction != null) {
+			this.usedCashSale = usedTransaction;
+			status = STATUS_COMPLETED;
+		} else if (usedTransaction == null) {
+			this.usedCashSale = null;
+			status = STATUS_OPEN;
+		}
 	}
 }

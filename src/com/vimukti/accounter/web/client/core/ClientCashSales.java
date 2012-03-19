@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.vimukti.accounter.core.SalesOrder;
 
 public class ClientCashSales extends ClientTransaction {
 
@@ -34,6 +37,8 @@ public class ClientCashSales extends ClientTransaction {
 	double taxTotal = 0D;
 
 	double discountTotal = 0D;
+
+	private List<ClientEstimate> salesOrders = new ArrayList<ClientEstimate>();
 
 	@Override
 	public double getAllNonTaxableLineTotal() {
@@ -328,4 +333,13 @@ public class ClientCashSales extends ClientTransaction {
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}
+
+	public List<ClientEstimate> getSalesOrders() {
+		return salesOrders;
+	}
+
+	public void setSalesOrders(List<ClientEstimate> salesOrders) {
+		this.salesOrders = salesOrders;
+	}
+
 }

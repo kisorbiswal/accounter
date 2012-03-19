@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -8,6 +11,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -118,6 +122,13 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	 * mentioned in the price level.
 	 */
 	PriceLevel priceLevel;
+
+	/**
+	 * SalesOrder from which this CahsSale was Recreated
+	 * 
+	 * @see SalesOrder
+	 */
+	private List<Estimate> salesOrders;
 
 	double taxTotal = 0D;
 
@@ -387,7 +398,14 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			return true;
 		isOnSaveProccessed = true;
 		super.onSave(session);
+		if (isDraftOrTemplate()) {
+			if (this.salesOrders != null) {
+				this.salesOrders.clear();
+			}
+			return false;
+		}
 
+		addSalesOrdersTransactionItems(this, true);
 		if (!(this.paymentMethod
 				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
 				&& !(this.paymentMethod
@@ -396,6 +414,144 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		}
 
 		return false;
+	}
+
+	private void addSalesOrdersTransactionItems(CashSales cashSales,
+			boolean isCreated) {
+		Session session = HibernateUtil.getCurrentSession();
+		if (this.transactionItems == null) {
+			this.transactionItems = new ArrayList<TransactionItem>();
+		}
+
+		if (cashSales.getSalesOrders() == null)
+			return;
+
+		if (this.transactionItems == null) {
+			this.transactionItems = new ArrayList<TransactionItem>();
+		}
+		for (Estimate salesOrder : cashSales.getSalesOrders()) {
+			salesOrder = (Estimate) session.get(Estimate.class,
+					salesOrder.getID());
+
+			// int executeUpdate = session
+			// .getNamedQuery("delete.Estimate.from.drafts")
+			// .setLong("estimateId", estimate.getID()).executeUpdate();
+
+			if (salesOrder != null) {
+
+				boolean isPartiallyInvoiced = false;
+
+				if (cashSales.transactionItems != null
+						&& cashSales.transactionItems.size() > 0) {
+					isPartiallyInvoiced = updateReferringTransactionItems(
+							cashSales, isCreated);
+				}
+				/**
+				 * Updating the Status of the Sales Order involved in this
+				 * Invoice depending on the above Analysis.
+				 */
+				if (!isPartiallyInvoiced) {
+					double usdAmount = 0;
+					for (TransactionItem orderTransactionItem : salesOrder.transactionItems)
+						// if (orderTransactionItem.getType() != 6)
+						usdAmount += orderTransactionItem.usedamt;
+					// else
+					// usdAmount += orderTransactionItem.lineTotal;
+					if (DecimalUtil.isLessThan(usdAmount, salesOrder.netAmount))
+						isPartiallyInvoiced = true;
+				}
+				if (isCreated) {
+					try {
+						for (TransactionItem item : salesOrder.transactionItems) {
+							TransactionItem clone = item.clone();
+							clone.transaction = this;
+							clone.setReferringTransactionItem(item);
+							this.transactionItems.add(clone);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (!this.isVoid()) {
+						salesOrder.setUsedCashSale(cashSales, session);
+					}
+				}
+				salesOrder.onUpdate(session);
+				session.saveOrUpdate(salesOrder);
+			}
+		}
+	}
+
+	private boolean updateReferringTransactionItems(CashSales cashSales,
+			boolean isCreated) {
+		Session session = HibernateUtil.getCurrentSession();
+		boolean isPartiallyInvoiced = true;
+		boolean flag = true;
+		for (TransactionItem transactionItem : cashSales.transactionItems) {
+			/**
+			 * This is to know whether this transaction item is of new one or
+			 * it's came from any Sales Order.
+			 */
+
+			if (transactionItem.getReferringTransactionItem() != null) {
+				TransactionItem referringTransactionItem = (TransactionItem) session
+						.get(TransactionItem.class, transactionItem
+								.getReferringTransactionItem().getID());
+				double amount = 0d;
+
+				if (!isCreated) {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
+							referringTransactionItem.usedamt -= transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt -= transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt -= transactionItem.lineTotal;
+
+				} else {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
+							referringTransactionItem.usedamt += transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt += transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt += transactionItem.lineTotal;
+				}
+				amount = referringTransactionItem.usedamt;
+				/**
+				 * This is to save changes to the invoiced amount of the
+				 * referring transaction item to this transaction item.
+				 */
+				session.update(referringTransactionItem);
+
+				if (flag
+						&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								.getQuantity().compareTo(
+										referringTransactionItem.getQuantity()) < 0)))) {
+					if (isCreated ? DecimalUtil.isLessThan(amount,
+							referringTransactionItem.lineTotal) : DecimalUtil
+							.isGreaterThan(amount, 0)) {
+						isPartiallyInvoiced = true;
+						flag = false;
+					}
+				}
+				// if (id != 0l && !invoice.isVoid())
+				// referringTransactionItem.usedamt +=
+				// transactionItem.lineTotal;
+
+			}
+
+		}
+		return isPartiallyInvoiced;
 	}
 
 	@Override
@@ -524,7 +680,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		 * transaction is not voided then only it will entered into the loop
 		 */
 		if (this.isVoid() && !cashSales.isVoid()) {
-
+			doVoidEffect(session, this);
 		} else {
 
 			this.cleanTransactionitems(this);
@@ -553,7 +709,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			this.depositIn.updateCurrentBalance(this, -this.total,
 					this.currencyFactor);
 			this.depositIn.onUpdate(session);
-
+			doUpdateEffectEstiamtes(this, cashSales, session);
 			// }
 			// if(cashSales.total!=this.total){
 			// this.depositIn.updateCurrentBalance(this,
@@ -563,6 +719,70 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		}
 
 		super.onEdit(clonedObject);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doVoidEffect(session, this);
+		}
+		return super.onDelete(session);
+	}
+
+	private void doVoidEffect(Session session, CashSales cashSale) {
+
+		cashSale.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+
+		for (Estimate estimate : cashSale.getSalesOrders()) {
+			Estimate est = (Estimate) session.get(Estimate.class,
+					estimate.getID());
+			est.setUsedCashSale(null, session);
+			session.saveOrUpdate(est);
+		}
+	}
+
+	private void doUpdateEffectEstiamtes(CashSales cashSale,
+			CashSales oldCashSale, Session session) {
+		List<Estimate> estimatesExistsInOldInvoice = new ArrayList<Estimate>();
+		for (Estimate oldEstiamte : oldCashSale.getSalesOrders()) {
+			Estimate est = null;
+			for (Estimate newEstimate : cashSale.getSalesOrders()) {
+				if (oldEstiamte.getID() == newEstimate.getID()) {
+					est = newEstimate;
+					estimatesExistsInOldInvoice.add(newEstimate);
+					break;
+				}
+			}
+			if (est != null && !this.isVoid()) {
+				est.setUsedCashSale(cashSale, session);
+			} else {
+				est = (Estimate) session.get(Estimate.class,
+						oldEstiamte.getID());
+				est.setUsedCashSale(null, session);
+			}
+			if (est != null) {
+				session.saveOrUpdate(est);
+			}
+		}
+
+		for (Estimate est : cashSale.getSalesOrders()) {
+			try {
+				for (TransactionItem item : est.transactionItems) {
+
+					TransactionItem clone = item.clone();
+					clone.transaction = this;
+					clone.setReferringTransactionItem(item);
+
+					this.transactionItems.add(clone);
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to clone TransactionItems");
+			}
+			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
+				est.setUsedCashSale(cashSale, session);
+				session.saveOrUpdate(est);
+			}
+		}
 	}
 
 	@Override
@@ -671,6 +891,14 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
+	}
+
+	public List<Estimate> getSalesOrders() {
+		return salesOrders;
+	}
+
+	public void setSalesOrders(List<Estimate> salesOrders) {
+		this.salesOrders = salesOrders;
 	}
 
 }

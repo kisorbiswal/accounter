@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
+import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
@@ -68,8 +70,24 @@ public class TaxItemsForm extends DynamicForm {
 			}
 		}
 
+		if (transaction instanceof ClientCashSales) {
+			List<ClientEstimate> estimates = ((ClientCashSales) transaction)
+					.getSalesOrders();
+			for (ClientEstimate clientEstimate : estimates) {
+				transactionItems.addAll(clientEstimate.getTransactionItems());
+			}
+		}
+
 		if (transaction instanceof ClientEnterBill) {
 			List<ClientPurchaseOrder> orders = ((ClientEnterBill) transaction)
+					.getPurchaseOrders();
+			for (ClientPurchaseOrder order : orders) {
+				transactionItems.addAll(order.getTransactionItems());
+			}
+		}
+
+		if (transaction instanceof ClientCashPurchase) {
+			List<ClientPurchaseOrder> orders = ((ClientCashPurchase) transaction)
 					.getPurchaseOrders();
 			for (ClientPurchaseOrder order : orders) {
 				transactionItems.addAll(order.getTransactionItems());

@@ -79,6 +79,7 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.customers.CashSalesView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
@@ -88,6 +89,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.ui.vendors.CashPurchaseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
@@ -1166,7 +1168,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				|| this instanceof CustomerRefundView
 				|| this instanceof InvoiceView
 				|| this instanceof VendorBillView
-				|| this instanceof MakeDepositView || this instanceof DepositView)) {
+				|| this instanceof MakeDepositView 
+				|| this instanceof DepositView 
+				|| this instanceof CashSalesView
+				|| this instanceof CashPurchaseView)) {
 			if (transactionItems != null && transactionItems.size() != 0) {
 				for (ClientTransactionItem transactionItem : transactionItems) {
 

@@ -45,7 +45,7 @@ if(isSandBoxPaypal ==null){
 <table>
 <tr><td><input type="hidden" name="on0" value="Subscription options">Subscription options</td></tr><tr><td><select name="os0">
 	<option value="One user monthly">One user monthly : $5.00USD - monthly</option>
-	<option value="One user yearly">One user yearly : $50.00USD - yearly</option>
+	<option value="One user yearly" selected="true">One user yearly : $50.00USD - yearly</option>
 	<option value="2 users monthly">2 users monthly : $10.00USD - monthly</option>
 	<option value="2 users yearly">2 users yearly : $100.00USD - yearly</option>
 	<option value="5 users monthly">5 users monthly : $25.00USD - monthly</option>

@@ -1206,4 +1206,44 @@ public class CustomerManager extends PayeeManager {
 		return customerTransactionsList;
 	}
 
+	public ArrayList<EstimatesAndSalesOrdersList> getSalesOrdersList(
+			long customerId, Long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query query = session.getNamedQuery("getSalesOrdersList")
+				.setParameter("customerId", customerId)
+				.setParameter("companyId", companyId);
+		CompanyPreferences preferences = getCompany(companyId).getPreferences();
+		List list = query.list();
+		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
+
+		for (int i = 0; i < list.size(); i++) {
+			Object[] obj = (Object[]) list.get(i);
+			int estimateType = ((Integer) obj[7]).intValue();
+			if (estimateType == Estimate.SALES_ORDER
+					&& !preferences.isSalesOrderEnabled()) {
+				continue;
+			}
+
+			// for (int j = 0; j < obj.length; j++)
+			EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
+			el.setTransactionId(((Long) obj[0]).longValue());
+			el.setType(((Integer) obj[1]).intValue());
+			el.setTransactionNumber(((String) obj[2]));
+			el.setTotal(((Double) obj[3]).doubleValue());
+			el.setDate(new ClientFinanceDate((Long) obj[4]));
+			el.setCustomerName((String) obj[5]);
+			el.setRemainingTotal(obj[6] == null ? 0.0 : ((Double) obj[6])
+					.doubleValue());
+			if (obj[7] != null) {
+				el.setEstimateType(((Integer) obj[7]).intValue());
+			}
+			el.setStatus(((Integer) obj[8]).intValue());
+			esl.add(el);
+		}
+
+		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
+	}
+
 }

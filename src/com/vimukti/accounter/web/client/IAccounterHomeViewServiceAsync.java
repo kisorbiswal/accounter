@@ -571,4 +571,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<PaginationList<TransactionHistory>> callBack);
 
 	public void getJobs(AsyncCallback<PaginationList<ClientJob>> callback);
+
+	public void getSalesOrdersList(long id,
+			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback);
 }

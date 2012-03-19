@@ -102,6 +102,8 @@ public class PurchaseOrder extends Transaction {
 
 	EnterBill usedBill;
 
+	private CashPurchase usedCashPurchase;
+
 	//
 
 	// List<ItemReceipt> itemReceipts;
@@ -568,6 +570,21 @@ public class PurchaseOrder extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public CashPurchase getUsedCashPurchase() {
+		return usedCashPurchase;
+	}
+
+	public void setUsedCashPurchase(CashPurchase usedTransaction,
+			Session session) {
+		if (this.usedCashPurchase == null && usedTransaction != null) {
+			this.usedCashPurchase = usedTransaction;
+			status = STATUS_COMPLETED;
+		} else if (usedTransaction == null) {
+			this.usedCashPurchase = null;
+			status = STATUS_OPEN;
+		}
 	}
 
 }

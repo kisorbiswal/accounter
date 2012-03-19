@@ -795,7 +795,8 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 							messages.taxExceptionMesg());
 				}
 			}
-			if ((!(this instanceof VendorBillView)) && !isTaxPerDetailLine()) {
+			if ((!(this instanceof VendorBillView) && !(this instanceof CashPurchaseView))
+					&& !isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,

@@ -505,4 +505,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<ClientJob> getJobs();
 
+	ArrayList<EstimatesAndSalesOrdersList> getSalesOrdersList(long id)
+			throws AccounterException;
+
 }

@@ -43,6 +43,8 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	 */
 	String purchaseOrderNumber;
 
+	private long usedCashPurchase;
+
 	/**
 	 * @return the purchaseOrderNumber
 	 */
@@ -255,6 +257,14 @@ public class ClientPurchaseOrder extends ClientTransaction {
 
 	public boolean isToBeEmailed() {
 		return toBeEmailed;
+	}
+
+	public long getUsedCashPurchase() {
+		return usedCashPurchase;
+	}
+
+	public void setUsedCashPurchase(long usedCashPurchase) {
+		this.usedCashPurchase = usedCashPurchase;
 	}
 
 	@Override

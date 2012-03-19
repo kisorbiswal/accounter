@@ -22,10 +22,13 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
+import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -33,6 +36,8 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -49,6 +54,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -88,6 +94,9 @@ public class CashSalesView extends
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private boolean isChecked = false;
+	List<ClientEstimate> previousEstimates = new ArrayList<ClientEstimate>();
+
+	TransactionsTree<PurchaseOrdersAndItemReceiptsList> transactionsTree;
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
@@ -289,6 +298,27 @@ public class CashSalesView extends
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
+		transactionsTree = new TransactionsTree<PurchaseOrdersAndItemReceiptsList>(
+				this) {
+			@Override
+			public void updateTransactionTotal() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
+				CashSalesView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public void setTransactionDate(ClientFinanceDate transactionDate) {
+				CashSalesView.this.setTransactionDate(transactionDate);
+			}
+
+			@Override
+			public boolean isinViewMode() {
+				return !(CashSalesView.this.isInViewMode());
+			}
+		};
+
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), isTrackClass(),
@@ -474,7 +504,7 @@ public class CashSalesView extends
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
-
+		mainVLay.add(transactionsTree);
 		mainVLay.add(accountsDisclosurePanel.getPanel());
 		mainVLay.add(itemsDisclosurePanel.getPanel());
 
@@ -530,6 +560,7 @@ public class CashSalesView extends
 		if (customer == null) {
 			return;
 		}
+		transactionsTree.clear();
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
@@ -598,7 +629,96 @@ public class CashSalesView extends
 			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 		}
+		getEstimatesAndSalesOrder();
+	}
 
+	private void getEstimatesAndSalesOrder() {
+		ClientCompanyPreferences preferences = getCompany().getPreferences();
+
+		if ((preferences.isDoyouwantEstimates() && !preferences
+				.isDontIncludeEstimates())
+				|| (preferences.isBillableExpsesEnbldForProductandServices() && preferences
+						.isProductandSerivesTrackingByCustomerEnabled())
+				|| preferences.isDelayedchargesEnabled()
+				|| preferences.isSalesOrderEnabled()) {
+			if (this.rpcUtilService == null)
+				return;
+			if (getCustomer() == null) {
+				Accounter.showError(messages.pleaseSelect(Global.get()
+						.customer()));
+			} else {
+
+				AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(
+							ArrayList<EstimatesAndSalesOrdersList> result) {
+						if (result == null)
+							onFailure(new Exception());
+						filterEstimates(result);
+					}
+
+				};
+
+				this.rpcUtilService.getSalesOrdersList(getCustomer().getID(),
+						callback);
+			}
+		}
+	}
+
+	protected void filterEstimates(ArrayList<EstimatesAndSalesOrdersList> result) {
+		List<ClientEstimate> salesAndEstimates = new ArrayList<ClientEstimate>();
+		if (transaction.getCustomer() == getCustomer().getID()) {
+			salesAndEstimates = previousEstimates;
+		}
+		if (transaction.getID() != 0 && !result.isEmpty()) {
+			ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
+			ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
+
+			for (ClientTransaction clientTransaction : salesAndEstimates) {
+				boolean isThere = false;
+				for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
+					int estimateType = estimatesalesorderlist.getEstimateType();
+					int status = estimatesalesorderlist.getStatus();
+					if (estimatesalesorderlist.getTransactionId() == clientTransaction
+							.getID()) {
+						estimatesList.add(estimatesalesorderlist);
+						isThere = true;
+					} else if (estimateType == ClientEstimate.SALES_ORDER
+							&& !getPreferences().isSalesOrderEnabled()) {
+						estimatesList.add(estimatesalesorderlist);
+					}
+				}
+				if (!isThere) {
+					notAvailableEstimates.add(clientTransaction);
+				}
+			}
+
+			if (transaction.isDraft()) {
+				for (ClientTransaction clientTransaction : notAvailableEstimates) {
+					salesAndEstimates.remove(clientTransaction);
+				}
+			}
+
+			for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
+				result.remove(estimatesAndSalesOrdersList);
+			}
+		}
+		transactionsTree.setAllrows(result, transaction.getID() == 0 ? true
+				: salesAndEstimates.isEmpty());
+		if (!previousEstimates.isEmpty()
+				&& getCustomer().getID() == transaction.getCustomer()) {
+			transactionsTree.setRecords(new ArrayList<ClientTransaction>(
+					previousEstimates));
+		}
+
+		transactionsTree.setEnabled(!isInViewMode());
+		refreshTransactionGrid();
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -741,6 +861,15 @@ public class CashSalesView extends
 			setAmountIncludeTAX();
 			transaction.setTaxTotal(salesTax);
 		}
+		List<ClientTransaction> selectedRecords = transactionsTree
+				.getSelectedRecords();
+		List<ClientEstimate> orders = new ArrayList<ClientEstimate>();
+		for (ClientTransaction clientTransaction : selectedRecords) {
+			if (clientTransaction instanceof ClientEstimate) {
+				orders.add((ClientEstimate) clientTransaction);
+			}
+		}
+		transaction.setSalesOrders(orders);
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 		if (getPreferences().isJobTrackingEnabled()) {
@@ -776,11 +905,14 @@ public class CashSalesView extends
 			}
 		}
 		double lineTotal = customerAccountTransactionTable.getLineTotal()
-				+ customerItemTransactionTable.getLineTotal();
+				+ customerItemTransactionTable.getLineTotal()
+				+ transactionsTree.getLineTotal();
 		double totalTax = customerAccountTransactionTable.getTotalTax()
-				+ customerItemTransactionTable.getTotalTax();
+				+ customerItemTransactionTable.getTotalTax()
+				+ transactionsTree.getTotalTax();
 		double total = customerAccountTransactionTable.getGrandTotal()
-				+ customerItemTransactionTable.getGrandTotal();
+				+ customerItemTransactionTable.getGrandTotal()
+				+ transactionsTree.getGrandTotal();
 		if (getCompany().getPreferences().isTrackTax()) {
 			netAmountLabel.setAmount(lineTotal);
 			setSalesTax(totalTax);
@@ -839,6 +971,7 @@ public class CashSalesView extends
 			}
 			ClientCompany company = getCompany();
 			initTransactionsItems();
+			previousEstimates = transaction.getSalesOrders();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			customerSelected(this.customer);
 			if (this.getCustomer() != null) {
@@ -1043,6 +1176,18 @@ public class CashSalesView extends
 		this.salesTax = salesTax;
 
 		if (taxTotalNonEditableText != null) {
+			List<ClientTransaction> selectedRecords = transactionsTree
+					.getSelectedRecords();
+			if (!isInViewMode()) {
+				List<ClientEstimate> orders = new ArrayList<ClientEstimate>();
+				for (ClientTransaction clientTransaction : selectedRecords) {
+					if (clientTransaction instanceof ClientEstimate) {
+						orders.add((ClientEstimate) clientTransaction);
+					}
+				}
+				transaction.setSalesOrders(orders);
+			}
+
 			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(customerAccountTransactionTable
 						.getAllRows());
@@ -1072,24 +1217,55 @@ public class CashSalesView extends
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
+		result.add(FormItem.validate(this.paymentMethodCombo,
+				this.depositInCombo));
 		// Validations
 		// 1. paymentMethodCombo validation
 		// 2. depositInCombo validation i.e form items
-		result.add(FormItem.validate(this.paymentMethodCombo,
-				this.depositInCombo));
-		result.add(customerAccountTransactionTable.validateGrid());
-		result.add(customerItemTransactionTable.validateGrid());
-
-		if (isTrackTax()) {
-			if (!isTaxPerDetailLine()) {
-				if (taxCodeSelect != null
-						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect,
-							messages.pleaseSelect(messages.taxCode()));
+		boolean isSelected = transactionsTree.validateTree();
+		if (!isSelected) {
+			if (transaction.getTotal() <= 0
+					&& customerAccountTransactionTable.isEmpty()
+					&& customerItemTransactionTable.isEmpty()) {
+				result.addError(this,
+						messages.transactiontotalcannotbe0orlessthan0());
+			}
+			result.add(customerAccountTransactionTable.validateGrid());
+			result.add(customerItemTransactionTable.validateGrid());
+		} else {
+			boolean hasTransactionItems = false;
+			for (ClientTransactionItem clientTransactionItem : getAllTransactionItems()) {
+				if (clientTransactionItem.getAccount() != 0
+						|| clientTransactionItem.getItem() != 0) {
+					hasTransactionItems = true;
+					continue;
 				}
-
+			}
+			if (hasTransactionItems) {
+				result.add(customerAccountTransactionTable.validateGrid());
+				result.add(customerItemTransactionTable.validateGrid());
+			} else {
+				transaction
+						.setTransactionItems(new ArrayList<ClientTransactionItem>());
 			}
 		}
+		if (!isSelected && isTrackTax() && isTrackPaidTax()
+				&& !isTaxPerDetailLine()) {
+			if (taxCodeSelect != null
+					&& taxCodeSelect.getSelectedValue() == null) {
+				result.addError(taxCodeSelect,
+						messages.pleaseSelect(messages.taxCode()));
+			}
+		} else if (isSelected && isTrackTax() && isTrackPaidTax()
+				&& !isTaxPerDetailLine()
+				&& !transaction.getTransactionItems().isEmpty()) {
+			if (taxCodeSelect != null
+					&& taxCodeSelect.getSelectedValue() == null) {
+				result.addError(taxCodeSelect,
+						messages.pleaseSelect(messages.taxCode()));
+			}
+		}
+
 		ClientAccount bankAccount = depositInCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
 		if (bankAccount != null) {
@@ -1199,6 +1375,7 @@ public class CashSalesView extends
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		discountField.setEnabled(!isInViewMode());
+		transactionsTree.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
 		if (shippingTermsCombo != null)
@@ -1321,6 +1498,7 @@ public class CashSalesView extends
 	protected void refreshTransactionGrid() {
 		customerAccountTransactionTable.updateTotals();
 		customerItemTransactionTable.updateTotals();
+		transactionsTree.updateTransactionTreeItemTotals();
 	}
 
 	@Override

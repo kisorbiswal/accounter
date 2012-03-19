@@ -1,5 +1,9 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.vimukti.accounter.core.PurchaseOrder;
 
 public class ClientCashPurchase extends ClientTransaction {
 
@@ -7,7 +11,7 @@ public class ClientCashPurchase extends ClientTransaction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int EMPLOYEE_EXPENSE_STATUS_SAVE = 0;
 	public static final int EMPLOYEE_EXPENSE_STATUS_DELETE = 1;
 	public static final int EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL = 2;
@@ -34,6 +38,8 @@ public class ClientCashPurchase extends ClientTransaction {
 	long deliveryDate;
 
 	int expenseStatus;
+
+	private List<ClientPurchaseOrder> purchaseOrders = new ArrayList<ClientPurchaseOrder>();
 
 	public long getVendor() {
 		return vendor;
@@ -113,7 +119,6 @@ public class ClientCashPurchase extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CASHPURCHASE;
@@ -153,4 +158,11 @@ public class ClientCashPurchase extends ClientTransaction {
 		return clientCashPurchaseClone;
 	}
 
+	public List<ClientPurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public void setPurchaseOrders(List<ClientPurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
+	}
 }

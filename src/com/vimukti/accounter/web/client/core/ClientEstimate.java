@@ -57,6 +57,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	private long usedInvoice;
 
+	private long usedCashSale;
+
 	private String customerOrderNumber;
 
 	private long shippingTerm;
@@ -355,5 +357,13 @@ public class ClientEstimate extends ClientTransaction {
 
 	public void setShippingMethod(long shippingMethod) {
 		this.shippingMethod = shippingMethod;
+	}
+
+	public long getUsedCashSale() {
+		return usedCashSale;
+	}
+
+	public void setUsedCashSale(long usedCashSale) {
+		this.usedCashSale = usedCashSale;
 	}
 }
