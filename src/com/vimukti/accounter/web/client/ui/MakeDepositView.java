@@ -1086,21 +1086,12 @@ public class MakeDepositView extends
 						.dipositAccountAndTransferAccountShouldBeDiff());
 				depositInSelect.setComboItem(null);
 			}
-			if (toCurrency != getBaseCurrency()
-					&& fromCurrency != getBaseCurrency()) {
-				Accounter.showError(messages
-						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
+			if (toCurrency != fromCurrency) {
+				Accounter
+						.showError(messages.transferFromAndToAccountsshouldhavesamecurrency());
 				depositInSelect.setComboItem(null);
 			} else {
-				if (toCurrencyID != fromCurrencyID) {
-					if (toCurrencyID != getBaseCurrency().getID()) {
-						currencyWidget.setSelectedCurrency(toCurrency);
-						setCurrency(toCurrency);
-					} else {
-						currencyWidget.setSelectedCurrency(fromCurrency);
-						setCurrency(fromCurrency);
-					}
-				} else {
+				if (toCurrencyID == fromCurrencyID) {
 					currencyWidget.setSelectedCurrency(toCurrency);
 					setCurrency(toCurrency);
 				}
