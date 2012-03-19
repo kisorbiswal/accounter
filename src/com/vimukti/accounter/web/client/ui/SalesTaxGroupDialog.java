@@ -284,7 +284,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			}
 		};
 		// availTaxCodesGrid.setCellsWidth(cellsWidth)
-
+		availTaxItemsGrid.addStyleName("available-tax-items-list");
 		availTaxItemsGrid.setName(messages.available());
 		setAvailTaxItemsGridFields();
 		setAvalableTCGridCellWidths();
@@ -348,6 +348,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 			}
 		};
 		selectTaxItemsGrid.setName(messages.selected());
+		selectTaxItemsGrid.addStyleName("select-tax-items-list");
 		setSelectedTaxItemsGridFields();
 		setSelectedTCGridCellWidths();
 		selectTaxItemsGrid.setView(SalesTaxGroupDialog.this);

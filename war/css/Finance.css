@@ -2953,3 +2953,8 @@ button.disable,button.disable:hover {
 .combo-scroll-panel{
 	max-height: 100px;
 }
+.available-tax-items-list .gridBodyContainer, .select-tax-items-list .gridBodyContainer{
+	display: block;
+    max-height: 450px;
+    overflow-y: auto;
+}

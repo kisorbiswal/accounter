@@ -6162,4 +6162,5 @@ public interface AccounterMessages extends Messages {
 
 	public String purchasesbyClassSummary();
 
+	public String youCannotSelectTheItemWhichHaveNoExpenseAccount();
 }
