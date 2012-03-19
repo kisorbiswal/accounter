@@ -2770,39 +2770,38 @@
 		<return-scalar column="ACCOUNT_TYPE" type="int" />
 		<return-scalar column="CLASSID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		
 		<![CDATA[
-				SELECT A.ID        AS ACCOUNT_ID,
-				       A.NAME      AS ACCOUNT_NAME,
-				       A.A_NUMBER  AS ACCOUNT_NUMBER,
-				       A.A_TYPE    AS ACCOUNT_TYPE,
-				       CASE 
-				       WHEN Ti.TRANS_ITEM_ACCOUNTER_CLASS!=0 THEN 
-				       TRANS_ITEM_ACCOUNTER_CLASS
-				       ELSE
-				       T.TRANSACTION_ACCOUNTER_CLASS  
-				       END AS CLASSID,
-				       SUM(AT.AMOUNT) AS AMOUNT,
-				       A.PARENT_ID AS P_ACCOUNT
-				FROM   ACCOUNT_TRANSACTION AT
-				       LEFT OUTER JOIN ACCOUNT A
-					 ON A.ID = AT.ACCOUNT_ID
-				       LEFT OUTER JOIN TRANSACTION T
-					 ON T.ID = AT.TRANSACTION_ID
-				       LEFT OUTER JOIN TRANSACTION_ITEM TI
-					 ON TI.TRANSACTION_ID = AT.TRANSACTION_ID
-				WHERE  T.COMPANY_ID = :companyId
-				       AND T.T_DATE BETWEEN :startDate AND :endDate		     
-				       AND A.A_TYPE IN ( 14, 15, 16, 17, 18 )
-				       AND A.BASE_TYPE != 0
-				       AND (TI.TRANS_ITEM_ACCOUNTER_CLASS!=0 OR T.TRANSACTION_ACCOUNTER_CLASS!=0 )
-				GROUP  BY CLASSID,
-					  A.ID
-				ORDER  BY A.BASE_TYPE,
-					  A.SUB_BASE_TYPE,
-					  A.GROUP_TYPE,
-					  A.A_TYPE,
-					  A.ID   
+					SELECT A.ID           AS ACCOUNT_ID,
+					       A.NAME         AS ACCOUNT_NAME,
+					       A.A_NUMBER     AS ACCOUNT_NUMBER,
+					       A.A_TYPE       AS ACCOUNT_TYPE,
+					       AC .ID         AS CLASSID,
+					       SUM(AT.AMOUNT) AS AMOUNT,
+			                       T.ID AS TRANSACTION_ID
+					FROM   ACCOUNT_TRANSACTION AT
+					       LEFT OUTER JOIN ACCOUNT A
+						 ON A.ID = AT.ACCOUNT_ID
+					       LEFT OUTER JOIN TRANSACTION T
+						 ON T.ID = AT.TRANSACTION_ID
+					       LEFT OUTER JOIN ACCOUNTER_CLASS AC
+						 ON AC.ID = T.TRANSACTION_ACCOUNTER_CLASS
+					WHERE  T.COMPANY_ID = :companyId
+				               AND T.T_DATE BETWEEN :startDate AND :endDate	
+					       AND A.A_TYPE IN ( 14, 15, 16, 17, 18 )
+					       AND A.BASE_TYPE != 0
+					       AND ( T.TRANSACTION_ACCOUNTER_CLASS != 0
+						      OR T.ID IN (SELECT TI.TRANSACTION_ID
+								  FROM   TRANSACTION_ITEM TI
+								  WHERE  TI.TRANS_ITEM_ACCOUNTER_CLASS != 0) )
+					GROUP  BY CLASSID,
+						  A.ID,T.ID 
+					ORDER  BY A.BASE_TYPE,
+						  A.SUB_BASE_TYPE,
+						  A.GROUP_TYPE,
+						  A.A_TYPE,
+						  A.ID  
 				]]>
 
 	</sql-query>
@@ -4540,6 +4539,17 @@
 				ORDER  BY AC.CLASS_NAME  
 				]]>
 
+	</sql-query>
+
+	<sql-query name="getclassIDByTransactionItem">
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="CLASS_ID" type="long" />
+		<![CDATA[
+					SELECT TI.TRANSACTION_ID             AS TRANSACTION_ID,
+			        TI.TRANS_ITEM_ACCOUNTER_CLASS AS CLASS_ID
+			        FROM   TRANSACTION_ITEM TI
+			        WHERE  TI.TRANS_ITEM_ACCOUNTER_CLASS != 0  
+		]]>
 	</sql-query>
 	<!-- <sql-query name="getClosedSalesOrders"> <query-param name="companyId" 
 		type="long" /> <query-param name="startDate" type="long" /> <query-param 
