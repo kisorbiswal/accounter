@@ -36,18 +36,19 @@ class AccounterWebSocket implements OnTextMessage {
 	}
 
 	@Override
-	public void onMessage(String msg) {
+	public void onMessage(String req) {
 		LocalConnector connector = webSocketHandler.getConnector();
 		try {
-			int index = msg.indexOf(':');
+			int index = req.indexOf(':');
 			if (index == -1) {
 				return;
 			}
-			int id = Integer.parseInt(msg.substring(0, index));
-			msg = msg.substring(index + 1);
+			int id = Integer.parseInt(req.substring(0, index));
+			req = req.substring(index + 1);
 			ByteArrayBuffer responses = connector.getResponses(
-					new ByteArrayBuffer(msg, "UTF-8"), true);
-			connection.sendMessage(id + ":" + responses.toString("UTF-8"));
+					new ByteArrayBuffer(req, "UTF-8"), true);
+			String resp = responses.toString("UTF-8");
+			connection.sendMessage(id + ":" + resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

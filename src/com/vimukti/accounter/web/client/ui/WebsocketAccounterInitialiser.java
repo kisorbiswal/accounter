@@ -12,19 +12,17 @@ import com.vimukti.accounter.web.client.ui.win8.LoginPanel;
 
 public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 
-	public WebsocketAccounterInitialiser(Accounter accounter) {
-		super();
-		this.accounter = accounter;
-		initWindowsGui();
-	}
 
 	public WebsocketAccounterInitialiser() {
-		initWindowsGui();
+		//initWindowsGui();
 	}
 
+	@Override
+	public void initalize() {
+		initWindowsGui();
+	}
 	private void initWindowsGui() {
 		LoginPanel loginPanel = new LoginPanel(this);
-		// accounter.removeLoadingImage();
 		showView(loginPanel);
 	}
 
@@ -44,9 +42,10 @@ public class WebsocketAccounterInitialiser extends AccounterInitialiser {
 
 					@Override
 					public void onResultSuccess(CompanyAndFeatures result) {
-						accounter.gotCompany(result.getClientCompany());
 						Set features = new HashSet(result.getFeatures());
 						accounter.setFeatures(features);
+						accounter.gotCompany(result.getClientCompany());
+					
 					}
 				});
 	}

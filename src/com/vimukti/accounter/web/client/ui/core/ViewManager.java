@@ -820,7 +820,6 @@ public class ViewManager extends FlowPanel {
 		// toolBar.add(horizontalPanel);
 
 		toolBar.add(group1);
-		group1.getElement().getStyle().setFloat(Float.LEFT);
 		toolBar.add(group5);
 		toolBar.add(group2);
 		toolBar.add(group9);

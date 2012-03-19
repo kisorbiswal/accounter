@@ -21,18 +21,16 @@ public class AccounterCometInitializer {
 	private boolean shouldReconnect = true;
 
 	public AccounterCometInitializer() {
-		// TODO Auto-generated constructor stub
-		
-		initiateComet();
+
 	}
 
-	private void initiateComet() {
+	public void initiateComet() {
 		serializer = GWT.create(AccounterCometSerializer.class);
 		if (serializer != null)
 			startCometService();
 	}
 
-	private void startCometService() {
+	public void startCometService() {
 		shouldReconnect = true;
 		this.cometClient = new CometClient("/do/comet", serializer,
 				new CometListener() {

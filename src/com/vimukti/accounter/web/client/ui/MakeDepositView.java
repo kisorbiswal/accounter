@@ -113,6 +113,7 @@ public class MakeDepositView extends
 
 	public MakeDepositView() {
 		super(ClientTransaction.TYPE_TRANSFER_FUND);
+		this.getElement().setId("MakeDepositView");
 		calculatedTotal = 0D;
 	}
 
