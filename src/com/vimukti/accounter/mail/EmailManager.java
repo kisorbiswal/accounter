@@ -65,7 +65,7 @@ public class EmailManager extends Thread {
 		} else {
 			session = Session.getInstance(p);
 		}
-		session.setDebug(false);
+		session.setDebug(true);
 
 		for (EMailMessage emsg : mail.getMailMessages()) {
 			try {
@@ -98,19 +98,20 @@ public class EmailManager extends Thread {
 	private Properties getProperties(EMailJob mail) {
 		final EMailSenderAccount sender = mail.getSender();
 		Properties p = new Properties();
-		if (sender.isSslAutheticationRequired()) {
-			p.put("mail.smtps.auth", true);
-			p.put("mail.smtp.auth", "true");
+		if (sender.isAutheticationRequired()) {
+			// p.put("mail.smtps.auth", true);
+			p.put("mail.smtp.auth", true);
 			p.put("mail.smtp.user", sender.getSenderEmailID());
 
 		} else {
-			p.put("mail.smtps.auth", false);
+			p.put("mail.smtp.auth", false);
 
 		}
 
-		if (sender.isStartTtlsEnables()) {
+		if (sender.isEnabledTls()) {
+			// p.put("mail.smtp.tls", "true");
 			p.put("mail.smtp.starttls.enable", true);
-			p.put("mail.smtp.socketFactory.port", "465");
+			p.put("mail.smtp.socketFactory.port", sender.getPortNumber());
 			p.put("mail.smtp.socketFactory.class",
 					"javax.net.ssl.SSLSocketFactory");
 		}

@@ -41,11 +41,8 @@ public class UsersMailSendar {
 		acc.setSslAutheticationRequired(propertyParser.getProperty(
 				"sslAutheticationRequired", "no").equalsIgnoreCase("yes"));
 
-		acc.setStartTtlsEnables(propertyParser.getProperty("startTtlsEnables",
+		acc.setEnableTls(propertyParser.getProperty("startTtlsEnables",
 				"no").equalsIgnoreCase("yes"));
-
-		acc.setTls_starttlsAutheticationPort(propertyParser.getProperty(
-				"tls_starttlsAutheticationPort", ""));
 
 		String emailID = propertyParser.getProperty(
 				"usermanagementSenderEmailID", "");
@@ -69,12 +66,9 @@ public class UsersMailSendar {
 
 		acc.setSmtpAuthentication(true);
 
-		acc.setSslAutheticationRequired(sender.isSSL());
+		acc.setSslAutheticationRequired(true);
 
-		acc.setStartTtlsEnables(true);
-
-		acc.setTls_starttlsAutheticationPort(propertyParser.getProperty(
-				"tls_starttlsAutheticationPort", ""));
+		acc.setEnableTls(sender.isSSL());
 
 		acc.setSenderEmailID(sender.getEmailId());
 

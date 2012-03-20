@@ -17,17 +17,16 @@ public class EMailSenderAccount implements Serializable {
 	private String protocol = "smtp";
 	private boolean smtpAuthentication = false;
 	private boolean sslAutheticationRequired = false;
-	private boolean startTtlsEnables = false;
+	private boolean isTtlsEnabled = false;
 	private String accountName = "";
-	private String tls_starttlsAutheticationPort = "587";
 
 	public EMailSenderAccount() {
 
 	}
 
 	public EMailSenderAccount(String senderEmailID, String accountName,
-			String senderPassword, String outGoingMailServer,
-			int portNumber, String protocol, boolean smtpAuthentication,
+			String senderPassword, String outGoingMailServer, int portNumber,
+			String protocol, boolean smtpAuthentication,
 			boolean sslAutheticationRequired, boolean startTtlsEnables) {
 		this.senderEmailID = senderEmailID;
 		this.senderPassword = senderPassword;
@@ -36,7 +35,7 @@ public class EMailSenderAccount implements Serializable {
 		this.protocol = protocol;
 		this.smtpAuthentication = smtpAuthentication;
 		this.sslAutheticationRequired = sslAutheticationRequired;
-		this.startTtlsEnables = startTtlsEnables;
+		this.isTtlsEnabled = startTtlsEnables;
 		this.accountName = accountName;
 	}
 
@@ -88,7 +87,7 @@ public class EMailSenderAccount implements Serializable {
 		this.smtpAuthentication = smtpAuthentication;
 	}
 
-	public boolean isSslAutheticationRequired() {
+	public boolean isAutheticationRequired() {
 		return sslAutheticationRequired;
 	}
 
@@ -96,12 +95,12 @@ public class EMailSenderAccount implements Serializable {
 		this.sslAutheticationRequired = sslAutheticationRequired;
 	}
 
-	public boolean isStartTtlsEnables() {
-		return startTtlsEnables;
+	public boolean isEnabledTls() {
+		return isTtlsEnabled;
 	}
 
-	public void setStartTtlsEnables(boolean startTtlsEnables) {
-		this.startTtlsEnables = startTtlsEnables;
+	public void setEnableTls(boolean startTtlsEnables) {
+		this.isTtlsEnabled = startTtlsEnables;
 	}
 
 	public void setAccountName(String accountName) {
@@ -111,15 +110,5 @@ public class EMailSenderAccount implements Serializable {
 	public String getAccoutName() {
 		return this.accountName;
 	}
-
-	public void setTls_starttlsAutheticationPort(
-			String tls_starttlsAutheticationPort) {
-		this.tls_starttlsAutheticationPort = tls_starttlsAutheticationPort;
-	}
-
-	public String getTls_starttlsAutheticationPort() {
-		return tls_starttlsAutheticationPort;
-	}
-
 
 }
