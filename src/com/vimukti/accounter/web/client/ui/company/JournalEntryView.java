@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -41,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionJournalEntryTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -49,7 +51,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class JournalEntryView extends
-		AbstractTransactionBaseView<ClientJournalEntry> {
+		AbstractTransactionBaseView<ClientJournalEntry> implements
+		IPrintableView {
 
 	private TransactionJournalEntryTable grid;
 	double debit, credit;
@@ -550,8 +553,14 @@ public class JournalEntryView extends
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-
+		updateTransaction();
+		ArrayList<ClientBrandingTheme> themesList = Accounter.getCompany()
+				.getBrandingTheme();
+		// if there is only one branding theme
+		ClientBrandingTheme clientBrandingTheme = themesList.get(0);
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_JOURNAL_ENTRY,
+				clientBrandingTheme.getID());
 	}
 
 	@Override
@@ -718,5 +727,22 @@ public class JournalEntryView extends
 		} else {
 			classListCombo.setValue("");
 		}
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

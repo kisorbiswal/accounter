@@ -384,7 +384,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public CheckboxItem getVATInclusiveCheckBox() {
-		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),"vatinclusiveCheck");
+		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat(),
+				"vatinclusiveCheck");
 		vatinclusiveCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -488,7 +489,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected DateField createTransactionDateItem() {
 
-		final DateField dateItem = new DateField(messages.date(),"dateItem");
+		final DateField dateItem = new DateField(messages.date(), "dateItem");
 		dateItem.setToolTip(messages.selectDateWhenTransactioCreated(this
 				.getAction().getViewName()));
 		// if (this instanceof VendorBillView)
@@ -539,7 +540,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createTransactionNumberItem() {
 
-		final TextItem item = new TextItem(messages.no(),"item");
+		final TextItem item = new TextItem(messages.no(), "item");
 		item.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
 
 		item.setEnabled(!isInViewMode());
@@ -555,14 +556,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createRefereceText() {
 
-		TextItem refText = new TextItem(messages.reference(),"refText");
+		TextItem refText = new TextItem(messages.reference(), "refText");
 		return refText;
 
 	}
 
 	protected AmountField createNetAmountField() {
 		AmountField netAmountField = new AmountField(messages.netAmount(),
-				this, getBaseCurrency(),"netAmountField");
+				this, getBaseCurrency(), "netAmountField");
 		netAmountField.setDefaultValue("£0.00");
 		netAmountField.setEnabled(false);
 		return netAmountField;
@@ -607,7 +608,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextAreaItem createMemoTextAreaItem() {
 
-		TextAreaItem memoArea = new TextAreaItem("","memoArea");
+		TextAreaItem memoArea = new TextAreaItem("", "memoArea");
 		if (!(this instanceof CustomerPrePaymentView
 				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
 			memoArea.setMemo(true, this);
@@ -1563,7 +1564,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected TextItem createCheckNumberItem() {
 
-		final TextItem checkNo = new TextItem(messages.chequeNo(),"checkNo");
+		final TextItem checkNo = new TextItem(messages.chequeNo(), "checkNo");
 		checkNo.setEnabled(!isInViewMode());
 		// checkNo.setShowDisabled(false);
 		if (transaction != null) {

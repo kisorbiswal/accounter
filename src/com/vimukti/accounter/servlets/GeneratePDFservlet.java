@@ -46,6 +46,8 @@ import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
+import com.vimukti.accounter.core.JournalEntry;
+import com.vimukti.accounter.core.JournelEntryPdfGeneration;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.PurchaseOrderPdfGeneration;
@@ -426,7 +428,17 @@ public class GeneratePDFservlet extends BaseServlet {
 									brandingTheme, isMultipleId, fileNames);
 
 						}
-						
+						if (transactionType == Transaction.TYPE_JOURNAL_ENTRY) {
+							JournalEntry journalEntry = (JournalEntry) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.JOURNALENTRY,
+											Long.parseLong(ids[i]));
+							fileName = "JournalEntry_"
+									+ journalEntry.getNumber();
+							map = Odt2PdfGeneration(journalEntry, company,
+									brandingTheme, isMultipleId, fileNames);
+
+						}
 
 					}
 
@@ -483,6 +495,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				case Transaction.TYPE_CASH_SALES:
 				case Transaction.TYPE_RECEIVE_PAYMENT:
 				case Transaction.TYPE_PURCHASE_ORDER:
+				case Transaction.TYPE_JOURNAL_ENTRY:
 
 					if (isMultipleId) {// for merging multiple custom pdf
 										// documents
@@ -595,7 +608,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				} else {
 					if (type == Transaction.TYPE_CASH_SALES
 							|| type == Transaction.TYPE_PURCHASE_ORDER
-							) {
+							|| type == Transaction.TYPE_JOURNAL_ENTRY) {
 						generateCustom2PDF(request, response, companyName);
 					} else {
 						generateHtmlPDF(request, response, companyName);
@@ -699,6 +712,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			ReceivePaymentPdfGeneration receivePaymentPdfGeneration = null;
 			PurchaseOrderPdfGeneration purchaseOrderPdfGeneration = null;
 			SalesOrderPdfGeneration salesOrderPdfGeneration = null;
+			JournelEntryPdfGeneration journelEntryPdfGeneration = null;
 			String templeteName = null;
 			String fileName = null;
 
@@ -818,7 +832,23 @@ public class GeneratePDFservlet extends BaseServlet {
 						(PurchaseOrder) transaction, company, brandingTheme);
 			}
 
-			
+			if (transaction instanceof JournalEntry) {
+				// for Purchase Order
+				if (brandingTheme.getPurchaseOrderTemplateName().contains(
+						"Classic Template")) {
+					templeteName = "templetes" + File.separator
+							+ "JournelEntryDocx.docx";
+				} else {
+
+					templeteName = ServerConfiguration.getAttachmentsDir()
+							+ "/" + company.getId() + "/" + "templateFiles"
+							+ "/" + brandingTheme.getID() + "/"
+							+ brandingTheme.getPurchaseOrderTemplateName();
+				}
+				fileName = "JournalEntry_" + transaction.getNumber();
+				journelEntryPdfGeneration = new JournelEntryPdfGeneration(
+						(JournalEntry) transaction, company, brandingTheme);
+			}
 
 			InputStream in = new BufferedInputStream(new FileInputStream(
 					templeteName));
@@ -845,6 +875,9 @@ public class GeneratePDFservlet extends BaseServlet {
 						report);
 			} else if (transaction instanceof PurchaseOrder) {
 				context = purchaseOrderPdfGeneration.assignValues(context,
+						report);
+			} else if (transaction instanceof JournalEntry) {
+				context = journelEntryPdfGeneration.assignValues(context,
 						report);
 			}
 			FontFactory.setFontImp(new FontFactoryImpEx());
