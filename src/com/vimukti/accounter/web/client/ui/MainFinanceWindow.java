@@ -74,17 +74,16 @@ public class MainFinanceWindow extends FlowPanel {
 		// if (!Accounter.isMacApp()) {
 		// add(hMenuBar);
 		// }
-		// boolean isTouch = false;
-		// IMenuFactory menuFactory = null;
-		// if (isTouch) {
-		// menuFactory = new TouchMenuFactory();
-		// } else {
-		// menuFactory = new DesktopMenuFactory();
-		// }
+		boolean isTouch = false;
+		IMenuFactory menuFactory = null;
+		if (isTouch) {
+			menuFactory = new TouchMenuFactory();
+		} else {
+			menuFactory = new DesktopMenuFactory();
+		}
 
-		WebMenu menubar = GWT.create(WebMenu.class);
-		menubar.initialize();
-		menubar.hasWidget(this);
+		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
+		add(menubar);
 
 		add(viewManager);
 		Label help = new Label(messages.helpLinks());
