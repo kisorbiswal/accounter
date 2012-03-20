@@ -6162,4 +6162,6 @@ public interface AccounterMessages extends Messages {
 
 	public String transferFromAndToAccountsshouldhavesamecurrency();
 
+	public String youCannotSelectTheItemWhichHaveNoExpenseAccount();
+
 }

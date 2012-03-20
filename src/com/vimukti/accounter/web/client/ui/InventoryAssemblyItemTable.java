@@ -84,6 +84,10 @@ public abstract class InventoryAssemblyItemTable extends
 					row.setWareHouse(newValue.getWarehouse());
 					row.setDescription(newValue.getPurchaseDescription());
 				}
+				if (newValue.getExpenseAccount() == 0) {
+					Accounter.showError(messages
+							.youCannotSelectTheItemWhichHaveNoExpenseAccount());
+				}
 				update(row);
 				// if (getAllRows().indexOf(row) == getAllRows().size() - 1) {
 				// addEmptyRowAtLast();
@@ -265,6 +269,7 @@ public abstract class InventoryAssemblyItemTable extends
 		// 1. checking for the name of the transaction item
 		// 2. checking for the vat code if the company is of type UK
 		// TODO::: check whether this validation is working or not
+		int i = 0;
 		for (ClientInventoryAssemblyItem transactionItem : this.getRecords()) {
 			if (transactionItem.isEmpty()) {
 				continue;
@@ -273,7 +278,13 @@ public abstract class InventoryAssemblyItemTable extends
 				result.addError("GridItem-",
 						messages.pleaseSelect(messages.inventoryItem()));
 			}
-
+			if (transactionItem.getInventoryItem() != 0
+					&& getCompany().getItem(transactionItem.getInventoryItem())
+							.getExpenseAccount() == 0) {
+				result.addError("transactionItem " + i, messages
+						.youCannotSelectTheItemWhichHaveNoExpenseAccount());
+			}
+			i++;
 		}
 		if (DecimalUtil.isLessThan(lineTotal, 0.0)) {
 			result.addError(this, messages.invalidTransactionAmount());

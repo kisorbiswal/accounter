@@ -798,7 +798,7 @@ public class ItemView extends BaseView<ClientItem> {
 			if (selectVendor != null)
 				data.setPreferredVendor(selectVendor.getID());
 			if (expAccCombo.getSelectedValue() != null)
-				data.setExpenseAccount(expAccCombo.getSelectedValue().getID());
+				data.setExpenseAccount(0);
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}

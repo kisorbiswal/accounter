@@ -888,7 +888,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			result.addError(assetsAccount,
 					messages.pleaseEnter(messages.assetsAccount()));
 		}
-		table.validateGrid();
+		result.add(table.validateGrid());
 		return result;
 	}
 
