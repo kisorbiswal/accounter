@@ -1173,29 +1173,29 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				|| this instanceof DepositView 
 				|| this instanceof CashSalesView
 				|| this instanceof CashPurchaseView)) {
-			if (transactionItems != null && transactionItems.size() != 0) {
-				for (ClientTransactionItem transactionItem : transactionItems) {
-
-					if (transactionItem != null) {
-						if (transactionItem.getLineTotal() != null) {
-							if (transactionItem.getLineTotal() <= 0
-									&& transactionItem.getDiscount() != 100) {
-								result.addError(
-										"TransactionItem"
-												+ transactionItem.getAccount()
-												+ transactionItem.getAccount(),
-										messages.transactionitemtotalcannotbe0orlessthan0());
-							}
-						} else {
-							result.addError("TransactionItem", messages
-									.pleaseEnter(messages.transactionItem()));
-						}
-					} else {
-						result.addError("TransactionItem", messages
-								.pleaseEnter(messages.transactionItem()));
-					}
-				}
-			} else {
+			if (transactionItems == null && transactionItems.size() == 0) {
+//				for (ClientTransactionItem transactionItem : transactionItems) {
+//
+//					if (transactionItem != null) {
+//						if (transactionItem.getLineTotal() != null) {
+//							if (transactionItem.getLineTotal() <= 0
+//									&& transactionItem.getDiscount() != 100) {
+//								result.addError(
+//										"TransactionItem"
+//												+ transactionItem.getAccount()
+//												+ transactionItem.getAccount(),
+//										messages.transactionitemtotalcannotbe0orlessthan0());
+//							}
+//						} else {
+//							result.addError("TransactionItem", messages
+//									.pleaseEnter(messages.transactionItem()));
+//						}
+//					} else {
+//						result.addError("TransactionItem", messages
+//								.pleaseEnter(messages.transactionItem()));
+//					}
+//				}
+//			} else {
 				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
 			}
