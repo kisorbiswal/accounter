@@ -31,8 +31,6 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@UiField
 	Label trackOfBillsList;
 	@UiField
-	Label managingList;
-	@UiField
 	Label trackTimeText;
 	@UiField
 	RadioButton managingYes;
@@ -47,7 +45,7 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 	@UiField
 	Label trackingTimeDes;
 	@UiField
-	Label headerLabel;
+	Label headerLabel, managingList1, managingList2, managingList3;
 	@UiField
 	Label track_time_head;
 
@@ -75,8 +73,9 @@ public class SetupTrackBillsAndTimePage extends AbstractSetupPage {
 
 		// trackOfBillsText.setHTML(messages.doyouwantTrackTime());
 		// trackOfBillsList.setHTML(accounterMessages.trackTimeList());
-		managingList.setText(messages.managingList1()
-				+ messages.managingList2() + messages.managingList3());
+		managingList1.setText(messages.managingList1());
+		managingList2.setText(messages.managingList2());
+		managingList3.setText(messages.managingList3());
 		// trackTimeText.setHTML(messages.doyouwantTrackBills());
 		managingYes.setText(messages.yes());
 		// trackingTimeYes.setText(messages.yes());

@@ -6,7 +6,15 @@
 		<g:FlowPanel ui:field="viewPanel">
 			<g:FlowPanel ui:field="managing" styleName="bills_panel">
 				<g:Label wordWrap="true" ui:field="managingInfo" />
-				<g:Label styleName="managing-html" wordWrap="true" ui:field="managingList" />
+				<g:FlowPanel ui:field="managingList" styleName="bills_panel">
+					<g:Label styleName="managing-html1" wordWrap="true"
+						ui:field="managingList1" />
+					<g:Label styleName="managing-html2" wordWrap="true"
+						ui:field="managingList2" />
+					<g:Label styleName="managing-html3" wordWrap="true"
+						ui:field="managingList3" />
+				</g:FlowPanel>
+
 				<g:Label wordWrap="true" ui:field="trackTimeText" styleName="track_question" />
 				<g:RadioButton name="bills" ui:field="managingYes"
 					styleName="employee_yesno" />
