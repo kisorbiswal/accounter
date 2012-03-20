@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
@@ -466,6 +467,21 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			protected String getFalseString() {
 				return getMessages().includeVATwithAmountDisabled();
 			}
+		});
+
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
 		});
 
 	}

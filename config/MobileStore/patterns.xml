@@ -193,6 +193,7 @@
 			<command title="recordExpenses" />
 			<command title="createCashPurchase" />
 			<command title="createVendorCredit" />
+			<command title="createPurchaseOrder" />
 			<command title="vendorOverview" />
 			<command title="others" />
 		</outputs>
@@ -224,6 +225,7 @@
 			<command value="items vendor" title="items" />
 			<command if="manageBills" title="billsAndExpenses" />
 			<command title="vendorPayments" />
+			<command title="purchaseOrderList" />
 		</outputs>
 	</pattern>
 
