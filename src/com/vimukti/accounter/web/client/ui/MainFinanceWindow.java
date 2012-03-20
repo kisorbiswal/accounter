@@ -74,16 +74,17 @@ public class MainFinanceWindow extends FlowPanel {
 		// if (!Accounter.isMacApp()) {
 		// add(hMenuBar);
 		// }
-		boolean isTouch = false;
-		IMenuFactory menuFactory = null;
-		if (isTouch) {
-			menuFactory = new TouchMenuFactory();
-		} else {
-			menuFactory = new DesktopMenuFactory();
-		}
+		// boolean isTouch = false;
+		// IMenuFactory menuFactory = null;
+		// if (isTouch) {
+		// menuFactory = new TouchMenuFactory();
+		// } else {
+		// menuFactory = new DesktopMenuFactory();
+		// }
 
-		AccounterMenuBar menubar = new AccounterMenuBar(menuFactory);
-		add(menubar);
+		WebMenu menubar = GWT.create(WebMenu.class);
+		menubar.initialize(isTouch());
+		add(menubar.asWidget());
 
 		add(viewManager);
 		Label help = new Label(messages.helpLinks());
@@ -914,6 +915,6 @@ public class MainFinanceWindow extends FlowPanel {
 	}
 
 	public void onSessionExpired() {
-		//Accounter.getComet().stopComet();
+		// Accounter.getComet().stopComet();
 	}
 }
