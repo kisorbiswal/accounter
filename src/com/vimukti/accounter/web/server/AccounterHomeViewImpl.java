@@ -1834,7 +1834,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new FinanceTool().getVendorManager().getEnterBillByEstimateId(
 				estimate);
 	}
-
 	@Override
 	public List<ClientAdvertisement> getAdvertisements() {
 		FinanceTool financeTool = new FinanceTool();
@@ -2374,4 +2373,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				customerId, getCompanyId()) : null;
 
 	}
+	public ClientWriteCheck getWriteCheckByEstimateId(long ld)
+			throws AccounterException {
+
+		return new FinanceTool().getVendorManager().getWriteCheckByEstimateId(ld);
+	
+	}
+
+	
 }

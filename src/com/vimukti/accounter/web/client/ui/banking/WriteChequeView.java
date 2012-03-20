@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -56,6 +57,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -757,6 +759,7 @@ public class WriteChequeView extends
 			jobListCombo.setVisible(false);
 			bankAccForm.add(jobListCombo);
 		}
+		jobListCombo.setVisible(false);
 		bankAccForm.add(bankAccSelect, balText);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -819,7 +822,7 @@ public class WriteChequeView extends
 										// jobListCombo.setEnabled(!false);
 										jobListCombo
 												.setCustomer((ClientCustomer) selectItem);
-										jobListCombo.setVisible(true);
+										jobListCombo.setVisible(false);
 									} else {
 										jobListCombo.setVisible(false);
 									}
@@ -833,7 +836,7 @@ public class WriteChequeView extends
 								// jobListCombo.setEnabled(!false);
 								jobListCombo
 										.setCustomer((ClientCustomer) selectItem);
-								jobListCombo.setVisible(true);
+								jobListCombo.setVisible(false);
 							} else {
 								jobListCombo.setVisible(false);
 							}
@@ -1034,11 +1037,13 @@ public class WriteChequeView extends
 		//
 		// }
 		// if{
+		
 
+		
 		transactionVendorAccountTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), isTrackClass(),
-				isClassPerDetailLine(), this) {
+				isDiscountPerDetailLine(), this ,isCustomerAllowedToAdd(),isTrackClass(),
+				isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1054,7 +1059,10 @@ public class WriteChequeView extends
 			protected boolean isInViewMode() {
 				return WriteChequeView.this.isInViewMode();
 			}
-
+			@Override
+			protected boolean isTrackJob() {
+				return WriteChequeView.this.isTrackJob();
+			}
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
 				if (discountField.getAmount() != null
@@ -1195,6 +1203,25 @@ public class WriteChequeView extends
 		memoTextAreaItem.setEnabled(!isInViewMode());
 		setMemoTextAreaItem(transaction.getMemo());
 
+	}
+	
+	private boolean isCustomerAllowedToAdd() {
+		if (transaction != null) {
+			List<ClientTransactionItem> transactionItems = transaction
+					.getTransactionItems();
+			for (ClientTransactionItem clientTransactionItem : transactionItems) {
+				if (clientTransactionItem.isBillable()
+						|| clientTransactionItem.getCustomer() != 0) {
+					return true;
+				}
+			}
+		}
+		if (getPreferences().isBillableExpsesEnbldForProductandServices()
+				&& getPreferences()
+						.isProductandSerivesTrackingByCustomerEnabled()) {
+			return true;
+		}
+		return false;
 	}
 
 	// @Override

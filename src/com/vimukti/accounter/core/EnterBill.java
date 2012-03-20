@@ -1196,6 +1196,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {
 					estimate = new Estimate();
+					estimate.setRefferingTransactionType(Transaction.TYPE_ENTER_BILL);
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
 					estimate.setJob(newTransactionItem.getJob());

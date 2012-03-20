@@ -1,5 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -34,6 +39,9 @@ public class WriteCheck extends Transaction {
 
 	public static final String IS_TO_BE_PRINTED = null;
 
+	
+	private Set<Estimate> estimates = new HashSet<Estimate>();
+	
 	/**
 	 * The person to whom we are creating this write check
 	 */
@@ -290,6 +298,16 @@ public class WriteCheck extends Transaction {
 		setType(Transaction.TYPE_WRITE_CHECK);
 		super.onSave(session);
 
+		if (getCompany().getPreferences()
+				.isProductandSerivesTrackingByCustomerEnabled()
+				&& getCompany().getPreferences()
+						.isBillableExpsesEnbldForProductandServices()) {
+			
+			
+			createAndSaveEstimates(this.transactionItems, session);
+		}
+		
+		
 		return false;
 	}
 
@@ -350,9 +368,81 @@ public class WriteCheck extends Transaction {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
+		for (Estimate estimate : writeCheck.getEstimates()) {
+			session.delete(estimate);
+		}
+		writeCheck.getEstimates().clear();
+		this.createAndSaveEstimates(this.transactionItems, session);
+		
 		super.onEdit(writeCheck);
 	}
 
+	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
+			Session session) {
+		this.getEstimates().clear();
+
+		
+		if(getPayee() instanceof Customer){
+		Set<Estimate> estimates = new HashSet<Estimate>();
+		for (TransactionItem transactionItem : transactionItems) {
+			if (transactionItem.isBillable()
+					&& transactionItem.getCustomer() != null) {
+				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
+						TransactionItem.class).clone(null, transactionItem,
+						false);
+				newTransactionItem.setQuantity(transactionItem.getQuantity());
+				newTransactionItem.setId(0);
+				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setOnSaveProccessed(false);
+				newTransactionItem.setLineTotal(newTransactionItem
+						.getLineTotal() * getCurrencyFactor());
+				newTransactionItem.setDiscount(newTransactionItem.getDiscount()
+						* getCurrencyFactor());
+				newTransactionItem.setUnitPrice(newTransactionItem
+						.getUnitPrice() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(newTransactionItem
+						.getVATfraction() * getCurrencyFactor());
+				Estimate estimate = getCustomerEstimate(estimates,
+						newTransactionItem.getCustomer().getID());
+				if (estimate == null) {
+					estimate = new Estimate();
+					estimate.setRefferingTransactionType(Transaction.TYPE_WRITE_CHECK);
+					estimate.setCompany(getCompany());
+					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setJob(newTransactionItem.getJob());
+					estimate.setTransactionItems(new ArrayList<TransactionItem>());
+					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
+					estimate.setType(Transaction.TYPE_ESTIMATE);
+					estimate.setDate(new FinanceDate());
+					estimate.setExpirationDate(new FinanceDate());
+					estimate.setDeliveryDate(new FinanceDate());
+					estimate.setNumber(NumberUtils.getNextTransactionNumber(
+							Transaction.TYPE_ESTIMATE, getCompany()));
+				}
+				List<TransactionItem> transactionItems2 = estimate
+						.getTransactionItems();
+				transactionItems2.add(newTransactionItem);
+				estimate.setTransactionItems(transactionItems2);
+				estimates.add(estimate);
+			}
+		}
+
+		for (Estimate estimate : estimates) {
+			session.save(estimate);
+		}
+
+		this.setEstimates(estimates);
+		}
+	}
+	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
+		for (Estimate clientEstimate : estimates) {
+			if (clientEstimate.getCustomer().getID() == customer) {
+				return clientEstimate;
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -449,5 +539,13 @@ public class WriteCheck extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Set<Estimate> getEstimates() {
+		return estimates;
+	}
+
+	public void setEstimates(Set<Estimate> estimates) {
+		this.estimates = estimates;
 	}
 }

@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -1728,6 +1729,19 @@ public class VendorManager extends PayeeManager {
 				((EnterBill) uniqueResult[0]), ClientEnterBill.class);
 		return enterBillId;
 	}
+	
+	public ClientWriteCheck getWriteCheckByEstimateId(long estimateId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Estimate estimate = (Estimate) session.get(Estimate.class, estimateId);
+		Object[] uniqueResult = (Object[]) session
+				.getNamedQuery("getWriteCheckByEstimate")
+				.setParameter("estimate", estimate).uniqueResult();
+		ClientWriteCheck writeCheck = new ClientConvertUtil().toClientObject(
+				((WriteCheck) uniqueResult[0]), ClientWriteCheck.class);
+		return writeCheck;
+	}
+	
 
 	public PaginationList<PaymentsList> getPayeeChecks(Long companyId,
 			int type, FinanceDate fromDate, FinanceDate toDate, int viewType,

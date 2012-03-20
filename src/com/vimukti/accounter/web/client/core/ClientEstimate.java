@@ -33,6 +33,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	private int estimateType;
 
+	private int refferingTransactionType;
+
 	ClientContact contact;
 
 	ClientAddress address;
@@ -365,5 +367,13 @@ public class ClientEstimate extends ClientTransaction {
 
 	public void setUsedCashSale(long usedCashSale) {
 		this.usedCashSale = usedCashSale;
+	}
+
+	public int getRefferingTransactionType() {
+		return refferingTransactionType;
+	}
+
+	public void setRefferingTransactionType(int refferingTransactionType) {
+		this.refferingTransactionType = refferingTransactionType;
 	}
 }
