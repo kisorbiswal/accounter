@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -74,7 +77,7 @@ public class InvoicePdfGeneration {
 
 			i.setDueDate(Utility.getDateInSelectedFormat(invoice.getDueDate()));
 			i.setShipAddress(getShippingAddress());
-			i.setSalesPersonName(getSalesPersonName());
+			
 
 			ShippingMethod shipMtd = invoice.getShippingMethod();
 			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
@@ -162,7 +165,11 @@ public class InvoicePdfGeneration {
 					symbol));
 			i.setBalancedue(Utility.decimalConversation(
 					invoice.getBalanceDue(), symbol));
-			i.setOrderNumber(invoice.getOrderNum());
+			String orderNum = invoice.getOrderNum()== null ?"":invoice.getOrderNum().trim();
+			i.setOrderNumber(orderNum);
+			
+			
+			
 			i.setMemo(invoice.getMemo());
 			String termsNCondn = forNullValue(brandingTheme
 					.getTerms_And_Payment_Advice());
@@ -183,14 +190,20 @@ public class InvoicePdfGeneration {
 			if (preferences.isJobTrackingEnabled()) {
 				if (invoice.getJob() != null) {
 					i.setJob(invoice.getJob().getJobName());
+				}else{
+					i.setJob("");
 				}
 			} else {
 				i.setJob("");
 			}
 
 			if (preferences.isLocationTrackingEnabled()) {
-				if (invoice.getLocation() != null) {
-					i.setLocation(invoice.getLocation().getName());
+				Location location = invoice.getLocation() ;
+				if(location != null)
+				{
+					i.setLocation(location.getName());
+				}else {
+					i.setLocation("");
 				}
 			} else {
 				i.setLocation("");
@@ -248,6 +261,8 @@ public class InvoicePdfGeneration {
 					.getDeliverydate()));
 			if (invoice.getShippingTerm() != null) {
 				i.setShippingTerms(invoice.getShippingTerm().getName());
+			}else{
+				i.setShippingTerms("");
 			}
 
 			context.put("logo", logo);
@@ -294,19 +309,7 @@ public class InvoicePdfGeneration {
 
 	}
 
-	private String getSalesPersonName() {
-		SalesPerson salesPerson = invoice.getSalesPerson();
-		String salesPersname = salesPerson != null ? ((salesPerson
-				.getFirstName() != null ? salesPerson.getFirstName() : "") + (salesPerson
-				.getLastName() != null ? salesPerson.getLastName() : ""))
-				: "";
-
-		if (salesPersname.trim().length() > 0) {
-			return salesPersname;
-		}
-
-		return "";
-	}
+	
 
 	public String getImage() {
 		StringBuffer original = new StringBuffer();
@@ -423,7 +426,6 @@ public class InvoicePdfGeneration {
 		private String dueDate;
 		private String billAddress;
 		private String shipAddress;
-		private String salesPersonName;
 		private String shippingMethod;
 		private String total;
 		private String payment;
@@ -471,14 +473,6 @@ public class InvoicePdfGeneration {
 
 		public void setDueDate(String dueDate) {
 			this.dueDate = dueDate;
-		}
-
-		public String getSalesPersonName() {
-			return salesPersonName;
-		}
-
-		public void setSalesPersonName(String salesPersonName) {
-			this.salesPersonName = salesPersonName;
 		}
 
 		public String getTotal() {
