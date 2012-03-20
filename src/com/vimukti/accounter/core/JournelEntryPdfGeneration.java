@@ -53,11 +53,12 @@ public class JournelEntryPdfGeneration {
 			i.setJournalDate(Utility.getDateInSelectedFormat(journalEntry
 					.getDate()));
 			i.setLocationName(journalEntry.getLocation() != null
-					&& company.getPreferences().isLocationTrackingEnabled() ? "Location "
-					+ journalEntry.getLocation().getLocationName()
-					: "");
+					&& company.getPreferences().isLocationTrackingEnabled() ? Global
+					.get().Location()
+					+ journalEntry.getLocation().getLocationName() : "");
 			i.setClassName(journalEntry.getAccounterClass() != null
-					&& company.getPreferences().isClassTrackingEnabled() ? "Class "
+					&& company.getPreferences().isClassTrackingEnabled() ? Global
+					.get().messages().accounterClass()
 					+ journalEntry.getAccounterClass().getclassName()
 					: "");
 			// for transactions
