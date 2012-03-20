@@ -1261,4 +1261,12 @@
 		clazz="com.vimukti.accounter.mobile.commands.preferences.CurrencyFormatCommand"
 		name="currencyFormat">
 	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.CreatePurchaseOrderCommand"
+		name="createPurchaseOrder">
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.PurchaseOrderListCommand"
+		name="purchaseOrderList">
+	</command>
 </commands>
