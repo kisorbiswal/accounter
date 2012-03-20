@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -571,5 +569,13 @@ public class Estimate extends Transaction {
 			this.usedCashSale = null;
 			status = STATUS_OPEN;
 		}
+	}
+
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		Estimate estimate = (Estimate) super.clone();
+		this.usedInvoice = null;
+		status = STATUS_OPEN;
+		return estimate;
 	}
 }

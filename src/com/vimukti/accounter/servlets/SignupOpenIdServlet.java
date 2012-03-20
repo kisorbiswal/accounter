@@ -85,7 +85,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 				// redirectExternal(req, resp, LOGIN_URL);
 
 				if (client.isDeleted()) {
-					client.setActive(false);
+					client.setActive(true);
 					client.setUsers(new HashSet<User>());
 					client.setEmailId(emailId);
 					client.setFirstName(firstName);
@@ -123,7 +123,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 
 				// Create Client and Save
 				client = new Client();
-				client.setActive(false);
+				client.setActive(true);
 				client.setUsers(new HashSet<User>());
 				client.setEmailId(emailId);
 				client.setFirstName(firstName);

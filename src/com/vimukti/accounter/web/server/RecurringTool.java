@@ -1,14 +1,15 @@
 package com.vimukti.accounter.web.server;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -33,6 +34,7 @@ public class RecurringTool extends Thread {
 
 	@Override
 	public void run() {
+		log.info("Recurring schedule Started.");
 		if (ServerLocal.get() == null) {
 			ServerLocal.set(Locale.ENGLISH);
 		}
@@ -40,29 +42,14 @@ public class RecurringTool extends Thread {
 		org.hibernate.Transaction hibernateTransaction = null;
 		try {
 			hibernateTransaction = session.beginTransaction();
+			Query query = session
+					.getNamedQuery("getPresentRecurringTransactions");
+			((SQLQuery) query).addEntity(RecurringTransaction.class);
+			List<RecurringTransaction> recurrings = query.list();
 
-			List<Company> companies = session.getNamedQuery(
-					"getCompany.has.recurrings").list();
-
-			log.info("Recurring Schedules is on process : "
-					+ new Date().toString());
-
-			for (Company company : companies) {
-				String timezone = company.getTimezone();
-				if (timezone == null) {
-					timezone = "UTC+0:00 Etc/Universal";
-				}
-				String timeZoneID = timezone.substring(0,
-						timezone.indexOf(":") + 3);
-				timeZoneID = timeZoneID.replaceFirst("UTC", "GMT");
-
-				FinanceDate date = new FinanceDate(
-						getDateInTimeZone(timeZoneID));
-
-				checkForCompanyRecurrings(company, date);
-			}
+			executeRecurringSchedules(recurrings);
 			hibernateTransaction.commit();
-			log.info("Recurring schedule completed");
+			log.info("Recurring schedule completed.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (hibernateTransaction != null) {
@@ -74,53 +61,14 @@ public class RecurringTool extends Thread {
 		}
 	}
 
-	public Date getDateInTimeZone(String timeZoneId) {
-		Date currentDate = new Date();
-		TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
-		Calendar mbCal = new GregorianCalendar(timeZone);
-		mbCal.setTimeInMillis(currentDate.getTime());
-
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, mbCal.get(Calendar.YEAR));
-		cal.set(Calendar.MONTH, mbCal.get(Calendar.MONTH));
-		cal.set(Calendar.DAY_OF_MONTH, mbCal.get(Calendar.DAY_OF_MONTH));
-		cal.set(Calendar.HOUR_OF_DAY, mbCal.get(Calendar.HOUR_OF_DAY));
-		cal.set(Calendar.MINUTE, mbCal.get(Calendar.MINUTE));
-		cal.set(Calendar.SECOND, mbCal.get(Calendar.SECOND));
-		cal.set(Calendar.MILLISECOND, mbCal.get(Calendar.MILLISECOND));
-
-		return cal.getTime();
-	}
-
-	public void checkForCompanyRecurrings(Company company, FinanceDate date)
+	public void executeRecurringSchedules(List<RecurringTransaction> recurrings)
 			throws AccounterException, CloneNotSupportedException {
-		Session session = HibernateUtil.getCurrentSession();
-		List<RecurringTransaction> recurrings = new ArrayList<RecurringTransaction>();
-		List<RecurringTransaction> list1 = session
-				.getNamedQuery("getRecurrringsBeforeDate")
-				.setParameter("date", date).setEntity("company", company)
-				.list();
-
-		List<RecurringTransaction> list2 = session
-				.getNamedQuery("getRecurrrings.remind.days.before")
-				.setEntity("company", company).list();
-
-		recurrings.addAll(list1);
-		recurrings.addAll(list2);
-
-		executeRecurringSchedules(recurrings, date, company);
-	}
-
-	public void executeRecurringSchedules(
-			List<RecurringTransaction> recurrings, FinanceDate date,
-			Company company) throws AccounterException,
-			CloneNotSupportedException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		boolean addAutoTraxTask = false, addRecReminder = false;
-		FinanceDate transactionDate = null;
-		FinanceDate remind = null;
+		Map<Company, FinanceDate> companyTransactions = new HashMap<Company, FinanceDate>();
+		Map<Company, FinanceDate> companyReminders = new HashMap<Company, FinanceDate>();
 		for (RecurringTransaction recurringTransaction : recurrings) {
 			FinanceDate nextScheduleOn = recurringTransaction
 					.getNextScheduleOn();
@@ -130,84 +78,87 @@ public class RecurringTool extends Thread {
 			cal.add(Calendar.DAY_OF_MONTH,
 					-recurringTransaction.getDaysBeforeToRemind());
 			FinanceDate remindDate = new FinanceDate(cal.getTime());
-			if (remindDate.compareTo(date) < 1) {
-				if (recurringTransaction.getType() == RecurringTransaction.RECURRING_SCHEDULED) {
-					Transaction transaction = FinanceTool
-							.createDuplicateTransaction(recurringTransaction);
-					transaction.setSaveStatus(Transaction.STATUS_APPROVE);
-					transaction.setAutomaticTransaction(true);
-					session.saveOrUpdate(transaction);
-					if (recurringTransaction.isNotifyCreatedTransaction()) {
-						addAutoTraxTask = true;
-						if (transactionDate == null) {
-							transactionDate = remindDate;
-						} else if (remindDate.before(transactionDate)) {
-							transactionDate = remindDate;
-						}
+			if (recurringTransaction.getType() == RecurringTransaction.RECURRING_SCHEDULED) {
+				Transaction transaction = FinanceTool
+						.createDuplicateTransaction(recurringTransaction);
+				transaction.setSaveStatus(Transaction.STATUS_APPROVE);
+				transaction.setAutomaticTransaction(true);
+				session.saveOrUpdate(transaction);
+				if (recurringTransaction.isNotifyCreatedTransaction()) {
+					FinanceDate transactionDate = companyTransactions
+							.get(recurringTransaction.getCompany());
+					if (transactionDate == null) {
+						transactionDate = remindDate;
+					} else if (remindDate.before(transactionDate)) {
+						transactionDate = remindDate;
 					}
-				} else if (recurringTransaction.getType() == RecurringTransaction.RECURRING_REMINDER) {
-					Reminder reminder = new Reminder(recurringTransaction);
-					session.saveOrUpdate(reminder);
-					addRecReminder = true;
-					if (remind == null) {
-						remind = remindDate;
-					} else if (remindDate.before(remind)) {
-						remind = remindDate;
-					}
+					companyTransactions.put(recurringTransaction.getCompany(),
+							transactionDate);
 				}
+			} else if (recurringTransaction.getType() == RecurringTransaction.RECURRING_REMINDER) {
+				Reminder reminder = new Reminder(recurringTransaction);
+				session.saveOrUpdate(reminder);
+				FinanceDate remind = companyReminders.get(recurringTransaction
+						.getCompany());
+				if (remind == null) {
+					remind = remindDate;
+				} else if (remindDate.before(remind)) {
+					remind = remindDate;
+				}
+				companyReminders.put(recurringTransaction.getCompany(), remind);
+			}
 
-				// Schedule again for next recurring
-				recurringTransaction.scheduleAgain();
+			// Schedule again for next recurring
+			recurringTransaction.scheduleAgain();
 
-				// Stop the recurring according to end date type.
-				if (recurringTransaction.getEndDateType() == RecurringTransaction.END_DATE_DATE) {
-					if (recurringTransaction.getNextScheduleOn() == null
-							|| !recurringTransaction.getEndDate().after(
-									recurringTransaction.getNextScheduleOn())) {
-						recurringTransaction.setStopped(true);
-					}
-				} else if (recurringTransaction.getEndDateType() == RecurringTransaction.END_DATE_OCCURRENCES) {
-					if (recurringTransaction.getOccurencesCount() <= recurringTransaction
-							.getOccurencesCompleted()) {
-						recurringTransaction.setStopped(true);
-					}
+			// Stop the recurring according to end date type.
+			if (recurringTransaction.getEndDateType() == RecurringTransaction.END_DATE_DATE) {
+				if (recurringTransaction.getNextScheduleOn() == null
+						|| !recurringTransaction.getEndDate().after(
+								recurringTransaction.getNextScheduleOn())) {
+					recurringTransaction.setStopped(true);
 				}
-				if (recurringTransaction.isStopped()
-						&& recurringTransaction.isAlertWhenEnded()) {
-					MessageOrTask message = new MessageOrTask();
-					message.setType(MessageOrTask.TYPE_MESSAGE);
-					message.setDate(remindDate == null ? nextScheduleOn
-							: remindDate);
-					message.setSystemCreated(true);
-					message.setContent(Global
-							.get()
-							.messages()
-							.recurringTemplateHasEnded(
-									recurringTransaction.getName()));
-					int transactionType = recurringTransaction.getTransaction()
-							.getType();
-					AccounterCoreType type = UIUtils
-							.getAccounterCoreType(transactionType);
-					StringBuffer token = new StringBuffer(
-							getActionToken(transactionType));
-					token.append("?");
-					token.append(type.toString().toLowerCase());
-					token.append(":");
-					token.append(recurringTransaction.getTransaction().getID());
-					message.setActionToken(token.toString());
-					message.setCompany(recurringTransaction.getCompany());
-					session.saveOrUpdate(message);
+			} else if (recurringTransaction.getEndDateType() == RecurringTransaction.END_DATE_OCCURRENCES) {
+				if (recurringTransaction.getOccurencesCount() <= recurringTransaction
+						.getOccurencesCompleted()) {
+					recurringTransaction.setStopped(true);
 				}
+			}
+			if (recurringTransaction.isStopped()
+					&& recurringTransaction.isAlertWhenEnded()) {
+				MessageOrTask message = new MessageOrTask();
+				message.setType(MessageOrTask.TYPE_MESSAGE);
+				message.setDate(remindDate == null ? nextScheduleOn
+						: remindDate);
+				message.setSystemCreated(true);
+				message.setContent(Global
+						.get()
+						.messages()
+						.recurringTemplateHasEnded(
+								recurringTransaction.getName()));
+				int transactionType = recurringTransaction.getTransaction()
+						.getType();
+				AccounterCoreType type = UIUtils
+						.getAccounterCoreType(transactionType);
+				StringBuffer token = new StringBuffer(
+						getActionToken(transactionType));
+				token.append("?");
+				token.append(type.toString().toLowerCase());
+				token.append(":");
+				token.append(recurringTransaction.getTransaction().getID());
+				message.setActionToken(token.toString());
+				message.setCompany(recurringTransaction.getCompany());
+				session.saveOrUpdate(message);
 
 				session.saveOrUpdate(recurringTransaction);
 			}
 		}
 
-		if (addAutoTraxTask) {
-			createAutomaticTransactionMessage(transactionDate, company);
+		for (Entry<Company, FinanceDate> entry : companyTransactions.entrySet()) {
+			createAutomaticTransactionMessage(entry.getValue(), entry.getKey());
 		}
-		if (addRecReminder) {
-			createRecurringReminderTask(remind, company);
+		for (Entry<Company, FinanceDate> entry : companyReminders.entrySet()) {
+			createRecurringReminderTask(entry.getValue(), entry.getKey());
 		}
 	}
 

@@ -749,4 +749,11 @@ public class CashPurchase extends Transaction {
 			}
 		}
 	}
+
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		CashPurchase purchase = (CashPurchase) super.clone();
+		purchase.purchaseOrders = new ArrayList<PurchaseOrder>();
+		return purchase;
+	}
 }
