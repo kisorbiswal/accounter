@@ -574,4 +574,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getSalesOrdersList(long id,
 			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback);
+	void getWriteCheckByEstimateId(long l,
+			AsyncCallback<ClientWriteCheck> callback);
+
+	
 }

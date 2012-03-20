@@ -483,6 +483,7 @@
 			</component>
 			<property  type="encryptedstring" name="phone" column="PHONE"></property>
 			<property name="estimateType" column="ESTIMATETYPE"></property>
+			<property name="refferingTransactionType" column="REFFERING_TRANSACTION_TYPE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
@@ -909,6 +910,10 @@
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
+				<set name="estimates" table="WRITE_CHECKS_ESTIMATES">
+				<key column="WRITE_CHECKS_ID"></key>
+				<many-to-many class="Estimate" />
+			</set>
 			<property name="inWords"  type="encryptedstring" column="IN_WORDS"></property>
 			<property name="checkNumber"  type="encryptedstring" column="CHECK_NUMBER" ></property>
 		</joined-subclass>

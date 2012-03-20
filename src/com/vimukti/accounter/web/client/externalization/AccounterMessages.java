@@ -6159,6 +6159,8 @@ public interface AccounterMessages extends Messages {
 	public String purchasesbyLocationSummary();
 
 	public String purchasesbyClassSummary();
+	
+	public String writeChecksList();
 
 	public String transferFromAndToAccountsshouldhavesamecurrency();
 

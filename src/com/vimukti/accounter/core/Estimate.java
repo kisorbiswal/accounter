@@ -40,7 +40,9 @@ public class Estimate extends Transaction {
 	public static final int DEPOSIT_EXPENSES = 5;
 
 	public static final int SALES_ORDER = 6;
-
+	
+	
+	private int refferingTransactionType;
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */
@@ -578,4 +580,13 @@ public class Estimate extends Transaction {
 		status = STATUS_OPEN;
 		return estimate;
 	}
+	public int getRefferingTransactionType() {
+		return refferingTransactionType;
+	}
+
+	public void setRefferingTransactionType(int refferingTransactionType) {
+		this.refferingTransactionType = refferingTransactionType;
+	}
+
+	
 }
