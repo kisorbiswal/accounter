@@ -182,7 +182,9 @@ public class CancelAccountServlet extends BaseServlet {
 			if (users != null && !users.isEmpty()) {
 				List<Company> list = new ArrayList<Company>();
 				for (User user : users) {
-					list.add(user.getCompany());
+					if (!user.isDeleted()) {
+						list.add(user.getCompany());
+					}
 				}
 				req.setAttribute(ATTR_COMPANY_LIST, list);
 			}
