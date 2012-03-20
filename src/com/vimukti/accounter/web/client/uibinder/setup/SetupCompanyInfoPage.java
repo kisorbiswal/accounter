@@ -197,14 +197,19 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		viewPanel.add(companyFieldsPanel);
 
 		countryChanged();
+		if (preferences.getTradingName() == null
+				|| preferences.getTradingName().length() == 0) {
+			companyName.addBlurHandler(new BlurHandler() {
 
-		companyName.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				verifyCompanyName(companyName.getText());
-			}
-		});
+				@Override
+				public void onBlur(BlurEvent event) {
+					verifyCompanyName(companyName.getText());
+				}
+			});
+		} else {
+			isValidCompanyname = true;
+			companyName.setEnabled(false);
+		}
 	}
 
 	/**

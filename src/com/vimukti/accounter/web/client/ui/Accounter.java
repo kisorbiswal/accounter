@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -130,7 +131,13 @@ public class Accounter implements EntryPoint {
 
 	public static void gotCompany(ClientCompany company) {
 
-		if (company == null) {
+		if (company == null || (!company.isConfigured())) {
+			// and, now we are ready to start the application.
+			removeLoadingImage();
+			ClientCompanyPreferences preferences = null;
+			if (company != null) {
+				preferences = company.getPreferences();
+			}
 			// and, now we are ready to start the application.
 
 			removeLoadingImage();
@@ -154,7 +161,7 @@ public class Accounter implements EntryPoint {
 					Accounter.showError(Accounter.messages
 							.AccounterLoadingFailed());
 				}
-			});
+			},preferences);
 			RootPanel.get("mainWindow").add(header);
 			RootPanel.get("mainWindow").add(vpanel);
 			RootPanel.get("mainWindow").add(setupWizard);

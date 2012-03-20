@@ -57,11 +57,12 @@ public class SetupWizard extends FlowPanel {
 	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
 	private String password;
 
-	public SetupWizard(final AsyncCallback<Boolean> callback) {
-		initSetup(callback);
+	public SetupWizard(final AsyncCallback<Boolean> callback, ClientCompanyPreferences preferences) {
+		initSetup(callback,preferences);
 	}
 
-	private void initSetup(AsyncCallback<Boolean> callback) {
+	private void initSetup(AsyncCallback<Boolean> callback, ClientCompanyPreferences cPeferences) {
+		if(cPeferences==null){
 		preferences = new ClientCompanyPreferences();
 		Accounter.createCompanyInitializationService().getCountry(
 				new AsyncCallback<String>() {
@@ -78,6 +79,9 @@ public class SetupWizard extends FlowPanel {
 
 					}
 				});
+		}else{
+			cPeferences=preferences;
+		}
 		AbstractSetupPage.setPreferences(preferences);
 		initViewsAndNamesList();
 		creteControls();
