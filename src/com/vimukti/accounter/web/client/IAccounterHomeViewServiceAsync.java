@@ -577,5 +577,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void getWriteCheckByEstimateId(long l,
 			AsyncCallback<ClientWriteCheck> callback);
 
+	public void getCashPurchaseByEstimateId(long id,
+			AsyncCallback<ClientCashPurchase> callback);
+
 	
 }

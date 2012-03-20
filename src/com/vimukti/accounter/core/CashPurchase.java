@@ -1,7 +1,9 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -104,7 +106,7 @@ public class CashPurchase extends Transaction {
 	 * It specifies the employee expense status
 	 */
 	int expenseStatus;
-
+	private Set<Estimate> estimates = new HashSet<Estimate>();
 	private List<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
 
 	//
@@ -330,7 +332,12 @@ public class CashPurchase extends Transaction {
 						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
-
+		if (getCompany().getPreferences()
+				.isProductandSerivesTrackingByCustomerEnabled()
+				&& getCompany().getPreferences()
+						.isBillableExpsesEnbldForProductandServices()) {
+			createAndSaveEstimates(this.transactionItems, session);
+		}
 		return false;
 	}
 
@@ -553,6 +560,13 @@ public class CashPurchase extends Transaction {
 				payFromAccount.onUpdate(session);
 			}
 
+			for (Estimate estimate : cashPurchase.estimates) {
+				session.delete(estimate);
+			}
+			cashPurchase.estimates.clear();
+			
+			this.createAndSaveEstimates(this.transactionItems, session);
+			
 			this.payFrom.updateCurrentBalance(this,
 					isDebitTransaction() ? this.total : -this.total,
 					this.currencyFactor);
@@ -575,7 +589,69 @@ public class CashPurchase extends Transaction {
 		}
 
 	}
+	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
+			Session session) {
+		this.getEstimates().clear();
 
+		Set<Estimate> estimates = new HashSet<Estimate>();
+		for (TransactionItem transactionItem : transactionItems) {
+			if (transactionItem.isBillable()
+					&& transactionItem.getCustomer() != null) {
+				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
+						TransactionItem.class).clone(null, transactionItem,
+						false);
+				newTransactionItem.setQuantity(transactionItem.getQuantity());
+				newTransactionItem.setId(0);
+				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setOnSaveProccessed(false);
+				newTransactionItem.setLineTotal(newTransactionItem
+						.getLineTotal() * getCurrencyFactor());
+				newTransactionItem.setDiscount(newTransactionItem.getDiscount()
+						* getCurrencyFactor());
+				newTransactionItem.setUnitPrice(newTransactionItem
+						.getUnitPrice() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(newTransactionItem
+						.getVATfraction() * getCurrencyFactor());
+				Estimate estimate = getCustomerEstimate(estimates,
+						newTransactionItem.getCustomer().getID());
+				if (estimate == null) {
+					estimate = new Estimate();
+					estimate.setRefferingTransactionType(Transaction.TYPE_CASH_PURCHASE);
+					estimate.setCompany(getCompany());
+					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setJob(newTransactionItem.getJob());
+					estimate.setTransactionItems(new ArrayList<TransactionItem>());
+					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
+					estimate.setType(Transaction.TYPE_ESTIMATE);
+					estimate.setDate(new FinanceDate());
+					estimate.setExpirationDate(new FinanceDate());
+					estimate.setDeliveryDate(new FinanceDate());
+					estimate.setNumber(NumberUtils.getNextTransactionNumber(
+							Transaction.TYPE_ESTIMATE, getCompany()));
+				}
+				List<TransactionItem> transactionItems2 = estimate
+						.getTransactionItems();
+				transactionItems2.add(newTransactionItem);
+				estimate.setTransactionItems(transactionItems2);
+				estimates.add(estimate);
+			}
+		}
+
+		for (Estimate estimate : estimates) {
+			session.save(estimate);
+		}
+
+		this.setEstimates(estimates);
+	}
+	
+	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
+		for (Estimate clientEstimate : estimates) {
+			if (clientEstimate.getCustomer().getID() == customer) {
+				return clientEstimate;
+			}
+		}
+		return null;
+	}
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -755,5 +831,13 @@ public class CashPurchase extends Transaction {
 		CashPurchase purchase = (CashPurchase) super.clone();
 		purchase.purchaseOrders = new ArrayList<PurchaseOrder>();
 		return purchase;
+	}
+
+	public Set<Estimate> getEstimates() {
+		return estimates;
+	}
+
+	public void setEstimates(Set<Estimate> estimates) {
+		this.estimates = estimates;
 	}
 }

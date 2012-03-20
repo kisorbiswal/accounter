@@ -2012,6 +2012,13 @@
 		from com.vimukti.accounter.core.WriteCheck wc left join wc.estimates es
 		where es=:estimate
 	</query>
+	
+	<query name="getCashPurchaseByEstimate">
+		<query-param name="estimate" type="Estimate" />
+		from com.vimukti.accounter.core.CashPurchase cp left join cp.estimates es
+		where es=:estimate
+	</query>
+	
 	<query name="getDepositByEstimate">
 		<query-param name="estimate" type="Estimate" />
 		from com.vimukti.accounter.core.MakeDeposit d left join d.estimates es

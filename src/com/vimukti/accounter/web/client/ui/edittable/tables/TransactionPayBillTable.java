@@ -400,8 +400,10 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsStringInPrimaryCurrency(row
-							.getPayment());
+				return	String.valueOf(row.getPayment());
+//					return DataUtils.getAmountAsStringInPrimaryCurrency(row
+//							.getPayment());
+					
 				}
 
 				@Override

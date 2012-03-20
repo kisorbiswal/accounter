@@ -213,6 +213,10 @@
 			<many-to-one name="employee" class="User" cascade="save-update"
 				column="EMPLOYEE">
 			</many-to-one>
+			<set name="estimates" table="CASH_PURCHASE_ESTIMATES">
+				<key column="CASH_PURCHASE_ID"></key>
+				<many-to-many class="Estimate" />
+			</set>
 			<list name="purchaseOrders" table="CASH_PURCHASE_ORDERS">
 				<key column="CASH_PURCHASE_ID"></key>
 				<list-index column="VTX" />

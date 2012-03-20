@@ -417,7 +417,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ClientEnterBill getEnterBillByEstimateId(long l) throws AccounterException;
 	ClientWriteCheck getWriteCheckByEstimateId(long l) throws AccounterException;
-
+	ClientCashPurchase getCashPurchaseByEstimateId(long id)throws AccounterException;
+	
 	List<ClientFixedAsset> getFixedAssetList(int status)
 			throws AccounterException;
 
@@ -509,6 +510,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ArrayList<EstimatesAndSalesOrdersList> getSalesOrdersList(long id)
 			throws AccounterException;
+
 
 
 }

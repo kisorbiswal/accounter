@@ -2380,5 +2380,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	
 	}
 
+	@Override
+	public ClientCashPurchase getCashPurchaseByEstimateId(long id)
+			throws AccounterException {
+		return new FinanceTool().getVendorManager().getCashPurchaseByEstimateId(id);
+	}
+
 	
 }
