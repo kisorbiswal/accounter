@@ -596,7 +596,8 @@ public class CompanyManager extends Manager {
 
 		Company company = getCompany(companyId);
 		if (company != null && companyId != 0
-				&& company.getVersion() < Company.CURRENT_VERSION) {
+				&& company.getVersion() < Company.CURRENT_VERSION
+				&& company.isConfigured()) {
 			MigrationUtil.migrate(company);
 		}
 		User logInUser = company.getUserByUserEmail(logInUserEmail);
