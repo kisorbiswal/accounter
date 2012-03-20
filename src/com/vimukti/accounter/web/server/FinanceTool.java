@@ -90,7 +90,6 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
-import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
@@ -112,8 +111,6 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionDepositItem;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
-import com.vimukti.accounter.core.TransactionPayBill;
-import com.vimukti.accounter.core.TransactionReceivePayment;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
@@ -2270,37 +2267,6 @@ public class FinanceTool {
 		newTransaction.setAttachments(new HashSet<Attachment>());
 		newTransaction.setLastActivity(null);
 		newTransaction.setHistory(null);
-
-		if (newTransaction instanceof Invoice) {
-			((Invoice) newTransaction).setEstimates(new ArrayList<Estimate>());
-			((Invoice) newTransaction)
-					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
-			((Invoice) newTransaction).setBalanceDue(newTransaction.getTotal());
-			((Invoice) newTransaction).setPayments(0);
-			newTransaction
-					.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
-		} else if (newTransaction instanceof EnterBill) {
-			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
-			((EnterBill) newTransaction)
-					.setPurchaseOrders(new ArrayList<PurchaseOrder>());
-			((EnterBill) newTransaction)
-					.setTransactionPayBills(new HashSet<TransactionPayBill>());
-			((EnterBill) newTransaction).setBalanceDue(newTransaction
-					.getTotal());
-			((EnterBill) newTransaction).setPayments(0);
-			newTransaction
-					.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
-		} else if (newTransaction instanceof JournalEntry) {
-			((JournalEntry) newTransaction).transactionReceivePayments = new HashSet<TransactionReceivePayment>();
-			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
-		} else if (newTransaction instanceof Estimate) {
-			((Estimate) newTransaction).setUsedInvoice(null, session);
-		} else if (newTransaction instanceof PurchaseOrder) {
-			((PurchaseOrder) newTransaction).setUsedBill(null, session);
-		} else if (newTransaction instanceof MakeDeposit) {
-			((MakeDeposit) newTransaction)
-					.setEstimates(new HashSet<Estimate>());
-		}
 
 		session.setFlushMode(flushMode);
 

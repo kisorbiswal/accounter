@@ -1063,4 +1063,15 @@ public class Invoice extends Transaction implements Lifecycle {
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		Invoice invoice = (Invoice) super.clone();
+		invoice.estimates = new ArrayList<Estimate>();
+		invoice.transactionReceivePayments = new HashSet<TransactionReceivePayment>();
+		invoice.balanceDue = invoice.getTotal();
+		invoice.payments = 0;
+		invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		return invoice;
+	}
+
 }

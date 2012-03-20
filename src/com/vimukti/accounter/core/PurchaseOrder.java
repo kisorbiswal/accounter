@@ -587,4 +587,11 @@ public class PurchaseOrder extends Transaction {
 		}
 	}
 
+	public Transaction clone() throws CloneNotSupportedException {
+		PurchaseOrder po = (PurchaseOrder) super.clone();
+		this.usedBill = null;
+		this.usedCashPurchase = null;
+		status = STATUS_OPEN;
+		return po;
+	}
 }

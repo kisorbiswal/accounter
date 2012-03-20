@@ -300,4 +300,12 @@ public class JournalEntry extends Transaction {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		JournalEntry jEntry = (JournalEntry) super.clone();
+		jEntry.transactionReceivePayments = new HashSet<TransactionReceivePayment>();
+		jEntry.transactionPayBills = new HashSet<TransactionPayBill>();
+		return jEntry;
+	}
 }

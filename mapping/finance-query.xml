@@ -11446,22 +11446,34 @@
 				]]>
 
 	</sql-query>
-
-	<!-- <sql-query name="getSalesOrdersList"> <query-param name="companyId" 
-		type="long" /> <query-param name="fromDate" type="long" /> <query-param name="toDate" 
-		type="long" /> <return-scalar column="TRANSACTION_ID" type="long" /> <return-scalar 
-		column="TRANSACTION_TYPE" type="int" /> <return-scalar column="TRANSACTION_NUMBER" 
-		type="encryptedstring" /> <return-scalar column="TOTAL_PRICE" type="double" 
-		/> <return-scalar column="TRANSACTION_DATE" type="long" /> <return-scalar 
-		column="CUSTOMER_NAME" type="encryptedstring" /> <return-scalar column="PHONE" 
-		type="encryptedstring" /> <return-scalar column="DUE_DATE" type="long" /> 
-		<return-scalar column="TRANSACTION_STATUS" type="int" /> SELECT T.ID AS TRANSACTION_ID, 
-		T.T_TYPE AS TRANSACTION_TYPE, T.NUMBER AS TRANSACTION_NUMBER, T.TOTAL AS 
-		TOTAL_PRICE, T.T_DATE AS TRANSACTION_DATE, P.NAME AS CUSTOMER_NAME, S.PHONE 
-		AS PHONE, S.DUE_DATE AS DUE_DATE, T.STATUS AS TRANSACTION_STATUS FROM TRANSACTION 
-		T LEFT OUTER JOIN SALES_ORDER S on T.ID=S.ID LEFT OUTER JOIN PAYEE P ON P.ID=S.CUSTOMER_ID 
-		WHERE T.T_TYPE = 21 AND T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate 
-		AND :toDate ORDER BY T.T_DATE </sql-query> -->
+	
+	
+	<sql-query name="getPresentRecurringTransactions">
+		<![CDATA[
+				SELECT r.*
+				FROM   recurring_transaction r
+				       left join company c
+				         ON c.id = r.company_id
+				WHERE  r.stopped = false
+				       AND r.recurring_type != 2
+				       AND ( ( Cast(
+				       				To_char(Cast(
+				       						Trim(Substr(Cast(c.timezone AS TEXT), 4, 5)) AS
+				                                 INTERVAL
+				                   			)
+				                            + Now() AT TIME ZONE 'GMT', 'YYYYMMDD')
+				                    AS  BIGINT
+				                    ) >
+				                     r.next_schedule_on - r.days_before_remind )
+				              OR ( To_char(Cast(
+				              					Trim(Substr(Cast(c.timezone AS TEXT), 4, 5)) AS
+				                                INTERVAL
+				                                ) +
+				                                 Now() AT TIME ZONE 'GMT', 'YYYYMMDD') = Cast(
+				                       r.next_schedule_on AS TEXT) ) )
+				ORDER  BY r.next_schedule_on    
+		]]>
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

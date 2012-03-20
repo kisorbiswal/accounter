@@ -1396,4 +1396,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		}
 	}
 
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		EnterBill bill = (EnterBill) super.clone();
+		bill.estimates = new HashSet<Estimate>();
+		bill.purchaseOrders = new ArrayList<PurchaseOrder>();
+		bill.transactionPayBills = new HashSet<TransactionPayBill>();
+		bill.balanceDue = bill.getTotal();
+		bill.payments = 0;
+		bill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		return bill;
+	}
+
 }

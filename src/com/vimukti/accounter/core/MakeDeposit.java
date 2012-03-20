@@ -88,6 +88,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			}
 		}
 		clone.setTransactionDepositItems(items);
+		clone.estimates = new HashSet<Estimate>();
 
 		return clone;
 
@@ -308,4 +309,5 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		// TODO Auto-generated method stub
 		super.onLoad(session, arg1);
 	}
+
 }

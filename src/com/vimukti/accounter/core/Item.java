@@ -755,4 +755,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		this.averageCost = averageCost;
 	}
 
+	public boolean isInventory() {
+		return getType() == TYPE_INVENTORY_PART
+				|| getType() == TYPE_INVENTORY_ASSEMBLY;
+	}
 }
