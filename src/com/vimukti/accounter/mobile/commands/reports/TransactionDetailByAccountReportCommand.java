@@ -173,7 +173,7 @@ public class TransactionDetailByAccountReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			TransactionDetailByAccount selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override

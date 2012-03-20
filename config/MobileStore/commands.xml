@@ -1227,7 +1227,7 @@
 		<alias>stockAdjustments</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.TaxGroupListCommand"
-		name="manageSalesGroups">
+		name="manageSalesTaxGroups">
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.PrintInvoiceCommand"
 		name="printAndSendEmail">

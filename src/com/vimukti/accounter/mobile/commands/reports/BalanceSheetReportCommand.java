@@ -38,7 +38,7 @@ public class BalanceSheetReportCommand extends
 
 			@Override
 			protected String onSelection(TrialBalance selection, String name) {
-				return "Transaction Detail By Account ,"
+				return "transactionDetailByAccount ,"
 						+ selection.getAccountNumber();
 			}
 

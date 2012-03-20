@@ -103,6 +103,6 @@ public class TaxItemExceptionReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(TAXItemDetail selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 }

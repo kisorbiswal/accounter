@@ -35,7 +35,7 @@ public class ARAgingDetailReportCommand extends
 			@Override
 			protected String onSelection(AgedDebtors selection, String name) {
 				markDone();
-				return "update transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override

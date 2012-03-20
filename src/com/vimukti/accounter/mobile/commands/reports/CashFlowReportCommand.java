@@ -34,10 +34,10 @@ public class CashFlowReportCommand extends
 			protected String onSelection(TrialBalance selection, String name) {
 				markDone();
 				if (selection.getAccountId() != 0) {
-					return "Transaction Detail By Account ,"
+					return "transactionDetailByAccount ,"
 							+ selection.getAccountNumber();
 				} else {
-					return "Profit and Loss";
+					return "profitAndLoss";
 				}
 			}
 

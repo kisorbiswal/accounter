@@ -35,7 +35,7 @@ public class APAgingDetailReportCommand extends
 			@Override
 			protected String onSelection(AgedDebtors selection, String name) {
 				markDone();
-				return "Edit Transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override
