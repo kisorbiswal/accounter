@@ -77,7 +77,7 @@ public abstract class BizDecorPanel extends FlowPanel {
 		decorator.add(setSecondRow());
 		decorator.add(setThirdRow());
 		this.add(decorator);
-//		setStyles(title);
+		// setStyles(title);
 	}
 
 	protected void setPortletTitle(String title) {
@@ -86,7 +86,8 @@ public abstract class BizDecorPanel extends FlowPanel {
 
 	/**
 	 * Creates the first row of Panel
-	 * @return 
+	 * 
+	 * @return
 	 */
 	private StyledPanel setFirstRow() {
 		Label TL = new Label();
@@ -104,6 +105,7 @@ public abstract class BizDecorPanel extends FlowPanel {
 			configImage.getElement().getParentElement()
 					.addClassName("portlet_config_button");
 		}
+		gotoLabel.getElement().getParentElement().addClassName("go-to-link");
 		if (canClose()) {
 			titleTable.setWidget(0, 3, closeImage);
 			closeImage.getElement().getParentElement()
@@ -111,25 +113,26 @@ public abstract class BizDecorPanel extends FlowPanel {
 
 		}
 		Label TR = new Label();
-		TR.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		TL.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		
+		TR.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		TL.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+
 		StyledPanel firstRow = new StyledPanel("firstRow");
 		firstRow.add(TL);
 		firstRow.add(titleTable);
 		firstRow.add(TR);
 		return firstRow;
-//		this.setWidget(0, 0, TL);
-//		this.setWidget(0, 1, titleTable);
-//		this.setWidget(0, 2, TR);
+		// this.setWidget(0, 0, TL);
+		// this.setWidget(0, 1, titleTable);
+		// this.setWidget(0, 2, TR);
 	}
 
 	private void setGoToAction(String title, String gotoString) {
 		gotoLabel.setText(gotoString);
 		gotoLabel.addStyleName("goToLink");
-		AccounterMessages messages=Global.get().messages();
-		gotoLabel.setTitle(messages.clickThisObjToOpen(
-				messages.link(),
+		AccounterMessages messages = Global.get().messages();
+		gotoLabel.setTitle(messages.clickThisObjToOpen(messages.link(),
 				messages.allTransactionDetails(title)));
 		gotoLabel.getElement().getStyle()
 				.setTextDecoration(getTitleDecoration());
@@ -151,13 +154,13 @@ public abstract class BizDecorPanel extends FlowPanel {
 		c.add(MC);
 
 		MC.setStyleName("decor-left");
-		
+
 		StyledPanel secondRow = new StyledPanel("secondRow");
 		secondRow.add(c);
 		return secondRow;
-		
-//		this.setWidget(1, 0, c);
-//		this.getFlexCellFormatter().setColSpan(1, 0, 3);
+
+		// this.setWidget(1, 0, c);
+		// this.getFlexCellFormatter().setColSpan(1, 0, 3);
 	}
 
 	/**
@@ -167,31 +170,31 @@ public abstract class BizDecorPanel extends FlowPanel {
 		Label BL = new Label();
 		Label BC = new Label();
 		Label BR = new Label();
-		
+
 		StyledPanel setThirdRow = new StyledPanel("setThirdRow");
 		setThirdRow.add(BL);
 		setThirdRow.add(BC);
 		setThirdRow.add(BR);
 		return setThirdRow;
-		
-//		this.setWidget(2, 0, BL);
-//		this.setWidget(2, 1, BC);
-//		this.setWidget(2, 2, BR);
+
+		// this.setWidget(2, 0, BL);
+		// this.setWidget(2, 1, BC);
+		// this.setWidget(2, 2, BR);
 	}
 
-//	/**
-//	 * Sets the required styles to cells
-//	 */
-//	private void setStyles(String title) {
-//		for (int i = 0; i < 3; i++) {
-//			for (int j = 0; j < 3; j++) {
-//				if (i == 1 && j != 0)
-//					break;
-//				this.getCellFormatter().setStyleName(i, j, "td" + i + j);
-//				this.getWidget(i, j).addStyleName("decor" + i + j);
-//			}
-//		}
-//	}
+	// /**
+	// * Sets the required styles to cells
+	// */
+	// private void setStyles(String title) {
+	// for (int i = 0; i < 3; i++) {
+	// for (int j = 0; j < 3; j++) {
+	// if (i == 1 && j != 0)
+	// break;
+	// this.getCellFormatter().setStyleName(i, j, "td" + i + j);
+	// this.getWidget(i, j).addStyleName("decor" + i + j);
+	// }
+	// }
+	// }
 
 	/**
 	 * Sets the panel title.
@@ -225,14 +228,14 @@ public abstract class BizDecorPanel extends FlowPanel {
 		widget.addStyleName("main-w");
 	}
 
-//	/**
-//	 * Returns the added widget
-//	 * 
-//	 * @return
-//	 */
-//	public Widget getWidget() {
-//		return super.getWidget(1, 1);
-//	}
+	// /**
+	// * Returns the added widget
+	// *
+	// * @return
+	// */
+	// public Widget getWidget() {
+	// return super.getWidget(1, 1);
+	// }
 
 	@Override
 	public void setHeight(String height) {
@@ -266,12 +269,12 @@ public abstract class BizDecorPanel extends FlowPanel {
 	/**
 	 * Behaves same as setWidget()
 	 */
-//	@Override
-//	public void add(Widget widget) {
-//		MC.add(widget);
-//		widget.addStyleName("main-w-finance");
-//		widget.setWidth("");
-//	}
+	// @Override
+	// public void add(Widget widget) {
+	// MC.add(widget);
+	// widget.addStyleName("main-w-finance");
+	// widget.setWidth("");
+	// }
 
 	public void doAnimate(final Boolean isMinimizing) {
 		if (isMinimizing) {

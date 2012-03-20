@@ -24,7 +24,7 @@
    <% } %>
 <script  type="text/javascript" >
 <%
-	String news = request.getAttribute("news").toString();
+	String news = (String)request.getAttribute("news");
 	String destination =(String) request.getAttribute("destination");
 %>
 	var news=<%= news%>;
@@ -111,6 +111,8 @@
 		 
 	 
 	});	
+</script>
+
 
 </head>
 	<body>
