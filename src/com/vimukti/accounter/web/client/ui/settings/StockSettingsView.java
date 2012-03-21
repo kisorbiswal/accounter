@@ -104,9 +104,8 @@ public class StockSettingsView extends BaseView {
 		itemExpenseAmountTextlabel.setValue(messages.stockItemExpenseAccount());
 		amountText = new AmountField(messages.stockItemAmount(), this,
 				getBaseCurrency(), "amount_Text");
-		memo = new TextAreaItem(messages.memo(), "memo_textbox");
-		memo.setMemo(false, getAction().getViewName());
-//		memo.setWidth(100);
+		memo = new TextAreaItem(messages.memo(), "memoArea");
+		memo.setTitle(messages.writeCommentsForThis(getAction().getViewName()));
 
 		vatform = new DynamicForm("vatform");
 		lowerform = new DynamicForm("lowerform");

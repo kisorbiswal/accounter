@@ -134,9 +134,8 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		memoForm = new DynamicForm("memoForm");
 		memoArea = new TextAreaItem(messages.memo(), "memoArea");
-		memoArea.setMemo(true, getAction().getViewName());
-		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
-				.getViewName()));
+		memoArea.setTitle(messages.writeCommentsForThis(getAction().getViewName()));
+		
 		memoArea.setDisabled(isInViewMode());
 		memoForm.add(memoArea);
 		// memoForm.getCellFormatter().getElement(0, 0).getStyle()

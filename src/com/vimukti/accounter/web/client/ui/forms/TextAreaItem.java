@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class TextAreaItem extends FormItem<String> {
 
 	TextArea textArea;
-	boolean isMemo;
 
 	public TextAreaItem(String title, String styleName) {
 		super(title, styleName);
@@ -16,18 +15,6 @@ public class TextAreaItem extends FormItem<String> {
 		this.add(textArea);
 	}
 
-	// public TextAreaItem() {
-	// textArea = new TextArea();
-	// }
-
-	public void setMemo(boolean isMemo, String viewName) {
-		this.isMemo = isMemo;
-		if (isMemo) {
-			textArea.removeStyleName("gwt-TextArea");
-			textArea.addStyleName("memoTextArea");
-			textArea.setTitle(messages.writeCommentsForThis(viewName));
-		}
-	}
 
 	public String getValue() {
 		return textArea.getText();
@@ -54,17 +41,10 @@ public class TextAreaItem extends FormItem<String> {
 	}
 
 	public void setDisabled(boolean b) {
-		// this.getMainWidget().setEnabled(!b);
 		if (b) {
-			this.textArea.addStyleName("disable-TextField");
+			this.textArea.addStyleName("disable");
 		} else {
-			// this.textArea.setStyleName("gwt-TextBox");
-			textArea.setStyleName("gwt-TextArea");
-			// textArea.addStyleName("memoTextArea");
-			if (isMemo) {
-				textArea.removeStyleName("gwt-TextArea");
-				textArea.addStyleName("memoTextArea");
-			}
+			textArea.removeStyleName("disable");
 		}
 		this.textArea.setEnabled(!b);
 

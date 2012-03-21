@@ -79,19 +79,15 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.customers.CashSalesView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
-import com.vimukti.accounter.web.client.ui.customers.InvoiceView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.ui.vendors.CashPurchaseView;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
-import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
@@ -278,15 +274,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 				taxCode = getCompany().getTAXCode(
 						clientTransactionItem.getTaxCode());
-
-				// if (clientTransactionItem.getTaxItem() != null
-				// || clientTransactionItem.getTaxGroup() != null) {
-				// if (clientTransactionItem.getTaxItem() instanceof
-				// ClientTAXItem)
-				// taxItemGroup = clientTransactionItem.getTaxItem();
-				// if (clientTransactionItem.getTaxGroup() instanceof
-				// ClientTAXGroup)
-				// taxItemGroup = clientTransactionItem.getTaxGroup();
 
 				if (taxCode != null)
 					break;
@@ -492,9 +479,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		final DateField dateItem = new DateField(messages.date(), "dateItem");
 		dateItem.setToolTip(messages.selectDateWhenTransactioCreated(this
 				.getAction().getViewName()));
-		// if (this instanceof VendorBillView)
-		// dateItem.setShowTitle(true);
-		// else
 		dateItem.setShowTitle(false);
 
 		dateItem.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -609,16 +593,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem("", "memoArea");
-		if (!(this instanceof CustomerPrePaymentView
-				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
-			memoArea.setMemo(true, this.getAction().getViewName());
-
-		memoArea.setTitle(messages.memo());
-		// memoArea.setRowSpan(2);
-		// memoArea.setColSpan(3);
-
-		// formItems.add(memoArea);
-
+		memoArea.setTitle(messages.writeCommentsForThis(getAction().getViewName()));
 		return memoArea;
 
 	}

@@ -567,8 +567,7 @@ public class MakeDepositView extends
 				updateTotals();
 			}
 		});
-		memoText = new TextAreaItem(messages.memo(), "memoText");
-		memoText.setMemo(true, getAction().getViewName());
+		memoText = createMemoTextAreaItem();
 		memoText.setEnabled(!isInViewMode());
 
 		memoForm = new DynamicForm("memoForm");

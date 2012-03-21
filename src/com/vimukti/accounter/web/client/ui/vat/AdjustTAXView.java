@@ -192,8 +192,7 @@ public class AdjustTAXView extends
 		salesTypeRadio.setDefaultValue(messages.salesType());
 		salesTypeRadio.setEnabled(isInViewMode());
 
-		memo = new TextAreaItem(messages.memo(), "memo");
-		memo.setMemo(false, getAction().getViewName());
+		memo = createMemoTextAreaItem();
 		memo.setDisabled(isInViewMode());
 		DynamicForm dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
