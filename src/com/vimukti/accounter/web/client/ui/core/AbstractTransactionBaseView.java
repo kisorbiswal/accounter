@@ -1169,33 +1169,32 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				|| this instanceof CustomerRefundView
 				|| this instanceof InvoiceView
 				|| this instanceof VendorBillView
-				|| this instanceof MakeDepositView 
-				|| this instanceof DepositView 
-				|| this instanceof CashSalesView
-				|| this instanceof CashPurchaseView)) {
+				|| this instanceof MakeDepositView
+				|| this instanceof DepositView || this instanceof CashSalesView || this instanceof CashPurchaseView)) {
 			if (transactionItems == null && transactionItems.size() == 0) {
-//				for (ClientTransactionItem transactionItem : transactionItems) {
-//
-//					if (transactionItem != null) {
-//						if (transactionItem.getLineTotal() != null) {
-//							if (transactionItem.getLineTotal() <= 0
-//									&& transactionItem.getDiscount() != 100) {
-//								result.addError(
-//										"TransactionItem"
-//												+ transactionItem.getAccount()
-//												+ transactionItem.getAccount(),
-//										messages.transactionitemtotalcannotbe0orlessthan0());
-//							}
-//						} else {
-//							result.addError("TransactionItem", messages
-//									.pleaseEnter(messages.transactionItem()));
-//						}
-//					} else {
-//						result.addError("TransactionItem", messages
-//								.pleaseEnter(messages.transactionItem()));
-//					}
-//				}
-//			} else {
+				// for (ClientTransactionItem transactionItem :
+				// transactionItems) {
+				//
+				// if (transactionItem != null) {
+				// if (transactionItem.getLineTotal() != null) {
+				// if (transactionItem.getLineTotal() <= 0
+				// && transactionItem.getDiscount() != 100) {
+				// result.addError(
+				// "TransactionItem"
+				// + transactionItem.getAccount()
+				// + transactionItem.getAccount(),
+				// messages.transactionitemtotalcannotbe0orlessthan0());
+				// }
+				// } else {
+				// result.addError("TransactionItem", messages
+				// .pleaseEnter(messages.transactionItem()));
+				// }
+				// } else {
+				// result.addError("TransactionItem", messages
+				// .pleaseEnter(messages.transactionItem()));
+				// }
+				// }
+				// } else {
 				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
 			}
@@ -2055,7 +2054,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
-				|| this instanceof CustomerRefundView || this instanceof MakeDepositView)) {
+				|| this instanceof CustomerRefundView
+				|| this instanceof MakeDepositView || this instanceof DepositView)) {
 			if (transactionItems == null || transactionItems.isEmpty()) {
 				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
