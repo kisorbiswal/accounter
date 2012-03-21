@@ -113,13 +113,13 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { "type", "from", "item", "date" };
-		}
+		return new String[] { "type", "from", "item", "date", "delete" };
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "type-value", "from-value", "item-value",
-		"date-value" };
-}
+				"date-value", "delete-value" };
+	}
 
 }

@@ -9,23 +9,35 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 
 	private static final String CREDITS_PAYMENTS = "creditsandpayments";
 	private static final String AMOUNT_TO_USE = "creditspaymentsamounttouse";
 	private static final String AMOUNT_DUE = "creditspaymentsamountDue";
+	private List<ClientTransactionCreditsAndPayments> initialCredits = new ArrayList<ClientTransactionCreditsAndPayments>();
+	private List<ClientCreditsAndPayments> totalCredits = new ArrayList<ClientCreditsAndPayments>();
+	private boolean fullyApplied;
 
 	public ApplyCreditsRequirement(String requirementName, String enterString,
 			String recordName) {
 		super(requirementName, enterString, recordName, true, true);
 		setValue(new ArrayList<ClientTransactionCreditsAndPayments>());
+	}
+
+	@Override
+	public Result run(Context context, Result makeResult, ResultList list,
+			ResultList actions) {
+		List<ClientCreditsAndPayments> totalCredits2 = getTotalCredits();
+		if (!totalCredits2.isEmpty()) {
+			return super.run(context, makeResult, list, actions);
+		}
+		return null;
 	}
 
 	@Override
@@ -69,9 +81,10 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 			@Override
 			protected Record createRecord(ClientCreditsAndPayments value) {
 				Record record = new Record(value);
+				record.add(getMessages().memo(), value.getMemo());
 				record.add(getMessages().creditAmount(),
 						value.getCreditAmount());
-				record.add(getMessages().balance(), value.getBalance());
+				record.add(getMessages().balance(), value.getRemaoningBalance());
 				record.add(getMessages().amountToUse(), value.getAmtTouse());
 				return record;
 			}
@@ -87,98 +100,90 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 
 			@Override
 			protected List<ClientCreditsAndPayments> getLists(Context context) {
-				return ApplyCreditsRequirement.this.getCreditsPayments();
+				return totalCredits;
 			}
 		});
 
 		list.add(new CurrencyAmountRequirement(AMOUNT_TO_USE, getMessages()
 				.pleaseEnter(getMessages().amountToUse()), getMessages()
-				.amountToUse(), false, true) {
+				.amountToUse(), true, true) {
 
 			@Override
 			protected Currency getCurrency() {
 				return ApplyCreditsRequirement.this.getCurrency();
+			}
+
+			@Override
+			public void setValue(Object value) {
+				if (value != null) {
+					checkTotalAmount((Double) value, totalCredits);
+					String onOK = onOK((Double) value, totalCredits);
+					if (onOK != null) {
+						addFirstMessage(onOK);
+						return;
+					}
+				}
+				super.setValue(value);
 			}
 		});
 	}
 
 	protected abstract Currency getCurrency();
 
-	protected abstract List<ClientCreditsAndPayments> getCreditsPayments();
-
-	public List<ClientCreditsAndPayments> getAppliedCredits() {
-		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
-		for (ClientCreditsAndPayments crdPayment : getCreditsPayments()) {
-			if (!DecimalUtil.isEquals(crdPayment.getAmtTouse(), 0)) {
-				clientCreditsAndPayments.add(crdPayment);
-			}
+	private double getTotalUnuseCreditAmount(
+			List<ClientCreditsAndPayments> records) {
+		double totalUnusedCreditAmount = 0.0;
+		for (ClientCreditsAndPayments crd : records) {
+			totalUnusedCreditAmount += crd.getRemaoningBalance()
+					+ crd.getAmtTouse();
 		}
-		return clientCreditsAndPayments;
+		return totalUnusedCreditAmount;
 	}
 
-	public void checkBalance(double amount) throws Exception {
-		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Global.get().messages()
-					.youdnthaveBalToApplyCredits());
+	private void initialAmountUse(List<ClientCreditsAndPayments> list) {
+		double amount = 0.0d;
+		double totalCreditAmount = getTotalUnuseCreditAmount(list);
+		double appliedCredits = 0.0d;
+
+		if (totalCreditAmount > getAmountDue()) {
+			amount = getAmountDue();
+		} else {
+			amount = totalCreditAmount;
+		}
+		if (appliedCredits == 0) {
+			getRequirement(AMOUNT_TO_USE).setValue(amount);
+		} else {
+			getRequirement(AMOUNT_TO_USE).setValue(appliedCredits);
+		}
+		getRequirement(AMOUNT_DUE).setValue(getAmountDue());
+	}
+
+	protected abstract double getAmountDue();
+
+	private void checkTotalAmount(Double totalAmount,
+			List<ClientCreditsAndPayments> credits) {
+		// if (totalAmount > amountDue) {
+		// return getMessages().amountToUseMustLessthanTotal();
+		// }
+		for (ClientCreditsAndPayments credit : credits) {
+			credit.setRemaoningBalance(credit.getRemaoningBalance()
+					+ credit.getAmtTouse());
+		}
+		double amountNeeded = totalAmount;
+		for (ClientCreditsAndPayments credit : credits) {
+			double balance = credit.getRemaoningBalance();
+			double amountToUse = Math.min(amountNeeded, balance);
+			credit.setAmtTouse(amountToUse);
+			credit.setRemaoningBalance(credit.getRemaoningBalance()
+					- amountToUse);
+			amountNeeded -= amountToUse;
+		}
+		fullyApplied = amountNeeded == 0;
 	}
 
 	@Override
 	protected Result onFinish(Context context) {
 		setValue(getRequirement(AMOUNT_TO_USE).getValue());
-		updateTempCredits();
-		return null;
-	}
-
-	private void updateTempCredits() {
-		// ClientTransactionReceivePayment selectedObject = getSelectedObject();
-		// List<ClientCreditsAndPayments> appliedCreditsForThisRec =
-		// getAppliedCredits();
-		// Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
-		// TempCredit creditRec = null;
-		// List<ClientTransactionReceivePayment> selectedRecords =
-		// getSelectedRecords();
-		// List<ClientTransactionReceivePayment> allRecords = getAllRecords();
-		// for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
-		// try {
-		// checkBalance(rec.getAmtTouse());
-		// } catch (Exception e) {
-		// Accounter.showError(e.getMessage());
-		// return;
-		// }
-		//
-		// Integer recordIndx = allRecords.indexOf(rec);
-		// creditRec = new TransactionReceivePaymentTable.TempCredit();
-		// for (ClientTransactionReceivePayment rcvp : selectedRecords) {
-		// if (rcvp.isCreditsApplied()) {
-		// for (Integer idx : rcvp.getTempCredits().keySet()) {
-		// if (recordIndx == idx)
-		// ((TempCredit) rcvp.getTempCredits().get(idx))
-		// .setRemainingBalance(rec.getBalance());
-		// }
-		// }
-		// }
-		// creditRec.setRemainingBalance(rec.getBalance());
-		// creditRec.setAmountToUse(rec.getAmtTouse());
-		// appliedCredits.put(recordIndx, creditRec);
-		// }
-		// selectedObject.setTempCredits(appliedCredits);
-		// selectedObject.setCreditsApplied(true);
-		//
-		// selectedObject.setAppliedCredits((Double) getValue());
-	}
-
-	private List<ClientTransactionReceivePayment> getAllRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private List<ClientTransactionReceivePayment> getSelectedRecords() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private ClientTransactionReceivePayment getSelectedObject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -187,83 +192,104 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 		return String.valueOf((Double) getValue());
 	}
 
-	public List<ClientTransactionCreditsAndPayments> getTransactionCredits(
-			IAccounterCore transctn) {
-		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
-		// if (transctn instanceof ClientTransactionPayBill) {
-		// ClientTransactionPayBill trPayBill = (ClientTransactionPayBill)
-		// transctn;
-		// if (trPayBill.getTempCredits() != null) {
-		// for (Integer indx : trPayBill.getTempCredits().keySet()) {
-		// ClientCreditsAndPayments crdPayment = grid
-		// .getRecordByIndex(indx);
-		// crdPayment.setBalance(crdPayment.getActualAmt());
-		// crdPayment.setRemaoningBalance(crdPayment.getBalance());
-		// crdPayment
-		// .setAmtTouse(((TransactionPayBillTable.TempCredit) trPayBill
-		// .getTempCredits().get(indx))
-		// .getAmountToUse());
-		// // }
-		// // for (IsSerializable obj : grid.getSelectedRecords()) {
-		// // ClientCreditsAndPayments crdPayment =
-		// // (ClientCreditsAndPayments)
-		// // obj;
-		// /*
-		// * For backnd purpose,they need the original dueamount(the
-		// * calculations(decreasing balance by 'amountToUse') are
-		// * done at backend side)
-		// */
-		// // crdPayment.setBalance(crdPayment.getActualAmt());
-		// ClientTransactionCreditsAndPayments creditsAndPayments = new
-		// ClientTransactionCreditsAndPayments();
-		// try {
-		// creditsAndPayments.setAmountToUse(crdPayment
-		// .getAmtTouse());
-		// } catch (Exception e) {
-		// }
-		// creditsAndPayments.setDate(crdPayment.getTransaction()
-		// .getTransactionDate());
-		// creditsAndPayments.setMemo(crdPayment.getMemo());
-		// creditsAndPayments.setCreditsAndPayments(crdPayment);
-		// clientTransactionCreditsAndPayments.add(creditsAndPayments);
-		// }
-		// }
-		// } else {
-		// ClientTransactionReceivePayment rcvPaymnt =
-		// (ClientTransactionReceivePayment) transctn;
-		// for (Integer indx : rcvPaymnt.getTempCredits().keySet()) {
-		// ClientCreditsAndPayments crdPayment = grid.getRecords().get(
-		// indx);
-		// crdPayment.setBalance(crdPayment.getActualAmt());
-		// crdPayment.setRemaoningBalance(crdPayment.getBalance());
-		// crdPayment
-		// .setAmtTouse(((TransactionReceivePaymentTable.TempCredit) (rcvPaymnt
-		// .getTempCredits().get(indx))).getAmountToUse());
-		// // }
-		// // for (IsSerializable obj : grid.getSelectedRecords()) {
-		// // ClientCreditsAndPayments crdPayment =
-		// // (ClientCreditsAndPayments)
-		// // obj;
-		// /*
-		// * For backnd purpose,they need the original dueamount(the
-		// * calculations(decreasing balance by 'amountToUse') are done at
-		// * backend side)
-		// */
-		// // crdPayment.setBalance(crdPayment.getActualAmt());
-		// ClientTransactionCreditsAndPayments creditsAndPayments = new
-		// ClientTransactionCreditsAndPayments();
-		// try {
-		// creditsAndPayments.setAmountToUse(crdPayment.getAmtTouse());
-		// } catch (Exception e) {
-		// }
-		// creditsAndPayments.setDate(crdPayment.getTransaction()
-		// .getTransactionDate());
-		// creditsAndPayments.setMemo(crdPayment.getMemo());
-		// creditsAndPayments.setCreditsAndPayments(crdPayment);
-		// clientTransactionCreditsAndPayments.add(creditsAndPayments);
-		// }
-		// }
-		return clientTransactionCreditsAndPayments;
+	protected String onOK(Double totalAmount,
+			List<ClientCreditsAndPayments> credits) {
+		if (credits.isEmpty() && totalAmount > 0) {
+			return (getMessages().noCreditsToApply());
+		} else if (totalAmount > getAmountDue()) {
+			return (getMessages().amountToUseMustLessthanTotal());
+		} else if (!fullyApplied) {
+			return getMessages().amountMoreThanCredits();
+		} else {
+			this.initialCredits.clear();
+			for (ClientCreditsAndPayments ccap : credits) {
+				if (ccap.getAmtTouse() > 0) {
+					ClientTransactionCreditsAndPayments ctcap = new ClientTransactionCreditsAndPayments();
+					ctcap.setAmountToUse(ccap.getAmtTouse());
+					ctcap.setCreditsAndPayments(ccap.getID());
+					initialCredits.add(ctcap);
+				}
+				ccap.setBalance(ccap.getRemaoningBalance());
+				// }
+			}
+			return null;
+		}
+
 	}
 
+	public void setTransactionCreditsAndPayments(
+			List<ClientTransactionCreditsAndPayments> creditsAndPayments) {
+		this.initialCredits = creditsAndPayments;
+		for (ClientCreditsAndPayments ccap : this.totalCredits) {
+			double balance = ccap.getBalance();
+			double usedAmount = 0.0;
+			for (ClientTransactionCreditsAndPayments ctcap : initialCredits) {
+				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+					usedAmount += ctcap.getAmountToUse();
+				}
+			}
+			ccap.setRemaoningBalance(balance);
+			ccap.setAmtTouse(usedAmount);
+		}
+		initialAmountUse(totalCredits);
+	}
+
+	public List<ClientCreditsAndPayments> getCreditsAndPayments() {
+		return totalCredits;
+	}
+
+	public void addCreditsAndPayments() {
+		List<ClientCreditsAndPayments> list = getTotalCredits();
+		this.totalCredits = list;
+		if (getTransactionPayments() != null) {
+			for (ClientTransactionReceivePayment ctrp : getTransactionPayments()) {
+				for (ClientCreditsAndPayments ccap : totalCredits) {
+					double balance = ccap.getBalance();
+					double usedAmount = 0.0;
+					for (ClientTransactionCreditsAndPayments ctcap : ctrp
+							.getTransactionCreditsAndPayments()) {
+						if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+							usedAmount += ctcap.getAmountToUse();
+						}
+					}
+					ccap.setBalance(balance + usedAmount);
+					ccap.setRemaoningBalance(balance);
+					ccap.setAmtTouse(usedAmount);
+				}
+				ctrp.getTransactionCreditsAndPayments().clear();
+			}
+		}
+
+		if (getPayBillPayments() != null) {
+			for (ClientTransactionPayBill ctpb : getPayBillPayments()) {
+				for (ClientCreditsAndPayments ccap : totalCredits) {
+					double balance = ccap.getBalance();
+					double usedAmount = 0.0;
+					for (ClientTransactionCreditsAndPayments ctcap : ctpb
+							.getTransactionCreditsAndPayments()) {
+						if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+							usedAmount += ctcap.getAmountToUse();
+						}
+					}
+					ccap.setBalance(balance + usedAmount);
+				}
+				ctpb.getTransactionCreditsAndPayments().clear();
+			}
+
+		}
+	}
+
+	public List<ClientTransactionReceivePayment> getTransactionPayments() {
+		return null;
+	}
+
+	public List<ClientTransactionPayBill> getPayBillPayments() {
+		return null;
+	}
+
+	public List<ClientTransactionCreditsAndPayments> getTransactionCreditsAndPayments() {
+		return initialCredits;
+	}
+
+	public abstract List<ClientCreditsAndPayments> getTotalCredits();
 }

@@ -104,6 +104,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 									.get(CURRENCY_FACTOR)
 									.setValue(
 											mostRecentTransactionCurrencyFactor);
+							CreatePayBillCommand.this.vendorSelected(value);
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
@@ -255,22 +256,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 				.billsToPay()) {
 
 			@Override
-			protected List<PayBillTransactionList> getList() {
-				ArrayList<PayBillTransactionList> transactionPayBills = new ArrayList<PayBillTransactionList>();
-				try {
-					transactionPayBills = new FinanceTool()
-							.getVendorManager()
-							.getTransactionPayBills(
-									((Vendor) CreatePayBillCommand.this.get(
-											VENDOR).getValue()).getID(),
-									getCompany().getID(),
-									new FinanceDate(
-											(ClientFinanceDate) CreatePayBillCommand.this
-													.get(DATE).getValue()));
-				} catch (DAOException e) {
-					e.printStackTrace();
-				}
-				return transactionPayBills;
+			protected List<ClientTransactionPayBill> getList() {
+				return getTransactionBills();
 			}
 
 			@Override
@@ -279,11 +266,145 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 						.getValue();
 			}
 
+			@Override
+			public long getTransactionId() {
+				return paybill.getID();
+			}
+
+			@Override
+			protected List<ClientCreditsAndPayments> getCreditsPayments() {
+				return vendorCreditsAndPayments;
+			}
+
 		});
 
 	}
 
-	protected List<ClientCreditsAndPayments> getVendorCreditsAndPayments() {
+	private List<ClientTransactionPayBill> getTransactionBills() {
+		return payBills;
+	}
+
+	List<ClientTransactionPayBill> payBills = new ArrayList<ClientTransactionPayBill>();
+	List<ClientCreditsAndPayments> vendorCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+
+	private void vendorSelected(Vendor value) {
+		payBills = getPayBills();
+		vendorCreditsAndPayments = getVendorCreditsAndPayments();
+		((PaybillTableRequirement) get(BILLS_DUE)).vendorSelected();
+	}
+
+	private List<ClientTransactionPayBill> getPayBills() {
+		ArrayList<ClientTransactionPayBill> payBills = new ArrayList<ClientTransactionPayBill>();
+		try {
+			ArrayList<PayBillTransactionList> transactionPayBills = new FinanceTool()
+					.getVendorManager()
+					.getTransactionPayBills(
+							((Vendor) CreatePayBillCommand.this.get(VENDOR)
+									.getValue()).getID(),
+							getCompanyId(),
+							new FinanceDate(
+									(ClientFinanceDate) CreatePayBillCommand.this
+											.get(DATE).getValue()));
+			return getBills(transactionPayBills);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return payBills;
+	}
+
+	private List<ClientTransactionPayBill> getBills(
+			List<PayBillTransactionList> list) {
+		List<PayBillTransactionList> filterList = list;
+		ClientFinanceDate dueDateOnOrBefore = get(FILTER_BY_DUE_ON_BEFORE)
+				.getValue();
+		Vendor vendor = get(VENDOR).getValue();
+		List<PayBillTransactionList> tempList = new ArrayList<PayBillTransactionList>();
+		if (dueDateOnOrBefore != null) {
+			for (PayBillTransactionList cont : filterList) {
+				if (cont.getDueDate().before(dueDateOnOrBefore)
+						|| cont.getDueDate().equals(dueDateOnOrBefore))
+					tempList.add(cont);
+
+			}
+			filterList.clear();
+			filterList.addAll(tempList);
+			tempList.clear();
+		}
+
+		if (vendor != null) {
+
+			for (PayBillTransactionList cont : filterList) {
+				if (vendor.getName().toString()
+						.equalsIgnoreCase(cont.getVendorName().toString())) {
+					tempList.add(cont);
+				}
+			}
+			filterList.clear();
+			filterList.addAll(tempList);
+			tempList.clear();
+		}
+
+		List<ClientTransactionPayBill> records = new ArrayList<ClientTransactionPayBill>();
+
+		for (PayBillTransactionList cont : filterList) {
+			ClientTransactionPayBill record = getTransactionPayBillByTransaction(
+					cont.getType(), cont.getTransactionId());
+			double amountDue = 0.00D;
+			if (record == null) {
+				record = new ClientTransactionPayBill();
+				if (cont.getType() == ClientTransaction.TYPE_ENTER_BILL) {
+					record.setEnterBill(cont.getTransactionId());
+				} else if (cont.getType() == ClientTransaction.TYPE_TRANSFER_FUND) {
+					record.setTransactionMakeDeposit(cont.getTransactionId());
+				} else if (cont.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+					record.setJournalEntry(cont.getTransactionId());
+				}
+			} else {
+				paybill.getTransactionPayBill().remove(record);
+				amountDue = record.getPayment() + record.getAppliedCredits()
+						+ record.getCashDiscount();
+			}
+			amountDue += cont.getAmountDue();
+			record.setAmountDue(amountDue);
+			record.setDummyDue(amountDue);
+
+			record.setBillNumber(cont.getBillNumber());
+			record.setCashDiscount(record.getCashDiscount()
+					+ cont.getCashDiscount());
+
+			record.setAppliedCredits(cont.getCredits(), false);
+
+			record.setDiscountDate(cont.getDiscountDate() != null ? cont
+					.getDiscountDate().getDate() : 0);
+
+			record.setDueDate(cont.getDueDate() != null ? cont.getDueDate()
+					.getDate() : 0);
+
+			record.setOriginalAmount(cont.getOriginalAmount());
+			record.setPayment(cont.getPayment());
+			record.setDiscountAccount(getCompany().getCashDiscountAccount() != null ? getCompany()
+					.getCashDiscountAccount().getID() : 0);
+
+			record.setTdsAmount(0.00D);
+			record.setPayment(0.00D);
+
+			records.add(record);
+		}
+		for (ClientTransactionPayBill bill : paybill.getTransactionPayBill()) {
+			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
+			bill.setPayment(0.00D);
+			bill.setAppliedCredits(0.00D, false);
+			bill.setCashDiscount(0);
+			bill.setDiscountAccount(0);
+
+			records.add(bill);
+		}
+
+		return records;
+
+	}
+
+	private List<ClientCreditsAndPayments> getVendorCreditsAndPayments() {
 		List<ClientCreditsAndPayments> clientCreditsAndPaymentsList = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
@@ -354,37 +475,9 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 		get(NUMBER).setValue(paybill.getNumber());
 		get(DATE).setValue(paybill.getDate());
 		get(MEMO).setValue(paybill.getMemo());
-		List<PayBillTransactionList> paybills = new ArrayList<PayBillTransactionList>();
 		List<ClientTransactionPayBill> transactionPayBill = paybill
 				.getTransactionPayBill();
-		for (ClientTransactionPayBill clientTransactionPayBill : transactionPayBill) {
-			PayBillTransactionList payBillTransaction = new PayBillTransactionList();
-			payBillTransaction.setAmountDue(clientTransactionPayBill
-					.getAmountDue());
-			payBillTransaction.setBillNumber(clientTransactionPayBill
-					.getBillNumber());
-			payBillTransaction.setCashDiscount(clientTransactionPayBill
-					.getCashDiscount());
-			payBillTransaction.setDiscountDate(new ClientFinanceDate(
-					clientTransactionPayBill.getDiscountDate()));
-			payBillTransaction.setDueDate(new ClientFinanceDate(
-					clientTransactionPayBill.getDueDate()));
-			payBillTransaction.setOriginalAmount(clientTransactionPayBill
-					.getOriginalAmount());
-			payBillTransaction
-					.setPayment(clientTransactionPayBill.getPayment());
-			payBillTransaction.setPaymentMethod(CommandUtils.getPaymentMethod(
-					paybill.getPaymentMethodForCommands(), getMessages()));
-			payBillTransaction.setVendorName(vendor.getName());
-			payBillTransaction.setCredits(clientTransactionPayBill
-					.getAppliedCredits());
-			payBillTransaction.setTransactionId(clientTransactionPayBill
-					.getTransactionID());
-			payBillTransaction.setType(clientTransactionPayBill
-					.getTransactionType());
-			paybills.add(payBillTransaction);
-		}
-		get(BILLS_DUE).setValue(paybills);
+		get(BILLS_DUE).setValue(transactionPayBill);
 	}
 
 	@Override
@@ -431,7 +524,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 		List<ClientTransactionPayBill> transactionPayBills = getTransactionPayBills();
 		paybill.setTransactionPayBill(transactionPayBills);
 		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : getVendorCreditsAndPayments()) {
+		for (ClientCreditsAndPayments credit : vendorCreditsAndPayments) {
 			totalCredits += credit.getBalance();
 		}
 		paybill.setUnUsedCredits(totalCredits);
@@ -455,42 +548,19 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 	}
 
 	private List<ClientTransactionPayBill> getTransactionPayBills() {
-		List<ClientTransactionPayBill> clientTransactionPayBills = new ArrayList<ClientTransactionPayBill>();
-		List<PayBillTransactionList> paybills = get(BILLS_DUE).getValue();
-		for (PayBillTransactionList curntRec : paybills) {
-			ClientTransactionPayBill record = getTransactionPayBillByTransaction(
-					curntRec.getType(), curntRec.getTransactionId());
-			if (record == null) {
-				record = new ClientTransactionPayBill();
-				if (curntRec.getType() == ClientTransaction.TYPE_ENTER_BILL) {
-					record.setEnterBill(curntRec.getTransactionId());
-				} else if (curntRec.getType() == ClientTransaction.TYPE_TRANSFER_FUND) {
-					record.setTransactionMakeDeposit(curntRec
-							.getTransactionId());
-				} else if (curntRec.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
-					record.setJournalEntry(curntRec.getTransactionId());
-				}
-			}
-			record.setAmountDue(curntRec.getAmountDue());
-			record.setBillNumber(curntRec.getBillNumber());
-			record.setCashDiscount(record.getCashDiscount()
-					+ curntRec.getCashDiscount());
+		List<ClientTransactionPayBill> selectedRecords = get(BILLS_DUE)
+				.getValue();
+		List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
+		for (ClientTransactionPayBill tpbRecord : selectedRecords) {
+			tpbRecord.setID(0);
 
-			record.setAppliedCredits(curntRec.getCredits(), false);
+			tpbRecord.setAccountsPayable(getCompany()
+					.getAccountsPayableAccount());
 
-			record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
-					.getDiscountDate().getDate() : 0);
-
-			record.setDueDate(curntRec.getDueDate() != null ? curntRec
-					.getDueDate().getDate() : 0);
-
-			record.setOriginalAmount(curntRec.getOriginalAmount());
-			record.setPayment(curntRec.getPayment());
-			record.setDiscountAccount(getCompany().getCashDiscountAccount() == null ? 0
-					: getCompany().getCashDiscountAccount().getID());
-			clientTransactionPayBills.add(record);
+			transactionPayBill.add(tpbRecord);
 		}
-		return clientTransactionPayBills;
+
+		return transactionPayBill;
 	}
 
 	private ClientTransactionPayBill getTransactionPayBillByTransaction(
