@@ -283,8 +283,8 @@ public class CashPurchaseView extends
 		};
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), isTrackClass(),
-				isClassPerDetailLine(), this) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(), isTrackClass(),
+				isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -303,7 +303,10 @@ public class CashPurchaseView extends
 			protected boolean isInViewMode() {
 				return CashPurchaseView.this.isInViewMode();
 			}
-
+@Override
+		protected boolean isTrackJob() {
+			return CashPurchaseView.this.isTrackJob();
+		}
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
 				if (discountField.getAmount() != null
@@ -337,8 +340,8 @@ public class CashPurchaseView extends
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), isTrackClass(),
-				isClassPerDetailLine(), this) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(), isTrackClass(),
+				isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -370,6 +373,12 @@ public class CashPurchaseView extends
 			@Override
 			protected int getTransactionType() {
 				return ClientTransaction.TYPE_CASH_PURCHASE;
+			}
+
+			@Override
+			protected boolean isTrackJob() {
+
+				return CashPurchaseView.this.isTrackJob();
 			}
 
 		};
@@ -1417,6 +1426,25 @@ public class CashPurchaseView extends
 		} else {
 			discountField.setAmount(0d);
 		}
+	}
+	
+	private boolean isCustomerAllowedToAdd() {
+		if (transaction != null) {
+			List<ClientTransactionItem> transactionItems = transaction
+					.getTransactionItems();
+			for (ClientTransactionItem clientTransactionItem : transactionItems) {
+				if (clientTransactionItem.isBillable()
+						|| clientTransactionItem.getCustomer() != 0) {
+					return true;
+				}
+			}
+		}
+		if (getPreferences().isBillableExpsesEnbldForProductandServices()
+				&& getPreferences()
+						.isProductandSerivesTrackingByCustomerEnabled()) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

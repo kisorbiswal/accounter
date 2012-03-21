@@ -414,8 +414,9 @@ public class Estimate extends Transaction {
 			if (record.isAmountIncludeTAX()) {
 				lineTotalAmt = lineTotalAmt - vaTfraction;
 			}
+			
 			if (record != null && record.isTaxable()) {
-				chekingTaxCodeNull(record.taxCode);
+			//	chekingTaxCodeNull(record.taxCode);
 				totalTax += record.getVATfraction();
 			}
 			lineTotal += lineTotalAmt;

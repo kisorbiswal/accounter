@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -297,6 +298,21 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						public void onSuccess(ClientWriteCheck result) {
 							UIUtils.runAction(result,
 									ActionFactory.getWriteChecksAction());
+						}
+					});
+		}else if(estimate.getRefferingTransactionType() == Transaction.TYPE_CASH_PURCHASE)
+		{
+			Accounter.createHomeService().getCashPurchaseByEstimateId(
+					estimate.getID(), new AsyncCallback<ClientCashPurchase>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+						}
+
+						@Override
+						public void onSuccess(ClientCashPurchase result) {
+							UIUtils.runAction(result,
+									ActionFactory. getNewCashPurchaseAction());
 						}
 					});
 		}

@@ -44,6 +44,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -1741,7 +1742,17 @@ public class VendorManager extends PayeeManager {
 				((WriteCheck) uniqueResult[0]), ClientWriteCheck.class);
 		return writeCheck;
 	}
-	
+	public ClientCashPurchase getCashPurchaseByEstimateId(long estimateId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Estimate estimate = (Estimate) session.get(Estimate.class, estimateId);
+		Object[] uniqueResult = (Object[]) session
+				.getNamedQuery("getCashPurchaseByEstimate")
+				.setParameter("estimate", estimate).uniqueResult();
+		ClientCashPurchase cashPurchase = new ClientConvertUtil().toClientObject(
+				((CashPurchase) uniqueResult[0]), ClientCashPurchase.class);
+		return cashPurchase;
+	}
 
 	public PaginationList<PaymentsList> getPayeeChecks(Long companyId,
 			int type, FinanceDate fromDate, FinanceDate toDate, int viewType,
