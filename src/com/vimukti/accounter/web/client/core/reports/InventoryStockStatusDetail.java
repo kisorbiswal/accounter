@@ -40,6 +40,8 @@ public class InventoryStockStatusDetail extends BaseReport implements
 
 	private long measurmentID;
 
+	private String unit;
+
 	public String getItemDesc() {
 		return itemDesc;
 	}
@@ -161,6 +163,14 @@ public class InventoryStockStatusDetail extends BaseReport implements
 	 */
 	public void setMeasurmentID(long measurmentID) {
 		this.measurmentID = measurmentID;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
 }

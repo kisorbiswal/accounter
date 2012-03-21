@@ -530,6 +530,7 @@ public class InventoryManager extends Manager {
 			detail.setOrderOnPo(next[6] != null ? (Long) next[6] : 0);
 			detail.setOnSalesOrder(next[7] != null ? (Long) next[7] : 0);
 			detail.setReorderPts(next[8] != null ? (Integer) next[8] : 0);
+			detail.setUnit((String) next[9]);
 			result.add(detail);
 		}
 		return result;
@@ -594,11 +595,12 @@ public class InventoryManager extends Manager {
 			detail.setItemDesc((String) next[1]);
 			detail.setPreferVendor((String) next[2]);
 			detail.setOnHand(next[3] != null ? (Long) next[3] : 0);
-			detail.setItemId(next[4] != null ? (Long) next[4] : 0);
+			detail.setItemId((Long) next[4]);
 			detail.setAssemblies(next[5] != null ? (Long) next[5] : 0);
 			detail.setOrderOnPo(next[6] != null ? (Long) next[6] : 0);
 			detail.setOnSalesOrder(next[7] != null ? (Long) next[7] : 0);
 			detail.setReorderPts(next[8] != null ? (Integer) next[8] : 0);
+			detail.setUnit((String) next[9]);
 			result.add(detail);
 		}
 		return result;

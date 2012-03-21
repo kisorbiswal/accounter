@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class InventoryStockStatusByVendorServerReport extends
@@ -50,11 +50,15 @@ public class InventoryStockStatusByVendorServerReport extends
 
 		if (sectionDepth == 0) {
 			this.sectionName = record.getPreferVendor();
+			if (sectionName == null) {
+				sectionName = messages.no() + Global.get().vendor();
+			}
 			addSection(new String[] { sectionName }, new String[] {},
 					new int[] {});
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
-			if (!sectionName.equals(record.getPreferVendor())) {
+			if (!sectionName.equals(record.getPreferVendor() == null ? messages
+					.no() + Global.get().vendor() : record.getPreferVendor())) {
 				endSection();
 			} else {
 				return;
@@ -83,13 +87,7 @@ public class InventoryStockStatusByVendorServerReport extends
 		case 6:
 			return record.getOrderOnPo();
 		case 7:
-			return record.getMeasurmentID() != 0 ? Accounter.getCompany()
-					.getMeasurement(record.getMeasurmentID()).getDefaultUnit()
-					.getDisplayName() : Accounter
-					.getCompany()
-					.getMeasurement(
-							Accounter.getCompany().getDefaultMeasurement())
-					.getDefaultUnit().getDisplayName();
+			return record.getUnit();
 		}
 		return null;
 	}

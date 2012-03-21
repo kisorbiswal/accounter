@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class InventoryStockStatusByItemServerReport extends
@@ -94,13 +93,7 @@ public class InventoryStockStatusByItemServerReport extends
 		case 7:
 			return record.getOrderOnPo();
 		case 8:
-			return record.getMeasurmentID() != 0 ? Accounter.getCompany()
-					.getMeasurement(record.getMeasurmentID()).getDefaultUnit()
-					.getDisplayName() : Accounter
-					.getCompany()
-					.getMeasurement(
-							Accounter.getCompany().getDefaultMeasurement())
-					.getDefaultUnit().getDisplayName();
+			return record.getUnit();
 		}
 		return null;
 	}
