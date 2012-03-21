@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
-import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class InventoryStockStatusByItemServerReport extends
 		AbstractFinaneReport<InventoryStockStatusDetail> {
@@ -27,7 +27,7 @@ public class InventoryStockStatusByItemServerReport extends
 				messages.preVendor(Global.get().Vendor()),
 				messages.reportPts(), messages.onHand(), messages.onSO(),
 				messages.forAssemblies(), messages.available(),
-				messages.onPO(), messages.nextDeliv(), messages.salesPerWeek() };
+				messages.onPO(), messages.units() };
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class InventoryStockStatusByItemServerReport extends
 				messages.preVendor(Global.get().Vendor()),
 				messages.reportPts(), messages.onHand(), messages.onSO(),
 				messages.forAssemblies(), messages.available(),
-				messages.onPO(), messages.nextDeliv(), messages.salesPerWeek() };
+				messages.onPO(), messages.units() };
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class InventoryStockStatusByItemServerReport extends
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
 				COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER };
+				COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT };
 	}
 
 	@Override
@@ -94,9 +94,13 @@ public class InventoryStockStatusByItemServerReport extends
 		case 7:
 			return record.getOrderOnPo();
 		case 8:
-			return DateUtills.getDateAsString(record.getNextDeliveryDate());
-		case 9:
-			return record.getSalesPerWeek();
+			return record.getMeasurmentID() != 0 ? Accounter.getCompany()
+					.getMeasurement(record.getMeasurmentID()).getDefaultUnit()
+					.getDisplayName() : Accounter
+					.getCompany()
+					.getMeasurement(
+							Accounter.getCompany().getDefaultMeasurement())
+					.getDefaultUnit().getDisplayName();
 		}
 		return null;
 	}
@@ -104,6 +108,10 @@ public class InventoryStockStatusByItemServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 		switch (index) {
+		case 0:
+			return 100;
+		case 1:
+			return 80;
 		case 2:
 			return 80;
 		case 3:
@@ -117,8 +125,6 @@ public class InventoryStockStatusByItemServerReport extends
 			return 60;
 		case 8:
 			return 80;
-		case 9:
-			return 75;
 		}
 		return -1;
 	}

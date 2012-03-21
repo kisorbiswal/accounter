@@ -40,10 +40,6 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 
 	private String dateFormat;
 
-	protected long accountId;
-
-	private long payeeId;
-
 	private long companyId;
 
 	private Company comapny;
@@ -90,10 +86,10 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 			boolean isAccountName) {
 		String accountNoOrName = getString(accountNumber);
 		if (accountNoOrName != null && (!accountNoOrName.isEmpty())) {
-			accountId = new FinanceTool().getAccountByNumberOrName(
-					getCompanyId(), accountNoOrName, isAccountName);
+			return new FinanceTool().getAccountByNumberOrName(getCompanyId(),
+					accountNoOrName, isAccountName);
 		}
-		return accountId;
+		return 0;
 	}
 
 	protected ClientFinanceDate getFinanceDate(String fieldName) {
@@ -135,9 +131,9 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 	protected long getPayeeByName(String payeeName) {
 		String payee = getString(payeeName);
 		if (payee != null && (!payee.isEmpty())) {
-			payeeId = new FinanceTool().getPayeeByName(getCompanyId(), payee);
+			return new FinanceTool().getPayeeByName(getCompanyId(), payee);
 		}
-		return payeeId;
+		return 0;
 	}
 
 	/**

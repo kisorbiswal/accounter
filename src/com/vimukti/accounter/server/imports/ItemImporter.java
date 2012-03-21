@@ -66,12 +66,6 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		fields.add(new StringField("wareHouse", messages.wareHouse()));
 		fields.add(new StringField("measurement", messages.measurement()));
 		fields.add(new Integer2Field("itemType", messages.itemType()));
-		// fields.add(new StringField("AssemblyItem", messages.itemName(),
-		// true));
-		// fields.add(new StringField("description", messages.description()));
-		// fields.add(new LongField("qtyNeeded", messages.quantityNeeded(),
-		// true));
-		// fields.add(new StringField("unitPrice", messages.unitPrice(), true));
 		return fields;
 
 	}
@@ -85,17 +79,22 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setSalesDescription(getString("salesDescription"));
 		item.setSalesPrice(getDouble("salesPrice"));
 
-		item.setIncomeAccount(getAccountByNumberOrName("incomeAccount", false) == 0 ? getAccountByNumberOrName(
-				"incomeAccountName", true) : getAccountByNumberOrName(
-				"incomeAccount", false));
+		long accountId = getAccountByNumberOrName("incomeAccount", false);
+		if (accountId == 0) {
+			accountId = getAccountByNumberOrName("incomeAccountName", true);
+		}
+		item.setIncomeAccount(accountId);
 
 		item.setISellThisItem(accountId == 0 ? false : true);
+
 		item.setTaxable(getBoolean("isTaxble"));
 		item.setCommissionItem(getBoolean("CommissionItem"));
 
-		item.setAssestsAccount(getAccountByNumberOrName("assetAccount", false) == 0 ? getAccountByNumberOrName(
-				"assetAccountName", true) : getAccountByNumberOrName(
-				"assetAccount", false));
+		long assetAccountId = getAccountByNumberOrName("assetAccount", false);
+		if (assetAccountId == 0) {
+			assetAccountId = getAccountByNumberOrName("assetAccountName", true);
+		}
+		item.setAssestsAccount(assetAccountId);
 		item.setReorderPoint(getInteger("reOrderPts"));
 
 		if ((getInteger("itemType") == ClientItem.TYPE_NON_INVENTORY_PART || getInteger("itemType") == ClientItem.TYPE_INVENTORY_PART)
@@ -120,19 +119,17 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setPurchasePrice(getDouble("purchasePrice"));
 		item.setPurchaseDescription(getString("purchaseDescription"));
 		item.setStandardCost(getDouble("standardCost"));
-		item.setExpenseAccount(getAccountByNumberOrName("expenseAccount", false) == 0 ? getAccountByNumberOrName(
-				"expenseAccountName", true) : getAccountByNumberOrName(
-				"expenseAccount", false));
-		item.setIBuyThisItem(accountId == 0 ? false : true);
+		long expenxeAccountId = getAccountByNumberOrName("expenseAccount",
+				false);
+		if (expenxeAccountId == 0) {
+			expenxeAccountId = getAccountByNumberOrName("expenseAccountName",
+					true);
+		}
+		item.setExpenseAccount(expenxeAccountId);
+
+		item.setIBuyThisItem(expenxeAccountId == 0 ? false : true);
 		item.setPreferredVendor(getPayeeByName("preferdVendor"));
 		item.setVendorItemNumber(getString("vendorServiceNo"));
-
-		// fields.add(new StringField("AssemblyItem", messages.itemName(),
-		// true));
-		// fields.add(new StringField("description", messages.description()));
-		// fields.add(new LongField("qtyNeeded", messages.quantityNeeded(),
-		// true));
-		// fields.add(new StringField("unitPrice", messages.unitPrice(), true));
 		return item;
 
 	}
