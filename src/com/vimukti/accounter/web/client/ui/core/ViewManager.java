@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -41,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.TransactionMeterPanel;
 import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
@@ -105,6 +105,7 @@ public class ViewManager extends FlowPanel {
 	ButtonGroup group3;
 
 	private final SimplePanel viewHolder;
+	private TransactionMeterPanel meterPanel;
 
 	ButtonGroup group4;
 	ButtonGroup group5;
@@ -116,6 +117,8 @@ public class ViewManager extends FlowPanel {
 		this.mainWindow = financeWindow;
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel rightPanel = new StyledPanel("rightPanel");
+		meterPanel = new TransactionMeterPanel();
+		rightPanel.add(meterPanel);
 		getAdvertisePanel(rightPanel);
 		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		leftPanel.addStyleName("view_manager_body");
@@ -145,6 +148,14 @@ public class ViewManager extends FlowPanel {
 		initializeActivityManager();
 	}
 
+	public void increment() {
+		meterPanel.increase();
+	}
+
+	public void decrement() {
+		meterPanel.decrease();
+	}
+	
 	@SuppressWarnings("deprecation")
 	private void getAdvertisePanel(final StyledPanel rightPanel) {
 		Accounter.createHomeService().getAdvertisements(

@@ -6166,4 +6166,5 @@ public interface AccounterMessages extends Messages {
 
 	public String youCannotSelectTheItemWhichHaveNoExpenseAccount();
 
+	public String transactionsCount();
 }

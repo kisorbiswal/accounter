@@ -81,8 +81,10 @@ public abstract class InventoryAssemblyItemTable extends
 					}
 					ClientMeasurement measurement = Accounter.getCompany()
 							.getMeasurement(newValue.getMeasurement());
-					row.getQuantity().setUnit(
-							measurement.getDefaultUnit().getId());
+					if (measurement != null) {
+						row.getQuantity().setUnit(
+								measurement.getDefaultUnit().getId());
+					}
 					row.setWareHouse(newValue.getWarehouse());
 					row.setDescription(newValue.getPurchaseDescription());
 				}

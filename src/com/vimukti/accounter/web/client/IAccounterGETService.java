@@ -315,5 +315,7 @@ public interface IAccounterGETService extends RemoteService {
 	Map<Long, Double> getAssetValuesForInventories() throws AccounterException;
 
 	public int getClientCompaniesCount();
+	
+	public int getInitialTransactionCount();
 
 }
