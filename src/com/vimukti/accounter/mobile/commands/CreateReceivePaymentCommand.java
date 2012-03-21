@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
@@ -34,12 +32,11 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	private static final String AMOUNT_RECEIVED = "amountreceived";
@@ -47,6 +44,7 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	private static final String TRANSACTIONS = "transactions";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "depositOrTransferTo";
 	ClientReceivePayment payment;
+	private List<ClientTransactionReceivePayment> transactionReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
 
 	@Override
 	public String getId() {
@@ -69,6 +67,7 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 									new ClientFinanceDate().getDate());
 					CreateReceivePaymentCommand.this.get(CURRENCY_FACTOR)
 							.setValue(mostRecentTransactionCurrencyFactor);
+					CreateReceivePaymentCommand.this.customerSelected(value);
 				} catch (AccounterException e) {
 					e.printStackTrace();
 				}
@@ -194,7 +193,7 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 				.dueForPayment()) {
 
 			@Override
-			protected List<ReceivePaymentTransactionList> getList() {
+			protected List<ClientTransactionReceivePayment> getList() {
 				return getRequirementList();
 			}
 
@@ -202,6 +201,11 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 			protected Payee getPayee() {
 				return (Customer) CreateReceivePaymentCommand.this
 						.get(CUSTOMER).getValue();
+			}
+
+			@Override
+			protected long getTransactionId() {
+				return payment.getID();
 			}
 
 		});
@@ -230,88 +234,137 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 		});
 	}
 
-	private ArrayList<ReceivePaymentTransactionList> getRequirementList() {
+	protected void customerSelected(Customer value) {
+		((ReceivePaymentTableRequirement) get(TRANSACTIONS)).customerSelected();
 		Customer customer = get(CUSTOMER).getValue();
 		ClientFinanceDate date = get(DATE).getValue();
-		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments = new ArrayList<ReceivePaymentTransactionList>();
 		try {
-			transactionReceivePayments = getTransactionReceivePayments(customer
-					.getCompany().getID(), customer.getID(), date.getDate());
+			ArrayList<ReceivePaymentTransactionList> transactionReceivePayments2 = getTransactionReceivePayments(
+					customer.getCompany().getID(), customer.getID(),
+					date.getDate());
+			transactionReceivePayments = getTransactionRecievePayments(transactionReceivePayments2);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private List<ClientTransactionReceivePayment> getRequirementList() {
 		return transactionReceivePayments;
 	}
 
-	private ArrayList<ClientTransactionReceivePayment> getClientTransactionReceivePayments() {
-		ArrayList<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
-		ArrayList<ReceivePaymentTransactionList> transactionReceivePayments = get(
-				TRANSACTIONS).getValue();
-		for (ReceivePaymentTransactionList receivePaymentTransaction : transactionReceivePayments) {
-			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
-			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-					.getDueDate().getDate() : 0);
+	private ClientTransactionReceivePayment getTransactionPayBillByTransaction(
+			int transactionType, long transactionId) {
+		for (ClientTransactionReceivePayment bill : payment
+				.getTransactionReceivePayment()) {
+			if ((transactionType == ClientTransaction.TYPE_INVOICE && bill
+					.getInvoice() == transactionId)
+					|| (transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS && bill
+							.getCustomerRefund() == transactionId)
+					|| (transactionType == ClientTransaction.TYPE_JOURNAL_ENTRY && bill
+							.getJournalEntry() == transactionId)) {
+				return bill;
+			}
+		}
+		return null;
+	}
 
-			record.setNumber(receivePaymentTransaction.getNumber());
+	private List<ClientTransactionReceivePayment> getTransactionRecievePayments(
+			List<ReceivePaymentTransactionList> result) {
+		ArrayList<ClientTransactionReceivePayment> transactionReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
+		if (result == null)
+			return transactionReceivePayments;
+		List<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 
-			record.setInvoiceAmount(receivePaymentTransaction
-					.getInvoiceAmount());
-			record.setInvoice(receivePaymentTransaction.getTransactionId());
-			record.setAmountDue(receivePaymentTransaction.getAmountDue());
+		for (ReceivePaymentTransactionList rpt : result) {
 
-			record.setDummyDue(receivePaymentTransaction.getAmountDue());
+			ClientTransactionReceivePayment record = getTransactionPayBillByTransaction(
+					rpt.getType(), rpt.getTransactionId());
+			double amountDue = 0.00D;
+			if (record == null) {
+				record = new ClientTransactionReceivePayment();
+				if (rpt.getType() == ClientTransaction.TYPE_INVOICE) {
+					record.isInvoice = true;
+					record.setInvoice(rpt.getTransactionId());
+				} else if (rpt.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
+					record.isInvoice = false;
+					record.setCustomerRefund(rpt.getTransactionId());
+				} else if (rpt.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+					record.isInvoice = false;
+					record.setJournalEntry(rpt.getTransactionId());
+				}
+			} else {
+				payment.getTransactionReceivePayment().remove(record);
+				amountDue = record.getPayment() + record.getAppliedCredits()
+						+ record.getCashDiscount() + record.getWriteOff();
+			}
+			amountDue += rpt.getAmountDue();
+			record.setAmountDue(amountDue);
+			record.setDummyDue(amountDue);
 
-			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+			record.setDueDate(rpt.getDueDate() != null ? rpt.getDueDate()
+					.getDate() : 0);
+			record.setNumber(rpt.getNumber());
+
+			record.setInvoiceAmount(rpt.getInvoiceAmount());
+
+			record.setInvoice(rpt.getTransactionId());
+
+			record.setDiscountDate(rpt.getDiscountDate() != null ? rpt
 					.getDiscountDate().getDate() : 0);
 
-			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+			record.setDiscountAccount(0);
+			record.setCashDiscount(0);
 
-			record.setWriteOff(receivePaymentTransaction.getWriteOff());
+			record.setWriteOff(0);
 
-			// for applying credits manually to pass true as second argument
-			record.setAppliedCredits(
-					receivePaymentTransaction.getAppliedCredits(), false);
-			record.setPayment(receivePaymentTransaction.getPayment());
+			record.setAppliedCredits(rpt.getAppliedCredits(), false);
 
-			if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
-				record.isInvoice = true;
-				record.setInvoice(receivePaymentTransaction.getTransactionId());
-			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
-				record.isInvoice = false;
-				record.setCustomerRefund(receivePaymentTransaction
-						.getTransactionId());
-			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
-				record.isInvoice = false;
-				record.setJournalEntry(receivePaymentTransaction
-						.getTransactionId());
-			}
-			record.setAppliedCredits(
-					receivePaymentTransaction.getAppliedCredits(), false);
+			record.setPayment(0);
+			record.setWriteOffAccount(0);
+
 			records.add(record);
+
 		}
+
+		for (ClientTransactionReceivePayment receivePayment : payment
+				.getTransactionReceivePayment()) {
+			receivePayment.setAmountDue(receivePayment.getPayment()
+					+ receivePayment.getAppliedCredits());
+			receivePayment.setPayment(0.00D);
+			receivePayment.setCashDiscount(0.0D);
+			receivePayment.setWriteOff(0.0D);
+			receivePayment.setDiscountAccount(0);
+			receivePayment.setWriteOffAccount(0);
+			receivePayment.setAppliedCredits(0.00D, false);
+			records.add(receivePayment);
+		}
+
 		return records;
 	}
 
 	private void recalculateGridAmounts() {
-		payment.setTotal(getGridTotal());
-		payment.setAmount((Double) get(AMOUNT_RECEIVED).getValue());
-		payment.setUnUsedPayments(payment.getAmount() - payment.getTotal());
-		setUnusedPayments(payment.getUnUsedPayments(), payment);
-		// calculateUnusedCredits(payment);
+		double total = (Double) get(AMOUNT_RECEIVED).getValue();
+		payment.setTotal(total);
+		payment.setAmount(total);
+		payment.setUnUsedPayments(payment.getAmount() - getGridTotal());
+		payment.setUnUsedCredits(getUnusedCredits());
 	}
 
-	private void setUnusedPayments(Double unusedAmounts,
-			ClientReceivePayment payment) {
-		if (unusedAmounts == null)
-			unusedAmounts = 0.0D;
-		payment.setUnUsedPayments(unusedAmounts);
+	public double getUnusedCredits() {
+		double unusedCredits = 0.0;
+		ReceivePaymentTableRequirement requirement = (ReceivePaymentTableRequirement) get(TRANSACTIONS);
+		for (ClientCreditsAndPayments ccap : requirement
+				.getCreditsAndPayments()) {
+			unusedCredits += ccap.getBalance();
+		}
+		return unusedCredits;
 	}
 
 	public Double getGridTotal() {
 		Double total = 0.0D;
-		List<ReceivePaymentTransactionList> records = get(TRANSACTIONS)
+		List<ClientTransactionReceivePayment> records = get(TRANSACTIONS)
 				.getValue();
-		for (ReceivePaymentTransactionList record : records) {
+		for (ClientTransactionReceivePayment record : records) {
 			total += record.getPayment();
 		}
 		return total;
@@ -343,10 +396,21 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 		payment.setCurrency(customer.getCurrency().getID());
 		payment.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		recalculateGridAmounts();
-		payment.setTransactionReceivePayment(getClientTransactionReceivePayments());
+		payment.setTransactionReceivePayment(getTransactionRecievePayments(payment));
+		if (!isValidRecievePaymentAmount(payment.getAmount(), getGridTotal())) {
+			return new Result(getMessages().recievePaymentTotalAmount());
+		}
 		create(payment, context);
 
 		return null;
+	}
+
+	public static boolean isValidRecievePaymentAmount(Double amount,
+			Double paymentsTotal) {
+		if (DecimalUtil.isGreaterThan(paymentsTotal, amount)) {
+			return false;
+		}
+		return true;
 	}
 
 	private List<ClientTransactionReceivePayment> getTransactionRecievePayments(
@@ -354,30 +418,16 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 
 		List<ClientTransactionReceivePayment> paymentsList = new ArrayList<ClientTransactionReceivePayment>();
 		ReceivePaymentTableRequirement requirement = (ReceivePaymentTableRequirement) get(TRANSACTIONS);
-		ArrayList<ClientTransactionReceivePayment> clientTransactionReceivePayments = getClientTransactionReceivePayments();
+		ArrayList<ClientTransactionReceivePayment> clientTransactionReceivePayments = requirement
+				.getValue();
 		for (ClientTransactionReceivePayment payment : clientTransactionReceivePayments) {
+			payment.setID(0);
 			payment.setTransaction(receivePayment.getID());
 
-			if (isApplyCredis()) {
-				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = requirement
-						.getTransactionCredits(payment);
-				// if (tranCreditsandPayments != null)
-				// for (ClientTransactionCreditsAndPayments
-				// transactionCreditsAndPayments : tranCreditsandPayments) {
-				// transactionCreditsAndPayments
-				// .setTransactionReceivePayment(payment);
-				// }
-
-				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
-			}
 			paymentsList.add(payment);
 		}
-		return paymentsList;
-	}
 
-	private boolean isApplyCredis() {
-		// TODO Auto-generated method stub
-		return false;
+		return paymentsList;
 	}
 
 	@Override
@@ -413,10 +463,10 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	}
 
 	private void setValues() {
-		get(CUSTOMER).setValue(
-				CommandUtils.getServerObjectById(payment.getCustomer(),
-						AccounterCoreType.CUSTOMER));
-		get(AMOUNT_RECEIVED).setValue(payment.getAmount());
+		Customer customer = (Customer) CommandUtils.getServerObjectById(
+				payment.getCustomer(), AccounterCoreType.CUSTOMER);
+		get(CUSTOMER).setValue(customer);
+		// get(AMOUNT_RECEIVED).setValue(payment.getAmount());
 		get(PAYMENT_METHOD).setValue(
 				CommandUtils.getPaymentMethod(
 						payment.getPaymentMethodForCommands(), getMessages()));
@@ -425,60 +475,11 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 		get(DEPOSIT_OR_TRANSFER_TO).setValue(
 				CommandUtils.getServerObjectById(payment.getDepositIn(),
 						AccounterCoreType.ACCOUNT));
-		get(TRANSACTIONS).setValue(getReceivePaymentTransactionList());
+		get(TRANSACTIONS).setValue(payment.getTransactionReceivePayment());
+		customerSelected(customer);
 		/* get(CURRENCY_FACTOR).setValue(payment.getCurrencyFactor()); */
 		get(MEMO).setValue(payment.getMemo());
 		get(CHECK_NUMBER).setValue(payment.getCheckNumber());
-	}
-
-	private List<ReceivePaymentTransactionList> getReceivePaymentTransactionList() {
-		List<ReceivePaymentTransactionList> receivePaymentsList = new ArrayList<ReceivePaymentTransactionList>();
-		List<ClientTransactionReceivePayment> transactionReceivePayment = payment
-				.getTransactionReceivePayment();
-		for (ClientTransactionReceivePayment clientTransactionReceivePayment : transactionReceivePayment) {
-			ReceivePaymentTransactionList receivePaymentTransactionList = new ReceivePaymentTransactionList();
-			receivePaymentTransactionList
-					.setAmountDue(clientTransactionReceivePayment
-							.getAmountDue());
-			receivePaymentTransactionList
-					.setAppliedCredits(clientTransactionReceivePayment
-							.getAppliedCredits());
-			receivePaymentTransactionList
-					.setCashDiscount(clientTransactionReceivePayment
-							.getCashDiscount());
-			receivePaymentTransactionList
-					.setDiscountDate(new ClientFinanceDate(
-							clientTransactionReceivePayment.getDiscountDate()));
-			receivePaymentTransactionList.setDueDate(new ClientFinanceDate(
-					clientTransactionReceivePayment.getDueDate()));
-			receivePaymentTransactionList
-					.setInvoiceAmount(clientTransactionReceivePayment
-							.getInvoiceAmount());
-			receivePaymentTransactionList
-					.setNumber(clientTransactionReceivePayment.getNumber());
-			receivePaymentTransactionList
-					.setPayment(clientTransactionReceivePayment.getPayment());
-			receivePaymentTransactionList
-					.setWriteOff(clientTransactionReceivePayment.getWriteOff());
-			receivePaymentTransactionList
-					.setTransactionId(clientTransactionReceivePayment
-							.getInvoice());
-			if (clientTransactionReceivePayment.isInvoice
-					&& clientTransactionReceivePayment.getInvoice() != 0) {
-				receivePaymentTransactionList
-						.setType(ClientTransaction.TYPE_INVOICE);
-			} else if (!clientTransactionReceivePayment.isInvoice
-					&& clientTransactionReceivePayment.getCustomerRefund() != 0) {
-				receivePaymentTransactionList
-						.setType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-			} else if (!clientTransactionReceivePayment.isInvoice
-					&& clientTransactionReceivePayment.getJournalEntry() != 0) {
-				receivePaymentTransactionList
-						.setType(ClientTransaction.TYPE_JOURNAL_ENTRY);
-			}
-			receivePaymentsList.add(receivePaymentTransactionList);
-		}
-		return receivePaymentsList;
 	}
 
 	@Override
@@ -527,25 +528,5 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	protected Currency getCurrency() {
 		return ((Customer) CreateReceivePaymentCommand.this.get(CUSTOMER)
 				.getValue()).getCurrency();
-	}
-
-	protected List<ClientCreditsAndPayments> getCreditsPayments() {
-		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
-		List<CreditsAndPayments> serverCreditsAndPayments = null;
-		try {
-
-			serverCreditsAndPayments = new FinanceTool().getCustomerManager()
-					.getCreditsAndPayments(
-							((Customer) get(CUSTOMER).getValue()).getID(),
-							payment.getID(), getCompanyId());
-			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
-				clientCreditsAndPayments.add(new ClientConvertUtil()
-						.toClientObject(creditsAndPayments,
-								ClientCreditsAndPayments.class));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
 	}
 }

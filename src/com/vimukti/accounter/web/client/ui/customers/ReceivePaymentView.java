@@ -651,8 +651,9 @@ public class ReceivePaymentView extends
 		if (isTrackClass()) {
 			depoForm.add(classListCombo);
 		}
+
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setEnabled(false);
 			depoForm.add(jobListCombo);
 		}

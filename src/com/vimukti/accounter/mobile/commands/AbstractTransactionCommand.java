@@ -329,7 +329,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 
 	@Override
 	protected String getThirdCommandString() {
-		return "Void";
+		return getMessages().void1();
 	}
 
 	@Override

@@ -6,15 +6,20 @@ import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 
 public abstract class PaybillTableRequirement extends
-		AbstractTableRequirement<PayBillTransactionList> {
+		AbstractTableRequirement<ClientTransactionPayBill> {
 	private static final String BILL_NO = "BillNo";
 	private static final String ORIGINAL_AMOUNT = "OriginalAmount";
 	private static final String AMOUNT = "Amount";
 	private static final String DUE_DATE = "BillDueDate";
+	private static final String CASH_DISCOUNT = "cashDiscount";// IF enabled
+																// discounts
+	private static final String APPLIED_CREDITS = "appliedcredits";
+	private static final String PAYMENT = "payment";
 
 	public PaybillTableRequirement(String requirementName, String enterString,
 			String recordName) {
@@ -44,10 +49,61 @@ public abstract class PaybillTableRequirement extends
 		};
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
+		CurrencyAmountRequirement amountDue = new CurrencyAmountRequirement(
+				AMOUNT, getMessages().pleaseEnter(getMessages().amountDue()),
+				getMessages().amountDue(), true, true) {
+			@Override
+			protected Currency getCurrency() {
+				return PaybillTableRequirement.this.getCurrency();
+			}
+		};
+		amountDue.setEditable(false);
+		list.add(amountDue);
+
+		list.add(new ApplyCreditsRequirement(APPLIED_CREDITS, getMessages()
+				.pleaseEnter(getMessages().appliedCredits()), getMessages()
+				.appliedCredits()) {
+
+			@Override
+			protected Currency getCurrency() {
+				return PaybillTableRequirement.this.getCurrency();
+			}
+
+			@Override
+			protected double getAmountDue() {
+				return PaybillTableRequirement.this.get(AMOUNT).getValue();
+			}
+
+			@Override
+			public List<ClientCreditsAndPayments> getTotalCredits() {
+				return PaybillTableRequirement.this.getCreditsPayments();
+			}
+
+			public java.util.List<ClientTransactionPayBill> getPayBillPayments() {
+				return PaybillTableRequirement.this.getValue();
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				ClientTransactionPayBill obj = PaybillTableRequirement.this.currentValue;
+				if (obj != null) {
+					if (value != null) {
+						obj.setAppliedCredits((Double) value, true);
+					}
+					obj.updatePayment();
+					// obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
+					updatePayment(obj);
+					PaybillTableRequirement.this.get(PAYMENT).setValue(
+							obj.getPayment());
+				}
+			}
+
+		});
 
 		CurrencyAmountRequirement amount = new CurrencyAmountRequirement(
-				AMOUNT, getMessages().pleaseEnter(getMessages().amount()),
-				getMessages().amount(), true, true) {
+				PAYMENT, getMessages().pleaseEnter(getMessages().payment()),
+				getMessages().payment(), true, true) {
 			@Override
 			protected Currency getCurrency() {
 				return PaybillTableRequirement.this.getCurrency();
@@ -57,37 +113,46 @@ public abstract class PaybillTableRequirement extends
 
 	}
 
-	@Override
-	public void setOtherFields(ResultList list, PayBillTransactionList obj) {
-		double amount = get(AMOUNT).getValue();
-		Double due = obj.getAmountDue() - amount;
-		Record record = new Record(due);
-		record.add(getMessages().amountDue(), due);
-		list.add(3, record);
+	public void vendorSelected() {
+		((ApplyCreditsRequirement) get(APPLIED_CREDITS))
+				.addCreditsAndPayments();
+	}
+
+	protected abstract List<ClientCreditsAndPayments> getCreditsPayments();
+
+	public abstract long getTransactionId();
+
+	protected void updatePayment(ClientTransactionPayBill obj) {
 	}
 
 	@Override
-	protected void getRequirementsValues(PayBillTransactionList obj) {
-		Double amount = get(AMOUNT).getValue();
+	protected void getRequirementsValues(ClientTransactionPayBill obj) {
+		Double amount = get(PAYMENT).getValue();
 		obj.setPayment(amount);
+		Double appliedCredits = get(APPLIED_CREDITS).getValue();
+		obj.setAppliedCredits(appliedCredits, true);
 	}
 
 	@Override
-	protected void setRequirementsDefaultValues(PayBillTransactionList obj) {
-		get(DUE_DATE).setValue(obj.getDueDate());
+	protected void setRequirementsDefaultValues(ClientTransactionPayBill obj) {
+		get(DUE_DATE).setValue(new ClientFinanceDate(obj.getDueDate()));
 		get(BILL_NO).setValue(obj.getBillNumber());
 		get(ORIGINAL_AMOUNT).setValue(obj.getOriginalAmount());
 		get(AMOUNT).setValue(obj.getAmountDue());
+		get(APPLIED_CREDITS).setValue(obj.getAppliedCredits());
+		get(PAYMENT).setDefaultValue(obj.getAmountDue());
+		ApplyCreditsRequirement applyCreditsRequirement = (ApplyCreditsRequirement) get(APPLIED_CREDITS);
+		applyCreditsRequirement.setTransactionCreditsAndPayments(obj
+				.getTransactionCreditsAndPayments());
 	}
 
 	@Override
-	protected PayBillTransactionList getNewObject() {
-		// TODO Auto-generated method stub
+	protected ClientTransactionPayBill getNewObject() {
 		return null;
 	}
 
 	@Override
-	protected Record createFullRecord(PayBillTransactionList t) {
+	protected Record createFullRecord(ClientTransactionPayBill t) {
 		String formalName;
 		if (getPreferences().isEnableMultiCurrency()) {
 			formalName = getCurrency().getFormalName();
@@ -102,13 +167,14 @@ public abstract class PaybillTableRequirement extends
 				t.getOriginalAmount());
 		record.add(getMessages().amountDue() + "(" + formalName + ")",
 				t.getAmountDue());
+		record.add(getMessages().appliedCredits(), t.getAppliedCredits());
 		record.add(getMessages().payment() + "(" + formalName + ")",
 				t.getPayment());
 		return record;
 	}
 
 	@Override
-	protected Record createRecord(PayBillTransactionList t) {
+	protected Record createRecord(ClientTransactionPayBill t) {
 		return createFullRecord(t);
 	}
 
@@ -123,11 +189,10 @@ public abstract class PaybillTableRequirement extends
 	}
 
 	@Override
-	protected boolean contains(List<PayBillTransactionList> oldValues,
-			PayBillTransactionList t) {
-		for (PayBillTransactionList payBillTransactionList : oldValues) {
-			if (payBillTransactionList.getTransactionId() == t
-					.getTransactionId()) {
+	protected boolean contains(List<ClientTransactionPayBill> oldValues,
+			ClientTransactionPayBill t) {
+		for (ClientTransactionPayBill payBillTransactionList : oldValues) {
+			if (payBillTransactionList.getEnterBill() == t.getEnterBill()) {
 				return true;
 			}
 		}

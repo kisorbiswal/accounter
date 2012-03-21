@@ -1,25 +1,33 @@
 package com.vimukti.accounter.mobile.requirements;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
-import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class ReceivePaymentTableRequirement extends
-		AbstractTableRequirement<ReceivePaymentTransactionList> {
+		AbstractTableRequirement<ClientTransactionReceivePayment> {
 
 	private static final String INVOICE_NO = "invoiceNo";
 	private static final String INVOICE_AMOUNT = "invoiceAmount";
 	private static final String PAYMENT = "receivePayment";
 	private static final String AMOUNT_DUE = "amountDue";
 	private static final String DUE_DATE = "BillDueDate";
-
-	// private static final String APPLIED_CREDITS = "appliedcredits";
+	private static final String WRITE_OFF = "writeOff";
+	private static final String CASH_DISCOUNT = "cashDiscount"; // IF enabled
+																// discounts
+	private static final String APPLIED_CREDITS = "appliedcredits";
 
 	public ReceivePaymentTableRequirement(String requirementName,
 			String enterString, String recordName) {
@@ -65,19 +73,45 @@ public abstract class ReceivePaymentTableRequirement extends
 		amountDue.setEditable(false);
 		list.add(amountDue);
 
-		// list.add(new ApplyCreditsRequirement(APPLIED_CREDITS,
-		// "Please select record", "Record") {
-		//
-		// @Override
-		// protected String getFormalName() {
-		// return ReceivePaymentTableRequirement.this.getFormalName();
-		// }
-		//
-		// @Override
-		// protected List<ClientCreditsAndPayments> getCreditsPayments() {
-		// return ReceivePaymentTableRequirement.this.getCreditsPayments();
-		// }
-		// });
+		list.add(new ApplyCreditsRequirement(APPLIED_CREDITS, getMessages()
+				.pleaseEnter(getMessages().appliedCredits()), getMessages()
+				.appliedCredits()) {
+
+			@Override
+			protected Currency getCurrency() {
+				return ReceivePaymentTableRequirement.this.getCurrency();
+			}
+
+			@Override
+			protected double getAmountDue() {
+				return ReceivePaymentTableRequirement.this.get(AMOUNT_DUE)
+						.getValue();
+			}
+
+			@Override
+			public List<ClientCreditsAndPayments> getTotalCredits() {
+				return ReceivePaymentTableRequirement.this.getCreditsPayments();
+			}
+
+			@Override
+			public List<ClientTransactionReceivePayment> getTransactionPayments() {
+				return ReceivePaymentTableRequirement.this.getValue();
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				ClientTransactionReceivePayment obj = ReceivePaymentTableRequirement.this.currentValue;
+				if (obj != null) {
+					obj.updatePayment();
+					obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
+					updatePayment(obj);
+					ReceivePaymentTableRequirement.this.get(PAYMENT).setValue(
+							obj.getPayment());
+				}
+			}
+
+		});
 
 		CurrencyAmountRequirement paymentReq = new CurrencyAmountRequirement(
 				PAYMENT, getMessages().pleaseEnter(getMessages().payment()),
@@ -93,33 +127,96 @@ public abstract class ReceivePaymentTableRequirement extends
 		list.add(paymentReq);
 	}
 
+	protected List<ClientCreditsAndPayments> getCreditsPayments() {
+		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		if (getPayee() == null) {
+			return clientCreditsAndPayments;
+		}
+		List<CreditsAndPayments> serverCreditsAndPayments = null;
+		try {
+
+			serverCreditsAndPayments = new FinanceTool()
+					.getCustomerManager()
+					.getCreditsAndPayments(getPayee().getID(),
+							getTransactionId(), getPayee().getCompany().getId());
+			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
+				ClientCreditsAndPayments clientObject = new ClientConvertUtil()
+						.toClientObject(creditsAndPayments,
+								ClientCreditsAndPayments.class);
+				clientObject.setTransactionDate(creditsAndPayments
+						.getTransaction().getDate().toClientFinanceDate());
+				clientCreditsAndPayments.add(clientObject);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
+	}
+
 	protected String getFormalName() {
 		return getPayee().getCurrency().getFormalName();
 	}
 
 	@Override
-	protected void getRequirementsValues(ReceivePaymentTransactionList obj) {
+	protected void getRequirementsValues(ClientTransactionReceivePayment obj) {
 		Double amount = get(PAYMENT).getValue();
+		double appliedCredits = get(APPLIED_CREDITS).getValue();
+		obj.setAppliedCredits(appliedCredits, true);
 		obj.setPayment(amount);
+	}
+
+	public void updateAmountDue(ClientTransactionReceivePayment item) {
+		double totalValue = item.getCashDiscount() + item.getWriteOff()
+				+ item.getAppliedCredits() + item.getPayment();
+		double amount = item.getAmountDue();
+		if (!DecimalUtil.isGreaterThan(totalValue, amount)) {
+			if (!DecimalUtil.isLessThan(item.getPayment(), 0.00))
+				item.setDummyDue(amount - totalValue);
+			else
+				item.setDummyDue(amount + item.getPayment() - totalValue);
+
+		}
+	}
+
+	private double getTotalValue(ClientTransactionReceivePayment payment) {
+		double totalValue = payment.getWriteOff() + payment.getAppliedCredits()
+				+ payment.getPayment();
+		if (getPreferences().isTrackDiscounts()) {
+			totalValue += payment.getCashDiscount();
+		}
+		return totalValue;
+	}
+
+	public void updatePayment(ClientTransactionReceivePayment payment) {
+		payment.setPayment(0);
+		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
+		payment.setPayment(paymentValue);
+		updateAmountDue(payment);
 	}
 
 	@Override
 	protected void setRequirementsDefaultValues(
-			ReceivePaymentTransactionList obj) {
-		get(DUE_DATE).setDefaultValue(obj.getDueDate());
+			ClientTransactionReceivePayment obj) {
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate(obj.getDueDate()));
 		get(INVOICE_NO).setDefaultValue(obj.getNumber());
 		get(INVOICE_AMOUNT).setDefaultValue(obj.getInvoiceAmount());
 		get(AMOUNT_DUE).setDefaultValue(obj.getAmountDue());
 		get(PAYMENT).setDefaultValue(obj.getAmountDue());
+		get(APPLIED_CREDITS).setDefaultValue(obj.getAppliedCredits());
+		ApplyCreditsRequirement applyCreditsRequirement = (ApplyCreditsRequirement) get(APPLIED_CREDITS);
+		applyCreditsRequirement.setTransactionCreditsAndPayments(obj
+				.getTransactionCreditsAndPayments());
 	}
 
 	@Override
-	protected ReceivePaymentTransactionList getNewObject() {
+	protected ClientTransactionReceivePayment getNewObject() {
 		return null;
 	}
 
 	@Override
-	protected Record createFullRecord(ReceivePaymentTransactionList t) {
+	protected Record createFullRecord(ClientTransactionReceivePayment t) {
 		String formalName;
 		if (getPreferences().isEnableMultiCurrency()) {
 			formalName = getCurrency().getFormalName();
@@ -133,6 +230,7 @@ public abstract class ReceivePaymentTableRequirement extends
 				t.getInvoiceAmount());
 		record.add(getMessages().amountDue() + "(" + formalName + ")",
 				t.getAmountDue());
+		record.add(getMessages().appliedCredits(), t.getAppliedCredits());
 		record.add(getMessages().payment() + "(" + formalName + ")",
 				t.getPayment());
 		return record;
@@ -144,7 +242,7 @@ public abstract class ReceivePaymentTableRequirement extends
 	}
 
 	@Override
-	protected Record createRecord(ReceivePaymentTransactionList t) {
+	protected Record createRecord(ClientTransactionReceivePayment t) {
 		return createFullRecord(t);
 	}
 
@@ -154,11 +252,10 @@ public abstract class ReceivePaymentTableRequirement extends
 	}
 
 	@Override
-	protected boolean contains(List<ReceivePaymentTransactionList> oldValues,
-			ReceivePaymentTransactionList t) {
-		for (ReceivePaymentTransactionList receivePaymentTransactionList : oldValues) {
-			if (t.getTransactionId() == receivePaymentTransactionList
-					.getTransactionId()) {
+	protected boolean contains(List<ClientTransactionReceivePayment> oldValues,
+			ClientTransactionReceivePayment t) {
+		for (ClientTransactionReceivePayment receivePaymentTransactionList : oldValues) {
+			if (t.getInvoice() == receivePaymentTransactionList.getInvoice()) {
 				return true;
 			}
 		}
@@ -166,6 +263,8 @@ public abstract class ReceivePaymentTableRequirement extends
 	}
 
 	protected abstract Payee getPayee();
+
+	protected abstract long getTransactionId();
 
 	protected Currency getCurrency() {
 		return getPayee().getCurrency();
@@ -176,5 +275,15 @@ public abstract class ReceivePaymentTableRequirement extends
 		// ApplyCreditsRequirement requirement = (ApplyCreditsRequirement)
 		// get(APPLIED_CREDITS);
 		return null;// requirement.getTransactionCredits(payment);
+	}
+
+	public void customerSelected() {
+		((ApplyCreditsRequirement) get(APPLIED_CREDITS))
+				.addCreditsAndPayments();
+	}
+
+	public List<ClientCreditsAndPayments> getCreditsAndPayments() {
+		return ((ApplyCreditsRequirement) get(APPLIED_CREDITS))
+				.getCreditsAndPayments();
 	}
 }
