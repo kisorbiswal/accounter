@@ -367,10 +367,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	private void enableFormItems() {
 		firstNametext.setEnabled(!isInViewMode());
 		lastNametext.setEnabled(!isInViewMode());
-		if (!Accounter.getUser().getEmail().equals(data.getEmail())) {
-			emailField.setEnabled(!isInViewMode());
-			emailCombo.setEnabled(!isInViewMode());
-		}
+		// if (!Accounter.getUser().getEmail().equals(data.getEmail())) {
+		// emailField.setEnabled(!isInViewMode());
+		// emailCombo.setEnabled(!isInViewMode());
+		// }
 		// grid.setDisabled(isInViewMode());
 		ClientUser user = Accounter.getUser();
 		if (data.isAdmin()) {
