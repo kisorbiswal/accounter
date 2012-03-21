@@ -6,18 +6,14 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.banking.BankingSectionHomeView;
+import com.vimukti.accounter.web.client.portlet.IPortletPage;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.WidgetCreator;
-import com.vimukti.accounter.web.client.ui.customers.CustomerSectionHomeView;
-import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
 
 public class AddWidgetDialog extends BaseDialog {
 
 	ArrayList<String> addablePortletList;
-	private CustomerSectionHomeView customerParent;
-	private VendorSectionHomeView vendorParent;
-	private BankingSectionHomeView bankingParent;
+
 	@SuppressWarnings("unused")
 	private PortalLayout portalLayout;
 	@SuppressWarnings("unused")
@@ -26,23 +22,12 @@ public class AddWidgetDialog extends BaseDialog {
 	@SuppressWarnings("unused")
 	private WidgetCreator creator;
 
-	public AddWidgetDialog(BaseHomeView parent) {
+	public AddWidgetDialog(IPortletPage parent) {
 		super(messages.addWidget());
 		this.getElement().setId("AddWidgetDialog");
 
-		if (parent instanceof CustomerSectionHomeView) {
-			this.customerParent = (CustomerSectionHomeView) parent;
-			addablePortletList = this.customerParent.getAddablePortletList();
-			portalLayout = this.customerParent.getPortalLayout();
-		} else if (parent instanceof VendorSectionHomeView) {
-			this.vendorParent = (VendorSectionHomeView) parent;
-			addablePortletList = this.vendorParent.getAddablePortletList();
-			portalLayout = this.vendorParent.getPortalLayout();
-		} else {
-			this.bankingParent = (BankingSectionHomeView) parent;
-			addablePortletList = this.bankingParent.getAddablePortletList();
-			portalLayout = this.bankingParent.getPortalLayout();
-		}
+		addablePortletList = parent.getAddablePortletList();
+		portalLayout = parent.getPortalLayout();
 
 		creator = new WidgetCreator();
 		createControl();

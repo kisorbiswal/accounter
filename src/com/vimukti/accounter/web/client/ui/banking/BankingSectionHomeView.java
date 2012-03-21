@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.portlet.IPortletPage;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -17,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
 
-public class BankingSectionHomeView extends BaseHomeView {
+public class BankingSectionHomeView extends BaseHomeView implements IPortletPage{
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 	private BankingSectionHomeView bankingSectionView = null;

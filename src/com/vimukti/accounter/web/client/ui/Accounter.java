@@ -160,7 +160,7 @@ public class Accounter implements EntryPoint {
 					Accounter.showError(Accounter.messages
 							.AccounterLoadingFailed());
 				}
-			},preferences);
+			}, preferences);
 			RootPanel.get("mainWindow").add(header);
 			RootPanel.get("mainWindow").add(vpanel);
 			RootPanel.get("mainWindow").add(setupWizard);
@@ -175,7 +175,6 @@ public class Accounter implements EntryPoint {
 		}
 
 	}
-
 
 	public static ClientUser getUser() {
 		return user;
@@ -596,10 +595,7 @@ public class Accounter implements EntryPoint {
 		AccounterAsyncCallback<Long> transactionCallBack = new AccounterAsyncCallback<Long>() {
 
 			public void onException(AccounterException caught) {
-
-				if (caught instanceof AccounterException) {
-					callback.saveFailed(caught);
-				}
+				callback.saveFailed(caught);
 			}
 
 			public void onResultSuccess(Long result) {

@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.portlet.IPortletPage;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -23,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
-public class CustomerSectionHomeView extends BaseHomeView {
+public class CustomerSectionHomeView extends BaseHomeView implements IPortletPage {
 
 	ArrayList<String> addablePortletList = new ArrayList<String>();
 	private CustomerSectionHomeView customerHomeView = null;
