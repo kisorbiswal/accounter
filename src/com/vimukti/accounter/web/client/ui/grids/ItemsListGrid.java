@@ -166,23 +166,22 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 						+ "("
 						+ measurement.getDefaultUnit().getType() + ")" : "";
 			case 5:
+				if ((ItemListView.isPurchaseType && ItemListView.isSalesType)) {
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getSalesPrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getSalesPrice(),
+									currency) : "";
+				}
 				return DataUtils.amountAsStringWithCurrency(
 						obj.getAverageCost(), currency) != null ? DataUtils
 						.amountAsStringWithCurrency(obj.getAverageCost(),
 								currency) : "";
 			case 6:
-				if (!(ItemListView.isPurchaseType && ItemListView.isSalesType)) {
-					if (obj.isISellThisItem) {
-						return DataUtils.amountAsStringWithCurrency(
-								obj.getSalesPrice(), currency) != null ? DataUtils
-								.amountAsStringWithCurrency(
-										obj.getSalesPrice(), currency) : "";
-					} else {
-						return DataUtils.amountAsStringWithCurrency(
-								obj.getPurchasePrice(), currency) != null ? DataUtils
-								.amountAsStringWithCurrency(
-										obj.getPurchasePrice(), currency) : "";
-					}
+				if ((ItemListView.isPurchaseType && ItemListView.isSalesType)) {
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getPurchasePrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getPurchasePrice(),
+									currency) : "";
 				}
 				if (ItemListView.isSalesType) {
 					return DataUtils.amountAsStringWithCurrency(
@@ -229,18 +228,11 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return Utility.getItemTypeText(obj) != null ? Utility
 						.getItemTypeText(obj) : "";
 			case 4:
-				if (!(ItemListView.isPurchaseType && ItemListView.isSalesType)) {
-					if (obj.isISellThisItem) {
-						return DataUtils.amountAsStringWithCurrency(
-								obj.getSalesPrice(), currency) != null ? DataUtils
-								.amountAsStringWithCurrency(
-										obj.getSalesPrice(), currency) : "";
-					} else {
-						return DataUtils.amountAsStringWithCurrency(
-								obj.getPurchasePrice(), currency) != null ? DataUtils
-								.amountAsStringWithCurrency(
-										obj.getPurchasePrice(), currency) : "";
-					}
+				if ((ItemListView.isPurchaseType && ItemListView.isSalesType)) {
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getSalesPrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getSalesPrice(),
+									currency) : "";
 				}
 				if (ItemListView.isSalesType) {
 					return DataUtils.amountAsStringWithCurrency(
