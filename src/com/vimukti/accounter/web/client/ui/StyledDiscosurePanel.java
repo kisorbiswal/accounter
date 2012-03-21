@@ -1,5 +1,6 @@
-package com.vimukti.accounter.web.client.ui.core;
+package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
@@ -13,11 +14,11 @@ public class StyledDiscosurePanel extends GwtDisclosurePanel {
 
 	public void setTitle(String title) {
 		this.title = title;
-		
+
 	}
 
 	public void setOpen(boolean checkOpen) {
-		
+
 	}
 
 	public Widget getPanel() {
@@ -30,6 +31,12 @@ public class StyledDiscosurePanel extends GwtDisclosurePanel {
 		titleLabel.getElement().setClassName("disclosurePanelTitle");
 		contentPanel.add(titleLabel);
 		contentPanel.add(content);
-		
+
 	}
+
+	@Override
+	public void add(Grid advancedOptions) {
+		contentPanel.add(advancedOptions);
+	}
+
 }

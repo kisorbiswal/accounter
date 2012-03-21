@@ -56,15 +56,17 @@ public abstract class TreeGrid<T> extends CustomTable {
 	@Override
 	protected void initHeader() {
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
-		for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
-			this.header.setText(0, x,
-					getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
-			headerCellFormater.addStyleName(0, x, "gridHeaderCell");
-			if (getColumnType(isMultiSelectionEnable ? (x - 1) : x, 0) == COLUMN_TYPE_DECIMAL_TEXT)
-				this.header.getCellFormatter().addStyleName(0, x,
-						"gridDecimalCell");
-		}
 
+		if (headerCellFormater != null) {
+			for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
+				this.header.setText(0, x,
+						getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
+				headerCellFormater.addStyleName(0, x, "gridHeaderCell");
+				if (getColumnType(isMultiSelectionEnable ? (x - 1) : x, 0) == COLUMN_TYPE_DECIMAL_TEXT)
+					this.header.getCellFormatter().addStyleName(0, x,
+							"gridDecimalCell");
+			}
+		}
 	}
 
 	/**
@@ -575,8 +577,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 				final int row) {
 			if (isParent) {
 				final Image parentImg = new Image();
-//				parentImg.setHeight("20px");
-//				parentImg.setWidth("18px");
+				// parentImg.setHeight("20px");
+				// parentImg.setWidth("18px");
 				changeImg(isCollapse, parentImg);
 
 				parentImg.addClickHandler(new ClickHandler() {
@@ -601,8 +603,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 				this.addStyleName("childNode");
 			}
 			image = new Image();
-//			image.setHeight("15px");
-//			image.setWidth("15px");
+			// image.setHeight("15px");
+			// image.setWidth("15px");
 			image.setResource(url);
 			image.addStyleName("treeCellIcon");
 

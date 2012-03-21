@@ -121,7 +121,6 @@ public class Accounter implements EntryPoint {
 					gotCompany(result.getClientCompany());
 				else
 					gotCompany(null);
-
 			}
 
 		};

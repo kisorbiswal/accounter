@@ -5,11 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -32,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AbstractBankTransactionView;
@@ -85,7 +85,7 @@ public class CreditCardExpenseView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
 
@@ -387,8 +387,11 @@ public class CreditCardExpenseView extends
 				addAccount();
 			}
 		});
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle("Itemize by Account");
+
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -439,8 +442,10 @@ public class CreditCardExpenseView extends
 			}
 		});
 
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
+		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		itemsDisclosurePanel.setTitle("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -563,8 +568,8 @@ public class CreditCardExpenseView extends
 		// vLay1.add(lab2);
 		// vLay1.add(addButton);
 		// multi currency combo
-		vLay1.add(accountsDisclosurePanel);
-		vLay1.add(itemsDisclosurePanel);
+		vLay1.add(accountsDisclosurePanel.getPanel());
+		vLay1.add(itemsDisclosurePanel.getPanel());
 		// vLay1.add(createAddNewButton());
 		// menuButton.getElement().getStyle().setMargin(5, Unit.PX);
 		// vLay1.setWidth("100%");

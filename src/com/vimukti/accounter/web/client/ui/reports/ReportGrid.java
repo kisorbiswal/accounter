@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -168,12 +167,14 @@ public class ReportGrid<R> extends CustomTable {
 			} else {
 				this.footer.setHTML(0, i, "<div></div>");
 			}
-			this.footer.getCellFormatter().setAlignment(0, i,
-					HasHorizontalAlignment.ALIGN_LEFT,
-					HasVerticalAlignment.ALIGN_MIDDLE);
+			if (this.footer.getCellFormatter() != null) {
+				this.footer.getCellFormatter().setAlignment(0, i,
+						HasHorizontalAlignment.ALIGN_LEFT,
+						HasVerticalAlignment.ALIGN_MIDDLE);
 
-			addStyleNameByCol(0, columnTypes[i], i,
-					this.footer.getCellFormatter());
+				addStyleNameByCol(0, columnTypes[i], i,
+						this.footer.getCellFormatter());
+			}
 		}
 	}
 
@@ -341,9 +342,12 @@ public class ReportGrid<R> extends CustomTable {
 					if (cellSize <= i) {
 						continue;
 					}
-					Element cell = table.getCellFormatter().getElement(row, i);
-					parentWidth = parentWidth - cellWidth;
-					cell.setAttribute("width", "" + cellWidth);
+					if (table.getCellFormatter() != null) {
+						Element cell = table.getCellFormatter().getElement(row,
+								i);
+						parentWidth = parentWidth - cellWidth;
+						cell.setAttribute("width", "" + cellWidth);
+					}
 				}
 			}
 

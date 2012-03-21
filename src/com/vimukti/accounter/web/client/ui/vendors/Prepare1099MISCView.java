@@ -17,7 +17,6 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -138,7 +137,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		mainPanel.add(getSetupPanel());
 		mainPanel.add(getPreview1099());
-		mainPanel.add(getPrintSetUp());
+		mainPanel.add(getPrintSetUp().getPanel());
 		mainPanel.add(getEndButtons());
 
 		this.add(mainPanel);
@@ -290,11 +289,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private Widget getSetupPanel() {
 
-
-		
 		disclosurePanel = (GwtDisclosurePanel) GWT
 				.create(GwtDisclosurePanel.class);
-		disclosurePanel.setTitle(	messages.setupVendorsAndAccounts(Global.get().vendors()));
+		disclosurePanel.setTitle(messages.setupVendorsAndAccounts(Global.get()
+				.vendors()));
 		// disclosurePanel.setOpen(true);
 
 		setVendorsPanel = new StyledPanel("setVendorsPanel");
@@ -380,8 +378,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		setAccountsPanel.add(addAccount);
 		setAccountsPanel.add(changeAccountsHtml);
 
-		Label infoLable = new Label(
-				messages.MISCInfo());
+		Label infoLable = new Label(messages.MISCInfo());
 
 		infoLable.setWordWrap(true);
 
@@ -549,10 +546,10 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		total1099AmountLabel.setAmount(totalAll1099Payments);
 	}
 
-	private DisclosurePanel getPrintSetUp() {
-
-		DisclosurePanel disclosurePanel = new DisclosurePanel(
-				messages.printAlignmentAndSetup());
+	private GwtDisclosurePanel getPrintSetUp() {
+		GwtDisclosurePanel disclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		disclosurePanel.setTitle(messages.printAlignmentAndSetup());
 
 		Button printSample = new Button(messages.printSample());
 		printSample.addClickHandler(new ClickHandler() {
@@ -573,20 +570,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 		});
 		Label blankLabel = new Label(messages.loadEmptyPaper());
-		Label adjustLabel = new Label(
-				messages.MISCAdjustLabelText());
+		Label adjustLabel = new Label(messages.MISCAdjustLabelText());
 
-		Label sampleInfoLabel = new Label(
-				messages.sampleInfoText());
+		Label sampleInfoLabel = new Label(messages.sampleInfoText());
 
-		Label sampleInfoLabel2 = new Label(
-		messages.sampleInfoLabelText());
+		Label sampleInfoLabel2 = new Label(messages.sampleInfoLabelText());
 
 		HTML verLabel = new HTML("<B>" + messages.vertical() + "</B>");
 		HTML horLabel = new HTML("<B> " + messages.horizantal() + " </B>");
 
-		Label infoLabel = new Label(
-				messages.MISCInfoLabelText());
+		Label infoLabel = new Label(messages.MISCInfoLabelText());
 
 		// HTML alignmentSelected = new HTML("<B> Horizantal :</B>"
 		// + horizontalValue + "<B> Vertical :</B>" + verticalValue);

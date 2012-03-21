@@ -3,11 +3,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -24,6 +23,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -42,7 +42,7 @@ public class VendorCreditMemoView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
@@ -232,7 +232,7 @@ public class VendorCreditMemoView extends
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
 		phoneSelect.setEnabled(!isInViewMode());
-//		phoneSelect.setWidth(100);
+		// phoneSelect.setWidth(100);
 
 		if (this.isInViewMode()) {
 			// FiXME--The form need to be disabled
@@ -300,14 +300,15 @@ public class VendorCreditMemoView extends
 			}
 		});
 
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyAccount());
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		accountsDisclosurePanel.setOpen(true);
-//		accountsDisclosurePanel.setWidth("100%");
+		// accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), isTrackClass(),
@@ -352,9 +353,10 @@ public class VendorCreditMemoView extends
 			}
 		});
 		currencyWidget = createCurrencyFactorWidget();
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyProductService());
+		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -408,7 +410,7 @@ public class VendorCreditMemoView extends
 		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 		leftVLay.add(vendorForm);
 		StyledPanel rightVLay1 = new StyledPanel("rightVLay1");
-//		rightVLay1.setWidth("100%");
+		// rightVLay1.setWidth("100%");
 		StyledPanel topHLay1 = new StyledPanel("topHLay1");
 		topHLay1.addStyleName("fields-panel");
 		topHLay1.add(leftVLay);
@@ -482,14 +484,14 @@ public class VendorCreditMemoView extends
 		totalForm.add(transactionTotalForm);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-//		mainVLay.setSize("100%", "100%");
+		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(lab1);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay1);
 
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
+		mainVLay.add(accountsDisclosurePanel.getPanel());
+		mainVLay.add(itemsDisclosurePanel.getPanel());
 		mainVLay.add(bottomPanel);
 
 		// if (UIUtils.isMSIEBrowser())
@@ -497,7 +499,7 @@ public class VendorCreditMemoView extends
 
 		this.add(mainVLay);
 
-//		setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);

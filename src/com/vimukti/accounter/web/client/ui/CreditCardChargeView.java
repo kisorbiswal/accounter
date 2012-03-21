@@ -43,7 +43,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.StyledDiscosurePanel;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;

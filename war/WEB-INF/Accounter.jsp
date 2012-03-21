@@ -70,7 +70,6 @@
 		<%
 			boolean isPaid=(Boolean) request.getAttribute("isPaid");
   		%>
-		document.body.style.direction=isRTL?"rtl":"ltr";
 	</script>
 		
     
