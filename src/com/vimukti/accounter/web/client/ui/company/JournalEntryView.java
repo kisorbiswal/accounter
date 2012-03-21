@@ -293,7 +293,7 @@ public class JournalEntryView extends
 		});
 
 		memoText = new TextAreaItem(messages.memo(), "memoText");
-		memoText.setMemo(true, this);
+		memoText.setMemo(true, getAction().getViewName());
 
 		initListGrid();
 		// grid.initTransactionData();

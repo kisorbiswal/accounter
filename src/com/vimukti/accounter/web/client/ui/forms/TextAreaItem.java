@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.forms;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 
 public class TextAreaItem extends FormItem<String> {
 
@@ -17,17 +16,16 @@ public class TextAreaItem extends FormItem<String> {
 		this.add(textArea);
 	}
 
-//	public TextAreaItem() {
-//		textArea = new TextArea();
-//	}
+	// public TextAreaItem() {
+	// textArea = new TextArea();
+	// }
 
-	public void setMemo(boolean isMemo, AbstractBaseView view) {
+	public void setMemo(boolean isMemo, String viewName) {
 		this.isMemo = isMemo;
 		if (isMemo) {
 			textArea.removeStyleName("gwt-TextArea");
 			textArea.addStyleName("memoTextArea");
-			textArea.setTitle(messages.writeCommentsForThis(
-					view.getAction().getViewName()));
+			textArea.setTitle(messages.writeCommentsForThis(viewName));
 		}
 	}
 
@@ -76,7 +74,7 @@ public class TextAreaItem extends FormItem<String> {
 
 		this.textArea.addClickHandler(handler);
 	}
-	
+
 	public void setTabIndex(int index) {
 		textArea.setTabIndex(index);
 	}

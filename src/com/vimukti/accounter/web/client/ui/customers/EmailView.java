@@ -134,7 +134,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		subject = new TextItem(messages.subject(), "subject");
 
 		emailBody = new TextAreaItem(messages.email(), "emailBody");
-		emailBody.setMemo(true, this);
+		emailBody.setMemo(true, getAction().getViewName());
 		emailBody.setValue(Global
 				.get()
 				.messages()

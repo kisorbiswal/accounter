@@ -129,7 +129,7 @@ public class BuildAssemblyView extends
 		setTransactionDate(dateField.getDate());
 		;
 		memoItem = new TextAreaItem(messages.memo(), "memoItem");
-		memoItem.setMemo(true, this);
+		memoItem.setMemo(true, getAction().getViewName());
 		maximumBuildsLabel = new AmountLabel(
 				messages.maximumNumberYouCanBuildFrom());
 		quantityToBuild.addBlurHandler(new BlurHandler() {

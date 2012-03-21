@@ -568,7 +568,7 @@ public class MakeDepositView extends
 			}
 		});
 		memoText = new TextAreaItem(messages.memo(), "memoText");
-		memoText.setMemo(true, this);
+		memoText.setMemo(true, getAction().getViewName());
 		memoText.setEnabled(!isInViewMode());
 
 		memoForm = new DynamicForm("memoForm");

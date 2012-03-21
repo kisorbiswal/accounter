@@ -611,7 +611,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		TextAreaItem memoArea = new TextAreaItem("", "memoArea");
 		if (!(this instanceof CustomerPrePaymentView
 				|| this instanceof NewVendorPaymentView || this instanceof CustomerRefundView))
-			memoArea.setMemo(true, this);
+			memoArea.setMemo(true, this.getAction().getViewName());
 
 		memoArea.setTitle(messages.memo());
 		// memoArea.setRowSpan(2);
