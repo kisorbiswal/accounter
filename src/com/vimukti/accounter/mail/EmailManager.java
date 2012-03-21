@@ -34,6 +34,10 @@ public class EmailManager extends Thread {
 	private boolean shutdown;
 	private String error;
 
+	public EmailManager() {
+		super("Email Manager");
+	}
+
 	private Logger log = Logger.getLogger(EmailManager.class);
 
 	public void run() {
@@ -111,15 +115,15 @@ public class EmailManager extends Thread {
 		if (sender.isEnabledTls()) {
 			// p.put("mail.smtp.tls", "true");
 			p.put("mail.smtp.starttls.enable", true);
-			p.put("mail.smtp.socketFactory.port", sender.getPortNumber());
-			p.put("mail.smtp.socketFactory.class",
-					"javax.net.ssl.SSLSocketFactory");
+			// p.put("mail.smtp.socketFactory.port", sender.getPortNumber());
+			// p.put("mail.smtp.socketFactory.class",
+			// "javax.net.ssl.SSLSocketFactory");
 		}
 		p.put("mail.smtp.host", sender.getOutGoingMailServer());
 		p.put("mail.smtp.port", sender.getPortNumber());
 		p.put("mail.smtp.8BITMIME", "true");
 		p.put("mail.smtp.PIPELINING", "true");
-		p.put("mail.smtp.debug", "true");
+		// p.put("mail.smtp.debug", "true");
 		p.put("mail.smtp.socketFactory.fallback", "false");
 		p.put("protocol", "smtp");
 		return p;
