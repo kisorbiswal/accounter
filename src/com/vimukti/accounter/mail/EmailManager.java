@@ -106,18 +106,21 @@ public class EmailManager extends Thread {
 			// p.put("mail.smtps.auth", true);
 			p.put("mail.smtp.auth", true);
 			p.put("mail.smtp.user", sender.getSenderEmailID());
-
 		} else {
 			p.put("mail.smtp.auth", false);
-
 		}
 
 		if (sender.isEnabledTls()) {
-			// p.put("mail.smtp.tls", "true");
-			p.put("mail.smtp.starttls.enable", true);
-			// p.put("mail.smtp.socketFactory.port", sender.getPortNumber());
-			// p.put("mail.smtp.socketFactory.class",
-			// "javax.net.ssl.SSLSocketFactory");
+			// #smtp protocol over TLS (was ssmtp)
+			if (sender.getPortNumber() == 465) {
+				p.put("mail.smtp.tls", "true");
+				p.put("mail.smtp.socketFactory.port", sender.getPortNumber());
+				p.put("mail.smtp.socketFactory.class",
+						"javax.net.ssl.SSLSocketFactory");
+			} else {
+				// Submission for Simple Mail Transfer
+				p.put("mail.smtp.starttls.enable", true);
+			}
 		}
 		p.put("mail.smtp.host", sender.getOutGoingMailServer());
 		p.put("mail.smtp.port", sender.getPortNumber());
