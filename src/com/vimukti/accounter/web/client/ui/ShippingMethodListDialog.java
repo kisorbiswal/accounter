@@ -29,6 +29,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	public ShippingMethodListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("ShippingMethodListDialog");
 		// setSize("400", "330");
 		// setWidth("400px");
 		initialise();

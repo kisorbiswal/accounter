@@ -331,7 +331,6 @@ html,body {
 	display: box;
 	margin-bottom: 10px;
 	display: box;
-	-moz-box-flex: 1;
 }
 
 .formItem .gwt-Label {
@@ -346,7 +345,14 @@ html,body {
 	margin-right: 20px;
 }
 
-.formItem input[type=text] {
+.formItem input[type="text"] {
+	width: 172px;
+	height: 23px;
+	border-radius: 3px;
+	border: 1px solid #AAA;
+	padding: 0 5px;
+}
+input[type="text"] {
 	width: 172px;
 	height: 23px;
 	border-radius: 3px;
@@ -359,7 +365,7 @@ html,body {
 	border-radius: 5px;
 	background-color: #1A5158;
 	color: white;
-	padding: 0 5px 0 27px;
+	padding:0 5px 4px 27px;
 	border: 1px solid #002E36;
 	height: 25px;
 	background-position: 5px center;
@@ -2633,6 +2639,7 @@ table.gridHeader tr td {
 
 .main-class-pannel,.gwt-PopupPanel,.gwt-TabPanelBottom {
 	border: 1px solid #1A5158;
+	background: none repeat scroll 0 0 white;
 }
 
 .gwt-TabPanelBottom,.gwt-StackPanel .gwt-StackPanelItem {
@@ -3959,4 +3966,29 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 #newAccountView .formItem{
 	-moz-box-flex: 0;
+}
+.gwt-PopupPanel .popupContent table{
+	width:100%;
+}
+#RecurringTransactionDialog .mainPanel .bodyLayout .mainLayout {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+#RecurringTransactionDialog .mainPanel .bodyLayout .mainLayout .nameForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#RecurringTransactionDialog .mainPanel .bodyLayout .mainLayout .interval_Value .gwt-RadioButton{
+	display: block;
+	 margin: 5px 0;
+}
+#RecurringTransactionDialog .mainPanel .bodyLayout{
+	padding:10px;
 }

@@ -26,6 +26,7 @@ public class ShippingTermListDialog extends GroupDialog<ClientShippingTerms> {
 
 	public ShippingTermListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("ShippingTermListDialog");
 		// setSize("400", "330");
 		// setWidth("400px");
 		initialise();

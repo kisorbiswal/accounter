@@ -29,6 +29,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		super(Global.get().messages().manageVendorGroup(Global.get().Vendor()),
 				Global.get().messages().toAddPayeeGroup(Global.get().Vendor()));
 		// setWidth("400px");
+		this.getElement().setId("VendorGroupListDialog");
 		initialise();
 		center();
 	}

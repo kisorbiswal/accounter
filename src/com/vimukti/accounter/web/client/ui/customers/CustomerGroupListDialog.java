@@ -28,6 +28,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public CustomerGroupListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("CustomerGroupListDialog");
 		// setSize("380", "300");
 		// setWidth("380px");
 		initialise();

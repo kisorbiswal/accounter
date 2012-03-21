@@ -48,6 +48,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 	public GroupDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("GroupDialog");
 		initialise();
 	}
 

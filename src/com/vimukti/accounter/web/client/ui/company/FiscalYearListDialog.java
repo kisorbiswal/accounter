@@ -23,6 +23,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 	public FiscalYearListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("FiscalYearListDialog");
 		initialise();
 		getListFiscalYear();
 		center();

@@ -24,7 +24,6 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 		super(messages.currency());
 		this.parent = parent;
 		this.getElement().setId("NewCurrencyListDialog");
-		this.addStyleName("new-currency-list-dialog");
 		this.clientCurrency = clientCurrency;
 		createControl();
 	}

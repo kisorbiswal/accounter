@@ -26,6 +26,7 @@ public class AccounterDialog extends CustomDialog {
 	public AccounterDialog(String mesg, AccounterType type) {
 
 		super(true);
+		this.getElement().setId("AccounterDialog");
 		this.message = mesg;
 		this.type = type;
 		createControls();
@@ -49,6 +50,7 @@ public class AccounterDialog extends CustomDialog {
 			ErrorDialogHandler handler) {
 
 		super(true);
+		this.getElement().setId("AccounterDialog");
 		this.message = mesg;
 		this.type = type;
 		this.dialogHandler = handler;

@@ -48,7 +48,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	public TdsForm16ACreationDialogue() {
 		super(messages.TDSAcknowledgementForm(), messages
 				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
-		this.addStyleName("tds-form-16a-creation-dialogue");
 		this.getElement().setId("TdsForm16ACreationDialogue");
 		okbtn.setText(messages.generate16Aform());
 

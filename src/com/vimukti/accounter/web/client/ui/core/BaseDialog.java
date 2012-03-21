@@ -78,10 +78,12 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	 */
 	public BaseDialog() {
 		super(true);
+		this.getElement().setId("BaseDialog");
 	}
 
 	public BaseDialog(String text) {
 		super(true);
+		this.getElement().setId("BaseDialog");
 		setText(text);
 		setModal(true);
 		initRPCService();
@@ -93,6 +95,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 
 	public BaseDialog(String text, String desc) {
 		super(true);
+		this.getElement().setId("BaseDialog");
 		// setText(getViewTitle());
 		setText(text);
 		setModal(true);

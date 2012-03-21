@@ -84,7 +84,6 @@ public class RecurringTransactionDialog extends
 	public RecurringTransactionDialog(
 			AbstractTransactionBaseView<? extends ClientTransaction> parentView) {
 		this(parentView, null);
-		this.getElement().setId("recurring-transaction-dialog");
 		this.getElement().setId("RecurringTransactionDialog");
 	}
 
@@ -98,7 +97,7 @@ public class RecurringTransactionDialog extends
 			AbstractTransactionBaseView<? extends ClientTransaction> parentView,
 			ClientRecurringTransaction transaction) {
 		super(messages.recurring(), messages.recurringDescription());
-		this.getElement().setId("recurring-transaction-dialog");
+		this.getElement().setId("RecurringTransactionDialog");
 		this.view = parentView;
 		if (parentView == null) {
 

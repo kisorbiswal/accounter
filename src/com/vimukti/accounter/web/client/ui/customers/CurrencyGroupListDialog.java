@@ -18,6 +18,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 	public CurrencyGroupListDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("CurrencyGroupListDialog");
 		// setWidth("400px");
 		createLayout();
 		center();

@@ -25,6 +25,7 @@ public class CustomDialog extends DialogBox {
 
 	public CustomDialog() {
 		showHeader();
+		this.getElement().setId("CustomDialog");
 	}
 
 	public CustomDialog(boolean isShowCloseandHelpBtns) {
@@ -35,6 +36,7 @@ public class CustomDialog extends DialogBox {
 		sinkEvents(Event.ONCLICK);
 
 		showHeader();
+		this.getElement().setId("CustomDialog");
 	}
 
 	public CustomDialog(boolean isShowHelp, boolean isShowClose) {
@@ -44,6 +46,7 @@ public class CustomDialog extends DialogBox {
 		sinkEvents(Event.ONCLICK);
 
 		showHeader();
+		this.getElement().setId("CustomDialog");
 	}
 
 	public void showHeader() {

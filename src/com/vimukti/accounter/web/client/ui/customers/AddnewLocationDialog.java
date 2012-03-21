@@ -26,7 +26,7 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 
 	public AddnewLocationDialog(String title) {
 		super(title, "");
-		this.addStyleName("AddnewLocationDialog");
+		this.getElement().setId("AddnewLocationDialog");
 		createControls();
 		center();
 	}
@@ -35,7 +35,7 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 			LocationGroupListDialog locationGroupListDialog, String title,
 			String string, ClientLocation clientLocation2) {
 		super(title, "");
-		this.addStyleName("add-new-location-dialog");
+		this.getElement().setId("AddnewLocationDialog");
 		this.clientLocation = clientLocation2;
 		this.locationGroupListDialog = locationGroupListDialog;
 		createControls();

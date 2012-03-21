@@ -14,7 +14,6 @@ public class PaymentDialog extends BaseDialog {
 
 	public PaymentDialog() {
 		super(messages.payments(), "");
-		this.addStyleName("payment-dialog");
 		this.getElement().setId("PaymentDialog");
 		setText(messages.payments());
 		createControls();
@@ -23,7 +22,7 @@ public class PaymentDialog extends BaseDialog {
 
 	public PaymentDialog(AccounterAsyncCallback<IAccounterCore> callBack) {
 		super(messages.payments(), "");
-		this.addStyleName("payment-dialog");
+		this.getElement().setId("PaymentDialog");
 		setText(messages.payments());
 		createControls();
 		center();

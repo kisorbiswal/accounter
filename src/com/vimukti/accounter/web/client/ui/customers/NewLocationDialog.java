@@ -98,6 +98,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 	public NewLocationDialog(LocationGroupListDialog locationGroupListDialog,
 			String title, String string, ClientLocation clientLocation2) {
 		super(title, "");
+		this.getElement().setId("NewLocationDialog");
 		this.clientLocation = clientLocation2;
 		this.locationGroupListDialog = locationGroupListDialog;
 		// setWidth("600px");
