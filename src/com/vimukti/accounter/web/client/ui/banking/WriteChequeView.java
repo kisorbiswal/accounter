@@ -5,13 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -37,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -112,7 +112,7 @@ public class WriteChequeView extends
 
 	private VendorAccountTransactionTable transactionVendorAccountTable;
 	private AddNewButton accountTableButton;
-	private DisclosurePanel vendorAccountsDisclosurePanel;
+	private GwtDisclosurePanel vendorAccountsDisclosurePanel;
 
 	private TAXCodeCombo taxCodeSelect;
 
@@ -1085,9 +1085,11 @@ public class WriteChequeView extends
 			}
 		});
 
-		FlowPanel vendorAccountFlowPanel = new FlowPanel();
-		vendorAccountsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyAccount());
+		StyledPanel vendorAccountFlowPanel = new StyledPanel(
+				"vendorAccountFlowPanel");
+		vendorAccountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		vendorAccountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		vendorAccountFlowPanel.add(transactionVendorAccountTable);
 		vendorAccountFlowPanel.add(accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);
@@ -1112,7 +1114,7 @@ public class WriteChequeView extends
 		mainVLay.add(titleLabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(topHLay);
-		mainVLay.add(vendorAccountsDisclosurePanel);
+		mainVLay.add(vendorAccountsDisclosurePanel.getPanel());
 
 		StyledPanel vPanel = new StyledPanel("vPanel");
 		// vPanel.setWidth("100%");

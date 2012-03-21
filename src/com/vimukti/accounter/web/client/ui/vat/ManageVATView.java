@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -60,28 +59,28 @@ public class ManageVATView extends AbstractBaseView {
 
 		StyledPanel vPanel = new StyledPanel("vPanel");
 
-		AbsolutePanel assignPanel = new AbsolutePanel();
-		AbsolutePanel payVatPanel = new AbsolutePanel();
-		AbsolutePanel taskPanel = new AbsolutePanel();
+		StyledPanel assignPanel = new StyledPanel("assignPanel");
+		StyledPanel payVatPanel = new StyledPanel("payVatPanel");
+		StyledPanel taskPanel = new StyledPanel("taskPanel");
 
 //		assignPanel.setSize("600px", "100px");
 //		payVatPanel.setSize("600px", "100px");
 //		taskPanel.setSize("600px", "300px");
 
-		assignPanel.add(icon, 30, 10);
-		assignPanel.add(assignlink, 80, 10);
+		assignPanel.add(icon);
+		assignPanel.add(assignlink);
 		capAssignPanel.add(assignPanel);
 
 		vatLabel.setStyleName("requiredField");
-		payVatPanel.add(vatLabel, 30, 10);
-		payVatPanel.add(vatButton, 30, 50);
+		payVatPanel.add(vatLabel);
+		payVatPanel.add(vatButton);
 		capPayVatPanel.add(payVatPanel);
 
-		taskPanel.add(viewLink, 50, 10);
-		taskPanel.add(openLink, 50, 30);
-		taskPanel.add(adjLink, 50, 50);
-		taskPanel.add(closeButton, 80, 100);
-		taskPanel.add(helpButton, 180, 100);
+		taskPanel.add(viewLink);
+		taskPanel.add(openLink);
+		taskPanel.add(adjLink);
+		taskPanel.add(closeButton);
+		taskPanel.add(helpButton);
 		capTaskPanel.add(taskPanel);
 
 		vPanel.add(stLabel);

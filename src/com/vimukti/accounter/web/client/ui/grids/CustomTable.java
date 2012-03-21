@@ -120,22 +120,23 @@ public abstract class CustomTable extends FlowPanel {
 		cellFormatter = this.body.getCellFormatter();
 
 		// adding handler for Table
-		this.body.getFlexTable().addClickHandler(new ClickHandler() {
+		if (this.body.getFlexTable() != null) {
+			this.body.getFlexTable().addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				Cell cell = body.getCellForEvent(event);
-				if (cell == null || disable) {
-					return;
-				} else {
-					CustomTable.this.cell = new RowCell(cell.getRowIndex(),
-							cell.getCellIndex());
-					isSingleClick = true;
-					eventFired(CustomTable.this.cell);
+				@Override
+				public void onClick(ClickEvent event) {
+					Cell cell = body.getCellForEvent(event);
+					if (cell == null || disable) {
+						return;
+					} else {
+						CustomTable.this.cell = new RowCell(cell.getRowIndex(),
+								cell.getCellIndex());
+						isSingleClick = true;
+						eventFired(CustomTable.this.cell);
+					}
 				}
-			}
-		});
-
+			});
+		}
 		this.header = (GwtFlexTable) GWT.create(GwtFlexTable.class);
 		// this.header.setWidth("100%");
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
@@ -156,41 +157,50 @@ public abstract class CustomTable extends FlowPanel {
 					.setClassName("header_check_box");
 		}
 		if (isEnable) {
-			this.header.getFlexTable().addClickHandler(new ClickHandler() {
+			if (this.header.getFlexTable() != null) {
+				this.header.getFlexTable().addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					if (disable)
-						return;
+					@Override
+					public void onClick(ClickEvent event) {
+						if (disable)
+							return;
 
-					Cell cell = header.getCellForEvent(event);
-					CustomTable.this.cell = null;
-					if (cell == null) {
-						return;
-					} else {
-						if (isDecending) {
-							changeHeaderCellStyles("gridDecend", "gridAscend");
-							header.getCellFormatter().addStyleName(0,
-									cell.getCellIndex(), "gridDecend");
-
+						Cell cell = header.getCellForEvent(event);
+						CustomTable.this.cell = null;
+						if (cell == null) {
+							return;
 						} else {
-							changeHeaderCellStyles("gridAscend", "gridDecend");
-							header.getCellFormatter().addStyleName(0,
-									cell.getCellIndex(), "gridAscend");
+							if (isDecending) {
+								changeHeaderCellStyles("gridDecend",
+										"gridAscend");
+								header.getCellFormatter().addStyleName(0,
+										cell.getCellIndex(), "gridDecend");
+
+							} else {
+								changeHeaderCellStyles("gridAscend",
+										"gridDecend");
+								header.getCellFormatter().addStyleName(0,
+										cell.getCellIndex(), "gridAscend");
+							}
+							headerCellClicked(cell.getCellIndex());
 						}
-						headerCellClicked(cell.getCellIndex());
 					}
-				}
-			});
+				});
+
+			}
 		}
 		initHeader();
-		this.header.getRowFormatter().addStyleName(0, "gridHeaderRow");
-		this.header.setStyleName("gridHeader");
+		if (this.header.getRowFormatter() != null) {
+			this.header.getRowFormatter().addStyleName(0, "gridHeaderRow");
+		}
 
+		this.header.setStyleName("gridHeader");
 		this.add(this.header.getPanel());
 
-		Element par = this.header.getElement().getParentElement().cast();
-		par.addClassName("gridHeaderParent");
+		if (this.header.getElement() != null) {
+			Element par = this.header.getElement().getParentElement().cast();
+			par.addClassName("gridHeaderParent");
+		}
 		// DONT ENABLE THIS
 		// this.header.getElement().getParentElement().getStyle()
 		// .setHeight(10, Unit.PX);
@@ -243,9 +253,13 @@ public abstract class CustomTable extends FlowPanel {
 		// imagePanel.setCellVerticalAlignment(label,
 		// HasVerticalAlignment.ALIGN_MIDDLE);
 		body.setWidget(0, 0, imagePanel);
-		this.body.getRowFormatter().addStyleName(0, "loading-panel");
-		this.cellFormatter.setHorizontalAlignment(0, 0,
-				HasHorizontalAlignment.ALIGN_CENTER);
+		if (this.body.getRowFormatter() != null) {
+			this.body.getRowFormatter().addStyleName(0, "loading-panel");
+		}
+		if (this.cellFormatter != null) {
+			this.cellFormatter.setHorizontalAlignment(0, 0,
+					HasHorizontalAlignment.ALIGN_CENTER);
+		}
 
 	}
 
@@ -434,8 +448,11 @@ public abstract class CustomTable extends FlowPanel {
 	public void setText(int row, int column, String text) {
 		this.body.setText(row, isMultiSelectionEnable ? column + 1 : column,
 				text);
-		this.cellFormatter.getElement(row,
-				isMultiSelectionEnable ? column + 1 : column).setTitle(text);
+		if (cellFormatter != null) {
+			this.cellFormatter.getElement(row,
+					isMultiSelectionEnable ? column + 1 : column)
+					.setTitle(text);
+		}
 	}
 
 	public void setWidget(int row, int column, final Widget widget) {
@@ -490,8 +507,10 @@ public abstract class CustomTable extends FlowPanel {
 
 	private void changeHeaderCellStyles(String addStyle, String removeStyle) {
 		for (int i = 0; i < this.header.getCellCount(0); i++) {
+			if (header.getCellFormatter() != null)
+				continue;
+
 			header.getCellFormatter().removeStyleName(0, i, removeStyle);
-			// header.getCellFormatter().addStyleName(0, i, addStyle);
 		}
 	}
 
@@ -524,6 +543,9 @@ public abstract class CustomTable extends FlowPanel {
 			int colCounts = 0;
 
 			for (int i = isMultiSelectionEnable ? 1 : 0; i < nofCols; i++) {
+				if (table.getCellFormatter() != null) {
+					continue;
+				}
 				Element cell = table.getCellFormatter().getElement(row, i);
 				cellWidth = getCellWidth(isMultiSelectionEnable ? i - 1 : i);
 				// if (i == nofCols - 2)

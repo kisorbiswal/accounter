@@ -53,7 +53,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 	@Override
 	public void setTable(EditTable<T> table) {
 		super.setTable(table);
-		FlexTable flexTable = (FlexTable) table.getWidget();
+		FlexTable flexTable = (FlexTable) table.getWidget(0);
 		flexTable.getCellFormatter().addStyleName(0, flexTable.getCellCount(0),
 				"amount");
 	}

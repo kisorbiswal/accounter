@@ -25,7 +25,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 				boolean value = event.getValue();
 				List<T> allRows = getTable().getAllRows();
 				for (int x = 1; x <= allRows.size(); x++) {
-					FlexTable flexTable = (FlexTable) getTable().getWidget();
+					FlexTable flexTable = (FlexTable) getTable().getWidget(0);
 					IsWidget widget = flexTable.getWidget(x, 0);
 					if (widget instanceof CheckBox) {
 						CheckBox checkedWidget = (CheckBox) widget;
@@ -74,7 +74,5 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 	}
 
 	protected abstract void onChangeValue(boolean value, T row);
-
-
 
 }

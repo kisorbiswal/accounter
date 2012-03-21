@@ -11,18 +11,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-public class StyledFlexTable extends GwtFlexTable {
-
-
-
+//public class StyledFlexTable extends GwtFlexTable {
+public class StyledFlexTable {
 	private StyledPanel flexTable;
 
 	public StyledFlexTable() {
 		flexTable = new StyledPanel("flexTable");
 	}
-	
-	public void onClick(Event event){
-		
+
+	public void onClick(Event event) {
+
 	}
 
 	public RowFormatter getRowFormatter() {
@@ -50,7 +48,7 @@ public class StyledFlexTable extends GwtFlexTable {
 	}
 
 	public void setText(int row, int column, String text) {
-		Label label =  new Label(text);
+		Label label = new Label(text);
 		label.getElement().setClassName("gridElementLabel");
 		flexTable.add(label);
 	}
@@ -80,7 +78,7 @@ public class StyledFlexTable extends GwtFlexTable {
 	}
 
 	public void setHTML(int row, int column, String html) {
-		Label label =  new Label(html);
+		Label label = new Label(html);
 		label.getElement().setClassName("gridElementLabel");
 		flexTable.add(label);
 	}
@@ -113,13 +111,13 @@ public class StyledFlexTable extends GwtFlexTable {
 	public void removeStyleName(String string) {
 		flexTable.removeStyleName(string);
 	}
-	
-	
+
 	public FlexTable getFlexTable() {
 		return null;
 	}
-	
 
+	public void addStyleName(String string) {
+		flexTable.addStyleName(string);
+	}
 
-	
 }

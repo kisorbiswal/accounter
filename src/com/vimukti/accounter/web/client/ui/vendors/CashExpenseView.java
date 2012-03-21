@@ -3,11 +3,9 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -29,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -53,7 +52,7 @@ public class CashExpenseView extends
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
-	protected DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	protected GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private AmountField accountBalText, vendorBalText;
 
@@ -419,9 +418,10 @@ public class CashExpenseView extends
 			}
 		});
 
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyAccount());
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -471,9 +471,10 @@ public class CashExpenseView extends
 			}
 		});
 
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyProductService());
+		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -594,8 +595,8 @@ public class CashExpenseView extends
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
 
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
+		mainVLay.add(accountsDisclosurePanel.getPanel());
+		mainVLay.add(itemsDisclosurePanel.getPanel());
 		mainVLay.add(bottompanel);
 
 		this.add(mainVLay);

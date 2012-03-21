@@ -3,10 +3,9 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -27,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -61,7 +61,7 @@ public class ItemReceiptView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	public ItemReceiptView() {
 		super(ClientTransaction.TYPE_ITEM_RECEIPT);
@@ -203,8 +203,10 @@ public class ItemReceiptView extends
 				addAccount();
 			}
 		});
-		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
+		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -250,8 +252,10 @@ public class ItemReceiptView extends
 				addItem();
 			}
 		});
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
+		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		itemsDisclosurePanel.setTitle("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -326,8 +330,8 @@ public class ItemReceiptView extends
 		mainVLay.add(topHLay);
 		mainVLay.add(lab2);
 		// mainVLay.add(menuButton);
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
+		mainVLay.add(accountsDisclosurePanel.getPanel());
+		mainVLay.add(itemsDisclosurePanel.getPanel());
 		mainVLay.add(bottomLayout);
 
 		this.add(mainVLay);

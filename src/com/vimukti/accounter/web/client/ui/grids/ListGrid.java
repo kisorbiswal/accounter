@@ -378,7 +378,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		StyledPanel horizontalPanel = new StyledPanel("horizontalPanel");
 		TextItem textField = new TextItem(messages.quantity(), "textField");
 		SelectCombo selectCombo = new SelectCombo(messages.units());
-//		selectCombo.setWidth("50%");
+		// selectCombo.setWidth("50%");
 		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
 		// dynamicForm.setNumCols(4);
 		dynamicForm.add(textField, selectCombo);
@@ -414,12 +414,14 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		for (int x = (isMultiSelectionEnable ? 1 : 0); x < nofCols; x++) {
 			addColumnData(obj, rowCount, isMultiSelectionEnable ? x - 1 : x);
 		}
-		if (rowCount % 2 == 0) {
-			rowFormatter.addStyleName(rowCount, "gridEvenRow");
-		} else
-			rowFormatter.addStyleName(rowCount, "gridOddRow");
-		rowFormatter.addStyleName(rowCount, "gridRow");
+		if (rowFormatter != null) {
+			if (rowCount % 2 == 0) {
 
+				rowFormatter.addStyleName(rowCount, "gridEvenRow");
+			} else
+				rowFormatter.addStyleName(rowCount, "gridOddRow");
+			rowFormatter.addStyleName(rowCount, "gridRow");
+		}
 		// to fix columns aligment problem of ,
 		// if (rowCount == 0)
 		this.adjustCellsWidth(rowCount, body);
@@ -542,7 +544,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			setText(currentRow, currentCol, (String) data);
 			break;
 		}
-		
+
 		addCellStyles(getRowElementsStyle(currentCol));
 	}
 
@@ -592,19 +594,22 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	@Override
 	protected void initHeader() {
 		CellFormatter headerCellFormater = this.header.getCellFormatter();
-		for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
-			this.header.setText(0, x,
-					getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
-			headerCellFormater.addStyleName(0, x, "gridHeaderCell");
-			headerCellFormater.addStyleName(0, x, getHeaderStyle(x));
-			if (getColumnType(isMultiSelectionEnable ? (x - 1) : x) == COLUMN_TYPE_DECIMAL_TEXT)
-				this.header.getCellFormatter().addStyleName(0, x,
-						"gridDecimalCell");
-			if (x == nofCols - 1) {
-				this.header.getCellFormatter().addStyleName(0, x,
-						"removeRightBorder");
-			}
+		if (headerCellFormater != null) {
+			for (int x = isMultiSelectionEnable ? 1 : 0; x < nofCols; x++) {
+				this.header.setText(0, x,
+						getColumns()[isMultiSelectionEnable ? (x - 1) : x]);
 
+				headerCellFormater.addStyleName(0, x, "gridHeaderCell");
+				headerCellFormater.addStyleName(0, x, getHeaderStyle(x));
+
+				if (getColumnType(isMultiSelectionEnable ? (x - 1) : x) == COLUMN_TYPE_DECIMAL_TEXT)
+					this.header.getCellFormatter().addStyleName(0, x,
+							"gridDecimalCell");
+				if (x == nofCols - 1) {
+					this.header.getCellFormatter().addStyleName(0, x,
+							"removeRightBorder");
+				}
+			}
 		}
 
 	}
@@ -614,7 +619,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		if (widgetsMap.get(currentCol) == null) {
 			textBox = new TextBox();
 			textBox.removeStyleName("gwt-TextBox");
-//			textBox.setWidth("100%");
+			// textBox.setWidth("100%");
 			if (getColumnType(currentCol) == COLUMN_TYPE_DECIMAL_TEXTBOX)
 				textBox.setTextAlignment(TextBoxBase.ALIGN_RIGHT);
 			textBox.addChangeHandler(new ChangeHandler() {
@@ -837,10 +842,11 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	private void addCellStyles(String... styles) {
 		for (String style : styles) {
-			cellFormatter
-					.addStyleName(currentRow,
-							isMultiSelectionEnable ? currentCol + 1
-									: currentCol, style);
+			if (cellFormatter != null) {
+				cellFormatter.addStyleName(currentRow,
+						isMultiSelectionEnable ? currentCol + 1 : currentCol,
+						style);
+			}
 		}
 	}
 
@@ -985,24 +991,22 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	protected abstract boolean isEditable(T obj, int row, int index);
 
 	protected abstract void onClick(T obj, int row, int index);
-	
-	
+
 	/**
-	 * to get the header style names 
-	 * required mainly in windows8
+	 * to get the header style names required mainly in windows8
+	 * 
 	 * @param index
 	 * @return
 	 */
 	protected abstract String getHeaderStyle(int index);
-	
-	
+
 	/**
 	 * to get the row style name
+	 * 
 	 * @param index
 	 * @return
 	 */
 	protected abstract String getRowElementsStyle(int index);
-	
 
 	protected void onSelectionChanged(T obj, int row, boolean isChecked) {
 	}
@@ -1216,6 +1220,5 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		}
 		setVisibleRange(start, length);// Reload page
 	}
-	
-	
+
 }

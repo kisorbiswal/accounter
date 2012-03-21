@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -24,8 +25,7 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public void run() {
-		view = new DashBoardView();
-
+		view = (DashBoardView) GWT.create(DashBoardView.class);
 		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 

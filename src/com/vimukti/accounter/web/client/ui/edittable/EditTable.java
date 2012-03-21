@@ -6,16 +6,16 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-public abstract class EditTable<R> extends SimplePanel {
+public abstract class EditTable<R> extends FlowPanel {
 
 	protected AccounterMessages messages = Global.get().messages();
 	private FlexTable table;
@@ -30,14 +30,14 @@ public abstract class EditTable<R> extends SimplePanel {
 
 	public EditTable() {
 		this(1);
-		
+
 	}
 
 	public EditTable(int numOfRowsPerObject) {
 		this.numOfRowsPerObject = numOfRowsPerObject;
 		this.addStyleName("editTable");
 		table = new FlexTable();
-//		table.setWidth("100%");
+		// table.setWidth("100%");
 		this.add(table);
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();

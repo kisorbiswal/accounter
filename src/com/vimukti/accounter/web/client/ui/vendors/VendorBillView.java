@@ -3,11 +3,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -32,6 +31,7 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -69,7 +69,7 @@ public class VendorBillView extends
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
 	private final StyledPanel totalForm = new StyledPanel("totalForm");
-	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
+	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;
@@ -592,8 +592,9 @@ public class VendorBillView extends
 			}
 		});
 		StyledPanel accountFlowPanel = new StyledPanel("accountFlowPanel");
-		accountsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyAccount());
+		accountsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		accountsDisclosurePanel.setTitle(messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -655,9 +656,10 @@ public class VendorBillView extends
 			}
 		});
 
-		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyProductService());
+		StyledPanel itemsFlowPanel = new StyledPanel("itemsFlowPanel");
+		itemsDisclosurePanel = (GwtDisclosurePanel) GWT
+				.create(GwtDisclosurePanel.class);
+		itemsDisclosurePanel.setTitle(messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -827,8 +829,8 @@ public class VendorBillView extends
 		// mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
 		mainVLay.add(transactionsTree);
-		mainVLay.add(accountsDisclosurePanel);
-		mainVLay.add(itemsDisclosurePanel);
+		mainVLay.add(accountsDisclosurePanel.getPanel());
+		mainVLay.add(itemsDisclosurePanel.getPanel());
 		mainVLay.add(bottompanel);
 
 		// if (UIUtils.isMSIEBrowser()) {

@@ -1,7 +1,17 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 /**
  * For History Management
  * 
@@ -10,6 +20,22 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
  */
 public class History {
 
+	private static HandlerManager handlers = new HandlerManager(null);
+	private static HasValueChangeHandlers<String> instance = new HasValueChangeHandlers<String>() {
+
+		@Override
+		public void fireEvent(GwtEvent<?> event) {
+			// ValueChangeEvent.fire(this,);
+			handlers.fireEvent(event);
+		}
+
+		@Override
+		public HandlerRegistration addValueChangeHandler(
+				ValueChangeHandler<String> handler) {
+			return handlers.addHandler(ValueChangeEvent.getType(), handler);
+		}
+	};
+
 	AbstractView<?> view;
 
 	Action action;
@@ -17,6 +43,8 @@ public class History {
 	IAccounterCore data;
 
 	boolean isDependent;
+
+	private static String token = "";
 
 	public History() {
 
@@ -114,4 +142,34 @@ public class History {
 			setData((IAccounterCore) input);
 		}
 	}
+
+	public static void newItem(String historyToken) {
+		newItem(historyToken, true);
+	}
+
+	public final static void newItem(String historyToken, boolean issueEvent) {
+		historyToken = (historyToken == null) ? "" : historyToken;
+		if (!historyToken.equals(getToken())) {
+			setToken(historyToken);
+			if (issueEvent) {
+				fireHistoryChangedImpl(historyToken);
+			}
+		}
+	}
+
+	protected static void setToken(String token) {
+		History.token = token;
+	}
+
+	/**
+	 * Fires the {@link ValueChangeEvent} to all handlers with the given tokens.
+	 */
+	public static void fireHistoryChangedImpl(String newToken) {
+		ValueChangeEvent.fire(instance, newToken);
+	}
+
+	public static String getToken() {
+		return (token == null) ? "" : token;
+	}
+
 }

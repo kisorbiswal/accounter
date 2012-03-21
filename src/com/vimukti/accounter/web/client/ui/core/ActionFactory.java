@@ -264,6 +264,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
+import com.vimukti.accounter.web.client.ui.win8.AccounterMenuAction;
 
 public class ActionFactory {
 
@@ -1537,4 +1538,7 @@ public class ActionFactory {
 		return new NewJobAction(customer);
 	}
 
+	public static AccounterMenuAction getAccounterMenuAction() {
+		return new AccounterMenuAction();
+	}
 }

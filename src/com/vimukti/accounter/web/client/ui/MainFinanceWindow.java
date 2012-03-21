@@ -4,14 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ClosingEvent;
-import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -68,50 +64,33 @@ public class MainFinanceWindow extends FlowPanel {
 		header = new Header(Accounter.getCompany());
 
 		add(header);
-		// If company is configured then show the dashboard
-		// if (company.isConfigured()) {
-		// HorizontalMenuBar hMenuBar = new HorizontalMenuBar();
-		// if (!Accounter.isMacApp()) {
-		// add(hMenuBar);
-		// }
-		// boolean isTouch = false;
-		// IMenuFactory menuFactory = null;
-		// if (isTouch) {
-		// menuFactory = new TouchMenuFactory();
-		// } else {
-		// menuFactory = new DesktopMenuFactory();
-		// }
 
 		WebMenu menubar = GWT.create(WebMenu.class);
 		menubar.initialize(isTouch());
 		add(menubar.asWidget());
 
 		add(viewManager);
+
 		Label help = new Label(messages.helpLinks());
 		help.addStyleName("down-panel");
 		if (item == null) {
 			item = new HelpItem();
 		}
-		addStyleName("Finance window");
-
-		if (UIUtils.isMSIEBrowser()) {
-			this.getElement().getStyle().setPaddingTop(0, Unit.PX);
-			this.getElement().getStyle().setPaddingBottom(0, Unit.PX);
-		}
+		addStyleName("financeWindow");
 
 		ActionFactory.getCompanyHomeAction().run(null, false);
-		// } else {
-		// // if company is not configured then show the setupwizard
-		// SetupWizard setupWizard = new SetupWizard();
-		// add(setupWizard);
+		// // } else {
+		// // // if company is not configured then show the setupwizard
+		// // SetupWizard setupWizard = new SetupWizard();
+		// // add(setupWizard);
+		// // }
+		// Window.addWindowClosingHandler(new ClosingHandler() {
+		//
+		// @Override
+		// public void onWindowClosing(ClosingEvent event) {
+		// Accounter.setShutdown(true);
 		// }
-		Window.addWindowClosingHandler(new ClosingHandler() {
-
-			@Override
-			public void onWindowClosing(ClosingEvent event) {
-				Accounter.setShutdown(true);
-			}
-		});
+		// });
 	}
 
 	private native boolean isTouch() /*-{
