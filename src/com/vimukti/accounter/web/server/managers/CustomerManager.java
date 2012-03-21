@@ -514,13 +514,10 @@ public class CustomerManager extends PayeeManager {
 					paymentsList.setAmountPaid((Double) object[8]);
 					paymentsList.setVoided((Boolean) object[9]);
 					paymentsList
-							.setPayBillType(object[10] != null ? (Integer) object[10]
-									: 0);
-					paymentsList
-							.setCheckNumber((String) object[11] == null ? ""
-									: (String) object[11]);
-					paymentsList.setCurrency((Long) object[12]);
-					paymentsList.setSaveStatus((Integer) object[13]);
+							.setCheckNumber((String) object[10] == null ? ""
+									: (String) object[10]);
+					paymentsList.setCurrency((Long) object[11]);
+					paymentsList.setSaveStatus((Integer) object[12]);
 					queryResult.add(paymentsList);
 					// }
 				}

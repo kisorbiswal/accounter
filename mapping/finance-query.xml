@@ -601,7 +601,6 @@
 		<return-scalar column="PAYMENT_METHOD" type="encryptedstring" />
 		<return-scalar column="AMOUNT_PAID" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
@@ -648,7 +647,6 @@
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
 				       END              AS ISVOIDED,
-				       PB.PAYBILL_TYPE  AS PAYBILL_TYPE,
 				       CASE
 				         WHEN T.T_TYPE = 2 THEN CP.CHECK_NUMBER
 				         WHEN T.T_TYPE = 3 THEN CCC.CHECK_NUMBER
@@ -734,7 +732,6 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_METHOD" type="encryptedstring" />
 		<return-scalar column="AMOUNT_PAID" type="double" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 		<return-scalar column="VOIDED" type="boolean" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
@@ -760,9 +757,6 @@
 				         WHEN T.T_TYPE = 11 THEN T.TOTAL - PB.TDS_TOTAL
 				         ELSE T.TOTAL
 				       END                   AS AMOUNT_PAID,
-				       CASE WHEN T.T_TYPE = 25 THEN 2 
-				       	 ELSE PB.PAYBILL_TYPE   
-				       END    				 AS PAYBILL_TYPE,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE

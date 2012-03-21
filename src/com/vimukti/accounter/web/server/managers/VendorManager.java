@@ -1093,16 +1093,13 @@ public class VendorManager extends PayeeManager {
 								.setPaymentMethodName((String) object[7]);
 						vendorPaymentsList.setAmountPaid((Double) object[8]);
 						vendorPaymentsList
-								.setPayBillType((Integer) object[9] != null ? (Integer) object[9]
-										: 0);
-						vendorPaymentsList
-								.setVoided(object[10] != null ? (Boolean) object[10]
+								.setVoided(object[9] != null ? (Boolean) object[9]
 										: false);
 						vendorPaymentsList
-								.setCheckNumber((String) object[11] == null ? ""
-										: (String) object[11]);
-						vendorPaymentsList.setCurrency((Long) object[12]);
-						vendorPaymentsList.setSaveStatus((Integer) object[13]);
+								.setCheckNumber((String) object[10] == null ? ""
+										: (String) object[10]);
+						vendorPaymentsList.setCurrency((Long) object[11]);
+						vendorPaymentsList.setSaveStatus((Integer) object[12]);
 						queryResult.add(vendorPaymentsList);
 					}
 				}
@@ -1789,7 +1786,7 @@ public class VendorManager extends PayeeManager {
 				((EnterBill) uniqueResult[0]), ClientEnterBill.class);
 		return enterBillId;
 	}
-	
+
 	public ClientWriteCheck getWriteCheckByEstimateId(long estimateId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -1801,6 +1798,7 @@ public class VendorManager extends PayeeManager {
 				((WriteCheck) uniqueResult[0]), ClientWriteCheck.class);
 		return writeCheck;
 	}
+
 	public ClientCashPurchase getCashPurchaseByEstimateId(long estimateId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -1854,7 +1852,6 @@ public class VendorManager extends PayeeManager {
 				paymentsList.setPaymentMethodName((String) object[7]);
 				paymentsList.setAmountPaid((Double) object[8]);
 				paymentsList.setVoided((Boolean) object[9]);
-				paymentsList.setPayBillType(0);
 				paymentsList.setCheckNumber((String) object[10] == null ? ""
 						: (String) object[10]);
 				paymentsList.setCurrency((Long) object[11]);
