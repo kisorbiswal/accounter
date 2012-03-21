@@ -179,8 +179,6 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 			Accounter.showError(messages.youCannotVoidDraftedTransaction());
-		} else if (obj.getType() == ClientTransaction.TYPE_CASH_PURCHASE) {
-			Accounter.showError(messages.cashPurchasePaidSoYouCantVoid());
 		} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
 				|| (obj.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE && obj
 						.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)) {
