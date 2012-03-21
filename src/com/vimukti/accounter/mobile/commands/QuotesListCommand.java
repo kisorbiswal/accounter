@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -48,7 +49,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 				return "cancel";
 			}
 		}
-
+		context.setString("");
 		return null;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Utility;
@@ -132,6 +133,20 @@ public class UpdateTransactionCommand extends AbstractCommand {
 					PayBill payBill = (PayBill) transaction;
 					type = payBill.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
 							: ClientTransaction.TYPE_VENDOR_PAYMENT;
+				}
+				else if (transaction.getType() == Transaction.TYPE_ESTIMATE) {
+					Estimate estimate = (Estimate) transaction;
+					if (estimate.getEstimateType() == Estimate.QUOTES) {
+						return "update" + "Quote" + " " + transaction.getID();
+					} else if (estimate.getEstimateType() == Estimate.CHARGES) {
+						return "update" + "Charge" + " " + transaction.getID();
+					} else if (estimate.getEstimateType() == Estimate.CREDITS) {
+						return "update" + "Credit" + " " + transaction.getID();
+					} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
+						return "update" + "Sales Order" + " "
+								+ transaction.getID();
+					}
+
 				}
 				String transactionName = Utility.getTransactionName(type);
 				String replace = transactionName.replace(" ", "");
