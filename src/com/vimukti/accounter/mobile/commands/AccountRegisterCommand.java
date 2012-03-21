@@ -16,11 +16,9 @@ import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -131,32 +129,31 @@ public class AccountRegisterCommand extends AbstractCommand {
 					currency = getCompany().getPrimaryCurrency();
 				}
 				Record record = new Record(accRegister);
-				record.add(getMessages().date(), accRegister.getDate());
+				record.add(getMessages().date(),
+						getDateByCompanyType(accRegister.getDate()));
 				record.add(getMessages().transactionType(),
 						Utility.getTransactionName(accRegister.getType()));
 				record.add(getMessages().docNo(), accRegister.getNumber());
 				String amount = "";
 				if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-					amount = Global.get().toCurrencyFormat(
-							accRegister.getAmount(), currency.getSymbol());
-				else
-					amount = Global.get().toCurrencyFormat(0.00,
+					amount = getAmountWithCurrency(accRegister.getAmount(),
 							currency.getSymbol());
+				else
+					amount = getAmountWithCurrency(0.00, currency.getSymbol());
 				record.add(getMessages().increase(), amount);
 				String decreaseAmount = "";
 				if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
-					decreaseAmount = Global.get().toCurrencyFormat(
+					decreaseAmount = getAmountWithCurrency(
 							-1 * accRegister.getAmount(), currency.getSymbol());
 				else
-					decreaseAmount = Global.get().toCurrencyFormat(0.00,
+					decreaseAmount = getAmountWithCurrency(0.00,
 							currency.getSymbol());
 				record.add(getMessages().decrease(), decreaseAmount);
 				record.add(getMessages().account(), accRegister.getAccount());
 				record.add(getMessages().memo(), accRegister.getMemo());
 				record.add(
 						getMessages().balance(),
-						Global.get().toCurrencyFormat(
-								getBalanceValue(accRegister),
+						getAmountWithCurrency(getBalanceValue(accRegister),
 								currency.getSymbol()));
 				return record;
 			}

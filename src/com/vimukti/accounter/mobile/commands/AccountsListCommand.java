@@ -36,8 +36,10 @@ public class AccountsListCommand extends AbstractCommand {
 			protected Record createRecord(Account value) {
 				Record record = new Record(value);
 				record.add(getMessages().name(), value.getName());
-				record.add(getMessages().balance(), value.getCurrency()
-						.getSymbol() + " " + value.getTotalBalance());
+				record.add(
+						getMessages().balance(),
+						getAmountWithCurrency(value.getTotalBalance(), value
+								.getCurrency().getSymbol()));
 				return record;
 			}
 

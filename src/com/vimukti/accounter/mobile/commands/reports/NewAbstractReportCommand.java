@@ -245,8 +245,4 @@ public abstract class NewAbstractReportCommand<T> extends AbstractCommand {
 
 	}
 
-	protected String getAmountWithCurrency(double amount) {
-		String symbol = getPreferences().getPrimaryCurrency().getSymbol();
-		return Global.get().toCurrencyFormat(amount, symbol);
-	}
 }

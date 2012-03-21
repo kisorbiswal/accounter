@@ -104,7 +104,7 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 		expenseRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactionType()));
 		expenseRecord.add(getMessages().transactionDate(),
-				record.getTransactionDate());
+				getDateByCompanyType(record.getTransactionDate()));
 		expenseRecord.add(getMessages().amount(),
 				getAmountWithCurrency(record.getTotal()));
 		return expenseRecord;

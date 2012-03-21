@@ -42,8 +42,9 @@ public class BankAccountsListCommand extends AbstractCommand {
 				record.add(getMessages().name(), value.getName());
 				record.add(
 						getMessages().balance(),
-						value.getCurrency().getSymbol() + " "
-								+ value.getTotalBalanceInAccountCurrency());
+						getAmountWithCurrency(value
+								.getTotalBalanceInAccountCurrency(), value
+								.getCurrency().getSymbol()));
 				return record;
 			}
 

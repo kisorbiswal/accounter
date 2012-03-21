@@ -73,7 +73,8 @@ public class SupplierTransactionHistoryReportCommand extends
 
 	protected Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate()));
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().number(), record.getNumber());

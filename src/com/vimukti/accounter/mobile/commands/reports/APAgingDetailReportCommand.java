@@ -150,7 +150,8 @@ public class APAgingDetailReportCommand extends
 	protected Record createReportRecord(AgedDebtors recordReport) {
 		Record record = new Record(recordReport);
 		record.add(getMessages().name(), recordReport.getName());
-		record.add(getMessages().date(), recordReport.getDate());
+		record.add(getMessages().date(),
+				getDateByCompanyType(recordReport.getDate()));
 		record.add(getMessages().transactionType(),
 				ReportUtility.getTransactionName(recordReport.getType()));
 		record.add(getMessages().total(),

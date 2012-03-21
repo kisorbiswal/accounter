@@ -69,9 +69,11 @@ public class ECSalesListDetailReportCommand extends
 		Record ecRecord = new Record(record);
 		ecRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getTransactionType()));
-		ecRecord.add(getMessages().date(), record.getDate());
+		ecRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate()));
 		ecRecord.add(getMessages().name(), record.getName());
-		ecRecord.add(getMessages().amount(), record.getAmount());
+		ecRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return ecRecord;
 	}
 

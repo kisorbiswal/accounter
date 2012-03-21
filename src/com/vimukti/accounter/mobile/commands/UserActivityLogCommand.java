@@ -54,8 +54,8 @@ public class UserActivityLogCommand extends AbstractCommand {
 				record.add(getMessages().date(), format2);
 				record.add(getMessages().userName(), value.getUserName());
 				record.add(getMessages().activity(), getActivityDataType(value));
-				record.add(getMessages().amount(),
-						value.getAmount() == null ? 0.0 : value.getAmount());
+				record.add(getMessages().amount(), getAmountWithCurrency(value
+						.getAmount() == null ? 0.0 : value.getAmount()));
 				return record;
 			}
 

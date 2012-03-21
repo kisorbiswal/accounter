@@ -86,13 +86,17 @@ public class TaxHistoryCommand extends AbstractCommand {
 				taxHistory.add(getMessages().name(), value.getTaxAgency()
 						.getName());
 				taxHistory.add(getMessages().periodStartDate(),
-						value.getPeriodStartDate());
+						getDateByCompanyType(value.getPeriodStartDate()
+								.toClientFinanceDate()));
 				taxHistory.add(getMessages().periodEndDate(),
-						value.getPeriodEndDate());
+						getDateByCompanyType(value.getPeriodEndDate()
+								.toClientFinanceDate()));
 				taxHistory.add(getMessages().taxAmount(),
-						value.getTotalTAXAmount());
-				taxHistory.add(getMessages().totalPaymentMade(),
-						(value.getTotal() - value.getBalance()));
+						getAmountWithCurrency(value.getTotalTAXAmount()));
+				taxHistory.add(
+						getMessages().totalPaymentMade(),
+						getAmountWithCurrency(value.getTotal()
+								- value.getBalance()));
 
 				return taxHistory;
 
