@@ -3951,7 +3951,9 @@ public class FinanceTool {
 					else
 						eTDSObj.setBookEntry("NO");
 
-					etdsList.add(eTDSObj);
+					if (!chalan.isVoid()) {
+						etdsList.add(eTDSObj);
+					}
 					i++;
 				}
 			}
