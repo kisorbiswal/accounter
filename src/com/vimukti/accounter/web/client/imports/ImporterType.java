@@ -24,6 +24,8 @@ public class ImporterType {
 
 	public static final int PAYBILL = 8;
 
+	public static final int ACCOUNT = 9;
+
 	private static Map<Integer, String> supportedImports = new HashMap<Integer, String>();
 
 	static AccounterMessages messages = Global.get().messages();
@@ -34,7 +36,8 @@ public class ImporterType {
 		supportedImports.put(CUSTOMER, Global.get().Customer());
 		supportedImports.put(VENDOR, Global.get().Vendor());
 		// supportedImports.put(INVOICE, Global.get().messages().invoice());
-		// supportedImports.put(ITEM, Global.get().messages().item());
+		supportedImports.put(ITEM, Global.get().messages().item());
+		supportedImports.put(ACCOUNT, Global.get().messages().account());
 		// supportedImports.put(CUSTOMER_PREPAYMENT,
 		// messages.payeePrePayment(Global.get().Customer()));
 		// supportedImports.put(VENDOR_PREPAYMENT,

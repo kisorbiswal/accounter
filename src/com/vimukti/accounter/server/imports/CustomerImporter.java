@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.FinanceDateField;
 import com.vimukti.accounter.web.client.imports.LongField;
 import com.vimukti.accounter.web.client.imports.StringField;
@@ -55,5 +56,11 @@ public class CustomerImporter extends PayeeImporter<ClientCustomer> {
 		fields.add(new LongField("paymentTerm", messages.paymentTerm()));
 		fields.add(new LongField("group", messages.customergroup()));
 		return fields;
+	}
+
+	@Override
+	protected void validate(List<AccounterException> exceptions) {
+		// TODO Auto-generated method stub
+
 	}
 }

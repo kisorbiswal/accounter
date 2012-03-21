@@ -159,6 +159,28 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_DONT_HAVE_ANOTHER_ADMIN = 56;
 
+	/**
+	 * Codes belongs to Importers.
+	 */
+
+	public static final int ERROR_PLEASE_ENTER_OR_MAP = 57;
+
+	public static final int ERROR_NAME_ALREADY_EXIST = 58;
+
+	public static final int ERROR_NUMBER_ALREADY_EXIST = 59;
+
+	public static final int ERROR_DOES_NOT_EXIST_WITH_THIS_NUMBER = 60;
+
+	public static final int ERROR_DOES_NOT_EXIST_WITH_THIS_NAME = 61;
+
+	public static final int ERROR_PARENT_ACCOUNT_SHOULD_BE_SAME = 62;
+
+	public static final int ERROR_PARENT_ACCOUNT_CURRENCY_SHOULD_BE_SAME = 63;
+
+	public static final int ERROR_INVALID_EMAIL_ID = 64;
+
+	public static final int ERROR_NEGATIVE_AMOUNT = 65;
+
 	protected int errorCode;
 
 	// private long id;

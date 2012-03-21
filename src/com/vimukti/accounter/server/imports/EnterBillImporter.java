@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.FinanceDateField;
 import com.vimukti.accounter.web.client.imports.StringField;
 
@@ -48,5 +49,11 @@ public class EnterBillImporter extends TransactionImporter<ClientEnterBill> {
 		listFields.add(new StringField(messages.memo(), messages.memo()));
 
 		return super.getAllFields();
+	}
+
+	@Override
+	protected void validate(List<AccounterException> exceptions) {
+		// TODO Auto-generated method stub
+
 	}
 }

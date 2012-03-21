@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.DoubleField;
 import com.vimukti.accounter.web.client.imports.StringField;
 
@@ -44,6 +45,12 @@ public class CustomerPrepaymentImporter extends
 		list.add(new StringField(messages.checkNo(), messages.checkNo()));
 		list.add(new StringField(messages.memo(), messages.memo()));
 		return list;
+	}
+
+	@Override
+	protected void validate(List<AccounterException> exceptions) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

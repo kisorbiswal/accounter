@@ -449,7 +449,7 @@ public class ImportView extends AbstractBaseView {
 			Map<String, String> importMap = updateImport();
 			Accounter.createHomeService().importData(this.fileID, importType,
 					importMap, this.selectedDateFormate,
-					new AccounterAsyncCallback<List<Object>>() {
+					new AccounterAsyncCallback<Map<Integer, Object>>() {
 
 						@Override
 						public void onException(AccounterException exception) {
@@ -464,7 +464,7 @@ public class ImportView extends AbstractBaseView {
 						}
 
 						@Override
-						public void onResultSuccess(List<Object> result) {
+						public void onResultSuccess(Map<Integer, Object> result) {
 
 							AccounterDialog accounterDialog = new AccounterDialog(
 									getDeatailsAsString(result),
@@ -478,23 +478,49 @@ public class ImportView extends AbstractBaseView {
 		}
 	}
 
-	protected String getDeatailsAsString(List<Object> result) {
+	protected String getDeatailsAsString(Map<Integer, Object> result) {
 		long successCount = ((Long) result.get(0)).intValue();
 		int failureCount = result.size() - 1;
+		result.remove(new Integer((int) successCount));
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("<li>" + messages.importSuccessCount() + successCount
 				+ "</li>");
 		buffer.append("<li>" + messages.importFailureCount() + failureCount
 				+ "</li>");
-		for (int i = 1; i < result.size(); i++) {
-			AccounterException exception = (AccounterException) result.get(i);
-			buffer.append("<li>"
-					+ messages.failed()
-					+ "("
-					+ i
-					+ ")"
-					+ AccounterExceptions.getErrorString(exception
-							.getErrorCode()) + "</li>");
+
+		for (Entry<Integer, Object> entry : result.entrySet()) {
+			Integer key = entry.getKey();
+			Object exception = entry.getValue();
+			if (exception instanceof List<?>) {
+				List<?> exceptionsList = (List<?>) exception;
+				buffer.append("<li>" + messages.exceptionDetails() + "in Line:"
+						+ "(" + key.intValue() + ")" + "</li>");
+				for (int i = 0; i < exceptionsList.size(); i++) {
+					AccounterException exception1 = (AccounterException) exceptionsList
+							.get(i);
+					buffer.append("<li>"
+							+ "("
+							+ i
+							+ ")"
+							+ exception1.getMessage()
+							+ " "
+							+ AccounterExceptions.getErrorString(exception1
+									.getErrorCode()) + "</li>");
+				}
+			} else if (exception instanceof AccounterException) {
+				buffer.append("<li>"
+						+ messages.exceptionDetails()
+						+ "in Line:"
+						+ "("
+						+ key.intValue()
+						+ ")"
+						+ "</li>"
+						+ "<li>"
+						+ AccounterExceptions
+								.getErrorString(((AccounterException) exception)
+										.getErrorCode()) + "</li>");
+			}
+
 		}
 		return buffer.toString();
 	}
