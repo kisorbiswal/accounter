@@ -1212,7 +1212,7 @@ public class UIUtils {
 			return AccounterCoreType.RECEIVEVAT;
 
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			return AccounterCoreType.PAYBILL;
+			return AccounterCoreType.VENDORPAYMENT;
 
 		case ClientTransaction.TYPE_TDS_CHALLAN:
 			return AccounterCoreType.TDSCHALANDETAIL;

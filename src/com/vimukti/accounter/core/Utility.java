@@ -135,6 +135,7 @@ public class Utility {
 			break;
 		case Transaction.TYPE_VENDOR_PAYMENT:
 			transactionName = AccounterServerConstants.TYPE_VENDOR_PAYMENT;
+			break;
 		case Transaction.TYPE_RECEIVE_PAYMENT:
 			transactionName = AccounterServerConstants.TYPE_RECEIVE_PAYMENT;
 			break;

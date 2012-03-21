@@ -1421,6 +1421,7 @@ public class Utility implements IsSerializable, Serializable {
 			break;
 
 		case ClientTransaction.TYPE_PAY_BILL:
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
 				buffer.append(messages.notIssued());

@@ -116,6 +116,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.VendorPayment;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -3642,11 +3643,20 @@ public class FinanceTool {
 				break;
 
 			case ClientTransaction.TYPE_PAY_BILL:
+
 				transaction = getTransactionById(
 						clientTransactionIssuePayment.getPayBill(), company);
 				PayBill payBill = (PayBill) transaction;
 				payBill.setCheckNumber(nextCheckNumber);
 				transaction = payBill;
+				break;
+
+			case ClientTransaction.TYPE_VENDOR_PAYMENT:
+				transaction = getTransactionById(
+						clientTransactionIssuePayment.getPayBill(), company);
+				VendorPayment vendorPayment = (VendorPayment) transaction;
+				vendorPayment.setCheckNumber(nextCheckNumber);
+				transaction = vendorPayment;
 				break;
 
 			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:

@@ -39,6 +39,7 @@ import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.core.VendorPayment;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -418,6 +419,34 @@ public class VendorManager extends PayeeManager {
 		}
 
 		query = session
+				.getNamedQuery("getVendorPayment.form.status")
+				.setParameter("status",
+						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+				.setEntity("company", company);
+		list = query.list();
+
+		if (list != null) {
+			Iterator i = list.iterator();
+			while (i.hasNext()) {
+				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
+				VendorPayment pb = (VendorPayment) i.next();
+				issuePaymentTransaction.setTransactionId(pb.getID());
+				issuePaymentTransaction.setType(pb.getType());
+				issuePaymentTransaction.setDate(new ClientFinanceDate(pb
+						.getDate().getDate()));
+				issuePaymentTransaction.setNumber(pb.getNumber());
+				issuePaymentTransaction.setName(pb.getVendor() != null ? pb
+						.getVendor().getName() : null);
+				issuePaymentTransaction.setMemo(pb.getMemo());
+				issuePaymentTransaction.setAmount(pb.getTotal());
+				issuePaymentTransaction.setPaymentMethod(pb.getPaymentMethod());
+				issuePaymentTransaction.setCurrency(pb.getCurrency().getID());
+				issuePaymentTransactionsList.add(issuePaymentTransaction);
+
+			}
+		}
+
+		query = session
 				.getNamedQuery("getCreditCardCharge.form.status")
 				.setParameter("status",
 						Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
@@ -623,6 +652,39 @@ public class VendorManager extends PayeeManager {
 
 				}
 			}
+
+			query = session
+					.getNamedQuery("getVendorPayment.form.accountId.and.status")
+					.setLong("accountId", accountId)
+					.setInteger(
+							"status",
+							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setEntity("company", company);
+			list = query.list();
+			if (list != null) {
+				Iterator i = list.iterator();
+				while (i.hasNext()) {
+					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
+					VendorPayment pst = (VendorPayment) i.next();
+					issuePaymentTransaction.setTransactionId(pst.getID());
+					issuePaymentTransaction.setType(pst.getType());
+					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
+							.getDate().getDate()));
+					issuePaymentTransaction.setNumber(pst.getNumber());
+					issuePaymentTransaction
+							.setName(pst.getVendor() != null ? pst.getVendor()
+									.getName() : null);
+					issuePaymentTransaction.setMemo(pst.getMemo());
+					issuePaymentTransaction.setAmount(pst.getTotal());
+					issuePaymentTransaction.setPaymentMethod(pst
+							.getPaymentMethod());
+					issuePaymentTransaction.setCurrency(pst.getCurrency()
+							.getID());
+					issuePaymentTransactionsList.add(issuePaymentTransaction);
+
+				}
+			}
+
 			query = session
 					.getNamedQuery("getReceiveVAT.form.accountId.and.status")
 					.setParameter("accountId", accountId)
@@ -1009,9 +1071,6 @@ public class VendorManager extends PayeeManager {
 					String name = (String) object[6];
 					if (vendorPaymentsList.getType() == 17) {
 						name = Global.get().messages().taxAgencyPayment();
-					}
-					if (vendorPaymentsList.getType() == 25) {
-						name = Global.get().messages().vatAgencyPayment();
 					}
 
 					if (name != null) {

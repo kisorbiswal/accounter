@@ -642,6 +642,11 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof PayBill;
 	}
 
+	public boolean isVendorPayment() {
+
+		return this != null && this instanceof VendorPayment;
+	}
+
 	public boolean isCreditCardCharge() {
 
 		return this != null && this instanceof CreditCardCharge;
@@ -821,6 +826,8 @@ public abstract class Transaction extends CreatableObject implements
 			this.type = Transaction.TYPE_TRANSFER_FUND;
 		else if (this.isPayBill())
 			this.type = Transaction.TYPE_PAY_BILL;
+		else if (this.isVendorPayment())
+			this.type = Transaction.TYPE_VENDOR_PAYMENT;
 		else if (this.isPayTax())
 			this.type = Transaction.TYPE_PAY_TAX;
 		else if (this.isReceiveVAT())

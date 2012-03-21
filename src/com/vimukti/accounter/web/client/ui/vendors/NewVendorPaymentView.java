@@ -17,11 +17,11 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientVendorPayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class NewVendorPaymentView extends
-		AbstractTransactionBaseView<ClientPayBill> {
+		AbstractTransactionBaseView<ClientVendorPayment> {
 
 	private CheckboxItem printCheck;
 	private AmountField amountText, endBalText, vendorBalText;
@@ -67,7 +67,7 @@ public class NewVendorPaymentView extends
 	protected ClientCurrency selectCurrency;
 
 	private NewVendorPaymentView() {
-		super(ClientTransaction.TYPE_PAY_BILL);
+		super(ClientTransaction.TYPE_VENDOR_PAYMENT);
 		this.getElement().setId("NewVendorPaymentView");
 
 	}
@@ -88,7 +88,7 @@ public class NewVendorPaymentView extends
 	protected void initTransactionViewData() {
 
 		if (transaction == null) {
-			setData(new ClientPayBill());
+			setData(new ClientVendorPayment());
 		} else {
 			ClientCompany comapny = getCompany();
 
@@ -117,7 +117,7 @@ public class NewVendorPaymentView extends
 			if (payFromAccount != null)
 				payFromCombo.select(payFromAccount);
 			amountText.setEnabled(!isInViewMode());
-			ClientPayBill clientPayBill = transaction;
+			ClientVendorPayment clientPayBill = transaction;
 			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
 			paymentMethodCombo.setEnabled(!isInViewMode());
 			paymentMethodSelected(transaction.getPaymentMethod());
@@ -376,8 +376,8 @@ public class NewVendorPaymentView extends
 		cancelButton.setTabIndex(15);
 	}
 
-	public ClientPayBill saveView() {
-		ClientPayBill saveView = super.saveView();
+	public ClientVendorPayment saveView() {
+		ClientVendorPayment saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
 		}
@@ -389,7 +389,7 @@ public class NewVendorPaymentView extends
 		updateTransaction();
 		super.saveAndUpdateView();
 		if (transaction != null) {
-			transaction.setType(ClientTransaction.TYPE_PAY_BILL);
+			transaction.setType(ClientTransaction.TYPE_VENDOR_PAYMENT);
 			saveOrUpdate(transaction);
 		}
 
@@ -407,16 +407,16 @@ public class NewVendorPaymentView extends
 	protected void updateTransaction() {
 		super.updateTransaction();
 		if (transaction != null) {
-			transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
+			// transaction.setPayBillType(ClientPayBill.TYPE_VENDOR_PAYMENT);
 
 			if (getVendor() != null) {
-				transaction.setVendor(getVendor());
+				transaction.setVendor(getVendor().getID());
 
 				if (billingAddress != null)
 					transaction.setAddress(billingAddress);
 
 				if (payFromAccount != null)
-					transaction.setPayFrom(payFromAccount);
+					transaction.setPayFrom(payFromAccount.getID());
 				if (getPreferences().isTDSEnabled()
 						&& getVendor().isTdsApplicable()) {
 					transaction.setTotal(totalAmount.getAmount());

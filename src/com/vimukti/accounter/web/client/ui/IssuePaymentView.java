@@ -296,6 +296,10 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 			record.setPayBill(entry.getTransactionId());
 			record.setRecordType(ClientTransaction.TYPE_PAY_BILL);
 			break;
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
+			record.setPayBill(entry.getTransactionId());
+			record.setRecordType(ClientTransaction.TYPE_VENDOR_PAYMENT);
+			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			record.setCreditCardCharge(entry.getTransactionId());
@@ -619,6 +623,10 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 			case ClientTransaction.TYPE_PAY_BILL:
 				entry.setPayBill(record.getPayBill());
 				entry.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+				break;
+			case ClientTransaction.TYPE_VENDOR_PAYMENT:
+				entry.setPayBill(record.getPayBill());
+				entry.setRecordType(ClientTransaction.TYPE_VENDOR_PAYMENT);
 				break;
 			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
 			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:

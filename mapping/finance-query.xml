@@ -628,6 +628,7 @@
 				         WHEN T.T_TYPE = 2
 				               OR T.T_TYPE = 3
 				               OR T.T_TYPE = 11
+				               OR T.T_TYPE = 25
 				               OR T.T_TYPE = 15
 				               OR T.T_TYPE = 5 THEN T.TOTAL
 				         WHEN T.T_TYPE = 17 THEN (SELECT ( SUM(TPV1.AMOUNT_TO_PAY) )
@@ -662,6 +663,8 @@
 				         ON T.ID = CP.ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN PAY_TAX PV
 				         ON T.ID = PV.ID
 				       LEFT OUTER JOIN TRANSACTION_PAY_TAX TPV
@@ -694,7 +697,7 @@
 				             OR P.ID = V.ID
 				             OR P.ID = TG.ID
 				WHERE  T.T_TYPE IN ( 2, 3, 5, 11,
-				                     15, 17, 30, 31 )
+				                     15, 17, 30, 31, 25 )
 				       AND CASE
 				             WHEN 0 = :viewType THEN ( ( T.STATUS = 0
 				                                          OR T.STATUS = 1 )
@@ -749,7 +752,7 @@
 				       CASE
 				         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
 				         WHEN T.T_TYPE = 17 THEN NULL
-				         WHEN T.T_TYPE = 25 THEN NULL
+				         WHEN T.T_TYPE = 25 THEN P.NAME
 				         WHEN T.T_TYPE = 11 THEN P.NAME
 				       END                   AS NAME,
 				       T.PAYMENT_METHOD      AS PAYMENT_METHOD,
@@ -757,13 +760,16 @@
 				         WHEN T.T_TYPE = 11 THEN T.TOTAL - PB.TDS_TOTAL
 				         ELSE T.TOTAL
 				       END                   AS AMOUNT_PAID,
-				       PB.PAYBILL_TYPE       AS PAYBILL_TYPE,
+				       CASE WHEN T.T_TYPE = 25 THEN 2 
+				       	 ELSE PB.PAYBILL_TYPE   
+				       END    				 AS PAYBILL_TYPE,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
 				       END                   AS VOIDED,
 				       CASE
 				         WHEN T.T_TYPE = 11 THEN PB.CHECK_NUMBER
+				         WHEN T.T_TYPE = 25 THEN VP.CHECK_NUMBER
 				         WHEN T.T_TYPE = 15 THEN WC.CHECK_NUMBER
 				       END                   AS CHECK_NUMBER,
 				       T.CURRENCY            AS CURRENCY,
@@ -771,6 +777,8 @@
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN WRITE_CHECKS WC
 				         ON T.ID = WC.ID
 				            AND WC.PAY_TO_TYPE IN ( 2, 3 )
@@ -779,8 +787,10 @@
 				       LEFT OUTER JOIN VENDOR V
 				         ON V.ID = PB.VENDOR_ID
 				             OR V.ID = WC.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				       LEFT OUTER JOIN TAXAGENCY TA
 				         ON TA.ID = PB.VENDOR_ID
+				             OR TA.ID = VP.VENDOR_ID
 				             OR TA.ID = WC.VENDOR_ID
 				             OR TA.ID = WC.TAX_AGENCY_ID
 				             OR TA.ID = PST.TAX_AGENCY_ID
@@ -1120,18 +1130,22 @@
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN WRITE_CHECKS WC
 				         ON T.ID = WC.ID
 				       LEFT OUTER JOIN VENDOR V
 				         ON V.ID = PB.VENDOR_ID
 				             OR V.ID = WC.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				       LEFT OUTER JOIN TAXAGENCY TA
 				         ON TA.ID = PB.VENDOR_ID
 				             OR TA.ID = WC.VENDOR_ID
+				             OR TA.ID = VP.VENDOR_ID
 				       LEFT JOIN PAYEE P
 				         ON P.ID = V.ID
 				             OR P.ID = TA.ID
-				WHERE  T.T_TYPE IN( 11, 15 )
+				WHERE  T.T_TYPE IN( 11, 15, 25 )
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				ORDER  BY T.ID DESC
@@ -1235,6 +1249,8 @@
 				         ON T.ID = CP.ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN CUSTOMER_REFUND CR
 				         ON T.ID = CR.ID
 				       LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
@@ -1248,11 +1264,12 @@
 				         ON V.ID = CP.VENDOR_ID
 				             OR V.ID = CCC.VENDOR_ID
 				             OR V.ID = PB.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				             OR V.ID = WC.VENDOR_ID
 				       LEFT JOIN PAYEE P
 				         ON P.ID = C.ID
 				             OR P.ID = V.ID
-				WHERE  T.T_TYPE IN ( 2, 3, 5, 11, 15 )
+				WHERE  T.T_TYPE IN ( 2, 3, 5, 11, 15, 25 )
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				ORDER  BY T.ID DESC
@@ -1829,6 +1846,7 @@
 		<return-scalar column="CREDIT_CARD_CHARGE_ID" type="long" />
 		<return-scalar column="ENTER_BILL_ID" type="long" />
 		<return-scalar column="PAY_BILL_ID" type="long" />
+		<return-scalar column="VENDOR_PAYMENT_ID" type="long" />
 		<return-scalar column="PURCHASE_ORDER_ID" type="long" />
 		<return-scalar column="VENDOR_CREDIT_MEMO_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
@@ -1839,6 +1857,7 @@
 				       CCC.ID AS CREDIT_CARD_CHARGE_ID,
 				       EB.ID  AS ENTER_BILL_ID,
 				       PB.ID  AS PAY_BILL_ID,
+				       VP.ID  AS VENDOR_PAYMENT_ID,
 				       PO.ID  AS PURCHASE_ORDER_ID,
 				       VCM.ID AS VENDOR_CREDIT_MEMO_ID,
 				       WC.ID  WRITE_CHECK_ID
@@ -1853,6 +1872,8 @@
 				         ON V.ID = EB.VENDOR_ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON V.ID = PB.VENDOR_ID
+				        LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON V.ID = VP.VENDOR_ID
 				       LEFT OUTER JOIN PURCHASE_ORDER PO
 				         ON V.ID = PO.VENDOR_ID
 				       LEFT OUTER JOIN VENDOR_CREDIT_MEMO VCM
@@ -1887,6 +1908,7 @@
 		<return-scalar column="CUSTOMER_REFUND_ID" type="long" />
 		<return-scalar column="MAKE_DEPOSIT_ID" type="long" />
 		<return-scalar column="PAY_BILL_ID" type="long" />
+		<return-scalar column="VENDOR_PAYMENT_ID" type="long" />
 		<return-scalar column="PURCHASE_ORDER_ID" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="PAY_EXPENSE_ID" type="long" />
@@ -1927,6 +1949,7 @@
 				       MD.ID   AS MAKE_DEPOSIT_ID,
 				       TDI.ID  AS TRANSACTION_DEPOSIT_ITEM_ID,
 				       PB.ID   AS PAY_BILL_ID,
+				       VP.ID   AS VENDOR_PAYMENT_ID,
 				       PO.ID   AS PURCHASE_ORDER_ID,
 				       RP.ID   AS RECEIVE_PAYMENT_ID,
 				       PE.ID   AS PAY_EXPENSE_ID,
@@ -1995,6 +2018,8 @@
 				         ON A.ID = TDI.ACCOUNT_ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON A.ID = PB.PAYFROM_ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON A.ID = VP.PAYFROM_ID
 				       LEFT OUTER JOIN PURCHASE_ORDER PO
 				         ON A.ID = PO.SHIP_TO_ID
 				       LEFT OUTER JOIN RECEIVE_PAYMENT RP
@@ -2532,6 +2557,7 @@
 		<return-scalar column="CUSTOMER_REFUND_ID" type="long" />
 		<return-scalar column="MAKE_DEPOSIT_ID" type="long" />
 		<return-scalar column="PAY_BILL_ID" type="long" />
+		<return-scalar column="VENDOR_PAYMENT_ID" type="long" />
 		<return-scalar column="PURCHASE_ORDER_ID" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="PAY_EXPENSE_ID" type="long" />
@@ -2571,6 +2597,7 @@
 				       MD.ID      AS MAKE_DEPOSIT_ID,
 				       TDI.ID     AS TRANSACTION_DEPOSIT_ITEM_ID,
 				       PB.ID      AS PAY_BILL_ID,
+				       VP.ID      AS VENDOR_PAYMENT_ID,
 				       PO.ID      AS PURCHASE_ORDER_ID,
 				       RP.ID      AS RECEIVE_PAYMENT_ID,
 				       PE.ID      AS PAY_EXPENSE_ID,
@@ -2636,6 +2663,8 @@
 				         ON A.ID = TDI.ACCOUNT_ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON A.ID = PB.PAYFROM_ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON A.ID = VP.PAYFROM_ID
 				       LEFT OUTER JOIN PURCHASE_ORDER PO
 				         ON A.ID = PO.SHIP_TO_ID
 				       LEFT OUTER JOIN RECEIVE_PAYMENT RP
@@ -2742,6 +2771,26 @@
 		<![CDATA[
 				SELECT TI.ID AS ID
 				FROM   PAY_BILL P
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = P.ID
+				       LEFT JOIN TDSTRANSACTIONITEM TI
+				         ON TI.TRANSACTION_ID = P.ID
+				WHERE  P.ID = :inputId
+				       AND T.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+	
+		<sql-query name="canDeleteVendorPayment">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+		
+		<![CDATA[
+				SELECT TI.ID AS ID
+				FROM   VENDOR_PAYMENT P
 				       LEFT JOIN TRANSACTION T
 				         ON T.ID = P.ID
 				       LEFT JOIN TDSTRANSACTIONITEM TI
@@ -3146,6 +3195,7 @@
 				         WHEN T.T_TYPE = 2
 				               OR T.T_TYPE = 6
 				               OR T.T_TYPE = 11
+				               OR T.T_TYPE = 25
 				               OR T.T_TYPE = 14
 				               OR T.T_TYPE = 3
 				               OR T.T_TYPE = 10
@@ -3199,6 +3249,7 @@
 				         WHEN T.T_TYPE = 5
 				               OR T.T_TYPE = 15
 				               OR T.T_TYPE = 11
+				               OR T.T_TYPE = 25
 				               OR T.T_TYPE = 12 THEN -1 * T.TOTAL * T.CURRENCY_FACTOR
 				         ELSE 0.0
 				       END           AS PAID_AMOUNT,
@@ -3232,9 +3283,9 @@
 				                                                     AND TPB.CASH_DISCOUNT >
 				                                                         0.0)
 				                                                                 END
-				                                   WHEN PB.PAYBILL_TYPE = 2 THEN
-				                                   T.TOTAL * T.CURRENCY_FACTOR
 				                                 END
+						 WHEN T.T_TYPE = 25 THEN
+				                                   T.TOTAL * T.CURRENCY_FACTOR
 				         WHEN T.T_TYPE = 16 THEN CASE
 				                                   WHEN P.TYPE = 1 THEN
 				                                   T.TOTAL * T.CURRENCY_FACTOR
@@ -3278,8 +3329,7 @@
 				       T.SAVE_STATUS AS SAVE_STATUS,
 				       T.REFERENCE   AS REFERENCE,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25 THEN NULL
 				         ELSE T.MEMO
 				       END           AS MEMO,
 				       CASE
@@ -3310,6 +3360,8 @@
 				         ON T.ID = PB.ID
 				       LEFT OUTER JOIN TRANSACTION_PAYBILL TPB
 				         ON TPB.TRANSACTION_ID = PB.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN TRANSFER_FUND TF
 				         ON T.ID = TF.ID
 				       LEFT OUTER JOIN WRITE_CHECKS WC
@@ -3339,6 +3391,7 @@
 				             OR V.ID = VCM.VENDOR_ID
 				             OR V.ID = EB.VENDOR_ID
 				             OR V.ID = PB.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				             OR V.ID = CCC.VENDOR_ID
 				             OR V.ID = WC.VENDOR_ID
 				             OR V.ID = JE.PAYEE_ID
@@ -3483,6 +3536,7 @@
 				         WHEN T.T_TYPE = 2
 				               OR T.T_TYPE = 6
 				               OR T.T_TYPE = 11
+				               OR T.T_TYPE = 25
 				               OR T.T_TYPE = 14
 				               OR T.T_TYPE = 3
 				               OR T.T_TYPE = 10
@@ -3525,6 +3579,7 @@
 				         WHEN T.T_TYPE = 5
 				               OR T.T_TYPE = 15
 				               OR T.T_TYPE = 11
+				               OR T.T_TYPE = 25
 				               OR T.T_TYPE = 12 THEN -1 * T.TOTAL
 				         ELSE 0.0
 				       END           AS PAID_AMOUNT,
@@ -3626,6 +3681,8 @@
 				         ON T.ID = PB.ID
 				       LEFT OUTER JOIN TRANSACTION_PAYBILL TPB
 				         ON TPB.TRANSACTION_ID = PB.ID
+				        LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN TRANSFER_FUND TF
 				         ON T.ID = TF.ID
 				       LEFT OUTER JOIN WRITE_CHECKS WC
@@ -3657,6 +3714,7 @@
 				             OR V.ID = VCM.VENDOR_ID
 				             OR V.ID = EB.VENDOR_ID
 				             OR V.ID = PB.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				             OR V.ID = CCC.VENDOR_ID
 				             OR V.ID = WC.VENDOR_ID
 				             OR V.ID = JE_PAYEE_ID
@@ -3976,7 +4034,7 @@
 				                        AND T1.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4004,7 +4062,7 @@
 				                        AND T2.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4033,7 +4091,7 @@
 				                        AND T3.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4062,7 +4120,7 @@
 				                        AND T4.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4091,7 +4149,7 @@
 				                        AND T5.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4120,7 +4178,7 @@
 				                        AND T6.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4146,7 +4204,7 @@
 				                        AND T7.STATUS!=3) = 0 THEN 0
 				           ELSE (SELECT CASE
 				                          WHEN T.T_TYPE = 14
-				                                OR T.T_TYPE = 11 THEN (SELECT -1 * CP1.BALANCE
+				                                OR T.T_TYPE = 11 OR T.T_TYPE = 25 THEN (SELECT -1 * CP1.BALANCE
 				                                                       FROM
 				                          CREDITS_AND_PAYMENTS CP1
 				                                                       WHERE
@@ -4940,6 +4998,8 @@
 				         ON CC.ID = T.ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON PB.ID = T.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON VP.ID = T.ID
 				       LEFT OUTER JOIN JOURNAL_ENTRY JE
 				         ON JE.ID = T.ID
 				       LEFT OUTER JOIN EXPENSE EX
@@ -4950,10 +5010,11 @@
 				             OR P.ID = WC.VENDOR_ID
 				             OR P.ID = CC.VENDOR_ID
 				             OR P.ID = PB.VENDOR_ID
+				             OR P.ID = VP.VENDOR_ID
 				             OR P.ID = JE.PAYEE_ID
 				             OR P.ID = EX.ID
 				WHERE  T.T_TYPE IN ( 3, 6, 11, 14,
-				                     15, 16, 26, 27 )
+				                     15, 16, 25, 26, 27 )
 				       AND P.ID = :payeeId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.SAVE_STATUS !=204
@@ -5017,6 +5078,8 @@
 				         ON CC.ID = T.ID
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON PB.ID = T.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON VP.ID = T.ID
 				       LEFT OUTER JOIN JOURNAL_ENTRY JE
 				         ON JE.ID = T.ID
 				       LEFT OUTER JOIN EXPENSE EX
@@ -5027,10 +5090,11 @@
 				             OR P.ID = WC.VENDOR_ID
 				             OR P.ID = CC.VENDOR_ID
 				             OR P.ID = PB.VENDOR_ID
+				             OR P.ID = VP.VENDOR_ID
 				             OR P.ID = JE.PAYEE_ID
 				             OR P.ID = EX.ID
 				WHERE  T.T_TYPE IN ( 3, 6, 11, 14,
-				                     15, 16, 26, 27 )
+				                     15, 16, 25, 26, 27 )
 				       AND P.ID = :payeeId
 				       AND T.T_DATE < :uptoDate
 				       AND ( T.SAVE_STATUS !=204
@@ -6766,6 +6830,11 @@
 		DELETE FROM pay_bill
 		USING  TRANSACTION
 		WHERE  pay_bill.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+			   
+		DELETE FROM vendor_payment
+		USING  TRANSACTION
+		WHERE  vendor_payment.id = TRANSACTION.id
 			   AND TRANSACTION.company_id = cid;
 
 		DELETE FROM transaction_credits_and_payments
@@ -8824,11 +8893,14 @@
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT OUTER JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT OUTER JOIN VENDOR V
 				         ON V.ID = PB.VENDOR_ID
+				         OR V.ID = VP.VENDOR_ID
 				       LEFT OUTER JOIN PAYEE P
 				         ON P.ID = V.ID
-				WHERE  T.T_TYPE = 11
+				WHERE  T.T_TYPE IN (11, 25)
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
@@ -9170,6 +9242,8 @@
 				         ON T.ID = CCC.ID
 				       LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT JOIN ENTER_BILL EB
 				         ON T.ID = EB.ID
 				       LEFT JOIN VENDOR_CREDIT_MEMO VCM
@@ -9181,6 +9255,7 @@
 				             OR V.ID = CP.VENDOR_ID
 				             OR V.ID = CCC.VENDOR_ID
 				             OR V.ID = PB.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				             OR V.ID = EB.VENDOR_ID
 				             OR V.ID = VCM.VENDOR_ID
 				             OR V.ID = PO.VENDOR_ID
@@ -10327,6 +10402,8 @@
 				         ON CCC.ID = T.ID
 				       LEFT JOIN PAY_BILL PB
 				         ON PB.ID = T.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON VP.ID = T.ID
 				       LEFT JOIN RECEIVE_PAYMENT RP
 				         ON RP.ID = T.ID
 				       LEFT JOIN TAX_ADJUSTMENT TA
@@ -10351,6 +10428,7 @@
 				               OR P.ID = EB.VENDOR_ID
 				               OR P.ID = CCC.VENDOR_ID
 				               OR P.ID = PB.VENDOR_ID
+				               OR P.ID = VP.VENDOR_ID
 				               OR P.ID = RP.CUSTOMER_ID
 				               OR P.ID = TA.TAX_AGENCY_ID
 				               OR P.ID = TR.TAX_AGENCY
@@ -11112,6 +11190,8 @@
 				         ON PT.ID = T.ID
 				       LEFT JOIN PAY_BILL PB
 				         ON PB.ID = T.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON VP.ID = T.ID
 				       LEFT JOIN CREDIT_CARD_CHARGES CCC
 				         ON CCC.ID = T.ID
 				       LEFT JOIN RECEIVE_VAT RV
@@ -11127,6 +11207,7 @@
 				             OR P.ID = CR.CUSTOMER_ID
 				             OR P.ID = PT.TAX_AGENCY_ID
 				             OR P.ID = PB.VENDOR_ID
+				             OR P.ID = VP.VENDOR_ID
 				             OR P.ID = CCC.VENDOR_ID
 				             OR P.ID = RV.TAX_AGENCY_ID
 				             OR P.ID = CPP.CUSTOMER_ID

@@ -640,6 +640,36 @@
 			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="isAmountIncludeTDS" column="IS_AMOUNT_INCLUDE_TDS"></property>
 		</joined-subclass>
+		<joined-subclass name="VendorPayment" table="VENDOR_PAYMENT">
+			<key column="ID" />
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ID">
+			</many-to-one>
+			<many-to-one name="vendor" class="Vendor" cascade="save-update"
+				column="VENDOR_ID">
+			</many-to-one>
+			<many-to-one name="tdsTaxItem" class="TAXItem" cascade="save-update"
+				column="TDS_TAXITEM">
+			</many-to-one>
+			<property name="tdsTotal" column="TDS_TOTAL"></property>
+			<property name="isToBePrinted" column="IS_TO_BE_PRINTED"></property>
+			<property name="endingBalance" column="ENDING_BALANCE"></property>
+			<property name="unusedAmount" column="UNUSED_AMOUNT"></property>
+			<property name="vendorBalance" column="VENDOR_BALANCE"></property>
+			<component name="address" class="Address">
+				<property name="type" column="PAYBILL_ADDRESS_TYPE"></property>
+				<property name="address1"  type="encryptedstring" column="PAYBILL_ADDRESS_ADDRESS1"
+					length="100"></property>
+				<property name="street"  type="encryptedstring" column="PAYBILL_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="PAYBILL_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="PAYBILL_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="PAYBILL_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="PAYBILL_ADDRESS_COUNTRY"></property>
+				<property name="isSelected" column="PAYBILL_ADDRESS_IS_SELECTED"></property>
+			</component>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
+			<property name="isAmountIncludeTDS" column="IS_AMOUNT_INCLUDE_TDS"></property>
+		</joined-subclass>
 		<joined-subclass name="PurchaseOrder" table="PURCHASE_ORDER">
 			<key column="ID" />
 			<many-to-one name="vendor" class="Vendor" cascade="save-update"
