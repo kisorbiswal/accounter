@@ -38,6 +38,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
@@ -1092,7 +1093,9 @@ public class TaxManager extends Manager {
 					newEntry.setTaxItem((Long) objects[5]);
 					newEntry.setTaxAgency(taxAgency);
 					newEntry.setTAXGroupEntry(false);
-					newEntry.setCategory(UIUtils.getTransactionCategory(newEntry.getTransactionType()));
+					newEntry.setCategory(UIUtils
+							.getTransactionCategory(newEntry
+									.getTransactionType()));
 					resultTAXReturnEntries.add(newEntry);
 					iterator.remove();
 				}
@@ -1308,5 +1311,49 @@ public class TaxManager extends Manager {
 	private boolean isSales(int transactionType) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public PaginationList<ClientTAXAdjustment> getTaxAdjustments(int viewType,
+			Long companyId, long startDate, long endDate, int start, int length) {
+		int total = 0;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
+			List<Object[]> list = session.getNamedQuery("list.TAXAdjustments")
+					.setEntity("companyId", company)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("viewType", viewType).list();
+			PaginationList<ClientTAXAdjustment> paginationList = new PaginationList<ClientTAXAdjustment>();
+
+			for (Object[] objects : list) {
+				ClientTAXAdjustment clientObject = new ClientTAXAdjustment();
+				clientObject.setID((Long) objects[0]);
+				clientObject.setDate((Long) objects[1]);
+				clientObject.setTaxAgency((Long) objects[2]);
+				clientObject.setTaxItem((Long) objects[3]);
+				clientObject.setAdjustmentAccount((Long) objects[4]);
+				clientObject.setTotal((Double) objects[5]);
+				paginationList.add(clientObject);
+			}
+			total = paginationList.size();
+			PaginationList<ClientTAXAdjustment> result = new PaginationList<ClientTAXAdjustment>();
+			if (length < 0) {
+				result.addAll(paginationList);
+			} else {
+				int toIndex = start + length;
+				if (toIndex > paginationList.size()) {
+					toIndex = paginationList.size();
+				}
+				result.addAll(paginationList.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new PaginationList<ClientTAXAdjustment>();
+
 	}
 }

@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
@@ -416,9 +417,13 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ExpensePortletData getAccountsAndValues(long startDate, long endDate);
 
 	ClientEnterBill getEnterBillByEstimateId(long l) throws AccounterException;
-	ClientWriteCheck getWriteCheckByEstimateId(long l) throws AccounterException;
-	ClientCashPurchase getCashPurchaseByEstimateId(long id)throws AccounterException;
-	
+
+	ClientWriteCheck getWriteCheckByEstimateId(long l)
+			throws AccounterException;
+
+	ClientCashPurchase getCashPurchaseByEstimateId(long id)
+			throws AccounterException;
+
 	List<ClientFixedAsset> getFixedAssetList(int status)
 			throws AccounterException;
 
@@ -508,10 +513,10 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<ClientJob> getJobs();
 
-
 	ArrayList<EstimatesAndSalesOrdersList> getSalesOrdersList(long id)
 			throws AccounterException;
 
-
+	PaginationList<ClientTAXAdjustment> getTaxAdjustmentsList(int viewType,
+			long startDate, long endDate, int start, int length);
 
 }

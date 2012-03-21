@@ -77,6 +77,7 @@ import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
@@ -1834,6 +1835,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new FinanceTool().getVendorManager().getEnterBillByEstimateId(
 				estimate);
 	}
+
 	@Override
 	public List<ClientAdvertisement> getAdvertisements() {
 		FinanceTool financeTool = new FinanceTool();
@@ -2374,18 +2376,27 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				customerId, getCompanyId()) : null;
 
 	}
+
 	public ClientWriteCheck getWriteCheckByEstimateId(long ld)
 			throws AccounterException {
 
-		return new FinanceTool().getVendorManager().getWriteCheckByEstimateId(ld);
-	
+		return new FinanceTool().getVendorManager().getWriteCheckByEstimateId(
+				ld);
+
 	}
 
 	@Override
 	public ClientCashPurchase getCashPurchaseByEstimateId(long id)
 			throws AccounterException {
-		return new FinanceTool().getVendorManager().getCashPurchaseByEstimateId(id);
+		return new FinanceTool().getVendorManager()
+				.getCashPurchaseByEstimateId(id);
 	}
 
-	
+	@Override
+	public PaginationList<ClientTAXAdjustment> getTaxAdjustmentsList(int viewType,
+			long startDate, long endDate, int start, int length) {
+		return new FinanceTool().getTaxManager().getTaxAdjustments(viewType,
+				getCompanyId(), startDate, endDate, start, length);
+	}
+
 }
