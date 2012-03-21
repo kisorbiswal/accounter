@@ -215,7 +215,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		accNoText = new IntegerField(this, messages.accountNumber());
 		accNoText.setRequired(true);
-//		accNoText.setWidth(100);
+		// accNoText.setWidth(100);
 		accNoText.setEnabled(!isInViewMode());
 		accNoText.addBlurHandler(new BlurHandler() {
 			@Override
@@ -244,7 +244,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
 				.getAction().getViewName()));
 		accNameText.setRequired(true);
-//		accNameText.setWidth(100);
+		// accNameText.setWidth(100);
 		accNameText.setEnabled(!isInViewMode());
 		accNameText.addBlurHandler(new BlurHandler() {
 
@@ -289,7 +289,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		isSubAccountBox = new CheckboxItem(messages.isSubAccount(),
 				"isSubAccountBox");
-//		isSubAccountBox.setWidth(100);
+		// isSubAccountBox.setWidth(100);
 		isSubAccountBox.setEnabled(!isInViewMode());
 		isSubAccountBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -303,7 +303,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
-				return getCompany().getAccounts();
+				return getAccountsForParent();
 			}
 		};
 		parentAccountCombo.setEnabled(!isInViewMode());
@@ -358,14 +358,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		opBalText.setToolTip(messages.giveOpeningBalanceToThis(this.getAction()
 				.getViewName()));
 		opBalText.setEnabled(!isInViewMode());
-//		opBalText.setWidth(100);
+		// opBalText.setWidth(100);
 		// opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		currentBalanceText = new AmountField(messages.currentBalance(), this,
 				getBaseCurrency(), "currentBalanceText");
 		currentBalanceText.setToolTip(messages.currentBalance());
 
 		currentBalanceText.setEnabled(false);
-//		currentBalanceText.setWidth(100);
+		// currentBalanceText.setWidth(100);
 		currentBalanceText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 
 		asofDate = new DateField(messages.asOf(), "asofDate");
@@ -378,7 +378,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						.getPreventPostingBeforeDate()));
 
 		catSelect = new SelectItem(messages.category1099(), "catSelect");
-//		catSelect.setWidth(100);
+		// catSelect.setWidth(100);
 		catSelect.setEnabled(false);
 
 		accInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
@@ -409,7 +409,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							hierText.setValue(hierarchy);
 						}
 					});
-//			subAccSelect.setWidth(100);
+			// subAccSelect.setWidth(100);
 
 			hierText = new TextItem(messages.hierarchy(), "hierText");
 			hierText.setEnabled(false);
@@ -452,7 +452,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// accInfoForm.getCellFormatter().setWidth(0, 0, "200");
 		cashAccountCheck = new CheckboxItem(
 				messages.thisIsConsideredACashAccount(), "cashAccountCheck");
-//		cashAccountCheck.setWidth(100);
+		// cashAccountCheck.setWidth(100);
 		cashAccountCheck.setEnabled(!isInViewMode());
 
 		cashBasisForm = new DynamicForm("cashBasisForm");
@@ -493,6 +493,35 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 	}
 
+	protected List<ClientAccount> getAccountsForParent() {
+		List<ClientAccount> allAccounts = getCompany().getAccounts();
+
+		if (data == null) {
+			return allAccounts;
+		}
+		ArrayList<ClientAccount> subAccounts = new ArrayList<ClientAccount>();
+		getSubAccounts(data, subAccounts);
+
+		ArrayList<ClientAccount> accounts = new ArrayList<ClientAccount>();
+		for (ClientAccount account : allAccounts) {
+			if (!subAccounts.contains(account)) {
+				accounts.add(account);
+			}
+		}
+		accounts.remove(data);
+		return accounts;
+	}
+
+	private void getSubAccounts(ClientAccount account,
+			ArrayList<ClientAccount> subAccounts) {
+		for (ClientAccount acc : getCompany().getAccounts()) {
+			if (acc.getParent() == account.getID()) {
+				subAccounts.add(acc);
+				getSubAccounts(acc, subAccounts);
+			}
+		}
+	}
+
 	private CurrencyComboWidget createCurrencyWidget() {
 
 		ArrayList<ClientCurrency> currenciesList = getCompany().getCurrencies();
@@ -516,7 +545,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (paypalForm == null) {
 			lab1.setText("Paypal Account");
 			paypalForm = UIUtils.form(messages.paypalInformation());
-//			paypalForm.setWidth("100%");
+			// paypalForm.setWidth("100%");
 
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
 
@@ -613,7 +642,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	}
 
 	private void resetView() {
-//		accInfoForm.setWidth("100%");
+		// accInfoForm.setWidth("100%");
 
 		if (paypalForm != null)
 			topHLay.remove(paypalForm);
@@ -733,7 +762,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			limitText = new AmountField(messages.creditLimit(), this,
 					getBaseCurrency(), "limitText");
-//			limitText.setWidth(100);
+			// limitText.setWidth(100);
 			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
 			limitText.addBlurHandler(new BlurHandler() {
 
