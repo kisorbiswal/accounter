@@ -386,6 +386,8 @@ public class HistoryTokens {
 	public static final String PURCHASESBYLOCATIONSUMMARY = "PurchasesByLocationSummary";
 	public static final String PURCHASESBYCLASSSUMMARY = "PurchasesbyClassSummary";
 
+	public static final String ACCOUNTER_MENU = "accounterMenu";
+
 	public HistoryTokens() {
 
 	}
