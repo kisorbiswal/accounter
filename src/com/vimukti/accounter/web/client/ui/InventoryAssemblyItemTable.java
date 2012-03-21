@@ -52,8 +52,10 @@ public abstract class InventoryAssemblyItemTable extends
 						if (getAssembly() == e.getID()) {
 							return false;
 						}
-						return (e.getType() == ClientItem.TYPE_INVENTORY_PART || e
-								.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY);
+						return (e.getType() == ClientItem.TYPE_INVENTORY_PART
+								|| e.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY
+								|| e.getType() == ClientItem.TYPE_NON_INVENTORY_PART || e
+								.getType() == ClientItem.TYPE_SERVICE);
 					}
 
 				};

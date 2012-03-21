@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
@@ -35,7 +34,10 @@ public class InventoryItemNameColumn extends
 
 			@Override
 			public boolean filter(ClientItem e) {
-				return (e.getType() == ClientItem.TYPE_INVENTORY_PART);
+				return (e.getType() == ClientItem.TYPE_INVENTORY_PART
+						|| e.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY
+						|| e.getType() == ClientItem.TYPE_NON_INVENTORY_PART || e
+						.getType() == ClientItem.TYPE_SERVICE);
 			}
 		};
 	}
@@ -44,22 +46,7 @@ public class InventoryItemNameColumn extends
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AbstractDropDownTable getDisplayTable(ClientInventoryAssemblyItem row) {
 		itemsList = new ItemsDropDownTable(getItemsFilter()) {
-			@Override
-			protected ClientItem getAddNewRow() {
-				ClientCompany company = Accounter.getCompany();
-				ClientItem clientItem = new ClientItem();
-				boolean sellServices = company.getPreferences()
-						.isSellServices();
-				boolean sellProducts = company.getPreferences()
-						.isSellProducts();
-				if (sellServices && sellProducts) {
-					clientItem.setName(messages.comboDefaultAddNew(messages
-							.inventoryItem()));
-				}
-				return clientItem;
-			}
 		};
-		itemsList.setItemType(ClientItem.TYPE_INVENTORY_PART);
 		return itemsList;
 	}
 
