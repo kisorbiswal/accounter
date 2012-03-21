@@ -223,4 +223,8 @@ public class CustomerListView extends BaseListView<PayeeList> implements
 		viewSelect.setComboItem(messages.active());
 		return selectTypes;
 	}
+	@Override
+	protected boolean filterBeforeShow() {
+		return true;
+	}
 }

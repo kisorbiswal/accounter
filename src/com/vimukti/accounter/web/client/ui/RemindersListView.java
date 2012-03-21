@@ -231,7 +231,6 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 							grid.setViewType(viewSelect.getSelectedValue());
 							filterList(viewSelect.getSelectedValue());
 						}
-
 					}
 				});
 		viewSelect.addStyleName("invoiceListCombo");

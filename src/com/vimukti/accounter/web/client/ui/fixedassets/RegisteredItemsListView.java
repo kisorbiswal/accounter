@@ -66,7 +66,9 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset>
 		getRegistredFixedAssetsList();
 		// grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_REGISTERED,
 		// getCompany().getFixedAssets()));
-		disableFilter();
+		if (viewSelect != null) {
+			viewSelect.setEnabled(false);
+		};
 	}
 
 	private void getRegistredFixedAssetsList() {

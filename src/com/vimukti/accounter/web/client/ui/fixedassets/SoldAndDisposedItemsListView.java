@@ -67,7 +67,9 @@ public class SoldAndDisposedItemsListView extends
 		// grid.setRecords(getAssetsByType(
 		// ClientFixedAsset.STATUS_SOLD_OR_DISPOSED, Accounter
 		// .getCompany().getFixedAssets()));
-		disableFilter();
+		if (viewSelect != null) {
+			viewSelect.setEnabled(false);
+		}
 	}
 
 	private void getSoldOrDisposedFixedAssetsList() {

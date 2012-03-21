@@ -3,7 +3,10 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -17,8 +20,10 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * 
@@ -29,9 +34,29 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
 public class VendorListView extends BaseListView<PayeeList> implements
 		IPrintableView {
 
+	private Button prepare1099MiscForms;
+
 	public VendorListView() {
 		super();
 		this.getElement().setId("VendorListView");
+	}
+
+	@Override
+	protected void createListForm(DynamicForm form) {
+		if (getCompany().getCountry().equals(
+				CountryPreferenceFactory.UNITED_STATES)) {
+			prepare1099MiscForms = new Button(messages.prepare1099MiscForms());
+			prepare1099MiscForms.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ActionFactory.getPrepare1099MISCAction().run(null, true);
+
+				}
+			});
+			form.add(prepare1099MiscForms);
+		}
+		form.add(getSelectItem());
 	}
 
 	@Override
@@ -237,5 +262,9 @@ public class VendorListView extends BaseListView<PayeeList> implements
 		Accounter.createExportCSVService().getPayeeListExportCsv(
 				ClientPayee.TYPE_VENDOR, isActive,
 				getExportCSVCallback(Global.get().vendors()));
+	}
+	@Override
+	protected boolean filterBeforeShow() {
+		return true;
 	}
 }

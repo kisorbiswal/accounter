@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ChalanDetailsListGrid;
 
 public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
@@ -29,6 +30,10 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 	public void updateInGrid(ClientTDSChalanDetail objectTobeModified) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	protected void createListForm(DynamicForm form) {
+		
 	}
 
 	@Override

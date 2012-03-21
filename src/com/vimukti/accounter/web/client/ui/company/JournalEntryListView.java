@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
@@ -31,6 +32,12 @@ public class JournalEntryListView extends
 	@Override
 	protected Action getAddNewAction() {
 		return ActionFactory.getNewJournalEntryAction();
+	}
+
+	@Override
+	protected void createListForm(DynamicForm form) {
+		super.createListForm(form);
+		form.remove(viewSelect);
 	}
 
 	@Override

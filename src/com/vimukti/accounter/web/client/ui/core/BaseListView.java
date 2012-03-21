@@ -60,7 +60,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<PaginationList<T>>,
 		ISavableView<Map<String, Object>> {
 	protected BaseListGrid grid;
-	boolean budgetItemsExists = false;
 	protected static AccounterMessages messages = Global.get().messages();
 	protected int start;
 	protected boolean isActive = true;
@@ -83,27 +82,18 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected double total;
 	protected boolean isDeleteDisable;
-	protected SelectCombo viewSelect, dateRangeSelector;
 
 	protected List<T> initialRecords = new ArrayList<T>();
 
 	protected StyledPanel gridLayout;
 
-	private final int TOP = 145;
-	private final int BORDER = 20;
-	private final int FOOTER = 22;
 	protected boolean isViewSelectRequired = true;
 
 	protected int cmd;
-	public DateItem fromItem;
-	public DateItem toItem;
-	public Button updateButton;
-	public Button prepare1099MiscForms;
-	public Button budgetEdit;
-	protected ClientPayee selectedPayee;
-	private PaginationList<ClientBudget> budgetList;
-	private ClientBudget budgetData;
+
 	private String dateRange;
+	
+	protected SelectCombo viewSelect;
 
 	@Override
 	public void init() {
@@ -115,21 +105,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		initListCallback();
 		super.initData();
 	}
-
-	// public void initGrid(List<T> resultrecords) {
-	// // grid.setRecords((List<IsSerializable>) (ArrayList) resultrecords);
-	// if (resultrecords != null) {
-	//
-	// List<T> records = resultrecords;
-	//
-	// if (records != null) {
-	// for (T t : records) {
-	// addToGrid(t);
-	// }
-	//
-	// }
-	// }
-	// }
 
 	@Override
 	public void deleteFromGrid(T objectToBeRemoved) {
@@ -148,218 +123,29 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	protected void createControls() {
 		StyledPanel hlay = new StyledPanel("hlay");
-//		hlay.setWidth("100%");
-
-		viewSelect = getSelectItem();
-		if (this instanceof BudgetListView) {
-			if (viewSelect == null) {
-				viewSelect = new SelectCombo(messages.currentBudget());
-				viewSelect
-						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-							@Override
-							public void selectedComboBoxItem(String selectItem) {
-								if (viewSelect.getSelectedValue() != null) {
-									budgetData = budgetList.get(viewSelect
-											.getSelectedIndex());
-									changeBudgetGrid(viewSelect
-											.getSelectedIndex());
-								}
-
-							}
-						});
-
-			}
-		} else {
-			if (viewSelect == null) {
-				viewSelect = new SelectCombo(messages.currentView());
-				viewSelect.setComboItem(messages.active());
-				// viewSelect.setWidth("150px");
-				List<String> typeList = new ArrayList<String>();
-				typeList.add(messages.active());
-				typeList.add(messages.inActive());
-				viewSelect.initCombo(typeList);
-				viewSelect
-						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-							@Override
-							public void selectedComboBoxItem(String selectItem) {
-								if (viewSelect.getSelectedValue() != null) {
-									if (viewSelect
-											.getSelectedValue()
-											.toString()
-											.equalsIgnoreCase(messages.active()))
-										filterList(true);
-									else
-										filterList(false);
-								}
-							}
-						});
-			}
-		}
-
-		dateRangeSelector = getDateRangeSelectItem();
-
-		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectCombo(messages.date());
-			// dateRangeSelector.setWidth("150px");
-			List<String> typeList = new ArrayList<String>();
-			typeList.add(messages.active());
-			typeList.add(messages.inActive());
-			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(messages.active());
-			dateRangeSelector.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					if (dateRangeSelector.getSelectedValue() != null) {
-
-					}
-
-				}
-			});
-
-		}
-
-		fromItem = new DateItem(messages.from(), "fromItem");
-		if (Accounter.getStartDate() != null) {
-			fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		} else {
-			fromItem.setDatethanFireEvent(new ClientFinanceDate());
-		}
-		toItem = new DateItem(messages.to(), "toItem");
-		toItem.setDatethanFireEvent(Accounter.getCompany()
-				.getCurrentFiscalYearEndDate());
-		// .getLastandOpenedFiscalYearEndDate());
-		fromItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				dateRangeSelector.addComboItem(messages.custom());
-				dateRangeSelector.setComboItem(messages.custom());
-				updateButton.setEnabled(true);
-			}
-		});
-		toItem.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				dateRangeSelector.addComboItem(messages.custom());
-				dateRangeSelector.setComboItem(messages.custom());
-				updateButton.setEnabled(true);
-			}
-		});
-		updateButton = new Button(messages.update());
-		updateButton.setEnabled(false);
-		updateButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (dateRangeSelector.getSelectedValue().equals(
-						messages.custom())) {
-					customManage();
-				}
-			}
-		});
-
-		prepare1099MiscForms = new Button(messages.prepare1099MiscForms());
-		prepare1099MiscForms.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ActionFactory.getPrepare1099MISCAction().run(null, true);
-
-			}
-		});
-
-		budgetEdit = new Button(messages.edit());
-//		budgetEdit.setWidth("10");
-
-		budgetEdit.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (budgetItemsExists == true) {
-					ActionFactory.getNewBudgetAction().run(budgetData, false);
-				}
-			}
-		});
+		// hlay.setWidth("100%");
 
 		DynamicForm form = new DynamicForm("form");
 
-		if (isTransactionListView()) {
-			form.addStyleName("transations_list_table");
-			if (this instanceof JournalEntryListView) {
-				form.add(dateRangeSelector, fromItem, toItem);
-			} else {
-				form.add(viewSelect, dateRangeSelector, fromItem, toItem);
-			}
-			hlay.add(form);
-			hlay.add(updateButton);
-			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-			// hlay.setCellHorizontalAlignment(updateButton,
-			// HasHorizontalAlignment.ALIGN_RIGHT);
-		} else if (this instanceof VendorListView
-				&& getCompany().getCountry().equals(
-						CountryPreferenceFactory.UNITED_STATES)) {
-			form.add(viewSelect);
-			hlay.add(prepare1099MiscForms);
-			// hlay.setCellWidth(prepare1099MiscForms, "65%");
-			hlay.add(form);
-			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-			// hlay.setCellHorizontalAlignment(prepare1099MiscForms,
-			// ALIGN_RIGHT);
-			hlay.addStyleName("vendor_list_1099");
-		} else if (this instanceof BudgetListView) {
-			form.add(viewSelect);
-			hlay.add(form);
-			hlay.add(budgetEdit);
-			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-		} else {
-
-			if (!(this instanceof JournalEntryListView)
-					&& !(this instanceof ChalanDetailsListView))
-				if (viewSelect != null) {
-					form.add(viewSelect);
-				}
-			hlay.add(form);
-			// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-		}
-		// hlay.add(form);
-		// hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
+		createListForm(form);
+		hlay.add(form);
 		StyledPanel vlayTop = new StyledPanel("vlayTop");
 		StyledPanel hlayTop = new StyledPanel("hlayTop");
-//		hlayTop.setWidth("100%");
-		if (isTransactionListView()) {
-			// vlayTop.add(addNewLabel);
-			vlayTop.add(hlayTop);
-			// addNewLabel.setWidth((getAddNewLabelString().length() * 6) +
-			// "px");
-		} else {
-			// hlayTop.add(addNewLabel);
-			// if (getAddNewLabelString().length() != 0) {
-			// hlayTop.setCellWidth(addNewLabel, getAddNewLabelString()
-			// .length() + "px");
-			// }
-		}
+		vlayTop.add(hlayTop);
 		if (isViewSelectRequired)
 			hlayTop.add(hlay);
 
 		Label lab1 = new Label(getListViewHeading());
 		lab1.addStyleName("label-title-list");
-//		lab1.setWidth("100%");
 
 		initGrid();
 
 		StyledPanel totalLayout = getTotalLayout(grid);
 		gridLayout = new StyledPanel("gridLayout");
-		// gridLayout.setWidth("100%");
-		// gridLayout.setHeight("100%");
 		grid.setView(this);
 		gridLayout.add(grid);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-		// mainVLay.setHeight("100%");
-		// mainVLay.setWidth("100%");
 
 		if (totalLayout != null) {
 			if (isTransactionListView()) {
@@ -403,8 +189,20 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			mainVLay.add(pager);
 		}
 		add(mainVLay);
-		//setSize("100%", "100%");
 
+	}
+
+	/**
+	 * Called to create the default form used to update/filter the content on
+	 * the list
+	 * 
+	 * @param form
+	 */
+	protected void createListForm(DynamicForm form) {
+		viewSelect = getSelectItem();
+		if (viewSelect != null) {
+			form.add(viewSelect);
+		}
 	}
 
 	protected void setDateRange(String selectedValue) {
@@ -438,8 +236,33 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	}
 
+	/**
+	 * Active/In-Active filter used by most of the lists
+	 * 
+	 * @return
+	 */
 	protected SelectCombo getSelectItem() {
-		return null;
+		final SelectCombo viewSelect = new SelectCombo(messages.currentView());
+		viewSelect.setComboItem(messages.active());
+		List<String> typeList = new ArrayList<String>();
+		typeList.add(messages.active());
+		typeList.add(messages.inActive());
+		viewSelect.initCombo(typeList);
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (viewSelect.getSelectedValue() != null) {
+							if (viewSelect.getSelectedValue().toString()
+									.equalsIgnoreCase(messages.active()))
+								filterList(true);
+							else
+								filterList(false);
+						}
+					}
+				});
+		return viewSelect;
 	}
 
 	protected SelectCombo getDateRangeSelectItem() {
@@ -522,67 +345,28 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void onSuccess(PaginationList<T> result) {
+		grid.removeLoadingImage();
 		if (result.isEmpty()) {
 			grid.removeAllRecords();
 			grid.addEmptyMessage(messages.noRecordsToShow());
-
-			if (this instanceof BudgetListView) {
-				budgetEdit.setEnabled(false);
-			}
 			return;
-		}
-		grid.removeLoadingImage();
-		if (result != null) {
+		} else {
+			grid.removeLoadingImage();
 			initialRecords = result;
 			this.records = result;
 
-			if (this instanceof BudgetListView) {
-
-				budgetList = (PaginationList<ClientBudget>) result;
-
-				List<String> typeList = new ArrayList<String>();
-				for (ClientBudget budget : (List<ClientBudget>) result) {
-					typeList.add(budget.getBudgetName());
-					budgetItemsExists = true;
-				}
-				if (typeList.size() < 1) {
-					budgetItemsExists = false;
-					typeList.add(messages.NoBudgetadded());
-				}
-				viewSelect.initCombo(typeList);
-				viewSelect.setSelectedItem(0);
-				if (budgetList.size() > 0)
-					budgetData = budgetList.get(0);
-
-				if (result.size() > 0) {
-					ClientBudget budget = (ClientBudget) result.get(0);
-					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-					budgetItems = budget.getBudgetItem();
-					for (ClientBudgetItem budgetItem : budgetItems) {
-						budgetItem.setAccountsName(budgetItem.getAccount()
-								.getName());
-					}
-					grid.setRecords(budgetItems);
-					budgetEdit.setEnabled(true);
-				} else {
-
-					grid.addEmptyMessage(messages.noRecordsToShow());
-					budgetEdit.setEnabled(false);
-				}
-
-			} else if (this instanceof CustomerListView
-					|| this instanceof VendorListView
-					|| this instanceof BudgetListView) {
+			if(filterBeforeShow()){
 				filterList(true);
 			} else {
 				grid.setRecords(result);
 			}
-		} else {
-			Accounter.showInformation(messages.noRecordsToShow());
-			grid.removeLoadingImage();
 		}
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
+	}
+
+	protected boolean filterBeforeShow() {
+		return false;
 	}
 
 	public List<ClientFixedAsset> getAssetsByType(int type,
@@ -621,9 +405,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	 */
 	@Override
 	public void setFocus() {
-		if (this.viewSelect != null) {
-			this.viewSelect.setFocus();
-		}
+
 	}
 
 	@Override
@@ -637,31 +419,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			getCallback().onResultSuccess(result);
 	}
 
-	@Override
-	public void fitToSize(int height, int width) {
-//		if (grid.isShowFooter())
-//			grid.setHeight(height - TOP - FOOTER + "px");
-//		else
-//			grid.setHeight(height - TOP + "px");
-//		// grid.setHeight("100%");
-//
-//		grid.setWidth("100%");
+	
 
-	}
-
-	public void disableFilter() {
-		if (this.viewSelect != null) {
-			this.viewSelect.setEnabled(false);
-		}
-	}
-
-	public void setSelectedPayee(ClientPayee selectedPayee) {
-		this.selectedPayee = selectedPayee;
-	}
-
-	public ClientPayee getSelectedPayee() {
-		return selectedPayee;
-	}
+	// public void disableFilter() {
+	// if (this.viewSelect != null) {
+	// this.viewSelect.setEnabled(false);
+	// }
+	// }
 
 	@Override
 	public void restoreView(Map<String, Object> viewDate) {

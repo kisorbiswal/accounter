@@ -212,47 +212,21 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 		if (!isAddNewRequire && comboItems.isEmpty())
 			return;
-		// dropDown.getRowElement(0).getStyle().setHeight(15, Unit.PX);
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 27;
-		// dropDown.setWidth(getMainWidget().getOffsetWidth() - 2 + "px");
-		// dropDown.setHeight(getMainWidget().getOffsetHeight() + "px");
 		//
 		popup.setPopupPosition(x + 1, y);
 
 		popup.show();
 
 		int clientwidth = Window.getClientWidth();
-		int clientHeight = Window.getClientHeight();
 		int popupWdth = popup.getWidget().getOffsetWidth();
-		int popupHeight = 0;
-		if (DropDownCombo.this instanceof AccountCombo) {
-			popupHeight = 200;
-		} else
-			popupHeight = popup.getWidget().getOffsetHeight();
-
-		if (UIUtils.isMSIEBrowser()) {
-			// dropDown.setHeight(Math.min((comboItems.size() * 10), 100) +
-			// "px");
-			// popup.setHeight(Math.min(dropDown.getOffsetHeight(), 100) +
-			// "px");
-			// panel.setWidth(dropDown.getOffsetWidth() + "px");
-		}
-		// panel.getElement().setAttribute("style", "min-width:165px");
-		// panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
 
 		if ((x + popupWdth) > clientwidth) {
 			x = x - (popup.getOffsetWidth() - getMainWidget().getOffsetWidth());
 			popup.setPopupPosition(x + 1, y);
 		}
 
-		// if ((y + popupHeight) > clientHeight) {
-		// y = y
-		// - (popup.getOffsetHeight() - getMainWidget()
-		// .getOffsetHeight());
-		// popup.setPopupPosition(x, y - 42);
-		// }
-		// panel.setHeight(Math.min(dropDown.getOffsetHeight(), 200) + "px");
 	}
 
 	private void resetComboList() {

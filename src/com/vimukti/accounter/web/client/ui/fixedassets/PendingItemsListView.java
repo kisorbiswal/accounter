@@ -25,7 +25,7 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset>
 
 	public PendingItemsListView() {
 		this.isViewSelectRequired = false;
-		
+
 		this.getElement().setId("PendingItemsListView");
 	}
 
@@ -49,9 +49,10 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset>
 		grid = new PendingItemsListGrid(false);
 		grid.init();
 		getPendingFixedAssetsList();
-		// grid.setRecords(getAssetsByType(ClientFixedAsset.STATUS_PENDING,
-		// getCompany().getFixedAssets()));
-		disableFilter();
+
+		if (viewSelect != null) {
+			viewSelect.setEnabled(false);
+		}
 	}
 
 	private void getPendingFixedAssetsList() {

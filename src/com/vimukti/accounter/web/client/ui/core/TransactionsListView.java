@@ -5,11 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.DateItem;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public abstract class TransactionsListView<T> extends BaseListView<T> {
 	protected ClientFinanceDate startDate;
@@ -21,6 +28,11 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	public static final int VIEW_DRAFT = 4;
 	public static final int TYPE_ALL = 1000;
 
+	public DateItem fromItem;
+	public DateItem toItem;
+	public Button updateButton;
+	protected SelectCombo viewSelect, dateRangeSelector;
+	
 	private String viewType;
 
 	public TransactionsListView() {
@@ -39,6 +51,74 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		this.setDateRange(messages.all());
 	}
 
+	@Override
+	protected void createListForm(DynamicForm form) {
+		dateRangeSelector = getDateRangeSelectItem();
+
+		if (dateRangeSelector == null) {
+			dateRangeSelector = new SelectCombo(messages.date());
+			// dateRangeSelector.setWidth("150px");
+			List<String> typeList = new ArrayList<String>();
+			typeList.add(messages.active());
+			typeList.add(messages.inActive());
+			dateRangeSelector.initCombo(typeList);
+			dateRangeSelector.setDefaultValue(messages.active());
+			dateRangeSelector.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					if (dateRangeSelector.getSelectedValue() != null) {
+
+					}
+
+				}
+			});
+
+		}
+
+		fromItem = new DateItem(messages.from(), "fromItem");
+		if (Accounter.getStartDate() != null) {
+			fromItem.setDatethanFireEvent(Accounter.getStartDate());
+		} else {
+			fromItem.setDatethanFireEvent(new ClientFinanceDate());
+		}
+		toItem = new DateItem(messages.to(), "toItem");
+		toItem.setDatethanFireEvent(Accounter.getCompany()
+				.getCurrentFiscalYearEndDate());
+		// .getLastandOpenedFiscalYearEndDate());
+		fromItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dateRangeSelector.addComboItem(messages.custom());
+				dateRangeSelector.setComboItem(messages.custom());
+				updateButton.setEnabled(true);
+			}
+		});
+		toItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				dateRangeSelector.addComboItem(messages.custom());
+				dateRangeSelector.setComboItem(messages.custom());
+				updateButton.setEnabled(true);
+			}
+		});
+		updateButton = new Button(messages.update());
+		updateButton.setEnabled(false);
+		updateButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (dateRangeSelector.getSelectedValue().equals(
+						messages.custom())) {
+					customManage();
+				}
+			}
+		});
+		form.add(viewSelect, dateRangeSelector, fromItem, toItem);
+		form.add(updateButton);
+	}
 	@Override
 	protected boolean isTransactionListView() {
 		return true;
