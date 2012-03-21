@@ -2265,12 +2265,6 @@
 		select p.id from com.vimukti.accounter.core.Payee p where
 		p.name=:payee and p.company=:company
 	</query>
-	<query name="getBankAccountByName">
-		<query-param name="company" type="Company" />
-		<query-param name="accountName" type="String" />
-		select b.id from com.vimukti.accounter.core.Bank b where
-		b.name=:accountName and b.company=:company
-	</query>
 	<query name="getCurrencyIdByCode">
 		<query-param name="company" type="Company" />
 		<query-param name="currency" type="String" />
