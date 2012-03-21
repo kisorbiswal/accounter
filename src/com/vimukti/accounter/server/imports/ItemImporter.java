@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.BooleanField;
 import com.vimukti.accounter.web.client.imports.DoubleField;
 import com.vimukti.accounter.web.client.imports.FinanceDateField;
@@ -81,12 +84,15 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setActive(true);
 		item.setSalesDescription(getString("salesDescription"));
 		item.setSalesPrice(getDouble("salesPrice"));
+
 		item.setIncomeAccount(getAccountByNumberOrName("incomeAccount", false) == 0 ? getAccountByNumberOrName(
 				"incomeAccountName", true) : getAccountByNumberOrName(
 				"incomeAccount", false));
+
 		item.setISellThisItem(accountId == 0 ? false : true);
 		item.setTaxable(getBoolean("isTaxble"));
 		item.setCommissionItem(getBoolean("CommissionItem"));
+
 		item.setAssestsAccount(getAccountByNumberOrName("assetAccount", false) == 0 ? getAccountByNumberOrName(
 				"assetAccountName", true) : getAccountByNumberOrName(
 				"assetAccount", false));
@@ -176,5 +182,70 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 					warehouse);
 		}
 		return warehouseId;
+	}
+
+	@Override
+	protected void validate(List<AccounterException> exceptions) {
+		Company company = getCompanyById(getCompanyId());
+		// ValidationResult result = new ValidationResult();
+		//
+		// String name = nameText.getValue().toString();
+		// TODO (1).
+		int itemType = getInteger("itemType");
+		if (!isValidItemType(itemType)) {
+			AccounterException exception = new AccounterException(
+					AccounterException.ERROR_PLEASE_ENTER_OR_MAP,
+					messages.itemType());
+			exceptions.add(exception);
+		}
+
+		String itemName = getString("itemName");
+		if (itemName == null || itemName.isEmpty()) {
+			AccounterException exception = new AccounterException(
+					AccounterException.ERROR_PLEASE_ENTER_OR_MAP,
+					messages.itemName());
+			exceptions.add(exception);
+		} else {
+			Set<Item> items = company.getItems();
+			for (Item item : items) {
+				if (item.getName().equalsIgnoreCase(itemName)) {
+					AccounterException exception = new AccounterException(
+							AccounterException.ERROR_NAME_ALREADY_EXIST,
+							messages.item());
+					exceptions.add(exception);
+				}
+			}
+		}
+
+		Double salesPrice = getDouble("salesPrice");
+
+		if (salesPrice != 0) {
+			if (ImporterUtils.isNegativeAmount(salesPrice)) {
+				AccounterException exception = new AccounterException(
+						AccounterException.ERROR_NEGATIVE_AMOUNT);
+				exceptions.add(exception);
+			}
+		}
+
+		Double purchasePrice = getDouble("purchasePrice");
+
+		if (purchasePrice != 0) {
+			if (ImporterUtils.isNegativeAmount(purchasePrice)) {
+				AccounterException exception = new AccounterException(
+						AccounterException.ERROR_NEGATIVE_AMOUNT);
+				exceptions.add(exception);
+			}
+		}
+
+	}
+
+	private boolean isValidItemType(int itemType) {
+		switch (itemType) {
+		case ClientItem.TYPE_SERVICE:
+		case ClientItem.TYPE_INVENTORY_PART:
+		case ClientItem.TYPE_NON_INVENTORY_PART:
+			return true;
+		}
+		return false;
 	}
 }

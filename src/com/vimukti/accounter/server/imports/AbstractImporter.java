@@ -63,16 +63,11 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 		return null;
 	}
 
-	public void validate() throws AccounterException {
-		for (ImportField field : getFields()) {
-			if (!field.isValid()) {
-				throw new AccounterException();
-			}
-		}
-	}
+	protected abstract void validate(List<AccounterException> exceptions);
 
 	@Override
-	public void loadData(Map<String, String> data) {
+	public List<AccounterException> loadData(Map<String, String> data) {
+		List<AccounterException> exceptions = new ArrayList<AccounterException>();
 		for (ImportField field : fields) {
 			String value = data.get(field.getColumnName());
 			if (field.isFinanceDate()) {
@@ -82,6 +77,9 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 				field.validate(value);
 			}
 		}
+		validate(exceptions);
+		return exceptions;
+
 	}
 
 	protected String getString(String fieldName) {
@@ -131,7 +129,7 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 	}
 
 	protected long getCurrencyAsLong(String currency) {
-		return 0;
+		return new FinanceTool().getCurrencyIdByName(currency, getCompanyId());
 	}
 
 	protected long getPayeeByName(String payeeName) {
@@ -189,8 +187,7 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 		this.dateFormat = dateFormat;
 	}
 
-	@Override
-	public long getCompanyId() {
+	protected long getCompanyId() {
 		return companyId;
 	}
 

@@ -2305,7 +2305,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<Object> importData(String filePath, int importerType,
+	public Map<Integer, Object> importData(String filePath, int importerType,
 			Map<String, String> importMap, String dateFormate)
 			throws AccounterException {
 

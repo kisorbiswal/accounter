@@ -6155,7 +6155,7 @@ public interface AccounterMessages extends Messages {
 	public String emailIdAndConfirmEmaildMustBeSame();
 
 	public String confirmEmailAddress();
-	
+
 	public String pleaseMapAtLeastOneField();
 
 	public String importer();
@@ -6167,7 +6167,7 @@ public interface AccounterMessages extends Messages {
 	public String purchasesbyLocationSummary();
 
 	public String purchasesbyClassSummary();
-	
+
 	public String writeChecksList();
 
 	public String transferFromAndToAccountsshouldhavesamecurrency();
@@ -6175,4 +6175,14 @@ public interface AccounterMessages extends Messages {
 	public String youCannotSelectTheItemWhichHaveNoExpenseAccount();
 
 	public String transactionsCount();
+	
+	public String pleaseEnterOrMapField();
+
+	public String alreadyExistWithThisName();
+
+	public String alreadyExistWithThisNumber();
+
+	public String doesNotExistWithThisNumber();
+
+	public String doesNotExistWithThisName();
 }

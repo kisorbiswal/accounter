@@ -121,6 +121,7 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.server.imports.AccountImporter;
 import com.vimukti.accounter.server.imports.CustomerImporter;
 import com.vimukti.accounter.server.imports.Importer;
 import com.vimukti.accounter.server.imports.InvoiceImporter;
@@ -4469,10 +4470,10 @@ public class FinanceTool {
 
 	}
 
-	public List<Object> importData(long companyId, String userEmail,
+	public Map<Integer, Object> importData(long companyId, String userEmail,
 			String filePath, int importerType, Map<String, String> importMap,
 			String dateFormate) throws AccounterException {
-		List<Object> exceptions = new ArrayList<Object>();
+		Map<Integer, Object> exceptions = new HashMap<Integer, Object>();
 		try {
 			Importer<? extends IAccounterCore> importer = getImporterByType(
 					importerType, importMap, dateFormate, companyId);
@@ -4486,6 +4487,7 @@ public class FinanceTool {
 			String strLine;
 			OperationContext context = new OperationContext(companyId,
 					(IAccounterCore) null, userEmail);
+			int currentLine = 0;
 			while ((strLine = br.readLine()) != null) {
 				Map<String, String> columnNameValueMap = new HashMap<String, String>();
 				String[] values = strLine.split(",");
@@ -4493,19 +4495,26 @@ public class FinanceTool {
 					headers = values;
 					isHeader = false;
 				} else {
+					currentLine++;
 					if (values.length == headers.length) {
 						for (int i = 0; i < values.length; i++) {
 							String value = values[i].trim()
 									.replaceAll("\"", "");
 							columnNameValueMap.put(headers[i], value);
 						}
-						importer.loadData(columnNameValueMap);
-						IAccounterCore data = importer.getData();
-						context.setData(data);
 						try {
+							List<AccounterException> loadResult = importer
+									.loadData(columnNameValueMap);
+							if (!loadResult.isEmpty()) {
+								exceptions.put(currentLine, loadResult);
+								continue;
+							}
+
+							IAccounterCore data = importer.getData();
+							context.setData(data);
 							create(context);
 						} catch (AccounterException e) {
-							exceptions.add(e);
+							exceptions.put(currentLine, e);
 							continue;
 						}
 						successCount++;
@@ -4513,7 +4522,7 @@ public class FinanceTool {
 				}
 			}
 			file.delete();
-			exceptions.add(0, successCount);
+			exceptions.put(0, successCount);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterException(e.getMessage());
@@ -4543,6 +4552,8 @@ public class FinanceTool {
 			return new VendorImporter();
 		case ImporterType.ITEM:
 			return new ItemImporter();
+		case ImporterType.ACCOUNT:
+			return new AccountImporter();
 		}
 		return null;
 	}
@@ -4551,7 +4562,7 @@ public class FinanceTool {
 		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
 		return importerByType.getFields();
 	}
-	
+
 	public long getAccountByNumberOrName(long companyId,
 			String accountNoOrName, boolean isAccountName) {
 		if (!isAccountName) {
@@ -4560,8 +4571,7 @@ public class FinanceTool {
 			return getAccountByName(companyId, accountNoOrName);
 		}
 	}
-	
-	
+
 	public Long getAccountByNumber(Long companyId, String accountNumber) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
@@ -4573,7 +4583,7 @@ public class FinanceTool {
 		}
 		return new Long(0);
 	}
-	
+
 	public Long getAccountByName(Long companyId, String accountNameOrNumber) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
@@ -4586,7 +4596,7 @@ public class FinanceTool {
 		}
 		return new Long(0);
 	}
-	
+
 	public Long getItemGrupByName(Long companyId, String itemGrupName) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
@@ -4622,13 +4632,37 @@ public class FinanceTool {
 		}
 		return new Long(0);
 	}
-	
+
 	public Long getPayeeByName(Long companyId, String payee) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Object uniqueResult = session.getNamedQuery("getPayeeIdByName")
 				.setParameter("company", company).setParameter("payee", payee)
 				.uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+
+	public Long getBankAccountIdByName(String accountName, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getBankAccountByName")
+				.setParameter("company", company)
+				.setParameter("accountName", accountName).uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+
+	public long getCurrencyIdByName(String currency, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getCurrencyIdByCode")
+				.setParameter("company", company)
+				.setParameter("currency", currency).uniqueResult();
 		if (uniqueResult != null) {
 			return (Long) uniqueResult;
 		}

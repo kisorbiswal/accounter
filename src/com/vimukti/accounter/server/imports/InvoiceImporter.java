@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.FinanceDateField;
 import com.vimukti.accounter.web.client.imports.LongField;
 import com.vimukti.accounter.web.client.imports.StringField;
@@ -42,4 +43,9 @@ public class InvoiceImporter extends TransactionImporter<ClientInvoice> {
 		return invoice;
 	}
 
+	@Override
+	protected void validate(List<AccounterException> exceptions) {
+		// TODO Auto-generated method stub
+
+	}
 }

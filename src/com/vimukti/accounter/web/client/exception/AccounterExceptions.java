@@ -173,6 +173,32 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_DELETING_DEFAULT_TAX_ITEM:
 			return accounterMessages.youcannotEditDeleteDefaultTaxItem();
 
+		case AccounterException.ERROR_PLEASE_ENTER_OR_MAP:
+			return accounterMessages.pleaseEnterOrMapField();
+
+		case AccounterException.ERROR_NAME_ALREADY_EXIST:
+			return accounterMessages.alreadyExistWithThisName();
+
+		case AccounterException.ERROR_NUMBER_ALREADY_EXIST:
+			return accounterMessages.alreadyExistWithThisNumber();
+
+		case AccounterException.ERROR_DOES_NOT_EXIST_WITH_THIS_NUMBER:
+			return accounterMessages.doesNotExistWithThisNumber();
+
+		case AccounterException.ERROR_DOES_NOT_EXIST_WITH_THIS_NAME:
+			return accounterMessages.doesNotExistWithThisName();
+
+		case AccounterException.ERROR_PARENT_ACCOUNT_SHOULD_BE_SAME:
+			return accounterMessages.parenAccountTypeShouldBeSame();
+
+		case AccounterException.ERROR_PARENT_ACCOUNT_CURRENCY_SHOULD_BE_SAME:
+			return accounterMessages.parenAccountCurrencyShouldBeSame();
+
+		case AccounterException.ERROR_INVALID_EMAIL_ID:
+			return accounterMessages.invalidEmail();
+
+		case AccounterException.ERROR_NEGATIVE_AMOUNT:
+			return accounterMessages.enterValidAmount();
 		default:
 			return null;
 		}

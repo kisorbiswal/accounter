@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * @author Prasanna Kumar G
@@ -28,7 +29,7 @@ public interface Importer<T extends IAccounterCore> {
 	 * 
 	 * @param data
 	 */
-	public void loadData(Map<String, String> data);
+	public List<AccounterException> loadData(Map<String, String> data);
 
 	/**
 	 * Updates the All Fields in the Importer with CSVColumnName
@@ -58,12 +59,5 @@ public interface Importer<T extends IAccounterCore> {
 	 * @param CompanyId
 	 */
 	public void setCompanyId(long CompanyId);
-
-	/**
-	 * Returns the comapnyId
-	 * 
-	 * @return
-	 */
-	public long getCompanyId();
 
 }
