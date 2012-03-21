@@ -79,7 +79,8 @@ public class PurchaseBySupplierDetailReportCommand extends
 		Record transactionRecord = new Record(record);
 		transactionRecord.add(getMessages().payeeName(Global.get().vendor()),
 				"");
-		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate()));
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().number(), record.getNumber());

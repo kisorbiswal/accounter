@@ -108,7 +108,10 @@ public class BalanceSheetReportCommand extends
 	private Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
-		trialRecord.add(getStartDate() + "-" + getEndDate(),
+		trialRecord.add(getDateByCompanyType(getStartDate()
+				.toClientFinanceDate())
+				+ "-"
+				+ getDateByCompanyType(getEndDate().toClientFinanceDate()),
 				getAmountWithCurrency(record.getAmount()));
 		return trialRecord;
 	}

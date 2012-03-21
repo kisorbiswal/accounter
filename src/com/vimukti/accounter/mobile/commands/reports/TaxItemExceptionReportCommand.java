@@ -78,14 +78,18 @@ public class TaxItemExceptionReportCommand extends
 	protected Record createReportRecord(TAXItemDetail record) {
 		Record rec = new Record(record);
 		rec.add(getMessages().name(), record.getTransactionName());
-		rec.add(getMessages().date(), record.getTransactionDate());
+		rec.add(getMessages().date(),
+				getDateByCompanyType(record.getTransactionDate()));
 		rec.add(getMessages().number(), record.getTransactionNumber());
 		rec.add(getMessages().vatRate(), record.isPercentage() ? "    "
 				+ record.getTAXRate() + "%" : record.getTAXRate());
-		rec.add(getMessages().filedAmount(), record.getFiledTAXAmount());
-		rec.add(getMessages().currentAmount(), record.getTaxAmount());
-		rec.add(getMessages().amountDifference(), record.getTaxAmount()
-				- record.getFiledTAXAmount());
+		rec.add(getMessages().filedAmount(),
+				getAmountWithCurrency(record.getFiledTAXAmount()));
+		rec.add(getMessages().currentAmount(),
+				getAmountWithCurrency(record.getTaxAmount()));
+		rec.add(getMessages().amountDifference(),
+				getAmountWithCurrency(record.getTaxAmount()
+						- record.getFiledTAXAmount()));
 		return rec;
 	}
 

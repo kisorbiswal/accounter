@@ -133,15 +133,20 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			@Override
 			protected Record createRecord(Estimate value) {
 				Record estrecord = new Record(value);
-				estrecord.add(getMessages().date(), value.getDate());
+				estrecord.add(getMessages().date(), getDateByCompanyType(value
+						.getDate().toClientFinanceDate()));
 				estrecord.add(getMessages().number(), value.getNumber());
-				estrecord.add("Name",
-						value.getCustomer().getName() != null ? value
-								.getCustomer().getName() : "");
-				estrecord.add(getMessages().expirationDate(), value
-						.getExpirationDate().toString());
-				estrecord.add(getMessages().total(), value.getCurrency()
-						.getSymbol() + " " + value.getTotal());
+				estrecord
+						.add(getMessages().name(), value.getCustomer()
+								.getName() != null ? value.getCustomer()
+								.getName() : "");
+				estrecord.add(getMessages().expirationDate(),
+						getDateByCompanyType(value.getExpirationDate()
+								.toClientFinanceDate()));
+				estrecord.add(
+						getMessages().total(),
+						getAmountWithCurrency(value.getTotal(), value
+								.getCurrency().getSymbol()));
 				return estrecord;
 			}
 

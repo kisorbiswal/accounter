@@ -97,12 +97,14 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 				Record record = new Record(value);
 				record.add(getMessages().name(),
 						Utility.getTransactionName(value.getType()));
-				record.add(getMessages().date(), value.getDate());
+				record.add(getMessages().date(),
+						getDateByCompanyType(value.getDate()));
 				record.add(getMessages().number(), value.getNumber());
 				record.add(getMessages().Vendor(), value.getVendorName());
 				record.add(getMessages().originalAmount(),
-						value.getOriginalAmount());
-				record.add(getMessages().balance(), value.getBalance());
+						getAmountWithCurrency(value.getOriginalAmount()));
+				record.add(getMessages().balance(),
+						getAmountWithCurrency(value.getBalance()));
 				return record;
 			}
 

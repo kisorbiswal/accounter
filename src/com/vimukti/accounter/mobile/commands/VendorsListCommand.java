@@ -83,7 +83,7 @@ public class VendorsListCommand extends AbstractCommand {
 								value.getCurrecny());
 				record.add(
 						getMessages().balance(),
-						Global.get().toCurrencyFormat(value.getBalance(),
+						getAmountWithCurrency(value.getBalance(),
 								currency.getSymbol()));
 				return record;
 			}

@@ -89,11 +89,13 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 			@Override
 			protected Record createRecord(PaymentsList p) {
 				Record payment = new Record(p);
-				payment.add(getMessages().paymentDate(), p.getPaymentDate());
+				payment.add(getMessages().paymentDate(),
+						getDateByCompanyType(p.getPaymentDate()));
 				payment.add(getMessages().paymentNo(), p.getPaymentNumber());
 				payment.add(getMessages().status(),
 						Utility.getStatus(p.getType(), p.getStatus()));
-				payment.add(getMessages().issueDate(), p.getIssuedDate());
+				payment.add(getMessages().issueDate(),
+						getDateByCompanyType(p.getIssuedDate()));
 				payment.add(getMessages().name(), p.getName());
 				payment.add(getMessages().transactionName(),
 						Utility.getTransactionName(p.getType()));
@@ -106,7 +108,7 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 								p.getCurrency());
 				payment.add(
 						getMessages().amountPaid(),
-						Global.get().toCurrencyFormat(p.getAmountPaid(),
+						getAmountWithCurrency(p.getAmountPaid(),
 								currency.getSymbol()));
 				return payment;
 			}

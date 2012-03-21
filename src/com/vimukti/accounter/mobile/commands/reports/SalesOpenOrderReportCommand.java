@@ -89,12 +89,13 @@ public class SalesOpenOrderReportCommand extends
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
 			openRecord.add(getMessages().orderDate(),
-					record.getTransactionDate());
+					getDateByCompanyType(record.getTransactionDate()));
 		else
 			openRecord.add("", "");
 		openRecord.add(Global.get().Customer(),
 				record.getVendorOrCustomerName());
-		openRecord.add(getMessages().amount(), record.getAmount());
+		openRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 
 		return openRecord;
 	}

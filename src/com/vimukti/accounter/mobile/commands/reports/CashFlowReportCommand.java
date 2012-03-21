@@ -169,7 +169,10 @@ public class CashFlowReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add("", record.getAccountName());
-		trialRecord.add(getStartDate() + "_" + getEndDate(),
+		trialRecord.add(getDateByCompanyType(getStartDate()
+				.toClientFinanceDate())
+				+ "_"
+				+ getDateByCompanyType(getEndDate().toClientFinanceDate()),
 				getAmountWithCurrency(record.getAmount()));
 		return trialRecord;
 	}

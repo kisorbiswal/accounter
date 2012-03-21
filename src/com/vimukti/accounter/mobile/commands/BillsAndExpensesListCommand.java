@@ -80,17 +80,18 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 				Record rec = new Record(value);
 				rec.add(getMessages().transactionName(),
 						Utility.getTransactionName((value.getType())));
+				rec.add(getMessages().date(),
+						getDateByCompanyType(value.getDate()));
 				rec.add(getMessages().number(), value.getNumber());
 				rec.add(Global.get().Vendor(), value.getVendorName());
 				String symbol = getServerObject(Currency.class,
 						value.getCurrency()).getSymbol();
 
-				rec.add(getMessages().originalAmount(), Global.get()
-						.toCurrencyFormat(value.getOriginalAmount(), symbol));
+				rec.add(getMessages().originalAmount(),
+						getAmountWithCurrency(value.getOriginalAmount(), symbol));
 				rec.add(getMessages().balance(),
-						Global.get().toCurrencyFormat(
-								value.getBalance() == null ? 0.0 : value
-										.getBalance(), symbol));
+						getAmountWithCurrency(value.getBalance() == null ? 0.0
+								: value.getBalance(), symbol));
 				return rec;
 			}
 

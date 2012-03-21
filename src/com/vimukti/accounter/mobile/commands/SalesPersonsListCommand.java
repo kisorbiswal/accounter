@@ -83,7 +83,8 @@ public class SalesPersonsListCommand extends AbstractCommand {
 				record.add(getMessages().firstName(), salesPrson.getFirstName());
 				record.add(getMessages().jobTitle(), salesPrson.getJobTitle());
 				record.add(getMessages().dateofBirth(),
-						salesPrson.getDateOfBirth());
+						getDateByCompanyType(salesPrson.getDateOfBirth()
+								.toClientFinanceDate()));
 				record.add(getMessages().email(), salesPrson.getEmail());
 				record.add(getMessages().phone(), salesPrson.getPhoneNo());
 				record.add(getMessages().fax(), salesPrson.getFaxNo());

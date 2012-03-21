@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -389,5 +391,21 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 
 	public <T> T getServerObject(Class<T> class1, long id) {
 		return (T) HibernateUtil.getCurrentSession().get(class1, id);
+	}
+
+	protected String getAmountWithCurrency(double amount) {
+		String symbol = getPreferences().getPrimaryCurrency().getSymbol();
+		return Global.get().toCurrencyFormat(amount, symbol);
+	}
+
+	protected String getAmountWithCurrency(double amount, String symbol) {
+		return Global.get().toCurrencyFormat(amount, symbol);
+	}
+
+	public String getDateByCompanyType(ClientFinanceDate value) {
+		SimpleDateFormat format = new SimpleDateFormat(getPreferences()
+				.getDateFormat());
+		return format.format(value.getDateAsObject());
+
 	}
 }

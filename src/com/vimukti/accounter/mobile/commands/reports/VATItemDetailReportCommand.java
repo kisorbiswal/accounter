@@ -103,13 +103,15 @@ public class VATItemDetailReportCommand extends
 		Record ecRecord = new Record(record);
 		ecRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getTransactionType()));
-		ecRecord.add(getMessages().date(), record.getTransactionDate());
+		ecRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getTransactionDate()));
 		ecRecord.add(getMessages().number(), record.getTransactionNumber());
 		ecRecord.add(getMessages().taxRate(), record.isPercentage() ? "    "
 				+ record.getTAXRate() + "%" : record.getTAXRate());
 		ecRecord.add(getMessages().grossProfit(),
 				getAmountWithCurrency(record.getTotal()));
-		ecRecord.add(getMessages().taxAmount(), record.getTaxAmount());
+		ecRecord.add(getMessages().taxAmount(),
+				getAmountWithCurrency(record.getTaxAmount()));
 		ecRecord.add(getMessages().netAmount(),
 				getAmountWithCurrency(record.getNetAmount()));
 		return ecRecord;

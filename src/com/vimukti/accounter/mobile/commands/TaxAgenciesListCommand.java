@@ -98,7 +98,7 @@ public class TaxAgenciesListCommand extends AbstractCommand {
 				taxAgencyrec.add(getMessages().name(), value.getName());
 				// TODO balance by dates
 				taxAgencyrec.add(getMessages().balanceAsOf(),
-						value.getBalance());
+						getAmountWithCurrency(value.getBalance()));
 				return taxAgencyrec;
 
 			}

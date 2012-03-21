@@ -55,8 +55,11 @@ public class ECSalesListReportCommand extends
 	private Record createReportRecord(ECSalesList record) {
 		Record salesRecord = new Record(record);
 		salesRecord.add("", record.getName());
-		salesRecord
-				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
+		salesRecord.add(getDateByCompanyType(getStartDate()
+				.toClientFinanceDate())
+				+ "_"
+				+ getDateByCompanyType(getEndDate().toClientFinanceDate()),
+				getAmountWithCurrency(record.getAmount()));
 		return salesRecord;
 	}
 
