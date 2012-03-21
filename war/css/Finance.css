@@ -2958,3 +2958,23 @@ button.disable,button.disable:hover {
     max-height: 450px;
     overflow-y: auto;
 }
+.transaction_meter{
+	border: 1px solid #1A5158;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 3px 3px #1A5158;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    padding: 5px;
+}
+.count_label{
+	 padding: 5px;
+	 font-size: 22px;
+	 font-weight: bold;
+}
+.transaction_count{
+	font-size: 16px;
+    padding: 5px;
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+}
