@@ -390,7 +390,7 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

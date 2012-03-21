@@ -46,7 +46,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
-public class MakeDepositView extends
+public class TransferFundView extends
 		AbstractBankTransactionView<ClientTransferFund> {
 	DateItem date;
 
@@ -111,14 +111,14 @@ public class MakeDepositView extends
 
 	private ClientStatementRecord statementRecord;
 
-	public MakeDepositView() {
+	public TransferFundView() {
 		super(ClientTransaction.TYPE_TRANSFER_FUND);
 		this.getElement().setId("MakeDepositView");
 		calculatedTotal = 0D;
 	}
 
 	// For Reconciliation
-	public MakeDepositView(ClientAccount reconcilationAccount,
+	public TransferFundView(ClientAccount reconcilationAccount,
 			double reconcilAmount, ClientStatementRecord statementRecord) {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
 		this.getElement().setId("MakeDepositView");
@@ -821,8 +821,8 @@ public class MakeDepositView extends
 
 	}
 
-	public static MakeDepositView getInstance() {
-		return new MakeDepositView();
+	public static TransferFundView getInstance() {
+		return new TransferFundView();
 	}
 
 	@Override
@@ -1169,7 +1169,7 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
-		return true;
+	protected boolean needTransactionItems() {
+		return false;
 	}
 }

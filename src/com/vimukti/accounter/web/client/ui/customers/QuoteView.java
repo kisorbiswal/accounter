@@ -1421,7 +1421,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

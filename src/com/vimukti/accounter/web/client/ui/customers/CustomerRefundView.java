@@ -740,9 +740,9 @@ public class CustomerRefundView extends
 		}
 
 	}
-
+		
 	@Override
-	public boolean allowEmptyTransactions() {
-		return true;
+	protected boolean needTransactionItems() {
+		return false;
 	}
 }

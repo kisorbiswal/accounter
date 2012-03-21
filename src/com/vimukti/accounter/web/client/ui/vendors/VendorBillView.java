@@ -1507,7 +1507,7 @@ public class VendorBillView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return true;
 	}
 }

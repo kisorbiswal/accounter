@@ -1096,7 +1096,7 @@ public class CashExpenseView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

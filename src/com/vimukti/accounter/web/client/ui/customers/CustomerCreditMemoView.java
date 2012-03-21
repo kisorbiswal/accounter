@@ -1100,7 +1100,7 @@ public class CustomerCreditMemoView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

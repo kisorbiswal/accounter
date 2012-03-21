@@ -297,7 +297,7 @@ public class JournalEntryView extends
 		initListGrid();
 		// grid.initTransactionData();
 		gridPanel = new StyledPanel("gridPanel");
-		addButton = new AddButton(this);
+		addButton = new AddButton(messages.transaction());
 		addButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -746,7 +746,7 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

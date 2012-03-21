@@ -7,13 +7,13 @@ import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.MakeDepositView;
+import com.vimukti.accounter.web.client.ui.TransferFundView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class MakeDepositAction extends Action {
-	protected MakeDepositView view;
+	protected TransferFundView view;
 	private double reconcileAmount;
 	private ClientAccount reconcilationAccount;
 	private ClientStatementRecord statementRecord;
@@ -55,10 +55,10 @@ public class MakeDepositAction extends Action {
 			@Override
 			public void onCreated() {
 				if (reconcilationAccount != null) {
-					view = new MakeDepositView(reconcilationAccount,
+					view = new TransferFundView(reconcilationAccount,
 							reconcileAmount, statementRecord);
 				} else {
-					view = MakeDepositView.getInstance();
+					view = TransferFundView.getInstance();
 				}
 
 				MainFinanceWindow.getViewManager().showView(view, data,

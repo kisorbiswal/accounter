@@ -1324,7 +1324,7 @@ public class CreditCardExpenseView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

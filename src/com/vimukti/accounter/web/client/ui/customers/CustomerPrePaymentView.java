@@ -886,7 +886,12 @@ public class CustomerPrePaymentView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return true;
+	}
+	
+	@Override
+	protected boolean needTransactionItems() {
+		return false;
 	}
 }

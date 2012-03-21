@@ -65,7 +65,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.MakeDepositView;
+import com.vimukti.accounter.web.client.ui.TransferFundView;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
 import com.vimukti.accounter.web.client.ui.banking.DepositView;
@@ -593,7 +593,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected TextAreaItem createMemoTextAreaItem() {
 
 		TextAreaItem memoArea = new TextAreaItem("", "memoArea");
-		memoArea.setTitle(messages.writeCommentsForThis(getAction().getViewName()));
+		memoArea.setTitle(messages.writeCommentsForThis(getAction()
+				.getViewName()));
 		return memoArea;
 
 	}
@@ -1090,13 +1091,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return isInViewMode();
 	}
 
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		// if (menuButton != null) {
-		// menuButton.setEnabled(!isInViewMode());
-		// }
-	}
 
 	@Override
 	public ValidationResult validate() {
@@ -1104,25 +1098,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		updateTransaction();
 
 		ValidationResult result = new ValidationResult();
-		// Validations
-		// 1. Transaction total <= 0 ERROR
-		// 2. TransactionItem line total <= 0 ERROR
-		// 3. If(accountingType == UK)
-		// if(taxCodeName == "New S" && transactionDate is before 4 Jan 2011)
-		// ERROR
-		// if (transaction != null)
-		// if (this.transaction.getTotal() <= 0) {
-		// if (transaction instanceof ClientPayBill) {
-		// result.addError(this, messages
-		// .valueCannotBe0orlessthan0(messages.amount()));
-		// } else {
-		// if (!(this instanceof CustomerRefundView)
-		// && !(this instanceof WriteChequeView)
-		// && !(this instanceof InvoiceView)&&transaction.get)
-		// result.addError(this,
-		// messages.transactiontotalcannotbe0orlessthan0());
-		// }
-		// }
 
 		if (this.transactionDateItem != null
 				&& this.transactionDateItem.getDate().getDate() == 0) {
@@ -1131,39 +1106,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return result;
 		}
 		isValidCurrencyFactor(result);
-		/*
-		 * if (getPreferences().isClassTrackingEnabled() &&
-		 * getPreferences().isClassOnePerTransaction() &&
-		 * getPreferences().isWarnOnEmptyClass() &&
-		 * this.transaction.getAccounterClass() == 0) {
-		 * result.addWarning(classListCombo, messages.W_105());
-		 */
-		// }
-		if (!(allowEmptyTransactions())) {
+
+		if (needTransactionItems() && !allowEmptyTransactionItems()) {
 			if (transactionItems == null && transactionItems.size() == 0) {
-				// for (ClientTransactionItem transactionItem :
-				// transactionItems) {
-				//
-				// if (transactionItem != null) {
-				// if (transactionItem.getLineTotal() != null) {
-				// if (transactionItem.getLineTotal() <= 0
-				// && transactionItem.getDiscount() != 100) {
-				// result.addError(
-				// "TransactionItem"
-				// + transactionItem.getAccount()
-				// + transactionItem.getAccount(),
-				// messages.transactionitemtotalcannotbe0orlessthan0());
-				// }
-				// } else {
-				// result.addError("TransactionItem", messages
-				// .pleaseEnter(messages.transactionItem()));
-				// }
-				// } else {
-				// result.addError("TransactionItem", messages
-				// .pleaseEnter(messages.transactionItem()));
-				// }
-				// }
-				// } else {
 				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
 			}
@@ -1177,7 +1122,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * 
 	 * @return {@link Boolean}
 	 */
-	public abstract boolean allowEmptyTransactions();
+	protected boolean allowEmptyTransactionItems() {
+		return false;
+	}
 
 	/**
 	 * For Location Combo
@@ -2028,16 +1975,17 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		ValidationResult result = new ValidationResult();
 
-		if (!(this instanceof NewVendorPaymentView
-				|| this instanceof CustomerPrePaymentView
-				|| this instanceof CustomerRefundView
-				|| this instanceof MakeDepositView || this instanceof DepositView)) {
+		if (needTransactionItems() && !allowEmptyTransactionItems()) {
 			if (transactionItems == null || transactionItems.isEmpty()) {
 				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
 			}
 		}
 		return result;
+	}
+
+	protected boolean needTransactionItems() {
+		return true;
 	}
 
 	protected double getdiscount(List<ClientTransactionItem> transactionItems) {

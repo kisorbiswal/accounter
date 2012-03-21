@@ -97,7 +97,7 @@ public class SalesTaxGroupListView extends BaseView<ClientTAXGroup> {
 		 */
 		buttonsLayout = new StyledPanel("buttonsLayout");
 
-		button1 = new AddButton(this);
+		button1 = new AddButton(messages.taxItem());
 //		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {

@@ -1338,7 +1338,7 @@ public class ReceivePaymentView extends
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 

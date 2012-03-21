@@ -281,7 +281,7 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	}
 
 	@Override
-	public boolean allowEmptyTransactions() {
+	public boolean allowEmptyTransactionItems() {
 		return false;
 	}
 }

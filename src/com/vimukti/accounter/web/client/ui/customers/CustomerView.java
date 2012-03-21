@@ -772,7 +772,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		addFields(fields);
 
 		Label l1 = new Label(messages.contacts());
-		addButton = new AddButton(this);
+		addButton = new AddButton(messages.contact());
 
 		addButton.addClickHandler(new ClickHandler() {
 

@@ -456,7 +456,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm.add(memoArea);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		addButton = new AddButton(this);
+		addButton = new AddButton(messages.contact());
 		addButton.setEnabled(!isInViewMode());
 		// addButton.setStyleName("addButton");
 		addButton.addClickHandler(new ClickHandler() {

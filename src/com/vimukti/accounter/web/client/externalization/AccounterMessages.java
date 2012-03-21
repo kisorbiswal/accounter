@@ -845,7 +845,7 @@ public interface AccounterMessages extends Messages {
 
 	public String clickThisToOpenNew(String transactionName);
 
-	public String clickToAddContact(String transactionName);
+	public String clickToAdd(String item);
 
 	public String clickToAddItem(String transactionName);
 

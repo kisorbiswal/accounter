@@ -472,7 +472,7 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label l1 = new Label(messages.contacts());
 
-		addButton = new AddButton(this);
+		addButton = new AddButton(messages.contact());
 
 		addButton.addClickHandler(new ClickHandler() {
 
