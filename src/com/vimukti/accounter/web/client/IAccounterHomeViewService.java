@@ -493,8 +493,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public int getClientCompaniesCount();
 
-	boolean importData(String filePath, int importerType,
-			Map<String, String> importMap) throws AccounterException;
+	List<Object> importData(String filePath, int importerType,
+			Map<String, String> importMap, String dateFormate) throws AccounterException;
 
 	List<ImportField> getFieldsOf(int importerType) throws AccounterException;
 

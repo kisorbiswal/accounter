@@ -459,9 +459,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 		}
 
 		Customer customer = (Customer) clientObject;
-		if (this.getID() == 0) {
-			return super.canEdit(clientObject);
-		}
 		// if (this.name.equals(customer.name)
 		// && this.number.equals(customer.number)
 		// && this.id == customer.id)

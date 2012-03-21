@@ -2,9 +2,13 @@ package com.vimukti.accounter.server.imports;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.imports.BooleanField;
 import com.vimukti.accounter.web.client.imports.DoubleField;
@@ -12,17 +16,25 @@ import com.vimukti.accounter.web.client.imports.FinanceDateField;
 import com.vimukti.accounter.web.client.imports.Integer2Field;
 import com.vimukti.accounter.web.client.imports.LongField;
 import com.vimukti.accounter.web.client.imports.StringField;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ItemImporter extends AbstractImporter<ClientItem> {
+
+	private long itemGrupId;
+	private long measurmentId;
+	private long warehouseId;
 
 	@Override
 	public List<ImportField> getAllFields() {
 		List<ImportField> fields = new ArrayList<ImportField>();
 		fields.add(new StringField("itemName", messages.itemName(), true));
+		fields.add(new Integer2Field("weight", messages.weight()));
 		fields.add(new StringField("salesDescription", messages
 				.salesDescription()));
 		fields.add(new DoubleField("salesPrice", messages.salesPrice()));
-		fields.add(new LongField("incomeAccount", messages.incomeAccount(),
+		fields.add(new StringField("incomeAccount", messages.incomeAccount()
+				+ messages.number(), true));
+		fields.add(new StringField("incomeAccountName", messages.accountName(),
 				true));
 		fields.add(new BooleanField("isTaxble", messages.isTaxable()));
 		fields.add(new BooleanField("CommissionItem", messages.commissionItem()));
@@ -33,19 +45,24 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		fields.add(new StringField("purchaseDescription", messages
 				.purchaseDescription()));
 		fields.add(new DoubleField("purchasePrice", messages.purchasePrice()));
-		fields.add(new LongField("expenseAccount", messages.expenseAccount(),
-				true));
+		fields.add(new StringField("expenseAccount", messages.expenseAccount()
+				+ messages.number(), true));
+		fields.add(new StringField("expenseAccountName", messages
+				.expenseAccount() + messages.name(), true));
 		fields.add(new StringField("preferdVendor", messages
 				.preferredVendor(Global.get().Vendor())));
 		fields.add(new StringField("vendorServiceNo", messages
 				.vendorServiceNo(Global.get().Vendor())));
-		fields.add(new LongField("assetAccount", messages.assetsAccount(), true));
+		fields.add(new StringField("assetAccount", messages.assetsAccount()
+				+ messages.number(), true));
+		fields.add(new StringField("assetAccountName", messages.assetsAccount()
+				+ messages.name(), true));
 		fields.add(new Integer2Field("reOrderPts", messages.reorderPoint()));
-		fields.add(new DoubleField("onHandQuantity", messages.onHandQty()));
+		fields.add(new LongField("onHandQuantity", messages.onHandQty()));
 		fields.add(new FinanceDateField("asOf", messages.asOf()));
 		fields.add(new StringField("wareHouse", messages.wareHouse()));
-		fields.add(new LongField("measurement", messages.measurement()));
-		fields.add(new LongField("itemType", messages.itemType()));
+		fields.add(new StringField("measurement", messages.measurement()));
+		fields.add(new Integer2Field("itemType", messages.itemType()));
 		// fields.add(new StringField("AssemblyItem", messages.itemName(),
 		// true));
 		// fields.add(new StringField("description", messages.description()));
@@ -60,25 +77,49 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 	public ClientItem getData() {
 		ClientItem item = new ClientItem();
 		item.setName(getString("itemName"));
+		item.setType(getInteger("itemType"));
+		item.setActive(true);
 		item.setSalesDescription(getString("salesDescription"));
 		item.setSalesPrice(getDouble("salesPrice"));
-		item.setIncomeAccount(getLong("incomeAccount"));
+		item.setIncomeAccount(getAccountByNumberOrName("incomeAccount", false) == 0 ? getAccountByNumberOrName(
+				"incomeAccountName", true) : getAccountByNumberOrName(
+				"incomeAccount", false));
+		item.setISellThisItem(accountId == 0 ? false : true);
 		item.setTaxable(getBoolean("isTaxble"));
 		item.setCommissionItem(getBoolean("CommissionItem"));
-		item.setAssestsAccount(getLong("assetAccount"));
+		item.setAssestsAccount(getAccountByNumberOrName("assetAccount", false) == 0 ? getAccountByNumberOrName(
+				"assetAccountName", true) : getAccountByNumberOrName(
+				"assetAccount", false));
 		item.setReorderPoint(getInteger("reOrderPts"));
-		item.setMeasurement(getMeasurement("measurement"));
-		item.setOnhandQty(getClientQty("onHandQuantity"));
-		item.setAsOfDate(getFinanceDate("asOf"));
-		item.setItemGroup(getItemGroup("itemGroup"));
+
+		if ((getInteger("itemType") == ClientItem.TYPE_NON_INVENTORY_PART || getInteger("itemType") == ClientItem.TYPE_INVENTORY_PART)
+				&& getInteger("weight") != 0) {
+			item.setWeight(getInteger("weight"));
+			if (getInteger("itemType") == ClientItem.TYPE_INVENTORY_PART) {
+				item.setIBuyThisItem(true);
+				item.setISellThisItem(true);
+				item.setMinStockAlertLevel(null);
+				item.setMaxStockAlertLevel(null);
+				item.setWarehouse(getWarehouse("wareHouse"));
+				item.setMeasurement(getMeasurement("measurement") != 0 ? measurmentId
+						: getDefaultMeasurmentId());
+				if (getLong("onHandQuantity") != 0) {
+					item.setOnhandQty(getClientQty("onHandQuantity"));
+				}
+				item.setAsOfDate(getFinanceDate("asOf") == null ? new ClientFinanceDate()
+						: getFinanceDate("asOf"));
+			}
+		}
+		item.setItemGroup(getItemsGroup("itemGroup"));
 		item.setPurchasePrice(getDouble("purchasePrice"));
 		item.setPurchaseDescription(getString("purchaseDescription"));
 		item.setStandardCost(getDouble("standardCost"));
-		item.setExpenseAccount(getLong("expenseAccount"));
+		item.setExpenseAccount(getAccountByNumberOrName("expenseAccount", false) == 0 ? getAccountByNumberOrName(
+				"expenseAccountName", true) : getAccountByNumberOrName(
+				"expenseAccount", false));
+		item.setIBuyThisItem(accountId == 0 ? false : true);
 		item.setPreferredVendor(getPayeeByName("preferdVendor"));
 		item.setVendorItemNumber(getString("vendorServiceNo"));
-		item.setWarehouse(getWarehouse("wareHouse"));
-		item.setType(getInteger("itemType"));
 
 		// fields.add(new StringField("AssemblyItem", messages.itemName(),
 		// true));
@@ -90,17 +131,50 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 
 	}
 
-	private long getItemGroup(String string) {
-		return 0;
+	private ClientQuantity getClientQty(String quantity) {
+		ClientQuantity qty = new ClientQuantity();
+		qty.setValue(getLong(quantity));
+		qty.setUnit(getMeasurmentByID(measurmentId));
+		return qty;
 	}
 
-	private long getMeasurement(String string) {
-		// TODO Auto-generated method stub
-		return 0;
+	private long getMeasurmentByID(long measurmentId2) {
+		Set<Measurement> measurements = getCompanyById(getCompanyId())
+				.getMeasurements();
+		Measurement measurement = ImporterUtils.getMeasurementByID(
+				measurements, measurmentId2);
+		return measurement.getID();
 	}
 
-	private long getWarehouse(String fieldName) {
-		// TODO Auto-generated method stub
-		return 0;
+	private long getDefaultMeasurmentId() {
+		return getCompanyById(getCompanyId()).getDefaultMeasurement().getID();
+	}
+
+	private long getItemsGroup(String itemGroup) {
+		final String itemGrupName = getString(itemGroup);
+		if (itemGrupName != null && (itemGrupName.isEmpty())) {
+			itemGrupId = new FinanceTool().getItemGrupByName(getCompanyId(),
+					itemGrupName);
+		}
+		return itemGrupId;
+	}
+
+	private long getMeasurement(String measurementName) {
+
+		final String measurement = getString(measurementName);
+		if (measurement != null && (measurement.isEmpty())) {
+			measurmentId = new FinanceTool().getMeasurmentByName(
+					getCompanyId(), measurement);
+		}
+		return measurmentId;
+	}
+
+	private long getWarehouse(String wareHouseName) {
+		final String warehouse = getString(wareHouseName);
+		if (warehouse != null && (warehouse.isEmpty())) {
+			warehouseId = new FinanceTool().getWarehouseByName(getCompanyId(),
+					warehouse);
+		}
+		return warehouseId;
 	}
 }

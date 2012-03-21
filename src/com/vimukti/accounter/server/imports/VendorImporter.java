@@ -3,6 +3,7 @@ package com.vimukti.accounter.server.imports;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.imports.FinanceDateField;
@@ -19,10 +20,13 @@ public class VendorImporter extends PayeeImporter<ClientVendor> {
 		vendor.setShippingMethod(getLong(messages.preferredShippingMethod()));
 		vendor.setCustomFieldValues(getSetCusFieldList(messages.CustomField()));
 		vendor.setName(getString("payeeName"));
+		vendor.setFileAs(getString("payeeName"));
 		vendor.setVendorNumber(getString("number"));
 		vendor.setCustomFieldValues(getSetCusFieldList(messages.CustomField()));
-		vendor.setPayeeSince(getFinanceDate("payeeSince").getDate());
-		vendor.setBalanceAsOf(getFinanceDate(messages.balanceAsOf()).getDate());
+		vendor.setPayeeSince(getFinanceDate("payeeSince") == null ? new ClientFinanceDate()
+				.getDate() : getFinanceDate("payeeSince").getDate());
+		vendor.setBalanceAsOf(getFinanceDate(messages.balanceAsOf()) == null ? new ClientFinanceDate()
+				.getDate() : getFinanceDate(messages.balanceAsOf()).getDate());
 		vendor.setAddress(getSetAddressList(messages.address()));
 		vendor.setContacts(getSetContactList(messages.contacts()));
 		vendor.setMemo(getString(messages.notes()));

@@ -563,7 +563,8 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientJob>> asyncCallback);
 
 	void importData(String filePath, int importerType,
-			Map<String, String> importMap, AsyncCallback<Boolean> callback);
+			Map<String, String> importMap, String dateFormate,
+			AsyncCallback<List<Object>> callback);
 
 	public void getItemTransactionsList(long itemId, int transactionType,
 			int transactionStatus, ClientFinanceDate startDate,

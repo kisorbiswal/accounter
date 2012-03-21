@@ -929,10 +929,10 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-		// if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
-		// companyMenuBar.addMenuItem(messages.importFile(),
-		// HistoryTokens.IMPORT);
-		// }
+		 if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+		 companyMenuBar.addMenuItem(messages.importFile(),
+		 HistoryTokens.IMPORT);
+		 }
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");

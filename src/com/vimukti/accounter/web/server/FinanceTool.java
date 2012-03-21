@@ -4469,13 +4469,14 @@ public class FinanceTool {
 
 	}
 
-	public void importData(long companyId, String userEmail, String filePath,
-			int importerType, Map<String, String> importMap)
-			throws AccounterException {
+	public List<Object> importData(long companyId, String userEmail,
+			String filePath, int importerType, Map<String, String> importMap,
+			String dateFormate) throws AccounterException {
+		List<Object> exceptions = new ArrayList<Object>();
 		try {
 			Importer<? extends IAccounterCore> importer = getImporterByType(
-					importerType, importMap);
-
+					importerType, importMap, dateFormate, companyId);
+			long successCount = 0;
 			String[] headers = null;
 			boolean isHeader = true;
 			File file = new File(filePath);
@@ -4501,21 +4502,33 @@ public class FinanceTool {
 						importer.loadData(columnNameValueMap);
 						IAccounterCore data = importer.getData();
 						context.setData(data);
-						create(context);
+						try {
+							create(context);
+						} catch (AccounterException e) {
+							exceptions.add(e);
+							continue;
+						}
+						successCount++;
 					}
 				}
 			}
 			file.delete();
+			exceptions.add(0, successCount);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterException(e.getMessage());
 		}
+		return exceptions;
 	}
 
 	private Importer<? extends IAccounterCore> getImporterByType(
-			int importerType, Map<String, String> importMap) {
+			int importerType, Map<String, String> importMap, String dateFormat,
+			long companyId) {
 		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
 		importerByType.updateFields(importMap);
+		importerByType.setDateFormat(dateFormat);
+		importerByType.setCompanyId(companyId);
+		getCompany(companyId);
 		return importerByType;
 	}
 
@@ -4537,6 +4550,89 @@ public class FinanceTool {
 	public List<ImportField> getFieldsOfImporter(int importerType) {
 		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
 		return importerByType.getFields();
+	}
+	
+	public long getAccountByNumberOrName(long companyId,
+			String accountNoOrName, boolean isAccountName) {
+		if (!isAccountName) {
+			return getAccountByNumber(companyId, accountNoOrName);
+		} else {
+			return getAccountByName(companyId, accountNoOrName);
+		}
+	}
+	
+	
+	public Long getAccountByNumber(Long companyId, String accountNumber) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getAccountByNumber")
+				.setParameter("company", company)
+				.setParameter("accountNumber", accountNumber).uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+	
+	public Long getAccountByName(Long companyId, String accountNameOrNumber) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getAccountByName")
+				.setParameter("company", company)
+				.setParameter("accountName", accountNameOrNumber)
+				.uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+	
+	public Long getItemGrupByName(Long companyId, String itemGrupName) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getItemGrupByName")
+				.setParameter("company", company)
+				.setParameter("itemGrupName", itemGrupName).uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+
+	public Long getMeasurmentByName(Long companyId, String measurement) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getMeasurementByName")
+				.setParameter("company", company)
+				.setParameter("measurement", measurement).uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+
+	public Long getWarehouseByName(Long companyId, String warehouse) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getWarehouseByName")
+				.setParameter("company", company)
+				.setParameter("warehouse", warehouse).uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
+	}
+	
+	public Long getPayeeByName(Long companyId, String payee) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Object uniqueResult = session.getNamedQuery("getPayeeIdByName")
+				.setParameter("company", company).setParameter("payee", payee)
+				.uniqueResult();
+		if (uniqueResult != null) {
+			return (Long) uniqueResult;
+		}
+		return new Long(0);
 	}
 
 }

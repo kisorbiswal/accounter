@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.imports.FinanceDateField;
 import com.vimukti.accounter.web.client.imports.LongField;
@@ -16,12 +17,15 @@ public class CustomerImporter extends PayeeImporter<ClientCustomer> {
 		ClientCustomer customer = new ClientCustomer();
 		getData(customer);
 		customer.setName(getString("name"));
+		customer.setFileAs(getString("name"));
 		customer.setNumber(getString("number"));
 		customer.setSalesPerson(getLong("salesPerson"));
 		customer.setCreditRating(getLong(messages.creditRating()));
 		customer.setCustomFieldValues(getSetCusFieldList(messages.CustomField()));
-		customer.setPayeeSince(getFinanceDate("payeeSince").getDate());
-		customer.setBalanceAsOf(getFinanceDate("balanceAsof").getDate());
+		customer.setPayeeSince(getFinanceDate("payeeSince") == null ? new ClientFinanceDate()
+				.getDate() : getFinanceDate("payeeSince").getDate());
+		customer.setBalanceAsOf(getFinanceDate("balanceAsof") == null ? new ClientFinanceDate()
+				.getDate() : getFinanceDate("balanceAsof").getDate());
 		customer.setAddress(getSetAddressList("adress"));
 		customer.setContacts(getSetContactList(messages.contacts()));
 		customer.setMemo(getString("memo"));
@@ -42,8 +46,9 @@ public class CustomerImporter extends PayeeImporter<ClientCustomer> {
 		fields.add(new StringField(messages.CustomField(), messages
 				.CustomField()));
 		fields.add(new FinanceDateField("payeeSince", messages
-				.payeeSince(Global.get().Customer())));
-		fields.add(new FinanceDateField("balanceAsof", messages.balanceAsOf()));
+				.payeeSince(Global.get().Customer()), true));
+		fields.add(new FinanceDateField("balanceAsof", messages.balanceAsOf(),
+				true));
 		fields.add(new StringField("adress", messages.address()));
 		fields.add(new StringField("contacts", messages.contacts()));
 		fields.add(new StringField("memo", messages.notes()));

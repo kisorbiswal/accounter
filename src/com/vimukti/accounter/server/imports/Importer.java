@@ -45,4 +45,25 @@ public interface Importer<T extends IAccounterCore> {
 	 */
 	public List<ImportField> getFields();
 
+	/**
+	 * Date Format of the Imported CSV File
+	 * 
+	 * @param dateFormate
+	 */
+	public void setDateFormat(String dateFormat);
+
+	/**
+	 * Setting the companyId
+	 * 
+	 * @param CompanyId
+	 */
+	public void setCompanyId(long CompanyId);
+
+	/**
+	 * Returns the comapnyId
+	 * 
+	 * @return
+	 */
+	public long getCompanyId();
+
 }

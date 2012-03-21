@@ -15,12 +15,13 @@ import com.vimukti.accounter.web.client.imports.StringField;
 public abstract class PayeeImporter<T> extends AbstractImporter<IAccounterCore> {
 
 	protected void getData(ClientPayee payee) {
-		payee.setCurrency(getLong(messages.currency()));
+		payee.setCurrency(getCurrencyAsLong(messages.currency()));
 		payee.setOpeningBalance(getDouble(messages.openingBalance()));
 		payee.setFaxNo(getString(messages.fax()));
 		payee.setPhoneNo(getString(messages.phone()));
 		payee.setWebPageAddress(getString(messages.webPageAddress()));
-		payee.setPaymentMethod(getString(messages.paymentMethod()));
+		payee.setPaymentMethod(getString(messages.paymentMethod()) == null ? messages
+				.cash() : getString(messages.paymentMethod()));
 		payee.setVATRegistrationNumber(getString(messages.taxRegNo()));
 		payee.setTAXCode(getLong(messages.taxCode()));
 		payee.setBankAccountNo(getString(messages.bankAccountNumber()));
@@ -31,7 +32,7 @@ public abstract class PayeeImporter<T> extends AbstractImporter<IAccounterCore> 
 	@Override
 	public List<ImportField> getAllFields() {
 		List<ImportField> fields = new ArrayList<ImportField>();
-		fields.add(new LongField(messages.currency(), messages.currency()));
+		fields.add(new StringField(messages.currency(), messages.currency()));
 		fields.add(new DoubleField(messages.openingBalance(), messages
 				.openingBalances()));
 		fields.add(new StringField(messages.fax(), messages.fax()));

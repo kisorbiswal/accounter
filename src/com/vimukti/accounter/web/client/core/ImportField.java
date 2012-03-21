@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.imports.FinanceDateField;
 
 /**
  * @author Prasanna Kumar G
@@ -114,6 +115,10 @@ public abstract class ImportField implements Serializable, IsSerializable {
 			return null;
 		}
 		return getValue().toString();
+	}
+
+	public boolean isFinanceDate() {
+		return this instanceof FinanceDateField;
 	}
 
 }
