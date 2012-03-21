@@ -61,19 +61,9 @@ public class PaymentsList implements IsSerializable, Serializable {
 	// this.isDeleted = isDeleted;
 	// }
 
-	int payBillType;
-
 	private long currency;
 
 	private int saveStatus;
-
-	public int getPayBillType() {
-		return payBillType;
-	}
-
-	public void setPayBillType(int payBillType) {
-		this.payBillType = payBillType;
-	}
 
 	public boolean isVoided() {
 		return isVoided;
