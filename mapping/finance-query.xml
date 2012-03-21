@@ -2775,8 +2775,8 @@
 				]]>
 
 	</sql-query>
-	
-		<sql-query name="canDeleteVendorPayment">
+
+	<sql-query name="canDeleteVendorPayment">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
@@ -11356,9 +11356,11 @@
 
 		SELECT T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
-		T.MEMO AS TRANSACTION_MEMO,
+		T.MEMO AS
+		TRANSACTION_MEMO,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT AS UNIT,
 		TI.LINE_TOTAL AS AMOUNT,
@@ -11372,19 +11374,25 @@
 		T.CURRENCY AS CURRENCY_ID
 
 		FROM TRANSACTION T
-		LEFT OUTER JOIN PURCHASE_ORDER E ON E.ID = T.ID
-		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
-		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+		LEFT OUTER
+		JOIN PURCHASE_ORDER E ON E.ID = T.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM
+		TI ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT ON IT.ID =
+		TI.ITEM_ID
 
-		WHERE TI.TYPE = 1 AND IT.ID =:itemId AND T.T_DATE BETWEEN :fromDate AND
+		WHERE TI.TYPE = 1 AND IT.ID =:itemId AND T.T_DATE BETWEEN
+		:fromDate AND
 		:toDate
 		AND T.T_TYPE =22 AND
 		CASE WHEN :saveStatus !=0
-		THEN T.SAVE_STATUS=:saveStatus
+		THEN
+		T.SAVE_STATUS=:saveStatus
 		ELSE TRUE
 		END
 		AND T.COMPANY_ID =:companyId
-		AND T.SAVE_STATUS !=202
+		AND
+		T.SAVE_STATUS !=202
 		ORDER BY T.ID
 	</sql-query>
 
@@ -11521,8 +11529,47 @@
 				]]>
 
 	</sql-query>
-	
-	
+
+	<sql-query name="list.TAXAdjustments">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="TAX_AGENCY" type="long" />
+		<return-scalar column="TAX_ITEM" type="long" />
+		<return-scalar column="ACCOUNT" type="long" />
+		<return-scalar column="TOTAL" type="double" />
+	<![CDATA[
+		SELECT T.ID AS TRANSACTION_ID, 
+		T.T_DATE AS DATE,
+		A.TAX_AGENCY_ID AS TAX_AGENCY,
+		A.TAX_ITEM AS TAX_ITEM,
+		A.ADJUSTMENT_ACCOUNT AS ACCOUNT,
+		T.TOTAL AS TOTAL
+		
+		FROM TAX_ADJUSTMENT A
+			 LEFT JOIN TRANSACTION T
+			 	ON T.ID = A.ID
+		WHERE T.COMPANY_ID = :companyId
+			   AND CASE
+				             WHEN 1 = :viewType THEN ( A.BALANCE_DUE > 0.0
+				                                       AND T.STATUS != 2
+				                                       AND T.SAVE_STATUS !=204
+				                                       AND T.SAVE_STATUS!=201 )
+				           
+				             WHEN 3 = :viewType THEN ( T.SAVE_STATUS = 204 )
+				             
+				             ELSE TRUE
+				           END
+			  AND T.T_DATE BETWEEN :fromDate AND :toDate
+		ORDER  BY T.T_DATE 
+		]]>
+	</sql-query>
+
+
 	<sql-query name="getPresentRecurringTransactions">
 		<![CDATA[
 				SELECT r.*

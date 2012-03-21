@@ -42,6 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
@@ -575,11 +576,14 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getSalesOrdersList(long id,
 			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback);
+
 	void getWriteCheckByEstimateId(long l,
 			AsyncCallback<ClientWriteCheck> callback);
 
 	public void getCashPurchaseByEstimateId(long id,
 			AsyncCallback<ClientCashPurchase> callback);
 
-	
+	public void getTaxAdjustmentsList(int viewType, long startDate, long endDate, int start, int length,
+			AsyncCallback<PaginationList<ClientTAXAdjustment>> callback);
+
 }

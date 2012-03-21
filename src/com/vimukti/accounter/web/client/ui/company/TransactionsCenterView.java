@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
 import com.vimukti.accounter.web.client.ui.customers.ReceivedPaymentListView;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentsListView;
+import com.vimukti.accounter.web.client.ui.vat.TaxAdjustmentsListView;
 import com.vimukti.accounter.web.client.ui.vendors.BillListView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesListView;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
@@ -47,7 +48,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		mainPanel.setStyleName("Transactions_center");
 		createTreeItems();
 		this.add(mainPanel);
-		
+
 		// setSize("100%", "100%");
 		// mainPanel.setWidth("100");
 	}
@@ -188,6 +189,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 					PaymentListView.TYPE_WRITE_CHECKS);
 		} else if (itemName.equalsIgnoreCase(getMessages().purchaseOrders())) {
 			baseListView = (TransactionsListView<T>) new PurchaseOrderListView();
+		} else if (itemName.equalsIgnoreCase(getMessages().taxAdjustment())) {
+			baseListView = (TransactionsListView<T>) new TaxAdjustmentsListView();
 		}
 
 		mainPanel.add(baseListView);
@@ -256,6 +259,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		}
 		otherItems.add(getMessages().journalEntries());
 		otherItems.add(getMessages().otherChecks());
+		otherItems.add(getMessages().taxAdjustment());
 		// otherItems.add(getMessages().transferFunds());
 		return otherItems;
 	}
