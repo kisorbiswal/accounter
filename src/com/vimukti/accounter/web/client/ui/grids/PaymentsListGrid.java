@@ -388,10 +388,6 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	}
 
 	int getType(PaymentsList paymentsList) {
-		if (paymentsList.getType() == 11) {
-			return paymentsList.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
-					: ClientTransaction.TYPE_VENDOR_PAYMENT;
-		}
 
 		return paymentsList.getType();
 	}

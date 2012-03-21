@@ -227,10 +227,6 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	/* This method returns the Transaction type type basing on the PayBill Type */
 	int getType(PaymentsList paymentsList) {
-		if (paymentsList.getType() == 11) {
-			return paymentsList.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
-					: ClientTransaction.TYPE_VENDOR_PAYMENT;
-		}
 
 		return paymentsList.getType();
 	}
