@@ -366,7 +366,7 @@ public class TDSChalanDetailsView extends
 			}
 
 		};
-		table.setEnabled(isInViewMode());
+		table.setEnabled(!isInViewMode());
 
 		StyledPanel horizontalPanel1 = new StyledPanel("horizontalPanel1");
 		horizontalPanel1.add(taxDynamicForm);
