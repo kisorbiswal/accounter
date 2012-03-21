@@ -1,4 +1,4 @@
-package com.vimukti.accounter.web.client.core;
+package com.vimukti.accounter.web.client.ui.widgets;
 
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
