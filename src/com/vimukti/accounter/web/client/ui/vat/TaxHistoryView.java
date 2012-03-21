@@ -133,6 +133,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 							@Override
 							public boolean onYesClick() {
 								ClientTAXReturn selection2 = selection;
+								grid.deleteRecord(selection2);
 								Accounter.deleteObject(TaxHistoryView.this,
 										selection2);
 								return true;
