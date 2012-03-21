@@ -20,11 +20,11 @@ import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.PrintCheque;
-import com.vimukti.accounter.web.client.core.Utility;
 
 public class ChequePdfGenerator {
 	private static final int DPI = 72;
@@ -71,7 +71,8 @@ public class ChequePdfGenerator {
 						layout.getPayeeNameLeft(), layout.getPayeeNameTop(),
 						layout.getPayeeNameWidth());
 
-				String numberInWords = Utility.convert(printCheque.getAmount());
+				String numberInWords = ServerLocal.getLocaleLanguage()
+						.getAmountAsString(printCheque.getAmount());
 				int a = getAmountLineIndex(numberInWords,
 						layout.getAmountWordsLin1Width());
 				String line1 = numberInWords.substring(0, a);

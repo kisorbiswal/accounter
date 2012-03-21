@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.languages.English;
+
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
@@ -461,9 +463,8 @@ public class Form16ApdfTemplate {
 			total += chalan.getTotal();
 			bookEntry.setTotalTaxDeposited(String.valueOf(total));
 			verification.setRupees(String.valueOf(total));
-			verification
-					.setAmountinwords(com.vimukti.accounter.web.client.core.Utility
-							.convert(total));
+			verification.setAmountinwords(new English()
+					.getAmountAsString(total));
 			if (chalan.isBookEntry()) {
 				bookentries.add(bookEntry);
 			}
