@@ -15,6 +15,7 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	public EmailThemeComboDialog(String selectThemes, String desc,
 			ClientTransaction data) {
 		super(selectThemes, desc);
+		this.getElement().setId("EmailThemeComboDialog");
 		this.clientTransaction = data;
 		createControls();
 	}

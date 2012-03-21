@@ -26,6 +26,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 	public CopyBudgetDialogue(String budgetTitle, String string,
 			List<ClientBudget> listData) {
 		super(budgetTitle, string);
+		this.getElement().setId("CopyBudgetDialogue");
 		budgetList = listData;
 		createControls();
 	}

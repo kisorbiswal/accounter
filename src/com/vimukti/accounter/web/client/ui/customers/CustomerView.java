@@ -854,7 +854,6 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		topHLay.addStyleName("fields-panel");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.add(memoForm);
 
 		StyledPanel contHLay = new StyledPanel("contHLay");
 
@@ -863,6 +862,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		mainVlay.add(topHLay);
 		mainVlay.add(contHLay);
 		mainVlay.add(panel);
+		mainVlay.add(memoForm);
 		// mainVlay.add(memoForm);
 		memoForm.setEnabled(!isInViewMode());
 		mainVlay.setStyleName("generalTab");

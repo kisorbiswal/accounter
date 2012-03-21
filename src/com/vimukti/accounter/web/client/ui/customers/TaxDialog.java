@@ -42,6 +42,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack,
 			FormItem actionSource) {
 		super(messages.tax(), messages.selectOneType());
+		this.getElement().setId("TaxDialog");
 		this.actionSource = actionSource;
 		setText(messages.tax());
 		createControls();

@@ -29,6 +29,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	public PriceLevelListDialog(String title, String descript) {
 
 		super(title, descript);
+		this.getElement().setId("PriceLevelListDialog");
 		// setSize("400px", "");
 		// setWidth("400px");
 		initialise();

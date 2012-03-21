@@ -27,6 +27,7 @@ public class WarningsDialog extends AccounterDialog implements
 	public WarningsDialog(List<Warning> warnings,
 			ErrorDialogHandler warningHandler) {
 		super(warnings.get(0).getMessage(), AccounterType.WARNING);
+		this.getElement().setId("WarningsDialog");
 		this.warnings = warnings;
 		this.warningHandler = warningHandler;
 		setDialogHandler(this);

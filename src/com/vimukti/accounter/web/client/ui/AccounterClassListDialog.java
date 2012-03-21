@@ -20,6 +20,7 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 
 	public AccounterClassListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("AccounterClassListDialog");
 		// setWidth("400px");
 		initialise();
 		center();

@@ -53,7 +53,6 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	public IssuePaymentDialog(String text, String description) {
 		super(text, description);
 		this.getElement().setId("IssuePaymentDialog");
-		this.addStyleName("issue-payment-dialog");
 		this.validationCount = 3;
 		createControls();
 		getPayFromAccounts();

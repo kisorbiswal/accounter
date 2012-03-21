@@ -9,7 +9,7 @@ public class HelpDialog extends CustomDialog {
 //		this.setWidth("100%");
 //		this.setHeight("100%");
 		this.setModal(false);
-		this.addStyleName("helpdialog");
+		this.getElement().setId("helpDialog");
 		Element td = getCellElement(0, 1);
 		td.setInnerHTML("");
 		td.appendChild(helpPannel.getHorizontalPannel().getElement());

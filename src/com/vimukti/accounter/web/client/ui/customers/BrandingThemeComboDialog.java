@@ -29,14 +29,14 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	public BrandingThemeComboDialog(String title, String desc,
 			List<InvoicesList> list) {
 		super(title, desc);
-		this.addStyleName("branding-theme-combo-dialog");
+		this.getElement().setId("BrandingThemeComboDialog");
 		this.list = list;
 		createControls();
 	}
 
 	public BrandingThemeComboDialog(String title, String desc) {
 		super(title, desc);
-		this.addStyleName("branding-theme-combo-dialog");
+		this.getElement().setId("BrandingThemeComboDialog");
 	}
 
 	private void createControls() {

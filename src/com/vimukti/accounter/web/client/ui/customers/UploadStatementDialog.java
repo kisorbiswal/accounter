@@ -52,7 +52,7 @@ public class UploadStatementDialog extends BaseDialog implements
 	}
 
 	public UploadStatementDialog() {
-		// TODO Auto-generated constructor stub
+		this.getElement().setId("UploadStatementDialog");
 	}
 
 	/**

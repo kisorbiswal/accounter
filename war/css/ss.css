@@ -828,10 +828,12 @@ form {
 
 #subscription_complition_form table td {
 	display: table-cell;
-	white-space: pre-wrap;
+	/*white-space: pre-wrap;*/
 	word-wrap: break-word;
 }
-
+#subscription_complition_form textarea{
+	height:50px;
+}
 #subscription_complition_form {
 	overflow: hidden;
 }
@@ -858,7 +860,7 @@ input [type="checkbox"] {
 }
 
 #subscription_complition_form table td {
-	padding: 0 10px 5px 0;
+	padding: 0 0 10px 0;
 }
 
 .subscribtionManagementButton a {

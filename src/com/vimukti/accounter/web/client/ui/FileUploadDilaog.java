@@ -54,6 +54,7 @@ public class FileUploadDilaog extends CustomDialog {
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
 			ClientBrandingTheme theme, boolean forCusotomTemplateUpload) {
 		super(false, true);
+		this.getElement().setId("FileUploadDilaog");
 		this.title = title;
 		setText(title);
 		this.parentID = parentID;

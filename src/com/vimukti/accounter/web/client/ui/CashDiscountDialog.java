@@ -50,11 +50,13 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	public CashDiscountDialog() {
 		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
 		createControls();
+		this.getElement().setId("CashDiscountDialog");
 	}
 
 	public CashDiscountDialog(boolean canEdit, Double discountValue,
 			ClientAccount account, ICurrencyProvider currencyProvider) {
 		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
+		this.getElement().setId("CashDiscountDialog");
 		this.currencyProvider = currencyProvider;
 		this.cashDiscountValue = discountValue;
 		this.canEdit = canEdit;

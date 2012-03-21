@@ -9,6 +9,7 @@ public class ChangeStartDateDialog extends CustomDialog {
 
 	public ChangeStartDateDialog(String title, String desc) {
 		super(false, true);
+		this.getElement().setId("ChangeStartDateDialog");
 		createControls();
 		center();
 

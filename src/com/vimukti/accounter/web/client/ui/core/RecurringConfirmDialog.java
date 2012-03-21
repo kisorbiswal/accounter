@@ -24,6 +24,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 
 	public RecurringConfirmDialog() {
 		super(true);
+		this.getElement().setId("RecurringConfirmDialog");
 		setText(messages.pleaseConfirm());
 		setModal(true);
 		createControls();

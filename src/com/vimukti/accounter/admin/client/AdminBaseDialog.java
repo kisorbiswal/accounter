@@ -70,15 +70,18 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 	 */
 	public AdminBaseDialog() {
 		super(true);
+		this.getElement().setId("AdminBaseDialog");
 	}
 
 	public AdminBaseDialog(String text) {
 		super(true);
+		this.getElement().setId("AdminBaseDialog");
 		setText(text);
 	}
 
 	public AdminBaseDialog(String text, String desc) {
 		super(true);
+		this.getElement().setId("AdminBaseDialog");
 		// setText(getViewTitle());
 		setText(text);
 		setModal(true);

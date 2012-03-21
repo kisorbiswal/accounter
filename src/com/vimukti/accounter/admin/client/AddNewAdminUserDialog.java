@@ -12,6 +12,7 @@ public class AddNewAdminUserDialog extends AdminBaseDialog<ClientAdminUser> {
 
 	public AddNewAdminUserDialog(String text) {
 		super(text, "");
+		this.getElement().setId("AddNewAdminUserDialog");
 		createControls();
 		center();
 	}

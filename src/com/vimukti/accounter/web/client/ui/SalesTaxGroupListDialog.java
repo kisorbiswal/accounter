@@ -32,6 +32,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 
 	public SalesTaxGroupListDialog(String title, String desc) {
 		super(title, desc);
+		this.getElement().setId("SalesTaxGroupListDialog");
 		// setWidth("400px");
 		initialise();
 		// mainPanel.setSpacing(3);

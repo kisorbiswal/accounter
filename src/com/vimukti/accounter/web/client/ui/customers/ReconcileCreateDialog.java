@@ -36,7 +36,6 @@ public class ReconcileCreateDialog extends BaseDialog {
 	 */
 	private void createControls() {
 		FlexTable linksTable = new FlexTable();
-		linksTable.addStyleName("quick-links-table");
 		final Map<String, Action> map;
 		// Checking statementRecord amount is Spent or received amount.
 		if (statementRecord.getSpentAmount() > 0) {

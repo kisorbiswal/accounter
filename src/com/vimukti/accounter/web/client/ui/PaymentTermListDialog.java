@@ -29,6 +29,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	public PaymentTermListDialog() {
 		super(messages.managePaymentTerm(), messages.paymentTermDescription());
+		this.getElement().setId("PaymentTermListDialog");
 		createControls();
 		center();
 	}
