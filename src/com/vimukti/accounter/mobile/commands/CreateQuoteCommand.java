@@ -241,7 +241,20 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				return null;
 			}
 		});
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
 
+		});
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
 				getMessages().billTo()), getMessages().billTo(), true, true) {
 			@Override
@@ -709,6 +722,21 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 
 			estimate = getTransaction(string, AccounterCoreType.ESTIMATE,
 					context);
+			
+//			if(isUpdate)
+//			{
+//				if(estimate.getEstimateType() == ClientEstimate.CREDITS)
+//				{
+//					return "UpdateCredit";
+//				}else if(estimate.getEstimateType() == ClientEstimate.CHARGES){
+//					return "UpdateCharges";
+//				}else if(estimate.getEstimateType() == ClientEstimate.QUOTES)
+//				{
+//					return "UpdateQuote";
+//				}else if(estimate.getEstimateType() == ClientEstimate.SALES_ORDER){
+//					return "UpdateSalesOrder";
+//				}
+//			}
 			if (estimate == null) {
 				if (estimateType == ClientEstimate.QUOTES) {
 					addFirstMessage(
@@ -746,6 +774,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			estimate.setEstimateType(estimateType);
 		}
 		setTransaction(estimate);
+		
+		
 		return null;
 	}
 

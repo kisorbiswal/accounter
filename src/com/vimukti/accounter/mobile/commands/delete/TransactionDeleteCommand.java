@@ -1,5 +1,7 @@
 package com.vimukti.accounter.mobile.commands.delete;
 
+import com.vimukti.accounter.core.Estimate;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
@@ -22,8 +24,22 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 				.getAccounterCoreType(Integer.parseInt(split[0]));
 		String transactionName = Utility.getTransactionName(Integer
 				.parseInt(split[0]));
+		int type = Integer.valueOf(split[0]);
+		int estimateType = Integer.valueOf(split[1]);
+		if (type == Transaction.TYPE_ESTIMATE) {
+			if (estimateType == Estimate.QUOTES) {
+				transactionName = "Quote";
+			} else if (estimateType == Estimate.CHARGES) {
+				transactionName = "Charge";
+			} else if (estimateType == Estimate.CREDITS) {
+				transactionName = "Credit";
+			} else if (estimateType == Estimate.SALES_ORDER) {
+				transactionName = "Sales Order";
+			}
+
+		}
 		try {
-			delete(accounterCoreType, Long.parseLong(split[1]), context);
+			delete(accounterCoreType, Long.parseLong(split[2]), context);
 			addFirstMessage(context, getMessages().objectAlreadyDeleted());
 		} catch (AccounterException e) {
 			addFirstMessage(context, e.getMessage());

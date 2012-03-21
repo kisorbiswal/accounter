@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Result;
@@ -35,8 +36,10 @@ public abstract class ShowListRequirement<T> extends ListRequirement<T> {
 			String onSelection = onSelection(values);
 			if (onSelection != null) {
 				context.setAttribute("onShowlistSelection", "");
-				context.getIOSession().getCurrentCommand()
-						.setCanTrackRequirements(false);
+				Command currentCommand = context.getIOSession()
+						.getCurrentCommand();
+				currentCommand.setCanTrackRequirements(false);
+				currentCommand.setAttribute("input", null);
 				Result result = new Result();
 				result.setNextCommand(onSelection);
 				return result;

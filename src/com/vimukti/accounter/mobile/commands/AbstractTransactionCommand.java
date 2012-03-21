@@ -15,6 +15,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
@@ -317,12 +318,17 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				&& this.transaction.getID() != 0
 				&& context.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
 			int type = transaction.getType();
+			int estimateType=0;
 			if (transaction.getType() == Transaction.TYPE_PAY_BILL) {
 				ClientPayBill payBill = (ClientPayBill) transaction;
 				type = payBill.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
 						: ClientTransaction.TYPE_VENDOR_PAYMENT;
+			}else if(transaction.getType() == Transaction.TYPE_ESTIMATE)
+			{
+				ClientEstimate clientEstimate = (ClientEstimate)transaction;
+				estimateType = clientEstimate.getEstimateType();
 			}
-			return "deleteTransaction " + type + " " + transaction.getID();
+			return "deleteTransaction " + type + " " +estimateType+ " " + transaction.getID();
 		}
 		return null;
 	}
