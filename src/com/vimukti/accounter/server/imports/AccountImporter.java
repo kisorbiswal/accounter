@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.imports.Integer2Field;
 import com.vimukti.accounter.web.client.imports.LongField;
 import com.vimukti.accounter.web.client.imports.StringField;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public class AccountImporter extends AbstractImporter<ClientAccount> {
 
@@ -140,8 +139,7 @@ public class AccountImporter extends AbstractImporter<ClientAccount> {
 	}
 
 	private Long getBankName() {
-		return new FinanceTool().getBankAccountIdByName("bankName",
-				getCompanyId());
+		return getAccountByNumberOrName("bankName", true);
 	}
 
 	private int getType() {

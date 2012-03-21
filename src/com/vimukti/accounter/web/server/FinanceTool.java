@@ -4645,18 +4645,6 @@ public class FinanceTool {
 		return new Long(0);
 	}
 
-	public Long getBankAccountIdByName(String accountName, long companyId) {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Object uniqueResult = session.getNamedQuery("getBankAccountByName")
-				.setParameter("company", company)
-				.setParameter("accountName", accountName).uniqueResult();
-		if (uniqueResult != null) {
-			return (Long) uniqueResult;
-		}
-		return new Long(0);
-	}
-
 	public long getCurrencyIdByName(String currency, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
