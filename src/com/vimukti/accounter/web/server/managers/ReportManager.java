@@ -2902,7 +2902,7 @@ public class ReportManager extends Manager {
 			if (viewType == 0) {
 				Query balanceQuery = session
 						.getNamedQuery("getOpeningBalanceForCustomerByDate")
-						.setParameter("uptoDate", toDate.getDate())
+						.setParameter("uptoDate", fromDate.getDate())
 						.setParameter("payeeId", id)
 						.setParameter("companyId", companyId);
 				Object balance = balanceQuery.uniqueResult();
@@ -3010,7 +3010,7 @@ public class ReportManager extends Manager {
 			if (viewType == 0) {
 				Query balanceQuery = session
 						.getNamedQuery("getOpeningBalanceForVendorByDate")
-						.setParameter("uptoDate", toDate.getDate())
+						.setParameter("uptoDate", fromDate.getDate())
 						.setParameter("payeeId", id)
 						.setParameter("companyId", companyId);
 				Object balance = balanceQuery.uniqueResult();

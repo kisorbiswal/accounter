@@ -350,6 +350,8 @@
 				         ON J.ID = T.ID
 				       LEFT JOIN PAY_BILL PB
 				         ON PB.ID = T.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON VP.ID = T.ID
 				       LEFT JOIN RECEIVE_PAYMENT RP
 				         ON RP.ID = T.ID
 				       LEFT JOIN TAX_ADJUSTMENT TA
@@ -367,6 +369,7 @@
 				             OR P.ID = E.CUSTOMER_ID
 				             OR P.ID = J.PAYEE_ID
 				             OR P.ID = PB.VENDOR_ID
+				             OR P.ID = VP.VENDOR_ID
 				             OR P.ID = RP.CUSTOMER_ID
 				             OR P.ID = TA.TAX_AGENCY_ID
 				             OR P.ID = PT.TAX_AGENCY_ID
@@ -630,12 +633,17 @@
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
 				       T.CURRENCY      AS CURRENCY,
-				       PB.PAYBILL_TYPE AS PAYBILL_TYPE
-				FROM   PAY_BILL PB
-				       LEFT JOIN TRANSACTION T
+				       CASE
+				         WHEN T.T_TYPE = 11 THEN PB.PAYBILL_TYPE 
+				         ELSE 2 END AS PAYBILL_TYPE
+				FROM   TRANSACTION T
+					   LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT JOIN PAYEE P
 				         ON P.ID = PB.VENDOR_ID
+				         OR P.ID = VP.VENDOR_ID
 				WHERE  CASE
 				         WHEN 0 = :match THEN P.NAME = :name
 				         ELSE CASE
@@ -644,6 +652,7 @@
 				       END
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				       AND T.T_TYPE IN ( 11, 25 )
 				ORDER  BY T.T_DATE DESC  
 				]]>
 
@@ -667,12 +676,17 @@
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
 				       T.CURRENCY      AS CURRENCY,
-				       PB.PAYBILL_TYPE AS PAYBILL_TYPE
-				FROM   PAY_BILL PB
-				       LEFT JOIN TRANSACTION T
+				       CASE WHEN T.T_TYPE = 11 
+				        THEN PB.PAYBILL_TYPE 
+				        ELSE 2 END AS PAYBILL_TYPE
+				FROM   TRANSACTION T
+					   LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				       LEFT JOIN ACCOUNT_TRANSACTION AT
 				         ON AT.TRANSACTION_ID = PB.ID
+				         OR AT.TRANSACTION_ID = VP.ID
 				       LEFT JOIN ACCOUNT A
 				         ON A.ID = AT.ACCOUNT_ID
 				WHERE  CASE
@@ -683,6 +697,7 @@
 				       END
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				       AND T.T_TYPE IN ( 11, 25 )
 				ORDER  BY T.T_DATE DESC  
 				]]>
 
@@ -706,10 +721,14 @@
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
 				       T.CURRENCY      AS CURRENCY,
-				       PB.PAYBILL_TYPE AS PAYBILL_TYPE
-				FROM   PAY_BILL PB
-				       LEFT JOIN TRANSACTION T
+				       CASE WHEN T.T_TYPE = 11
+				        THEN PB.PAYBILL_TYPE 
+				        ELSE 2 END AS PAYBILL_TYPE
+				FROM   TRANSACTION T
+					   LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				WHERE  CASE
 				         WHEN 0 = :match THEN T.TOTAL = :amount
 				         ELSE CASE
@@ -724,6 +743,7 @@
 				       END
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				       AND T.T_TYPE IN ( 11, 25 )
 				ORDER  BY T.T_DATE DESC  
 				]]>
 
@@ -746,13 +766,18 @@
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
 				       T.CURRENCY      AS CURRENCY,
-				       PB.PAYBILL_TYPE AS PAYBILL_TYPE
-				FROM   PAY_BILL P
-				       LEFT JOIN TRANSACTION T
+				       CASE WHEN T.T_TYPE = 11 
+				       THEN P.PAYBILL_TYPE 
+				       ELSE 2 END AS PAYBILL_TYPE
+				FROM   TRANSACTION T
+					   LEFT JOIN PAY_BILL P
 				         ON T.ID = P.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				WHERE  T.T_DATE = :date
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				       AND T.T_TYPE IN ( 11, 25 )
 				ORDER  BY T.T_DATE DESC  
 				]]>
 
@@ -776,18 +801,23 @@
 				       T.T_TYPE       AS TRANSACTION_TYPE,
 				       T.TOTAL        AS TOTAL_PRICE,
 				       T.CURRENCY     AS CURRENCY,
-				       P.PAYBILL_TYPE AS PAYBILL_TYPE
-				FROM   PAY_BILL P
-				       LEFT JOIN TRANSACTION T
+				       CASE WHEN T.T_TYPE = 11 
+				       THEN P.PAYBILL_TYPE 
+				       ELSE 2 END AS PAYBILL_TYPE
+				FROM   TRANSACTION T
+					   LEFT JOIN PAY_BILL P
 				         ON T.ID = P.ID
+				       LEFT JOIN VENDOR_PAYMENT VP
+				         ON T.ID = VP.ID
 				WHERE  CASE
-				         WHEN 0 = :match THEN P.CHECK_NUMBER = :number
+				         WHEN 0 = :match THEN (P.CHECK_NUMBER = :number OR VP.CHECK_NUMBER = :number)
 				         ELSE CASE
-				                WHEN 3 = :match THEN P.CHECK_NUMBER LIKE :number
+				                WHEN 3 = :match THEN (P.CHECK_NUMBER LIKE :number OR VP.CHECK_NUMBER LIKE :number)
 				              END
 				       END
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				       AND T.T_TYPE IN ( 11, 25 )
 				ORDER  BY T.T_DATE DESC  
 				]]>
 
@@ -848,8 +878,8 @@
 				       T.T_TYPE   AS TRANSACTION_TYPE,
 				       T.TOTAL    AS TOTAL_PRICE,
 				       T.CURRENCY AS CURRENCY
-				FROM   PAY_BILL P
-				       LEFT JOIN TRANSACTION T
+				FROM   TRANSACTION T
+					   LEFT JOIN CASH_PURCHASE P
 				         ON T.ID = P.ID
 				       LEFT JOIN ACCOUNT_TRANSACTION AT
 				         ON AT.TRANSACTION_ID = P.ID

@@ -117,6 +117,12 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			this.memo = "" + transaction.getNumber() + "-"
 					+ ((PayBill) transaction).toString();
 			break;
+		case Transaction.TYPE_VENDOR_PAYMENT:
+			this.payee = ((VendorPayment) transaction).getVendor();
+			this.balance = ((VendorPayment) transaction).getUnusedAmount();
+			this.memo = "" + transaction.getNumber() + "-"
+					+ ((VendorPayment) transaction).toString();
+			break;
 		case Transaction.TYPE_RECEIVE_PAYMENT:
 			this.balance = ((ReceivePayment) transaction).getUnUsedPayments();
 			ReceivePayment receivePayment = (ReceivePayment) transaction;
