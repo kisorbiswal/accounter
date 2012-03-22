@@ -105,7 +105,6 @@ public class ViewManager extends FlowPanel {
 	ButtonGroup group3;
 
 	private final SimplePanel viewHolder;
-	private TransactionMeterPanel meterPanel;
 
 	ButtonGroup group4;
 	ButtonGroup group5;
@@ -117,7 +116,7 @@ public class ViewManager extends FlowPanel {
 		this.mainWindow = financeWindow;
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel rightPanel = new StyledPanel("rightPanel");
-		meterPanel = new TransactionMeterPanel();
+		TransactionMeterPanel meterPanel = new TransactionMeterPanel();
 		rightPanel.add(meterPanel);
 		getAdvertisePanel(rightPanel);
 		StyledPanel leftPanel = new StyledPanel("leftPanel");
@@ -958,13 +957,5 @@ public class ViewManager extends FlowPanel {
 
 	public boolean isHelpPanelEnabled() {
 		return this.isHelpPanelEnabled;
-	}
-
-	public void addedTransaction() {
-		meterPanel.increase();
-	}
-
-	public void deletedTransaction() {
-		meterPanel.decrease();
 	}
 }

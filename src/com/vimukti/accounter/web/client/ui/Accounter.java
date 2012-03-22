@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.AccounterCometInitializer;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -41,6 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.TransactionMeterEventType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
@@ -52,6 +54,8 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.uibinder.setup.SetupWizard;
+import com.vimukti.accounter.web.client.util.ChangeType;
+import com.vimukti.accounter.web.client.util.CoreEvent;
 
 /**
  * 
@@ -504,7 +508,10 @@ public class Accounter implements EntryPoint {
 			public void onResultSuccess(Long result) {
 				if (coreObj instanceof ClientTransaction
 						&& coreObj.getID() == 0) {
-					ViewManager.getInstance().addedTransaction();
+					Accounter.getEventBus().fireEvent(
+							new CoreEvent<TransactionMeterEventType>(
+									ChangeType.ADD,
+									new TransactionMeterEventType()));
 				}
 				if (coreObj.getID() != 0) {
 					coreObj.setVersion(coreObj.getVersion() + 1);
@@ -552,7 +559,10 @@ public class Accounter implements EntryPoint {
 			public void onResultSuccess(Boolean result) {
 				if (result != null && result) {
 					if (data instanceof ClientTransaction) {
-						ViewManager.getInstance().deletedTransaction();
+						Accounter.getEventBus().fireEvent(
+								new CoreEvent<TransactionMeterEventType>(
+										ChangeType.DELETE,
+										new TransactionMeterEventType()));
 					}
 				}
 				getCompany().processDeleteObject(data.getObjectType(),
