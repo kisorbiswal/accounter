@@ -140,32 +140,37 @@
 		<return-scalar column="REMAINING_TOTAL" type="double" />
 		
 		<![CDATA[
-				SELECT T.ID                                            AS TRANSACTION_ID,
-				       T.T_TYPE                                        AS TRANSACTION_TYPE,
-				       T.NUMBER                                        AS TRANSACTION_NUMBER,
-				       T.TOTAL                                         AS ORIGINAL_AMOUNT,
-				       T.T_DATE                                        AS TRANSACTION_DATE,
-				       P.NAME                                          AS VENDOR_NAME,
-				       ( T.TOTAL - (SELECT SUM(TI.INVOICED + ( TI.VAT_FRACTION * (
-				                                               TI.INVOICED / TI.LINE_TOTAL ) ))
-				                    FROM   TRANSACTION_ITEM TI
-				                    WHERE  TI.TRANSACTION_ID = T.ID) ) AS REMAINING_TOTAL
-				FROM   TRANSACTION T
-				       LEFT OUTER JOIN PURCHASE_ORDER PO
-				         ON T.ID = PO.ID
-				       LEFT OUTER JOIN PAYEE P
-				         ON P.ID = PO.VENDOR_ID
-				WHERE  T.STATUS !=2
-				       AND T.STATUS !=102
-				       AND T.STATUS != 103
-				       AND T.T_TYPE IN ( 22, 23 )
-				       AND T.SAVE_STATUS != 202
-				       AND P.ID = :vendorId
-				       AND T.COMPANY_ID = :companyId
-				       AND T.SAVE_STATUS != 202
-				       AND T.SAVE_STATUS != 204
-				       AND T.SAVE_STATUS != 201
-				ORDER  BY T.T_DATE  
+							SELECT T.ID                                            AS TRANSACTION_ID, 
+			       T.T_TYPE                                        AS TRANSACTION_TYPE, 
+			       T.NUMBER                                        AS TRANSACTION_NUMBER, 
+			       T.TOTAL                                         AS ORIGINAL_AMOUNT, 
+			       T.T_DATE                                        AS TRANSACTION_DATE, 
+			       P.NAME                                          AS VENDOR_NAME, 
+			       ( T.TOTAL - (SELECT SUM(TI.INVOICED + ( TI.VAT_FRACTION * ( CASE 
+			                                                                     WHEN 
+			                                                 TI.LINE_TOTAL = 0 THEN 0 
+			                                                                     ELSE 
+			                                                           TI.INVOICED / 
+			                                                           TI.LINE_TOTAL 
+			                                                                   END ) )) 
+			                    FROM   TRANSACTION_ITEM TI 
+			                    WHERE  TI.TRANSACTION_ID = T.ID) ) AS REMAINING_TOTAL 
+			FROM   TRANSACTION T 
+			       LEFT OUTER JOIN PURCHASE_ORDER PO 
+			         ON T.ID = PO.ID 
+			       LEFT OUTER JOIN PAYEE P 
+			         ON P.ID = PO.VENDOR_ID 
+			WHERE  T.STATUS !=2 
+			       AND T.STATUS !=102 
+			       AND T.STATUS != 103 
+			       AND T.T_TYPE IN ( 22, 23 ) 
+			       AND T.SAVE_STATUS != 202 
+			       AND P.ID = :vendorId 
+			       AND T.COMPANY_ID = :companyId 
+			       AND T.SAVE_STATUS != 202 
+			       AND T.SAVE_STATUS != 204 
+			       AND T.SAVE_STATUS != 201 
+			ORDER  BY T.T_DATE 
 				]]>
 
 	</sql-query>

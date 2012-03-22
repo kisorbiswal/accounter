@@ -363,8 +363,9 @@ public class PurchaseOrderView extends
 
 		// Label lab2 = new Label(messages.itemsAndExpenses());
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
-				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -414,7 +415,8 @@ public class PurchaseOrderView extends
 		accountsDisclosurePanel.setContent(accountFlowPanel);
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1556,6 +1558,25 @@ public class PurchaseOrderView extends
 
 	@Override
 	public boolean allowEmptyTransactionItems() {
+		return false;
+	}
+
+	private boolean isCustomerAllowedToAdd() {
+		if (transaction != null) {
+			List<ClientTransactionItem> transactionItems = transaction
+					.getTransactionItems();
+			for (ClientTransactionItem clientTransactionItem : transactionItems) {
+				if (clientTransactionItem.isBillable()
+						|| clientTransactionItem.getCustomer() != 0) {
+					return true;
+				}
+			}
+		}
+		if (getPreferences().isBillableExpsesEnbldForProductandServices()
+				&& getPreferences()
+						.isProductandSerivesTrackingByCustomerEnabled()) {
+			return true;
+		}
 		return false;
 	}
 }
