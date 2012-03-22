@@ -1172,10 +1172,6 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.ChangePasswordCommand"
 		name="changePassword">
 	</command>
-	
-	<command clazz="com.vimukti.accounter.mobile.commands.PasswordResetCommand"
-		name="resetPassword">
-	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.TaxHistoryCommand"
 		name="taxHistory">
@@ -1268,5 +1264,17 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.PurchaseOrderListCommand"
 		name="purchaseOrderList">
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.NewEmailAccountCommand" 
+		name="createEmailAccount">
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.TestEmailAccountCommand" 
+		name="testEmailAccount">
+	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.SendInvoiceEmailCommand" 
+		name="sendInvoiceToMail">
 	</command>
 </commands>

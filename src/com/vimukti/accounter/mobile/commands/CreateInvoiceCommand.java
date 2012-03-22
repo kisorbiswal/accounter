@@ -434,7 +434,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 			@Override
 			public String onSelection(String value) {
-				return "printAndSendEmail " + invoice.getID();
+				return "sendInvoiceToMail " + invoice.getID();
 			}
 
 			@Override

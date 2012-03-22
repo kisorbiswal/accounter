@@ -1096,6 +1096,8 @@ public interface AccounterMessages extends Messages {
 
 	public String creditTotalColon();
 
+	public String createEmailAccount();
+
 	public String cstNumber();
 
 	public String currency();
@@ -6171,6 +6173,16 @@ public interface AccounterMessages extends Messages {
 	public String writeChecksList();
 
 	public String transferFromAndToAccountsshouldhavesamecurrency();
+
+	public String testEmailAccount();
+
+	public String sendInvoiceToMail();
+
+	public String isSslTrue();
+
+	public String isSslFalse();
+
+	public String invoiceSentToYourEmail();
 
 	public String youCannotSelectTheItemWhichHaveNoExpenseAccount();
 
