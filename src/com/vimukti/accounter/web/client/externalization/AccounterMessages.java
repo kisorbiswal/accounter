@@ -6197,4 +6197,6 @@ public interface AccounterMessages extends Messages {
 	public String leaveOldPasswordEmptyIfYouSignedUpWithGoogleYahooAOLOrFacebook();
 
 	public String youCantDeleteCompanyCreator();
+
+	public String transactionsUsed(int transactionNumber, int maxLimit);
 }
