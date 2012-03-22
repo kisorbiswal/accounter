@@ -34,6 +34,7 @@ public class ClientCompany implements IAccounterCore {
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
 	public static final int ACCOUNTING_TYPE_OTHER = 3;
 
+	public static final int FREE_USER = 0;
 	public static final int ONE_USER = 1;
 	public static final int TWO_USERS = 2;
 	public static final int FIVE_USERS = 3;
@@ -3272,6 +3273,11 @@ public class ClientCompany implements IAccounterCore {
 		return premiumType == UNLIMITED_USERS;
 	}
 
+	public boolean isPaid() {
+		return premiumType != FREE_USER;
+	}
+
+	
 	/**
 	 * @return the exchangeLossOrGainAccount
 	 */
