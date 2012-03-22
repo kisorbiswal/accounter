@@ -77,9 +77,8 @@ public class ARAgingDetailReportCommand extends
 					Double vendorAmount = vendrBalance.get(name);
 					total += vendorAmount;
 					Record record = new Record(name);
-					record.add("", name);
-					record.add("", getMessages().openingBalance());
-					record.add("", getAmountWithCurrency(vendorAmount));
+					record.add("Name",name);
+					record.add(getMessages().openingBalance(), getAmountWithCurrency(vendorAmount));
 					list.add(record);
 				}
 				if (customerName.equals(""))
