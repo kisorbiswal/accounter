@@ -52,7 +52,8 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 		super.init();
 	}
 
-	protected AccounterMessages getMessages() {
+	@Override
+	public AccounterMessages getMessages() {
 		return messages;
 	}
 

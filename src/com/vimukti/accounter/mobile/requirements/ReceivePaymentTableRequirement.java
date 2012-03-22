@@ -3,15 +3,20 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -73,6 +78,64 @@ public abstract class ReceivePaymentTableRequirement extends
 		amountDue.setEditable(false);
 		list.add(amountDue);
 
+		CashDiscountWriteOffRequirement cashDiscountReq = new CashDiscountWriteOffRequirement(
+				CASH_DISCOUNT, getMessages().pleaseSelect(
+						getMessages().cashDiscount()), getMessages()
+						.cashDiscount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				ClientTransactionReceivePayment obj = ReceivePaymentTableRequirement.this.currentValue;
+				if (getAccount() != null && obj != null && value != null) {
+					obj.setPayment(0.0);
+					obj.setCashDiscount((Double) getValue());
+					obj.setDiscountAccount(getAccount().getID());
+					String validatePaymentValue = validatePaymentValue(obj);
+					if (validatePaymentValue == null) {
+						updateTransactionReceivePayment();
+					} else {
+						addFirstMessage(validatePaymentValue);
+						super.setValue(0.0);
+					}
+				}
+			}
+		};
+		list.add(cashDiscountReq);
+
+		CashDiscountWriteOffRequirement writeOffReq = new CashDiscountWriteOffRequirement(
+				WRITE_OFF,
+				getMessages().pleaseSelect(getMessages().writeOff()),
+				getMessages().writeOff(), true, true) {
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				ClientTransactionReceivePayment obj = ReceivePaymentTableRequirement.this.currentValue;
+				if (getAccount() != null && obj != null && value != null) {
+					obj.setPayment(0.0);
+					obj.setWriteOff((Double) getValue());
+					obj.setWriteOffAccount(getAccount().getID());
+					String validatePaymentValue = validatePaymentValue(obj);
+					if (validatePaymentValue == null) {
+						updateTransactionReceivePayment();
+					} else {
+						addFirstMessage(validatePaymentValue);
+						super.setValue(0.0);
+					}
+				}
+			}
+		};
+
+		list.add(writeOffReq);
+
 		list.add(new ApplyCreditsRequirement(APPLIED_CREDITS, getMessages()
 				.pleaseEnter(getMessages().appliedCredits()), getMessages()
 				.appliedCredits()) {
@@ -102,12 +165,10 @@ public abstract class ReceivePaymentTableRequirement extends
 			public void setValue(Object value) {
 				super.setValue(value);
 				ClientTransactionReceivePayment obj = ReceivePaymentTableRequirement.this.currentValue;
-				if (obj != null) {
+				if (obj != null && value != null) {
 					obj.updatePayment();
 					obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
-					updatePayment(obj);
-					ReceivePaymentTableRequirement.this.get(PAYMENT).setValue(
-							obj.getPayment());
+					updateTransactionReceivePayment();
 				}
 			}
 
@@ -162,9 +223,20 @@ public abstract class ReceivePaymentTableRequirement extends
 	@Override
 	protected void getRequirementsValues(ClientTransactionReceivePayment obj) {
 		Double amount = get(PAYMENT).getValue();
-		double appliedCredits = get(APPLIED_CREDITS).getValue();
-		obj.setAppliedCredits(appliedCredits, true);
 		obj.setPayment(amount);
+		Double appliedCredits = get(APPLIED_CREDITS).getValue();
+		obj.setAppliedCredits(appliedCredits, true);
+		CashDiscountWriteOffRequirement offRequirement = (CashDiscountWriteOffRequirement) get(CASH_DISCOUNT);
+		if (offRequirement.getAccount() != null) {
+			obj.setCashDiscount((Double) offRequirement.getValue());
+			obj.setDiscountAccount(offRequirement.getAccount().getID());
+		}
+
+		CashDiscountWriteOffRequirement writeOffRequirement = (CashDiscountWriteOffRequirement) get(WRITE_OFF);
+		if (writeOffRequirement.getAccount() != null) {
+			obj.setWriteOff((Double) writeOffRequirement.getValue());
+			obj.setWriteOffAccount(writeOffRequirement.getAccount().getID());
+		}
 	}
 
 	public void updateAmountDue(ClientTransactionReceivePayment item) {
@@ -204,10 +276,22 @@ public abstract class ReceivePaymentTableRequirement extends
 		get(INVOICE_AMOUNT).setDefaultValue(obj.getInvoiceAmount());
 		get(AMOUNT_DUE).setDefaultValue(obj.getAmountDue());
 		get(PAYMENT).setDefaultValue(obj.getAmountDue());
-		get(APPLIED_CREDITS).setDefaultValue(obj.getAppliedCredits());
+		CashDiscountWriteOffRequirement offRequirement = (CashDiscountWriteOffRequirement) get(CASH_DISCOUNT);
+		offRequirement.setAccount((Account) CommandUtils.getServerObjectById(
+				obj.getDiscountAccount(), AccounterCoreType.ACCOUNT));
+		offRequirement.setValue(obj.getCashDiscount());
+
+		CashDiscountWriteOffRequirement writeOffRequirement = (CashDiscountWriteOffRequirement) get(WRITE_OFF);
+		writeOffRequirement.setAccount((Account) CommandUtils
+				.getServerObjectById(obj.getWriteOffAccount(),
+						AccounterCoreType.ACCOUNT));
+		writeOffRequirement.setValue(obj.getWriteOff());
+
 		ApplyCreditsRequirement applyCreditsRequirement = (ApplyCreditsRequirement) get(APPLIED_CREDITS);
 		applyCreditsRequirement.setTransactionCreditsAndPayments(obj
 				.getTransactionCreditsAndPayments());
+
+		get(APPLIED_CREDITS).setValue(obj.getAppliedCredits());
 	}
 
 	@Override
@@ -230,6 +314,11 @@ public abstract class ReceivePaymentTableRequirement extends
 				t.getInvoiceAmount());
 		record.add(getMessages().amountDue() + "(" + formalName + ")",
 				t.getAmountDue());
+		if (getPreferences().isTrackDiscounts()) {
+			record.add(getMessages().cashDiscount(), t.getCashDiscount());
+		}
+		record.add(getMessages().writeOff(), t.getWriteOff());
+
 		record.add(getMessages().appliedCredits(), t.getAppliedCredits());
 		record.add(getMessages().payment() + "(" + formalName + ")",
 				t.getPayment());
@@ -270,13 +359,6 @@ public abstract class ReceivePaymentTableRequirement extends
 		return getPayee().getCurrency();
 	}
 
-	public List<ClientTransactionCreditsAndPayments> getTransactionCredits(
-			ClientTransactionReceivePayment payment) {
-		// ApplyCreditsRequirement requirement = (ApplyCreditsRequirement)
-		// get(APPLIED_CREDITS);
-		return null;// requirement.getTransactionCredits(payment);
-	}
-
 	public void customerSelected() {
 		((ApplyCreditsRequirement) get(APPLIED_CREDITS))
 				.addCreditsAndPayments();
@@ -285,5 +367,72 @@ public abstract class ReceivePaymentTableRequirement extends
 	public List<ClientCreditsAndPayments> getCreditsAndPayments() {
 		return ((ApplyCreditsRequirement) get(APPLIED_CREDITS))
 				.getCreditsAndPayments();
+	}
+
+	protected void updateTransactionReceivePayment() {
+		ClientTransactionReceivePayment obj = ReceivePaymentTableRequirement.this.currentValue;
+		if (obj != null) {
+			CashDiscountWriteOffRequirement offRequirement = (CashDiscountWriteOffRequirement) get(CASH_DISCOUNT);
+			if (offRequirement.getAccount() != null
+					&& offRequirement.getValue() != null) {
+				obj.setPayment(0.0);
+				obj.setCashDiscount((Double) offRequirement.getValue());
+				obj.setDiscountAccount(offRequirement.getAccount().getID());
+				if (validatePaymentValue(obj) == null) {
+					updatePayment(obj);
+				} else {
+					obj.setCashDiscount(0.0D);
+					updatePayment(obj);
+				}
+			} else {
+				obj.setCashDiscount(0.0);
+				obj.setDiscountAccount(0);
+			}
+
+			CashDiscountWriteOffRequirement writeoffRequirement = (CashDiscountWriteOffRequirement) get(WRITE_OFF);
+			if (writeoffRequirement.getAccount() != null
+					&& writeoffRequirement.getValue() != null) {
+				obj.setPayment(0.0);
+				obj.setWriteOff((Double) writeoffRequirement.getValue());
+				obj.setWriteOffAccount(writeoffRequirement.getAccount().getID());
+				if (validatePaymentValue(obj) == null) {
+					updatePayment(obj);
+				} else {
+					obj.setWriteOff(0.0D);
+					updatePayment(obj);
+				}
+			} else {
+				obj.setWriteOff(0.0);
+				obj.setWriteOffAccount(0);
+			}
+
+			Double appliedCredits = get(APPLIED_CREDITS).getValue();
+			if (appliedCredits != null) {
+				obj.setAppliedCredits(appliedCredits, true);
+			}
+
+			obj.updatePayment();
+			// obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
+			updatePayment(obj);
+			ReceivePaymentTableRequirement.this.get(PAYMENT).setValue(
+					obj.getPayment());
+		}
+	}
+
+	protected String validatePaymentValue(
+			ClientTransactionReceivePayment selectedObject) {
+		double totalValue = getTotalValue(selectedObject);
+		return isValidReceive_Payment(selectedObject.getAmountDue(), totalValue);
+
+	}
+
+	public String isValidReceive_Payment(double amountDue, double totalValue) {
+		if (DecimalUtil.isLessThan(totalValue, 0.00)) {
+			return getMessages().valueCannotBe0orlessthan0(
+					getMessages().amount());
+		} else if (DecimalUtil.isGreaterThan(totalValue, amountDue)) {
+			return getMessages().receiveAmountPayDue();
+		}
+		return null;
 	}
 }

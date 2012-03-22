@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 public abstract class Command {
 	MobileConstants constants;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
@@ -12,9 +15,15 @@ public abstract class Command {
 	private boolean isDone;
 	private String successMessage;
 	private boolean canTrackRequirements = true;
+	AccounterMessages messages;
 
 	public Command() {
+		messages = Global.get().messages();
 		init();
+	}
+
+	public AccounterMessages getMessages() {
+		return messages;
 	}
 
 	public void init() {
@@ -44,7 +53,6 @@ public abstract class Command {
 		return constants;
 
 	}
-
 
 	public boolean isAllRequirementsFulfilled() {
 		// TODO

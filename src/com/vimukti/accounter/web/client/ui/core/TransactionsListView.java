@@ -32,7 +32,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	public DateItem toItem;
 	public Button updateButton;
 	protected SelectCombo viewSelect, dateRangeSelector;
-	
+
 	private String viewType;
 
 	public TransactionsListView() {
@@ -53,6 +53,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	@Override
 	protected void createListForm(DynamicForm form) {
+		super.createListForm(form);
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
@@ -62,7 +63,6 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			typeList.add(messages.active());
 			typeList.add(messages.inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(messages.active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -116,9 +116,10 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 				}
 			}
 		});
-		form.add(viewSelect, dateRangeSelector, fromItem, toItem);
+		form.add(dateRangeSelector, fromItem, toItem);
 		form.add(updateButton);
 	}
+
 	@Override
 	protected boolean isTransactionListView() {
 		return true;

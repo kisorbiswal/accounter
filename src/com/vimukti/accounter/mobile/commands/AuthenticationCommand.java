@@ -17,30 +17,39 @@ import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.MobileCookie;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterChatServer;
-import com.vimukti.accounter.mobile.Command;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
-import com.vimukti.accounter.mobile.requirements.AbstractRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
+import com.vimukti.accounter.mobile.requirements.PasswordRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class AuthenticationCommand extends Command {
+public class AuthenticationCommand extends AbstractBaseCommand {
+
+	private static final String EMAIL_ID = "emailId";
+	private static final String ACTIVATION = "activation";
+	private static final String PASSWORD = "password";
+	private static final String NEW_PASSWORD = "newPassword";
+	private static final String CONFIRM_PASSWORD = "confirmPassword";
+	private Context context;
+
+	private Client client;
 
 	@Override
 	public String getId() {
@@ -49,330 +58,357 @@ public class AuthenticationCommand extends Command {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-	}
-
-	@Override
-	public Result run(Context context) {
-		Result makeResult = context.makeResult();
-		Result login = showLoginButton(context);
-		if (login != null) {
-			return login;
-		}
-
-		// Re-Sending the Activation mail
-		if (context.getSelection("activation") != null) {
-			context.setAttribute("input", "activationEmailId");
-			makeResult.add(Global.get().messages().registeredEmailId());
-			makeResult.add(new InputType(AbstractRequirement.INPUT_TYPE_EMAIL));
-			makeResult.setCookie(context.getNetworkId());
-			return makeResult;
-		}
-		Object emailIdAttr = context.getAttribute("input");
-		if (emailIdAttr != null && emailIdAttr.equals("activationEmailId")) {
-			String userName = context.getString();
-			Client client = null;
-			if (isValidEmailId(userName)) {
-				client = getClient(userName);
+		list.add(new EmailRequirement(EMAIL_ID, getMessages().pleaseEnter(
+				getMessages().emailId()), getMessages().emailId(), false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				int networkType = context.getNetworkType();
+				if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 			}
-			if (client == null) {
-				makeResult
-						.add("Invalid email id, please enter the email id that you used during sign up process.");
-				context.setAttribute("input", "activationEmailId");
-				makeResult.add("Please enter email.");
-				makeResult.add(new InputType(
-						AbstractRequirement.INPUT_TYPE_EMAIL));
-				makeResult.setCookie(context.getNetworkId());
-				return makeResult;
-			}
-			context.setAttribute("userName", userName);
-			context.setAttribute("input", "activation");
-			String activationCode = getUserActivationCode(client);
-			if (activationCode == null) {
-				Session session = HibernateUtil.getCurrentSession();
-				session.getNamedQuery("delete.activation.by.emailId")
-						.setString("emailId", userName).executeUpdate();
-				activationCode = createUserActivationCode(client.getEmailId());
-			}
-			sendUserActivationMail(client, activationCode);
-			makeResult.add("Activation code has been sent to your email Id.");
-			makeResult.add("Please Enter Activation code.");
-			makeResult
-					.add(new InputType(AbstractRequirement.INPUT_TYPE_STRING));
-			ResultList list = new ResultList("activation");
-			Record activationRec = new Record("resendActivation");
-			activationRec.add("Re-send activation code");
-			list.add(activationRec);
-			makeResult.add(list);
-			return makeResult;
-		}
 
-		int networkType = context.getNetworkType();
-		// MOBILE
-		if (networkType == AccounterChatServer.NETWORK_TYPE_MOBILE) {
-
-			String string = context.getString();
-			if (string.isEmpty()) {
-				context.setAttribute("input", null);
-			}
-			Object last = context.getLast(RequirementType.STRING);
-			if (last != null) {
-				string = (String) context.getLast(RequirementType.STRING);
-				context.setLast(RequirementType.STRING, null);
-				context.setAttribute("input", "userName");
-			}
-			Object attribute = context.getAttribute("input");
-			Client client = null;
-
-			if (attribute == null || string == null) {
-				if (string != null) {
-					MobileCookie mobileCookie = getMobileCookie(string);
-					if (mobileCookie != null) {
-						client = mobileCookie.getClient();
-						markDone();
-						attribute = "finish";
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				if (isValidEmailId((String) value)) {
+					String validateEmailId = AuthenticationCommand.this
+							.validateEmailId();
+					if (validateEmailId != null) {
+						addFirstMessage(validateEmailId);
+						super.setValue(null);
+						return;
 					}
-				}
-				if (!isDone()) {
-					context.setAttribute("input", "userName");
-					makeResult.add("Please enter email.");
-					makeResult.add(new InputType(
-							AbstractRequirement.INPUT_TYPE_EMAIL));
-					makeResult.setCookie(context.getNetworkId());
-					return makeResult;
+					setClient();
 				}
 			}
+		});
 
-			if (attribute.equals("activation")) {
-				String userName = (String) context.getAttribute("userName");
-				String activationCode = context.getString().toLowerCase()
-						.trim();
-				Activation activation = getActivation(activationCode);
+		list.add(new StringRequirement(ACTIVATION, getMessages().pleaseEnter(
+				getMessages().activationCode()),
+				getMessages().activationCode(), false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				int networkType = context.getNetworkType();
+				if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
+					return null;
+				}
+				if (client != null && !client.isActive()
+						|| (client.isRequirePasswordReset())) {
+					Result run = super.run(context, makeResult, list, actions);
+					return run;
+				}
+				return null;
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				Activation activation = getActivation((String) value);
 				if (activation == null) {
-					makeResult.add("Wrong activation code");
-					context.setAttribute("input", "userName");
+					addFirstMessage("Wrong activation code");
+					super.setValue(null);
 				} else {
 					Session currentSession = HibernateUtil.getCurrentSession();
 					Transaction beginTransaction = currentSession
 							.beginTransaction();
 
-					client = getClient(userName);
 					client.setActive(true);
 					beginTransaction.commit();
-					markDone();
 				}
 			}
+		});
 
-			if (attribute.equals("userName")) {
-				context.setAttribute("userName", string.toLowerCase().trim());
-				client = getClient(string);
-				if (client == null) {
-					context.setAttribute("userName", null);
-					makeResult
-							.add("There is no account found with given Email Id.");
-					makeResult.add("Please enter valid accounter email.");
-					makeResult.add(new InputType(
-							AbstractRequirement.INPUT_TYPE_EMAIL));
-					CommandList commandList = new CommandList();
-					commandList.add(new UserCommand("signup",
-							"I don't have an account, create", ""));
-					makeResult.add(commandList);
-					return makeResult;
+		list.add(new PasswordRequirement(PASSWORD, getMessages().pleaseEnter(
+				getMessages().password()), getMessages().password(), false,
+				true) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (!client.isRequirePasswordReset()) {
+					return super.run(context, makeResult, list, actions);
 				}
-				if (client != null && !client.isActive()
-						&& EU.getKey(context.getIOSession().getId()) != null) {
-					context.setAttribute("input", "activation");
-					makeResult.add("Please Enter Activation Code");
-					makeResult.add(new InputType(
-							AbstractRequirement.INPUT_TYPE_STRING));
-					ResultList list = new ResultList("activation");
-					Record activationRec = new Record("resendActivation");
-					activationRec.add("Re-send activation code");
-					list.add(activationRec);
-					makeResult.add(list);
-					return makeResult;
-				}
-				context.setAttribute("input", "password");
-				makeResult.add("Please Enter password");
-				makeResult.add(new InputType(
-						AbstractRequirement.INPUT_TYPE_PASSWORD));
-				return makeResult;
+				return null;
 			}
 
-			if (attribute.equals("password")) {
-				String userName = (String) context.getAttribute("userName");
-				context.setAttribute("input", "userName");
-				client = getClient(userName);
-				// Written for open id sign up process.If user sign up in open
-				// id
-				// and trying to login in mobile.Then user don't have
-				// password.For this situation we are checking null
-				// password.client.getPassword() == null
-				boolean wrongPassword = true;
-				if (client != null && client.getPassword() != null) {
-					String password = HexUtil.bytesToHex(Security
-							.makeHash(userName.toLowerCase() + string));
-					String passwordWithWord = HexUtil.bytesToHex(Security
-							.makeHash(userName.toLowerCase()
-									+ Client.PASSWORD_HASH_STRING + string));
-					if (client.getPassword().equals(password)) {
-						client.setPassword(passwordWithWord);
-						Session currentSession = HibernateUtil
-								.getCurrentSession();
-						Transaction beginTransaction = currentSession
-								.beginTransaction();
-						currentSession.saveOrUpdate(client);
-						beginTransaction.commit();
-					}
-					if (!client.getPassword().equals(passwordWithWord)) {
-						wrongPassword = true;
-					} else {
-						wrongPassword = false;
-					}
-
-				}
-				if (wrongPassword) {
-					context.setAttribute("password", null);
-					context.setAttribute("input", "password");
-					makeResult.add("Entered password was wrong.");
-					makeResult.add("Please enter correct password");
-					makeResult.add(new InputType(
-							AbstractRequirement.INPUT_TYPE_EMAIL));
-					CommandList commandList = new CommandList();
-					commandList.add(new UserCommand("signup",
-							"I don't have an account, create", ""));
-					makeResult.add(commandList);
-					return makeResult;
-				}
-				if (client.isActive()) {
-					createMobileCookie(context.getNetworkId(), client);
-					try {
-						byte[] d2 = EU.generateD2(string, client.getEmailId(),
-								context.getIOSession().getId());
-						context.getIOSession().setD2(d2);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					markDone();
-				} else {
-					context.setAttribute("input", "activation");
-					makeResult.add("Please Enter Activation Code");
-					makeResult.add(new InputType(
-							AbstractRequirement.INPUT_TYPE_STRING));
-					ResultList list = new ResultList("activation");
-					Record activationRec = new Record("resendActivation");
-					activationRec.add("Re-send activation code");
-					list.add(activationRec);
-					makeResult.add(list);
-					return makeResult;
-				}
+			@Override
+			public boolean isDone() {
+				return EU.getKey(context.getIOSession().getId()) != null;
 			}
 
-			if (isDone()) {
-				makeResult.add("Your Successfully Logged.");
-				makeResult.setNextCommand("selectCompany");
-				context.getIOSession().setClient(client);
-				context.getIOSession().setAuthentication(true);
-				return makeResult;
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				String validatePassword = AuthenticationCommand.this
+						.validatePassword();
+				if (validatePassword != null) {
+					addFirstMessage(validatePassword);
+					super.setValue(null);
+				}
 			}
-		}
+		});
 
-		// CHATTING AND CONSOLE
-		IMUser imUser = getIMUser(context.getNetworkId(),
-				context.getNetworkType());
-		if (imUser == null) {
-			IMActivation activation = getImActivationByTocken(context
-					.getString());
+		list.add(new PasswordRequirement(NEW_PASSWORD, getMessages()
+				.pleaseEnter(getMessages().newPassword()), getMessages()
+				.newPassword(), false, true) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (client.isRequirePasswordReset()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new PasswordRequirement(CONFIRM_PASSWORD, getMessages()
+				.pleaseEnter(getMessages().confirmPassword()), getMessages()
+				.confirmPassword(), false, true) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (client.isRequirePasswordReset()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				String validatePassword = AuthenticationCommand.this
+						.isBothPasswordsSame();
+				if (validatePassword != null) {
+					addFirstMessage(validatePassword);
+					super.setValue(null);
+				}
+			}
+		});
+	}
+
+	protected void setClient() {
+		this.client = getClient((String) get(EMAIL_ID).getValue());
+	}
+
+	private void sendForgotPassWordMail() {
+		Session serverSession = HibernateUtil.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = serverSession.beginTransaction();
+
+			Activation activation = getActivationByEmailId(client.getEmailId());
+			String token = null;
 			if (activation == null) {
-				List<IMActivation> activationList = getImActivationByNetworkId(context
-						.getNetworkId());
-				if (activationList == null || activationList.size() == 0) {
-					String networkId = context.getNetworkId();
-					networkId = networkId.split(" ")[0];
-					Client client = getClient(networkId);
-					if (client == null) {
-						client = getClient(context.getString());
-					}
-
-					if (client != null) {
-						sendActivationMail(context.getNetworkId(),
-								client.getEmailId());
-						makeResult
-								.add("Activation code has been sent to your email Id.");
-						makeResult.add("Please Enter IM Activation code.");
-					} else {
-						if (!context.getString().isEmpty()) {
-							makeResult
-									.add("There is no account found with given Email Id");
-						}
-						makeResult.add("Please enter valid accounter email.");
-						CommandList commandList = new CommandList();
-						commandList.add("signup");
-						commandList.add(new UserCommand("signup",
-								"Signup with " + networkId, context
-										.getNetworkId()));
-						makeResult.add(commandList);
-					}
-
-				} else {
-					if (!context.getString().isEmpty()) {
-						makeResult.add("Wrong Activation code");
-					}
-					makeResult.add("Please Enter IM Activation code");
-
-				}
-
+				token = createUserActivationCode(client.getEmailId());
 			} else {
-				// DELETE IM ACTIVATION
+				token = activation.getToken();
+			}
+
+			sendForgetPasswordLinkToUser(client, token);
+
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	private void sendForgetPasswordLinkToUser(Client client,
+			String activationCode) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		client.setRequirePasswordReset(true);
+
+		session.saveOrUpdate(client);
+		StringBuffer link = new StringBuffer("https://");
+		link.append(ServerConfiguration.getMainServerDomain());
+		link.append("/main/activation");
+		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
+		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
+				activationCode, client.getEmailId());
+	}
+
+	private Activation getActivationByEmailId(String email) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("get.activation.by.emailid");
+			query.setParameter("emailId", email);
+			Activation val = (Activation) query.uniqueResult();
+			return val;
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	protected String isBothPasswordsSame() {
+		String password = get(NEW_PASSWORD).getValue();
+		String confirm = get(CONFIRM_PASSWORD).getValue();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
+		Transaction transaction = hibernateSession.beginTransaction();
+		try {
+			if (password.isEmpty() || confirm.isEmpty()) {
+				return "Please enter a valid passowrd";
+			}
+			// compare if not equal send error message
+			// otherwise
+			if (!password.equals(confirm)) {
+				return "Passwords not matched";
+			}
+			String emailId = get(EMAIL_ID).getValue();
+			// getClient record with activation emailId
+
+			// update password and set isActive true
+			client.setPassword(HexUtil.bytesToHex(Security.makeHash(emailId
+					+ password.trim())));
+			client.setRequirePasswordReset(false);
+
+			// and save Client,
+			hibernateSession.saveOrUpdate(client);
+			transaction.commit();
+			get(PASSWORD).setValue(password);
+		} catch (Exception e) {
+			transaction.rollback();
+			e.printStackTrace();
+		} finally {
+
+		}
+		return null;
+	}
+
+	protected String validatePassword() {
+		String string = get(PASSWORD).getValue();
+		String userName = get(EMAIL_ID).getValue();
+		// Written for open id sign up process.If user sign up in open
+		// id
+		// and trying to login in mobile.Then user don't have
+		// password.For this situation we are checking null
+		// password.client.getPassword() == null
+
+		if (isWrongPassword()) {
+			return "Entered password was wrong.Please enter correct password";
+		}
+		createMobileCookie(context.getNetworkId(), client);
+		try {
+			byte[] d2 = EU.generateD2(string, client.getEmailId(), context
+					.getIOSession().getId());
+			context.getIOSession().setD2(d2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private boolean isWrongPassword() {
+		String string = get(PASSWORD).getValue();
+		String userName = get(EMAIL_ID).getValue();
+		boolean wrongPassword = true;
+		if (client != null && client.getPassword() != null) {
+			String password = HexUtil.bytesToHex(Security.makeHash(userName
+					.toLowerCase() + string));
+			String passwordWithWord = HexUtil.bytesToHex(Security
+					.makeHash(userName.toLowerCase()
+							+ Client.PASSWORD_HASH_STRING + string));
+			if (client.getPassword().equals(password)) {
+				client.setPassword(passwordWithWord);
 				Session currentSession = HibernateUtil.getCurrentSession();
 				Transaction beginTransaction = currentSession
 						.beginTransaction();
-				currentSession.delete(activation);
+				currentSession.saveOrUpdate(client);
 				beginTransaction.commit();
-				imUser = createIMUser(context.getNetworkType(),
-						activation.getNetworkId(),
-						getClient(activation.getEmailId()));
-				makeResult.add("Activation Success");
 			}
-		}
-		if (imUser != null) {
-			Client client = imUser.getClient();
-			if (client.isActive()) {
-				markDone();
+			if (!client.getPassword().equals(passwordWithWord)) {
+				wrongPassword = true;
 			} else {
-				context.setAttribute("userName", client.getEmailId());
-				if (context.getString().isEmpty()) {
-					makeResult.add("Please Enter Activation code");
-					ResultList list = new ResultList("activation");
-					Record activationRec = new Record("resendActivation");
-					activationRec.add("Re-send activation code");
-					list.add(activationRec);
-					makeResult.add(list);
-				} else {
-					Activation activation = getActivation(context.getString());
-					if (activation == null) {
-						makeResult.add("Wrong activation code");
-						makeResult.add("Please enter Activation code");
-					} else {
-						Session currentSession = HibernateUtil
-								.getCurrentSession();
-						Transaction beginTransaction = currentSession
-								.beginTransaction();
-						client.setActive(true);
-						currentSession.delete(activation);
-						beginTransaction.commit();
-
-						makeResult.add("Activation Success");
-						markDone();
-					}
-				}
+				wrongPassword = false;
 			}
 		}
-		if (isDone()) {
-			makeResult.setNextCommand("selectCompany");
-			context.getIOSession().setClient(imUser.getClient());
-			context.getIOSession().setAuthentication(true);
+		return wrongPassword;
+	}
+
+	protected String validateEmailId() {
+		String emailId = get(EMAIL_ID).getValue();
+		client = getClient(emailId);
+		if (client == null) {
+			return "There is no account found with given Email Id.Please enter valid accounter email.";
 		}
-		return makeResult;
+		return null;
+	}
+
+	@Override
+	public Result run(Context context) {
+		this.context = context;
+		Result login = showLoginButton(context);
+		if (login != null) {
+			return login;
+		}
+		Result run = new Result();
+		run = super.run(context);
+		String emailId = get(EMAIL_ID).getValue();
+		Object selection = context.getSelection("resendactivation");
+		if (selection != null) {
+			if (selection.equals("resendActiv")) {
+				String activationCode = getUserActivationCode(client);
+				if (activationCode == null) {
+					Session session = HibernateUtil.getCurrentSession();
+					session.getNamedQuery("delete.activation.by.emailId")
+							.setString("emailId", emailId).executeUpdate();
+					activationCode = createUserActivationCode(client
+							.getEmailId());
+				}
+				sendUserActivationMail(client, activationCode);
+				run.add("Activation code has been sent to " + emailId);
+				return run;
+			} else if (selection.equals("forgotPassword")) {
+				sendForgotPassWordMail();
+				run.add("Activation code has been sent to " + emailId);
+				return run;
+			}
+		}
+		run.setShowBack(false);
+		if (!isDone() && getThirdCommand(context) != null) {
+			CommandList commandList = new CommandList();
+			commandList.add(new UserCommand("signup", getThirdCommandString(),
+					""));
+			run.add(commandList);
+		}
+
+		if (emailId != null) {
+			if (client != null) {
+				Record record;
+				ResultList list = new ResultList("resendactivation");
+				if (client.isRequirePasswordReset() || !client.isActive()) {
+					record = new Record("resendActiv");
+					record.add("Re-Send Activation Code");
+					list.add(record);
+				}
+				if (client.isActive()) {
+					record = new Record("forgotPassword");
+					record.add(getMessages().forgottenPassword());
+					list.add(record);
+				}
+
+				run.add(list);
+			}
+		}
+		if (client != null && client.isActive()
+				&& EU.getKey(context.getIOSession().getId()) != null) {
+			markDone();
+			Result makeResult = new Result();
+			makeResult.add("You Successfully Logged.");
+			makeResult.setNextCommand("selectCompany");
+			context.getIOSession().setClient(client);
+			context.getIOSession().setAuthentication(true);
+			return makeResult;
+		}
+		return run;
 	}
 
 	private String createUserActivationCode(String emailId) {
@@ -446,6 +482,10 @@ public class AuthenticationCommand extends Command {
 	private void createMobileCookie(String cookie, Client client) {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction beginTransaction = session.beginTransaction();
+		int count = session.getNamedQuery("deleteClientmobilecookies")
+				.setParameter("client", client).executeUpdate();
+		System.out.println(client.getEmailId()
+				+ "  ***** Client mobile cookies count ***** " + count);
 		MobileCookie mobileCookie = new MobileCookie();
 		mobileCookie.setCookie(cookie);
 		mobileCookie.setClient(client);
@@ -527,7 +567,7 @@ public class AuthenticationCommand extends Command {
 		return user;
 	}
 
-	private Client getClient(String emailId) {
+	public Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
 		namedQuery.setParameter("emailId", emailId.toLowerCase().trim());
@@ -540,5 +580,52 @@ public class AuthenticationCommand extends Command {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		return null;
+	}
+
+	@Override
+	protected String getWelcomeMessage() {
+		return "Welcome to accounter login";
+	}
+
+	@Override
+	protected String getDetailsMessage() {
+		return "";
+	}
+
+	@Override
+	protected void setDefaultValues(Context context) {
+		get(EMAIL_ID).setValue(context.getLast(RequirementType.STRING));
+	}
+
+	@Override
+	public String getSuccessMessage() {
+		return "Your Successfully Logged.";
+	}
+
+	@Override
+	public String getFinishCommandString() {
+		return null;
+	}
+
+	@Override
+	protected String getThirdCommand(Context context) {
+		if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_MOBILE) {
+			return "signup";
+		}
+		return null;
+	}
+
+	@Override
+	protected String getThirdCommandString() {
+		String email = get(EMAIL_ID).getValue();
+		if (email == null || isWrongPassword()) {
+			return "I don't have an account, create";
+		}
+		return null;
 	}
 }

@@ -2,10 +2,16 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
+import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
@@ -16,8 +22,8 @@ public abstract class PaybillTableRequirement extends
 	private static final String ORIGINAL_AMOUNT = "OriginalAmount";
 	private static final String AMOUNT = "Amount";
 	private static final String DUE_DATE = "BillDueDate";
-	private static final String CASH_DISCOUNT = "cashDiscount";// IF enabled
-																// discounts
+	private static final String DISCOUNT_DATE = "billdiscountDate";
+	private static final String CASH_DISCOUNT = "cashDiscount";
 	private static final String APPLIED_CREDITS = "appliedcredits";
 	private static final String PAYMENT = "payment";
 
@@ -49,6 +55,7 @@ public abstract class PaybillTableRequirement extends
 		};
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
+
 		CurrencyAmountRequirement amountDue = new CurrencyAmountRequirement(
 				AMOUNT, getMessages().pleaseEnter(getMessages().amountDue()),
 				getMessages().amountDue(), true, true) {
@@ -59,6 +66,44 @@ public abstract class PaybillTableRequirement extends
 		};
 		amountDue.setEditable(false);
 		list.add(amountDue);
+
+		DateRequirement discountDate = new DateRequirement(DISCOUNT_DATE,
+				getMessages().pleaseEnter(getMessages().discountDate()),
+				getMessages().discountDate(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		};
+		discountDate.setEditable(false);
+		list.add(discountDate);
+
+		CashDiscountWriteOffRequirement cashDiscountReq = new CashDiscountWriteOffRequirement(
+				CASH_DISCOUNT, getMessages().pleaseSelect(
+						getMessages().cashDiscount()), getMessages()
+						.cashDiscount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				if (value != null) {
+					updateTransactionPayBill();
+				}
+			}
+		};
+		list.add(cashDiscountReq);
 
 		list.add(new ApplyCreditsRequirement(APPLIED_CREDITS, getMessages()
 				.pleaseEnter(getMessages().appliedCredits()), getMessages()
@@ -86,16 +131,8 @@ public abstract class PaybillTableRequirement extends
 			@Override
 			public void setValue(Object value) {
 				super.setValue(value);
-				ClientTransactionPayBill obj = PaybillTableRequirement.this.currentValue;
-				if (obj != null) {
-					if (value != null) {
-						obj.setAppliedCredits((Double) value, true);
-					}
-					obj.updatePayment();
-					// obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
-					updatePayment(obj);
-					PaybillTableRequirement.this.get(PAYMENT).setValue(
-							obj.getPayment());
+				if (value != null) {
+					updateTransactionPayBill();
 				}
 			}
 
@@ -113,6 +150,32 @@ public abstract class PaybillTableRequirement extends
 
 	}
 
+	protected void updateTransactionPayBill() {
+		ClientTransactionPayBill obj = PaybillTableRequirement.this.currentValue;
+		if (obj != null) {
+			CashDiscountWriteOffRequirement offRequirement = (CashDiscountWriteOffRequirement) get(CASH_DISCOUNT);
+			if (offRequirement.getAccount() != null
+					&& offRequirement.getValue() != null) {
+				obj.setCashDiscount((Double) offRequirement.getValue());
+				obj.setDiscountAccount(offRequirement.getAccount().getID());
+			} else {
+				obj.setCashDiscount(0.0);
+				obj.setDiscountAccount(0);
+			}
+
+			Double appliedCredits = get(APPLIED_CREDITS).getValue();
+			if (appliedCredits != null) {
+				obj.setAppliedCredits(appliedCredits, true);
+			}
+
+			obj.updatePayment();
+			// obj.setDummyDue(obj.getAmountDue() - obj.getPayment());
+			updatePayment(obj);
+			PaybillTableRequirement.this.get(PAYMENT)
+					.setValue(obj.getPayment());
+		}
+	}
+
 	public void vendorSelected() {
 		((ApplyCreditsRequirement) get(APPLIED_CREDITS))
 				.addCreditsAndPayments();
@@ -122,7 +185,17 @@ public abstract class PaybillTableRequirement extends
 
 	public abstract long getTransactionId();
 
-	protected void updatePayment(ClientTransactionPayBill obj) {
+	protected void updatePayment(ClientTransactionPayBill rec) {
+		Double amountDue = rec.getAmountDue();
+		Double cashDiscount = rec.getCashDiscount();
+		Double credit = rec.getAppliedCredits();
+		Double payments = amountDue - (cashDiscount + credit);
+		if (rec.getPayment() == 0
+				&& !getPreferences().isCreditsApplyAutomaticEnable()) {
+			rec.setPayment(payments);
+		}
+
+		rec.setCashDiscount(cashDiscount);
 	}
 
 	@Override
@@ -131,6 +204,11 @@ public abstract class PaybillTableRequirement extends
 		obj.setPayment(amount);
 		Double appliedCredits = get(APPLIED_CREDITS).getValue();
 		obj.setAppliedCredits(appliedCredits, true);
+		CashDiscountWriteOffRequirement offRequirement = (CashDiscountWriteOffRequirement) get(CASH_DISCOUNT);
+		if (offRequirement.getAccount() != null) {
+			obj.setCashDiscount((Double) offRequirement.getValue());
+			obj.setDiscountAccount(offRequirement.getAccount().getID());
+		}
 	}
 
 	@Override
@@ -139,11 +217,17 @@ public abstract class PaybillTableRequirement extends
 		get(BILL_NO).setValue(obj.getBillNumber());
 		get(ORIGINAL_AMOUNT).setValue(obj.getOriginalAmount());
 		get(AMOUNT).setValue(obj.getAmountDue());
-		get(APPLIED_CREDITS).setValue(obj.getAppliedCredits());
 		get(PAYMENT).setDefaultValue(obj.getAmountDue());
+		get(DISCOUNT_DATE).setValue(
+				new ClientFinanceDate(obj.getDiscountDate()));
+		CashDiscountWriteOffRequirement offRequirement = (CashDiscountWriteOffRequirement) get(CASH_DISCOUNT);
+		offRequirement.setAccount((Account) CommandUtils.getServerObjectById(
+				obj.getDiscountAccount(), AccounterCoreType.ACCOUNT));
+		offRequirement.setValue(obj.getCashDiscount());
 		ApplyCreditsRequirement applyCreditsRequirement = (ApplyCreditsRequirement) get(APPLIED_CREDITS);
 		applyCreditsRequirement.setTransactionCreditsAndPayments(obj
 				.getTransactionCreditsAndPayments());
+		get(APPLIED_CREDITS).setValue(obj.getAppliedCredits());
 	}
 
 	@Override
@@ -167,6 +251,10 @@ public abstract class PaybillTableRequirement extends
 				t.getOriginalAmount());
 		record.add(getMessages().amountDue() + "(" + formalName + ")",
 				t.getAmountDue());
+		if (getPreferences().isTrackDiscounts()) {
+			record.add(getMessages().discountDate(), t.getDiscountDate());
+			record.add(getMessages().cashDiscount(), t.getCashDiscount());
+		}
 		record.add(getMessages().appliedCredits(), t.getAppliedCredits());
 		record.add(getMessages().payment() + "(" + formalName + ")",
 				t.getPayment());

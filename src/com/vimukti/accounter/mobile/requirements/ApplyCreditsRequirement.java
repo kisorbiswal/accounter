@@ -27,7 +27,7 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 	public ApplyCreditsRequirement(String requirementName, String enterString,
 			String recordName) {
 		super(requirementName, enterString, recordName, true, true);
-		setValue(new ArrayList<ClientTransactionCreditsAndPayments>());
+		setValue(0.0);
 	}
 
 	@Override
@@ -183,7 +183,18 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 
 	@Override
 	protected Result onFinish(Context context) {
-		setValue(getRequirement(AMOUNT_TO_USE).getValue());
+		Double amount = getRequirement(AMOUNT_TO_USE).getValue();
+		this.initialCredits.clear();
+		for (ClientCreditsAndPayments ccap : totalCredits) {
+			if (ccap.getAmtTouse() > 0) {
+				ClientTransactionCreditsAndPayments ctcap = new ClientTransactionCreditsAndPayments();
+				ctcap.setAmountToUse(ccap.getAmtTouse());
+				ctcap.setCreditsAndPayments(ccap.getID());
+				initialCredits.add(ctcap);
+			}
+			ccap.setBalance(ccap.getRemaoningBalance());
+		}
+		setValue(amount);
 		return null;
 	}
 
@@ -200,30 +211,16 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 			return (getMessages().amountToUseMustLessthanTotal());
 		} else if (!fullyApplied) {
 			return getMessages().amountMoreThanCredits();
-		} else {
-			this.initialCredits.clear();
-			for (ClientCreditsAndPayments ccap : credits) {
-				if (ccap.getAmtTouse() > 0) {
-					ClientTransactionCreditsAndPayments ctcap = new ClientTransactionCreditsAndPayments();
-					ctcap.setAmountToUse(ccap.getAmtTouse());
-					ctcap.setCreditsAndPayments(ccap.getID());
-					initialCredits.add(ctcap);
-				}
-				ccap.setBalance(ccap.getRemaoningBalance());
-				// }
-			}
-			return null;
 		}
-
+		return null;
 	}
 
 	public void setTransactionCreditsAndPayments(
 			List<ClientTransactionCreditsAndPayments> creditsAndPayments) {
-		this.initialCredits = creditsAndPayments;
 		for (ClientCreditsAndPayments ccap : this.totalCredits) {
 			double balance = ccap.getBalance();
 			double usedAmount = 0.0;
-			for (ClientTransactionCreditsAndPayments ctcap : initialCredits) {
+			for (ClientTransactionCreditsAndPayments ctcap : creditsAndPayments) {
 				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
 					usedAmount += ctcap.getAmountToUse();
 				}
@@ -231,6 +228,7 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 			ccap.setRemaoningBalance(balance);
 			ccap.setAmtTouse(usedAmount);
 		}
+		this.initialCredits = creditsAndPayments;
 		initialAmountUse(totalCredits);
 	}
 

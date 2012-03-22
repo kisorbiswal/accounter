@@ -2271,4 +2271,10 @@
 		select c.id from com.vimukti.accounter.core.Currency c where
 		c.formalName=:currency and c.company=:company
 	</query>
+	<query name="deleteClientmobilecookies">
+		<query-param name="client" type="Client" />
+		delete from com.vimukti.accounter.core.MobileCookie mc
+		where
+		mc.client=:client
+	</query>
 </hibernate-mapping>
