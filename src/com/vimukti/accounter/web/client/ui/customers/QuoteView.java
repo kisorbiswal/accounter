@@ -681,7 +681,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		listforms.add(prodAndServiceForm1);
 		listforms.add(totalForm);
 		listforms.add(netAmountForm);
-		settabIndexes();
+		// settabIndexes();
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}

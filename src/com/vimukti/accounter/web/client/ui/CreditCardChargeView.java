@@ -768,7 +768,7 @@ public class CreditCardChargeView extends
 			payFrmSelect.setComboItem(getCompany().getAccount(
 					transaction.getPayFrom()));
 		}
-		settabIndexes();
+		// settabIndexes();
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}

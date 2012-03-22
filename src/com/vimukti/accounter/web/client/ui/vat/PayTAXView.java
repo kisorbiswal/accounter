@@ -263,7 +263,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			endingBalanceText.setAmount(selectedPayFromAccount
 					.getTotalBalanceInAccountCurrency());
 		}
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

@@ -547,7 +547,7 @@ public class CashPurchaseView extends
 		}
 		initViewType();
 
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

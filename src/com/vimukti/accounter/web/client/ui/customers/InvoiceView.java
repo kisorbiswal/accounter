@@ -623,7 +623,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				foreignCurrencyamountLabel.hide();
 			}
 		}
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

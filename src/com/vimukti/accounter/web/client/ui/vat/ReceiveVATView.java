@@ -303,7 +303,7 @@ public class ReceiveVATView extends
 						selectedDepositInAccount.getTotalBalance(), 0) ? selectedDepositInAccount
 						.getTotalBalance() : 0D;
 		calculateEndingBalance();
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

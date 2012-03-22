@@ -49,7 +49,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -57,7 +56,6 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -136,7 +134,6 @@ public class WriteChequeView extends
 
 	}
 
-
 	protected void updateAddressAndGrid() {
 		// Set<Address> add = null;
 		long currency = getBaseCurrency().getID();
@@ -200,7 +197,6 @@ public class WriteChequeView extends
 			}
 
 	}
-
 
 	protected void updateBalance() {
 		if (selectBankAcc != null) {
@@ -352,7 +348,6 @@ public class WriteChequeView extends
 		}
 
 	}
-
 
 	@Override
 	protected void initTransactionTotalNonEditableItem() {
@@ -969,7 +964,6 @@ public class WriteChequeView extends
 		bottomPanel.add(vatPanel);
 		bottomPanel.add(amountPanel);
 
-
 		vPanel.add(bottomPanel);
 
 		mainVLay.add(vPanel);
@@ -982,7 +976,7 @@ public class WriteChequeView extends
 		listforms.add(bankAccForm);
 		listforms.add(payForm);
 
-		settabIndexes();
+		// settabIndexes();
 
 		if (isMultiCurrencyEnabled() && !isInViewMode()) {
 			transactionTotalBaseCurrencyText.hide();
@@ -1015,7 +1009,6 @@ public class WriteChequeView extends
 		}
 		return false;
 	}
-
 
 	@Override
 	public void updateNonEditableItems() {

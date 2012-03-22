@@ -650,7 +650,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		listforms.add(payForm);
 		listforms.add(balForm);
 		listforms.add(textForm);
-		setTabindexes();
+		// setTabindexes();
 
 	}
 

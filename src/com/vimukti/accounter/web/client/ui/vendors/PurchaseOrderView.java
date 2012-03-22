@@ -568,7 +568,7 @@ public class PurchaseOrderView extends
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
-		settabIndexes();
+		// settabIndexes();
 	}
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {

@@ -602,7 +602,7 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms.add(stdCostForm);
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

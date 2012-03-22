@@ -513,7 +513,7 @@ public class VendorCreditMemoView extends
 			foreignCurrencyamountLabel.hide();
 		}
 
-		settabIndexes();
+		// settabIndexes();
 	}
 
 	@Override

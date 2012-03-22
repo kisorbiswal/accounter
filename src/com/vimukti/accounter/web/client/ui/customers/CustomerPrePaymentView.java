@@ -535,7 +535,7 @@ public class CustomerPrePaymentView extends
 		listforms.add(dateNoForm);
 		listforms.add(balForm);
 		listforms.add(payForm);
-		settabIndexes();
+		// settabIndexes();
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
@@ -889,7 +889,7 @@ public class CustomerPrePaymentView extends
 	public boolean allowEmptyTransactionItems() {
 		return true;
 	}
-	
+
 	@Override
 	protected boolean needTransactionItems() {
 		return false;

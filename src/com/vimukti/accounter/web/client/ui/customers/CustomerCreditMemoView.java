@@ -343,7 +343,7 @@ public class CustomerCreditMemoView extends
 		listforms.add(prodAndServiceForm1);
 		listforms.add(taxForm);
 
-		settabIndexes();
+		// settabIndexes();
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}

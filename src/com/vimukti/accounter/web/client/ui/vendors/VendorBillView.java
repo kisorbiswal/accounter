@@ -856,7 +856,7 @@ public class VendorBillView extends
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
-		settabIndexes();
+		// settabIndexes();
 	}
 
 	private boolean isCustomerAllowedToAdd() {

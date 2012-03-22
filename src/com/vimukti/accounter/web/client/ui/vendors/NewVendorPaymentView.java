@@ -352,7 +352,7 @@ public class NewVendorPaymentView extends
 		listforms.add(balForm);
 		listforms.add(payForm);
 
-		settabIndexes();
+		// settabIndexes();
 
 	}
 
@@ -853,7 +853,7 @@ public class NewVendorPaymentView extends
 	public boolean allowEmptyTransactionItems() {
 		return true;
 	}
-	
+
 	@Override
 	protected boolean needTransactionItems() {
 		return false;

@@ -481,7 +481,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		listforms.add(stdCostForm);
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

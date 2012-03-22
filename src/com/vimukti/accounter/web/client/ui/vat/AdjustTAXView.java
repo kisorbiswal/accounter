@@ -235,7 +235,7 @@ public class AdjustTAXView extends
 		this.add(mainPanel);
 		listforms.add(memoForm);
 		listforms.add(topform);
-		settabIndexes();
+		// settabIndexes();
 
 	}
 

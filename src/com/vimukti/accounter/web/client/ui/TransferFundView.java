@@ -694,7 +694,7 @@ public class TransferFundView extends
 		// listforms.add(totForm);
 		// listforms.add(form1);
 		listforms.add(form2);
-		settabIndexes();
+		// settabIndexes();
 
 		if (isMultiCurrencyEnabled()) {
 			modifyForeignCurrencyTotalWidget();

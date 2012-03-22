@@ -731,7 +731,7 @@ public class ReceivePaymentView extends
 		listforms.add(depoForm);
 		listforms.add(textForm);
 
-		settabIndexes();
+		// settabIndexes();
 
 		// if (isMultiCurrencyEnabled()) {
 		// if (!isInViewMode()) {

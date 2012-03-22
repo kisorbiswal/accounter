@@ -296,7 +296,7 @@ public class CustomerRefundView extends
 		listforms.add(dateNoForm);
 		listforms.add(payForm);
 		listforms.add(balForm);
-		settabIndexes();
+		// settabIndexes();
 
 	}
 
@@ -740,7 +740,7 @@ public class CustomerRefundView extends
 		}
 
 	}
-		
+
 	@Override
 	protected boolean needTransactionItems() {
 		return false;

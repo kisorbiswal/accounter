@@ -606,7 +606,7 @@ public class CashExpenseView extends
 		listforms.add(memoForm);
 		listforms.add(transactionTotalForm);
 
-		settabIndexes();
+		// settabIndexes();
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
