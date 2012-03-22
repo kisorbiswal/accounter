@@ -424,7 +424,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
-		quoteExpiryDate = new DateField(messages.expirationDate(),"quoteExpiryDate");
+		quoteExpiryDate = new DateField(messages.expirationDate(),
+				"quoteExpiryDate");
 		dueDateItem = createDueDateItem();
 		quoteExpiryDate = new DateField(messages.expirationDate(),
 				"quoteExpiryDate");
@@ -459,8 +460,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect);
 				} else {
-					phoneForm.add(statusCombo, salesPersonCombo,
-							payTermsSelect);
+					phoneForm
+							.add(statusCombo, salesPersonCombo, payTermsSelect);
 				}
 
 			} else {
@@ -488,8 +489,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 							shippingTermsCombo, shippingMethodsCombo,
 							payTermsSelect, deliveryDate);
 				} else {
-					phoneForm.add(statusCombo, payTermsSelect,
-							quoteExpiryDate, deliveryDate);
+					phoneForm.add(statusCombo, payTermsSelect, quoteExpiryDate,
+							deliveryDate);
 				}
 			}
 		}
@@ -630,7 +631,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		prodAndServiceHLay.add(vatForm);
 		prodAndServiceHLay.add(nonEditablePanel);
 
-
 		StyledPanel mainpanel = new StyledPanel("mainpanel");
 		mainpanel.add(vPanel);
 		mainpanel.add(prodAndServiceHLay);
@@ -674,7 +674,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		// }
 
 		this.add(mainVLay);
-
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -1419,5 +1418,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		} else {
 			classListCombo.setValue("");
 		}
+	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
 	}
 }

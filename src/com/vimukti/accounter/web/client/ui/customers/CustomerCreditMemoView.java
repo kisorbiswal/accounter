@@ -1098,4 +1098,9 @@ public class CustomerCreditMemoView extends
 			classListCombo.setValue("");
 		}
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

@@ -887,4 +887,9 @@ public class ItemReceiptView extends
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

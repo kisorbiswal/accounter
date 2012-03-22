@@ -902,4 +902,9 @@ public class VendorCreditMemoView extends
 			classListCombo.setValue("");
 		}
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

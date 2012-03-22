@@ -1164,13 +1164,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		 * result.addWarning(classListCombo, messages.W_105());
 		 */
 		// }
-		if (!(this instanceof NewVendorPaymentView
-				|| this instanceof CustomerPrePaymentView
-				|| this instanceof CustomerRefundView
-				|| this instanceof InvoiceView
-				|| this instanceof VendorBillView
-				|| this instanceof MakeDepositView
-				|| this instanceof DepositView || this instanceof CashSalesView || this instanceof CashPurchaseView)) {
+		if (!(allowEmptyTransactions())) {
 			if (transactionItems == null && transactionItems.size() == 0) {
 				// for (ClientTransactionItem transactionItem :
 				// transactionItems) {
@@ -1202,6 +1196,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return result;
 
 	}
+
+	/**
+	 * For allowing transaction line total is zero
+	 * 
+	 * @return {@link Boolean}
+	 */
+	public abstract boolean allowEmptyTransactions();
 
 	/**
 	 * For Location Combo

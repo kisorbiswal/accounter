@@ -848,4 +848,9 @@ public class NewVendorPaymentView extends
 			classListCombo.setComboItem(clientAccounterClass);
 		}
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
+	}
 }

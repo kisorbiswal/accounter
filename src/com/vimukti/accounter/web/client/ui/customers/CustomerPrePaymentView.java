@@ -240,7 +240,7 @@ public class CustomerPrePaymentView extends
 			if (isTrackClass()) {
 				classListCombo.setComboItem(getCompany().getAccounterClass(
 						transaction.getAccounterClass()));
-			}			
+			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			checkNo.setValue(transaction.getCheckNumber());
 			// if (transaction.getPaymentMethod().equals(constants.check())) {
@@ -262,23 +262,22 @@ public class CustomerPrePaymentView extends
 			// }
 			// }
 		}
-			if (locationTrackingEnabled)
-				locationSelected(getCompany()
-						.getLocation(transaction.getLocation()));
-			if (isTrackJob()) {
-				if (customer != null) {
-					jobListCombo.setCustomer(customer);
-				}
-				jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		if (locationTrackingEnabled)
+			locationSelected(getCompany()
+					.getLocation(transaction.getLocation()));
+		if (isTrackJob()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
 			}
-			initMemoAndReference();
-			initTransactionNumber();
-			initCustomers();
-			if (isMultiCurrencyEnabled()) {
-				updateAmountsFromGUI();
-			}
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
 		}
-	 
+		initMemoAndReference();
+		initTransactionNumber();
+		initCustomers();
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
+	}
 
 	private void initCustomers() {
 		List<ClientCustomer> result = getCompany().getActiveCustomers();
@@ -443,7 +442,7 @@ public class CustomerPrePaymentView extends
 
 		// payment
 		depositInCombo = createDepositInComboItem(bankBalText);
-//		depositInCombo.setPopupWidth("500px");
+		// depositInCombo.setPopupWidth("500px");
 
 		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency(), "amountText");
@@ -884,5 +883,10 @@ public class CustomerPrePaymentView extends
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 		classListCombo.setComboItem(accounterClass);
+	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
 	}
 }

@@ -1505,4 +1505,9 @@ public class VendorBillView extends
 			classListCombo.setValue("");
 		}
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
+	}
 }

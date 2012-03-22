@@ -282,8 +282,8 @@ public class CashPurchaseView extends
 		};
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(), isTrackClass(),
-				isClassPerDetailLine()) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -302,10 +302,12 @@ public class CashPurchaseView extends
 			protected boolean isInViewMode() {
 				return CashPurchaseView.this.isInViewMode();
 			}
-@Override
-		protected boolean isTrackJob() {
-			return CashPurchaseView.this.isTrackJob();
-		}
+
+			@Override
+			protected boolean isTrackJob() {
+				return CashPurchaseView.this.isTrackJob();
+			}
+
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
 				if (discountField.getAmount() != null
@@ -340,8 +342,8 @@ public class CashPurchaseView extends
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(), isTrackClass(),
-				isClassPerDetailLine()) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1428,7 +1430,7 @@ public class CashPurchaseView extends
 			discountField.setAmount(0d);
 		}
 	}
-	
+
 	private boolean isCustomerAllowedToAdd() {
 		if (transaction != null) {
 			List<ClientTransactionItem> transactionItems = transaction
@@ -1459,5 +1461,10 @@ public class CashPurchaseView extends
 		} else {
 			classListCombo.setValue("");
 		}
+	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
 	}
 }

@@ -1322,4 +1322,9 @@ public class CreditCardExpenseView extends
 			classListCombo.setValue("");
 		}
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

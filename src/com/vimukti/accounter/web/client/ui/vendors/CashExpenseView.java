@@ -1094,4 +1094,9 @@ public class CashExpenseView extends
 
 		return false;
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

@@ -635,4 +635,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		}
 	}
 
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
+	}
+
 }

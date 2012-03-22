@@ -981,4 +981,9 @@ public class ReceiveVATView extends
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

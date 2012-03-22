@@ -1808,4 +1808,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 	}
 
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
+	}
+
 }

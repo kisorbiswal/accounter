@@ -1212,4 +1212,9 @@ public class CreditCardChargeView extends
 
 	}
 
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
+
 }

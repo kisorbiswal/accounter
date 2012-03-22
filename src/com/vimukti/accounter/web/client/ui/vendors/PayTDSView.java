@@ -279,4 +279,9 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

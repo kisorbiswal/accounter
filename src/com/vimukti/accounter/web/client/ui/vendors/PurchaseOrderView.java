@@ -1553,4 +1553,9 @@ public class PurchaseOrderView extends
 		}
 
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

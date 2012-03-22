@@ -816,4 +816,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 	}
 
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
+
 }

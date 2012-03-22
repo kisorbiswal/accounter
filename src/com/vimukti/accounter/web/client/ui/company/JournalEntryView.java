@@ -745,4 +745,9 @@ public class JournalEntryView extends
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

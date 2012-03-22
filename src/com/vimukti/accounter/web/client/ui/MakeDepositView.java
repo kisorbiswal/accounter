@@ -1088,8 +1088,8 @@ public class MakeDepositView extends
 				depositInSelect.setComboItem(null);
 			}
 			if (toCurrency != fromCurrency) {
-				Accounter
-						.showError(messages.transferFromAndToAccountsshouldhavesamecurrency());
+				Accounter.showError(messages
+						.transferFromAndToAccountsshouldhavesamecurrency());
 				depositInSelect.setComboItem(null);
 			} else {
 				if (toCurrencyID == fromCurrencyID) {
@@ -1167,5 +1167,10 @@ public class MakeDepositView extends
 		if (clientAccounterClass != null) {
 			classListCombo.setComboItem(clientAccounterClass);
 		}
+	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
 	}
 }

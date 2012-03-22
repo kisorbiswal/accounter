@@ -1600,4 +1600,9 @@ public class CashSalesView extends
 		}
 	}
 
+	@Override
+	public boolean allowEmptyTransactions() {
+		return true;
+	}
+
 }

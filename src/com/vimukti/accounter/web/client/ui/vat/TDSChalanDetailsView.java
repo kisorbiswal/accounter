@@ -895,4 +895,9 @@ public class TDSChalanDetailsView extends
 		}
 		return saveView;
 	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
 }

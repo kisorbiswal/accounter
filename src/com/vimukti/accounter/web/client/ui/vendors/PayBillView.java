@@ -1522,4 +1522,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	}
 
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
+	}
+
 }

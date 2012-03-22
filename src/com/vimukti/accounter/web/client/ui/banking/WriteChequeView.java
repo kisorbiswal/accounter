@@ -1037,13 +1037,11 @@ public class WriteChequeView extends
 		//
 		// }
 		// if{
-		
 
-		
 		transactionVendorAccountTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this ,isCustomerAllowedToAdd(),isTrackClass(),
-				isClassPerDetailLine()) {
+				isDiscountPerDetailLine(), this, isCustomerAllowedToAdd(),
+				isTrackClass(), isClassPerDetailLine()) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -1059,10 +1057,12 @@ public class WriteChequeView extends
 			protected boolean isInViewMode() {
 				return WriteChequeView.this.isInViewMode();
 			}
+
 			@Override
 			protected boolean isTrackJob() {
 				return WriteChequeView.this.isTrackJob();
 			}
+
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
 				if (discountField.getAmount() != null
@@ -1206,7 +1206,7 @@ public class WriteChequeView extends
 		setMemoTextAreaItem(transaction.getMemo());
 
 	}
-	
+
 	private boolean isCustomerAllowedToAdd() {
 		if (transaction != null) {
 			List<ClientTransactionItem> transactionItems = transaction
@@ -1773,6 +1773,11 @@ public class WriteChequeView extends
 		} else {
 			classListCombo.setValue("");
 		}
+	}
+
+	@Override
+	public boolean allowEmptyTransactions() {
+		return false;
 	}
 
 }
