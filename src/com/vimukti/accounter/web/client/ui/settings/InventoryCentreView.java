@@ -653,6 +653,9 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 						public void onSuccess(
 								PaginationList<TransactionHistory> result) {
 							records = result;
+							selectedItem= getCompany().getItem(selectedItem.getID());
+							transactionHistoryGrid.setSelectedItem(selectedItem);
+							itemDetailsPanel.showItemDetails(selectedItem);
 							transactionHistoryGrid.removeAllRecords();
 							if (records != null) {
 								transactionHistoryGrid.addRecords(records);
@@ -789,6 +792,9 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		}
 		if (this.selectedItem != null) {
 			itemsListGrid.setSelectedItem(selectedItem);
+			
+			selectedItem = Accounter.getCompany().getItem(selectedItem.getID());
+
 			onItemSelected();
 		} else {
 			callRPC(0, getPageSize());
