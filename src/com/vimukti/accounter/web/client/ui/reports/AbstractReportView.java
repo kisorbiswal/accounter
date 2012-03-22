@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -68,7 +69,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public boolean isVATDetailReport;
 	public boolean isVATSummaryReport;
 	public boolean isVATPriorReport;
-
+	private FlowPanel detailPanel;
 	protected IFinanceReport<R> serverReport = null;
 
 	ReportGrid<R> grid;
@@ -127,7 +128,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		try {
 			if (result != null && result.size() > 1) {
 				grid.removeAllRows();
-
+				refreshMakeDetailLayout();
 				setFromAndToDate(result);
 				initRecords(result);
 			} else {
@@ -267,6 +268,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// printableLayout.setWidth("100%");
 		printableLayout.add(topLayout);
 		printableLayout.add(title);
+		// for statement report improvement
+		detailPanel = new FlowPanel();
+		makeDetailLayout(detailPanel);
+		printableLayout.add(detailPanel);
 		this.tableLayout = new ScrollPanel() {
 			@Override
 			protected void onLoad() {
@@ -288,6 +293,15 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		add(mainLayout);
 		// setSize("100%", "100%");
 
+	}
+
+	protected void makeDetailLayout(FlowPanel detailPanel) {
+		// TODO Auto-generated method stub
+	}
+
+	protected void refreshMakeDetailLayout() {
+		detailPanel.clear();
+		makeDetailLayout(detailPanel);
 	}
 
 	private ClientCompany getCompany() {

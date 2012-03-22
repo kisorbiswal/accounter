@@ -9,9 +9,11 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class StatementServerReport extends
 		AbstractFinaneReport<PayeeStatementsList> {
+	private String monthName = "";
 	private String sectionName = "";
 	private final List<String> types = new ArrayList<String>();
 	private final List<String> sectiontypes = new ArrayList<String>();
@@ -138,79 +140,38 @@ public class StatementServerReport extends
 
 	@Override
 	public void processRecord(PayeeStatementsList record) {
-		if (precategory == 1001 || precategory == record.getCategory()) {
-			if (addCategoryTypes(record)) {
+		if (sectionDepth == 0) {
+			addSection(new String[] { "" }, new String[] { "", "",
+					getMessages().total() }, new int[] { 3 });
+		} else if (sectionDepth == 1) {
+			this.monthName = getMonthName(record.getTransactionDate()
+					.getMonth());
+			addSection(new String[] { monthName + " "
+					+ record.getTransactionDate().getYear() }, new String[] {
+					"", "", getMessages().reportTotal(monthName) },
+					new int[] { 3 });
+		} else if (sectionDepth == 2) {
+			if (!monthName.equals(getMonthName(record.getTransactionDate()
+					.getMonth()))) {
+				endSection();
+			} else {
 				return;
 			}
-		} else if (precategory != 1001 && record.getCategory() != precategory) {
-			precategory = record.getCategory();
-			endSection();
-		} else {
-			return;
 		}
 		processRecord(record);
 
 	}
 
-	private boolean addCategoryTypes(PayeeStatementsList record) {
-
-		if (record.getCategory() == 1) {
-			precategory = record.getCategory();
-			return addOneTothirty(record);
-		} else if (record.getCategory() == 2) {
-			precategory = record.getCategory();
-			return addThirtyToSixty(record);
-		} else if (record.getCategory() == 3) {
-			precategory = record.getCategory();
-			return addSixtyTo90(record);
-		} else if (record.getCategory() == 4) {
-			precategory = record.getCategory();
-			return addGreaterThan90(record);
-		}
-		return true;
-	}
-
-	private boolean addOneTothirty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getMessages().dayszeroto30())) {
-			addTypeSection(getMessages().dayszeroto30(), "");
-			return false;
-		}
-		return true;
-	}
-
-	private boolean addThirtyToSixty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getMessages().daysFromzeroto60())) {
-			addTypeSection(getMessages().daysFromzeroto60(), "");
-			return false;
-		}
-		return true;
-
-	}
-
-	private boolean addSixtyTo90(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getMessages().daysFromzeroto90())) {
-			addTypeSection(getMessages().daysFromzeroto90(), "");
-			return false;
-		}
-		return true;
-
-	}
-
-	private boolean addGreaterThan90(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getMessages().older())) {
-			addTypeSection(getMessages().older(), "");
-			return false;
-		}
-		return true;
-
-	}
-
-	private boolean addTotalBalance(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getMessages().totalBalance())) {
-			addTypeSection(getMessages().totalBalance(), "");
-			return false;
-		}
-		return true;
+	/**
+	 * get the month Name By Number
+	 * 
+	 * @param month
+	 *            Number
+	 * @return {@link String} Month Name
+	 */
+	private String getMonthName(int month) {
+		String monthNameByNumber = DateUtills.getMonthNameByNumber(month);
+		return monthNameByNumber;
 	}
 
 	/**
@@ -288,5 +249,6 @@ public class StatementServerReport extends
 	public void initRecords(List<PayeeStatementsList> records) {
 		resetVariables();
 		super.initRecords(records);
+
 	}
 }
