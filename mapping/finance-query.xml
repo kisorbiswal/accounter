@@ -4886,7 +4886,7 @@
 				             WHEN 4 = :viewType THEN ( T.SAVE_STATUS = 201 )
 				             ELSE TRUE
 				           END
-				ORDER  BY T.T_DATE DESC  
+				ORDER  BY T.T_DATE   
 				]]>
 
 

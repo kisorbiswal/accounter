@@ -2,8 +2,12 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -37,6 +41,47 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		// this.makeReportRequest(payeeId, toolbar.getStartDate(),
 		// toolbar.getEndDate());
 
+	}
+
+	@Override
+	protected void makeDetailLayout(FlowPanel detailPanel) {
+		FlowPanel leftPanel = new FlowPanel();
+		FlowPanel rightPanel = new FlowPanel();
+		long payeeId = toolbar.getPayeeId();
+		if (payeeId != 0) {
+			ClientPayee payee = Accounter.getCompany().getPayee(payeeId);
+			leftPanel.add(new Label(payee.getName()));
+			String startDate = toolbar.getStartDate().toString();
+			String endDate = toolbar.getEndDate().toString();
+			Label startdateLabel = new Label(messages.fromDate() + ": "
+					+ startDate);
+			Label endDateLabel = new Label(messages.toDate() + ": " + endDate);
+			rightPanel.add(startdateLabel);
+			rightPanel.add(endDateLabel);
+			Set<ClientAddress> address = payee.getAddress();
+			if (!address.isEmpty()) {
+				for (ClientAddress clientAddress : address) {
+					String address1 = clientAddress.getAddress1().concat(",");
+					String street = clientAddress.getStreet().concat(",");
+					String city = clientAddress.getCity();
+					String state = clientAddress.getStateOrProvinence().concat(
+							",");
+					String zip = clientAddress.getZipOrPostalCode().concat(",");
+					String country = clientAddress.getCountryOrRegion().concat(
+							".");
+					leftPanel.add(new Label(address1));
+					leftPanel.add(new Label(street));
+					leftPanel.add(new Label(city + "-" + zip));
+					leftPanel.add(new Label(state));
+					leftPanel.add(new Label(country));
+				}
+			}
+		}
+		leftPanel.addStyleName("make_leftDetailPanel");
+		rightPanel.addStyleName("make_rightDetailPanel");
+		detailPanel.add(leftPanel);
+		detailPanel.add(rightPanel);
+		detailPanel.addStyleName("makeDetailPanel");
 	}
 
 	@Override

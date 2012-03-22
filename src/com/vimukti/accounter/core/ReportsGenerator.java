@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.reports.BudgetVsActualsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
@@ -189,6 +190,7 @@ public class ReportsGenerator {
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
+	private static String data;
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
 			String navigateObjectName, int generationType, Company company,
@@ -1329,7 +1331,8 @@ public class ReportsGenerator {
 				statementReport.onResultSuccess(finaTool.getReportManager()
 						.getPayeeStatementsList(false, Long.parseLong(status),
 								0, startDate, endDate, company.getID()));
-
+				setStatementReportDetails(Long.parseLong(status), startDate,
+						endDate, finaTool);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1351,7 +1354,8 @@ public class ReportsGenerator {
 				statementReport1.onResultSuccess(finaTool.getReportManager()
 						.getPayeeStatementsList(true, Long.parseLong(status),
 								0, startDate, endDate, company.getID()));
-
+				setStatementReportDetails(Long.parseLong(status), startDate,
+						endDate, finaTool);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2273,4 +2277,51 @@ public class ReportsGenerator {
 		return format;
 	}
 
+	/**
+	 * for printing
+	 * 
+	 * @param payeeId
+	 * @param startDate
+	 * @param endDate
+	 * @param finaTool
+	 */
+	private void setStatementReportDetails(long payeeId, FinanceDate startDate,
+			FinanceDate endDate, FinanceTool finaTool) {
+		String address1 = null, street = null, city = null, state = null, country = null;
+		Payee payee = (Payee) finaTool.getManager().getServerObjectForid(
+				AccounterCoreType.PAYEE, payeeId);
+		String payeeName = payee.getName();
+		Set<Address> address = payee.getAddress();
+		StringBuffer dataBuffer = new StringBuffer();
+		for (Address clientAddress : address) {
+			address1 = clientAddress.getAddress1().concat(",");
+			street = clientAddress.getStreet().concat(",");
+			city = clientAddress.getCity().concat(" - ")
+					.concat(clientAddress.getZipOrPostalCode().concat(","));
+			state = clientAddress.getStateOrProvinence().concat(",");
+			country = clientAddress.getCountryOrRegion().concat(".");
+			break;
+		}
+		AccounterMessages messages = Global.get().messages();
+		dataBuffer.append("<table style='width:50%;float:left'>");
+		dataBuffer.append("<tr><td>" + payeeName + "</td></tr>");
+		dataBuffer.append("<tr><td>" + address1 + "</td></tr>");
+		dataBuffer.append("<tr><td>" + street + "</td></tr>");
+		dataBuffer.append("<tr><td>" + city + "</td></tr>");
+		dataBuffer.append("<tr><td>" + state + "</td></tr>");
+		dataBuffer.append("<tr><td>" + country + "</td></tr>");
+		dataBuffer.append("<table>");
+		dataBuffer.append("<table style='float:right;'>");
+		dataBuffer.append("<tr><td>" + messages.fromDate() + ": "
+				+ startDate.toString() + "</td></tr>");
+		dataBuffer.append("<tr><td>" + messages.toDate() + ": "
+				+ endDate.toString() + "</td></tr>");
+		dataBuffer.append("<table>");
+		data = dataBuffer.toString();
+	}
+
+	public static String getStatementReportDetails() {
+		return data;
+
+	}
 }
