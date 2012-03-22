@@ -600,9 +600,12 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return cashSale.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().cashSale()) : getMessages().readyToUpdate(
-				getMessages().cashSale());
+		List<?> list = get(ITEMS).getValue();
+		List<?> list2 = get(ACCOUNTS).getValue();
+		return list.size() != 0 || list2.size() != 0 ? cashSale.getID() == 0 ? getMessages()
+				.readyToCreate(getMessages().cashSale()) : getMessages()
+				.readyToUpdate(getMessages().cashSale())
+				: null;
 	}
 
 	@Override

@@ -366,11 +366,16 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return creditMemo.getID() == 0 ? getMessages().readyToCreate(
+		
+		List<?> list = get(ITEMS).getValue();
+		List<?> list2 = get(ACCOUNTS).getValue();
+				
+		return list.size() != 0||list2.size() != 0?creditMemo.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().customerCreditNote(Global.get().customer()))
 				: getMessages().readyToUpdate(
 						getMessages().customerCreditNote(
-								Global.get().customer()));
+								Global.get().customer())): null;
+						
 	}
 
 	@Override

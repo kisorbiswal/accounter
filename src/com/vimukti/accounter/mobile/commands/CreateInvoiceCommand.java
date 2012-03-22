@@ -177,7 +177,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().itemName()), getMessages().items(),
-				true, true) {
+				false, true) {
 			@Override
 			protected double getCurrencyFactor() {
 				return CreateInvoiceCommand.this.getCurrencyFactor();
@@ -605,9 +605,9 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return invoice.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().invoice()) : getMessages().readyToUpdate(
-				getMessages().invoice());
+		return  invoice.getID() == 0 ? getMessages()
+				.readyToCreate(getMessages().invoice()) : getMessages()
+				.readyToUpdate(getMessages().invoice()) ;
 	}
 
 	@Override

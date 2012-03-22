@@ -132,10 +132,14 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return purchaseOrder.getID() == 0 ? getMessages().readyToCreate(
+		
+		List<?> list = get(ITEMS).getValue();
+		List<?> list2 = get(ACCOUNTS).getValue();
+				
+		return list.size() != 0||list2.size() != 0? purchaseOrder.getID() == 0 ? getMessages().readyToCreate(
 				getMessages().purchaseOrder()) : getMessages()
 				.objIsReadyToCreateWitFollowingDetails(
-						getMessages().purchaseOrder());
+						getMessages().purchaseOrder()):null;
 	}
 
 	@Override

@@ -50,7 +50,10 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return getMessages().readyToCreate(getMessages().vendorCreditMemo());
+		List<?> list = get(ITEMS).getValue();
+		List<?> list2 = get(ACCOUNTS).getValue();
+				
+		return list.size() != 0||list2.size() != 0? getMessages().readyToCreate(getMessages().vendorCreditMemo()):null;
 	}
 
 	@Override
