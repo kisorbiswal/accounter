@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.IntegerRequirement;
-import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
@@ -191,10 +190,10 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 			@Override
 			public void setValue(Object value) {
 				try {
-					Integer.valueOf((String) value);
+					value = Integer.valueOf((String) value);
 				} catch (Exception e) {
 					addFirstMessage(getMessages().pleaseEnterValidNumber());
-					return;
+					value = 0;
 				}
 				super.setValue(value);
 				update();
@@ -239,7 +238,9 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 			@Override
 			public void setValue(Object value) {
 				super.setValue(value);
-				update();
+				if (value != null) {
+					update();
+				}
 			}
 		};
 		list.add(digitGroupingReq);

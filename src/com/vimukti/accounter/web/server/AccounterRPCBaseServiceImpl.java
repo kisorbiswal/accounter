@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -18,17 +19,15 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gdata.util.common.util.Base64;
 import com.google.gdata.util.common.util.Base64DecoderException;
+import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
-import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -59,6 +58,13 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 	public AccounterRPCBaseServiceImpl() {
 		super();
+	}
+
+	@Override
+	protected void onAfterRequestDeserialized(RPCRequest rpcRequest) {
+		Method method = rpcRequest.getMethod();
+		log(method.getDeclaringClass().getSimpleName() + "." + method.getName());
+		super.onAfterRequestDeserialized(rpcRequest);
 	}
 
 	protected final void service(HttpServletRequest request,
@@ -136,7 +142,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (islockedCompany(serverCompanyID)) {
 			return false;
 		}
@@ -223,15 +229,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		if (companyID == null) {
 			// TODO Throw Exception
 		}
-		Session session = HibernateUtil.openSession();
-		try {
-			Company company = (Company) session.get(Company.class,
-					Long.parseLong(companyID));
-			if (company != null) {
-				return company.getTradingName();
-			}
-		} finally {
-			session.close();
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = (Company) session.get(Company.class,
+				Long.parseLong(companyID));
+		if (company != null) {
+			return company.getTradingName();
 		}
 		return null;
 	}
@@ -323,14 +325,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			throw new AccounterException(AccounterException.ERROR_INTERNAL,
 					e.getMessage());
 		}
-	}
-
-	protected IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + ":"
-				+ ServerConfiguration.getMainServerPort()
-				+ "/company/stosservice";
-		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
-				"");
 	}
 
 	protected Long getCompanyId(HttpServletRequest request) {

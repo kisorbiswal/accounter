@@ -61,7 +61,7 @@ public class MaintanaceInfoMailServelet extends BaseServlet {
 
 	private boolean saveUser(HttpServletRequest req) {
 		String email = req.getParameter("email");
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = hibernateSession.beginTransaction();
 		if (email != null) {
 			try {

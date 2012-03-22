@@ -261,6 +261,9 @@ public class Expense extends Transaction {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		if (this.status == STATUS_APPROVED && this.isAuthorised) {
 			Account accountPayable = getCompany().getAccountsPayableAccount();

@@ -239,8 +239,7 @@
 			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
 			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
 			<property name="digitGroupingFormat" column="DIGIT_GROUPING_FORMAT"></property>
-			<property name="currencyFormat" type="encryptedstring"
-				column="CURRENCY_FORMAT"></property>
+			<property name="currencyFormat" column="CURRENCY_FORMAT"></property>
 			<property name="taxId" column="TAX_ID"></property>
 			<property name="legalName" column="LEGALNAME"></property>
 			<property name="phone" type="encryptedstring" column="PHONE"></property>
@@ -1712,7 +1711,7 @@
 			column="PURCHASEORDER_TEMPLETE_NAME" not-null="true" />
 		<property name="purchaseOrderTitle" type="encryptedstring"
 			column="PURCHASEORDER_TITLE" />
-			<property name="salesOrderTemplateName" type="encryptedstring"
+		<property name="salesOrderTemplateName" type="encryptedstring"
 			column="SALESORDER_TEMPLETE_NAME" not-null="true" />
 		<property name="salesOrderTitle" type="encryptedstring"
 			column="SALESORDER_TITLE" />
@@ -2358,4 +2357,3 @@
 			column="EFFECTING_ACCOUNT" class="Account" />
 	</class>
 </hibernate-mapping>
-

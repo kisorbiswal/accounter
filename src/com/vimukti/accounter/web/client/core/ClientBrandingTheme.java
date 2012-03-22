@@ -75,8 +75,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String Terms_And_Payment_Advice;
 	private String fileName;
 
-	private transient boolean isOnSaveProccessed;
-
 	private int version;
 
 	@Override
@@ -296,14 +294,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public String getTerms_And_Payment_Advice() {
 		return Terms_And_Payment_Advice;
-	}
-
-	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
-		this.isOnSaveProccessed = isOnSaveProccessed;
-	}
-
-	public boolean isOnSaveProccessed() {
-		return isOnSaveProccessed;
 	}
 
 	public void setDefault(boolean isDefault) {

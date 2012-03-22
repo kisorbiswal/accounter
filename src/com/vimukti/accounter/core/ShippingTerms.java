@@ -31,8 +31,6 @@ public class ShippingTerms extends CreatableObject implements
 
 	boolean isDefault;
 
-	transient private boolean isOnSaveProccessed;
-
 	public ShippingTerms() {
 	}
 
@@ -101,6 +99,9 @@ public class ShippingTerms extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;

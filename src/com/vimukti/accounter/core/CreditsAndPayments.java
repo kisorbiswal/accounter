@@ -309,6 +309,9 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		for (TransactionCreditsAndPayments transactionCreditsAndPayments : this.transactionCreditsAndPayments) {
 
 			if (DecimalUtil.isGreaterThan(

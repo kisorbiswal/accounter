@@ -752,7 +752,7 @@ public class MenuBar {
 			vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors())
 					+ " " + messages.items(), HistoryTokens.VENDORITEMS);
 		}
-		if (canSeeBanking && isKeepTrackofBills) {
+		if (canSeeBanking) {
 			vendorMenuBar.addMenuItem(
 					messages.payeePayments(Global.get().Vendor()),
 					HistoryTokens.VENDORPAYMENTS);

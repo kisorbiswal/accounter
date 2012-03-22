@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,7 +17,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ActivationServlet extends BaseServlet {
 
-	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
 	/**
 	 * 
 	 */
@@ -82,7 +79,6 @@ public class ActivationServlet extends BaseServlet {
 			throws ServletException, IOException {
 
 		// get the token
-		LOG.info(req);
 		String token = req.getParameter("code");
 
 		if (token == null) {
@@ -92,7 +88,6 @@ public class ActivationServlet extends BaseServlet {
 		token = token.toLowerCase().trim();
 
 		// get activation record
-		Session hibernateSession = HibernateUtil.openSession();
 		try {
 			Activation activation = getActivation(token);
 			// If it is null
@@ -111,7 +106,7 @@ public class ActivationServlet extends BaseServlet {
 				session.setAttribute(ACTIVATION_TOKEN, token);
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
 
-				Session hbSession = HibernateUtil.openSession();
+				Session hbSession = HibernateUtil.getCurrentSession();
 				Transaction transaction = null;
 				try {
 					transaction = hbSession.beginTransaction();
@@ -129,17 +124,13 @@ public class ActivationServlet extends BaseServlet {
 					query.setParameter("emailId", activation.getEmailId()
 							.trim());
 					int updatedRows = query.executeUpdate();
-					LOG.debug("No of updated rows = " + updatedRows);
+					log("No of updated rows = " + updatedRows);
 					transaction.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
 					if (transaction != null) {
 						transaction.rollback();
 					}
-				} finally {
-					if (hbSession != null)
-						hbSession.close();
-
 				}
 				String activationType = (String) session
 						.getAttribute(ACTIVATION_TYPE);
@@ -165,10 +156,6 @@ public class ActivationServlet extends BaseServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (hibernateSession != null) {
-				hibernateSession.close();
-			}
 		}
 
 	}

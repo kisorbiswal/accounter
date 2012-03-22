@@ -9,6 +9,9 @@ noindex:-o-prefocus,.table-checkbox-cell span input[type="checkbox"] {
 	background-image: none !important;
 	background-color: inherit !important;
 }
+noindex:-o-prefocus,.editTable .downarrow-button{
+	margin-left:-24px;
+}
 
 noindex:-o-prefocus,.gridBody tr td {
 	overflow: hidden;
@@ -2928,8 +2931,7 @@ button.disable,button.disable:hover {
 }
 
 .thank-you-data {
-	background: -moz-linear-gradient(center top, #3299A4, #2D8B93) repeat
-		scroll 0 0 transparent;
+	background-color:#3299A4; 
 	border: thin solid #1A5158;
 	color: #FFFFFF;
 	padding: 37px;

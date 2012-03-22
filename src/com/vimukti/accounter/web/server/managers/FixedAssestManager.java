@@ -637,8 +637,7 @@ public class FixedAssestManager extends Manager {
 	public double getCalculatedRollBackDepreciationAmount(
 			long rollBackDepreciationTo, long companyId) throws DAOException {
 
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getDepreciation.by.depreciateFrom")
@@ -663,8 +662,7 @@ public class FixedAssestManager extends Manager {
 			FinanceDate rollBackDepreciationTo, Company company)
 			throws DAOException {
 
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session =  HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getFixedAsset.from.id")
 				.setParameter("id", fixedAssetID)
@@ -690,8 +688,7 @@ public class FixedAssestManager extends Manager {
 			long companyId) throws DAOException {
 		ArrayList<FixedAsset> fixedAssetList = new ArrayList<FixedAsset>();
 		Company company = getCompany(companyId);
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getFixedAsset.from.status")
 				.setParameter("status", statusPending)
@@ -707,8 +704,7 @@ public class FixedAssestManager extends Manager {
 			long companyId) throws DAOException {
 		ArrayList<FixedAsset> fixedAssetList = new ArrayList<FixedAsset>();
 		Company company = getCompany(companyId);
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getFixedAsset.from.status2or3")
 				.setParameter("status", statusPending)

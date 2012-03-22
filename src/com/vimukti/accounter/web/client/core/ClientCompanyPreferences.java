@@ -175,7 +175,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// private boolean doProductShipMents;
 	int ageingFromTransactionDateORDueDate = 1;
 
-	String VATregistrationNumber;
+	String VATregistrationNumber = "";
 	int VATreportingPeriod = VAT_REPORTING_PERIOD_QUARTERLY;
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
 

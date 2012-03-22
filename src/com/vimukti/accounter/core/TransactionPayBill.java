@@ -127,8 +127,6 @@ public class TransactionPayBill extends CreatableObject implements
 	@ReffereredObject
 	JournalEntry journalEntry;
 
-	transient private boolean isOnSaveProccessed;
-
 	public TransactionPayBill() {
 	}
 
@@ -347,7 +345,9 @@ public class TransactionPayBill extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		if (payBill.isDraftOrTemplate()) {
 			return false;
 		}

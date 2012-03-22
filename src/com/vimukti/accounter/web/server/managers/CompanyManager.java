@@ -16,7 +16,6 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.hibernate.dialect.EncryptedStringType;
 
-import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -44,9 +43,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.core.migration.MigrationUtil;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
@@ -370,13 +367,6 @@ public class CompanyManager extends Manager {
 		serverCompany.getPreferences().setPrimaryCurrency(existcurrency);
 	}
 
-	private IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + ":"
-				+ ServerConfiguration.getMainServerPort()
-				+ "/company/stosservice";
-		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
-				"");
-	}
 
 	public void updateCompanyStartDate(OperationContext context)
 			throws AccounterException {
@@ -544,43 +534,7 @@ public class CompanyManager extends Manager {
 
 	}
 
-	/**
-	 * @param companyName
-	 * @param clientDateAtServer
-	 *            see
-	 *            {@link FinanceDate#clientTimeAtServer(java.util.Date, long)}
-	 */
-	public void performRecurringAction(FinanceDate clientDateAtServer,
-			long companyId) {
-		Session session = HibernateUtil.openSession();
-		try {
-			// TODO need to write query
-			Query namedQuery = session
-					.getNamedQuery("list.currentRecTransactions");
-			namedQuery.setLong("name", clientDateAtServer.getDate());
-			namedQuery.setEntity("company", getCompany(companyId));
-			List<RecurringTransaction> list = session
-					.getNamedQuery("list.currentRecTransactions")
-					.setLong("name", clientDateAtServer.getDate())
-					.setEntity("company", getCompany(companyId)).list();
-
-			for (RecurringTransaction recurringTransaction : list) {
-
-				Transaction duplicateTransaction = FinanceTool
-						.createDuplicateTransaction(recurringTransaction);
-
-				session.save(duplicateTransaction);
-				// TODO notify user and save this duplicate transaction
-				recurringTransaction.scheduleAgain();
-				session.saveOrUpdate(recurringTransaction);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-	}
+	
 
 	public ClientCompanyPreferences getClientCompanyPreferences(Company company)
 			throws AccounterException {

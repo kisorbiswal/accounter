@@ -279,10 +279,19 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 
 							@Override
 							public boolean filter(Account account) {
-								if (account.getIsActive()
-										&& (account.getType() == Account.TYPE_EXPENSE
-												|| account.getType() == Account.TYPE_COST_OF_GOODS_SOLD || account
-												.getType() == Account.TYPE_OTHER_EXPENSE)) {
+								if (account.getType() != Account.TYPE_CASH
+										&& account.getType() != Account.TYPE_BANK
+										&& account.getType() != Account.TYPE_CREDIT_CARD
+										&& account.getType() != Account.TYPE_INVENTORY_ASSET
+										&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
+										&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
+										&& account.getType() != Account.TYPE_INCOME
+										&& account.getType() != Account.TYPE_OTHER_INCOME
+										&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
+										&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
+										&& account.getType() != Account.TYPE_OTHER_ASSET
+										&& account.getType() != Account.TYPE_EQUITY
+										&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY) {
 									return true;
 								} else {
 									return false;

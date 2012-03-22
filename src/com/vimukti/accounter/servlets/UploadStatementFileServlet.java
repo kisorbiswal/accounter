@@ -13,14 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 public class UploadStatementFileServlet extends BaseServlet {
 
@@ -33,7 +31,6 @@ public class UploadStatementFileServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session session = null;
 		JSONArray array = new JSONArray();
 		String[] headers = null;
 		boolean isHeader = true;
@@ -43,7 +40,6 @@ public class UploadStatementFileServlet extends BaseServlet {
 			if (companyID == null)
 				return;
 
-			session = HibernateUtil.openSession();
 			MultipartRequest multi = new MultipartRequest(request,
 					ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
 					"ISO-8859-1", new DefaultFileRenamePolicy());
@@ -85,11 +81,7 @@ public class UploadStatementFileServlet extends BaseServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
+		} 
 	}
 
 	@Override

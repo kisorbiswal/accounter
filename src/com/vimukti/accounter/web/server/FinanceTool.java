@@ -541,6 +541,10 @@ public class FinanceTool {
 				// ChangeTracker.put(serverObject);
 			} else if (serverObject instanceof User) {
 				User user = (User) serverObject;
+				if (company.getCreatedBy().getID() == user.getID()) {
+					throw new AccounterException(
+							AccounterException.ERROR_ILLEGAL_ARGUMENT);
+				}
 				user.setDeleted(true);
 				session.saveOrUpdate(user);
 			} else if (serverObject instanceof RecurringTransaction) {
@@ -2556,6 +2560,7 @@ public class FinanceTool {
 			Company company = getCompany(companyId);
 			TransactionLog noteHistory = new TransactionLog(
 					TransactionLog.TYPE_NOTE);
+			noteHistory.setCompany(company);
 			Transaction transaction2 = (Transaction) session.get(
 					Transaction.class, transactionId);
 			noteHistory.setDescription(noteDescription);
@@ -2689,7 +2694,7 @@ public class FinanceTool {
 	public boolean createMessage(Message message) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			if (message.getId() == 0) {
 				Query messageQuery = session.getNamedQuery("getMessageByValue")
@@ -2710,10 +2715,6 @@ public class FinanceTool {
 			return true;
 		} catch (Exception e) {
 			return false;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -2750,7 +2751,7 @@ public class FinanceTool {
 			String email, int frm, int limit, String searchTerm) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			PaginationList<Message> messages = new PaginationList<Message>();
 			switch (status) {
 			case ClientMessage.ALL:
@@ -2810,10 +2811,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -2823,7 +2820,7 @@ public class FinanceTool {
 
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			Query approvedMessagesQuery = session
 					.getNamedQuery("getUnApprovedMessages")
@@ -2861,10 +2858,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -2874,7 +2867,7 @@ public class FinanceTool {
 
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			Client client = getUserManager().getClient(email);
 			if (client == null) {
 				return null;
@@ -2918,10 +2911,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -2931,7 +2920,7 @@ public class FinanceTool {
 
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			Query messageIdsQuery = session
 					.getNamedQuery("getUntranslatedMessages")
 					.setParameter("lang", lang).setInteger("limt", limit)
@@ -2961,10 +2950,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -2974,7 +2959,7 @@ public class FinanceTool {
 
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			Query query = session.getNamedQuery("getMessagesByLimit")
 					.setInteger("fm", frm).setInteger("limt", limit)
 					.setParameter("lang", lang)
@@ -3011,17 +2996,13 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
 	public boolean addVote(long localMessageId, String userEmail) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			Client client = getUserManager().getClient(userEmail);
 			if (client == null) {
@@ -3060,10 +3041,6 @@ public class FinanceTool {
 			return true;
 		} catch (Exception e) {
 			return false;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -3071,7 +3048,7 @@ public class FinanceTool {
 			String lang, String value) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			Client client = getUserManager().getClient(userEmail);
 			if (client == null) {
@@ -3143,10 +3120,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -3214,7 +3187,7 @@ public class FinanceTool {
 	public boolean setApprove(long id, boolean isApproved) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			Query query = session.getNamedQuery("getLocalMessageById")
 					.setParameter("id", id);
@@ -3252,17 +3225,13 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
 	public boolean deleteMessage(Message message) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			org.hibernate.Transaction transaction = session.beginTransaction();
 			session.delete(message);
 			transaction.commit();
@@ -3270,10 +3239,6 @@ public class FinanceTool {
 			return true;
 		} catch (Exception e) {
 			return false;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
@@ -3345,7 +3310,7 @@ public class FinanceTool {
 	public List<ClientLanguage> getLanguages() {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			Query query = session.getNamedQuery("getLanguages");
 			List<Language> list = query.list();
@@ -3362,17 +3327,13 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 
 	public boolean canApprove(String userEmail, String lang) {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			Client client = getUserManager().getClient(userEmail);
 			for (Language language : client.getLanguages()) {
 				if (language.getLanguageCode().equals(lang)) {
@@ -3383,10 +3344,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 

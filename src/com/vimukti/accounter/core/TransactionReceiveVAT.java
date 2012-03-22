@@ -219,7 +219,9 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		if (isBecameVoid()) {
 
 			// We need to update the corresponding VATAgency's balance with this

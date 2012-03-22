@@ -222,6 +222,9 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		if (this.transactionReceivePayment != null) {
 			if (this.transactionReceivePayment.getIsVoid() && !this.isVoid) {
 

@@ -59,8 +59,6 @@ public class PaymentTerms extends CreatableObject implements
 
 	boolean isDateDriven;
 
-	transient private boolean isOnSaveProccessed;
-
 	public PaymentTerms() {
 
 	}
@@ -150,6 +148,9 @@ public class PaymentTerms extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;

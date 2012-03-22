@@ -34,7 +34,7 @@ public class UploadFileServlet extends BaseServlet {
 					COMPANY_ID);
 			if (companyID == null)
 				return;
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			StringBuilder builder = new StringBuilder();
 			MultipartRequest multi = new MultipartRequest(request,
 					ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
@@ -71,11 +71,7 @@ public class UploadFileServlet extends BaseServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
+		} 
 	}
 
 }

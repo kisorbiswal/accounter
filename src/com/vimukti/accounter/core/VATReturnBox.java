@@ -104,8 +104,6 @@ public class VATReturnBox extends CreatableObject implements
 		this.totalBox = totalBox;
 	}
 
-	transient private boolean isOnSaveProccessed;
-
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 
@@ -127,6 +125,9 @@ public class VATReturnBox extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		ChangeTracker.put(this);
 		return false;
 	}

@@ -26,7 +26,7 @@ public class ThirdPartySignupServlet extends BaseServlet {
 		request.setAttribute("email", email);
 		request.setAttribute("firstname", firstname);
 		request.setAttribute("lastname", lastname);
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -80,11 +80,7 @@ public class ThirdPartySignupServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			if (session.isOpen()) {
-				session.close();
-			}
-		}
+		} 
 	}
 
 }

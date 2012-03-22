@@ -255,8 +255,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	Map<Integer, Double> monthViceAmounts = new HashMap();
 
-	transient private boolean isOnSaveProccessed;
-
 	int boxNumber;
 
 	private String lastCheckNum;
@@ -1090,6 +1088,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);

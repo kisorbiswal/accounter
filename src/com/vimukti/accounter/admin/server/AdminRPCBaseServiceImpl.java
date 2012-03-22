@@ -35,14 +35,7 @@ public class AdminRPCBaseServiceImpl extends RemoteServiceServlet {
 		try {
 			if (isValidSession(request)) {
 				setAdminThreadLocal(request);
-				try {
-					super.service(request, response);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					session.close();
-				}
+				super.service(request, response);
 			} else {
 				response.sendError(HttpServletResponse.SC_FORBIDDEN,
 						"Could Not Complete the Request!");

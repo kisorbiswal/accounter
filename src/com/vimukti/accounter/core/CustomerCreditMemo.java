@@ -266,6 +266,9 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		//
 		// if (isBecameVoid()) {

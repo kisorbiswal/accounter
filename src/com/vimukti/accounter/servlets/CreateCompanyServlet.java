@@ -72,7 +72,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		// }
 		Company company = null;
 		Client client = null;
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		final HttpSession httpSession = request.getSession(true);
 		Transaction transaction = null;
 		try {
@@ -131,11 +131,7 @@ public class CreateCompanyServlet extends BaseServlet {
 				transaction.rollback();
 			}
 			httpSession.setAttribute(COMPANY_CREATION_STATUS, "Fail");
-		} finally {
-			if (session.isOpen()) {
-				session.close();
-			}
-		}
+		} 
 		dispatch(request, response, COMPANIES_URL);
 		return;
 	}
@@ -176,32 +172,7 @@ public class CreateCompanyServlet extends BaseServlet {
 		return (Company) query.uniqueResult();
 	}
 
-	/**
-	 * @param serverId
-	 * @param clientId
-	 */
-	private void rollback(long serverId, long clientId) {
-		Session session = HibernateUtil.openSession();
-		Transaction transaction = null;
-		try {
-			transaction = session.beginTransaction();
-			Object object = session.get(Company.class, serverId);
-			Client client = (Client) session.get(Client.class, clientId);
-			client.getUsers().remove((Company) object);
-			session.saveOrUpdate(client);
-			session.delete(object);
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (transaction != null) {
-				transaction.rollback();
-			}
-		} finally {
-			if (session.isOpen()) {
-				session.close();
-			}
-		}
-	}
+	
 
 	/**
 	 * @return

@@ -271,7 +271,7 @@ public class DeleteCompanyCommand extends AbstractDeleteCommand {
 
 			}
 		} else if (canDeleteFromSingle) {
-			Session session = HibernateUtil.openSession();
+			Session session = HibernateUtil.getCurrentSession();
 			try {
 				User serverUser = (User) session
 						.getNamedQuery("user.by.emailid")
@@ -291,9 +291,7 @@ public class DeleteCompanyCommand extends AbstractDeleteCommand {
 				addFirstMessage(context,
 						"Company Deletion failed.Internal Error.");
 				return new Result();
-			} finally {
-				session.close();
-			}
+			} 
 		}
 		return super.onCompleteProcess(context);
 	}

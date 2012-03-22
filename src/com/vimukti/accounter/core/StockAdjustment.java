@@ -68,6 +68,9 @@ public class StockAdjustment extends Transaction implements INamedObject {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		return super.onUpdate(session);
 	}
 

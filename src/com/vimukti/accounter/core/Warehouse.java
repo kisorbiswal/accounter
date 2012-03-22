@@ -49,8 +49,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	private String DDINumber;
 	private String mobileNumber;
 
-	private transient boolean isOnSaveProccessed;
-
 	public Warehouse(String warehouseCode, String name, Address address,
 			boolean isDefault) {
 		this.name = name;
@@ -143,6 +141,9 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(s);
 		for (ItemStatus itemStatus : itemStatuses) {
 			itemStatus.setWarehouse(this);

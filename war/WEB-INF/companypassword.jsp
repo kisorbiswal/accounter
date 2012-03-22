@@ -47,14 +47,15 @@ $(document).ready(function() {
 							   <div >
 								     <div><i18n:i18n msg='companyPassword'/> : </div>
 									 <div>
-										<input id="mid-box"  type="password" name="companyPassword"   value="" class="reset_password" />								
+										<input id="mid-box"  type="password" name="companyPassword"   value="" class="reset_password" />
+										<p>This is company password to encrypt your company. If you don't know the company password please contact your administrator.</p>								
 									 </div>
 									 <div id="reset_hint_box">
 									 </div>
 								   <div class="OkButton">
 								   
 			  						   <input type="submit"  value="<i18n:i18n msg='submit'/>" name="submit" class="allviews-common-button" style="width:60px" id="submitButton" />
-			  						    <c:if test="${showResetLink=true}"> 
+			  						    <c:if test="${showResetLink==true}"> 
 										 <a href="/main/company/password/recovery" ><i18n:i18n msg='resetPassword'/></a>
   		 								 </c:if>
 		     								

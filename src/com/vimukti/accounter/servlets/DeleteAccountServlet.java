@@ -65,7 +65,7 @@ public class DeleteAccountServlet extends BaseServlet {
 			sb.append(reason);
 			sb.append(". ");
 		}
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			DeleteReason deleteReason = new DeleteReason();
@@ -77,9 +77,7 @@ public class DeleteAccountServlet extends BaseServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			dispatch(req, resp, DELETE_ACCOUNT_CONFORM);
-		} finally {
-			session.close();
-		}
+		} 
 		redirectExternal(req, resp, CANCEL_FORM);
 
 	}

@@ -1507,9 +1507,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			changePassword = getFinanceTool().getUserManager()
 					.changeMyPassword(emailID, oldPassword, newPassword);
-			byte[] s1 = EU.generatePBS(newPassword);
-			byte[] s2 = EU.getKey(getThreadLocalRequest().getSession().getId());
-			byte[] d2 = EU.encrypt(s1, s2);
+
+			byte[] d2 = EU.generateD2(newPassword, emailID,
+					getThreadLocalRequest().getSession().getId());
+
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.SECRET_KEY_COOKIE, Base64.encode(d2));
 		} catch (Exception e) {

@@ -311,6 +311,9 @@ public class SalesPerson extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;

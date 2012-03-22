@@ -12,11 +12,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
 import org.zefer.pd4ml.PD4Constants;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.MISCInformationTemplate;
 import com.vimukti.accounter.core.Misc1099PDFTemplate;
 import com.vimukti.accounter.core.Misc1099SamplePDFTemplate;
@@ -24,38 +22,19 @@ import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.utils.Converter;
-import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class MISCInfoServlet extends BaseServlet {
 
-	public ITemplate template;
-	public Converter converter;
 	private static final long serialVersionUID = 1L;
-	private String fileName;
-	private int formType;
-	// private StringBuilder outPutString;
-	private Long companyID;
-	private Session session;
-	private FinanceTool financetool;
-	private Company company;
-	private String objectId;
-	private String brandingThemeId;
 
-	@Override
-	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
-			throws ServletException, IOException {
-		super.service(arg0, arg1);
-	}
+	// private StringBuilder outPutString;
 
 	public void generatePDF(HttpServletRequest request,
 			HttpServletResponse response, String companyName) {
 
-		ServletOutputStream sos = null;
 		try {
 
 			File propertyFile = new File("FinanceDir");
@@ -63,22 +42,10 @@ public class MISCInfoServlet extends BaseServlet {
 				System.err
 						.println("Their is a No Folder For Style Sheet & Image");
 			}
-			String outPutString = getTempleteObjByRequest(request, companyName);
+			converTempleteObjByRequest(request, response, companyName);
 			// generateData();
 
-			response.setContentType("application/pdf");
-			response.setHeader("Content-disposition", "attachment; filename="
-					+ fileName.replace(" ", "") + ".pdf");
-			sos = response.getOutputStream();
-
-			
-				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.getBytes());
-				InputStreamReader miscCreator = new InputStreamReader(
-						inputString);
-				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			
-			//System.err.println("Converter obj created");
+			// System.err.println("Converter obj created");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -91,33 +58,30 @@ public class MISCInfoServlet extends BaseServlet {
 		}
 	}
 
-	private String getTempleteObjByRequest(HttpServletRequest request,
-			String companyName) throws TemplateSyntaxException, IOException,
-			AccounterException {
+	private void converTempleteObjByRequest(HttpServletRequest request,
+			HttpServletResponse response, String companyName) throws Exception {
 
-		companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
-		session = HibernateUtil.openSession();
-		fileName = "";
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
+		String fileName = "";
 		StringBuilder outPutString = new StringBuilder();
 
-		financetool = new FinanceTool();
+		FinanceTool financetool = new FinanceTool();
 		TemplateBuilder.setCmpName(companyName);
 
-		company = financetool.getCompany(companyID);
+		Company company = financetool.getCompany(companyID);
 
 		CompanyPreferenceThreadLocal.set(financetool.getCompanyManager()
 				.getClientCompanyPreferences(company));
 
-		objectId = request.getParameter("objectId");
+		String objectId = request.getParameter("objectId");
 
 		String multipleId = request.getParameter("multipleIds");
 		String[] ids = null;
 		if (multipleId != null) {
 			ids = multipleId.split(",");
 		}
-		brandingThemeId = request.getParameter("brandingThemeId");
 
-		formType = Integer.parseInt(request.getParameter("type"));
+		Integer formType = Integer.parseInt(request.getParameter("type"));
 
 		int horizontalValue = Integer.parseInt(request
 				.getParameter("horizontalValue"));
@@ -126,7 +90,7 @@ public class MISCInfoServlet extends BaseServlet {
 				.getParameter("verticalValue"));
 
 		long vendorID = Long.parseLong(request.getParameter("vendorID"));
-
+		Converter converter = null;
 		if (formType == 1) {
 
 			converter = new Converter(PD4Constants.LETTER);
@@ -161,7 +125,16 @@ public class MISCInfoServlet extends BaseServlet {
 			fileName = sampleTemplate.getFileName();
 			outPutString = outPutString.append(sampleTemplate.generatePDF());
 		}
-		return outPutString.toString();
+
+		response.setContentType("application/pdf");
+		response.setHeader("Content-disposition", "attachment; filename="
+				+ fileName.replace(" ", "") + ".pdf");
+		ServletOutputStream sos = response.getOutputStream();
+
+		java.io.InputStream inputString = new ByteArrayInputStream(outPutString
+				.toString().getBytes());
+		InputStreamReader miscCreator = new InputStreamReader(inputString);
+		converter.generatePdfDocuments(fileName, sos, miscCreator);
 	}
 
 	protected void doGet(HttpServletRequest request,

@@ -88,6 +88,9 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		return false;
 	}
 

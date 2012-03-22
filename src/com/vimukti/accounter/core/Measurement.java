@@ -185,6 +185,9 @@ public class Measurement extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		for (Unit unit : this.units) {
 			unit.setMeasurement(this);
 		}

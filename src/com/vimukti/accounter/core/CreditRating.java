@@ -29,8 +29,6 @@ public class CreditRating extends CreatableObject implements
 
 	boolean isDefault;
 
-	transient private boolean isOnSaveProccessed;
-
 	public CreditRating() {
 	}
 
@@ -73,15 +71,18 @@ public class CreditRating extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session arg0) throws CallbackException {
-		if (this.isOnSaveProccessed)
+		if (isOnSaveProccessed)
 			return true;
 		super.onSave(arg0);
-		this.isOnSaveProccessed = true;
+		isOnSaveProccessed = true;
 		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;

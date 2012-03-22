@@ -8,7 +8,10 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
+import com.vimukti.accounter.mobile.requirements.MultiSelectionStringRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -24,6 +27,7 @@ public class CreateInviteAUserCommand extends AbstractCommand {
 	private static final String LAST_NAME = "Last Name";
 	private static final String EMAIL = "E-mail";
 	private static final String LEVEL_ACCESS = "accessLevel";
+	private static final String CUSTOM_REQ = "customReq";
 	ClientUser user;
 
 	@Override
@@ -32,7 +36,7 @@ public class CreateInviteAUserCommand extends AbstractCommand {
 	}
 
 	@Override
-	protected void addRequirements(List<Requirement> list) {
+	protected void addRequirements(final List<Requirement> list) {
 		list.add(new NameRequirement(FIRST_NAME, getMessages().pleaseEnter(
 				getMessages().firstName()), getMessages().firstName(), false,
 				true));
@@ -60,7 +64,16 @@ public class CreateInviteAUserCommand extends AbstractCommand {
 
 		list.add(new StringListRequirement(LEVEL_ACCESS, getMessages()
 				.pleaseEnter(getMessages().permissions()), getMessages()
-				.permissions(), true, true, null) {
+				.permissions(), true, true, new ChangeListner<String>() {
+
+			@Override
+			public void onSelection(String value) {
+				if (!value.equals(getMessages().custom())) {
+					CreateInviteAUserCommand.this.get(CUSTOM_REQ)
+							.setValue(null);
+				}
+			}
+		}) {
 
 			@Override
 			protected String getSelectString() {
@@ -82,6 +95,21 @@ public class CreateInviteAUserCommand extends AbstractCommand {
 				return null;
 			}
 		});
+
+		list.add(new MultiSelectionStringRequirement(CUSTOM_REQ, getMessages()
+				.pleaseSelect(getMessages().customPermissions()), getMessages()
+				.customPermissions(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (CreateInviteAUserCommand.this.get(LEVEL_ACCESS).getValue()
+						.equals(getMessages().custom())) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
 	}
 
 	protected boolean isUserExists(String emailId) {
@@ -154,6 +182,29 @@ public class CreateInviteAUserCommand extends AbstractCommand {
 
 	private RolePermissions getCustomPermission() {
 		RolePermissions custom = new RolePermissions();
+		custom.setRoleName(RolePermissions.CUSTOM);
+		List<String> value = get(CUSTOM_REQ).getValue();
+		for (String string : value) {
+			if (string.equals(getMessages().createInvoicesAndBills())) {
+				custom.setTypeOfInvoicesBills(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().billsAndPayments())) {
+				custom.setTypeOfPayBillsPayments(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().bankingAndReconcialiation())) {
+				custom.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().changeCompanySettings())) {
+				custom.setTypeOfCompanySettingsLockDates(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().manageAccounts())) {
+				custom.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().manageUsers())) {
+				custom.setCanDoUserManagement(true);
+			} else if (string.equals(getMessages().viewReports())) {
+				custom.setTypeOfViewReports(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().inventoryWarehouse())) {
+				custom.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+			} else if (string.equals(getMessages().Saveasdraft())) {
+				custom.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
+			}
+		}
 
 		return custom;
 	}

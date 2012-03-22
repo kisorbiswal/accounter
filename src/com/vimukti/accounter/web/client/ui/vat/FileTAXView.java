@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -121,18 +122,16 @@ public class FileTAXView extends AbstractFileTAXView {
 		saveOrUpdate(getData());
 	}
 
-	// @Override
-	// public void restoreView(ClientTAXReturn viewDate) {
-	// if (viewDate != null) {
-	// taxAgencyCombo.setComboItem(getCompany().getTaxAgency(
-	// viewDate.getTaxAgency()));
-	// grid.setRecords(viewDate.getTaxReturnEntries());
-	// fromDate.setValue(new ClientFinanceDate(viewDate
-	// .getPeriodStartDate()));
-	// toDate.setValue(new ClientFinanceDate(viewDate.getPeriodEndDate()));
-	// }
-	// super.restoreView(viewDate);
-	// }
+	@Override
+	public void restoreView(ClientTAXReturn viewDate) {
+		if (viewDate != null) {
+			ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+					viewDate.getTaxAgency());
+			taxAgencyCombo.setComboItem(taxAgency);
+			taxAgencySelected(taxAgency);
+		}
+		super.restoreView(viewDate);
+	}
 
 	private void updateTransaction() {
 		ClientTAXReturn taxReturn = new ClientTAXReturn();

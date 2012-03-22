@@ -38,45 +38,36 @@ public class UploadTemplateFileServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session session = null;
-		try {
-			Long companyID = (Long) request.getSession().getAttribute(
-					COMPANY_ID);
+		Long companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
 
-			String theme = request.getParameter("themeId");
-			if (theme == null)
-				return;
+		String theme = request.getParameter("themeId");
+		if (theme == null)
+			return;
 
-			Long id = Long.valueOf(theme);
-			long themeId = id.longValue();
+		Long id = Long.valueOf(theme);
+		long themeId = id.longValue();
 
-			if (companyID == null)
-				return;
-			session = HibernateUtil.openSession();
-			StringBuilder builder = new StringBuilder();
-			MultipartRequest multi = new MultipartRequest(request,
-					ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
-					"ISO-8859-1", new DefaultFileRenamePolicy());
-			response.setContentType("text/html");
-			builder.append(processFile(multi, INVOICE, companyID, themeId));
-			builder.append(';');
-			builder.append(processFile(multi, CREDITNOTE, companyID, themeId));
-			builder.append(';');
-			builder.append(processFile(multi, QUOTE, companyID, themeId));
-			builder.append(';');
-			builder.append(processFile(multi, CASHSALE, companyID, themeId));
-			builder.append(';');
-			builder.append(processFile(multi, PURCHASEORDER, companyID, themeId));
-			builder.append(';');
-			builder.append(processFile(multi, SALESORDER, companyID, themeId));
-			builder.append(';');
+		if (companyID == null)
+			return;
+		StringBuilder builder = new StringBuilder();
+		MultipartRequest multi = new MultipartRequest(request,
+				ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
+				"ISO-8859-1", new DefaultFileRenamePolicy());
+		response.setContentType("text/html");
+		builder.append(processFile(multi, INVOICE, companyID, themeId));
+		builder.append(';');
+		builder.append(processFile(multi, CREDITNOTE, companyID, themeId));
+		builder.append(';');
+		builder.append(processFile(multi, QUOTE, companyID, themeId));
+		builder.append(';');
+		builder.append(processFile(multi, CASHSALE, companyID, themeId));
+		builder.append(';');
+		builder.append(processFile(multi, PURCHASEORDER, companyID, themeId));
+		builder.append(';');
+		builder.append(processFile(multi, SALESORDER, companyID, themeId));
+		builder.append(';');
 
-			response.getWriter().print(builder);
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
+		response.getWriter().print(builder);
 	}
 
 	/**

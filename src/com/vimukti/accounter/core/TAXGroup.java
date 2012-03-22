@@ -95,6 +95,9 @@ public class TAXGroup extends TAXItemGroup {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 
 		// if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 		//

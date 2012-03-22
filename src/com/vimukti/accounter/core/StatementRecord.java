@@ -201,6 +201,9 @@ public class StatementRecord extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		for (Transaction transaction : getTransactionsLists()) {
 			transaction.setStatementRecord(this);
 		}

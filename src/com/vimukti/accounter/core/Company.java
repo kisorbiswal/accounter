@@ -369,7 +369,7 @@ public class Company implements IAccounterServerCore {
 		preferences.setTradingAddress(tradingAddress);
 		registeredAddress = new Address();
 		registeredAddress.setType(Address.TYPE_COMPANY_REGISTRATION);
-
+		contactSupport = false;
 		// if (accountingType == ACCOUNTING_TYPE_UK) {
 		// preferences.setReferVendors(ClientVendor.SUPPLIER);
 		// }

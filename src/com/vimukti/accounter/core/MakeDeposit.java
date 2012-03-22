@@ -198,6 +198,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		return super.onUpdate(session);
 	}
 

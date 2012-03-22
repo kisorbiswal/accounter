@@ -56,13 +56,14 @@ public class ForgetPasswordServlet extends BaseServlet {
 		}
 		emailID = emailID.toLowerCase().trim();
 
-		Session serverSession = HibernateUtil.openSession();
+		Session serverSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = serverSession.beginTransaction();
 			Client client = getClient(emailID);
 
 			if (client == null) {
+				req.setAttribute("emailId",emailID);
 				req.setAttribute("errorMessage", Global.get().messages()
 						.pleaseEnterValidEmailId());
 				dispatch(req, resp, view);
@@ -85,9 +86,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			serverSession.close();
-		}
+		} 
 
 		// String successMessage =
 		// "Reset Password link has been sent to the given emailId, Kindly check your Mail box.";

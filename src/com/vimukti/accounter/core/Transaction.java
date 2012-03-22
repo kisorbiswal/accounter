@@ -244,8 +244,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	List<WareHouseAllocation> wareHouseAllocations;
 
-	transient protected boolean isOnSaveProccessed;
-
 	private AccounterClass accounterClass;
 	private List<TransactionLog> history;
 
@@ -724,6 +722,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected void addCreateHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_CREATE);
+		log.setCompany(getCompany());
 		if (this.getHistory() == null) {
 			this.setHistory(new ArrayList<TransactionLog>());
 		}
@@ -732,6 +731,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected void addUpdateHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_EDIT);
+		log.setCompany(getCompany());
 		if (this.getHistory() == null) {
 			this.setHistory(new ArrayList<TransactionLog>());
 		}
@@ -740,6 +740,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected void addVoidHistory() {
 		TransactionLog log = new TransactionLog(TransactionLog.TYPE_VOID);
+		log.setCompany(getCompany());
 		if (this.getHistory() == null) {
 			this.setHistory(new ArrayList<TransactionLog>());
 		}
@@ -880,6 +881,9 @@ public abstract class Transaction extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		if (getStatementRecord() != null) {
 			getStatementRecord().getTransactionsLists().add(this);

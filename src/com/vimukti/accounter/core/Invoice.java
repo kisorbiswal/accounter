@@ -626,6 +626,9 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 
 		// if (isBecameVoid()) {

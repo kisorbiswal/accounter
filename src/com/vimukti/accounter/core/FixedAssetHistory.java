@@ -109,6 +109,9 @@ public class FixedAssetHistory extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		// TODO Auto-generated method stub
 		return false;
 	}

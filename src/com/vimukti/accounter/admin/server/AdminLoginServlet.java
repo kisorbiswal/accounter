@@ -53,7 +53,7 @@ public class AdminLoginServlet extends BaseServlet {
 	}
 
 	private AdminUser getAdminUser(HttpServletRequest request) {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		try {
 			AdminUser adminUser = null;
 			String userEmail = (String) request.getSession().getAttribute(
@@ -68,7 +68,6 @@ public class AdminLoginServlet extends BaseServlet {
 			return adminUser;
 		} catch (Exception e) {
 		} finally {
-			session.close();
 		}
 		return null;
 	}

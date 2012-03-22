@@ -146,6 +146,17 @@
 
 	</sql-query>
 
+	<sql-query name="unloack.company">
+		<query-param name="companyId" type="long" />
+		
+		<![CDATA[
+				UPDATE company 
+				SET    is_locked = false 
+				WHERE  id = :companyId 
+		]]>
+
+	</sql-query>
+
 	<sql-query name="delete.Client.Companies">
 		<query-param name="serverCompanyID" type="String" />
 		

@@ -38,8 +38,6 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 
 	transient List<Item> tempitems;
 
-	transient private boolean isOnSaveProccessed;
-
 	public ItemGroup() {
 	}
 
@@ -117,6 +115,9 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		if (this.items != null) {
 			for (Item item : this.items) {

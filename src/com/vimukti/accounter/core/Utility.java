@@ -9,10 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -32,65 +29,6 @@ public class Utility {
 
 	public int getVersion() {
 		return version;
-	}
-
-	private static final Logger LOG = Logger.getLogger(HibernateUtil.class);
-
-	// private static SessionFactory sessionFactory;
-
-	// SessionFactory = new
-	// Configuration().configure("/CollaberServer/hibernate.cfg.xml");
-	/**
-	 * This has been created for the purpose of test case use.
-	 */
-	static ThreadLocal<Session> threadLocalSession = new ThreadLocal<Session>();
-	/**
-	 * This has been created for the purpose of test case use.
-	 */
-	private static SessionFactory sessionFactory;
-
-	// public static SessionFactory getSessionFactory() {
-	// return sessionFactory;
-	// }
-	//
-	// public static void shutdown() {
-	// getSessionFactory().close();
-	// }
-	public static Session openSession() {
-		LOG.info("Openned Session");
-		// ConnectionProvider.setDBName(dbName);
-		Session session = getSessionFactory().openSession();
-		threadLocalSession.set(session);
-		return session;
-	}
-
-	public static SessionFactory getSessionFactory() {
-		if (sessionFactory == null) {
-			try {
-				sessionFactory = new Configuration().configure(
-						"./finance-hibernate.cfg.xml").buildSessionFactory();
-			} catch (Throwable e) {
-				throw new ExceptionInInitializerError(e);
-			}
-		}
-		return sessionFactory;
-	}
-
-	public static Session getCurrentSession() {
-		return threadLocalSession.get();
-	}
-
-	public static void setSession(Session session) {
-		threadLocalSession.set(session);
-	}
-
-	public static void closeCurrentSession() {
-		LOG.info("Close Session");
-
-		if (getCurrentSession() != null && getCurrentSession().isOpen()) {
-			getCurrentSession().close();
-			threadLocalSession.remove();
-		}
 	}
 
 	public static String getTransactionName(int transactionType) {
@@ -550,62 +488,6 @@ public class Utility {
 
 		return salesTaxAmount;
 
-	}
-
-	private static double getLatestTaxRate(TAXCode taxCode,
-			FinanceDate transactionDate) {
-
-		// Set<TaxRates> taxRates = taxCode.getTaxRates();
-		// int numberOfTaxRates = taxRates.size();
-		// Iterator taxRateIterator = taxRates.iterator();
-		// FinanceDate latestDate = null;
-		//
-		// FinanceDate taxDate[] = new FinanceDate[numberOfTaxRates];
-		// int index = 0;
-		// while (taxRateIterator.hasNext()) {
-		// TaxRates taxRate = (TaxRates) taxRateIterator.next();
-		// taxDate[index] = taxRate.getAsOf();
-		// index++;
-		// }
-		// latestDate = taxDate[0];
-		// for (FinanceDate date : taxDate) {
-		// if (date.after(latestDate)) {
-		// latestDate = date;
-		// }
-		//
-		// }
-		// taxRateIterator = taxRates.iterator();
-		// while (taxRateIterator.hasNext()) {
-		// TaxRates taxRate = (TaxRates) taxRateIterator.next();
-		// if (latestDate.equals(taxRate.getAsOf())) {
-		// return taxRate.getRate();
-		// }
-		// }
-		return 0.0;
-
-		// double rate=null;
-		//
-		// if(taxCode.getTaxRates()!=null) {
-		// Set <TaxRates> taxrates=taxCode.getTaxRates();
-		// Iterator<TaxRates> i3=taxrates.iterator();
-		//
-		// Date date;
-		// if(i3.hasNext()) {
-		// TaxRates tr=(TaxRates) i3.next();
-		// date=(Date)tr.getAsOf();
-		// rate=tr.getRate();
-		//
-		// while(i3.hasNext()) {
-		//
-		// if(date.after(tr.getAsOf())) {
-		// date=tr.getAsOf();
-		// rate=tr.getRate();
-		// }
-		// tr=(TaxRates)i3.next();
-		// }
-		// }
-		// }
-		// return rate;
 	}
 
 	// To display the PayFrom Account combo box of Creating Customer Refund,
@@ -1364,6 +1246,9 @@ public class Utility {
 	}
 
 	public static String getDateInSelectedFormat(FinanceDate date) {
+		if (date == null) {
+			return null;
+		}
 		try {
 			SimpleDateFormat dateFormatter = new SimpleDateFormat(Global.get()
 					.preferences().getDateFormat());

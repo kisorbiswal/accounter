@@ -2,13 +2,13 @@ package com.vimukti.accounter.encryption;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.h2.tools.Server;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.ReplicationMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -27,6 +27,7 @@ public class Encrypter extends Thread {
 	private byte[] s2;
 	private String sessionId;
 	private String emailId;
+	private User user;
 	private static List<Class<?>> classes;
 
 	public static void init() {
@@ -108,11 +109,11 @@ public class Encrypter extends Thread {
 				Misc1099PDFTemplate.class, Misc1099SamplePDFTemplate.class,
 				MISCInformationTemplate.class, MobileCookie.class, News.class,
 				NominalCodeRange.class, NumberUtils.class,
-				ObjectConvertUtil.class, PayBill.class, Payee.class,
-				PayEmployee.class, PayExpense.class, PayHead.class,
-				PayHeadField.class, PaymentTerms.class, PayrollUnit.class,
-				PayRun.class, PayStructure.class, PayStructureItem.class,
-				PayTAX.class, PayTAXEntries.class, PayTDS.class, Phone.class,
+				ObjectConvertUtil.class, PayBill.class, PayEmployee.class,
+				PayExpense.class, PayHead.class, PayHeadField.class,
+				PaymentTerms.class, PayrollUnit.class, PayRun.class,
+				PayStructure.class, PayStructureItem.class, PayTAX.class,
+				PayTAXEntries.class, PayTDS.class, Phone.class,
 				PortletConfiguration.class, PortletPageConfiguration.class,
 				PriceLevel.class, PrintTemplete.class, PurchaseOrder.class,
 				PurchaseOrderPdfGeneration.class, Quantity.class,
@@ -131,12 +132,12 @@ public class Encrypter extends Thread {
 				StockTransferItem.class, Subscription.class,
 				SupportedUser.class, TAXAdjustment.class, TAXAgency.class,
 				TAXCode.class, TAXGroup.class, TAXItem.class,
-				TAXItemGroup.class, TAXRateCalculation.class, TaxRates.class,
-				TAXReturn.class, TAXReturnEntry.class, TDSChalanDetail.class,
+				TAXRateCalculation.class, TaxRates.class, TAXReturn.class,
+				TAXReturnEntry.class, TDSChalanDetail.class,
 				TDSCoveringLetterTemplate.class, TDSDeductorMasters.class,
 				TDSInfo.class, TDSResponsiblePerson.class,
 				TDSTransactionItem.class, TemplateBuilder.class,
-				Transaction.class, TransactionCreditsAndPayments.class,
+				TransactionCreditsAndPayments.class,
 				TransactionDepositItem.class, TransactionExpense.class,
 				TransactionItem.class, TransactionLog.class,
 				TransactionMakeDepositEntries.class, TransactionPayBill.class,
@@ -144,10 +145,9 @@ public class Encrypter extends Thread {
 				TransactionReceivePayment.class, TransactionReceiveVAT.class,
 				TransferFund.class, Unit.class, UnitOfMeasure.class,
 				User.class, UserPermissions.class, UserPreferences.class,
-				UserUtils.class, Util.class, Utility_R.class, Utility.class,
-				VATReturnBox.class, Vendor.class, VendorCreditMemo.class,
-				VendorGroup.class, Warehouse.class, WareHouseAllocation.class,
-				WriteCheck.class };
+				UserUtils.class, VATReturnBox.class, Vendor.class,
+				VendorCreditMemo.class, VendorGroup.class, Warehouse.class,
+				WareHouseAllocation.class, WriteCheck.class };
 		return classes;
 	}
 
@@ -159,6 +159,7 @@ public class Encrypter extends Thread {
 		this.emailId = emailId;
 		this.sessionId = sessionId;
 		s2 = EU.getKey(sessionId);
+		user = getUser();
 	}
 
 	@Override
@@ -166,6 +167,8 @@ public class Encrypter extends Thread {
 		try {
 			List<List> lists = loadCoreObjects();
 			updateAll(lists);
+			log.info("Encryption completed for companyID..:" + companyId
+					+ ",and emailId:" + emailId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -173,29 +176,40 @@ public class Encrypter extends Thread {
 
 	private void updateAll(List<List> lists) {
 		Session session = HibernateUtil.openSession();
-		AccounterThreadLocal.set(getUser());
 		Transaction beginTransaction = session.beginTransaction();
 		try {
+			OnUpdateThreadLocal.set(true);
 			for (List l : lists) {
 				for (Object o : l) {
-					session.replicate(o, ReplicationMode.OVERWRITE);
+					CreatableObject co = (CreatableObject) o;
+					co.setLastModifier(user);
+					co.setLastModifiedDate(AccounterThreadLocal.currentTime());
+					session.evict(o);
+					session.update(o);
 				}
 			}
-			Company company = getCompany();
+			user = (User) session.get(User.class, user.getID());
+			AccounterThreadLocal.set(user);
 			initChipher();
-			company.setLocked(false);
-			session.saveOrUpdate(company);
 			beginTransaction.commit();
 		} catch (Exception e) {
 			beginTransaction.rollback();
 			e.printStackTrace();
 		} finally {
-			beginTransaction.begin();
-			Company company = getCompany();
-			company.setLocked(false);
-			session.saveOrUpdate(company);
-			beginTransaction.commit();
-			session.close();
+			if (session.isOpen()) {
+				session.close();
+			}
+			session = HibernateUtil.openSession();
+			try {
+				Transaction transaction = session.beginTransaction();
+				session.getNamedQuery("unloack.company")
+						.setParameter("companyId", companyId).executeUpdate();
+				transaction.commit();
+			} catch (Exception e) {
+			} finally {
+				OnUpdateThreadLocal.set(false);
+				session.close();
+			}
 		}
 	}
 
@@ -216,7 +230,6 @@ public class Encrypter extends Thread {
 		byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
 		EU.storeKey(s2, sessionId);
 		EU.createCipher(userSecret, d2, sessionId);
-		User user = getUser();
 		user.setSecretKey(userSecret);
 		session.saveOrUpdate(user);
 
@@ -226,11 +239,10 @@ public class Encrypter extends Thread {
 
 	private User getUser() {
 		Session session = HibernateUtil.getCurrentSession();
-		Query setParameter = session
-				.getNamedQuery("getUser.by.mailId.and.companyId")
+		Query query = session.getNamedQuery("getUser.by.mailId.and.companyId")
 				.setParameter("emailId", emailId)
 				.setParameter("companyId", companyId);
-		return (User) setParameter.uniqueResult();
+		return (User) query.uniqueResult();
 	}
 
 	private Company getCompany() {
@@ -255,9 +267,43 @@ public class Encrypter extends Thread {
 					List list = criteria.list();
 					List list2 = new ArrayList();
 					for (Object o : list) {
-						Object initializeAndUnproxy = HibernateUtil
-								.initializeAndUnproxy(o);
-						list2.add(initializeAndUnproxy);
+						o = HibernateUtil.initializeAndUnproxy(o);
+						if (o instanceof Payee) {
+							Payee p = (Payee) o;
+							p.setContacts(new HashSet<Contact>(p.getContacts()));
+							p.setAddress(new HashSet<Address>(p.getAddress()));
+						} else if (o instanceof InventoryAssembly) {
+							InventoryAssembly i = (InventoryAssembly) o;
+							i.setComponents(new HashSet<InventoryAssemblyItem>(
+									i.getComponents()));
+						} else if (o instanceof Expense) {
+							Expense e = (Expense) o;
+							e.setTransactionExpenses(new ArrayList<TransactionExpense>(
+									e.getTransactionExpenses()));
+						} else if (o instanceof Invoice) {
+							Invoice i = (Invoice) o;
+							i.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>(
+									i.getTransactionReceivePayments()));
+						} else if (o instanceof ReceivePayment) {
+							ReceivePayment r = (ReceivePayment) o;
+							r.setTransactionReceivePayment(new ArrayList<TransactionReceivePayment>(
+									r.getTransactionReceivePayment()));
+						} else if (o instanceof TransactionPayBill) {
+							TransactionPayBill t = (TransactionPayBill) o;
+							t.setTransactionCreditsAndPayments(new ArrayList<TransactionCreditsAndPayments>(
+									t.getTransactionCreditsAndPayments()));
+						} else if (o instanceof StockTransfer) {
+							StockTransfer s = (StockTransfer) o;
+							s.setStockTransferItems(new HashSet<StockTransferItem>(
+									s.getStockTransferItems()));
+						}
+
+						if (o instanceof com.vimukti.accounter.core.Transaction) {
+							com.vimukti.accounter.core.Transaction t = (com.vimukti.accounter.core.Transaction) o;
+							t.setTransactionItems(new ArrayList<TransactionItem>(
+									t.getTransactionItems()));
+						}
+						list2.add(o);
 					}
 					lists.add(list2);
 				} catch (Exception e) {

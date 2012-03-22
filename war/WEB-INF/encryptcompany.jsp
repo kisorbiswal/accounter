@@ -16,15 +16,15 @@ $(document).ready(function() {
 $('#submitButton').click(function() {
 	$("#accounterForm").validate({
 		rules: {
-			pass1: "required",
-			pass2: {
+			password: "required",
+			confirm: {
 				required: true,
 				equalTo: "#pass1"
 			}
 		},
 		messages: {
-			pass1: "<i18n:i18n msg='pleaseenteryourpassword'/>",
-			pass2: {
+			password: "<i18n:i18n msg='pleaseenteryourpassword'/>",
+			confirm: {
 				required: "<i18n:i18n msg='pleaseconfirmyourpassword'/>",
 				equalTo: "<i18n:i18n msg='pleaseenterthesamepasswordasabove'/>"
 			}
@@ -68,6 +68,7 @@ $('#submitButton').click(function() {
 			<input type="password" id= "pass1" name="password" >Confirm password
 			<input type="password" id= "pass2"  name="confirm" >
 			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="<i18n:i18n msg='submit'/>">
+			 <a   href="/main/companies" ><i18n:i18n msg='companieslist'/></a> | 
 			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
 			<div>
 			</div>

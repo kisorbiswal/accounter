@@ -71,8 +71,8 @@ public class PrintInvoiceCommand extends AbstractCommand {
 
 			@Override
 			public void run() {
+				Session openSession = HibernateUtil.openSession();
 				try {
-					HibernateUtil.openSession();
 					ServerLocal.set(locale);
 					Global.set(iGlobal);
 					CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
@@ -90,9 +90,8 @@ public class PrintInvoiceCommand extends AbstractCommand {
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
-					Session currentSession = HibernateUtil.getCurrentSession();
-					if (currentSession.isOpen()) {
-						currentSession.close();
+					if (openSession.isOpen()) {
+						openSession.close();
 					}
 				}
 			}

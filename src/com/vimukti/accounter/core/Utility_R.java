@@ -11,10 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -33,64 +30,6 @@ public class Utility_R {
 		return version;
 	}
 
-	private static final Logger LOG = Logger.getLogger(HibernateUtil.class);
-
-	// private static SessionFactory sessionFactory;
-
-	// SessionFactory = new
-	// Configuration().configure("/CollaberServer/hibernate.cfg.xml");
-	/**
-	 * This has been created for the purpose of test case use.
-	 */
-	static ThreadLocal<Session> threadLocalSession = new ThreadLocal<Session>();
-	/**
-	 * This has been created for the purpose of test case use.
-	 */
-	private static SessionFactory sessionFactory;
-
-	// public static SessionFactory getSessionFactory() {
-	// return sessionFactory;
-	// }
-	//
-	// public static void shutdown() {
-	// getSessionFactory().close();
-	// }
-	public static Session openSession() {
-		LOG.info("Openned Session");
-		// ConnectionProvider.setDBName(dbName);
-		Session session = getSessionFactory().openSession();
-		threadLocalSession.set(session);
-		return session;
-	}
-
-	public static SessionFactory getSessionFactory() {
-		if (sessionFactory == null) {
-			try {
-				sessionFactory = new Configuration().configure(
-						"./finance-hibernate.cfg.xml").buildSessionFactory();
-			} catch (Throwable e) {
-				throw new ExceptionInInitializerError(e);
-			}
-		}
-		return sessionFactory;
-	}
-
-	public static Session getCurrentSession() {
-		return threadLocalSession.get();
-	}
-
-	public static void setSession(Session session) {
-		threadLocalSession.set(session);
-	}
-
-	public static void closeCurrentSession() {
-		LOG.info("Close Session");
-
-		if (getCurrentSession() != null && getCurrentSession().isOpen()) {
-			getCurrentSession().close();
-			threadLocalSession.remove();
-		}
-	}
 
 	public static String getTransactionName(int transactionType) {
 

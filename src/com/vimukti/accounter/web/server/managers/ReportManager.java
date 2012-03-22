@@ -415,6 +415,7 @@ public class ReportManager extends Manager {
 				double amount = object[5] == null ? 0 : (Double) object[5];
 				/* + record.getMap().get(location) */;
 				record.getMap().get(location);
+				record.setCategoryId(location);
 			}
 		}
 

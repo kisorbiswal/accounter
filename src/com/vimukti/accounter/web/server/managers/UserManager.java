@@ -12,6 +12,7 @@ import java.util.Set;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
@@ -279,13 +280,14 @@ public class UserManager extends Manager {
 
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
-
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			String hasedOldPassword = HexUtil.bytesToHex(Security
-					.makeHash(emailId + oldPassword));
+			String hasedOldPassword = oldPassword.equals("") ? "" : HexUtil
+					.bytesToHex(Security.makeHash(emailId
+							+ Client.PASSWORD_HASH_STRING + oldPassword));
+
 			String newHashPassword = HexUtil.bytesToHex(Security
 					.makeHash(emailId + newPassword));
 
@@ -293,9 +295,17 @@ public class UserManager extends Manager {
 					.setParameter("emailId", emailId)
 					.setParameter("password", hasedOldPassword);
 			String emailID = (String) query.uniqueResult();
-
-			if (emailID == null)
-				return false;
+			if (emailID == null) {
+				hasedOldPassword = oldPassword.equals("") ? "" : HexUtil
+						.bytesToHex(Security.makeHash(emailId + oldPassword));
+				query = session.getNamedQuery("getEmailIdFromClient")
+						.setParameter("emailId", emailId)
+						.setParameter("password", hasedOldPassword);
+				emailID = (String) query.uniqueResult();
+				if (emailID == null) {
+					return false;
+				}
+			}
 
 			query = session.getNamedQuery("updatePasswordForClient");
 			query.setParameter("newPassword", newHashPassword);
@@ -457,5 +467,29 @@ public class UserManager extends Manager {
 
 		return clientActivities;
 
+	}
+
+	public void deleteClientFromCompany(long serverCompanyId,
+			String deletableEmail) throws AccounterException {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Client deletingClient = getClient(deletableEmail);
+
+			Company company = null;
+			company = (Company) session.load(Company.class, serverCompanyId);
+			// serverCompany.getClients().remove(deletingClient);
+			// session.saveOrUpdate(serverCompany);
+			deletingClient.getUsers().remove(company);
+			session.saveOrUpdate(deletingClient);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw new AccounterException(AccounterException.ERROR_INTERNAL);
+		}
 	}
 }

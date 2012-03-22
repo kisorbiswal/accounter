@@ -94,8 +94,6 @@ public class BrandingTheme extends CreatableObject implements
 	String contactDetails;
 	String Terms_And_Payment_Advice;
 
-	public transient boolean isOnSaveProccessed;
-
 	String fileName;
 
 	boolean isDefault;
@@ -590,25 +588,13 @@ public class BrandingTheme extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		if (isLogoAdded() == false)
 			this.setFileName(null);
 		return false;
-	}
-
-	/**
-	 * @return the isOnSaveProccessed
-	 */
-	public boolean isOnSaveProccessed() {
-		return isOnSaveProccessed;
-	}
-
-	/**
-	 * @param isOnSaveProccessed
-	 *            the isOnSaveProccessed to set
-	 */
-	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
-		this.isOnSaveProccessed = isOnSaveProccessed;
 	}
 
 	public boolean isDefault() {

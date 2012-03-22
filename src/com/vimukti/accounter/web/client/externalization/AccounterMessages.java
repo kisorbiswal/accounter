@@ -6189,4 +6189,12 @@ public interface AccounterMessages extends Messages {
 	public String youcannotCreateMoreTransactions();
 
 	public String youcannotEditMultiCurrencyTransaction();
+
+	public String customPermissions();
+
+	public String selectPermissionToDelete();
+
+	public String leaveOldPasswordEmptyIfYouSignedUpWithGoogleYahooAOLOrFacebook();
+
+	public String youCantDeleteCompanyCreator();
 }
