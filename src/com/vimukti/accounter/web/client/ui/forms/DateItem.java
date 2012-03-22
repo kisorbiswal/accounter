@@ -37,7 +37,7 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 		super(text, styleName);
 		setUseTextField(true);
 		Label dateImg = new Label();
-		dateImg.addStyleName("calendar-picker");
+		dateImg.setStyleName("calendar-picker");
 		dateImg.addClickHandler(new ClickHandler() {
 
 			@Override

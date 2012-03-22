@@ -23,7 +23,7 @@
 				<g:CheckBox ui:field="warehousesCheckBox" />
 				<g:Label ui:field="wareHouseCommentLabel" styleName="organisation_comment" />
 				<g:CheckBox ui:field="unitsCheckBox" />
-				<g:FlowPanel>
+				<g:FlowPanel styleName='inventoryschemlistbox'>
 					<g:Label ui:field="inventoryScheme" />
 					<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
 				</g:FlowPanel>
@@ -42,7 +42,7 @@
 				<g:CheckBox ui:field="trackCheckbox" styleName="header" />
 			</g:FlowPanel>
 			<g:Label ui:field="trackLabel" styleName="organisation_comment" />
-			<g:FlowPanel ui:field="hidePanel">
+			<g:FlowPanel ui:field="hidePanel" styleName='subtrackortax' >
 				<g:Label ui:field="taxItemTransactionLabel" />
 				<g:RadioButton name="new name" ui:field="onepeTransactionRadioButton" />
 				<g:Label ui:field="oneperTransactionLabel" styleName="organisation_comment" />

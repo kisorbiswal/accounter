@@ -67,6 +67,9 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			messages.expenses(), messages.salesOrders(),
 			messages.purchaseOrders() };
 
+	public InventoryCentreView(){
+		this.getElement().setId("InventoryCentreView");
+	}
 	@Override
 	public void init() {
 		super.init();

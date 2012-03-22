@@ -46,6 +46,9 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	AccountCombo adjustmentAccountCombo;
 
+	public StockAdjustmentView(){
+		this.getElement().setId("StockAdjustmentView");
+	}
 	@Override
 	public void init() {
 		super.init();

@@ -66,6 +66,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public static final int DEFAULT_PAGE_SIZE = 50;
 
 	public BaseListView() {
+		this.getElement().addClassName("listView");
 	}
 
 	protected List<String> getViewSelectTypes() {
