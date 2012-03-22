@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
@@ -713,8 +714,7 @@ public class CustomerManager extends PayeeManager {
 							&& je.getInvolvedPayee() instanceof Customer
 							&& je.getInvolvedPayee().getName()
 									.equals(mpc.getCustomer())
-							&& item.getAccount().getID() == company
-									.getAccountsReceivableAccount().getID()) {
+							&& item.getAccount().getType() == Account.TYPE_ACCOUNT_RECEIVABLE) {
 						mpc.setBilledCost(mpc.getBilledCost()
 								+ item.getLineTotal());
 					}

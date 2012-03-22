@@ -84,10 +84,6 @@ public class ClientCompany implements IAccounterCore {
 
 	private int industry;
 
-	private long accountsReceivableAccount;
-
-	private long accountsPayableAccount;
-
 	private long openingBalancesAccount;
 
 	private long retainedEarningsAccount;
@@ -959,22 +955,6 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setFiscalYearStarting(int fiscalYearStarting) {
 		this.fiscalYearStarting = fiscalYearStarting;
-	}
-
-	public long getAccountsReceivableAccountId() {
-		return accountsReceivableAccount;
-	}
-
-	public void setAccountsReceivableAccount(long accountsReceivableAccount) {
-		this.accountsReceivableAccount = accountsReceivableAccount;
-	}
-
-	public long getAccountsPayableAccount() {
-		return accountsPayableAccount;
-	}
-
-	public void setAccountsPayableAccountId(long accountsPayableAccount) {
-		this.accountsPayableAccount = accountsPayableAccount;
 	}
 
 	public long getOpeningBalancesAccount() {

@@ -24,8 +24,6 @@ public class ClientPayBill extends ClientTransaction {
 
 	double endingBalance;
 
-	long accountsPayable;
-
 	private double unusedAmount = 0D;
 
 	private double UnUsedCredits = 0D;
@@ -106,11 +104,6 @@ public class ClientPayBill extends ClientTransaction {
 
 	}
 
-	public void setAccountsPayable(long accountsPayableAccount) {
-		// this.accountsPayable ;
-		// TODO
-	}
-
 	/**
 	 * @return the checkNumber
 	 */
@@ -173,10 +166,6 @@ public class ClientPayBill extends ClientTransaction {
 
 	public long getPayFrom() {
 		return this.payFrom;
-	}
-
-	public long getAccountsPayable() {
-		return this.accountsPayable;
 	}
 
 	public void setBillDueOnOrBefore(long billDueOnOrBefore) {

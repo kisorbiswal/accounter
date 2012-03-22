@@ -288,10 +288,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		this.billNumber = billNumber;
 	}
 
-	public void setAccountsPayable(Object accountsPayableAccount) {
-
-	}
-
 	@Override
 	public String getDisplayName() {
 		// its not using any where

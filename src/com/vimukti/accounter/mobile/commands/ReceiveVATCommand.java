@@ -77,9 +77,7 @@ public class ReceiveVATCommand extends AbstractTransactionCommand {
 													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 													ClientAccount.TYPE_FIXED_ASSET)
 											.contains(e.getType())
-									&& e.getID() != context.getCompany()
-											.getAccountsReceivableAccount()
-											.getID();
+									&& e.getType() != Account.TYPE_ACCOUNT_RECEIVABLE;
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);

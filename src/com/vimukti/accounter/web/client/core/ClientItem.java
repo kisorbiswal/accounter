@@ -520,4 +520,9 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 		this.averageCost = averageCost;
 	}
 
+	public boolean isInventory() {
+		return getType() == TYPE_INVENTORY_PART
+				|| getType() == TYPE_INVENTORY_ASSEMBLY;
+	}
+
 }

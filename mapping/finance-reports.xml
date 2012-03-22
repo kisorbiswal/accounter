@@ -702,6 +702,8 @@
 				FROM   TRANSACTION_HISTORY_VIEW TV
 				       LEFT OUTER JOIN TRANSACTION T
 				         ON T.ID = TV.TRANSACTION_ID
+				       LEFT OUTER JOIN CURRENCY CURR
+				       	 ON CURR.ID=T.CURRENCY
 				       LEFT OUTER JOIN WRITE_CHECKS WC
 				         ON T.ID = WC.ID
 				       LEFT OUTER JOIN CASH_SALES CS
@@ -717,7 +719,7 @@
 				                     WHEN T.T_TYPE IN ( 29 ) THEN CPP.DEPOSITIN_ID
 				                     WHEN T.T_TYPE = 15 THEN WC.ACCOUNT_ID
 				                                                         END
-				                     ELSE C.ACCOUNTS_RECEIVABLE_ID
+				                     ELSE CURR.ACCOUNTS_RECEIVABLE_ID
 				                   END
 				WHERE  TV.CUSTOMER_ID IS NOT NULL
 				       AND TV.COMPANY_ID = :companyId
@@ -787,6 +789,8 @@
 				FROM   TRANSACTION_HISTORY_VIEW TV
 				       LEFT OUTER JOIN TRANSACTION T
 				         ON T.ID = TV.TRANSACTION_ID
+				       LEFT OUTER JOIN CURRENCY CURR
+				       	 ON CURR.ID=T.CURRENCY
 				       LEFT OUTER JOIN WRITE_CHECKS WC
 				         ON T.ID = WC.ID
 				       LEFT OUTER JOIN CASH_PURCHASE CP
@@ -809,7 +813,7 @@
 				                     WHEN T.T_TYPE = 25 THEN VP.PAYFROM_ID
 				                     WHEN T.T_TYPE = 15 THEN WC.ACCOUNT_ID
 				                                                      END
-				                     ELSE C.ACCOUNTS_PAYABLE_ID
+				                     ELSE CURR.ACCOUNTS_PAYABLE_ID
 				                   END
 				WHERE  TV.VENDOR_ID IS NOT NULL
 				       AND TV.COMPANY_ID = :companyId
@@ -2910,6 +2914,7 @@
 	<sql-query name="getUnrealisedExchangeLossOrGain">
 		<query-param name="companyId" type="long" />
 		<query-param name="enteredDate" type="long" />
+		<query-param name="currencies" type="long" />
 
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="CURRENCY_NAME" type="encryptedstring" />
@@ -2918,26 +2923,28 @@
 		<return-scalar column="CURRENCY_ID" type="long" />
 		
 		<![CDATA[
-				SELECT A.NAME                              AS ACCOUNT_NAME,
-				       CURR.FORMAL_NAME                    AS CURRENCY_NAME,
-				       SUM(AT.AMOUNT / T.CURRENCY_FACTOR)  AS FOREIGN_BALANCE,
-				       A.TOTAL_BALANCE_IN_ACCOUNT_CURRENCY AS CURRENT_BALANCE,
-				       CURR.ID                             AS CURRENCY_ID
-				FROM   ACCOUNT_TRANSACTION AT
-				       LEFT OUTER JOIN TRANSACTION T
-				         ON T.ID = AT.TRANSACTION_ID
-				       LEFT JOIN ACCOUNT A
-				         ON A.ID = AT.ACCOUNT_ID
-				       LEFT JOIN CURRENCY CURR
-				         ON CURR.ID = T.CURRENCY
-				       LEFT JOIN COMPANY C
-				         ON C.ID = AT.COMPANY_ID
-				WHERE  A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY
-				       AND T.T_DATE <= :enteredDate
-				       AND AT.COMPANY_ID = :companyId
-				GROUP  BY A.ID,
-				          CURR.ID  
-				]]>
+				SELECT a.NAME                              AS account_name,
+				       c.formal_name                       AS currency_name,
+				       CASE
+				         WHEN a.a_type = 8 THEN -( SUM(at.amount / t.currency_factor) )
+				         ELSE SUM(at.amount / t.currency_factor)
+				       END                                 AS foreign_balance,
+				       a.total_balance_in_account_currency AS current_balance,
+				       c.id                                AS currency_id
+				FROM   currency c
+				       left join account a
+				         ON a.id = c.accounts_receivable_id
+				             OR a.id = c.accounts_payable_id
+				       left join account_transaction at
+				         ON at.account_id = a.id
+				       left join transaction t
+				         ON t.id = at.transaction_id
+				WHERE  t.t_date <= :enteredDate
+				       AND c.id IN :currencies
+				       AND a.company_id = :companyId
+				GROUP  BY a.id,
+				          c.id;  
+		]]>
 
 	</sql-query>
 

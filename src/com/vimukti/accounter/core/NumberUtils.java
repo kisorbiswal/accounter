@@ -2,12 +2,16 @@ package com.vimukti.accounter.core;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class NumberUtils {
 
@@ -238,6 +242,64 @@ public class NumberUtils {
 		}
 		return prevNumber;
 
+	}
+
+	public static String getNextAccountNumber(long companyId, int accountType) {
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		int subBaseType = UIUtils.getAccountSubBaseType(accountType);
+		try {
+			Query query = session.getNamedQuery("getNextAccountNumber")
+					.setParameter("companyId", companyId)
+					.setParameter("subbaseType", subBaseType);
+			List<String> list = query.list();
+			if (list.isEmpty()) {
+				return String.valueOf(getMinimumRange(accountType));
+			}
+			Collections.sort(list);
+			String maxNumber = (String) list.get(list.size() - 1);
+			return NumberUtils.getStringwithIncreamentedDigit(maxNumber);
+		} finally {
+			session.setFlushMode(flushMode);
+		}
+	}
+
+	private static int getMinimumRange(int accountType) {
+
+		switch (accountType) {
+
+		case ClientAccount.TYPE_CASH:
+		case ClientAccount.TYPE_BANK:
+		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
+		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
+		case ClientAccount.TYPE_INVENTORY_ASSET:
+			return NominalCodeRange.RANGE_OTHER_CURRENT_ASSET_MIN;
+		case ClientAccount.TYPE_FIXED_ASSET:
+			return NominalCodeRange.RANGE_FIXED_ASSET_MIN;
+		case ClientAccount.TYPE_OTHER_ASSET:
+			return NominalCodeRange.RANGE_OTHER_ASSET_MIN;
+		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
+		case ClientAccount.TYPE_CREDIT_CARD:
+		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
+		case ClientAccount.TYPE_PAYROLL_LIABILITY:
+			return NominalCodeRange.RANGE_OTER_CURRENT_LIABILITY_MIN;
+		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
+			return NominalCodeRange.RANGE_LONGTERM_LIABILITY_MIN;
+		case ClientAccount.TYPE_EQUITY:
+			return NominalCodeRange.RANGE_EQUITY_MIN;
+		case ClientAccount.TYPE_INCOME:
+		case ClientAccount.TYPE_OTHER_INCOME:
+			return NominalCodeRange.RANGE_INCOME_MIN;
+		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
+			return NominalCodeRange.RANGE_COST_OF_GOODS_SOLD_MIN;
+		case ClientAccount.TYPE_EXPENSE:
+			return NominalCodeRange.RANGE_EXPENSE_MIN;
+		case ClientAccount.TYPE_OTHER_EXPENSE:
+			return NominalCodeRange.RANGE_OTHER_EXPENSE_MIN;
+		default:
+			return 0;
+		}
 	}
 
 }

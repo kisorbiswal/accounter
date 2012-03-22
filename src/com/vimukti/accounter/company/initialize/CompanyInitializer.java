@@ -297,10 +297,11 @@ public abstract class CompanyInitializer {
 
 		BrandingTheme brandingTheme = new BrandingTheme("Standard",
 				SecureUtils.createID(), 1.35, 1.00, 1.00, "Code2000", "10pt",
-				"INVOICE", "CREDIT", "STATEMENT", "QUOTE","PURCHASE ORDER","SALES ORDER", "(None Added)",
-				true, "(None Added)", "(None Added)", "Classic Template",
-				"Classic Template", "Classic Template", "Classic Template",
-				"CASHSALE", "Classic Template", "Classic Template");
+				"INVOICE", "CREDIT", "STATEMENT", "QUOTE", "PURCHASE ORDER",
+				"SALES ORDER", "(None Added)", true, "(None Added)",
+				"(None Added)", "Classic Template", "Classic Template",
+				"Classic Template", "Classic Template", "CASHSALE",
+				"Classic Template", "Classic Template");
 		brandingTheme.setCompany(company);
 		session.save(brandingTheme);
 
@@ -794,15 +795,6 @@ public abstract class CompanyInitializer {
 
 	public void initializeDefaultAssetsAccounts() {
 
-		// This is the direct references to the Accounts Receivable Account for
-		// the purpose of the Transactions.
-		// Current Accounts
-		Account accountsReceivableAccount = createAccount(
-				Account.TYPE_OTHER_CURRENT_ASSET,
-				AccounterServerConstants.ACCOUNTS_RECEIVABLE,
-				Account.CASH_FLOW_CATEGORY_OPERATING);
-		company.setAccountsReceivableAccount(accountsReceivableAccount);
-
 		/**
 		 * this inventory assets account is used while creating the inventory
 		 * item
@@ -991,15 +983,6 @@ public abstract class CompanyInitializer {
 	public void initializeDefaultlLiabilitiesAccounts() {
 
 		// Current Liabilities
-		// TODO Remaining 16
-
-		// This is the direct references to the Accounts Payable Account for the
-		// purpose of the Transactions.
-		Account accountsPayableAccount = createAccount(
-				Account.TYPE_OTHER_CURRENT_LIABILITY,
-				AccounterServerConstants.ACCOUNTS_PAYABLE,
-				Account.CASH_FLOW_CATEGORY_OPERATING);
-		company.setAccountsPayableAccount(accountsPayableAccount);
 
 		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.PENDING_ITEM_RECEIPTS,

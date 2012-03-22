@@ -28,7 +28,7 @@ public class InventoryMigration {
 				.list();
 
 		for (Company company : companies) {
-			AccounterThreadLocal.set(company.getAccountsReceivableAccount()
+			AccounterThreadLocal.set(company.getOpeningBalancesAccount()
 					.getCreatedBy());
 			log.info("Updating Company - " + company.getTradingName());
 			String accountNumber = getNextAccountNumber(company.getID(),

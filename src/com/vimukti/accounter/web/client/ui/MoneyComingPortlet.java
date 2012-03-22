@@ -20,6 +20,7 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.ColumnChart;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -58,7 +59,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 		StyledPanel hPanel = new StyledPanel("hPanel");
 		FlexTable fTable = new FlexTable();
-//		hPanel.setWidth("100%");
+		// hPanel.setWidth("100%");
 
 		hPanel.addHandler(new ResizeHandler() {
 
@@ -156,8 +157,9 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 	}
 
 	private void updateDebitorsAccount() {
+		ClientCurrency primaryCurrency = getCompany().getPrimaryCurrency();
 		debitors = getCompany().getAccount(
-				getCompany().getAccountsReceivableAccountId());
+				primaryCurrency.getAccountsReceivable());
 	}
 
 	Label getLabel(final String title) {

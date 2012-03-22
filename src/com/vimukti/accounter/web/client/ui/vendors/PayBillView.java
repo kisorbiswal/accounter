@@ -173,11 +173,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setType(ClientTransaction.TYPE_PAY_BILL);
 		transaction.setPayBillType(ClientPayBill.TYPE_PAYBILL);
 
-		// Setting Accounts Payable
-		transaction.setAccountsPayable(getCompany()
-
 		// transaction.setTaxItem(taxItem)
-				.getAccountsPayableAccount());
 
 		// Setting Date
 		transaction.setDate(date.getEnteredDate().getDate());
@@ -228,10 +224,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill tpbRecord : selectedRecords) {
 			tpbRecord.setID(0);
-
-			tpbRecord.setAccountsPayable(getCompany()
-					.getAccountsPayableAccount());
-
 			transactionPayBill.add(tpbRecord);
 		}
 

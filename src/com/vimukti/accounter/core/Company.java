@@ -41,7 +41,7 @@ public class Company implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
-	public static final int CURRENT_VERSION = 3;
+	public static final int CURRENT_VERSION = 4;
 
 	private long id;
 	private int version;
@@ -800,10 +800,7 @@ public class Company implements IAccounterServerCore {
 		cmp.preferences = this.getPreferences();
 		cmp.setId(this.getID());
 
-		cmp.accountsReceivableAccount = this.getAccountsReceivableAccount();
-		cmp.accountsPayableAccount = this.getAccountsPayableAccount();
 		cmp.openingBalancesAccount = this.getOpeningBalancesAccount();
-		cmp.accountsPayableAccount = this.getAccountsPayableAccount();
 		cmp.pendingItemReceiptsAccount = this.getPendingItemReceiptsAccount();
 		cmp.retainedEarningsAccount = this.getRetainedEarningsAccount();
 		cmp.otherCashIncomeAccount = this.getOtherCashIncomeAccount();

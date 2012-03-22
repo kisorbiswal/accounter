@@ -564,9 +564,9 @@ public class CashPurchase extends Transaction {
 				session.delete(estimate);
 			}
 			cashPurchase.estimates.clear();
-			
+
 			this.createAndSaveEstimates(this.transactionItems, session);
-			
+
 			this.payFrom.updateCurrentBalance(this,
 					isDebitTransaction() ? this.total : -this.total,
 					this.currencyFactor);
@@ -589,6 +589,7 @@ public class CashPurchase extends Transaction {
 		}
 
 	}
+
 	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
 			Session session) {
 		this.getEstimates().clear();
@@ -643,7 +644,7 @@ public class CashPurchase extends Transaction {
 
 		this.setEstimates(estimates);
 	}
-	
+
 	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
 		for (Estimate clientEstimate : estimates) {
 			if (clientEstimate.getCustomer().getID() == customer) {
@@ -652,6 +653,7 @@ public class CashPurchase extends Transaction {
 		}
 		return null;
 	}
+
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -830,6 +832,7 @@ public class CashPurchase extends Transaction {
 	public Transaction clone() throws CloneNotSupportedException {
 		CashPurchase purchase = (CashPurchase) super.clone();
 		purchase.purchaseOrders = new ArrayList<PurchaseOrder>();
+		purchase.estimates = new HashSet<Estimate>();
 		return purchase;
 	}
 

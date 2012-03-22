@@ -383,33 +383,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 
 				if (this.type == TYPE_ITEM) {
-					if (getItem().isInventory()) {
-						getItem().doReverseEffect(this, isSalesTransaction());
-						if (getTransaction().isCustomerCreditMemo()
-								&& (getItem().getType() == Item.TYPE_INVENTORY_PART || getItem()
-										.getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
-							// Doing PurchaseEffect for CustomerCreditMemo
-							Account assestsAccount = getItem()
-									.getAssestsAccount();
-							Account expenseAccount = getItem()
-									.getExpenseAccount();
-							double purchaseCost = getQuantity().calculatePrice(
-									this.getUnitPriceInBaseCurrency());
-							assestsAccount.updateCurrentBalance(
-									getTransaction(), purchaseCost, 1);
-							expenseAccount.updateCurrentBalance(
-									getTransaction(), -purchaseCost, 1);
-							session.save(assestsAccount);
-							session.save(expenseAccount);
-						}
-					} else if (getTransaction().isBuildAssembly()) {
-						double purchaseValue = getQuantity().calculatePrice(
-								this.getUnitPriceInBaseCurrency());
-						Account expenseAccount = getItem().getExpenseAccount();
-						expenseAccount.updateCurrentBalance(getTransaction(),
-								-purchaseValue, 1);
-						session.saveOrUpdate(expenseAccount);
-					}
+					doReverseEffectForitem(session);
 				}
 			}
 		}
@@ -530,33 +504,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 
 				if (this.type == TYPE_ITEM && getItem() != null) {
-					if (getItem().isInventory()) {
-						getItem().updateBalance(this, isSalesTransaction());
-
-						if (getTransaction().isCustomerCreditMemo()) {
-							// Doing PurchaseEffect for CustomerCreditMemo
-							Account assestsAccount = getItem()
-									.getAssestsAccount();
-							Account expenseAccount = getItem()
-									.getExpenseAccount();
-							double purchaseCost = getQuantity().calculatePrice(
-									this.getUnitPriceInBaseCurrency());
-							assestsAccount.updateCurrentBalance(
-									getTransaction(), -purchaseCost, 1);
-							expenseAccount.updateCurrentBalance(
-									getTransaction(), purchaseCost, 1);
-							session.save(assestsAccount);
-							session.save(expenseAccount);
-						}
-					} else if (getTransaction().isBuildAssembly()) {
-						double purchaseValue = getQuantity().calculatePrice(
-								this.getUnitPriceInBaseCurrency());
-						Account expenseAccount = getItem().getExpenseAccount();
-						expenseAccount.updateCurrentBalance(getTransaction(),
-								purchaseValue, 1);
-						session.saveOrUpdate(expenseAccount);
-					}
-
+					doCreateEffectForItem(session);
 				}
 
 			}
@@ -571,6 +519,75 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// }
 		// }
 		// ChangeTracker.put(this);
+	}
+
+	private void doCreateEffectForItem(Session session) {
+		if (getItem().isInventory()) {
+			getItem().updateBalance(this, isSalesTransaction());
+
+			if (getTransaction().isCustomerCreditMemo()) {
+				// Doing PurchaseEffect for CustomerCreditMemo
+				Account assestsAccount = getItem().getAssestsAccount();
+				Account expenseAccount = getItem().getExpenseAccount();
+				double purchaseCost = getQuantity().calculatePrice(
+						this.getUnitPriceInBaseCurrency());
+				assestsAccount.updateCurrentBalance(getTransaction(),
+						-purchaseCost, 1);
+				expenseAccount.updateCurrentBalance(getTransaction(),
+						purchaseCost, 1);
+				session.save(assestsAccount);
+				session.save(expenseAccount);
+			}
+		} else if (getTransaction().isBuildAssembly()) {
+			double purchaseValue = getQuantity().calculatePrice(
+					this.getUnitPriceInBaseCurrency());
+			Account expenseAccount = getItem().getExpenseAccount();
+			expenseAccount.updateCurrentBalance(getTransaction(),
+					purchaseValue, 1);
+			session.saveOrUpdate(expenseAccount);
+
+			// Updating Assembly Assets
+			Account assestsAccount = ((BuildAssembly) getTransaction())
+					.getInventoryAssembly().getAssestsAccount();
+			assestsAccount.updateCurrentBalance(getTransaction(),
+					-purchaseValue, 1);
+			session.saveOrUpdate(assestsAccount);
+		}
+	}
+
+	private void doReverseEffectForitem(Session session) {
+		if (getItem().isInventory()) {
+			getItem().doReverseEffect(this, isSalesTransaction());
+
+			if (getTransaction().isCustomerCreditMemo()) {
+				// Doing PurchaseEffect for CustomerCreditMemo
+				Account assestsAccount = getItem().getAssestsAccount();
+				Account expenseAccount = getItem().getExpenseAccount();
+				double purchaseCost = getQuantity().calculatePrice(
+						this.getUnitPriceInBaseCurrency());
+				assestsAccount.updateCurrentBalance(getTransaction(),
+						purchaseCost, 1);
+				expenseAccount.updateCurrentBalance(getTransaction(),
+						-purchaseCost, 1);
+				session.save(assestsAccount);
+				session.save(expenseAccount);
+			}
+		} else if (getTransaction().isBuildAssembly()) {
+			double purchaseValue = getQuantity().calculatePrice(
+					this.getUnitPriceInBaseCurrency());
+			Account expenseAccount = getItem().getExpenseAccount();
+			expenseAccount.updateCurrentBalance(getTransaction(),
+					-purchaseValue, 1);
+			session.saveOrUpdate(expenseAccount);
+
+			// Updating Assembly Assets
+			Account assestsAccount = ((BuildAssembly) getTransaction())
+					.getInventoryAssembly().getAssestsAccount();
+			assestsAccount.updateCurrentBalance(getTransaction(),
+					purchaseValue, 1);
+			session.saveOrUpdate(assestsAccount);
+
+		}
 	}
 
 	private boolean shouldUpdateAccounts(boolean whenDeleting) {
@@ -625,30 +642,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				transaction.setTAXRateCalculation(this);
 			}
 			if (this.type == TYPE_ITEM && getItem() != null) {
-				if (getItem().isInventory()) {
-					getItem().doReverseEffect(this, isSalesTransaction());
-
-					if (getTransaction().isCustomerCreditMemo()) {
-						// Doing PurchaseEffect for CustomerCreditMemo
-						Account assestsAccount = getItem().getAssestsAccount();
-						Account expenseAccount = getItem().getExpenseAccount();
-						double purchaseCost = getQuantity().calculatePrice(
-								this.getUnitPriceInBaseCurrency());
-						assestsAccount.updateCurrentBalance(getTransaction(),
-								purchaseCost, 1);
-						expenseAccount.updateCurrentBalance(getTransaction(),
-								-purchaseCost, 1);
-						session.save(assestsAccount);
-						session.save(expenseAccount);
-					}
-				} else if (getTransaction().isBuildAssembly()) {
-					double purchaseValue = getQuantity().calculatePrice(
-							this.getUnitPriceInBaseCurrency());
-					Account expenseAccount = getItem().getExpenseAccount();
-					expenseAccount.updateCurrentBalance(getTransaction(),
-							-purchaseValue, 1);
-					session.saveOrUpdate(expenseAccount);
-				}
+				doReverseEffectForitem(session);
 			}
 
 		}

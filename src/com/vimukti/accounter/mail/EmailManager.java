@@ -69,7 +69,7 @@ public class EmailManager extends Thread {
 		} else {
 			session = Session.getInstance(p);
 		}
-		session.setDebug(true);
+		session.setDebug(false);
 
 		for (EMailMessage emsg : mail.getMailMessages()) {
 			try {

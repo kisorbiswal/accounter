@@ -135,8 +135,10 @@ public class BuildAssemblyView extends
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				if (DecimalUtil.isLessThan(maximumBuildsLabel.getAmount(),
-						quantityToBuild.getAmount())) {
+				if (maximumBuildsLabel.getAmount() != null
+						&& DecimalUtil.isLessThan(
+								maximumBuildsLabel.getAmount(),
+								quantityToBuild.getAmount())) {
 					Accounter.showError(messages
 							.dntHaveEnoughComponents(maximumBuildsLabel
 									.getValue()));
@@ -216,8 +218,8 @@ public class BuildAssemblyView extends
 				assemblyItems.add(clientInventoryAssemblyItem);
 			}
 			itemTable.setRecords(assemblyItems);
-			maximumBuildsLabel
-					.setAmount(calculateNumberOfBuilds(assemblyItems));
+			Double maxBuilds = calculateNumberOfBuilds(assemblyItems);
+			maximumBuildsLabel.setAmount(maxBuilds);
 
 		}
 
@@ -255,24 +257,24 @@ public class BuildAssemblyView extends
 
 	}
 
-	private double calculateNumberOfBuilds(
+	private Double calculateNumberOfBuilds(
 			List<ClientInventoryAssemblyItem> assemblyItems) {
 		Double buildNumber = null;
 		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
 			ClientItem item = getCompany().getItem(
 					clientInventoryAssemblyItem.getInventoryItem());
-			double onhandQuantity = item.getOnhandQty().getValue();
-			double value = clientInventoryAssemblyItem.getQuantity().getValue();
-			double temp = (int) (onhandQuantity / value);
-			if (buildNumber == null) {
-				buildNumber = temp;
+			if (item.isInventory()) {
+				double onhandQuantity = item.getOnhandQty().getValue();
+				double value = clientInventoryAssemblyItem.getQuantity()
+						.getValue();
+				double temp = (int) (onhandQuantity / value);
+				if (buildNumber == null) {
+					buildNumber = temp;
+				}
+				if (buildNumber > temp) {
+					buildNumber = temp;
+				}
 			}
-			if (buildNumber > temp) {
-				buildNumber = temp;
-			}
-		}
-		if (buildNumber == null) {
-			buildNumber = 0.00D;
 		}
 		return buildNumber;
 	}
@@ -301,7 +303,8 @@ public class BuildAssemblyView extends
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		if (maximumBuildsLabel.getAmount() <= 0) {
+		if (maximumBuildsLabel.getAmount() != null
+				&& maximumBuildsLabel.getAmount() <= 0) {
 			result.addError(quantityToBuild,
 					messages.youCannotBuildThisAssembly());
 		}

@@ -229,9 +229,7 @@ public class CreateCustomerPrepaymentCommand extends AbstractTransactionCommand 
 													ClientAccount.TYPE_INVENTORY_ASSET,
 													ClientAccount.TYPE_FIXED_ASSET)
 											.contains(acc.getType())
-									&& acc.getID() != getCompany()
-											.getAccountsReceivableAccount()
-											.getID();
+									&& acc.getType() != Account.TYPE_ACCOUNT_RECEIVABLE;
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);

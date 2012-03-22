@@ -360,7 +360,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 	@Override
 	public Account getAccount() {
-		return getCompany().getAccountsReceivableAccount();
+		return getCurrency().getAccountsReceivable();
 	}
 
 	/**

@@ -1291,8 +1291,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accountName = data.getName();
 		long id = data.getID();
 		if (id == getCompany().getOpeningBalancesAccount()
-				|| id == getCompany().getAccountsReceivableAccountId()
-				|| id == getCompany().getAccountsPayableAccount())
+				|| data.getType() == ClientAccount.TYPE_ACCOUNT_RECEIVABLE
+				|| data.getType() == ClientAccount.TYPE_ACCOUNT_PAYABLE)
 			accNameText.setEnabled(!isInViewMode());
 		// statusBox.setValue(data.getIsActive() != null ? data
 		// .getIsActive() : Boolean.FALSE);

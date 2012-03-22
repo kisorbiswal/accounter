@@ -64,5 +64,16 @@
 		
 	</sql-query>	
 	
+	<query name="get.AccountTransactions.Of.AccountReceivables">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.AccountTransaction at 
+		where at.account.id=at.company.accountsReceivableAccount.id and at.company.id=:companyId
+	</query>
+	
+	<query name="get.AccountTransactions.Of.AccountPayables">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.AccountTransaction at 
+		where at.account.id=at.company.accountsPayableAccount.id and at.company.id=:companyId
+	</query>
 	
 </hibernate-mapping>

@@ -3670,7 +3670,8 @@ public class ReportManager extends Manager {
 		ArrayList<UnRealisedLossOrGain> list = new ArrayList<UnRealisedLossOrGain>();
 		List result = session.getNamedQuery("getUnrealisedExchangeLossOrGain")
 				.setParameter("companyId", companyId)
-				.setParameter("enteredDate", enteredDate).list();
+				.setParameter("enteredDate", enteredDate)
+				.setParameterList("currencies", exchangeRates.keySet()).list();
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
@@ -3763,8 +3764,8 @@ public class ReportManager extends Manager {
 			Object[] objects = (Object[]) iterator.next();
 			JobActualCostDetail costDetail = new JobActualCostDetail();
 			Company company = (Company) session.get(Company.class, companyId);
-			Account accountsReceivableAccount = company
-					.getAccountsReceivableAccount();
+			Account accountsReceivableAccount = company.getPrimaryCurrency()
+					.getAccountsReceivable();
 			costDetail.setSplitAccountName(accountsReceivableAccount.getName());
 			costDetail.setCustomerName((String) objects[0]);
 			costDetail.setJobName((String) objects[1]);

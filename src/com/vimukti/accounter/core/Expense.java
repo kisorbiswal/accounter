@@ -263,7 +263,7 @@ public class Expense extends Transaction {
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		if (this.status == STATUS_APPROVED && this.isAuthorised) {
-			Account accountPayable = getCompany().getAccountsPayableAccount();
+			Account accountPayable = getCurrency().getAccountsPayable();
 			accountPayable.updateCurrentBalance(this, this.total,
 					currencyFactor);
 			session.update(accountPayable);

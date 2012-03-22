@@ -18,6 +18,7 @@ import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -136,8 +137,9 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 	}
 
 	private void updateCreditorsAccount() {
+		ClientCurrency primaryCurrency = getCompany().getPrimaryCurrency();
 		creditors = getCompany().getAccount(
-				getCompany().getAccountsPayableAccount());
+				primaryCurrency.getAccountsPayable());
 	}
 
 	Label getLabel(final String title) {

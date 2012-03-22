@@ -30,11 +30,11 @@ public class Migrator1 extends AbstractMigrator {
 
 		// CREATING COST OF GOODS SOLD ACCOUNT
 		if (company.getCostOfGoodsSold() == null) {
-			AccounterThreadLocal.set(company.getAccountsReceivableAccount()
+			AccounterThreadLocal.set(company.getOpeningBalancesAccount()
 					.getCreatedBy());
 			log.info("Updating Company - " + company.getTradingName());
 			String accountNumber = getNextAccountNumber(company.getID(),
-					Account.SUBBASETYPE_COST_OF_GOODS_SOLD);
+					Account.TYPE_COST_OF_GOODS_SOLD);
 			Account account = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
 					accountNumber, AccounterServerConstants.COST_OF_GOODS_SOLD,
 					Account.CASH_FLOW_CATEGORY_OPERATING);
@@ -93,7 +93,7 @@ public class Migrator1 extends AbstractMigrator {
 		Company company = inventoryItem.getCompany();
 
 		String nextNum = getNextAccountNumber(company.getId(),
-				Account.SUBBASETYPE_CURRENT_ASSET);
+				Account.TYPE_INVENTORY_ASSET);
 		log.info("Creating Account with number " + nextNum + " for Item '"
 				+ inventoryItem.getName() + "' of Company '"
 				+ company.getTradingName() + "'.");

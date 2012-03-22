@@ -210,6 +210,10 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.initialize(accounts);
 
 			session.saveOrUpdate(company);
+
+			// Creating Accounts Receivables and Payables for Primary Currency
+			primaryCurrency.createAccountsReveivablesAndPayables(session);
+
 			transaction.commit();
 
 			UsersMailSendar.sendMailToDefaultUser(user,
@@ -228,7 +232,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 				.getAttribute(BaseServlet.COMPANY_ID);
 		CompanyAndFeatures companyAndFeatures = new CompanyAndFeatures();
 		if (companyID == null) {
-		
+
 			companyAndFeatures.setClientCompany(null);
 
 			ArrayList<String> list = new ArrayList<String>(getClient(

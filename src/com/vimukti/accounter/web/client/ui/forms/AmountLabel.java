@@ -7,7 +7,7 @@ public class AmountLabel extends LabelItem {
 	private Double doubleAmount;
 
 	public AmountLabel(final String name) {
-		super(name,"AmountLabel");
+		super(name, "AmountLabel");
 		setTitle(name);
 		setAmount(0.00D);
 	}
@@ -15,7 +15,8 @@ public class AmountLabel extends LabelItem {
 	public void setAmount(Double amount) {
 
 		this.doubleAmount = amount;
-		setValue(DataUtils.getAmountAsStringInCurrency(amount, null));
+		setValue(amount == null ? "" : DataUtils.getAmountAsStringInCurrency(
+				amount, null));
 
 	}
 

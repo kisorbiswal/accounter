@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientCurrency implements IAccounterCore {
 
 	/**
@@ -19,6 +20,16 @@ public class ClientCurrency implements IAccounterCore {
 	String formalName;
 
 	String symbol;
+
+	/**
+	 * Accounts Receivable Account for this Currency
+	 */
+	private long accountsReceivable;
+
+	/**
+	 * Accounts Payable Account for this Currency
+	 */
+	private long accountsPayable;
 
 	public ClientCurrency(String name, String formalName, String symbol) {
 		this.name = name;
@@ -123,7 +134,6 @@ public class ClientCurrency implements IAccounterCore {
 
 	}
 
-
 	public ClientCurrency clone() {
 		ClientCurrency currency = (ClientCurrency) this.clone();
 		return currency;
@@ -141,5 +151,35 @@ public class ClientCurrency implements IAccounterCore {
 			// && currency.getCountryName().endsWith(this.countryName);
 		}
 		return false;
+	}
+
+	/**
+	 * @return the accountsReceivable
+	 */
+	public long getAccountsReceivable() {
+		return accountsReceivable;
+	}
+
+	/**
+	 * @param accountsReceivable
+	 *            the accountsReceivable to set
+	 */
+	public void setAccountsReceivable(long accountsReceivable) {
+		this.accountsReceivable = accountsReceivable;
+	}
+
+	/**
+	 * @return the accountsPayable
+	 */
+	public long getAccountsPayable() {
+		return accountsPayable;
+	}
+
+	/**
+	 * @param accountsPayable
+	 *            the accountsPayable to set
+	 */
+	public void setAccountsPayable(long accountsPayable) {
+		this.accountsPayable = accountsPayable;
 	}
 }

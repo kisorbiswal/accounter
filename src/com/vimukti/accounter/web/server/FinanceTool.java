@@ -291,6 +291,12 @@ public class FinanceTool {
 
 			isTransactionNumberExist(data, company);
 			session.save(serverObject);
+
+			if (serverObject instanceof Currency) {
+				((Currency) serverObject)
+						.createAccountsReveivablesAndPayables(session);
+			}
+
 			transaction.commit();
 
 			org.hibernate.Transaction newTransaction = session

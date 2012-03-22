@@ -95,7 +95,7 @@ public class PayExpense extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		Account accountPayable = getCompany().getAccountsPayableAccount();
+		Account accountPayable = getCurrency().getAccountsPayable();
 		accountPayable.updateCurrentBalance(this, -this.total, currencyFactor);
 		session.update(accountPayable);
 		accountPayable.onUpdate(session);
@@ -134,7 +134,7 @@ public class PayExpense extends Transaction {
 	@Override
 	public Map<Account, Double> getEffectingAccountsWithAmounts() {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(getCompany().getAccountsPayableAccount(), total);
+		map.put(getCurrency().getAccountsPayable(), total);
 		return map;
 	}
 
@@ -143,7 +143,7 @@ public class PayExpense extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.payExpenses()).gap();

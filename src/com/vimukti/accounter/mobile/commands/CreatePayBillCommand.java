@@ -484,8 +484,6 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 	protected Result onCompleteProcess(Context context) {
 		paybill.setType(ClientTransaction.TYPE_PAY_BILL);
 		paybill.setPayBillType(ClientPayBill.TYPE_PAYBILL);
-		paybill.setAccountsPayable(context.getCompany()
-				.getAccountsPayableAccount().getID());
 		Vendor vendor = get(VENDOR).getValue();
 		Account payFrom = get(PAY_FROM).getValue();
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
@@ -553,10 +551,6 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 		List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill tpbRecord : selectedRecords) {
 			tpbRecord.setID(0);
-
-			tpbRecord.setAccountsPayable(getCompany()
-					.getAccountsPayableAccount());
-
 			transactionPayBill.add(tpbRecord);
 		}
 

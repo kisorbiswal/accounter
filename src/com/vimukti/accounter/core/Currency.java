@@ -1,7 +1,9 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -19,18 +21,6 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
-
-	public void setFormalName(String formalName) {
-		this.formalName = formalName;
-	}
-
 	/**
 	 * Name of the Currency
 	 */
@@ -43,6 +33,16 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	 * Formal Name of the Currency.
 	 */
 	String formalName;
+
+	/**
+	 * Accounts Receivable Account for this Currency
+	 */
+	private Account accountsReceivable;
+
+	/**
+	 * Accounts Payable Account for this Currency
+	 */
+	private Account accountsPayable;
 
 	/*
 	 * String countryName;
@@ -77,6 +77,18 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 		return formalName;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public void setFormalName(String formalName) {
+		this.formalName = formalName;
+	}
+
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -96,5 +108,87 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 
 		w.put(messages.type(), messages.currency()).gap();
 		w.gap().put(messages.name(), this.name);
+	}
+
+	/**
+	 * @return the accountsReceivable
+	 */
+	public Account getAccountsReceivable() {
+		return accountsReceivable;
+	}
+
+	/**
+	 * @param accountsReceivable
+	 *            the accountsReceivable to set
+	 */
+	public void setAccountsReceivable(Account accountsReceivable) {
+		this.accountsReceivable = accountsReceivable;
+	}
+
+	/**
+	 * @return the accountsPayable
+	 */
+	public Account getAccountsPayable() {
+		return accountsPayable;
+	}
+
+	/**
+	 * @param accountsPayable
+	 *            the accountsPayable to set
+	 */
+	public void setAccountsPayable(Account accountsPayable) {
+		this.accountsPayable = accountsPayable;
+	}
+
+	/**
+	 * Creates Accounts Receivable and Payable Account for this currency if not
+	 * Exists
+	 * 
+	 * @param session
+	 */
+	public void createAccountsReveivablesAndPayables(Session session) {
+		if (getAccountsReceivable() == null) {
+			String nextReceivaleAccNumber = NumberUtils.getNextAccountNumber(
+					getCompany().getId(), Account.TYPE_ACCOUNT_RECEIVABLE);
+			String receivableName = !isPrimaryCurrency() ? AccounterServerConstants.ACCOUNTS_RECEIVABLE
+					+ " - " + getFormalName()
+					: AccounterServerConstants.ACCOUNTS_RECEIVABLE;
+			Account accountsReceivable = new Account(
+					Account.TYPE_ACCOUNT_RECEIVABLE, nextReceivaleAccNumber,
+					receivableName, Account.CASH_FLOW_CATEGORY_OPERATING);
+			accountsReceivable.setCurrency(this);
+			accountsReceivable.setCompany(getCompany());
+			session.saveOrUpdate(accountsReceivable);
+			ChangeTracker.put(accountsReceivable);
+			this.setAccountsReceivable(accountsReceivable);
+		}
+
+		if (getAccountsPayable() == null) {
+			String nextPayableAccNumber = NumberUtils.getNextAccountNumber(
+					getCompany().getId(), Account.TYPE_ACCOUNT_PAYABLE);
+
+			String payableName = !isPrimaryCurrency() ? AccounterServerConstants.ACCOUNTS_PAYABLE
+					+ " - " + getFormalName()
+					: AccounterServerConstants.ACCOUNTS_PAYABLE;
+
+			Account accountsPayable = new Account(Account.TYPE_ACCOUNT_PAYABLE,
+					nextPayableAccNumber, payableName,
+					Account.CASH_FLOW_CATEGORY_OPERATING);
+			accountsPayable.setCurrency(this);
+			accountsPayable.setCompany(getCompany());
+			session.saveOrUpdate(accountsPayable);
+			ChangeTracker.put(accountsPayable);
+			this.setAccountsPayable(accountsPayable);
+		}
+
+		if (isPrimaryCurrency()) {
+			getCompany().setAccountsReceivableAccount(getAccountsPayable());
+			getCompany().setAccountsPayableAccount(getAccountsPayable());
+		}
+
+	}
+
+	private boolean isPrimaryCurrency() {
+		return getCompany().getPrimaryCurrency().getID() == getID();
 	}
 }

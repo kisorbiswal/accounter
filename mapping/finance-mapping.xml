@@ -699,6 +699,13 @@
 		<property name="symbol" column="SYMBOL"></property>
 		<property name="formalName" column="FORMAL_NAME"></property>
 		<property name="version" column="VERSION"></property>
+		
+		<many-to-one name="accountsReceivable" class="Account"
+			column="ACCOUNTS_RECEIVABLE_ID" />
+			
+		<many-to-one name="accountsPayable" class="Account"
+			column="ACCOUNTS_PAYABLE_ID"/>
+		
 	</class>
 	<class name="CustomerGroup" table="CUSTOMER_GROUP">
 		<id name="id" column="ID">
@@ -836,8 +843,7 @@
 		</component>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discription" column="DISCRIPTION" type="encryptedstring"></property>
-		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse"
-			not-null="true">
+		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse">
 		</many-to-one>
 		<property name="linetotal" column="LINE_TOTAL"></property>
 	</class>
