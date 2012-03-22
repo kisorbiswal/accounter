@@ -81,7 +81,7 @@ public class CompanyPasswordRecoveryServlet extends BaseServlet {
 			resp.sendRedirect(BaseServlet.COMPANIES_URL);
 			return;
 		}
-		Session openSession = HibernateUtil.openSession();
+		Session openSession = HibernateUtil.getCurrentSession();
 		try {
 
 			Company company = (Company) openSession.load(Company.class,
@@ -120,10 +120,7 @@ public class CompanyPasswordRecoveryServlet extends BaseServlet {
 				dispatch(req, resp);
 			}
 		} catch (Exception e) {
-		} finally {
-			if (openSession.isOpen()) {
-				openSession.close();
-			}
-		}
+			e.printStackTrace();
+		} 
 	}
 }

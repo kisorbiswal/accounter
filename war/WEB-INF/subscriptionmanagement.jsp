@@ -24,6 +24,9 @@
     	String error =(String) request.getAttribute("error");
     	String expDate =(String) request.getAttribute("expiredDate");
     	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
+    	Integer durationType =(Integer) request.getAttribute("durationType");
+    	Integer durationValue =((subscriptionType*2)-durationType) +1;
+    	
   	%>
   	<title>Subscription Management</title>
   </head>
@@ -44,8 +47,7 @@
 	<td> Subscription expire date : </td> 
 	<td><%= expDate %></td>
 	</tr><tr></tr><tr>
-	<td> Subscription type : </td> 
-	<td id="subscriptionTypevalue"></td></tr><tr></tr>
+	<tr></tr>
 	 <% if(subscriptionType==2||subscriptionType==3){ %>
 	<tr>
 	<td>Users invited by you : </td> 
@@ -54,14 +56,18 @@
 	<%}%>
 	<tr>
 	<tr>
-	<input type="hidden" name="subscriptionType" value="${subscriptionType}" >
+	<input type="hidden" name="subscriptionType" value="${durationValue}" >
 	<td> Subscription Type : </td>
 	<td><select  id="subScriptionTypeCombo" disabled>
-	<option value="One User ">Free User</option>
-    <option value="One User ">One user </option>
-    <option value="Two Users ">Two users </option>
-    <option value="Five Users ">Five users </option>
-    <option value="Unlimited Users ">Unlimited </option>
+	<option value="Free user">Free user</option>
+	<option value="One User yearly">One user yearly</option>
+	<option value="One User monthly">One user monthly</option>
+	<option value="Two Users yearly">Two users yearly</option>
+    <option value="Two Users monthly">Two users monthly</option>
+    <option value="Five Users yearly">Five users yearly</option>
+    <option value="Five Users monthly">Five users monthly</option>
+    <option value="Unlimited Users yearly">Unlimited users yearly</option>
+    <option value="Unlimited Users monthly">Unlimited users monthly</option>
 	</select></td>
 	</tr>
 	<% if(subscriptionType==2||subscriptionType==3){ %>
@@ -100,8 +106,8 @@
 				$('#mailIdsTextArea').val(textAre);
 				$('#emailIdsList').text(textDiv);
 			}
-			$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[subscriptionType].value);
-			document.getElementById('subScriptionTypeCombo').options[subscriptionType].selected = true;
+			 
+			document.getElementById('subScriptionTypeCombo').options[<%= durationValue %>].selected = true;
 			
 			
 			$('#submitButton').click(function(){

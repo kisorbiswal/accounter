@@ -197,6 +197,9 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		//
 		// if (isBecameVoid()) {
@@ -264,11 +267,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	public void setNumber(String number) {
 		this.number = number;
 
-	}
-
-	public Set<TransactionReceivePayment> getTransactionReceivePayments() {
-		// NOTHING TO DO
-		return null;
 	}
 
 	@Override

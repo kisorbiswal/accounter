@@ -170,6 +170,9 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 
 		super.onUpdate(session);
 

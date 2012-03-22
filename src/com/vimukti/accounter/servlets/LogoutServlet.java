@@ -55,7 +55,7 @@ public class LogoutServlet extends BaseServlet {
 	 * @param cid
 	 */
 	private void updateActivity(String userid, Long cid) {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Company company = (Company) session.get(Company.class, cid);
 		Transaction transaction = null;
 		try {
@@ -71,9 +71,7 @@ public class LogoutServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			session.close();
-		}
+		} 
 	}
 
 	@Override

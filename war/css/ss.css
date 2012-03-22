@@ -1378,3 +1378,12 @@ a#fdbk_tab:hover {
 #delete_user_confirm{
 	min-height:120px;
 }
+#company-locked p{
+color: #28757D;
+    font-size: 15px;
+    margin-top: 70px;
+    text-align: center;
+}
+.form-bottom-options a{
+	font-size:13px;
+}

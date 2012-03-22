@@ -395,6 +395,9 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		// if (this.transactionItems != null) {
 		// for (TransactionItem ti : this.transactionItems) {

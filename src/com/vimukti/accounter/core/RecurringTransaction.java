@@ -685,6 +685,9 @@ public class RecurringTransaction extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		if (type != RECURRING_UNSCHEDULED && !isStopped()) {
 			if (occurencesCompleted == 0) {
 				nextScheduleOn = null;

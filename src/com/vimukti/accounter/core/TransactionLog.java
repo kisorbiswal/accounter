@@ -11,6 +11,10 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class TransactionLog extends CreatableObject implements
 		IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int TYPE_NOTE = 4;
 	public static final int TYPE_EDIT = 2;
 	public static final int TYPE_CREATE = 1;

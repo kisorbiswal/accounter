@@ -280,7 +280,10 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
+		
 		return false;
 	}
 

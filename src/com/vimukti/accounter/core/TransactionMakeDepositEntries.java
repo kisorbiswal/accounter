@@ -144,7 +144,9 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		return false;
 	}
 

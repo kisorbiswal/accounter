@@ -115,8 +115,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			t.setVariable("orderNumber", invoice.getOrderNum());
-			t.setVariable("deliveryDate",
-					Utility.getDateInSelectedFormat(invoice.getDeliverydate()));
+			String deliveryDate = Utility.getDateInSelectedFormat(invoice
+					.getDeliverydate());
+			if (deliveryDate != null) {
+				t.setVariable("deliveryDate", deliveryDate);
+			}
 			if (invoice.getShippingTerm() != null) {
 				t.setVariable("shippingTerms", invoice.getShippingTerm()
 						.getName());
@@ -317,13 +320,13 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = null;
-				unitPrice = Utility.decimalConversation(item.getUnitPrice()
-						/ currencyFactor, "");
+				unitPrice = Utility
+						.decimalConversation(item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, "");
+						item.getLineTotal(), "");
 
 				String vatAmount = Utility.decimalConversation(
-						item.getVATfraction() / currencyFactor, "");
+						item.getVATfraction(), "");
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -367,37 +370,31 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 			// for displaying sub total, vat total, total
 			String subtotal = Utility.decimalConversation(
-					invoice.getNetAmount() / currencyFactor, "");
+					invoice.getNetAmount(), "");
 			if (company.getPreferences().isTrackTax()) {
 
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatTotal", Utility.decimalConversation(
-							(invoice.getTaxTotal() / currencyFactor), ""));
+							(invoice.getTaxTotal() * currencyFactor), ""));
 					t.addBlock("VatTotal");
 				}
 			}
 
-			String total = Utility.decimalConversation(invoice.getTotal()
-					/ currencyFactor, symbol);
+			String total = Utility.decimalConversation(invoice.getTotal(),
+					symbol);
 			t.setVariable("total", total);
 			// if (invoice.getMemo().trim().length() > 0) {
 			t.setVariable("blankText", invoice.getMemo());
 			// t.addBlock("memoblock");
 			// }
-			t.setVariable(
-					"payment",
-					Utility.decimalConversation(invoice.getPayments()
-							/ currencyFactor, symbol));
-			t.setVariable(
-					"netAmount",
-					Utility.decimalConversation(invoice.getNetAmount()
-							/ currencyFactor, symbol));
-			t.setVariable(
-					"balancedue",
-					Utility.decimalConversation(invoice.getBalanceDue()
-							/ currencyFactor, symbol));
+			t.setVariable("payment",
+					Utility.decimalConversation(invoice.getPayments(), symbol));
+			t.setVariable("netAmount",
+					Utility.decimalConversation(invoice.getNetAmount(), symbol));
+			t.setVariable("balancedue", Utility.decimalConversation(
+					invoice.getBalanceDue(), symbol));
 			t.addBlock("itemDetails");
 
 			// for displaying the Terms and conditions

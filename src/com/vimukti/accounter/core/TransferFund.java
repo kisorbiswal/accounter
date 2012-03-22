@@ -125,7 +125,9 @@ public class TransferFund extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		// if (isBecameVoid()) {
 		// if (cashBackAccount != null) {

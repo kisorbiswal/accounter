@@ -16,14 +16,16 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
-import com.vimukti.accounter.services.S2SServiceImpl;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.server.managers.UserManager;
 
 /**
  * @author Prasanna Kumar G
@@ -181,8 +183,6 @@ public class DeleteCompanyServlet extends BaseServlet {
 						return;
 					}
 
-					S2SServiceImpl s2sService = new S2SServiceImpl();
-
 					// boolean isAdmin = s2sService.isAdmin(
 					// Long.parseLong(companyID), email);
 
@@ -210,15 +210,13 @@ public class DeleteCompanyServlet extends BaseServlet {
 						}
 
 					} else if (canDeleteFromSingle) {
-
-						// Deleting Client from ServerCompany
-						// client.getUsers().remove(user);
-						// session.saveOrUpdate(client);
-						ClientUser clientUser = new ClientConvertUtil()
-								.toClientObject(user, ClientUser.class);
-						clientUser.setEmail(user.getClient().getEmailId());
-						s2sService.deleteUserFromCompany(
-								Long.parseLong(companyID), clientUser);
+						// Commit problem. Two times commiting changes if we call finance tool to delete user.
+						user.setDeleted(true);
+						session.saveOrUpdate(user);
+						Activity activity = new Activity(user.getCompany(),
+								user.getCompany().getCreatedBy(),
+								ActivityType.DELETE, user);
+						session.save(activity);
 					}
 					transaction.commit();
 					httpSession

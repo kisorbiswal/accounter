@@ -15,6 +15,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -51,7 +52,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			return;
 		}
 		// get activation record from table
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		// Activation activation = null;
 		// // get token from session
 		// String token = (String) httpsession.getAttribute(ACTIVATION_TOKEN);
@@ -115,6 +116,7 @@ public class ResetPasswordServlet extends BaseServlet {
 				query.setParameter("emailId", emailId);
 				query.executeUpdate();
 				transaction.commit();
+				NewLoginServlet.createD2(req, emailId, password);
 			} catch (Exception e) {
 				e.printStackTrace();
 				transaction.rollback();
@@ -137,10 +139,6 @@ public class ResetPasswordServlet extends BaseServlet {
 			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (hibernateSession != null) {
-				hibernateSession.close();
-			}
 		}
 
 	}

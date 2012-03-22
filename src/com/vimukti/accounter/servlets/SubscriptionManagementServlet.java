@@ -57,6 +57,8 @@ public class SubscriptionManagementServlet extends BaseServlet {
 
 		req.setAttribute("premiumType", client.getClientSubscription()
 				.getPremiumType());
+		req.setAttribute("durationType", client.getClientSubscription()
+				.getDurationType());
 		req.setAttribute("expiredDate", client.getClientSubscription()
 				.getExpiredDateAsString());
 

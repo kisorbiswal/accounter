@@ -92,8 +92,6 @@ public class Depreciation extends CreatableObject implements
 	transient int previousStatus;
 	transient FinanceDate rollBackDepreciationDate;
 
-	transient private boolean isOnSaveProccessed;
-
 	FixedAssetLinkedAccountMap linkedAccounts;
 
 	public Depreciation() {
@@ -244,6 +242,9 @@ public class Depreciation extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 
 		/**
 		 * Checking whether this update call is for roll back this Depreciation
@@ -543,8 +544,7 @@ public class Depreciation extends CreatableObject implements
 
 		FinanceDate startDate = fixedAsset.getCompany().getPreferences()
 				.getDepreciationStartDate();
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Calendar fromCal = new GregorianCalendar();
 		fromCal.setTime(fixedAsset.getPurchaseDate().after(startDate) ? (fixedAsset
 				.getPurchaseDate().getAsDateObject()) : (startDate
@@ -581,8 +581,7 @@ public class Depreciation extends CreatableObject implements
 
 	public static void rollBackDepreciation(FinanceDate rollBackDepreciationTo,
 			Company company) throws Exception {
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getDepreciation.from.DepreciationFom.andStatus")
 				.setParameter("depreciationFrom", rollBackDepreciationTo)
@@ -605,8 +604,7 @@ public class Depreciation extends CreatableObject implements
 	public static void rollBackDepreciation(long fixedAssetID,
 			FinanceDate rollBackDepreciationTo, Company company)
 			throws Exception {
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery(
 						"getDepreciation.from.depreciateFrom.byFixedassetId")

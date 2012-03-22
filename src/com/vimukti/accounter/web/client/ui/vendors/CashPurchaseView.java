@@ -376,13 +376,6 @@ public class CashPurchaseView extends
 			protected int getTransactionType() {
 				return ClientTransaction.TYPE_CASH_PURCHASE;
 			}
-
-			@Override
-			protected boolean isTrackJob() {
-
-				return CashPurchaseView.this.isTrackJob();
-			}
-
 		};
 
 		vendorItemTransactionTable.setEnabled(!isInViewMode());

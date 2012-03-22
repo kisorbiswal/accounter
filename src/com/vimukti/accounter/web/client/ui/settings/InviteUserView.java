@@ -131,12 +131,17 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		Label manageLabel = new Label(messages.manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
+
 		if (getCompany().isUnlimitedUser()) {
-			custForm.add(firstNametext, lastNametext, emailField);
+			custForm.add(emailField);
 		} else {
-			custForm.add(firstNametext, lastNametext, emailCombo);
+			custForm.add(emailCombo);
 		}
 
+		custForm.add(firstNametext);
+		custForm.add(lastNametext);
+
+		// element2.setAttribute("width", "150px");
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
 		vPanel.add(chooseLabel);

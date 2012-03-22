@@ -44,24 +44,29 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				resp.sendRedirect(LOGIN_URL);
 				return;
 			}
-			Session currentSession = HibernateUtil.getCurrentSession();
-			List<Long> userIds = new ArrayList<Long>();
-			for (User user : client.getUsers()) {
-				if (!user.isDeleted()) {
-					userIds.add(user.getID());
-				}
-			}
-			if (!userIds.isEmpty()) {
-				List<Object[]> list = currentSession
-						.getNamedQuery(
-								"get.NonEncrypted.CompanyNames.by.client")
-						.setParameterList("userIds", userIds).list();
-				req.setAttribute("companeyList", list);
-			}
+			List<Object[]> list = getNonEncryptedCompanies(client);
+			req.setAttribute("companeyList", list);
 			dispatch(req, resp, ENCRYPT_VIEW);
 		} else {
 			resp.sendRedirect(LOGIN_URL);
 		}
+	}
+
+	private List<Object[]> getNonEncryptedCompanies(Client client) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		List<Long> userIds = new ArrayList<Long>();
+		for (User user : client.getUsers()) {
+			if (!user.isDeleted()) {
+				userIds.add(user.getID());
+			}
+		}
+		if (!userIds.isEmpty()) {
+			List<Object[]> list = currentSession
+					.getNamedQuery("get.NonEncrypted.CompanyNames.by.client")
+					.setParameterList("userIds", userIds).list();
+			return list;
+		}
+		return new ArrayList<Object[]>();
 	}
 
 	@Override
@@ -76,6 +81,18 @@ public class EncryptCompaniesServlet extends BaseServlet {
 		if (session != null && session.getAttribute(EMAIL_ID) != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			String companyId = req.getParameter("companyname");
+			Client client = getClient(emailId);
+			List<Object[]> nonEncryptedCompanies = getNonEncryptedCompanies(client);
+			boolean isContain = false;
+			for (Object[] obj : nonEncryptedCompanies) {
+				if (obj[0] == companyId) {
+					isContain = true;
+					break;
+				}
+			}
+			if (!isContain) {
+
+			}
 			Session session2 = HibernateUtil.getCurrentSession();
 			EU.removeCipher();
 			Company company = (Company) session2.get(Company.class,
@@ -92,11 +109,13 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				Transaction beginTransaction = currentSession
 						.beginTransaction();
 				currentSession.saveOrUpdate(company);
-
+				session.setAttribute(LOCAK_REASON_TYPE,
+						LOCK_REASON_TYPE_ENCRYPTION);
 				try {
 					new Encrypter(company.getId(), password, getD2(req),
 							emailId, session.getId()).start();
 				} catch (Exception e) {
+					session.removeAttribute(LOCAK_REASON_TYPE);
 					company.setLocked(false);
 				}
 				beginTransaction.commit();

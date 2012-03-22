@@ -14,6 +14,9 @@ public class ClientSubscription implements IsSerializable {
 	public static final int FIVE_USERS = 3;
 	public static final int UNLIMITED_USERS = 4;
 
+	public static final int MONTHLY_USER = 1;
+	public static final int YEARLY_USER = 2;
+
 	private long id;
 	private Subscription subscription;
 	private Date createdDate;
@@ -22,6 +25,7 @@ public class ClientSubscription implements IsSerializable {
 	private Date gracePeriodDate;
 	private Set<String> members = new HashSet<String>();
 	private int premiumType;
+	private int durationType;
 
 	public ClientSubscription() {
 
@@ -93,7 +97,7 @@ public class ClientSubscription implements IsSerializable {
 			return dateInSelectedFormat;
 		}
 		SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat(
-				"MMM/dd/yyyy");
+				"MMM dd, yyyy");
 		return dateformatMMDDYYYY.format(expiredDate);
 
 	}
@@ -124,4 +128,13 @@ public class ClientSubscription implements IsSerializable {
 		this.gracePeriodDate = gracePeriodDate;
 
 	}
+
+	public int getDurationType() {
+		return durationType;
+	}
+
+	public void setDurationType(int durationType) {
+		this.durationType = durationType;
+	}
+
 }

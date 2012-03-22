@@ -187,6 +187,9 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onUpdate(Session s) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(s);
 		return false;
 	}

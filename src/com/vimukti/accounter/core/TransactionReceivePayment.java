@@ -429,7 +429,9 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		if (receivePayment.isDraftOrTemplate()) {
 			return false;
 		}

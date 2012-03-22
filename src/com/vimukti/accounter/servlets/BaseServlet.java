@@ -15,7 +15,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gdata.util.common.util.Base64;
 import com.google.gdata.util.common.util.Base64DecoderException;
 import com.vimukti.accounter.core.Activation;
@@ -26,7 +25,6 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
-import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -89,6 +87,9 @@ public class BaseServlet extends HttpServlet {
 	public static final String ACT_FROM_LOGIN = "111";
 	public static final String IS_SUPPORTED_USER = "isSupportedUser";
 	public static final String SUPPORTED_EMAIL_ID = "supportedEmialId";
+	public static final String LOCAK_REASON_TYPE = "reasonType";
+
+	public static final Integer LOCK_REASON_TYPE_ENCRYPTION = 1;
 	/**
 	 * 
 	 */
@@ -102,17 +103,16 @@ public class BaseServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		log('[' + request.getMethod() + ' ' + request.getServletPath() + ']');
+		Session session = HibernateUtil.openSession();
 		try {
-
-			Session session = HibernateUtil.openSession();
 			String emailId = (String) request.getSession().getAttribute(
 					EMAIL_ID);
 			Long companyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
 			if (islockedCompany(companyID)) {
 				request.getSession().removeAttribute(COMPANY_ID);
-				response.sendError(HttpServletResponse.SC_FORBIDDEN,
-						"Your Company has been locked.");
+				redirectExternal(request, response, "/main/companylocked");
 				return;
 			}
 			EU.removeCipher();
@@ -120,26 +120,19 @@ public class BaseServlet extends HttpServlet {
 			if (emailId != null && d2 != null && companyID != null) {
 				User user = getUser(emailId, companyID);
 				if (user != null && user.getSecretKey() != null) {
-					try {
-						EU.createCipher(user.getSecretKey(), d2, request
-								.getSession().getId());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					EU.createCipher(user.getSecretKey(), d2, request
+							.getSession().getId());
 				}
 			}
-			try {
-				request.setAttribute("isRTL",
-						ServerLocal.get().equals(new Locale("ar", "", "")));
-				super.service(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				session.close();
-			}
+			request.setAttribute("isRTL",
+					ServerLocal.get().equals(new Locale("ar", "", "")));
+			super.service(request, response);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Could Not Complete the Request!");
+		} finally {
+			session.close();
 		}
 	}
 
@@ -150,6 +143,9 @@ public class BaseServlet extends HttpServlet {
 		Session session = HibernateUtil.getCurrentSession();
 		Object res = session.getNamedQuery("isCompanyLocked")
 				.setLong("companyId", companyID).uniqueResult();
+		if (res == null) {
+			return false;
+		}
 		return (Boolean) res;
 	}
 
@@ -192,24 +188,6 @@ public class BaseServlet extends HttpServlet {
 		// return company.getCompanyName();
 		// }
 		return null;
-	}
-
-	protected boolean isCompanyExits(String companyName) {
-		if (companyName == null) {
-			return false;
-		}
-		Session openSession = HibernateUtil.openSession();
-		try {
-			Company uniqueResult = (Company) openSession
-					.getNamedQuery("getCompanyName.is.unique")
-					.setParameter("companyName", companyName).uniqueResult();
-			return uniqueResult == null ? false : true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			openSession.close();
-		}
 	}
 
 	protected FinanceTool getFinanceTool(HttpServletRequest request) {
@@ -359,14 +337,6 @@ public class BaseServlet extends HttpServlet {
 				.setString("emailId", emailId).executeUpdate();
 	}
 
-	protected IS2SService getS2sSyncProxy(String domainName) {
-		String url = "http://" + domainName + ":"
-				+ ServerConfiguration.getMainServerPort()
-				+ "/company/stosservice";
-		return (IS2SService) SyncProxy.newProxyInstance(IS2SService.class, url,
-				"");
-	}
-
 	// /**
 	// * @param serverId
 	// */
@@ -469,7 +439,7 @@ public class BaseServlet extends HttpServlet {
 			return;
 		}
 		// Deleting RememberMEKEy from Database
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -481,10 +451,7 @@ public class BaseServlet extends HttpServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			session.close();
 		}
-
 	}
 
 	public void removeCookie(HttpServletRequest request,

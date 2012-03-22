@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
@@ -21,10 +20,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateService;
+import com.vimukti.accounter.web.server.AccounterWindowsRPCBaseServiceImpl;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 
-public class TranslateServiceImpl extends RemoteServiceServlet implements
+public class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl implements
 		TranslateService {
 
 	/**
@@ -166,7 +166,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 	public boolean updateMessgaeStats(List<String> byOrder,
 			Map<String, Integer> byCount) throws AccounterException {
 
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
 			List<String> list = new ArrayList<String>(
@@ -190,9 +190,7 @@ public class TranslateServiceImpl extends RemoteServiceServlet implements
 			e.printStackTrace();
 			transaction.rollback();
 			throw new AccounterException();
-		} finally {
-			session.close();
-		}
+		} 
 		return false;
 	}
 }

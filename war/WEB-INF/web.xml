@@ -139,17 +139,6 @@
 
 	<!-- API SERVLET MAPPING END -->
 
-
-	<servlet>
-		<servlet-name>S2SService</servlet-name>
-		<servlet-class>com.vimukti.accounter.services.S2SServiceImpl
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>S2SService</servlet-name>
-		<url-pattern>/company/stosservice</url-pattern>
-	</servlet-mapping>
-
 	<servlet>
 		<servlet-name>Companies</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.CompaniesServlet
@@ -645,7 +634,7 @@
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.6.1.9.1</param-value>
+		<param-value>1.0.7.9</param-value>
 	</context-param>
 
 	<servlet>
@@ -888,6 +877,17 @@
 	<servlet-mapping>
 		<servlet-name>EncryptCompaniesServlet </servlet-name>
 		<url-pattern>/main/encryption</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Company locked</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.CompanyLockedServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Company locked</servlet-name>
+		<url-pattern>/main/companylocked</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

@@ -477,7 +477,9 @@ public class CashPurchase extends Transaction {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		//
 		// this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;

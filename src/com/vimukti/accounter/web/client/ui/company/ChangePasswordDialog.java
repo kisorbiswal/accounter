@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -8,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 
 public class ChangePasswordDialog extends BaseDialog {
@@ -17,6 +20,7 @@ public class ChangePasswordDialog extends BaseDialog {
 	private DynamicForm textItemsForm;
 	private StyledPanel mainPanel;
 	private String oldPassword, newPassword, confirmNewPassword;
+	private LabelItem openIdMsgLabel;
 
 	public ChangePasswordDialog(String title, String desc) {
 		super(title, desc);
@@ -25,13 +29,15 @@ public class ChangePasswordDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-
+		openIdMsgLabel = new LabelItem("", "bold");
+		openIdMsgLabel
+				.setValue(messages
+						.leaveOldPasswordEmptyIfYouSignedUpWithGoogleYahooAOLOrFacebook());
 		oldPasswordTextItem = new PasswordItem(messages.oldPassword());
 		newPasswordTextItem = new PasswordItem(messages.newPassword());
 		confirmNewPasswordTextItem = new PasswordItem(
 				messages.confirmNewPassword());
-
-		oldPasswordTextItem.setRequired(true);
+		// oldPasswordTextItem.setRequired(true);
 		newPasswordTextItem.setRequired(true);
 		confirmNewPasswordTextItem.setRequired(true);
 
@@ -39,10 +45,8 @@ public class ChangePasswordDialog extends BaseDialog {
 
 		mainPanel = new StyledPanel("mainPanel");
 
-		// textItemsForm.setNumCols(2);
-		// textItemsForm.setCellSpacing(10);
-		textItemsForm.add(oldPasswordTextItem, newPasswordTextItem,
-				confirmNewPasswordTextItem);
+		textItemsForm.add(openIdMsgLabel, oldPasswordTextItem,
+				newPasswordTextItem, confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);
 		okbtn.setText(messages.save());

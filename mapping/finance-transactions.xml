@@ -1482,6 +1482,8 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
 		<property name="type" column="TYPE"></property>
 		<property name="userName" type="encryptedstring"  column="USER_NAME"></property>
 		<property name="time" column="TIME"></property>

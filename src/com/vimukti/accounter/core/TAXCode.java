@@ -47,7 +47,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	TAXItemGroup TAXItemGrpForSales;
 
 	boolean isDefault;
-	transient private boolean isOnSaveProccessed;
 
 	private double salesTaxRate;
 	private double purchaseTaxRate;
@@ -229,6 +228,9 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		setIsECsalesEntry();
 		updateTaxRates();
 		ChangeTracker.put(this);

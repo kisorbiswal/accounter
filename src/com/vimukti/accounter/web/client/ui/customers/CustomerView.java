@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -283,8 +284,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public static String objectExist(ClientCustomer customer) {
 
 		String error = null;
-
-		List<ClientCustomer> list = Accounter.getCompany().getCustomers();
+		ClientCompany company = Accounter.getCompany();
+		List<ClientCustomer> list = company.getCustomers();
+		ClientCompanyPreferences preferences = company.getPreferences();
 		if (list == null || list.isEmpty())
 			return "";
 		for (ClientCustomer old : list) {
@@ -292,39 +294,42 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				continue;
 			}
 			if (customer.getName().equalsIgnoreCase(old.getName())) {
-				for (ClientCustomer old2 : list) {
-					if (customer.getNumber().equals(old2.getNumber())) {
-						error = messages.objAlreadyExistsWithNameAndNo(Global
-								.get().customer());
-						break;
+				if (preferences.getUseCustomerId()) {
+					for (ClientCustomer old2 : list) {
+						if (customer.getNumber().equals(old2.getNumber())) {
+							error = messages
+									.objAlreadyExistsWithNameAndNo(Global.get()
+											.customer());
+							break;
+						}
 					}
 				}
 				return messages.objAlreadyExistsWithName(Global.get()
 						.customer());
-			} else if (customer.getNumber().equals(old.getNumber())) {
-				for (ClientCustomer old2 : list) {
-					if (customer.getName().equalsIgnoreCase(old2.getName())) {
+			} else if (preferences.getUseCustomerId()) {
+				if (customer.getNumber().equals(old.getNumber())) {
+					if (customer.getName().equalsIgnoreCase(old.getName())) {
 						error = messages.objAlreadyExistsWithNameAndNo(Global
 								.get().customer());
 						break;
 					}
+					return messages.objAlreadyExistsWithNumber(Global.get()
+							.customer());
+				} else if (customer.getNumber() == null
+						|| customer.getNumber().trim().length() == 0) {
+					error = messages
+							.pleaseEnterVendorNumberItShouldNotBeEmpty(Global
+									.get().Customer());
+					break;
+				} else if (checkIfNotNumber(customer.getNumber())) {
+					error = messages.payeeNumberShouldBeNumber(Global.get()
+							.customer());
+					break;
+				} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
+					error = messages.payeeNumberShouldBePos(Global.get()
+							.customer());
+					break;
 				}
-				return messages.objAlreadyExistsWithNumber(Global.get()
-						.customer());
-			} else if (customer.getNumber() == null
-					|| customer.getNumber().trim().length() == 0) {
-				error = messages
-						.pleaseEnterVendorNumberItShouldNotBeEmpty(Global.get()
-								.Customer());
-				break;
-			} else if (checkIfNotNumber(customer.getNumber())) {
-				error = messages.payeeNumberShouldBeNumber(Global.get()
-						.customer());
-				break;
-			} else if (Integer.parseInt(customer.getNumber().toString()) < 1) {
-				error = messages
-						.payeeNumberShouldBePos(Global.get().customer());
-				break;
 			}
 		}
 		return error;
@@ -1172,7 +1177,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// Setting Customer Name
 		custNameText.setValue(data.getName());
 		// Setting customer number
-		if (data.getID() == 0) {
+		if (getPreferences().getUseCustomerId()
+				&& (data.getID() == 0 || data.getNumber() == null || data
+						.getNumber().isEmpty())) {
 			Accounter.createHomeService().getCustomerNumber(
 					new AccounterAsyncCallback<String>() {
 

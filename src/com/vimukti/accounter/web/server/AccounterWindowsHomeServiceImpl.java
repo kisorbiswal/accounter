@@ -29,7 +29,6 @@ import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.RememberMeKey;
@@ -38,7 +37,6 @@ import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.services.S2SServiceImpl;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -47,7 +45,6 @@ import com.vimukti.accounter.utils.Security;
 import com.vimukti.accounter.web.client.CompanyAndFeatures;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeService;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.core.SignupDetails;
 import com.vimukti.accounter.web.client.core.StartupException;
@@ -193,7 +190,7 @@ public class AccounterWindowsHomeServiceImpl extends
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(details
 				.getEmailId() + details.getPassword()));
 
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = hibernateSession.beginTransaction();
@@ -264,9 +261,6 @@ public class AccounterWindowsHomeServiceImpl extends
 				transaction.rollback();
 			}
 			throw new StartupException(errorMsg);
-		} finally {
-			if (hibernateSession.isOpen())
-				hibernateSession.close();
 		}
 
 		return true;
@@ -282,7 +276,6 @@ public class AccounterWindowsHomeServiceImpl extends
 		activationCode = activationCode.toLowerCase().trim();
 
 		// get activation record
-		Session hibernateSession = HibernateUtil.openSession();
 		try {
 			Activation activation = getActivation(activationCode);
 			// If it is null
@@ -299,7 +292,7 @@ public class AccounterWindowsHomeServiceImpl extends
 				session.setAttribute(ACTIVATION_TOKEN, activationCode);
 				session.setAttribute(EMAIL_ID, activation.getEmailId());
 
-				Session hbSession = HibernateUtil.openSession();
+				Session hbSession = HibernateUtil.getCurrentSession();
 				Transaction transaction = null;
 				try {
 					transaction = hbSession.beginTransaction();
@@ -322,19 +315,11 @@ public class AccounterWindowsHomeServiceImpl extends
 						transaction.rollback();
 					}
 					throw new StartupException(errorMsg);
-				} finally {
-					if (hbSession != null)
-						hbSession.close();
-
 				}
 			}
 
 		} catch (Exception e) {
 			throw new StartupException(errorMsg);
-		} finally {
-			if (hibernateSession != null) {
-				hibernateSession.close();
-			}
 		}
 
 		return true;
@@ -353,7 +338,7 @@ public class AccounterWindowsHomeServiceImpl extends
 		}
 		email = email.toLowerCase().trim();
 
-		Session serverSession = HibernateUtil.openSession();
+		Session serverSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = serverSession.beginTransaction();
@@ -384,8 +369,6 @@ public class AccounterWindowsHomeServiceImpl extends
 			} catch (StartupException e1) {
 				e1.printStackTrace();
 			}
-		} finally {
-			serverSession.close();
 		}
 		return true;
 	}
@@ -594,8 +577,6 @@ public class AccounterWindowsHomeServiceImpl extends
 						throw new StartupException(errorMsg);
 					}
 
-					S2SServiceImpl s2sService = new S2SServiceImpl();
-
 					// boolean isAdmin = s2sService.isAdmin(
 					// Long.parseLong(companyID), email);
 
@@ -619,14 +600,15 @@ public class AccounterWindowsHomeServiceImpl extends
 						}
 
 					} else if (canDeleteFromSingle) {
-
+						user.setDeleted(true);
+						session.saveOrUpdate(user);
+						Activity activity = new Activity(user.getCompany(),
+								user.getCompany().getCreatedBy(),
+								ActivityType.DELETE, user);
+						session.save(activity);
 						// Deleting Client from ServerCompany
 						// client.getUsers().remove(user);
 						// session.saveOrUpdate(client);
-						ClientUser clientUser = new ClientConvertUtil()
-								.toClientObject(user, ClientUser.class);
-						clientUser.setEmail(user.getClient().getEmailId());
-						s2sService.deleteUserFromCompany(companyId, clientUser);
 					}
 					transaction.commit();
 				} catch (Exception e) {
@@ -763,7 +745,7 @@ public class AccounterWindowsHomeServiceImpl extends
 
 	private void updateActivity(String userid, Long cid)
 			throws StartupException {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Company company = (Company) session.get(Company.class, cid);
 		Transaction transaction = null;
 		try {
@@ -780,8 +762,6 @@ public class AccounterWindowsHomeServiceImpl extends
 				transaction.rollback();
 			}
 			throw new StartupException();
-		} finally {
-			session.close();
 		}
 	}
 
@@ -802,7 +782,7 @@ public class AccounterWindowsHomeServiceImpl extends
 			return;
 		}
 		// Deleting RememberMEKEy from Database
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -813,8 +793,6 @@ public class AccounterWindowsHomeServiceImpl extends
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			session.close();
 		}
 
 	}

@@ -102,8 +102,6 @@ public abstract class Payee extends CreatableObject implements
 
 	private Map<String, String> payeeFields = new HashMap<String, String>();
 
-	public transient boolean isOnSaveProccessed;
-
 	/**
 	 * @return the isDefault
 	 */
@@ -590,6 +588,9 @@ public abstract class Payee extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		for (CustomFieldValue c : this.getCustomFieldValues()) {
 			c.setPayee(this);
 

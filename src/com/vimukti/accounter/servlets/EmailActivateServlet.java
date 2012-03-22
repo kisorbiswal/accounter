@@ -45,7 +45,7 @@ public class EmailActivateServlet extends BaseServlet {
 		String email = req.getParameter("email").trim();
 
 		String emailID = email.toLowerCase();
-		Session hbSession = HibernateUtil.openSession();
+		Session hbSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = hbSession.beginTransaction();
@@ -68,11 +68,7 @@ public class EmailActivateServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			if (hbSession != null)
-				hbSession.close();
-
-		}
+		} 
 
 		redirectExternal(req, resp, "/main/emailActivation");
 

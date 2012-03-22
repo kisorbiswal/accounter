@@ -42,7 +42,7 @@ public class ServerConfiguration {
 	private static boolean loadMessages;
 	private static boolean enableEncryption;
 	private static boolean isSandBoxPaypal;
-	private static int tracePeriod;
+	private static int gracePeriod;
 	private static boolean isInLive;
 	private static String paypalButtonId;
 
@@ -167,8 +167,8 @@ public class ServerConfiguration {
 					.equalsIgnoreCase("true");
 			isSandBoxPaypal = (prop.getProperty("isSandBoxPaypal", "false")
 					.equalsIgnoreCase("true"));
-			tracePeriod = Integer
-					.parseInt(prop.getProperty("tracePeriod", "0"));
+			gracePeriod = Integer
+					.parseInt(prop.getProperty("gracePeriod", "0"));
 			isInLive = Boolean.parseBoolean(prop
 					.getProperty("isInLive", "true"));
 		} catch (NumberFormatException ne) {
@@ -179,8 +179,8 @@ public class ServerConfiguration {
 
 	}
 
-	public static int getTracePeriod() {
-		return tracePeriod;
+	public static int getGracePeriod() {
+		return gracePeriod;
 	}
 
 	public static boolean isLoadMessages() {

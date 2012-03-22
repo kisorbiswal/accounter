@@ -50,8 +50,6 @@ public class TAXItemGroup extends CreatableObject implements
 
 	boolean isDefault;
 
-	private boolean isOnSaveProccessed;
-
 	public TAXItemGroup() {
 		// TODO Auto-generated constructor stub
 	}
@@ -121,6 +119,9 @@ public class TAXItemGroup extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 		ChangeTracker.put(this);
 		return false;

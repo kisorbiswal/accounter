@@ -27,6 +27,7 @@ import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -40,161 +41,207 @@ public class PayPalIPINServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
 		doPost(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		log.info("Paypal Recieved: (doPost),");
+		log.info("--------------------- PAYPAL PAYMENT STARTED ------------------------");
 		// read post from PayPal
 		// system and add 'cmd'
 		Enumeration en = req.getParameterNames();
-		String str = "cmd=_notify-validate";
+		String verifyParam = "cmd=_notify-validate";
 		Map<String, String> params = new HashMap<String, String>();
 		while (en.hasMoreElements()) {
 			String paramName = (String) en.nextElement();
 			String paramValue = req.getParameter(paramName);
 			params.put(paramName, paramValue);
-			str = str + "&" + paramName + "="
+			verifyParam = verifyParam + "&" + paramName + "="
 					+ URLEncoder.encode(paramValue, "utf-8");
 		}
 
 		String paymentStatus = req.getParameter("payment_status");
-		log.info("paymentStatus:" + paymentStatus);
 		String emailId = req.getParameter("custom");
-		log.info("emailId:" + emailId);
-		String txnId = req.getParameter("txn_id");
-		log.info("txnId:" + txnId);
-		String txnType = req.getParameter("txn_type");
-		log.info("txnType:" + txnType);
+		String transactionID = req.getParameter("txn_id");
+		String transactionType = req.getParameter("txn_type");
+		log.info("Request Params #### PaymentStatus - " + paymentStatus
+				+ ";Email ID - " + emailId + ";TransactionID - "
+				+ transactionID + ";Transaction Type - " + transactionType);
 
-		// post back to PayPal system to validate
-		// NOTE: change http: to https: in the following URL to verify using SSL
-		// (for increased security).
-		// using HTTPS requires either Java 1.4 or greater, or Java Secure
-		// Socket Extension (JSSE)
-		// and configured for older versions.
-		URL u = new URL("https://www.sandbox.paypal.com/cgi-bin/webscr");
-		URLConnection uc = u.openConnection();
-		uc.setDoOutput(true);
-		uc.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
-		PrintWriter pw = new PrintWriter(uc.getOutputStream());
-		log.info("req params+" + str);
-		pw.println(str);
-		pw.close();
+		saveDetailsInDB(params, emailId);
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				uc.getInputStream()));
-		String res = in.readLine();
-		in.close();
+		String verificationResp = verifyRequest(verifyParam);
 
-		if (txnType.equals("subscr_cancel")) {
-			removeClientSubscription(emailId);
-		}
+		if (verificationResp.equals("VERIFIED")) {
+			log.info("Paypal Request VERIFIED.");
 
-		if (res.equals("VERIFIED")) {
-			log.info("Paypal Verified.");
-			// check that paymentStatus=Completed
-			// check that txnId has not been previously processed
-			// check that receiverEmail is your Primary PayPal email
-			// check that paymentAmount/paymentCurrency are correct
-			// process payment
+			// Check paymentStatus=Completed
+			// Check txnId has not been previously processed
+			// Check receiverEmail is your Primary PayPal email
+			// Check paymentAmount/paymentCurrency are correct
 
-			if (emailId != null && txnId != null) {
+			if (emailId != null && transactionID != null) {
 				if (!(paymentStatus.equals("Completed")
 						|| paymentStatus.equals("Processed") || paymentStatus
 							.equals("Pending"))) {
-					sendInfo("Your process is not completed", req, resp);
 					log.info("Paypal not completed.");
-					return;
-				}
-				log.info("after complete:" + paymentStatus);
-				Session openSession = HibernateUtil.openSession();
-				try {
-					saveDetailsInDB(params, emailId);
-					upgradeClient(params, emailId);
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					log.info("finaly");
-					if (openSession.isOpen()) {
-						openSession.close();
+					sendInfo("Your process is not completed", req, resp);
+				} else {
+					if (transactionType.equals("subscr_cancel")) {
+						removeClientSubscription(emailId);
+					} else {
+						log.info("Payment completed with Status - "
+								+ paymentStatus);
+						upgradeClient(params, emailId);
 					}
 				}
 			} else {
 				log.info("emailId != null && txnId != null):" + emailId
-						+ ",txnId:" + txnId);
+						+ ",txnId:" + transactionID);
 			}
 
-		} else if (res.equals("INVALID")) {
-			// log for investigation
-			log.info("Paypal invalid.");
+		} else if (verificationResp.equals("INVALID")) {
+			log.info("Paypal Request INVALID.");
 		} else {
-			// error
-			log.info("Paypal error.");
+			log.info("Paypal Request ERROR.");
 		}
+
+		log.info("---------------------- PAYPAL PAYMENT ENDED -------------------------");
+	}
+
+	/**
+	 * Verifies the Paypal Request
+	 * 
+	 * @param verifyParam
+	 * @return
+	 */
+	private String verifyRequest(String verifyParam) {
+		log.info("Verification Started.");
+		String verificationResp = "VERIFIED";
+		try {
+			URL verifyUrl = null;
+			if (ServerConfiguration.isSandBoxPaypal()) {
+				verifyUrl = new URL(
+						"https://www.sandbox.paypal.com/cgi-bin/webscr");
+			} else {
+				verifyUrl = new URL("https://www.paypal.com/cgi-bin/webscr");
+			}
+			log.info("Opening Paypal Verify Connection with URL " + verifyUrl);
+			URLConnection verifyConnection = verifyUrl.openConnection();
+			verifyConnection.setDoOutput(true);
+			verifyConnection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
+			PrintWriter pw = new PrintWriter(verifyConnection.getOutputStream());
+			log.info("Writting Params to 'Verify Connection' - " + verifyParam);
+			pw.println(verifyParam);
+			pw.close();
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					verifyConnection.getInputStream()));
+			verificationResp = in.readLine();
+			in.close();
+
+			log.info("Response of Paypal Verification - " + verificationResp);
+
+		} catch (Exception e) {
+			log.error("Exception while Verifying : ", e);
+		}
+		log.info("Verification Completed !!");
+		return verificationResp;
 	}
 
 	private void removeClientSubscription(String emailId) {
-		Client client = getClient(emailId);
-		client.getClientSubscription().getSubscription().setType(0);
+		log.info("Removing Client Subscription for" + emailId);
 		Session session = HibernateUtil.getCurrentSession();
-		Transaction beginTransaction = session.beginTransaction();
-		session.saveOrUpdate(client);
-		beginTransaction.commit();
-
+		Transaction transaction = session.beginTransaction();
+		try {
+			Client client = getClient(emailId);
+			client.getClientSubscription().setSubscription(
+					Subscription.getInstance(Subscription.FREE_CLIENT));
+			client.getClientSubscription().setPremiumType(0);
+			session.saveOrUpdate(client);
+			transaction.commit();
+		} catch (Exception e) {
+			log.error("Exception while Removing Subscription : ", e);
+			transaction.rollback();
+		}
+		log.info("Removed Client Subscription !!");
 	}
 
+	/**
+	 * Upgrades the Client to Subscription
+	 * 
+	 * @param params
+	 * @param emailId
+	 */
 	private void upgradeClient(Map<String, String> params, String emailId) {
+		log.info("Upgrading Client, Email - " + emailId + ". Params - "
+				+ params);
 		String type = params.get("option_selection1");
+		log.info("Subscription type:" + type);
 		int paymentType = 0;
+		int durationType = 4;
 		Date expiredDate = new Date();
 		if (type.equals("One user monthly")) {
 			paymentType = ClientSubscription.ONE_USER;
+			durationType = ClientSubscription.MONTHLY_USER;
 			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("One user yearly")) {
 			paymentType = ClientSubscription.ONE_USER;
+			durationType = ClientSubscription.YEARLY_USER;
 			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("2 users monthly")) {
 			paymentType = ClientSubscription.TWO_USERS;
+			durationType = ClientSubscription.MONTHLY_USER;
 			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("2 users yearly")) {
 			paymentType = ClientSubscription.TWO_USERS;
+			durationType = ClientSubscription.YEARLY_USER;
 			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("5 users monthly")) {
 			paymentType = ClientSubscription.FIVE_USERS;
+			durationType = ClientSubscription.MONTHLY_USER;
 			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("5 users yearly")) {
 			paymentType = ClientSubscription.FIVE_USERS;
+			durationType = ClientSubscription.YEARLY_USER;
 			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("Unlimited Users monthly")) {
 			paymentType = ClientSubscription.UNLIMITED_USERS;
+			durationType = ClientSubscription.MONTHLY_USER;
 			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("Unlimited Users yearly")) {
 			paymentType = ClientSubscription.UNLIMITED_USERS;
+			durationType = ClientSubscription.YEARLY_USER;
 			expiredDate = getNextMonthDate(12);
 		}
-		Client client = getClient(emailId);
-		ClientSubscription clientSubscription = client.getClientSubscription();
-		clientSubscription.getMembers().add(emailId);
-		if (clientSubscription.getPremiumType() > paymentType) {
-			clientSubscription.setGracePeriodDate(SubscryptionTool
-					.getTracePeriodDate());
-		} else {
-			clientSubscription.setGracePeriodDate(null);
-		}
-		clientSubscription.setPremiumType(paymentType);
-		clientSubscription.setExpiredDate(expiredDate);
-		clientSubscription.setSubscription(Subscription
-				.getInstance(Subscription.PREMIUM_USER));
 		Session session = HibernateUtil.getCurrentSession();
-		Transaction beginTransaction = session.beginTransaction();
-		session.saveOrUpdate(clientSubscription);
-		beginTransaction.commit();
-		log.info("Paypal Client updated.");
+		Transaction transaction = session.beginTransaction();
+		Client client = getClient(emailId);
+		try {
+			ClientSubscription clientSubscription = client
+					.getClientSubscription();
+			clientSubscription.getMembers().add(emailId);
+			if (clientSubscription.getPremiumType() > paymentType) {
+				clientSubscription.setGracePeriodDate(SubscryptionTool
+						.getGracePeriodDate());
+			} else {
+				clientSubscription.setGracePeriodDate(null);
+			}
+			clientSubscription.setPremiumType(paymentType);
+			clientSubscription.setDurationType(durationType);
+			clientSubscription.setExpiredDate(expiredDate);
+			clientSubscription.setSubscription(Subscription
+					.getInstance(Subscription.PREMIUM_USER));
+
+			session.saveOrUpdate(clientSubscription);
+			transaction.commit();
+		} catch (Exception e) {
+			log.error("Exception While Upgrading the Client : " + e);
+			transaction.rollback();
+		}
+		log.info("Client Upgraded Successfully !!");
 		try {
 			UsersMailSendar.sendMailToSubscribedUser(client);
 		} catch (IOException e) {
@@ -208,9 +255,17 @@ public class PayPalIPINServlet extends BaseServlet {
 		return instance.getTime();
 	}
 
-	private void sendInfo(String string, HttpServletRequest req,
+	/**
+	 * Sends the Information to Paypal.
+	 * 
+	 * @param information
+	 * @param req
+	 * @param resp
+	 */
+	private void sendInfo(String information, HttpServletRequest req,
 			HttpServletResponse resp) {
-		req.setAttribute("info", string);
+		log.info("Sending Info - " + information);
+		req.setAttribute("info", information);
 		try {
 			RequestDispatcher reqDispatcher = getServletContext()
 					.getRequestDispatcher(GoPremiumServlet.view);
@@ -222,18 +277,35 @@ public class PayPalIPINServlet extends BaseServlet {
 		}
 	}
 
+	/**
+	 * Saves Request Details to Database.
+	 * 
+	 * @param params
+	 * @param emailId
+	 */
 	private void saveDetailsInDB(Map<String, String> params, String emailId) {
-		ClientPaypalDetails details = new ClientPaypalDetails();
-		details.setFirstname(params.get("first_name"));
-		details.setLastname(params.get("last_name"));
-		details.setAddressCountry(params.get("address_country"));
-		details.setPayerEmail(params.get("payer_email"));
-		String string = params.get("mc_gross");
-		details.setPaymentGross(Double.parseDouble(string));
-		details.setMcCurrency(params.get("mc_currency"));
-		details.setPaymentStatus(params.get("payment_status"));
-		details.setClinetEmailId(emailId);
-		log.info("Paypal details Saved.");
+		log.info("Saving Request with Parameters - " + params
+				+ " And Email ID - " + emailId);
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			ClientPaypalDetails details = new ClientPaypalDetails();
+			details.setFirstname(params.get("first_name"));
+			details.setLastname(params.get("last_name"));
+			details.setAddressCountry(params.get("address_country"));
+			details.setPayerEmail(params.get("payer_email"));
+			String string = params.get("mc_gross");
+			if (string != null) {
+				details.setPaymentGross(Double.parseDouble(string));
+			}
+			details.setMcCurrency(params.get("mc_currency"));
+			details.setPaymentStatus(params.get("payment_status"));
+			details.setClinetEmailId(emailId);
+			transaction.commit();
+		} catch (Exception e) {
+			log.error("Error While Saving Request : ", e);
+			transaction.rollback();
+		}
 	}
 
 }

@@ -76,7 +76,7 @@ public class SignupServlet extends BaseServlet {
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ Client.PASSWORD_HASH_STRING + password));
 		HttpSession session = req.getSession(true);
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = hibernateSession.beginTransaction();
@@ -193,10 +193,7 @@ public class SignupServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			if (hibernateSession.isOpen())
-				hibernateSession.close();
-		}
+		} 
 
 		return;
 	}

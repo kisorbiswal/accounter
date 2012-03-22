@@ -52,6 +52,7 @@
 		<property name="expiredDate" column="EXPIRED_DATE"></property>
 		<property name="gracePeriodDate" column="GRACEPERIOD_DATE"></property>
 		<property name="premiumType" column="PREMIUM_TYPE"></property>
+		<property name="durationType" column="DURATION_TYPE"></property>
 		<set name="members" table="MEMBERS">
 			<key column="MEMBER_ID" />
 			<element column="EMAIL_ID" type="string" />

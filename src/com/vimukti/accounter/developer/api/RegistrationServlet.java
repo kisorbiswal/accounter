@@ -36,7 +36,6 @@ public class RegistrationServlet extends BaseServlet {
 			resp.sendRedirect("/main/login?dest=/apiregistration");
 			return;
 		}
-		Session hibernateSession = HibernateUtil.openSession();
 		try {
 			Client client = getClient(emailId);
 			if (client == null) {
@@ -60,11 +59,7 @@ public class RegistrationServlet extends BaseServlet {
 			e.printStackTrace();
 			req.setAttribute("error", "Session has expired");
 			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
-		} finally {
-			if (hibernateSession != null) {
-				hibernateSession.close();
-			}
-		}
+		} 
 	}
 
 	private void sendApiInfoPage(Developer developer, HttpServletRequest req,
@@ -94,7 +89,7 @@ public class RegistrationServlet extends BaseServlet {
 			req.setAttribute("error", "Session has expired");
 			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
 		}
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = hibernateSession.beginTransaction();
@@ -156,10 +151,6 @@ public class RegistrationServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			if (hibernateSession != null) {
-				hibernateSession.close();
-			}
-		}
+		} 
 	}
 }

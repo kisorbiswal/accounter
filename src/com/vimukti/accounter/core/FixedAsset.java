@@ -155,8 +155,6 @@ public class FixedAsset extends CreatableObject implements
 	@ReffereredObject
 	transient private Account oldLinkedAccumulatedDepreciationAccount;
 
-	transient private boolean isOnSaveProccessed;
-
 	boolean isDefault;
 
 	/**
@@ -784,6 +782,9 @@ public class FixedAsset extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		/**
 		 * Check whether any note is added, and Save the Action into History.
@@ -1718,8 +1719,7 @@ public class FixedAsset extends CreatableObject implements
 	public double getCalculatedRollBackDepreciationAmount(long fixedAssetID,
 			FinanceDate rollBackDepreciationTo) throws DAOException {
 
-		Session session = HibernateUtil.getCurrentSession() == null ? Utility
-				.getCurrentSession() : HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session
 				.getNamedQuery("getDepreciation.byFixedAsset.andWithDetails")

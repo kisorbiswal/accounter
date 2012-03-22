@@ -46,7 +46,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 			if (companyID == null)
 				return;
 
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 			MultipartRequest multi = new MultipartRequest(request,
 					ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
 					"ISO-8859-1", new DefaultFileRenamePolicy());
@@ -101,11 +101,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
+		} 
 	}
 
 	@Override

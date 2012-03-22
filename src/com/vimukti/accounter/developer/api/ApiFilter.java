@@ -94,12 +94,13 @@ public class ApiFilter implements Filter {
 			req.setAttribute("id", developer.getId());
 			req.setAttribute("companyId", company.getID());
 			req.setAttribute("emailId", client.getEmailId());
-			if (session != null) {
-				session.close();
-			}
 			arg2.doFilter(req2, resp2);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 

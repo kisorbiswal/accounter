@@ -53,7 +53,7 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 	transient int previousStatus;
 
 	boolean isDefault;
-	transient private boolean isOnSaveProccessed;
+
 	transient FinanceDate previousEndDate;
 
 	public FiscalYear() {
@@ -185,6 +185,9 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(session);
 		if (this.previousStatus == STATUS_OPEN && this.status == STATUS_CLOSE) {
 

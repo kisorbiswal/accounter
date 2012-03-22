@@ -59,7 +59,8 @@ public class SubscryptionTool extends Thread {
 						subscription.setSubscription(Subscription
 								.getInstance(Subscription.FREE_CLIENT));
 						subscription.setPremiumType(0);
-						subscription.setGracePeriodDate(getTracePeriodDate());
+						subscription.setDurationType(0);
+						subscription.setGracePeriodDate(getGracePeriodDate());
 					}
 				}
 			}
@@ -74,9 +75,9 @@ public class SubscryptionTool extends Thread {
 		}
 	}
 
-	public static Date getTracePeriodDate() {
+	public static Date getGracePeriodDate() {
 		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DATE, ServerConfiguration.getTracePeriod());
+		c.add(Calendar.DATE, ServerConfiguration.getGracePeriod());
 		return c.getTime();
 	}
 

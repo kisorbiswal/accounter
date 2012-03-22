@@ -32,8 +32,6 @@ public class CustomerGroup extends CreatableObject implements
 	String name;
 	boolean isDefault;
 
-	transient private boolean isOnSaveProccessed;
-
 	public CustomerGroup() {
 	}
 
@@ -94,6 +92,9 @@ public class CustomerGroup extends CreatableObject implements
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onSave(arg0);
 		ChangeTracker.put(this);
 		return false;

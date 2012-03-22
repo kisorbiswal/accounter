@@ -30,9 +30,6 @@ public class EmailForActivationServlet extends BaseServlet {
 		String email = req.getParameter("emailid");
 
 		Session session = HibernateUtil.getCurrentSession();
-		if (session == null || !session.isOpen()) {
-			session = HibernateUtil.openSession();
-		}
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
@@ -70,11 +67,7 @@ public class EmailForActivationServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			if (session.isOpen()) {
-				session.close();
-			}
-		}
+		} 
 
 		// redirect to activation page
 		String message = "?message="+ACT_FROM_RESEND;

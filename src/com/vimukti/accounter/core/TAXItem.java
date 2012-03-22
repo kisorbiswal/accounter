@@ -171,6 +171,9 @@ public class TAXItem extends TAXItemGroup {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 
 		/*
 		 * if (this.vatReturnBox != null && (this.vatReturnBox.name

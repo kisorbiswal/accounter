@@ -88,7 +88,7 @@ public abstract class AbstractBaseCommand extends Command {
 						return process;
 					}
 				} else {
-					canCancel = !(requirementSequence.size() > 1);
+					canCancel = requirementSequence.isEmpty();
 				}
 			} else {
 				canCancel = true;

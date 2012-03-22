@@ -744,6 +744,8 @@ public class CreateAccountCommand extends AbstractCommand {
 		if (!isUpdate) {
 			if (context.getCommandString().contains("bank")) {
 				account = new ClientBankAccount();
+				get(ACCOUNT_TYPE).setValue(
+						getAccountTypeString(account.getType()));
 			} else {
 				account = new ClientAccount();
 			}

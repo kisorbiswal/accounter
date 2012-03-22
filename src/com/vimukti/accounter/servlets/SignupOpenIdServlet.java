@@ -69,7 +69,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 		// HexUtil.bytesToHex(Security.makeHash(emailId
 		// + password));
 
-		Session hibernateSession = HibernateUtil.openSession();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
 			transaction = hibernateSession.beginTransaction();
@@ -99,6 +99,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 					clientSubscription.setCreatedDate(new Date());
 					clientSubscription.setSubscription(Subscription
 							.getInstance(Subscription.FREE_CLIENT));
+					clientSubscription.setPremiumType(0);
 					saveEntry(clientSubscription);
 
 					client.setClientSubscription(clientSubscription);
@@ -163,9 +164,6 @@ public class SignupOpenIdServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} finally {
-			if (hibernateSession.isOpen())
-				hibernateSession.close();
 		}
 
 		return;

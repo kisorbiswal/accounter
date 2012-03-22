@@ -40,7 +40,9 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		for (BudgetItem item : budgetItems) {
 			item.setCompany(getCompany());
 		}

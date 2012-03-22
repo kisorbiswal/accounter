@@ -408,6 +408,9 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		/**
 		 * Reverse Back the effect if this updation call is for Void of Item
 		 * Receipt

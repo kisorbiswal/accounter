@@ -54,6 +54,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private String companyEmailForCustomers;
 
+	private long createdBy;
+
 	boolean isConfigured;
 
 	private long defaultMeasurement;
@@ -3325,5 +3327,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setTransactionsCount(int transactionsCount) {
 		this.transactionsCount = transactionsCount;
+	}
+
+	public long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(long createdBy) {
+		this.createdBy = createdBy;
 	}
 }

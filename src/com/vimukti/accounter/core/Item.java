@@ -126,7 +126,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	double standardCost;
 
 	boolean isDefault;
-	transient private boolean isOnSaveProccessed;
 
 	private Quantity maxStockAlertLevel;
 	private Quantity minStockAlertLevel;
@@ -512,6 +511,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
+		if (OnUpdateThreadLocal.get()) {
+			return false;
+		}
 		super.onUpdate(arg0);
 
 		ChangeTracker.put(this);
