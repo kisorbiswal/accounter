@@ -795,6 +795,15 @@ public abstract class CompanyInitializer {
 
 	public void initializeDefaultAssetsAccounts() {
 
+		// This is the direct references to the Accounts Receivable Account for
+		// the purpose of the Transactions.
+		// Current Accounts
+		Account accountsReceivableAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_ASSET,
+				AccounterServerConstants.ACCOUNTS_RECEIVABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		company.setAccountsReceivableAccount(accountsReceivableAccount);
+
 		/**
 		 * this inventory assets account is used while creating the inventory
 		 * item
@@ -983,6 +992,15 @@ public abstract class CompanyInitializer {
 	public void initializeDefaultlLiabilitiesAccounts() {
 
 		// Current Liabilities
+		// TODO Remaining 16
+
+		// This is the direct references to the Accounts Payable Account for the
+		// purpose of the Transactions.
+		Account accountsPayableAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.ACCOUNTS_PAYABLE,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		company.setAccountsPayableAccount(accountsPayableAccount);
 
 		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.PENDING_ITEM_RECEIPTS,

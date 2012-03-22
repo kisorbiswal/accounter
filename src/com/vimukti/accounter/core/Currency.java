@@ -147,6 +147,10 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	 * @param session
 	 */
 	public void createAccountsReveivablesAndPayables(Session session) {
+		if (isPrimaryCurrency()) {
+			return;
+		}
+
 		if (getAccountsReceivable() == null) {
 			String nextReceivaleAccNumber = NumberUtils.getNextAccountNumber(
 					getCompany().getId(), Account.TYPE_ACCOUNT_RECEIVABLE);
@@ -179,11 +183,6 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 			session.saveOrUpdate(accountsPayable);
 			ChangeTracker.put(accountsPayable);
 			this.setAccountsPayable(accountsPayable);
-		}
-
-		if (isPrimaryCurrency()) {
-			getCompany().setAccountsReceivableAccount(getAccountsPayable());
-			getCompany().setAccountsPayableAccount(getAccountsPayable());
 		}
 
 	}

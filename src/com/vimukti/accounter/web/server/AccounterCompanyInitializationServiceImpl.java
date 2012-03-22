@@ -212,7 +212,11 @@ public class AccounterCompanyInitializationServiceImpl extends
 			session.saveOrUpdate(company);
 
 			// Creating Accounts Receivables and Payables for Primary Currency
-			primaryCurrency.createAccountsReveivablesAndPayables(session);
+			primaryCurrency.setAccountsReceivable(company
+					.getAccountsReceivableAccount());
+			primaryCurrency.setAccountsPayable(company
+					.getAccountsPayableAccount());
+			session.saveOrUpdate(primaryCurrency);
 
 			transaction.commit();
 
