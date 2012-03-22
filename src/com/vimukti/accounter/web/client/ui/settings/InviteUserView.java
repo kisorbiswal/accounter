@@ -7,6 +7,8 @@ import java.util.Set;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -209,12 +211,40 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
 		readOnly = new RadioButton("permissions", messages.readOnly()
 				+ messages.readOnlyDesc());
-		custom = new RadioButton("permissions", messages.custom());
+		readOnly.setValue(true);
+		readOnly.addClickHandler(new ClickHandler() {
 
+			@Override
+			public void onClick(ClickEvent event) {
+				disableOrEnableCheckboxes();
+			}
+		});
+		custom = new RadioButton("permissions", messages.custom());
+		custom.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				disableOrEnableCheckboxes();
+			}
+		});
 		admin = new RadioButton("permissions", messages.admin()
 				+ messages.adminDesc());
+		admin.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				disableOrEnableCheckboxes();
+			}
+		});
 		financialAdviser = new RadioButton("permissions",
 				messages.financialAdviser() + messages.financialAdviserDesc());
+		financialAdviser.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				disableOrEnableCheckboxes();
+			}
+		});
 
 		readOnly.setEnabled(!isInViewMode());
 		custom.setEnabled(!isInViewMode());
@@ -246,7 +276,18 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		verticalPanel.add(admin);
 		verticalPanel.add(financialAdviser);
 
+		disableOrEnableCheckboxes();
 		return verticalPanel;
+	}
+
+	private void disableOrEnableCheckboxes() {
+		for (CheckBox box : permissionsBoxes) {
+			if (custom.getValue()) {
+				box.setEnabled(!isInViewMode());
+			} else {
+				box.setEnabled(false);
+			}
+		}
 	}
 
 	@Override

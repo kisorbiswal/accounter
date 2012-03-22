@@ -10,7 +10,9 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.BrandingTheme;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EmailAccount;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.User;
@@ -23,32 +25,50 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PrintInvoiceCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		long transactionId = Long.valueOf(context.getString());
+		String string = context.getString();
+		String ne[] = string.split(",");
+		long transactionId = Long.valueOf(ne[0]);
+		long emailAccountId = Long.valueOf(ne[1]);
+		String toAddres = ne[2];
+		String ccAdd = ne[3];
+		String subject = ne[4];
 		Session session = context.getHibernateSession();
 		Invoice invoice = (Invoice) session.get(Invoice.class, transactionId);
+		EmailAccount account = (EmailAccount) session.get(EmailAccount.class,
+				emailAccountId);
+		ClientEmailAccount emailAccount = null;
+		try {
+			emailAccount = new ClientConvertUtil().toClientObject(account,
+					ClientEmailAccount.class);
+		} catch (AccounterException e1) {
+			e1.printStackTrace();
+		}
 		if (invoice == null) {
 			addFirstMessage(context, getMessages().selectInvoiceToPrint());
 			return "invoicesList print";
 		}
 		addFirstMessage(context, getMessages()
 				.invoiceHasbeenPrintedAndSentToYourEmail());
-		String emailId = context.getEmailId();
 		try {
-			sendPrintAndInvoiceToEmail(invoice, emailId);
+			sendPrintAndInvoiceToEmail(invoice, toAddres, emailAccount, ccAdd,
+					subject);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "cancel";// To close this command
 	}
 
-	private void sendPrintAndInvoiceToEmail(Invoice invoice,
-			final String emailId) {
+	private void sendPrintAndInvoiceToEmail(final Invoice invoice,
+			final String emailId, final ClientEmailAccount account,
+			final String ccAdd, final String subject) {
 		Company company = getCompany();
 		Set<BrandingTheme> brandingTheme = company.getBrandingTheme();
 		Iterator<BrandingTheme> iterator = brandingTheme.iterator();
@@ -61,7 +81,6 @@ public class PrintInvoiceCommand extends AbstractCommand {
 		final long companyId = company.getID();
 		final long invoiceId = invoice.getID();
 		final String tradingName = company.getTradingName();
-		final String customerName = invoice.getCustomer().getName();
 		final Locale locale = ServerLocal.get();
 		final ClientCompanyPreferences clientCompanyPreferences = CompanyPreferenceThreadLocal
 				.get();
@@ -81,12 +100,13 @@ public class PrintInvoiceCommand extends AbstractCommand {
 					String createPdfFile = tool.createPdfFile(invoiceId,
 							Transaction.TYPE_INVOICE, brandingThemeId,
 							companyId);
-
-					UsersMailSendar.sendPdfMail(new File(createPdfFile),
-							tradingName, getMessages().invoiceFor() + " "
-									+ customerName, getMessages()
-									.pleaseFindAttachedInvoice(), null,
-							emailId, "");
+					String content = getMessages().invoiceMailMessage(
+							Global.get().Customer(), invoice.getNumber(),
+							invoice.getDate().toClientFinanceDate());
+					content = content.replaceAll("\n", "<br/>");
+					UsersMailSendar
+							.sendPdfMail(new File(createPdfFile), tradingName,
+									subject, content, account, emailId, ccAdd);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {

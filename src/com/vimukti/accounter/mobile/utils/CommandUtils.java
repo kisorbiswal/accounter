@@ -16,6 +16,7 @@ import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
+import com.vimukti.accounter.core.EmailAccount;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
 import com.vimukti.accounter.core.IAccounterServerCore;
@@ -437,6 +438,16 @@ public class CommandUtils {
 		for (AccounterClass accounterClass : accounterClasses) {
 			if (accounterClass.getName().equals(string)) {
 				return accounterClass;
+			}
+		}
+		return null;
+	}
+
+	public static EmailAccount getEmailAccount(Company company, String string) {
+		Set<EmailAccount> emailAccounts = company.getEmailAccounts();
+		for (EmailAccount emailAccount : emailAccounts) {
+			if (emailAccount.getEmailId().equals(string)) {
+				return emailAccount;
 			}
 		}
 		return null;

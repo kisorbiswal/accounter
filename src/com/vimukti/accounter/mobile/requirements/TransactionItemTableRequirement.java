@@ -246,6 +246,9 @@ public abstract class TransactionItemTableRequirement extends
 	@Override
 	protected void getRequirementsValues(ClientTransactionItem obj) {
 		Item clientItem = get(ITEM).getValue();
+		Item item = (Item) CommandUtils.getServerObjectById(clientItem.getID(),
+				AccounterCoreType.ITEM);
+		clientItem = item;
 		obj.setItem(clientItem.getID());
 		Warehouse warehouse = get(WARE_HOUSE).getValue();
 		if (warehouse == null) {
