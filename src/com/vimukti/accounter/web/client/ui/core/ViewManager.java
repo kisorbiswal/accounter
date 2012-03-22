@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -98,6 +100,7 @@ public class ViewManager extends FlowPanel {
 
 	private Label viewTitleLabel;
 
+	private Map<String, String> keyValues = new HashMap<String, String>();
 	ImageButton addNewButton;
 
 	ButtonGroup group1;
@@ -113,6 +116,8 @@ public class ViewManager extends FlowPanel {
 	ButtonGroup group8;
 
 	public ViewManager(MainFinanceWindow financeWindow) {
+		keyValues.put("ispaid", getCompany().isPaid() ? "Yes" : "No");
+
 		this.mainWindow = financeWindow;
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel rightPanel = new StyledPanel("rightPanel");
@@ -176,8 +181,9 @@ public class ViewManager extends FlowPanel {
 							if ((addPanelWidth + 960) <= Window
 									.getClientWidth()) {
 								for (ClientAdvertisement clientAdvertisement : advertisements) {
-									Frame frame = new Frame(clientAdvertisement
-											.getUrl());
+									String url = clientAdvertisement.getUrl();
+									url = getReplacedURL(url);
+									Frame frame = new Frame(url);
 									frame.setSize(
 											clientAdvertisement.getWidth()
 													+ "px",
@@ -197,6 +203,14 @@ public class ViewManager extends FlowPanel {
 
 					}
 				});
+	}
+
+	protected String getReplacedURL(String url) {
+		Set<Entry<String, String>> entrySet = keyValues.entrySet();
+		for (Entry<String, String> entry : entrySet) {
+			url.replaceAll('{' + entry.getKey() + '}', entry.getValue());
+		}
+		return url;
 	}
 
 	private HelpPanel helpPanel;
