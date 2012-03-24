@@ -43,6 +43,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.core.migration.MigrationUtil;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -367,7 +368,6 @@ public class CompanyManager extends Manager {
 		serverCompany.getPreferences().setPrimaryCurrency(existcurrency);
 	}
 
-
 	public void updateCompanyStartDate(OperationContext context)
 			throws AccounterException {
 		String arg1 = context.getArg1();
@@ -534,8 +534,6 @@ public class CompanyManager extends Manager {
 
 	}
 
-	
-
 	public ClientCompanyPreferences getClientCompanyPreferences(Company company)
 			throws AccounterException {
 		ClientCompanyPreferences clientCompanyPreferences = new ClientConvertUtil()
@@ -669,6 +667,8 @@ public class CompanyManager extends Manager {
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
 				ClientCompany.class);
 		clientCompany.setTransactionsCount(getTransactionsCount(companyId));
+		clientCompany.setTransactionsLimit(ServerConfiguration
+				.getFreeTransactionsCount());
 		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate(companyId);
 
 		clientCompany.setTransactionStartDate(dates[0]);
