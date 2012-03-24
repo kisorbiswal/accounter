@@ -13,16 +13,16 @@
 				<g:Label ui:field="bothText" styleName="organisation_comment" />
 			</g:FlowPanel>
 		</g:FlowPanel>
-		<g:FlowPanel ui:field="totalPanel">
+		<g:FlowPanel styleName="inventorysuboption"  ui:field="totalPanel">
 			<g:FlowPanel>
 				<g:CheckBox ui:field="inventoryCheckBox" />
 			</g:FlowPanel>
 			<g:FlowPanel ui:field="hiddenPanel">
 				<g:FlowPanel>
-					<g:FlowPanel ui:field="subpanel">
+					<g:FlowPanel ui:field="subpanel" styleName="subpanel">
 						<g:CheckBox ui:field="warehousesCheckBox" />
 						<g:CheckBox ui:field="unitsCheckBox" />
-						<g:FlowPanel>
+						<g:FlowPanel styleName="inventorylistbox">
 							<g:Label ui:field="inventoryScheme" />
 							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
 						</g:FlowPanel>

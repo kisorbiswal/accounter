@@ -153,6 +153,7 @@ html,body {
 	background: url("../images/Dropdown_indicator_5x3.png") no-repeat scroll
 		right center;
 	padding: 2px 10px 8px;
+	cursor: pointer;
 }
 
 .MENU_BAR_BG .menuSeparatorInner {
@@ -179,6 +180,7 @@ html,body {
 
 .gwt-MenuBarPopup .gwt-MenuItem {
 	padding: 4px 14px 4px 10px;
+	cursor: pointer;
 }
 
 .gwt-MenuBarPopup  .menuSeparatorInner {
@@ -255,6 +257,7 @@ html,body {
 	-webkit-box-shadow: 0 2px 10px #1A5158;
 	box-shadow: 0 2px 10px #1A5158;
 	padding: 15px;
+	overflow: hidden;
 }
 
 .prebutton .viewTitle {
@@ -1060,7 +1063,7 @@ input[type="text"] {
 	display: box;
 	margin: -15px 0 0 -15px;
 	-moz-box-flex: 1;
-	width:100%;
+	width: 100%;
 }
 
 .Transactions_center #listPanel {
@@ -1093,11 +1096,13 @@ input[type="text"] {
 	padding: 4px 5px 4px 10px;
 	color: black
 }
-.Transactions_center #TAXAgencyListView{
-	 -moz-box-flex: 1;
-    width: 80%;
-     margin-top: 10px;
+
+.Transactions_center #TAXAgencyListView {
+	-moz-box-flex: 1;
+	width: 80%;
+	margin-top: 10px;
 }
+
 .Transactions_center .tree_list_panel .menu_item_clicked,#PreferenceSettingsView .preferences_option .optionClicked
 	{
 	background: #226B73;
@@ -1363,7 +1368,6 @@ table.gridHeader tr td {
 	-webkit-box-orient: vertical;
 	-moz-box-orient: vertical;
 	box-orient: vertical;
-	-moz-box-flex: 1;
 	width: 100%;
 }
 
@@ -1391,7 +1395,8 @@ table.gridHeader tr td {
 }
 
 #PreferenceSettingsView .companyInfoPanel {
-	width: 100%;
+	padding: 10px 0 10px 10px;
+	width: 95%;
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	border-bottom-color: #2D8B93;
@@ -1417,16 +1422,19 @@ table.gridHeader tr td {
 	height: 22px;
 	border-radius: 3px 3px 3px 3px;
 	background: white;
+	margin-bottom: 10px;
 }
 
 #PreferenceSettingsView .gwt-Label {
 	width: 200px;
 }
 
-#PreferenceSettingsView .gwt-ListBox {
+#PreferenceSettingsView select.gwt-ListBox {
 	border: 1px solid #B1B1B1;
 	width: 185px;
 	border-radius: 3px 3px 3px 3px;
+	margin-right: 5px;
+	margin-bottom: 10px;
 }
 
 #PreferenceSettingsView .bold label {
@@ -1730,7 +1738,7 @@ table.gridHeader tr td {
 	display: -moz-box;
 	display: box;
 	-moz-box-flex: 1;
-	width:100%;
+	width: 100%;
 }
 
 #CustomerCenterView .customerCenter .leftPanel {
@@ -1786,7 +1794,7 @@ table.gridHeader tr td {
 	display: -moz-box;
 	display: box;
 	-moz-box-flex: 1;
-	  width: 100%;
+	width: 100%;
 }
 
 #CustomerCenterView .customerDetailsPanel .panel .leftForm {
@@ -2195,8 +2203,9 @@ table.gridHeader tr td {
 .organisation_comment,.referComment,.account_comment {
 	color: gray;
 }
-.setup_panel .customize_account{
-	margin-bottom:20px;
+
+.setup_panel .customize_account {
+	margin-bottom: 20px;
 }
 
 .sell_panel .gwt-RadioButton label {
@@ -2209,12 +2218,6 @@ table.gridHeader tr td {
 
 .companyInfoPanel .header label {
 	padding-left: 5px;
-}
-
-.companyInfoPanel {
-	border-bottom: 1px solid #2D8B93;
-	border-top: 1px solid #2D8B93;
-	padding: 10px 0 0 0;
 }
 
 .viewButtonPanel .employee_yesno label {
@@ -2493,7 +2496,8 @@ table.gridHeader tr td {
 	width: 50%;
 	-moz-box-flex: 1;
 }
-#InvoiceView .mainVLay .topHLay .rightVLay .align-form{
+
+#InvoiceView .mainVLay .topHLay .rightVLay .align-form {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
@@ -2586,10 +2590,10 @@ table.gridHeader tr td {
 
 #CashPurchaseView .topHLay .rightVLay .termsForm {
 	-moz-box-orient: vertical;
-    -moz-box-pack: end;
-    display: -moz-box;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+	-moz-box-pack: end;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
 }
 
 #CashPurchaseView .topHLay .rightVLay .formItem {
@@ -2998,8 +3002,8 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 #MakeDepositView .topHLay .depoForm {
 	display: -moz-box;
 	-moz-box-orient: vertical;
-	-moz-box-flex:1;
-	width:50%;
+	-moz-box-flex: 1;
+	width: 50%;
 }
 
 #MakeDepositView .vPanel .botHLay {
@@ -3090,7 +3094,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-   display: -moz-box;
+	display: -moz-box;
 	display: -webkit-box;
 }
 
@@ -4204,6 +4208,10 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	margin-top: 20px;
 }
 
+.bottomPanel .memoForm {
+	margin-top: 0px;
+}
+
 .checkboxItem .gwt-Label {
 	float: left;
 }
@@ -4226,8 +4234,8 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
-	width:100%;
-	-moz-box-flex:1;
+	width: 100%;
+	-moz-box-flex: 1;
 }
 
 #InventoryAssemblyView .service-item-group {
@@ -4386,52 +4394,63 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	width: auto;
 	padding: 2px 5px 0 0;
 }
-#InventoryCentreView .mainPanel{
+
+#InventoryCentreView .mainPanel {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-	width:100%;
+	width: 100%;
 	-moz-box-flex: 1;
 }
-#InventoryCentreView .mainPanel .leftVpPanel{
-	width:20%;
+
+#InventoryCentreView .mainPanel .leftVpPanel {
+	width: 20%;
 	-moz-box-flex: 1;
 }
-#InventoryCentreView .mainPanel .rightVpPanel{
-	width:80%;
+
+#InventoryCentreView .mainPanel .rightVpPanel {
+	width: 80%;
 	-moz-box-flex: 1;
 }
-#InventoryCentreView .mainPanel .leftVpPanel .viewform .gwt-Label{
-	width:auto;
+
+#InventoryCentreView .mainPanel .leftVpPanel .viewform .gwt-Label {
+	width: auto;
 }
-#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .hp{
-    border: 1px solid #2D8B93;
-    display: -moz-box;
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .hp {
+	border: 1px solid #2D8B93;
+	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
-	 width: 100%;
+	width: 100%;
 }
-#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .hp .leftform{
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .hp .leftform
+	{
 	-moz-box-flex: 1;
-    -moz-box-orient: vertical;
-     -webkit-box-orient: vertical;
-    display: -moz-box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-    width: 50%;
+	width: 50%;
 }
-#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .hp .rightform{
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .hp .rightform
+	{
 	-moz-box-flex: 1;
-    -moz-box-orient: vertical;
-    -webkit-box-orient: vertical;
-   display: -moz-box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-    width: 50%;
+	width: 50%;
 }
-#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .headingPanel{
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .headingPanel
+	{
 	background: #2D8B93;
 	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
@@ -4445,35 +4464,45 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: box;
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
-	 width: 100%;
-	 padding-left: 2px;
+	width: 100%;
+	padding-left: 2px;
 }
-#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel{
-	width:100%;
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel {
+	width: 100%;
 	-moz-box-flex: 1;
 	margin-bottom: 10px;
 }
-#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .headingPanel .gwt-Label{
-	width:50%;
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .headingPanel .gwt-Label
+	{
+	width: 50%;
 	-moz-box-flex: 1;
-	color:white;
+	color: white;
 }
+
 #InventoryCentreView #InventoryCentreItemsListGrid {
 	border: 1px solid #2D8B93;
 }
-#InventoryCentreView #InventoryCentreItemsListGrid .gridBodyContainer{
-	height:600px;
+
+#InventoryCentreView #InventoryCentreItemsListGrid .gridBodyContainer {
+	height: 600px;
 }
-#InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform{
+
+#InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform
+	{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 }
-#InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform .gwt-Label{
-	width:auto;
-	padding:2px 5px 0 5px;
+
+#InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform .gwt-Label
+	{
+	width: auto;
+	padding: 2px 5px 0 5px;
 }
-#WareHouseTransferView .fields-panel{
+
+#WareHouseTransferView .fields-panel {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -4481,10 +4510,12 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
+
 .listView .form input[type=text] {
-    width: 115px !important;
+	width: 115px !important;
 }
-#StockAdjustmentView .mainPanel .form{
+
+#StockAdjustmentView .mainPanel .form {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -4492,44 +4523,51 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#WareHouseView .mainHLay{
+
+#WareHouseView .mainHLay {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-	width:100%;
+	width: 100%;
 	-moz-box-flex: 1;
 }
-#WareHouseView .mainHLay .leftSideForm{
-	display: -moz-box;
-	display: -webkit-box;
-	display: box;
-	-moz-box-orient: vertical;
-	-webkit-box-orient: vertical;
-	box-orient: vertical;
-	width:50%;
-	-moz-box-flex: 1;
-}
-.rightSideForm{
+
+#WareHouseView .mainHLay .leftSideForm {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-	width:50%;
+	width: 50%;
 	-moz-box-flex: 1;
 }
-.companyInfoPanel span.gwt-CheckBox{
+
+.rightSideForm {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	width: 50%;
+	-moz-box-flex: 1;
+}
+
+.companyInfoPanel span.gwt-CheckBox {
 	display: block;
-	margin:5px;
+	margin: 5px;
 }
-.setup_panel .subPanel{
-	margin-left:30px;
+
+.setup_panel .subPanel {
+	margin-left: 30px;
 }
+
 .subtrackortax {
-    margin-left: 20px;
+	margin-left: 20px;
 }
-.inventoryschemlistbox{
+
+.inventoryschemlistbox {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -4538,17 +4576,169 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	box-orient: horizontal;
 	margin-bottom: 10px
 }
-.subPanel span.gwt-CheckBox{
-	display: block; 
+
+.subPanel span.gwt-CheckBox {
+	display: block;
 }
+
 .subtrackortax .gwt-RadioButton {
-    margin-left: 10px;
+	margin-left: 10px;
 }
-.subtrackortax .gwt-CheckBox{
-	 margin-left: 10px;
+
+.subtrackortax .gwt-CheckBox {
+	margin-left: 10px;
 }
-#CustomerCenterView .rightform .notes .label{
+
+#CustomerCenterView .rightform .notes .label {
 	white-space: pre-wrap;
-    width: 100px;
-    word-wrap: break-word;
+	width: 100px;
+	word-wrap: break-word;
+}
+
+#CurrencyFormatDialog .bodyLayout .currency_format_align {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin-top: 10px;
+}
+
+#CurrencyFormatDialog .bodyLayout {
+	padding: 5px;
+}
+
+#CurrencyFormatDialog .bodyLayout fieldset .formatForm .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0;
+}
+
+#CurrencyFormatDialog .bodyLayout fieldset .formatForm {
+	padding: 5px;
+}
+
+#PreferenceSettingsView .currencyFormat {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+}
+
+#PreferenceSettingsView .terminologyforvendor .terminologyradio div {
+	padding: 5px 0px;
+}
+
+#PreferenceSettingsView .terminologyforvendor .header {
+	margin-top: 10px;
+}
+
+#PreferenceSettingsView .terminologyforvendor .terminologycustomerradio div
+	{
+	padding: 5px 0px;
+}
+
+#PreferenceSettingsView input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+#PreferenceSettingsView .fiscal-year-width {
+	display: inline;
+}
+
+#PreferenceSettingsView .fiscal-year-width div {
+	display: inline;
+}
+
+#PreferenceSettingsView .fiscal-year-width select {
+	margin-left: 60px;
+}
+
+.viewholder button {
+	cursor: pointer;
+}
+
+#PreferenceSettingsView .inventorysuboption span.gwt-CheckBox {
+	margin-left: 20px !important;
+}
+
+#PreferenceSettingsView .inventorysuboption .subpanel {
+	margin-left: 30px;
+	margin-top: 15px;
+}
+
+#PreferenceSettingsView .inventorysuboption .subpanel span.gwt-CheckBox
+	{
+	margin-left: 0px !important;
+}
+
+#PreferenceSettingsView .inventorylistbox {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+}
+
+#PreferenceSettingsView .salesOrderandCheckBoxPanel span {
+	display: block;
+	margin: 10px 0;
+}
+
+#PreferenceSettingsView .trackdiscount .tracktransaction {
+	margin: 20px;
+}
+
+#PreferenceSettingsView .trackdiscount .gwt-Label {
+	width: auto
+}
+
+#PreferenceSettingsView .trackdiscount .account_panel {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	margin: 10px;
+}
+
+#PreferenceSettingsView .trackestimate .yesnobutton span:last-child {
+	margin-left: 50px;
+}
+
+#PreferenceSettingsView .trackestimate .doincludeaccepted span {
+	display: block;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+#PreferenceSettingsView .trackestimate .yesnobutton {
+	margin: 10px 0;
+}
+
+#PreferenceSettingsView .manageBillsOweRadioButtonsPanel {
+	margin: 10px 0;
+}
+
+#PreferenceSettingsView .manageBillsOweRadioButtonsPanel span:last-child
+	{
+	margin-left: 50px;
+}
+
+.gridBody a {
+	color: black;
+	text-decoration: underline;
+}
+
+.history_notes_label {
+	border-bottom: 2px solid #CCC;
+	color: #002E36;
+	font-size: 15px;
+	font-weight: bold;
+}
+#InvoiceView .attachment_panel form .gwt-Button{
+	margin-left:15px;
+}
+#PreferenceSettingsView .locationTrackLabelAndCheckPanel{
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+    display: -moz-box;
+	display: -webkit-box;
+	display: box;
 }
