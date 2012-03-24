@@ -24,7 +24,9 @@ public abstract class ReportResultRequirement<T> extends AbstractRequirement<T> 
 			if (selection != null) {
 				String onSelection = onSelection(selection, name);
 				if (onSelection != null) {
-					context.putSelection(name, null);
+					context.removeSelection(name);
+					context.getIOSession().getCurrentCommand()
+							.setSelectionName(name);
 					Result result = new Result();
 					result.setNextCommand(onSelection);
 					return result;

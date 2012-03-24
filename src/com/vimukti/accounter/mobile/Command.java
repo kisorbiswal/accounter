@@ -15,6 +15,8 @@ public abstract class Command {
 	private boolean isDone;
 	private String successMessage;
 	private boolean canTrackRequirements = true;
+	private String selectionName;
+
 	AccounterMessages messages;
 
 	public Command() {
@@ -120,5 +122,13 @@ public abstract class Command {
 
 	public void setCanTrackRequirements(boolean canTrackRequirements) {
 		this.canTrackRequirements = canTrackRequirements;
+	}
+
+	public String getSelectionName() {
+		return selectionName;
+	}
+
+	public void setSelectionName(String selectionName) {
+		this.selectionName = selectionName;
 	}
 }

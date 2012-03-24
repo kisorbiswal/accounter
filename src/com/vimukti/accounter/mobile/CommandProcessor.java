@@ -120,6 +120,8 @@ public class CommandProcessor {
 				}
 			}
 		}
+		context.removeSelection(command.getSelectionName());
+		command.setSelectionName(null);
 
 		context.setInputs(message.getInputs());
 		if (!isSelected) {
