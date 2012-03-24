@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IVersionable;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -17,6 +19,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface IAccounterServerCore extends Serializable, Cloneable,
 		IVersionable {
+
+	AccounterMessages accounterMessages = Global.get().messages();
 
 	long getID();
 

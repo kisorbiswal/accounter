@@ -473,6 +473,15 @@ public class CashPurchase extends Transaction {
 	@Override
 	protected void checkNullValues() throws AccounterException {
 		// checkingVendorNull(vendor);
+		super.checkNullValues();
+		if (deliveryDate == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().deliveryDate());
+		}
+		if (payFrom == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().payFrom());
+		}
 	}
 
 	@Override

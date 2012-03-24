@@ -77,7 +77,19 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+		checkNullValues();
 		return true;
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (financialYear == null || financialYear.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().financialYear());
+		}
+		if (budgetName == null || budgetName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().budget());
+		}
 	}
 
 	public List<BudgetItem> getBudgetItems() {

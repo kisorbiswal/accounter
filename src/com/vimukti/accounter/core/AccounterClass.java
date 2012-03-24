@@ -20,8 +20,15 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
+		checkNullValues();
 		return false;
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (className == null || className.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().accounterClass());
+		}
 	}
 
 	public String getclassName() {
@@ -50,7 +57,7 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.name(), this.className);
 	}
 }

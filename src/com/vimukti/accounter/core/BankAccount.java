@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class BankAccount extends Account {
 
@@ -76,5 +78,17 @@ public class BankAccount extends Account {
 	@Override
 	public int getObjType() {
 		return IAccounterCore.BANK_ACCOUNT;
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
+		if (type == Account.TYPE_BANK) {
+			if (bankAccountType <= 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_NULL, Global.get()
+								.messages().bankAccountType());
+			}
+		}
 	}
 }

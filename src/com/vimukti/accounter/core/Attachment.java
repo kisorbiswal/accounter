@@ -7,6 +7,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.main.upload.UploadAttachment;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Attachment extends CreatableObject implements IAccounterServerCore {
@@ -64,7 +65,15 @@ public class Attachment extends CreatableObject implements IAccounterServerCore 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		checkNullValues();
 		return true;
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (name == null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().attachments());
+		}
 	}
 
 	@Override

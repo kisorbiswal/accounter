@@ -199,9 +199,32 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_NEGATIVE_AMOUNT:
 			return accounterMessages.enterValidAmount();
+
 		default:
 			return null;
 		}
 
+	}
+
+	public static String getErrorString(AccounterException exception) {
+		int errorCode = exception.getErrorCode();
+		switch (errorCode) {
+		case AccounterException.ERROR_NAME_NULL:
+			return accounterMessages.nameFieldShouldNotBeEmpty(exception
+					.getMessage());
+		case AccounterException.ERROR_OBJECT_NULL:
+			return accounterMessages.fieldShouldNotBeEmpty(exception
+					.getMessage());
+		case AccounterException.ERROR_NUMBER_NULL:
+			return accounterMessages.numberFieldShouldNotBeEmpty(exception
+					.getMessage());
+		case AccounterException.ERROR_AMOUNT_ZERO:
+			return accounterMessages.shouldNotbeZero(exception.getMessage());
+		case AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE:
+			return accounterMessages.shouldNotBeZeroOrNegative(exception
+					.getMessage());
+		default:
+			return null;
+		}
 	}
 }
