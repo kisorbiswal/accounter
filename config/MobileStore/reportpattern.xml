@@ -46,7 +46,7 @@
 			<command title="salesByCustomerDetail" />
 			<command title="salesByItemSummary" />
 			<command title="salesByItemDetail" />
-			<!-- <command title="Sales Order Report" /> -->
+			<command if="salesOrderEnable" title="salesOrderReport" />
 		</outputs>
 	</pattern>
 
@@ -68,7 +68,7 @@
 			<command title="purchaseByVendorDetail" />
 			<command title="purchaseByItemSummary" />
 			<command title="purchaseByItemDetail" />
-			<!-- <command title="Purchase Order Report" /> -->
+			<command if="purchaseorderEnabled" title="purchaseOrderReport" />
 		</outputs>
 	</pattern>
 

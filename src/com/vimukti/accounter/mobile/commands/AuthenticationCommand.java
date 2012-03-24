@@ -78,9 +78,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 					if (validateEmailId != null) {
 						addFirstMessage(validateEmailId);
 						super.setValue(null);
-						return;
 					}
-					setClient();
 				}
 			}
 		});
@@ -91,9 +89,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (client != null
-						&& (!client.isActive() || client
-								.isRequirePasswordReset())) {
+				if (!client.isActive() || client.isRequirePasswordReset()) {
 					Result run = super.run(context, makeResult, list, actions);
 					return run;
 				}
@@ -126,7 +122,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (client != null && !client.isRequirePasswordReset()) {
+				if (!client.isRequirePasswordReset()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -156,7 +152,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (client != null && client.isRequirePasswordReset()) {
+				if (client.isRequirePasswordReset()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -170,7 +166,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (client != null && client.isRequirePasswordReset()) {
+				if (client.isRequirePasswordReset()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -349,6 +345,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 		}
 		Result run = new Result();
 		String emailId = get(EMAIL_ID).getValue();
+		String message = null;
 		Object selection = context.getSelection("resendactivation");
 		if (selection != null) {
 			if (selection.equals("resendActiv")) {
@@ -361,13 +358,16 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 							.getEmailId());
 				}
 				sendUserActivationMail(client, activationCode);
-				run.add("Activation code has been sent to " + emailId);
+				message = "Activation code has been sent to " + emailId;
 			} else if (selection.equals("forgotPassword")) {
 				sendForgotPassWordMail();
-				run.add("Activation code has been sent to " + emailId);
+				message = "Activation code has been sent to " + emailId;
 			}
 		}
 		run = super.run(context);
+		if (message != null) {
+			run.add(message);
+		}
 		emailId = get(EMAIL_ID).getValue();
 		run.setShowBack(false);
 
