@@ -32,7 +32,7 @@ public class AmountRequirement extends SingleRequirement<Double> {
 
 	@Override
 	protected String getDisplayValue(Double value) {
-		return value != null ? Global.get().toCurrencyFormat(value, null) : "";
+		return value != null ? Global.get().toCurrencyFormat(value, null) : "0";
 	}
 
 	@Override

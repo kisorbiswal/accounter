@@ -68,7 +68,7 @@ public class Requirement {
 	}
 
 	public boolean isDone() {
-		if (!isOptional) {
+		if (!isOptional()) {
 			return value != null;
 		}
 		return true;

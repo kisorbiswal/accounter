@@ -107,6 +107,14 @@ public class SubscryptionTool extends Thread {
 				preferences.setEnableMultiCurrency(false);
 				preferences.setSalesOrderEnabled(false);
 				preferences.setPurchaseOrderEnabled(false);
+
+				preferences.setClassTrackingEnabled(false);// CLASS
+				preferences.setLocationTrackingEnabled(false);// LOCATION
+				preferences
+						.setProductandSerivesTrackingByCustomerEnabled(false);// BILLABLE_EXPENSE
+				preferences.setBillableExpsesEnbldForProductandServices(false);// BILLABLE_EXPENSE
+				preferences.setDelayedchargesEnabled(false);// CREDITS_CHARGES
+
 				Set<User> users = company.getUsers();
 				for (User user : users) {
 					Set<PortletPageConfiguration> portletPages = user

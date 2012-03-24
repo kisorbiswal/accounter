@@ -6,14 +6,18 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
+import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
+import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
-import com.vimukti.accounter.mobile.requirements.EmptyRquirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
@@ -31,7 +35,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * @author Lingarao.R
  * 
  */
-public class CreateFixedAssetCommand extends AbstractTransactionCommand {
+public class CreateFixedAssetCommand extends AbstractCommand {
 
 	private static final String NEW_ITEM = "newItem";
 	private static final String ASSET_NUMBER = "assetNumber";
@@ -44,20 +48,50 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 	private static final String DEPRECATION_RATE = "depreciationRate";
 	private static final String DEPRECATION_ACCOUNT = "deprecationAccount";
 	private static final String ACCUMULATED_DEPRECATION_ACCOUNT = "accumulatedDepreciationAccount";
+	private static final String REGISTER = "register";
+
 	private boolean isAssetAccumulated;
-	private double depAmount;
 	private double accmulatdDepreciationAmount;
+	private ClientFixedAsset fixedAsset;
+	private boolean isRegistered;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new BooleanRequirement(REGISTER, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "Register this Item";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Don not Register this Item";
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				if (value != null) {
+					isRegistered = (Boolean) value;
+				}
+			}
+		});
+
 		list.add(new NameRequirement(NEW_ITEM, getMessages().pleaseEnter(
 				getMessages().itemName()), getMessages().newItem(), false, true));
+
 		list.add(new NumberRequirement(ASSET_NUMBER, getMessages().pleaseEnter(
 				getMessages().assetNumber()), getMessages().assetNumber(),
 				false, true));
+
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
-				getMessages().account()), getMessages().account(), false, true,
+				getMessages().account()), getMessages().account(), true, true,
 				null) {
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
+			}
 
 			@Override
 			protected String getSetMessage() {
@@ -87,16 +121,28 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("createAccount", getMessages()
+						.fixedAsset()));
+			}
+
+			@Override
 			protected boolean filter(Account e, String name) {
 				return e.getName().contains(name);
 			}
 		});
+
 		list.add(new DateRequirement(PURCAHSE_DATE, getMessages().pleaseEnter(
 				getMessages().purchaseDate()), getMessages().purchaseDate(),
-				true, true));
+				false, true));
+
 		list.add(new CurrencyAmountRequirement(PURCHASE_PRICE, getMessages()
 				.pleaseEnter(getMessages().purchasePrice()), getMessages()
 				.purchasePrice(), true, true) {
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
+			}
 
 			@Override
 			protected Currency getCurrency() {
@@ -107,12 +153,23 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 		list.add(new StringRequirement(DESCRIPTION, getMessages().pleaseEnter(
 				getMessages().description()), getMessages().description(),
 				true, true));
+
 		list.add(new StringRequirement(ASSET_TYPE, getMessages().pleaseEnter(
-				getMessages().assetType()), getMessages().assetType(), false,
-				true));
+				getMessages().assetType()), getMessages().assetType(), true,
+				true) {
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
+			}
+		});
+
 		list.add(new StringListRequirement(DEPRICATION_METHOD, getMessages()
 				.pleaseSelect(getMessages().depreciationMethod()),
-				getMessages().depreciationMethod(), false, true, null) {
+				getMessages().depreciationMethod(), true, true, null) {
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
+			}
 
 			@Override
 			protected String getSetMessage() {
@@ -141,12 +198,32 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 						getMessages().depreciationMethod());
 			}
 		});
-		list.add(new StringRequirement(DEPRECATION_RATE, getMessages()
+
+		list.add(new AmountRequirement(DEPRECATION_RATE, getMessages()
 				.pleaseEnter(getMessages().depreciationRate()), getMessages()
-				.depreciationRate(), false, true));
+				.depreciationRate(), true, true) {
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
+			}
+
+			@Override
+			protected void createRecord(ResultList list) {
+				Double t = getValue();
+				Record nameRecord = new Record(getName());
+				nameRecord.add(getRecordName(), getDisplayValue(t) + "%");
+				list.add(nameRecord);
+			}
+
+		});
+
 		list.add(new AccountRequirement(DEPRECATION_ACCOUNT, getMessages()
 				.pleaseSelect(getMessages().depreciationAccount()),
 				getMessages().depreciationAccount(), false, true, null) {
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
+			}
 
 			@Override
 			protected String getSetMessage() {
@@ -183,23 +260,24 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 			}
 		});
 
-		list.add(new EmptyRquirement() {
+		list.add(new AccountRequirement(ACCUMULATED_DEPRECATION_ACCOUNT,
+				getMessages().pleaseSelect(
+						getMessages().accumulatedDepreciationAccount()),
+				getMessages().accumulatedDepreciationAccount(), false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				makeResult
-						.add(getMessages()
-								.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
+				Account account = CreateFixedAssetCommand.this.get(ACCOUNT)
+						.getValue();
+				if (account != null) {
+					if (account.getLinkedAccumulatedDepreciationAccount() == null) {
+						return super.run(context, makeResult, list, actions);
+					}
+				}
 				return null;
 			}
-		});
-
-		list.add(new AccountRequirement(ACCUMULATED_DEPRECATION_ACCOUNT,
-				getMessages().pleaseSelect(
-						getMessages().accumulatedDepreciationAccount()),
-				getMessages().accumulatedDepreciationAccount(), true, true,
-				null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -225,9 +303,35 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("createAccount", getMessages()
+						.fixedAsset()));
+			}
+
+			@Override
+			public void setValue(Object value) {
+				Account assetAccount = CreateFixedAssetCommand.this
+						.get(ACCOUNT).getValue();
+				Account selectItem = (Account) value;
+				if (assetAccount != null && selectItem != null
+						&& assetAccount.getID() != selectItem.getID()) {
+					super.setValue(value);
+					return;
+				}
+				addFirstMessage(getMessages()
+						.accandaccumulatedDepreciationAccShouldnotbesame());
+				super.setValue(null);
+			}
+
+			@Override
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
 						getMessages().accumulatedDepreciationAccount());
+			}
+
+			@Override
+			public boolean isOptional() {
+				return !isRegistered;
 			}
 
 			@Override
@@ -240,17 +344,22 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		fixedAsset = new ClientFixedAsset();
 		return null;
 	}
 
 	@Override
 	protected String getWelcomeMessage() {
-		return null;
+		return fixedAsset.getID() == 0 ? getMessages().creating(
+				getMessages().fixedAsset()) : getMessages().updating(
+				getMessages().fixedAsset());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return null;
+		return fixedAsset.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().fixedAsset()) : getMessages().readyToUpdate(
+				getMessages().fixedAsset());
 	}
 
 	@Override
@@ -259,6 +368,7 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 			String nextFixedAssetNumber = new FinanceTool()
 					.getNextFixedAssetNumber(getCompanyId());
 			get(ASSET_NUMBER).setValue(nextFixedAssetNumber);
+			get(PURCAHSE_DATE).setValue(new ClientFinanceDate());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -266,7 +376,9 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return null;
+		return fixedAsset.getID() == 0 ? getMessages().createSuccessfully(
+				getMessages().fixedAsset()) : getMessages().updateSuccessfully(
+				getMessages().fixedAsset());
 	}
 
 	@Override
@@ -277,7 +389,7 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 	@Override
 	protected Result onCompleteProcess(Context context) {
 
-		ClientFixedAsset fixedAsset = new ClientFixedAsset();
+		fixedAsset = new ClientFixedAsset();
 
 		fixedAsset.setName((String) get(NEW_ITEM).getValue());
 		fixedAsset.setAssetNumber((String) get(ASSET_NUMBER).getValue());
@@ -305,33 +417,26 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 
 		fixedAsset.setDepreciationRate((Double) get(DEPRECATION_RATE)
 				.getValue());
-		fixedAsset.setDepreciationMethod(((Integer) get(DEPRICATION_METHOD)
-				.getValue()).intValue());
+		fixedAsset.setDepreciationMethod(getDepricationMethod());
 
-		fixedAsset.setDepreciationExpenseAccount(((Account) get(
-				DEPRECATION_ACCOUNT).getValue()).getID());
-		fixedAsset.setBookValue((Double) get(PURCHASE_PRICE).getValue());
-
-		if (isAssetAccumulated)
-			fixedAsset
-					.setAccumulatedDepreciationAmount(accmulatdDepreciationAmount);
-		else
-			fixedAsset.setAccumulatedDepreciationAmount(0.0);
-
-		/*
-		 * while registering the data from viewmode or updating a registeritem
-		 */
-		if ((false && fixedAsset != null)
-				|| (fixedAsset != null && fixedAsset.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
-			fixedAsset.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-		} else if (false) {
-			/* while creating a registeritem */
-			fixedAsset.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-		} else {
-			/* while updating/creating a pending item */
-			fixedAsset.setStatus(ClientFixedAsset.STATUS_PENDING);
+		Account depreciationAccount = get(DEPRECATION_ACCOUNT).getValue();
+		if (depreciationAccount != null) {
+			fixedAsset.setDepreciationExpenseAccount(depreciationAccount
+					.getID());
 		}
 
+		fixedAsset.setBookValue((Double) get(PURCHASE_PRICE).getValue());
+
+		if (isAssetAccumulated) {
+			fixedAsset
+					.setAccumulatedDepreciationAmount(accmulatdDepreciationAmount);
+		} else {
+			fixedAsset.setAccumulatedDepreciationAmount(0.0);
+		}
+
+		fixedAsset.setStatus(isRegistered ? ClientFixedAsset.STATUS_REGISTERED
+				: ClientFixedAsset.STATUS_PENDING);
+		create(fixedAsset, context);
 		return null;
 	}
 
@@ -365,17 +470,10 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 	 */
 	public double getDepreciationAmount() {
 		ClientFinanceDate purchaseDate = get(PURCAHSE_DATE).getValue();
-		String string = get(DEPRICATION_METHOD).getValue();
-		int depMethod = 0;
-		if (string.equals(getMessages().straightLine())) {
-			depMethod = 1;
-		} else if (string.equals(getMessages().reducingBalance())) {
-			depMethod = 2;
-		}
+		int depMethod = getDepricationMethod();
 		double depRate = get(DEPRECATION_RATE).getValue();
 		double purchasePrice = get(PURCHASE_PRICE).getValue();
 		ClientFinanceDate depStartDate = getDepreciationStartDate();
-		depAmount = 0.0;
 		if (depMethod != 0 && !DecimalUtil.isEquals(depRate, 0)
 				&& !DecimalUtil.isEquals(purchasePrice, 0)
 				&& purchaseDate.before(depStartDate)) {
@@ -393,10 +491,15 @@ public class CreateFixedAssetCommand extends AbstractTransactionCommand {
 
 	}
 
-	@Override
-	protected Currency getCurrency() {
-		// TODO Auto-generated method stub
-		return null;
+	private int getDepricationMethod() {
+		String string = get(DEPRICATION_METHOD).getValue();
+		if (string == null) {
+			return 0;
+		} else if (string.equals(getMessages().straightLine())) {
+			return 1;
+		} else if (string.equals(getMessages().reducingBalance())) {
+			return 2;
+		}
+		return 0;
 	}
-
 }

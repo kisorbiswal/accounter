@@ -72,7 +72,10 @@
 		
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeAccountsCommand"
 		name="mergeAccounts"></command>
-		
+	
+	<command clazz="com.vimukti.accounter.mobile.commands.CreateFixedAssetCommand"
+		name="newFixedAsset"></command>
+	
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeItemsCommand"
 		name="mergeItems"></command>
 
