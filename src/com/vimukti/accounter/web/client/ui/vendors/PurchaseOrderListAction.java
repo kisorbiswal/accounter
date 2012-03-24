@@ -72,6 +72,6 @@ public class PurchaseOrderListAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.purchaseOrderList();
+		return messages.purchaseorderList();
 	}
 }

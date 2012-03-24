@@ -42,7 +42,8 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 			delete(accounterCoreType, Long.parseLong(split[2]), context);
 			addFirstMessage(context, getMessages().objectAlreadyDeleted());
 		} catch (AccounterException e) {
-			addFirstMessage(context, e.getMessage());
+			int errorCode = e.getErrorCode();
+			addFirstMessage(context, showErrorCode(errorCode));
 		}
 		return transactionName.replace(" ", "").toLowerCase()
 				+ getMessages().list();

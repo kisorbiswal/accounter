@@ -258,7 +258,7 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 		return number;
 	}
 
-	private String showErrorCode(int errorCode) {
+	protected String showErrorCode(int errorCode) {
 		switch (errorCode) {
 		case AccounterException.ERROR_NUMBER_CONFLICT:
 			return getMessages().numberConflict();

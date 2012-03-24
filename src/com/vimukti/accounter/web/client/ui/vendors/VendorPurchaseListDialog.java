@@ -32,7 +32,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			List<PurchaseOrdersList> purchaseOrderList) {
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
-		setText(messages.purchaseOrderList());
+		setText(messages.purchaseorderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
 		this.getElement().setId("VendorPurchaseListDialog");

@@ -28,7 +28,8 @@ public class VoidTransactionCommand extends AbstractDeleteCommand {
 					context);
 			addFirstMessage(context, "The transaction has been voided.");
 		} catch (AccounterException e) {
-			addFirstMessage(context, e.getMessage());
+			int errorCode = e.getErrorCode();
+			addFirstMessage(context, showErrorCode(errorCode));
 		}
 		return transactionName.replace(" ", "").toLowerCase() + "List";
 	}

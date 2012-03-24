@@ -455,7 +455,6 @@
 		<alias>bill</alias>
 		<alias>newEnterBill</alias>
 		<alias>newEnterBill</alias>
-		<alias>updatevendorBill</alias>
 		<alias>updateVendorBill</alias>
 	</command>
 	<command
@@ -1260,10 +1259,12 @@
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.CreatePurchaseOrderCommand"
 		name="createPurchaseOrder">
+		<alias>updatePurchaseOrder</alias>
+		<alias>addNewPurchaseOrder</alias>
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.PurchaseOrderListCommand"
-		name="purchaseOrderList">
+		name="purchaseorderList">
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewEmailAccountCommand" 

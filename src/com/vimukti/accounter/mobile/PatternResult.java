@@ -106,6 +106,8 @@ public class PatternResult extends Result {
 			return user.getPermissions().getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES;
 		} else if (condition.equals("canDoUserManagement")) {
 			return user.isCanDoUserManagement();
+		} else if (condition.equals("purchaseorderEnabled")) {
+			return preferences.isPurchaseOrderEnabled();
 		}
 		return true;
 	}

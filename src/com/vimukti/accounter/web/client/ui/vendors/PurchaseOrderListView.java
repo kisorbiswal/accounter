@@ -45,7 +45,7 @@ public class PurchaseOrderListView extends
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.purchaseOrderList();
+		return messages.purchaseorderList();
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class PurchaseOrderListView extends
 	@Override
 	public void fitToSize(int height, int width) {
 		if (height > 0 && width - 350 > 0) {
-//			grid.setHeight("100%");
-//			grid.setWidth("100%");
+			// grid.setHeight("100%");
+			// grid.setWidth("100%");
 		}
 
 	}

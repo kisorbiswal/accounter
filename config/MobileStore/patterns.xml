@@ -76,7 +76,7 @@
 		<outputs>
 			<command if="manageBills" title="billsAndExpenses" />
 			<command title="vendorPayments" />
-			<command title="purchaseOrderList" />
+			<command if="purchaseorderEnabled" title="purchaseorderList" />
 		</outputs>
 	</pattern>
 	
@@ -233,7 +233,7 @@
 			<command title="recordExpenses" />
 			<command title="createCashPurchase" />
 			<command title="createVendorCredit" />
-			<command title="createPurchaseOrder" />
+			<command if="purchaseorderEnabled" title="createPurchaseOrder" />
 			<command title="vendorOverview" />
 			<command title="others" />
 		</outputs>
@@ -265,7 +265,7 @@
 			<command value="items vendor" title="items" />
 			<command if="manageBills" title="billsAndExpenses" />
 			<command title="vendorPayments" />
-			<command title="purchaseOrderList" />
+			<command if="purchaseorderEnabled" title="purchaseorderList" />
 		</outputs>
 	</pattern>
 
@@ -525,7 +525,7 @@
 			<command title="billsAndExpenses" />
 			<command title="bankAccountsList" />
 			<command title="salesOrderList" />
-			<command title="purchaseOrderList" />
+			<command if="purchaseorderEnabled" title="purchaseorderList" />
 			<command title="journalEntriesList" />
 			<command title="taxItemsList" />
 			<command title="taxCodesList" />

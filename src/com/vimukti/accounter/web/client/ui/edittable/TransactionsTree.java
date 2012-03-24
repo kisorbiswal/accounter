@@ -56,7 +56,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private TreeItem salesOrderTree;
 
 	private TreeItem purchaseOrderTree;
-	
+
 	public TransactionsTree(ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 		tree = new Tree() {
@@ -116,15 +116,13 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			ClientPurchaseOrder clientPurchaseOrder, boolean isSelected) {
 		if (purchaseOrderTree == null) {
 			purchaseOrderTree = getTransactionsTree(isSelected,
-					messages.purchaseOrderList());
+					messages.purchaseorderList());
 			tree.addItem(purchaseOrderTree);
 		}
 		String transactionLink = messages.purchaseOrder();
 		purchaseOrderTree.addItem(getChildTransactionTree(transactionLink,
 				clientPurchaseOrder, isSelected));
 	}
-	
-	
 
 	protected void addSalesOrderTransactionTreeItem(ClientEstimate salesOrder,
 			boolean isSelected) {
@@ -137,8 +135,6 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		salesOrderTree.addItem(getChildTransactionTree(transactionLink,
 				salesOrder, isSelected));
 	}
-	
-	
 
 	private void addQuotesTreeItem(EstimatesAndSalesOrdersList result) {
 		Accounter.createGETService().getObjectById(AccounterCoreType.ESTIMATE,
@@ -172,12 +168,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			addCreditsTransactionTreeItem(result, isSelected);
 		} else if (result.getEstimateType() == ClientEstimate.SALES_ORDER) {
 			addSalesOrderTransactionTreeItem(result, isSelected);
-		} 
-		
+		}
+
 		setEnabled(isinViewMode());
 	}
 
-	
 	private TreeItem getChildTransactionTree(String transactionLink,
 			final ClientTransaction transaction, boolean isSelected) {
 		final TreeItem transactionTree = new TreeItem();
@@ -235,7 +230,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 					openEnterBillView(estimate);
 				} else if (estimate.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
 					openDepositView(estimate);
-				}  else {
+				} else {
 					UIUtils.runAction(transaction, ActionFactory
 							.getNewQuoteAction(estimate.getEstimateType()));
 				}
@@ -266,27 +261,25 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 					}
 				});
 	}
-	
 
 	protected void openEnterBillView(ClientEstimate estimate) {
 
-		if(estimate.getRefferingTransactionType() == Transaction.TYPE_ENTER_BILL){
-		Accounter.createHomeService().getEnterBillByEstimateId(
-				estimate.getID(), new AsyncCallback<ClientEnterBill>() {
+		if (estimate.getRefferingTransactionType() == Transaction.TYPE_ENTER_BILL) {
+			Accounter.createHomeService().getEnterBillByEstimateId(
+					estimate.getID(), new AsyncCallback<ClientEnterBill>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-					}
+						@Override
+						public void onFailure(Throwable caught) {
+						}
 
-					@Override
-					public void onSuccess(ClientEnterBill result) {
-						UIUtils.runAction(result,
-								ActionFactory.getEnterBillsAction());
-					}
-				});
-		
-		}else if(estimate.getRefferingTransactionType() == Transaction.TYPE_WRITE_CHECK)
-		{
+						@Override
+						public void onSuccess(ClientEnterBill result) {
+							UIUtils.runAction(result,
+									ActionFactory.getEnterBillsAction());
+						}
+					});
+
+		} else if (estimate.getRefferingTransactionType() == Transaction.TYPE_WRITE_CHECK) {
 			Accounter.createHomeService().getWriteCheckByEstimateId(
 					estimate.getID(), new AsyncCallback<ClientWriteCheck>() {
 
@@ -300,8 +293,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 									ActionFactory.getWriteChecksAction());
 						}
 					});
-		}else if(estimate.getRefferingTransactionType() == Transaction.TYPE_CASH_PURCHASE)
-		{
+		} else if (estimate.getRefferingTransactionType() == Transaction.TYPE_CASH_PURCHASE) {
 			Accounter.createHomeService().getCashPurchaseByEstimateId(
 					estimate.getID(), new AsyncCallback<ClientCashPurchase>() {
 
@@ -312,7 +304,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						@Override
 						public void onSuccess(ClientCashPurchase result) {
 							UIUtils.runAction(result,
-									ActionFactory. getNewCashPurchaseAction());
+									ActionFactory.getNewCashPurchaseAction());
 						}
 					});
 		}

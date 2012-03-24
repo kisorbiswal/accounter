@@ -133,18 +133,16 @@ public class UpdateTransactionCommand extends AbstractCommand {
 					PayBill payBill = (PayBill) transaction;
 					type = payBill.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
 							: ClientTransaction.TYPE_VENDOR_PAYMENT;
-				}
-				else if (transaction.getType() == Transaction.TYPE_ESTIMATE) {
+				} else if (transaction.getType() == Transaction.TYPE_ESTIMATE) {
 					Estimate estimate = (Estimate) transaction;
 					if (estimate.getEstimateType() == Estimate.QUOTES) {
-						return "update" + "Quote" + " " + transaction.getID();
+						return "updateQuote " + transaction.getID();
 					} else if (estimate.getEstimateType() == Estimate.CHARGES) {
-						return "update" + "Charge" + " " + transaction.getID();
+						return "updateCharge " + transaction.getID();
 					} else if (estimate.getEstimateType() == Estimate.CREDITS) {
-						return "update" + "Credit" + " " + transaction.getID();
+						return "updateCredit " + transaction.getID();
 					} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
-						return "update" + "Sales Order" + " "
-								+ transaction.getID();
+						return "updateSalesOrder " + transaction.getID();
 					}
 
 				}

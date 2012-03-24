@@ -45,25 +45,12 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected List<PurchaseOrdersList> getLists(Context context) {
-				String type = PurchaseOrderListCommand.this.get(VIEW_BY)
-						.getValue();
-				int order = -1;
-				if (type.equals(getMessages().open())) {
-					order = ClientTransaction.STATUS_OPEN;
-				}
-				if (type.equals(getMessages().completed())) {
-					order = ClientTransaction.STATUS_COMPLETED;
-				}
-				if (type.equals(getMessages().cancelled())) {
-					order = ClientTransaction.STATUS_CANCELLED;
-				}
-				return getPurchaseOrder(context, order);
-
+				return getPurchaseOrder(context);
 			}
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().purchaseOrderList();
+				return getMessages().purchaseorderList();
 			}
 
 			@Override
@@ -73,22 +60,38 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected String onSelection(PurchaseOrdersList value) {
-				return null;
+				return "editTransaction " + value.getTransactionId();
 			}
 		});
 	}
 
-	private List<PurchaseOrdersList> getPurchaseOrder(Context context, int order) {
+	private List<PurchaseOrdersList> getPurchaseOrder(Context context) {
 		FinanceTool tool = new FinanceTool();
+		int type = -1;
+		if (getViewType().equals(getMessages().open())) {
+			type = ClientTransaction.STATUS_OPEN;
+		} else if (getViewType().equals(getMessages().completed())) {
+			type = ClientTransaction.STATUS_COMPLETED;
+		} else if (getViewType().equals(getMessages().cancelled())) {
+			type = ClientTransaction.STATUS_CANCELLED;
+		} else if (getViewType().equals(getMessages().drafts())) {
+			type = ClientTransaction.STATUS_DRAFT;
+		} else if (getViewType().equalsIgnoreCase(getMessages().expired())) {
+			type = 6;
+		}
 		try {
 			return tool.getPurchageManager().getPurchaseOrdersList(
 					context.getCompany().getID(), getStartDate().getDate(),
-					getEndDate().getDate(), order, 0, -1);
+					getEndDate().getDate(), type, 0, -1);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 
 		return null;
+	}
+
+	private String getViewType() {
+		return PurchaseOrderListCommand.this.get(VIEW_BY).getValue();
 	}
 
 	@Override
@@ -123,6 +126,8 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 		list.add(getMessages().open());
 		list.add(getMessages().cancelled());
 		list.add(getMessages().completed());
+		list.add(getMessages().expired());
+		list.add(getMessages().all());
 		return list;
 	}
 

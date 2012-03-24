@@ -20,7 +20,9 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
 import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
+import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
@@ -41,6 +43,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
@@ -70,7 +73,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 								getMessages().purchaseOrder()));
 				return "Invoices List " + string;
 			}
-			setValues();
+			setValues(context);
 		} else {
 			String string = context.getString();
 			if (!string.isEmpty()) {
@@ -82,7 +85,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		return null;
 	}
 
-	private void setValues() {
+	private void setValues(Context context) {
 		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> accounts = new ArrayList<ClientTransactionItem>();
 		List<ClientTransactionItem> transactionItems = purchaseOrder
@@ -101,7 +104,19 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 						AccounterCoreType.VENDOR));
 		get(DATE).setValue(purchaseOrder.getDate());
 		get(PHONE).setValue(purchaseOrder.getPhone());
-		get(STATUS).setValue(purchaseOrder.getStatus());
+		int status = purchaseOrder.getStatus();
+		switch (status) {
+		case ClientTransaction.STATUS_OPEN:
+			get(STATUS).setValue(getMessages().open());
+			break;
+		case ClientTransaction.STATUS_COMPLETED:
+			get(STATUS).setValue(getMessages().completed());
+			break;
+		case ClientTransaction.STATUS_CANCELLED:
+			get(STATUS).setValue(getMessages().cancelled());
+		default:
+			break;
+		}
 		get(NUMBER).setValue(purchaseOrder.getNumber());
 		get(PAYMENT_TERMS).setValue(
 				CommandUtils.getServerObjectById(
@@ -112,7 +127,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 				new ClientFinanceDate(purchaseOrder.getDespatchDate()));
 		get(ORDER_NO).setValue(purchaseOrder.getPurchaseOrderNumber());
 		get(BILL_TO).setValue(purchaseOrder.getShippingAddress());
-		/* get(CURRENCY_FACTOR).setValue(purchaseOrder.getCurrencyFactor()); */
+		get(CURRENCY_FACTOR).setValue(purchaseOrder.getCurrencyFactor());
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(purchaseOrder));
 		get(MEMO).setValue(purchaseOrder.getMemo());
 		if (getPreferences().isTrackDiscounts()
@@ -121,6 +136,9 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 					getDiscountFromTransactionItems(purchaseOrder
 							.getTransactionItems()));
 		}
+		get(TAXCODE).setValue(
+				getTaxCodeForTransactionItems(
+						purchaseOrder.getTransactionItems(), context));
 	}
 
 	@Override
@@ -132,14 +150,15 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		
+
 		List<?> list = get(ITEMS).getValue();
 		List<?> list2 = get(ACCOUNTS).getValue();
-				
-		return list.size() != 0||list2.size() != 0? purchaseOrder.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().purchaseOrder()) : getMessages()
+
+		return list.size() != 0 || list2.size() != 0 ? purchaseOrder.getID() == 0 ? getMessages()
+				.readyToCreate(getMessages().purchaseOrder()) : getMessages()
 				.objIsReadyToCreateWitFollowingDetails(
-						getMessages().purchaseOrder()):null;
+						getMessages().purchaseOrder())
+				: null;
 	}
 
 	@Override
@@ -161,11 +180,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		get(STATUS).setDefaultValue(getMessages().open());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		get(DISCOUNT).setDefaultValue(0.0);
-		/*
-		 * get(CURRENCY).setDefaultValue(null);
-		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
-		 */
-
+		get(CURRENCY_FACTOR).setDefaultValue(1.0);
 	}
 
 	@Override
@@ -185,7 +200,25 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
 				getMessages().Vendor()), getMessages().Vendor(), false, true,
-				null)
+				new ChangeListner<Vendor>() {
+
+					@Override
+					public void onSelection(Vendor value) {
+						try {
+							double mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							CreatePurchaseOrderCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
+					}
+				})
 
 		{
 
@@ -293,14 +326,12 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected boolean isTrackTaxPaidAccount() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 
 			@Override
 			protected Currency getCurrency() {
-				// TODO Auto-generated method stub
-				return null;
+				return CreatePurchaseOrderCommand.this.getCurrency();
 			}
 
 			@Override
@@ -335,14 +366,12 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected double getCurrencyFactor() {
-				// TODO Auto-generated method stub
-				return 0;
+				return CreatePurchaseOrderCommand.this.getCurrencyFactor();
 			}
 
 			@Override
 			protected Currency getCurrency() {
-				// TODO Auto-generated method stub
-				return null;
+				return CreatePurchaseOrderCommand.this.getCurrency();
 			}
 
 			@Override
@@ -487,6 +516,16 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 		});
 
+		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
+				.pleaseEnter(getMessages().currencyFactor()), getMessages()
+				.currencyFactor()) {
+			@Override
+			protected Currency getCurrency() {
+				return CreatePurchaseOrderCommand.this.getCurrency();
+			}
+
+		});
+
 		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
 				getMessages().discount()), getMessages().discount(), true, true) {
 			@Override
@@ -521,16 +560,13 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		purchaseOrder.setVendor(vendor.getID());
 
 		purchaseOrder.setPhone((String) get(PHONE).getValue());
-
-		int statusNumber = 0;
-		if (get(STATUS).getValue().equals(getMessages().open())) {
-			statusNumber = 1;
-		} else if (get(STATUS).equals(getMessages().completed())) {
-			statusNumber = 2;
-		} else if (get(STATUS).equals(getMessages().cancelled())) {
-			statusNumber = 3;
-		}
-		purchaseOrder.setStatus(statusNumber);
+		String status = get(STATUS).getValue();
+		if (status.equals(getMessages().open()))
+			purchaseOrder.setStatus(ClientTransaction.STATUS_OPEN);
+		else if (status.equals(getMessages().completed()))
+			purchaseOrder.setStatus(ClientTransaction.STATUS_COMPLETED);
+		else if (status.equals(getMessages().cancelled()))
+			purchaseOrder.setStatus(ClientTransaction.STATUS_CANCELLED);
 
 		purchaseOrder.setNumber((String) get(NUMBER).getValue());
 
@@ -547,14 +583,11 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		purchaseOrder.setPurchaseOrderNumber(no);
 		ClientAddress address = get(BILL_TO).getValue();
 		purchaseOrder.setShippingAddress(address);
-		/*
-		 * if (context.getPreferences().isEnableMultiCurrency()) { Currency
-		 * currency = get(CURRENCY).getValue(); if (currency != null) {
-		 * purchaseOrder.setCurrency(currency.getID()); }
-		 * 
-		 * double factor = get(CURRENCY_FACTOR).getValue();
-		 * purchaseOrder.setCurrencyFactor(factor); }
-		 */
+
+		purchaseOrder.setCurrency(vendor.getCurrency().getID());
+
+		double factor = get(CURRENCY_FACTOR).getValue();
+		purchaseOrder.setCurrencyFactor(factor);
 
 		items.addAll(accounts);
 		purchaseOrder.setTransactionItems(items);
@@ -574,21 +607,8 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	public void beforeFinishing(Context context, Result makeResult) {
-		List<ClientTransactionItem> items = get(ITEMS).getValue();
-
-		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
-		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(context, getMessages()
-					.transactiontotalcannotbe0orlessthan0());
-		}
-		super.beforeFinishing(context, makeResult);
-	}
-
-	@Override
 	protected Currency getCurrency() {
-		// TODO Auto-generated method stub
-		return null;
+		Vendor vendor = get(VENDOR).getValue();
+		return vendor.getCurrency();
 	}
-
 }

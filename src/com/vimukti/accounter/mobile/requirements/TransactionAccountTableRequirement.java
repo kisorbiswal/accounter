@@ -235,6 +235,7 @@ public abstract class TransactionAccountTableRequirement extends
 		clientTransactionItem.setQuantity(clientQuantity);
 		clientTransactionItem.setDiscount(0.0);
 		clientTransactionItem.setLineTotal(0d);
+		clientTransactionItem.setUnitPrice(0.0);
 		return clientTransactionItem;
 	}
 
