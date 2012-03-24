@@ -92,12 +92,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				int networkType = context.getNetworkType();
-				if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
-					return null;
-				}
-				if (client != null && !client.isActive()
-						|| (client.isRequirePasswordReset())) {
+				if (!client.isActive() || client.isRequirePasswordReset()) {
 					Result run = super.run(context, makeResult, list, actions);
 					return run;
 				}
@@ -117,6 +112,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 							.beginTransaction();
 
 					client.setActive(true);
+					currentSession.saveOrUpdate(client);
 					beginTransaction.commit();
 				}
 			}
@@ -210,7 +206,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 				token = activation.getToken();
 			}
 
-			sendForgetPasswordLinkToUser(client, token);
+			sendForgetPasswordLinkToUser(token);
 
 			transaction.commit();
 		} catch (Exception e) {
@@ -221,8 +217,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 		}
 	}
 
-	private void sendForgetPasswordLinkToUser(Client client,
-			String activationCode) {
+	private void sendForgetPasswordLinkToUser(String activationCode) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		client.setRequirePasswordReset(true);
@@ -285,7 +280,6 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 
 	protected String validatePassword() {
 		String string = get(PASSWORD).getValue();
-		String userName = get(EMAIL_ID).getValue();
 		// Written for open id sign up process.If user sign up in open
 		// id
 		// and trying to login in mobile.Then user don't have
@@ -310,7 +304,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 		String string = get(PASSWORD).getValue();
 		String userName = get(EMAIL_ID).getValue();
 		boolean wrongPassword = true;
-		if (client != null && client.getPassword() != null) {
+		if (client.getPassword() != null) {
 			String password = HexUtil.bytesToHex(Security.makeHash(userName
 					.toLowerCase() + string));
 			String passwordWithWord = HexUtil.bytesToHex(Security
@@ -350,7 +344,6 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			return login;
 		}
 		Result run = new Result();
-		run = super.run(context);
 		String emailId = get(EMAIL_ID).getValue();
 		Object selection = context.getSelection("resendactivation");
 		if (selection != null) {
@@ -365,13 +358,13 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 				}
 				sendUserActivationMail(client, activationCode);
 				run.add("Activation code has been sent to " + emailId);
-				return run;
 			} else if (selection.equals("forgotPassword")) {
 				sendForgotPassWordMail();
 				run.add("Activation code has been sent to " + emailId);
-				return run;
 			}
 		}
+		run = super.run(context);
+		emailId = get(EMAIL_ID).getValue();
 		run.setShowBack(false);
 		if (!isDone() && getThirdCommand(context) != null) {
 			CommandList commandList = new CommandList();
