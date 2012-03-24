@@ -20,13 +20,14 @@ import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class DepriciationCommand extends AbstractTransactionListCommand {
+public class DepriciationCommand extends AbstractCommand {
 	private List<FiscalYear> openFiscalYears;
 	private ClientFinanceDate depreciationStartDate;
 	private List<String> datesArray;
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
+		datesArray = getDatesArray();
 		return null;
 	}
 
@@ -58,7 +59,7 @@ public class DepriciationCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected List<String> getList() {
-				return getViewByList();
+				return datesArray;
 			}
 		});
 		list.add(new ShowListRequirement<ClientDepreciationDummyEntry>(
@@ -109,21 +110,6 @@ public class DepriciationCommand extends AbstractTransactionListCommand {
 				return getDepreciationRecords(context);
 			}
 		});
-	}
-
-	@Override
-	protected List<String> getViewByList() {
-		List<String> list = new ArrayList<String>();
-		datesArray = getDatesArray();
-		for (int i = 0; i < datesArray.size(); i++) {
-			list.add(datesArray.get(i));
-
-		}
-		return list;
-	}
-
-	private int checkViewType(String view) {
-		return VIEW_ALL;
 	}
 
 	private List<ClientDepreciationDummyEntry> getDepreciationRecords(
@@ -225,5 +211,10 @@ public class DepriciationCommand extends AbstractTransactionListCommand {
 
 		}
 		return validDate;
+	}
+
+	@Override
+	public String getId() {
+		return null;
 	}
 }
