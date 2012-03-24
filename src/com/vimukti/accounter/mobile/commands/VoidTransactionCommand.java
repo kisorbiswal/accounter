@@ -31,7 +31,13 @@ public class VoidTransactionCommand extends AbstractDeleteCommand {
 			int errorCode = e.getErrorCode();
 			addFirstMessage(context, showErrorCode(errorCode));
 		}
-		return transactionName.replace(" ", "").toLowerCase() + "List";
+		transactionName = transactionName.replaceFirst(String
+				.valueOf(transactionName.charAt(0)), String.valueOf(Character
+				.toLowerCase(transactionName.charAt(0))));
+
+		String cmd = transactionName.replace(" ", "") + getMessages().list();
+
+		return cmd;
 	}
 
 }

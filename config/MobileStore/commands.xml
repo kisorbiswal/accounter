@@ -1267,7 +1267,7 @@
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.PurchaseOrderListCommand"
-		name="purchaseorderList">
+		name="purchaseOrderList">
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.NewEmailAccountCommand" 

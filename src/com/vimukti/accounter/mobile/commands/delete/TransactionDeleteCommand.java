@@ -34,7 +34,7 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 			} else if (estimateType == Estimate.CREDITS) {
 				transactionName = "Credit";
 			} else if (estimateType == Estimate.SALES_ORDER) {
-				transactionName = "Sales Order";
+				transactionName = "SalesOrder";
 			}
 
 		}
@@ -45,7 +45,12 @@ public class TransactionDeleteCommand extends AbstractDeleteCommand {
 			int errorCode = e.getErrorCode();
 			addFirstMessage(context, showErrorCode(errorCode));
 		}
-		return transactionName.replace(" ", "").toLowerCase()
-				+ getMessages().list();
+		transactionName = transactionName.replaceFirst(String
+				.valueOf(transactionName.charAt(0)), String.valueOf(Character
+				.toLowerCase(transactionName.charAt(0))));
+
+		String cmd = transactionName.replace(" ", "") + getMessages().list();
+
+		return cmd;
 	}
 }
