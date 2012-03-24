@@ -3641,7 +3641,7 @@ public interface AccounterMessages extends Messages {
 
 	public String purchaseOrderDetails();
 
-	public String purchaseorderList();
+	public String purchaseOrderList();
 
 	public String purchaseOrderNumber();
 

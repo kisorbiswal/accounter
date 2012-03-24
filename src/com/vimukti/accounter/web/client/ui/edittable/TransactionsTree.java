@@ -116,7 +116,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			ClientPurchaseOrder clientPurchaseOrder, boolean isSelected) {
 		if (purchaseOrderTree == null) {
 			purchaseOrderTree = getTransactionsTree(isSelected,
-					messages.purchaseorderList());
+					messages.purchaseOrderList());
 			tree.addItem(purchaseOrderTree);
 		}
 		String transactionLink = messages.purchaseOrder();
