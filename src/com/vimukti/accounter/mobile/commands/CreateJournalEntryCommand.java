@@ -18,7 +18,6 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEntry;
@@ -72,6 +71,29 @@ public class CreateJournalEntryCommand extends AbstractTransactionCommand {
 					protected String getSetMessage() {
 						return getMessages().hasSelected(
 								getMessages().Account());
+					}
+
+					@Override
+					public void setValue(Object value) {
+						super.setValue(value);
+						if (value != null && currentValue != null) {
+							currentValue.setAccount(((Account) value).getID());
+						}
+					}
+
+					@Override
+					public String getRecordName() {
+						ClientEntry entry = currentValue;
+						if (entry != null) {
+							if (entry.getCredit() > 0) {
+								return "Credit Account";
+							}
+
+							if (entry.getDebit() > 0) {
+								return "Debit Account";
+							}
+						}
+						return getMessages().Account();
 					}
 
 					@Override
@@ -195,8 +217,13 @@ public class CreateJournalEntryCommand extends AbstractTransactionCommand {
 				ClientAccount account = ((ClientAccount) CommandUtils
 						.getClientObjectById(t.getAccount(),
 								AccounterCoreType.ACCOUNT, getCompanyId()));
-				record.add(Global.get().messages().Account(),
-						account == null ? "" : account.getDisplayName());
+				if (t.getCredit() > 0) {
+					record.add("Credit Account",
+							account == null ? "" : account.getDisplayName());
+				} else {
+					record.add("Debit Account",
+							account == null ? "" : account.getDisplayName());
+				}
 				record.add(getMessages().credit(), t.getCredit());
 				record.add(getMessages().debit(), t.getDebit());
 				record.add(getMessages().memo(), t.getMemo());

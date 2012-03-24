@@ -26,7 +26,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.RequirementType;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.PasswordRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
@@ -92,7 +91,9 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (!client.isActive() || client.isRequirePasswordReset()) {
+				if (client != null
+						&& (!client.isActive() || client
+								.isRequirePasswordReset())) {
 					Result run = super.run(context, makeResult, list, actions);
 					return run;
 				}
@@ -125,7 +126,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (!client.isRequirePasswordReset()) {
+				if (client != null && !client.isRequirePasswordReset()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -155,7 +156,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (client.isRequirePasswordReset()) {
+				if (client != null && client.isRequirePasswordReset()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -169,7 +170,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (client.isRequirePasswordReset()) {
+				if (client != null && client.isRequirePasswordReset()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -304,6 +305,9 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 		String string = get(PASSWORD).getValue();
 		String userName = get(EMAIL_ID).getValue();
 		boolean wrongPassword = true;
+		if (client == null) {
+			return true;
+		}
 		if (client.getPassword() != null) {
 			String password = HexUtil.bytesToHex(Security.makeHash(userName
 					.toLowerCase() + string));
@@ -366,12 +370,6 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 		run = super.run(context);
 		emailId = get(EMAIL_ID).getValue();
 		run.setShowBack(false);
-		if (!isDone() && getThirdCommand(context) != null) {
-			CommandList commandList = new CommandList();
-			commandList.add(new UserCommand("signup", getThirdCommandString(),
-					""));
-			run.add(commandList);
-		}
 
 		if (emailId != null) {
 			if (client != null) {
@@ -602,23 +600,6 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 
 	@Override
 	public String getFinishCommandString() {
-		return null;
-	}
-
-	@Override
-	protected String getThirdCommand(Context context) {
-		if (context.getNetworkType() == AccounterChatServer.NETWORK_TYPE_MOBILE) {
-			return "signup";
-		}
-		return null;
-	}
-
-	@Override
-	protected String getThirdCommandString() {
-		String email = get(EMAIL_ID).getValue();
-		if (email == null || isWrongPassword()) {
-			return "I don't have an account, create";
-		}
 		return null;
 	}
 }
