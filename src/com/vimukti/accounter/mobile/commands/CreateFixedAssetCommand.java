@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.FixedAsset;
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -22,7 +24,9 @@ import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -344,8 +348,49 @@ public class CreateFixedAssetCommand extends AbstractCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
-		fixedAsset = new ClientFixedAsset();
+		if (isUpdate) {
+			String string = context.getString();
+			if (string.isEmpty()) {
+				return "fixedAssetsPendingItemsList";
+			}
+			fixedAsset = (ClientFixedAsset) CommandUtils.getClientObjectById(
+					Long.parseLong(string), AccounterCoreType.FIXEDASSET,
+					getCompanyId());
+			IAccounterServerCore serverObjectById = CommandUtils
+					.getServerObjectById(Long.parseLong(string),
+							AccounterCoreType.FIXEDASSET);
+			if (fixedAsset == null || serverObjectById == null) {
+				return "fixedAssetsPendingItemsList";
+			}
+			setValues((FixedAsset) serverObjectById);
+		} else {
+			fixedAsset = new ClientFixedAsset();
+		}
+
 		return null;
+	}
+
+	private void setValues(FixedAsset fixedAsset) {
+		get(NEW_ITEM).setValue(fixedAsset.getName());
+		get(ASSET_NUMBER).setValue(fixedAsset.getAssetNumber());
+		get(ACCOUNT).setValue(fixedAsset.getAssetAccount());
+		get(PURCAHSE_DATE).setValue(
+				new ClientFinanceDate(fixedAsset.getPurchaseDate().getDate()));
+		get(PURCHASE_PRICE).setValue(fixedAsset.getPurchasePrice());
+		get(DESCRIPTION).setValue(fixedAsset.getDescription());
+		get(ASSET_TYPE).setValue(fixedAsset.getAssetType());
+		get(DEPRICATION_METHOD)
+				.setValue(
+						getDepricationMethodAsString(fixedAsset
+								.getDepreciationMethod()));
+		get(DEPRECATION_RATE).setValue(fixedAsset.getDepreciationRate());
+		get(DEPRECATION_ACCOUNT).setValue(
+				fixedAsset.getDepreciationExpenseAccount());
+		get(ACCUMULATED_DEPRECATION_ACCOUNT).setValue(
+				fixedAsset.getAccumulatedDepreciationAccount());
+		get(REGISTER).setValue(
+				fixedAsset.getStatus() == ClientFixedAsset.STATUS_REGISTERED);
+
 	}
 
 	@Override
@@ -501,5 +546,16 @@ public class CreateFixedAssetCommand extends AbstractCommand {
 			return 2;
 		}
 		return 0;
+	}
+
+	private String getDepricationMethodAsString(int method) {
+		if (method == 0) {
+			return null;
+		} else if (method == 1) {
+			return getMessages().straightLine();
+		} else if (method == 2) {
+			return getMessages().reducingBalance();
+		}
+		return null;
 	}
 }

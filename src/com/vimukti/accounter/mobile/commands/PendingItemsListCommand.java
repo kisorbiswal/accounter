@@ -27,7 +27,7 @@ public class PendingItemsListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(FixedAsset value) {
-				return "updateItem " + value.getID();
+				return "updateFixedAsset " + value.getID();
 			}
 
 			@Override
@@ -77,7 +77,9 @@ public class PendingItemsListCommand extends AbstractCommand {
 		Record record = new Record(value);
 		record.add(getMessages().item(), value.getName());
 		record.add(getMessages().assetNumber(), value.getAssetNumber());
-		record.add(getMessages().account(), value.getAssetAccount().getName());
+		record.add(getMessages().account(),
+				value.getAssetAccount() == null ? "" : value.getAssetAccount()
+						.getName());
 		record.add(getMessages().purchaseDate(), value.getPurchaseDate());
 		record.add(
 				getMessages().purchasePrice(),
@@ -87,7 +89,7 @@ public class PendingItemsListCommand extends AbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		list.add("createNewFixedAsset");
+		list.add("newFixedAsset");
 		return;
 	}
 

@@ -96,6 +96,9 @@
 		<outputs>
 			<command title="newFixedAsset" />
 			<command title="depreciation" />
+			<command title="fixedAssetsPendingItemsList" />
+			<command title="registeredItemsList" />
+			<command title="soldAndDisposedItems" />
 		</outputs>
 	</pattern>
 

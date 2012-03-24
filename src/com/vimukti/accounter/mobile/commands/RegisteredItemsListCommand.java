@@ -27,7 +27,7 @@ public class RegisteredItemsListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(FixedAsset value) {
-				return "updateItem " + value.getID();
+				return "updateFixedAsset " + value.getID();
 			}
 
 			@Override
@@ -89,7 +89,7 @@ public class RegisteredItemsListCommand extends AbstractCommand {
 	}
 
 	protected void setCreateCommand(CommandList list) {
-		list.add("createNewFixedAsset");
+		list.add("newFixedAsset");
 		return;
 	}
 

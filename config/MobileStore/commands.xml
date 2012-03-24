@@ -37,6 +37,21 @@
 		name="selectCompany">
 	</command>
 
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.PendingItemsListCommand"
+		name="fixedAssetsPendingItemsList">
+	</command>
+
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.RegisteredItemsListCommand"
+		name="registeredItemsList">
+	</command>
+
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.SoldAndDisposedItemsListCommand"
+		name="soldAndDisposedItems">
+	</command>
+
 	<command clazz="com.vimukti.accounter.mobile.commands.CreateInvoiceCommand"
 		name="newInvoice">
 		<alias>createInvoice</alias>
@@ -63,18 +78,21 @@
 
 	<command clazz="com.vimukti.accounter.mobile.commands.CurrencyListCommand"
 		name="currencyList"></command>
-		
+
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeCustomersCommand"
 		name="mergeCustomers"></command>
-		
+
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeVendorsCommand"
 		name="mergeVendors"></command>
-		
+
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeAccountsCommand"
 		name="mergeAccounts"></command>
-	
-	<command clazz="com.vimukti.accounter.mobile.commands.CreateFixedAssetCommand"
-		name="newFixedAsset"></command>
+
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.CreateFixedAssetCommand"
+		name="newFixedAsset">
+		<alias>updateFixedAsset</alias>
+	</command>
 	
 	<command clazz="com.vimukti.accounter.mobile.commands.MergeItemsCommand"
 		name="mergeItems"></command>
@@ -1269,20 +1287,18 @@
 		clazz="com.vimukti.accounter.mobile.commands.PurchaseOrderListCommand"
 		name="purchaseOrderList">
 	</command>
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.NewEmailAccountCommand" 
+	<command clazz="com.vimukti.accounter.mobile.commands.NewEmailAccountCommand"
 		name="createEmailAccount">
 	</command>
 	<command
-		clazz="com.vimukti.accounter.mobile.commands.TestEmailAccountCommand" 
+		clazz="com.vimukti.accounter.mobile.commands.TestEmailAccountCommand"
 		name="testEmailAccount">
 	</command>
 	<command
-		clazz="com.vimukti.accounter.mobile.commands.SendInvoiceEmailCommand" 
+		clazz="com.vimukti.accounter.mobile.commands.SendInvoiceEmailCommand"
 		name="sendInvoiceToMail">
 	</command>
-	<command
-		clazz="com.vimukti.accounter.mobile.commands.DepriciationCommand"
+	<command clazz="com.vimukti.accounter.mobile.commands.DepriciationCommand"
 		name="depreciation">
 	</command>
 </commands>
