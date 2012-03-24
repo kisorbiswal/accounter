@@ -1278,4 +1278,8 @@
 		clazz="com.vimukti.accounter.mobile.commands.SendInvoiceEmailCommand" 
 		name="sendInvoiceToMail">
 	</command>
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.DepriciationCommand"
+		name="depreciation">
+	</command>
 </commands>
