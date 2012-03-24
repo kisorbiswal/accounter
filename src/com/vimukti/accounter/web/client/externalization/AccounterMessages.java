@@ -6211,4 +6211,14 @@ public interface AccounterMessages extends Messages {
 	public String youCantDeleteCompanyCreator();
 
 	public String transactionsUsed(int transactionNumber, int maxLimit);
+
+	public String shouldNotBeNull(String accountType);
+
+	public String nameFieldShouldNotBeEmpty(String message);
+
+	public String fieldShouldNotBeEmpty(String message);
+
+	public String numberFieldShouldNotBeEmpty(String message);
+
+	public String shouldNotBeZeroOrNegative(String message);
 }

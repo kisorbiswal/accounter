@@ -86,9 +86,16 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 
 			}
 		}
-
+		checkNullValues();
 		return true;
 
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (name == null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().bank());
+		}
 	}
 
 	@Override

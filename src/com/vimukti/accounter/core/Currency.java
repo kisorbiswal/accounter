@@ -92,8 +92,23 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
+		checkNullValues();
 		return true;
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (name == null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().currency());
+		}
+		if (formalName == null || formalName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().currencyFormalName());
+		}
+		if (symbol == null || symbol.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().currencySymbol());
+		}
 	}
 
 	@Override

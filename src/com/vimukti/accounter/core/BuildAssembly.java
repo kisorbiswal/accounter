@@ -7,6 +7,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class BuildAssembly extends Transaction {
 
@@ -92,6 +93,20 @@ public class BuildAssembly extends Transaction {
 								quantityToBuild));
 		session.update(getInventoryAssembly());
 		ChangeTracker.put(getInventoryAssembly());
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
+		if (inventoryAssembly == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().assemblyItem());
+		}
+		if (quantityToBuild <= 0) {
+			throw new AccounterException(
+					AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE, Global
+							.get().messages().quantityToBuild());
+		}
 	}
 
 	@Override

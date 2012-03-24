@@ -7,7 +7,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 
-
 public abstract class CreatableObject implements Lifecycle {
 
 	private long id;
@@ -18,7 +17,6 @@ public abstract class CreatableObject implements Lifecycle {
 	private Timestamp lastModifiedDate;
 	private int version;
 	private Company company;
-
 	transient public boolean isOnSaveProccessed;
 
 	public void setCreatedBy(User createdBy) {

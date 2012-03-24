@@ -474,11 +474,12 @@ public class BrandingTheme extends CreatableObject implements
 			// String openInvoiceTitle,
 			String overDueInvoiceTitle, String creditMemoTitle,
 			String statementTitle, String quoteTitle,
-			String purchaseOrderTitle,String salesOrderTitle, String payPalEmailID, boolean isDefault,
-			String contactDetails, String Terms_And_Payment_Advice,
-			String invoiceTemplete, String creditNoteTemplete,
-			String quoteTemplateName, String cashSaleTempleteName,
-			String cashSaleTitle, String purchaseOrderTempleteName, String salesOrderTempleteName) {
+			String purchaseOrderTitle, String salesOrderTitle,
+			String payPalEmailID, boolean isDefault, String contactDetails,
+			String Terms_And_Payment_Advice, String invoiceTemplete,
+			String creditNoteTemplete, String quoteTemplateName,
+			String cashSaleTempleteName, String cashSaleTitle,
+			String purchaseOrderTempleteName, String salesOrderTempleteName) {
 
 		this.themeName = themeName;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
@@ -514,7 +515,7 @@ public class BrandingTheme extends CreatableObject implements
 		this.cashSaleTemplateName = cashSaleTempleteName;
 		this.cashSaleTitle = cashSaleTitle;
 		this.purchaseOrderTemplateName = purchaseOrderTempleteName;
-		this.salesOrderTemplateName= salesOrderTempleteName;
+		this.salesOrderTemplateName = salesOrderTempleteName;
 	}
 
 	@Override
@@ -581,8 +582,9 @@ public class BrandingTheme extends CreatableObject implements
 	}
 
 	private void checkNameConflictsOrNull() throws AccounterException {
-		if (themeName.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		if (themeName == null || themeName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().brandingTheme());
 		}
 	}
 

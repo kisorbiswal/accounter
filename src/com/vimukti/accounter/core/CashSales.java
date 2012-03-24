@@ -808,6 +808,15 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
+		if (depositIn == null) {
+			new AccounterException(AccounterException.ERROR_OBJECT_NULL, Global
+					.get().messages().depositIn());
+		}
+	}
+
+	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;

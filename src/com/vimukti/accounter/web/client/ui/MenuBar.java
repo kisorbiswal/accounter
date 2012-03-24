@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.antcontrib.logic.ForEach;
-
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -950,10 +948,10 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-		 if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
-		 companyMenuBar.addMenuItem(messages.importFile(),
-		 HistoryTokens.IMPORT);
-		 }
+		if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+			companyMenuBar.addMenuItem(messages.importFile(),
+					HistoryTokens.IMPORT);
+		}
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
