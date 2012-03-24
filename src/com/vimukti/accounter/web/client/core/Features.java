@@ -35,5 +35,4 @@ public class Features {
 	public static final String TRANSACTIONS = "transactions";
 	public static final String FIXED_ASSET = "fixed asset";
 
-	public static final int TRANSACTION_PER_MONTH = 20;
 }

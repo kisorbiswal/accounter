@@ -252,7 +252,7 @@ public class FinanceTool {
 				if (!features.contains(Features.TRANSACTIONS)) {
 					int count = getCompanyManager().getTransactionsCount(
 							company.getId());
-					if (count >= Features.TRANSACTION_PER_MONTH) {
+					if (count >= ServerConfiguration.getFreeTransactionsCount()) {
 						throw new AccounterException(
 								AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS);
 					}

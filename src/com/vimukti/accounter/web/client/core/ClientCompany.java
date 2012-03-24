@@ -152,6 +152,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientPriceLevel> priceLevels;
 
+	private int transactionsLimit;
+
 	private ArrayList<ClientItemGroup> itemGroups;
 
 	private ArrayList<ClientTAXGroup> taxGroups;
@@ -3277,7 +3279,6 @@ public class ClientCompany implements IAccounterCore {
 		return premiumType != FREE_USER;
 	}
 
-	
 	/**
 	 * @return the exchangeLossOrGainAccount
 	 */
@@ -3341,5 +3342,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public int getTransactionsLimit() {
+		return transactionsLimit;
+	}
+
+	public void setTransactionsLimit(int transactionsLimit) {
+		this.transactionsLimit = transactionsLimit;
 	}
 }

@@ -5,7 +5,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.TransactionMeterEventType;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.util.CoreEvent;
@@ -13,12 +12,14 @@ import com.vimukti.accounter.web.client.util.CoreEventHandler;
 
 public class TransactionMeterPanel extends SimplePanel {
 	protected static final AccounterMessages messages = Global.get().messages();
-	private int transactionNumber = 0;
+	private int transactionsCount = 0;
 	private Label countLabel;
 	private StyledPanel meterBar, meterbar1;
+	private int maxTransactionCount;
 
 	public TransactionMeterPanel() {
-		transactionNumber = Accounter.getCompany().getTransactionsCount();
+		transactionsCount = Accounter.getCompany().getTransactionsCount();
+		maxTransactionCount = Accounter.getCompany().getTransactionsLimit();
 		initGui();
 		Type<CoreEventHandler<TransactionMeterEventType>> type = CoreEvent
 				.getType(TransactionMeterEventType.class);
@@ -44,14 +45,14 @@ public class TransactionMeterPanel extends SimplePanel {
 	}
 
 	public TransactionMeterPanel(int transactionNo) {
-		transactionNumber = transactionNo;
+		transactionsCount = transactionNo;
 		initGui();
 	}
 
 	private void initGui() {
 		VerticalPanel mainPanel = new VerticalPanel();
-		countLabel = new Label(messages.transactionsUsed(transactionNumber,
-				Features.TRANSACTION_PER_MONTH));
+		countLabel = new Label(messages.transactionsUsed(transactionsCount,
+				maxTransactionCount));
 		meterBar = new StyledPanel("transactionMeterBar");
 		meterbar1 = new StyledPanel("inner_transactionMeterBar");
 		mainPanel.add(countLabel);
@@ -63,28 +64,30 @@ public class TransactionMeterPanel extends SimplePanel {
 	}
 
 	public void increase() {
-		transactionNumber++;
+		transactionsCount++;
 		updateLabel();
 	}
 
 	private void updateLabel() {
 		addStyleToMeterbar();
-		countLabel.setText(messages.transactionsUsed(transactionNumber,
-				Features.TRANSACTION_PER_MONTH));
+		countLabel.setText(messages.transactionsUsed(transactionsCount,
+				maxTransactionCount));
 
 	}
 
 	public void decrease() {
-		transactionNumber--;
+		transactionsCount--;
 		updateLabel();
 	}
 
 	public void addStyleToMeterbar() {
-		int width = transactionNumber * 10;
+		int width = transactionsCount * 10;
 		meterbar1.setWidth(width + "px");
-		if (transactionNumber <= 12) {
+		int g = (maxTransactionCount * 60 / 100);
+		int y = (maxTransactionCount * 80 / 100);
+		if (transactionsCount <= g) {
 			meterbar1.getElement().getStyle().setBackgroundColor("green");
-		} else if (transactionNumber > 12 && transactionNumber < 16) {
+		} else if (transactionsCount > g && transactionsCount < y) {
 			meterbar1.getElement().getStyle().setBackgroundColor("yellow");
 		} else {
 			meterbar1.getElement().getStyle().setBackgroundColor("red");
