@@ -50,7 +50,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().purchaseorderList();
+				return getMessages().purchaseOrderList();
 			}
 
 			@Override

@@ -45,7 +45,7 @@ public class PurchaseOrderListView extends
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.purchaseorderList();
+		return messages.purchaseOrderList();
 	}
 
 	@Override
