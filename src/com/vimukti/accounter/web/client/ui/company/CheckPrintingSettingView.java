@@ -136,7 +136,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 				"cheque_print_text");
 		widthLabelItem.setValue(messages.width());
 		widthLabelItem.addStyleName("cheque_print_text");
-//		sizesForm.setWidth("100%");
+		// sizesForm.setWidth("100%");
 
 		chequeWidth = new AmountField(messages.chequeWidth(), this);
 		addHandelers(chequeWidth, new ValueChangeHandler() {
@@ -421,7 +421,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			}
 
 		});
-		companyWidth = new AmountField("Company Width", this);
+		companyWidth = new AmountField("", this);
 		addHandelers(companyWidth, new ValueChangeHandler() {
 
 			@Override
@@ -484,18 +484,45 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		LabelItem item = new LabelItem("", "item");
 		item.setValue("");
 
-		DynamicForm allFields = new DynamicForm("allFields");
-//		allFields.setWidth("100%");
-		// allFields.setNumCols(8);
-		allFields.add(item, topLabelItem, leftLabelItem, widthLabelItem,
-				payeeLabel, payeeTop, payeeLeft, payeeWidth,
-				amountWordsLineOne, amountWordsTopOne, amountWordsLeftOne,
-				amountWordsWidthOne, amountWordsLineTwo, amountWordsTopTwo,
-				amountWordsLeftTwo, amountWordsWidthTwo, amountFigLabel,
-				amountFigTop, amountFigLeft, amountFigWidth, chequeDateLabel,
-				chequeDateTop, chequeDateLeft, chequeDateWidth, companyLabel,
-				companyTop, companyLeft, companyWidth, signatoryLabel,
-				signatoryTop, signatoryLeft, signatoryWidth);
+		StyledPanel allFields = new StyledPanel("allFields");
+
+		DynamicForm boldForms = new DynamicForm("boldForms");
+		boldForms.add(item, topLabelItem, leftLabelItem, widthLabelItem);
+
+		DynamicForm payeeForm = new DynamicForm("fourForm");
+		payeeForm.add(payeeLabel, payeeTop, payeeLeft, payeeWidth);
+
+		DynamicForm amountForm = new DynamicForm("fourForm");
+		amountForm.add(amountWordsLineOne, amountWordsTopOne,
+				amountWordsLeftOne, amountWordsWidthOne);
+
+		DynamicForm amountForm1 = new DynamicForm("fourForm");
+		amountForm1.add(amountWordsLineTwo, amountWordsTopTwo,
+				amountWordsLeftTwo, amountWordsWidthTwo);
+
+		DynamicForm amountForm2 = new DynamicForm("fourForm");
+		amountForm2.add(amountFigLabel, amountFigTop, amountFigLeft,
+				amountFigWidth);
+
+		DynamicForm amountForm3 = new DynamicForm("fourForm");
+		amountForm3.add(chequeDateLabel, chequeDateTop, chequeDateLeft,
+				chequeDateWidth);
+
+		DynamicForm amountForm4 = new DynamicForm("fourForm");
+		amountForm4.add(companyLabel, companyTop, companyLeft, companyWidth);
+		
+		DynamicForm amountForm5 = new DynamicForm("fourForm");
+		amountForm5.add(signatoryLabel, signatoryTop, signatoryLeft,
+				signatoryWidth);
+
+		allFields.add(boldForms);
+		allFields.add(payeeForm);
+		allFields.add(amountForm);
+		allFields.add(amountForm1);
+		allFields.add(amountForm2);
+		allFields.add(amountForm3);
+		allFields.add(amountForm4);
+		allFields.add(amountForm5);
 
 		DynamicForm chequeForm = new DynamicForm("chequeForm");
 		// chequeForm.setNumCols(2);
@@ -503,7 +530,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		chequeForm.addStyleName("cheque_form");
 
 		pageFormatPanel.addStyleName("pageformatpanel");
-//		panel.setWidth("100%");
+		// panel.setWidth("100%");
 		panel.addStyleName("checkprintbox");
 		panel.add(pageFormatPanel);
 		panel.add(allFields);
@@ -514,7 +541,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		allPanel.add(panel);
 
 		this.add(allPanel);
-//		allPanel.setWidth("100%");
+		// allPanel.setWidth("100%");
 
 		ImageButton saveButton = new ImageButton(messages.saveAndClose(),
 				Accounter.getFinanceImages().saveAndClose());

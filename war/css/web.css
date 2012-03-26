@@ -5017,3 +5017,157 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 #RemindersListView .panel .gwt-Button {
 	    margin:  5px;
 }
+
+#FileUploadDilaog .vpaPanel .panel-right-align button {
+	margin: 5px;
+}
+
+#inviteUser .formItem .gwt-Label {
+	width: 100px;
+}
+
+.group-toolbar .buttonsPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#contactable {
+	background-image: url(../images/contact.png);
+	height: 93px;
+	margin-right: -5px;
+	position: fixed; *
+	position: absolute;
+	text-indent: -100000px;
+	top: 102px; *
+	margin-top: 200px;
+	width: 44px;
+	z-index: 100000;
+}
+
+#contactForm {
+	background-color: #333333;
+	border: 2px solid #FFFFFF;
+	margin-right: -400px;
+	margin-top: -160px;
+	padding-left: 30px;
+	position: fixed;
+	top: 200px;
+	width: 360px; *
+	width: 394px;
+	z-index: 99;
+}
+
+form#contactForm input,form#contactForm .submit,form#contactForm p {
+	width: 325px;
+}
+
+form#contactForm input,form#contactForm .submit {
+	outline-style: none;
+	outline-width: medium;
+}
+
+form#contactForm input {
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 1px solid #AAAAAA;
+	margin-bottom: 10px;
+}
+
+form#contactForm .submit {
+	background: #F5410F none repeat scroll 0 0;
+	border: 3px solid #F52D0F;
+	outline-color: -moz-use-text-color;
+	margin-top: 10px;
+	text-transform: uppercase;
+}
+
+#contactForm .red {
+	color: #F5410F;
+}
+
+.allPanel .pageFormatPanel {
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	display: box;
+	display: -webkit-box;
+	display: -moz-box;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	box-pack: justify;
+	width: 100%;
+	-moz-box-flex: 1;
+	height: 20px;
+}
+
+.allPanel .pageFormatPanel .cheque_print_text {
+	font-weight: bold;
+	color: #fff;
+}
+
+.allFields .cheque_print_text .NoWrapping {
+	display: none;
+}
+
+.allFields .cheque_print_text .label {
+	font-weight: bold;
+	width: 200px;
+}
+
+.checkprintbox {
+	border: 1px solid #AAAAAA;
+}
+
+#import-button-panel .prev_button {
+	float: left;
+}
+
+#import-button-panel .next_button {
+	float: right;
+}
+
+#import-preview-panel {
+	height: 100%;
+	width: 100%;
+	padding-left: 10px;
+}
+
+#import-preview-panel #mainTable {
+	width: 100%;
+	padding-left: 25px;
+}
+
+#import-preview-panel .preview-header {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#import-preview-panel .table-header {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+#import-preview-panel .scrollPanel {
+	border-style: solid;
+	border-width: 1px;
+	height: 400px;
+	margin: 10px;
+	overflow: auto;
+	position: relative;
+}
+
+#import-preview-panel #mainTable td {
+	vertical-align: top;
+}
+
+#import-preview-pane .mappingTablePanel td{
+		border-style: solid;
+	border-width: 1px;
+}
+
+#import-preview-pane .import-match-content td .table-header{
+	padding: 5px;
+}

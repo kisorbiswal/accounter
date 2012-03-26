@@ -102,6 +102,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (getData() == null) {
 			setData(new ClientFixedAsset());
 			labl.setText(messages.newAsset());
+			labl.setStyleName("label-title");
 			initAssetNumber();
 			return;
 		} else {
@@ -395,7 +396,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// form for description.
 		descriptionForm = new DynamicForm("descriptionForm");
 		descriptionForm.add(descriptionTxtArea);
-		descriptionForm.remove(0);
 		// V'panel for purchase form
 		StyledPanel purchaseInfoVPanel = new StyledPanel("purchaseInfoVPanel");
 		purchaseInfoVPanel.add(purchaseInfoForm);

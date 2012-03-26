@@ -839,15 +839,31 @@ public class ViewManager extends FlowPanel {
 		//
 		// toolBar.add(horizontalPanel);
 
+//		toolBar.add(group1);
+//		toolBar.add(group5);
+//		toolBar.add(group2);
+//		toolBar.add(group9);
+//		toolBar.add(group4);
+//		toolBar.add(group7);
+//		toolBar.add(group8);
+//		toolBar.add(group6);
+//		toolBar.add(group3);
+		
+		
 		toolBar.add(group1);
-		toolBar.add(group5);
-		toolBar.add(group2);
-		toolBar.add(group9);
-		toolBar.add(group4);
-		toolBar.add(group7);
-		toolBar.add(group8);
-		toolBar.add(group6);
-		toolBar.add(group3);
+		StyledPanel buttonsPanel = new StyledPanel("buttonsPanel");
+		
+		buttonsPanel.add(group5);
+		buttonsPanel.add(group2);
+		buttonsPanel.add(group9);
+		buttonsPanel.add(group4);
+		buttonsPanel.add(group7);
+		buttonsPanel.add(group8);
+		buttonsPanel.add(group6);
+		buttonsPanel.add(group3);
+		
+		toolBar.add(buttonsPanel);
+		
 		toolBar.addStyleName("group-toolbar");
 	}
 

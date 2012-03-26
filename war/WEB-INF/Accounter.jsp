@@ -322,7 +322,7 @@
   		</script>
 	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 
-	<div id="appVersions" >
+	<div id="appVersions" style="visibility:hidden" >
 	    <div>
 	       <span>Access Accounter from </span>
 			<ul>
@@ -335,7 +335,7 @@
 		 </ul>
 		   </div>
 	</div>
-	<div id="mainFooter">
+	<div id="mainFooter" style="visibility:hidden" >
 	    <div>
 	       <span>&copy 2012 Vimukti Technologies Pvt Ltd</span> |
 	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |

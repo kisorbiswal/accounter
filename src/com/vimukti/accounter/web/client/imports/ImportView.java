@@ -11,8 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -23,6 +21,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -64,6 +64,7 @@ public class ImportView extends AbstractBaseView {
 			fields.put(field.getDesplayName(), field);
 		}
 
+		this.getElement().setId("import-preview-panel");
 	}
 
 	@Override
@@ -75,14 +76,19 @@ public class ImportView extends AbstractBaseView {
 	private void createControls() {
 		mappingTable = new FlexTable();
 		mainTable = new FlexTable();
+		mainTable.getElement().setId("mainTable");
+		
 		previewTable = new FlexTable();
+		previewTable.getElement().setId("previewTable");
+		
 		ScrollPanel scrollPanel = new ScrollPanel();
+		scrollPanel.setStyleName("scrollPanel");
 		scrollPanel.add(previewTable);
-		scrollPanel.setHeight("300px");
+		
 		mappingTable.addStyleName("import-match-content");
 		// previewTable.addStyleName("import-match-content");
 		// importerMatchingPanel.addStyleName("import-mapping-panel");
-		FlowPanel buttonPanel = new FlowPanel();
+		StyledPanel buttonPanel = new StyledPanel("buttonPanel");
 
 		Label header = new Label();
 
@@ -111,7 +117,7 @@ public class ImportView extends AbstractBaseView {
 		buttonPanel.add(nextButton);
 		buttonPanel.addStyleName("import-button-panel");
 
-		HorizontalPanel datePanel = new HorizontalPanel();
+		StyledPanel datePanel = new StyledPanel("datePanel");
 		dateFormat_Label = new Label(messages.DateFormat());
 		dateFormatList = new ListBox(false);
 		String[] dateFormates = new String[] { "ddMMyy", "MM/dd/yy",
@@ -134,19 +140,21 @@ public class ImportView extends AbstractBaseView {
 		selectedDateFormate = getSelectedDateFormat(2);
 		datePanel.add(dateFormat_Label);
 		datePanel.add(dateFormatList);
-		FlowPanel mappingTablePanel = new FlowPanel();
+		StyledPanel mappingTablePanel = new StyledPanel("mappingTablePanel");
 		mappingTablePanel.add(mappingTable);
 		mappingTablePanel.add(datePanel);
 
-		FlowPanel previewPanel = new FlowPanel();
+		StyledPanel previewPanel = new StyledPanel("previewPanel");
 		Label previewHeader = new Label(messages.mappingPreview());
 		previewHeader.addStyleName("preview-header");
 		previewPanel.add(previewHeader);
 		previewPanel.add(scrollPanel);
 		previewPanel.addStyleName("import-match-content");
 		// Save & Import buttons
-		FlowPanel buttonPanel2 = new FlowPanel();
-		Button saveButton = new Button(messages.save());
+		StyledPanel buttonPanel2 = new StyledPanel("buttonPanel2");
+	
+		ImageButton saveButton = new ImageButton(messages.save(),Accounter.getFinanceImages()
+				.saveAndClose());
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -162,7 +170,8 @@ public class ImportView extends AbstractBaseView {
 		buttonPanel2.add(saveButton);
 		buttonPanel2.add(cancelButton);
 		buttonPanel2.addStyleName("import-button-panel");
-		FlowPanel importHeaderPanel = new FlowPanel();
+		
+		StyledPanel importHeaderPanel = new StyledPanel("importHeaderPanel");
 		String importerName = ImporterType.getAllSupportedImporters().get(
 				new Integer(importType));
 		Label importerTitle = new Label(importerName + messages.importer());
@@ -175,14 +184,8 @@ public class ImportView extends AbstractBaseView {
 		mainTable.setWidget(3, 1, previewPanel);
 		mainTable.setWidget(4, 1, buttonPanel2);
 		add(mainTable);
-		mainTable.setSize("100%", "100%");
 		importHeaderPanel.addStyleName("import-preview-panel");
-		importHeaderPanel.getElement().setAttribute("height", "10px");
 		previewPanel.addStyleName("import-preview-panel");
-		previewPanel.getElement().getParentElement()
-				.setAttribute("height", "100%");
-		buttonPanel.getElement().getParentElement()
-				.setAttribute("width", "500px");
 		initMappingGUI();
 		refreshPreviewGUI();
 		showOrHideButtons();
