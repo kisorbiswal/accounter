@@ -20,10 +20,6 @@ body{
 .scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice,.setting-class-panel{
    width:100% !important;	
 }
-.view_manager{
-	width:90% !important;
-	margin:0 auto !important;
-}
 body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,form#contactForm .submit,
 form#contactForm input, textarea,.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel{
 	font-size:12.5px;
