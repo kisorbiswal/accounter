@@ -411,10 +411,10 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tAddress.setAddress1(tAddress1TextBox.getValue());
 		tAddress.setStreet(tAddress2TextBox.getValue());
 		tAddress.setCity(tCityTextBox.getValue());
-		if (tStateCombo.getSelectedIndex() > 0) {
+	//	if (tStateCombo.getSelectedIndex() > 0) {
 			tAddress.setStateOrProvinence(tStateCombo.getItemText(tStateCombo
 					.getSelectedIndex()));
-		}
+	//	}
 		tAddress.setZipOrPostalCode(tPostalCodeTextBox.getValue());
 		if (tCountryCombo.getSelectedIndex() > 0) {
 			tAddress.setCountryOrRegion(tCountryCombo.getItemText(tCountryCombo
