@@ -50,7 +50,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	}
 
 	private void createControls() {
-		typeRadio = new RadioGroupItem(messages.tax(), GROUP);
+		typeRadio = new RadioGroupItem("", GROUP);
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
 		DynamicForm typeForm = new DynamicForm("typeForm");
