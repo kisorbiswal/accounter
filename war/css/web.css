@@ -143,10 +143,9 @@ html,body {
 	background: -moz-linear-gradient(top, #3299A4, #1A5158);
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
 		to(#1A5158) );
-    background: -o-linear-gradient(top, #3299A4, #1A5158);
+	background: -o-linear-gradient(top, #3299A4, #1A5158);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
 		endColorstr='#1A5158' );
-		
 	margin-top: 5px;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -2481,7 +2480,6 @@ table.gridHeader tr td {
 	-webkit-box-orient: horizontal;
 	-moz-box-orient: horizontal;
 	box-orient: horizontal;
-	-moz-box-flex: 1;
 }
 
 #InvoiceView .mainVLay .topHLay {
@@ -4190,6 +4188,10 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
+.setup_panel .viewPanel .gwt-Button {
+	margin: 5px;
+}
+
 #CustomFieldDialog table {
 	width: 650px;
 }
@@ -4203,6 +4205,14 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 .error-panel li {
 	list-style-type: none;
+}
+
+#appVersions ul li {
+	display: inline-block;
+}
+
+#appVersions ul {
+	display: inline-block;
 }
 
 .addNewButton {
@@ -4340,7 +4350,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	margin-top: 10px;
 	padding: 12px;
 	width: 224px;
-	margin-left:10px;
+	margin-left: 10px;
 }
 
 .transactionMeterBar {
@@ -4737,17 +4747,20 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	font-size: 15px;
 	font-weight: bold;
 }
-#InvoiceView .attachment_panel form .gwt-Button{
-	margin-left:15px;
+
+#InvoiceView .attachment_panel form .gwt-Button {
+	margin-left: 15px;
 }
-#PreferenceSettingsView .locationTrackLabelAndCheckPanel{
+
+#PreferenceSettingsView .locationTrackLabelAndCheckPanel {
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
-    display: -moz-box;
+	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 }
+
 .setup_panel .progress_panel_hide .viewButtonPanel {
 	padding: 10px 0px 10px 10px;
 	display: -webkit-box;
@@ -4764,11 +4777,54 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	min-height: 500px;
 }
 
-.setup_panel .progress_panel_hide .progressPanel{
+.setup_panel .progress_panel_hide .progressPanel {
 	display: none;
 }
+
 .appVersions div a {
 	color: #ccc;
 	text-decoration: none;
 }
 
+#ChangePasswordDialog .textItemsForm {
+	display: -moz-box;
+	-moz-box-orient: vertical;
+}
+
+#ChangePasswordDialog .mainPanel .NoWrapping {
+	display: none;
+}
+
+#WarningsDialog .bodyLayout {
+	-moz-box-orient: vertical;
+	display: -moz-box;
+}
+
+#WarningsDialog .headerLayout {
+	display: -moz-box;
+}
+
+#WarningsDialog .gwt-HTML {
+	width: 280px;
+}
+
+.search_buttons .gwt-Button {
+	margin: 5px;
+}
+
+.portlet-body {
+	overflow: auto;
+	position: relative;
+	height: 270px;
+}
+
+.view_manager .rightPanel iframe {
+	border: 0 none;
+	height: 300px;
+	margin-left: 10px;
+	width: 250px;
+}
+
+.portlet-body .hPanel{
+	margin-bottom: 50px;
+}

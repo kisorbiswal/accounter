@@ -466,7 +466,7 @@ input[type="text"] {
 	padding: 0 5px;
 }
 
-#mid-box,#mid-box1,#mid-box2,#mid-box3,#mid-box4,#mid-box5,#mid-box6 {
+.signup-left .accounterForm input[type=text]{
 	background: url("../images/text-box.png") no-repeat scroll left top
 		transparent;
 	border: medium none;

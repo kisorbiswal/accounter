@@ -105,7 +105,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 		hPanel.add(fTable);
 
 		body.add(hPanel);
-
+		final StyledPanel chartPanel = new StyledPanel("chartPanel");
 		AccounterAsyncCallback<ArrayList<Double>> callBack = new AccounterAsyncCallback<ArrayList<Double>>() {
 
 			@Override
@@ -137,7 +137,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 					@Override
 					public void run() {
 						GraphChart chart = new GraphChart();
-						body.add(chart.createAccountReceivableChart(result));
+						chartPanel.add(chart.createAccountReceivableChart(result));
 						completeInitialization();
 					}
 				};
@@ -152,6 +152,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 			}
 
 		};
+		body.add(chartPanel);
 		Accounter.createHomeService().getGraphPointsforAccount(
 				GraphChart.ACCOUNTS_RECEIVABLE_CHART_TYPE, 0, callBack);
 

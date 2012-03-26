@@ -34,9 +34,7 @@ public abstract class DashBoardPortlet extends WorkbenchPanel {
 		this.titleName = title;
 		// createHandlerForTitle();
 		panel = new ScrollPanel();
-		body = new StyledPanel("body");
-		body.setStyleName("portlet-body");
-		// this.setHeight("124");
+		body = new StyledPanel("portlet-body");
 
 		addStyleName("portlet");
 
