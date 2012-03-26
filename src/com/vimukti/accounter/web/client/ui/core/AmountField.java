@@ -27,6 +27,7 @@ public class AmountField extends TextItem {
 	public AmountField(final String name, WidgetWithErrors errorsViewGrid,
 			ClientCurrency currency, String styleName) {
 		super(name, styleName);
+		this.getElement().addClassName("AmountField");
 		this.errorsWidget = errorsViewGrid;
 		if (showCurrency) {
 			setTitle(name + "(" + currency.getFormalName() + ")");
