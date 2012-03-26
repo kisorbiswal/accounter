@@ -12,6 +12,7 @@ public class BankAccountsPortlet extends Portlet {
 	public BankAccountsPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.bankAccounts(), messages
 				.gotoBankAccountsList(), "60%");
+		this.getElement().setId("BankAccountsPortlet");
 	}
 
 	@Override

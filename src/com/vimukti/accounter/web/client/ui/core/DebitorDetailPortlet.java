@@ -7,6 +7,7 @@ public class DebitorDetailPortlet extends Portlet {
 
 	public DebitorDetailPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.debtors(), "");
+		this.getElement().setId("DebitorDetailPortlet");
 	}
 
 	@Override

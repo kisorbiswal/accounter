@@ -41,6 +41,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 	public MoneyComingPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.moneyComingIn(), messages.goToAccountReceivable(),
 				"60%");
+		this.getElement().setId("MoneyComingPortlet");
 	}
 
 	@Override

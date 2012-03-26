@@ -22,6 +22,7 @@ public class QuickLinksPortlet extends Portlet {
 
 	public QuickLinksPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.quickLinks(), "", "100%");
+		this.getElement().setId("QuickLinksPortlet");
 	}
 
 	@Override

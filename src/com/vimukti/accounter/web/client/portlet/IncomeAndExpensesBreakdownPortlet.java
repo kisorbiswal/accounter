@@ -23,6 +23,7 @@ public class IncomeAndExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 	public IncomeAndExpensesBreakdownPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.incomeAndExpenseAccounts(), "", "100%");
+		this.getElement().setId("IncomeAndExpensesBreakdownPortlet");
 	}
 
 	@Override

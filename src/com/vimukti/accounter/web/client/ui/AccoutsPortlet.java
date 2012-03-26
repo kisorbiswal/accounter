@@ -45,6 +45,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 	public AccoutsPortlet(ClientAccount account) {
 		super(null, null, null);
+		this.getElement().setId("AccoutsPortlet");
 		this.account = account;
 	}
 
