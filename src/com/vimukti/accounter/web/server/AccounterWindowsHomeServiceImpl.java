@@ -882,7 +882,7 @@ public class AccounterWindowsHomeServiceImpl extends
 		} else {
 
 			FinanceTool tool = new FinanceTool();
-			Company company = tool.getCompany(serialVersionUID);
+			Company company = tool.getCompany(companyId);
 			ClientCompany clientCompany = tool.getCompanyManager()
 					.getClientCompany(loginEmail, companyId);
 

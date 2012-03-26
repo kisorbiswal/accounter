@@ -123,8 +123,10 @@ public class ViewManager extends FlowPanel {
 		this.mainWindow = financeWindow;
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel rightPanel = new StyledPanel("rightPanel");
-		TransactionMeterPanel meterPanel = new TransactionMeterPanel();
-		rightPanel.add(meterPanel);
+		if (!getCompany().isPaid()) {
+			TransactionMeterPanel meterPanel = new TransactionMeterPanel();
+			rightPanel.add(meterPanel);
+		}
 		getAdvertisePanel(rightPanel);
 		StyledPanel leftPanel = new StyledPanel("leftPanel");
 		leftPanel.addStyleName("view_manager_body");
