@@ -8,13 +8,12 @@ public class AccountBalancesGrid extends ListGrid<ClientAccount> {
 
 	public AccountBalancesGrid() {
 		super(false);
+		this.getElement().addClassName("dashboard_grid_header");
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		this.header.getElement().getParentElement().getParentElement()
-				.addClassName("dashboard_grid_header");
 	}
 
 	@Override

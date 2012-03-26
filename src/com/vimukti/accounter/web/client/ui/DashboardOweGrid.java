@@ -9,13 +9,12 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 
 	public DashboardOweGrid() {
 		super(false);
+		this.getElement().addClassName("dashboard_grid_header");
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		this.header.getElement().getParentElement().getParentElement()
-				.addClassName("dashboard_grid_header");
 	}
 
 	@Override

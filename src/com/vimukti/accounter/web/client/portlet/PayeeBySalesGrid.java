@@ -12,13 +12,12 @@ public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
 	public PayeeBySalesGrid(int portletType) {
 		super(false);
 		this.portletType = portletType;
+		this.getElement().addClassName("dashboard_grid_header");
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		this.header.getElement().getParentElement().getParentElement()
-				.addClassName("dashboard_grid_header");
 	}
 
 	@Override
