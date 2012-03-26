@@ -143,6 +143,10 @@ html,body {
 	background: -moz-linear-gradient(top, #3299A4, #1A5158);
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
 		to(#1A5158) );
+    background: -o-linear-gradient(top, #3299A4, #1A5158);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#1A5158' );
+		
 	margin-top: 5px;
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -233,10 +237,13 @@ html,body {
 .view_manager {
 	width: 100%;
 	padding-bottom: 90px;
+	display: box;
+	display: -webkit-box;
+	display: -moz-box;
 }
 
 .view_manager_body {
-	width: 100%;
+	width: 960px;
 }
 
 .prebutton {
@@ -248,7 +255,7 @@ html,body {
 }
 
 .main_manager {
-	width: 960px;
+	width: 1200px;
 	padding-bottom: 90px;
 }
 
@@ -2313,8 +2320,6 @@ table.gridHeader tr td {
 #PortletPage .firstRow {
 	background: #226B73;
 	background: -moz-linear-gradient(top, #3299A4, #1A5158);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
-		endColorstr='#1A5158' );
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
 		to(#1A5158) );
 	background: -o-linear-gradient(top, #3299A4, #1A5158);
@@ -4335,6 +4340,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	margin-top: 10px;
 	padding: 12px;
 	width: 224px;
+	margin-left:10px;
 }
 
 .transactionMeterBar {
@@ -4742,3 +4748,27 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: -webkit-box;
 	display: box;
 }
+.setup_panel .progress_panel_hide .viewButtonPanel {
+	padding: 10px 0px 10px 10px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-pack: justify;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-moz-box-pack: justify;
+	box-orient: vertical;
+	box-pack: justify;
+	width: 100%;
+	-moz-box-flex: 1;
+	min-height: 500px;
+}
+
+.setup_panel .progress_panel_hide .progressPanel{
+	display: none;
+}
+.appVersions div a {
+	color: #ccc;
+	text-decoration: none;
+}
+
