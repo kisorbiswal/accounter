@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -88,6 +89,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		listforms = new ArrayList<DynamicForm>();
 
+		Label titleLabel=new Label(messages.salesPerson());
+		titleLabel.addStyleName("label-title");
+		
 		employeeNameText = new TextItem(messages.salesPersonName(),
 				"employeeNameText");
 		employeeNameText.setRequired(true);
@@ -342,6 +346,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		topHLay.add(rightVLay);
 
 		StyledPanel mainVlay = new StyledPanel("salesPersonmainVlay");
+		mainVlay.add(titleLabel);
 		mainVlay.add(topHLay);
 		this.add(mainVlay);
 
