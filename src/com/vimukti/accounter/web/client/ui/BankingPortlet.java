@@ -28,6 +28,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 	public BankingPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.banking(), messages.gotoBanking(), "75%");
+		this.getElement().addClassName("bank-account-portlet");
 //		setHeight("270px");
 	}
 
