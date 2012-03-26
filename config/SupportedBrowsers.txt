@@ -1,3 +1,4 @@
 .+Firefox.*
 .+Chrome.*
 .+Version\/5\.1\..* Safari.*
+.+AppleWebKit\/5.+
