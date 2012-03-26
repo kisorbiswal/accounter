@@ -144,6 +144,8 @@ public class ServerMain extends Main {
 		premiumFeatures.add(Features.TRANSACTIONS);
 		premiumFeatures.add(Features.FIXED_ASSET);
 
+		premiumFeatures.add(Features.IMPORT);
+
 		premium.setFeatures(premiumFeatures);
 
 		Subscription before = Subscription

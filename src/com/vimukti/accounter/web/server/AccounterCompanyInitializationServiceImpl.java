@@ -248,7 +248,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		} else {
 
 			FinanceTool tool = new FinanceTool();
-
+			Company company = tool.getCompany(serialVersionUID);
 			ClientCompany clientCompany = tool.getCompanyManager()
 					.getClientCompany(getUserEmail(), companyID);
 
@@ -260,9 +260,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 			companyAndFeatures.setClientCompany(clientCompany);
 
-			ArrayList<String> list = new ArrayList<String>(getClient(
-					getUserEmail()).getClientSubscription().getSubscription()
-					.getFeatures());
+			ArrayList<String> list = new ArrayList<String>(company
+					.getCreatedBy().getClient().getClientSubscription()
+					.getSubscription().getFeatures());
 			companyAndFeatures.setFeatures(list);
 
 			return companyAndFeatures;
