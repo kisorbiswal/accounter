@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListServerReport;
 
-
 public class ReverseChargeListReport extends
 		AbstractReportView<ReverseChargeList> {
 
@@ -37,21 +36,15 @@ public class ReverseChargeListReport extends
 
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 145, "",
-				"");
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 145);
 	}
 
 	@Override
@@ -68,13 +61,6 @@ public class ReverseChargeListReport extends
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 145, "",
-				"");
 	}
 
 }

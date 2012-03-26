@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ISorting;
+import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -779,7 +780,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	@Override
 	public void print() {
-
+		export(ReportInput.REPORT_EXPORT_TYPE_PDF);
 	}
 
 	@Override
@@ -789,7 +790,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	@Override
 	public void exportToCsv() {
+		export(ReportInput.REPORT_EXPORT_TYPE_CSV);
 	}
+
+	public abstract void export(int generationType);
 
 	@Override
 	public void removeAllRows() {
@@ -838,4 +842,5 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public Map<String, Object> saveView() {
 		return null;
 	}
+
 }

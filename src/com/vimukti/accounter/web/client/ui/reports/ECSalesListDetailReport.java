@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
-
 
 public class ECSalesListDetailReport extends
 		AbstractReportView<ECSalesListDetail> {
@@ -41,21 +41,15 @@ public class ECSalesListDetailReport extends
 
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 143, "",
-				"", vatAgency);
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 143, new NumberReportInput(vatAgency));
 	}
 
 	@Override
@@ -94,10 +88,4 @@ public class ECSalesListDetailReport extends
 		return 0;
 	}
 
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 143, "",
-				"", vatAgency);
-	}
 }

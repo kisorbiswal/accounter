@@ -93,17 +93,8 @@ public class AutomaticTransactionsReport extends
 	}
 
 	@Override
-	public void print() {
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 196, "",
-				"");
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 196, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 196);
 	}
 }

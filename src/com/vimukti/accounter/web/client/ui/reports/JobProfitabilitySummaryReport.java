@@ -64,21 +64,9 @@ public class JobProfitabilitySummaryReport extends
 	}
 
 	@Override
-	public void print() {
-		String customerName = this.data != null ? ((JobProfitability) this.data)
-				.getName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 185, "",
-				"", "");
-	}
-
-	@Override
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 185, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 185);
 	}
 
 	@Override

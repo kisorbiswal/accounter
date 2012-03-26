@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -43,12 +44,8 @@ public class RecincilationDetailsByAccountReport extends
 	}
 
 	@Override
-	public void print() {
-		int reportType = 169;
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, String.valueOf(bankAccountId), "");
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 169, new NumberReportInput(bankAccountId));
 	}
 }

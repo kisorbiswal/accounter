@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -48,13 +49,10 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 139, "",
-				"", ((VATItemSummary) data).getName());
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), 139,
+				new StringReportInput(((VATItemSummary) data).getName()));
 	}
 
 	@Override
@@ -88,13 +86,6 @@ public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 					obj2.getSalesPrice());
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 139, "",
-				"");
 	}
 
 }

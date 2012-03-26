@@ -124,7 +124,7 @@ public class ProfitAndLossByLocationReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		int reportType = 0;
 		if (category_type == 1) {
 			reportType = 161;
@@ -133,25 +133,8 @@ public class ProfitAndLossByLocationReport extends
 		} else {
 			reportType = 189;
 		}
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), reportType);
 	}
 
-	@Override
-	public void exportToCsv() {
-		int reportType = 0;
-		if (category_type == 1) {
-			reportType = 161;
-		} else if (category_type == 2) {
-			reportType = 153;
-		} else {
-			reportType = 189;
-		}
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
-	}
 }

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -43,21 +44,11 @@ public class EstimatesByJobReport extends AbstractReportView<EstimatesByJob> {
 	}
 
 	@Override
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 191, "",
-				"");
-	}
-
-	@Override
-	public void print() {
+	public void export(int generationType) {
 		String customerName = this.data != null ? ((EstimatesByJob) this.data)
 				.getCustomerName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 191, "",
-				"", customerName);
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 191, new StringReportInput(customerName));
 	}
 
 }

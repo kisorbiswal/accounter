@@ -26,6 +26,12 @@ public class DepositDetailReport extends AbstractReportView<DepositDetail> {
 	}
 
 	@Override
+	public void export(int generationType) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public Object getColumnData(DepositDetail record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:

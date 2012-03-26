@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -63,7 +64,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
-import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByCatgoryReport;
 
 public interface IAccounterReportService extends RemoteService {
 
@@ -399,5 +399,8 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<TransactionDetailByAccount> getTransactionDetailByAccountAndCategory(
 			int categoryType, long categoryId, long accountId,
 			ClientFinanceDate start, ClientFinanceDate end);
+
+	List<String> exportToFile(int exportType, int reportType, long startDate,
+			long endDate, ReportInput[] inputs) throws AccounterException;
 
 }

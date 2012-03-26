@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.web.client.core.BooleanReportInput;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -53,36 +55,10 @@ public class JobActualCostDetailReport extends
 	}
 
 	@Override
-	public void print() {
-		
-		long status = 0;
-		if (isActualcostDetail) {
-			status = 1;
-		}
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 184,
-				String.valueOf(customerId), String.valueOf(jobId), status);
-		// UIUtils.generateReportPDF(
-		// Integer.parseInt(String.valueOf(startDate.getDate())),
-		// Integer.parseInt(String.valueOf(endDate.getDate())), 184, "",
-		// "", customerName);
-	}
-
-	@Override
-	public void exportToCsv() {
-		// UIUtils.exportReport(
-		// Integer.parseInt(String.valueOf(startDate.getDate())),
-		// Integer.parseInt(String.valueOf(endDate.getDate())), 184, "",
-		// "");
-		long status = 0;
-		if (isActualcostDetail) {
-			status = 1;
-		}
-
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 184,
-				String.valueOf(customerId), String.valueOf(jobId), status);
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), 184, new NumberReportInput(customerId),
+				new NumberReportInput(jobId), new BooleanReportInput(
+						isActualcostDetail));
 	}
 }

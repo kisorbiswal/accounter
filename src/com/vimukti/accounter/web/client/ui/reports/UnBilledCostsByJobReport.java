@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -42,20 +43,10 @@ public class UnBilledCostsByJobReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		String customerName = this.data != null ? ((UnbilledCostsByJob) this.data)
 				.getCustomerName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 186, "",
-				"", customerName);
-	}
-
-	@Override
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 186, "",
-				"");
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 186, new StringReportInput(customerName));
 	}
 }

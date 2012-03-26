@@ -35,18 +35,9 @@ public class InventoryStockStatusByVendorReport extends
 	}
 
 	@Override
-	public void print() {
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR, "", "");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR);
 	}
 
-	@Override
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR, "", "");
-	}
 }

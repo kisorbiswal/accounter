@@ -24,7 +24,6 @@ public abstract class ReportGridTemplate<R> {
 	StringBuffer body = null;
 
 	public AbstractFinaneReport<R> reportView;
-	public static int generationType;
 	protected int columnTypes[];
 	public static final int COLUMN_TYPE_TEXT = 1;
 	public static final int COLUMN_TYPE_AMOUNT = 2;

@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -75,14 +76,9 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 	}
 
 	@Override
-	public void print() {
-
-		
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 166,
-				String.valueOf(this.taxReturnId), 0);
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 166, new NumberReportInput(this.taxReturnId));
 	}
 
 	@Override
@@ -117,15 +113,6 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		
-
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 166,
-				String.valueOf(this.taxReturnId), String.valueOf(0));
 	}
 
 	public long getTaxReturnId() {

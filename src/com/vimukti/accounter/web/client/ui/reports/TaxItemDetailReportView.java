@@ -7,6 +7,7 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerReportView;
@@ -63,27 +64,14 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
 		this.startDate = toolbar.getStartDate();
 		this.endDate = toolbar.getEndDate();
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 165,
-				String.valueOf(this.taxReturnId), "", this.taxAgency);
-	}
-
-	@Override
-	public void exportToCsv() {
-		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
-		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
-		this.startDate = toolbar.getStartDate();
-		this.endDate = toolbar.getEndDate();
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 165,
-				String.valueOf(this.taxReturnId), "", this.taxAgency);
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), 165, new NumberReportInput(this.taxReturnId),
+				new NumberReportInput(this.taxAgency));
 	}
 
 	@Override

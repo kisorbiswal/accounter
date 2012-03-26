@@ -3138,6 +3138,7 @@
 		<return-scalar column="ACCOUNT_TYPE" type="int" />
 		<return-scalar column="JOB_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="T_ID" type="double" />
 		
 		<![CDATA[
 						SELECT A.ID       AS ACCOUNT_ID,
@@ -3183,7 +3184,8 @@
 						                        AND AT.IS_CASH_BASIS_ENTRY = 'FALSE'
 						AND AT.COMPANY_ID=:companyId)
 						 END )    AS AMOUNT,
-						A.PARENT_ID
+						A.PARENT_ID,
+						T.ID AS T_ID
 						FROM   ACCOUNT_TRANSACTION AT
 						       LEFT OUTER JOIN ACCOUNT A
 						         ON A.ID = AT.ACCOUNT_ID

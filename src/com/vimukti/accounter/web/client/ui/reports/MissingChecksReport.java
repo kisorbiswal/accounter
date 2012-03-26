@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -97,27 +97,14 @@ public class MissingChecksReport extends
 	}
 
 	@Override
-	public void print() {
-
+	public void export(int generationType) {
 		if (getAccountId() == 0) {
 			Accounter.showError(messages.pleaseSelect(messages.account()));
 		} else {
-			UIUtils.generateReportPDF(Integer.parseInt(String
-					.valueOf(toolbar.startDate.getDate())), Integer
-					.parseInt(String.valueOf(toolbar.endDate.getDate())), 181,
-					"", "", getAccountId());
+			UIUtils.generateReport(generationType,
+					toolbar.startDate.getDate(), toolbar.endDate.getDate(),
+					181, new NumberReportInput(getAccountId()));
 		}
 	}
 
-	@Override
-	public void exportToCsv() {
-		if (getAccountId() == 0) {
-			Accounter.showError(messages.pleaseSelect(Global.get().Vendor()));
-		} else {
-			UIUtils.exportReport(Integer.parseInt(String
-					.valueOf(toolbar.startDate.getDate())), Integer
-					.parseInt(String.valueOf(toolbar.endDate.getDate())), 181,
-					"", "", getAccountId());
-		}
-	}
 }

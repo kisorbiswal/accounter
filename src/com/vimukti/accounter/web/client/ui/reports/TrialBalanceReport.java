@@ -35,20 +35,15 @@ public class TrialBalanceReport extends AbstractReportView<TrialBalance> {
 		Accounter.createReportService().getTrialBalance(start, end, this);
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 113, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 113);
 	}
 
 	@Override
@@ -91,7 +86,7 @@ public class TrialBalanceReport extends AbstractReportView<TrialBalance> {
 		}
 
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {
@@ -112,14 +107,6 @@ public class TrialBalanceReport extends AbstractReportView<TrialBalance> {
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("endDate", endDate);
 		return map;
-	}
-
-	public void exportToCsv() {
-
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 113, "",
-				"");
 	}
 
 }

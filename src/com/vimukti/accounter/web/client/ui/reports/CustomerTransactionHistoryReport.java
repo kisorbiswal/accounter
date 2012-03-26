@@ -41,11 +41,9 @@ public final class CustomerTransactionHistoryReport extends
 	}
 
 	@Override
-	public void print() {
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 119, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 119);
 	}
 
 	@Override
@@ -83,19 +81,12 @@ public final class CustomerTransactionHistoryReport extends
 		return 0;
 	}
 
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 119, "",
-				"");
-	}
-
 	@Override
 	public boolean canPrint() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

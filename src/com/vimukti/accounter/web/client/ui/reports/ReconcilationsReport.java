@@ -39,14 +39,11 @@ public class ReconcilationsReport extends AbstractReportView<Reconciliation> {
 	}
 
 	@Override
-	public void print() {
-		int reportType = 170;
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 170);
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

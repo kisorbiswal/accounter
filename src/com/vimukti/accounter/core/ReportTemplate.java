@@ -6,7 +6,6 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 	private String reportsHtml;
 	private int reportType;
 	private String reportDate;
-	private String dateRangeHtml = "";
 
 	public ReportTemplate(Company company, String... params) {
 		super(company);
@@ -15,21 +14,18 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 		this.reportsHtml = params[0];
 		this.reportTitle = params[1];
 		this.reportDate = params[4];
-		if (params[5] != null && !params[5].equals("null"))
-			this.dateRangeHtml = params[5];
 		init();
 	}
 
-	public ReportTemplate(Company company, int reportType, String[] params) {
+	public ReportTemplate(Company company, int reportType, String[] params,
+			String reportTitle) {
 		super(company);
 		imgUrl = params[1];
 		style1 = params[2];
 		this.reportsHtml = params[0];
 		this.reportType = reportType;
 		this.reportDate = new FinanceDate().toString();
-		if (params[3] != null && !params[3].equals("null"))
-			this.dateRangeHtml = params[3];
-		this.reportTitle = ReportsGenerator.getReportNameByType(reportType);
+		this.reportTitle = reportTitle;
 		init();
 
 	}
@@ -105,7 +101,7 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 
 	@Override
 	public String getFileName() {
-		return ReportsGenerator.getReportNameByType(this.reportType);
+		return reportTitle;
 	}
 
 	public String forNullValue(String value) {

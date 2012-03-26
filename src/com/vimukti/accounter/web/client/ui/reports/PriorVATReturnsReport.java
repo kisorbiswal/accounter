@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -17,8 +18,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	public PriorVATReturnsReport() {
 
-		super(false, messages
-				.pleaseSelectVATAgencyAndEndingDateToViewReport());
+		super(false, messages.pleaseSelectVATAgencyAndEndingDateToViewReport());
 		isVATPriorReport = true;
 		isVATSummaryReport = true;
 		this.serverReport = new PriorVATReturnsServerReport(this);
@@ -94,12 +94,10 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(Integer.parseInt(String.valueOf(startDate
-				.getDate())), Integer.parseInt(String
-				.valueOf(((PriorVATReturnToolBar) toolbar).getSelectedEndDate()
-						.getDate())), 136, "", "", vatAgency);
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				((PriorVATReturnToolBar) toolbar).getSelectedEndDate()
+						.getDate(), 136, new NumberReportInput(vatAgency));
 	}
 
 	@Override
@@ -117,13 +115,6 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		// return UIUtils.compareDouble(obj1.getValue(), obj2.getValue());
 		// }
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String.valueOf(startDate
-				.getDate())), Integer.parseInt(String
-				.valueOf(((PriorVATReturnToolBar) toolbar).getSelectedEndDate()
-						.getDate())), 136, "", "", vatAgency);
 	}
 
 	@Override
@@ -152,5 +143,5 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 		map.put("endDate", endDate);
 		return map;
 	}
-	
+
 }

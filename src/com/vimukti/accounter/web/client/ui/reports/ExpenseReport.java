@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -55,11 +56,9 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 	}
 
 	@Override
-	public void print() {
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 116, "",
-				"", type);
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 116, new NumberReportInput(type));
 
 	}
 
@@ -88,14 +87,6 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 			}
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 116, "",
-				"", type);
-
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -134,8 +135,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	}
 
 	@Override
-	public void print() {
-
+	public void export(int generationType) {
 		if (getPayeeId() == 0) {
 			if (isVendor) {
 				Accounter.showError(messages
@@ -145,42 +145,9 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 						.Customer()));
 			}
 		} else {
-			if (isVendor) {
-				UIUtils.generateReportPDF(
-						Integer.parseInt(String.valueOf(startDate.getDate())),
-						Integer.parseInt(String.valueOf(endDate.getDate())),
-						167, "", "", getPayeeId());
-			} else {
-				UIUtils.generateReportPDF(
-						Integer.parseInt(String.valueOf(startDate.getDate())),
-						Integer.parseInt(String.valueOf(endDate.getDate())),
-						150, "", "", getPayeeId());
-			}
-		}
-	}
-
-	@Override
-	public void exportToCsv() {
-		if (getPayeeId() == 0) {
-			if (isVendor) {
-				Accounter.showError(messages
-						.pleaseSelect(Global.get().Vendor()));
-			} else {
-				Accounter.showError(messages.pleaseSelect(Global.get()
-						.Customer()));
-			}
-		} else {
-			if (isVendor) {
-				UIUtils.exportReport(
-						Integer.parseInt(String.valueOf(startDate.getDate())),
-						Integer.parseInt(String.valueOf(endDate.getDate())),
-						167, "", "", getPayeeId());
-			} else {
-				UIUtils.exportReport(
-						Integer.parseInt(String.valueOf(startDate.getDate())),
-						Integer.parseInt(String.valueOf(endDate.getDate())),
-						150, "", "", getPayeeId());
-			}
+			UIUtils.generateReport(generationType, startDate.getDate(),
+					endDate.getDate(), isVendor ? 167 : 150,
+					new NumberReportInput(getPayeeId()));
 		}
 	}
 

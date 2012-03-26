@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -29,15 +30,13 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(messages.all(), messages.thisWeek(), messages.thisMonth(),
-				messages.lastWeek(), messages
-						.lastMonth(),
-				messages.thisFinancialYear(), messages.lastFinancialYear(), messages
-						.thisFinancialQuarter(), messages
-						.lastFinancialQuarter(), messages
-						.financialYearToDate(), messages
-						.lastVATQuarter(), messages
-						.lastVATQuarterToDate(), messages.custom());
+		toolbar.setDateRanageOptions(messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate(), messages.lastVATQuarter(),
+				messages.lastVATQuarterToDate(), messages.custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
 		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
@@ -96,12 +95,9 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 137, "",
-				"", getVatAgency());
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 137, new NumberReportInput(getVatAgency()));
 	}
 
 	@Override
@@ -121,14 +117,6 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 		return 0;
 	}
 
-	public void exportToCsv() {
-
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 137, "",
-				"", getVatAgency());
-	}
-
 	public long getVatAgency() {
 		return vatAgency;
 	}
@@ -136,7 +124,7 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	public void setVatAgency(long vatAgency) {
 		this.vatAgency = vatAgency;
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

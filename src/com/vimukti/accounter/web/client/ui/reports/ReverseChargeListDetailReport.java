@@ -1,12 +1,12 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetailServerReport;
-
 
 public class ReverseChargeListDetailReport extends
 		AbstractReportView<ReverseChargeListDetail> {
@@ -40,21 +40,15 @@ public class ReverseChargeListDetailReport extends
 		this.vatAgency = transactionDetails.getName();
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 145, "",
-				"", vatAgency);
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 145, new StringReportInput(vatAgency));
 	}
 
 	@Override
@@ -91,14 +85,6 @@ public class ReverseChargeListDetailReport extends
 					obj2.getSalesPrice());
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 145, "",
-				"", vatAgency);
 	}
 
 }

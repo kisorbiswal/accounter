@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -54,13 +55,11 @@ public class PurchaseByItemDetailReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		String itemName = this.data != null ? ((SalesByCustomerDetail) this.data)
 				.getItemName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 133, "",
-				"", itemName);
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 133, new StringReportInput(itemName));
 	}
 
 	@Override
@@ -108,20 +107,6 @@ public class PurchaseByItemDetailReport extends
 		return 0;
 	}
 
-	public void exportToCsv() {
-		if (byCustomerDetail == 0) {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 133,
-					"", "");
-		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 133,
-					"", "", byCustomerDetail);
-		}
-	}
-	
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

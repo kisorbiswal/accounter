@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -48,22 +49,10 @@ public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 	}
 
 	@Override
-	public void print() {
-		// UIUtils.generateBudgetReportPDF(154, BUDGET_TYPE_CUSTOM);
-
-		UIUtils.generateReportPDF(Integer.parseInt(String
-				.valueOf(new ClientFinanceDate().getDate())), Integer
-				.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
-				154, "", "", budgetId);
-
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(Integer.parseInt(String
-				.valueOf(new ClientFinanceDate().getDate())), Integer
-				.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
-				154, "", "", budgetId);
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, new ClientFinanceDate()
+				.getDate(), new ClientFinanceDate().getDate(), 154,
+				new NumberReportInput(budgetId));
 	}
 
 	@Override

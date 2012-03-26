@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.MapNumberReportInput;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.UnRealisedExchangeLossesAndGainsServerReport;
 
 /**
@@ -55,13 +58,10 @@ public class UnRealisedExchangeLossesAndGainsReport extends
 	}
 
 	@Override
-	public boolean canPrint() {
-		return false;
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 173,
+				new NumberReportInput(enteredDate.getDate()),
+				new MapNumberReportInput(exchangeRates));
 	}
-
-	@Override
-	public boolean canExportToCsv() {
-		return false;
-	}
-
 }

@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServerReport;
 
-
 public class SalesTaxLiabilityReport extends
 		AbstractReportView<SalesTaxLiability> {
 
@@ -38,20 +37,15 @@ public class SalesTaxLiabilityReport extends
 				this);
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 144, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 144);
 	}
 
 	@Override
@@ -59,13 +53,6 @@ public class SalesTaxLiabilityReport extends
 
 	}
 
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 144, "",
-				"");
-	}
-	
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -476,5 +477,9 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> transactionDetailByCatgoryReport);
+
+	public void exportToFile(int exportType, int reportType, long startDate,
+			long endDate, ReportInput[] inputs,
+			AsyncCallback<List<String>> callback);
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -44,21 +45,11 @@ public class DepreciationSheduleReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		String accountName = data != null ? ((DepreciationShedule) data)
 				.getAssetAccountName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				getReportType(), "", "", accountName);
-	}
-
-	@Override
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				getReportType(), "", "");
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), getReportType(), new StringReportInput(accountName));
 	}
 
 	public int getReportType() {
@@ -69,7 +60,7 @@ public class DepreciationSheduleReport extends
 		this.reportType = reportType;
 
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

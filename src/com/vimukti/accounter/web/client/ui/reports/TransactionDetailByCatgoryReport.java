@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -53,7 +54,7 @@ public class TransactionDetailByCatgoryReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		TrialBalance trialBalance = (TrialBalance) data;
 		long accountId = data != null ? ((TrialBalance) data).getAccountId()
 				: 0;
@@ -65,30 +66,10 @@ public class TransactionDetailByCatgoryReport extends
 		} else if (trialBalance.getCategoryType() == LOCATION) {
 			reportType = 195;
 		}
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, String.valueOf(trialBalance.getCategoryId()), "",
-				String.valueOf(accountId != 0 ? accountId : ""));
-
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), reportType,
+				new NumberReportInput(trialBalance.getCategoryId()),
+				new NumberReportInput(accountId));
 	}
 
-	public void exportToCsv() {
-		TrialBalance trialBalance = (TrialBalance) data;
-		long accountId = data != null ? ((TrialBalance) data).getAccountId()
-				: 0;
-		int reportType = 0;
-		if (trialBalance.getCategoryId() == CLASS) {
-			reportType = 194;
-		} else if (trialBalance.getCategoryId() == JOB) {
-			reportType = 193;
-		} else if (trialBalance.getCategoryId() == LOCATION) {
-			reportType = 195;
-		}
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, String.valueOf(trialBalance.getCategoryId()), "",
-				String.valueOf(accountId != 0 ? accountId : ""));
-	}
 }

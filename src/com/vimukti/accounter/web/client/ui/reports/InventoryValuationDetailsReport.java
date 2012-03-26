@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -17,19 +18,10 @@ public class InventoryValuationDetailsReport extends
 	}
 
 	@Override
-	public void print() {
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				REPORT_TYPE_INVENTORY_VALUTION_DETAIL, "", "", id);
-	}
-
-	@Override
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				REPORT_TYPE_INVENTORY_VALUTION_DETAIL, "", "", id);
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), REPORT_TYPE_INVENTORY_VALUTION_DETAIL,
+				new NumberReportInput(id));
 	}
 
 	@Override

@@ -67,7 +67,6 @@ public abstract class AbstractFinaneReport<R> extends
 	}
 
 	public IFinanceReport<R> reportView;
-	protected String navigateObjectName;
 
 	public AbstractFinaneReport() {
 
@@ -478,10 +477,6 @@ public abstract class AbstractFinaneReport<R> extends
 	// public void setFinaceTool(FinanceTool financeTool) {
 	// this.financeTool = financeTool;
 	// }
-
-	public void setNavigatedObjectName(String navigateObjectName) {
-		this.navigateObjectName = navigateObjectName;
-	}
 
 	public String getDateByCompanyType(ClientFinanceDate date) {
 		if (this.reportView == null) {

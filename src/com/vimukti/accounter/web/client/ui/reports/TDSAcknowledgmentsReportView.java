@@ -81,22 +81,10 @@ public class TDSAcknowledgmentsReportView extends
 	public boolean canExportToCsv() {
 		return true;
 	}
-	
+
 	@Override
-	public void print() {
-		
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 192, "",
-				"");
-	}
-	
-	@Override
-	public void exportToCsv() {
-		
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 192, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 192);
 	}
 }

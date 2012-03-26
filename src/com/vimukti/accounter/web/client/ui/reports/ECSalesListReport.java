@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
 
-
 public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 
 	public ECSalesListReport() {
@@ -36,21 +35,15 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 142, "",
-				"");
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 142);
 	}
 
 	@Override
@@ -69,13 +62,6 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 		return 0;
 	}
 
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 142, "",
-				"");
-	}
-	
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

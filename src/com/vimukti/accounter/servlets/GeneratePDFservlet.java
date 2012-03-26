@@ -60,6 +60,7 @@ import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.reports.generators.IReportGenerator;
 import com.vimukti.accounter.core.vat.IndianVATTemplate;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -549,19 +550,20 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, company,
-					dateRangeHtml);
+					navigatedName, IReportGenerator.GENERATION_TYPE_PDF,
+					company, dateRangeHtml);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
-					company, dateRangeHtml);
+					navigatedName, IReportGenerator.GENERATION_TYPE_PDF,
+					status, company, dateRangeHtml);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
-				ReportsGenerator.GENERATIONTYPEPDF);
-
+				IReportGenerator.GENERATION_TYPE_PDF);
+		String reportName = generator.getReportNameByType(reportType);
 		ReportTemplate template = new ReportTemplate(company, reportType,
-				new String[] { gridTemplate, footerImg, style, dateRangeHtml });
+				new String[] { gridTemplate, footerImg, style, dateRangeHtml },
+				reportName);
 		return template;
 	}
 

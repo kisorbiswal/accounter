@@ -46,7 +46,7 @@ public class SalesByLocationsummaryReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		int reportType;
 		if (isCustomer) {
 			if (isLocation) {
@@ -62,33 +62,8 @@ public class SalesByLocationsummaryReport extends
 			}
 		}
 
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
-
-	}
-
-	@Override
-	public void exportToCsv() {
-		int reportType;
-		if (isCustomer) {
-			if (isLocation) {
-				reportType = 152;
-			} else {
-				reportType = 160;
-			}
-		} else {
-			if (isLocation) {
-				reportType = 196;
-			} else {
-				reportType = 197;
-			}
-		}
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, "", "");
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), reportType);
 	}
 
 	@Override

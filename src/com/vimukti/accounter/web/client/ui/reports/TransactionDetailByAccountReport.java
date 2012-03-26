@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
@@ -154,15 +155,11 @@ public class TransactionDetailByAccountReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		long accountId = data != null ? ((TrialBalance) data).getAccountId()
-				: 0;
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				getReportType(), "", "",
-				String.valueOf(accountId != 0 ? accountId : ""));
-
+				: 0l;
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), getReportType(), new NumberReportInput(accountId));
 	}
 
 	@Override
@@ -214,13 +211,6 @@ public class TransactionDetailByAccountReport extends
 			}
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				getReportType(), "", "");
 	}
 
 	public int getReportType() {

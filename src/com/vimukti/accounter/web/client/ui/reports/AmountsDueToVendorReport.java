@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServerReport;
 
-
 public class AmountsDueToVendorReport extends
 		AbstractReportView<AmountsDueToVendor> {
 
@@ -24,20 +23,15 @@ public class AmountsDueToVendorReport extends
 		// nothing to do
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 149, "",
-				"");
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 149);
 	}
 
 	@Override
@@ -48,13 +42,6 @@ public class AmountsDueToVendorReport extends
 	@Override
 	public int getToolbarType() {
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 149, "",
-				"");
 	}
 
 }

@@ -12,15 +12,9 @@ public class InventoryItemReport extends AbstractReportView<ClientItem> {
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		// TODO Auto-generated method stub
-		super.print();
-	}
 
-	@Override
-	public void exportToCsv() {
-		// TODO Auto-generated method stub
-		super.exportToCsv();
 	}
 
 	@Override

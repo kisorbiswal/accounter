@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -94,13 +95,11 @@ public class SalesByCustomerDetailReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		String customerName = this.data != null ? ((SalesByCustomerDetail) this.data)
 				.getName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 122, "",
-				"", customerName);
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 122, new StringReportInput(customerName));
 	}
 
 	@Override
@@ -133,13 +132,6 @@ public class SalesByCustomerDetailReport extends
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 122, "",
-				"");
 	}
 
 	/*

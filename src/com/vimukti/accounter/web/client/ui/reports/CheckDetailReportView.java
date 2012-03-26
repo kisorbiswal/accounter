@@ -44,6 +44,12 @@ public class CheckDetailReportView extends
 		return null;
 	}
 
+	@Override
+	public void export(int generationType) {
+		// TODO Auto-generated method stub
+
+	}
+
 	// @Override
 	// public int[] getColumnTypes() {
 	// return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,

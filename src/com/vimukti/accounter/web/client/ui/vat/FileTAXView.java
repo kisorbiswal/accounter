@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -77,10 +78,9 @@ public class FileTAXView extends AbstractFileTAXView {
 				long taxAgency = taxAgencyCombo.getSelectedValue().getID();
 				this.startDate = toolbar.getStartDate();
 				this.endDate = toolbar.getEndDate();
-				UIUtils.generateReportPDF(
-						Integer.parseInt(String.valueOf(startDate.getDate())),
-						Integer.parseInt(String.valueOf(endDate.getDate())),
-						165, "", "", taxAgency);
+				UIUtils.generateReportPDF(startDate.getDate(),
+						endDate.getDate(), 165,
+						new NumberReportInput(taxAgency));
 			}
 
 			@Override

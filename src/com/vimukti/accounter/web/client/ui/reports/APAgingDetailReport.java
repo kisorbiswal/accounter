@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -50,14 +51,11 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		String name = this.data != null ? ((DummyDebitor) this.data)
 				.getDebitorName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 128, "",
-				"", name);
-
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 128, new StringReportInput(name));
 	}
 
 	public int sort(AgedDebtors obj1, AgedDebtors obj2, int col) {
@@ -94,20 +92,6 @@ public class APAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	@Override
 	public int getToolbarType() {
 		return TOOLBAR_TYPE_AS_OF;
-	}
-
-	public void exportToCsv() {
-		if (byCustomerDetail == 0) {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
-					"", "");
-		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 128,
-					"", "", byCustomerDetail);
-		}
 	}
 
 }

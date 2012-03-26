@@ -13,6 +13,11 @@ public class UnRealisedExchangeLossesAndGainsServerReport extends
 		this.reportView = reportView;
 	}
 
+	public UnRealisedExchangeLossesAndGainsServerReport(long startDate,
+			long endDate, int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return getColunms();

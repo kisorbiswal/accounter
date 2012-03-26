@@ -20,7 +20,8 @@ public class BudgetReportTemplate extends TemplateBuilder implements ITemplate {
 		init();
 	}
 
-	public BudgetReportTemplate(Company company, int reportType, String[] params) {
+	public BudgetReportTemplate(Company company, int reportType,
+			String[] params, String reportTitle) {
 		super(company);
 		imgUrl = params[1];
 		style1 = params[2];
@@ -29,7 +30,7 @@ public class BudgetReportTemplate extends TemplateBuilder implements ITemplate {
 		this.reportDate = new FinanceDate().toString();
 		if (params[3] != null && !params[3].equals("null"))
 			this.dateRangeHtml = params[3];
-		this.reportTitle = ReportsGenerator.getReportNameByType(reportType);
+		this.reportTitle = reportTitle;
 		init();
 
 	}
@@ -96,7 +97,7 @@ public class BudgetReportTemplate extends TemplateBuilder implements ITemplate {
 
 	@Override
 	public String getFileName() {
-		return ReportsGenerator.getReportNameByType(this.reportType);
+		return reportTitle;
 	}
 
 	public String forNullValue(String value) {

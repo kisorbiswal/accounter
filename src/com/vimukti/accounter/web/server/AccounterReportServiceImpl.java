@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.server;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -83,6 +85,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.server.managers.ExportManager;
 
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
@@ -2742,7 +2745,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return vat100Report(taxAgency, fromDate, toDate, companyId);
 	}
 
-	public ArrayList<ClientBudgetList> getBudgetItemsList(int id, long companyId) {
+	public ArrayList<ClientBudgetList> getBudgetItemsList(long id,
+			long companyId) {
 		return budgetItemsList(id, companyId);
 	}
 
@@ -3477,5 +3481,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate clientFinanceDate2, long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<String> exportToFile(int exportType, int reportType,
+			long startDate, long endDate, ReportInput[] input)
+			throws AccounterException {
+		ExportManager manager = getFinanceTool().getExportManager();
+		List<ReportInput> list = Arrays.asList(input);
+		return manager.exportReportToFile(getCompanyId(), exportType,
+				reportType, startDate, endDate, list);
 	}
 }

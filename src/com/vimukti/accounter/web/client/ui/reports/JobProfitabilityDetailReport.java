@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -66,27 +67,15 @@ public class JobProfitabilityDetailReport extends
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 190,
-				String.valueOf(customerId), String.valueOf(jobId), "");
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 190, new NumberReportInput(customerId),
+				new NumberReportInput(jobId));
 	}
 
 	@Override
 	public boolean canExportToCsv() {
 		return true;
-	}
-
-	@Override
-	public void exportToCsv() {
-
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 190,
-				String.valueOf(customerId), String.valueOf(jobId));
 	}
 
 	@Override

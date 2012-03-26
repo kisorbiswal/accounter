@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -52,7 +53,7 @@ public class SalesByLocationDetailsReport extends
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		SalesByLocationSummary record = (SalesByLocationSummary) data;
 		int reportType;
 		if (isCustomer) {
@@ -74,39 +75,9 @@ public class SalesByLocationDetailsReport extends
 		} else {
 			locationOrClassName = "";
 		}
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, locationOrClassName, "");
-	}
-
-	@Override
-	public void exportToCsv() {
-		SalesByLocationSummary record = (SalesByLocationSummary) data;
-		int reportType;
-		if (isCustomer) {
-			if (isLocation) {
-				reportType = 151;
-			} else {
-				reportType = 159;
-			}
-		} else {
-			if (isLocation) {
-				reportType = 198;
-			} else {
-				reportType = 199;
-			}
-		}
-		String locationOrClassName;
-		if (record != null && record.getLocationName() != null) {
-			locationOrClassName = record.getLocationName();
-		} else {
-			locationOrClassName = "";
-		}
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())),
-				reportType, locationOrClassName, "");
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), reportType, new StringReportInput(
+				locationOrClassName));
 	}
 
 	@Override

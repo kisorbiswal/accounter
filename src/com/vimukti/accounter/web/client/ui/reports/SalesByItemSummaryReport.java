@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemSummaryServerReport;
 
-
 public class SalesByItemSummaryReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 
@@ -23,8 +22,7 @@ public class SalesByItemSummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record,
-				ActionFactory.getSalesByItemDetailAction());
+		UIUtils.runAction(record, ActionFactory.getSalesByItemDetailAction());
 	}
 
 	@Override
@@ -37,21 +35,15 @@ public class SalesByItemSummaryReport extends
 		Accounter.createReportService().getSalesByItemSummary(start, end, this);
 	}
 
-
-
 	@Override
 	public void onEdit() {
 
 	}
 
 	@Override
-	public void print() {
-
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 123, "",
-				"");
-
+	public void export(int generationType) {
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 123);
 	}
 
 	@Override
@@ -77,13 +69,6 @@ public class SalesByItemSummaryReport extends
 		return 0;
 	}
 
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 123, "",
-				"");
-	}
-	
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

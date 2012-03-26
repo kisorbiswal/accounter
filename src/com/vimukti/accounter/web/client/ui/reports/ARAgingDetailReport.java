@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -62,13 +63,11 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 	}
 
 	@Override
-	public void print() {
+	public void export(int generationType) {
 		String customerName = this.data != null ? ((DummyDebitor) this.data)
 				.getDebitorName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 118, "",
-				"", customerName);
+		UIUtils.generateReport(generationType, startDate.getDate(),
+				endDate.getDate(), 118, new StringReportInput(customerName));
 	}
 
 	@Override
@@ -113,13 +112,6 @@ public class ARAgingDetailReport extends AbstractReportView<AgedDebtors> {
 			return UIUtils.compareDouble(obj1.getTotal(), obj2.getTotal());
 		}
 		return 0;
-	}
-
-	public void exportToCsv() {
-		UIUtils.exportReport(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 118, "",
-				"");
 	}
 
 }

@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
+import com.vimukti.accounter.core.reports.generators.IReportGenerator;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -134,24 +135,27 @@ public class ExportReportServlet extends BaseServlet {
 
 		if (vendorId != 0) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV,
+					navigatedName, IReportGenerator.GENERATION_TYPE_CSV,
 					vendorId, boxNo, company);
 
 		} else if (status != null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
-					company, dateRangeHtml);
+					navigatedName, IReportGenerator.GENERATION_TYPE_CSV,
+					status, company, dateRangeHtml);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV, company,
-					dateRangeHtml);
+					navigatedName, IReportGenerator.GENERATION_TYPE_CSV,
+					company, dateRangeHtml);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
-				ReportsGenerator.GENERATIONTYPECSV);
+				IReportGenerator.GENERATION_TYPE_CSV);
+
+		String reportName = generator.getReportNameByType(reportType);
 
 		CSVReportTemplate template = new CSVReportTemplate(company, reportType,
-				new String[] { gridTemplate, null, style, dateRangeHtml });
+				new String[] { gridTemplate, null, style, dateRangeHtml },
+				reportName);
 		/*  */
 
 		return template;

@@ -48,6 +48,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -242,16 +243,16 @@ public class UIUtils {
 
 	public static DynamicForm form(String frameTitle) {
 		DynamicForm f = new DynamicForm("frameTitle");
-//		f.setIsGroup(true);
-//		f.setGroupTitle(frameTitle);
+		// f.setIsGroup(true);
+		// f.setGroupTitle(frameTitle);
 		// f.setWrapItemTitles(false);
 		return f;
 	}
 
 	public static DynamicForm form(String frameTitle, boolean wrap) {
 		DynamicForm f = new DynamicForm("form");
-//		f.setIsGroup(true);
-//		f.setGroupTitle(frameTitle);
+		// f.setIsGroup(true);
+		// f.setGroupTitle(frameTitle);
 		// f.setWrapItemTitles(wrap);
 		return f;
 	}
@@ -543,11 +544,11 @@ public class UIUtils {
 
 		busyindicator.setStyleName("busyindicator");
 		Label label = new Label(message);
-//		label.setWidth("100%");
+		// label.setWidth("100%");
 		label.setStyleName("busyindicatorLabel");
 		busyindicator.add(img);
 		busyindicator.add(label);
-//		busyindicator.setSize("100%", "100%");
+		// busyindicator.setSize("100%", "100%");
 		return busyindicator;
 	}
 
@@ -769,7 +770,7 @@ public class UIUtils {
 
 		imageLayout.add(image);
 		imageLayout.add(pleaseWaitLabel);
-//		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		// imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 		imageLayout.setSize("100%", "100%");
 
 		// final DialogBox loadingDialog = new DialogBox();
@@ -782,7 +783,7 @@ public class UIUtils {
 		panel.center();
 		panel.setModal(true);
 		panel.add(imageLayout);
-//		panel.setWidth("180px");
+		// panel.setWidth("180px");
 		panel.show();
 
 		Timer timer = new Timer() {
@@ -814,7 +815,7 @@ public class UIUtils {
 
 		imageLayout.add(image);
 		imageLayout.add(pleaseWaitLabel);
-//		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		// imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 		imageLayout.setSize("100%", "100%");
 
 		// final DialogBox loadingDialog = new DialogBox();
@@ -827,7 +828,7 @@ public class UIUtils {
 		panel.center();
 		panel.setModal(true);
 		panel.add(imageLayout);
-//		panel.setWidth("247px");
+		// panel.setWidth("247px");
 		panel.show();
 
 		Timer timer = new Timer() {
@@ -1263,11 +1264,11 @@ public class UIUtils {
 		document.body.appendChild(scr);
 
 		// Width of the inner div sans scrollbar
-//		wNoScroll = inn.offsetWidth;
+		//		wNoScroll = inn.offsetWidth;
 		// Add the scrollbar
 		scr.style.overflow = 'auto';
 		// Width of the inner div width scrollbar
-//		wScroll = inn.offsetWidth;
+		//		wScroll = inn.offsetWidth;
 
 		// Remove the scrolling div from the doc
 		document.body.removeChild(document.body.lastChild);
@@ -1645,42 +1646,6 @@ public class UIUtils {
 		}
 	}-*/;
 
-	/**
-	 * This method is used for the reports pdf generation. The Require
-	 * parameters are report title , Reportgrid Html and Dateranges Html(The
-	 * Daterange Html is Generate Your self By Using Report Start Date and End
-	 * Date)
-	 */
-	public static void generateRertPDF(String reportTitle, String htmlbody,
-			String dateRangeHtml) {
-		// HiddenIFrame frame = new HiddenIFrame("");
-		//
-		// StyledPanel vpanel = new StyledPanel();
-		//
-		// Hidden reporthtmlEle = new Hidden();
-		// reporthtmlEle.setName("reporthtml");
-		// reporthtmlEle.setValue(htmlbody);
-		// vpanel.add(reporthtmlEle);
-		//
-		// Hidden newElement1 = new Hidden();
-		// newElement1.setName("reportTitle");
-		// newElement1.setValue(reportTitle);
-		// vpanel.add(newElement1);
-		//
-		// Hidden newElement2 = new Hidden();
-		// newElement1.setName("dateRangeHtml");
-		// newElement1.setValue(dateRangeHtml);
-		// vpanel.add(newElement2);
-		//
-		// frame.getForm().setAction("/do/finance/generatePDFServlet");
-		// frame.getForm().setMethod("POST");
-		// frame.getForm().add(vpanel);
-		// frame.getForm().submit();
-
-		// generateReportPDF(reportTitle, htmlbody, dateRangeHtml, frame
-		// .getElement());
-	}
-
 	public static void downloadAttachment(long objectID, int type,
 			long brandingThemeId) {
 		downloadAttachment(String.valueOf(objectID), type,
@@ -1901,104 +1866,36 @@ public class UIUtils {
 		document.body.style.cursor = style;
 	}-*/;
 
-	public static native void exportReport(int start, int end, int reportType,
-			String name, String dateRangeHtml)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/ExportReportServlet?startDate=" + start
-							+ "&endDate=" + end + "&reportType=" + reportType
-							+ "&navigatedName=" + name + "&dateRangeHtml="
-							+ dateRangeHtml);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
+	public static void generateReport(int generationType, long start, long end,
+			int reportType, ReportInput... inputs) {
+		Accounter.createReportService().exportToFile(generationType,
+				reportType, start, end, inputs,
+				new AccounterAsyncCallback<List<String>>() {
 
-	public static void exportReport(int start, int end, int reportType,
-			String name, String dateRangeHtml, long status) {
-		exportReport(start, end, reportType, name, dateRangeHtml,
-				String.valueOf(status));
+					@Override
+					public void onException(AccounterException exception) {
+						Accounter.showInformation(Global.get().messages()
+								.unableToPerformTryAfterSomeTime());
+					}
+
+					@Override
+					public void onResultSuccess(List<String> fileNames) {
+						if (fileNames == null || fileNames.isEmpty()) {
+							return;
+						}
+						if (fileNames.size() == 1) {
+							fileNames.add(fileNames.get(0));
+						}
+						downloadFileFromTemp(fileNames.get(0), fileNames.get(1));
+					}
+				});
 	}
 
-	public static native void exportReport(int start, int end, int reportType,
-			String name, String dateRangeHtmal, String vendorId, int boxNum)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/ExportReportServlet?startDate=" + start
-							+ "&endDate=" + end + "&reportType=" + reportType
-							+ "&navigatedName=" + name + "&dateRangeHtml="
-							+ dateRangeHtml + "&vendorId=" + vendorId
-							+ "&boxNo=" + boxNum);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
-
-	public static native void exportReport(int start, int end, int reportType,
-			String name, String dateRangeHtml, String status)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/ExportReportServlet?startDate=" + start
-							+ "&endDate=" + end + "&reportType=" + reportType
-							+ "&navigatedName=" + name + "&dateRangeHtml="
-							+ dateRangeHtml + "&status=" + status);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
-
-	public static void generateReportPDF(int start, int end, int reportType,
-			String name, long dateRangeHtml) {
-		generateReportPDF(start, end, reportType, name,
-				String.valueOf(dateRangeHtml));
+	public static void generateReportPDF(long start, long end, int reportType,
+			ReportInput... inputs) {
+		generateReport(ReportInput.REPORT_EXPORT_TYPE_PDF, start, end,
+				reportType, inputs);
 	}
-
-	public static native void generateReportPDF(int start, int end,
-			int reportType, String name, String dateRangeHtml)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?startDate=" + start
-							+ "&endDate=" + end + "&reportType=" + reportType
-							+ "&navigatedName=" + name + "&dateRangeHtml="
-							+ dateRangeHtml);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
-
-	public static void generateReportPDF(int start, int end, int reportType,
-			String name, String dateRangeHtml, long status) {
-		generateReportPDF(start, end, reportType, name, dateRangeHtml,
-				String.valueOf(status));
-	}
-
-	public static native void generateReportPDF(int start, int end,
-			int reportType, String name, String dateRangeHtml, String status)/*-{
-		try {
-			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src",
-					"/do/finance/generatePDFServlet?startDate=" + start
-							+ "&endDate=" + end + "&reportType=" + reportType
-							+ "&navigatedName=" + name + "&dateRangeHtml="
-							+ dateRangeHtml + "&status=" + status);
-			frame.style.visibility = "hidden";
-			document.body.appendChild(frame);
-		} catch (e) {
-			alert(e);
-		}
-	}-*/;
 
 	public static void generateForm16A(long vendorID, String datesRange,
 			String place, String printDate, String tdsCertificateNumber,
@@ -2123,8 +2020,8 @@ public class UIUtils {
 
 	public static CustomFieldForm CustomFieldsform(String terms) {
 		CustomFieldForm f = new CustomFieldForm();
-//		f.setIsGroup(true);
-//		f.setGroupTitle(terms);
+		// f.setIsGroup(true);
+		// f.setGroupTitle(terms);
 		// f.setWrapItemTitles(false);
 		return f;
 	}
@@ -2147,7 +2044,8 @@ public class UIUtils {
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src", "/do/downloadtempfile?filename="
-					+ fileName + "&attachmentId=" + attachId);
+					+ encodeURIComponent(fileName) + "&attachmentId="
+					+ encodeURIComponent(attachId));
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {

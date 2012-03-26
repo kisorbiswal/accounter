@@ -236,7 +236,6 @@ public class ReportsGenerator {
 
 	public String generate(FinanceTool financeTool, int generationType)
 			throws IOException {
-		ReportGridTemplate.generationType = generationType;
 
 		ReportGridTemplate<?> gridTemplate = getReportGridTemplate(financeTool,
 				generationType);
@@ -2041,7 +2040,6 @@ public class ReportsGenerator {
 
 	private void updateReport(AbstractFinaneReport<?> abstractFinaneReport,
 			FinanceTool financeTool) {
-		abstractFinaneReport.setNavigatedObjectName(navigateObjectName);
 		// abstractFinaneReport.setFinaceTool(financeTool);
 		abstractFinaneReport.setStartAndEndDates(
 				startDate.toClientFinanceDate(), endDate.toClientFinanceDate());
