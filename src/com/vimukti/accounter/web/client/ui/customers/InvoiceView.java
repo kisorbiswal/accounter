@@ -189,21 +189,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void createControls() {
-		Label lab1;
+		Label lab1 = new Label(messages.invoice());
+		lab1.setStyleName("label-title");
 		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
 		termsForm = new DynamicForm("termsForm");
 		DynamicForm prodAndServiceForm1 = new DynamicForm("prodAndServiceForm1");
 		DynamicForm prodAndServiceForm2 = new DynamicForm("prodAndServiceForm2");
 		DynamicForm vatForm = new DynamicForm("vatForm");
 		amountsForm = new DynamicForm("amountsForm");
-		DynamicForm priceLevelForm = new DynamicForm("priceLevelForm");
-
-		if (transaction == null
-				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(messages.invoice());
-		else {
-			lab1 = new Label(messages.invoice());
-		}
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
