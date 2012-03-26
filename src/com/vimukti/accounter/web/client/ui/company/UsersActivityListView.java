@@ -33,7 +33,6 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	private Label titleItem;
 	private DateField fromdate, toDate;
 	private StyledPanel mainPanel;
-	private DynamicForm dateForm, buttonForm;
 	private UsersActivityList activityList;
 	private Button updateButton, customizeButton;
 	private long value;
@@ -74,11 +73,6 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 			}
 		});
 
-		buttonForm = new DynamicForm("buttonForm");
-
-		dateForm = new DynamicForm("dateForm");
-		dateForm.add(fromdate, toDate);
-
 		activityList = new UsersActivityList(fromdate.getValue(),
 				toDate.getValue(), value) {
 			@Override
@@ -106,7 +100,8 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 		});
 
 		StyledPanel panel = new StyledPanel("panel");
-		panel.add(dateForm);
+		panel.add(fromdate);
+		panel.add(toDate);
 		panel.add(customizeButton);
 		panel.add(updateButton);
 		panel.addStyleName("user_activity_dateform");

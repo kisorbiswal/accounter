@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -330,31 +331,51 @@ public class ReportSectionView extends BaseHomeView {
 		leftPanel.add(companyAndFinancialPanel);
 		leftPanel.add(customersAndRecievableHeader);
 		leftPanel.add(customersAndRecievablePanel);
-		if (Global.get().preferences().isInventoryEnabled()) {
+
+		if (Global.get().preferences().isInventoryEnabled()
+				&& hasPermission(Features.EXTRA_REPORTS)) {
 			leftPanel.add(inventoryHeader);
 			leftPanel.add(inventoryPanel);
 		}
-		leftPanel.add(bankingHeader);
-		leftPanel.add(bankingPanel);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			leftPanel.add(bankingHeader);
+			leftPanel.add(bankingPanel);
+		}
+
 		if (Global.get().preferences().isJobTrackingEnabled()) {
 			leftPanel.add(jobHeader);
 			leftPanel.add(jobPanel);
 		}
 
-		rightPanel.add(budgetHeader);
-		rightPanel.add(budgetPanel);
+		if (hasPermission(Features.EXTRA_REPORTS)
+				&& hasPermission(Features.BUDGET)) {
+			rightPanel.add(budgetHeader);
+			rightPanel.add(budgetPanel);
+		}
+
 		if (Global.get().preferences().isTrackTax()) {
 			rightPanel.add(mainTaxHeader);
 			rightPanel.add(mainTaxPanel);
 		}
-		rightPanel.add(salesHeader);
-		rightPanel.add(salesPanel);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			rightPanel.add(salesHeader);
+			rightPanel.add(salesPanel);
+		}
 		rightPanel.add(vendorAndPayableHeader);
 		rightPanel.add(vendorAndPayablePanel);
-		rightPanel.add(purchaseHeader);
-		rightPanel.add(purchasePanel);
-		rightPanel.add(fixedAssetHeader);
-		rightPanel.add(fixedAssetPanel);
+
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			rightPanel.add(purchaseHeader);
+			rightPanel.add(purchasePanel);
+		}
+
+		if (hasPermission(Features.EXTRA_REPORTS)
+				&& hasPermission(Features.FIXED_ASSET)) {
+			rightPanel.add(fixedAssetHeader);
+			rightPanel.add(fixedAssetPanel);
+		}
 
 		mainPanel.add(leftPanel);
 		mainPanel.add(rightPanel);
@@ -362,6 +383,11 @@ public class ReportSectionView extends BaseHomeView {
 		leftPanel.addStyleName("report-left-panel");
 		rightPanel.addStyleName("report-right-panel");
 		return mainPanel;
+	}
+
+	private boolean hasPermission(String extraReports) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	private void addLinksToPanel(final Map<String, String> map, FlowPanel panel) {

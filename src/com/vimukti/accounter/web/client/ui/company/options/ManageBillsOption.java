@@ -64,7 +64,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		isPriceLevelsEnabled.setText(messages.enabled() + " "
 				+ messages.priceLevel());
 		isPriceLevelsEnabled.setStyleName("header");
-		purchaseOrderCheckBox.setValue(Accounter
+		purchaseOrderCheckBox.setVisible(Accounter
 				.hasPermission(Features.PURCHASE_ORDER));
 		purchaseOrderCheckBox.setText(messages.enablePreference(messages
 				.purchaseOrder()));

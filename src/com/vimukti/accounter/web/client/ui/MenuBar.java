@@ -1081,8 +1081,12 @@ public class MenuBar {
 
 		manageSupportListMenuBar.addMenuItem(messages.itemGroupList(),
 				HistoryTokens.ITEMGROUPLIST);
-		manageSupportListMenuBar.addMenuItem(messages.currencyList(),
-				HistoryTokens.CURRENCYGROUPLIST);
+
+		if (isMulticurrencyEnabled) {
+			manageSupportListMenuBar.addMenuItem(messages.currencyList(),
+					HistoryTokens.CURRENCYGROUPLIST);
+		}
+
 		if (hasPermission(Features.CLASS)) {
 			if (isClassTracking) {
 				manageSupportListMenuBar.addMenuItem(

@@ -58,7 +58,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		ageingdescriptionLabel.setText(messages.agingDetailsDescription());
 		ageingdescriptionLabel.setStyleName("organisation_comment");
 
-		salesOrderCheckBox.setValue(Accounter
+		salesOrderCheckBox.setVisible(Accounter
 				.hasPermission(Features.SALSE_ORDER));
 		salesOrderCheckBox.setText(messages.enablePreference(messages
 				.salesOrder()));
