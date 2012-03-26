@@ -949,8 +949,10 @@ public class MenuBar {
 		//
 		// companyMenuBar.addSeparatorItem();
 		if (isAdmin || canDoTaxTransactions) {
-			companyMenuBar.addMenuItem(messages.importFile(),
-					HistoryTokens.IMPORT);
+			if (hasPermission(Features.IMPORT)) {
+				companyMenuBar.addMenuItem(messages.importFile(),
+						HistoryTokens.IMPORT);
+			}
 		}
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
