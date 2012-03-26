@@ -166,7 +166,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		budgetNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
 				.getAction().getViewName()));
 		budgetNameText.setRequired(true);
-//		budgetNameText.setWidth(100);
+		// budgetNameText.setWidth(100);
 		budgetNameText.addBlurHandler(new BlurHandler() {
 
 			public void onBlur(BlurEvent event) {
@@ -188,7 +188,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		}
 
 		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
-//		budgetInfoForm.setWidth("100%");
+		// budgetInfoForm.setWidth("100%");
 
 		topHLay = new StyledPanel("topHLay");
 		// topHLay.setWidth("50%");
@@ -401,12 +401,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-
-		AccounterException accounterException = exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions.getErrorString(exception);
 		Accounter.showError(errorString);
-
 		updateBudgetObject();
 
 	}

@@ -356,9 +356,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 
 	@Override
 	public void saveFailed(AccounterException exception) {
-		AccounterException accounterException = (AccounterException) exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions.getErrorString(exception);
 		Accounter.showError(errorString);
 	}
 

@@ -31,13 +31,13 @@ public class AddBankDialog extends BaseDialog {
 
 		setText(messages.addBank());
 
-		bankNameText = new TextItem(messages.bankName(),"bankNameText");
+		bankNameText = new TextItem(messages.bankName(), "bankNameText");
 		bankNameText.setRequired(true);
 		DynamicForm bankForm = new DynamicForm("bankForm");
 		bankForm.add(bankNameText);
 
 		setBodyLayout(bankForm);
-//		setWidth("275px");
+		// setWidth("275px");
 
 	}
 
@@ -75,9 +75,7 @@ public class AddBankDialog extends BaseDialog {
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		AccounterException accounterException = (AccounterException) exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions.getErrorString(exception);
 		Accounter.showError(errorString);
 	}
 

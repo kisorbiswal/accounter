@@ -420,13 +420,13 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	private void checkingTotalPaymentCantExceedAmountReceived()
 			throws AccounterException {
-		if (!isValidRecivePaymentAmount(total, getGridTotal())) {
+		if (!isValidRecivePaymentAmount(total, getTransactionTot())) {
 			throw new AccounterException(
 					AccounterException.ERROR_RECIVE_PAYMENT_TOTAL_AMOUNT);
 		}
 	}
 
-	private double getGridTotal() {
+	private double getTransactionTot() {
 		Double total = 0.0D;
 		for (TransactionReceivePayment record : transactionReceivePayment) {
 			total += record.getPayment();

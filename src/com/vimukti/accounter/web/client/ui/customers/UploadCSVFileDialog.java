@@ -58,6 +58,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 	@SuppressWarnings("deprecation")
 	protected void doCreateContents() {
+		setText(messages.importFile());
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -93,7 +94,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.save());
-//		uploadSubmitButton.setWidth("80px");
+		// uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());

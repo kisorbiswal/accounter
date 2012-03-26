@@ -374,7 +374,7 @@ public class Estimate extends Transaction {
 			// // "This Quote is already  Rejected,can't  Modify");
 			// }
 		}
-
+		checkNullValues();
 		return true;
 	}
 
@@ -401,8 +401,8 @@ public class Estimate extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
 		checkingCustomerNull(customer, Global.get().customer());
+		super.checkNullValues();
 	}
 
 	private void updateTotals() throws AccounterException {
