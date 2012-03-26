@@ -109,7 +109,8 @@ public class PurchaseManager extends Manager {
 				el.setTotal(((Double) obj[3]).doubleValue());
 				el.setDate(new ClientFinanceDate((Long) obj[4]));
 				el.setVendorName((String) obj[5]);
-				el.setRemainingTotal(((Double) obj[6]).doubleValue());
+				el.setRemainingTotal(obj[6] == null ? 0.0D : ((Double) obj[6])
+						.doubleValue());
 				pil.add(el);
 			}
 
