@@ -231,6 +231,7 @@
 		<property name="restartSetupInterviews" column="RESTART_SETUP_INTERVIEWS"></property>
 		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
 		<property name="industry" column="INDUSTRY"></property>
+		<property name="bookKeeping" column="BOOK_KEEPING"></property>
 
 		<component name="preferences" class="CompanyPreferences">
 			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
@@ -698,13 +699,13 @@
 		<property name="symbol" column="SYMBOL"></property>
 		<property name="formalName" column="FORMAL_NAME"></property>
 		<property name="version" column="VERSION"></property>
-		
+
 		<many-to-one name="accountsReceivable" class="Account"
 			column="ACCOUNTS_RECEIVABLE_ID" />
-			
+
 		<many-to-one name="accountsPayable" class="Account"
-			column="ACCOUNTS_PAYABLE_ID"/>
-		
+			column="ACCOUNTS_PAYABLE_ID" />
+
 	</class>
 	<class name="CustomerGroup" table="CUSTOMER_GROUP">
 		<id name="id" column="ID">

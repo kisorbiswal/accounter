@@ -65,6 +65,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private String ein;
 
+	private boolean bookKeeping;
+
 	private int firstMonthOfFiscalYear;
 
 	private int firstMonthOfIncomeTaxYear;
@@ -3350,5 +3352,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setTransactionsLimit(int transactionsLimit) {
 		this.transactionsLimit = transactionsLimit;
+	}
+
+	public boolean isBookKeeping() {
+		return bookKeeping;
+	}
+
+	public void setBookKeeping(boolean bookKeeping) {
+		this.bookKeeping = bookKeeping;
 	}
 }

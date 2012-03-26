@@ -104,6 +104,10 @@ public class Company implements IAccounterServerCore {
 	int industry;
 
 	boolean isLocked;
+	/**
+	 * Book Keeping
+	 */
+	private boolean bookKeeping = false;
 
 	private Set<Location> locations = new HashSet<Location>();
 	/**
@@ -1632,5 +1636,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public boolean isBookKeeping() {
+		return bookKeeping;
+	}
+
+	public void setBookKeeping(boolean bookKeeping) {
+		this.bookKeeping = bookKeeping;
 	}
 }
