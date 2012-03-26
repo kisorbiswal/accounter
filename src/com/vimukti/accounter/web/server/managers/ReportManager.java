@@ -35,6 +35,7 @@ import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -3993,13 +3994,19 @@ public class ReportManager extends Manager {
 	 * @param end
 	 * @param companyId
 	 * @return
+	 * @throws AccounterException
 	 */
 	public ArrayList<TransactionDetailByAccount> getMissionChecksByAccount(
-			long accountId, FinanceDate start, FinanceDate end, long companyId) {
+			long accountId, FinanceDate start, FinanceDate end, long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
 
 		Account account = (Account) session.get(Account.class, accountId);
+		if (account == null) {
+			throw new AccounterException(Global.get().messages()
+					.pleaseSelect(Global.get().messages().account()));
+		}
 		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 			result = session

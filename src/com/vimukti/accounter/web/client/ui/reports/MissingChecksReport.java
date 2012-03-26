@@ -35,10 +35,12 @@ public class MissingChecksReport extends
 
 	public void makeReportRequest(long account, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		grid.clear();
-		if (account != 0) {
-			setAccountId(account);
+		grid.removeAllRows();
+		if (account == 0) {
+			grid.addEmptyMessage(messages.pleaseSelect(messages.account()));
+			return;
 		}
+		setAccountId(account);
 		Accounter.createReportService().getMissingCheckDetils(account,
 				startDate, endDate, this);
 	}
