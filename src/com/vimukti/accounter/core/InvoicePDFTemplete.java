@@ -307,7 +307,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
 
-			double currencyFactor = invoice.getCurrencyFactor();
+		//	double currencyFactor = invoice.getCurrencyFactor();
 			String symbol = invoice.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -377,7 +377,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatTotal", Utility.decimalConversation(
-							(invoice.getTaxTotal() * currencyFactor), ""));
+							(invoice.getTaxTotal() ), ""));
 					t.addBlock("VatTotal");
 				}
 			}

@@ -86,7 +86,7 @@ public class CashSalePdfGeneration {
 			List<ItemList> itemList = new ArrayList<ItemList>();
 			List<TransactionItem> transactionItems = sale.getTransactionItems();
 
-			double currencyFactor = sale.getCurrencyFactor();
+		//	double currencyFactor = sale.getCurrencyFactor();
 			String symbol = sale.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -101,15 +101,15 @@ public class CashSalePdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() / currencyFactor, symbol);
+						item.getUnitPrice() , symbol);
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, symbol);
+						item.getLineTotal() , symbol);
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() / currencyFactor, symbol);
+							item.getVATfraction() , symbol);
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -131,7 +131,7 @@ public class CashSalePdfGeneration {
 			i.setTotal(total);
 
 			String subtotal = Utility.decimalConversation(sale.getNetAmount()
-					/ currencyFactor, symbol);
+					, symbol);
 			i.setNetAmount(subtotal);
 
 			i.setMemo(sale.getMemo());
