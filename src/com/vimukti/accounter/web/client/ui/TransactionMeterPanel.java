@@ -82,15 +82,23 @@ public class TransactionMeterPanel extends SimplePanel {
 
 	public void addStyleToMeterbar() {
 		int width = transactionsCount * 10;
-		meterbar1.setWidth(width + "px");
+		if (width > 100) {
+			meterbar1.setWidth(100 + "%");
+		} else {
+			meterbar1.setWidth(width + "%");
+		}
 		int g = (maxTransactionCount * 60 / 100);
 		int y = (maxTransactionCount * 80 / 100);
 		if (transactionsCount <= g) {
-			meterbar1.getElement().getStyle().setBackgroundColor("green");
+			meterbar1.removeStyleName("inner_transactionMeterBar_yellow");
+			meterbar1.addStyleName("inner_transactionMeterBar_green");
 		} else if (transactionsCount > g && transactionsCount < y) {
-			meterbar1.getElement().getStyle().setBackgroundColor("yellow");
+			meterbar1.removeStyleName("inner_transactionMeterBar_green");
+			meterbar1.removeStyleName("inner_transactionMeterBar_red");
+			meterbar1.addStyleName("inner_transactionMeterBar_yellow");
 		} else {
-			meterbar1.getElement().getStyle().setBackgroundColor("red");
+			meterbar1.removeStyleName("inner_transactionMeterBar_yellow");
+			meterbar1.addStyleName("inner_transactionMeterBar_red");
 		}
 	}
 }
