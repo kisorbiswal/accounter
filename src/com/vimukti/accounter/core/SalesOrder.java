@@ -698,7 +698,7 @@ public class SalesOrder extends Transaction {
 		// "This SalesOrder can't be edited, becuase it is Completed or Canceled "
 		// + this.getNumber());
 		// }
-		checkingCustomerNull(customer);
+		checkingCustomerNull(customer, Global.get().Customer());
 		return true;
 	}
 

@@ -49,7 +49,6 @@ import com.vimukti.accounter.web.client.ui.GwtTabPanel;
 import com.vimukti.accounter.web.client.ui.PhoneFaxForm;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CreditRatingCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -343,7 +342,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// this.errorOccured = true;
 		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions.getErrorString(exception);
 		Accounter.showError(errorString);
 	}
 

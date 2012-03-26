@@ -411,11 +411,39 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer);
+		checkingCustomerNull(customer, Global.get().messages().receivedFrom());
 		checkPaymentMethodNull();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		checkPaymentItems();
-		checkingTotal0();
+		checkingTotalPaymentCantExceedAmountReceived();
+	}
+
+	private void checkingTotalPaymentCantExceedAmountReceived()
+			throws AccounterException {
+		if (!isValidRecivePaymentAmount(total, getGridTotal())) {
+			throw new AccounterException(
+					AccounterException.ERROR_RECIVE_PAYMENT_TOTAL_AMOUNT);
+		}
+	}
+
+	private double getGridTotal() {
+		Double total = 0.0D;
+		for (TransactionReceivePayment record : transactionReceivePayment) {
+			total += record.getPayment();
+		}
+		return total;
+	}
+
+	private boolean isValidRecivePaymentAmount(double totAmount,
+			double paymentsTot) {
+		if (DecimalUtil.isGreaterThan(paymentsTot, totAmount)) {
+			// Accounter.showError(AccounterErrorType.recievePayment_TotalAmount);
+			// Accounter.stopExecution();
+			return false;
+		}
+
+		return true;
+
 	}
 
 	private void checkPaymentItems() throws AccounterException {

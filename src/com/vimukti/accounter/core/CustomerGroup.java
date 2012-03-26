@@ -85,8 +85,9 @@ public class CustomerGroup extends CreatableObject implements
 	}
 
 	private void checkNameConflictsOrNull() throws AccounterException {
-		if (name.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().customer() + Global.get().messages().group());
 		}
 	}
 

@@ -809,11 +809,9 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		checkPaymentMethodNull();
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		super.checkNullValues();
-		if (depositIn == null) {
-			new AccounterException(AccounterException.ERROR_OBJECT_NULL, Global
-					.get().messages().depositIn());
-		}
 	}
 
 	@Override

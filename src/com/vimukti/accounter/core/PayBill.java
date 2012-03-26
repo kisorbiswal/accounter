@@ -396,8 +396,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingVendorNull(vendor,Global.get().messages().payFrom());
-
+		checkingVendorNull(vendor, Global.get().messages().payFrom());
 
 		checkPaymentMethodNull();
 

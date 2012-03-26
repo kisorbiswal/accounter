@@ -91,8 +91,15 @@ public class CreditRating extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
+		checkNullValues();
 		return true;
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().creditRating());
+		}
 	}
 
 	@Override

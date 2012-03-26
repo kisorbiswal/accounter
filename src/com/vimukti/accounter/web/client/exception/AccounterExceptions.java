@@ -200,6 +200,9 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_NEGATIVE_AMOUNT:
 			return accounterMessages.enterValidAmount();
 
+		case AccounterException.ERROR_RECIVE_PAYMENT_TOTAL_AMOUNT:
+			return accounterMessages.recievePaymentTotalAmount();
+
 		default:
 			return null;
 		}
@@ -212,18 +215,18 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_NAME_NULL:
 			return accounterMessages.nameFieldShouldNotBeEmpty(exception
 					.getMessage());
+
 		case AccounterException.ERROR_OBJECT_NULL:
 			return accounterMessages.fieldShouldNotBeEmpty(exception
 					.getMessage());
+
 		case AccounterException.ERROR_NUMBER_NULL:
 			return accounterMessages.numberFieldShouldNotBeEmpty(exception
 					.getMessage());
 		case AccounterException.ERROR_WAREHOUSE_CODE_NULL:
 			return accounterMessages.codeShouldNotBeEmpty(exception
 					.getMessage());
-		case AccounterException.ERROR_AMOUNT_ZERO:
-			return accounterMessages.valueCannotBe0orlessthan0(exception
-					.getMessage());
+
 		case AccounterException.ERROR_TRANSACTION_ITEM_NULL:
 			return accounterMessages.fieldShouldNotBeEmpty(exception
 					.getMessage());
@@ -238,8 +241,16 @@ public class AccounterExceptions {
 			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
 		case AccounterException.ERROR_TRANSACTION_RECEIVE_VAT:
 			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
+
+		case AccounterException.ERROR_AMOUNT_ZERO:
+			return accounterMessages.shouldNotbeZero(exception.getMessage());
+
+		case AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE:
+			return accounterMessages.shouldNotBeZeroOrNegative(exception
+					.getMessage());
+
 		default:
-			return getErrorString(errorCode);
+			return getErrorString(exception.getErrorCode());
 		}
 	}
 }

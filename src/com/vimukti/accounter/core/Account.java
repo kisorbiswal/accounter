@@ -978,7 +978,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	protected void checkNullValues() throws AccounterException {
 		if (this.name == null || this.name.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().Account());
 		}
 		if (this.number == null || this.number.trim().isEmpty()) {

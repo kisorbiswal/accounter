@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
@@ -53,7 +54,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
-			logoNameBox, quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox;
+			logoNameBox, quoteBox, cashSaleBox, purchaseOrderBox,
+			salesOrderBox;
 	private AmountField topMarginBox, bottomMarginBox, addressPadBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -146,7 +148,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		tabSet.add(getGeneralLayout(), messages.general());
 		tabSet.add(getTemplateLayout(), messages.templates());
 		tabSet.selectTab(0);
-		//tabSet.setSize("100%", "100%");
+		// tabSet.setSize("100%", "100%");
 
 		this.add(tabSet);
 	}
@@ -195,6 +197,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// }
 		//
 		// });
+		mainLayoutPanel = new StyledPanel("mainLayoutPanel");
 
 		mainLayoutPanel.add(addTextBoxTableControl());
 		mainLayoutPanel.add(check_radio_textAreaPanel);
@@ -548,9 +551,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		quoteBox.setValue(messages.QuoteOverDueTitle());
 		cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 		cashSaleBox.setValue(messages.cashSaleValue());
-		purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
+		purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),
+				"purchaseOrderBox");
 		purchaseOrderBox.setValue(messages.purchaseOrderValue());
-		salesOrderBox = new TextItem(messages.salesOrderTitle(),"salesOrderBox");
+		salesOrderBox = new TextItem(messages.salesOrderTitle(),
+				"salesOrderBox");
 		salesOrderBox.setValue(messages.salesOrderValue());
 		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),
@@ -592,7 +597,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 				});
 
 		fontSizeBox = new SelectCombo(messages.fontSize());
-//		fontSizeBox.setWidth(100);
+		// fontSizeBox.setWidth(100);
 		listOfFontSizes = new ArrayList<String>();
 		for (int i = 0; i < fontSizeArray.length; i++) {
 			listOfFontSizes.add(fontSizeArray[i]);
@@ -660,7 +665,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		textBoxTable.setWidget(1, 1, usLetterButton);
 		dynamicForm.add(topMarginBox, bottomMarginBox, addressPadBox,
 				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
-				statementBox, quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, logoNameBox);
+				statementBox, quoteBox, cashSaleBox, purchaseOrderBox,
+				salesOrderBox, logoNameBox);
 
 		// textBoxTable.setWidget(2, 1, );
 		// textBoxTable.setWidget(3, 0, bottomMarginLabel);
@@ -689,7 +695,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		StyledPanel textBoxPanel = new StyledPanel("textBoxPanel");
 		textBoxPanel.add(nameForm);
 		textBoxPanel.add(textBoxTable);
-//		textBoxTable.setWidth("86%");
+		// textBoxTable.setWidth("86%");
 		textBoxPanel.add(dynamicForm);
 		textBoxStyledPanel.add(textBoxPanel);
 		textBoxStyledPanel.add(measurePanel);
@@ -709,6 +715,13 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		}
 		result.add(nameForm.validate());
 		return result;
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		changeButtonBarMode(false);
+		String errorString = AccounterExceptions.getErrorString(exception);
+		Accounter.showError(errorString);
 	}
 
 	@Override

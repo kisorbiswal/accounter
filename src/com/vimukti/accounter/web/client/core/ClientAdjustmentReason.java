@@ -13,6 +13,10 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class ClientAdjustmentReason implements Serializable, IsSerializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String section;
 	private String name;
 

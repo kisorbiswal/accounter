@@ -475,7 +475,9 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer);
+		checkingCustomerNull(customer, Global.get().customer());
+		super.checkNullValues();
+
 	}
 
 	private void doCreateEffect(Session session) {

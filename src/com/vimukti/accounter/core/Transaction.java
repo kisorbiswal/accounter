@@ -1496,10 +1496,11 @@ public abstract class Transaction extends CreatableObject implements
 		this.history = history;
 	}
 
-	protected void checkingCustomerNull(Customer customer)
+	protected void checkingCustomerNull(Customer customer, String message)
 			throws AccounterException {
 		if (customer == null) {
-			throw new AccounterException(AccounterException.ERROR_CUSTOMER_NULL);
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					message);
 		}
 	}
 
@@ -1515,12 +1516,14 @@ public abstract class Transaction extends CreatableObject implements
 		if (account == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					message);
+
 		}
 	}
 
 	protected void checkPaymentMethodNull() throws AccounterException {
-		if (paymentMethod == null || paymentMethod.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+
+		if (paymentMethod == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().paymentMethod());
 		}
 	}

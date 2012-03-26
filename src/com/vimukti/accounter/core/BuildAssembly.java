@@ -97,7 +97,6 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
 		if (inventoryAssembly == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().assemblyItem());

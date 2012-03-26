@@ -40,8 +40,7 @@ public class Estimate extends Transaction {
 	public static final int DEPOSIT_EXPENSES = 5;
 
 	public static final int SALES_ORDER = 6;
-	
-	
+
 	private int refferingTransactionType;
 	/**
 	 * This is the Customer to whom we are creating this Quote.
@@ -402,7 +401,8 @@ public class Estimate extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer);
+		super.checkNullValues();
+		checkingCustomerNull(customer, Global.get().customer());
 	}
 
 	private void updateTotals() throws AccounterException {
@@ -414,9 +414,9 @@ public class Estimate extends Transaction {
 			if (record.isAmountIncludeTAX()) {
 				lineTotalAmt = lineTotalAmt - vaTfraction;
 			}
-			
+
 			if (record != null && record.isTaxable()) {
-			//	chekingTaxCodeNull(record.taxCode);
+				// chekingTaxCodeNull(record.taxCode);
 				totalTax += record.getVATfraction();
 			}
 			lineTotal += lineTotalAmt;
@@ -581,6 +581,7 @@ public class Estimate extends Transaction {
 		status = STATUS_OPEN;
 		return estimate;
 	}
+
 	public int getRefferingTransactionType() {
 		return refferingTransactionType;
 	}
@@ -589,5 +590,4 @@ public class Estimate extends Transaction {
 		this.refferingTransactionType = refferingTransactionType;
 	}
 
-	
 }

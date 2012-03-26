@@ -189,9 +189,17 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		checkingCustomerNull(payTo, Global.get().messages().payTo());
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
-		checkingCustomerNull(payTo);
-		checkingTotal0();
+		checkPaymentMethodNull();
+		checkingCustomerRefundTo0();
+	}
+
+	private void checkingCustomerRefundTo0() throws AccounterException {
+		if (getTotal() <= 0) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().amount());
+		}
 	}
 
 	@Override

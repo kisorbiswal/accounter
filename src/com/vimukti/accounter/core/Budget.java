@@ -90,6 +90,10 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().budget());
 		}
+		if (budgetItems.size() == 0) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().amount());
+		}
 	}
 
 	public List<BudgetItem> getBudgetItems() {

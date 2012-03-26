@@ -15,6 +15,10 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 public class AdjustmentReason extends CreatableObject implements
 		IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String section;
 	private String name;
 
