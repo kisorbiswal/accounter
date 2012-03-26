@@ -29,6 +29,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 	public YearOverYearPortlet(ClientPortletConfiguration pc, int chartType) {
 		super(pc, "", "", "100%");
 		this.chartType = chartType;
+		this.getElement().setId("YearOverYearPortlet");
 		setPortletTitle();
 	}
 

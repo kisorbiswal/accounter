@@ -19,6 +19,7 @@ public class RecentTransactionsPortlet extends Portlet {
 
 	public RecentTransactionsPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.recentTransactions(), "", "100%");
+		this.getElement().setId("RecentTransactionsPortlet");
 	}
 
 	@Override

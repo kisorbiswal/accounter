@@ -42,6 +42,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	public ExpensesBreakdownPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.expenses(), "", "100%");
 		this.setConfiguration(pc);
+		this.getElement().setId("ExpensesBreakdownPortlet");
 	}
 
 	@Override

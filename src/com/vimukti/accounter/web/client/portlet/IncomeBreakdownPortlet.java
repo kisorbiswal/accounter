@@ -30,6 +30,7 @@ public class IncomeBreakdownPortlet extends GraphPointsPortlet {
 	public IncomeBreakdownPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.incomes(), "", "100%");
 		this.setConfiguration(pc);
+		this.getElement().setId("IncomeBreakdownPortlet");
 	}
 
 	@Override
