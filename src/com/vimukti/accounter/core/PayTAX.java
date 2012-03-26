@@ -306,18 +306,24 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
-		checkAccountNull(payFrom);
-		checkingTaxAgencyNull(taxAgency);
-		checkPaymentMethodNull();
-		checkVATEntriesEmpty();
+		checkNullValues();
 		return true;
 	}
 
-	private void checkVATEntriesEmpty() throws AccounterException {
+	@Override
+	protected void checkNullValues() throws AccounterException {
+
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		if (taxAgency == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxAgency());
+		}
+		checkPaymentMethodNull();
 		if (transactionPayTAX.isEmpty()) {
 			throw new AccounterException(
-					AccounterException.ERROR_TAX_ENTRIES_EMPTY);
+					AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL);
 		}
+
 	}
 
 	@Override

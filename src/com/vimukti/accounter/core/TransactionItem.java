@@ -418,7 +418,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		checkNullValues();
 		if (this.isOnSaveProccessed())
 			return true;
 
@@ -436,22 +435,23 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	private void checkNullValuesAndThrowException() throws AccounterException {
-		if (this.item == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_ITEM_NULL);
-		} else {
-			if (isTaxable && taxCode == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_TAX_CODE_NULL);
-			}
+		if (this.item == null && this.account == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().transactionItem());
 		}
+		if (isTaxable && taxCode == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxCode());
+		}
+
 		if (this.lineTotal < 0 && discount > 100) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_ITEM_TOTAL_0);
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().total());
 		}
 	}
 
-	private void checkNullValues() {
+	private void checkNullValues() throws AccounterException {
+		checkNullValuesAndThrowException();
 		if (this.unitPrice == null) {
 			this.setUnitPrice(new Double(0));
 		}
@@ -473,6 +473,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		if (this.updateAmount == null) {
 			this.setUpdateAmount(new Double(0));
 		}
+
 	}
 
 	public void doCreateEffect(Session session) {
@@ -758,7 +759,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		checkNullValuesAndThrowException();
+		checkNullValues();
 		return true;
 	}
 

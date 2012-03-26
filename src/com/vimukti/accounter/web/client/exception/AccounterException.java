@@ -188,6 +188,18 @@ public class AccounterException extends Exception implements IsSerializable {
 	public static final int ERROR_OBJECT_NULL = 68;
 
 	public static final int ERROR_QUANTITY_ZERO_OR_NEGATIVE = 69;
+	
+	public static final int ERROR_WAREHOUSE_CODE_NULL = 75;
+
+	public static final int ERROR_TRANSACTION_PAYBILLS_NULL = 70;
+
+	public static final int ERROR_DISCOUNT_GREATER_THAN_100 = 71;
+
+	public static final int ERROR_MAKE_DEPOSIT_NULL = 72;
+
+	public static final int ERROR_TRANSACTION_PAY_TAX_NULL = 73;
+
+	public static final int ERROR_TRANSACTION_RECEIVE_VAT = 74;
 
 	protected int errorCode;
 

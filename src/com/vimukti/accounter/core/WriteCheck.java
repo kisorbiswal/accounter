@@ -39,9 +39,8 @@ public class WriteCheck extends Transaction {
 
 	public static final String IS_TO_BE_PRINTED = null;
 
-	
 	private Set<Estimate> estimates = new HashSet<Estimate>();
-	
+
 	/**
 	 * The person to whom we are creating this write check
 	 */
@@ -302,18 +301,22 @@ public class WriteCheck extends Transaction {
 				.isProductandSerivesTrackingByCustomerEnabled()
 				&& getCompany().getPreferences()
 						.isBillableExpsesEnbldForProductandServices()) {
-			
-			
+
 			createAndSaveEstimates(this.transactionItems, session);
 		}
-		
-		
+
 		return false;
 	}
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkAccountNull(bankAccount);
+		checkAccountNull(bankAccount, Global.get().messages().bankAccount());
+
+		if (inFavourOf == null || inFavourOf.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().inFavourOf());
+		}
+		super.checkNullValues();
 	}
 
 	@Override
@@ -376,7 +379,7 @@ public class WriteCheck extends Transaction {
 		}
 		writeCheck.getEstimates().clear();
 		this.createAndSaveEstimates(this.transactionItems, session);
-		
+
 		super.onEdit(writeCheck);
 	}
 
@@ -384,59 +387,61 @@ public class WriteCheck extends Transaction {
 			Session session) {
 		this.getEstimates().clear();
 
-		
-		if(getPayee() instanceof Customer){
-		Set<Estimate> estimates = new HashSet<Estimate>();
-		for (TransactionItem transactionItem : transactionItems) {
-			if (transactionItem.isBillable()
-					&& transactionItem.getCustomer() != null) {
-				TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
-						TransactionItem.class).clone(null, transactionItem,
-						false);
-				newTransactionItem.setQuantity(transactionItem.getQuantity());
-				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
-				newTransactionItem.setOnSaveProccessed(false);
-				newTransactionItem.setLineTotal(newTransactionItem
-						.getLineTotal() * getCurrencyFactor());
-				newTransactionItem.setDiscount(newTransactionItem.getDiscount()
-						* getCurrencyFactor());
-				newTransactionItem.setUnitPrice(newTransactionItem
-						.getUnitPrice() * getCurrencyFactor());
-				newTransactionItem.setVATfraction(newTransactionItem
-						.getVATfraction() * getCurrencyFactor());
-				Estimate estimate = getCustomerEstimate(estimates,
-						newTransactionItem.getCustomer().getID());
-				if (estimate == null) {
-					estimate = new Estimate();
-					estimate.setRefferingTransactionType(Transaction.TYPE_WRITE_CHECK);
-					estimate.setCompany(getCompany());
-					estimate.setCustomer(newTransactionItem.getCustomer());
-					estimate.setJob(newTransactionItem.getJob());
-					estimate.setTransactionItems(new ArrayList<TransactionItem>());
-					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
-					estimate.setType(Transaction.TYPE_ESTIMATE);
-					estimate.setDate(new FinanceDate());
-					estimate.setExpirationDate(new FinanceDate());
-					estimate.setDeliveryDate(new FinanceDate());
-					estimate.setNumber(NumberUtils.getNextTransactionNumber(
-							Transaction.TYPE_ESTIMATE, getCompany()));
+		if (getPayee() instanceof Customer) {
+			Set<Estimate> estimates = new HashSet<Estimate>();
+			for (TransactionItem transactionItem : transactionItems) {
+				if (transactionItem.isBillable()
+						&& transactionItem.getCustomer() != null) {
+					TransactionItem newTransactionItem = new CloneUtil<TransactionItem>(
+							TransactionItem.class).clone(null, transactionItem,
+							false);
+					newTransactionItem.setQuantity(transactionItem
+							.getQuantity());
+					newTransactionItem.setId(0);
+					newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+					newTransactionItem.setOnSaveProccessed(false);
+					newTransactionItem.setLineTotal(newTransactionItem
+							.getLineTotal() * getCurrencyFactor());
+					newTransactionItem.setDiscount(newTransactionItem
+							.getDiscount() * getCurrencyFactor());
+					newTransactionItem.setUnitPrice(newTransactionItem
+							.getUnitPrice() * getCurrencyFactor());
+					newTransactionItem.setVATfraction(newTransactionItem
+							.getVATfraction() * getCurrencyFactor());
+					Estimate estimate = getCustomerEstimate(estimates,
+							newTransactionItem.getCustomer().getID());
+					if (estimate == null) {
+						estimate = new Estimate();
+						estimate.setRefferingTransactionType(Transaction.TYPE_WRITE_CHECK);
+						estimate.setCompany(getCompany());
+						estimate.setCustomer(newTransactionItem.getCustomer());
+						estimate.setJob(newTransactionItem.getJob());
+						estimate.setTransactionItems(new ArrayList<TransactionItem>());
+						estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
+						estimate.setType(Transaction.TYPE_ESTIMATE);
+						estimate.setDate(new FinanceDate());
+						estimate.setExpirationDate(new FinanceDate());
+						estimate.setDeliveryDate(new FinanceDate());
+						estimate.setNumber(NumberUtils
+								.getNextTransactionNumber(
+										Transaction.TYPE_ESTIMATE, getCompany()));
+					}
+					List<TransactionItem> transactionItems2 = estimate
+							.getTransactionItems();
+					transactionItems2.add(newTransactionItem);
+					estimate.setTransactionItems(transactionItems2);
+					estimates.add(estimate);
 				}
-				List<TransactionItem> transactionItems2 = estimate
-						.getTransactionItems();
-				transactionItems2.add(newTransactionItem);
-				estimate.setTransactionItems(transactionItems2);
-				estimates.add(estimate);
 			}
-		}
 
-		for (Estimate estimate : estimates) {
-			session.save(estimate);
-		}
+			for (Estimate estimate : estimates) {
+				session.save(estimate);
+			}
 
-		this.setEstimates(estimates);
+			this.setEstimates(estimates);
 		}
 	}
+
 	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
 		for (Estimate clientEstimate : estimates) {
 			if (clientEstimate.getCustomer().getID() == customer) {
@@ -445,10 +450,11 @@ public class WriteCheck extends Transaction {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		checkNullValues();
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
 			User user = AccounterThreadLocal.get();
@@ -475,6 +481,7 @@ public class WriteCheck extends Transaction {
 		// throw new AccounterException(
 		// AccounterException.WRITECHECK_PAID_VOID_IT);
 		// }
+		super.checkNullValues();
 		return true;
 	}
 

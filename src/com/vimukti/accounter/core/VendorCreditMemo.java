@@ -129,7 +129,8 @@ public class VendorCreditMemo extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingVendorNull(vendor);
+		checkingVendorNull(vendor, Global.get().Vendor());
+		super.checkNullValues();
 	}
 
 	@Override

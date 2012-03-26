@@ -66,10 +66,8 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
-import com.vimukti.accounter.web.client.ui.TransferFundView;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
-import com.vimukti.accounter.web.client.ui.banking.DepositView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -80,15 +78,12 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
-import com.vimukti.accounter.web.client.ui.customers.CustomerPrePaymentView;
-import com.vimukti.accounter.web.client.ui.customers.CustomerRefundView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
@@ -636,8 +631,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			message = caught.getMessage();
 		}
 		if (exception.getErrorCode() != 0) {
-			int errorCode = exception.getErrorCode();
-			message = AccounterExceptions.getErrorString(errorCode);
+			message = AccounterExceptions.getErrorString(exception);
 		} else {
 			message = messages.failedTransaction(transName);
 		}
@@ -1094,7 +1088,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	public boolean isEdit() {
 		return isInViewMode();
 	}
-
 
 	@Override
 	public ValidationResult validate() {

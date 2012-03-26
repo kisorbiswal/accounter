@@ -289,6 +289,22 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		return true;
 	}
 
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		if (taxAgency == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxAgency());
+		}
+
+		if (taxItem == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxItem());
+		}
+
+		checkAccountNull(adjustmentAccount, Global.get().messages()
+				.adjustmentAccount());
+	}
+
 	public TAXAgency getTaxAgency() {
 		return taxAgency;
 	}

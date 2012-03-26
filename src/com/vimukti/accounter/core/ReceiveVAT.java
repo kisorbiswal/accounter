@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -266,8 +267,17 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-
+		
 		return super.canEdit(clientObject);
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		if (transactionReceiveVAT.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_RECEIVE_VAT);
+		}
 	}
 
 	@Override

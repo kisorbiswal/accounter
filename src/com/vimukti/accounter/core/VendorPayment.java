@@ -8,10 +8,16 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class VendorPayment extends Transaction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Vendor vendor;
 
@@ -44,6 +50,14 @@ public class VendorPayment extends Transaction {
 
 	public VendorPayment() {
 		setType(Transaction.TYPE_VENDOR_PAYMENT);
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingVendorNull(vendor, Global.get().messages().payTo());
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		checkPaymentMethodNull();
+
 	}
 
 	@Override

@@ -486,6 +486,12 @@ public class PurchaseOrder extends Transaction {
 		return super.canEdit(clientObject);
 	}
 
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkingVendorNull(vendor, Global.get().Vendor());
+		super.checkNullValues();
+	}
+
 	/**
 	 * @return the usedBill
 	 */

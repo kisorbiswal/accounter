@@ -13,6 +13,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -717,6 +718,37 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	protected void checkNullValues() throws AccounterException {
+		if (!transactionItems.isEmpty()) {
+			for (TransactionItem item : transactionItems) {
+				if (item.getItem() == null && item.getAccount() == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_NULL, Global.get()
+									.messages().transactionItem());
+				}
+				if (item.isTaxable() && item.getTaxCode() == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_OBJECT_NULL, Global.get()
+									.messages().taxCode());
+				}
+
+				if (item.getLineTotal() <= 0) {
+					throw new AccounterException(
+							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+									.messages().total());
+				}
+
+				if (item.getDiscount() > 100) {
+					throw new AccounterException(
+							AccounterException.ERROR_DISCOUNT_GREATER_THAN_100,
+							Global.get().messages()
+									.discountShouldNotGreaterThan100());
+				}
+			}
+		} else {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
+							.get().messages().transactionItem());
+		}
 
 	}
 
@@ -1500,16 +1532,18 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
-	protected void checkAccountNull(Account account) throws AccounterException {
+	protected void checkAccountNull(Account account, String message)
+			throws AccounterException {
 		if (account == null) {
-			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().Account());
 		}
 	}
 
 	protected void checkPaymentMethodNull() throws AccounterException {
-		if (paymentMethod == null) {
-			throw new AccounterException(
-					AccounterException.ERROR_PAYMENT_METHOD_NULL);
+		if (paymentMethod == null || paymentMethod.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().paymentMethod());
 		}
 	}
 
@@ -1519,9 +1553,11 @@ public abstract class Transaction extends CreatableObject implements
 		// }
 	}
 
-	protected void checkingVendorNull(Vendor vendor) throws AccounterException {
+	protected void checkingVendorNull(Vendor vendor, String message)
+			throws AccounterException {
 		if (vendor == null) {
-			throw new AccounterException(AccounterException.ERROR_VENDOR_NULL);
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					message);
 		}
 	}
 

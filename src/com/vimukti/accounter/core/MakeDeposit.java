@@ -233,6 +233,13 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkAccountNull(depositTo, Global.get().messages().depositTo());
+		if(transactionDepositItems.isEmpty()){
+			throw new AccounterException(AccounterException.ERROR_MAKE_DEPOSIT_NULL);
+	}}
+
+	@Override
 	public void onEdit(Transaction clonedObject) {
 
 		Session session = HibernateUtil.getCurrentSession();
