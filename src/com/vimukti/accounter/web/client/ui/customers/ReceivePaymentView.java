@@ -718,6 +718,7 @@ public class ReceivePaymentView extends
 		gridLayout.add(bottompanel);
 
 		mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(lab);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(topHLay);
