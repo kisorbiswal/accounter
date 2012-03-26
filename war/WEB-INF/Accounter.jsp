@@ -260,7 +260,7 @@
 			
     </style>
     
-    
+
 
   </head>
 
@@ -322,7 +322,7 @@
   		</script>
 	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 
-	<div id="appVersions" style="visibility:hidden" >
+	<div id="appVersions" >
 	    <div>
 	       <span>Access Accounter from </span> |
 	       <a target="_blank" href="https://market.android.com/details?id=com.vimukti.accounter"> Android </a> |
@@ -333,7 +333,7 @@
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
 		   </div>
 	</div>
-	<div id="mainFooter" style="visibility:hidden" >
+	<div id="mainFooter">
 	    <div>
 	       <span>&copy 2012 Vimukti Technologies Pvt Ltd</span> |
 	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |

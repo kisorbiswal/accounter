@@ -820,6 +820,18 @@
 		<servlet-name>PayPalIPINServlet </servlet-name>
 		<url-pattern>/main/subscription/ipn</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>InAppReceiptVerificationServlet</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.InAppReceiptVerificationServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InAppReceiptVerificationServlet </servlet-name>
+		<url-pattern>/main/inappreceiptverification</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>SubscriptionManagementServlet
 		</servlet-name>
