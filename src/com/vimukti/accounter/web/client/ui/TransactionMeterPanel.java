@@ -81,7 +81,7 @@ public class TransactionMeterPanel extends SimplePanel {
 	}
 
 	public void addStyleToMeterbar() {
-		int width = transactionsCount * 10;
+		int width = (int) (100 * transactionsCount / (float) maxTransactionCount);
 		if (width > 100) {
 			meterbar1.setWidth(100 + "%");
 		} else {
