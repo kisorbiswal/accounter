@@ -220,6 +220,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 					.getActiveInventoryScheme() - 1);
 		} else {
 			hiddenPanel.setVisible(false);
+			inventoryCommentLabel.setVisible(false);
 		}
 	}
 
