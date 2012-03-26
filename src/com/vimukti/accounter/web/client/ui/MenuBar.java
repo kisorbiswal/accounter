@@ -948,7 +948,7 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-		if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+		if (isAdmin || canDoTaxTransactions) {
 			companyMenuBar.addMenuItem(messages.importFile(),
 					HistoryTokens.IMPORT);
 		}
@@ -1141,6 +1141,8 @@ public class MenuBar {
 	public void setPreferencesandPermissions(
 			ClientCompanyPreferences preferences, ClientUser clientUser,
 			ICountryPreferences countryPreferences, Set<String> features) {
+
+		this.isAdmin = clientUser.isAdmin();
 
 		this.features = features;
 
