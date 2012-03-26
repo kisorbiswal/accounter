@@ -100,7 +100,7 @@ public class InvoicePdfGeneration {
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
 
-			double currencyFactor = invoice.getCurrencyFactor();
+		//	double currencyFactor = invoice.getCurrencyFactor();
 			String symbol = invoice.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -115,15 +115,15 @@ public class InvoicePdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() / currencyFactor, "");
+						item.getUnitPrice() , "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, "");
+						item.getLineTotal() , "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() / currencyFactor, "");
+							item.getVATfraction() , "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
