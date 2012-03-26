@@ -720,29 +720,7 @@ public abstract class Transaction extends CreatableObject implements
 	protected void checkNullValues() throws AccounterException {
 		if (!transactionItems.isEmpty()) {
 			for (TransactionItem item : transactionItems) {
-				if (item.getItem() == null && item.getAccount() == null) {
-					throw new AccounterException(
-							AccounterException.ERROR_NAME_NULL, Global.get()
-									.messages().transactionItem());
-				}
-				if (item.isTaxable() && item.getTaxCode() == null) {
-					throw new AccounterException(
-							AccounterException.ERROR_OBJECT_NULL, Global.get()
-									.messages().taxCode());
-				}
-
-				if (item.getLineTotal() <= 0) {
-					throw new AccounterException(
-							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
-									.messages().total());
-				}
-
-				if (item.getDiscount() > 100) {
-					throw new AccounterException(
-							AccounterException.ERROR_DISCOUNT_GREATER_THAN_100,
-							Global.get().messages()
-									.discountShouldNotGreaterThan100());
-				}
+				item.checkNullValues();
 			}
 		} else {
 			throw new AccounterException(

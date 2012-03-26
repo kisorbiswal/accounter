@@ -450,7 +450,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 	}
 
-	private void checkNullValues() throws AccounterException {
+	public void checkNullValues() throws AccounterException {
 		checkNullValuesAndThrowException();
 		if (this.unitPrice == null) {
 			this.setUnitPrice(new Double(0));

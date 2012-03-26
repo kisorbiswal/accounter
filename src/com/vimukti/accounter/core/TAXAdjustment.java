@@ -285,7 +285,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-
+		checkNullValues();
 		return true;
 	}
 

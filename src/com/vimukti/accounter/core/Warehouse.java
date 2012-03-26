@@ -127,7 +127,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 							.messages().warehouseCode());
 		}
 
-		if (name.trim().length() == 0 || name == null) {
+		if (name == null || name.trim().length() == 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().wareHouse());
 		}
