@@ -136,7 +136,7 @@ public class CustomerPrePayment extends Transaction {
 	@Override
 	public void checkNullValues() throws AccounterException {
 		checkingCustomerNull(customer);
-		checkAccountNull(depositIn);
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		checkPaymentMethodNull();
 	}
 
@@ -245,7 +245,7 @@ public class CustomerPrePayment extends Transaction {
 				this.customer.updateBalance(session, this, +this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 			}
-			
+
 			if (this.depositIn.getID() != customerPrePayment.depositIn.getID()
 					|| !DecimalUtil.isEquals(this.total,
 							customerPrePayment.total)

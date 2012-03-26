@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -190,7 +189,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkAccountNull(payFrom);
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		checkingCustomerNull(payTo);
 		checkingTotal0();
 	}

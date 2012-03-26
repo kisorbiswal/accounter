@@ -1514,7 +1514,7 @@ public abstract class Transaction extends CreatableObject implements
 			throws AccounterException {
 		if (account == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().Account());
+					message);
 		}
 	}
 
