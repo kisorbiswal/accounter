@@ -14,9 +14,7 @@
 		     <div class="supported_browsers">
 		          <img src="/images/Firefox.png" alt="Firefox" ><span>Firefox 3.5+</span><br/>
 		          <img src="/images/chrome.png" alt="Chrome" ><span>Chrome 16.0.912+</span><br/>
-		          <img src="/images/IE.png" alt="IE" ><span>Internet Explorer 8.0+</span><br/>
-		          <img src="/images/Opera.png" alt="Opera" ><span>Opera 11.10+</span><br/>
-		          <img src="/images/Safari.png" alt="Safari" ><span>Safari 4.0+</span><br/>
+		          <img src="/images/Safari.png" alt="Safari" ><span>Safari 5.1+</span><br/>
 		     </div>
 	  </div>
   </body>

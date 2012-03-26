@@ -1,8 +1,5 @@
 package com.vimukti.accounter.servlets;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,8 +10,6 @@ import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,6 +35,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.UTF8Control;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.util.SupportedBrowsers;
 
 public class OpenCompanyServlet extends BaseServlet {
 
@@ -55,29 +51,6 @@ public class OpenCompanyServlet extends BaseServlet {
 	private static final String SUBSCRIPTION = "subscription";
 	private static final String USER_AGENT = "User-Agent";
 	private static final String SUPPORTED_BROWSERS_URL = "/WEB-INF/supportedbrowsers.jsp";
-	private static final String FILE_NAME = "config/SupportedBrowsers.txt";
-
-	static Set<Pattern> patterns = new HashSet<Pattern>();
-
-	static {
-		File fileToRead = new File(FILE_NAME);
-		if (fileToRead != null)
-			if (fileToRead.exists()) {
-				try {
-					FileReader fr = new FileReader(fileToRead);
-					BufferedReader br = new BufferedReader(fr);
-					while (true) {
-						String line = br.readLine();
-						if (line == null)
-							break;
-						patterns.add(Pattern.compile(line.trim()));
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-	}
 
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -85,7 +58,7 @@ public class OpenCompanyServlet extends BaseServlet {
 
 		String header = request.getHeader(USER_AGENT);
 		if (header != null)
-			if (!isSupportedBrowser(header)) {
+			if (!SupportedBrowsers.check(header)) {
 				dispatch(request, response, SUPPORTED_BROWSERS_URL);
 				return;
 			}
@@ -265,18 +238,6 @@ public class OpenCompanyServlet extends BaseServlet {
 				.getNamedQuery("get.company.contactsupport")
 				.setParameter("companyId", serverCompanyID).uniqueResult();
 		return support;
-	}
-
-	private boolean isSupportedBrowser(String header) {
-
-		for (Pattern p : patterns) {
-			Matcher matcher = p.matcher(header);
-			if (matcher.matches()) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private HashMap<String, String> getLocaleConstants() {
