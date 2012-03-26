@@ -4,20 +4,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
+
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSON;
+
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 
-import com.vimukti.accounter.main.ServerConfiguration;
-
-public class InAppReceiptVerificationServlet extends BaseServlet {
+public class InAppReceiptVerificationServlet extends HttpServlet {
 
 	/**
 	 * this servlet is used to verify the receipt it will get form the Accounter
@@ -26,8 +25,7 @@ public class InAppReceiptVerificationServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	Logger log = Logger.getLogger(InAppReceiptVerificationServlet.class);
-	private String receipt;
-	private String isSandBox;
+
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -38,14 +36,13 @@ public class InAppReceiptVerificationServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		receipt = req.getParameter("receipt");
-		isSandBox = req.getParameter("sandbox");
+		String receipt = req.getParameter("receipt");
+		String isSandBox = req.getParameter("sandbox");
 
 		// build the post data
 		JSONObject object = new JSONObject();
 		object.put("receipt-data", "receipt");
-		String verificationResp  = verifyReceipt(object, true);
-		
+		String verificationResp = verifyReceipt(object, true);
 
 	}
 
@@ -55,7 +52,7 @@ public class InAppReceiptVerificationServlet extends BaseServlet {
 	 * 
 	 * @param receiptData
 	 * @param isSandbox
-	 * @return 
+	 * @return
 	 */
 	String verifyReceipt(JSONObject receiptData, boolean isSandbox) {
 		log.info("--------------------- APP STORE VERIFICATION STARTED ------------------------");
@@ -92,7 +89,7 @@ public class InAppReceiptVerificationServlet extends BaseServlet {
 			log.error("Exception while Verifying : ", e);
 		}
 		log.info("Verification Completed !!");
-		
+
 		return verificationResp;
 
 	}

@@ -16,6 +16,7 @@ public class WhoIOwePortlet extends Portlet {
 
 	public WhoIOwePortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.whoIOwe(), "", "100%");
+		this.getElement().setId("WhoIOwePortlet");
 	}
 
 	@Override

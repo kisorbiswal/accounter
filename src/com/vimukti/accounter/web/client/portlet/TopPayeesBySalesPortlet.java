@@ -25,6 +25,7 @@ public class TopPayeesBySalesPortlet extends Portlet {
 			int portletType) {
 		super(configuration, messages.topVendorsByExpense(Global.get()
 				.vendors()), "", "100%");
+		this.getElement().setId("TopPayeesBySalesPortlet");
 		this.portletType = portletType;
 		setPortletTitle();
 	}

@@ -16,6 +16,7 @@ public class WhoOwesMePortlet extends Portlet {
 
 	public WhoOwesMePortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.whoOwesMe(), "", "100%");
+		this.getElement().setId("WhoOwesMePortlet");
 	}
 
 	@Override

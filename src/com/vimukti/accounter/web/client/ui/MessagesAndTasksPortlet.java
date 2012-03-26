@@ -13,6 +13,7 @@ public class MessagesAndTasksPortlet extends Portlet {
 
 	public MessagesAndTasksPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.messagesAndTasks(), "");
+		this.getElement().setId("MessagesAndTasksPortlet");
 	}
 
 	@Override
