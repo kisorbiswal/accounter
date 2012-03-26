@@ -1,6 +1,7 @@
 body {
 	font-size: 13px;
 	font-family: Arial Unicode MS, Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 html,body {
@@ -275,8 +276,10 @@ html,body {
 }
 
 #appVersions a {
-	text-decoration: none;
-	color: #666;
+	border-right: 1px solid #666666;
+    color: #666666;
+    padding: 0 5px;
+    text-decoration: none;
 }
 
 .biz-decor-panel {
@@ -511,6 +514,7 @@ input[type="text"] {
 .memoTextArea,.memoArea .gwt-TextArea,.memoForm .memo textarea {
 	width: 360px;
 	height: 65px;
+	 margin-right: 15px;
 }
 
 .gwt-TextArea,.textArea,.memoForm textarea {
@@ -864,9 +868,6 @@ input[type="text"] {
 	width: auto;
 }
 
-#InvoiceView .prodAndServiceHLay .vatForm .vatinclusiveCheck {
-	direction: rtl;
-}
 
 .boldtext {
 	font-weight: bold;
@@ -1594,7 +1595,7 @@ table.gridHeader tr td {
 }
 
 .report-toolbar .formItem input[type=text] {
-	width: 140px;
+	width: 100px;
 }
 
 .no_records .norecord-empty-message {
@@ -4179,12 +4180,16 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	list-style-type: none;
 }
 
-#appVersions ul li {
+#appVersions li {
 	display: inline-block;
 }
 
+#appVersions span {
+	display: inline;
+}
+
 #appVersions ul {
-	display: inline-block;
+	display: inline;
 }
 
 .addNewButton {
@@ -4318,6 +4323,18 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	height: 20px;
 }
 
+.inner_transactionMeterBar_green {
+	background: none repeat scroll 0 0 green;
+}
+
+.inner_transactionMeterBar_yellow {
+	background: none repeat scroll 0 0 yellow;
+}
+
+.inner_transactionMeterBar_red {
+	background: none repeat scroll 0 0 red;
+}
+
 .inner_transactionMeterBar {
 	background: none repeat scroll 0 0 green;
 	height: 20px;
@@ -4368,7 +4385,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 .listView .form .gwt-Label {
 	width: auto;
-	padding: 2px 5px 0 0;
+	padding: 2px 5px 0 5px;
 }
 
 #InventoryCentreView .mainPanel {
@@ -5170,4 +5187,229 @@ form#contactForm .submit {
 
 #import-preview-pane .import-match-content td .table-header{
 	padding: 5px;
+}
+#BankAccountsPortlet .listgrid .gridHeader {
+	display: none;
+}
+
+#BankingPortlet .portlet-body .dashboard_label {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-pack: justify;
+	-moz-box-flex: 1;
+	-moz-box-pack: justify;
+	width: 99%;
+	padding: 0 3px;
+}
+
+#BankingPortlet .portlet-body .dashboard_label .label-banking {
+	font-weight: bold;
+}
+
+#BankingPortlet .portlet-body button {
+	display: block;
+}
+
+.report-toolbar button {
+	margin-left: 30px;
+}
+
+.user_activity_dateform {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+.user_activity_dateform .dateForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+.user_activity_dateform .dateForm .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 5px;
+}
+
+.user_activity_dateform .dateForm button {
+	margin: 0 10px;
+}
+
+#CustomerMergeDialog .horizontalPanel .layout .form {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin-right: 15px;
+}
+
+#CustomerMergeDialog .horizontalPanel .layout1 .form1 {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#CustomerMergeDialog .horizontalPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	margin: 10px 0px;
+}
+
+#CustomerMergeDialog table {
+	width: 650px;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .rightBorder .textBoxPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .rightBorder .textBoxPanel .name-item .gwt-Label
+	{
+	width: 150px;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .rightBorder .textBoxPanel .allItems
+	{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#NewBrandingThemeView .gwt-DecoratedTabPanel {
+	width: 100%;
+}
+
+.button_textBoxPanel .panel .mainLayoutPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .rightBorder .textBoxPanel .allItems .gwt-Label
+	{
+	width: 150px;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .check_radioPanel .rightBorder
+	{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin-bottom: 30px;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .check_radioPanel .rightBorder span
+	{
+	display: block;
+	margin: 5px 0;
+}
+
+.gridBody a {
+	cursor: pointer;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .check_radioPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+
+#NewBrandingThemeView .rightBorder .gwt-HTML {
+	width: 200px;
+}
+
+#NewBrandingThemeView .radioButtonPanel .gwt-HTML {
+	width: 200px;
+}
+
+#NewBrandingThemeView .rightBorder {
+	border-right: #CCC solid 1px;
+	padding:0  10px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+#NewBrandingThemeView .radioButtonPanel {
+	padding:0  10px;
+}
+.#NewBrandingThemeView .radioButtonPanel span
+{
+	display: block;
+	margin: 5px 0;
+}
+.textBoxPanel table td:first-child{
+	width: 150px;
+}
+.#NewBrandingThemeView .measurePanel{
+	padding: 10px;
+    width: 105px;
+    margin-top: 65px;
+}
+#NewBrandingThemeView .terms-payment-area{
+	margin: 20px;
+}
+#NewBrandingThemeView .hPanel .vPanel1 .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 5px;
+}
+#NewBrandingThemeView .hPanel .vPanel2 .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 5px;
+}
+#NewBrandingThemeView .hPanel .vPanel3 .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 5px;
+}
+#NewBrandingThemeView .hPanel{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+}
+.portlet-body .quick-links-table{
+	 width: 100%;
+}
+#AddBudgetAmountDialogue .verticalPanel{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#AddBudgetAmountDialogue .verticalPanel .frameTitle{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#AddBudgetAmountDialogue .verticalPanel .frameTitle .header{
+	color: #3299A4;
+}
+#AddBudgetAmountDialogue .verticalPanel .gwt-Label{
+	 width: 150px;
+}
+#AddBudgetAmountDialogue .verticalPanel .gwt-DisclosurePanel .vPanel span
+{
+	display: block;
+	margin: 5px 0;
 }

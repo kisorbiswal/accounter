@@ -38,6 +38,9 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 	private long value;
 	private ActivityCustomizationDialog customizationDialog;
 
+	public UsersActivityListView(){
+		this.getElement().setId("UsersActivityListView");
+	}
 	@Override
 	public void init() {
 		super.init();
