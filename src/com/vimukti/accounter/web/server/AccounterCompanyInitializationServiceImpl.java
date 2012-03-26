@@ -248,7 +248,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		} else {
 
 			FinanceTool tool = new FinanceTool();
-			Company company = tool.getCompany(serialVersionUID);
+			Company company = tool.getCompany(companyID);
 			ClientCompany clientCompany = tool.getCompanyManager()
 					.getClientCompany(getUserEmail(), companyID);
 
