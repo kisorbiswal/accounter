@@ -20,7 +20,6 @@ public class TaxAdjustmentsListView extends
 
 	public TaxAdjustmentsListView() {
 		super(messages.all());
-		this.getElement().setId("TAXAgencyListView");
 		setViewType(messages.all());
 	}
 
@@ -28,7 +27,7 @@ public class TaxAdjustmentsListView extends
 	public void updateInGrid(ClientTAXAdjustment objectTobeModified) {
 
 	}
-	
+
 	@Override
 	protected int getPageSize() {
 		return DEFAULT_PAGE_SIZE;
