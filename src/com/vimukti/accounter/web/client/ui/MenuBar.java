@@ -1056,10 +1056,13 @@ public class MenuBar {
 			companyListMenuBar.addMenuItem(messages.usersActivityLogTitle(),
 					HistoryTokens.USERACTIVITY);
 		}
-		companyListMenuBar.addMenuItem(messages.recurringTransactions(),
-				HistoryTokens.RECURRINGTRANSACTIONS);
-		companyListMenuBar.addMenuItem(messages.remindersList(),
-				HistoryTokens.RECURRINGREMINDERS);
+
+		if (hasPermission(Features.RECURRING_TRANSACTIONS)) {
+			companyListMenuBar.addMenuItem(messages.recurringTransactions(),
+					HistoryTokens.RECURRINGTRANSACTIONS);
+			companyListMenuBar.addMenuItem(messages.remindersList(),
+					HistoryTokens.RECURRINGREMINDERS);
+		}
 		return companyListMenuBar;
 	}
 

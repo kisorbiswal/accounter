@@ -332,13 +332,14 @@ public class ReportSectionView extends BaseHomeView {
 		leftPanel.add(customersAndRecievableHeader);
 		leftPanel.add(customersAndRecievablePanel);
 
+		boolean hasExtraReportsPerm = hasPermission(Features.EXTRA_REPORTS);
 		if (Global.get().preferences().isInventoryEnabled()
-				&& hasPermission(Features.EXTRA_REPORTS)) {
+				&& hasExtraReportsPerm) {
 			leftPanel.add(inventoryHeader);
 			leftPanel.add(inventoryPanel);
 		}
 
-		if (hasPermission(Features.EXTRA_REPORTS)) {
+		if (hasExtraReportsPerm) {
 			leftPanel.add(bankingHeader);
 			leftPanel.add(bankingPanel);
 		}
@@ -348,8 +349,7 @@ public class ReportSectionView extends BaseHomeView {
 			leftPanel.add(jobPanel);
 		}
 
-		if (hasPermission(Features.EXTRA_REPORTS)
-				&& hasPermission(Features.BUDGET)) {
+		if (hasExtraReportsPerm && hasPermission(Features.BUDGET)) {
 			rightPanel.add(budgetHeader);
 			rightPanel.add(budgetPanel);
 		}
@@ -359,20 +359,19 @@ public class ReportSectionView extends BaseHomeView {
 			rightPanel.add(mainTaxPanel);
 		}
 
-		if (hasPermission(Features.EXTRA_REPORTS)) {
+		if (hasExtraReportsPerm) {
 			rightPanel.add(salesHeader);
 			rightPanel.add(salesPanel);
 		}
 		rightPanel.add(vendorAndPayableHeader);
 		rightPanel.add(vendorAndPayablePanel);
 
-		if (hasPermission(Features.EXTRA_REPORTS)) {
+		if (hasExtraReportsPerm) {
 			rightPanel.add(purchaseHeader);
 			rightPanel.add(purchasePanel);
 		}
 
-		if (hasPermission(Features.EXTRA_REPORTS)
-				&& hasPermission(Features.FIXED_ASSET)) {
+		if (hasExtraReportsPerm && hasPermission(Features.FIXED_ASSET)) {
 			rightPanel.add(fixedAssetHeader);
 			rightPanel.add(fixedAssetPanel);
 		}
@@ -386,8 +385,7 @@ public class ReportSectionView extends BaseHomeView {
 	}
 
 	private boolean hasPermission(String extraReports) {
-		// TODO Auto-generated method stub
-		return false;
+		return Accounter.hasPermission(extraReports);
 	}
 
 	private void addLinksToPanel(final Map<String, String> map, FlowPanel panel) {
