@@ -5,15 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -21,30 +16,19 @@ import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientBudget;
-import com.vimukti.accounter.web.client.core.ClientBudgetItem;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.BudgetListView;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
-import com.vimukti.accounter.web.client.ui.customers.CustomerListView;
-import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
-import com.vimukti.accounter.web.client.ui.vat.ChalanDetailsListView;
-import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
 /**
  * 
@@ -93,7 +77,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected int cmd;
 
 	private String dateRange;
-	
+
 	protected SelectCombo viewSelect;
 
 	@Override
@@ -243,7 +227,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	 * @return
 	 */
 	protected SelectCombo getSelectItem() {
-		final SelectCombo viewSelect = new SelectCombo(messages.currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setComboItem(messages.active());
 		List<String> typeList = new ArrayList<String>();
 		typeList.add(messages.active());
@@ -356,7 +340,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			initialRecords = result;
 			this.records = result;
 
-			if(filterBeforeShow()){
+			if (filterBeforeShow()) {
 				filterList(true);
 			} else {
 				grid.setRecords(result);
@@ -419,8 +403,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (getCallback() != null)
 			getCallback().onResultSuccess(result);
 	}
-
-	
 
 	// public void disableFilter() {
 	// if (this.viewSelect != null) {
