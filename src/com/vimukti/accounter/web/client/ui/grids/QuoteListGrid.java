@@ -461,6 +461,9 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		if (type == ClientEstimate.QUOTES) {
 			return new String[] { "date", "no", "payeename", "phone",
 					"expirationdate", "deliverydate", "totalprice", "reject" };
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return new String[] { "date", "no", "payeename", "deliveryDate",
+					"totalprice", "reject" };
 		} else {
 			return new String[] { "date", "no", "payeename", "totalprice",
 					"reject" };
@@ -473,6 +476,9 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			return new String[] { "date-value", "no-value", "payeename-value",
 					"phone-value", "expirationdate-value",
 					"deliverydate-value", "totalprice-value", "reject-value" };
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return new String[] { "date-value", "no-value", "payeename-value",
+					"deliveryDate-value", "totalprice-value", "reject-value" };
 		} else {
 			return new String[] { "date-value", "no-value", "payeename-value",
 					"totalprice-value", "reject-value" };

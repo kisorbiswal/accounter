@@ -367,9 +367,10 @@ public class CashPurchase extends Transaction {
 				 */
 				if (!isPartiallyInvoiced) {
 					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : billOrder.transactionItems)
+					for (TransactionItem orderTransactionItem : billOrder.transactionItems) {
 						// if (orderTransactionItem.getType() != 6)
 						usdAmount += orderTransactionItem.usedamt;
+					}
 					// else
 					// usdAmount += orderTransactionItem.lineTotal;
 					if (DecimalUtil.isLessThan(usdAmount, billOrder.netAmount))
@@ -475,8 +476,14 @@ public class CashPurchase extends Transaction {
 
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		checkPaymentMethodNull();
+		if (this.purchaseOrders.isEmpty()) {
+			super.checkNullValues();
+			return;
+		}
 
-		super.checkNullValues();
+		if (!(this.transactionItems.isEmpty())) {
+			super.checkNullValues();
+		}
 
 	}
 

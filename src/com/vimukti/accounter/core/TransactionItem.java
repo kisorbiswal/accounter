@@ -133,7 +133,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	/**
 	 * This is for {@link SalesOrder} to indicate how much amount is invoiced
 	 */
-	Double usedamt;
+	Double usedamt = 0.0D;
 
 	/**
 	 * This is for {@link SalesOrder} to indicate how much has to be order back
@@ -474,7 +474,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		if (this.updateAmount == null) {
 			this.setUpdateAmount(new Double(0));
 		}
-
 	}
 
 	public void doCreateEffect(Session session) {

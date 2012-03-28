@@ -50,6 +50,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		super(title, descript);
 		this.getElement().setId("GroupDialog");
 		initialise();
+		getWidget().getParent().addStyleName("group_dialogue_list");
 	}
 
 	/*

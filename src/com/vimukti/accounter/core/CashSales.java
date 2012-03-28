@@ -452,9 +452,10 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 				 */
 				if (!isPartiallyInvoiced) {
 					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : salesOrder.transactionItems)
+					for (TransactionItem orderTransactionItem : salesOrder.transactionItems) {
 						// if (orderTransactionItem.getType() != 6)
 						usdAmount += orderTransactionItem.usedamt;
+					}
 					// else
 					// usdAmount += orderTransactionItem.lineTotal;
 					if (DecimalUtil.isLessThan(usdAmount, salesOrder.netAmount))
@@ -811,7 +812,14 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	protected void checkNullValues() throws AccounterException {
 		checkPaymentMethodNull();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		super.checkNullValues();
+		if (this.getSalesOrders().isEmpty()) {
+			super.checkNullValues();
+			return;
+		}
+
+		if (!(this.transactionItems.isEmpty())) {
+			super.checkNullValues();
+		}
 	}
 
 	@Override

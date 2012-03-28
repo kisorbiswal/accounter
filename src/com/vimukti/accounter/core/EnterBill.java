@@ -796,9 +796,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				 */
 				if (!isPartiallyInvoiced) {
 					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : billOrder.transactionItems)
+					for (TransactionItem orderTransactionItem : billOrder.transactionItems) {
 						// if (orderTransactionItem.getType() != 6)
 						usdAmount += orderTransactionItem.usedamt;
+					}
 					// else
 					// usdAmount += orderTransactionItem.lineTotal;
 					if (DecimalUtil.isLessThan(usdAmount, billOrder.netAmount))

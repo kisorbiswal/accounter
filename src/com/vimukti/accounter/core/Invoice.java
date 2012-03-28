@@ -527,9 +527,10 @@ public class Invoice extends Transaction implements Lifecycle {
 				 */
 				if (!isPartiallyInvoiced) {
 					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : estimate.transactionItems)
+					for (TransactionItem orderTransactionItem : estimate.transactionItems) {
 						// if (orderTransactionItem.getType() != 6)
 						usdAmount += orderTransactionItem.usedamt;
+					}
 					// else
 					// usdAmount += orderTransactionItem.lineTotal;
 					if (DecimalUtil.isLessThan(usdAmount, estimate.netAmount))
