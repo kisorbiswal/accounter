@@ -1,7 +1,6 @@
 body {
 	font-size: 13px;
 	font-family: Arial Unicode MS, Arial, sans-serif;
-	overflow-x: hidden;
 }
 
 html,body {
@@ -1231,6 +1230,7 @@ table.gridBody {
 
 table.gridHeader {
 	border-collapse: collapse;
+	table-layout: fixed;
 }
 
 table.gridHeader tr td {
@@ -1595,7 +1595,7 @@ table.gridHeader tr td {
 
 .report-toolbar .form .gwt-Label {
 	width: auto;
-	padding: 3px 5px 0 0;
+	padding: 3px 2px 0 0;
 }
 
 .report-toolbar {
@@ -1613,7 +1613,7 @@ table.gridHeader tr td {
 	width: 25px !important;
 }
 
-.no_records td {
+table.no_records td {
 	text-align: center;
 }
 
@@ -5475,10 +5475,12 @@ form#contactForm .submit {
 }
 
 .user_activity_log thead {
-	background: -moz-linear-gradient(top, #3299A4, #1A5158);
+	background: -moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent;
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
-		to(#1A5158) );
-	background: -o-linear-gradient(top, #3299A4, #1A5158);
+		to(#2D8B93) );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
 }
 
 .totalForm .AmountLabel {
@@ -5612,4 +5614,50 @@ form#contactForm .submit {
 
 #UsersActivityListView  button{
 	margin:0 5px;
+}
+.popupContent table td {
+    white-space: pre;
+}
+#adjusttaxview .memoArea{
+	-moz-box-orient: horizontal;
+}
+#adjusttaxview .memoArea .gwt-Label{
+	padding-right:5px;
+	width: 200px;
+}
+#BankingPortlet .portlet-body .hPanel div:first-child{
+	width:50%;
+	-moz-box-flex:1;
+}
+#RecurringTransactionDialog .interval_Value .intervalValueInputField{
+	 -moz-box-orient: vertical;
+   display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .gwt-Label{
+	width:auto;
+}
+#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .label{
+	margin-left:5px;
+}
+.reportGridParent table.no_records td{
+	text-align: center;
+}
+#PreferenceSettingsView .expenseByCustomerPanel span{
+	display: block;
+}
+#MeasurementsListGrid table.gridBody{
+	table-layout: fixed;
+}
+#WarehouseListGrid table.gridBody{
+	table-layout: fixed;
+}
+#StockAdjustmentsListGrid table.gridBody{
+	table-layout: fixed;
+}
+.gridBody .loading-panel{
+	text-align: center;
 }
