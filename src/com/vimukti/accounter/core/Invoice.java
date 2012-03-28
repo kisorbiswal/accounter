@@ -178,7 +178,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	 * 
 	 * @see Estimate
 	 */
-	private List<Estimate> estimates;
+	private List<Estimate> estimates = new ArrayList<Estimate>();
 
 	/**
 	 * Invoice Discount FinanceDate

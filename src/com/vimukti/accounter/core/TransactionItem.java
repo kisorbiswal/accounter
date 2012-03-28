@@ -439,12 +439,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().transactionItem());
 		}
-		if (isTaxable && taxCode == null) {
+		if (Global.get().preferences().isTrackTax() && isTaxable
+				&& taxCode == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().taxCode());
 		}
 
-		if (this.lineTotal < 0 && discount > 100) {
+		if (this.lineTotal < 0) {
 			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
 					Global.get().messages().total());
 		}
