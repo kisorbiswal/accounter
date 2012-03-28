@@ -138,13 +138,13 @@ public class CustomerPrePayment extends Transaction {
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		checkingCustomerNull(customer, Global.get().customer());
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		checkCustomerBalance();
+		checkEnteredBalance();
 		checkPaymentMethodNull();
 
 	}
 
-	private void checkCustomerBalance() throws AccounterException {
-		if (this.customerBalance <= 0) {
+	private void checkEnteredBalance() throws AccounterException {
+		if (this.getTotal() <= 0) {
 			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
 					Global.get().messages().amount());
 		}
