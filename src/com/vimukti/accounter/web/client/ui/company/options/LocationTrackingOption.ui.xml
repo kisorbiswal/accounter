@@ -13,7 +13,7 @@
 			<g:FlowPanel>
 				<g:Label ui:field="radioButtonsHeaderLabel" styleName="header" />
 			</g:FlowPanel>
-			<g:FlowPanel ui:field="radioButtonPanel">
+			<g:FlowPanel styleName="terminologyradioButotns" ui:field="radioButtonPanel">
 				<g:FlowPanel>
 					<g:RadioButton name="new name" ui:field="buisinessRadioButton" />
 				</g:FlowPanel>

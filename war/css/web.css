@@ -383,14 +383,16 @@ input[type="text"] {
 .button_bar .image-button,.viewholder .image-button {
 	background-repeat: no-repeat;
 	border-radius: 5px;
-	background-color: #1A5158;
+	background-color: #29646C;
 	color: white;
 	padding: 0 5px 4px 27px;
 	border: 1px solid #002E36;
 	height: 25px;
 	background-position: 5px center;
 }
-
+.button_bar .image-button:hover,.viewholder .image-button:hover{
+	background-color: #1A5158;
+}
 .button_bar {
 	display: -webkit-box;
 	display: -moz-box;
@@ -717,16 +719,21 @@ input[type="text"] {
 	background-color: #EBEBE4;
 	margin-bottom: 5px;
 }
-
+.button_bar .cancle-Btn:hover{
+	background-color: #A0A0A0;
+}
 .button_bar .cancle-Btn {
 	border: 1px solid #002E36;
 	background-color: #E4E4E4;;
 	color: black;
 }
+.gwt-Button:hover {
+    background-color: #002E36;
 
+}
 .gwt-Button {
 	border-radius: 5px;
-	background-color: #002E36 !important;
+	background-color: #29646C;
 	color: white;
 	border: 1px solid #002E36;
 	height: 25px;
@@ -4814,6 +4821,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	overflow-y: auto;
 	position: relative;
 	height: auto;
+	margin-top:10px;
 }
 
 #BankingPortlet .portlet-body {
@@ -5457,8 +5465,8 @@ form#contactForm .submit {
 	margin: 5px 0;
 }
 
-#NewBudgetCellTableView .leftLayout .frameTitle{
-		display: -webkit-box;
+#NewBudgetCellTableView .leftLayout .frameTitle {
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-moz-box-orient: vertical;
@@ -5466,8 +5474,8 @@ form#contactForm .submit {
 	box-orient: vertical;
 }
 
-.user_activity_log thead{
-		background: -moz-linear-gradient(top, #3299A4, #1A5158);
+.user_activity_log thead {
+	background: -moz-linear-gradient(top, #3299A4, #1A5158);
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
 		to(#1A5158) );
 	background: -o-linear-gradient(top, #3299A4, #1A5158);
@@ -5540,4 +5548,68 @@ form#contactForm .submit {
 	border: 1px solid #AAA;
 	margin: 10px 0 2px;
 	padding: 5px;
+}
+
+.gwt-DisclosurePanel-closed {
+	border-bottom: 3px solid #3299A4;
+	margin-bottom: 10px;
+}
+.editTable .editheader td{
+	padding:5px;
+}
+.editTable .selected{
+	background: white;
+}
+.gwt-PopupPanel{
+	min-width:200px;
+}
+#MessagesAndTasksPortlet .portlet-body{
+	  margin-top: 0px;
+}
+#WhoOwesMePortlet .portlet-body{
+	  margin-top: 0px;
+}
+#WhoIOwePortlet .portlet-body{
+	  margin-top: 0px;
+}
+#WhoOwesMePortlet .linkPanel{
+	float: right;
+    margin: 0 5px 5px 0;
+}
+#WhoIOwePortlet .linkPanel{
+	float: right;
+    margin: 0 5px 5px 0;
+}
+.terminologyradioButotns{
+	margin-left: 15px;
+}
+.terminologyradioButotns div{
+	margin: 5px 0;
+}
+.user_activity_log thead th {
+    border-bottom: 1px solid #55B8C1;
+    font-weight: normal;
+    text-shadow: none;
+    color:white;
+}
+.user_activity_log tr td, .user_activity_log tr th {
+    padding: 2px;
+}
+.user_activity_log{
+    border: 1px solid #2D8B93;
+    margin-top:10px;
+    width: 100%;
+}
+
+#UsersActivityListView .formItem {
+    margin-bottom: 0;
+}
+
+#UsersActivityListView .formItem .gwt-Label{
+	width:auto;
+	padding:2px 5px 0 5px;
+}
+
+#UsersActivityListView  button{
+	margin:0 5px;
 }

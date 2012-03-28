@@ -241,7 +241,6 @@
 			margin-top: 0;
 			position: relative;
 			width: 100%;
-			z-index: 10;
 			color: #666666;
 			padding-top: 8px;
 		}
