@@ -274,7 +274,7 @@ public class CreditCardExpenseView extends
 		creditCardCombo = createCreditCardItem();
 		// creditCardCombo.setWidth("100%");
 		// creditCardCombo.setPopupWidth("450px");
-		creditCardCombo.setTitle(messages.payFrom());
+		// creditCardCombo.setTitle(messages.payFrom());
 
 		phoneSelect = new TextItem(messages.phone(), "phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
@@ -605,7 +605,7 @@ public class CreditCardExpenseView extends
 
 	private CreditCardAccountCombo createCreditCardItem() {
 		CreditCardAccountCombo creditCardAccountCombo = new CreditCardAccountCombo(
-				messages.creditCard());
+				messages.payFrom());
 		creditCardAccountCombo.setRequired(true);
 		// payFrmSelect.setWidth("*");
 
