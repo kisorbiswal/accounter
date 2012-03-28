@@ -248,6 +248,9 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE:
 			return accounterMessages.shouldNotBeZeroOrNegative(exception
 					.getMessage());
+		case AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS:
+			return accounterMessages.cantCreateMoreTransactions().replaceAll(
+					"\n", "<br/>");
 
 		default:
 			return getErrorString(exception.getErrorCode());
