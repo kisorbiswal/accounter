@@ -200,8 +200,6 @@ public class SearchInputDialog extends BaseDialog {
 		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
 		mainForm.add(transactionTypeCombo);
 		transactionTypeCombo.getMainWidget().getParent().getElement()
-				.setAttribute("align", "center");
-		transactionTypeCombo.getMainWidget().getParent().getElement()
 				.addClassName("search_combo_width");
 		typePanel.add(mainForm);
 		typePanel.setStyleName("transaction_type_panel");

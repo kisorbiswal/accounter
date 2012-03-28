@@ -277,14 +277,30 @@ html,body {
 
 #appVersions a {
 	border-right: 1px solid #666666;
-    color: #666666;
-    padding: 0 5px;
-    text-decoration: none;
+	color: #666666;
+	padding: 0 5px;
+	text-decoration: none;
 }
 
 .biz-decor-panel {
 	width: 100%;
 	margin-bottom: 10px;
+}
+
+#JournalEntryView .datenumber-panel {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: end;
+	-webkit-box-align: end;
+	display: -moz-box;
+	-moz-box-align: end;
+	-moz-box--orient: horizontal;
+	-moz-box-pack: end;
+	display: box;
+	box-orient: horizontal;
+	box-pack: end;
+	box-align: end;
+	-moz-box-flex: 1;
 }
 
 .datenumber-panel {
@@ -514,7 +530,7 @@ input[type="text"] {
 .memoTextArea,.memoArea .gwt-TextArea,.memoForm .memo textarea {
 	width: 360px;
 	height: 65px;
-	 margin-right: 15px;
+	margin-right: 15px;
 }
 
 .gwt-TextArea,.textArea,.memoForm textarea {
@@ -867,7 +883,6 @@ input[type="text"] {
 	{
 	width: auto;
 }
-
 
 .boldtext {
 	font-weight: bold;
@@ -4790,9 +4805,15 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .portlet-body {
-	overflow: auto;
+	overflow-y: auto;
 	position: relative;
-	height: 270px;
+	height: auto;
+}
+
+#BankingPortlet .portlet-body {
+	overflow-y: auto;
+	position: relative;
+	height: 300px;
 }
 
 .view_manager .rightPanel iframe {
@@ -4859,7 +4880,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .change_password_view a {
-	margin: 10px;;
+	margin: 10px;
 }
 
 .bank-account-portlet {
@@ -5053,10 +5074,10 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	background-image: url(../images/contact.png);
 	height: 93px;
 	margin-right: -5px;
-	position: fixed; *
+	position: fixed;
 	position: absolute;
 	text-indent: -100000px;
-	top: 102px; *
+	top: 102px;
 	margin-top: 200px;
 	width: 44px;
 	z-index: 100000;
@@ -5070,7 +5091,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	padding-left: 30px;
 	position: fixed;
 	top: 200px;
-	width: 360px; *
+	width: 360px;
 	width: 394px;
 	z-index: 99;
 }
@@ -5180,14 +5201,15 @@ form#contactForm .submit {
 	vertical-align: top;
 }
 
-#import-preview-pane .mappingTablePanel td{
-		border-style: solid;
+#import-preview-pane .mappingTablePanel td {
+	border-style: solid;
 	border-width: 1px;
 }
 
-#import-preview-pane .import-match-content td .table-header{
+#import-preview-pane .import-match-content td .table-header {
 	padding: 5px;
 }
+
 #BankAccountsPortlet .listgrid .gridHeader {
 	display: none;
 }
@@ -5342,59 +5364,63 @@ form#contactForm .submit {
 
 #NewBrandingThemeView .rightBorder {
 	border-right: #CCC solid 1px;
-	padding:0  10px;
+	padding: 0 10px;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 }
+
 #NewBrandingThemeView .radioButtonPanel {
-	padding:0  10px;
+	padding: 0 10px;
 }
-.#NewBrandingThemeView .radioButtonPanel span
-{
+
+.
+#NewBrandingThemeView .radioButtonPanel span {
 	display: block;
 	margin: 5px 0;
 }
-.textBoxPanel table td:first-child{
+
+.textBoxPanel table td:first-child {
 	width: 150px;
 }
-.#NewBrandingThemeView .measurePanel{
+
+.
+#NewBrandingThemeView .measurePanel {
 	padding: 10px;
-    width: 105px;
-    margin-top: 65px;
+	width: 105px;
+	margin-top: 65px;
 }
-#NewBrandingThemeView .terms-payment-area{
+
+#NewBrandingThemeView .terms-payment-area {
 	margin: 20px;
 }
+
 #NewBrandingThemeView .hPanel .vPanel1 .gwt-Label {
 	width: auto;
 	padding: 2px 5px 0 5px;
 }
+
 #NewBrandingThemeView .hPanel .vPanel2 .gwt-Label {
 	width: auto;
 	padding: 2px 5px 0 5px;
 }
+
 #NewBrandingThemeView .hPanel .vPanel3 .gwt-Label {
 	width: auto;
 	padding: 2px 5px 0 5px;
 }
-#NewBrandingThemeView .hPanel{
+
+#NewBrandingThemeView .hPanel {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 }
-.portlet-body .quick-links-table{
-	 width: 100%;
+
+.portlet-body .quick-links-table {
+	width: 100%;
 }
-#AddBudgetAmountDialogue .verticalPanel{
-	display: -webkit-box;
-	display: -moz-box;
-	display: box;
-	-moz-box-orient: vertical;
-	-webkit-box-orient: vertical;
-	box-orient: vertical;
-}
-#AddBudgetAmountDialogue .verticalPanel .frameTitle{
+
+#AddBudgetAmountDialogue .verticalPanel {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
@@ -5402,14 +5428,42 @@ form#contactForm .submit {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#AddBudgetAmountDialogue .verticalPanel .frameTitle .header{
+
+#AddBudgetAmountDialogue .verticalPanel .frameTitle {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#AddBudgetAmountDialogue .verticalPanel .frameTitle .header {
 	color: #3299A4;
 }
-#AddBudgetAmountDialogue .verticalPanel .gwt-Label{
-	 width: 150px;
+
+#AddBudgetAmountDialogue .verticalPanel .gwt-Label {
+	width: 150px;
 }
+
 #AddBudgetAmountDialogue .verticalPanel .gwt-DisclosurePanel .vPanel span
-{
+	{
 	display: block;
 	margin: 5px 0;
+}
+
+#NewBudgetCellTableView .leftLayout .frameTitle{
+		display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.user_activity_log thead{
+		background: -moz-linear-gradient(top, #3299A4, #1A5158);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) );
+	background: -o-linear-gradient(top, #3299A4, #1A5158);
 }
