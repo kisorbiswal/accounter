@@ -407,7 +407,7 @@ public class CustomerPrePaymentView extends
 		datepanel.add(dateNoForm);
 
 		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
-		// labeldateNoLayout.add(lab1);
+		labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 		// customer and address
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()

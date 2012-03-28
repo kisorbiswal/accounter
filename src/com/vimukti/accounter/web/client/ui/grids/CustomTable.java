@@ -624,7 +624,6 @@ public abstract class CustomTable extends FlowPanel {
 
 	private void bodyCellWidth() {
 		bodyCellCount = 1;
-		body.setWidth((header.getOffsetWidth()) + "px");
 		for (int row = 0; row < this.body.getRowCount(); row++) {
 			adjustCellsWidth(row, body);
 		}

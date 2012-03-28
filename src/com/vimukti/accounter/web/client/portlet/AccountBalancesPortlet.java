@@ -16,6 +16,7 @@ public class AccountBalancesPortlet extends Portlet {
 
 	public AccountBalancesPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.accountBalances(), "", "100%");
+		this.getElement().setId("AccountBalancesPortlet");
 		this.setConfiguration(configuration);
 		this.getElement().setId("AccountBalancesPortlet");
 	}

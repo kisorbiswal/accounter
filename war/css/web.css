@@ -1,6 +1,7 @@
 body {
 	font-size: 13px;
 	font-family: Arial Unicode MS, Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 html,body {
@@ -18,7 +19,7 @@ html,body {
 }
 
 .main-finance-window {
-	height: auto;
+	
 }
 
 .gwt-Label {
@@ -51,6 +52,7 @@ html,body {
 	top: 200px;
 	width: 360px;
 	z-index: 99;
+	color: white;
 }
 
 .page_header {
@@ -389,9 +391,11 @@ input[type="text"] {
 	height: 25px;
 	background-position: 5px center;
 }
-.button_bar .image-button:hover,.viewholder .image-button:hover{
+
+.button_bar .image-button:hover,.viewholder .image-button:hover {
 	background-color: #1A5158;
 }
+
 .button_bar {
 	display: -webkit-box;
 	display: -moz-box;
@@ -718,18 +722,21 @@ input[type="text"] {
 	background-color: #EBEBE4;
 	margin-bottom: 5px;
 }
-.button_bar .cancle-Btn:hover{
+
+.button_bar .cancle-Btn:hover {
 	background-color: #A0A0A0;
 }
+
 .button_bar .cancle-Btn {
 	border: 1px solid #002E36;
 	background-color: #E4E4E4;;
 	color: black;
 }
-.gwt-Button:hover {
-    background-color: #002E36;
 
+.gwt-Button:hover {
+	background-color: #002E36;
 }
+
 .gwt-Button {
 	border-radius: 5px;
 	background-color: #29646C;
@@ -3077,6 +3084,22 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
+#PurchaseOrderView .frameTitle {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
+#PurchaseOrderView .ShipToForm {
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+}
+
 #PurchaseOrderView .topHLay .rightVLay {
 	display: -moz-box;
 	-moz-box-orient: vertical;
@@ -3100,7 +3123,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-orient: horizontal;
 	-webkit-box-pack: justify;
 	-moz-box-pack: justify;
-	width: 100%;
 	-moz-box-flex: 1;
 }
 
@@ -3465,11 +3487,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
-#AccountMergeDialog .horizontalPanel {
-	display: -moz-box;
-	-moz-box-orient: horizontal;
-}
-
 #AccountMergeDialog .horizontalPanel .layout1 {
 	display: -moz-box;
 	-moz-box-orient: vertical;
@@ -3770,6 +3787,11 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #VendorBillView .bottompanel .taxPanel .form {
+	-moz-box-flex: 1;
+	width: 30%;
+}
+
+#VendorBillView .bottompanel .taxPanel .form {
 	display: -moz-box;
 	-moz-box-orient: vertical;
 	margin-right: 5px;
@@ -3976,8 +3998,12 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	padding: 2px 5px 0 0;
 }
 
+#CustomerGroupListDialog {
+	width: 480px;
+}
+
 #CustomerGroupListDialog .dialogMiddleCenterInner .listgrid {
-	width: 550px;
+	width: 250px;
 }
 
 #PurchaseOrderView .bottomLayout .prodAndServiceHLay .form .AmountField .gwt-Label
@@ -4364,7 +4390,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .inner_transactionMeterBar {
-	background: none repeat scroll 0 0 green;
 	height: 20px;
 	width: 0px;
 }
@@ -4432,6 +4457,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 #InventoryCentreView .mainPanel .rightVpPanel {
 	width: 80%;
 	-moz-box-flex: 1;
+	margin: 5px;
 }
 
 #InventoryCentreView .mainPanel .leftVpPanel .viewform .gwt-Label {
@@ -4821,7 +4847,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	overflow-y: auto;
 	position: relative;
 	height: auto;
-	margin-top:10px;
+	margin-top: 10px;
 }
 
 #BankingPortlet .portlet-body {
@@ -5043,6 +5069,14 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	box-orient: horizontal;
 }
 
+#ItemGroupListDialog .gridHeaderParent {
+	width:250px;
+}
+
+#ItemGroupListDialog {
+	width: 400px;
+}
+
 #CurrencyGroupListDialog .bodyLayout .bodyLayout {
 	display: -webkit-box;
 	display: -moz-box;
@@ -5104,13 +5138,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	padding-left: 30px;
 	position: fixed;
 	top: 200px;
-	width: 360px;
-	width: 394px;
 	z-index: 99;
-}
-
-form#contactForm input,form#contactForm .submit,form#contactForm p {
-	width: 325px;
 }
 
 form#contactForm input,form#contactForm .submit {
@@ -5122,6 +5150,15 @@ form#contactForm input {
 	background: #FFFFFF none repeat scroll 0 0;
 	border: 1px solid #AAAAAA;
 	margin-bottom: 10px;
+	padding: 5px;
+	width: 325px;
+}
+
+.yourfeedback .comment {
+	height: 323px;
+	width: 325px;
+	outline-style: none;
+	outline-width: medium;
 }
 
 form#contactForm .submit {
@@ -5475,12 +5512,116 @@ form#contactForm .submit {
 }
 
 .user_activity_log thead {
-	background: -moz-linear-gradient(center top , #3299A4, #2D8B93) repeat scroll 0 0 transparent;
+	background: -moz-linear-gradient(center top, #3299A4, #2D8B93) repeat
+		scroll 0 0 transparent;
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
 		to(#2D8B93) );
 	background: -o-linear-gradient(top, #3299A4, #2D8B93);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
 		endColorstr='#2D8B93' );
+}
+
+.user_activity_log thead th {
+	color: white;
+	text-shadow: none;
+}
+
+.gwt-CheckBox {
+	display: block;
+}
+
+.gwt-DialogBox .formItem .gwt-Label {
+	width: 120px;
+}
+
+#TransactionsListView  .formItem {
+	margin-bottom: 0px;
+}
+
+#ItemListView  .formItem {
+	margin-bottom: 0px;
+}
+
+#VendorMergeDialog .horizontalPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#AccountMergeDialog .horizontalPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#ItemMergeDialog .horizontalPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#ItemMergeDialog .horizontalPanel .form {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#ItemMergeDialog .horizontalPanel .form1 {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+.editTable_enable_anchor .gwt-Anchor {
+	text-decoration: underline;
+	color: #000;
+}
+
+.printableLayout .gwt-HTML {
+	margin-bottom: 10px;
+}
+
+.gridBody .depth .depth2 {
+	padding-left: 2%;
+}
+
+.budget_overview .gridBody .depth2 {
+	padding-left: 2px;
+}
+
+.popupContent .combo-scroll-panel {
+	height: 100px;
+	overflow: auto;
+}
+
+.menu_item_clicked {
+	font-weight: bold;
+	background: #226B73;
+	background: -moz-linear-gradient(top, #3299A4, #1A5158);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#1A5158' ); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) ); /* for webkit browsers */
+	background: -o-linear-gradient(top, #3299A4, #1A5158);
+}
+
+.menu_item_clicked a {
+	color: white;
 }
 
 .totalForm .AmountLabel {
@@ -5556,108 +5697,151 @@ form#contactForm .submit {
 	border-bottom: 3px solid #3299A4;
 	margin-bottom: 10px;
 }
-.editTable .editheader td{
-	padding:5px;
+
+.editTable .editheader td {
+	padding: 5px;
 }
-.editTable .selected{
+
+.editTable .selected {
 	background: white;
 }
-.gwt-PopupPanel{
-	min-width:200px;
+
+.gwt-PopupPanel {
+	min-width: 200px;
 }
-#MessagesAndTasksPortlet .portlet-body{
-	  margin-top: 0px;
+
+#MessagesAndTasksPortlet .portlet-body {
+	margin-top: 0px;
 }
-#WhoOwesMePortlet .portlet-body{
-	  margin-top: 0px;
+
+#WhoOwesMePortlet .portlet-body {
+	margin-top: 0px;
 }
-#WhoIOwePortlet .portlet-body{
-	  margin-top: 0px;
+
+#WhoIOwePortlet .portlet-body {
+	margin-top: 0px;
 }
-#WhoOwesMePortlet .linkPanel{
+
+#WhoOwesMePortlet .linkPanel {
 	float: right;
-    margin: 0 5px 5px 0;
+	margin: 0 5px 5px 0;
 }
-#WhoIOwePortlet .linkPanel{
+
+#WhoIOwePortlet .linkPanel {
 	float: right;
-    margin: 0 5px 5px 0;
+	margin: 0 5px 5px 0;
 }
-.terminologyradioButotns{
+
+.terminologyradioButotns {
 	margin-left: 15px;
 }
-.terminologyradioButotns div{
+
+.terminologyradioButotns div {
 	margin: 5px 0;
 }
+
 .user_activity_log thead th {
-    border-bottom: 1px solid #55B8C1;
-    font-weight: normal;
-    text-shadow: none;
-    color:white;
+	border-bottom: 1px solid #55B8C1;
+	font-weight: normal;
+	text-shadow: none;
+	color: white;
 }
-.user_activity_log tr td, .user_activity_log tr th {
-    padding: 2px;
+
+.user_activity_log tr td,.user_activity_log tr th {
+	padding: 2px;
 }
-.user_activity_log{
-    border: 1px solid #2D8B93;
-    margin-top:10px;
-    width: 100%;
+
+.user_activity_log {
+	border: 1px solid #2D8B93;
+	margin-top: 10px;
+	width: 100%;
 }
 
 #UsersActivityListView .formItem {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
-#UsersActivityListView .formItem .gwt-Label{
-	width:auto;
-	padding:2px 5px 0 5px;
+#UsersActivityListView .formItem .gwt-Label {
+	width: auto;
+	padding: 2px 5px 0 5px;
 }
 
-#UsersActivityListView  button{
-	margin:0 5px;
+#UsersActivityListView  button {
+	margin: 0 5px;
 }
+
 .popupContent table td {
-    white-space: pre;
+	white-space: pre;
 }
-#adjusttaxview .memoArea{
+
+#adjusttaxview .memoArea {
 	-moz-box-orient: horizontal;
 }
-#adjusttaxview .memoArea .gwt-Label{
-	padding-right:5px;
+
+#adjusttaxview .memoArea .gwt-Label {
+	padding-right: 5px;
 	width: 200px;
 }
-#BankingPortlet .portlet-body .hPanel div:first-child{
-	width:50%;
-	-moz-box-flex:1;
+
+#BankingPortlet .portlet-body .hPanel div:first-child {
+	width: 50%;
+	-moz-box-flex: 1;
 }
-#RecurringTransactionDialog .interval_Value .intervalValueInputField{
-	 -moz-box-orient: vertical;
-   display: -webkit-box;
+
+#RecurringTransactionDialog .interval_Value .intervalValueInputField {
+	-moz-box-orient: vertical;
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .gwt-Label{
-	width:auto;
+
+#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .gwt-Label
+	{
+	width: auto;
 }
-#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .label{
-	margin-left:5px;
+
+#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .label {
+	margin-left: 5px;
 }
-.reportGridParent table.no_records td{
+
+.reportGridParent table.no_records td {
 	text-align: center;
 }
-#PreferenceSettingsView .expenseByCustomerPanel span{
+
+#PreferenceSettingsView .expenseByCustomerPanel span {
 	display: block;
 }
-#MeasurementsListGrid table.gridBody{
+
+#MeasurementsListGrid table.gridBody {
 	table-layout: fixed;
 }
-#WarehouseListGrid table.gridBody{
+
+#WarehouseListGrid table.gridBody {
 	table-layout: fixed;
 }
-#StockAdjustmentsListGrid table.gridBody{
+
+#StockAdjustmentsListGrid table.gridBody {
 	table-layout: fixed;
 }
-.gridBody .loading-panel{
+
+.gridBody .loading-panel {
 	text-align: center;
+}
+
+#VendorGroupListDialog .list-grid-body {
+	width: 250px;
+}
+
+#VendorGroupListDialog {
+	width: 400px;
+}
+
+.new_login_accounterform input[type="text"] {
+	font-size: 15px;
+}
+
+#InventoryCentreView .leftVpPanel .SelectCombo .customComboItem{
+	width:140px;
 }
