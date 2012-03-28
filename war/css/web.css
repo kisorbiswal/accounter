@@ -1,7 +1,6 @@
 body {
 	font-size: 13px;
 	font-family: Arial Unicode MS, Arial, sans-serif;
-	overflow-x: hidden;
 }
 
 html,body {
@@ -19,7 +18,6 @@ html,body {
 }
 
 .main-finance-window {
-	
 }
 
 .gwt-Label {
@@ -1220,6 +1218,7 @@ input[type="text"] {
 table.gridBody {
 	width: 100%;
 	border-collapse: collapse;
+	table-layout: fixed;
 }
 
 .gridOddRow {
@@ -5070,7 +5069,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #ItemGroupListDialog .gridHeaderParent {
-	width:250px;
+	width: 250px;
 }
 
 #ItemGroupListDialog {
@@ -5842,6 +5841,106 @@ form#contactForm .submit {
 	font-size: 15px;
 }
 
-#InventoryCentreView .leftVpPanel .SelectCombo .customComboItem{
-	width:140px;
+#InventoryCentreView .leftVpPanel .SelectCombo .customComboItem {
+	width: 140px;
+}
+
+#ReconciliationDialog .mainpanel .form {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#ReconciliationDialog table {
+	width: 400px;
+}
+
+#ReconciliationDialog .mainpanel .form .formItem .gwt-Label {
+	width: 150px;
+}
+
+#newAccountView .button_bar .gwt-Button {
+	margin-right: 10px;
+}
+
+textarea[disabled] {
+	background-color: #EBEBE4;
+	margin-bottom: 5px;
+}
+
+#reconcilationView .hPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	width: 100%;
+	clear: both;
+}
+
+#reconcilationView .hPanel .recouncilation_value {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#reconcilationView .hPanel .datesForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin-left: 15px;
+}
+
+#reconcilationView .recoucilation_change {
+	float: right;
+	 margin-bottom: 10px;
+}
+
+#reconcilationView .recounciliation_grid table {
+	clear: both;
+	width: 100%;
+}
+#reconcilationView .reconcillation_grid_panel{
+	border: 1px solid #2D8B93;
+	clear: both;
+    height: 200px;
+}
+#reconcilationView .recounciliation_grid table thead th {
+	text-shadow: none;
+	border-bottom: 0 none;
+	color:white;
+}
+
+#reconcilationView .recounciliation_grid table thead tr {
+	background: #2D8B93;
+	background: -moz-linear-gradient(top, #3299A4, #2D8B93);
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3299A4',
+		endColorstr='#2D8B93' );
+	background: -o-linear-gradient(top, #3299A4, #2D8B93);
+}
+#reconcilationView  .bottom_total_view .amountsForm{
+	font-weight: bold;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	width: 100%;
+	-moz-box-align: end;
+	-webkit-box-align: end;
+	box-align: end;
+	-moz-box-pack: end;
+	-webkit-box-pack: end;
+	box-pack: end;
+    -moz-box-flex: 1;
 }

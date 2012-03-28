@@ -55,8 +55,8 @@ public abstract class TreeListPanel extends SimplePanel {
 					if (TreeListPanel.this.prevElement != null) {
 						int widgetIndex = mainListPanel
 								.getWidgetIndex(prevElement);
-						mainListPanel.getWidget(widgetIndex).getElement()
-								.getParentElement().removeAttribute("class");
+						mainListPanel.getWidget(widgetIndex).removeStyleName(
+								"menu_item_clicked");
 					}
 					TreeListPanel.this.prevElement = menuItemLink;
 					menuItemLink.addStyleName("menu_item_clicked");
@@ -143,8 +143,8 @@ public abstract class TreeListPanel extends SimplePanel {
 			if (anchor.getText().equalsIgnoreCase(menuTitle)) {
 				if (this.prevElement != null) {
 					int widgetIndex = mainListPanel.getWidgetIndex(prevElement);
-					mainListPanel.getWidget(widgetIndex).getElement()
-							.getParentElement().removeAttribute("class");
+					mainListPanel.getWidget(widgetIndex).removeStyleName(
+							"menu_item_clicked");
 				}
 				TreeListPanel.this.prevElement = anchor;
 				anchor.addStyleName("menu_item_clicked");

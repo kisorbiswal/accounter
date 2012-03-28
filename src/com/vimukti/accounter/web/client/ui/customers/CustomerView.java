@@ -708,6 +708,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		todaydate.setDay(todaydate.getDay());
 		balanceDate.setDatethanFireEvent(todaydate);
+		balanceDate.setEnabled(!isInViewMode());
 		// balanceDate.addDateValueChangeHandler(new DateValueChangeHandler() {
 		//
 		// @Override
@@ -1193,7 +1194,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					});
 		} else {
 			custNoText.setValue(data.getNumber());
-			balanceDate.setEnabled(true);
+			balanceDate.setEnabled(!isInViewMode());
 		}
 		// Setting File as
 		fileAsText.setValue(data.getFileAs());
@@ -1378,9 +1379,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		fonFaxForm.setEnabled(!isInViewMode());
 		emailForm.setEnabled(!isInViewMode());
 		gridView.setEnabled(!isInViewMode());
-		salesPersonSelect.setEnabled(isInViewMode());
+		salesPersonSelect.setEnabled(!isInViewMode());
 		creditLimitText.setEnabled(!isInViewMode());
-		priceLevelSelect.setEnabled(isInViewMode());
+		priceLevelSelect.setEnabled(!isInViewMode());
 		// creditRatingSelect.setEnabled(isInViewMode());
 		// currencyCombo.setDisabled(!isInViewMode(), isInViewMode());
 		// if (!selectCurrency.equals(getCompany().getPreferences()
@@ -1399,7 +1400,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		payTermsSelect.setEnabled(!isInViewMode());
 		custGroupSelect.setEnabled(!isInViewMode());
 		vatregno.setEnabled(!isInViewMode());
-		custTaxCode.setEnabled(isInViewMode());
+		custTaxCode.setEnabled(!isInViewMode());
 		customFieldForm.setEnabled(isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		tdsCheckBox.setEnabled(!isInViewMode());
