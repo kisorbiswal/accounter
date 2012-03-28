@@ -782,7 +782,7 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setCommissionItem(getBooleanValue(comCheck));
 		}
 
-		if (getBooleanValue(ibuyCheck)) {
+		if (data.isIBuyThisItem()) {
 
 			data.setPurchaseDescription(getStringValue(purchaseDescArea));
 			data.setPurchasePrice(purchasePriceTxt.getAmount());
