@@ -477,7 +477,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	protected void checkNullValues() throws AccounterException {
 		checkingCustomerNull(customer, Global.get().customer());
 		// If estimates empty then
-		if (this.getEstimates().isEmpty()) {
+		if (this.getEstimates() == null || this.getEstimates().isEmpty()) {
 			super.checkNullValues();
 		} else if (!(this.getEstimates().isEmpty())
 				&& !(this.transactionItems.isEmpty())) {
