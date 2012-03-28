@@ -11,6 +11,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.impl.CldrImpl;
@@ -20,7 +22,6 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
@@ -169,11 +170,10 @@ public class ViewManager extends FlowPanel {
 								&& !(advertisements.isEmpty())) {
 							final double addPanelWidth = advertisements.get(0)
 									.getWidth();
-							Window.addWindowResizeListener(new WindowResizeListener() {
+							Window.addResizeHandler(new ResizeHandler() {
 
 								@Override
-								public void onWindowResized(int width,
-										int height) {
+								public void onResize(ResizeEvent event) {
 									if ((addPanelWidth + 960) <= Window
 											.getClientWidth()) {
 										rightPanel.setVisible(true);
@@ -839,20 +839,19 @@ public class ViewManager extends FlowPanel {
 		//
 		// toolBar.add(horizontalPanel);
 
-//		toolBar.add(group1);
-//		toolBar.add(group5);
-//		toolBar.add(group2);
-//		toolBar.add(group9);
-//		toolBar.add(group4);
-//		toolBar.add(group7);
-//		toolBar.add(group8);
-//		toolBar.add(group6);
-//		toolBar.add(group3);
-		
-		
+		// toolBar.add(group1);
+		// toolBar.add(group5);
+		// toolBar.add(group2);
+		// toolBar.add(group9);
+		// toolBar.add(group4);
+		// toolBar.add(group7);
+		// toolBar.add(group8);
+		// toolBar.add(group6);
+		// toolBar.add(group3);
+
 		toolBar.add(group1);
 		StyledPanel buttonsPanel = new StyledPanel("buttonsPanel");
-		
+
 		buttonsPanel.add(group5);
 		buttonsPanel.add(group2);
 		buttonsPanel.add(group9);
@@ -861,9 +860,9 @@ public class ViewManager extends FlowPanel {
 		buttonsPanel.add(group8);
 		buttonsPanel.add(group6);
 		buttonsPanel.add(group3);
-		
+
 		toolBar.add(buttonsPanel);
-		
+
 		toolBar.addStyleName("group-toolbar");
 	}
 
