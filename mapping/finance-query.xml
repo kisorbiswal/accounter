@@ -5018,7 +5018,7 @@
 				                     15, 16, 25, 26, 27 )
 				       AND P.ID = :payeeId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
-				       AND T.SAVE_STATUS !=204
+				       AND T.SAVE_STATUS =203
 				       AND T.COMPANY_ID = :companyId
 				       AND CASE
 				             WHEN 1 = :viewType THEN ( CASE
@@ -11585,7 +11585,6 @@
 		ORDER  BY T.T_DATE 
 		]]>
 	</sql-query>
-
 	<sql-query name="getPresentRecurringTransactions">
 		<![CDATA[
 				SELECT r.*

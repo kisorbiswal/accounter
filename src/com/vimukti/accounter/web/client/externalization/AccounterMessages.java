@@ -6229,4 +6229,6 @@ public interface AccounterMessages extends Messages {
 	public String discountShouldNotGreaterThan100();
 
 	public String cantCreateMoreTransactions();
+
+	public String hash();
 }

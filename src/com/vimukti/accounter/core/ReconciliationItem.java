@@ -18,6 +18,9 @@ public class ReconciliationItem extends CreatableObject implements
 	/** Transaction Type */
 	private int transationType;
 
+	/** Transaction memo */
+	private String transctionMemo;
+
 	/** Credit Amount. Exists if Transaction is MoneyIn */
 	private double amount;
 
@@ -34,6 +37,7 @@ public class ReconciliationItem extends CreatableObject implements
 		this.transactionDate = transaction.getDate();
 		this.transactionNo = trasnaction.getNumber();
 		this.transationType = transaction.getType();
+		this.transctionMemo = trasnaction.getMemo();
 	}
 
 	/**
@@ -132,6 +136,14 @@ public class ReconciliationItem extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String getTransctionMemo() {
+		return transctionMemo;
+	}
+
+	public void setTransctionMemo(String transctionMemo) {
+		this.transctionMemo = transctionMemo;
 	}
 }

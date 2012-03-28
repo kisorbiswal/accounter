@@ -68,6 +68,14 @@ public class ReconciliationTransactionsGrid extends
 			}
 		};
 
+		TextColumn<ClientReconciliationItem> transactionMemo = new TextColumn<ClientReconciliationItem>() {
+
+			@Override
+			public String getValue(ClientReconciliationItem object) {
+				return object.getTransctionMemo();
+			}
+		};
+
 		TextColumn<ClientReconciliationItem> transactionID = new TextColumn<ClientReconciliationItem>() {
 
 			@Override
@@ -123,7 +131,8 @@ public class ReconciliationTransactionsGrid extends
 		};
 
 		this.addColumn(date, messages.transactionDate());
-		this.addColumn(transactionID, messages.transaction());
+		this.addColumn(transactionID, messages.hash());
+		this.addColumn(transactionMemo, messages.memo());
 		this.addColumn(transaction, messages.transactionType());
 		this.addColumn(debit, messages.debit());
 		this.addColumn(credit, messages.credit());

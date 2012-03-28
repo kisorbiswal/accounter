@@ -14,6 +14,9 @@ public class ClientReconciliationItem implements IAccounterCore {
 	/** Transaction Number */
 	private String transactionNo;
 
+	/** Transaction memo */
+	private String transctionMemo;
+
 	/** Transaction Type */
 	private int transationType;
 
@@ -115,6 +118,14 @@ public class ClientReconciliationItem implements IAccounterCore {
 
 	public void setTransaction(long transaction) {
 		this.transaction = transaction;
+	}
+
+	public String getTransctionMemo() {
+		return transctionMemo;
+	}
+
+	public void setTransctionMemo(String transctionMemo) {
+		this.transctionMemo = transctionMemo;
 	}
 
 }
