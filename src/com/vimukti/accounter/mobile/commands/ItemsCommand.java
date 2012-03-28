@@ -140,17 +140,33 @@ public class ItemsCommand extends AbstractCommand {
 			list.add(new UserCommand("createNewInventoryItem", "sell"));
 			return;
 		}
-		if (itemType == VENDOR_ITEMS) {
-			list.add(new UserCommand("createNewServiceItem", "buy"));
-			list.add(new UserCommand("createNewNonInventoryItem", "buy"));
-			list.add(new UserCommand("createNewInventoryItem", "buy"));
-			list.add(new UserCommand("createNewInventoryAssemblyItem",
-					"sell,buy"));
-		}
+		addCreateCommands(list);
+	}
 
-		list.add(new UserCommand("createNewServiceItem", "sell"));
-		list.add(new UserCommand("createNewNonInventoryItem", "sell"));
-		list.add(new UserCommand("createNewInventoryItem", "sell"));
+	private void addCreateCommands(CommandList list) {
+		String isCustomer = itemType == VENDOR_ITEMS ? "buy"
+				: itemType == CUSTOMER_ITEMS ? "sell" : "";
+		boolean sellProducts = getPreferences().isSellProducts();
+		boolean sellServices = getPreferences().isSellServices();
+		if (getPreferences().isInventoryEnabled()) {
+			if (sellProducts && sellServices) {
+				list.add(new UserCommand("createNewServiceItem", isCustomer));
+				list.add(new UserCommand("createNewNonInventoryItem",
+						isCustomer));
+				list.add(new UserCommand("createNewInventoryItem", isCustomer));
+				list.add(new UserCommand("createNewInventoryAssemblyItem",
+						"sell,buy"));
+			} else if (sellProducts) {
+				list.add(new UserCommand("createNewNonInventoryItem",
+						isCustomer));
+				list.add(new UserCommand("createNewInventoryItem", isCustomer));
+			} else if (sellServices) {
+				list.add(new UserCommand("createNewServiceItem", isCustomer));
+			}
+		} else {
+			list.add(new UserCommand("createNewServiceItem", isCustomer));
+			list.add(new UserCommand("newProductItem", isCustomer));
+		}
 	}
 
 	protected Set<Item> getItems(Context context) {

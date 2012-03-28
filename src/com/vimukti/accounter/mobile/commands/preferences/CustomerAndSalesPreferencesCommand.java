@@ -448,7 +448,7 @@ public class CustomerAndSalesPreferencesCommand extends
 								preferences.getReferCustomers()));
 		get(INVENTORY_SCHEME).setValue(
 				getInventorySchemesList().get(
-						preferences.getActiveInventoryScheme()));
+						preferences.getActiveInventoryScheme() - 1));
 		get(TAXITEM_TRANSACTIONS).setValue(preferences.isTaxPerDetailLine());
 		return null;
 

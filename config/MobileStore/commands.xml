@@ -411,11 +411,13 @@
 		clazz="com.vimukti.accounter.mobile.commands.CreateNonInventoryItemCommand"
 		name="newNonInventoryItem">
 		<alias>nonInventoryItem</alias>
+		<alias>newProductItem</alias>
 		<alias>createNonInventoryItem</alias>
 		<alias>editNonInventoryItem</alias>
 		<alias>modifyNonInventoryItem</alias>
 		<alias>updateNonInventoryItem</alias>
 		<alias>createNewNonInventoryItem</alias>
+		<alias>updateProductItem</alias>
 	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.CreateInventoryAssemblyItemCommand"

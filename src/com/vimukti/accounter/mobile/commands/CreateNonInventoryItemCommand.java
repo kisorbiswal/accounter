@@ -32,9 +32,12 @@ public class CreateNonInventoryItemCommand extends AbstractItemCreateCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return getItem().getID() == 0 ? getMessages().creating(
-				getMessages().nonInventoryItem()) : getMessages().updating(
-				getMessages().nonInventoryItem());
+		String commandName = getMessages().productItem();
+		if (getPreferences().isInventoryEnabled()) {
+			commandName = getMessages().nonInventoryItem();
+		}
+		return getItem().getID() == 0 ? getMessages().creating(commandName)
+				: getMessages().updating(commandName);
 	}
 
 	@Override

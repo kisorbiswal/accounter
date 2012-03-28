@@ -406,10 +406,11 @@
 		<input>Product and Service Item</input>
 		<input>Product and Service Items</input>
 		<outputs>
-			<command title="createNewServiceItem" />
-			<command title="createNewNonInventoryItem" />
-			<command title="createNewInventoryItem" />
-			<command title="createNewInventoryAssemblyItem" />
+			<command if="serviceItem" title="createNewServiceItem" />
+			<command if="productItem" title="newProductItem" />
+			<command if="nonInventoryItem" title="createNewNonInventoryItem" />
+			<command if="inventoryItem" title="createNewInventoryItem" />
+			<command if="assemblyItem" title="createNewInventoryAssemblyItem" />
 			<command title="listofAllItem" />
 		</outputs>
 	</pattern>
@@ -420,9 +421,11 @@
 		<input>createItem</input>
 		<input>addNewItem</input>
 		<outputs>
-			<command title="createNewServiceItem" />
-			<command title="createNewNonInventoryItem" />
-			<command title="createNewInventoryItem" />
+			<command if="serviceItem" title="createNewServiceItem" />
+			<command if="productItem" title="newProductItem" />
+			<command if="nonInventoryItem" title="createNewNonInventoryItem" />
+			<command if="inventoryItem" title="createNewInventoryItem" />
+			<command if="assemblyItem" title="createNewInventoryAssemblyItem" />
 			<command title="listofAllItem" />
 		</outputs>
 	</pattern>

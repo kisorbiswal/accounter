@@ -128,7 +128,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	 * 
 	 * @see SalesOrder
 	 */
-	private List<Estimate> salesOrders;
+	private List<Estimate> salesOrders = new ArrayList<Estimate>();
 
 	double taxTotal = 0D;
 

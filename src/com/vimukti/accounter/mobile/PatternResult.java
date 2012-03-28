@@ -78,6 +78,10 @@ public class PatternResult extends Result {
 		ClientCompanyPreferences preferences = CompanyPreferenceThreadLocal
 				.get();
 		User user = AccounterThreadLocal.get();
+
+		boolean sellServices = preferences.isSellServices();
+		boolean sellProducts = preferences.isSellProducts();
+
 		if (condition.equals("trackTax")) {
 			return preferences.isTrackTax();
 		} else if (condition.equals("trackingQuotes")) {
@@ -108,6 +112,16 @@ public class PatternResult extends Result {
 			return user.isCanDoUserManagement();
 		} else if (condition.equals("purchaseorderEnabled")) {
 			return preferences.isPurchaseOrderEnabled();
+		} else if (condition.equals("serviceItem")) {
+			return sellServices;
+		} else if (condition.equals("productItem")) {
+			return sellProducts && !preferences.isInventoryEnabled();
+		} else if (condition.equals("inventoryItem")
+				|| condition.equals("nonInventoryItem")) {
+			return sellProducts && preferences.isInventoryEnabled();
+		} else if (condition.equals("assemblyItem")) {
+			return sellProducts && sellServices
+					&& preferences.isInventoryEnabled();
 		}
 		return true;
 	}
