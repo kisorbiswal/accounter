@@ -1219,6 +1219,7 @@ table.gridBody {
 	padding: 2px;
 	border-style: solid;
 	cursor: pointer;
+	text-align: left;
 }
 
 table.gridHeader {
@@ -2314,7 +2315,6 @@ table.gridHeader tr td {
 
 .biz-decor-panel .vPanel {
 	border: 1px solid #7A7A7A;
-	padding: 5px 0;
 }
 
 .portlet-body button {
@@ -3442,7 +3442,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CashSalesView .prodAndServiceHLay .nonEditablePanel {
-	width: 100%;
 	-moz-box-flex: 1;
 	-moz-box-pack: end;
 }
@@ -3754,6 +3753,13 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: box;
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
+	-moz-box-flex: 1;
+	width: 60%;
+}
+
+#VendorBillView .bottompanel .taxPanel .form {
+	-moz-box-flex: 1;
+	width: 30%;
 }
 
 #VendorBillView .bottompanel .taxPanel .form {
@@ -4813,7 +4819,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 #BankingPortlet .portlet-body {
 	overflow-y: auto;
 	position: relative;
-	height: 300px;
+	height: 270px;
 }
 
 .view_manager .rightPanel iframe {
@@ -4828,7 +4834,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #searchInputDialog table {
-	height: 200px;
 	width: 500px;
 }
 
@@ -5466,4 +5471,73 @@ form#contactForm .submit {
 	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
 		to(#1A5158) );
 	background: -o-linear-gradient(top, #3299A4, #1A5158);
+}
+
+.totalForm .AmountLabel {
+	-moz-box-flex: 1;
+	-moz-box-pack: end;
+	width: 100%;
+}
+
+#QuoteView .prodAndServiceHLay .boldtext {
+	width: 375px;
+}
+
+#CashExpenseView .bottomLayout .boldtext {
+	-moz-box-flex: 1;
+	width: 375px;
+}
+
+#CashExpenseView .bottomLayout .boldtext .AmountLabel {
+	-moz-box-flex: 1;
+	-moz-box-pack: end;
+	width: 100%;
+}
+
+.taxForm {
+	width: 260px;
+}
+
+.addNewButton {
+	float: right;
+}
+
+#WhoIOwePortlet .gridHeader {
+	display: none;
+}
+
+#WhoOwesMePortlet .gridHeader {
+	display: none;
+}
+
+#RecentTransactionsPortlet .gridHeader {
+	display: none;
+}
+
+#AccountBalancesPortlet .gridHeader {
+	display: none;
+}
+
+#TopPayeesBySalesPortlet  .gridHeader {
+	display: none;
+}
+
+#TopPayeesBySalesPortlet .gridHeader {
+	display: none;
+}
+
+.portlet-body .listgrid {
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color: #2D8b93;
+}
+
+.editTable td a {
+	color: black;
+}
+
+.search_result_table {
+	border: 1px solid #AAA;
+	margin: 10px 0 2px;
+	padding: 5px;
 }
