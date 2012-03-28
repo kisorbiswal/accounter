@@ -244,6 +244,10 @@ public class ReportSectionView extends BaseHomeView {
 				.getInventoryValutionSummaryReportAction().getHistoryToken());
 		inventoryMap.put(messages.inventoryValuationDetails(), ActionFactory
 				.getInventoryValuationDetailsAction().getHistoryToken());
+		inventoryMap.put(messages.inventoryStockStatusByItem(),
+				HistoryTokens.INVENTORY_STOCK_STATUS_BY_ITEM_REPORT);
+		inventoryMap.put(messages.inventoryStockStatusByVendor(),
+				HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
 		// inventoryMap.put(messages.inventoryStockStatusByItem(), ActionFactory
 		// .getInventoryStockStatusByItemAction().getHistoryToken());
 		// inventoryMap.put(messages.inventoryStockStatusByVendor(),
