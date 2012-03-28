@@ -414,7 +414,9 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("currentView", viewSelect.getValue().toString());
+		if (viewSelect != null) {
+			map.put("currentView", viewSelect.getValue().toString());
+		}
 		map.put("dateRange", dateRangeSelector.getValue().toString());
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
@@ -427,9 +429,11 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		if (map == null || map.isEmpty()) {
 			return;
 		}
-		String currentView = (String) map.get("currentView");
-		viewSelect.setComboItem(currentView);
-		this.setViewType(currentView);
+		if (viewSelect != null) {
+			String currentView = (String) map.get("currentView");
+			viewSelect.setComboItem(currentView);
+			this.setViewType(currentView);
+		}
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
 		dateRangeChanged(dateRange1);

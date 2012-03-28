@@ -118,7 +118,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			if (user.isCanDoUserManagement()) {
 				if (user.getID() == obj.getID()) {
 					Accounter.showInformation(messages.youCantDeleteYourSelf());
-				} else if (user.getID() == getCompany().getCreatedBy()) {
+				} else if (obj.getID() == getCompany().getCreatedBy()) {
 					Accounter.showInformation(messages
 							.youCantDeleteCompanyCreator());
 				} else {

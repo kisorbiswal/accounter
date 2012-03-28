@@ -1417,6 +1417,9 @@ public class FinanceTool {
 				}
 				total = queryResult.size();
 
+				result.setTotalCount(total);
+				result.setStart(start);
+
 				if (length < 0) {
 					result.addAll(queryResult);
 				} else {
@@ -1430,8 +1433,6 @@ public class FinanceTool {
 						return result;
 					}
 				}
-				result.setTotalCount(total);
-				result.setStart(start);
 			}
 		}
 		return result;

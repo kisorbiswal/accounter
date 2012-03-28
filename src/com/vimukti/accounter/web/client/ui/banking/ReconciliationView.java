@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.view.client.Range;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
@@ -166,12 +167,14 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		// grid.setHeight("200px");
 
 		this.mainPanel = new StyledPanel("mainPanel");
+		StyledPanel gridPanel = new StyledPanel("reconcillation_grid_panel");
 		mainPanel.add(label);
 		mainPanel.add(hPanel);
 		if (isCreating()) {
 			mainPanel.add(btnPanel);
 		}
-		mainPanel.add(grid);
+		gridPanel.add(grid);
+		mainPanel.add(gridPanel);
 		// mainPanel.setCellHeight(grid, "200px");
 		grid.getElement().getParentElement()
 				.addClassName("recounciliation_grid");
@@ -248,6 +251,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 						if (result == null) {
 							result = Collections.emptyList();
 						}
+						grid.setVisibleRangeAndClearData(new Range(0, 50), true);
 						grid.setData(result);
 					}
 				});
