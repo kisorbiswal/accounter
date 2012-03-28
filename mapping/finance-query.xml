@@ -9050,7 +9050,7 @@
 				       T.MEMO        AS TRANSACTION_MEMO,
 				       T.ID          AS TRANSACTION_ID,
 				       T.T_TYPE      AS TRANSACTION_TYPE,
-				       PO.DUE_DATE   AS DUE_DATE,
+				       NULL   AS DUE_DATE,
 				       T.NUMBER      AS TRANSACTION_NUMBER,
 				       P.NAME        AS VENDOR_NAME,
 				       T.TOTAL       AS TRANSACTION_NET_AMOUNT,
@@ -9102,7 +9102,7 @@
 				       T.MEMO        AS TRANSACTION_MEMO,
 				       T.ID          AS TRANSACTION_ID,
 				       T.T_TYPE      AS TRANSACTION_TYPE,
-				       PO.DUE_DATE   AS DUE_DATE,
+				       NULL   AS DUE_DATE,
 				       T.NUMBER      AS TRANSACTION_NUMBER,
 				       P.NAME        AS VENDOR_NAME,
 				       T.TOTAL       AS TRANSACTION_NET_AMOUNT,
@@ -9159,7 +9159,7 @@
 				       T.MEMO        AS TRANSACTION_MEMO,
 				       T.ID          AS TRANSACTION_ID,
 				       T.T_TYPE      AS TRANSACTION_TYPE,
-				       PO.DUE_DATE   AS DUE_DATE,
+				       NULL   AS DUE_DATE,
 				       T.NUMBER      AS TRANSACTION_NUMBER,
 				       P.NAME        AS VENDOR_NAME,
 				       T.TOTAL       AS TRANSACTION_NET_AMOUNT,
@@ -9237,7 +9237,6 @@
 				         WHEN T.T_TYPE = 27 THEN CCC.DELIVERY_DATE
 				         WHEN T.T_TYPE = 6 THEN EB.DUE_DATE
 				         WHEN T.T_TYPE = 11 THEN PB.BILL_DUE_ONORBEFORE
-				         WHEN T.T_TYPE = 22 THEN PO.DUE_DATE
 				         ELSE NULL
 				       END           AS DUE_DATE,
 				       0             AS EXPENSE_STATUS

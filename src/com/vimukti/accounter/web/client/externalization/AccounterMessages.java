@@ -6221,10 +6221,12 @@ public interface AccounterMessages extends Messages {
 	public String numberFieldShouldNotBeEmpty(String message);
 
 	public String shouldNotBeZeroOrNegative(String message);
-	
+
 	public String codeShouldNotBeEmpty(String message);
 
 	public String transactionPaybills();
 
 	public String discountShouldNotGreaterThan100();
+
+	public String cantCreateMoreTransactions();
 }
