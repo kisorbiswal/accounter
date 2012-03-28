@@ -90,6 +90,7 @@ public class TransactionMeterPanel extends SimplePanel {
 		int g = (maxTransactionCount * 60 / 100);
 		int y = (maxTransactionCount * 80 / 100);
 		if (transactionsCount <= g) {
+			meterbar1.removeStyleName("inner_transactionMeterBar_red");
 			meterbar1.removeStyleName("inner_transactionMeterBar_yellow");
 			meterbar1.addStyleName("inner_transactionMeterBar_green");
 		} else if (transactionsCount > g && transactionsCount < y) {
@@ -97,6 +98,7 @@ public class TransactionMeterPanel extends SimplePanel {
 			meterbar1.removeStyleName("inner_transactionMeterBar_red");
 			meterbar1.addStyleName("inner_transactionMeterBar_yellow");
 		} else {
+			meterbar1.removeStyleName("inner_transactionMeterBar_green");
 			meterbar1.removeStyleName("inner_transactionMeterBar_yellow");
 			meterbar1.addStyleName("inner_transactionMeterBar_red");
 		}
