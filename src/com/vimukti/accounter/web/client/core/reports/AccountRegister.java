@@ -160,21 +160,6 @@ public class AccountRegister implements IsSerializable, Serializable {
 	}
 
 	/**
-	 * @return the balance
-	 */
-	public double getBalance() {
-		return balance;
-	}
-
-	/**
-	 * @param balance
-	 *            the balance to set
-	 */
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	/**
 	 * @return the transactionId
 	 */
 	public long getTransactionId() {

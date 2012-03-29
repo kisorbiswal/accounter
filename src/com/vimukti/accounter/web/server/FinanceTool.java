@@ -1404,15 +1404,13 @@ public class FinanceTool {
 					 * } }
 					 */
 					accountRegister.setMemo((String) object[7]);
-					accountRegister.setBalance(object[8] == null ? 0
-							: ((Double) object[8]).doubleValue());
-					accountRegister.setTransactionId((Long) object[9]);
-					accountRegister.setVoided(object[10] == null ? false
-							: (Boolean) object[10]);
-					accountRegister.setCurrency(object[11] == null ? 0
-							: (Long) object[11]);
-					accountRegister.setCurrencyfactor(object[12] == null ? 0
-							: (Double) object[12]);
+					accountRegister.setTransactionId((Long) object[8]);
+					accountRegister.setVoided(object[9] == null ? false
+							: (Boolean) object[9]);
+					accountRegister.setCurrency(object[10] == null ? 0
+							: (Long) object[10]);
+					accountRegister.setCurrencyfactor(object[11] == null ? 0
+							: (Double) object[11]);
 					queryResult.add(accountRegister);
 				}
 				total = queryResult.size();

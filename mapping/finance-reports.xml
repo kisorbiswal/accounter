@@ -4073,7 +4073,6 @@
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="ACCOUNT" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
-		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="CURRENCY" type="long" />
@@ -4152,17 +4151,6 @@
 						         ELSE :multiple
 						       END               AS ACCOUNT,
 						       T.MEMO            AS MEMO,
-						       (SELECT SUM(AT1.AMOUNT) / T1.CURRENCY_FACTOR
-						        FROM   ACCOUNT_TRANSACTION AT1
-						               JOIN TRANSACTION T1
-						                 ON AT1.TRANSACTION_ID = T1.ID
-						               JOIN ACCOUNT A
-						                 ON A.ID = AT1.ACCOUNT_ID
-						        WHERE  AT1.COMPANY_ID = :companyId
-						               AND A.ID = :accountId
-						               AND T1.T_DATE <= T.T_DATE
-						               AND T1.ID = T.ID
-						        GROUP  BY T1.ID) AS BALANCE,
 						       T.ID              AS TRANSACTION_ID,
 						       CASE
 						         WHEN T.SAVE_STATUS = 204 THEN TRUE
