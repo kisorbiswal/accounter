@@ -110,13 +110,16 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			case 0:
 			case ClientFixedAsset.STATUS_PENDING:
 				labl.setText(messages.pendingAsset());
+				labl.setStyleName("label-title");
 				break;
 			case ClientFixedAsset.STATUS_REGISTERED:
 				labl.setText(messages.registeredAsset());
+				labl.setStyleName("label-title");
 				setRequiredFields();
 				break;
 			case ClientFixedAsset.STATUS_SOLD_OR_DISPOSED:
 				labl.setText(messages.assetSold());
+				labl.setStyleName("label-title");
 			}
 			// Need to write
 			assetOptions = new SelectItem(messages.assetOptions(),
@@ -307,7 +310,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		labl.setStyleName("Required field");
 		labl.setStyleName("label-title");
 		// H'panel for view title.
-		lablHPanel = new StyledPanel("margin-b");
+		lablHPanel = new StyledPanel("lablHPanel");
 
 		labl = new Label();
 		lablHPanel.add(labl);
@@ -384,7 +387,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				this.getAction().getViewName()).replace(messages.comments(),
 				messages.description()));
 		// new item form
-		itmNameForm = new DynamicForm("margin-b");
+		itmNameForm = new DynamicForm("itmNameForm");
 		itmNameForm.add(newItemTxt);
 
 		// This form for asset number & asset account
@@ -400,12 +403,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		StyledPanel purchaseInfoVPanel = new StyledPanel("purchaseInfoVPanel");
 		purchaseInfoVPanel.add(purchaseInfoForm);
 
-		itemHPanel = new StyledPanel("margin-b");
+		itemHPanel = new StyledPanel("itemHPanel");
 		itemHPanel.add(itemInfoForm);
 
 		DynamicForm emptyPanel = new DynamicForm("emptyPanel");
 		itemHPanel.add(emptyPanel);
-		AccounterDOM.setAttribute(emptyPanel.getElement(), "width", "10%");
 		itemHPanel.add(purchaseInfoVPanel);
 
 		StyledPanel itmInfoVPanel = new StyledPanel("itmInfoVPanel");
@@ -413,7 +415,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		itmInfoVPanel.add(itemHPanel);
 
 		StyledPanel descriptionVPanel = new StyledPanel("descriptionVPanel");
-		descriptionVPanel.setStyleName("margin-b");
 		descriptionVPanel.add(descrptionLabel);
 		descriptionVPanel.add(descriptionForm);
 

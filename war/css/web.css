@@ -1,11 +1,11 @@
 body {
 	font-size: 13px;
 	font-family: Arial Unicode MS, Arial, sans-serif;
+	overflow-x: hidden;
 }
 
 html,body {
 	width: 100%;
-	height: 100%;
 }
 
 .viewholder a {
@@ -273,6 +273,7 @@ html,body {
 	position: relative;
 	width: 100%;
 	height: 25px;
+	margin-top: 15px;
 }
 
 #appVersions a {
@@ -291,15 +292,12 @@ html,body {
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;
 	-webkit-box-pack: end;
-	-webkit-box-align: end;
 	display: -moz-box;
-	-moz-box-align: end;
 	-moz-box--orient: horizontal;
 	-moz-box-pack: end;
 	display: box;
 	box-orient: horizontal;
 	box-pack: end;
-	box-align: end;
 	-moz-box-flex: 1;
 }
 
@@ -329,6 +327,7 @@ html,body {
 
 .mainVLay .topHLay {
 	clear: both;
+	width: 100%;
 }
 
 .fields-panel {
@@ -516,7 +515,7 @@ input[type="text"] {
 }
 
 .datenumber-panel .formItem .gwt-Label {
-	width: 50px;
+	width: 75px;
 }
 
 .calendar-picker {
@@ -689,6 +688,8 @@ input[type="text"] {
 	margin-top: 15px;
 	-moz-box-flex: 1;
 	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
 }
 
 .bottomPanel {
@@ -964,6 +965,12 @@ input[type="text"] {
 
 #InvoiceView .prodAndServiceHLay .boldtext {
 	padding-left: 10px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #InvoiceView .No .gwt-Label {
@@ -1096,9 +1103,9 @@ input[type="text"] {
 
 #BudgetListView .form {
 	display: -webkit-box;
-	display: -moz-box;
+	/* display: -moz-box; */ /*removed for firefox*/
 	display: box;
-	-moz-box-flex: 1;
+	/* 	-moz-box-flex: 1; */
 }
 
 #BudgetListView .hlay {
@@ -1658,6 +1665,10 @@ table.gridHeader tr td {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
+}
+
+.report-toolbar .form .formItem {
+	margin-left: 20px;
 }
 
 .report-toolbar .form .gwt-Label {
@@ -3260,8 +3271,12 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CashPurchaseView .bottomLayout .boldtext {
+	-moz-box-pack: end;
+	display: -webkit-box;
+	display: -moz-box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
 	width: 100%;
-	-moz-box-flex: 1;
 }
 
 #CashPurchaseView .bottomLayout .transactionTotalForm .AmountLabel {
@@ -3457,15 +3472,23 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #paytaxview .leftVLay {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 	width: 50%;
 	-moz-box-flex: 1;
 }
 
 #paytaxview .rightVlay {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 	width: 50%;
 	-moz-box-flex: 1;
 }
@@ -3477,8 +3500,12 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CashSalesView .topHLay .leftVLay {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 	width: 50%;
 	-moz-box-flex: 1;
 }
@@ -3491,18 +3518,30 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CashSalesView .topHLay .ShipToForm {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 }
 
 #CashSalesView .topHLay .leftVLay .align-form {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 }
 
 #CashSalesView .topHLay .rightVLay .align-form {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 }
 
 #CashSalesView .topHLay .rightVLay .align-form .formItem {
@@ -3512,14 +3551,24 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CashSalesView .prodAndServiceHLay .taxForm {
-	display: -moz-box;
 	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 	padding: 0 10px;
 }
 
 #CashSalesView .prodAndServiceHLay .nonEditablePanel {
 	-moz-box-flex: 1;
 	-moz-box-pack: end;
+	-moz-box-orient: vertical;
+	display: -moz-box;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	display: box;
+	box-orient: vertical;
 }
 
 #SalesTaxGroupListView .bodyLayout {
@@ -3836,16 +3885,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #VendorBillView .bottompanel .taxPanel .form {
-	-moz-box-flex: 1;
-	width: 30%;
-}
-
-#VendorBillView .bottompanel .taxPanel .form {
-	-moz-box-flex: 1;
-	width: 30%;
-}
-
-#VendorBillView .bottompanel .taxPanel .form {
 	display: -moz-box;
 	-moz-box-orient: vertical;
 	margin-right: 5px;
@@ -4012,14 +4051,28 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-webkit-box-pack: justify;
 }
 
-#invoicebrandingview .detailsPanel .rightBorder {
+#invoicebrandingview .detailsPanel .transactionStyles {
 	border-right: #CCC solid 1px;
+	padding: 0 5px;
+}
+
+#invoicebrandingview .detailsPanel .downloadPanel {
+	border-right: #CCC solid 1px;
+	padding: 0 5px;
+}
+
+#invoicebrandingview .detailsPanel .rightBorder {
+	/* 	border-right: #CCC solid 1px;
 	width: 100px;
-	padding: 0 2px;
+	padding: 0 2px; */
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
 }
 
 #invoicebrandingview .detailsPanel .rightBorder button {
-	height: 40px;
+	/* 	height: 40px; */
+	
 }
 
 #invoicebrandingview .detailsPanel .leftBorder {
@@ -4872,7 +4925,11 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 #ChangePasswordDialog .textItemsForm {
 	display: -moz-box;
+	display: -webkit-box;
+	display: box;
 	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #ChangePasswordDialog .mainPanel .NoWrapping {
@@ -4880,12 +4937,21 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #WarningsDialog .bodyLayout {
-	-moz-box-orient: vertical;
 	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #WarningsDialog .headerLayout {
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
 	display: -moz-box;
+	display: -webkit-box;
+	display: box;
 }
 
 #WarningsDialog .gwt-HTML {
@@ -4972,7 +5038,8 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .change_password_view a {
-	margin: 10px;
+	    display: block;
+    margin: 5px;
 }
 
 .bank-account-portlet {
@@ -5086,13 +5153,26 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	box-orient: horizontal;
 }
 
-#PaymentTermListDialog .bodyLayout .bodyLayout {
+#PaymentTermListDialog .bodyLayout .bodyLayout1 {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: horizontal;
 	-moz-box-orient: horizontal;
 	box-orient: horizontal;
+}
+
+#PaymentTermListDialog .bodyLayout .bodyLayout1 .listgrid {
+	width: 500px;
+}
+
+#PaymentTermListDialog .bodyLayout .bodyLayout1 .buttonsLayout {
+	-moz-box-orient: vertical;
+	display: -moz-box;
+}
+
+#PaymentTermListDialog .bodyLayout .bodyLayout1 .gwt-Button {
+	margin-top: 10px;
 }
 
 #ShippingMethodListDialog .bodyLayout .bodyLayout {
@@ -5153,7 +5233,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #RemindersListView .panel .gwt-Button {
-	    margin:  5px;
+	margin: 5px;
 }
 
 #FileUploadDilaog .vpaPanel .panel-right-align button {
@@ -5168,19 +5248,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-}
-
-#contactable {
-	background-image: url(../images/contact.png);
-	height: 93px;
-	margin-right: -5px;
-	position: fixed;
-	position: absolute;
-	text-indent: -100000px;
-	top: 102px;
-	margin-top: 200px;
-	width: 44px;
-	z-index: 100000;
 }
 
 #contactForm {
@@ -5939,6 +6006,156 @@ form#contactForm .submit {
 	width: 140px;
 }
 
+#CheckPrintingSettingView .allFields .fourForm {
+	-moz-box-orient: horizontal;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#CheckPrintingSettingView .allFields .boldForms {
+	-moz-box-orient: horizontal;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#CashDiscountDialog .dialogMiddleCenterInner .mainPanel .bodyLayout .discountForm
+	{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+#PurchaseOrderView .topHLay .rightVLay .dateform {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+#PurchaseOrderView .bottomLayout .prodAndServiceHLay .form {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+#SelectItemTypeDialog .dialogMiddle .dialogMiddleCenterInner .mainPanel
+	{
+	padding-right: 200px;
+	width: 100%;
+}
+
+#SelectItemTypeDialog .dialogMiddle .dialogMiddleCenterInner .mainPanel .footerLayout
+	{
+	-moz-box-pack: end;
+	display: -moz-box;
+	width: 100%;
+}
+
+.popuppaneldropdown .dropdownTable {
+	height: 200px;
+	width: 250px;
+}
+
+#NewFixedAssetView .DepreciationMethodCombo .gwt-ListBox {
+	border: 1px solid #AAAAAA;
+	border-radius: 3px 3px 3px 3px;
+	height: 23px;
+	padding: 0 5px;
+	width: 172px;
+}
+
+#NewFixedAssetView .descriptionVPanel .NoWrapping {
+	display: none;
+}
+
+#NewFixedAssetView .mainVPanel .depreciationHPanel {
+	-moz-box-orient: horizontal;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#NewFixedAssetView .mainVPanel .itemInfoForm{
+		-moz-box-orient: horizontal;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#NewFixedAssetView .mainVPanel .purchaseInfoVPanel{
+		-moz-box-orient: horizontal;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#NewFixedAssetView .mainVPanel .itmInfoVPanel {
+	-moz-box-orient: vertical;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#NewFixedAssetView .mainVPanel .itmNameForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+#NewFixedAssetView .mainVPanel .itemHPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+#NewFixedAssetView .mainVPanel .assetTypeForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+#NewFixedAssetView .mainVPanel .depreciationForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+}
+
+.standard_label .gwt-HTML {
+	font-weight: bold;
+	font-size: 15px;
+}
+
 #ReconciliationDialog .mainpanel .form {
 	display: -webkit-box;
 	display: -moz-box;
@@ -6042,6 +6259,7 @@ textarea[disabled] {
 	-moz-box-flex: 1;
 }
 
+
 .popupContent div:first-child {
 	overflow-x: hidden !important;
 }
@@ -6057,12 +6275,17 @@ textarea[disabled] {
 
 #CashDiscountDialog .discountForm {
 	display: -webkit-box;
+}
+
+#SellingRegisteredItemView .topPanel .detailForm{
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
+
 
 #CashDiscountDialog .discountForm .formItem .gwt-Label {
 	width: 150px;
@@ -6150,12 +6373,16 @@ textarea[disabled] {
 }
 #EmailView .mainPanel .horPanel .firstForm{
 	display: -webkit-box;
+}
+#SellingRegisteredItemView .RadioGroupItem .readioGropuitem{
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
+
 #EmailView .buttonsPanel button{
 	margin:0 5px;
 }
@@ -6191,6 +6418,14 @@ textarea[disabled] {
 }
 #CashSalesView .panel .gwt-Anchor{
 	text-decoration: underline;
+}
+
+#SellingRegisteredItemView .RadioGroupItem .readioGropuitem .gwt-RadioButton{
+	display: block;
+}
+
+#SellingRegisteredItemView .button_bar .gwt-Button{
+	margin: 5px;
 }
 #QuoteView .rightVLay .locationform .formItem{
 	width:100%;
