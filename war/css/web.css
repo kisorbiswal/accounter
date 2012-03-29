@@ -487,11 +487,12 @@ input[type="text"] {
 
 .detailsTab .customField .gwt-Button {
 	background: none repeat scroll 0 0 #29646C;;
-	padding: 5px 5px 5px;
+	padding: 5px;
 	height: 25px;
 	border-radius: 5px;
 	color: white;
 	border: 1px solid #002E36;
+	margin-bottom: 10px;
 }
 
 .detailsTab .customField {
@@ -2537,7 +2538,7 @@ table.no_records td {
 #DepreciationView .gwt-ListBox {
 	border: 1px solid #b1b1b1;
 	border-radius: 3px 3px 3px 3px;
-	width: 100px;
+	width: 125px;
 }
 
 #ChartOfAccountsView .hlay .formItem .gwt-Label {
@@ -2598,8 +2599,12 @@ table.no_records td {
 	-moz-box-flex: 1;
 }
 
-#InvoiceView .prodAndServiceHLay div {
-	-moz-box-flex: 1;
+#InvoiceView .prodAndServiceForm2 vatForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
 }
 
 #customerprepaymentview .leftPanel .frameTitle {
