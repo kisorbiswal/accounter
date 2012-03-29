@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.SalesOrder;
-
 public class ClientCashSales extends ClientTransaction {
 
 	/**

@@ -21,7 +21,6 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;

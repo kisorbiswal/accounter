@@ -1,7 +1,5 @@
 package com.vimukti.accounter.ws;
 
-import java.io.IOException;
-
 import org.eclipse.jetty.io.ByteArrayBuffer;
 import org.eclipse.jetty.server.LocalConnector;
 import org.eclipse.jetty.websocket.WebSocket.OnTextMessage;
