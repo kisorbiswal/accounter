@@ -3138,7 +3138,7 @@
 		<return-scalar column="ACCOUNT_TYPE" type="int" />
 		<return-scalar column="JOB_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
-		<return-scalar column="T_ID" type="double" />
+		<return-scalar column="T_ID" type="long" />
 		
 		<![CDATA[
 						SELECT A.ID       AS ACCOUNT_ID,
