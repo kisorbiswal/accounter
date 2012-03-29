@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -58,6 +59,7 @@ public class ReconciliationTransactionsGrid extends
 			public String getValue(ClientReconciliationItem object) {
 				return object.getTransactionDate().toString();
 			}
+
 		};
 
 		TextColumn<ClientReconciliationItem> transaction = new TextColumn<ClientReconciliationItem>() {
@@ -138,7 +140,14 @@ public class ReconciliationTransactionsGrid extends
 		this.addColumn(credit, messages.credit());
 		if (!view.isInViewMode()) {
 			this.addColumn(clearCheckbox, messages.clear());
+			setColumnWidth(clearCheckbox, 30, Unit.PX);
 		}
+		setColumnWidth(date, 100, Unit.PX);
+		setColumnWidth(transactionID, 50, Unit.PX);
+		setColumnWidth(transactionMemo, 200, Unit.PX);
+		setColumnWidth(transaction, 200, Unit.PX);
+		setColumnWidth(debit, 100, Unit.PX);
+		setColumnWidth(credit, 100, Unit.PX);
 
 	}
 
