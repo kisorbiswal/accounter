@@ -10977,7 +10977,7 @@
 		<return-scalar column="PURCHASE_ORDERS" type="long" />
 		<return-scalar column="SALES_ORDERS" type="long" />
 		<return-scalar column="REORDER_POIN" type="int" />
-		<return-scalar column="UNIT" type="encryptedstring" />
+		<return-scalar column="UNIT" type="string" />
 		
 		
 		
@@ -11035,7 +11035,7 @@
 		<return-scalar column="PURCHASE_ORDERS" type="long" />
 		<return-scalar column="SALES_ORDERS" type="long" />
 		<return-scalar column="REORDER_POIN" type="int" />
-		<return-scalar column="UNIT" type="encryptedstring" />
+		<return-scalar column="UNIT" type="string" />
 		
 		<![CDATA[
 				SELECT item_name,
