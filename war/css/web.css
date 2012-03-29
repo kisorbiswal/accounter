@@ -4990,8 +4990,8 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .change_password_view a {
-	    display: block;
-    margin: 5px;
+	display: block;
+	margin: 5px;
 }
 
 .bank-account-portlet {
@@ -6002,22 +6002,25 @@ form#contactForm .submit {
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 }
-#NewFixedAssetView .mainVPanel .itemInfoForm{
-		-moz-box-orient: horizontal;
+
+#NewFixedAssetView .mainVPanel .itemInfoForm {
+	-moz-box-orient: horizontal;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 }
-#NewFixedAssetView .mainVPanel .purchaseInfoVPanel{
-		-moz-box-orient: horizontal;
+
+#NewFixedAssetView .mainVPanel .purchaseInfoVPanel {
+	-moz-box-orient: horizontal;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 }
+
 #NewFixedAssetView .mainVPanel .itmInfoVPanel {
 	-moz-box-orient: vertical;
 	display: -webkit-box;
@@ -6171,9 +6174,8 @@ textarea[disabled] {
 	-moz-box-flex: 1;
 }
 
-
-#SellingRegisteredItemView .topPanel .detailForm{
-		display: -webkit-box;
+#SellingRegisteredItemView .topPanel .detailForm {
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-moz-box-orient: vertical;
@@ -6181,8 +6183,8 @@ textarea[disabled] {
 	box-orient: vertical;
 }
 
-#SellingRegisteredItemView .RadioGroupItem .readioGropuitem{
-			display: -webkit-box;
+#SellingRegisteredItemView .RadioGroupItem .readioGropuitem {
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-moz-box-orient: vertical;
@@ -6190,10 +6192,46 @@ textarea[disabled] {
 	box-orient: vertical;
 }
 
-#SellingRegisteredItemView .RadioGroupItem .readioGropuitem .gwt-RadioButton{
+#SellingRegisteredItemView .RadioGroupItem .readioGropuitem .gwt-RadioButton
+	{
 	display: block;
 }
 
-#SellingRegisteredItemView .button_bar .gwt-Button{
+#SellingRegisteredItemView .button_bar .gwt-Button {
 	margin: 5px;
+}
+
+#BuildAssemblyView .headerForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+-webkit-box-pack: end;
+}
+
+#BuildAssemblyView .headerForm .formItem .gwt-Label {
+	width: 80px;
+}
+
+#BuildAssemblyView .comboForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#BuildAssemblyView .topPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#BuildAssemblyView  .topPanel .formItem{
+	margin-left: 10px;
 }
