@@ -225,6 +225,9 @@ public class MenuBar {
 		settingsMenuBar.addMenuItem(messages.chequePrintSetting(),
 				HistoryTokens.CHECK_PRINT_SETTING);
 
+		settingsMenuBar.addMenuItem(messages.deletecompany(),
+				HistoryTokens.DELETE_COMPANY);
+
 		return settingsMenuBar;
 	}
 

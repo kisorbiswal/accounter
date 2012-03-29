@@ -29,6 +29,8 @@
         </c:if>
         
 	   <form class="accounterform" action="/main/deletecompany" method="post">
+	   <label><i18n:i18n msg='pleaseEntertheUserPassword'/></label>
+	   <input id="userPassword"  type="password" name="userPassword"   value="" />
 	  	 	<c:if test="${canDeleteFromSingle}">
             	<input type="radio" name="delete" value="deleteUser">
             		<i18n:i18n msg='deletecompanyfromaccount'/>

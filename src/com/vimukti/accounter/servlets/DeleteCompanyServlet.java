@@ -19,13 +19,12 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
+import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.server.managers.UserManager;
+import com.vimukti.accounter.utils.Security;
 
 /**
  * @author Prasanna Kumar G
@@ -104,12 +103,21 @@ public class DeleteCompanyServlet extends BaseServlet {
 	private void deleteComapny(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		final String email = (String) req.getSession().getAttribute(EMAIL_ID);
-
+		Client client = getClient(email);
 		String message = "";
 
 		final String companyID = String.valueOf(req.getSession().getAttribute(
 				COMPANY_ID));
 		String delete = req.getParameter("delete");
+		String password = req.getParameter("userPassword");
+		String passwordWord = HexUtil.bytesToHex(Security.makeHash(email
+				+ Client.PASSWORD_HASH_STRING + password.trim()));
+		if (!passwordWord.equals(client.getPassword())) {
+			req.setAttribute("message", "Password shoudn't empty or incorrect");
+			setOptions(req, companyID, email);
+			dispatch(req, resp, deleteCompanyView);
+			return;
+		}
 		if (delete == null) {
 			req.setAttribute("message", "Please select the option.");
 			setOptions(req, companyID, email);
@@ -210,7 +218,8 @@ public class DeleteCompanyServlet extends BaseServlet {
 						}
 
 					} else if (canDeleteFromSingle) {
-						// Commit problem. Two times commiting changes if we call finance tool to delete user.
+						// Commit problem. Two times commiting changes if we
+						// call finance tool to delete user.
 						user.setDeleted(true);
 						session.saveOrUpdate(user);
 						Activity activity = new Activity(user.getCompany(),
