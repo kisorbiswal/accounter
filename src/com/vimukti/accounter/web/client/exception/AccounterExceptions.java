@@ -251,7 +251,13 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS:
 			return accounterMessages.cantCreateMoreTransactions().replaceAll(
 					"\n", "<br/>");
-
+		case AccounterException.ERROR_NO_RECORDS_TO_SAVE:
+			return accounterMessages.thereisNoRecordsTosave(exception
+					.getMessage());
+		case AccounterException.ERROR_PLEASE_ENTER:
+			return accounterMessages.pleaseEnter(exception.getMessage());
+		case AccounterException.MEMO_CANNOT_EXCEEDS_MORE_THAN_255_CHARACTERS:
+			return accounterMessages.memoCannotExceedsmorethan255Characters();
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

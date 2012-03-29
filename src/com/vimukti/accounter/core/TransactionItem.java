@@ -1170,4 +1170,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	public void setJob(Job job) {
 		this.job = job;
 	}
+
+	public boolean isEmpty() {
+		if (this.item == null
+				&& this.account == null
+				&& this.unitPrice == null
+				&& (this.lineTotal == null || this.lineTotal == 0)
+				&& (this.quantity == null || this.quantity.getValue() == 0 || this.quantity
+						.getValue() == 1) && this.discount == null) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -205,6 +205,12 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_RECIVE_PAYMENT_TOTAL_AMOUNT = 77;
 
+	public static final int ERROR_NO_RECORDS_TO_SAVE = 78;
+
+	public static final int ERROR_PLEASE_ENTER = 79;
+
+	public static final int MEMO_CANNOT_EXCEEDS_MORE_THAN_255_CHARACTERS = 80;
+
 	protected int errorCode;
 
 	// private long id;

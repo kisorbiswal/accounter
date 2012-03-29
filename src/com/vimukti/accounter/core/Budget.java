@@ -84,7 +84,7 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 	private void checkNullValues() throws AccounterException {
 		if (financialYear == null || financialYear.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().financialYear());
+					Global.get().messages().budgetFinancialYear());
 		}
 		if (budgetName == null || budgetName.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,

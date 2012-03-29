@@ -999,9 +999,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// this.errorOccured = true;
 		String exceptionMessage = exception.getMessage();
 		// addError(this, exceptionMessage);
-		AccounterException accounterException = exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions.getErrorString(exception);
 		Accounter.showError(errorString);
 
 		updateAccountObject();
