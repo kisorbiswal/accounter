@@ -14,6 +14,11 @@
 <%
 	String error =(String) request.getAttribute("error");
 	Boolean showResetLink =(Boolean) request.getAttribute("showResetLink");
+	String hint =(String) request.getAttribute("hint");
+	if(hint ==null){
+	hint ="";
+	}
+	
 %>
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
@@ -47,7 +52,7 @@ $(document).ready(function() {
 							   <div >
 								     <div><i18n:i18n msg='companyPassword'/> : </div>
 									 <div>
-										<input id="mid-box"  type="password" name="companyPassword"   value="" class="reset_password" />
+										<input id="mid-box"  type="password" name="companyPassword"   value="" class="reset_password" />Password hint: <%= hint %>
 										<p>This is company password to encrypt your company. If you don't know the company password please contact your administrator.</p>								
 									 </div>
 									 <div id="reset_hint_box">

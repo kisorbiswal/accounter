@@ -7,10 +7,10 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -36,6 +36,10 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	PasswordTextBox conformPasswordField;
 	@UiField
 	Label passwordInfo;
+	@UiField
+	Label hintLabel;
+	@UiField
+	TextBox hintField;
 	@UiField
 	Hyperlink moreInfoLink;
 	private SetupWizard setupWizard;
@@ -68,6 +72,8 @@ public class SetupPremiumPage extends AbstractSetupPage {
 		conformPasswordLabel.setText(messages.confirmPassword());
 		passwordField.setEnabled(false);
 		conformPasswordField.setEnabled(false);
+		hintLabel.setText(messages.passwordHint());
+		hintField.setEnabled(false);
 		encryptionInfo.setText(messages.encryptionEnablesyourCompanydata());
 		encryptionInfo.setStyleName("organisation_comment");
 		passwordInfo.setText(messages.encryptionPasswordisImportant());
@@ -80,9 +86,11 @@ public class SetupPremiumPage extends AbstractSetupPage {
 				if (enableBox.getValue()) {
 					passwordField.setEnabled(true);
 					conformPasswordField.setEnabled(true);
+					hintField.setEnabled(true);
 				} else {
 					passwordField.setEnabled(false);
 					conformPasswordField.setEnabled(false);
+					hintField.setEnabled(false);
 				}
 			}
 		});
@@ -92,6 +100,8 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	@Override
 	protected void onSave() {
 		setupWizard.setPassword(enableBox.getValue() ? passwordField.getValue()
+				: null);
+		setupWizard.setPasswordHint(enableBox.getValue() ? hintField.getValue()
 				: null);
 	}
 

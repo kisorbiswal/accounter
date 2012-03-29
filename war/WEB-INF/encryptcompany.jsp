@@ -66,7 +66,8 @@ $('#submitButton').click(function() {
 			</c:if>
 			 Enter password
 			<input type="password" id= "pass1" name="password" >Confirm password
-			<input type="password" id= "pass2"  name="confirm" >
+			<input type="password" id= "pass2"  name="confirm" >Hint
+			<input type="text" id= "hint"  name="hint" >
 			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="<i18n:i18n msg='submit'/>">
 			 <a   href="/main/companies" ><i18n:i18n msg='companieslist'/></a> | 
 			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>

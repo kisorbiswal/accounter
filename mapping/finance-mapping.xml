@@ -332,7 +332,7 @@
 				column="PRIMARY_CURRENCY" cascade="save-update,delete">
 			</many-to-one>
 		</component>
-
+		<property name="passwordHInt" column="PASSWORD_HINT"></property>
 		<property name="bankAccountNo" type="encryptedstring" column="BANK_ACCOUNT_NO"></property>
 		<property name="sortCode" column="SORT_CODE"></property>
 		<many-to-one name="cashDiscountAccount" class="Account"

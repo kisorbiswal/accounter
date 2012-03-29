@@ -103,13 +103,14 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
-			String password, List<TemplateAccount> accounts)
+			String password, String passwordHint, List<TemplateAccount> accounts)
 			throws AccounterException {
 		try {
 			Client client = getClient(getUserEmail());
 			byte[] d2 = getD2();
 			Company company = intializeCompany(preferences, accounts, client,
-					password, d2, getThreadLocalRequest().getSession().getId());
+					password, passwordHint, d2, getThreadLocalRequest()
+							.getSession().getId());
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.COMPANY_ID, company.getId());
 			getThreadLocalRequest().getSession().removeAttribute(
@@ -124,7 +125,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 	public static Company intializeCompany(
 			ClientCompanyPreferences preferences,
 			List<TemplateAccount> accounts, Client client, String password,
-			byte[] d2, String sessionId) throws AccounterException {
+			String passwordHint, byte[] d2, String sessionId)
+			throws AccounterException {
 
 		// if (!client.getClientSubscription().getSubscription().isPaidUser()) {
 		// List<Company> companies = client.getCompanies();
@@ -208,6 +210,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			// Initializing Accounts
 			company.setPreferences(serverCompanyPreferences);
 			company.initialize(accounts);
+			company.setPasswordHInt(passwordHint);
 
 			session.saveOrUpdate(company);
 

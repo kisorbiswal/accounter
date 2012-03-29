@@ -5270,7 +5270,7 @@ public interface AccounterMessages extends Messages {
 	public String youdonthaveanyfiledVATentriestoselect();
 
 	public String youDontHaveAnyItemsToTransfer();
-	
+
 	public String youDontHaveAnyOtherCurrenciesToSeeThisReport();
 
 	public String youDontHavePermission();
@@ -6235,4 +6235,8 @@ public interface AccounterMessages extends Messages {
 	public String hash();
 
 	public String pleaseEntertheUserPassword();
+
+	public String addNewmessageOrTask();
+
+	public String passwordHint();
 }

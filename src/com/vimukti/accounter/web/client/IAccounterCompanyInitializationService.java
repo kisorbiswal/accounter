@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -19,8 +18,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public interface IAccounterCompanyInitializationService extends RemoteService {
 
 	boolean initalizeCompany(ClientCompanyPreferences preferences,
-			String password, List<TemplateAccount> accountsTemplates)
-			throws AccounterException;
+			String password, String passwordHint,
+			List<TemplateAccount> accountsTemplates) throws AccounterException;
 
 	public List<AccountsTemplate> getAccountsTemplate()
 			throws AccounterException;

@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -48,6 +49,7 @@ public class CompanyPasswordServlet extends BaseServlet {
 					e.printStackTrace();
 					req.setAttribute("error", Global.get().messages()
 							.youHaveEnteredWrongPassword());
+					setHintForRequest(req, companyId);
 					dispatch(req, resp, VIEW);
 					return;
 				}
@@ -67,6 +69,7 @@ public class CompanyPasswordServlet extends BaseServlet {
 				e.printStackTrace();
 				req.setAttribute("error", Global.get().messages()
 						.youHaveEnteredWrongPassword());
+				setHintForRequest(req, companyId);
 				dispatch(req, resp, VIEW);
 			}
 		} else {
@@ -76,7 +79,19 @@ public class CompanyPasswordServlet extends BaseServlet {
 							.messages()
 							.pleaseEnter(
 									Global.get().messages().companyPassword()));
+			setHintForRequest(req, companyId);
 			dispatch(req, resp, VIEW);
 		}
+	}
+
+	private void setHintForRequest(HttpServletRequest req, Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction beginTransaction = session.beginTransaction();
+		Query query = session.getNamedQuery("getHint.by.company");
+		query.setParameter("companyId", companyId);
+		String hint = (String) query.uniqueResult();
+		req.setAttribute("hint", hint);
+		beginTransaction.commit();
+
 	}
 }
