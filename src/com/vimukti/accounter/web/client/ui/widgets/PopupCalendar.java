@@ -196,9 +196,10 @@ public class PopupCalendar extends PopupPanel {
 		});
 		previousMonth.addStyleName("prenextyear-label");
 		monthLine.setWidget(0, 1, previousMonth);
-//		monthCellFormatter.setWidth(0, 2, "80%");
+		// monthCellFormatter.setWidth(0, 2, "80%");
 		currentMonth = new Label();
-		currentMonth.addStyleName("currentmonth");
+		currentMonth.addStyleName("prenextyear-label");
+		// currentMonth.addStyleName("currentmonth");
 		currentMonth.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -213,7 +214,6 @@ public class PopupCalendar extends PopupPanel {
 				currentMonth.removeStyleName("currentmonth-hover");
 			}
 		});
-		currentMonth.addStyleName("prenextyear-label");
 		currentMonth.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				leave = false;

@@ -12,7 +12,7 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 
 	@Override
 	public int getWidth() {
-		return 10;
+		return 15;
 	}
 
 	@Override

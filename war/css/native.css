@@ -17,14 +17,12 @@ body{
    padding:0px !important;
    width:100%;
 }
-
-
 .scroll-panel,.abstract_base_view,.financeWindow,.setting-class-panel{
    width:100% !important;	
 }
 body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,form#contactForm .submit,
 form#contactForm input, textarea,.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel{
-	font-size:12.5px;
+	font-size:13px;
 }
 .editheader td div,.gridHeader td{
 	font-size:13px !important;

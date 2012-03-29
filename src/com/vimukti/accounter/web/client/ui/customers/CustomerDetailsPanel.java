@@ -63,7 +63,7 @@ public class CustomerDetailsPanel extends FlowPanel {
 
 		leftform.add(name, balance, openingBalance, currency, customersince);
 
-		rightform.add(email, fax, webpageadress, notes, address);
+		rightform.add(email, fax, webpageadress, address, notes);
 		rightform.addStyleName("customers_detail_rightpanel");
 
 		StyledPanel hp = new StyledPanel("panel");
