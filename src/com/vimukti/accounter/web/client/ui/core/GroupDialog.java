@@ -28,7 +28,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		BaseDialog<T> {
 
 	private StyledPanel buttonsLayout;
-	private StyledPanel bodyLayout;
+	private StyledPanel bodyLayout1;
 	protected Button button1;
 	private Button button2;
 	private Button button3;
@@ -50,18 +50,17 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		super(title, descript);
 		this.getElement().setId("GroupDialog");
 		initialise();
-		getWidget().getParent().addStyleName("group_dialogue_list");
 	}
 
 	/*
 	 */
 	private void initialise() {
 
-		bodyLayout = new StyledPanel("bodyLayout");
-		// mainPanel.setCellVerticalAlignment(bodyLayout,
+		bodyLayout1 = new StyledPanel("bodyLayout1");
+		// mainPanel.setCellVerticalAlignment(bodyLayout1,
 		// HasVerticalAlignment.ALIGN_TOP);
-		// bodyLayout.setWidth("100%");
-		// bodyLayout.setSpacing(5);
+		// bodyLayout1.setWidth("100%");
+		// bodyLayout1.setSpacing(5);
 
 		listGridView = new DialogGrid(false) {
 			@Override
@@ -137,12 +136,10 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		// button2.enabledButton();
 		// button3.enabledButton();
 		button1.setFocus(true);
-		bodyLayout.add(listGridView);
+		bodyLayout1.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement()
-				.setAttribute("width", "25%");
-		setBodyLayout(bodyLayout);
+			bodyLayout1.add(buttonsLayout);
+		setBodyLayout(bodyLayout1);
 		cancelBtn.setTitle(this.messages.close());
 		dialogHandler = new InputDialogHandler() {
 

@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.UploadTemplateFileDialog;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
  * 
@@ -43,11 +44,9 @@ public class InvoiceBrandingView<T> extends
 	private ClientBrandingTheme brandingTheme;
 	private HTML generalSettingsHTML, allLabelsHtml, ShowHtml, checkBoxHtml,
 			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
-			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml,
-			quoteHtml, purchaseOrderHtml, salesOrderHtml, invoiceFileName,
-			creditNoteFileName, quoteFileName, purchaseOrderFileName,
-			salesOrderFileName, downloadOdtHtml, downloadDocxHtml, uploadHtml,
-			cashSaleHtml, cashSaleFileName;
+			contactDetailsHtml, titleHtml, invoiceFileName, creditNoteFileName,
+			quoteFileName, purchaseOrderFileName, salesOrderFileName,
+			downloadOdtHtml, downloadDocxHtml, uploadHtml, cashSaleFileName;
 	private Label titleLabel;
 	// helpHtml;
 	private StyledPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
@@ -160,7 +159,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		}
 
-//		mainPanel.setWidth("100%");
+		// mainPanel.setWidth("100%");
 		add(mainPanel);
 
 	}
@@ -281,7 +280,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		titleHtml = new HTML("<strong>" + theme.getThemeName() + "</strong>");
+		titleHtml = new HTML(theme.getThemeName());
 
 		nameAndMenuPanel = new StyledPanel("nameAndMenuPanel");
 		buttonPanel2 = new StyledPanel("buttonPanel2");
@@ -299,95 +298,77 @@ public class InvoiceBrandingView<T> extends
 
 		nameAndMenuPanel.add(buttonPanel2);
 
-//		buttonPanel2.getElement().getParentElement()
-//				.setAttribute("width", "18%");
-//		buttonPanel2.setWidth("100%");
+		// buttonPanel2.getElement().getParentElement()
+		// .setAttribute("width", "18%");
+		// buttonPanel2.setWidth("100%");
 
 		vPanel.add(nameAndMenuPanel);
-//		vPanel.setWidth("100%");
+		// vPanel.setWidth("100%");
 
 		StyledPanel invoicePanel = new StyledPanel("invoicePanel");
-		invoiceHtml = new HTML("<p>" + messages.invoice()
-				+ "<br/><br/><br/></p>");
-		invoiceFileName = new HTML("<p>" + theme.getInvoiceTempleteName()
-				+ "</p>");
-		invoicePanel.add(invoiceHtml);
+		invoiceFileName = new HTML(theme.getInvoiceTempleteName());
+		invoicePanel.add(new LabelItem(messages.invoice(), "type"));
 		invoicePanel.add(invoiceFileName);
 		invoicePanel.setStyleName("rightBorder");
 
 		StyledPanel creditPanel = new StyledPanel("creditPanel");
-		creditNoteHtml = new HTML("<p>" + messages.creditNoteTitle()
-				+ "<br/><br/><br/></p>");
-		creditNoteFileName = new HTML("<p>"
-				+ theme.getCreditNoteTempleteName().trim() + "</p>");
-		creditPanel.add(creditNoteHtml);
+		creditNoteFileName = new HTML(theme.getCreditNoteTempleteName().trim());
+		creditPanel.add(new LabelItem(messages.creditNoteTitle(), "type"));
 		creditPanel.add(creditNoteFileName);
 		creditPanel.setStyleName("rightBorder");
 
 		StyledPanel quotePanel = new StyledPanel("quotePanel");
-		quoteHtml = new HTML("<p>" + messages.quote() + "<br/><br/><br/></p>");
-		quoteFileName = new HTML("<p>" + theme.getQuoteTemplateName() + "</p>");
-		quotePanel.add(quoteHtml);
+		quoteFileName = new HTML(theme.getQuoteTemplateName());
+		quotePanel.add(new LabelItem(messages.quote(), "type"));
 		quotePanel.add(quoteFileName);
 		quotePanel.setStyleName("rightBorder");
 
 		StyledPanel cashSalePanel = new StyledPanel("cashSalePanel");
-		cashSaleHtml = new HTML("<p>" + messages.cashSale()
-				+ "<br/><br/><br/></p>");
-		cashSaleFileName = new HTML("<p>" + theme.getCashSaleTemplateName()
-				+ "</p>");
-		cashSalePanel.add(cashSaleHtml);
+		cashSaleFileName = new HTML(theme.getCashSaleTemplateName());
+		cashSalePanel.add(new LabelItem(messages.cashSale(), "type"));
 		cashSalePanel.add(cashSaleFileName);
 		cashSalePanel.setStyleName("rightBorder");
 
 		StyledPanel purchaseOrderPanel = new StyledPanel("purchaseOrderPanel");
-		purchaseOrderHtml = new HTML("<p>" + messages.purchaseOrder()
-				+ "<br/><br/><br/></p>");
-		purchaseOrderFileName = new HTML("<p>"
-				+ theme.getPurchaseOrderTemplateName() + "</p>");
-		purchaseOrderPanel.add(purchaseOrderHtml);
+		purchaseOrderFileName = new HTML(theme.getPurchaseOrderTemplateName());
+		purchaseOrderPanel.add(new LabelItem(messages.purchaseOrder(), "type"));
 		purchaseOrderPanel.add(purchaseOrderFileName);
 		purchaseOrderPanel.setStyleName("rightBorder");
 
 		StyledPanel salesOrderPanel = new StyledPanel("salesOrderPanel");
-		salesOrderHtml = new HTML("<p>" + messages.salesOrder()
-				+ "<br/><br/><br/></p>");
-		salesOrderFileName = new HTML("<p>" + theme.getSalesOrderTemplateName()
-				+ "</p>");
-		salesOrderPanel.add(salesOrderHtml);
+		salesOrderFileName = new HTML(theme.getSalesOrderTemplateName());
+		salesOrderPanel.add(new LabelItem(messages.salesOrder(), "type"));
 		salesOrderPanel.add(salesOrderFileName);
 		salesOrderPanel.setStyleName("rightBorder");
 
-		downloadOdtHtml = new HTML("<p>" + messages.odtDownloadMessage()
-				+ "</p>");
-		downloadDocxHtml = new HTML("<p>" + messages.docxDownloadMessage()
-				+ "</p>");
+		downloadOdtHtml = new HTML(messages.odtDownloadMessage());
+		downloadDocxHtml = new HTML(messages.docxDownloadMessage());
 
-		uploadHtml = new HTML("<p>" + messages.themeUploadMessage() + "</p>");
+		uploadHtml = new HTML(messages.themeUploadMessage());
 
 		detailsPanel = new StyledPanel("detailsPanel");
-//		detailsPanel.setWidth("100%");
 
 		StyledPanel downloadPanel = new StyledPanel("downloadPanel");
-		// downloadPanel.setWidth("30%");
 		downloadPanel.add(downloadOdtFiles);
 		downloadPanel.add(downloadOdtHtml);
 		downloadPanel.add(downloadDocxFiles);
 		downloadPanel.add(downloadDocxHtml);
-		downloadPanel.setStyleName("rightBorder");
 
 		StyledPanel uploadPanel = new StyledPanel("uploadPanel");
 		// uploadPanel.setWidth("30%");
 		uploadPanel.add(uploadButton);
 		uploadPanel.add(uploadHtml);
-		uploadPanel.setStyleName("leftBorder");
 
-		detailsPanel.add(invoicePanel);
-		detailsPanel.add(creditPanel);
-		detailsPanel.add(quotePanel);
-		detailsPanel.add(cashSalePanel);
-		detailsPanel.add(purchaseOrderPanel);
-		detailsPanel.add(salesOrderPanel);
+		StyledPanel transactionStyles = new StyledPanel("transactionStyles");
+
+		transactionStyles.add(invoicePanel);
+		transactionStyles.add(creditPanel);
+		transactionStyles.add(quotePanel);
+		transactionStyles.add(cashSalePanel);
+		transactionStyles.add(purchaseOrderPanel);
+		transactionStyles.add(salesOrderPanel);
+
+		detailsPanel.add(transactionStyles);
 		detailsPanel.add(downloadPanel);
 		detailsPanel.add(uploadPanel);
 
@@ -527,34 +508,35 @@ public class InvoiceBrandingView<T> extends
 		String invoiceTemp = theme.getInvoiceTempleteName() == null ? messages
 				.classicTemplate() : theme.getInvoiceTempleteName();
 
-		invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
+		HTML invoiceHtml = new HTML("<p>" + messages.invoiceTemplete() + " : "
 				+ invoiceTemp + "</p>");
 
 		// adding credit note template name
 		String creditTemp = theme.getCreditNoteTempleteName() == null ? messages
 				.classicTemplate() : theme.getCreditNoteTempleteName();
 
-		creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete() + " : "
-				+ creditTemp + "</p>");
+		HTML creditNoteHtml = new HTML("<p>" + messages.creditNoteTemplete()
+				+ " : " + creditTemp + "</p>");
 
 		// adding quote template name
 		String quote = theme.getQuoteTemplateName() == null ? messages
 				.classicTemplate() : theme.getQuoteTemplateName();
 
-		quoteHtml = new HTML("<p>" + messages.quoteTemplate() + " : " + quote
-				+ "</p>");
+		HTML quoteHtml = new HTML("<p>" + messages.quoteTemplate() + " : "
+				+ quote + "</p>");
 
 		// adding purchaseOrder template name
 		String purchaseOrder = theme.getPurchaseOrderTemplateName() == null ? messages
 				.classicTemplate() : theme.getPurchaseOrderTemplateName();
-		purchaseOrderHtml = new HTML("<p>" + messages.purchaseOrderTemplate()
-				+ " : " + purchaseOrder + "</p>");
+		HTML purchaseOrderHtml = new HTML("<p>"
+				+ messages.purchaseOrderTemplate() + " : " + purchaseOrder
+				+ "</p>");
 
 		// adding salesOrder template name
 		String salesOrder = theme.getSalesOrderTemplateName() == null ? messages
 				.classicTemplate() : theme.getSalesOrderTemplateName();
-		salesOrderHtml = new HTML("<p>" + messages.salesOrderTemplate() + " : "
-				+ salesOrder + "</p>");
+		HTML salesOrderHtml = new HTML("<p>" + messages.salesOrderTemplate()
+				+ " : " + salesOrder + "</p>");
 
 		showPanel = new StyledPanel("showPanel");
 		showPanel.add(checkBoxHtml);
@@ -580,7 +562,7 @@ public class InvoiceBrandingView<T> extends
 
 		if ((theme.getFileName() == null)) {
 			uploadPictureHtml = new HTML(messages.uploadLogo());
-//			uploadPictureHtml.setWidth("104px");
+			// uploadPictureHtml.setWidth("104px");
 			uploadPictureHtml.setVisible(true);
 			uploadPictureHtml.addMouseOverHandler(new MouseOverHandler() {
 
@@ -690,9 +672,10 @@ public class InvoiceBrandingView<T> extends
 		uploadPanel.setStyleName("upload-logo");
 		uploadPanel.add(uploadPictureHtml);
 		verticalPanel.add(uploadPanel);
-//		verticalPanel.setWidth("100%");
+		// verticalPanel.setWidth("100%");
 		verticalPanel.add(panel);
-//		panel.getElement().getParentElement().setAttribute("align", "center");
+		// panel.getElement().getParentElement().setAttribute("align",
+		// "center");
 
 		if (theme.getFileName() == null) {
 			panel.setVisible(false);
@@ -737,22 +720,22 @@ public class InvoiceBrandingView<T> extends
 
 		nameAndMenuPanel.add(buttonPanel2);
 
-//		buttonPanel2.getElement().getParentElement()
-//				.setAttribute("width", "18%");
-//		buttonPanel2.setWidth("100%");
+		// buttonPanel2.getElement().getParentElement()
+		// .setAttribute("width", "18%");
+		// buttonPanel2.setWidth("100%");
 
 		// optionsButton.setStyleName("ibutton-right-align") ;
 		if (theme.getName().equalsIgnoreCase(messages.standard())) {
 			deleteButton.setVisible(false);
-//			buttonPanel2.getElement().getParentElement()
-//					.setAttribute("width", "12%");
+			// buttonPanel2.getElement().getParentElement()
+			// .setAttribute("width", "12%");
 		} else {
 			deleteButton.setVisible(true);
 		}
 		vPanel.add(nameAndMenuPanel);
 		vPanel.add(allPanel);
-//		allPanel.setWidth("100%");
-//		vPanel.setWidth("100%");
+		// allPanel.setWidth("100%");
+		// vPanel.setWidth("100%");
 		SimplePanel simplePanel = new SimplePanel();
 		simplePanel.setStyleName("setting-class-panel");
 		simplePanel.add(vPanel);
