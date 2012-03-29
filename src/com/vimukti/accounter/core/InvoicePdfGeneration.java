@@ -7,9 +7,6 @@ import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -64,13 +61,23 @@ public class InvoicePdfGeneration {
 			i.setInvoiceNumber(invoice.getNumber());
 			i.setInvoiceDate(Utility.getDateInSelectedFormat(invoice.getDate()));
 
-			// for primary curreny
-			Currency currency = invoice.getCustomer().getCurrency();
+			
+			Customer customer = invoice.getCustomer();
+			//for customer details
+			i.setCstNumber(customer.getCSTno()== null?"" :customer.getCSTno());
+			i.setServiceTaxRegistrationNumber(customer.getServiceTaxRegistrationNo()== null?"" :customer.getServiceTaxRegistrationNo());
+			i.setTaxpayerIdentificationNumber(customer.getTINNumber()== null?"" :customer.getTINNumber());
+			i.setTaxRegistrationNumber(customer.getVATRegistrationNumber()== null?"" :customer.getVATRegistrationNumber());
+			i.setCustomerTaxCode(customer.getTAXCode() ==null?"" :customer.getTAXCode().getName());
+			
+			//for primary curreny
+			Currency currency = customer.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());
 				}
 
+			
 			PaymentTerms paymentterm = invoice.getPaymentTerm();
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
@@ -442,6 +449,11 @@ public class InvoicePdfGeneration {
 		private String location;
 		private String deliveryDate;
 		private String shippingTerms;
+		private String cstNumber;
+		private String serviceTaxRegistrationNumber;
+		private String taxpayerIdentificationNumber;
+		private String taxRegistrationNumber;
+		private String customerTaxCode;
 
 		public String getInvoiceNumber() {
 			return invoiceNumber;
@@ -641,6 +653,48 @@ public class InvoicePdfGeneration {
 
 		public void setCustomerName(String customerName) {
 			this.customerName = customerName;
+		}
+
+		public String getCstNumber() {
+			return cstNumber;
+		}
+
+		public void setCstNumber(String cstNumber) {
+			this.cstNumber = cstNumber;
+		}
+
+		public String getServiceTaxRegistrationNumber() {
+			return serviceTaxRegistrationNumber;
+		}
+
+		public void setServiceTaxRegistrationNumber(
+				String serviceTaxRegistrationNumber) {
+			this.serviceTaxRegistrationNumber = serviceTaxRegistrationNumber;
+		}
+
+		public String getTaxpayerIdentificationNumber() {
+			return taxpayerIdentificationNumber;
+		}
+
+		public void setTaxpayerIdentificationNumber(
+				String taxpayerIdentificationNumber) {
+			this.taxpayerIdentificationNumber = taxpayerIdentificationNumber;
+		}
+
+		public String getTaxRegistrationNumber() {
+			return taxRegistrationNumber;
+		}
+
+		public void setTaxRegistrationNumber(String taxRegistrationNumber) {
+			this.taxRegistrationNumber = taxRegistrationNumber;
+		}
+
+		public String getCustomerTaxCode() {
+			return customerTaxCode;
+		}
+
+		public void setCustomerTaxCode(String customerTaxCode) {
+			this.customerTaxCode = customerTaxCode;
 		}
 
 	}
