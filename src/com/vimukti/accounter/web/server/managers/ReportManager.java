@@ -407,6 +407,7 @@ public class ReportManager extends Manager {
 				long transactionID = (object[6] == null ? 0
 						: ((Long) object[6]).longValue());
 				long location;
+
 				if (object[4] == null) {
 					location = inneequeryMap.get(transactionID);
 				} else {
@@ -414,8 +415,16 @@ public class ReportManager extends Manager {
 							.longValue();
 				}
 				double amount = object[5] == null ? 0 : (Double) object[5];
+
+				if (categoryType == 1) {
+					Double previousAmount = record.getMap().get(location);
+					if (previousAmount != null) {
+						amount += previousAmount;
+					}
+				}
 				/* + record.getMap().get(location) */;
 				record.getMap().get(location);
+				record.getMap().put(location, amount);
 				record.setCategoryId(location);
 			}
 		}
