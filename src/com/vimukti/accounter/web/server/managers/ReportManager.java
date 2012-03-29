@@ -417,8 +417,8 @@ public class ReportManager extends Manager {
 				double amount = object[5] == null ? 0 : (Double) object[5];
 
 				if (categoryType == 1) {
-					Double previousAmount = record.getMap().get(location);
-					if (previousAmount != null) {
+					if (record.getMap().containsKey(location)) {
+						Double previousAmount = record.getMap().get(location);
 						amount += previousAmount;
 					}
 				}
