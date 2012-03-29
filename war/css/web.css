@@ -3000,7 +3000,7 @@ table.dropdownFlex {
 }
 
 .label-title-list {
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: bold;
 	clear: both;
 }
@@ -4748,9 +4748,9 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CustomerCenterView .rightform .notes .label {
-	white-space: pre-wrap;
+	height: 150px;
+	overflow: auto;
 	width: 100px;
-	word-wrap: break-word;
 }
 
 #CurrencyFormatDialog .bodyLayout .currency_format_align {
@@ -6450,7 +6450,7 @@ textarea[disabled] {
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
--webkit-box-pack: end;
+	-webkit-box-pack: end;
 }
 
 #BuildAssemblyView .headerForm .formItem .gwt-Label {
@@ -6474,6 +6474,15 @@ textarea[disabled] {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#BuildAssemblyView  .topPanel .formItem{
+
+#BuildAssemblyView  .topPanel .formItem {
 	margin-left: 10px;
+}
+
+.view_panel .companyInfoPanel {
+	padding-top: 10px;
+}
+
+.view_panel  .sell_panel {
+	border-bottom: 1px solid #ccc;
 }
