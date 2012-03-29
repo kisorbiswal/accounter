@@ -773,6 +773,7 @@ public class CashSalesView extends
 		ClientCashSales saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
+			transaction.setSalesOrders(new ArrayList<ClientEstimate>());
 		}
 		return saveView;
 	}
