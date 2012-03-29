@@ -720,6 +720,7 @@ input[type="text"] {
 	-moz-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex: 1;
+	width:100%;
 }
 
 #newAccountView .leftLayout {
@@ -5990,7 +5991,7 @@ form#contactForm .submit {
 }
 
 .popupContent .combo-scroll-panel {
-	height: 100px;
+	max-height: 200px;
 	overflow: auto;
 }
 
@@ -6498,7 +6499,7 @@ textarea[disabled] {
 }
 
 #popuppaneldropdown .dropdownTable {
-	height: 200px;
+	 max-height: 200px;
 }
 
 #CashDiscountDialog .discountForm {
