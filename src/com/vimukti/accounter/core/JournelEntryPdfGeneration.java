@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.vimukti.accounter.core.CashSalePdfGeneration.DummyCashSale;
-import com.vimukti.accounter.core.CashSalePdfGeneration.ItemList;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
 

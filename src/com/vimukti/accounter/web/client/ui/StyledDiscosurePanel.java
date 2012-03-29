@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.GwtDisclosurePanel;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class StyledDiscosurePanel extends GwtDisclosurePanel {
 

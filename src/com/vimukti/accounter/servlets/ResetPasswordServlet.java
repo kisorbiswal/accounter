@@ -15,7 +15,6 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
