@@ -1176,6 +1176,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		ClientInvoice saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
+			transaction.setEstimates(new ArrayList<ClientEstimate>());
 		}
 		return saveView;
 	}
