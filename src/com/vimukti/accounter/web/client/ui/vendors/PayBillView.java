@@ -557,7 +557,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// endBalText.setHelpInformation(true);
 		// endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
-		endBalText.setEnabled(true);
+		endBalText.setEnabled(false);
 		tdsCombo = new TaxItemCombo(messages.tds(),
 				ClientTAXAgency.TAX_TYPE_TDS);
 		tdsCombo.setEnabled(!isInViewMode());

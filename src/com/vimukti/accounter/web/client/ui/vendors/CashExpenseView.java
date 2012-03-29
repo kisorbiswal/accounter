@@ -350,7 +350,7 @@ public class CashExpenseView extends
 		accountBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency(), "accountBalText");
 		// accountBalText.setWidth(100);
-		accountBalText.setEnabled(true);
+		accountBalText.setEnabled(false);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
 				.Vendor()), this, getBaseCurrency(), "vendorBalText");
