@@ -41,7 +41,7 @@ public abstract class InventoryAssemblyItemTable extends
 	@Override
 	protected void initColumns() {
 		InventoryItemNameColumn transactionItemNameColumn = new InventoryItemNameColumn(
-				true, currencyProvider) {
+				currencyProvider) {
 
 			@Override
 			public ListFilter<ClientItem> getItemsFilter() {

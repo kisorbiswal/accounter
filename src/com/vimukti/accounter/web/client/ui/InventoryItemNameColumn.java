@@ -14,13 +14,10 @@ public class InventoryItemNameColumn extends
 		ComboColumn<ClientInventoryAssemblyItem, ClientItem> {
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
-	private boolean isSales;
 	private final ICurrencyProvider currencyProvider;
 	private ClientPriceLevel priceLevel;
 
-	public InventoryItemNameColumn(boolean isSales,
-			ICurrencyProvider currencyProvider) {
-		this.isSales = isSales;
+	public InventoryItemNameColumn(ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 	}
 
@@ -37,7 +34,7 @@ public class InventoryItemNameColumn extends
 				return (e.getType() == ClientItem.TYPE_INVENTORY_PART
 						|| e.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY
 						|| e.getType() == ClientItem.TYPE_NON_INVENTORY_PART || e
-						.getType() == ClientItem.TYPE_SERVICE);
+							.getType() == ClientItem.TYPE_SERVICE);
 			}
 		};
 	}
@@ -59,33 +56,27 @@ public class InventoryItemNameColumn extends
 	protected void setValue(ClientInventoryAssemblyItem row, ClientItem newValue) {
 		if (newValue != null) {
 			Double unitPrice = 0.0;
-			if (isSales()) {
-				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
-					unitPrice = newValue.getSalesPrice()
-							/ currencyProvider.getCurrencyFactor();
-				} else {
-					unitPrice = row.getUnitPrice();
-				}
-			} else {
-				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
-					unitPrice = newValue.getPurchasePrice()
-							/ currencyProvider.getCurrencyFactor();
-				} else {
-					unitPrice = row.getUnitPrice();
-				}
+			Double itemPrice = newValue.getSalesPrice();
+			if (newValue.getType() == ClientItem.TYPE_NON_INVENTORY_PART) {
+				itemPrice = newValue.getPurchasePrice();
 			}
+
+			if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
+				unitPrice = itemPrice / currencyProvider.getCurrencyFactor();
+			} else {
+				unitPrice = row.getUnitPrice();
+			}
+
 			if (unitPrice.equals((0.0 / 0.0))) {
 				unitPrice = 0.0;
 			}
 			if (getPreferences().isPricingLevelsEnabled()) {
 				if (priceLevel != null && !priceLevel.isDefault()) {
-					row.setUnitPrice(getPriceLevel(unitPrice));
-				} else {
-					row.setUnitPrice(unitPrice);
+					unitPrice = getPriceLevel(unitPrice);
 				}
-			} else {
-				row.setUnitPrice(unitPrice);
 			}
+
+			row.setUnitPrice(unitPrice);
 		}
 		row.setInventoryItem(newValue.getID());
 		onValueChange(row);
@@ -106,10 +97,6 @@ public class InventoryItemNameColumn extends
 		return false;
 	}
 
-	private boolean isSales() {
-		return isSales;
-	}
-
 	protected String getDiscription(ClientItem newValue) {
 		return newValue.getPurchaseDescription();
 	}
@@ -121,10 +108,6 @@ public class InventoryItemNameColumn extends
 
 	public void setItemForCustomer(boolean isForCustomer) {
 		itemsList.setForCustomer(isForCustomer);
-	}
-
-	public void setSales(boolean isSales) {
-		this.isSales = isSales;
 	}
 
 	protected Double getPriceLevel(Double unitPrice) {
