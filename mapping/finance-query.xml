@@ -5805,7 +5805,7 @@
 				                       WHERE  R.ACCOUNT = :accountId
 				                       GROUP  BY RI.TRANSACTION_ID)
 				       AND AT.COMPANY_ID = :companyId
-				       AND T.T_DATE < :endDate
+				       AND T.T_DATE <= :endDate
 				       AND AT.TRANSACTION_ID NOT IN(SELECT TRANSACTION_ID
 				                                    FROM   ACCOUNT_TRANSACTION ATT
 				                                    WHERE
