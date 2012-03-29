@@ -152,6 +152,11 @@ public class OpenCompanyServlet extends BaseServlet {
 						if (user.getSecretKey() == null) {
 							request.setAttribute("showResetLink",
 									canResetPassword(serverCompanyID));
+							Query query = session
+									.getNamedQuery("getHint.by.company");
+							query.setParameter("companyId", serverCompanyID);
+							String hint = (String) query.uniqueResult();
+							request.setAttribute("hint", hint);
 							dispatch(request, response,
 									"/WEB-INF/companypassword.jsp");
 							return;

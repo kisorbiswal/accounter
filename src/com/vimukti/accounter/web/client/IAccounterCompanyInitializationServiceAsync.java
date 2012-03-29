@@ -17,7 +17,8 @@ import com.vimukti.accounter.web.client.core.TemplateAccount;
 public interface IAccounterCompanyInitializationServiceAsync {
 
 	void initalizeCompany(ClientCompanyPreferences preferences,
-			String password, List<TemplateAccount> accountsTemplates,
+			String password, String passwordHint,
+			List<TemplateAccount> accountsTemplates,
 			AsyncCallback<Boolean> callback);
 
 	void getAccountsTemplate(AsyncCallback<List<AccountsTemplate>> callback);

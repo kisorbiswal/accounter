@@ -310,5 +310,10 @@
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Subscription where type=:type
 	</query>
+	
+	<sql-query name="getHint.by.company">
+		<query-param name="companyId" type="long" />
+		select password_HInt from company where id=:companyId
+	</sql-query>
 
 </hibernate-mapping>

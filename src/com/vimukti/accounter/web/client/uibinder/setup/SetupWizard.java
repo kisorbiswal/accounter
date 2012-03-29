@@ -55,32 +55,34 @@ public class SetupWizard extends FlowPanel {
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
 	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
-	private String password;
+	private String password, passwordHint;
 
-	public SetupWizard(final AsyncCallback<Boolean> callback, ClientCompanyPreferences preferences) {
-		initSetup(callback,preferences);
+	public SetupWizard(final AsyncCallback<Boolean> callback,
+			ClientCompanyPreferences preferences) {
+		initSetup(callback, preferences);
 	}
 
-	private void initSetup(AsyncCallback<Boolean> callback, ClientCompanyPreferences cPeferences) {
-		if(cPeferences==null){
-		preferences = new ClientCompanyPreferences();
-		Accounter.createCompanyInitializationService().getCountry(
-				new AsyncCallback<String>() {
+	private void initSetup(AsyncCallback<Boolean> callback,
+			ClientCompanyPreferences cPeferences) {
+		if (cPeferences == null) {
+			preferences = new ClientCompanyPreferences();
+			Accounter.createCompanyInitializationService().getCountry(
+					new AsyncCallback<String>() {
 
-					@Override
-					public void onSuccess(String result) {
-						preferences.setTradingAddress(new ClientAddress());
-						preferences.getTradingAddress().setCountryOrRegion(
-								result);
-					}
+						@Override
+						public void onSuccess(String result) {
+							preferences.setTradingAddress(new ClientAddress());
+							preferences.getTradingAddress().setCountryOrRegion(
+									result);
+						}
 
-					@Override
-					public void onFailure(Throwable caught) {
+						@Override
+						public void onFailure(Throwable caught) {
 
-					}
-				});
-		}else{
-			cPeferences=preferences;
+						}
+					});
+		} else {
+			cPeferences = preferences;
 		}
 		AbstractSetupPage.setPreferences(preferences);
 		initViewsAndNamesList();
@@ -157,7 +159,7 @@ public class SetupWizard extends FlowPanel {
 			buttonPanel.add(backNextButtonPanel);
 			// buttonPanel.setCellHorizontalAlignment(backNextButtonPanel,
 			// HasAlignment.ALIGN_RIGHT);
-//			buttonPanel.setWidth("100%");
+			// buttonPanel.setWidth("100%");
 			loadIndustriesDefaultAccounts();
 
 			gotoButton.addClickHandler(new ClickHandler() {
@@ -169,7 +171,7 @@ public class SetupWizard extends FlowPanel {
 					setStartDateOfFiscalYear();
 					Accounter.createCompanyInitializationService()
 							.initalizeCompany(preferences, password,
-									selectedAccounts, callback);
+									passwordHint, selectedAccounts, callback);
 
 				}
 
@@ -464,6 +466,10 @@ public class SetupWizard extends FlowPanel {
 
 	public void setPassword(String string) {
 		password = string;
+	}
+
+	public void setPasswordHint(String string) {
+		this.passwordHint = string;
 	}
 
 }

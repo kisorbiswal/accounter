@@ -328,6 +328,8 @@ public class Company implements IAccounterServerCore {
 
 	private String ukNonInventoryItemDefaultExpenseAccount = AccounterServerConstants.PRODUCTS_OR_MATERIALS_PURCHASED_TYPE_A;
 
+	private String passwordHInt;
+
 	public Account getRetainedEarningsAccount() {
 		return retainedEarningsAccount;
 	}
@@ -1644,5 +1646,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setBookKeeping(boolean bookKeeping) {
 		this.bookKeeping = bookKeeping;
+	}
+
+	public String getPasswordHInt() {
+		return passwordHInt;
+	}
+
+	public void setPasswordHInt(String passwordHInt) {
+		this.passwordHInt = passwordHInt;
 	}
 }

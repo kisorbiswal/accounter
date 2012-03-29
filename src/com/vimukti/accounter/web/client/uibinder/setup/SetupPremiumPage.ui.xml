@@ -24,6 +24,15 @@
 						<g:PasswordTextBox ui:field="conformPasswordField" />
 					</g:customCell>
 				</g:row>
+				
+				<g:row>
+					<g:customCell>
+						<g:Label ui:field="hintLabel" />
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox  ui:field="hintField" />
+					</g:customCell>
+				</g:row>
 			</g:Grid>
 			<g:Label wordWrap="true" ui:field="passwordInfo" />
 			<g:Hyperlink ui:field="moreInfoLink" />

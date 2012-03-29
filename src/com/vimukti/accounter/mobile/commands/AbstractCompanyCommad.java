@@ -612,7 +612,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		try {
 			company = AccounterCompanyInitializationServiceImpl
 					.intializeCompany(preferences, accounts, context
-							.getIOSession().getClient(), null, context
+							.getIOSession().getClient(), null, null, context
 							.getIOSession().getD2(), context.getIOSession()
 							.getId());
 		} catch (AccounterException e) {
