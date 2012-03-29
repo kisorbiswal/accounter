@@ -107,11 +107,11 @@ public abstract class CustomerTransactionsHistoryGrid extends
 		case 0:
 			return 90;
 		case 1:
-			return -1;
+			return 135;
 		case 2:
 			return 30;
 		case 3:
-			return 100;
+			return -1;
 		case 4:
 			return 90;
 		case 5:
