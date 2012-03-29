@@ -5043,8 +5043,8 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .change_password_view a {
-	    display: block;
-    margin: 5px;
+	display: block;
+	margin: 5px;
 }
 
 .bank-account-portlet {
@@ -6095,22 +6095,25 @@ form#contactForm .submit {
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 }
-#NewFixedAssetView .mainVPanel .itemInfoForm{
-		-moz-box-orient: horizontal;
+
+#NewFixedAssetView .mainVPanel .itemInfoForm {
+	-moz-box-orient: horizontal;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 }
-#NewFixedAssetView .mainVPanel .purchaseInfoVPanel{
-		-moz-box-orient: horizontal;
+
+#NewFixedAssetView .mainVPanel .purchaseInfoVPanel {
+	-moz-box-orient: horizontal;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 }
+
 #NewFixedAssetView .mainVPanel .itmInfoVPanel {
 	-moz-box-orient: vertical;
 	display: -webkit-box;
@@ -6426,10 +6429,11 @@ textarea[disabled] {
 }
 
 #SellingRegisteredItemView .RadioGroupItem .readioGropuitem .gwt-RadioButton{
+{
 	display: block;
 }
 
-#SellingRegisteredItemView .button_bar .gwt-Button{
+#SellingRegisteredItemView .button_bar .gwt-Button {
 	margin: 5px;
 }
 #QuoteView .rightVLay .locationform .formItem{
@@ -6437,4 +6441,39 @@ textarea[disabled] {
 	-moz-box-pack:end;
 	-webkit-box-pack:end;
 	box-pack:end;
+}
+
+#BuildAssemblyView .headerForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+-webkit-box-pack: end;
+}
+
+#BuildAssemblyView .headerForm .formItem .gwt-Label {
+	width: 80px;
+}
+
+#BuildAssemblyView .comboForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+
+#BuildAssemblyView .topPanel {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#BuildAssemblyView  .topPanel .formItem{
+	margin-left: 10px;
 }
