@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
@@ -92,8 +93,14 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 	}
 
 	@Override
-	protected boolean onCancel() {
-		return true;
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		List<CurrencyExchangeRate> allRows = table.getAllRows();
+		if (allRows == null || allRows.isEmpty()) {
+			result.addError(table,
+					messages.youDontHaveAnyOtherCurrenciesToSeeThisReport());
+		}
+		return result;
 	}
 
 }

@@ -5270,6 +5270,8 @@ public interface AccounterMessages extends Messages {
 	public String youdonthaveanyfiledVATentriestoselect();
 
 	public String youDontHaveAnyItemsToTransfer();
+	
+	public String youDontHaveAnyOtherCurrenciesToSeeThisReport();
 
 	public String youDontHavePermission();
 
