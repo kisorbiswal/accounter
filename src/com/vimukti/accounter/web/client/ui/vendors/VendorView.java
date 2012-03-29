@@ -806,7 +806,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			@Override
 			public void onClick(ClickEvent event) {
 				customFieldDialog.show();
-
+				customFieldDialog.center();
 			}
 		});
 		addCustomFieldButton.setEnabled(!isInViewMode());

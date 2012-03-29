@@ -37,7 +37,7 @@ String user_Name=(String)request.getAttribute("userName");
 				</c:if>
 			    </br>
 			    Click here to <a href="/main/companies?type=gracePeriod">Continue</a></br>
-				If you want to upgrade <a href="/main/subscriptionmanagement">Clieck here</a>
+				If you want to upgrade <a href="/main/subscriptionmanagement">Click here</a>
 		</div>
 	     <!-- Footer Section-->
 	<%@ include file="./scripts.jsp" %>

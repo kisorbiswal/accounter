@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.TaxAdjustmentListGrid;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class TaxAdjustmentsListView extends
 		TransactionsListView<ClientTAXAdjustment> {
@@ -56,8 +57,8 @@ public class TaxAdjustmentsListView extends
 	@Override
 	protected Action getAddNewAction() {
 
-		if (Accounter.getUser().getUserRole()
-				.equals(RolePermissions.FINANCIAL_ADVISER)) {
+		if (Utility
+				.isUserHavePermissions(ClientTransaction.TYPE_ADJUST_VAT_RETURN)) {
 			return ActionFactory.getAdjustTaxAction();
 		} else {
 			return null;
@@ -86,12 +87,11 @@ public class TaxAdjustmentsListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-
-		if (Accounter.getUser().getUserRole()
-				.equals(RolePermissions.FINANCIAL_ADVISER))
+		if (Utility
+				.isUserHavePermissions(ClientTransaction.TYPE_ADJUST_VAT_RETURN)) {
 			return messages.addaNew(messages.taxAdjustment());
-		else
-			return "";
+		}
+		return null;
 	}
 
 	@Override
@@ -137,4 +137,5 @@ public class TaxAdjustmentsListView extends
 	public void setViewId(int viewId) {
 		this.viewId = viewId;
 	}
+
 }

@@ -1,14 +1,12 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
-import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -47,6 +45,10 @@ public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 
 	@Override
 	protected void onClick(ClientTAXAdjustment obj, int row, int col) {
+		if (!Utility
+				.isUserHavePermissions(ClientTransaction.TYPE_ADJUST_VAT_RETURN)) {
+			return;
+		}
 		switch (col) {
 		case 5:
 			showWarnDialog(obj);
@@ -114,9 +116,11 @@ public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 
 	@Override
 	public void onDoubleClick(ClientTAXAdjustment obj) {
-		if (Utility.isUserHavePermissions(AccounterCoreType.TAX_CODE)) {
-			ActionFactory.getAdjustTaxAction().run(obj, false);
+		if (!Utility
+				.isUserHavePermissions(ClientTransaction.TYPE_ADJUST_VAT_RETURN)) {
+			return;
 		}
+		ActionFactory.getAdjustTaxAction().run(obj, false);
 	}
 
 	@Override

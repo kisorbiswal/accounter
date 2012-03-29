@@ -1099,6 +1099,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			@Override
 			public void onClick(ClickEvent event) {
 				customFieldDialog.show();
+				customFieldDialog.center();
 			}
 		});
 		addCustomFieldButton.setEnabled(!isInViewMode());
