@@ -18,6 +18,7 @@ html,body {
 }
 
 .main-finance-window {
+	
 }
 
 .gwt-Label {
@@ -443,10 +444,14 @@ input[type="text"] {
 	background: white;
 	border-radius: 0px;
 	border: 0 none;
-	width: 99%;
 	-moz-box-flex: 1;
 }
 
+@-moz-document url-prefix () {
+   .editTable table td .gwt-TextBox{
+	  width: 99%;
+   }
+}
 .editTable {
 	min-height: 130px;
 	border: 1px solid #2D8B93;
@@ -527,7 +532,6 @@ input[type="text"] {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-	-moz-box-flex: 1;
 }
 
 .memoTextArea,.memoArea .gwt-TextArea,.memoForm .memo textarea {
@@ -796,8 +800,7 @@ input[type="text"] {
 	-moz-border-radius: 5px 5px 5px 5px;
 	background-color: #E4E4E4;
 	height: 25px;
-	border-width: 1px 0 1px 1px;
-	border-color: #A0A0A0;
+	border: 1px solid #A0A0A0;
 }
 
 #addCustomerButton {
@@ -825,6 +828,66 @@ input[type="text"] {
 
 #previousButton:hover {
 	background-color: #5F5F5F;
+	border-width: 1px 0 1px 1px;
+	border-style: solid;
+	border-color: #5F5F5F;
+}
+
+#printButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#nextButton:hover {
+	background-color: #5F5F5F;
+	border: 1px solid #5F5F5F;
+}
+
+#configButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#searchButton:hover {
+	background-color: #5F5F5F;
+	border: 1px solid #5F5F5F;
+}
+
+#addNewButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#addVendorButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#exportButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#editButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#addCustomerButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#closeButton:hover {
+	background-color: #5F5F5F;
+	border: 1px solid #5F5F5F;
 }
 
 #previousButton {
@@ -1218,7 +1281,6 @@ input[type="text"] {
 table.gridBody {
 	width: 100%;
 	border-collapse: collapse;
-	table-layout: fixed;
 }
 
 .gridOddRow {
@@ -1236,7 +1298,6 @@ table.gridBody {
 
 table.gridHeader {
 	border-collapse: collapse;
-	table-layout: fixed;
 }
 
 table.gridHeader tr td {
@@ -1694,7 +1755,12 @@ table.no_records td {
 	width: 50%;
 	-moz-box-flex: 1;
 }
-
+#TDSChalanDetailsView .otherDynamicForm .formItem{
+	width:100%;
+	-moz-box-pack: end;
+	-webkit-box-pack: end;
+	box-pack: end;
+}
 #TDSResponsiblePersonDetailsView .mainPanel {
 	display: -webkit-box;
 	display: -moz-box;
@@ -1719,6 +1785,7 @@ table.no_records td {
 
 #ETdsFillingView .tds-scroll-panel {
 	border: 1px solid #2D8B93;
+	width:940px;
 }
 
 #ETdsFillingView .mainVLay .topHLay {
@@ -1870,7 +1937,7 @@ table.no_records td {
 	width: 20px;
 }
 
-#ItemListView .hlay .formItem {
+#ItemListView .hlay .form {
 	float: right;
 }
 
@@ -2269,7 +2336,7 @@ table.no_records td {
 	height: 250px;
 }
 
-#VendorListView .hlay .formItem {
+#VendorListView .hlay .form {
 	float: right;
 }
 
@@ -2791,6 +2858,7 @@ table.no_records td {
 	border: 1px solid #AAAAAA;
 	margin-top: -5px;
 	min-width: 172px;
+	background: none repeat scroll 0 0 white;
 }
 
 .dropdownFlex tr:nth-child(even) {
@@ -3295,26 +3363,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
-#TDSChalanDetailsView .horizontalPanel1 .taxDynamicForm .formItem {
-	width: 50%;
-	-moz-box-flex: 1;
-}
-
-#TDSChalanDetailsView .horizontalPanel1 .otherDynamicForm .formItem {
-	width: 50%;
-	-moz-box-flex: 1;
-}
-
-#TDSChalanDetailsView .horizontalPanel2 .belowForm1 .formItem {
-	width: 50%;
-	-moz-box-flex: 1;
-}
-
-#TDSChalanDetailsView .horizontalPanel2 .belowForm2 .formItem {
-	width: 50%;
-	-moz-box-flex: 1;
-}
-
 #ETdsFillingView .topHLay .frameTitle {
 	display: -moz-box;
 	-moz-box-orient: vertical;
@@ -3562,6 +3610,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 #TDSChalanDetailsView .horizontalPanel1 {
 	display: -webkit-box;
+	display: -moz-box;
 	display: box;
 }
 
@@ -3577,7 +3626,18 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 #TDSChalanDetailsView .horizontalPanel2 {
 	display: -webkit-box;
+	display: -moz-box;
 	display: box;
+	width:100%;
+	-moz-box-flex: 1;
+}
+#TDSChalanDetailsView .horizontalPanel2 .belowForm2{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #TDSChalanDetailsView .horizontalPanel2 .belowForm1 {
@@ -3585,12 +3645,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
-#TDSChalanDetailsView .horizontalPanel2 {
-	width: 50%;
-	-moz-box-flex: 1;
-}
-
-#VatItemsListView .hlay .form .formItem {
+#VatItemsListView .hlay .form {
 	float: right;
 }
 
@@ -3599,7 +3654,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	padding: 2px 5px 0 0;
 }
 
-#ManageTAXCodesListView .hlay .form .formItem {
+#ManageTAXCodesListView .hlay .form {
 	float: right;
 }
 
@@ -3608,7 +3663,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	padding: 2px 5px 0 0;
 }
 
-#TAXAgencyListView .hlay .form .SelectCombo {
+#TAXAgencyListView .hlay .form {
 	float: right;
 }
 
@@ -3678,7 +3733,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
-#CustomerListView .hlay .form .formItem {
+#CustomerListView .hlay .form {
 	float: right;
 }
 
@@ -4131,7 +4186,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: box;
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
-	width: 100%;
 }
 
 #newAccountView .formItem {
@@ -5548,6 +5602,45 @@ form#contactForm .submit {
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
+	width: 100%;
+}
+
+#VendorMergeDialog .horizontalPanel .layout {
+	width: 50%;
+	-moz-box-flex: 1;
+}
+
+#VendorMergeDialog .horizontalPanel .layout1 {
+	width: 50%;
+	-moz-box-flex: 1;
+}
+
+#ItemMergeDialog .horizontalPanel .layout {
+	width: 50%;
+	-moz-box-flex: 1;
+}
+
+#ItemMergeDialog .horizontalPanel .layout1 {
+	width: 50%;
+	-moz-box-flex: 1;
+}
+
+#VendorMergeDialog .horizontalPanel .form {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#VendorMergeDialog .horizontalPanel .form1 {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #AccountMergeDialog .horizontalPanel {
@@ -5626,6 +5719,7 @@ form#contactForm .submit {
 .totalForm .AmountLabel {
 	-moz-box-flex: 1;
 	-moz-box-pack: end;
+	-webkit-box-pack: end;
 	width: 100%;
 }
 
@@ -5900,22 +5994,24 @@ textarea[disabled] {
 
 #reconcilationView .recoucilation_change {
 	float: right;
-	 margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 #reconcilationView .recounciliation_grid table {
 	clear: both;
 	width: 100%;
 }
-#reconcilationView .reconcillation_grid_panel{
+
+#reconcilationView .reconcillation_grid_panel {
 	border: 1px solid #2D8B93;
 	clear: both;
-    height: 200px;
+	height: 200px;
 }
+
 #reconcilationView .recounciliation_grid table thead th {
 	text-shadow: none;
 	border-bottom: 0 none;
-	color:white;
+	color: white;
 }
 
 #reconcilationView .recounciliation_grid table thead tr {
@@ -5927,7 +6023,8 @@ textarea[disabled] {
 		endColorstr='#2D8B93' );
 	background: -o-linear-gradient(top, #3299A4, #2D8B93);
 }
-#reconcilationView  .bottom_total_view .amountsForm{
+
+#reconcilationView  .bottom_total_view .amountsForm {
 	font-weight: bold;
 	display: -webkit-box;
 	display: -moz-box;
@@ -5942,5 +6039,162 @@ textarea[disabled] {
 	-moz-box-pack: end;
 	-webkit-box-pack: end;
 	box-pack: end;
-    -moz-box-flex: 1;
+	-moz-box-flex: 1;
+}
+
+.popupContent div:first-child {
+	overflow-x: hidden !important;
+}
+
+.dropdownTable {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#popuppaneldropdown .dropdownTable {
+	height: 200px;
+}
+
+#CashDiscountDialog .discountForm {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#CashDiscountDialog .discountForm .formItem .gwt-Label {
+	width: 150px;
+}
+
+#RecurringTransactionDialog .intervalForm {
+	margin-bottom: 10px;
+}
+
+#RecurringTransactionDialog .dateRangeForm {
+	margin-bottom: 10px;
+}
+
+#RecurringTransactionDialog .endDateTypeForm {
+	margin-bottom: 10px;
+}
+
+#QuoteView .prodAndServiceHLay .netAmountForm .formItem {
+	-moz-box-flex: 1;
+	-moz-box-pack: end;
+	-webkit-box-pack: end;
+	width: 100%;
+}
+
+#customercreditmemoview .boldtext .formItem .gwt-TextBox {
+	width: 130px;
+}
+
+#RecurringTransactionDialog .formItem .gwt-Label {
+	width: 200px;
+}
+
+#RecurringTransactionDialog .interval_Value .hPanel .customComboItem {
+	margin-right: 28px;
+}
+
+#VendorView .mainVLay table.tabPanel {
+	width: 100%;
+}
+
+#InventoryItemsListView .hlay .form {
+	float: right;
+}
+
+#InventoryItemsListView .hlay .form {
+	float: right;
+}
+
+#InventoryItemsListView table.gridHeader,#InventoryItemsListView table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#ItemsListGrid  table.gridHeader,#ItemsListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+#WarehouseListGrid table.gridHeader,#WarehouseListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+#WarehouseTransferListView table.gridHeader,#WarehouseTransferListView table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#StockAdjustmentsListGrid table.gridHeader,#StockAdjustmentsListGrid table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#MeasurementsListGrid table.gridHeader,#MeasurementsListGrid table.gridBody
+	{
+	table-layout: fixed;
+}
+#JobListGrid table.gridHeader,#JobListGrid table.gridBody
+	{
+	table-layout: fixed;
+}
+#RecurringConfirmDialog table{
+	 width: 450px;
+}
+#EmailView .mainPanel .horPanel{
+    width: 75%;
+}
+#EmailView .mainPanel .horPanel .firstForm{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#EmailView .buttonsPanel button{
+	margin:0 5px;
+}
+#EmailView .emailBody textarea{
+	height: 240px;
+    width: 350px
+}
+#EmailView .emailBody .gwt-Label{
+	display: none;
+}
+#EmailView .mainPanel .horPanel .gwt-Button{
+	margin-left:10px;
+}
+#EmailView .mainPanel .horPanel .vPanel{
+	float: right;
+}
+#EmailView .mainPanel .horPanel .vPanel .formItem{
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#EmailView .mainPanel .horPanel .vPanel .formItem textarea{
+	height:50px;
+}
+#CashSalesView .panel{
+	float:right;
+}
+#CashSalesView .panel div.gwt-HTML{
+	display: inline;
+}
+#CashSalesView .panel div.gwt-HTML a{
+	color:black;
+}
+#CashSalesView .panel .gwt-Anchor{
+	text-decoration: underline;
+}
+#QuoteView .rightVLay .locationform .formItem{
+	width:100%;
+	-moz-box-pack:end;
+	-webkit-box-pack:end;
+	box-pack:end;
 }

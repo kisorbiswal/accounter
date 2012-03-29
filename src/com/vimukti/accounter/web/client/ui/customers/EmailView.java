@@ -53,6 +53,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	public EmailView(ClientInvoice inovoice) {
 		this.invoice = inovoice;
+		this.getElement().setId("EmailView");
 	}
 
 	public EmailView() {
