@@ -828,7 +828,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	private void createRecurringPanel() {
-		StyledPanel panel = new StyledPanel("panel");
+		StyledPanel panel = new StyledPanel("recurring_message_panel");
 
 		HTML text = new HTML();
 		text.setHTML("<a>" + messages.ThisisatemplateusedinRecurring() + "</a>");
