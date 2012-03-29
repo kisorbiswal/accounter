@@ -903,6 +903,7 @@ public class VendorBillView extends
 		ClientEnterBill saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
+			transaction.setPurchaseOrders(new ArrayList<ClientPurchaseOrder>());
 		}
 		return saveView;
 	}
