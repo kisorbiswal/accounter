@@ -144,6 +144,7 @@ public class CustomerCenterView<T> extends
 		updateRecordsCount(0, 0, 0);
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(custHistoryGrid);
+		rightVpPanel.add(pager);
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		deleteButtonPanel = new StyledPanel("deleteButtonPanel");
