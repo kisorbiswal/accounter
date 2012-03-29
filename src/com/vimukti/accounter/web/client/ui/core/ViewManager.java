@@ -212,7 +212,8 @@ public class ViewManager extends FlowPanel {
 	protected String getReplacedURL(String url) {
 		Set<Entry<String, String>> entrySet = keyValues.entrySet();
 		for (Entry<String, String> entry : entrySet) {
-			url = url.replaceAll('{' + entry.getKey() + '}', entry.getValue());
+			url = url.replaceAll("\\{" + entry.getKey() + "\\}",
+					entry.getValue());
 		}
 		return url;
 	}

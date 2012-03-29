@@ -235,14 +235,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	@Override
-	protected boolean onCancel() {
-		return true;
-	}
-
-	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
