@@ -2472,7 +2472,6 @@ public class FinanceTool {
 				.getNamedQuery("getTransactionsOfAccount")
 				.setLong("companyId", companyId)
 				.setLong("accountId", id)
-				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())
 				.setLong("openingBalanceAccount",
 						company.getOpeningBalancesAccount().getID()).list();
