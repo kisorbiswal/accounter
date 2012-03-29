@@ -15,8 +15,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.Activity;
-import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
@@ -210,9 +208,6 @@ public class SubscryptionTool extends Thread {
 		for (User user : users) {
 			user.setDeleted(true);
 			session.saveOrUpdate(user);
-			Activity activity = new Activity(user.getCompany(), user
-					.getCompany().getCreatedBy(), ActivityType.DELETE, user);
-			session.save(activity);
 		}
 	}
 
