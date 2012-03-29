@@ -232,6 +232,8 @@
 		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
 		<property name="industry" column="INDUSTRY"></property>
 		<property name="bookKeeping" column="BOOK_KEEPING"></property>
+		<!-- <property name="noOfUsers" column="NUMBER_OF_USERS"></property> <property 
+			name="transactionCount" column="TRANSACTIONS_COUNT"></property> -->
 
 		<component name="preferences" class="CompanyPreferences">
 			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
@@ -2313,8 +2315,8 @@
 		</many-to-one>
 		<many-to-one name="parent" class="Job" column="PARENT_JOB_ID">
 		</many-to-one>
-		<property name="jobName" column="JOB_NAME"></property>
-		<property name="jobStatus" column="JOB_STATUS"></property>
+		<property name="jobName" column="JOB_NAME" type="encryptedstring"></property>
+		<property name="jobStatus" column="JOB_STATUS" type="encryptedstring"></property>
 		<property name="jobType" column="JOB_TYPE"></property>
 		<property name="isActive" column="JOB_ACTIVE"></property>
 		<property name="startDate" column="START_DATE"
