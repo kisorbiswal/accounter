@@ -84,8 +84,7 @@
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
 			   <c:set var='url' value="/main/companies?companyId=${company.id}"/>
-			    <c:set var='deleteurl' value="/main/deletecompany?companyId=${company.id}"/>
-			   <div class="companies-list"><a OnClick="goto(${company.id});" href="#">${company.preferences.tradingName} - ${company.registeredAddress.countryOrRegion} </a> <a class="delete_company" href= '${deleteurl}' ><i18n:i18n msg='delete'/></a></div>
+			   <div class="companies-list"><a OnClick="goto(${company.id});" href="#">${company.preferences.tradingName} - ${company.registeredAddress.countryOrRegion} </a></div>
 		   </c:forEach> 
 	    </c:if>
 	    </li>

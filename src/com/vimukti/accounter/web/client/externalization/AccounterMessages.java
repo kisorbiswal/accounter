@@ -6233,4 +6233,6 @@ public interface AccounterMessages extends Messages {
 	public String cantCreateMoreTransactions();
 
 	public String hash();
+
+	public String pleaseEntertheUserPassword();
 }

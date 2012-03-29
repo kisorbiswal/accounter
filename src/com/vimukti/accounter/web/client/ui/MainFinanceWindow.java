@@ -809,6 +809,9 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(ActionFactory.getCheckPrintSettingAction()
 				.getHistoryToken(), ActionFactory.getCheckPrintSettingAction());
 
+		actions.put(ActionFactory.getDeleteCompanyAction().getHistoryToken(),
+				ActionFactory.getDeleteCompanyAction());
+
 		// actions.put(ActionFactory.getDepositAction().getHistoryToken(),
 		// ActionFactory.getDepositAction());
 
