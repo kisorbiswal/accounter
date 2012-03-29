@@ -1542,6 +1542,29 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
+	protected void checkNumber() throws AccounterException {
+		if (getNumber() == null || getNumber().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().number());
+		}
+	}
+
+	protected void checkMemoCharGraThan256() throws AccounterException {
+		if (getMemo() != null) {
+			if (getMemo().length() >= 256) {
+				throw new AccounterException(
+						AccounterException.MEMO_CANNOT_EXCEEDS_MORE_THAN_255_CHARACTERS);
+			}
+		}
+	}
+
+	protected void checkTransactionDateNull() throws AccounterException {
+		if (getDate() == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().transactionDate());
+		}
+	}
+
 	/**
 	 * This method will check and tell you whether this transaction is valid or
 	 * not.

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
@@ -985,6 +986,18 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(AccounterException.ERROR_NUMBER_NULL,
 					Global.get().messages().Account());
 		}
+		if (this.getType() == Account.TYPE_PAYPAL) {
+			if (getPaypalEmail() == null || getPaypalEmail().trim().isEmpty()) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_NULL, Global.get()
+								.messages().paypalEmail());
+			} else {
+				if (!UIUtils.isValidEmail(getPaypalEmail())) {
+					throw new AccounterException(
+							AccounterException.ERROR_INVALID_EMAIL_ID);
+				}
+			}
+		}
 
 		/*
 		 * Set<Account> accounts = getCompany().getAccounts(); for (Account
@@ -1306,7 +1319,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-
+		checkNullValues();
 		Session session = HibernateUtil.getCurrentSession();
 		Account account = (Account) clientObject;
 		// Query query = session.createQuery(
@@ -1366,7 +1379,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				// "An Account already exists with this number");
 			}
 		}
-		checkNullValues();
 		return true;
 
 	}

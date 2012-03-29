@@ -174,15 +174,6 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	public void saveFailed(AccounterException exception) {
-		super.saveFailed(exception);
-		AccounterException accounterException = exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
-		Accounter.showError(errorString);
-	}
-
-	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
 			// if (takenJournalEntry != null)

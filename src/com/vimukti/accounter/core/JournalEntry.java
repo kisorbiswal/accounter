@@ -14,6 +14,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class JournalEntry extends Transaction {
 
@@ -158,12 +159,44 @@ public class JournalEntry extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() {
+	protected void checkNullValues() throws AccounterException {
+		checkTransactionDateNull();
+		checkNumber();
+		if (getTransactionItems() == null || getTransactionItems().isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_NO_RECORDS_TO_SAVE, Global.get()
+							.messages().journalEntry());
+		} else {
+			for (TransactionItem entry : getTransactionItems()) {
+				if (entry.isEmpty()) {
+					continue;
+				}
+				if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+					throw new AccounterException(
+							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+									.messages().amount());
+				}
+			}
+		}
+		checkMemoCharGraThan256();
+		if (this.creditTotal == 0 && this.debitTotal == 0) {
+			caluclateJournalEntryCreditDebitTot();
+		}
 		if (this.creditTotal != this.debitTotal) {
-			try {
-				throw new AccounterException(
-						AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
-			} catch (AccounterException e) {
+			throw new AccounterException(
+					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
+
+		}
+	}
+
+	private void caluclateJournalEntryCreditDebitTot() {
+		for (TransactionItem rec : getTransactionItems()) {
+			if (rec.getLineTotal() != null) {
+				if (DecimalUtil.isGreaterThan(rec.getLineTotal(), 0)) {
+					debitTotal += rec.getLineTotal();
+				} else {
+					creditTotal += (-1 * rec.getLineTotal());
+				}
 			}
 		}
 	}
@@ -235,6 +268,7 @@ public class JournalEntry extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
+		checkNullValues();
 		return true;
 	}
 
