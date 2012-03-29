@@ -194,11 +194,11 @@ public abstract class VendorTransactionsHistoryGrid extends
 		case 0:
 			return 80;
 		case 1:
-			return -1;
+			return 135;
 		case 2:
 			return 30;
 		case 3:
-			return 100;
+			return -1;
 		case 4:
 			return 80;
 		case 5:
