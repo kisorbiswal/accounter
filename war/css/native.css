@@ -17,7 +17,9 @@ body{
    padding:0px !important;
    width:100%;
 }
-.scroll-panel,.abstract_base_view,.financeWindow,.general-setting-invoice,.setting-class-panel{
+
+
+.scroll-panel,.abstract_base_view,.financeWindow,.setting-class-panel{
    width:100% !important;	
 }
 body,div, table td, select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,form#contactForm .submit,
