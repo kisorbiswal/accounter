@@ -60,7 +60,7 @@ public class ItemDetailsPanel extends FlowPanel {
 		StyledPanel hp = new StyledPanel("hp");
 		StyledPanel headingPanel = new StyledPanel("headingPanel");
 		headingPanel.addStyleName("customers_detail_panel");
-		heading = new Label(messages.payeeDetails(Global.get().Vendors())
+		heading = new Label(messages.payeeDetails(messages.inventoryItem())
 				+ " :");
 		headingPanel.add(heading);
 		itemName = new Label();
@@ -84,7 +84,12 @@ public class ItemDetailsPanel extends FlowPanel {
 
 	protected void showItemDetails(ClientItem item) {
 		if (item != null) {
-
+			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+				heading.setText(messages.payeeDetails(messages.inventoryItem()));
+			} else if (item.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+				heading.setText(messages.payeeDetails(messages
+						.inventoryAssemblyItem()));
+			}
 			itemName.setText(item.getName());
 			name.setValue(item.getName());
 
