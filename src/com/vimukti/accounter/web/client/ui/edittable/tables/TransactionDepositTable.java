@@ -141,6 +141,11 @@ public abstract class TransactionDepositTable extends
 			protected String getColumnName() {
 				return messages.total();
 			}
+
+			@Override
+			public int getWidth() {
+				return 150;
+			}
 		});
 		if (enableClass) {
 			if (showClass) {

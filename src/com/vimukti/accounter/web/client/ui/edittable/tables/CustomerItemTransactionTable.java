@@ -128,12 +128,7 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		});
 
-		this.addColumn(new DescriptionEditColumn() {
-			@Override
-			public int getWidth() {
-				return 190;
-			}
-		});
+		this.addColumn(new DescriptionEditColumn());
 
 		this.addColumn(new NewQuantityColumn(false) {
 			@Override
