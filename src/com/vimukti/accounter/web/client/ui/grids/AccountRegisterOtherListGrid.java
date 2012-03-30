@@ -102,7 +102,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	protected String[] getColumns() {
 		return new String[] { messages.date(), messages.type(),
 				messages.docNo(), messages.increase(), messages.reduce(),
-				messages.Account(), messages.memo(), messages.currentBalance(),
+				messages.Account(), messages.memo(), messages.ClosingBalance(),
 				messages.isVoided() };
 	}
 

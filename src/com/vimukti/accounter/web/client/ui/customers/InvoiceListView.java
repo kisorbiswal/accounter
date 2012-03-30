@@ -259,7 +259,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 					if (!v.contains(ClientTransaction.TYPE_WRITE_CHECK))
 						v.add(ClientTransaction.TYPE_WRITE_CHECK);
 					isWriteCheck_cashsale = true;
-
 				}
 			}
 		}
@@ -363,13 +362,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 		}
 
-		if (type == ClientTransaction.TYPE_INVOICE) {
-			UIUtils.downloadMultipleAttachment(ids.toString(),
-					ClientTransaction.TYPE_INVOICE, brandingTheme.getID());
-
-		} else if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-			UIUtils.downloadMultipleAttachment(ids.toString(),
-					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
+		if (type != 0) {
+			UIUtils.downloadMultipleAttachment(ids.toString(), type,
 					brandingTheme.getID());
 		}
 

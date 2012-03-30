@@ -89,8 +89,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	@Override
 	public String getDisplayName() {
-		// its not using any where
-		return null;
+		return getName();
 	}
 
 	/*
@@ -100,7 +99,7 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 	 */
 	@Override
 	public String getName() {
-		return null;
+		return Utility.getTransactionName(TYPE_ADJUST_VAT_RETURN);
 	}
 
 	/*

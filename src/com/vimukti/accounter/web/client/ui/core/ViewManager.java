@@ -10,16 +10,10 @@ import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -158,7 +152,6 @@ public class ViewManager extends FlowPanel {
 		initializeActivityManager();
 	}
 
-	@SuppressWarnings("deprecation")
 	private void getAdvertisePanel(final StyledPanel rightPanel) {
 		Accounter.createHomeService().getAdvertisements(
 				new AsyncCallback<List<ClientAdvertisement>>() {
@@ -169,43 +162,20 @@ public class ViewManager extends FlowPanel {
 
 						if ((advertisements != null)
 								&& !(advertisements.isEmpty())) {
-							final double addPanelWidth = advertisements.get(0)
-									.getWidth();
-							Window.addResizeHandler(new ResizeHandler() {
-
-								@Override
-								public void onResize(ResizeEvent event) {
-									if ((addPanelWidth + 960) <= Window
-											.getClientWidth()) {
-										rightPanel.setVisible(true);
-									} else {
-										rightPanel.setVisible(false);
-									}
-								}
-							});
-							if ((addPanelWidth + 960) <= Window
-									.getClientWidth()) {
-								for (ClientAdvertisement clientAdvertisement : advertisements) {
-									String url = clientAdvertisement.getUrl();
-									url = getReplacedURL(url);
-									Frame frame = new Frame(url);
-									frame.setSize(
-											clientAdvertisement.getWidth()
-													+ "px",
-											clientAdvertisement.getHeight()
-													+ "px");
-									rightPanel.add(frame);
-								}
+							for (ClientAdvertisement clientAdvertisement : advertisements) {
+								String url = clientAdvertisement.getUrl();
+								url = getReplacedURL(url);
+								Frame frame = new Frame(url);
+								frame.setSize(clientAdvertisement.getWidth()
+										+ "px", clientAdvertisement.getHeight()
+										+ "px");
+								rightPanel.add(frame);
 							}
 						}
-						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
 					}
 				});
 	}
@@ -247,23 +217,6 @@ public class ViewManager extends FlowPanel {
 		this.manager = new ActivityManager(new AccounterActivityMapper(),
 				Accounter.getEventBus());
 		manager.setDisplay(viewHolder);
-	}
-
-	private void handleBackSpaceEvent() {
-		Event.addNativePreviewHandler(new NativePreviewHandler() {
-			@Override
-			public void onPreviewNativeEvent(final NativePreviewEvent event) {
-				Event e = Event.as(event.getNativeEvent());
-
-				if (e.getKeyCode() == KeyCodes.KEY_BACKSPACE) {
-					if (!defaultPresumtion(e.getEventTarget().toString())) {
-						e.preventDefault();
-						// viewManager.closeCurrentView();
-					}
-					return;
-				}
-			}
-		});
 	}
 
 	protected boolean defaultPresumtion(String eventTarget) {
