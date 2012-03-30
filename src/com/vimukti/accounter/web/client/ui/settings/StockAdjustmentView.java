@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -46,9 +47,10 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	AccountCombo adjustmentAccountCombo;
 
-	public StockAdjustmentView(){
+	public StockAdjustmentView() {
 		this.getElement().setId("StockAdjustmentView");
 	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -56,7 +58,12 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 	}
 
 	private void createControls() {
+		Label lab1 = new Label(messages.stockAdjustment());
+		lab1.setStyleName("label-title");
+
 		mainPanel = new StyledPanel("mainPanel");
+		mainPanel.add(lab1);
+
 		listForms = new ArrayList<DynamicForm>();
 
 		wareHouseCombo = new WarehouseCombo(messages.wareHouse());

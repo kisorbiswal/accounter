@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
@@ -45,8 +46,11 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	}
 
 	private void createControls() {
+		Label lab1 = new Label(messages.wareHouseTransfer());
+		lab1.setStyleName("label-title");
 		listForms = new ArrayList<DynamicForm>();
 		mainPanel = new StyledPanel("mainPanel");
+		mainPanel.add(lab1);
 		fromCombo = new WarehouseCombo(messages.from()) {
 			@Override
 			public void addItemThenfireEvent(ClientWarehouse obj) {

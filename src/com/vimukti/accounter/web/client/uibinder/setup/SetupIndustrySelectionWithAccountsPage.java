@@ -42,7 +42,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@UiField
 	Label headerLabel;
 	@UiField
-	Label accountsLabel;
+	HTML accountsLabel;
 
 	private SetupWizard setupWizard;
 	private Map<Integer, List<TemplateAccount>> industriesWithAccounts = new HashMap<Integer, List<TemplateAccount>>();
@@ -122,7 +122,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		});
 		industryList.setVisibleItemCount(15);
 
-		accountsLabel.setText("<b>" + messages.Accounts() + "</b>");
+		accountsLabel.setHTML("<b>" + messages.Accounts() + "</b>");
 
 		// accountsList
 		// .setName(accounterMessages.accounts(Global.get().Account()));

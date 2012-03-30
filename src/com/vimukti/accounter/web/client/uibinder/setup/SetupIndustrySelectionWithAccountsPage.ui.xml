@@ -13,7 +13,7 @@
 						styleName="industry_list" />
 				</g:FlowPanel>
 				<g:FlowPanel styleName="sub_industry_listpanel">
-					<g:Label ui:field="accountsLabel" styleName="accounts_label" />
+					<g:HTML ui:field="accountsLabel" styleName="accounts_label" />
 					<g:ScrollPanel styleName="subindustrylist" height="250px" width="250px">
 						<g:FlowPanel ui:field="accountsPanel" />
 					</g:ScrollPanel>
