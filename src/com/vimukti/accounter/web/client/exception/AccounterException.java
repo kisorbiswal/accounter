@@ -209,7 +209,27 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_PLEASE_ENTER = 79;
 
-	public static final int MEMO_CANNOT_EXCEEDS_MORE_THAN_255_CHARACTERS = 80;
+	public static final int ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES = 80;
+
+	public static final int ERROR_NO_TRANSACTIONS_TO_FILE = 81;
+
+	public static final int ERROR_AMOUNT_TO_PAY_ZERO = 82;
+
+	public static final int ERROR_SELECT_PROPER_BANK_ACCOUNT = 83;
+
+	public static final int ERROR_DUPLICATE_CONTACTS = 84;
+
+	public static final int ERROR_PLEASE_SELECT = 85;
+
+	public static final int ERROR_PERCENTAGE_GRATER_100 = 86;
+
+	public static final int ERROR_PERCENTAGE_LESSTHAN_0 = 87;
+
+	public static final int ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF = 88;
+
+	public static final int ERROR_CURRENCY_MUST_BE_SAME = 89;
+
+	public static final int ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE = 90;
 
 	protected int errorCode;
 

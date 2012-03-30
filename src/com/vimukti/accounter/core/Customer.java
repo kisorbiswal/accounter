@@ -457,6 +457,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+		checkNullValues();
 
 		Customer customer = (Customer) clientObject;
 		// if (this.name.equals(customer.name)
@@ -536,15 +537,17 @@ public class Customer extends Payee implements IAccounterServerCore,
 		} finally {
 			session.setFlushMode(flushMode);
 		}
-		checkNullValues();
 		return true;
 	}
 
-	private void checkNullValues() throws AccounterException {
-		if (this.name == null || this.name.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().customer());
-		}
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
+	}
+
+	@Override
+	public String getPayeeName() {
+		return Global.get().customer();
 	}
 
 	@Override

@@ -810,15 +810,16 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkPaymentMethodNull();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		if (this.getSalesOrders().isEmpty()) {
-			super.checkNullValues();
+			checkTransactionItemsNull();
 			return;
 		}
 
 		if (!(this.transactionItems.isEmpty())) {
-			super.checkNullValues();
+			checkTransactionItemsNull();
 		}
 	}
 

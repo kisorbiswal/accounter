@@ -401,8 +401,10 @@ public class Estimate extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer, Global.get().customer());
 		super.checkNullValues();
+		checkingCustomerNull(customer, Global.get().customer());
+		checkTransactionItemsNull();
+
 	}
 
 	private void updateTotals() throws AccounterException {

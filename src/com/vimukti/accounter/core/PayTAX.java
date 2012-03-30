@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	private String checkNumber;
 
-	List<TransactionPayTAX> transactionPayTAX;
+	List<TransactionPayTAX> transactionPayTAX = new ArrayList<TransactionPayTAX>();
 
 	transient double oldCurrencyFactor;
 
@@ -312,7 +313,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-
+		super.checkNullValues();
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		if (taxAgency == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
@@ -322,6 +323,13 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		if (transactionPayTAX.isEmpty()) {
 			throw new AccounterException(
 					AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL);
+		}
+		for (TransactionPayTAX tax : transactionPayTAX) {
+			if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
+				throw new AccounterException(
+						AccounterException.ERROR_AMOUNT_TO_PAY_ZERO);
+			}
+
 		}
 
 	}

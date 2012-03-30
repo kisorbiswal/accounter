@@ -10,6 +10,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class Contact implements IAccounterServerCore, Lifecycle {
 
@@ -138,7 +139,12 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
+		if (email != null && !email.trim().isEmpty()) {
+			if (!UIUtils.isValidEmail(email)) {
+				throw new AccounterException(
+						AccounterException.ERROR_INVALID_EMAIL_ID);
+			}
+		}
 		return true;
 	}
 
@@ -170,6 +176,18 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 			return ((Contact) obj).getID() == this.getID();
 		}
 		return false;
+	}
+
+	public boolean isEmpty() {
+		if ((this.title == null || this.title.trim().length() == 0)
+				&& (this.name == null || this.name.trim().length() == 0)
+				&& (this.email == null || this.email.trim().length() == 0)
+				&& (this.businessPhone == null || this.businessPhone.trim()
+						.length() == 0)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

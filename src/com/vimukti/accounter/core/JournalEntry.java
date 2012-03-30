@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -160,28 +161,36 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkTransactionDateNull();
-		checkNumber();
+		super.checkNullValues();
+		// Checking transaction items empty
 		if (getTransactionItems() == null || getTransactionItems().isEmpty()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_RECORDS_TO_SAVE, Global.get()
 							.messages().journalEntry());
-		} else {
-			for (TransactionItem entry : getTransactionItems()) {
-				if (entry.isEmpty()) {
-					continue;
-				}
-				if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+		}
+		// checking for Amounts zero or negative
+		List<TransactionItem> entrylist = this.getTransactionItems();
+		for (TransactionItem entry : entrylist) {
+			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+								.messages().amount());
+			}
+		}
+
+		// Checking Accounts same
+
+		for (TransactionItem entry : entrylist) {
+			long accountId = entry.getAccount().getID();
+			for (TransactionItem entry2 : entrylist) {
+				long accountId2 = entry2.getAccount().getID();
+				if (!entry.equals(entry2) && accountId == accountId2) {
 					throw new AccounterException(
-							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
-									.messages().amount());
+							AccounterException.ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES);
 				}
 			}
 		}
-		checkMemoCharGraThan256();
-		if (this.creditTotal == 0 && this.debitTotal == 0) {
-			caluclateJournalEntryCreditDebitTot();
-		}
+		caluclateJournalEntryCreditDebitTot();
 		if (this.creditTotal != this.debitTotal) {
 			throw new AccounterException(
 					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);

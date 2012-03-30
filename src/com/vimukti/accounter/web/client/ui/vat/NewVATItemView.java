@@ -261,8 +261,8 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// this.errorOccured = true;
 		// addError(this, exception.getMessage());
 		AccounterException accounterException = (AccounterException) exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
 		Accounter.showError(errorString);
 		updateObject();
 		if (exceptionMessage != null && exceptionMessage.contains("name")) {

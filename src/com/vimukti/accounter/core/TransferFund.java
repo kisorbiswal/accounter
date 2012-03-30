@@ -119,8 +119,14 @@ public class TransferFund extends Transaction implements Lifecycle {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkAccountNull(depositFrom, Global.get().messages().depositFrom());
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		if (DecimalUtil.isLessThan(getTotal(), 0.00)
+				|| DecimalUtil.isEquals(getTotal(), 0.00)) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().amount());
+		}
 	}
 
 	@Override

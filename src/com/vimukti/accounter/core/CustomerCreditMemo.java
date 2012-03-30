@@ -473,8 +473,9 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer, Global.get().customer());
 		super.checkNullValues();
+		checkingCustomerNull(customer, Global.get().customer());
+		checkTransactionItemsNull();
 	}
 
 	@Override
