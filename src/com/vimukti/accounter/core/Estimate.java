@@ -354,7 +354,7 @@ public class Estimate extends Transaction {
 		}
 
 		if (this.getID() != 0) {
-			if (usedInvoice != null
+			if ((usedInvoice != null || usedCashSale != null)
 					&& this.status == Transaction.STATUS_COMPLETED) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
