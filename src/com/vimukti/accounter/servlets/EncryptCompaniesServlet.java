@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.Features;
 
 public class EncryptCompaniesServlet extends BaseServlet {
 
@@ -32,16 +33,17 @@ public class EncryptCompaniesServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		if (!ServerConfiguration.isEnableEncryption()) {
-			resp.sendRedirect(COMPANIES_URL);
-			return;
-		}
 		HttpSession session = req.getSession();
 		if (session != null && session.getAttribute(EMAIL_ID) != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			Client client = getClient(emailId);
 			if (client == null) {
 				resp.sendRedirect(LOGIN_URL);
+				return;
+			}
+			if (!client.getClientSubscription().getSubscription().getFeatures()
+					.contains(Features.ENCRYPTION)) {
+				resp.sendRedirect(COMPANIES_URL);
 				return;
 			}
 			List<Object[]> list = getNonEncryptedCompanies(client);
@@ -72,16 +74,17 @@ public class EncryptCompaniesServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		if (!ServerConfiguration.isEnableEncryption()) {
-			resp.sendRedirect(COMPANIES_URL);
-			return;
-		}
 
 		HttpSession session = req.getSession();
 		if (session != null && session.getAttribute(EMAIL_ID) != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			String companyId = req.getParameter("companyname");
 			Client client = getClient(emailId);
+			if (!client.getClientSubscription().getSubscription().getFeatures()
+					.contains(Features.ENCRYPTION)) {
+				resp.sendRedirect(COMPANIES_URL);
+				return;
+			}
 			List<Object[]> nonEncryptedCompanies = getNonEncryptedCompanies(client);
 			boolean isContain = false;
 			for (Object[] obj : nonEncryptedCompanies) {

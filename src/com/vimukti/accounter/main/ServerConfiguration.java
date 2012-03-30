@@ -40,7 +40,6 @@ public class ServerConfiguration {
 	private static String uploadAttachmentEmailId;
 	private static String uploadAttachmentPassword;
 	private static boolean loadMessages;
-	private static boolean enableEncryption;
 	private static boolean isSandBoxPaypal;
 	private static int gracePeriod;
 	private static boolean isInLive;
@@ -93,8 +92,6 @@ public class ServerConfiguration {
 					"mobileSSLChatServer", null));
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
-			enableEncryption = prop.getProperty("enableEncryption", "false")
-					.equalsIgnoreCase("true");
 			paypalButtonId = prop.getProperty("paypalButtonId", "No Id");
 
 			setValidIP(prop.getProperty("validIP", null));
@@ -347,10 +344,6 @@ public class ServerConfiguration {
 
 	public static String getPaypalIdentityId() {
 		return paypalIdentityId;
-	}
-
-	public static boolean isEnableEncryption() {
-		return enableEncryption;
 	}
 
 	public static boolean isSandBoxPaypal() {

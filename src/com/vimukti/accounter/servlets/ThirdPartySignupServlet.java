@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ThirdPartySignupServlet extends BaseServlet {
@@ -49,9 +48,8 @@ public class ThirdPartySignupServlet extends BaseServlet {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
 					if (destUrl == null || destUrl.isEmpty()) {
-						if (ServerConfiguration.isEnableEncryption()
-								&& client.getClientSubscription()
-										.getSubscription().isPaidUser()) {
+						if (client.getClientSubscription().getSubscription()
+								.isPaidUser()) {
 							if (client.getPassword() == null) {
 								response.sendRedirect("/main/resetpassword?type=openid");
 							} else {
@@ -80,7 +78,7 @@ public class ThirdPartySignupServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} 
+		}
 	}
 
 }
