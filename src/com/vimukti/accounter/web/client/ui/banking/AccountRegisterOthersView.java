@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -129,5 +130,13 @@ public class AccountRegisterOthersView extends
 	@Override
 	protected SelectCombo getSelectItem() {
 		return null;
+	}
+
+	@Override
+	public void changeDates(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		grid.totalBalance = 0.0;
+		grid.balance = 0.0;
+		super.changeDates(startDate, endDate);
 	}
 }

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -16,8 +15,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
-import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public class FileTAXView extends AbstractFileTAXView {
@@ -64,42 +61,20 @@ public class FileTAXView extends AbstractFileTAXView {
 
 	@Override
 	protected void printTaxReturn() {
-		AbstractReportView<TAXItemDetail> report = new TaxItemDetailReportView() {
-			private boolean isSecondReuqest = false;
-
+		TaxItemDetailReportView report = new TaxItemDetailReportView() {
 			@Override
-			public void onSuccess(ArrayList<TAXItemDetail> result) {
-				super.onSuccess(result);
-				print();
-			}
-
-			@Override
-			public void print() {
-				long taxAgency = taxAgencyCombo.getSelectedValue().getID();
-				this.startDate = toolbar.getStartDate();
-				this.endDate = toolbar.getEndDate();
-				UIUtils.generateReportPDF(startDate.getDate(),
-						endDate.getDate(), 165,
-						new NumberReportInput(taxAgency));
-			}
-
-			@Override
-			public void makeReportRequest(long vatAgency,
-					ClientFinanceDate startDate, ClientFinanceDate endDate) {
-				if (isSecondReuqest) {
-					this.startDate = startDate;
-					this.endDate = endDate;
-					super.makeReportRequest(vatAgency, startDate, endDate);
-				} else {
-					isSecondReuqest = true;
-				}
+			public void export(int generationType) {
+				UIUtils.generateReport(generationType, fromDate
+						.getEnteredDate().getDate(), toDate.getEnteredDate()
+						.getDate(), 165, new NumberReportInput((long) 0),
+						new NumberReportInput(taxAgencyCombo.getSelectedValue()
+								.getID()));
 			}
 		};
 		report.setAction(ActionFactory.getTaxItemDetailReportAction());
 		report.init();
 		report.initData();
-		report.makeReportRequest(selectedTaxAgency.getID(),
-				fromDate.getEnteredDate(), toDate.getEnteredDate());
+		report.print();
 	}
 
 	@Override

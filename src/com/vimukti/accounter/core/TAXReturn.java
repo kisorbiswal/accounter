@@ -11,6 +11,8 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TAXReturn extends Transaction {
 
@@ -438,5 +440,19 @@ public class TAXReturn extends Transaction {
 		vatFiledLiabilityAccount.onUpdate(session);
 		session.update(vatFiledLiabilityAccount);
 
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		if (taxAgency == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().taxAgency());
+		}
+
+		if (taxReturnEntries == null || taxReturnEntries.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
+							.get().messages().transactionItem());
+		}
 	}
 }
