@@ -315,8 +315,15 @@ public class QuotePdfTemplate implements PrintTemplete {
 			if (hasTermsNpaypalId) {
 				t.addBlock("termsNpaypalId");
 			}
+			String title="";
+			if(estimate.getEstimateType() == Estimate.QUOTES)
+			{
+				title=brandingTheme.getQuoteTitle();
+			}else if(estimate.getEstimateType() == Estimate.SALES_ORDER){
+				title=brandingTheme.getSalesOrderTitle();
+			}
 
-			t.setVariable("title", brandingTheme.getQuoteTitle());
+			t.setVariable("title", title);
 
 			if (brandingTheme.isShowLogo()) {
 				t.addBlock("logo");
@@ -448,7 +455,14 @@ public class QuotePdfTemplate implements PrintTemplete {
 
 	@Override
 	public String getFileName() {
-		return "Quote_" + this.estimate.getNumber();
+		
+		if(estimate.getEstimateType() == Estimate.QUOTES)
+		{
+			return "Quote_" + this.estimate.getNumber();
+		}else if(estimate.getEstimateType() == Estimate.SALES_ORDER){
+			return "SalesOrder_" + this.estimate.getNumber();
+		}
+		return "";
 	}
 
 	@Override
