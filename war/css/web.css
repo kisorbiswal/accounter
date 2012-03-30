@@ -303,7 +303,7 @@ html,body {
 
 .portletColumn {
 	float: left;
-	width: 50%;
+	width: 100%;
 }
 
 #appVersions {
@@ -2319,7 +2319,7 @@ table.no_records td {
 	text-align: right;
 }
 
-.setup_panel .gwt-TextBox {
+.setup_panel .gwt-TextBox,.setup_panel .gwt-PasswordTextBox {
 	width: 172px;
 	border: 1px solid #AAA;
 	height: 22px;
@@ -7106,4 +7106,26 @@ textarea[disabled] {
 }
 #PortletPage .portletPagePanel .portlet_column_parent{
 	width:50%;
+}
+#SelectExpenseType .readioGropuitem span{
+	margin:5px 0px;
+}
+#SelectExpenseType table{
+	width: 250px;
+}
+#UploadTemplateFileDialog table{
+	 width: 300px;
+}
+#UploadTemplateFileDialog .vpaPanel .panel .bold_HTML{
+	margin-top:10px;
+}
+#UploadTemplateFileDialog .vpaPanel .panel-right-align{
+	margin: 13px 0 5px;
+    text-align: right;
+}
+#UploadTemplateFileDialog .vpaPanel .panel-right-align button{
+	margin: 0 5px;
+}
+#UploadTemplateFileDialog .vpaPanel .panel{
+	margin:5px;
 }
