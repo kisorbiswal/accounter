@@ -99,14 +99,15 @@
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
     Boolean isIpad =  (Boolean)request.getSession().getAttribute("IpadApp");
+    
    if( isNative){ %>
    	<link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>" />
    <% } else if(isIpad != null && isIpad ){%>
-  	 <link type="text/css" rel="stylesheet" href="../css/TabletClientcss.css?version=<%= version%>" />
-  <%}
-   %>
-	
-	
+  	 <link type="text/css" rel="stylesheet" href="../css/iPad.css?version=<%= version%>" />
+  <%} else if("true".equals(isTouch) ){%>
+<link type="text/css" rel="stylesheet" href="/css/touch.css?version=<%= version%>" />
+<% }
+	%>
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
@@ -258,10 +259,7 @@
 		}
 			
     </style>
-    
-
-
-  </head>
+    </head>
 
   <!--                                           -->
   <!-- The body can have arbitrary html, or      -->
