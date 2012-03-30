@@ -71,7 +71,7 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		setPageSize(10);
 		listDataProvider.addDataDisplay(this);
 
-//		this.setWidth("100%", true);
+		// this.setWidth("100%", true);
 		this.setStyleName("search_result_table");
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
@@ -148,10 +148,6 @@ public class SearchTable extends CellTable<SearchResultlist> {
 	}
 
 	int getType(SearchResultlist object) {
-		if (object.getTransactionType() == 11) {
-			return object.getTransactionSubType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
-					: ClientTransaction.TYPE_VENDOR_PAYMENT;
-		}
 
 		return object.getTransactionType();
 	}
@@ -168,11 +164,7 @@ public class SearchTable extends CellTable<SearchResultlist> {
 			} else {
 				return messages.estimate();
 			}
-		} else if (transactionType == ClientTransaction.TYPE_PAY_BILL) {
-			return transactionSubType == ClientPayBill.TYPE_PAYBILL ? messages
-					.payeePayment(Global.get().Vendor()) : messages
-					.payeePrePayment(Global.get().Vendor());
-		} else {
+		}  else {
 			return Utility.getTransactionName(transactionType);
 		}
 	}

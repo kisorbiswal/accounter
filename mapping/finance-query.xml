@@ -621,7 +621,8 @@
 				         WHEN T.T_TYPE = 5
 				               OR T.T_TYPE = 2
 				               OR T.T_TYPE = 3
-				               OR T.T_TYPE = 11 THEN P.NAME
+				               OR T.T_TYPE = 11
+				               OR T.T_TYPE = 25 THEN P.NAME
 				         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
 				         WHEN T.T_TYPE = 17 THEN NULL
 				         WHEN T.T_TYPE = 30
@@ -691,6 +692,7 @@
 				         ON V.ID = CP.VENDOR_ID
 				             OR V.ID = CCC.VENDOR_ID
 				             OR V.ID = PB.VENDOR_ID
+				             OR V.ID = VP.VENDOR_ID
 				             OR V.ID = WC.VENDOR_ID
 				       LEFT OUTER JOIN TAXAGENCY TG
 				         ON TG.ID = WC.TAX_AGENCY_ID
