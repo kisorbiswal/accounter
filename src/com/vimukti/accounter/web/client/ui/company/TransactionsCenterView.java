@@ -183,7 +183,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 					1);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().payments())) {
-			baseListView = (TransactionsListView<T>) new PaymentListView();
+			baseListView = (TransactionsListView<T>) new PaymentListView(
+					PaymentListView.TYPE_ALL);
 		} else if (itemName.equalsIgnoreCase(messages.otherChecks())) {
 			baseListView = (TransactionsListView<T>) new PaymentListView(
 					PaymentListView.TYPE_WRITE_CHECKS);

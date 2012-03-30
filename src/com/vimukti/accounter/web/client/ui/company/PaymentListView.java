@@ -52,7 +52,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		if (!Accounter.getUser().canDoInvoiceTransactions()) {
 			return null;
 		}
-		if (checkType == 0) {
+		if (checkType == 0 || checkType == TYPE_ALL) {
 			new SelectPaymentTypeDialog().show();
 		} else {
 			return ActionFactory.getWriteChecksAction();
@@ -65,7 +65,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		if (!Accounter.getUser().canDoInvoiceTransactions()) {
 			return null;
 		}
-		if (checkType == 0) {
+		if (checkType == 0 || checkType == TYPE_ALL) {
 			return messages.addaNewPayment();
 		} else {
 			return messages.writeCheck();
@@ -74,7 +74,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected String getListViewHeading() {
-		if (checkType == 0) {
+		if (checkType == 0 || checkType == TYPE_ALL) {
 			return messages.paymentsList();
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			return messages.payeeChecks(Global.get().Customer());
@@ -178,7 +178,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
 			type = VIEW_DRAFT;
 		}
-		if (checkType == 0) {
+		if (checkType == 0 || checkType == TYPE_ALL) {
 			Accounter.createHomeService().getPaymentsList(
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
@@ -210,7 +210,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	public void exportToCsv() {
-		if (checkType == 0) {
+		if (checkType == 0 || checkType == TYPE_ALL) {
 			Accounter.createExportCSVService().getPaymentsListExportCsv(
 					getStartDate().getDate(), getEndDate().getDate(), type,
 					getExportCSVCallback(getListViewHeading()));
