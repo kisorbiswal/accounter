@@ -16,6 +16,15 @@
 		<property name="status" column="STATUS"></property>
 		<property name="isPermissionsGiven" column="IS_PERMISSIONS_GIVEN"></property>
 	</class>
+	
+	<class name="com.vimukti.accounter.admin.core.AdminTemplate" table="ADMIN_TEMPLATES">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="name" column="NAME"></property>
+		<property name="subject" type="text"  column="SUBJECT"></property>
+		<property name="body" type="text"  column="BODY"></property>
+	</class>
 
 	<!--
 		<class name="Admin" table="ADMIN"> <id name="id" column="ID">
