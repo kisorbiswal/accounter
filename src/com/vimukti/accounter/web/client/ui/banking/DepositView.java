@@ -607,11 +607,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
 	protected void addAccount() {
 		ClientTransactionDepositItem transactionItem = new ClientTransactionDepositItem();
 

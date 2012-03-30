@@ -1478,11 +1478,6 @@ public class VendorBillView extends
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
 	protected void updateDiscountValues() {
 
 		if (discountField.getAmount() != null) {
