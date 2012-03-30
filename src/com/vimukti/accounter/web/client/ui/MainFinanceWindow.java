@@ -769,6 +769,12 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(ActionFactory.getBudgetActions().getHistoryToken(),
 				ActionFactory.getBudgetActions());
+		
+		actions.put(ActionFactory.getClassMergeAction().getHistoryToken(),
+				ActionFactory.getClassMergeAction());
+		
+		actions.put(ActionFactory.getLocationMergeAction().getHistoryToken(),
+				ActionFactory.getLocationMergeAction());
 
 		/**
 		 * budget report actions

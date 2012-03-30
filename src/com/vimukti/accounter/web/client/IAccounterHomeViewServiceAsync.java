@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
@@ -586,6 +588,12 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTaxAdjustmentsList(int viewType, long startDate,
 			long endDate, int start, int length,
 			AsyncCallback<PaginationList<ClientTAXAdjustment>> callback);
+	public void mergeClass(ClientAccounterClass clientClass,
+			ClientAccounterClass clientClass1, AsyncCallback<Void> callback);
+
+	public void mergeLocation(ClientLocation clientFromLocation,
+			ClientLocation clientToLocation,
+			 AsyncCallback<Void> callback);
 
 	void getTransaction(boolean isPrev, long id, int type, int subType,
 			AsyncCallback<Long> callback);

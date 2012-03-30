@@ -1026,6 +1026,18 @@ public class MenuBar {
 				HistoryTokens.MERGEACCOUNT);
 		mergeAccountsMenuBar.addMenuItem(messages.mergeItems(),
 				HistoryTokens.MERGEITEM);
+		if (hasPermission(Features.CLASS)) {
+			if (isClassTracking) {
+				mergeAccountsMenuBar.addMenuItem(messages.mergeClasses(),
+						HistoryTokens.MERGECLASS);
+			}
+		}
+		if (hasPermission(Features.LOCATION)) {
+			if (isLocationTracking) {
+				mergeAccountsMenuBar.addMenuItem(messages.mergeLocations(),
+						HistoryTokens.MERGELOCATION);
+			}
+		}
 
 		return mergeAccountsMenuBar;
 	}

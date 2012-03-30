@@ -22,6 +22,10 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 		super(title, true, 1,"LocationCombo");
 		initCombo(getCompany().getLocations());
 	}
+	public LocationCombo(String title, boolean isAddNewRequire ) {
+		super(title, isAddNewRequire, 1,"LocationCombo");
+		initCombo(getCompany().getLocations());
+	}
 
 	@Override
 	protected String getDisplayName(ClientLocation object) {
