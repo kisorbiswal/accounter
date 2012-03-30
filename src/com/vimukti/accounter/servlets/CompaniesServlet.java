@@ -24,6 +24,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.Features;
 
 public class CompaniesServlet extends BaseServlet {
 
@@ -98,7 +99,8 @@ public class CompaniesServlet extends BaseServlet {
 
 			req.setAttribute("emailId", emailID);
 			req.setAttribute("enableEncryption",
-					ServerConfiguration.isEnableEncryption());
+					client.getClientSubscription().getSubscription()
+							.getFeatures().contains(Features.ENCRYPTION));
 			if (!client.getClientSubscription().getSubscription().isPaidUser()) {
 				req.setAttribute("canCreate", (list.size() == 0));
 				req.setAttribute("isPaid", false);

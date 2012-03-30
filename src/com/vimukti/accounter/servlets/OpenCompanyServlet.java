@@ -29,11 +29,9 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.UTF8Control;
-import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.util.SupportedBrowsers;
 
@@ -116,9 +114,9 @@ public class OpenCompanyServlet extends BaseServlet {
 						response.sendRedirect(COMPANIES_URL);
 						return;
 					}
-					request.setAttribute("features", loadFeatures(client
+					request.setAttribute("features", client
 							.getClientSubscription().getSubscription()
-							.getFeatures()));
+							.getFeatures());
 					RequestDispatcher dispatcher = getServletContext()
 							.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 					dispatcher.forward(request, response);
@@ -175,9 +173,9 @@ public class OpenCompanyServlet extends BaseServlet {
 				}
 				User createdBy = company.getCreatedBy();
 				if (createdBy != null) {
-					request.setAttribute("features", loadFeatures(createdBy
-							.getClient().getClientSubscription()
-							.getSubscription().getFeatures()));
+					request.setAttribute("features", createdBy.getClient()
+							.getClientSubscription().getSubscription()
+							.getFeatures());
 				} else {
 					request.setAttribute("features", new HashSet<String>());
 				}
@@ -227,14 +225,6 @@ public class OpenCompanyServlet extends BaseServlet {
 					.setParameterList("userIds", userIds).list();
 		}
 		return objects.size();
-	}
-
-	private Set<String> loadFeatures(Set<String> features) {
-		Set<String> features2 = new HashSet<String>(features);
-		if (!ServerConfiguration.isEnableEncryption()) {
-			features2.remove(Features.ENCRYPTION);
-		}
-		return features2;
 	}
 
 	private boolean canResetPassword(Long serverCompanyID) {
