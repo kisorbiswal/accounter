@@ -1313,7 +1313,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		grid.removeFromParent();
 		initListGrid();
 		grid.setTranactionId(transaction.id);
-		gridLayout.insert(grid, 2);
+		gridLayout.insert(grid, 1);
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		// transaction = new ClientPayBill();
