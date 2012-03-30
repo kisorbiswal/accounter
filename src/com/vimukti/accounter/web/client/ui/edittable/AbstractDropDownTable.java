@@ -79,7 +79,7 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 
 		});
 		setSelectionModel(singleSelectionModel);
-//		setWidth("100%");
+		// setWidth("100%");
 		initColumns();
 	}
 
@@ -157,6 +157,9 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	protected abstract String getDisplayValue(T value);
 
 	public T getFilteredValue(String text) {
+		if (text.isEmpty()) {
+			return null;
+		}
 		for (T t : data) {
 			if (filter(t, text)) {
 				if (data.indexOf(t) == 0) {

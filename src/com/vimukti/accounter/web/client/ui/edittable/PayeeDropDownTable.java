@@ -41,13 +41,11 @@ public class PayeeDropDownTable extends AbstractDropDownTable<ClientPayee> {
 
 			@Override
 			public String getDisplayName() {
-				// TODO Auto-generated method stub
-				return null;
+				return getName();
 			}
 
 			@Override
 			public AccounterCoreType getObjectType() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 
