@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -153,15 +154,16 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 	}
 
 	private void createControls() {
-
+		Label lab1 = new Label(messages.wareHouse());
+		lab1.setStyleName("label-title");
 		StyledPanel mainHLay = new StyledPanel("mainHLay");
-
 		DynamicForm leftSideForm = getLeftSideForm();
 		DynamicForm rightSideForm = getRightSideForm();
 		mainHLay.add(leftSideForm);
 		mainHLay.add(rightSideForm);
 
 		vPanel = new StyledPanel("vPanel");
+		vPanel.add(lab1);
 		vPanel.add(mainHLay);
 
 		// this.setSize("100%", "100%");

@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -75,8 +76,11 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	}
 
 	private void createControls() {
+		Label lab1 = new Label(messages.measurement());
+		lab1.setStyleName("label-title");
 
 		StyledPanel panel = new StyledPanel("panel");
+		panel.add(lab1);
 		addMeasurmentForm = new DynamicForm("addMeasurmentForm");
 		nameItem = new TextItem(settingsMessages.measurementName(), "nameItem");
 		nameItem.setRequired(true);
