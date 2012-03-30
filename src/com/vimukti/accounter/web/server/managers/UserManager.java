@@ -385,7 +385,7 @@ public class UserManager extends Manager {
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
 					.makeHash(emailId + Client.PASSWORD_HASH_STRING
 							+ randomString)));
-
+			invitedClient.setPasswordRecoveryKey(EU.encryptPassword(randomString));
 			ClientSubscription clientSubscription = new ClientSubscription();
 			clientSubscription.setCreatedDate(new Date());
 

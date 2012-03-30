@@ -210,6 +210,13 @@ public class ServerConfiguration {
 		return "config/accounts";
 	}
 
+	/**
+	 * @return
+	 */
+	public static String getKeysDir() {
+		return "config/keys";
+	}
+
 	public static String getDefaultCompanyDir() {
 		return "config/demo";
 	}

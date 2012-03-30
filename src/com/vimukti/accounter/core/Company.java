@@ -65,6 +65,8 @@ public class Company implements IAccounterServerCore {
 
 	private byte[] encryptedPassword;
 
+	private byte[] passwordRecoveryKey;
+	
 	private byte[] secretKey;
 
 	private Boolean contactSupport;
@@ -1654,5 +1656,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setPasswordHInt(String passwordHInt) {
 		this.passwordHInt = passwordHInt;
+	}
+
+	public byte[] getPasswordRecoveryKey() {
+		return passwordRecoveryKey;
+	}
+
+	public void setPasswordRecoveryKey(byte[] passwordRecoveryKey) {
+		this.passwordRecoveryKey = passwordRecoveryKey;
 	}
 }

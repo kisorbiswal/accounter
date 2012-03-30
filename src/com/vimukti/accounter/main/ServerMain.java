@@ -167,6 +167,21 @@ public class ServerMain extends Main {
 		beforeFeatures.add(Features.JOB_COSTING);
 		beforeFeatures.add(Features.ENCRYPTION);
 		beforeFeatures.add(Features.INVITE_USERS);
+		
+		beforeFeatures.add(Features.INVENTORY);
+		beforeFeatures.add(Features.EXTRA_REPORTS);
+		beforeFeatures.add(Features.MULTI_CURRENCY);
+		beforeFeatures.add(Features.SALSE_ORDER);
+		beforeFeatures.add(Features.PURCHASE_ORDER);
+		beforeFeatures.add(Features.RECURRING_TRANSACTIONS);
+		beforeFeatures.add(Features.DRAFTS);
+		beforeFeatures.add(Features.DASHBOARD_WIDGETS);
+		beforeFeatures.add(Features.BUDGET);
+		beforeFeatures.add(Features.TRANSACTIONS);
+		beforeFeatures.add(Features.FIXED_ASSET);
+
+		beforeFeatures.add(Features.IMPORT);
+		
 		before.setFeatures(beforeFeatures);
 
 		session.saveOrUpdate(before);

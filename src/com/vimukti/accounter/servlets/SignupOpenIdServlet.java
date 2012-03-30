@@ -106,6 +106,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 					client.setLoginCount(0);
 					client.setDeleted(false);
 					client.setPassword(null);
+					client.setPasswordRecoveryKey(null);
 					saveEntry(client);
 				} else {
 					req.setAttribute("errormessage", Global.get().messages()

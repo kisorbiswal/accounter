@@ -169,6 +169,7 @@ public class NewLoginServlet extends BaseServlet {
 				client = (Client) query.uniqueResult();
 				if (client != null) {
 					client.setPassword(passwordWord);
+					client.setPasswordRecoveryKey(EU.encryptPassword(password.trim()));
 					session.saveOrUpdate(client);
 				}
 			}

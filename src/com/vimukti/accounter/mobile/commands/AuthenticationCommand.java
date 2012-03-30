@@ -260,6 +260,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 			// update password and set isActive true
 			client.setPassword(HexUtil.bytesToHex(Security.makeHash(emailId
 					+ password.trim())));
+			client.setPasswordRecoveryKey(EU.encryptPassword(password.trim()));
 			client.setRequirePasswordReset(false);
 
 			// and save Client,
@@ -312,6 +313,7 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 							+ Client.PASSWORD_HASH_STRING + string));
 			if (client.getPassword().equals(password)) {
 				client.setPassword(passwordWithWord);
+				client.setPasswordRecoveryKey(EU.encryptPassword(string));
 				Session currentSession = HibernateUtil.getCurrentSession();
 				Transaction beginTransaction = currentSession
 						.beginTransaction();

@@ -33,6 +33,7 @@ public class Client {
 	private boolean isDeleted;
 	private boolean isEmailBounced;
 	private ClientSubscription clientSubscription;
+	private byte[] passwordRecoveryKey;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -224,5 +225,13 @@ public class Client {
 
 	public void setClientSubscription(ClientSubscription clientSubscription) {
 		this.clientSubscription = clientSubscription;
+	}
+
+	public byte[] getPasswordRecoveryKey() {
+		return passwordRecoveryKey;
+	}
+
+	public void setPasswordRecoveryKey(byte[] passwordRecoveryKey) {
+		this.passwordRecoveryKey = passwordRecoveryKey;
 	}
 }
