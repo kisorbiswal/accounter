@@ -51,7 +51,8 @@ public class TransactionMeterPanel extends SimplePanel {
 
 	private void initGui() {
 		VerticalPanel mainPanel = new VerticalPanel();
-		countLabel = new Label(messages.transactionsUsed(transactionsCount,
+		countLabel = new Label(messages.transactionsUsed(
+				transactionsCount > 0 ? transactionsCount : 0,
 				maxTransactionCount));
 		meterBar = new StyledPanel("transactionMeterBar");
 		meterbar1 = new StyledPanel("inner_transactionMeterBar");
@@ -70,7 +71,9 @@ public class TransactionMeterPanel extends SimplePanel {
 
 	private void updateLabel() {
 		addStyleToMeterbar();
-		countLabel.setText(messages.transactionsUsed(transactionsCount,
+
+		countLabel.setText(messages.transactionsUsed(
+				transactionsCount > 0 ? transactionsCount : 0,
 				maxTransactionCount));
 
 	}
