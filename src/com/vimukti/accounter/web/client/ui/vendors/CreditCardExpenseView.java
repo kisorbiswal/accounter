@@ -322,12 +322,11 @@ public class CreditCardExpenseView extends
 		}
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "203px");
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.add(classListCombo);
 		}
-
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue(String.valueOf(0.00));

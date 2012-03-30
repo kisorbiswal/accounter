@@ -230,12 +230,10 @@ public class CashPurchaseView extends
 					payFromCombo, deliveryDateItem);
 		}
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.add(classListCombo);
 		}
-
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "203px");
 

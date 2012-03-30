@@ -606,9 +606,8 @@ public class WriteChequeView extends
 		jobListCombo.setVisible(false);
 		bankAccForm.add(bankAccSelect, balText);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			bankAccForm.add(classListCombo);
 		}
 		// bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
