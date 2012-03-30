@@ -7066,7 +7066,7 @@ textarea[disabled] {
 }
 
 #paybillview .balForm{
-		display: -webkit-box;
+	display: -webkit-box;
 	display: -moz-box;
 	display: box;
 	-webkit-box-orient: vertical;
@@ -7100,4 +7100,10 @@ textarea[disabled] {
 #NewApplyCreditsDialog .amountUseForm .gwt-Label{
 	padding: 2px 10px;
     width: auto;
+}
+#PortletPage .portletPagePanel{
+	width:100%;
+}
+#PortletPage .portletPagePanel .portlet_column_parent{
+	width:50%;
 }
