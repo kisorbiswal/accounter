@@ -1071,33 +1071,57 @@ public class TransferFundView extends
 	}
 
 	private void checkForCurrencyType() {
-		if (selectedDepositInAccount != null
-				&& selectedDepositFromAccount != null) {
+		ClientAccount depositIn = depositInSelect.getSelectedValue();
+		ClientAccount depositFrom = depositFromSelect.getSelectedValue();
+		if (depositIn != null && depositFrom != null) {
 
-			long toCurrencyID = selectedDepositInAccount.getCurrency();
-			long fromCurrencyID = selectedDepositFromAccount.getCurrency();
+			long toCurrencyID = depositIn.getCurrency();
+			long fromCurrencyID = depositFrom.getCurrency();
 
 			ClientCurrency toCurrency = getCompany().getCurrency(toCurrencyID);
 			ClientCurrency fromCurrency = getCompany().getCurrency(
 					fromCurrencyID);
 
-			if (selectedDepositInAccount == selectedDepositFromAccount) {
+			if (depositIn.getID() == depositFrom.getID()) {
 				Accounter.showError(messages
 						.dipositAccountAndTransferAccountShouldBeDiff());
 				depositInSelect.setComboItem(null);
 			}
-			if (toCurrency != fromCurrency) {
+			if (toCurrency != getBaseCurrency()
+					&& fromCurrency != getBaseCurrency()) {
 				Accounter.showError(messages
-						.transferFromAndToAccountsshouldhavesamecurrency());
+						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
 				depositInSelect.setComboItem(null);
 			} else {
-				if (toCurrencyID == fromCurrencyID) {
+				if (toCurrencyID != fromCurrencyID) {
+					if (toCurrencyID != getBaseCurrency().getID()) {
+						currencyWidget.setSelectedCurrency(toCurrency);
+						setCurrency(toCurrency);
+					} else {
+						currencyWidget.setSelectedCurrency(fromCurrency);
+						setCurrency(fromCurrency);
+					}
+				} else {
 					currencyWidget.setSelectedCurrency(toCurrency);
 					setCurrency(toCurrency);
 				}
 				amtText.setCurrency(fromCurrency);
 			}
 			updateTotals();
+		} else if (depositFrom != null) {
+			ClientCurrency fromCurrency = getCompany().getCurrency(
+					depositFrom.getCurrency());
+			currencyWidget.setSelectedCurrency(fromCurrency);
+			setCurrency(fromCurrency);
+			amtText.setCurrency(fromCurrency);
+		} else if (depositIn != null) {
+			ClientCurrency toCurrency = getCompany().getCurrency(
+					depositIn.getCurrency());
+			if (toCurrency.getID() != getBaseCurrency().getID()) {
+				currencyWidget.setSelectedCurrency(toCurrency);
+				setCurrency(toCurrency);
+				amtText.setCurrency(toCurrency);
+			}
 		}
 		modifyForeignCurrencyTotalWidget();
 	}
