@@ -488,8 +488,9 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkingVendorNull(vendor, Global.get().Vendor());
 		super.checkNullValues();
+		checkingVendorNull(vendor, Global.get().Vendor());
+		checkTransactionItemsNull();
 	}
 
 	/**

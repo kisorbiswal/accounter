@@ -324,12 +324,13 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkingVendorNull(vendor, Global.get().Vendor());
 		if (this.purchaseOrders.isEmpty()) {
-			super.checkNullValues();
+			checkTransactionItemsNull();
 		} else if (!(this.purchaseOrders.isEmpty())
 				&& !(this.transactionItems.isEmpty())) {
-			super.checkNullValues();
+			checkTransactionItemsNull();
 		}
 	}
 

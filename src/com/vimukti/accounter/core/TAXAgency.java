@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -226,6 +227,7 @@ public class TAXAgency extends Payee {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+		checkNullValues();
 
 		TAXAgency taxAgency = (TAXAgency) clientObject;
 		Query query = session
@@ -243,6 +245,59 @@ public class TAXAgency extends Payee {
 			}
 		}
 		return true;
+	}
+
+	public void checkNullValues() throws AccounterException {
+		super.checkNullValues();
+		cheeckPaymentTermNull();
+		if (getTaxType() == 0) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().taxType());
+		}
+
+		switch (getTaxType()) {
+		case TAXAgency.TAX_TYPE_SALESTAX:
+			if (getSalesLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().salesLiabilityAccount());
+			}
+			break;
+		case TAXAgency.TAX_TYPE_VAT:
+		case TAXAgency.TAX_TYPE_SERVICETAX:
+			if (getSalesLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().salesLiabilityAccount());
+			}
+			if (getPurchaseLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().purchaseLiabilityAccount());
+			}
+			break;
+		default:
+			if (getSalesLiabilityAccount() == null
+					&& getPurchaseLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().salesOrPurchaseLiabilityAcc());
+			}
+		}
+		// Validations for duplicate contacts.
+		checkDuplcateContacts();
+	}
+
+	private void cheeckPaymentTermNull() throws AccounterException {
+		if (getPaymentTerm() == null) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().paymentTerm());
+		}
+	}
+
+	@Override
+	protected String getPayeeName() {
+		return Global.get().messages().taxAgency();
 	}
 
 	/**

@@ -8,11 +8,13 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.countries.NewZealand;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * A VATItem is a sub class of VATItemGroup. It consists of VATagency, VAT
@@ -223,10 +225,37 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		checkNullValues();
 		if (clientObject.getID() != 0) {
 			isNZDefaultTaxItem(clientObject);
 		}
 		return super.canEdit(clientObject);
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (getName() == null || getName().trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().taxItem());
+		}
+		if (getTaxRate() == 0.0) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().taxRate());
+		} else {
+
+			if (DecimalUtil.isLessThan(getTaxRate(), 0)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERCENTAGE_LESSTHAN_0);
+			} else if (DecimalUtil.isGreaterThan(getTaxRate(), 100)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERCENTAGE_GRATER_100);
+
+			}
+		}
+		if (getTaxAgency() == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_PLEASE_SELECT, Global.get()
+							.messages().taxAgencie());
+		}
 	}
 
 	private void isNZDefaultTaxItem(IAccounterServerCore clientObject)

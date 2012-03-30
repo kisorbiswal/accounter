@@ -13,6 +13,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
@@ -658,6 +659,39 @@ public abstract class Payee extends CreatableObject implements
 
 		}
 		return false;
+	}
+
+	protected void checkNullValues() throws AccounterException {
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					getPayeeName());
+		}
+	}
+
+	protected String getPayeeName() {
+		return null;
+	}
+
+	protected void checkDuplcateContacts() throws AccounterException {
+		if (getContacts().size() > 0) {
+			for (Contact contact : getContacts()) {
+				for (Contact contact2 : getContacts()) {
+					if (!contact.equals(contact2)) {
+						if (contact.getTitle().equals(contact2.getTitle())
+								&& contact.getEmail().equals(
+										contact2.getEmail())
+								&& contact.getName().equals(contact2.getName())
+								&& contact.getBusinessPhone().equals(
+										contact2.getBusinessPhone())) {
+							throw new AccounterException(
+									AccounterException.ERROR_DUPLICATE_CONTACTS,
+									Global.get().messages().contacts());
+						}
+					}
+
+				}
+			}
+		}
 	}
 
 	/**

@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.AdjustmentVATItemCombo;
@@ -269,19 +268,6 @@ public class AdjustTAXView extends
 
 		vatLineLabel.setValue(box != null ? box.getVatBox() : "");
 
-	}
-
-	public void saveFailed(AccounterException exception) {
-		super.saveFailed(exception);
-		// BaseView.errordata.setHTML(FinanceApplication.constants()
-		// .failedToApplyChanges());
-		// BaseView.commentPanel.setVisible(true);
-		// this.errorOccured = true;
-		// addError(this, messages.failedToApplyChanges());
-		AccounterException accounterException = (AccounterException) exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
-		Accounter.showError(errorString);
 	}
 
 	public ValidationResult validate() {

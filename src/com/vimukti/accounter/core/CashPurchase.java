@@ -473,16 +473,16 @@ public class CashPurchase extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-
+		super.checkNullValues();
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		checkPaymentMethodNull();
 		if (this.purchaseOrders.isEmpty()) {
-			super.checkNullValues();
+			checkTransactionItemsNull();
 			return;
 		}
 
 		if (!(this.transactionItems.isEmpty())) {
-			super.checkNullValues();
+			checkTransactionItemsNull();
 		}
 
 	}

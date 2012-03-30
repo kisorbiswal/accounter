@@ -263,7 +263,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-
+		checkNullValues();
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
@@ -277,6 +277,83 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 			// "A VATCode already exists with this name");
 		}
 		return true;
+	}
+
+	private void checkNullValues() throws AccounterException {
+		if (getName() == null || getName().trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().taxCode());
+		}
+		if (isTaxable()) {
+			if (Global.get().preferences().isTrackPaidTax()) {
+				if (getTAXItemGrpForSales() == null
+						&& getTAXItemGrpForPurchases() == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PLEASE_SELECT, Global
+									.get().messages().salesOrPurchaseItem());
+				} else if (getTAXItemGrpForSales() != null) {
+					validateTaxItem(getTAXItemGrpForSales(), true);
+				} else {
+					validateTaxItem(getTAXItemGrpForPurchases(), false);
+				}
+			} else if (getTAXItemGrpForSales() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_SELECT, Global.get()
+								.messages().salesItem());
+			}
+		}
+
+	}
+
+	private void validateTaxItem(TAXItemGroup taxItemGrpForSales2,
+			boolean isSales) throws AccounterException {
+
+		if (taxItemGrpForSales2 != null) {
+			if (taxItemGrpForSales2 instanceof TAXItem) {
+				TAXAgency taxAgency = ((TAXItem) taxItemGrpForSales2)
+						.getTaxAgency();
+
+				if (taxAgency != null) {
+					if (isSales) {
+						if (taxAgency.getSalesLiabilityAccount() == null) {
+							throw new AccounterException(
+									AccounterException.ERROR_PLEASE_SELECT,
+									Global.get().messages().other()
+											+ Global.get().messages()
+													.salesTaxItem());
+						}
+					} else if (taxAgency.getPurchaseLiabilityAccount() == null) {
+						throw new AccounterException(
+								AccounterException.ERROR_PLEASE_SELECT, Global
+										.get().messages()
+										.otherPurchaseTaxItem());
+					}
+				}
+			} else {
+				List<TAXItem> taxItems = ((TAXGroup) taxItemGrpForSales2)
+						.getTAXItems();
+				for (TAXItem item : taxItems) {
+					if (item.getTaxAgency() != null) {
+						if (isSales) {
+							if (item.getTaxAgency().getSalesLiabilityAccount() == null) {
+								throw new AccounterException(
+										AccounterException.ERROR_PLEASE_SELECT,
+										Global.get().messages().other()
+												+ Global.get().messages()
+														.salesTaxItem());
+							}
+						} else if (item.getTaxAgency()
+								.getPurchaseLiabilityAccount() == null) {
+							throw new AccounterException(
+									AccounterException.ERROR_PLEASE_SELECT,
+									Global.get().messages()
+											.otherPurchaseTaxItem());
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	public double getSalesTaxRate() {

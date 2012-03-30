@@ -388,6 +388,13 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	}
 
 	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		String errorString = AccounterExceptions.getErrorString(exception);
+		Accounter.showError(errorString);
+	}
+
+	@Override
 	protected String getViewTitle() {
 		// TODO Auto-generated method stub
 		return null;

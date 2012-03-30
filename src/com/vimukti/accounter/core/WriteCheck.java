@@ -310,13 +310,14 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkAccountNull(bankAccount, Global.get().messages().bankAccount());
 
 		if (inFavourOf == null || inFavourOf.trim().length() == 0) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().inFavourOf());
 		}
-		super.checkNullValues();
+		checkTransactionItemsNull();
 	}
 
 	@Override
@@ -481,7 +482,6 @@ public class WriteCheck extends Transaction {
 		// throw new AccounterException(
 		// AccounterException.WRITECHECK_PAID_VOID_IT);
 		// }
-		super.checkNullValues();
 		return true;
 	}
 

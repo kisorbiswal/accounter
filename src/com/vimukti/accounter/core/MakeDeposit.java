@@ -28,7 +28,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	Account depositTo;
 
-	List<TransactionDepositItem> transactionDepositItems;
+	List<TransactionDepositItem> transactionDepositItems = new ArrayList<TransactionDepositItem>();
 
 	private Set<Estimate> estimates = new HashSet<Estimate>();
 
@@ -232,12 +232,81 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		return super.canEdit(clientObject);
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkAccountNull(depositTo, Global.get().messages().depositTo());
-		if(transactionDepositItems.isEmpty()){
-			throw new AccounterException(AccounterException.ERROR_MAKE_DEPOSIT_NULL);
-	}}
+
+		if (transactionDepositItems.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_MAKE_DEPOSIT_NULL);
+		}
+
+		if (!transactionDepositItems.isEmpty()) {
+			for (TransactionDepositItem item : transactionDepositItems) {
+				Account fromAcc = item.getAccount();
+				if (fromAcc.getID() == depositTo.getID()) {
+					throw new AccounterException(
+							AccounterException.ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF);
+				}
+
+				if (fromAcc == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PLEASE_ENTER, Global.get()
+									.messages().depositFrom());
+
+				}
+
+				Payee payee = item.getReceivedFrom();
+				if (depositTo.getCurrency().getID() != fromAcc.getCurrency()
+						.getID()
+						|| (payee != null && depositTo.getCurrency().getID() != payee
+								.getCurrency().getID())) {
+					throw new AccounterException(
+							AccounterException.ERROR_CURRENCY_MUST_BE_SAME);
+				}
+
+				if (item.getTotal() != null) {
+					if (item.getTotal() <= 0) {
+						throw new AccounterException(
+								AccounterException.ERROR_AMOUNT_ZERO, Global
+										.get().messages().amount());
+					}
+				} else {
+					throw new AccounterException(
+							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+									.messages().amount());
+				}
+			}
+
+		}
+		validateTransactionDepositItems();
+
+		if (DecimalUtil.isLessThan(getTotal(), 0.0)) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().transactionAmount());
+		}
+
+	}
+
+	public void validateTransactionDepositItems() throws AccounterException {
+		for (TransactionDepositItem transactionItem : transactionDepositItems) {
+			if (transactionItem.getAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_SELECT, Global.get()
+								.messages().depositFrom());
+			}
+
+			if (transactionItem.isBillable()) {
+				if (transactionItem.getCustomer() == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE);
+
+				}
+			}
+		}
+	}
 
 	@Override
 	public void onEdit(Transaction clonedObject) {

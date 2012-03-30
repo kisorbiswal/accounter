@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -10,6 +11,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -53,7 +55,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 	private String checkNumber;
 
-	List<TransactionReceiveVAT> transactionReceiveVAT;
+	List<TransactionReceiveVAT> transactionReceiveVAT = new ArrayList<TransactionReceiveVAT>();
 
 	/**
 	 * @return the depositIn
@@ -267,16 +269,41 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		
+
 		return super.canEdit(clientObject);
 	}
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		checkPaymentMethodNull();
 		if (transactionReceiveVAT.isEmpty()) {
 			throw new AccounterException(
 					AccounterException.ERROR_TRANSACTION_RECEIVE_VAT);
+		}
+		for (TransactionReceiveVAT receiveVat : transactionReceiveVAT) {
+
+			int status = DecimalUtil.compare(receiveVat.getAmountToReceive(),
+					0.00);
+			if (status <= 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+								.messages().received()
+								+ Global.get().messages().amount());
+
+			}
+		}
+		Account bankAccount = depositIn;
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			Currency bankCurrency = getCurrency();
+			if (bankCurrency.getID() != Global.get().preferences()
+					.getPrimaryCurrency().getID()
+					&& bankCurrency.getID() != getCurrency().getID()) {
+				throw new AccounterException(
+						AccounterException.ERROR_SELECT_PROPER_BANK_ACCOUNT);
+			}
 		}
 	}
 

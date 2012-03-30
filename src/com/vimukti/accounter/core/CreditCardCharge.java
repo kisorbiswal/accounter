@@ -371,8 +371,9 @@ public class CreditCardCharge extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		super.checkNullValues();
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		checkTransactionItemsNull();
 	}
 
 	@Override

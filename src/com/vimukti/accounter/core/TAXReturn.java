@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TAXReturn extends Transaction {
 
@@ -316,6 +317,14 @@ public class TAXReturn extends Transaction {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
 		map.put(taxAgency.getAccount(), total);
 		return map;
+	}
+
+	@Override
+	protected void checkNullValues() throws AccounterException {
+		if (taxReturnEntries.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_NO_TRANSACTIONS_TO_FILE);
+		}
 	}
 
 	/**

@@ -202,6 +202,8 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_RECIVE_PAYMENT_TOTAL_AMOUNT:
 			return accounterMessages.recievePaymentTotalAmount();
+		case AccounterException.ERROR_SELECT_PROPER_BANK_ACCOUNT:
+			return accounterMessages.selectProperBankAccount();
 
 		default:
 			return null;
@@ -230,15 +232,20 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_TRANSACTION_ITEM_NULL:
 			return accounterMessages.fieldShouldNotBeEmpty(exception
 					.getMessage());
+
 		case AccounterException.ERROR_TRANSACTION_PAYBILLS_NULL:
 			return accounterMessages.fieldShouldNotBeEmpty(exception
 					.getMessage());
+
 		case AccounterException.ERROR_DISCOUNT_GREATER_THAN_100:
 			return exception.getMessage();
+
 		case AccounterException.ERROR_MAKE_DEPOSIT_NULL:
 			return accounterMessages.pleaseEnterAccAndAmount();
+
 		case AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL:
 			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
+
 		case AccounterException.ERROR_TRANSACTION_RECEIVE_VAT:
 			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
 
@@ -248,16 +255,50 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE:
 			return accounterMessages.shouldNotBeZeroOrNegative(exception
 					.getMessage());
+
 		case AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS:
 			return accounterMessages.cantCreateMoreTransactions().replaceAll(
 					"\n", "<br/>");
+
 		case AccounterException.ERROR_NO_RECORDS_TO_SAVE:
 			return accounterMessages.thereisNoRecordsTosave(exception
 					.getMessage());
+
 		case AccounterException.ERROR_PLEASE_ENTER:
 			return accounterMessages.pleaseEnter(exception.getMessage());
-		case AccounterException.MEMO_CANNOT_EXCEEDS_MORE_THAN_255_CHARACTERS:
-			return accounterMessages.memoCannotExceedsmorethan255Characters();
+
+		case AccounterException.ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES:
+			return accounterMessages
+					.shouldntSelectSameAccountInMultipleEntries();
+
+		case AccounterException.ERROR_NO_TRANSACTIONS_TO_FILE:
+			return accounterMessages.thereIsNoTrasationsToFile();
+
+		case AccounterException.ERROR_AMOUNT_TO_PAY_ZERO:
+			return accounterMessages.pleaseEnterAmountToPay();
+
+		case AccounterException.ERROR_DUPLICATE_CONTACTS:
+			return accounterMessages.youHaveEnteredDuplcate(exception
+					.getMessage());
+
+		case AccounterException.ERROR_PLEASE_SELECT:
+			return accounterMessages.pleaseSelect(exception.getMessage());
+
+		case AccounterException.ERROR_PERCENTAGE_GRATER_100:
+			return accounterMessages.cantentermorethat100();
+		case AccounterException.ERROR_PERCENTAGE_LESSTHAN_0:
+			return accounterMessages.cantenternegnumber();
+
+		case AccounterException.ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF:
+			return accounterMessages
+					.dipositAccountAndTransferAccountShouldBeDiff();
+
+		case AccounterException.ERROR_CURRENCY_MUST_BE_SAME:
+			return accounterMessages.mustBeSameCurrency();
+
+		case AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE:
+			return accounterMessages.mustSelectCustomerForBillable();
+
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

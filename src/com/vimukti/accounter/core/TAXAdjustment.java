@@ -11,6 +11,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * A VATAdjustment is to be done when there are amounts in uncategorised amounts
@@ -303,6 +304,15 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 		checkAccountNull(adjustmentAccount, Global.get().messages()
 				.adjustmentAccount());
+		checkAmountForNegativeOr0();
+	}
+
+	private void checkAmountForNegativeOr0() throws AccounterException {
+		if (DecimalUtil.isEquals(getTotal(), 0.00)
+				|| DecimalUtil.isLessThan(getTotal(), 0.00)) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().amount());
+		}
 	}
 
 	public TAXAgency getTaxAgency() {

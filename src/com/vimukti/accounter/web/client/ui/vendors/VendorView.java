@@ -934,8 +934,8 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
 		AccounterException accounterException = (AccounterException) exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
 		Accounter.showError(errorString);
 	}
 

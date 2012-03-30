@@ -718,6 +718,11 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	protected void checkNullValues() throws AccounterException {
+		checkTransactionDateNull();
+		checkNumber();
+	}
+
+	protected void checkTransactionItemsNull() throws AccounterException {
 		if (!transactionItems.isEmpty()) {
 			for (TransactionItem item : transactionItems) {
 				item.checkNullValues();
@@ -727,7 +732,6 @@ public abstract class Transaction extends CreatableObject implements
 					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
 							.get().messages().transactionItem());
 		}
-
 	}
 
 	protected void addCreateHistory() {
@@ -1546,15 +1550,6 @@ public abstract class Transaction extends CreatableObject implements
 		if (getNumber() == null || getNumber().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
 					Global.get().messages().number());
-		}
-	}
-
-	protected void checkMemoCharGraThan256() throws AccounterException {
-		if (getMemo() != null) {
-			if (getMemo().length() >= 256) {
-				throw new AccounterException(
-						AccounterException.MEMO_CANNOT_EXCEEDS_MORE_THAN_255_CHARACTERS);
-			}
 		}
 	}
 

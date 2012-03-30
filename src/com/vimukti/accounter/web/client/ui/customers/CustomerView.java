@@ -341,8 +341,8 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// BaseView.commentPanel.setVisible(true);
 		// this.errorOccured = true;
 		AccounterException accounterException = exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(exception);
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
 		Accounter.showError(errorString);
 	}
 
