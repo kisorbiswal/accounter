@@ -238,8 +238,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 			}
 		} else {
 			if (isClicked) {
-				popupPanel.hide();
-				// textBox.setText("");
+				popupPanel.hide();				
 				dropDown.addNewItem();
 			}
 		}
