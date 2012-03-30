@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.TransactionMeterEventType;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -195,10 +196,13 @@ public class DepositsTransfersListGrid extends
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					obj.setVoided(true);
 					updateData(obj);
-					Accounter.getEventBus().fireEvent(
-							new CoreEvent<TransactionMeterEventType>(
-									ChangeType.DELETE,
-									new TransactionMeterEventType()));
+					if (ClientFinanceDate.compareMonthAndYear(obj
+							.getTransactionDate())) {
+						Accounter.getEventBus().fireEvent(
+								new CoreEvent<TransactionMeterEventType>(
+										ChangeType.DELETE,
+										new TransactionMeterEventType()));
+					}
 				}
 
 			}
