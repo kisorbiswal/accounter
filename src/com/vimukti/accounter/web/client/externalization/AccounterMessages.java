@@ -1220,8 +1220,6 @@ public interface AccounterMessages extends Messages {
 
 	public String dateofBirth();
 
-	public String dateofBirthshouldshowmorethan18years();
-
 	public String dateOfFiled();
 
 	public String dateofHire();

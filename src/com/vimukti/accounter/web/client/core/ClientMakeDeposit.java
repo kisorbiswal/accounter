@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientMakeDeposit extends ClientTransaction {
@@ -11,7 +12,7 @@ public class ClientMakeDeposit extends ClientTransaction {
 
 	long depositTo;
 
-	private List<ClientTransactionDepositItem> transactionDepositItems;
+	private List<ClientTransactionDepositItem> transactionDepositItems = new ArrayList<ClientTransactionDepositItem>();
 
 	public long getDepositTo() {
 		return depositTo;

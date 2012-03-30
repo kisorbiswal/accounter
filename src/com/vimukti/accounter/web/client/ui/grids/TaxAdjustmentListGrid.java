@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 
@@ -120,7 +120,8 @@ public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 				.isUserHavePermissions(ClientTransaction.TYPE_ADJUST_VAT_RETURN)) {
 			return;
 		}
-		ActionFactory.getAdjustTaxAction().run(obj, false);
+		ReportsRPC.openTransactionView(
+				ClientTransaction.TYPE_ADJUST_VAT_RETURN, obj.getID());
 	}
 
 	@Override

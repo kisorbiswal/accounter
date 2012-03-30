@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Label;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -27,19 +26,16 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class AdjustTAXView extends
 		AbstractTransactionBaseView<ClientTAXAdjustment> {
 
 	private DateItem adjustDate;
-	protected TextItem entryNo;
 	private TAXAgencyCombo taxAgencyCombo;
 	private AdjustmentVATItemCombo vatItemCombo;
 	private OtherAccountsCombo adjustAccountCombo;
@@ -68,15 +64,6 @@ public class AdjustTAXView extends
 		this.taxAgency = taxAgency;
 	}
 
-	@Override
-	public void init() {
-		super.init();
-		// setSize("100%", "100%");
-		if (!isInViewMode()) {
-			initEntryNumber();
-		}
-	}
-
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label infoLabel;
@@ -85,13 +72,10 @@ public class AdjustTAXView extends
 
 		adjustDate = new DateItem(messages.date(), "adjustDate");
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
-		adjustDate.setEnabled(isInViewMode());
+		adjustDate.setEnabled(!isInViewMode());
 		// adjustDate.setWidth(100);
 
-		entryNo = new IntegerField(this, messages.no());
-		entryNo.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
-		// entryNo.setWidth(100);
-		entryNo.setEnabled(isInViewMode());
+		transactionNumber = createTransactionNumberItem();
 
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
 		// taxAgencyCombo.setWidth(100);
@@ -184,19 +168,19 @@ public class AdjustTAXView extends
 		typeRadio.setValueMap(messages.increaseTAXLine(),
 				messages.decreaseTAXLine());
 		typeRadio.setDefaultValue(messages.increaseTAXLine());
-		typeRadio.setEnabled(isInViewMode());
+		typeRadio.setEnabled(!isInViewMode());
 
 		salesTypeRadio = new RadioGroupItem();
 		salesTypeRadio.setGroupName(messages.type());
 		salesTypeRadio.setValue(messages.salesType(), messages.purchaseType());
 		salesTypeRadio.setDefaultValue(messages.salesType());
-		salesTypeRadio.setEnabled(isInViewMode());
+		salesTypeRadio.setEnabled(!isInViewMode());
 
 		memo = createMemoTextAreaItem();
 		memo.setDisabled(isInViewMode());
 		DynamicForm dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.add(adjustDate, entryNo);
+		dateForm.add(adjustDate, transactionNumber);
 		// dateForm.getCellFormatter().setWidth(0, 0, "189");
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateForm);
@@ -236,32 +220,6 @@ public class AdjustTAXView extends
 		listforms.add(memoForm);
 		listforms.add(topform);
 		// settabIndexes();
-
-	}
-
-	private void initEntryNumber() {
-
-		AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
-
-			public void onException(AccounterException caught) {
-				Accounter.showError(messages.failedToGetTransactionNumber());
-			}
-
-			public void onResultSuccess(String result) {
-				if (result == null) {
-					onFailure(new Exception());
-				}
-
-				// transactionNumber.setValue(String.valueOf(result));
-				entryNo.setValue(result);
-
-			}
-
-		};
-
-		this.rpcUtilService.getNextTransactionNumber(
-				ClientTransaction.TYPE_ADJUST_VAT_RETURN,
-				transactionNumberCallback);
 
 	}
 
@@ -386,7 +344,7 @@ public class AdjustTAXView extends
 
 	private void updateData() {
 
-		data.setNumber(entryNo.getValue().toString());
+		data.setNumber(transactionNumber.getValue().toString());
 
 		data.setTransactionDate(adjustDate.getDate().getDate());
 
@@ -440,14 +398,14 @@ public class AdjustTAXView extends
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		adjustDate.setEnabled(isInViewMode());
-		entryNo.setEnabled(isInViewMode());
+		adjustDate.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
 		taxAgencyCombo.setEnabled(!isInViewMode());
 		vatItemCombo.setEnabled(!isInViewMode());
-		salesTypeRadio.setEnabled(isInViewMode());
+		salesTypeRadio.setEnabled(!isInViewMode());
 		adjustAccountCombo.setEnabled(!isInViewMode());
-		amount.setEnabled(isInViewMode());
-		typeRadio.setEnabled(isInViewMode());
+		amount.setEnabled(!isInViewMode());
+		typeRadio.setEnabled(!isInViewMode());
 		memo.setDisabled(isInViewMode());
 	}
 
@@ -473,7 +431,7 @@ public class AdjustTAXView extends
 		amount.setTabIndex(4);
 		memo.setTabIndex(5);
 		adjustDate.setTabIndex(6);
-		entryNo.setTabIndex(7);
+		transactionNumber.setTabIndex(7);
 		if (saveAndCloseButton != null)
 			saveAndCloseButton.setTabIndex(8);
 		if (saveAndNewButton != null)
@@ -489,7 +447,6 @@ public class AdjustTAXView extends
 		} else {
 			adjustDate
 					.setValue(new ClientFinanceDate(data.getTransactionDate()));
-			entryNo.setValue(data.getNumber());
 			clientTAXAgency = getCompany().getTaxAgency(data.getTaxAgency());
 			taxAgencyCombo.setComboItem(clientTAXAgency);
 			vatItemCombo.setComboItem(getCompany()
@@ -509,6 +466,7 @@ public class AdjustTAXView extends
 			}
 			memo.setValue(data.getMemo());
 		}
+		initTransactionNumber();
 	}
 
 	@Override

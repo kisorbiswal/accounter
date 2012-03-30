@@ -39,6 +39,11 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 				super.render(widget, context);
 				((CheckBox) widget).setValue(context.getRow().isDefault());
 			}
+
+			@Override
+			public int getWidth() {
+				return 45;
+			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
 

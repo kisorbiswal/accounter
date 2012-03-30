@@ -205,6 +205,11 @@ public abstract class TransactionDepositTable extends
 					CheckBox box = (CheckBox) widget;
 					box.setValue(context.getRow().isBillable());
 				}
+
+				@Override
+				public int getWidth() {
+					return 41;
+				}
 			});
 		}
 

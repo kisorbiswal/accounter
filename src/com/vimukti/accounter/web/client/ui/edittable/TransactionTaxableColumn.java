@@ -27,4 +27,9 @@ public class TransactionTaxableColumn extends
 	public IsWidget getHeader() {
 		return new Label(messages.taxable());
 	}
+
+	@Override
+	public int getWidth() {
+		return 46;
+	}
 }

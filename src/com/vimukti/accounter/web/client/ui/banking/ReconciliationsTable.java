@@ -119,8 +119,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 				}
 				Accounter.showWarning(
 						messages.areYouwantToDeleteReconcilationHistory(),
-						AccounterType.WARNINGWITHCANCEL,
-						new ErrorDialogHandler() {
+						AccounterType.WARNING, new ErrorDialogHandler() {
 
 							@Override
 							public boolean onYesClick() {

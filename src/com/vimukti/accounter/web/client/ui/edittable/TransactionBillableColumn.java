@@ -28,4 +28,8 @@ public class TransactionBillableColumn extends
 		return new Label(messages.isBillable());
 	}
 
+	@Override
+	public int getWidth() {
+		return 41;
+	}
 }

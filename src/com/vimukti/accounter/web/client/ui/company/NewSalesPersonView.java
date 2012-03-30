@@ -42,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
  * @modified by Ravi Kiran.G
@@ -89,9 +88,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label titleLabel=new Label(messages.salesPerson());
+		Label titleLabel = new Label(messages.salesPerson());
 		titleLabel.addStyleName("label-title");
-		
+
 		employeeNameText = new TextItem(messages.salesPersonName(),
 				"employeeNameText");
 		employeeNameText.setRequired(true);
@@ -122,7 +121,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// expenseAccountForm.setWidth("80%");
 		expenseSelect = new GridAccountsCombo(messages.expenseAccount());
 		// expenseSelect.setWidth("185px");
-		expenseSelect.setEnabled(isInViewMode());
+		expenseSelect.setEnabled(!isInViewMode());
 		expenseSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
@@ -138,8 +137,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		memoForm = new DynamicForm("memoForm");
 		memoArea = new TextAreaItem(messages.memo(), "memoArea");
-		memoArea.setTitle(messages.writeCommentsForThis(getAction().getViewName()));
-		
+		memoArea.setTitle(messages.writeCommentsForThis(getAction()
+				.getViewName()));
+
 		memoArea.setDisabled(isInViewMode());
 		memoForm.add(memoArea);
 		// memoForm.getCellFormatter().getElement(0, 0).getStyle()
@@ -152,9 +152,9 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// salesPersonInfoForm.setWidth("100%");
 		statusCheck = new CheckboxItem(messages.active(), "status");
 		statusCheck.setValue(true);
-		statusCheck.setEnabled(isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
 		genderSelect = new SelectCombo(messages.gender());
-		genderSelect.setEnabled(isInViewMode());
+		genderSelect.setEnabled(!isInViewMode());
 		// genderSelect.setWidth(45);
 		listOfgenders = new ArrayList<String>();
 		for (int i = 0; i < genderTypes.length; i++) {
@@ -178,20 +178,16 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
 		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
-		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
-
-			@Override
-			public void onDateValueChange(ClientFinanceDate date) {
-				long mustdate = new ClientFinanceDate().getDate() - 180000;
-				if (new ClientFinanceDate(mustdate).before(dateOfBirth
-						.getEnteredDate())) {
-					addError(dateOfBirth,
-							messages.dateofBirthshouldshowmorethan18years());
-				} else {
-					clearError(dateOfBirth);
-				}
-			}
-		});
+		/*
+		 * dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
+		 * 
+		 * @Override public void onDateValueChange(ClientFinanceDate date) {
+		 * long mustdate = new ClientFinanceDate().getDate() - 180000; if (new
+		 * ClientFinanceDate(mustdate).before(dateOfBirth .getEnteredDate())) {
+		 * addError(dateOfBirth,
+		 * messages.dateofBirthshouldshowmorethan18years()); } else {
+		 * clearError(dateOfBirth); } } });
+		 */
 
 		dateOfHire = new DateField(messages.dateofHire(), "dateOfHire");
 		dateOfHire.setToolTip(messages.selectDateOfHire(this.getAction()
@@ -218,7 +214,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		// XXX
 		addrsForm = new DynamicForm("addrsForm");
 		addrArea = new TextAreaItem(messages.address(), "addrArea");
-		addrArea.setDisabled(!isInViewMode());
+		addrArea.setDisabled(isInViewMode());
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -606,18 +602,18 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		employeeNameText.setEnabled(isInViewMode());
-		fileAsText.setEnabled(isInViewMode());
-		jobTitleText.setEnabled(isInViewMode());
+		employeeNameText.setEnabled(!isInViewMode());
+		fileAsText.setEnabled(!isInViewMode());
+		jobTitleText.setEnabled(!isInViewMode());
 		memoArea.setDisabled(isInViewMode());
-		statusCheck.setEnabled(isInViewMode());
-		genderSelect.setEnabled(isInViewMode());
-		dateOfBirth.setEnabled(isInViewMode());
-		dateOfHire.setEnabled(isInViewMode());
-		dateOfLastReview.setEnabled(isInViewMode());
-		dateOfRelease.setEnabled(isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
+		genderSelect.setEnabled(!isInViewMode());
+		dateOfBirth.setEnabled(!isInViewMode());
+		dateOfHire.setEnabled(!isInViewMode());
+		dateOfLastReview.setEnabled(!isInViewMode());
+		dateOfRelease.setEnabled(!isInViewMode());
 		addrArea.setDisabled(isInViewMode());
-		expenseSelect.setEnabled(isInViewMode());
+		expenseSelect.setEnabled(!isInViewMode());
 		fonFaxForm.setEnabled(!isInViewMode());
 		emailForm.setEnabled(!isInViewMode());
 		super.onEdit();
