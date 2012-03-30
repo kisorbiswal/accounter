@@ -638,8 +638,7 @@ public class CustomerCenterView<T> extends
 								}
 							});
 		} else {
-			Accounter.showMessage(messages
-					.pleaseSelect(Global.get().Customer()));
+			Accounter.showError(messages.pleaseSelect(Global.get().Customer()));
 		}
 	}
 
