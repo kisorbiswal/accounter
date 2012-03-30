@@ -1074,7 +1074,7 @@ public class CreditCardExpenseView extends
 		creditCardCombo.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.setEnabled(!isInViewMode());
-		vendorItemTransactionTable.setEnabled(isInViewMode());
+		vendorItemTransactionTable.setEnabled(!isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		discountField.setEnabled(!isInViewMode());
