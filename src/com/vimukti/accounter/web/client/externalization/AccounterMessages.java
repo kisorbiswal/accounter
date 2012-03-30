@@ -6234,6 +6234,7 @@ public interface AccounterMessages extends Messages {
 
 	public String discountShouldNotGreaterThan100();
 
+
 	public String cantCreateMoreTransactions();
 
 	public String hash();
@@ -6255,4 +6256,29 @@ public interface AccounterMessages extends Messages {
 	public String salesOrPurchaseItem();
 
 	public String otherPurchaseTaxItem();
+
+	
+	public String mergeClass();
+
+	public String mergeClasses();
+
+	public String mergeFrom();
+
+	public String mergeTo();
+	
+	public String mergeClassDescription();
+	
+	public String classId();
+	
+	public String locationId();
+	
+	public String mergeLocation();
+	
+	public String mergeLocations();
+	
+	public String mergeLocationDescription();
+	
+	public String classes();
+	
+
 }

@@ -43,6 +43,7 @@ import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
@@ -80,6 +81,7 @@ import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
+import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.MessageOrTask;
 import com.vimukti.accounter.core.NumberUtils;
@@ -135,6 +137,7 @@ import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -144,6 +147,7 @@ import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
@@ -4655,5 +4659,83 @@ public class FinanceTool {
 		}
 		return new Long(0);
 	}
+	public void mergeClass(ClientAccounterClass fromClass,
+			ClientAccounterClass toClass, Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
+		Company company = getCompany(companyId);
+		try{
+			session.getNamedQuery("update.merge.transactionitem.class.old.tonew")
+			.setLong("fromID", fromClass.getID())
+			.setLong("toID", toClass.getID())
+			.executeUpdate();
+			
+			session.getNamedQuery("update.merge.transaction.class.old.tonew")
+			.setLong("fromID", fromClass.getID())
+			.setLong("toID", toClass.getID())
+			.executeUpdate();
+			
+			session.getNamedQuery("update.merge.transaction.deposit.item.class.old.tonew")
+			.setLong("fromID", fromClass.getID())
+			.setLong("toID", toClass.getID())
+			.executeUpdate();
+			
+			User user = AccounterThreadLocal.get();
 
+			AccounterClass toAccounterClass = (AccounterClass) session.get(AccounterClass.class,
+					toClass.getID());
+
+			AccounterClass fromAccounterClass = (AccounterClass) session.get(AccounterClass.class,
+					fromClass.getID());
+
+			Activity activity = new Activity(company, user, ActivityType.MERGE,
+					toAccounterClass);
+			session.save(activity);
+
+			company.getAccounterClasses().remove(fromAccounterClass);
+			session.saveOrUpdate(company);
+
+			session.delete(fromAccounterClass);
+			tx.commit();
+
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+	}
+
+	public void mergeLocation(ClientLocation fromLocation,
+			ClientLocation toLocation, Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = session.beginTransaction();
+		Company company = getCompany(companyId);
+		try{
+			session.getNamedQuery("update.merge.transaction.location.old.tonew")
+			.setLong("fromID", fromLocation.getID())
+			.setLong("toID", toLocation.getID())
+			.executeUpdate();
+			
+			User user = AccounterThreadLocal.get();
+
+			Location toLocationObj = (Location) session.get(Location.class,
+					toLocation.getID());
+
+			Location fromLocationObj = (Location) session.get(Location.class,
+					fromLocation.getID());
+
+			Activity activity = new Activity(company, user, ActivityType.MERGE,
+					toLocationObj);
+			session.save(activity);
+
+			company.getLocations().remove(fromLocationObj);
+			session.saveOrUpdate(company);
+
+			session.delete(fromLocationObj);
+			tx.commit();
+
+		} catch (Exception e) {
+			tx.rollback();
+			e.printStackTrace();
+		}
+	}
 }

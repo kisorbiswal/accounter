@@ -45,6 +45,7 @@ import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -64,6 +65,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
@@ -2399,6 +2401,36 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new FinanceTool().getTaxManager().getTaxAdjustments(viewType,
 				getCompanyId(), startDate, endDate, start, length);
 	}
+	@Override
+	public void mergeClass(ClientAccounterClass fromClass,
+			ClientAccounterClass toClass)throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			try {
+				tool.mergeClass(fromClass,
+						toClass, getCompanyId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	@Override
+	public void mergeLocation(ClientLocation fromLocation,
+			ClientLocation toLocation) throws AccounterException {
+		
+		FinanceTool tool = getFinanceTool();
+		if (tool != null) {
+			try {
+				tool.mergeLocation(fromLocation,
+						toLocation, getCompanyId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	@Override
 	public Long getTransaction(boolean isPrev, long id, int type, int subType)
@@ -2406,5 +2438,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return getFinanceTool().getCompanyManager().getTransaction(isPrev,
 				getCompanyId(), id, type, subType);
 	}
+
 
 }

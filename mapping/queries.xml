@@ -476,13 +476,15 @@
 		and pst.payFrom.id =:accountId and pst.saveStatus!=204 and pst.status
 		=:status
 	</query>
-	
+
 	<query name="getVendorPayment.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VendorPayment pst where pst.company=:company
-		and pst.payFrom.id =:accountId and pst.saveStatus!=204 and pst.status
+		from com.vimukti.accounter.core.VendorPayment pst where
+		pst.company=:company
+		and pst.payFrom.id =:accountId and
+		pst.saveStatus!=204 and pst.status
 		=:status
 	</query>
 
@@ -553,11 +555,12 @@
 		and
 		pb.status =:status
 	</query>
-	
+
 	<query name="getVendorPayment.form.status">
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VendorPayment pb where pb.company=:company
+		from com.vimukti.accounter.core.VendorPayment pb where
+		pb.company=:company
 		and
 		pb.status =:status
 	</query>
@@ -1118,7 +1121,8 @@
 		!= 202 and
 		(:status=-1 or
 		:status=e.saveStatus or
-		(:status=e.status and e.saveStatus!=201 and e.saveStatus!=204))
+		(:status=e.status and e.saveStatus!=201 and
+		e.saveStatus!=204))
 		and
 		e.transactionDate
 		between :fromDate and :toDate
@@ -1500,7 +1504,8 @@
 		:startDate
 		and :endDate and v.company=:company and v.saveStatus != 204
 		and v.saveStatus != 201 and
-		v.saveStatus != 202 order by v.taxItem.name,
+		v.saveStatus != 202 order by
+		v.taxItem.name,
 		v.transactionDate
 	</query>
 
@@ -1723,10 +1728,12 @@
 		<query-param name="company" type="Company" />
 		<query-param name="viewType" type="int" />
 		from com.vimukti.accounter.core.TAXReturn tr where
-		tr.company=:company AND
+		tr.company=:company
+		AND
 
 		((1= :viewType AND tr.balance &lt;= 0) OR
-		(2= :viewType AND tr.balance &gt; 0) OR
+		(2= :viewType AND
+		tr.balance &gt; 0) OR
 		(0= :viewType))
 
 	</query>
@@ -2026,16 +2033,18 @@
 	</query>
 	<query name="getWriteCheckByEstimate">
 		<query-param name="estimate" type="Estimate" />
-		from com.vimukti.accounter.core.WriteCheck wc left join wc.estimates es
+		from com.vimukti.accounter.core.WriteCheck wc left join wc.estimates
+		es
 		where es=:estimate
 	</query>
-	
+
 	<query name="getCashPurchaseByEstimate">
 		<query-param name="estimate" type="Estimate" />
-		from com.vimukti.accounter.core.CashPurchase cp left join cp.estimates es
+		from com.vimukti.accounter.core.CashPurchase cp left join cp.estimates
+		es
 		where es=:estimate
 	</query>
-	
+
 	<query name="getDepositByEstimate">
 		<query-param name="estimate" type="Estimate" />
 		from com.vimukti.accounter.core.MakeDeposit d left join d.estimates es
@@ -2217,19 +2226,21 @@
 		<query-param name="itemId" type="long" />
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
 		from com.vimukti.accounter.core.TransactionItem sale
-		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
+		where
+		sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
 		and (sale.transaction.type in (1,4,8,37) or (sale.transaction.type=36
 		and sale.quantity.value &lt; 0))
-		order by sale.transaction.transactionDate,sale.transaction.id
+		order by
+		sale.transaction.transactionDate,sale.transaction.id
 	</query>
-	 <query name="getJobsByCustomer">
- 		<query-param name="customerId" type="long" />
- 		<query-param name="companyId" type="long" />
- 		from com.vimukti.accounter.core.Job j where j.customer.id=:customerId
- 		and
- 		j.company.id=:companyId order by j.id
- 	</query>
- 	<query name="getAccountByNumber">
+	<query name="getJobsByCustomer">
+		<query-param name="customerId" type="long" />
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.Job j where j.customer.id=:customerId
+		and
+		j.company.id=:companyId order by j.id
+	</query>
+	<query name="getAccountByNumber">
 		<query-param name="company" type="Company" />
 		<query-param name="accountNumber" type="String" />
 		select ac.id from com.vimukti.accounter.core.Account ac where
@@ -2276,5 +2287,33 @@
 		delete from com.vimukti.accounter.core.MobileCookie mc
 		where
 		mc.client=:client
+	</query>
+	<query name="update.merge.transactionitem.class.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionItem set
+		accounterClass=:toID where
+		accounterClass=:fromID
+	</query>
+	<query name="update.merge.transaction.class.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Transaction set
+		accounterClass=:toID where
+		accounterClass=:fromID 
+	</query>
+	<query name="update.merge.transaction.deposit.item.class.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionDepositItem set
+		accounterClass=:toID where
+		accounterClass=:fromID 
+	</query>
+	<query name="update.merge.transaction.location.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Transaction set
+		location=:toID where
+		location=:fromID 
 	</query>
 </hibernate-mapping>
