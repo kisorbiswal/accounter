@@ -388,7 +388,7 @@ public class WriteCheck extends Transaction {
 			Session session) {
 		this.getEstimates().clear();
 
-		if (getPayee() instanceof Customer) {
+		
 			Set<Estimate> estimates = new HashSet<Estimate>();
 			for (TransactionItem transactionItem : transactionItems) {
 				if (transactionItem.isBillable()
@@ -440,7 +440,7 @@ public class WriteCheck extends Transaction {
 			}
 
 			this.setEstimates(estimates);
-		}
+		
 	}
 
 	private Estimate getCustomerEstimate(Set<Estimate> estimates, long customer) {
