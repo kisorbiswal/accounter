@@ -1637,7 +1637,7 @@ input.date-field-textbox {
 	float: right;
 	font-size: 13px;
 	cursor: pointer;
-	color: #686666;
+	color: #fff;
 }
 
 .customfileddialog .no_records .norecord-empty-message {
@@ -1876,9 +1876,6 @@ input.date-field-textbox {
 	padding-left: 8px;
 }
 
-.date_range_combo {
-	width: 120px;
-}
 
 .Transactions_center .gwt-Button {
 	margin-top: 8px;
@@ -2102,4 +2099,14 @@ input.date-field-textbox {
 	display: -webkit-box;
 	-webkit-box-pack:justify;
 	width:100%;
+}
+
+#PortletPage .firstRow {
+	background: #226B73;
+	background: -webkit-gradient(linear, left top, left bottom, from(#CCC),
+		to(#ABABAB) );
+	background: -o-linear-gradient(top, #CCC, #ABABAB);
+	color: white;
+	padding: 3px 0px 5px 5px;
+	border-radius: 5px 5px 0 0;
 }

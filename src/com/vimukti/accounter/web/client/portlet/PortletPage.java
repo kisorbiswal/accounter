@@ -10,12 +10,12 @@ import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 
 public class PortletPage extends AbsolutePanel implements DragHandler {
 
@@ -49,7 +49,8 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 	}
 
 	private void setup() {
-		StyledPanel panel = new StyledPanel("portletPagePanel");
+		HorizontalPanel panel = new HorizontalPanel();
+		panel.addStyleName("portletPagePanel");
 		this.add(panel);
 		dragController = new PickupDragController(this, false);
 		dragController.setBehaviorMultipleSelection(false);
