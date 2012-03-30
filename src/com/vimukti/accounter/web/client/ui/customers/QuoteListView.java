@@ -233,7 +233,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 		} else if (getViewType().equalsIgnoreCase(messages.accepted())) {
 			viwType = ClientEstimate.STATUS_ACCECPTED;
 		} else if (getViewType().equalsIgnoreCase(messages.applied())) {
-			viwType = ClientEstimate.STATUS_APPLIED;
+			viwType = ClientTransaction.STATUS_COMPLETED;
 		} else if (getViewType().equalsIgnoreCase(messages.close())) {
 			viwType = ClientEstimate.STATUS_CLOSE;
 		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {

@@ -309,7 +309,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			return messages.closed();
 		case ClientEstimate.STATUS_REJECTED:
 			return messages.rejected();
-		case ClientEstimate.STATUS_APPLIED:
 		case ClientTransaction.STATUS_COMPLETED:
 			if (type == ClientEstimate.SALES_ORDER) {
 				return messages.completed();

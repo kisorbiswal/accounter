@@ -722,21 +722,22 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 
 			estimate = getTransaction(string, AccounterCoreType.ESTIMATE,
 					context);
-			
-//			if(isUpdate)
-//			{
-//				if(estimate.getEstimateType() == ClientEstimate.CREDITS)
-//				{
-//					return "UpdateCredit";
-//				}else if(estimate.getEstimateType() == ClientEstimate.CHARGES){
-//					return "UpdateCharges";
-//				}else if(estimate.getEstimateType() == ClientEstimate.QUOTES)
-//				{
-//					return "UpdateQuote";
-//				}else if(estimate.getEstimateType() == ClientEstimate.SALES_ORDER){
-//					return "UpdateSalesOrder";
-//				}
-//			}
+
+			// if(isUpdate)
+			// {
+			// if(estimate.getEstimateType() == ClientEstimate.CREDITS)
+			// {
+			// return "UpdateCredit";
+			// }else if(estimate.getEstimateType() == ClientEstimate.CHARGES){
+			// return "UpdateCharges";
+			// }else if(estimate.getEstimateType() == ClientEstimate.QUOTES)
+			// {
+			// return "UpdateQuote";
+			// }else if(estimate.getEstimateType() ==
+			// ClientEstimate.SALES_ORDER){
+			// return "UpdateSalesOrder";
+			// }
+			// }
 			if (estimate == null) {
 				if (estimateType == ClientEstimate.QUOTES) {
 					addFirstMessage(
@@ -774,8 +775,7 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			estimate.setEstimateType(estimateType);
 		}
 		setTransaction(estimate);
-		
-		
+
 		return null;
 	}
 
@@ -835,7 +835,7 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			return getMessages().closed();
 		case ClientEstimate.STATUS_REJECTED:
 			return getMessages().rejected();
-		case ClientEstimate.STATUS_APPLIED:
+		case ClientEstimate.STATUS_COMPLETED:
 			if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
 				return getMessages().completed();
 			}

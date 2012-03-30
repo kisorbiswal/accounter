@@ -23,7 +23,7 @@ public class Estimate extends Transaction {
 
 	public static final int STATUS_REJECTED = 1;
 
-	public static final int STATUS_APPLIED = 5;
+//	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_ACCECPTED = 2;
 
