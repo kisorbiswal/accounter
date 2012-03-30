@@ -224,7 +224,7 @@ public class QuotePdfTemplate implements PrintTemplete {
 			List<TransactionItem> transactionItems = estimate
 					.getTransactionItems();
 
-		//	double currencyFactor = estimate.getCurrencyFactor();
+			// double currencyFactor = estimate.getCurrencyFactor();
 			String symbol = estimate.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -237,12 +237,12 @@ public class QuotePdfTemplate implements PrintTemplete {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() , symbol);
+						item.getUnitPrice(), symbol);
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() , symbol);
+						item.getLineTotal(), symbol);
 
 				String vatAmount = Utility.decimalConversation(
-						item.getVATfraction() , symbol);
+						item.getVATfraction(), symbol);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -275,19 +275,19 @@ public class QuotePdfTemplate implements PrintTemplete {
 
 			// for displaying sub total, vat total, total
 			String subtotal = Utility.decimalConversation(
-					estimate.getNetAmount() , symbol);
+					estimate.getNetAmount(), symbol);
 			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatTotal", Utility.decimalConversation(
-							(estimate.getTaxTotal() ), symbol));
+							(estimate.getTaxTotal()), symbol));
 					t.addBlock("VatTotal");
 				}
 			}
 
-			String total = Utility.decimalConversation(estimate.getTotal()
-					, symbol);
+			String total = Utility.decimalConversation(estimate.getTotal(),
+					symbol);
 			t.setVariable("total", total);
 
 			// if (estimate.getMemo().trim().length() > 0) {
@@ -521,7 +521,7 @@ public class QuotePdfTemplate implements PrintTemplete {
 		case ClientEstimate.STATUS_REJECTED:
 			return messages.rejected();
 
-		case ClientEstimate.STATUS_APPLIED:
+		case ClientEstimate.STATUS_COMPLETED:
 			return messages.closed();
 
 		default:

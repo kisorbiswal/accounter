@@ -58,7 +58,7 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 					}
 					if (type.equals(SalesOrderListCommand.this.getMessages()
 							.completed())) {
-						if (salesOrder.getStatus() == Estimate.STATUS_APPLIED)
+						if (salesOrder.getStatus() == Estimate.STATUS_COMPLETED)
 							list.add(salesOrder);
 					}
 					if (type.equals(SalesOrderListCommand.this.getMessages()
