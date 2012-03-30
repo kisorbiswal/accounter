@@ -66,7 +66,7 @@ public class Company implements IAccounterServerCore {
 	private byte[] encryptedPassword;
 
 	private byte[] passwordRecoveryKey;
-	
+
 	private byte[] secretKey;
 
 	private Boolean contactSupport;
@@ -86,6 +86,8 @@ public class Company implements IAccounterServerCore {
 
 	// not used yet
 	int firstMonthOfIncomeTaxYear;
+
+	private int transactionsLimit = 10;
 
 	int taxForm;
 
@@ -1664,5 +1666,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setPasswordRecoveryKey(byte[] passwordRecoveryKey) {
 		this.passwordRecoveryKey = passwordRecoveryKey;
+	}
+
+	public int getTransactionsLimit() {
+		return transactionsLimit;
+	}
+
+	public void setTransactionsLimit(int transactionsLimit) {
+		this.transactionsLimit = transactionsLimit;
 	}
 }

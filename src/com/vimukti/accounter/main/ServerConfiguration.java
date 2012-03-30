@@ -45,7 +45,6 @@ public class ServerConfiguration {
 	private static int gracePeriod;
 	private static boolean isInLive;
 	private static String paypalButtonId;
-	private static int freeTransactionsCount;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -97,9 +96,6 @@ public class ServerConfiguration {
 			enableEncryption = prop.getProperty("enableEncryption", "false")
 					.equalsIgnoreCase("true");
 			paypalButtonId = prop.getProperty("paypalButtonId", "No Id");
-
-			freeTransactionsCount = Integer.parseInt(prop.getProperty(
-					"freeTransactionsCount", "10"));
 
 			setValidIP(prop.getProperty("validIP", null));
 			setEmailLogger(prop.getProperty("emailLogger", null));
@@ -371,9 +367,5 @@ public class ServerConfiguration {
 
 	public static String getPaypalButtonId() {
 		return paypalButtonId;
-	}
-
-	public static int getFreeTransactionsCount() {
-		return freeTransactionsCount;
 	}
 }

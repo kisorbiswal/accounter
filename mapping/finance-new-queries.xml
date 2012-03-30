@@ -87,7 +87,7 @@
 				SELECT COUNT(*) AS TRANSACTION_COUNT
 				FROM   TRANSACTION
 				WHERE  company_id = :companyId
-       			AND created_date > :startDate 
+       			AND created_date >= :startDate 
 				]]>
 
 	</sql-query>

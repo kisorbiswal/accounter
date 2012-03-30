@@ -216,6 +216,7 @@
 			type="binary"></property>
 		<property name="passwordRecoveryKey" column="PASSWORD_RECOVERY_KEY"
 			type="binary"></property>
+		<property name="transactionsLimit" column="TRANSACTION_LIMIT"></property>
 		<property name="contactSupport" column="CONTACT_SUPPORT"></property>
 		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
 		<property name="isLocked" column="IS_LOCKED"></property>

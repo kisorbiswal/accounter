@@ -667,8 +667,6 @@ public class CompanyManager extends Manager {
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
 				ClientCompany.class);
 		clientCompany.setTransactionsCount(getTransactionsCount(companyId));
-		clientCompany.setTransactionsLimit(ServerConfiguration
-				.getFreeTransactionsCount());
 		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate(companyId);
 
 		clientCompany.setTransactionStartDate(dates[0]);
