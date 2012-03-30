@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
@@ -98,6 +99,7 @@ public class SignupServlet extends BaseServlet {
 					client.setFullName(Global.get().messages()
 							.fullName(firstName, lastName));
 					client.setPassword(passwordWithHash);
+					client.setPasswordRecoveryKey(EU.encryptPassword(password));
 					client.setPhoneNo(phoneNumber);
 					client.setCountry(country);
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
@@ -145,6 +147,7 @@ public class SignupServlet extends BaseServlet {
 				client.setLastName(lastName);
 				client.setFullName(firstName + " " + lastName);
 				client.setPassword(passwordWithHash);
+				client.setPasswordRecoveryKey(EU.encryptPassword(password));
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
@@ -193,7 +196,7 @@ public class SignupServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} 
+		}
 
 		return;
 	}

@@ -13,6 +13,7 @@
 		<property name="fullName" column="FULL_NAME"></property>
 		<property name="emailId" unique="true" column="EMAIL_ID"></property>
 		<property name="password" column="PASSWORD"></property>
+		<property name="passwordRecoveryKey" column="PASSWORD_REOVERY_KEY"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="phoneNumber" column="PHONE_NUMBER"></property>
 		<property name="country" column="COUNTRY"></property>
@@ -36,7 +37,7 @@
 		</set>
 		<many-to-one name="clientSubscription"
 			class="com.vimukti.accounter.core.ClientSubscription" lazy="false"
-			cascade="save-update" column="CLIENT_SUBSCRIPTION" >
+			cascade="save-update" column="CLIENT_SUBSCRIPTION">
 		</many-to-one>
 	</class>
 
@@ -44,8 +45,8 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="subscription" column="SUBSCRIPTION_ID" class="Subscription"
-			not-null="true">
+		<many-to-one name="subscription" column="SUBSCRIPTION_ID"
+			class="Subscription" not-null="true">
 		</many-to-one>
 		<property name="lastModified" column="LAST_MODIFIED"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>

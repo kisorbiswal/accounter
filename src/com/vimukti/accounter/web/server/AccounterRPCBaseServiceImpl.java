@@ -142,7 +142,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				e.printStackTrace();
 			}
 		}
-
+		if (getCompanySecretFromDB(serverCompanyID) != null) {
+			if (!EU.hasChiper()) {
+				return false;
+			}
+		}
 		if (islockedCompany(serverCompanyID)) {
 			return false;
 		}
@@ -160,6 +164,14 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		CompanyPreferenceThreadLocal.set(preferences);
 
 		return true;
+	}
+
+	public byte[] getCompanySecretFromDB(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getCompanySecret");
+		namedQuery.setParameter("companyId", companyId);
+		byte[] secret = (byte[]) namedQuery.uniqueResult();
+		return secret;
 	}
 
 	private boolean isCompanyExists(Long companyID) {

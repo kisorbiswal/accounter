@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -116,6 +117,8 @@ public class ChangePasswordCommand extends AbstractCommand {
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(client
 				.getEmailId() + Client.PASSWORD_HASH_STRING + pass1));
 		client.setPassword(passwordWithHash);
+		client.setPasswordRecoveryKey(EU.encryptPassword(pass1));
+		
 		hibernateSession.saveOrUpdate(client);
 		beginTransaction.commit();
 		markDone();

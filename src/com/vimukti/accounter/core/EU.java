@@ -1,7 +1,19 @@
 package com.vimukti.accounter.core;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.spec.KeySpec;
+import java.security.spec.RSAPrivateKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -223,4 +235,73 @@ public class EU {
 	public static void removeKey(String sessionId) {
 		keys.remove(sessionId);
 	}
+
+	public static byte[] encryptPassword(String password) {
+		try {
+			PublicKey pubKey = readPublicKeyFromFile();
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+			byte[] cipherData = cipher.doFinal(password.getBytes());
+			return cipherData;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String decryptPassword(byte[] password) {
+		try {
+			PrivateKey pubKey = readPrivateKeyFromFile();
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, pubKey);
+			byte[] cipherData = cipher.doFinal(password);
+			return new String(cipherData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static PrivateKey readPrivateKeyFromFile() throws IOException {
+		InputStream in = new FileInputStream(ServerConfiguration.getKeysDir()
+				+ File.separator + "private.key");
+		ObjectInputStream oin = new ObjectInputStream(new BufferedInputStream(
+				in));
+		try {
+			BigInteger m = (BigInteger) oin.readObject();
+			BigInteger e = (BigInteger) oin.readObject();
+			RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(m, e);
+			KeyFactory fact = KeyFactory.getInstance("RSA");
+			PrivateKey privateKey = fact.generatePrivate(keySpec);
+			return privateKey;
+		} catch (Exception e) {
+			throw new RuntimeException("Spurious serialisation error", e);
+		} finally {
+			oin.close();
+		}
+	}
+
+	private static PublicKey readPublicKeyFromFile() throws IOException {
+		InputStream in = new FileInputStream(ServerConfiguration.getKeysDir()
+				+ File.separator + "public.key");
+		ObjectInputStream oin = new ObjectInputStream(new BufferedInputStream(
+				in));
+		try {
+			BigInteger m = (BigInteger) oin.readObject();
+			BigInteger e = (BigInteger) oin.readObject();
+			RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
+			KeyFactory fact = KeyFactory.getInstance("RSA");
+			PublicKey pubKey = fact.generatePublic(keySpec);
+			return pubKey;
+		} catch (Exception e) {
+			throw new RuntimeException("Spurious serialisation error", e);
+		} finally {
+			oin.close();
+		}
+	}
+
+	public static boolean hasChiper() {
+		return CipherThreadLocal.get() != null;
+	}
+
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -48,6 +49,7 @@ public class OpenIDPasswordServlet extends BaseServlet {
 								+ password.trim()));
 				if (client.getPassword().equals(passwordHash)) {
 					client.setPassword(passwordWord);
+					client.setPasswordRecoveryKey(EU.encryptPassword(password.trim()));
 					HibernateUtil.getCurrentSession().saveOrUpdate(client);
 				}
 				if (!client.getPassword().equals(passwordWord)) {

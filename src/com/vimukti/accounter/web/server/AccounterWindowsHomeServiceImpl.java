@@ -31,6 +31,7 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.SupportedUser;
@@ -207,6 +208,8 @@ public class AccounterWindowsHomeServiceImpl extends
 					client.setFullName(details.getFirstName() + " "
 							+ details.getLastName());
 					client.setPassword(passwordWithHash);
+					client.setPasswordRecoveryKey(EU.encryptPassword(details
+							.getPassword()));
 					client.setPhoneNo(details.getPhoneNum());
 					client.setCountry(details.getCountry());
 					client.setSubscribedToNewsLetters(details
@@ -238,6 +241,8 @@ public class AccounterWindowsHomeServiceImpl extends
 				client.setFullName(details.getFirstName() + " "
 						+ details.getLastName());
 				client.setPassword(passwordWithHash);
+				client.setPasswordRecoveryKey(EU.encryptPassword(details
+						.getPassword()));
 				client.setPhoneNo(details.getPhoneNum());
 				client.setCountry(details.getCountry());
 				client.setSubscribedToNewsLetters(details.isSubscribeUpdates());
@@ -496,6 +501,8 @@ public class AccounterWindowsHomeServiceImpl extends
 				client = (Client) query.uniqueResult();
 				if (client != null) {
 					client.setPassword(passwordWord);
+					client.setPasswordRecoveryKey(EU.encryptPassword(password
+							.trim()));
 					session.saveOrUpdate(client);
 				}
 			}
@@ -839,6 +846,7 @@ public class AccounterWindowsHomeServiceImpl extends
 			// update password and set isActive true
 			client.setPassword(HexUtil.bytesToHex(Security.makeHash(emailId
 					+ password.trim())));
+			client.setPasswordRecoveryKey(EU.encryptPassword(password.trim()));
 			client.setRequirePasswordReset(false);
 
 			try {

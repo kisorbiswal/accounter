@@ -141,6 +141,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			byte[] userSecret = null;
 			byte[] encryptedPass = null;
 			EU.removeCipher();
+			byte[] passworedRecoveryKey = null;
 			if (password != null) {
 				try {
 					byte[] s3 = EU.generateSymetric();
@@ -156,6 +157,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 					encryptedPass = EU.encrypt(csk, prk);
 					Encrypter.sendCompanyPasswordRecoveryKey(
 							client.getEmailId(), string);
+					passworedRecoveryKey = EU.encryptPassword(password);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -166,6 +168,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
 			company.setEncryptedPassword(encryptedPass);
+			company.setPasswordRecoveryKey(passworedRecoveryKey);
 			company.setSecretKey(companySecret);
 			company.setVersion(Company.CURRENT_VERSION);
 
@@ -357,6 +360,11 @@ public class AccounterCompanyInitializationServiceImpl extends
 				e.printStackTrace();
 			}
 		}
+		if (getCompanySecretFromDB(serverCompanyID) != null) {
+			if (!EU.hasChiper()) {
+				return false;
+			}
+		}
 
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null || company.isLocked()) {
@@ -368,6 +376,14 @@ public class AccounterCompanyInitializationServiceImpl extends
 		}
 		AccounterThreadLocal.set(user);
 		return true;
+	}
+
+	public byte[] getCompanySecretFromDB(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getCompanySecret");
+		namedQuery.setParameter("companyId", companyId);
+		byte[] secret = (byte[]) namedQuery.uniqueResult();
+		return secret;
 	}
 
 	private boolean islockedCompany(Long companyID) {
