@@ -1,8 +1,13 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -108,6 +113,16 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 			w.put(messages.address(), this.address.address1);
 
 		w.put(messages.email(), this.email);
+	}
+	
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(this.getID());
+		accounterCore.setObjectType(AccounterCoreType.LOCATION);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
 	}
 
 }

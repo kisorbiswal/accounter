@@ -73,8 +73,10 @@ import com.vimukti.accounter.web.client.ui.company.ManageFiscalYearAction;
 import com.vimukti.accounter.web.client.ui.company.ManageItemTaxAction;
 import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
 import com.vimukti.accounter.web.client.ui.company.MergeAccountsAction;
+import com.vimukti.accounter.web.client.ui.company.MergeClassAction;
 import com.vimukti.accounter.web.client.ui.company.MergeFinancialAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.MergeItemsAction;
+import com.vimukti.accounter.web.client.ui.company.MergeLocationAction;
 import com.vimukti.accounter.web.client.ui.company.MergeVendorAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
@@ -1365,7 +1367,12 @@ public class ActionFactory {
 	public static MergeItemsAction getItemMergeAction() {
 		return new MergeItemsAction();
 	}
-
+	public static MergeClassAction getClassMergeAction() {
+		return new MergeClassAction();
+	}
+	public static MergeLocationAction getLocationMergeAction() {
+		return new MergeLocationAction();
+	}
 	public static BudgetOverviewReportAction getBudgetOverView() {
 		return new BudgetOverviewReportAction();
 	}
