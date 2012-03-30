@@ -803,7 +803,7 @@ input[type="text"] {
 	padding: 3px 5px 5px 27px;
 }
 
-#addNewButton,#exportButton,#closeButton,#searchButton,#configButton,#printButton,#addVendorButton,#editButton,#addCustomerButton
+#addNewButton,#exportButton,#closeButton,#searchButton,#configButton,#printButton,#addVendorButton,#editButton,#addCustomerButton,#next,#previous
 	{
 	background-repeat: no-repeat;
 	background-position: 5px center;
@@ -815,12 +815,19 @@ input[type="text"] {
 	border: 1px solid #A0A0A0;
 }
 
+#next {
+	background-position: right center;
+	padding: 0 22px 0 5px !important;
+	margin-left: -3px;
+	border-radius: 0 5px 5px 0px;
+}
+
 #addCustomerButton {
 	padding-left: 25px;
 	padding-right: 5px;
 }
 
-#editButton {
+#editButton,#previous {
 	padding-left: 25px;
 	padding-right: 5px;
 }
@@ -857,6 +864,18 @@ input[type="text"] {
 }
 
 #configButton:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#previous:hover {
+	background-color: #5F5F5F;
+	color: white;
+	border: 1px solid #5F5F5F;
+}
+
+#next:hover {
 	background-color: #5F5F5F;
 	color: white;
 	border: 1px solid #5F5F5F;

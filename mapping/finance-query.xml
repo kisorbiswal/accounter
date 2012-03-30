@@ -11611,6 +11611,110 @@
 		]]>
 	</sql-query>
 
+	<sql-query name="getPrevTransaction">
+		<query-param name="company" type="long" />
+		<query-param name="id" type="long" />
+		<query-param name="type" type="int" />
+		<query-param name="subType" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<![CDATA[
+			SELECT T.ID AS TRANSACTION_ID 
+				FROM TRANSACTION T 
+				LEFT JOIN TRANSACTION T1 ON T1.ID =  :id
+				LEFT JOIN ESTIMATE E ON E.ID = T.ID 
+					WHERE 
+					CASE 
+						WHEN T.T_DATE > T1.T_DATE
+						THEN FALSE 
+					ELSE 
+						CASE 
+							WHEN T.T_DATE < T1.T_DATE
+							THEN TRUE
+						ELSE
+							CASE 
+								WHEN T.NUMBER > T1.NUMBER
+								THEN FALSE 
+							ELSE 
+								CASE 
+									WHEN T.NUMBER < T1.NUMBER
+									THEN TRUE
+								ELSE
+									CASE 
+										WHEN :id != 0 
+										THEN T.ID < :id
+									ELSE 
+										TRUE 
+									END 
+								END
+							END 
+						END 
+					END 
+					AND T.T_TYPE = :type 
+					AND	
+						CASE 
+							WHEN T.T_TYPE = 7 
+							THEN E.ESTIMATETYPE = :subType 
+						ELSE 
+							TRUE 
+						END 
+					AND T.COMPANY_ID = :company 
+					ORDER BY T.T_DATE DESC,T.NUMBER DESC,T.ID DESC LIMIT 1
+		]]>
+	</sql-query>
+
+	<sql-query name="getNextTransaction">
+		<query-param name="company" type="long" />
+		<query-param name="id" type="long" />
+		<query-param name="type" type="int" />
+		<query-param name="subType" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<![CDATA[
+			SELECT T.ID AS TRANSACTION_ID 
+				FROM TRANSACTION T 
+				LEFT JOIN TRANSACTION T1 ON T1.ID = :id
+				LEFT JOIN ESTIMATE E ON E.ID = T.ID 
+					WHERE 
+					CASE 
+						WHEN T.T_DATE < T1.T_DATE
+						THEN FALSE 
+					ELSE 
+						CASE 
+							WHEN T.T_DATE > T1.T_DATE
+							THEN TRUE
+						ELSE
+							CASE 
+								WHEN T.NUMBER < T1.NUMBER
+								THEN FALSE 
+							ELSE 
+								CASE 
+									WHEN T.NUMBER > T1.NUMBER
+									THEN TRUE
+								ELSE
+									CASE 
+										WHEN :id != 0 
+										THEN T.ID > :id
+									ELSE 
+										TRUE 
+									END 
+								END
+							END 
+						END 
+					END 
+					AND T.T_TYPE = :type 
+					AND	
+						CASE 
+							WHEN T.T_TYPE = 7 
+							THEN E.ESTIMATETYPE = :subType 
+						ELSE 
+							TRUE 
+						END 
+					AND T.COMPANY_ID = :company 
+					ORDER BY T.T_DATE ,T.NUMBER ,T.ID LIMIT 1
+		]]>
+	</sql-query>
+
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

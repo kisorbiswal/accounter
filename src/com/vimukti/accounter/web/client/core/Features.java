@@ -35,6 +35,6 @@ public class Features {
 	public static final String TRANSACTIONS = "transactions";
 	public static final String FIXED_ASSET = "fixed asset";
 	public static final String IMPORT = "import";
-	
+	public static final String TRANSACTION_NAVIGATION = "transaction navigation";
 
 }

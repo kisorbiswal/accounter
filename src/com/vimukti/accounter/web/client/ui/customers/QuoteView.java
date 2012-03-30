@@ -78,7 +78,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	private Double salesTax;
 	private ShipToForm shipToAddress;
-	private int type;
+	public int type;
 	private String title;
 	private SelectCombo statusCombo;
 

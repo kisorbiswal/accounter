@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.help.HelpDialog;
@@ -236,6 +237,8 @@ public class ViewManager extends FlowPanel {
 
 	private ButtonGroup group9;
 
+	private ButtonGroup group10;
+
 	private String getUrl() {
 		return "http://help.accounterlive.com/" + url;
 	}
@@ -435,6 +438,8 @@ public class ViewManager extends FlowPanel {
 	}
 
 	public void updateButtons() {
+		addRequiredButtons();
+
 		if (existingView instanceof IEditableView
 				&& ((IEditableView) existingView).canEdit()) {
 			group4.add(editButton);
@@ -503,6 +508,7 @@ public class ViewManager extends FlowPanel {
 		} else {
 			removeAddVendorButton();
 		}
+
 	}
 
 	/**
@@ -645,6 +651,9 @@ public class ViewManager extends FlowPanel {
 
 		group9 = new ButtonGroup();
 		group9.getElement().setId("group9");
+
+		group10 = new ButtonGroup();
+		group10.getElement().setId("group10");
 
 		viewTitleLabel = new Label(messages.dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
@@ -811,6 +820,7 @@ public class ViewManager extends FlowPanel {
 		group1.add(previousButton);
 		group1.add(nextButton);
 		group1.add(viewTitleLabel);
+		addRequiredButtons();
 		group4.add(editButton);
 		group9.add(addNewButton);
 		group2.add(exportButton);
@@ -857,6 +867,9 @@ public class ViewManager extends FlowPanel {
 		buttonsPanel.add(group2);
 		buttonsPanel.add(group9);
 		buttonsPanel.add(group4);
+		if (Accounter.hasPermission(Features.TRANSACTION_NAVIGATION)) {
+			buttonsPanel.add(group10);
+		}
 		buttonsPanel.add(group7);
 		buttonsPanel.add(group8);
 		buttonsPanel.add(group6);
@@ -865,6 +878,14 @@ public class ViewManager extends FlowPanel {
 		toolBar.add(buttonsPanel);
 
 		toolBar.addStyleName("group-toolbar");
+	}
+
+	protected void addRequiredButtons() {
+		group10.clear();
+		if (existingView instanceof AbstractTransactionBaseView) {
+			AbstractTransactionBaseView view = (AbstractTransactionBaseView) existingView;
+			view.addButtons(group10);
+		}
 	}
 
 	public void toggleHelpPanel(boolean isHelpPanel) {

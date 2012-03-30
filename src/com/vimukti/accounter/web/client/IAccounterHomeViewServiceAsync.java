@@ -583,7 +583,11 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getCashPurchaseByEstimateId(long id,
 			AsyncCallback<ClientCashPurchase> callback);
 
-	public void getTaxAdjustmentsList(int viewType, long startDate, long endDate, int start, int length,
+	public void getTaxAdjustmentsList(int viewType, long startDate,
+			long endDate, int start, int length,
 			AsyncCallback<PaginationList<ClientTAXAdjustment>> callback);
+
+	void getTransaction(boolean isPrev, long id, int type, int subType,
+			AsyncCallback<Long> callback);
 
 }

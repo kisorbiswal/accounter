@@ -153,7 +153,7 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("Save-&-New.png")
 	ImageResource saveAndNew();
-	
+
 	@Source("save_as_drafts.png")
 	ImageResource saveAsDrafts();
 
@@ -266,4 +266,10 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("new.jpg")
 	ImageResource createAction();
+
+	@Source("previous.png")
+	ImageResource previous();
+
+	@Source("next.png")
+	ImageResource next();
 }

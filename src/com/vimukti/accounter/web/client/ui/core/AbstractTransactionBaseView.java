@@ -66,8 +66,10 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -78,11 +80,13 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.customers.QuoteView;
 import com.vimukti.accounter.web.client.ui.customers.RecurringTransactionDialog;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
@@ -2074,5 +2078,69 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	protected boolean isSaveButtonAllowed() {
 		return Utility.isUserHavePermissions(transactionType);
+	}
+
+	public void addButtons(ButtonGroup group) {
+		ImageButton prev = new ImageButton(messages.previous(), Accounter
+				.getFinanceImages().previous());
+		prev.getElement().setId("previous");
+		prev.setTitle(messages.clickThisToOpen(messages.previousTransaction()));
+		prev.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getTransaction(true);
+			}
+		});
+
+		ImageButton next = new ImageButton(messages.next1(), Accounter
+				.getFinanceImages().next());
+		next.getElement().setId("next");
+		next.setTitle(messages.clickThisToOpen(messages.nextTransaction()));
+		next.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getTransaction(false);
+			}
+		});
+
+		group.add(prev);
+		group.add(next);
+	}
+
+	protected void getTransaction(boolean isPrev) {
+		if (!isPrev && (transaction == null || transaction.id == 0)) {
+			return;
+		}
+		final int subType = (transactionType == 7) ? ((QuoteView) this).type
+				: 0;
+		AsyncCallback<Long> callback = new AsyncCallback<Long>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(Long result) {
+				getManager().closeCurrentView();
+				if (result == null) {
+					openNewView(subType);
+					return;
+				}
+				ReportsRPC.openTransactionView(transactionType, result);
+			}
+		};
+		Accounter.createHomeService().getTransaction(isPrev, transaction.id,
+				transactionType, subType, callback);
+	}
+
+	protected void openNewView(int subType) {
+		Action action = UIUtils.getAddNewAction(transactionType, subType);
+		if (action != null) {
+			action.run(null, false);
+		}
 	}
 }

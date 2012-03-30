@@ -6237,4 +6237,10 @@ public interface AccounterMessages extends Messages {
 	public String addNewmessageOrTask();
 
 	public String passwordHint();
+	
+	public String next1();
+
+	public String previousTransaction();
+
+	public String nextTransaction();
 }

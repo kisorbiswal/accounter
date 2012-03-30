@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -2069,5 +2070,204 @@ public class UIUtils {
 			alert(e);
 		}
 	}-*/;
+
+	public static Action getAddNewAction(int transactionType, int subType) {
+		Action action = null;
+		switch (transactionType) {
+
+		case ClientTransaction.TYPE_PAY_BILL:
+			action = ActionFactory.getPayBillsAction();
+			break;
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
+			action = ActionFactory.getNewVendorPaymentAction();
+			break;
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			action = ActionFactory.getMakeDepositAction();
+			break;
+		case ClientTransaction.TYPE_ENTER_BILL:
+			action = ActionFactory.getEnterBillsAction();
+			break;
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+			action = ActionFactory.getNewCashPurchaseAction();
+			break;
+		case ClientTransaction.TYPE_CASH_SALES:
+			action = ActionFactory.getNewCashSaleAction();
+		case IAccounterCore.RECURING_TRANSACTION:
+			action = ActionFactory.getRecurringTransactionDialogAction();
+			break;
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			action = ActionFactory.getWriteChecksAction();
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+			action = ActionFactory.getCustomerRefundAction();
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+			action = ActionFactory.getNewCreditsAndRefundsAction();
+			break;
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+			action = ActionFactory.getReceivePaymentAction();
+			break;
+		case ClientTransaction.TYPE_INVOICE:
+			action = ActionFactory.getNewInvoiceAction();
+			break;
+		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			action = ActionFactory.getCreditCardChargeAction();
+			break;
+		case ClientTransaction.TYPE_ESTIMATE:
+			action = ActionFactory.getNewQuoteAction(subType);
+			break;
+		case ClientTransaction.TYPE_ISSUE_PAYMENT:
+			action = ActionFactory.getIssuePaymentsAction();
+			break;
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+			action = ActionFactory.getNewCreditMemoAction();
+			break;
+		case ClientTransaction.TYPE_PAY_TAX:
+			action = ActionFactory.getpayTAXAction();
+			break;
+		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+			action = ActionFactory.getNewJournalEntryAction();
+			break;
+
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+			action = ActionFactory.getPurchaseOrderAction();
+			break;
+
+		case ClientTransaction.TYPE_ITEM_RECEIPT:
+			action = ActionFactory.getItemReceiptAction();
+			break;
+
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			action = ActionFactory.CashExpenseAction();
+			break;
+
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			action = ActionFactory.CreditCardExpenseAction();
+			break;
+
+		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+			action = ActionFactory.EmployeeExpenseAction();
+			break;
+
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+			action = ActionFactory.getNewCustomerPaymentAction();
+			break;
+		case ClientTransaction.TYPE_RECEIVE_TAX:
+			action = ActionFactory.getreceiveVATAction();
+			break;
+		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+			action = ActionFactory.getAdjustTaxAction();
+			break;
+		case ClientTransaction.TYPE_TDS_CHALLAN:
+			action = ActionFactory.getTDSChalanDetailsView();
+			break;
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			action = ActionFactory.getDepositAction();
+			break;
+
+		// These cases were included to open the views other than transactions.
+		case IAccounterCore.ACCOUNT:
+			action = ActionFactory.getNewAccountAction();
+			break;
+		case IAccounterCore.TAXGROUP:
+			action = ActionFactory.getManageSalesTaxGroupsAction();
+			break;
+		case IAccounterCore.TAXITEM:
+			action = ActionFactory.getNewVatItemAction();
+			break;
+		case IAccounterCore.TAXAGENCY:
+			action = ActionFactory.getNewTAXAgencyAction();
+			break;
+		case IAccounterCore.CUSTOMER_GROUP:
+			action = ActionFactory.getCustomerGroupListAction();
+			break;
+		case IAccounterCore.VENDOR_GROUP:
+			action = ActionFactory.getVendorGroupListAction();
+			break;
+		case IAccounterCore.PAYMENT_TERMS:
+			action = ActionFactory.getPaymentTermListAction();
+			break;
+		case IAccounterCore.SHIPPING_METHOD:
+			action = ActionFactory.getShippingMethodListAction();
+			break;
+		case IAccounterCore.SHIPPING_TERMS:
+			action = ActionFactory.getShippingTermListAction();
+			break;
+		case IAccounterCore.ITEM_GROUP:
+			action = ActionFactory.getItemGroupListAction();
+			break;
+		case IAccounterCore.CREDIT_RATING:
+			action = ActionFactory.getCreditRatingListAction();
+			break;
+		case IAccounterCore.CURRENCY:
+			action = ActionFactory.getCurrencyGroupListAction();
+			break;
+		case IAccounterCore.ITEM:
+			action = ActionFactory.getNewItemAction(true);
+			break;
+		case IAccounterCore.ASSEMBLY:
+			action = ActionFactory.getInventoryAssemblyAction();
+			break;
+		case IAccounterCore.VENDOR:
+			action = ActionFactory.getNewVendorAction();
+			break;
+		case IAccounterCore.CUSTOMER:
+			action = ActionFactory.getNewCustomerAction();
+			break;
+		case IAccounterCore.SALES_PERSON:
+			action = ActionFactory.getNewSalesperSonAction();
+			break;
+		case IAccounterCore.TAXCODE:
+			action = ActionFactory.getNewTAXCodeAction();
+			break;
+		case IAccounterCore.STOCK_ADJUSTMENT:
+			action = ActionFactory.getStockAdjustmentAction();
+			break;
+		case IAccounterCore.WAREHOUSE:
+			action = ActionFactory.getWareHouseViewAction();
+			break;
+		case IAccounterCore.STOCK_TRANSFER:
+			action = ActionFactory.getWareHouseTransferAction();
+			break;
+		case IAccounterCore.MEASUREMENT:
+			action = ActionFactory.getAddMeasurementAction();
+			break;
+		case IAccounterCore.USER:
+			action = ActionFactory.getInviteUserAction();
+			break;
+		case IAccounterCore.BRANDING_THEME:
+			action = ActionFactory.getNewBrandThemeAction();
+			break;
+		case IAccounterCore.LOCATION:
+			action = ActionFactory.getLocationGroupListAction();
+			break;
+		case IAccounterCore.ACCOUNTER_CLASS:
+			action = ActionFactory.getAccounterClassGroupListAction();
+			break;
+		case IAccounterCore.BANK_ACCOUNT:
+			action = ActionFactory.getNewBankAccountAction();
+			break;
+		case IAccounterCore.FIXED_ASSET:
+			action = ActionFactory.getNewFixedAssetAction();
+			break;
+		case IAccounterCore.BUDGET:
+			action = ActionFactory.getNewBudgetAction();
+			break;
+		case IAccounterCore.RECONCILIATION:
+			action = ActionFactory.getNewReconciliationAction();
+			break;
+		case IAccounterCore.TDSCHALANDETAIL:
+			action = ActionFactory.getTDSChalanDetailsView();
+			break;
+		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
+			action = ActionFactory.getStockAdjustmentAction();
+			break;
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			action = ActionFactory.getBuildAssemblyAction();
+			break;
+		}
+		return action;
+	}
 
 }

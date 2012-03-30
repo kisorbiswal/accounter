@@ -2394,10 +2394,17 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<ClientTAXAdjustment> getTaxAdjustmentsList(int viewType,
-			long startDate, long endDate, int start, int length) {
+	public PaginationList<ClientTAXAdjustment> getTaxAdjustmentsList(
+			int viewType, long startDate, long endDate, int start, int length) {
 		return new FinanceTool().getTaxManager().getTaxAdjustments(viewType,
 				getCompanyId(), startDate, endDate, start, length);
+	}
+
+	@Override
+	public Long getTransaction(boolean isPrev, long id, int type, int subType)
+			throws AccounterException {
+		return getFinanceTool().getCompanyManager().getTransaction(isPrev,
+				getCompanyId(), id, type, subType);
 	}
 
 }

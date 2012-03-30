@@ -519,4 +519,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	PaginationList<ClientTAXAdjustment> getTaxAdjustmentsList(int viewType,
 			long startDate, long endDate, int start, int length);
 
+	Long getTransaction(boolean isPrev, long id, int type, int subType)
+			throws AccounterException;
+
 }

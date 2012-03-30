@@ -1838,4 +1838,26 @@ public class CompanyManager extends Manager {
 				.setParameter("clientId", clientId).uniqueResult();
 		return ((Long) obj).intValue();
 	}
+
+	public Long getTransaction(boolean isPrev, Long companyId, long id,
+			int type, int subType) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Object obj = null;
+		if (isPrev) {
+			obj = session.getNamedQuery("getPrevTransaction")
+					.setParameter("company", companyId).setParameter("id", id)
+					.setParameter("type", type)
+					.setParameter("subType", subType).uniqueResult();
+		} else {
+			obj = session.getNamedQuery("getNextTransaction")
+					.setParameter("company", companyId).setParameter("id", id)
+					.setParameter("type", type)
+					.setParameter("subType", subType).uniqueResult();
+		}
+		if (obj == null) {
+			return null;
+		}
+
+		return (Long) obj;
+	}
 }
