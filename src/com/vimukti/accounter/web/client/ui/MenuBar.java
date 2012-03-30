@@ -953,7 +953,7 @@ public class MenuBar {
 		// companyMenuBar.addSeparatorItem();
 		if (isAdmin || canDoTaxTransactions) {
 			if (hasPermission(Features.IMPORT)) {
-				companyMenuBar.addMenuItem(messages.importFile(),
+				companyMenuBar.addMenuItem(messages.importFromCSV(),
 						HistoryTokens.IMPORT);
 			}
 		}

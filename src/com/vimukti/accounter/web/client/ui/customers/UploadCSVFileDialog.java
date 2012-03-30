@@ -58,7 +58,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 	@SuppressWarnings("deprecation")
 	protected void doCreateContents() {
-		setText(messages.importFile());
+		setText(messages.importFromCSV());
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -72,12 +72,12 @@ public class UploadCSVFileDialog extends BaseDialog {
 		// Create a FileUpload widget.
 
 		// Create list combo for type selection.
-		typeCombo = new SelectCombo(messages.select() + messages.type());
+		typeCombo = new SelectCombo(messages.whatYouWantToImport());
 		typeCombo.initCombo(getCSVFileList());
 		typeCombo.setComboItem(Global.get().Customer());
 		// typeCombo.getLabelWidget().addStyleName("bold_HTML");
 
-		HTML detailsHtml3 = new HTML(messages.chooseLogo());
+		HTML detailsHtml3 = new HTML(messages.chooseACSVFileToUpload());
 		detailsHtml3.addStyleName("bold_HTML");
 		selectFileToUpload = new FileUpload();
 		selectFileToUpload.setName("Import");

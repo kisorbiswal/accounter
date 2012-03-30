@@ -813,6 +813,8 @@ public interface AccounterMessages extends Messages {
 
 	public String chooselevelaccessyouwantthisusertohave();
 
+	public String chooseACSVFileToUpload();
+
 	public String chooseLogo();
 
 	public String chooseVATAgency();
@@ -5160,6 +5162,8 @@ public interface AccounterMessages extends Messages {
 
 	public String whatsnew();
 
+	public String whatYouWantToImport();
+
 	public String whoIOwe();
 
 	public String whoOwesMe();
@@ -5505,6 +5509,8 @@ public interface AccounterMessages extends Messages {
 	public String typesMustbeSame(String items);
 
 	public String importFile();
+
+	public String importFromCSV();
 
 	public String notMatched();
 
