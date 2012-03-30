@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.TransactionMeterEventType;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -21,6 +22,8 @@ import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.edittable.tables.WareHouseTransferTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.util.ChangeType;
+import com.vimukti.accounter.web.client.util.CoreEvent;
 
 public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
@@ -93,7 +96,7 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		};
 		table.setEnabled(!isInViewMode());
 		mainPanel.add(table);
-	//	mainPanel.setSize("100%", "100%");
+		// mainPanel.setSize("100%", "100%");
 
 		this.add(mainPanel);
 	}
@@ -158,6 +161,10 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
+					Accounter.getEventBus().fireEvent(
+							new CoreEvent<TransactionMeterEventType>(
+									ChangeType.DELETE,
+									new TransactionMeterEventType()));
 					enableFormItems();
 				} else {
 					onException(new AccounterException());
