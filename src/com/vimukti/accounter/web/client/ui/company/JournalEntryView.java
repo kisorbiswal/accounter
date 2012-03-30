@@ -670,11 +670,6 @@ public class JournalEntryView extends
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
 	protected ValidationResult validateBaseRequirement() {
 		ValidationResult result = new ValidationResult();
 		if (transactionItems == null || transactionItems.isEmpty()) {

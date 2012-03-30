@@ -1162,11 +1162,6 @@ public class TransferFundView extends
 	}
 
 	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
 	protected ValidationResult validateBaseRequirement() {
 		updateTransaction();
 		ValidationResult result = new ValidationResult();
