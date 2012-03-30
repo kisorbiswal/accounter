@@ -561,10 +561,15 @@ public class Accounter implements EntryPoint {
 			public void onResultSuccess(Boolean result) {
 				if (result != null && result) {
 					if (data instanceof ClientTransaction) {
-						Accounter.getEventBus().fireEvent(
-								new CoreEvent<TransactionMeterEventType>(
-										ChangeType.DELETE,
-										new TransactionMeterEventType()));
+						if (ClientFinanceDate
+								.compareMonthAndYear(new ClientFinanceDate(
+										((ClientTransaction) data)
+												.getTransactionDate()))) {
+							Accounter.getEventBus().fireEvent(
+									new CoreEvent<TransactionMeterEventType>(
+											ChangeType.DELETE,
+											new TransactionMeterEventType()));
+						}
 					}
 				}
 				getCompany().processDeleteObject(data.getObjectType(),

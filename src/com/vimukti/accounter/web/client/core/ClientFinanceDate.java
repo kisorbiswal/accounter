@@ -280,4 +280,13 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 		return date;
 	}
 
+	public static boolean compareMonthAndYear(ClientFinanceDate transactionDate) {
+		ClientFinanceDate presentDate = new ClientFinanceDate();
+		if (transactionDate.getYear() == presentDate.getYear()
+				&& transactionDate.getMonth() == presentDate.getMonth()) {
+			return true;
+		}
+		return false;
+	}
+
 }
