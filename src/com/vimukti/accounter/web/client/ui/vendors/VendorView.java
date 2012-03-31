@@ -262,11 +262,13 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		}
 		data.setName(name);
-		data.setVendorNumber(vendorNoText.getValue().toString());
-		String error = objectExist(data);
-		if (error != null && !error.isEmpty()) {
-			result.addError(vendorNoText, error);
-			return result;
+		if (getPreferences().getUseVendorId()) {
+			data.setVendorNumber(vendorNoText.getValue().toString());
+			String error = objectExist(data);
+			if (error != null && !error.isEmpty()) {
+				result.addError(vendorNoText, error);
+				return result;
+			}
 		}
 
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
@@ -368,7 +370,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNoText = new TextItem(
 				messages.payeeNumber(Global.get().Vendor()), "vendorNoText");
 		// vendorNoText.setHelpInformation(true);
-		vendorNoText.setRequired(true);
+		vendorNoText.setRequired(getPreferences().getUseVendorId());
 		// vendorNoText.setWidth(100);
 
 		fileAsText = new TextItem(messages.fileAs(), "fileAsText");
@@ -967,8 +969,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Vendor Name
 		data.setName(vendorNameText.getValue().toString() != null ? vendorNameText
 				.getValue().toString() : "");
-
-		data.setVendorNumber(vendorNoText.getValue().toString());
+		if (vendorNoText.getValue() != null) {
+			data.setVendorNumber(vendorNoText.getValue().toString());
+		}
 
 		// Setting File As
 		data.setFileAs(fileAsText.getValue().toString());
@@ -1241,24 +1244,24 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorNameText.setValue(data.getName());
 
 		if (data.getID() == 0) {
-			Accounter.createHomeService().getVendorNumber(
-					new AccounterAsyncCallback<String>() {
+			if (getPreferences().getUseVendorId()) {
+				Accounter.createHomeService().getVendorNumber(
+						new AccounterAsyncCallback<String>() {
 
-						@Override
-						public void onResultSuccess(String result) {
-							vendorNoText.setValue(result);
-						}
+							@Override
+							public void onResultSuccess(String result) {
+								vendorNoText.setValue(result);
+							}
 
-						@Override
-						public void onException(AccounterException caught) {
-						}
-					});
+							@Override
+							public void onException(AccounterException caught) {
+							}
+						});
+			}
 		} else {
 			vendorNoText.setValue(data.getVendorNumber());
 			balanceDate.setEnabled(false);
 		}
-
-		vendorNoText.setValue(data.getVendorNumber());
 
 		// Setting File as
 		fileAsText.setValue(data.getFileAs());
@@ -1468,8 +1471,9 @@ public class VendorView extends BaseView<ClientVendor> {
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		vendorNameText.setEnabled(!isInViewMode());
-		if (getCompany().getPreferences().getUseVendorId())
+		if (getCompany().getPreferences().getUseVendorId()) {
 			vendorNoText.setEnabled(!isInViewMode());
+		}
 		statusCheck.setEnabled(!isInViewMode());
 		addButton.setEnabled(!isInViewMode());
 		vendorSinceDate.setEnabled(!isInViewMode());

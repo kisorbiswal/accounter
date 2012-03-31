@@ -1300,7 +1300,7 @@ public class VendorBillView extends
 				} else if (errorCode == AccounterException.USED_IN_INVOICE) {
 					errorString = messages.usedinInvoiceSoYoucantEdit();
 				} else {
-					errorString = AccounterExceptions.getErrorString(errorCode);
+					errorString = AccounterExceptions.getErrorString(caught);
 				}
 				Accounter.showError(errorString);
 			}

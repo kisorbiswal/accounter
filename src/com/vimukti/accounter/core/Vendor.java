@@ -301,10 +301,11 @@ public class Vendor extends Payee {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		setType(Payee.TYPE_VENDOR);
-		if (this.vendorNumber == null || this.vendorNumber.trim().isEmpty()
-				|| !getCompany().getPreferences().getUseCustomerId()) {
-			this.vendorNumber = NumberUtils
-					.getNextAutoVendorNumber(getCompany());
+		if (this.vendorNumber == null || this.vendorNumber.trim().isEmpty()) {
+			if (getCompany().getPreferences().getUseVendorId()) {
+				this.vendorNumber = NumberUtils
+						.getNextAutoVendorNumber(getCompany());
+			}
 		}
 
 		return onUpdate(session);

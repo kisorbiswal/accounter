@@ -168,7 +168,7 @@ public class NumberUtils {
 
 		List list = query.list();
 		String arr[] = (String[]) list.toArray(new String[list.size()]);
-		Long longArr[] = new Long[arr.length];
+		long longArr[] = new long[arr.length];
 		for (int iii = 0; iii < arr.length; iii++) {
 			longArr[iii] = Long.parseLong(arr[iii].trim());
 		}
@@ -177,15 +177,15 @@ public class NumberUtils {
 		if ((list.size() == 0)) {
 			return "1";
 		}
-		Long number = longArr[0];
+		long number = longArr[0];
 		for (int i = 0; i < list.size(); i++) {
-			Long num = longArr[i];
+			long num = longArr[i];
 			while (number == num) {
 				number++;
 			}
 		}
 
-		return number.toString();
+		return String.valueOf(number);
 
 	}
 

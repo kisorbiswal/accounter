@@ -1229,9 +1229,7 @@ public class CashPurchaseView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = caught.getErrorCode();
-				Accounter.showError(AccounterExceptions
-						.getErrorString(errorCode));
+				Accounter.showError(AccounterExceptions.getErrorString(caught));
 			}
 
 			@Override

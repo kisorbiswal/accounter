@@ -351,9 +351,11 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// SessionUtils.updateReferenceCount(null, this, session, true);
 
 		// Logging the Customer info.
-		if (this.number == null || this.number.trim().isEmpty()
-				|| !getCompany().getPreferences().getUseCustomerId()) {
-			this.number = NumberUtils.getNextAutoCustomerNumber(getCompany());
+		if (this.number == null || this.number.trim().isEmpty()) {
+			if (getCompany().getPreferences().getUseCustomerId()) {
+				this.number = NumberUtils
+						.getNextAutoCustomerNumber(getCompany());
+			}
 		}
 		return onUpdate(session);
 	}

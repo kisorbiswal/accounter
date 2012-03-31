@@ -683,6 +683,12 @@ public class CashPurchase extends Transaction {
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
+		if (isBecameVoid() && (!getPurchaseOrders().isEmpty())) {
+			throw new AccounterException(
+					AccounterException.ERROR_PURCHASE_ORDERS_USED, Global.get()
+							.messages().cashPurchase());
+		}
+
 		return super.canEdit(clientObject);
 	}
 

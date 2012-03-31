@@ -412,13 +412,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		}
 		data.setName(custNameText.getValue().toString());
 
-		data.setNumber(custNoText.getValue().toString());
+		if (getPreferences().getUseVendorId()) {
+			data.setNumber(custNoText.getValue().toString());
 
-		String error = objectExist(data);
-		if (error != null && !error.isEmpty()) {
-			result.addError(custNoText, error);
+			String error = objectExist(data);
+			if (error != null && !error.isEmpty()) {
+				result.addError(custNoText, error);
+			}
 		}
-
 		// gridView.validateGrid();
 
 		return result;
@@ -477,7 +478,9 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// customer.setName(UIUtils.toStr(custNameText.getValue()));
 		data.setName(custNameText.getValue().toString());
 		// setting customer number
-		data.setNumber(custNoText.getValue().toString());
+		if (custNoText.getValue() != null) {
+			data.setNumber(custNoText.getValue().toString());
+		}
 
 		data.setType(ClientPayee.TYPE_CUSTOMER);
 		// Setting File As
@@ -659,7 +662,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 		custNoText = new TextItem(
 				messages.payeeNumber(Global.get().Customer()), "custNoText");
-		custNoText.setRequired(true);
+		custNoText.setRequired(getPreferences().getUseCustomerId());
 		custNoText.setEnabled(!isInViewMode());
 
 		fileAsText = new TextItem(messages.fileAs(), "fileAsText");

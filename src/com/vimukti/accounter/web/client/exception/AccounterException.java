@@ -235,6 +235,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE = 92;
 
+	public static final int ERROR_PURCHASE_ORDERS_USED = 93;
+
 	protected int errorCode;
 
 	// private long id;

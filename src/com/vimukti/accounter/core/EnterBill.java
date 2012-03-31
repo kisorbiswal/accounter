@@ -1164,6 +1164,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 		}
 
+		if (isBecameVoid() && (!getPurchaseOrders().isEmpty())) {
+			throw new AccounterException(
+					AccounterException.ERROR_PURCHASE_ORDERS_USED, Global.get()
+							.messages().bill());
+		}
+
 		return super.canEdit(clientObject);
 	}
 

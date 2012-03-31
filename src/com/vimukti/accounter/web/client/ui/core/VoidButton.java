@@ -67,9 +67,8 @@ public class VoidButton extends ImageButton {
 
 			@Override
 			public void saveFailed(AccounterException exception) {
-				int errorCode = exception.getErrorCode();
 				String errorString = AccounterExceptions
-						.getErrorString(errorCode);
+						.getErrorString(exception);
 				Accounter.showError(errorString);
 				exception.fillInStackTrace();
 

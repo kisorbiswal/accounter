@@ -305,6 +305,9 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE:
 			return accounterMessages.onlySellableItemsCanBeMarkedAsBillable();
 
+		case AccounterException.ERROR_PURCHASE_ORDERS_USED:
+			return accounterMessages
+					.cannotVoidTransactionBecausePOused(exception.getMessage());
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

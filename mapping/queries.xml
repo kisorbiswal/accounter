@@ -422,13 +422,13 @@
 		<query-param name="company" type="Company" />
 		select c.number from
 		com.vimukti.accounter.core.Customer c where
-		c.company=:company and c.number is not null order by c.number
+		c.company=:company and c.number is not null and c.number!='' order by c.number
 	</query>
 	<query name="getVendorNumber.byId.andOrder">
 		<query-param name="company" type="Company" />
 		select v.vendorNumber from
 		com.vimukti.accounter.core.Vendor v where
-		v.company=:company order by v.id
+		v.company=:company and v.vendorNumber is not null and v.vendorNumber!='' order by v.id
 	</query>
 
 	<query name="getassestNumber.from.FixedAsset">
