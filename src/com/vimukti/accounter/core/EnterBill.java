@@ -332,6 +332,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				&& !(this.transactionItems.isEmpty())) {
 			checkTransactionItemsNull();
 		}
+		checkNetAmountNegative();
 	}
 
 	@Override

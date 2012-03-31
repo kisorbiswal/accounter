@@ -476,6 +476,7 @@ public class CustomerCreditMemo extends Transaction implements
 		super.checkNullValues();
 		checkingCustomerNull(customer, Global.get().customer());
 		checkTransactionItemsNull();
+		checkNetAmountNegative();
 	}
 
 	@Override

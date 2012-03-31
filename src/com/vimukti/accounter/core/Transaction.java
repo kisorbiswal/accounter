@@ -1532,10 +1532,12 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
-	protected void checkingTotal0() throws AccounterException {
-		// if (total == 0) {
-		// throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO);
-		// }
+	protected void checkNetAmountNegative() throws AccounterException {
+		if (DecimalUtil.isLessThan(getNetAmount(), 0.0)) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_TOTAL_ZERO, Global
+							.get().messages().transactionAmount());
+		}
 	}
 
 	protected void checkingVendorNull(Vendor vendor, String message)

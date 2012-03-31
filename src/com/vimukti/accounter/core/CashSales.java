@@ -815,12 +815,12 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		if (this.getSalesOrders().isEmpty()) {
 			checkTransactionItemsNull();
-			return;
 		}
 
 		if (!(this.transactionItems.isEmpty())) {
 			checkTransactionItemsNull();
 		}
+		checkNetAmountNegative();
 	}
 
 	@Override

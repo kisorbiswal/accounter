@@ -491,6 +491,7 @@ public class PurchaseOrder extends Transaction {
 		super.checkNullValues();
 		checkingVendorNull(vendor, Global.get().Vendor());
 		checkTransactionItemsNull();
+		checkNetAmountNegative();
 	}
 
 	/**

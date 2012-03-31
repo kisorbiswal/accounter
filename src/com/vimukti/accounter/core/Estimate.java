@@ -404,7 +404,7 @@ public class Estimate extends Transaction {
 		super.checkNullValues();
 		checkingCustomerNull(customer, Global.get().customer());
 		checkTransactionItemsNull();
-
+		checkNetAmountNegative();
 	}
 
 	private void updateTotals() throws AccounterException {

@@ -299,6 +299,12 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE:
 			return accounterMessages.mustSelectCustomerForBillable();
 
+		case AccounterException.ERROR_YOU_CANNOT_BUILD_WITH_OUT_COMPONENTS:
+			return accounterMessages.youCannotBuildWithoutComponents();
+
+		case AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE:
+			return accounterMessages.onlySellableItemsCanBeMarkedAsBillable();
+
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

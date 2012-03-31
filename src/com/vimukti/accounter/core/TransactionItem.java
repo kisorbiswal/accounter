@@ -439,15 +439,32 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().transactionItem());
 		}
-		if (Global.get().preferences().isTrackTax() && isTaxable
-				&& taxCode == null) {
+		boolean isEnableTax = Global.get().preferences().isTrackTax();
+		if (getTransaction().getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+			isEnableTax = isEnableTax
+					&& Global.get().preferences().isTrackPaidTax();
+		}
+
+		if (isEnableTax && isTaxable && taxCode == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().taxCode());
 		}
 
-		if (this.lineTotal < 0) {
-			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
-					Global.get().messages().total());
+		if (isBillable()) {
+			if (getCustomer() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE);
+			}
+			switch (getType()) {
+			case TransactionItem.TYPE_ITEM:
+				if (getItem() != null) {
+					if (!item.isIBuyThisItem || !item.isISellThisItem) {
+
+						throw new AccounterException(
+								AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE);
+					}
+				}
+			}
 		}
 	}
 

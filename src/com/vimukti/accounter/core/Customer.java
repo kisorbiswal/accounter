@@ -541,11 +541,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-	}
-
-	@Override
 	public String getPayeeName() {
 		return Global.get().customer();
 	}

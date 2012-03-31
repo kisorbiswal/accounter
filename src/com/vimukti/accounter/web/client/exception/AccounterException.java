@@ -231,6 +231,10 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE = 90;
 
+	public static final int ERROR_YOU_CANNOT_BUILD_WITH_OUT_COMPONENTS = 91;
+
+	public static final int ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE = 92;
+
 	protected int errorCode;
 
 	// private long id;

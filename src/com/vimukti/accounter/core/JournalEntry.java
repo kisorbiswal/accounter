@@ -190,15 +190,11 @@ public class JournalEntry extends Transaction {
 				}
 			}
 		}
-		caluclateJournalEntryCreditDebitTot();
-		if (this.creditTotal != this.debitTotal) {
-			throw new AccounterException(
-					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
-
-		}
+		checkCreditsAndDebits();
 	}
 
-	private void caluclateJournalEntryCreditDebitTot() {
+	private void checkCreditsAndDebits() throws AccounterException {
+		double creditTotal = 0, debitTotal = 0;
 		for (TransactionItem rec : getTransactionItems()) {
 			if (rec.getLineTotal() != null) {
 				if (DecimalUtil.isGreaterThan(rec.getLineTotal(), 0)) {
@@ -207,6 +203,17 @@ public class JournalEntry extends Transaction {
 					creditTotal += (-1 * rec.getLineTotal());
 				}
 			}
+		}
+		if (getID() != 0 && ((creditTotal) != debitTotal)) {
+			throw new AccounterException(
+					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
+
+		} else if (getID() == 0 && ((creditTotal) != debitTotal)) {
+			throw new AccounterException(
+					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
+		} else {
+			setCreditTotal(creditTotal);
+			setDebitTotal(debitTotal);
 		}
 	}
 

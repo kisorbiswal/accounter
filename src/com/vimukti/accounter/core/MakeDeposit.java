@@ -283,10 +283,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		}
 		validateTransactionDepositItems();
 
-		if (DecimalUtil.isLessThan(getTotal(), 0.0)) {
-			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
-					Global.get().messages().transactionAmount());
-		}
+		checkNetAmountNegative();
 
 	}
 

@@ -478,13 +478,12 @@ public class CashPurchase extends Transaction {
 		checkPaymentMethodNull();
 		if (this.purchaseOrders.isEmpty()) {
 			checkTransactionItemsNull();
-			return;
 		}
 
 		if (!(this.transactionItems.isEmpty())) {
 			checkTransactionItemsNull();
 		}
-
+		checkNetAmountNegative();
 	}
 
 	@Override

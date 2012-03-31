@@ -374,6 +374,7 @@ public class CreditCardCharge extends Transaction {
 		super.checkNullValues();
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		checkTransactionItemsNull();
+		checkNetAmountNegative();
 	}
 
 	@Override
