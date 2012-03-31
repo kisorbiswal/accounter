@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.NumberReportInput;
+import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
@@ -156,10 +157,10 @@ public class TransactionDetailByAccountReport extends
 
 	@Override
 	public void export(int generationType) {
-		long accountId = data != null ? ((TrialBalance) data).getAccountId()
-				: 0l;
+		String accountName = data != null ? ((TrialBalance) data).getAccountName()
+				: null;
 		UIUtils.generateReport(generationType, startDate.getDate(), endDate
-				.getDate(), getReportType(), new NumberReportInput(accountId));
+				.getDate(), getReportType(), new StringReportInput(accountName));
 	}
 
 	@Override
