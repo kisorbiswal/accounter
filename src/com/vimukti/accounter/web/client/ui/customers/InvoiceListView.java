@@ -69,11 +69,16 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public void exportToCsv() {
-		setViewId(checkViewType(getViewType()));
-		Accounter.createExportCSVService().getInvoiceListExportCsv(
-				getStartDate().getDate(), getEndDate().getDate(),
-				transactionType, getViewId(),
-				getExportCSVCallback(getListViewHeading()));
+		if (viewSelect.getSelectedValue().equals(messages.drafts())) {
+			showDialogBox(messages.ERROR(),messages.draftsTransactionsCannotBePrinted());
+		} else {
+
+			setViewId(checkViewType(getViewType()));
+			Accounter.createExportCSVService().getInvoiceListExportCsv(
+					getStartDate().getDate(), getEndDate().getDate(),
+					transactionType, getViewId(),
+					getExportCSVCallback(getListViewHeading()));
+		}
 	}
 
 	@Override
@@ -171,6 +176,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		} else if (text.equalsIgnoreCase(messages.drafts())) {
 			setViewId(VIEW_DRAFT);
 		}
+
 		onPageChange(0, getPageSize());
 
 		// grid.removeAllRecords();
@@ -239,70 +245,76 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public void print() {
+		
+		if (viewSelect.getSelectedValue().equals(messages.drafts())) {
+			showDialogBox(messages.ERROR(),messages.draftsTransactionsCannotBePrinted());
 
-		Vector<Integer> v = new Vector<Integer>();
-
-		boolean isWriteCheck_cashsale = false;
-		for (InvoicesList invoice : listOfInvoices) {
-
-			if (invoice.isPrint()) {
-				if (invoice.getType() == ClientTransaction.TYPE_INVOICE) {
-					if (!v.contains(ClientTransaction.TYPE_INVOICE))
-						v.add(ClientTransaction.TYPE_INVOICE);
-				} else if (invoice.getType() == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-					if (!v.contains(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO))
-						v.add(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
-				} else if (invoice.getType() == ClientTransaction.TYPE_CASH_SALES) {
-					if (!v.contains(ClientTransaction.TYPE_CASH_SALES))
-						v.add(ClientTransaction.TYPE_CASH_SALES);
-				} else if (invoice.getType() == ClientTransaction.TYPE_WRITE_CHECK) {
-					if (!v.contains(ClientTransaction.TYPE_WRITE_CHECK))
-						v.add(ClientTransaction.TYPE_WRITE_CHECK);
-					isWriteCheck_cashsale = true;
-				}
-			}
-		}
-
-		String errorMessage = Global.get().messages()
-				.pleaseSelectReportsOfSameType();
-		String emptymsg = Global.get().messages()
-				.pleaseSelectAtLeastOneReport();
-		String cashsalemsg = Global.get().messages()
-				.PrintIsNotProvidedForCashSale();
-		if (v.size() == 0) {// no reports are selected
-			showDialogBox(emptymsg);
-		} else if (v.size() > 1) {
-			// if one than one report type is selected
-			showDialogBox(errorMessage);
 		} else {
-			if (!isWriteCheck_cashsale) {
 
-				ArrayList<ClientBrandingTheme> themesList = Accounter
-						.getCompany().getBrandingTheme();
-				if (themesList.size() > 1) {
-					// if there are more than one branding themes, then show
-					// branding
-					// theme dialog box
-					ActionFactory.getBrandingThemeComboAction().run(
-							listOfInvoices);
-				} else {
-					// else print directly
-					brandingTheme = themesList.get(0);
-					printDocument();
+			Vector<Integer> v = new Vector<Integer>();
+
+			boolean isWriteCheck_cashsale = false;
+			for (InvoicesList invoice : listOfInvoices) {
+
+				if (invoice.isPrint()) {
+					if (invoice.getType() == ClientTransaction.TYPE_INVOICE) {
+						if (!v.contains(ClientTransaction.TYPE_INVOICE))
+							v.add(ClientTransaction.TYPE_INVOICE);
+					} else if (invoice.getType() == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+						if (!v.contains(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO))
+							v.add(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
+					} else if (invoice.getType() == ClientTransaction.TYPE_CASH_SALES) {
+						if (!v.contains(ClientTransaction.TYPE_CASH_SALES))
+							v.add(ClientTransaction.TYPE_CASH_SALES);
+					} else if (invoice.getType() == ClientTransaction.TYPE_WRITE_CHECK) {
+						if (!v.contains(ClientTransaction.TYPE_WRITE_CHECK))
+							v.add(ClientTransaction.TYPE_WRITE_CHECK);
+						isWriteCheck_cashsale = true;
+					}
 				}
-
-			} else {
-				// if other reports are selected cash sale or write check
-				showDialogBox(cashsalemsg);
 			}
-			// ActionFactory.getInvoiceListViewAction().run(listOfInvoices);
+
+			String errorMessage = Global.get().messages()
+					.pleaseSelectReportsOfSameType();
+			String emptymsg = Global.get().messages()
+					.pleaseSelectAtLeastOneReport();
+			String cashsalemsg = Global.get().messages()
+					.PrintIsNotProvidedForCashSale();
+			if (v.size() == 0) {// no reports are selected
+				showDialogBox(messages.selectReports(),emptymsg);
+			} else if (v.size() > 1) {
+				// if one than one report type is selected
+				showDialogBox(messages.selectReports(),errorMessage);
+			} else {
+				if (!isWriteCheck_cashsale) {
+
+					ArrayList<ClientBrandingTheme> themesList = Accounter
+							.getCompany().getBrandingTheme();
+					if (themesList.size() > 1) {
+						// if there are more than one branding themes, then show
+						// branding
+						// theme dialog box
+						ActionFactory.getBrandingThemeComboAction().run(
+								listOfInvoices);
+					} else {
+						// else print directly
+						brandingTheme = themesList.get(0);
+						printDocument();
+					}
+
+				} else {
+					// if other reports are selected cash sale or write check
+					showDialogBox(messages.selectReports(),cashsalemsg);
+				}
+				// ActionFactory.getInvoiceListViewAction().run(listOfInvoices);
+			}
 		}
 
 	}
 
-	public void showDialogBox(String description) {
+	public void showDialogBox(String title,String description) {
 		InvoicePrintDialog printDialog = new InvoicePrintDialog(
-				messages.selectReports(), "", description);
+				title, "", description);
 		printDialog.show();
 		printDialog.center();
 	}
@@ -319,7 +331,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public boolean canPrint() {
-
 		return true;
 	}
 
