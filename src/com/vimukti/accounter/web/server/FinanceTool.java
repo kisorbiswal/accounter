@@ -4,13 +4,12 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,6 +39,8 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.hibernate.dialect.EncryptedStringType;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
@@ -4484,25 +4485,22 @@ public class FinanceTool {
 			String[] headers = null;
 			boolean isHeader = true;
 			File file = new File(filePath);
-			DataInputStream in = new DataInputStream(new FileInputStream(
-					file.getAbsolutePath()));
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
+			CSVReader reader = new CSVReader(new FileReader(file));
 			OperationContext context = new OperationContext(companyId,
 					(IAccounterCore) null, userEmail);
+			String[] nextLine;
 			int currentLine = 0;
-			while ((strLine = br.readLine()) != null) {
+			while ((nextLine = reader.readNext()) != null) {
 				Map<String, String> columnNameValueMap = new HashMap<String, String>();
-				String[] values = strLine.split(",");
 				if (isHeader) {
-					headers = values;
+					headers = nextLine;
 					isHeader = false;
 				} else {
 					currentLine++;
-					if (values.length == headers.length) {
-						for (int i = 0; i < values.length; i++) {
-							String value = values[i].trim()
-									.replaceAll("\"", "");
+					if (nextLine.length == headers.length) {
+						for (int i = 0; i < nextLine.length; i++) {
+							String value = nextLine[i].trim().replaceAll("\"",
+									"");
 							columnNameValueMap.put(headers[i], value);
 						}
 						try {
@@ -4659,34 +4657,34 @@ public class FinanceTool {
 		}
 		return new Long(0);
 	}
+
 	public void mergeClass(ClientAccounterClass fromClass,
 			ClientAccounterClass toClass, Long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
-		try{
-			session.getNamedQuery("update.merge.transactionitem.class.old.tonew")
-			.setLong("fromID", fromClass.getID())
-			.setLong("toID", toClass.getID())
-			.executeUpdate();
-			
+		try {
+			session.getNamedQuery(
+					"update.merge.transactionitem.class.old.tonew")
+					.setLong("fromID", fromClass.getID())
+					.setLong("toID", toClass.getID()).executeUpdate();
+
 			session.getNamedQuery("update.merge.transaction.class.old.tonew")
-			.setLong("fromID", fromClass.getID())
-			.setLong("toID", toClass.getID())
-			.executeUpdate();
-			
-			session.getNamedQuery("update.merge.transaction.deposit.item.class.old.tonew")
-			.setLong("fromID", fromClass.getID())
-			.setLong("toID", toClass.getID())
-			.executeUpdate();
-			
+					.setLong("fromID", fromClass.getID())
+					.setLong("toID", toClass.getID()).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.transaction.deposit.item.class.old.tonew")
+					.setLong("fromID", fromClass.getID())
+					.setLong("toID", toClass.getID()).executeUpdate();
+
 			User user = AccounterThreadLocal.get();
 
-			AccounterClass toAccounterClass = (AccounterClass) session.get(AccounterClass.class,
-					toClass.getID());
+			AccounterClass toAccounterClass = (AccounterClass) session.get(
+					AccounterClass.class, toClass.getID());
 
-			AccounterClass fromAccounterClass = (AccounterClass) session.get(AccounterClass.class,
-					fromClass.getID());
+			AccounterClass fromAccounterClass = (AccounterClass) session.get(
+					AccounterClass.class, fromClass.getID());
 
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
 					toAccounterClass);
@@ -4709,12 +4707,11 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
-		try{
+		try {
 			session.getNamedQuery("update.merge.transaction.location.old.tonew")
-			.setLong("fromID", fromLocation.getID())
-			.setLong("toID", toLocation.getID())
-			.executeUpdate();
-			
+					.setLong("fromID", fromLocation.getID())
+					.setLong("toID", toLocation.getID()).executeUpdate();
+
 			User user = AccounterThreadLocal.get();
 
 			Location toLocationObj = (Location) session.get(Location.class,
