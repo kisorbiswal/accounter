@@ -220,6 +220,7 @@ public class TAXReturn extends Transaction {
 		// session.setFlushMode(FlushMode.COMMIT);
 
 		// try {
+		updateTaxLiabilityAccounts();
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -262,7 +263,6 @@ public class TAXReturn extends Transaction {
 				.setEntity("company", getCompany());
 
 		// this.setJournalEntry(new JournalEntry(this));
-		updateTaxLiabilityAccounts();
 
 		List<TAXRateCalculation> vrc = query.list();
 		// org.hibernate.Transaction t = session.beginTransaction();
@@ -319,7 +319,6 @@ public class TAXReturn extends Transaction {
 		map.put(taxAgency.getAccount(), total);
 		return map;
 	}
-
 
 	/**
 	 * @return the boxes
