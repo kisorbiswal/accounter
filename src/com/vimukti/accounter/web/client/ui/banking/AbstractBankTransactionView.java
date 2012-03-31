@@ -312,7 +312,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			ClientCurrency clientCurrency) {
 
 		AmountLabel amountLabel = new AmountLabel(
-				messages.currencyTotal(clientCurrency.getFormalName()));
+				messages.currencyTotal(clientCurrency.getFormalName()),
+				clientCurrency);
 
 		return amountLabel;
 

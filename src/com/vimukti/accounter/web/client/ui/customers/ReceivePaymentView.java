@@ -673,12 +673,13 @@ public class ReceivePaymentView extends
 
 		unUsedCreditsText = new AmountLabel(
 				messages.unusedCreditsWithCurrencyName(getCompany()
-						.getPrimaryCurrency().getFormalName()));
+						.getPrimaryCurrency().getFormalName()), getCompany()
+						.getPrimaryCurrency());
 		unUsedCreditsText.setEnabled(false);
 
 		unUsedPaymentsText = new AmountLabel(
 				messages.unusedPayments(getCompany().getPrimaryCurrency()
-						.getFormalName()));
+						.getFormalName()), getCompany().getPrimaryCurrency());
 		unUsedPaymentsText.setEnabled(false);
 
 		DynamicForm textForm = new DynamicForm("textForm");
@@ -1291,8 +1292,10 @@ public class ReceivePaymentView extends
 		unUsedCreditsText.setTitle(messages
 				.unusedCreditsWithCurrencyName(currencyWidget
 						.getSelectedCurrency().getFormalName()));
+		unUsedCreditsText.setCurrency(currencyWidget.getSelectedCurrency());
 		unUsedPaymentsText.setTitle(messages.unusedPayments(currencyWidget
 				.getSelectedCurrency().getFormalName()));
+		unUsedPaymentsText.setCurrency(currencyWidget.getSelectedCurrency());
 		amtText.setTitle(messages.amountReceivedWithCurrencyName(currencyWidget
 				.getSelectedCurrency().getFormalName()));
 	}

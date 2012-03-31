@@ -596,11 +596,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		unUsedCreditsText.setEnabled(false);
 
 		amountLabelForeign = new AmountLabel(
-				messages.currencyTotal(getBaseCurrency().getFormalName()));
+				messages.currencyTotal(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		amountLabelForeign.setEnabled(false);
 
 		amountLableBase = new AmountLabel(
-				messages.currencyTotal(getBaseCurrency().getFormalName()));
+				messages.currencyTotal(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		amountLableBase.setEnabled(false);
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -775,6 +777,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		amountLabelForeign.setTitle(messages.currencyTotal(vendorCurrency
 				.getFormalName()));
+		amountLabelForeign.setCurrency(vendorCurrency);
 
 		grid.resetValues();
 		grid.creditsAndPayments.clear();
@@ -1486,6 +1489,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			amountLabelForeign.show();
 			amountLabelForeign.setTitle(messages.currencyTotal(currencyWidget
 					.getSelectedCurrency().getFormalName()));
+			amountLabelForeign
+					.setCurrency(currencyWidget.getSelectedCurrency());
 		}
 	}
 

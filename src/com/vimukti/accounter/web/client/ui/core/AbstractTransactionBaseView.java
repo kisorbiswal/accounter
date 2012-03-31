@@ -555,9 +555,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected AmountLabel createNetAmountLabel() {
 		AmountLabel netAmountLabel = new AmountLabel(
-				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		netAmountLabel.setTitle(messages.currencyNetAmount(getBaseCurrency()
 				.getFormalName()));
+		netAmountLabel.setCurrency(getBaseCurrency());
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}
@@ -566,7 +568,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			ClientCurrency currency) {
 
 		foreignCurrencyamountLabel = new AmountLabel(
-				messages.currencyTotal(currency.getFormalName()));
+				messages.currencyTotal(currency.getFormalName()), currency);
 
 		return foreignCurrencyamountLabel;
 	}

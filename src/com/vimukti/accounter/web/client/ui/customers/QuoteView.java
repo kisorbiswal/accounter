@@ -1355,8 +1355,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
+		netAmountLabel.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	public List<String> getStatusList() {

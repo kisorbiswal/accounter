@@ -163,9 +163,12 @@ public class WriteChequeView extends
 		this.transactionVendorAccountTable.updateAmountsFromGUI();
 
 		foreignCurrencyamountLabel.setTitle(messages.currencyTotal(formalName));
+		foreignCurrencyamountLabel.setCurrency(currencyWidget
+				.getSelectedCurrency());
 
 		transactionTotalBaseCurrencyText.setTitle(messages
 				.currencyTotal(getBaseCurrency().getFormalName()));
+		transactionTotalBaseCurrencyText.setCurrency(getBaseCurrency());
 
 		amtText.setCurrency(clientCurrency);
 		// getAddreses(add);
@@ -761,7 +764,8 @@ public class WriteChequeView extends
 		vatTotalNonEditableText = new TaxItemsForm();
 
 		netAmount = new AmountLabel(
-				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 
 		StyledPanel bottomPanel = new StyledPanel("bottomPanel");
 		bottomPanel.add(memoForm);
@@ -1446,8 +1450,11 @@ public class WriteChequeView extends
 			transactionTotalBaseCurrencyText.show();
 			transactionTotalBaseCurrencyText.setTitle(messages
 					.currencyTotal(getBaseCurrency().getFormalName()));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
+		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	@Override
