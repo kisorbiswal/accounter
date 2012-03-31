@@ -748,7 +748,7 @@ textarea.disable-TextField {
 	/*margin-top:5px;*/
 }
 
-.floatright,.button_bar,.panel-right-align,.image-button,.upload-logo,.gridSelectBoxCell .downarrow-button
+.floatright,.panel-right-align,.image-button,.upload-logo,.gridSelectBoxCell .downarrow-button
 	{
 	float: right;
 }

@@ -27,6 +27,9 @@
     -moz-box-flex: 1;
     width: 100%;
 }
+.grouped-buttons .Empty-text{
+	padding: 3px 10px;
+}
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#VendorView .accInfoForm {
@@ -41,6 +44,9 @@
 	#CustomerView .currencyTextBox{
 	   padding-bottom:1px;
 	}
+	.grouped-buttons .Empty-text{
+	   padding: 3px 13px;
+	}
 }
 
 body {
@@ -51,6 +57,14 @@ body {
 
 html,body {
 	width: 100%;
+	height: 100%;
+}
+#mainWindow{
+	min-height: 100%;
+}
+
+.finance_window{
+	padding-bottom: 85px;
 }
 
 .viewholder a {
@@ -266,8 +280,8 @@ html,body {
 	-moz-box-flex: 1;
 }
 
-.group-toolbar .grouped-buttons {
-	padding: 5px;
+.group-toolbar .buttonsPanel button {
+	margin: 5px 3px;
 }
 
 .view_manager {
@@ -308,13 +322,13 @@ html,body {
 
 #appVersions {
 	clear: both;
-	padding-top: 8px;
 	text-align: center;
 	border-top: 1px solid #CCC;
 	position: relative;
 	width: 100%;
 	height: 25px;
-	margin-top: 15px;
+	margin-top: -70px;
+    padding-top: 0;
 }
 
 #appVersions a {
@@ -456,7 +470,6 @@ input[type="text"] {
 
 .editTable table {
 	border-collapse: collapse;
-	border: 1px solid #2D8B93;
 	width: 100%;
 	table-layout: fixed;
 }
@@ -826,15 +839,13 @@ input[type="text"] {
 #group1 {
 	width: 30%;
 	display: -webkit-box;
-	display: -moz-box;
 	display: box;
 	-moz-box-flex: 1;
-	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
-	-moz-box-pack: start;
 	-webkit-box-pack: start;
 	-box-pack: start;
+	margin-top: 5px;
 }
 
 #addNewButton {
@@ -1154,6 +1165,7 @@ input[type="text"] {
 	padding-bottom: 2px;
 	padding-top: 2px;
 	width: 99%;
+	resize: vertical;
 }
 
 .disclosurePanelTitle {
@@ -1288,7 +1300,7 @@ input[type="text"] {
 
 .Transactions_center #TransactionsListView {
 	width: 80%;
-	margin-top: 10px;
+	margin: 10px 0 0 10px;
 	-moz-box-flex: 1;
 }
 
@@ -1382,6 +1394,7 @@ table.gridBody {
 	border-style: solid;
 	cursor: pointer;
 	text-align: left;
+	word-wrap: break-word;
 }
 
 table.gridHeader {
@@ -1781,17 +1794,19 @@ table.no_records td {
 }
 
 .no_records .norecord-empty-message {
-	margin-left: 400px;
-	position: absolute;
+	/*margin-left: 400px;
+	position: absolute;*/
 }
 
 .no_records .norecord-empty-message td {
 	border: 0 none;
 }
 
-.gwt-Button[disabled] {
+.gwt-Button[disabled],.detailsTab .customField button[disabled].gwt-Button {
 	background: none repeat scroll 0 0 #B7B7B7;
 	border: 1px solid #858585;
+	color:black;
+	cursor: auto;
 }
 
 .gwt-Button[disabled]:hover {
@@ -2083,9 +2098,10 @@ table.no_records td {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-	padding: 5px;
 	border: 1px solid #2D8B93;
 	-moz-box-flex: 1;
+	 padding: 5px 0;
+    width: 100%;
 }
 
 #vendorCenterView .mainPanel .rightVpPanel .details-Panel .headingPanel
@@ -2110,12 +2126,24 @@ table.no_records td {
 	{
 	width: 50%;
 	-moz-box-flex: 1;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp .rightform
 	{
 	width: 50%;
 	-moz-box-flex: 1;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #vendorCenterView .mainPanel .rightVpPanel .details-Panel .headingPanel .gwt-Label
@@ -3098,7 +3126,6 @@ table.dropdownFlex {
 	border: 1px solid #3299A4;
     margin-top: 4px;
     text-align: center;
-    text-transform: capitalize;
 }
 
 .datePickerMonthSelector {
@@ -4974,7 +5001,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 #InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform .gwt-Label
 	{
 	width: auto;
-	padding: 2px 5px 0 5px;
+	padding: 2px 3px 0 3px;
 }
 
 #WareHouseTransferView .fields-panel {
@@ -5063,10 +5090,10 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 .subtrackortax .gwt-CheckBox {
 	margin-left: 10px;
 }
-
+#vendorCenterView .rightform .notes .label {
+	width: 200px;
+}
 #CustomerCenterView .rightform .notes .label {
-	height: 150px;
-	overflow: auto;
 	width: 200px;
 }
 
@@ -5205,6 +5232,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	color: #002E36;
 	font-size: 15px;
 	font-weight: bold;
+	margin-bottom: 5px;
 }
 
 #InvoiceView .attachment_panel form .gwt-Button {
@@ -5972,6 +6000,7 @@ form#contactForm .submit {
 
 .gwt-CheckBox {
 	display: block;
+	margin: 4px 0 0 4px;
 }
 
 .gwt-DialogBox .formItem .gwt-Label {
@@ -6506,6 +6535,7 @@ input[type="text"] {
 textarea[disabled] {
 	background-color: #EBEBE4;
 	margin-bottom: 5px;
+	resize:none;
 }
 
 #reconcilationView .hPanel {
@@ -6660,10 +6690,6 @@ textarea[disabled] {
 
 #InventoryItemsListView table.gridHeader,#InventoryItemsListView table.gridBody
 	{
-	table-layout: fixed;
-}
-
-#ItemsListGrid  table.gridHeader,#ItemsListGrid table.gridBody {
 	table-layout: fixed;
 }
 
@@ -7128,4 +7154,23 @@ textarea[disabled] {
 }
 #UploadTemplateFileDialog .vpaPanel .panel{
 	margin:5px;
+}
+.attachment_panel .attachmentTable .Empty-text{
+	border: 1px solid;
+    border-radius: 5px 5px 5px 5px;
+    height: 24px;
+    width: 30px;
+}
+.attachment_panel .attachmentTable div,.attachment_panel .attachmentTable a{
+	display: inline;
+	margin-right: 10px;
+}
+.attachmentTable{
+	margin:10px 0px;
+}
+#WareHouseItemsListGrid .gridHeader,#WareHouseItemsListGrid .gridBody{
+	table-layout: fixed;
+}
+#group2 button:first-child {
+    margin-right: 10px;
 }
