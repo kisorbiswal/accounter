@@ -30,6 +30,8 @@ public class BuildAssembly extends Transaction {
 			setNumber(number);
 		}
 
+		Double total = 0.0;
+
 		for (InventoryAssemblyItem assemblyItem : inventoryAssembly
 				.getComponents()) {
 
@@ -41,7 +43,7 @@ public class BuildAssembly extends Transaction {
 			quantity.setValue(quantity.getValue() * quantityToBuild);
 			transactionItem.setQuantity(quantity);
 			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
-
+			total += assemblyItem.getUnitPrice();
 			transactionItem.setItem(inventoryItem);
 			transactionItem.setDescription(Global.get().messages()
 					.buildAssembly());
@@ -50,6 +52,7 @@ public class BuildAssembly extends Transaction {
 					.calculatePrice(assemblyItem.getUnitPrice()));
 			getTransactionItems().add(transactionItem);
 		}
+		this.total = total;
 
 		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
 		quantityToBuild.setValue(this.quantityToBuild);
