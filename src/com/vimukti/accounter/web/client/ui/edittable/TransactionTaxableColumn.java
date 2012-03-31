@@ -30,6 +30,6 @@ public class TransactionTaxableColumn extends
 
 	@Override
 	public int getWidth() {
-		return 46;
+		return 47;
 	}
 }

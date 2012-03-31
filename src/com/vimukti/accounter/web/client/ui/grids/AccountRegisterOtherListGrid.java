@@ -34,7 +34,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	protected Object getColumnValue(AccountRegister accRegister, int col) {
 		switch (col) {
 		case 0:
-			return accRegister.getDate();
+			return UIUtils.getDateByCompanyType(accRegister.getDate());
 		case 1:
 			return Utility.getTransactionName((accRegister.getType()));
 		case 2:
@@ -132,7 +132,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	@Override
 	protected int getCellWidth(int index) {
 		if (index == 0)
-			return 65;
+			return 80;
 		else if (index == 1)
 			return 135;
 		else if (index == 2)
@@ -142,7 +142,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		else if (index == 7)
 			return 115;
 		else if (index == 8)
-			return 50;
+			return 30;
 
 		return super.getCellWidth(index);
 		// return -1;

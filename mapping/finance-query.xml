@@ -10887,10 +10887,10 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="QTY_VALUE" type="double" />
-		<return-scalar column="QTY_UNIT" type="long" />
+		<return-scalar column="QTY_UNIT" type="string" />
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="double" />
-		<return-scalar column="ITEM_UNITS" type="long" />
+		<return-scalar column="ITEM_UNITS" type="string" />
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
@@ -10902,15 +10902,18 @@
 				       TRANSACTION_TYPE,
 				       TRANSACTION_NUMBER,
 				       QTY_VALUE,
-				       QTY_UNIT,
+				       QTYUNIT.TYPE AS  QTY_UNIT,
 				       COST,
 				       ITEM_TOTAL_QUANTITY,
-				       ITEM_UNITS,
+				       U.TYPE AS ITEM_UNITS,
 				       ITEM_NAME,
 				       ITEM_ID,
 				       PAYEE_NAME,
 				       PAYEE_ID
 				FROM   INVENTORY_HISTORY_VIEW V
+				LEFT JOIN UNIT U ON U.ID = V.ITEM_UNITS
+				LEFT JOIN UNIT QTYUNIT ON QTYUNIT.ID = V.QTY_UNIT
+				
 				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE IN (2,4)
 				       AND ( V.TRANSACTION_DATE IS NULL
 				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )
@@ -10931,7 +10934,7 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="double" />
-		<return-scalar column="ITEM_UNITS" type="long" />
+		<return-scalar column="ITEM_UNITS" type="string" />
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="ITEM_SALE_PRICE" type="double" />
 		<return-scalar column="ITEM_ID" type="long" />
@@ -10942,7 +10945,7 @@
 				SELECT ITEM_NAME,
 				       ITEM_PURCHASE_DESCRIPTION                  DESCRIPTION,
 				       ITEM_TOTAL_QUANTITY,
-				       ITEM_UNITS,
+				       V.UNIT AS ITEM_UNITS,
 				       (SELECT ( ( SUM(QUANTITY * UNIT_PRICE) ) / SUM(QUANTITY) )
 				        FROM   INVENTORY_PURCHASE_HISTORY_VIEW IHV
 				        WHERE  IHV.ITEM_ID = V.ITEM_ID)           AS COST,
@@ -10960,7 +10963,7 @@
 				          ITEM_SALE_PRICE,
 				          ASSET_CHANGE,
 				          TOTAL_ASSET,
-				          ITEM_PURCHASE_DESCRIPTION;  
+				          ITEM_PURCHASE_DESCRIPTION,V.UNIT;  
 				]]>
 
 	</sql-query>

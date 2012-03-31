@@ -38,7 +38,7 @@ public class StockTransferQuantityColumn extends
 	public IsWidget getWidget(RenderContext<ClientStockTransferItem> context) {
 		final IsWidget widget = super.getWidget(context);
 		final ClientStockTransferItem row = context.getRow();
-		if (widget instanceof TextBox) {
+		if (widget instanceof TextBox && getPreferences().isUnitsEnabled()) {
 			((TextBox) widget).addFocusListener(new FocusListener() {
 
 				@Override

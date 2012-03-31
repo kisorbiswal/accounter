@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.core.reports;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.core.ClientQuantity;
 
 public class InventoryValutionDetail extends BaseReport implements
 		IsSerializable, Serializable {
@@ -23,11 +22,15 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	private String transactionNo;
 
-	private ClientQuantity quantity;
+	private double quantity;
+
+	private String unit;
 
 	private double cost;
 
-	private ClientQuantity onHand;
+	private double onHand;
+
+	private String onHandUnit;
 
 	private double assetValue;
 
@@ -71,14 +74,6 @@ public class InventoryValutionDetail extends BaseReport implements
 		this.transactionNo = transactionNo;
 	}
 
-	public ClientQuantity getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(ClientQuantity quantity) {
-		this.quantity = quantity;
-	}
-
 	public double getCost() {
 		return cost;
 	}
@@ -87,11 +82,11 @@ public class InventoryValutionDetail extends BaseReport implements
 		this.cost = cost;
 	}
 
-	public ClientQuantity getOnHand() {
+	public double getOnHand() {
 		return onHand;
 	}
 
-	public void setOnHand(ClientQuantity onHand) {
+	public void setOnHand(double onHand) {
 		this.onHand = onHand;
 	}
 
@@ -149,6 +144,30 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	public void setTransactionAmount(double transactionAmount) {
 		this.transactionAmount = transactionAmount;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getOnHandUnit() {
+		return onHandUnit;
+	}
+
+	public void setOnHandUnit(String onHandUnit) {
+		this.onHandUnit = onHandUnit;
 	}
 
 }

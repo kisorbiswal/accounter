@@ -30,6 +30,6 @@ public class TransactionBillableColumn extends
 
 	@Override
 	public int getWidth() {
-		return 41;
+		return 42;
 	}
 }

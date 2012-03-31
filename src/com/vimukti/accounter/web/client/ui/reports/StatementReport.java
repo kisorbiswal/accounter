@@ -62,19 +62,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 			Set<ClientAddress> address = payee.getAddress();
 			if (!address.isEmpty()) {
 				for (ClientAddress clientAddress : address) {
-					String address1 = clientAddress.getAddress1().concat(",");
-					String street = clientAddress.getStreet().concat(",");
-					String city = clientAddress.getCity();
-					String state = clientAddress.getStateOrProvinence().concat(
-							",");
-					String zip = clientAddress.getZipOrPostalCode().concat(",");
-					String country = clientAddress.getCountryOrRegion().concat(
-							".");
-					leftPanel.add(new Label(address1));
-					leftPanel.add(new Label(street));
-					leftPanel.add(new Label(city + "-" + zip));
-					leftPanel.add(new Label(state));
-					leftPanel.add(new Label(country));
+					leftPanel.add(new Label(getAddressAsString(clientAddress)));
 				}
 			}
 		}
@@ -83,6 +71,30 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		detailPanel.add(leftPanel);
 		detailPanel.add(rightPanel);
 		detailPanel.addStyleName("makeDetailPanel");
+	}
+
+	public String getAddressAsString(ClientAddress clientAddress) {
+		final StringBuffer information = new StringBuffer();
+		String address1 = clientAddress.getAddress1();
+		if (address1 != null && !address1.equals(""))
+			information.append(address1);
+		String street = clientAddress.getStreet();
+		if (street != null && !street.equals(""))
+			information.append(", ").append(street);
+		String city = clientAddress.getCity();
+		if (city != null && !city.equals(""))
+			information.append(", ").append(city);
+		String state = clientAddress.getStateOrProvinence();
+		if (state != null && !state.equals(""))
+			information.append(", ").append(state);
+		String zip = clientAddress.getZipOrPostalCode();
+		if (zip != null && !zip.equals(""))
+			information.append(", ").append(zip);
+		String country = clientAddress.getCountryOrRegion();
+		if (country != null && !country.equals(""))
+			information.append(", ").append(country);
+
+		return information.toString();
 	}
 
 	@Override

@@ -175,10 +175,10 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
 		setData(new ClientStockTransfer());
-		fromCombo.setEnabled(isInViewMode());
-		toCombo.setEnabled(isInViewMode());
-		commentArea.setDisabled(isInViewMode());
-		table.setEnabled(isInViewMode());
+		fromCombo.setEnabled(!isInViewMode());
+		toCombo.setEnabled(!isInViewMode());
+		commentArea.setDisabled(!isInViewMode());
+		table.setEnabled(!isInViewMode());
 		table.reDraw();
 		fromWareHouseSelected(fromCombo.getSelectedValue());
 	}

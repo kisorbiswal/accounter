@@ -416,6 +416,16 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 					}
 					return currency;
 				}
+
+				@Override
+				protected String getQuantityValue(Object object, int column) {
+					String value = AbstractReportView.this.getQuantityValue(
+							object, column);
+					if (value == null) {
+						return super.getQuantityValue(object, column);
+					}
+					return value;
+				}
 			};
 			this.grid.setReportView(this);
 			this.grid.setColumnTypes(getColumnTypes());
@@ -428,6 +438,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getQuantityValue(Object object, int column) {
+		return serverReport.getQuantityValue(object, column);
 	}
 
 	protected ClientCurrency getCurrency() {

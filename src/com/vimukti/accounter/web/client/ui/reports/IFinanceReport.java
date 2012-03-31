@@ -78,6 +78,8 @@ public interface IFinanceReport<R> {
 
 	public String[] getDynamicHeaders();
 
+	String getQuantityValue(Object object, int column);
+
 	// public String getDateByCompanyType(ClientFinanceDate date);
 	// public ClientFinanceDate getEndDate();
 	//

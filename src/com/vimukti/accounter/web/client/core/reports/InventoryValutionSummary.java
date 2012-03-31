@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.core.reports;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.core.ClientQuantity;
 
 public class InventoryValutionSummary extends BaseReport implements
 		IsSerializable, Serializable {
@@ -15,7 +14,9 @@ public class InventoryValutionSummary extends BaseReport implements
 
 	private String itemDescription;
 
-	private ClientQuantity onHand;
+	private double onHand;
+
+	private String unit;
 
 	private Double avgCost;
 
@@ -41,11 +42,11 @@ public class InventoryValutionSummary extends BaseReport implements
 		this.itemDescription = itemDescription;
 	}
 
-	public ClientQuantity getOnHand() {
+	public double getOnHand() {
 		return onHand;
 	}
 
-	public void setOnHand(ClientQuantity onHand) {
+	public void setOnHand(double onHand) {
 		this.onHand = onHand;
 	}
 
@@ -123,6 +124,14 @@ public class InventoryValutionSummary extends BaseReport implements
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 
 }

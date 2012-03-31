@@ -97,7 +97,14 @@ public abstract class VendorAccountTransactionTable extends
 	@Override
 	protected void initColumns() {
 
-		AccountNameColumn transactionItemNameColumn = new AccountNameColumn<ClientTransactionItem>() {
+		AccountNameColumn<ClientTransactionItem> transactionItemNameColumn = new AccountNameColumn<ClientTransactionItem>() {
+			@Override
+			public int getWidth() {
+				if (isCustomerAllowedToAdd && isTrackJob()) {
+					return 110;
+				}
+				return super.getWidth();
+			}
 
 			@Override
 			public ListFilter<ClientAccount> getAccountsFilter() {
@@ -183,11 +190,27 @@ public abstract class VendorAccountTransactionTable extends
 			protected String getColumnName() {
 				return getColumnNameWithCurrency(messages.amount());
 			}
+
+			@Override
+			public int getWidth() {
+				if (isCustomerAllowedToAdd && isTrackJob()) {
+					return 80;
+				}
+				return super.getWidth();
+			}
 		});
 
 		if (needDiscount) {
 			if (showDiscount) {
-				this.addColumn(new TransactionDiscountColumn(currencyProvider));
+				this.addColumn(new TransactionDiscountColumn(currencyProvider) {
+					@Override
+					public int getWidth() {
+						if (isCustomerAllowedToAdd && isTrackJob()) {
+							return 40;
+						}
+						return super.getWidth();
+					}
+				});
 			}
 		}
 		if (enableClass) {
@@ -210,10 +233,30 @@ public abstract class VendorAccountTransactionTable extends
 						}
 					}
 
+					@Override
+					public int getWidth() {
+						if (isCustomerAllowedToAdd && isTrackJob()) {
+							return 60;
+						}
+						return super.getWidth();
+					}
 				});
 			}
 		}
-		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
+		this.addColumn(new TransactionTotalColumn(currencyProvider, true) {
+			@Override
+			public int getWidth() {
+				if ((isCustomerAllowedToAdd && enableClass)
+						|| (isCustomerAllowedToAdd && enableDisCount)
+						|| (isCustomerAllowedToAdd && showTaxCode)
+						|| (enableClass && enableDisCount)
+						|| (enableClass && showTaxCode)
+						|| (enableDisCount && showTaxCode)) {
+					return 70;
+				}
+				return super.getWidth();
+			}
+		});
 
 		if (enableTax) {
 			if (showTaxCode) {
@@ -235,6 +278,14 @@ public abstract class VendorAccountTransactionTable extends
 					}
 
 					@Override
+					public int getWidth() {
+						if (isCustomerAllowedToAdd && isTrackJob()) {
+							return 110;
+						}
+						return super.getWidth();
+					}
+
+					@Override
 					protected void setValue(ClientTransactionItem row,
 							ClientTAXCode newValue) {
 						super.setValue(row, newValue);
@@ -247,7 +298,23 @@ public abstract class VendorAccountTransactionTable extends
 					}
 				});
 
-				this.addColumn(new TransactionVatColumn(currencyProvider));
+				this.addColumn(new TransactionVatColumn(currencyProvider) {
+					@Override
+					public int getWidth() {
+						if (isCustomerAllowedToAdd && isTrackJob()
+								&& enableClass && enableDisCount) {
+							return 30;
+						} else if ((isCustomerAllowedToAdd && enableClass)
+								|| (isCustomerAllowedToAdd && enableDisCount)
+								|| (isCustomerAllowedToAdd && showTaxCode)
+								|| (enableClass && enableDisCount)
+								|| (enableClass && showTaxCode)
+								|| (enableDisCount && showTaxCode)) {
+							return 60;
+						}
+						return super.getWidth();
+					}
+				});
 			} else {
 				this.addColumn(new TransactionTaxableColumn());
 			}
@@ -288,11 +355,32 @@ public abstract class VendorAccountTransactionTable extends
 					jobColumn.setcustomerId(newValue.getID());
 				}
 
+				@Override
+				public int getWidth() {
+					if (isTrackJob()) {
+						return 110;
+					}
+					return super.getWidth();
+				}
+
 			});
 			if (isTrackJob()) {
 				this.addColumn(jobColumn);
 			}
-			this.addColumn(new TransactionBillableColumn());
+			this.addColumn(new TransactionBillableColumn() {
+				@Override
+				public int getWidth() {
+					if ((isCustomerAllowedToAdd && enableClass)
+							|| (isCustomerAllowedToAdd && enableDisCount)
+							|| (isCustomerAllowedToAdd && showTaxCode)
+							|| (enableClass && enableDisCount)
+							|| (enableClass && showTaxCode)
+							|| (enableDisCount && showTaxCode)) {
+						return 24;
+					}
+					return super.getWidth();
+				}
+			});
 		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());

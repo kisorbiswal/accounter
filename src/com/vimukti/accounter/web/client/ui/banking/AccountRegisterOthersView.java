@@ -139,4 +139,11 @@ public class AccountRegisterOthersView extends
 		grid.balance = 0.0;
 		super.changeDates(startDate, endDate);
 	}
+
+	@Override
+	public void initData() {
+		grid.totalBalance = 0.0;
+		grid.balance = 0.0;
+		super.initData();
+	}
 }

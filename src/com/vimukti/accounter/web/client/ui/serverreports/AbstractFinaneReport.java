@@ -55,6 +55,7 @@ public abstract class AbstractFinaneReport<R> extends
 	public static final int COLUMN_TYPE_DATE = 3;
 	public static final int COLUMN_TYPE_NUMBER = 4;
 	public static final int COLUMN_TYPE_PERCENTAGE = 5;
+	public static final int COLUMN_TYPE_QUATITY = 6;
 
 	private int generationType = 0;
 
@@ -675,6 +676,11 @@ public abstract class AbstractFinaneReport<R> extends
 	 * @param i
 	 */
 	public Alignment getHeaderHAlign(int i) {
+		return null;
+	}
+
+	@Override
+	public String getQuantityValue(Object object, int column) {
 		return null;
 	}
 

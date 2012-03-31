@@ -1,8 +1,9 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -45,7 +46,7 @@ public class InventoryValuationDetailsServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_QUATITY,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT };
 
@@ -85,15 +86,15 @@ public class InventoryValuationDetailsServerReport extends
 		case 3:
 			return record.getTransactionNo();
 		case 4:
-			return record.getQuantity().getValue();
+			return record.getQuantity();
 		case 5:
 			return record.getCost();
 		case 6:
-			return DataUtils.getQuantityAsString(record.getOnHand());
+			return record.getOnHand() + " " + record.getOnHandUnit();
 		case 7:
 			return record.getCost();
 		case 8:
-			return record.getQuantity().getValue() * record.getCost();
+			return record.getQuantity() * record.getCost();
 		}
 		return null;
 	}
@@ -140,4 +141,17 @@ public class InventoryValuationDetailsServerReport extends
 		return messages.thisMonth();
 	}
 
+	@Override
+	public String getQuantityValue(Object object, int column) {
+		if (sectionName != null && !sectionName.isEmpty() && column == 4) {
+			List<InventoryValutionDetail> records = getRecords();
+			for (InventoryValutionDetail inventoryValutionDetail : records) {
+				if (inventoryValutionDetail.getItemName().equals(sectionName)) {
+					Double value = (Double) object;
+					return value + " " + inventoryValutionDetail.getUnit();
+				}
+			}
+		}
+		return super.getQuantityValue(object, column);
+	}
 }

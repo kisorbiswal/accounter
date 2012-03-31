@@ -13,7 +13,7 @@ public abstract class JobColumn<T> extends ComboColumn<T, ClientJob> {
 
 	@Override
 	public int getWidth() {
-		return 130;
+		return 100;
 	}
 
 	public void setcustomerId(long customerId) {

@@ -26,7 +26,7 @@ public abstract class CustomerColumn<T> extends ComboColumn<T, ClientCustomer> {
 
 	@Override
 	public int getWidth() {
-		return 130;
+		return 110;
 	}
 
 	@Override

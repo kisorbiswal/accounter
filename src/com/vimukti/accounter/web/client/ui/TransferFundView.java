@@ -357,6 +357,8 @@ public class TransferFundView extends
 					transaction.getDepositFrom());
 			selectedDepositInAccount = getCompany().getAccount(
 					transaction.getDepositIn());
+			depositFromSelect.setComboItem(selectedDepositFromAccount);
+			depositInSelect.setComboItem(selectedDepositInAccount);
 			if (currencyWidget != null) {
 				setCurrency(transaction.getCurrency() != 0 ? getCurrency(transaction
 						.getCurrency()) : getCompany().getPrimaryCurrency());

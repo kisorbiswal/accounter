@@ -62,6 +62,11 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 				super.render(widget, context);
 				((CheckBox) widget).setValue(context.getRow().isPrimary());
 			}
+
+			@Override
+			public int getWidth() {
+				return 46;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {
@@ -78,7 +83,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public int getWidth() {
-				return 160;
+				return 140;
 			}
 
 			@Override
@@ -101,7 +106,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public int getWidth() {
-				return 160;
+				return 140;
 			}
 
 			@Override
@@ -119,8 +124,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidPhone(value))
 					row.setBusinessPhone(value);
 				else {
-					Accounter.showError(messages
-							.invalidBusinessPhoneVal());
+					Accounter.showError(messages.invalidBusinessPhoneVal());
 					row.setBusinessPhone("");
 				}
 			}
@@ -132,7 +136,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public int getWidth() {
-				return 160;
+				return 100;
 			}
 
 			@Override
@@ -182,7 +186,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public int getWidth() {
-				return 160;
+				return 140;
 			}
 
 			@Override
@@ -279,8 +283,8 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 										.getBusinessPhone()
 										.equals(getAllRows().get(j)
 												.getBusinessPhone()))
-							result.addError(this, messages
-									.youHaveEnteredduplicateContacts());
+							result.addError(this,
+									messages.youHaveEnteredduplicateContacts());
 					}
 				}
 			}

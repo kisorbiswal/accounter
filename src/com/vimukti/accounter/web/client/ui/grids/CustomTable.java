@@ -354,6 +354,7 @@ public abstract class CustomTable extends FlowPanel {
 
 	public void removeAllRows() {
 		hasLoadingImage = false;
+		this.body.removeStyleName("no_records");
 		this.body.removeAllRows();
 	}
 

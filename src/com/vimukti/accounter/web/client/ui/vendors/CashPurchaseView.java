@@ -362,6 +362,11 @@ public class CashPurchaseView extends
 			}
 
 			@Override
+			protected boolean isTrackJob() {
+				return CashPurchaseView.this.isTrackJob();
+			}
+
+			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
 				if (discountField.getAmount() != null
 						&& discountField.getAmount() != 0) {

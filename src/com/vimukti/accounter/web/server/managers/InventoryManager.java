@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -494,10 +495,8 @@ public class InventoryManager extends Manager {
 			InventoryValutionSummary detail = new InventoryValutionSummary();
 			detail.setItemName((String) next[0]);
 			detail.setItemDescription((String) next[1]);
-			ClientQuantity qty = new ClientQuantity();
-			qty.setValue(next[2] != null ? (Double) next[2] : 0);
-			qty.setUnit(next[3] != null ? (Long) next[3] : 0);
-			detail.setOnHand(qty);
+			detail.setOnHand(next[2] != null ? (Double) next[2] : 0);
+			detail.setUnit(next[3] != null ? (String) next[3] : "");
 			detail.setAvgCost(next[4] != null ? (Double) next[4] : 0);
 			detail.setSalesPrice(next[5] != null ? (Double) next[5] : 0);
 			detail.setItemId(next[6] != null ? (Long) next[6] : 0);
@@ -557,17 +556,12 @@ public class InventoryManager extends Manager {
 			detail.setTransType(next[2] != null ? (Integer) next[2] : 0);
 			detail.setTransactionNo((String) next[3]);
 
-			ClientQuantity tranxQty = new ClientQuantity();
-			tranxQty.setValue(next[4] != null ? (Double) next[4] : 0);
-			tranxQty.setUnit(next[5] != null ? (Long) next[5] : 0);
-			detail.setQuantity(tranxQty);
-
+			detail.setQuantity(next[4] != null ? (Double) next[4] : 0);
+			detail.setUnit(next[5] != null ? (String) next[5] : "");
 			detail.setCost(next[6] != null ? (Double) next[6] : 0);
 
-			ClientQuantity qty = new ClientQuantity();
-			qty.setValue(next[7] != null ? (Double) next[7] : 0);
-			qty.setUnit(next[8] != null ? (Long) next[8] : 0);
-			detail.setOnHand(qty);
+			detail.setOnHand(next[7] != null ? (Double) next[7] : 0);
+			detail.setOnHandUnit(next[8] != null ? (String) next[8] : "");
 
 			detail.setItemName((String) next[9]);
 			detail.setItemId(next[10] != null ? (Long) next[10] : 0);
@@ -840,6 +834,15 @@ public class InventoryManager extends Manager {
 					: "");
 			double amount = (object[8] == null ? 0 : ((Double) object[8])
 					.doubleValue());
+
+			long currecy = (Long) (object[9] == null ? 0 : object[9]);
+			transactionHistory.setCurrency(currecy);
+
+			if (transactionHistory.getType() == ClientTransaction.TYPE_ESTIMATE) {
+				transactionHistory
+						.setEstimateType((Integer) (object[10] == null ? 0
+								: object[10]));
+			}
 			totalAmount += amount;
 			transactionHistory.setAmount(totalAmount);
 

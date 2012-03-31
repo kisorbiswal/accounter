@@ -46,6 +46,7 @@ public class ReportGrid<R> extends CustomTable {
 	public static final int COLUMN_TYPE_DATE = 3;
 	public static final int COLUMN_TYPE_NUMBER = 4;
 	public static final int COLUMN_TYPE_PERCENTAGE = 5;
+	public static final int COLUMN_TYPE_QUATITY = 6;
 
 	Sorting<R> sorting;
 	Element bodyrowElem;
@@ -108,6 +109,9 @@ public class ReportGrid<R> extends CustomTable {
 							values[i] instanceof Double ? DataUtils
 									.getAmountAsStrings((Double) values[i])
 									+ " %" : values[i].toString(), depth, false);
+				} else if (columnTypes[i] == COLUMN_TYPE_QUATITY) {
+					addCell(rowCount, i, bold, getQuantityValue(values[i], i),
+							depth, underline);
 				} else {
 					addCell(rowCount, i, bold, values[i].toString(), depth,
 							false);
@@ -125,10 +129,14 @@ public class ReportGrid<R> extends CustomTable {
 
 	}
 
+	protected String getQuantityValue(Object object, int column) {
+		return object == null ? " " : object.toString();
+	}
+
 	private void addStyleNameByCol(int rowCount, int coltype, int col,
 			CellFormatter cellFormatter) {
 		if (Arrays.asList(COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_PERCENTAGE).contains(coltype)) {
+				COLUMN_TYPE_PERCENTAGE, COLUMN_TYPE_QUATITY).contains(coltype)) {
 			cellFormatter.addStyleName(rowCount, col, "gridDecimalCell");
 		}
 
@@ -161,6 +169,8 @@ public class ReportGrid<R> extends CustomTable {
 					this.footer.setText(0, i,
 							values[i] instanceof Double ? values[i].toString()
 									+ " %" : values[i].toString());
+				} else if (columnTypes[i] == COLUMN_TYPE_QUATITY) {
+					this.footer.setText(0, i, getQuantityValue(values[i], i));
 				} else {
 					this.footer.setText(0, i, values[i].toString());
 				}
