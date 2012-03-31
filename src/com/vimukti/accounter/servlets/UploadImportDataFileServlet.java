@@ -1,14 +1,9 @@
 package com.vimukti.accounter.servlets;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -56,35 +53,26 @@ public class UploadImportDataFileServlet extends BaseServlet {
 				String fileID = (String) files.nextElement();
 				File file = multi.getFile(fileID);
 				if (file != null) {
-					DataInputStream in = new DataInputStream(
-							new FileInputStream(file.getAbsolutePath()));
-					BufferedReader br = new BufferedReader(
-							new InputStreamReader(in));
-					String strLine;
-					Map<String, JSONArray> headerWithValues = new HashMap<String, JSONArray>();
+					CSVReader reader = new CSVReader(new FileReader(file));
 					JSONObject allRecords = new JSONObject();
-					while ((strLine = br.readLine()) != null) {
-						String[] values = strLine.split(",");
-
+					String nextLine[];
+					while ((nextLine = reader.readNext()) != null) {
 						if (isHeader) {
-							headers = values;
+							headers = nextLine;
 							isHeader = false;
 						} else {
-							if (values.length == headers.length) {
+							if (nextLine.length == headers.length) {
 								noOfLines++;
-								for (int i = 0; i < values.length; i++) {
-									String value = values[i].trim().replaceAll(
-											"\"", "");
-									JSONArray array = (JSONArray) headerWithValues
-											.get(headers[i]);
-									if (array == null) {
-										array = new JSONArray();
+								for (int i = 0; i < nextLine.length; i++) {
+									String value = nextLine[i].trim()
+											.replaceAll("\"", "");
+									if (!allRecords.has(headers[i])) {
+										JSONArray array = new JSONArray();
 										array.put(value);
-										headerWithValues.put(headers[i], array);
 										allRecords.put(headers[i], array);
 									} else {
-										JSONArray array2 = (JSONArray) allRecords
-												.get(headers[i]);
+										JSONArray array2 = allRecords
+												.getJSONArray(headers[i]);
 										array2.put(value);
 									}
 								}
@@ -92,7 +80,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 						}
 					}
 					object.put("fileID", file.getAbsolutePath());
-					object.put("first20Records", headerWithValues);
+					object.put("first20Records", allRecords);
 					object.put("noOfRows", noOfLines);
 				}
 			}
@@ -101,7 +89,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	@Override

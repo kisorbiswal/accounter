@@ -512,7 +512,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 					Iterator it2 = list.iterator();
 					while (it2.hasNext()) {
 						Object[] object2 = (Object[]) it2.next();
-						if (this.number.equals(object2[1])) {
+						if (number != null && this.number.equals(object2[1])) {
 							throw new AccounterException(
 									AccounterException.ERROR_NAME_CONFLICT);
 							// "A Customer already exists with this name and number");
