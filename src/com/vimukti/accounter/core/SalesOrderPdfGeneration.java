@@ -59,8 +59,9 @@ public class SalesOrderPdfGeneration {
 			i.setBillAddress(getBillingAddress());
 			i.setNumber(salesOrder.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(salesOrder
-					.getDeliveryDate()));
+					.getExpirationDate()));
 			i.setCustomerNo(salesOrder.getCustomerOrderNumber());
+			i.setDueDate(Utility.getDateInSelectedFormat(salesOrder.getDeliveryDate()));
 
 			// for primary curreny
 			Currency currency = salesOrder.getCustomer().getCurrency();
@@ -79,7 +80,7 @@ public class SalesOrderPdfGeneration {
 			ShippingMethod shipMtd = salesOrder.getShippingMethod();
 			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
 			i.setShippingMethod(shipMtdName);
-			i.setShipTerms(salesOrder.getShippingTerm().getName());
+			i.setShipTerms(salesOrder.getShippingTerm() !=null ?salesOrder.getShippingTerm().getName():"");
 			// for transactions
 
 			FieldsMetadata headersMetaData = new FieldsMetadata();
@@ -316,6 +317,7 @@ public class SalesOrderPdfGeneration {
 		private String number;
 		private String customerNo;
 		private String date;
+		private String dueDate;
 		private String currency;
 		private String terms;
 		private String billAddress;
@@ -464,6 +466,14 @@ public class SalesOrderPdfGeneration {
 
 		public void setCustomerName(String customerName) {
 			this.customerName = customerName;
+		}
+
+		public String getDueDate() {
+			return dueDate;
+		}
+
+		public void setDueDate(String dueDate) {
+			this.dueDate = dueDate;
 		}
 
 	}
