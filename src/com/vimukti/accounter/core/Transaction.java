@@ -1536,7 +1536,7 @@ public abstract class Transaction extends CreatableObject implements
 		if (DecimalUtil.isLessThan(getNetAmount(), 0.0)) {
 			throw new AccounterException(
 					AccounterException.ERROR_TRANSACTION_TOTAL_ZERO, Global
-							.get().messages().transactionAmount());
+							.get().messages().netAmount());
 		}
 	}
 

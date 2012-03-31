@@ -135,6 +135,7 @@ public class CustomerPrePayment extends Transaction {
 
 	@Override
 	public void checkNullValues() throws AccounterException {
+		super.checkNullValues();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		checkingCustomerNull(customer, Global.get().customer());
 		checkAccountNull(depositIn, Global.get().messages().depositIn());

@@ -204,11 +204,7 @@ public class JournalEntry extends Transaction {
 				}
 			}
 		}
-		if (getID() != 0 && ((creditTotal) != debitTotal)) {
-			throw new AccounterException(
-					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
-
-		} else if (getID() == 0 && ((creditTotal) != debitTotal)) {
+		if (creditTotal != debitTotal) {
 			throw new AccounterException(
 					AccounterException.ERROR_CREDIT_DEBIT_TOTALS_NOT_EQUAL);
 		} else {
