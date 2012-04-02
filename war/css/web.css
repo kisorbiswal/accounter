@@ -23,7 +23,7 @@
 }
 
 #PurchaseOrderView .bottomLayout .boldtext {
-	padding-left: 120px
+	padding-left: 90px
 }
 
 #VendorCreditMemoView .bottomLayout1 .boldtext {
@@ -54,6 +54,9 @@
 	}
 	#CustomerView .currencyTextBox {
 		padding-bottom: 1px;
+	}
+	#MakeDepositView .currencyPanel .dynamicForm{
+	    padding-bottom: 1px;
 	}
 	.grouped-buttons .Empty-text {
 		padding: 3px 13px;
@@ -2246,10 +2249,8 @@ table.no_records .norecord-empty-message td {
 
 .setup_panel {
 	margin: 7em auto;
-	width: 800px;
-	border: 1px solid gray;
-	min-height: 500px;
-	padding: 10px 10px 0;
+    padding: 0 0 50px;
+    width: 800px;
 }
 
 .setup_header_label {
@@ -2297,13 +2298,15 @@ table.no_records .norecord-empty-message td {
 	text-align: center;
 }
 
-.setup_panel .progress_panel_show {
+.setup_panel .progress_panel_show,.setup_panel .progress_panel_hide {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-	min-height: 500px;
 	width: 100%;
 	-moz-box-flex: 1;
+	border: 1px solid gray;
+	min-height: 500px;
+	padding: 10px 10px 0;
 }
 
 .progress_panel_show .progressPanel {
@@ -6472,8 +6475,8 @@ input[type="text"] {
 #NewFixedAssetView .DepreciationMethodCombo .gwt-ListBox {
 	border: 1px solid #AAAAAA;
 	border-radius: 3px 3px 3px 3px;
-	height: 23px;
-	padding: 0 5px;
+	height: 20px;
+	padding: 0 0 0 5px;
 	width: 172px;
 }
 
@@ -7306,4 +7309,13 @@ textarea[disabled] {
 
 .gridHeader .gwt-CheckBox,.gridBody .gwt-CheckBox{
 	margin:0px;
+}
+
+#CashExpenseView .bottompanel .bottomLayout .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
