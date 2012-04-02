@@ -263,7 +263,9 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		checkNullValues();
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);

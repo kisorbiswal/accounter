@@ -65,7 +65,9 @@ public class Attachment extends CreatableObject implements IAccounterServerCore 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		checkNullValues();
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		return true;
 	}
 

@@ -459,7 +459,9 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 					AccounterException.ERROR_OBJECT_IN_USE, Global.get()
 							.messages().editingCreditsFailed());
 		}
-		checkNullValues();
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		return true;
 	}
 
