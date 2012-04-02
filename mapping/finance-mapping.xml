@@ -240,7 +240,7 @@
 
 		<component name="preferences" class="CompanyPreferences">
 			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
-			<property name="timezone" type="encryptedstring" column="TIMEZONE"></property>
+			<property name="timezone" type="string" column="TIMEZONE"></property>
 			<property name="companyEmail" type="encryptedstring" column="COMPANY_EMAIL"></property>
 			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
 			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
