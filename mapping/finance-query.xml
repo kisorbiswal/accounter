@@ -2898,17 +2898,22 @@
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="ID" type="long" />
+		<return-scalar column="ESTIMATE_ID" type="long" />
 		
 		<![CDATA[
-				SELECT CC.ID AS ID
-				FROM   CASH_PURCHASE CC
+				SELECT ES.ID AS ESTIMATE_ID
+				FROM   CASH_PURCHASE CP
 				       LEFT JOIN TRANSACTION T
-				         ON T.ID = CC.ID
-				WHERE  CC.ID IS NULL
-				       AND CC.ID = :inputId
+				         ON T.ID = CP.ID
+				       LEFT JOIN CASH_PURCHASE_ESTIMATES CE
+				         ON CE.	CASH_PURCHASE_ID = CP.ID
+				       LEFT JOIN ESTIMATE ES
+				         ON ES.ID = CE.ELT
+				            AND ES.USED_INVOICE IS NOT NULL
+				WHERE  CP.ID = :inputId
 				       AND T.COMPANY_ID = :companyId
 				LIMIT  1  
+
 				]]>
 
 	</sql-query>
@@ -11737,6 +11742,7 @@
 					ORDER BY T.T_DATE ,T.NUMBER ,T.ID LIMIT 1
 		]]>
 	</sql-query>
+
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
