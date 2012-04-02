@@ -195,7 +195,7 @@
 				SELECT T.ID             AS TRANSACTION_ID,
 				       T.T_TYPE         AS TRANSACTION_TYPE,
 				       T.NUMBER         AS TRANSACTION_NUMBER,
-				       T.TOTAL * T.CURRENCY_FACTOR          AS ORIGINAL_AMOUNT,
+				       T.TOTAL          AS ORIGINAL_AMOUNT,
 				       PO.DELIVERY_DATE AS TRANSACTION_DATE,
 				       P.NAME           AS VENDOR_NAME,
 				       T.STATUS         AS TRANSACTION_STATUS,
