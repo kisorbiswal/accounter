@@ -23,7 +23,7 @@ public class Estimate extends Transaction {
 
 	public static final int STATUS_REJECTED = 1;
 
-//	public static final int STATUS_APPLIED = 5;
+	// public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_ACCECPTED = 2;
 
@@ -338,8 +338,8 @@ public class Estimate extends Transaction {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
 			User user = AccounterThreadLocal.get();
@@ -374,7 +374,9 @@ public class Estimate extends Transaction {
 			// // "This Quote is already  Rejected,can't  Modify");
 			// }
 		}
-		checkNullValues();
+		if (goingToBeEdit) {
+			checkNullValues();
+		}
 		return true;
 	}
 

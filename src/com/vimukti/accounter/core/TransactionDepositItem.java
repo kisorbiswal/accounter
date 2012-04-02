@@ -136,8 +136,8 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		if (this.account == null) {
 			throw new AccounterException(
 					AccounterException.ERROR_TRANSACTION_ITEM_NULL);

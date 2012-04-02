@@ -54,7 +54,8 @@ public class Unit extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject) {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -76,7 +77,7 @@ public class Unit extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

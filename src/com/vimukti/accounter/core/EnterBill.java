@@ -1128,8 +1128,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
@@ -1176,7 +1176,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 							.messages().bill());
 		}
 
-		return super.canEdit(clientObject);
+		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
 	@Override

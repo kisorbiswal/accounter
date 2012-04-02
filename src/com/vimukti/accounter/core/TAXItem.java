@@ -223,13 +223,15 @@ public class TAXItem extends TAXItemGroup {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		checkNullValues();
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		if (clientObject.getID() != 0) {
 			isNZDefaultTaxItem(clientObject);
 		}
-		return super.canEdit(clientObject);
+		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
 	private void checkNullValues() throws AccounterException {

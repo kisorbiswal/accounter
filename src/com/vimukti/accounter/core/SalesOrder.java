@@ -687,8 +687,8 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		// if (this.status == STATUS_COMPLETED || this.status ==
 		// STATUS_CANCELLED
@@ -698,7 +698,9 @@ public class SalesOrder extends Transaction {
 		// "This SalesOrder can't be edited, becuase it is Completed or Canceled "
 		// + this.getNumber());
 		// }
-		checkingCustomerNull(customer, Global.get().Customer());
+		if (!goingToBeEdit) {
+			checkingCustomerNull(customer, Global.get().Customer());
+		}
 		return true;
 	}
 

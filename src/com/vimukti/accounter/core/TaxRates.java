@@ -95,8 +95,8 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		return true;
 	}
@@ -114,13 +114,13 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-	this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

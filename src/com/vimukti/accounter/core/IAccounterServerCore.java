@@ -24,7 +24,7 @@ public interface IAccounterServerCore extends Serializable, Cloneable,
 
 	long getID();
 
-	boolean canEdit(IAccounterServerCore clientObject)
+	boolean canEdit(IAccounterServerCore clientObject, boolean goingToBeEdit)
 			throws AccounterException;
 
 	void writeAudit(AuditWriter w) throws JSONException;

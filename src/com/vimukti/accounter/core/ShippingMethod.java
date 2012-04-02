@@ -112,8 +112,8 @@ public class ShippingMethod extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		if (!UserUtils.canDoThis(ShippingMethod.class)) {
@@ -136,7 +136,9 @@ public class ShippingMethod extends CreatableObject implements
 				// "A ShippingMethod already exists with this name");
 			}
 		}
-		checkNameConflictsOrNull();
+		if (!goingToBeEdit) {
+			checkNameConflictsOrNull();
+		}
 		return true;
 	}
 

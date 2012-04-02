@@ -317,16 +317,18 @@ public class Vendor extends Payee {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		super.canEdit(clientObject);
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		super.canEdit(clientObject, goingToBeEdit);
 		Session session = HibernateUtil.getCurrentSession();
 
 		if (!UserUtils.canDoThis(Vendor.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		checkNullValues();
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		Vendor vendor = (Vendor) clientObject;
 		FlushMode flushMode = session.getFlushMode();
 

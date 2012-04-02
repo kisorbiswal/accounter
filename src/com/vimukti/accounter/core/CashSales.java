@@ -790,8 +790,8 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
 			User user = AccounterThreadLocal.get();
@@ -804,7 +804,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		return super.canEdit(clientObject);
+		return super.canEdit(clientObject, goingToBeEdit);
 
 	}
 

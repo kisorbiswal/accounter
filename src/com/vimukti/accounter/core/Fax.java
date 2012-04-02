@@ -14,7 +14,7 @@ public class Fax implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_BUSINESS = 1;
 	public static final int TYPE_HOME = 2;
 	public static final int TYPE_OTHER = 3;
@@ -64,8 +64,8 @@ public class Fax implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -77,13 +77,13 @@ public class Fax implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.fax()).gap();
 		w.put(messages.no(), this.number);
 	}

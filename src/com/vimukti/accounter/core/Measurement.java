@@ -166,8 +166,8 @@ public class Measurement extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		if (!UserUtils.canDoThis(Measurement.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);

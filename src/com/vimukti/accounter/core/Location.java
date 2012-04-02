@@ -70,8 +70,8 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		return false;
 	}
 
@@ -114,7 +114,7 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 
 		w.put(messages.email(), this.email);
 	}
-	
+
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();

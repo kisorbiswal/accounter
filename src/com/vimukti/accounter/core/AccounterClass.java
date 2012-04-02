@@ -23,9 +23,11 @@ public class AccounterClass extends CreatableObject implements
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		checkNullValues();
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		return false;
 	}
 
@@ -65,7 +67,7 @@ public class AccounterClass extends CreatableObject implements
 
 		w.put(messages.name(), this.className);
 	}
-	
+
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();

@@ -295,8 +295,8 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		if (!UserUtils.canDoThis(TransferFund.class)) {
 			throw new AccounterException(
@@ -312,7 +312,7 @@ public class TransferFund extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		FlushMode flushMode = session.getFlushMode();
 		session.setFlushMode(FlushMode.COMMIT);
-		flag = super.canEdit(clientObject);
+		flag = super.canEdit(clientObject, goingToBeEdit);
 		session.setFlushMode(flushMode);
 		return flag;
 	}

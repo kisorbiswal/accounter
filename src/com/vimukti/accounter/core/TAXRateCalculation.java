@@ -283,13 +283,13 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
 		}
-		
+
 		return false;
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		return true;
 	}

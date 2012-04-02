@@ -65,7 +65,7 @@ public class Manager {
 				.toServerObject(null, clientObject,
 						HibernateUtil.getCurrentSession());
 
-		return serverObject.canEdit(clonedObject);
+		return serverObject.canEdit(clonedObject, false);
 
 	}
 

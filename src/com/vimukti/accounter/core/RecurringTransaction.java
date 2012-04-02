@@ -179,8 +179,8 @@ public class RecurringTransaction extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		if (!UserUtils.canDoThis(RecurringTransaction.class)) {
