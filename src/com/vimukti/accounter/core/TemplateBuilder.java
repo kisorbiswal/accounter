@@ -22,6 +22,9 @@ public abstract class TemplateBuilder {
 		if (this.company.getLegalName() != null
 				&& !this.company.getLegalName().equals("")) {
 			CmpName = company.getLegalName();
+		} else if (this.company.getTradingName() != null
+				&& !this.company.getTradingName().equals("")) {
+			CmpName = company.getTradingName();
 		}
 	}
 
