@@ -169,6 +169,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			phoneSelect.setValue(customer.getPhoneNo());
 		else
 			phoneSelect.setValue("");
+
+		addressListOfCustomer = customer.getAddress();
+
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
 

@@ -137,7 +137,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 			}
 
-		//	double currencyFactor = memo.getCurrencyFactor();
+			// double currencyFactor = memo.getCurrencyFactor();
 			String symbol = memo.getCurrency().getSymbol();
 			// for displaying the credit item details
 			if (!memo.getTransactionItems().isEmpty()) {
@@ -148,12 +148,13 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					description = description.replace("\n", "<br/>");
 					String qty = String.valueOf(item.getQuantity().getValue());
 					String unitPrice = Utility.decimalConversation(
-							item.getUnitPrice() , "");
+							item.getUnitPrice(), "");
 					String totalPrice = Utility.decimalConversation(
-							item.getLineTotal() , "");
+							item.getLineTotal(), "");
 					String vatRate = item.getTaxCode().getName();
-					String vatAmount = Utility.decimalConversation(
-							item.getVATfraction() , "");
+					String vatAmount = item.getVATfraction() == null ? " "
+							: Utility.decimalConversation(
+									item.getVATfraction(), "");
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -182,13 +183,11 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for displaying the total price details
 
 			String memoVal = forNullValue(memo.getMemo());
-			String subTotal = Utility.decimalConversation(memo.getNetAmount()
-					, symbol);
-			String vatTotal = Utility.decimalConversation(
-					(memo.getTotal() - memo.getNetAmount()) ,
+			String subTotal = Utility.decimalConversation(memo.getNetAmount(),
 					symbol);
-			String total = Utility.decimalConversation(memo.getTotal()
-					, symbol);
+			String vatTotal = Utility.decimalConversation(
+					(memo.getTotal() - memo.getNetAmount()), symbol);
+			String total = Utility.decimalConversation(memo.getTotal(), symbol);
 
 			// if (memo.getMemo().trim().length() > 0) {
 			t.setVariable("memoText", memoVal);

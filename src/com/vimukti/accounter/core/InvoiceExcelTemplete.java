@@ -182,12 +182,17 @@ public class InvoiceExcelTemplete {
 					.hasNext();) {
 				TransactionItem transItem = (TransactionItem) iterator.next();
 
-				f.append(transItem.getDescription() + ','
-						+ transItem.getQuantity() + ','
-						+ transItem.getUnitPrice() + ','
-						+ transItem.getLineTotal() + ','
-						+ transItem.getTaxCode() + ','
-						+ transItem.getVATfraction() + "\n");
+				f.append(transItem.getDescription()
+						+ ','
+						+ transItem.getQuantity()
+						+ ','
+						+ transItem.getUnitPrice()
+						+ ','
+						+ transItem.getLineTotal()
+						+ ','
+						+ transItem.getTaxCode()
+						+ (transItem.getVATfraction() != null ? ',' + transItem
+								.getVATfraction() : "") + "\n");
 				csvWriter.writeln(new String[] {
 						transItem.getDescription(),
 						String.valueOf(transItem.getQuantity().getValue()),

@@ -241,8 +241,9 @@ public class QuotePdfTemplate implements PrintTemplete {
 				String totalPrice = Utility.decimalConversation(
 						item.getLineTotal(), symbol);
 
-				String vatAmount = Utility.decimalConversation(
-						item.getVATfraction(), symbol);
+				String vatAmount = item.getVATfraction() == null ? " "
+						: Utility.decimalConversation(item.getVATfraction(),
+								symbol);
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -315,12 +316,11 @@ public class QuotePdfTemplate implements PrintTemplete {
 			if (hasTermsNpaypalId) {
 				t.addBlock("termsNpaypalId");
 			}
-			String title="";
-			if(estimate.getEstimateType() == Estimate.QUOTES)
-			{
-				title=brandingTheme.getQuoteTitle();
-			}else if(estimate.getEstimateType() == Estimate.SALES_ORDER){
-				title=brandingTheme.getSalesOrderTitle();
+			String title = "";
+			if (estimate.getEstimateType() == Estimate.QUOTES) {
+				title = brandingTheme.getQuoteTitle();
+			} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
+				title = brandingTheme.getSalesOrderTitle();
 			}
 
 			t.setVariable("title", title);
@@ -455,11 +455,10 @@ public class QuotePdfTemplate implements PrintTemplete {
 
 	@Override
 	public String getFileName() {
-		
-		if(estimate.getEstimateType() == Estimate.QUOTES)
-		{
+
+		if (estimate.getEstimateType() == Estimate.QUOTES) {
 			return "Quote_" + this.estimate.getNumber();
-		}else if(estimate.getEstimateType() == Estimate.SALES_ORDER){
+		} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
 			return "SalesOrder_" + this.estimate.getNumber();
 		}
 		return "";

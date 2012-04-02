@@ -100,8 +100,10 @@ public class CreditNoteTemplete extends TemplateBuilder implements ITemplate {
 						+ "</div></td><td style=\"padding: 6px;\" align=\"right\" class=\"vatRate\"><span >"
 						+ Utility.getVATItemRate(item.getTaxCode(), true)
 						+ "%</span></td><td style=\"padding: 6px;\" align=\"right\" class=\"vatAmount\"><div>"
-						+ getDecimalsUsingMaxDecimals(item.getVATfraction(),
-								null, 2) + "</div></td></tr>";
+						+ (item.getVATfraction() == null ? ""
+								: getDecimalsUsingMaxDecimals(
+										item.getVATfraction(), null, 2))
+						+ "</div></td></tr>";
 			}
 		}
 		itemsHtml = ("<table id=\"items\"><tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Total Price</th><th>VAT Rate</th><th>VAT Amount</th></tr>"
