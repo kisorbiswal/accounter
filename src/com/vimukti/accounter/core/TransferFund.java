@@ -303,10 +303,10 @@ public class TransferFund extends Transaction implements Lifecycle {
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
-		if (!this.getReconciliationItems().isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED);
-		}
+		// if (!this.getReconciliationItems().isEmpty()) {
+		// throw new AccounterException(
+		// AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED);
+		// }
 
 		boolean flag;
 		Session session = HibernateUtil.getCurrentSession();
