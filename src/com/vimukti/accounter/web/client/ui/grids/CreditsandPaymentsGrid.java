@@ -54,6 +54,7 @@ public class CreditsandPaymentsGrid extends
 		switch (index) {
 		case 0:
 			return 75;
+		case 1:
 		case 2:
 		case 3:
 		case 4:
@@ -78,10 +79,9 @@ public class CreditsandPaymentsGrid extends
 					getAmountInForeignCurrency(creditsAndPayments
 							.getCreditAmount()), currency);
 		case 3:
-			return DataUtils
-					.amountAsStringWithCurrency(
-							getAmountInForeignCurrency(creditsAndPayments
-									.getRemaoningBalance()), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					getAmountInForeignCurrency(creditsAndPayments
+							.getRemaoningBalance()), currency);
 		case 4:
 			return DataUtils
 					.amountAsStringWithCurrency(
