@@ -818,7 +818,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			selectedAssetAccount = getCompany().getAccount(
 					selectedAssetAccount.getID());
 			if (selectedAssetAccount.getLinkedAccumulatedDepreciationAccount() == 0) {
-				if (accumulatedDepreciationAccount != null) {
+				if (accumulatedDepreciationAccount != null
+						&& accumulatedDepreciationAccount.getSelectedValue() != null
+						&& selectedAssetAccount.getID() != accumulatedDepreciationAccount
+								.getSelectedValue().getID()) {
 					data.setAccumulatedDepreciationAccount(accumulatedDepreciationAccount
 							.getSelectedValue() != null ? accumulatedDepreciationAccount
 							.getSelectedValue().getID() : 0);
