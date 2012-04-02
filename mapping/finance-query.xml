@@ -10850,6 +10850,10 @@
 				         ON cp.id = t.id
 				       left join credit_card_charges cc
 				         ON cc.id = t.id
+				       left outer join estimate e 
+				         ON e.id=t.id   AND e.estimatetype = 6
+				       left outer join purchase_order po
+				        ON po.id=t.id
 				       left join customer c
 				         ON c.id = cs.customer_id
 				             OR c.id = ccm.customer_id
@@ -10868,7 +10872,7 @@
 				              AND un.is_default = true )
 				WHERE  ti.id IS NOT NULL
 				       AND ( t.t_type IN ( 1, 2, 4, 6,
-				                           8, 14, 26, 27, 36 )
+				                           8,14,22,26, 27, 36 ,7)
 				             AND t.save_status NOT IN ( 201, 202 ) )
 				ORDER  BY t.t_date,
 				          t.id;  

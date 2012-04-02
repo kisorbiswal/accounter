@@ -530,6 +530,10 @@ public class InventoryManager extends Manager {
 			detail.setOnSalesOrder(next[7] != null ? (Long) next[7] : 0);
 			detail.setReorderPts(next[8] != null ? (Integer) next[8] : 0);
 			detail.setUnit((String) next[9]);
+			long onHandQt = next[3] != null ? (Long) next[3] : 0;
+			long assemblys = next[5] != null ? (Long) next[5] : 0;
+			long salesOrder = next[7] != null ? (Long) next[7] : 0;
+			detail.setAvilability(onHandQt - salesOrder - assemblys);
 			result.add(detail);
 		}
 		return result;
@@ -593,6 +597,11 @@ public class InventoryManager extends Manager {
 			detail.setAssemblies(next[5] != null ? (Long) next[5] : 0);
 			detail.setOrderOnPo(next[6] != null ? (Long) next[6] : 0);
 			detail.setOnSalesOrder(next[7] != null ? (Long) next[7] : 0);
+			long onHandQt = next[3] != null ? (Long) next[3] : 0;
+			long assemblys = next[5] != null ? (Long) next[5] : 0;
+			long salesOrder = next[7] != null ? (Long) next[7] : 0;
+			detail.setAvilability(onHandQt - salesOrder - assemblys);
+
 			detail.setReorderPts(next[8] != null ? (Integer) next[8] : 0);
 			detail.setUnit((String) next[9]);
 			result.add(detail);
