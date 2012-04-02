@@ -151,10 +151,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 							item.getUnitPrice(), "");
 					String totalPrice = Utility.decimalConversation(
 							item.getLineTotal(), "");
-					String vatRate = item.getTaxCode().getName();
-					String vatAmount = item.getVATfraction() == null ? " "
-							: Utility.decimalConversation(
-									item.getVATfraction(), "");
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -170,9 +166,12 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					t.setVariable("quantity", qty);
 					t.setVariable("unitPrice", unitPrice);
 					t.setVariable("itemTotalPrice", totalPrice);
-
 					if (company.getPreferences().isTrackTax()
 							&& brandingTheme.isShowTaxColumn()) {
+						String vatRate = item.getTaxCode().getName();
+						String vatAmount = item.getVATfraction() == null ? " "
+								: Utility.decimalConversation(
+										item.getVATfraction(), "");
 						t.setVariable("itemVatRate", vatRate);
 						t.setVariable("itemVatAmount", vatAmount);
 						t.addBlock("vatValueBlock");
