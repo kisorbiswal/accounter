@@ -6061,9 +6061,6 @@ form#contactForm .submit {
 .editTable .gwt-CheckBox{
 	margin:0px;
 }
-.gwt-DialogBox .formItem .gwt-Label {
-	width: 120px;
-}
 
 #TransactionsListView  .formItem {
 	margin-bottom: 0px;
@@ -6877,6 +6874,8 @@ textarea[disabled] {
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	box-pack: end;
 }
 
 .historyNotesPanel .history_notes_view {
