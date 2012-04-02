@@ -149,14 +149,18 @@ public class BaseServlet extends HttpServlet {
 		return (Boolean) res;
 	}
 
-	public byte[] getD2(HttpServletRequest request)
-			throws Base64DecoderException {
+	public byte[] getD2(HttpServletRequest request) {
 		String d2 = (String) request.getSession().getAttribute(
 				SECRET_KEY_COOKIE);
 		if (d2 == null) {
 			return null;
 		}
-		return Base64.decode(d2);
+		try {
+			return Base64.decode(d2);
+		} catch (Base64DecoderException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	protected Company getCompany(HttpServletRequest req) {

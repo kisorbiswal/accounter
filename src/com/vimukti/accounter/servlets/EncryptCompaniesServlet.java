@@ -12,12 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gdata.util.common.util.Base64DecoderException;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.encryption.Encrypter;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.Features;
 
@@ -94,8 +94,15 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				}
 			}
 			if (!isContain) {
-
+				resp.sendRedirect(COMPANIES_URL);
+				return;
 			}
+			byte[] d2 = getD2(req);
+			if (d2 == null) {
+				resp.sendRedirect(LOGIN_URL);
+				return;
+			}
+
 			Session session2 = HibernateUtil.getCurrentSession();
 			EU.removeCipher();
 			Company company = (Company) session2.get(Company.class,
@@ -117,8 +124,8 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				session.setAttribute(LOCAK_REASON_TYPE,
 						LOCK_REASON_TYPE_ENCRYPTION);
 				try {
-					new Encrypter(company.getId(), password, getD2(req),
-							emailId, session.getId()).start();
+					new Encrypter(company.getId(), password, d2, emailId,
+							session.getId()).start();
 				} catch (Exception e) {
 					session.removeAttribute(LOCAK_REASON_TYPE);
 					company.setLocked(false);

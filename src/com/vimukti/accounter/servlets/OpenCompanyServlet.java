@@ -100,16 +100,20 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			HashMap<String, String> accounterLocale = getLocaleConstants();
 			request.setAttribute("accounterLocale", accounterLocale);
-
-			if (client.getClientSubscription().getSubscription().isPaidUser()) {
-				request.setAttribute("isPaid", true);
-			} else {
-				request.setAttribute("isPaid", false);
-			}
+			boolean ispaid = client.getClientSubscription().getSubscription()
+					.isPaidUser();
+			request.setAttribute("isPaid", ispaid);
 
 			String create = (String) request.getSession().getAttribute(CREATE);
 			if (serverCompanyID == null) {
 				if (create != null && create.equals("true")) {
+					if (ispaid) {
+						byte[] d2 = getD2(request);
+						if (d2 == null) {
+							response.sendRedirect(LOGIN_URL);
+							return;
+						}
+					}
 					if (!canCreateCompany(client)) {
 						response.sendRedirect(COMPANIES_URL);
 						return;
@@ -183,7 +187,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				request.setAttribute("emailId", emailID);
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
-				Activity activity = new Activity(getCompany(request), user,
+				Activity activity = new Activity(company, user,
 						ActivityType.LOGIN);
 				session.save(activity);
 				transaction.commit();

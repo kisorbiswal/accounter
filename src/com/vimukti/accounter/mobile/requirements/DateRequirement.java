@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
+import com.vimukti.accounter.mobile.MobileException;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
@@ -23,12 +24,18 @@ public class DateRequirement extends SingleRequirement<ClientFinanceDate> {
 	}
 
 	@Override
-	protected ClientFinanceDate getInputFromContext(Context context) {
+	protected ClientFinanceDate getInputFromContext(Context context)
+			throws MobileException {
 		String string = context.getString();
 		try {
 			return new ClientFinanceDate(Long.parseLong(string));
 		} catch (Exception e) {
-			return new ClientFinanceDate(string);
+			try {
+				return new ClientFinanceDate(string);
+			} catch (Exception e1) {
+				throw new MobileException(getMessages().wrongFormat(
+						getMessages().date()));
+			}
 		}
 	}
 

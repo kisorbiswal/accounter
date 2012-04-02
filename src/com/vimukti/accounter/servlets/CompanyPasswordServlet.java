@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gdata.util.common.util.Base64DecoderException;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -38,6 +39,12 @@ public class CompanyPasswordServlet extends BaseServlet {
 			resp.sendRedirect(COMPANIES_URL);
 			return;
 		}
+		byte[] d2 = getD2(req);
+		if (d2 == null) {
+			req.setAttribute("error", "Please login and logout.");
+			setHintForRequest(req, companyId);
+			dispatch(req, resp, VIEW);
+		}
 		if (password != null) {
 			byte[] csk = EU.generatePBS(password);
 			byte[] comSecret = getCompanySecretFromDB(companyId);
@@ -53,7 +60,6 @@ public class CompanyPasswordServlet extends BaseServlet {
 					dispatch(req, resp, VIEW);
 					return;
 				}
-				byte[] d2 = getD2(req);
 				byte[] s2 = EU.getKey(req.getSession().getId());
 				byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
 				User user = getUser(emailId, companyId);
