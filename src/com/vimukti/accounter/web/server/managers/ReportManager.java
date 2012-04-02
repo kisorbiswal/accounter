@@ -3864,10 +3864,14 @@ public class ReportManager extends Manager {
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<BankCheckDetail> list = new ArrayList<BankCheckDetail>();
-		List result = session.getNamedQuery("getBankCheckDetails")
+		List result = session
+				.getNamedQuery("getBankCheckDetails")
 				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate()).list();
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("paymentMethod", "Cheque",
+						EncryptedStringType.INSTANCE).list();
+
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 

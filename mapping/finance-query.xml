@@ -11167,6 +11167,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="paymentMethod" type="encryptedstring" />
+
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -11228,9 +11230,8 @@
 				             OR P.ID = CPP.CUSTOMER_ID
 				             OR P.ID = RP.CUSTOMER_ID
 				WHERE  T.COMPANY_ID = :companyId
-				       AND T.PAYMENT_METHOD = 'Cheque'
-				       AND ( T.T_DATE <= :endDate
-				             AND T.T_DATE >= :startDate );  
+				       AND T.PAYMENT_METHOD = :paymentMethod
+				       AND (  T.T_DATE BETWEEN :startDate AND :endDate);  
 				]]>
 
 	</sql-query>
