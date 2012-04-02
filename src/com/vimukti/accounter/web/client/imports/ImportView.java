@@ -18,15 +18,14 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ImporterDialog;
 
 public class ImportView extends AbstractBaseView {
 
@@ -77,14 +76,14 @@ public class ImportView extends AbstractBaseView {
 		mappingTable = new FlexTable();
 		mainTable = new FlexTable();
 		mainTable.getElement().setId("mainTable");
-		
+
 		previewTable = new FlexTable();
 		previewTable.getElement().setId("previewTable");
-		
+
 		ScrollPanel scrollPanel = new ScrollPanel();
 		scrollPanel.setStyleName("scrollPanel");
 		scrollPanel.add(previewTable);
-		
+
 		mappingTable.addStyleName("import-match-content");
 		// previewTable.addStyleName("import-match-content");
 		// importerMatchingPanel.addStyleName("import-mapping-panel");
@@ -152,9 +151,9 @@ public class ImportView extends AbstractBaseView {
 		previewPanel.addStyleName("import-match-content");
 		// Save & Import buttons
 		StyledPanel buttonPanel2 = new StyledPanel("buttonPanel2");
-	
-		ImageButton saveButton = new ImageButton(messages.save(),Accounter.getFinanceImages()
-				.saveAndClose());
+
+		ImageButton saveButton = new ImageButton(messages.save(), Accounter
+				.getFinanceImages().saveAndClose());
 		saveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -170,11 +169,12 @@ public class ImportView extends AbstractBaseView {
 		buttonPanel2.add(saveButton);
 		buttonPanel2.add(cancelButton);
 		buttonPanel2.addStyleName("import-button-panel");
-		
+
 		StyledPanel importHeaderPanel = new StyledPanel("importHeaderPanel");
 		String importerName = ImporterType.getAllSupportedImporters().get(
 				new Integer(importType));
-		Label importerTitle = new Label(importerName + messages.importer());
+		Label importerTitle = new Label(messages.importFile() + " "
+				+ importerName);
 		importerTitle.addStyleName("preview-header");
 		importHeaderPanel.add(importerTitle);
 		mainTable.setWidget(1, 0, header);
@@ -468,64 +468,15 @@ public class ImportView extends AbstractBaseView {
 
 						@Override
 						public void onResultSuccess(Map<Integer, Object> result) {
+							ImporterDialog dialog = new ImporterDialog(messages
+									.importerInformation(), result);
 
-							AccounterDialog accounterDialog = new AccounterDialog(
-									getDeatailsAsString(result),
-									AccounterType.INFORMATION);
-							accounterDialog.show();
 						}
 					});
 			super.saveAndUpdateView();
 		} else {
 			Accounter.showError(messages.pleaseMapAtLeastOneField());
 		}
-	}
-
-	protected String getDeatailsAsString(Map<Integer, Object> result) {
-		long successCount = ((Long) result.get(0)).intValue();
-		int failureCount = result.size() - 1;
-		result.remove(new Integer((int) successCount));
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("<li>" + messages.importSuccessCount() + successCount
-				+ "</li>");
-		buffer.append("<li>" + messages.importFailureCount() + failureCount
-				+ "</li>");
-
-		for (Entry<Integer, Object> entry : result.entrySet()) {
-			Integer key = entry.getKey();
-			Object exception = entry.getValue();
-			if (exception instanceof List<?>) {
-				List<?> exceptionsList = (List<?>) exception;
-				buffer.append("<li>" + messages.exceptionDetails() + "in Line:"
-						+ "(" + key.intValue() + ")" + "</li>");
-				for (int i = 0; i < exceptionsList.size(); i++) {
-					AccounterException exception1 = (AccounterException) exceptionsList
-							.get(i);
-					buffer.append("<li>"
-							+ "("
-							+ i
-							+ ")"
-							+ exception1.getMessage()
-							+ " "
-							+ AccounterExceptions.getErrorString(exception1
-									.getErrorCode()) + "</li>");
-				}
-			} else if (exception instanceof AccounterException) {
-				buffer.append("<li>"
-						+ messages.exceptionDetails()
-						+ "in Line:"
-						+ "("
-						+ key.intValue()
-						+ ")"
-						+ "</li>"
-						+ "<li>"
-						+ AccounterExceptions
-								.getErrorString(((AccounterException) exception)
-										.getErrorCode()) + "</li>");
-			}
-
-		}
-		return buffer.toString();
 	}
 
 	private Map<String, String> updateImport() {

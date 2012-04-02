@@ -74,7 +74,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 		// Create list combo for type selection.
 		typeCombo = new SelectCombo(messages.whatYouWantToImport());
 		typeCombo.initCombo(getCSVFileList());
-		typeCombo.setComboItem(Global.get().Customer());
+		typeCombo.setComboItem(Global.get().Customers());
 		// typeCombo.getLabelWidget().addStyleName("bold_HTML");
 
 		HTML detailsHtml3 = new HTML(messages.chooseACSVFileToUpload());
@@ -93,7 +93,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 		vpaPanel.add(selectFileToUpload);
 
 		// Add a 'submit' button.
-		Button uploadSubmitButton = new Button(messages.save());
+		Button uploadSubmitButton = new Button(messages.upload());
 		// uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
@@ -262,5 +262,4 @@ public class UploadCSVFileDialog extends BaseDialog {
 		onCancel();
 		this.removeFromParent();
 	}
-
 }

@@ -33,11 +33,11 @@ public class ImporterType {
 	private static int parseInt;
 
 	static {
-		supportedImports.put(CUSTOMER, Global.get().Customer());
-		supportedImports.put(VENDOR, Global.get().Vendor());
+		supportedImports.put(CUSTOMER, Global.get().Customers());
+		supportedImports.put(VENDOR, Global.get().Vendors());
 		// supportedImports.put(INVOICE, Global.get().messages().invoice());
-		supportedImports.put(ITEM, Global.get().messages().item());
-		supportedImports.put(ACCOUNT, Global.get().messages().account());
+		supportedImports.put(ITEM, Global.get().messages().items());
+		supportedImports.put(ACCOUNT, Global.get().messages().Accounts());
 		// supportedImports.put(CUSTOMER_PREPAYMENT,
 		// messages.payeePrePayment(Global.get().Customer()));
 		// supportedImports.put(VENDOR_PREPAYMENT,
