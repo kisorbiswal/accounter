@@ -283,7 +283,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		totalLabel = new AmountLabel(
 				messages.currencyTotal(currency != null ? currency
 						.getFormalName() : getCompany().getPrimaryCurrency()
-						.getFormalName()));
+						.getFormalName()), currency != null ? currency
+						: getCompany().getPrimaryCurrency());
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
@@ -537,6 +538,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 	}
 

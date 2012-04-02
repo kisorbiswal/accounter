@@ -207,7 +207,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			ClientCurrency currency) {
 
 		amountItem = new AmountLabel(messages.currencyTotal(currency
-				.getFormalName()));
+				.getFormalName()), currency);
 		amountItem.setEnabled(false);
 
 		return amountItem;

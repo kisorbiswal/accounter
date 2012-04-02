@@ -502,7 +502,8 @@ public class VendorBillView extends
 		}
 		// dateform.getCellFormatter().setWidth(0, 0, "200px");
 		netAmount = new AmountLabel(messages.currencyNetAmount(getCompany()
-				.getPrimaryCurrency().getFormalName()));
+				.getPrimaryCurrency().getFormalName()), getCompany()
+				.getPrimaryCurrency());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setEnabled(false);
 
@@ -1473,8 +1474,11 @@ public class VendorBillView extends
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
+		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	@Override

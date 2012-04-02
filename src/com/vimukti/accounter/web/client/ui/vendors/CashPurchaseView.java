@@ -244,7 +244,8 @@ public class CashPurchaseView extends
 		// menuButton = createAddNewButton();
 
 		netAmount = new AmountLabel(
-				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setEnabled(false);
 
@@ -1410,8 +1411,11 @@ public class CashPurchaseView extends
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
+		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	@Override

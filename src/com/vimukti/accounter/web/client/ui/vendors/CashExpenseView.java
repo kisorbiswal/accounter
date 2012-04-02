@@ -361,7 +361,8 @@ public class CashExpenseView extends
 		}
 
 		netAmount = new AmountLabel(
-				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setEnabled(true);
 
@@ -1049,8 +1050,11 @@ public class CashExpenseView extends
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
+		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	protected void updateDiscountValues() {

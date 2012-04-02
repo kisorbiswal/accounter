@@ -513,7 +513,8 @@ public class CreditCardChargeView extends
 			termsForm.add(classListCombo);
 		}
 		netAmount = new AmountLabel(
-				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setEnabled(false);
 
@@ -1192,8 +1193,11 @@ public class CreditCardChargeView extends
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
+		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	protected void updateDiscountValues() {

@@ -1517,8 +1517,11 @@ public class PurchaseOrderView extends
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
+		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	protected void updateDiscountValues() {

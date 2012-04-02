@@ -1160,6 +1160,8 @@ public class TransferFundView extends
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(currencyWidget.getSelectedCurrency()
 							.getFormalName()));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 	}
 

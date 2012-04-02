@@ -1779,9 +1779,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		if (netAmountLabel != null) {
 			netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
+			netAmountLabel.setCurrency(currencyWidget.getSelectedCurrency());
 		}
 	}
 

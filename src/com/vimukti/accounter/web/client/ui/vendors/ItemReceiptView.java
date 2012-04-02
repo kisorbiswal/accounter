@@ -153,7 +153,8 @@ public class ItemReceiptView extends
 		}
 
 		netAmount = new AmountLabel(
-				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setEnabled(false);
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()

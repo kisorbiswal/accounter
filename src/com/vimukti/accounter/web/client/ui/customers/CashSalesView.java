@@ -1555,8 +1555,11 @@ public class CashSalesView extends
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(formalName));
+			foreignCurrencyamountLabel.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 		netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
+		netAmountLabel.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	@Override
