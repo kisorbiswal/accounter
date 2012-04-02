@@ -338,6 +338,16 @@ public class CashPurchase extends Transaction {
 						.isBillableExpsesEnbldForProductandServices()) {
 			createAndSaveEstimates(this.transactionItems, session);
 		}
+
+		for (PurchaseOrder billOrder : this.purchaseOrders) {
+			PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
+					PurchaseOrder.class, billOrder.getID());
+			if (!this.isVoid()) {
+				purchaseOrder.setUsedCashPurchase(this, session);
+			}
+			purchaseOrder.onUpdate(session);
+			session.saveOrUpdate(purchaseOrder);
+		}
 		return false;
 	}
 
@@ -367,18 +377,19 @@ public class CashPurchase extends Transaction {
 				 */
 				if (!isPartiallyInvoiced) {
 					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : billOrder.transactionItems) {
+					for (TransactionItem orderTransactionItem : purchaseOrder.transactionItems) {
 						// if (orderTransactionItem.getType() != 6)
 						usdAmount += orderTransactionItem.usedamt;
 					}
 					// else
 					// usdAmount += orderTransactionItem.lineTotal;
-					if (DecimalUtil.isLessThan(usdAmount, billOrder.netAmount))
+					if (DecimalUtil.isLessThan(usdAmount,
+							purchaseOrder.netAmount))
 						isPartiallyInvoiced = true;
 				}
 				if (isCreated) {
 					try {
-						for (TransactionItem item : billOrder.transactionItems) {
+						for (TransactionItem item : purchaseOrder.transactionItems) {
 							TransactionItem clone = item.clone();
 							clone.transaction = this;
 							clone.setReferringTransactionItem(item);
@@ -387,12 +398,7 @@ public class CashPurchase extends Transaction {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					if (!this.isVoid()) {
-						billOrder.setUsedCashPurchase(cashPurchase, session);
-					}
 				}
-				billOrder.onUpdate(session);
-				session.saveOrUpdate(billOrder);
 			}
 		}
 	}

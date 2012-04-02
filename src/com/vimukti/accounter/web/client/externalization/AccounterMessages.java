@@ -6298,4 +6298,5 @@ public interface AccounterMessages extends Messages {
 
 	public String enteropenidPasswordinfo();
 
+	public String youcantDeleteSystemAccount();
 }

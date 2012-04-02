@@ -342,9 +342,9 @@ public class PurchaseOrderView extends
 			dateform.add(locationCombo);
 		dateform.add( /* despatchDateItem, */deliveryDateItem);
 
+		classListCombo = createAccounterClassListCombo();
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
 			dateform.add(classListCombo);
 		}
 

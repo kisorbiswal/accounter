@@ -285,7 +285,7 @@
 		<return-scalar column="SO_OR_QUOTE_NO" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
-		<return-scalar column="ITEM_GROUP" type="long" />
+		<return-scalar column="ITEM_GROUP" type="encryptedstring" />
 		<return-scalar column="SALES_DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
@@ -343,7 +343,7 @@
 		<return-scalar column="SO_OR_QUOTE_NO" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
-		<return-scalar column="ITEM_GROUP" type="long" />
+		<return-scalar column="ITEM_GROUP" type="encryptedstring" />
 		<return-scalar column="SALES_DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />

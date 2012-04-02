@@ -246,12 +246,12 @@ public abstract class VendorAccountTransactionTable extends
 		this.addColumn(new TransactionTotalColumn(currencyProvider, true) {
 			@Override
 			public int getWidth() {
-				if ((isCustomerAllowedToAdd && enableClass)
-						|| (isCustomerAllowedToAdd && enableDisCount)
+				if ((isCustomerAllowedToAdd && showClass)
+						|| (isCustomerAllowedToAdd && showDiscount)
 						|| (isCustomerAllowedToAdd && showTaxCode)
-						|| (enableClass && enableDisCount)
-						|| (enableClass && showTaxCode)
-						|| (enableDisCount && showTaxCode)) {
+						|| (showClass && showDiscount)
+						|| (showClass && showTaxCode)
+						|| (showDiscount && showTaxCode)) {
 					return 70;
 				}
 				return super.getWidth();
@@ -302,14 +302,14 @@ public abstract class VendorAccountTransactionTable extends
 					@Override
 					public int getWidth() {
 						if (isCustomerAllowedToAdd && isTrackJob()
-								&& enableClass && enableDisCount) {
+								&& enableClass && showDiscount) {
 							return 30;
-						} else if ((isCustomerAllowedToAdd && enableClass)
-								|| (isCustomerAllowedToAdd && enableDisCount)
+						} else if ((isCustomerAllowedToAdd && showClass)
+								|| (isCustomerAllowedToAdd && showDiscount)
 								|| (isCustomerAllowedToAdd && showTaxCode)
-								|| (enableClass && enableDisCount)
-								|| (enableClass && showTaxCode)
-								|| (enableDisCount && showTaxCode)) {
+								|| (showClass && showDiscount)
+								|| (showClass && showTaxCode)
+								|| (showDiscount && showTaxCode)) {
 							return 60;
 						}
 						return super.getWidth();
@@ -370,12 +370,12 @@ public abstract class VendorAccountTransactionTable extends
 			this.addColumn(new TransactionBillableColumn() {
 				@Override
 				public int getWidth() {
-					if ((isCustomerAllowedToAdd && enableClass)
-							|| (isCustomerAllowedToAdd && enableDisCount)
+					if ((isCustomerAllowedToAdd && showClass)
+							|| (isCustomerAllowedToAdd && showDiscount)
 							|| (isCustomerAllowedToAdd && showTaxCode)
-							|| (enableClass && enableDisCount)
-							|| (enableClass && showTaxCode)
-							|| (enableDisCount && showTaxCode)) {
+							|| (showClass && showDiscount)
+							|| (showClass && showTaxCode)
+							|| (showDiscount && showTaxCode)) {
 						return 24;
 					}
 					return super.getWidth();

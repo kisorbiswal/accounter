@@ -400,7 +400,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 				transactionItem.setTaxCode(taxCode.getID());
 			}
 		}
-		if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+		if (isTrackClass() && !getPreferences().isClassPerDetailLine()
+				&& accounterClass != null) {
 			transactionItem.setAccounterClass(accounterClass.getID());
 		}
 		addItemTransactionItem(transactionItem);

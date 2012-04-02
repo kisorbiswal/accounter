@@ -319,6 +319,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						.isBillableExpsesEnbldForProductandServices()) {
 			createAndSaveEstimates(this.transactionItems, session);
 		}
+
+		if (!this.isVoid() && this.purchaseOrders != null) {
+			for (PurchaseOrder billOrder : this.purchaseOrders) {
+				PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
+						PurchaseOrder.class, billOrder.getID());
+				purchaseOrder.setUsedBill(this, session);
+				purchaseOrder.onUpdate(session);
+				session.saveOrUpdate(purchaseOrder);
+			}
+		}
 		return false;
 	}
 
@@ -798,13 +808,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				 */
 				if (!isPartiallyInvoiced) {
 					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : billOrder.transactionItems) {
+					for (TransactionItem orderTransactionItem : purchaseOrder.transactionItems) {
 						// if (orderTransactionItem.getType() != 6)
 						usdAmount += orderTransactionItem.usedamt;
 					}
 					// else
 					// usdAmount += orderTransactionItem.lineTotal;
-					if (DecimalUtil.isLessThan(usdAmount, billOrder.netAmount))
+					if (DecimalUtil.isLessThan(usdAmount,
+							purchaseOrder.netAmount))
 						isPartiallyInvoiced = true;
 				}
 				if (isCreated) {
@@ -818,12 +829,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					if (!this.isVoid()) {
-						billOrder.setUsedBill(enterBill, session);
-					}
 				}
-				billOrder.onUpdate(session);
-				session.saveOrUpdate(billOrder);
 				//
 				// boolean isPartialEnterBill = false;
 				// boolean flag = true;

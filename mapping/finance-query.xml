@@ -1888,7 +1888,20 @@
 
 	</sql-query>
 
-
+	<sql-query name="isCompanyAccount">
+		<query-param name="accountId" type="long" />
+		<query-param name="companyId" type="long" />
+		<![CDATA[
+			SELECT CASE WHEN (
+			:accountId IN (C.CASH_DISCOUNT_ACCOUNT,C.ACCOUNTS_RECEIVABLE_ID,C.ACCOUNTS_ROUND_ID,C.ACCOUNTS_PAYABLE_ID
+			,C.OPENING_BALANCES_ID,C.RETAINED_EARNINGS_ID,C.OTHER_CASH_INCOME_ID,C.OTHER_CASH_EXPENSE_ID
+			,C.CASH_DISCOUNTS_GIVEN,C.CASH_DISCOUNTS_TAKEN,C.TAX_LIABILITY_ACCOUNT_ID,C.VAT_FILED_LIABILITY_ACCOUNT_ID
+			,C.PENDING_ITEM_RECEIPTS_ACCOUNT_ID,C.EXCHANGE_LOSS_OR_GAIN_ACCOUNT,C.COST_OF_GOODS_SOLD)) 
+			THEN TRUE ELSE FALSE END AS IS_EXISTS FROM COMPANY C 
+			WHERE C.ID=:companyId
+		]]>			
+	</sql-query>
+	
 	<sql-query name="canDeleteAccount">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
