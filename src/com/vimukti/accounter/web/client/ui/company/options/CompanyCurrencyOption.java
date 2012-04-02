@@ -72,12 +72,13 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		isEnableMultiCurrencyCheckBox.setValue(Accounter
+		isEnableMultiCurrencyCheckBox.setVisible(Accounter
 				.hasPermission(Features.MULTI_CURRENCY));
 		currencyCommentLabel.setText(messages.changingCurrencyComment());
 		isEnableMultiCurrencyCheckBox.setText(messages.isMultiCurrencyEnable());
 
-		if (getCompany().hasOtherCountryCurrency()) {
+		if (getCompanyPreferences().isEnableMultiCurrency()
+				|| getCompany().hasOtherCountryCurrency()) {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);
 		}
 		setEnable(false);

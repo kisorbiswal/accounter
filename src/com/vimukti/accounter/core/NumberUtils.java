@@ -40,8 +40,9 @@ public class NumberUtils {
 		String maxStr = "";
 		for (int i = list.size() - 1; i >= 0; i--) {
 			String num = (String) list.get(i);
-			if (num.replaceAll("[\\D]", "").length() > 0) {
-				long p = Long.parseLong(num);
+			String string = num.replaceAll("[\\D]", "");
+			if (string.length() > 0) {
+				long p = Long.parseLong(string);
 				if (p > max) {
 					max = p;
 					maxStr = num;
