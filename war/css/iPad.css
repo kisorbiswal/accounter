@@ -300,7 +300,7 @@ html,body {
 }
 
 .gridHeader td,.gridBody tr td {
-	border-right: 1px solid #1a1a1a;
+	border-color: #1A1A1A;
 	display: table-cell;
 	white-space: pre-wrap;
 	word-wrap: break-word;
@@ -338,10 +338,6 @@ input[type="checkbox"] {
 .gwt-Tree .gwt-TreeItem-selected { /*padding-right: 2px;
 	display: table !important;*/
 	
-}
-
-.standard_label,.custom-combo,.editTable .comboBox .gwt-TextBox {
-	float: left;
 }
 
 .Caption img,.gwt-TreeItem img {
@@ -725,7 +721,7 @@ form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#cont
 }
 
 .disable-TextField,.input[disabled='disabled'] {
-	border: 1px solid #DDDDDD !important;
+
 }
 
 textarea.disable-TextField {
@@ -1344,6 +1340,7 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 
 .editTable .editheader td,.editTable td {
 	border-width: 0 1px 1px 0;
+	border-color: #918C8C;
 }
 
 .editTable td {
@@ -2109,4 +2106,22 @@ input.date-field-textbox {
 	color: white;
 	padding: 3px 0px 5px 5px;
 	border-radius: 5px 5px 0 0;
+}
+.button_bar {
+	display: block;
+	padding: 10px 10px 10px 0;
+	width: 100%;
+}
+
+.gwt-Button {
+	background-color: #E4E4E4;
+	color: black;
+	border: 1px solid #A0A0A0;
+}
+.gwt-Button:hover{
+	background-color:#5f5f5f;
+	color:white;
+}
+.viewholder a,.quick-links-table .gwt-Anchor{
+	color:black !important;
 }

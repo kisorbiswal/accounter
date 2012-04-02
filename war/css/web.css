@@ -1,5 +1,4 @@
-@
--moz-document url-prefix   (){ .editTable table td .gwt-TextBox {
+@-moz-document url-prefix   (){ .editTable table td .gwt-TextBox {
 	width: 99%;
 }
 
@@ -39,7 +38,9 @@
 .grouped-buttons .Empty-text {
 	padding: 3px 10px;
 }
-
+.editTable table{
+	table-layout: auto !important;
+}
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#VendorView .accInfoForm {
@@ -56,6 +57,9 @@
 	}
 	.grouped-buttons .Empty-text {
 		padding: 3px 13px;
+	}
+	.report-toolbar .form .dropdown-button .gwt-Label{
+	   width:50px;
 	}
 }
 
@@ -1797,7 +1801,7 @@ table.gridHeader tr td {
 	width: 25px !important;
 }
 
-table.no_records td {
+table.no_records .norecord-empty-message td {
 	text-align: center;
 }
 
@@ -3488,6 +3492,10 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-pack: justify;
 	-moz-box-flex: 1;
 	width: 100%;
+}
+
+#PurchaseOrderView .bottomLayout .form .panel{
+	width:auto;
 }
 
 #PurchaseOrderView .bottomLayout .prodAndServiceHLay {
@@ -5719,7 +5727,6 @@ form#contactForm .submit {
 
 #import-preview-panel #mainTable {
 	width: 100%;
-	padding-left: 25px;
 }
 
 #import-preview-panel .preview-header {
@@ -5752,6 +5759,22 @@ form#contactForm .submit {
 
 #import-preview-pane .import-match-content td .table-header {
 	padding: 5px;
+}
+
+#import-preview-panel .import-match-content{
+	width:550px;
+}
+
+#import-preview-panel .import-match-content td{
+	padding-right:10px;
+}
+
+#import-preview-panel .import-button-panel{
+	text-align: center;
+}
+
+#import-preview-panel .import-button-panel button{
+	margin-right:10px;
 }
 
 #BankAccountsPortlet .listgrid .gridHeader {
@@ -6028,7 +6051,9 @@ form#contactForm .submit {
 	display: block;
 	margin: 4px 0 0 4px;
 }
-
+.editTable .gwt-CheckBox{
+	margin:0px;
+}
 .gwt-DialogBox .formItem .gwt-Label {
 	width: 120px;
 }
@@ -6925,6 +6950,7 @@ textarea[disabled] {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+	width:100%;
 }
 
 #BuildAssemblyView  .topPanel .formItem {
@@ -7250,4 +7276,25 @@ textarea[disabled] {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	width: 100%;
+}
+#EmailAccountDialog .bodyLayout .form{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;	
+    padding: 5px;
+}
+.Report .gridHeader,.Report .gridBody{
+	table-layout: fixed;
+}
+#TransactionsListView .gridHeader,#TransactionsListView .gridBody{
+	table-layout: fixed;
+}
+#paytaxview .gridHeader,#paytaxview .gridBody{
+	table-layout: fixed;
+}
+#receivetaxview .gridHeader,#receivetaxview .gridBody{
+	table-layout: fixed;
 }
