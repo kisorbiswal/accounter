@@ -318,7 +318,7 @@ public abstract class EditTable<R> extends FlowPanel {
 		this.table.getRowFormatter().setStyleName(numOfRowsPerObject,
 				"norecord-empty-message");
 		this.table.addStyleName("no_records");
-		flexCellFormatter.setColSpan(0, 0, columns.size() / 2);
+		flexCellFormatter.setColSpan(numOfRowsPerObject, 0, columns.size() / 2);
 	}
 
 	protected abstract boolean isInViewMode();
