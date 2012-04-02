@@ -7319,3 +7319,10 @@ textarea[disabled] {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
+
+#EnterExchangeRatesDialog table{
+	width: 500px;
+}
+#CheckPrintingSettingView .cheque_form .gwt-Label{
+	 margin-right: 25px;
+}
