@@ -103,8 +103,8 @@ public class UserPermissions implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		return false;
 	}

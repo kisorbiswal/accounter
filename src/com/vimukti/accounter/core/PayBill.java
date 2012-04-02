@@ -804,8 +804,8 @@ public class PayBill extends Transaction {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		if (!UserUtils.canDoThis(PayBill.class)) {
 			throw new AccounterException(
@@ -834,7 +834,7 @@ public class PayBill extends Transaction {
 		// } else {
 		// return true;
 		// }
-		super.canEdit(clientObject);
+		super.canEdit(clientObject, goingToBeEdit);
 		return true;
 	}
 

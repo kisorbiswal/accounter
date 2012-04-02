@@ -295,8 +295,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		if (!UserUtils.canDoThis(PayTAX.class)) {
 			throw new AccounterException(
@@ -307,7 +307,9 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
-		checkNullValues();
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		return true;
 	}
 

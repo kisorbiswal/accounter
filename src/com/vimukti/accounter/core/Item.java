@@ -521,8 +521,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		if (!UserUtils.canDoThis(Item.class)) {
@@ -543,8 +543,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				// "An Item already exists with this Name");
 			}
 		}
-		checkNameNull();
-		checkAccountsNull((Item) clientObject);
+		if (!goingToBeEdit) {
+			checkNameNull();
+			checkAccountsNull((Item) clientObject);
+		}
 		return true;
 
 	}

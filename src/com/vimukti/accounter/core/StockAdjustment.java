@@ -38,13 +38,15 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		if (!UserUtils.canDoThis(StockAdjustment.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		checkNullValues();
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		return true;
 	}
 

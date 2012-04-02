@@ -257,8 +257,8 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		ReceiveVAT receiveVAT = (ReceiveVAT) clientObject;
 		if (receiveVAT.isVoid()) {
 			throw new AccounterException(
@@ -270,7 +270,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
-		return super.canEdit(clientObject);
+		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
 	@Override

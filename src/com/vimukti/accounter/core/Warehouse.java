@@ -86,16 +86,18 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		if (!UserUtils.canDoThis(Warehouse.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+		if (!goingToBeEdit) {
+			checkForNullValues();
+		}
 
-		checkForNullValues();
 		Query query = session
 				.getNamedQuery("getWarehouse")
 				.setParameter("companyId",

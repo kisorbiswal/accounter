@@ -1244,8 +1244,8 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		// if (isVoid() || isDeleted()) {
 		//
@@ -1254,7 +1254,7 @@ public abstract class Transaction extends CreatableObject implements
 		// // "This Transaction  is already voided or Deleted, can't Modify");
 		// }
 		if (creditsAndPayments != null) {
-			creditsAndPayments.canEdit(clientObject);
+			creditsAndPayments.canEdit(clientObject, goingToBeEdit);
 		}
 		Transaction transaction = (Transaction) clientObject;
 		Set<String> features = transaction.getCompany().getCreatedBy()
@@ -1274,8 +1274,9 @@ public abstract class Transaction extends CreatableObject implements
 		if (transaction.getSaveStatus() == STATUS_DRAFT) {
 			return true;
 		}
+
 		// checkForReconciliation(transaction);
-		if (saveStatus != STATUS_DRAFT) {
+		if (saveStatus != STATUS_DRAFT && !goingToBeEdit) {
 			checkNullValues();
 		}
 		// if (isVoid() /* && !getReconciliationItems().isEmpty() */) {

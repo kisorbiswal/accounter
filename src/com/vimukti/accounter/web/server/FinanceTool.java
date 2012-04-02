@@ -599,8 +599,8 @@ public class FinanceTool {
 						throw new AccounterException(
 								AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED);
 					} else if (transaction.getCreditsAndPayments() != null) {
-						transaction.getCreditsAndPayments()
-								.canEdit(transaction);
+						transaction.getCreditsAndPayments().canEdit(
+								transaction, false);
 					}
 				}
 				if (serverObject instanceof TAXItem) {

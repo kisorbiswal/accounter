@@ -169,7 +169,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throw new AccounterException(
 					AccounterException.ERROR_ALREADY_DELETED);
 		}
-		return serverCore.canEdit(serverCore);
+		return serverCore.canEdit(serverCore, true);
 	}
 
 	@Override

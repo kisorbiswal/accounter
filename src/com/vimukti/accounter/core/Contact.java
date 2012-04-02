@@ -137,8 +137,8 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		if (email != null && !email.trim().isEmpty()) {
 			if (!UIUtils.isValidEmail(email)) {
 				throw new AccounterException(

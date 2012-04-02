@@ -169,8 +169,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 
 		return false;
 	}
@@ -238,7 +238,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 					.getFiledLiabilityAccount();
 			account.updateCurrentBalance(this.receiveVAT, -1
 					* this.amountToReceive, 1);
-			
+
 			this.taxReturn = null;
 		}
 		return false;

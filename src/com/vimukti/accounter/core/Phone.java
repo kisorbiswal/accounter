@@ -14,7 +14,7 @@ public class Phone implements IAccounterServerCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int BUSINESS_PHONE_NUMBER = 1;
 	public static final int MOBILE_PHONE_NUMBER = 2;
 	public static final int HOME_PHONE_NUMBER = 3;
@@ -67,8 +67,8 @@ public class Phone implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -80,14 +80,14 @@ public class Phone implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.phone()).gap();
 		w.put(messages.no(), this.number);
 	}

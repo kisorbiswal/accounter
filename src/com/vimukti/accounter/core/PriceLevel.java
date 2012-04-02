@@ -111,8 +111,8 @@ public class PriceLevel extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		// Session session = HibernateUtil.getCurrentSession();
 		// PriceLevel priceLevel = (PriceLevel) clientObject;
 		// Query query = session.getNamedQuery("getPriceLevel.by.Name")

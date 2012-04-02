@@ -451,8 +451,8 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	// }
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		if (transactionCreditsAndPayments != null
 				&& !transactionCreditsAndPayments.isEmpty()) {
 			throw new AccounterException(

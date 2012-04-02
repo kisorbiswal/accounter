@@ -80,8 +80,8 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -119,13 +119,13 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(),messages.nominalCodeRange()).gap();
+
+		w.put(messages.type(), messages.nominalCodeRange()).gap();
 	}
 }

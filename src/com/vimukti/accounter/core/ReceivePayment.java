@@ -699,8 +699,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		// Kumar said that no need to check the condition to void ReceivePayment
 		// eventhough the DepostitIn account is MakeDeposited.
 
@@ -719,7 +719,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
-		return super.canEdit(clientObject);
+		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
 	protected void checkForReconciliation(Transaction transaction)

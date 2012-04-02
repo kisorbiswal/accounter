@@ -90,9 +90,11 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		checkNullValues();
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		if (!goingToBeEdit) {
+			checkNullValues();
+		}
 		return true;
 	}
 

@@ -311,8 +311,8 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
 			User user = AccounterThreadLocal.get();
@@ -325,7 +325,7 @@ public class VendorCreditMemo extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		return super.canEdit(clientObject);
+		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
 	public void setContact(Contact contact) {

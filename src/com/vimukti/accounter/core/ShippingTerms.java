@@ -108,8 +108,8 @@ public class ShippingTerms extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		if (!UserUtils.canDoThis(ShippingTerms.class)) {
@@ -132,7 +132,9 @@ public class ShippingTerms extends CreatableObject implements
 				// "ShippingTerms already exists with this name");
 			}
 		}
-		checkNameConflictsOrNull();
+		if (!goingToBeEdit) {
+			checkNameConflictsOrNull();
+		}
 		return true;
 	}
 

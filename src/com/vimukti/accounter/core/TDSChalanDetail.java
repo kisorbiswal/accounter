@@ -248,8 +248,8 @@ public class TDSChalanDetail extends Transaction implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
 		return true;
 	}
 
