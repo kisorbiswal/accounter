@@ -488,7 +488,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				toolbar = new CreateJobIdToolBar(false, this);
 				break;
 			case TOOLBAR_TYPE_ACCOUNT:
-				toolbar = new AccountReportToolBar();
+				toolbar = new AccountReportToolBar(this);
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();
