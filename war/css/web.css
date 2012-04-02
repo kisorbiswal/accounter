@@ -7295,7 +7295,7 @@ textarea[disabled] {
 	table-layout: fixed;
 }
 
-#TransactionsListView .gridHeader,#TransactionsListView .gridBody{
+.Transactions_center #TransactionsListView .gridHeader,.Transactions_center #TransactionsListView .gridBody{
 	table-layout: fixed;
 }
 
@@ -7318,4 +7318,11 @@ textarea[disabled] {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+}
+
+#EnterExchangeRatesDialog table{
+	width: 500px;
+}
+#CheckPrintingSettingView .cheque_form .gwt-Label{
+	 margin-right: 25px;
 }
