@@ -444,7 +444,6 @@ public class TAXReturn extends Transaction {
 
 	@Override
 	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
 		if (taxAgency == null) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().taxAgency());
