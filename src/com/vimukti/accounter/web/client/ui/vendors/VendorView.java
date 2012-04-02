@@ -1511,6 +1511,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		memoArea.setDisabled(isInViewMode());
 		enablePayeeFields(data.getPayeeFields());
+		customFieldForm.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
