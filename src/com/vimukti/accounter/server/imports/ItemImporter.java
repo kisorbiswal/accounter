@@ -65,7 +65,9 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		fields.add(new FinanceDateField("asOf", messages.asOf()));
 		fields.add(new StringField("wareHouse", messages.wareHouse()));
 		fields.add(new StringField("measurement", messages.measurement()));
-		fields.add(new Integer2Field("itemType", messages.itemType()));
+		fields.add(new Integer2Field("numberItemType", messages.itemType()));
+		fields.add(new StringField("stringItemType", messages.nameItemType()));
+
 		return fields;
 
 	}
@@ -74,7 +76,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 	public ClientItem getData() {
 		ClientItem item = new ClientItem();
 		item.setName(getString("itemName"));
-		item.setType(getInteger("itemType"));
+		item.setType(getItemType());
 		item.setActive(true);
 		item.setSalesDescription(getString("salesDescription"));
 		item.setSalesPrice(getDouble("salesPrice"));
@@ -96,11 +98,12 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		}
 		item.setAssestsAccount(assetAccountId);
 		item.setReorderPoint(getInteger("reOrderPts"));
-
-		if ((getInteger("itemType") == ClientItem.TYPE_NON_INVENTORY_PART || getInteger("itemType") == ClientItem.TYPE_INVENTORY_PART)
+		int itemType = getItemType();
+		
+		if ((itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_INVENTORY_PART)
 				&& getInteger("weight") != 0) {
 			item.setWeight(getInteger("weight"));
-			if (getInteger("itemType") == ClientItem.TYPE_INVENTORY_PART) {
+			if (itemType == ClientItem.TYPE_INVENTORY_PART) {
 				item.setIBuyThisItem(true);
 				item.setISellThisItem(true);
 				item.setMinStockAlertLevel(null);
@@ -132,6 +135,24 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setVendorItemNumber(getString("vendorServiceNo"));
 		return item;
 
+	}
+
+	private int getItemType() {
+		int itemType = 0;
+		itemType = getInteger("numberItemType");
+		if (itemType == 0) {
+			String itemName = getString("stringItemType");
+			if (itemName.trim().contains("service")||itemName.trim().contains("Service")) {
+				itemType = ClientItem.TYPE_SERVICE;
+			} else if (itemName.trim().contains("non")||itemName.trim().contains("Non")) {
+				itemType = ClientItem.TYPE_NON_INVENTORY_PART;
+
+			} else if (itemName.trim().contains("inventory")||itemName.trim().contains("Inventory")) {
+				itemType = ClientItem.TYPE_INVENTORY_PART;
+
+			} 
+		}
+		return itemType;
 	}
 
 	private ClientQuantity getClientQty(String quantity) {
@@ -188,7 +209,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		//
 		// String name = nameText.getValue().toString();
 		// TODO (1).
-		int itemType = getInteger("itemType");
+		int itemType = getItemType();
 		if (!isValidItemType(itemType)) {
 			AccounterException exception = new AccounterException(
 					AccounterException.ERROR_PLEASE_ENTER_OR_MAP,
