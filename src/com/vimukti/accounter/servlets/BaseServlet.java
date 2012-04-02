@@ -112,7 +112,8 @@ public class BaseServlet extends HttpServlet {
 					COMPANY_ID);
 			if (islockedCompany(companyID)) {
 				request.getSession().removeAttribute(COMPANY_ID);
-				redirectExternal(request, response, "/main/companylocked");
+				redirectExternal(request, response,
+						"/main/companylocked?companyId=" + companyID);
 				return;
 			}
 			EU.removeCipher();
@@ -136,7 +137,7 @@ public class BaseServlet extends HttpServlet {
 		}
 	}
 
-	private boolean islockedCompany(Long companyID) {
+	public boolean islockedCompany(Long companyID) {
 		if (companyID == null) {
 			return false;
 		}

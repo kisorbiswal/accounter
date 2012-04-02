@@ -95,7 +95,7 @@ $(document).ready(function() {
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
 							   <div >
-							   		 <div class="openidinfo"><i18n:i18n msg='openidinfo'/> </div>
+							   		 <div class="openidinfo"><i18n:i18n msg='enteropenidPasswordinfo'/> </div>
 								     <div style="font-weight:bold"><i18n:i18n msg='password'/> : </div>
 									 <div>
 										<input id="mid-box"  type="password" name="password" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password" />								

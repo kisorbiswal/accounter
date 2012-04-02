@@ -6293,7 +6293,9 @@ public interface AccounterMessages extends Messages {
 	public String cannotVoidTransactionBecausePOused(String transaction);
 
 	public String nameItemType();
-	
+
 	public String draftsTransactionsCannotBePrinted();
 
-	}
+	public String enteropenidPasswordinfo();
+
+}
