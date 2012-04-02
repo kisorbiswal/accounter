@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -90,5 +93,12 @@ public class BankAccount extends Account {
 								.messages().bankAccountType());
 			}
 		}
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		session.getNamedQuery("deleteBankChequeLayouts")
+				.setParameter("account", this).executeUpdate();
+		return super.onDelete(session);
 	}
 }
