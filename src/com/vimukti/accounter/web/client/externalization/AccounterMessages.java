@@ -6278,6 +6278,18 @@ public interface AccounterMessages extends Messages {
 
 	public String classes();
 
+	public String recordsImported();
+
+	public String recordsFailed();
+
+	public String recordIn();
+
+	public String column();
+
+	public String errorDetails();
+
+	public String importerInformation();
+
 	public String cannotVoidTransactionBecausePOused(String transaction);
 
 	public String nameItemType();
