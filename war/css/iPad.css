@@ -306,11 +306,6 @@ html,body {
 	word-wrap: break-word;
 }
 
-.listgrid {
-	overflow-y: visible;
-	height: 150px !important;
-}
-
 input[type="checkbox"] {
 	margin: 0 3px 0 0;
 }
@@ -714,12 +709,6 @@ form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#cont
 .memoTextArea {
 	width: 359px !important;
 }
-
-.disable-TextField,.input[disabled='disabled'],textarea.disable-TextField
-	{ /*background: none repeat scroll 0 0 white !important;*/
-	color: #aaa !important;
-}
-
 .disable-TextField,.input[disabled='disabled'] {
 
 }
@@ -742,11 +731,6 @@ textarea.disable-TextField {
 	padding: 6px 10px;
 	width: 200px;
 	/*margin-top:5px;*/
-}
-
-.floatright,.panel-right-align,.image-button,.upload-logo,.gridSelectBoxCell .downarrow-button
-	{
-	float: right;
 }
 
 .gridTextBoxCell input[type="text"] {
@@ -1374,8 +1358,8 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 }
 
 
-.fields-panel .gwt-TextBox,.datenumber-panel .gwt-TextBox {
-	width: 172px !important;
+.fields-panel .gwt-TextBox {
+    width: 172px !important;
 }
 
 input[type="text"] {
@@ -1516,6 +1500,7 @@ input[type="text"] {
 
 .fields-panel .gwt-Label {
 	width: 200px;
+	text-align: left;
 }
 
 .conversion_date_footer {
@@ -1603,6 +1588,7 @@ input.date-field-textbox {
 
 .datePickerMonthSelector .blue-month-line .prenextyear-label {
 	margin-top: 4px;
+	border: 1px solid #C4C0C0;
 }
 
 .currentmonth-hover {
@@ -1813,18 +1799,19 @@ input.date-field-textbox {
 }
 
 .options_panel a {
-	color: #000000;
-	text-decoration: none;
-	margin: 12px;
+	margin: 3px 10px;
 }
 
 .options_panel a:HOVER {
 	color: #fff;
 }
-
-.menu_item_clicked,.optionClicked {
-	background: -webkit-gradient(linear, left top, left bottom, from(#686666),
-		to(#565454) );
+#PreferenceSettingsView .preferences_option a:hover,.Transactions_center .tree_menu_item:hover{
+	background-color:#5f5f5f !important;
+	color:white !important;
+}
+.Transactions_center .tree_list_panel .menu_item_clicked, #PreferenceSettingsView .preferences_option .optionClicked,.optionClicked {
+	background: -webkit-gradient(linear, left top, left bottom, from(#5F5F5F), to(#ABABAB) ) !important;
+	border-radius:3px 3px 3px 3px;
 }
 
 .optionFocused,.menu_item_hover {
@@ -1833,10 +1820,6 @@ input.date-field-textbox {
 
 .optionClicked a {
 	color: #fff;
-}
-
-.preferences_option {
-	padding: 5px 0 4px 9px;
 }
 
 .interval_Value table td:last-child div {
@@ -1957,11 +1940,12 @@ input.date-field-textbox {
 .tree_list_panel td {
 	padding: 4px 5px 4px 18px;
 }
-
+.Transactions_center #listPanel{
+	width: 200px;
+}
 .tree_list_panel {
 	background: none repeat scroll 0 0 #CCCCCC;
 	border-collapse: collapse;
-	width: 175px;
 }
 
 .preferences_option_title {
@@ -2055,15 +2039,6 @@ input.date-field-textbox {
 	-moz-box-flex: 1;
 	height: 40px;
 }
-.menu_item_clicked{
-	font-weight: bold;
-	background: #ABABAB;
-	background: -webkit-gradient(linear, left top, left bottom, from(#ABABAB),
-		to(#CCC) ) !important; 
-}
-.vlayTop{
-	
-}
 
 .formItem{
 	margin-left:10px;
@@ -2108,7 +2083,6 @@ input.date-field-textbox {
 	border-radius: 5px 5px 0 0;
 }
 .button_bar {
-	display: block;
 	padding: 10px 10px 10px 0;
 	width: 100%;
 }
@@ -2117,11 +2091,38 @@ input.date-field-textbox {
 	background-color: #E4E4E4;
 	color: black;
 	border: 1px solid #A0A0A0;
+	border-radius: 10px;
 }
+
 .gwt-Button:hover{
 	background-color:#5f5f5f;
 	color:white;
 }
+
 .viewholder a,.quick-links-table .gwt-Anchor{
 	color:black !important;
+}
+
+.button_bar .image-button, .viewholder .image-button{
+	background-color: #E4E4E4;
+	color: black;
+	border: 1px solid #A0A0A0;
+	border-radius: 10px;
+}
+
+.button_bar .image-button:hover, .viewholder .image-button:hover,.cancle-Btn:hover{
+	background-color:#5f5f5f;
+	color:white;
+}
+
+#PreferenceSettingsView .titlesPanel, #PreferenceSettingsView .pre_scroll_table {
+	height: 850px;
+}
+
+.no_records td{
+	text-align: center !important;
+}
+
+.gwt-Button[disabled], .detailsTab .customField button.gwt-Button[disabled] {
+   color: black !important;
 }
