@@ -2910,9 +2910,9 @@
 				       LEFT JOIN TRANSACTION T
 				         ON T.ID = TF.ID
 				       LEFT JOIN ACCOUNT INA
-				         ON INA.ID = MD.DEPOSIT_IN_ID
+				         ON INA.ID = TF.DEPOSIT_IN_ID
 				       LEFT JOIN ACCOUNT FRA
-				         ON FRA.ID = MD.DEPOSIT_FROM_ID
+				         ON FRA.ID = TF.DEPOSIT_FROM_ID
 				WHERE  CASE
 				         WHEN 0 = :match THEN ( INA.NAME = :name
 				                                 OR FRA. NAME = :name )

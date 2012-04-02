@@ -397,7 +397,7 @@ public class SearchInputDialog extends BaseDialog {
 	protected int getTransactionType(String selectItem) {
 		if (selectItem.equals(messages.all())) {
 			return TransactionsListView.TYPE_ALL;
-		} else if (selectItem.equals(messages.bill())) {
+		} else if (selectItem.equals(messages.bills())) {
 			return ClientTransaction.TYPE_ENTER_BILL;
 		} else if (selectItem.equals(messages.billPayment())) {
 			return ClientTransaction.TYPE_PAY_BILL;
@@ -553,7 +553,7 @@ public class SearchInputDialog extends BaseDialog {
 	private void initAccountsCombo() {
 		accounts = new ArrayList<ClientAccount>();
 		accounts.clear();
-		if (transactionTypeCombo.getSelectedValue().equals(messages.bill())
+		if (transactionTypeCombo.getSelectedValue().equals(messages.bills())
 				|| transactionTypeCombo.getSelectedValue().equals(
 						messages.creditCardCharge())
 				|| transactionTypeCombo.getSelectedValue().equals(
@@ -636,8 +636,8 @@ public class SearchInputDialog extends BaseDialog {
 		updateGrid();
 		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
 		if (selectItem.equals(messages.all())) {
-			setOptionsForAll(selectItem);
-		} else if (selectItem.equals(messages.bill())) {
+			setOptionsForPayeeList(selectItem);
+		} else if (selectItem.equals(messages.bills())) {
 			setOptionsForPayeeList(selectItem);
 		} else if (selectItem.equals(messages.billPayment())) {
 			setOptionsForSupplierTransactions(selectItem);
@@ -711,7 +711,7 @@ public class SearchInputDialog extends BaseDialog {
 		if (selectItem.equals(messages.purchaseOrder())) {
 			list.remove(1);
 		}
-		if (selectItem.equals(messages.bill())) {
+		if (selectItem.equals(messages.bills())) {
 			list.add(messages.productOrService());
 			list.add(messages.dueDate());
 			list.remove(0);

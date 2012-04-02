@@ -110,10 +110,17 @@ public class DeleteCompanyServlet extends BaseServlet {
 				COMPANY_ID));
 		String delete = req.getParameter("delete");
 		String password = req.getParameter("userPassword");
+		if (password == null || password.isEmpty()) {
+			req.setAttribute("message", "Password shoudn't empty");
+			setOptions(req, companyID, email);
+			dispatch(req, resp, deleteCompanyView);
+			return;
+
+		}
 		String passwordWord = HexUtil.bytesToHex(Security.makeHash(email
 				+ Client.PASSWORD_HASH_STRING + password.trim()));
 		if (!passwordWord.equals(client.getPassword())) {
-			req.setAttribute("message", "Password shoudn't empty or incorrect");
+			req.setAttribute("message", "Password is incorrect");
 			setOptions(req, companyID, email);
 			dispatch(req, resp, deleteCompanyView);
 			return;
