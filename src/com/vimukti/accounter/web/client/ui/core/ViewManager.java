@@ -119,7 +119,7 @@ public class ViewManager extends FlowPanel {
 		this.mainWindow = financeWindow;
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel rightPanel = new StyledPanel("rightPanel");
-		if (!getCompany().isPaid()) {
+		if (!Accounter.hasPermission(Features.TRANSACTIONS)) {
 			TransactionMeterPanel meterPanel = new TransactionMeterPanel();
 			rightPanel.add(meterPanel);
 		}

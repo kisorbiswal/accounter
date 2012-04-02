@@ -233,15 +233,15 @@ public class EU {
 	}
 
 	public static byte[] encryptPassword(String password) {
-		try {
-			PublicKey pubKey = readPublicKeyFromFile();
-			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
-			byte[] cipherData = cipher.doFinal(password.getBytes());
-			return cipherData;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// try {
+		// PublicKey pubKey = readPublicKeyFromFile();
+		// Cipher cipher = Cipher.getInstance("RSA");
+		// cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+		// byte[] cipherData = cipher.doFinal(password.getBytes());
+		// return cipherData;
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		return null;
 	}
 

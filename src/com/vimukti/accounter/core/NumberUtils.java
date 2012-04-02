@@ -36,11 +36,16 @@ public class NumberUtils {
 		if ((list.size() == 0)) {
 			return "0";
 		}
-
+		long max = 0;
+		String maxStr = "";
 		for (int i = list.size() - 1; i >= 0; i--) {
 			String num = (String) list.get(i);
 			if (num.replaceAll("[\\D]", "").length() > 0) {
-				return num;
+				long p = Long.parseLong(num);
+				if (p > max) {
+					max = p;
+					maxStr = num;
+				}
 			}
 			// else {
 			// if (maxCount != 0) {
@@ -50,8 +55,7 @@ public class NumberUtils {
 			// }
 			// }
 		}
-
-		return "0";
+		return max == 0 ? "0" : maxStr;
 	}
 
 	public static String getNextCheckNumber(long companyId, long accountId) {
@@ -141,7 +145,11 @@ public class NumberUtils {
 		String arr[] = (String[]) list.toArray(new String[list.size()]);
 		Long longArr[] = new Long[arr.length];
 		for (int iii = 0; iii < arr.length; iii++) {
-			longArr[iii] = Long.parseLong(arr[iii].trim());
+			if (arr[iii].isEmpty()) {
+				longArr[iii] = 0L;
+			} else {
+				longArr[iii] = Long.parseLong(arr[iii].trim());
+			}
 		}
 		Arrays.sort(longArr);
 
@@ -170,7 +178,11 @@ public class NumberUtils {
 		String arr[] = (String[]) list.toArray(new String[list.size()]);
 		long longArr[] = new long[arr.length];
 		for (int iii = 0; iii < arr.length; iii++) {
-			longArr[iii] = Long.parseLong(arr[iii].trim());
+			if (arr[iii].isEmpty()) {
+				longArr[iii] = 0L;
+			} else {
+				longArr[iii] = Long.parseLong(arr[iii].trim());
+			}
 		}
 		Arrays.sort(longArr);
 

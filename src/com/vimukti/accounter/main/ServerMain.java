@@ -66,8 +66,6 @@ public class ServerMain extends Main {
 			if (ServerConfiguration.isLoadMessages()) {
 				loadAccounterMessages();
 			}
-
-			loadSubscriptionFeatures();
 		} finally {
 			session.close();
 		}
@@ -88,104 +86,6 @@ public class ServerMain extends Main {
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
 
-	}
-
-	private static void loadSubscriptionFeatures() {
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction beginTransaction = session.beginTransaction();
-		Subscription instance = Subscription
-				.getInstance(Subscription.BEFORE_PAID_FETURE);
-		if (instance == null) {
-			instance = new Subscription();
-			instance.setType(1);
-			session.save(instance);
-		}
-		instance = Subscription.getInstance(Subscription.FREE_CLIENT);
-		if (instance == null) {
-			instance = new Subscription();
-			instance.setType(2);
-			session.save(instance);
-		}
-		instance = Subscription.getInstance(Subscription.PREMIUM_USER);
-		if (instance == null) {
-			instance = new Subscription();
-			instance.setType(3);
-			session.save(instance);
-		}
-		beginTransaction.commit();
-		beginTransaction = session.beginTransaction();
-		Subscription premium = Subscription
-				.getInstance(Subscription.PREMIUM_USER);
-		Set<String> premiumFeatures = new HashSet<String>();
-		premiumFeatures.add(Features.CRESTE_COMPANY);
-		premiumFeatures.add(Features.BRANDING_THEME);
-		premiumFeatures.add(Features.IMPORT_BANK_STATEMENTS);
-		premiumFeatures.add(Features.USER_ACTIVITY);
-		premiumFeatures.add(Features.HISTORY);
-		premiumFeatures.add(Features.ATTACHMENTS);
-		premiumFeatures.add(Features.CLASS);
-		premiumFeatures.add(Features.LOCATION);
-		premiumFeatures.add(Features.BILLABLE_EXPENSE);
-		premiumFeatures.add(Features.CREDITS_CHARGES);
-		premiumFeatures.add(Features.MERGING);
-		premiumFeatures.add(Features.JOB_COSTING);
-		premiumFeatures.add(Features.ENCRYPTION);
-		premiumFeatures.add(Features.INVITE_USERS);
-
-		premiumFeatures.add(Features.INVENTORY);
-		premiumFeatures.add(Features.EXTRA_REPORTS);
-		premiumFeatures.add(Features.MULTI_CURRENCY);
-		premiumFeatures.add(Features.SALSE_ORDER);
-		premiumFeatures.add(Features.PURCHASE_ORDER);
-		premiumFeatures.add(Features.RECURRING_TRANSACTIONS);
-		premiumFeatures.add(Features.DRAFTS);
-		premiumFeatures.add(Features.DASHBOARD_WIDGETS);
-		premiumFeatures.add(Features.BUDGET);
-		premiumFeatures.add(Features.TRANSACTIONS);
-		premiumFeatures.add(Features.FIXED_ASSET);
-
-		premiumFeatures.add(Features.IMPORT);
-
-		premium.setFeatures(premiumFeatures);
-
-		Subscription before = Subscription
-				.getInstance(Subscription.BEFORE_PAID_FETURE);
-		session.saveOrUpdate(premium);
-
-		Set<String> beforeFeatures = new HashSet<String>();
-		beforeFeatures.add(Features.CRESTE_COMPANY);
-		beforeFeatures.add(Features.BRANDING_THEME);
-		beforeFeatures.add(Features.IMPORT_BANK_STATEMENTS);
-		beforeFeatures.add(Features.USER_ACTIVITY);
-		beforeFeatures.add(Features.HISTORY);
-		beforeFeatures.add(Features.ATTACHMENTS);
-		beforeFeatures.add(Features.CLASS);
-		beforeFeatures.add(Features.LOCATION);
-		beforeFeatures.add(Features.BILLABLE_EXPENSE);
-		beforeFeatures.add(Features.CREDITS_CHARGES);
-		beforeFeatures.add(Features.MERGING);
-		beforeFeatures.add(Features.JOB_COSTING);
-		beforeFeatures.add(Features.ENCRYPTION);
-		beforeFeatures.add(Features.INVITE_USERS);
-		
-		beforeFeatures.add(Features.INVENTORY);
-		beforeFeatures.add(Features.EXTRA_REPORTS);
-		beforeFeatures.add(Features.MULTI_CURRENCY);
-		beforeFeatures.add(Features.SALSE_ORDER);
-		beforeFeatures.add(Features.PURCHASE_ORDER);
-		beforeFeatures.add(Features.RECURRING_TRANSACTIONS);
-		beforeFeatures.add(Features.DRAFTS);
-		beforeFeatures.add(Features.DASHBOARD_WIDGETS);
-		beforeFeatures.add(Features.BUDGET);
-		beforeFeatures.add(Features.TRANSACTIONS);
-		beforeFeatures.add(Features.FIXED_ASSET);
-
-		beforeFeatures.add(Features.IMPORT);
-		
-		before.setFeatures(beforeFeatures);
-
-		session.saveOrUpdate(before);
-		beginTransaction.commit();
 	}
 
 	private static void startSubscriptionExpireTimer() {
