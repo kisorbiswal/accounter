@@ -1,4 +1,5 @@
-@-moz-document url-prefix   (){ .editTable table td .gwt-TextBox {
+@-moz-document url-prefix(){
+.editTable table td .gwt-TextBox {
 	width: 99%;
 }
 
@@ -40,6 +41,9 @@
 }
 .editTable table{
 	table-layout: auto !important;
+}
+.Transactions_center div#listPanel{
+	width:181px;
 }
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
@@ -1249,7 +1253,7 @@ input[type="text"] {
 }
 
 .Transactions_center #listPanel {
-	width: 175px;
+	width: 177px;
 	background: #CCC;
 	padding-left: 5px;
 }
@@ -1730,8 +1734,8 @@ table.gridHeader tr td {
 }
 
 .gwt-DialogBox .dialogMiddleCenterInner .listgrid {
-	overflow-y: visible;
-	height: 150px !important;
+	overflow-y: auto;
+	height: 250px !important;
 	background: white;
 	margin: 10px;
 }
@@ -7325,4 +7329,7 @@ textarea[disabled] {
 }
 #CheckPrintingSettingView .cheque_form .gwt-Label{
 	 margin-right: 25px;
+}
+table.no_records tr td{
+	text-align: center;
 }
