@@ -430,7 +430,7 @@ public class SearchInputDialog extends BaseDialog {
 		} else if (selectItem.equals(messages.cashSale())) {
 			return ClientTransaction.TYPE_CASH_SALES;
 		} else if (selectItem.equals(messages.deposit())) {
-			return ClientTransaction.TYPE_TRANSFER_FUND;
+			return ClientTransaction.TYPE_MAKE_DEPOSIT;
 		} else if (selectItem.equals(messages.journalEntry())) {
 			return ClientTransaction.TYPE_JOURNAL_ENTRY;
 		} else if (selectItem.equals(messages.transfer())) {

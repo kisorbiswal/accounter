@@ -1479,25 +1479,50 @@ public class CompanyManager extends Manager {
 		} else if (input.getTransactionType() == Transaction.TYPE_TRANSFER_FUND) {
 			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
 				query = session
-						.getNamedQuery("getAllDepositsOrTransfersByAccounName")
+						.getNamedQuery("getAllTransfersByAccounName")
 						.setParameter("companyId", companyId)
 						.setParameter("name", input.getFindBy(),
 								EncryptedStringType.INSTANCE)
 						.setParameter("match", input.getMatchType());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
-				query = session
-						.getNamedQuery("getAllDepositsOrTransfersByDate")
+				query = session.getNamedQuery("getAllTransfersByDate")
 						.setParameter("companyId", companyId)
 						.setParameter("date", input.getValue());
 			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
 				query = session
-						.getNamedQuery("getAllDepositsOrTransfersByDescOrMemo")
+						.getNamedQuery("getAllTransfersByDescOrMemo")
 						.setParameter("companyId", companyId)
 						.setParameter("memo", "%" + input.getFindBy() + "%",
 								EncryptedStringType.INSTANCE);
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
 				query = session
-						.getNamedQuery("getAllDepositsOrTransfersByAmount")
+						.getNamedQuery("getAllTransfersByAmount")
+						.setParameter("companyId", companyId)
+						.setParameter("amount", input.getAmount())
+						.setParameter("match", input.getMatchType());
+			}
+
+		} else if (input.getTransactionType() == Transaction.TYPE_MAKE_DEPOSIT) {
+			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
+				query = session
+						.getNamedQuery("getAllDepositsByAccounName")
+						.setParameter("companyId", companyId)
+						.setParameter("name", input.getFindBy(),
+								EncryptedStringType.INSTANCE)
+						.setParameter("match", input.getMatchType());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DATE) {
+				query = session.getNamedQuery("getAllDepositsByDate")
+						.setParameter("companyId", companyId)
+						.setParameter("date", input.getValue());
+			} else if (input.getSearchbyType() == SearchInput.TYPE_DESC_MEMO) {
+				query = session
+						.getNamedQuery("getAllDepositsByDescOrMemo")
+						.setParameter("companyId", companyId)
+						.setParameter("memo", "%" + input.getFindBy() + "%",
+								EncryptedStringType.INSTANCE);
+			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
+				query = session
+						.getNamedQuery("getAllDepositsByAmount")
 						.setParameter("companyId", companyId)
 						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());

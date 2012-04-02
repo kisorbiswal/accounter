@@ -2796,7 +2796,7 @@
 
 	</sql-query>
 
-	<sql-query name="getAllDepositsOrTransfersByAmount">
+	<sql-query name="getAllTransfersByAmount">
 		<query-param name="companyId" type="long" />
 		<query-param name="amount" type="double" />
 		<query-param name="match" type="int" />
@@ -2835,7 +2835,46 @@
 
 	</sql-query>
 
-	<sql-query name="getAllDepositsOrTransfersByDate">
+	<sql-query name="getAllDepositsByAmount">
+		<query-param name="companyId" type="long" />
+		<query-param name="amount" type="double" />
+		<query-param name="match" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+		
+		<![CDATA[
+				SELECT T.ID       AS TRANSACTION_ID,
+				       T.T_DATE   AS TRANSACTION_DATE,
+				       T.T_TYPE   AS TRANSACTION_TYPE,
+				       T.TOTAL    AS TOTAL_PRICE,
+				       T.CURRENCY AS CURRENCY
+				FROM   MAKE_DEPOSIT MD
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = MD.ID
+				WHERE  CASE
+				         WHEN 0 = :match THEN T.TOTAL = :amount
+				         ELSE CASE
+				                WHEN 1 = :match THEN T.TOTAL >= :amount
+				                ELSE CASE
+				                       WHEN 2 = :match THEN T.TOTAL <= :amount
+				                       ELSE CASE
+				                              WHEN 3 = 0 THEN T.TOTAL = :amount
+				                            END
+				                     END
+				              END
+				       END
+				       AND T.COMPANY_ID = :companyId
+				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				ORDER  BY T.T_DATE  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="getAllTransfersByDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="date" type="long" />
 
@@ -2862,7 +2901,34 @@
 
 	</sql-query>
 
-	<sql-query name="getAllDepositsOrTransfersByDescOrMemo">
+	<sql-query name="getAllDepositsByDate">
+		<query-param name="companyId" type="long" />
+		<query-param name="date" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+		
+		<![CDATA[
+				SELECT T.ID       AS TRANSACTION_ID,
+				       T.T_DATE   AS TRANSACTION_DATE,
+				       T.T_TYPE   AS TRANSACTION_TYPE,
+				       T.TOTAL    AS TOTAL_PRICE,
+				       T.CURRENCY AS CURRENCY
+				FROM   MAKE_DEPOSIT MD
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = MD.ID
+				WHERE  T.T_DATE = :date
+				       AND T.COMPANY_ID = :companyId
+				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				ORDER  BY T.T_DATE  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="getAllTransfersByDescOrMemo">
 		<query-param name="companyId" type="long" />
 		<query-param name="memo" type="string" />
 
@@ -2889,7 +2955,34 @@
 
 	</sql-query>
 
-	<sql-query name="getAllDepositsOrTransfersByAccounName">
+	<sql-query name="getAllDepositsByDescOrMemo">
+		<query-param name="companyId" type="long" />
+		<query-param name="memo" type="string" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+		
+		<![CDATA[
+				SELECT T.ID       AS TRANSACTION_ID,
+				       T.T_DATE   AS TRANSACTION_DATE,
+				       T.T_TYPE   AS TRANSACTION_TYPE,
+				       T.TOTAL    AS TOTAL_PRICE,
+				       T.CURRENCY AS CURRENCY
+				FROM   MAKE_DEPOSIT MD
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = MD.ID
+				WHERE  T.MEMO LIKE :memo
+				       AND T.COMPANY_ID = :companyId
+				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				ORDER  BY T.T_DATE  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="getAllTransfersByAccounName">
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="string" />
 		<query-param name="match" type="int" />
@@ -2913,6 +3006,47 @@
 				         ON INA.ID = TF.DEPOSIT_IN_ID
 				       LEFT JOIN ACCOUNT FRA
 				         ON FRA.ID = TF.DEPOSIT_FROM_ID
+				WHERE  CASE
+				         WHEN 0 = :match THEN ( INA.NAME = :name
+				                                 OR FRA. NAME = :name )
+				         ELSE CASE
+				                WHEN 3 = :match THEN ( INA.NAME LIKE :name
+				                                        OR FRA. NAME LIKE :name )
+				              END
+				       END
+				       AND T.COMPANY_ID = :companyId
+				       AND T.SAVE_STATUS NOT IN ( 201, 202 )
+				ORDER  BY T.T_DATE  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="getAllDepositsByAccounName">
+		<query-param name="companyId" type="long" />
+		<query-param name="name" type="string" />
+		<query-param name="match" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+		
+		<![CDATA[
+				SELECT T.ID       AS TRANSACTION_ID,
+				       T.T_DATE   AS TRANSACTION_DATE,
+				       T.T_TYPE   AS TRANSACTION_TYPE,
+				       T.TOTAL    AS TOTAL_PRICE,
+				       T.CURRENCY AS CURRENCY
+				FROM   MAKE_DEPOSIT MD
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = MD.ID
+				       LEFT JOIN ACCOUNT INA
+				         ON INA.ID = MD.DEPOSIT_TO
+				       LEFT JOIN TRANSACTION_DEPOSIT_ITEM TD
+				         ON TD.MAKE_DEPOSIT_ID = MD.ID
+				       LEFT JOIN ACCOUNT FRA
+				         ON FRA.ID = TD.ACCOUNT_ID
 				WHERE  CASE
 				         WHEN 0 = :match THEN ( INA.NAME = :name
 				                                 OR FRA. NAME = :name )
