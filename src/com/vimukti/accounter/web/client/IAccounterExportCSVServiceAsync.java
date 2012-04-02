@@ -87,15 +87,20 @@ public interface IAccounterExportCSVServiceAsync {
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<String> callback);
+
 	public void getExportListCsv(long startDate, long endDate,
 			int transactionType, int viewId, String selectedItem,
 			AsyncCallback<String> exportCSVCallback);
-			
+
 	public void getPurchaseOrderExportCsv(int type, long startDate,
 			long endDate, AsyncCallback<String> exportCSVCallback);
 
 	public void getBillsAndItemReceiptListExportCSV(boolean b,
 			int transactionType, long date, long date2, int checkViewType,
 			int i, int j, AsyncCallback<String> exportCSVCallback);
+
+	public void getAccounterRegister(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long id, int start, int length,
+			AsyncCallback<String> exportCSVCallback);
 
 }

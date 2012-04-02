@@ -49,9 +49,11 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -2235,4 +2237,101 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		}
 		return null;
 	}
+
+	@Override
+	public String getAccounterRegister(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long accountId, int start, int length) {
+		PaginationList<AccountRegister> accountRegisterList = new PaginationList<AccountRegister>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			accountRegisterList = getFinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], accountId,
+					getCompanyId(), start, length);
+
+			ICSVExportRunner<AccountRegister> icsvExportRunner = new ICSVExportRunner<AccountRegister>() {
+				double balance = 0;
+				double totalBalance = 0;
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.date(), messages.type(),
+							messages.docNo(), messages.increase(),
+							messages.reduce(), messages.Account(),
+							messages.memo(), messages.ClosingBalance() };
+				}
+
+				@Override
+				public String getColumnValue(AccountRegister accRegister,
+						int index) {
+					String columnValue = null;
+					switch (index) {
+					case 0:
+						columnValue = Utility
+								.getDateInSelectedFormat(new FinanceDate(
+										accRegister.getDate()));
+						break;
+					case 1:
+						columnValue = Utility.getTransactionName((accRegister
+								.getType()));
+						break;
+					case 2:
+						columnValue = accRegister.getNumber();
+						break;
+					case 3:
+						if (DecimalUtil.isGreaterThan(accRegister.getAmount(),
+								0.0))
+							columnValue = amountAsStringWithCurrency(
+									accRegister.getAmount(),
+									accRegister.getCurrency());
+
+						else
+							columnValue = amountAsStringWithCurrency(0.0,
+									accRegister.getCurrency());
+						break;
+					case 4:
+						if (DecimalUtil
+								.isLessThan(accRegister.getAmount(), 0.0))
+							columnValue = amountAsStringWithCurrency(-1
+									* accRegister.getAmount(),
+									accRegister.getCurrency());
+						else
+							columnValue = amountAsStringWithCurrency(0.0,
+									accRegister.getCurrency());
+						break;
+					case 5:
+						columnValue = accRegister.getAccount();
+						break;
+					case 6:
+						columnValue = accRegister.getMemo();
+						break;
+					case 7:
+						double d = accRegister.getAmount();
+
+						if (DecimalUtil.isLessThan(d, 0.0)) {
+							d = -1 * d;
+							balance = balance - d;
+						} else {
+							balance = balance + d;
+						}
+						totalBalance += balance;
+
+						columnValue = amountAsStringWithCurrency(balance,
+								accRegister.getCurrency());
+						break;
+					}
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
+				}
+			};
+			CSVExporter<AccountRegister> csvExporter = new CSVExporter<AccountRegister>(
+					icsvExportRunner);
+			return csvExporter.export(accountRegisterList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

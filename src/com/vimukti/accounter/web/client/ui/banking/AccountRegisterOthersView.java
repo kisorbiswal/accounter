@@ -8,15 +8,16 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.AccountRegisterOtherListGrid;
 
 public class AccountRegisterOthersView extends
-		TransactionsListView<AccountRegister> {
+		TransactionsListView<AccountRegister> implements IPrintableView {
 	AccountRegisterOtherListGrid grid;
 
 	private ClientAccount takenaccount;
-
+	private int length = 0;
 	private final int TOP = 120;
 	private final int FOOTER = 25;
 	private final int BORDER = 20;
@@ -101,6 +102,7 @@ public class AccountRegisterOthersView extends
 		if (takenaccount == null) {
 			return;
 		}
+		this.length = length;
 		grid.setAccount(takenaccount);
 		Accounter.createReportService().getAccountRegister(getStartDate(),
 				getEndDate(), takenaccount.getID(), start, length, this);
@@ -145,5 +147,22 @@ public class AccountRegisterOthersView extends
 		grid.totalBalance = 0.0;
 		grid.balance = 0.0;
 		super.initData();
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getAccounterRegister(getStartDate(),
+				getEndDate(), takenaccount.getID(), start, length,
+				getExportCSVCallback(getViewTitle()));
 	}
 }
