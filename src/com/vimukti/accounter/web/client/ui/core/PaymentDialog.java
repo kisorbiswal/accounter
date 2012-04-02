@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String RECEIVE_PAYMENT = messages.receivePayment();
-	private final String CUSTOMER_PREPAYMENT = messages
-			.payeePrePayment(Global.get().Customer());
+	private final String CUSTOMER_PREPAYMENT = messages.payeePrePayment(Global
+			.get().Customer());
 
 	public PaymentDialog() {
 		super(messages.payments(), "");
@@ -56,6 +56,11 @@ public class PaymentDialog extends BaseDialog {
 			}
 		}
 		removeFromParent();
+		return true;
+	}
+
+	@Override
+	protected boolean onCancel() {
 		return true;
 	}
 }

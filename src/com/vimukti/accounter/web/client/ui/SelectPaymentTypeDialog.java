@@ -38,18 +38,18 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeRadio.setDefaultValue(paymentType);
 		final DynamicForm typeForm = new DynamicForm("typeForm");
 		typeForm.add(typeRadio);
-//		typeForm.setWidth("100%");
+		// typeForm.setWidth("100%");
 
 		typeForm.add(typeRadio);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
-//		okbtn.setWidth("60px");
-//		cancelBtn.setWidth("60px");
+		// okbtn.setWidth("60px");
+		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-//		setWidth("300px");
+		// setWidth("300px");
 		show();
 	}
 
@@ -74,6 +74,11 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }
