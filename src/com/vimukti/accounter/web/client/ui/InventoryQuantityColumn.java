@@ -147,8 +147,8 @@ public class InventoryQuantityColumn extends
 
 		table.setWidget(0, 0, valueLabel);
 		table.setWidget(1, 0, valueBox);
-		table.setWidget(0, 1, unitLabel);
-		table.setWidget(1, 1, unitBox.getMainWidget());
+		// table.setWidget(0, 1, unitLabel);
+		// table.setWidget(1, 1, unitBox.getMainWidget());
 		table.getCellFormatter().addStyleName(1, 1, "quantity_unit_width");
 		if (getPreferences().iswareHouseEnabled()) {
 			table.setWidget(0, 2, wareHouseLabel);
