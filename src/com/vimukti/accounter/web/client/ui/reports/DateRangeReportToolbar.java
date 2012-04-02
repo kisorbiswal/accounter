@@ -33,6 +33,11 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// selectedDateRange = FinanceApplication.constants().all();
 	}
 
+	public DateRangeReportToolbar(AbstractReportView reportView) {
+		this.reportview = reportView;
+		createControls();
+	}
+
 	protected void createControls() {
 
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
@@ -70,7 +75,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 				// FinanceApplication.constants().previousCalenderYear(),
 				messages.custom() };
 
-		LabelItem report = new LabelItem(messages.reportBasisAccrual(),"report");
+		LabelItem report = new LabelItem(messages.reportBasisAccrual(),
+				"report");
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle("Report Basis");
 		// reportBasisItem.setValueMap(reportBasisArray);
@@ -121,9 +127,9 @@ public class DateRangeReportToolbar extends ReportToolbar {
 					}
 				});
 
-		fromItem = new DateItem(messages.from(),"fromItem");
+		fromItem = new DateItem(messages.from(), "fromItem");
 
-		toItem = new DateItem(messages.to(),"toItem");
+		toItem = new DateItem(messages.to(), "toItem");
 
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
@@ -188,8 +194,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 			addItems(report, dateRangeItemCombo, fromItem, toItem);
 		}
 		add(updateButton);
-//		this.setCellVerticalAlignment(updateButton,
-//				HasVerticalAlignment.ALIGN_MIDDLE);
+		// this.setCellVerticalAlignment(updateButton,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	protected FormItem<?> getItem() {

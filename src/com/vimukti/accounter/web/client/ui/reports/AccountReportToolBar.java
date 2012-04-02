@@ -14,8 +14,8 @@ public class AccountReportToolBar extends DateRangeReportToolbar {
 	private AccountCombo accountCombo;
 	private ClientAccount selectAccount = null;
 
-	public AccountReportToolBar() {
-		super();
+	public AccountReportToolBar(AbstractReportView reportView) {
+		super(reportView);
 	}
 
 	@Override
@@ -28,6 +28,10 @@ public class AccountReportToolBar extends DateRangeReportToolbar {
 				list.addAll(getCompany().getAccounts(ClientAccount.TYPE_BANK));
 				list.addAll(getCompany().getAccounts(
 						ClientAccount.TYPE_OTHER_CURRENT_ASSET));
+				if (reportview instanceof ReconciliationDiscrepancyReport) {
+					list.addAll(getCompany().getAccounts(
+							ClientAccount.TYPE_CREDIT_CARD));
+				}
 				return list;
 			}
 		};
