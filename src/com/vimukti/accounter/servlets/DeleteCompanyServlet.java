@@ -119,7 +119,10 @@ public class DeleteCompanyServlet extends BaseServlet {
 		}
 		String passwordWord = HexUtil.bytesToHex(Security.makeHash(email
 				+ Client.PASSWORD_HASH_STRING + password.trim()));
-		if (!passwordWord.equals(client.getPassword())) {
+		String passwordHash2 = HexUtil.bytesToHex(Security.makeHash(email
+				+ password.trim()));
+		if (!passwordWord.equals(client.getPassword())
+				&& !passwordHash2.equals(client.getPassword())) {
 			req.setAttribute("message", "Password is incorrect");
 			setOptions(req, companyID, email);
 			dispatch(req, resp, deleteCompanyView);

@@ -289,7 +289,8 @@ public class UserManager extends Manager {
 							+ Client.PASSWORD_HASH_STRING + oldPassword));
 
 			String newHashPassword = HexUtil.bytesToHex(Security
-					.makeHash(emailId + newPassword));
+					.makeHash(emailId + Client.PASSWORD_HASH_STRING
+							+ newPassword));
 
 			Query query = session.getNamedQuery("getEmailIdFromClient")
 					.setParameter("emailId", emailId)
@@ -385,7 +386,8 @@ public class UserManager extends Manager {
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
 					.makeHash(emailId + Client.PASSWORD_HASH_STRING
 							+ randomString)));
-			invitedClient.setPasswordRecoveryKey(EU.encryptPassword(randomString));
+			invitedClient.setPasswordRecoveryKey(EU
+					.encryptPassword(randomString));
 			ClientSubscription clientSubscription = new ClientSubscription();
 			clientSubscription.setCreatedDate(new Date());
 
