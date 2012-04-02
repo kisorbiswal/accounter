@@ -1533,11 +1533,22 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	protected void checkNetAmountNegative() throws AccounterException {
-		if (DecimalUtil.isLessThan(getNetAmount(), 0.0)) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_TOTAL_ZERO, Global
-							.get().messages().netAmount());
+		double netamountTot = caluclateTransactionItemTot();
+		if (DecimalUtil.isLessThan(netamountTot, 0.0)) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().netAmount());
 		}
+	}
+
+	private double caluclateTransactionItemTot() {
+		double netAmtTot = 0.0;
+		for (TransactionItem item : this.transactionItems) {
+			netAmtTot += item.getReferringTransactionItem() == null ? item
+					.isAmountIncludeTAX() ? item.getLineTotal()
+					- item.getVATfraction() : item.getLineTotal() : 0.0;
+		}
+
+		return netAmtTot;
 	}
 
 	protected void checkingVendorNull(Vendor vendor, String message)
