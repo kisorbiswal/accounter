@@ -205,6 +205,8 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_SELECT_PROPER_BANK_ACCOUNT:
 			return accounterMessages.selectProperBankAccount();
 
+		case AccounterException.ERROR_PURCHASE_ORDERS_USED:
+			return accounterMessages.cannotVoidTransactionBecausePOused("");
 		default:
 			return null;
 		}
