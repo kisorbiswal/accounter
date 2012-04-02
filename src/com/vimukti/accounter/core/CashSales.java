@@ -920,4 +920,12 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		this.salesOrders = salesOrders;
 	}
 
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		CashSales sale = (CashSales) super.clone();
+		sale.salesOrders = new ArrayList<Estimate>();
+		return sale;
+
+	}
+
 }

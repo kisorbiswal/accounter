@@ -15,10 +15,9 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormSubmitEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -120,17 +119,15 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		});
 		uploadForm.setWidget(vpaPanel);
-		uploadForm.addFormHandler(new FormHandler() {
+		uploadForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 
 			@Override
-			public void onSubmitComplete(FormSubmitCompleteEvent event) {
-				StringBuilder result = new StringBuilder(event.getResults());
-
-				String aa = result.toString().replaceAll("<pre>", " ");
-				aa = aa.replaceAll("</pre>", " ");
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				String result = /* Base64.decode( */event.getResults();
+				System.out.println(event.getResults());
 				// for checking the data length
-				if (aa.trim().length() > 2) {
-					JSONValue jSONValue = JSONParser.parseLenient(aa.toString());
+				if (result.trim().length() > 2) {
+					JSONValue jSONValue = JSONParser.parseLenient(result);
 					JSONObject object = jSONValue.isObject();
 					final String fileID = object.get("fileID").isString()
 							.stringValue();
@@ -170,11 +167,6 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 			}
 
-			@Override
-			public void onSubmit(FormSubmitEvent event) {
-				// TODO Auto-generated method stub
-
-			}
 		});
 		mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(uploadForm);

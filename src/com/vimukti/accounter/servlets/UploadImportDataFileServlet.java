@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,7 +18,6 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.vimukti.accounter.main.ServerConfiguration;
-import com.vimukti.accounter.utils.HibernateUtil;
 
 public class UploadImportDataFileServlet extends BaseServlet {
 
@@ -32,7 +30,6 @@ public class UploadImportDataFileServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Session session = null;
 		JSONObject object = new JSONObject();
 		String[] headers = null;
 		boolean isHeader = true;
@@ -43,7 +40,6 @@ public class UploadImportDataFileServlet extends BaseServlet {
 			if (companyID == null)
 				return;
 
-			session = HibernateUtil.getCurrentSession();
 			MultipartRequest multi = new MultipartRequest(request,
 					ServerConfiguration.getTmpDir(), 50 * 1024 * 1024,
 					"ISO-8859-1", new DefaultFileRenamePolicy());
@@ -84,8 +80,11 @@ public class UploadImportDataFileServlet extends BaseServlet {
 					object.put("noOfRows", noOfLines);
 				}
 			}
-			StringBuilder builder = new StringBuilder(object.toString());
-			response.getWriter().print(builder);
+			String resp = object.toString();
+			resp = resp.replace(">", "&gt;");
+			resp = resp.replace("<", "&lt;");
+			response.setHeader("Content-Type", "text/html");
+			response.getWriter().print(resp);
 
 		} catch (Exception e) {
 			e.printStackTrace();
