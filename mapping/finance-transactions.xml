@@ -563,7 +563,7 @@
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="deliverydate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="orderNum" column="SALES_ORDER_NO"></property>
+			<property name="orderNum" column="SALES_ORDER_NO" type="encryptedstring"></property>
 			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
