@@ -190,28 +190,14 @@ public class AuthenticationCommand extends AbstractBaseCommand {
 	}
 
 	private void sendForgotPassWordMail() {
-		Session serverSession = HibernateUtil.getCurrentSession();
-		Transaction transaction = null;
-		try {
-			transaction = serverSession.beginTransaction();
-
-			Activation activation = getActivationByEmailId(client.getEmailId());
-			String token = null;
-			if (activation == null) {
-				token = createUserActivationCode(client.getEmailId());
-			} else {
-				token = activation.getToken();
-			}
-
-			sendForgetPasswordLinkToUser(token);
-
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
+		Activation activation = getActivationByEmailId(client.getEmailId());
+		String token = null;
+		if (activation == null) {
+			token = createUserActivationCode(client.getEmailId());
+		} else {
+			token = activation.getToken();
 		}
+		sendForgetPasswordLinkToUser(token);
 	}
 
 	private void sendForgetPasswordLinkToUser(String activationCode) {
