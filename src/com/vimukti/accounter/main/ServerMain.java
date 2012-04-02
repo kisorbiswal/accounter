@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,7 +34,6 @@ import com.vimukti.accounter.mobile.store.PatternStore;
 import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.RecurringTool;
@@ -66,6 +63,9 @@ public class ServerMain extends Main {
 			if (ServerConfiguration.isLoadMessages()) {
 				loadAccounterMessages();
 			}
+
+			loadSubscriptionFeatures();
+
 		} finally {
 			session.close();
 		}
@@ -86,6 +86,24 @@ public class ServerMain extends Main {
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
 
+	}
+
+	private static void loadSubscriptionFeatures() {
+		saveSubscription(Subscription.BEFORE_PAID_FETURE);
+		saveSubscription(Subscription.FREE_CLIENT);
+		saveSubscription(Subscription.PREMIUM_USER);
+	}
+
+	private static void saveSubscription(int type) {
+		Session session = HibernateUtil.getCurrentSession();
+		Subscription instance = Subscription.getInstance(type);
+		if (instance == null) {
+			Transaction beginTransaction = session.beginTransaction();
+			instance = new Subscription();
+			instance.setType(type);
+			session.save(instance);
+			beginTransaction.commit();
+		}
 	}
 
 	private static void startSubscriptionExpireTimer() {
