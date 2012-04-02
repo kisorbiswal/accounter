@@ -122,5 +122,10 @@ public class MissingChecksServerReport extends
 	public void makeReportRequest(long start, long end) {
 
 	}
+	@Override
+	public void initGrid() {
+		this.previousNumber= null;
+		super.initGrid();
+	}
 
 }

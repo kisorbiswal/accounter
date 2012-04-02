@@ -114,15 +114,21 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 			}
 
+			int orderLength =invoice.getOrderNum()!= null?invoice.getOrderNum().trim().length():0;
+			if(orderLength>0){
 			t.setVariable("orderNumber", invoice.getOrderNum());
+			t.addBlock("orderBlock");
+			}
 			String deliveryDate = Utility.getDateInSelectedFormat(invoice
 					.getDeliverydate());
 			if (deliveryDate != null) {
 				t.setVariable("deliveryDate", deliveryDate);
 			}
-			if (invoice.getShippingTerm() != null) {
+			boolean doProductShipMents = preferences.isDoProductShipMents();
+			if (invoice.getShippingTerm() != null && doProductShipMents) {
 				t.setVariable("shippingTerms", invoice.getShippingTerm()
 						.getName());
+				t.addBlock("shippingTerms");
 			}
 
 			t.setVariable("customerName", invoice.getCustomer().getName());
@@ -325,8 +331,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				String totalPrice = Utility.decimalConversation(
 						item.getLineTotal(), "");
 
+
 				String vatAmount = item.getVATfraction() == null ? "" : Utility
 						.decimalConversation(item.getVATfraction(), "");
+
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
