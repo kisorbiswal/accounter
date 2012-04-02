@@ -308,6 +308,8 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_PURCHASE_ORDERS_USED:
 			return accounterMessages
 					.cannotVoidTransactionBecausePOused(exception.getMessage());
+		case AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT:
+			return accounterMessages.youcantDeleteSystemAccount();
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

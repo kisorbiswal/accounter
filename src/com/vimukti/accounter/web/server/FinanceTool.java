@@ -51,6 +51,7 @@ import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.Attachment;
+import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BuildAssembly;
@@ -580,6 +581,17 @@ public class FinanceTool {
 				session.delete(serverObject);
 			} else if (serverObject instanceof MessageOrTask) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof Account
+					|| serverObject instanceof BankAccount) {
+				Boolean isExists = (Boolean) session
+						.getNamedQuery("isCompanyAccount")
+						.setParameter("accountId", serverObject.getID())
+						.setParameter("companyId", company.getID()).list()
+						.get(0);
+				if (isExists) {
+					throw new AccounterException(
+							AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT);
+				}
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;

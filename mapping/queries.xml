@@ -2315,4 +2315,9 @@
 		location=:toID where
 		location=:fromID 
 	</query>
+	<query name="deleteBankChequeLayouts">
+		<query-param name="account" type="Account" />
+		delete from com.vimukti.accounter.core.ChequeLayout cl 
+		where cl.account=:account
+	</query>
 </hibernate-mapping>
