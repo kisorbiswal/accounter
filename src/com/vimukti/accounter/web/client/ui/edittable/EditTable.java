@@ -42,7 +42,6 @@ public abstract class EditTable<R> extends FlowPanel {
 		cellFormatter = table.getCellFormatter();
 		rowFormatter = table.getRowFormatter();
 		flexCellFormatter = table.getFlexCellFormatter();
-		addEmptyMessage(messages.noRecordsToShow());
 		for (int x = 0; x < numOfRowsPerObject; x++) {
 			rowFormatter.addStyleName(x, "editheader");
 			this.columns.add(new ArrayList<EditColumn<R>>());
@@ -64,6 +63,7 @@ public abstract class EditTable<R> extends FlowPanel {
 		if (width != -1) {
 			cellFormatter.setWidth(rowIndex, index, width + "px");
 		}
+		addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void setEnabled(boolean isEnabled) {
@@ -314,11 +314,15 @@ public abstract class EditTable<R> extends FlowPanel {
 	}
 
 	public void addEmptyMessage(String emptyMessage) {
-		this.table.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
-		this.table.getRowFormatter().setStyleName(numOfRowsPerObject,
-				"norecord-empty-message");
-		this.table.addStyleName("no_records");
-		flexCellFormatter.setColSpan(numOfRowsPerObject, 0, columns.size() / 2);
+		if (this.table.getRowCount() == 1) {
+			this.table
+					.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
+			this.table.getRowFormatter().setStyleName(numOfRowsPerObject,
+					"norecord-empty-message");
+			this.table.addStyleName("no_records");
+		}
+		flexCellFormatter.setColSpan(numOfRowsPerObject, 0, columns.get(0)
+				.size());
 	}
 
 	protected abstract boolean isInViewMode();
