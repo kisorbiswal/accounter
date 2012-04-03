@@ -75,23 +75,28 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 	@Override
 	public void initHeader() {
 
-		String cmpAdd = "<br/><br/><br/><br/><br/>";
+		StringBuffer cmpAdd = new StringBuffer("<br/><br/><br/>");
 		Address registeredAddress = company.getRegisteredAddress();
 		if (registeredAddress != null) {
-			cmpAdd = ("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;"
-					+ forUnusedAddress(registeredAddress.getAddress1())
-					+ forUnusedAddress(registeredAddress.getStreet())
-					+ forUnusedAddress(registeredAddress.getCity())
-					+ forUnusedAddress(registeredAddress.getStateOrProvinence())
-					+ forUnusedAddress(registeredAddress.getZipOrPostalCode())
-					+ forUnusedAddress(registeredAddress.getCountryOrRegion()) + "</font></br>");
+			cmpAdd.append("<br><font style=\"font-family:sans-serif; color:#504040;\">&nbsp;");
+			cmpAdd.append(forUnusedAddress(registeredAddress.getAddress1()));
+			cmpAdd.append(forUnusedAddress(registeredAddress.getStreet()));
+			cmpAdd.append(forUnusedAddress(registeredAddress.getCity()));
+			cmpAdd.append(forUnusedAddress(registeredAddress
+					.getStateOrProvinence()));
+			cmpAdd.append(forUnusedAddress(registeredAddress
+					.getZipOrPostalCode()));
+			cmpAdd.append(forUnusedAddress(registeredAddress
+					.getCountryOrRegion()));
+			cmpAdd.append("</font></br>");
 		}
 
-		cmpAdd = ("<p><font style=\"font-family:sans-serif;\" size=\"6px\"><strong> "
-				+ forNullValue(TemplateBuilder.getCmpName()) + "</strong></font></p>");
+		cmpAdd.append("<p><font style=\"font-family:sans-serif;\" size=\"6px\"><strong> "
+				+ forNullValue(TemplateBuilder.getCmpName())
+				+ "</strong></font></p>");
 
 		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\" ><tr><td style=\"vertical-align: top;\" align=\"left\"><div class=\"gwt-HTML\" style=\" margin-left: 43px;\">"
-				+ cmpAdd
+				+ cmpAdd.toString()
 				+ "</div></td><td style=\"vertical-align: top;\" align=\"right\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p><font color=\"black\" style=\"font-family:sans-serif;\" size=\"5px\"><strong>"
 				+ reportTitle
 				+ "</strong></font></p><div style=\"font-family:sans-serif;\"><strong>Date: "
