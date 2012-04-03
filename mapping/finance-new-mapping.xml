@@ -32,7 +32,8 @@
 		<property name="transactionsUpdatedCount" column="TRANSACTIONS_UPDATE"
 			update="true"></property>
 		<property name="companiesCount" column="COMPANIES" update="true"></property>
-		<property name="updateDate" column="UPDATE_DATE"></property>
+		<property name="updateDate" column="UPDATE_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="openedCompaniesCount" column="OPENED_COMPANIES"
 			update="true"></property>
 		<property name="changedPasswordCount" column="CHANGED_PASSWORD"

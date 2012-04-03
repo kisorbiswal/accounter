@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +58,7 @@ public class Client {
 	/**
 	 * Last Updated Date(when he changes password etc)
 	 */
-	private Date updateDate;
+	private FinanceDate updateDate;
 	/**
 	 * Number of Times opened companies
 	 */
@@ -315,11 +314,11 @@ public class Client {
 		this.companiesCount = companiesCount;
 	}
 
-	public Date getUpdateDate() {
+	public FinanceDate getUpdateDate() {
 		return updateDate;
 	}
 
-	public void setUpdateDate(Date updateDate) {
+	public void setUpdateDate(FinanceDate updateDate) {
 		this.updateDate = updateDate;
 	}
 
