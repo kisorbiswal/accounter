@@ -54,6 +54,7 @@ public class VendorCreditMemoView extends
 		if (vendor == null) {
 			return;
 		}
+		vendorItemTransactionTable.setPayee(vendor);
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientVendorCreditMemo ent = this.transaction;
 
@@ -118,6 +119,7 @@ public class VendorCreditMemoView extends
 			}
 			super.vendorSelected(getCompany()
 					.getVendor(transaction.getVendor()));
+			vendorItemTransactionTable.setPayee(vendor);
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());

@@ -20,7 +20,7 @@ public class AccountDropDownTable extends AbstractDropDownTable<ClientAccount> {
 
 	public AccountDropDownTable(ListFilter<ClientAccount> filter,
 			List<Integer> canAddAccountTypes) {
-		super(getAccounts(filter));
+		super(getAccounts(filter),true);
 		this.filter = filter;
 		this.canAddAccountTypes = canAddAccountTypes;
 		canUseAccountNumbers = Accounter.getCompany().getPreferences()

@@ -207,6 +207,7 @@ public class CreditCardChargeView extends
 			if (selectedVendor != null) {
 				vendorNameSelect.setComboItem(selectedVendor);
 				billToaddressSelected(selectedVendor.getSelectedAddress());
+				vendorItemTransactionTable.setPayee(selectedVendor);
 			}
 			addPhonesContactsAndAddress();
 		}
@@ -408,6 +409,7 @@ public class CreditCardChargeView extends
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
+						vendorItemTransactionTable.setPayee(selectedVendor);
 						if (selectedVendor.getPaymentMethod() != null) {
 							paymentMethodSelected(selectedVendor
 									.getPaymentMethod());

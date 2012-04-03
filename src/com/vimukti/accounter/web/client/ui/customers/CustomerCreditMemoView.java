@@ -490,6 +490,7 @@ public class CustomerCreditMemoView extends
 			initTransactionsItems();
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
+			customerItemTransactionTable.setPayee(customer);
 			customerSelected(this.customer);
 			this.billingAddress = transaction.getBillingAddress();
 			this.contact = transaction.getContact();
@@ -753,6 +754,7 @@ public class CustomerCreditMemoView extends
 			jobListCombo.setCustomer(customer);
 			jobListCombo.setEnabled(true);
 		}
+		customerItemTransactionTable.setPayee(customer);
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = this.transaction;
 

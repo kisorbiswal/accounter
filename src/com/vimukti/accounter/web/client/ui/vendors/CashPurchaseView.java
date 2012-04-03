@@ -596,6 +596,7 @@ public class CashPurchaseView extends
 					transaction.getVendor());
 			vendorCombo.setValue(vendor);
 			this.vendor = vendor;
+			vendorItemTransactionTable.setPayee(vendor);
 			selectedVendor(vendor);
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
@@ -738,6 +739,7 @@ public class CashPurchaseView extends
 		if (vendor == null) {
 			return;
 		}
+		vendorItemTransactionTable.setPayee(vendor);
 		transactionsTree.clear();
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientCashPurchase ent = this.transaction;

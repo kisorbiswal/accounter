@@ -694,6 +694,7 @@ public class CashExpenseView extends
 				currencyWidget.setEnabled(!isInViewMode());
 			}
 			setVendor(getCompany().getVendor(transaction.getVendor()));
+			vendorItemTransactionTable.setPayee(vendor);
 			if (transaction.getTransactionItems() != null
 					&& !transaction.getTransactionItems().isEmpty()) {
 				this.vendorAccountTransactionTable
@@ -769,6 +770,7 @@ public class CashExpenseView extends
 		if (vendor == null) {
 			return;
 		}
+		vendorItemTransactionTable.setPayee(vendor);
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientCashPurchase ent = this.transaction;
 

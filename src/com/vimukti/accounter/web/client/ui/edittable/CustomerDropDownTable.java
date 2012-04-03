@@ -19,7 +19,7 @@ public class CustomerDropDownTable extends
 	private ListFilter<ClientCustomer> filter;
 
 	public CustomerDropDownTable(ListFilter<ClientCustomer> filter) {
-		super(getCustomers(filter));
+		super(getCustomers(filter), true);
 		this.filter = filter;
 	}
 

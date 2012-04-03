@@ -1235,7 +1235,7 @@
 		<![CDATA[
 				SELECT T.ID             AS TRANSACTION_ID,
 				       T.T_TYPE         AS TRANSACTION_TYPE,
-				       T.T_DATE         ASPAYMENT_DATE,
+				       T.T_DATE         AS PAYMENT_DATE,
 				       T.NUMBER         AS TRANSACTION_NUMBER,
 				       T.STATUS         AS TRANSACTION_STATUS,
 				       T.T_DATE         AS ISSUE_DATE,
@@ -1903,9 +1903,9 @@
 			,C.PENDING_ITEM_RECEIPTS_ACCOUNT_ID,C.EXCHANGE_LOSS_OR_GAIN_ACCOUNT,C.COST_OF_GOODS_SOLD)) 
 			THEN TRUE ELSE FALSE END AS IS_EXISTS FROM COMPANY C 
 			WHERE C.ID=:companyId
-		]]>			
+		]]>
 	</sql-query>
-	
+
 	<sql-query name="canDeleteAccount">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -11751,6 +11751,67 @@
 		]]>
 	</sql-query>
 
+	<sql-query name="getUnitPricesByCustomer">
+		<query-param name="company" type="long" />
+		<query-param name="customer" type="long" />
+		<query-param name="item" type="long" />
+
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<![CDATA[
+			SELECT T.NUMBER AS TRANSACTION_NUMBER,
+					PRICES.TRANSACTION_DATE AS TRANSACTION_DATE,
+					PRICES.UNIT_PRICE AS UNIT_PRICE
+					
+					FROM (SELECT 	MAX(T.ID) AS ID,
+									MAX(Cast(T.T_DATE AS TEXT)) AS TRANSACTION_DATE,
+									TI.UNIT_PRICE AS UNIT_PRICE
+										FROM TRANSACTION_ITEM TI 
+											LEFT JOIN TRANSACTION T ON T.ID = TI.TRANSACTION_ID 
+											LEFT JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+											LEFT JOIN INVOICE I ON I.ID = T.ID
+											LEFT JOIN CASH_SALES CS ON CS.ID = T.ID
+								
+											LEFT JOIN PAYEE P ON (P.ID = I.CUSTOMER_ID OR P.ID = CS.CUSTOMER_ID)
+								
+											WHERE TI.ITEM_ID = :item AND P.ID = :customer AND T.COMPANY_ID = :company
+											GROUP BY UNIT_PRICE) AS PRICES
+											LEFT JION TRANSACTION T ON T.ID = PRICES.ID
+											ORDER BY PRICES.TRANSACTION_DATE DESC ,PRICES.ID DESC ,PRICES.UNIT_PRICE DESC LIMIT 5
+		]]>
+	</sql-query>
+
+	<sql-query name="getUnitPricesByVendor">
+		<query-param name="company" type="long" />
+		<query-param name="vendor" type="long" />
+		<query-param name="item" type="long" />
+
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<![CDATA[
+			SELECT T.NUMBER AS TRANSACTION_NUMBER,
+					PRICES.TRANSACTION_DATE AS TRANSACTION_DATE,
+					PRICES.UNIT_PRICE AS UNIT_PRICE
+					
+					FROM (SELECT 	MAX(T.ID) AS ID,
+									MAX(T.T_DATE) AS TRANSACTION_DATE,
+									TI.UNIT_PRICE AS UNIT_PRICE
+										FROM TRANSACTION_ITEM TI 
+											LEFT JOIN TRANSACTION T ON T.ID = TI.TRANSACTION_ID 
+											LEFT JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+											LEFT JOIN ENTER_BILL EB ON EB.ID = T.ID
+											LEFT JOIN CASH_PURCHASE CP ON CP.ID = T.ID
+								
+											LEFT JOIN PAYEE P ON (P.ID = EB.VENDOR_ID OR P.ID = CP.VENDOR_ID)
+								
+											WHERE TI.ITEM_ID = :item AND P.ID = :vendor AND T.COMPANY_ID = :company
+											GROUP BY UNIT_PRICE ) AS PRICES
+											LEFT JOIN TRANSACTION T ON T.ID = PRICES.ID
+											ORDER BY PRICES.TRANSACTION_DATE DESC ,PRICES.ID DESC ,PRICES.UNIT_PRICE DESC LIMIT 5
+		]]>
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

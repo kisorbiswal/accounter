@@ -144,7 +144,7 @@ public class CreditCardExpenseView extends
 					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
-
+						vendorItemTransactionTable.setPayee(selectedVendor);
 						vendorCombo.setComboItem(selectItem);
 						addPhonesContactsAndAddress();
 						long code = selectedVendor.getTAXCode();
@@ -852,6 +852,7 @@ public class CreditCardExpenseView extends
 			if (selectedVendor != null) {
 				vendorCombo.setComboItem(selectedVendor);
 				billToaddressSelected(selectedVendor.getSelectedAddress());
+				vendorItemTransactionTable.setPayee(selectedVendor);
 			}
 			addPhonesContactsAndAddress();
 		}

@@ -97,6 +97,7 @@ import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.ItemUnitPrice;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -2401,14 +2402,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return new FinanceTool().getTaxManager().getTaxAdjustments(viewType,
 				getCompanyId(), startDate, endDate, start, length);
 	}
+
 	@Override
 	public void mergeClass(ClientAccounterClass fromClass,
-			ClientAccounterClass toClass)throws AccounterException {
+			ClientAccounterClass toClass) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			try {
-				tool.mergeClass(fromClass,
-						toClass, getCompanyId());
+				tool.mergeClass(fromClass, toClass, getCompanyId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2419,12 +2420,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public void mergeLocation(ClientLocation fromLocation,
 			ClientLocation toLocation) throws AccounterException {
-		
+
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			try {
-				tool.mergeLocation(fromLocation,
-						toLocation, getCompanyId());
+				tool.mergeLocation(fromLocation, toLocation, getCompanyId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2439,5 +2439,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				getCompanyId(), id, type, subType);
 	}
 
+	@Override
+	public List<ItemUnitPrice> getUnitPricesByPayee(boolean isCust,
+			long payee, long item) throws AccounterException {
+		return getFinanceTool().getCompanyManager().getUnitPricesByPayee(
+				getCompanyId(), isCust, payee, item);
+	}
 
 }

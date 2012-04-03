@@ -28,12 +28,16 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	private ListDataProvider<T> dataProvider;
 	private SingleSelectionModel<T> singleSelectionModel;
 	private boolean isClicked;
+	private boolean isAddNewReq;
 
-	public AbstractDropDownTable(List<T> newData) {
+	public AbstractDropDownTable(List<T> newData, boolean isAddNewReq) {
 		super(1000);
 		this.data = new ArrayList<T>(newData);
-		T newRow = getAddNewRow();
-		data.add(0, newRow);
+		this.isAddNewReq = isAddNewReq;
+		if (isAddNewReq) {
+			T newRow = getAddNewRow();
+			data.add(0, newRow);
+		}
 		Type<CoreEventHandler<T>> type = CoreEvent.getType(getType());
 		Accounter.getEventBus().addHandler(type, new CoreEventHandler<T>() {
 
@@ -85,10 +89,14 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 
 	protected void reInitData() {
 		data = new ArrayList<T>(getTotalRowsData());
-		data.add(0, getAddNewRow());
+		if (isAddNewReq) {
+			data.add(0, getAddNewRow());
+		}
 		dataProvider.setList(data);
 		dataProvider.refresh();
-		getRowElement(0);
+		if (isAddNewReq) {
+			getRowElement(0);
+		}
 	}
 
 	public abstract List<T> getTotalRowsData();
@@ -105,9 +113,13 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 	private void sendSelectedObject(T selectedObject) {
 		int indexOf = AbstractDropDownTable.this.data.indexOf(selectedObject);
 		if (rowSelectHandler != null) {
-			if (indexOf == 0) {
-				rowSelectHandler.onRowSelect(null, isClicked);
-			} else if (indexOf > 0) {
+			if (isAddNewReq) {
+				if (indexOf == 0) {
+					rowSelectHandler.onRowSelect(null, isClicked);
+				} else if (indexOf > 0) {
+					rowSelectHandler.onRowSelect(selectedObject, isClicked);
+				}
+			} else {
 				rowSelectHandler.onRowSelect(selectedObject, isClicked);
 			}
 		}

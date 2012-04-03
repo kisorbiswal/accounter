@@ -21,7 +21,7 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 	private int transactionType = 0;
 
 	public ItemsDropDownTable(ListFilter<ClientItem> filter) {
-		super(getItems(filter));
+		super(getItems(filter), true);
 		this.filter = filter;
 	}
 

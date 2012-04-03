@@ -18,11 +18,11 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	private boolean isSales;
 
 	public TaxCodeTable() {
-		super(Accounter.getCompany().getTaxCodes());
+		super(Accounter.getCompany().getTaxCodes(),true);
 	}
 
 	public TaxCodeTable(ListFilter<ClientTAXCode> filter, boolean isSales) {
-		super(getTaxCodes(filter));
+		super(getTaxCodes(filter),true);
 		this.isSales = isSales;
 		this.filter = filter;
 	}

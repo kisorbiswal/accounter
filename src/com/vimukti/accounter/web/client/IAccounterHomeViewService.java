@@ -59,6 +59,7 @@ import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.ItemUnitPrice;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -520,15 +521,17 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<ClientTAXAdjustment> getTaxAdjustmentsList(int viewType,
 			long startDate, long endDate, int start, int length);
-	void mergeClass(ClientAccounterClass clientClass,
-			ClientAccounterClass clientClass1)throws AccounterException;
 
+	void mergeClass(ClientAccounterClass clientClass,
+			ClientAccounterClass clientClass1) throws AccounterException;
 
 	Long getTransaction(boolean isPrev, long id, int type, int subType)
 			throws AccounterException;
 
-
 	void mergeLocation(ClientLocation clientFromLocation,
-			ClientLocation clientToLocation)throws AccounterException;
+			ClientLocation clientToLocation) throws AccounterException;
+
+	List<ItemUnitPrice> getUnitPricesByPayee(boolean isCust, long payee,
+			long item) throws AccounterException;
 
 }

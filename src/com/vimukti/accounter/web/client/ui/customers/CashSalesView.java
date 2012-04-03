@@ -559,6 +559,7 @@ public class CashSalesView extends
 		if (customer == null) {
 			return;
 		}
+		customerItemTransactionTable.setPayee(customer);
 		transactionsTree.clear();
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 		// Job Tracking
@@ -973,6 +974,7 @@ public class CashSalesView extends
 			initTransactionsItems();
 			previousEstimates = transaction.getSalesOrders();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			customerItemTransactionTable.setPayee(customer);
 			customerSelected(this.customer);
 			if (this.getCustomer() != null) {
 
