@@ -235,8 +235,8 @@
 		<property name="fiscalYearStarting" column="FISCAL_YEAR_STARTING"></property>
 		<property name="industry" column="INDUSTRY"></property>
 		<property name="bookKeeping" column="BOOK_KEEPING"></property>
-		<!-- <property name="noOfUsers" column="NUMBER_OF_USERS"></property> <property 
-			name="transactionCount" column="TRANSACTIONS_COUNT"></property> -->
+		<property name="noOfUsers" column="NUMBER_OF_USERS"></property>
+		<property name="transactionCount" column="TRANSACTIONS_COUNT"></property>
 
 		<component name="preferences" class="CompanyPreferences">
 			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>

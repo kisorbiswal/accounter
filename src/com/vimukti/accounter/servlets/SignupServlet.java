@@ -15,6 +15,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
@@ -162,7 +163,7 @@ public class SignupServlet extends BaseServlet {
 				// Set<String> features = new HashSet<String>();
 				// subscription.setFeatures(features);
 				// clientSubscription.setSubscription(subscription);
-
+				client.setCreatedDate(new FinanceDate());
 				ClientSubscription clientSubscription = new ClientSubscription();
 				clientSubscription.setCreatedDate(new Date());
 				clientSubscription.setSubscription(Subscription

@@ -137,6 +137,10 @@ public class OpenCompanyServlet extends BaseServlet {
 			try {
 				Transaction transaction = session.beginTransaction();
 
+				int openedCompaniesCount = client.getOpenedCompaniesCount() + 1;
+				client.setOpenedCompaniesCount(openedCompaniesCount);
+				session.saveOrUpdate(client);
+
 				User user = getUser(emailID, serverCompanyID);
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);

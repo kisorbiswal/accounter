@@ -25,6 +25,32 @@
 		<property name="isDeleted" column="IS_DELETED" />
 		<property name="isEmailBounced" column="IS_EMAIL_BOUNCED" />
 
+		<property name="createdDate" column="CREATED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="transactionsCreatedCount" column="TRANSACTIONS_CREATED"
+			update="true"></property>
+		<property name="transactionsUpdatedCount" column="TRANSACTIONS_UPDATE"
+			update="true"></property>
+		<property name="companiesCount" column="COMPANIES" update="true"></property>
+		<property name="updateDate" column="UPDATE_DATE"></property>
+		<property name="openedCompaniesCount" column="OPENED_COMPANIES"
+			update="true"></property>
+		<property name="changedPasswordCount" column="CHANGED_PASSWORD"
+			update="true"></property>
+		<property name="transactionCreatedFromDeviceCount" column="TRANSACTION_CREATED_FROM_DEVICE"
+			update="true"></property>
+		<property name="transactionUpdatedFromDeviceCount" column="TRANSACTION_UPDATE_FROM_DEVICE"
+			update="true"></property>
+		<property name="companiesFromDeviceCount" column="COMPANIES_COUNT_FROM_DEVICE"
+			update="true"></property>
+		<property name="loginFromDeviceCount" column="LOGGEDIN_COUNT_FROM_DEVICE"
+			update="true"></property>
+		<property name="premiumCompaniesCount" column="PREMIUM_COMPANIES"
+			update="true"></property>
+		<property name="subscriptionType" column="SUBSCRIPTION_TYPE"
+			update="true"></property>
+
+
 		<set name="users" inverse="true">
 			<key column="CLIENT_ID"></key>
 			<one-to-many class="User" />

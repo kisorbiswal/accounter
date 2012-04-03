@@ -22,6 +22,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
@@ -115,6 +116,7 @@ public class UserManager extends Manager {
 			updateClient.setFirstName(clientUser.getFirstName());
 			updateClient.setLastName(clientUser.getLastName());
 			updateClient.setFullName(clientUser.getFullName());
+			updateClient.setCreatedDate(new FinanceDate());
 
 			Company company = getCompany(updateContext.getCompanyId());
 			User user1 = company.getUserByUserEmail(userID);
@@ -383,6 +385,8 @@ public class UserManager extends Manager {
 			invitedClient.setFirstName(clientUser.getFirstName());
 			invitedClient.setLastName(clientUser.getLastName());
 			invitedClient.setFullName(clientUser.getFullName());
+			invitedClient.setCreatedDate(new FinanceDate());
+
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
 					.makeHash(emailId + Client.PASSWORD_HASH_STRING
 							+ randomString)));

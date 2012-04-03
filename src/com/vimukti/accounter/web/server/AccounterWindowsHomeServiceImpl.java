@@ -32,6 +32,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.SupportedUser;
@@ -205,6 +206,7 @@ public class AccounterWindowsHomeServiceImpl extends
 					client.setEmailId(emailId);
 					client.setFirstName(details.getFirstName());
 					client.setLastName(details.getLastName());
+					client.setCreatedDate(new FinanceDate());
 					client.setFullName(details.getFirstName() + " "
 							+ details.getLastName());
 					client.setPassword(passwordWithHash);
@@ -238,6 +240,7 @@ public class AccounterWindowsHomeServiceImpl extends
 				client.setEmailId(emailId);
 				client.setFirstName(details.getFirstName());
 				client.setLastName(details.getLastName());
+				client.setCreatedDate(new FinanceDate());
 				client.setFullName(details.getFirstName() + " "
 						+ details.getLastName());
 				client.setPassword(passwordWithHash);

@@ -1314,7 +1314,8 @@ public class CompanyManager extends Manager {
 				query = session
 						.getNamedQuery("getAllJournalEntriesByDescOrMemo")
 						.setParameter("companyId", companyId)
-						.setParameter("memo", "%" + input.getFindBy() + "%");
+						.setParameter("memo", "%" + input.getFindBy() + "%",
+								EncryptedStringType.INSTANCE);
 			} else if (input.getSearchbyType() == SearchInput.TYPE_ENTRY_NO) {
 				query = session
 						.getNamedQuery("getAllJournalEntriesByEntryNo")
