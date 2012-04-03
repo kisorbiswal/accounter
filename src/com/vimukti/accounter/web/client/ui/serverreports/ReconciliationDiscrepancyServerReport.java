@@ -55,7 +55,7 @@ public class ReconciliationDiscrepancyServerReport extends
 		case 0:
 			return Utility.getTransactionName(record.getTransactionType());
 		case 1:
-			return record.getTransactionDate();
+			return getDateByCompanyType(record.getTransactionDate());
 		case 2:
 			return record.getTransactionNumber();
 		case 3:

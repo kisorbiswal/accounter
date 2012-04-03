@@ -289,7 +289,7 @@ public class CustomerCreditMemoView extends
 
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
-				form.add(discountField);
+				taxForm.add(discountField);
 			}
 		}
 		form.add(transactionTotalBaseCurrencyText);

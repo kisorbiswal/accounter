@@ -303,8 +303,7 @@ public class PopupCalendar extends PopupPanel {
 	 * Update the Label which shows the displayed month (in the month line).
 	 */
 	private void drawLabelMoisAnnee() {
-		currentMonth.setText(monthFormat.format(this.displayedMonth)
-				.toLowerCase());
+		currentMonth.setText(monthFormat.format(this.displayedMonth));
 	}
 
 	/**

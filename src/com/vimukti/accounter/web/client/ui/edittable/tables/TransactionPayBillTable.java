@@ -98,7 +98,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 98;
+					return 90;
 				}
 
 				@Override
@@ -133,7 +133,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public int getWidth() {
-				return 65;
+				return 100;
 			}
 
 			@Override
@@ -149,7 +149,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 133;
+					return 100;
 				}
 
 				@Override
@@ -179,7 +179,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 100;
 				}
 
 				@Override
@@ -214,7 +214,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public int getWidth() {
-					return 108;
+					return 100;
 				}
 
 				@Override
@@ -279,6 +279,11 @@ public abstract class TransactionPayBillTable extends
 			}
 
 			@Override
+			public int getWidth() {
+				return 100;
+			}
+
+			@Override
 			protected String getColumnName() {
 				return getColumnNameWithCurrency(messages.discount());
 			}
@@ -300,6 +305,11 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onClick(ClientTransactionPayBill row) {
 				openCreditsDialog(row);
+			}
+
+			@Override
+			public int getWidth() {
+				return 90;
 			}
 
 			@Override
@@ -342,6 +352,11 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				protected String getColumnName() {
 					return getColumnNameWithCurrency(messages.payments());
+				}
+
+				@Override
+				public int getWidth() {
+					return 110;
 				}
 
 				@Override
@@ -400,10 +415,10 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-				return	String.valueOf(row.getPayment());
-//					return DataUtils.getAmountAsStringInPrimaryCurrency(row
-//							.getPayment());
-					
+					return String.valueOf(row.getPayment());
+					// return DataUtils.getAmountAsStringInPrimaryCurrency(row
+					// .getPayment());
+
 				}
 
 				@Override
