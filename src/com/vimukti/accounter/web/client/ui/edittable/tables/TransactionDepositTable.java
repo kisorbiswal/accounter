@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -23,6 +24,7 @@ import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CustomerColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.JobColumn;
 import com.vimukti.accounter.web.client.ui.edittable.PayeeNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextAreaEditColumn;
@@ -170,6 +172,24 @@ public abstract class TransactionDepositTable extends
 			}
 		}
 		if (isCustomerAllowedToAdd) {
+			final JobColumn<ClientTransactionDepositItem> jobColumn = new JobColumn<ClientTransactionDepositItem>() {
+
+				@Override
+				protected ClientJob getValue(ClientTransactionDepositItem row) {
+					return Accounter.getCompany().getjob(row.getJob());
+				}
+
+				@Override
+				protected void setValue(ClientTransactionDepositItem row,
+						ClientJob newValue) {
+					if (newValue == null) {
+						return;
+					}
+					row.setJob(newValue.getID());
+				}
+
+			};
+
 			this.addColumn(new CustomerColumn<ClientTransactionDepositItem>() {
 
 				@Override
@@ -184,10 +204,17 @@ public abstract class TransactionDepositTable extends
 						ClientCustomer newValue) {
 					if (newValue != null) {
 						row.setCustomer(newValue.getID());
+						row.setJob(0);
+						jobColumn.setcustomerId(newValue.getID());
+						update(row);
 					}
 				}
 
 			});
+
+			if (isTrackJob()) {
+				this.addColumn(jobColumn);
+			}
 
 			this.addColumn(new CheckboxEditColumn<ClientTransactionDepositItem>() {
 
@@ -219,6 +246,10 @@ public abstract class TransactionDepositTable extends
 		}
 
 		this.addColumn(new DeleteColumn<ClientTransactionDepositItem>());
+	}
+
+	protected boolean isTrackJob() {
+		return false;
 	}
 
 	@Override

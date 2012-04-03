@@ -257,6 +257,11 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			protected void updateNonEditableItems() {
 				DepositView.this.updateNonEditableItems();
 			}
+
+			@Override
+			protected boolean isTrackJob() {
+				return DepositView.this.isTrackJob();
+			}
 		};
 
 		depositTableButton = new AddNewButton();

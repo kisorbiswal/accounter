@@ -36,6 +36,9 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 	private AccounterClass accounterClass;
 
 	@ReffereredObject
+	private Job job;
+
+	@ReffereredObject
 	private Transaction transaction;
 
 	private boolean isOnSaveProccessed;
@@ -173,6 +176,10 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 			w.put(messages.customer(), this.customer.name);
 		}
 
+		if (this.job != null) {
+			w.put(messages.job(), this.job.getName());
+		}
+
 		if (this.transaction.getLocation() != null) {
 			w.put(messages.location(), this.transaction.getLocation().getName());
 		}
@@ -301,6 +308,14 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 
 }

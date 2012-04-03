@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -16,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
@@ -178,25 +176,12 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		}
 	}
 
-	private boolean isUserHavePermissions(InvoicesList obj) {
-		ClientUser user = Accounter.getUser();
-		if (user.canDoInvoiceTransactions()) {
-			return true;
-		}
-
-		if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
-				&& user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	protected void onClick(InvoicesList obj, int row, int col) {
 		if (type != 0) {
-
 			col += 2;
 		}
+
 		if (col == 0) {
 
 			boolean isSelected = ((CheckBox) this.getWidget(row, col))
@@ -310,6 +295,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		if (type != 0) {
 			index += 2;
 		}
+
 		switch (index) {
 		case 0:
 			return 20;
@@ -330,7 +316,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 8:
 			return 100;
 		case 9:
-			return 100;
+			return 43;
 		case 10:
 			return 43;
 		default:
@@ -402,10 +388,6 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		return 0;
 	}
 
-	private long getTransactionID(InvoicesList obj) {
-		return obj.getTransactionId();
-	}
-
 	@Override
 	public boolean isVoided(InvoicesList obj) {
 		return obj.isVoided();
@@ -447,17 +429,18 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	protected String[] setRowElementsStyle() {
 		if (type != 0) {
 			if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-				return new String[] { "dateValue", "noValue", "CustomerValue", "dueDateValue",
-						"netPriceValue", "totalPriceValue", "balanceValue",
-						"remainingCreditsValue", "voidedValue", };
+				return new String[] { "dateValue", "noValue", "CustomerValue",
+						"dueDateValue", "netPriceValue", "totalPriceValue",
+						"balanceValue", "remainingCreditsValue", "voidedValue", };
 			} else {
-				return new String[] { "dateValue", "noValue", "CustomerValue", "dueDateValue",
-						"netPriceValue", "totalPriceValue", "balanceValue", "voidedValue", };
+				return new String[] { "dateValue", "noValue", "CustomerValue",
+						"dueDateValue", "netPriceValue", "totalPriceValue",
+						"balanceValue", "voidedValue", };
 			}
 
 		}
-		return new String[] { "unknownValue", "typeValue", "dateValue", "noValue", "CustomerValue", "dueDateValue",
-				"netPriceValue", "totalPriceValue", "balanceValue", "voidedValue",
-		};
+		return new String[] { "unknownValue", "typeValue", "dateValue",
+				"noValue", "CustomerValue", "dueDateValue", "netPriceValue",
+				"totalPriceValue", "balanceValue", "voidedValue", };
 	}
 }

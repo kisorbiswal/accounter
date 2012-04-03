@@ -131,4 +131,23 @@ public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 				messages.total(), "" };
 	}
 
+	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 90;
+		case 1:
+			return 100;
+		case 2:
+			return 100;
+		case 3:
+			return 100;
+		case 4:
+			return 100;
+		case 5:
+			return 30;
+		default:
+			return -1;
+		}
+	}
 }

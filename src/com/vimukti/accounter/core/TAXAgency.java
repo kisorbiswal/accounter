@@ -14,6 +14,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -250,6 +251,7 @@ public class TAXAgency extends Payee {
 	}
 
 	public void checkNullValues() throws AccounterException {
+		ClientCompanyPreferences preferences = Global.get().preferences();
 		super.checkNullValues();
 		cheeckPaymentTermNull();
 		if (getTaxType() == 0) {
@@ -272,7 +274,8 @@ public class TAXAgency extends Payee {
 						AccounterException.ERROR_PLEASE_ENTER, Global.get()
 								.messages().salesLiabilityAccount());
 			}
-			if (getPurchaseLiabilityAccount() == null) {
+			if (preferences.isTrackPaidTax()
+					&& getPurchaseLiabilityAccount() == null) {
 				throw new AccounterException(
 						AccounterException.ERROR_PLEASE_ENTER, Global.get()
 								.messages().purchaseLiabilityAccount());
@@ -280,7 +283,7 @@ public class TAXAgency extends Payee {
 			break;
 		default:
 			if (getSalesLiabilityAccount() == null
-					&& getPurchaseLiabilityAccount() == null) {
+					&& (preferences.isTrackPaidTax() && getPurchaseLiabilityAccount() == null)) {
 				throw new AccounterException(
 						AccounterException.ERROR_PLEASE_ENTER, Global.get()
 								.messages().salesOrPurchaseLiabilityAcc());

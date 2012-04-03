@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.TransactionMeterEventType;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -36,15 +35,14 @@ public class DepositsTransfersListGrid extends
 	protected int[] setColTypes() {
 		if (type == 0) {
 			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
 		}
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
@@ -54,22 +52,20 @@ public class DepositsTransfersListGrid extends
 		else if (index == 0)
 			return 65;
 		else if (index == 1)
-			return 80;
-		else if (index == 2)
 			return 50;
-		else if (index == 4 || index == 3) {
+		else if (index == 3 || index == 2) {
 			if (type == 0) {
 				return 130;
 			} else {
 				return 80;
 			}
-		} else if (index == 5)
+		} else if (index == 4)
 			if (type == 0) {
 				return 40;
 			} else {
 				return 80;
 			}
-		else if (index == 6)
+		else if (index == 5)
 			return 40;
 
 		return -1;
@@ -87,19 +83,17 @@ public class DepositsTransfersListGrid extends
 			return obj.getTransactionDate() != null ? UIUtils
 					.getDateByCompanyType(obj.getTransactionDate()) : "";
 		case 1:
-			return Utility.getTransactionName(obj.getType());
-		case 2:
 			return obj.getTransactionNumber();
-		case 3:
+		case 2:
 			return obj.getInAccount() != null ? obj.getInAccount() : "";
-		case 4:
+		case 3:
 			if (type == 0) {
 				return DataUtils.amountAsStringWithCurrency(obj.getAmount(),
 						getCompany().getCurrency(obj.getCurrency()));
 			} else {
 				return obj.getFromAccount() != null ? obj.getFromAccount() : "";
 			}
-		case 5:
+		case 4:
 			if (type == 0) {
 				return Accounter.getFinanceImages().delete();
 
@@ -108,7 +102,7 @@ public class DepositsTransfersListGrid extends
 						getCompany().getCurrency(obj.getCurrency()));
 			}
 
-		case 6:
+		case 5:
 			return Accounter.getFinanceImages().delete();
 
 		}
@@ -121,11 +115,11 @@ public class DepositsTransfersListGrid extends
 			return;
 		}
 		if (type == 0) {
-			if (col == 5) {
+			if (col == 4) {
 				showWarningDialog(obj, col);
 			}
 		} else {
-			if (col == 6) {
+			if (col == 5) {
 				showWarningDialog(obj, col);
 			}
 		}
@@ -138,11 +132,11 @@ public class DepositsTransfersListGrid extends
 			final int col) {
 		String msg = null;
 		if (type == 0) {
-			if (col == 5) {
+			if (col == 4) {
 				msg = messages.doyouwanttoDeletetheTransaction();
 			}
 		} else {
-			if (col == 6) {
+			if (col == 5) {
 				msg = messages.doyouwanttoDeletetheTransaction();
 			}
 		}
@@ -164,11 +158,11 @@ public class DepositsTransfersListGrid extends
 					@Override
 					public boolean onYesClick() {
 						if (type == 0) {
-							if (col == 5) {
+							if (col == 4) {
 								deleteTransaction(obj);
 							}
 						} else {
-							if (col == 6) {
+							if (col == 5) {
 								deleteTransaction(obj);
 							}
 						}
@@ -222,11 +216,11 @@ public class DepositsTransfersListGrid extends
 	@Override
 	protected String[] getColumns() {
 		if (type == 0) {
-			return new String[] { messages.transactionDate(), messages.type(),
+			return new String[] { messages.transactionDate(),
 					messages.number(), messages.depositTo(), messages.amount(),
 					messages.delete() };
 		} else {
-			return new String[] { messages.transactionDate(), messages.type(),
+			return new String[] { messages.transactionDate(),
 					messages.number(), messages.transferTo(),
 					messages.transferFrom(), messages.amount(),
 					messages.delete() };
@@ -237,24 +231,23 @@ public class DepositsTransfersListGrid extends
 	@Override
 	protected String[] setHeaderStyle() {
 		if (type == 0) {
-			return new String[] { "transactionDate-value", "type-value",
-					"number-value", "depositTo-value", "amount-value",
-					"delete-value" };
+			return new String[] { "transactionDate-value", "number-value",
+					"depositTo-value", "amount-value", "delete-value" };
 		} else {
-			return new String[] { "transactionDate-value", "type-value",
-					"number-value", "transferTo-value", "transferFrom-value",
-					"amount-value", "delete-value" };
+			return new String[] { "transactionDate-value", "number-value",
+					"transferTo-value", "transferFrom-value", "amount-value",
+					"delete-value" };
 		}
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		if (type == 0) {
-			return new String[] { "transactionDate", "type", "number",
-					"depositTo", "amount", "delete" };
+			return new String[] { "transactionDate", "number", "depositTo",
+					"amount", "delete" };
 		} else {
-			return new String[] { "transactionDate", "type", "number",
-					"transferTo", "transferFrom", "amount", "delete" };
+			return new String[] { "transactionDate", "number", "transferTo",
+					"transferFrom", "amount", "delete" };
 		}
 	}
 }

@@ -43,7 +43,6 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.core.migration.MigrationUtil;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -1495,8 +1494,7 @@ public class CompanyManager extends Manager {
 						.setParameter("memo", "%" + input.getFindBy() + "%",
 								EncryptedStringType.INSTANCE);
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				query = session
-						.getNamedQuery("getAllTransfersByAmount")
+				query = session.getNamedQuery("getAllTransfersByAmount")
 						.setParameter("companyId", companyId)
 						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
@@ -1521,8 +1519,7 @@ public class CompanyManager extends Manager {
 						.setParameter("memo", "%" + input.getFindBy() + "%",
 								EncryptedStringType.INSTANCE);
 			} else if (input.getSearchbyType() == SearchInput.TYPE_AMOUNT) {
-				query = session
-						.getNamedQuery("getAllDepositsByAmount")
+				query = session.getNamedQuery("getAllDepositsByAmount")
 						.setParameter("companyId", companyId)
 						.setParameter("amount", input.getAmount())
 						.setParameter("match", input.getMatchType());
@@ -1836,7 +1833,9 @@ public class CompanyManager extends Manager {
 					depositsTransfersList.setFromAccount((String) object[5]);
 
 					depositsTransfersList.setAmount((Double) object[6]);
-					depositsTransfersList.setCurrency((Long) object[7]);
+					depositsTransfersList
+							.setCurrency((Long) object[7] == null ? 0
+									: (Long) object[7]);
 					depositsTransfersList.setStatus((Integer) object[8]);
 					queryResult.add(depositsTransfersList);
 				}

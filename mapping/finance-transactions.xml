@@ -1174,6 +1174,8 @@
 		<property name="refNo"  type="encryptedstring" column="REFERNCE_NO"></property>
 		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID">
 		</many-to-one>
+		<many-to-one name="job" class="Job" column="JOB_ID">
+		</many-to-one>
 		<property name="isBillable" column="IS_BILLABLE"></property>
 		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">

@@ -10650,7 +10650,7 @@
 			       a1.name             AS in_account,
 			       a2.name             AS from_account,
 			       t.total             AS amount,
-			       a2.account_currency AS currency
+			       t.currency AS currency
 			FROM   transfer_fund tf
 			       LEFT JOIN TRANSACTION t
 			         ON t.id = tf.id

@@ -67,9 +67,10 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			messages.expenses(), messages.salesOrders(),
 			messages.purchaseOrders() };
 
-	public InventoryCentreView(){
+	public InventoryCentreView() {
 		this.getElement().setId("InventoryCentreView");
 	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -237,6 +238,18 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 				if (type.equalsIgnoreCase(messages.Charges())
 						|| type.equalsIgnoreCase(messages.credits())) {
 					if (getPreferences().isDelayedchargesEnabled()) {
+						transactionTypeList.add(type);
+					} else {
+						continue;
+					}
+				} else if (type.equalsIgnoreCase(messages.salesOrders())) {
+					if (getPreferences().isSalesOrderEnabled()) {
+						transactionTypeList.add(type);
+					} else {
+						continue;
+					}
+				} else if (type.equalsIgnoreCase(messages.purchaseOrders())) {
+					if (getPreferences().isPurchaseOrderEnabled()) {
 						transactionTypeList.add(type);
 					} else {
 						continue;
@@ -656,8 +669,10 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 						public void onSuccess(
 								PaginationList<TransactionHistory> result) {
 							records = result;
-							selectedItem= getCompany().getItem(selectedItem.getID());
-							transactionHistoryGrid.setSelectedItem(selectedItem);
+							selectedItem = getCompany().getItem(
+									selectedItem.getID());
+							transactionHistoryGrid
+									.setSelectedItem(selectedItem);
 							itemDetailsPanel.showItemDetails(selectedItem);
 							transactionHistoryGrid.removeAllRecords();
 							if (records != null) {
@@ -795,7 +810,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		}
 		if (this.selectedItem != null) {
 			itemsListGrid.setSelectedItem(selectedItem);
-			
+
 			selectedItem = Accounter.getCompany().getItem(selectedItem.getID());
 
 			onItemSelected();

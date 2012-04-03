@@ -154,7 +154,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 				newTransactionItem.setAccount(transactionItem.getAccount());
 				newTransactionItem.setType(ClientTransactionItem.TYPE_ACCOUNT);
 				newTransactionItem.setCustomer(transactionItem.getCustomer());
-
+				newTransactionItem.setJob(transactionItem.getJob());
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {

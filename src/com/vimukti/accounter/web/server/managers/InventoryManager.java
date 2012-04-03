@@ -797,7 +797,7 @@ public class InventoryManager extends Manager {
 		}
 		PaginationList<TransactionHistory> transactionsList = getItemTransactionsList(
 				session, list, itemId);
-		transactionsList.setTotalCount(total);
+		transactionsList.setTotalCount(transactionsList.size());
 		transactionsList.setStart(start);
 		return transactionsList;
 	}

@@ -17,6 +17,7 @@ public class ClientTransactionDepositItem implements IAccounterCore {
 	private String description;
 	private String paymentMethod;
 	private long accounterClass;
+	private long job;
 
 	private ClientTransaction transaction;
 
@@ -133,6 +134,14 @@ public class ClientTransactionDepositItem implements IAccounterCore {
 
 	public void setTransaction(ClientTransaction transaction) {
 		this.transaction = transaction;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 
 }
