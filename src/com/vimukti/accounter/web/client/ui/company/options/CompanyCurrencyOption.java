@@ -77,8 +77,10 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 		currencyCommentLabel.setText(messages.changingCurrencyComment());
 		isEnableMultiCurrencyCheckBox.setText(messages.isMultiCurrencyEnable());
 
-		if (getCompanyPreferences().isEnableMultiCurrency()
-				|| getCompany().hasOtherCountryCurrency()) {
+		if (!getCompany().hasOtherCountryCurrency()
+				|| !getCompanyPreferences().isEnableMultiCurrency()) {
+			isEnableMultiCurrencyCheckBox.setEnabled(true);
+		} else {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);
 		}
 		setEnable(false);
