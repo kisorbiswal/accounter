@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -32,8 +33,62 @@ public class Client {
 	private Set<Language> languages;
 	private boolean isDeleted;
 	private boolean isEmailBounced;
+
 	private ClientSubscription clientSubscription;
 	private byte[] passwordRecoveryKey;
+
+	// NEW FILEDS
+
+	private int subscriptionType;
+	/**
+	 * CLIENT CRAETED DATE
+	 */
+	private FinanceDate createdDate;
+	/**
+	 * Number of Transactions Created
+	 */
+	private int transactionsCreatedCount;
+	/**
+	 * Number of Transactions Updated
+	 */
+	private int transactionsUpdatedCount;
+	/**
+	 * Number of Companies Created
+	 */
+	private int companiesCount;
+	/**
+	 * Last Updated Date(when he changes password etc)
+	 */
+	private Date updateDate;
+	/**
+	 * Number of Times opened companies
+	 */
+	private int openedCompaniesCount;
+	/**
+	 * Number of Times Changed password
+	 */
+	private int changedPasswordCount;
+	/**
+	 * Number of Transactions created From Each Device
+	 */
+	private int transactionCreatedFromDeviceCount;
+	/**
+	 * Number of Transactions updated From Each Device
+	 */
+	private int transactionUpdatedFromDeviceCount;
+
+	/**
+	 * Number of Companies Created From Each Device
+	 */
+	private int companiesFromDeviceCount;
+	/**
+	 * Number of Times logged In From Each Device
+	 */
+	private int loginFromDeviceCount;
+	/**
+	 * Number of Companies he is User of which are created by Premium Users
+	 */
+	private int premiumCompaniesCount;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -224,6 +279,7 @@ public class Client {
 	}
 
 	public void setClientSubscription(ClientSubscription clientSubscription) {
+		this.setSubscriptionType(clientSubscription.getSubscription().getType());
 		this.clientSubscription = clientSubscription;
 	}
 
@@ -234,4 +290,111 @@ public class Client {
 	public void setPasswordRecoveryKey(byte[] passwordRecoveryKey) {
 		this.passwordRecoveryKey = passwordRecoveryKey;
 	}
+
+	public int getTransactionsCreatedCount() {
+		return transactionsCreatedCount;
+	}
+
+	public void setTransactionsCreatedCount(int transactionsCreatedCount) {
+		this.transactionsCreatedCount = transactionsCreatedCount;
+	}
+
+	public int getTransactionsUpdatedCount() {
+		return transactionsUpdatedCount;
+	}
+
+	public void setTransactionsUpdatedCount(int transactionsUpdatedCount) {
+		this.transactionsUpdatedCount = transactionsUpdatedCount;
+	}
+
+	public int getCompaniesCount() {
+		return companiesCount;
+	}
+
+	public void setCompaniesCount(int companiesCount) {
+		this.companiesCount = companiesCount;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public int getOpenedCompaniesCount() {
+		return openedCompaniesCount;
+	}
+
+	public void setOpenedCompaniesCount(int openedCompaniesCount) {
+		this.openedCompaniesCount = openedCompaniesCount;
+	}
+
+	public int getChangedPasswordCount() {
+		return changedPasswordCount;
+	}
+
+	public void setChangedPasswordCount(int changedPasswordCount) {
+		this.changedPasswordCount = changedPasswordCount;
+	}
+
+	public int getTransactionCreatedFromDeviceCount() {
+		return transactionCreatedFromDeviceCount;
+	}
+
+	public void setTransactionCreatedFromDeviceCount(
+			int transactionCreatedFromDeviceCount) {
+		this.transactionCreatedFromDeviceCount = transactionCreatedFromDeviceCount;
+	}
+
+	public int getTransactionUpdatedFromDeviceCount() {
+		return transactionUpdatedFromDeviceCount;
+	}
+
+	public void setTransactionUpdatedFromDeviceCount(
+			int transactionUpdatedFromDeviceCount) {
+		this.transactionUpdatedFromDeviceCount = transactionUpdatedFromDeviceCount;
+	}
+
+	public int getLoginFromDeviceCount() {
+		return loginFromDeviceCount;
+	}
+
+	public void setLoginFromDeviceCount(int loginFromDeviceCount) {
+		this.loginFromDeviceCount = loginFromDeviceCount;
+	}
+
+	public int getCompaniesFromDeviceCount() {
+		return companiesFromDeviceCount;
+	}
+
+	public void setCompaniesFromDeviceCount(int companiesFromDeviceCount) {
+		this.companiesFromDeviceCount = companiesFromDeviceCount;
+	}
+
+	public FinanceDate getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(FinanceDate createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public int getPremiumCompaniesCount() {
+		return premiumCompaniesCount;
+	}
+
+	public void setPremiumCompaniesCount(int premiumCompaniesCount) {
+		this.premiumCompaniesCount = premiumCompaniesCount;
+	}
+
+	public int getSubscriptionType() {
+		return subscriptionType;
+	}
+
+	public void setSubscriptionType(int subscriptionType) {
+		this.subscriptionType = subscriptionType;
+	}
+
 }

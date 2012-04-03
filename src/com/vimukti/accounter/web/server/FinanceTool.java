@@ -1592,6 +1592,18 @@ public class FinanceTool {
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
 		session.getNamedQuery("JobsTransactionsView").executeUpdate();
 		session.getNamedQuery("createSubscriptionFunction").executeUpdate();
+		session.getNamedQuery("transactionsCreatedCountTrigger")
+				.executeUpdate();
+		session.getNamedQuery("companiesCountTrigger").executeUpdate();
+		session.getNamedQuery("lastClientUpDateTrigger").executeUpdate();
+		session.getNamedQuery("changedPasswordCountTrigger").executeUpdate();
+		session.getNamedQuery("noOfUsersPerCompanyCountTrigger")
+				.executeUpdate();
+		session.getNamedQuery("noOfTRansactionPerCompanyCountTrigger")
+				.executeUpdate();
+		session.getNamedQuery("premiumCompaniesCountTrigger").executeUpdate();
+		session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
+
 		transaction.commit();
 	}
 

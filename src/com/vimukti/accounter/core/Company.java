@@ -106,6 +106,15 @@ public class Company implements IAccounterServerCore {
 	int fiscalYearStarting;
 
 	int industry;
+	/**
+	 * Number of Users per a company
+	 */
+	private int noOfUsers;
+
+	/**
+	 * Number of Transactions per Company
+	 */
+	private int transactionCount;
 
 	boolean isLocked;
 	/**
@@ -1674,5 +1683,21 @@ public class Company implements IAccounterServerCore {
 
 	public void setTransactionsLimit(int transactionsLimit) {
 		this.transactionsLimit = transactionsLimit;
+	}
+
+	public int getNoOfUsers() {
+		return noOfUsers;
+	}
+
+	public void setNoOfUsers(int noOfUsers) {
+		this.noOfUsers = noOfUsers;
+	}
+
+	public int getTransactionCount() {
+		return transactionCount;
+	}
+
+	public void setTransactionCount(int transactionCount) {
+		this.transactionCount = transactionCount;
 	}
 }
