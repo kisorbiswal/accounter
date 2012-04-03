@@ -181,6 +181,7 @@
 		<query-param name="toDate" type="long" />
 		<query-param name="toDay" type="long" />
 		<query-param name="type" type="int" />
+		<query-param name="needBaseCurrency" type="boolean" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -195,7 +196,10 @@
 				SELECT T.ID             AS TRANSACTION_ID,
 				       T.T_TYPE         AS TRANSACTION_TYPE,
 				       T.NUMBER         AS TRANSACTION_NUMBER,
-				       T.TOTAL          AS ORIGINAL_AMOUNT,
+				       CASE WHEN :needBaseCurrency = TRUE
+				       THEN  T.TOTAL * T.CURRENCY_FACTOR
+				       ELSE 
+				       T.TOTAL END AS ORIGINAL_AMOUNT,
 				       PO.DELIVERY_DATE AS TRANSACTION_DATE,
 				       P.NAME           AS VENDOR_NAME,
 				       T.STATUS         AS TRANSACTION_STATUS,

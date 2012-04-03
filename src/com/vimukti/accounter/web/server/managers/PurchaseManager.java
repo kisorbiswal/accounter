@@ -227,7 +227,8 @@ public class PurchaseManager extends Manager {
 				.setParameter("fromDate", fromDate)
 				.setParameter("toDate", toDate)
 				.setParameter("toDay", new ClientFinanceDate().getDate())
-				.setParameter("type", type);
+				.setParameter("type", type)
+				.setParameter("needBaseCurrency", false);
 
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
@@ -300,7 +301,8 @@ public class PurchaseManager extends Manager {
 				.setParameter("fromDate", startDate.getDate())
 				.setParameter("toDate", endDate.getDate())
 				.setParameter("toDay", new ClientFinanceDate().getDate())
-				.setParameter("type", type)).list();
+				.setParameter("type", type)
+				.setParameter("needBaseCurrency", true)).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
