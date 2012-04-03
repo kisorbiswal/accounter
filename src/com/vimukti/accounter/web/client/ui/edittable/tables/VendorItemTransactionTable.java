@@ -218,9 +218,16 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		} else {
 			this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 				@Override
-				public void setValue(ClientTransactionItem row, String value) {
-					super.setValue(row, value);
-					update(row);
+				public int getWidth() {
+					if ((isCustomerAllowedToAdd && showClass)
+							|| (isCustomerAllowedToAdd && showDiscount)
+							|| (isCustomerAllowedToAdd && showTaxCode)
+							|| (showClass && showDiscount)
+							|| (showClass && showTaxCode)
+							|| (showDiscount && showTaxCode)) {
+						return 60;
+					}
+					return super.getWidth();
 				}
 			});
 		}
