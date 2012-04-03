@@ -650,7 +650,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		reset(cashBasisForm);
 		reset(commentsForm);
 
-		opBalText.setEnabled(true);
+		opBalText.setEnabled(!isInViewMode());
 		if (accountType != ClientAccount.TYPE_BANK
 				&& accountType != ClientAccount.TYPE_CREDIT_CARD
 				&& accountType != ClientAccount.TYPE_PAYPAL) {
