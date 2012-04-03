@@ -46,7 +46,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	TAXHistoryGrid grid;
 	ClientTAXReturn clientVATReturn;
 	StyledPanel gridLayout;
-	List<ClientTAXReturn> clientAbstractTAXReturns;
 
 	@Override
 	public void init() {
@@ -297,7 +296,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		clientAbstractTAXReturns.remove(result);
 		grid.removeRow(grid.getSelectedRecordIndex());
 		if (grid.getRowCount() > 0) {
 			deleteButton.setVisible(true);

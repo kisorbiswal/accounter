@@ -311,18 +311,13 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {
-		if (!isCanOpenTransactionView(0, IAccounterCore.ITEM))
+		if (!isCanOpenTransactionView(0, IAccounterCore.ITEM)) {
 			return;
-		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			if (col == 7) {
-				if (item != null)
-					showWarnDialog(item);
-			}
-		} else {
-			if (col == 7) {
-				if (item != null)
-					showWarnDialog(item);
-			}
+		}
+
+		if (getColumnType(col) == COLUMN_TYPE_IMAGE) {
+			if (item != null)
+				showWarnDialog(item);
 		}
 
 	}

@@ -804,6 +804,16 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+
+		if (isBecameVoid()) {
+			for (TransactionItem item : getTransactionItems()) {
+				if (item.referringTransactionItem != null) {
+					throw new AccounterException(
+							AccounterException.ERROR_INVOICE_USED_IN_ESTIMATES);
+				}
+			}
+		}
+
 		return super.canEdit(clientObject, goingToBeEdit);
 
 	}
