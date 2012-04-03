@@ -10,7 +10,7 @@ public class BankDropDownTable extends AbstractDropDownTable<ClientBank> {
 	List<ClientBank> banks;
 
 	public BankDropDownTable(List<ClientBank> banks) {
-		super(banks);
+		super(banks, true);
 		this.banks = banks;
 	}
 

@@ -743,6 +743,7 @@ public class PurchaseOrderView extends
 			initTransactionNumber();
 			this.setVendor(company.getVendor(transaction.getVendor()));
 			vendorCombo.setComboItem(vendor);
+			vendorItemTransactionTable.setPayee(vendor);
 			// vendorSelected(company.getVendor(transaction.getVendor()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
@@ -1112,7 +1113,7 @@ public class PurchaseOrderView extends
 		this.setVendor(vendor);
 		if (vendor == null)
 			return;
-
+		vendorItemTransactionTable.setPayee(vendor);
 		super.vendorSelected(vendor);
 		if (vendor.getPhoneNo() != null)
 			phoneSelect.setValue(vendor.getPhoneNo());

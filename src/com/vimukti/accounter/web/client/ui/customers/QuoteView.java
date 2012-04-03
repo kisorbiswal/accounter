@@ -122,6 +122,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
+		customerTransactionTable.setPayee(customer);
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientEstimate ent = this.transaction;
 
@@ -855,6 +856,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			ClientCompany company = getCompany();
 			initTransactionsItems();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			customerTransactionTable.setPayee(customer);
 			if (this.getCustomer() != null) {
 				this.contacts = getCustomer().getContacts();
 			}

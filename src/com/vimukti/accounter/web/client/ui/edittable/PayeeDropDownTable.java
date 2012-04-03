@@ -20,7 +20,7 @@ public class PayeeDropDownTable extends AbstractDropDownTable<ClientPayee> {
 	List<Integer> canAddAccountTypes;
 
 	public PayeeDropDownTable(ListFilter<ClientPayee> filter) {
-		super(getPayees(filter));
+		super(getPayees(filter),true);
 		this.filter = filter;
 	}
 

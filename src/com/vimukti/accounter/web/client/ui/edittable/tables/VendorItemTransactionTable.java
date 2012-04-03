@@ -5,9 +5,11 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -24,10 +26,13 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceListColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
 public abstract class VendorItemTransactionTable extends VendorTransactionTable {
+
+	private TransactionUnitPriceListColumn transactionUnitPriceListColumn;
 
 	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
 			boolean isTrackClass, boolean isClassPerDetailLine,
@@ -192,7 +197,8 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			}
 		});
 
-		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
+		transactionUnitPriceListColumn = new TransactionUnitPriceListColumn(
+				false) {
 			@Override
 			public int getWidth() {
 				if ((isCustomerAllowedToAdd && showClass)
@@ -205,7 +211,19 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				}
 				return super.getWidth();
 			}
-		});
+		};
+
+		if (Accounter.hasPermission(Features.HOSTORICAL_UNITPRICES)) {
+			this.addColumn(transactionUnitPriceListColumn);
+		} else {
+			this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
+				@Override
+				public void setValue(ClientTransactionItem row, String value) {
+					super.setValue(row, value);
+					update(row);
+				}
+			});
+		}
 
 		if (needDiscount) {
 			if (showDiscount) {
@@ -405,5 +423,11 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 
 	protected int getTransactionType() {
 		return 0;
+	}
+
+	public void setPayee(ClientPayee payee) {
+		if (transactionUnitPriceListColumn != null) {
+			transactionUnitPriceListColumn.setPayee(payee);
+		}
 	}
 }

@@ -60,6 +60,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.ItemUnitPrice;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
@@ -1884,5 +1885,38 @@ public class CompanyManager extends Manager {
 		}
 
 		return (Long) obj;
+	}
+
+	public List<ItemUnitPrice> getUnitPricesByPayee(Long companyId,
+			boolean isCust, long payee, long item) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<ItemUnitPrice> result = new ArrayList<ItemUnitPrice>();
+		Query query = null;
+		if (isCust) {
+			query = session.getNamedQuery("getUnitPricesByCustomer")
+					.setParameter("company", companyId)
+					.setParameter("customer", payee).setParameter("item", item);
+		} else {
+			query = session.getNamedQuery("getUnitPricesByVendor")
+					.setParameter("company", companyId)
+					.setParameter("vendor", payee).setParameter("item", item);
+		}
+		List list = query.list();
+
+		if (list != null) {
+			Object[] object = null;
+			Iterator iterator = list.iterator();
+
+			while (iterator.hasNext()) {
+				object = (Object[]) iterator.next();
+				ItemUnitPrice payeeUnitPrice = new ItemUnitPrice();
+				payeeUnitPrice.setNumber((String) object[0]);
+				payeeUnitPrice.setDate((Long) object[1]);
+				payeeUnitPrice.setUnitPrice("" + (Double) object[2]);
+				result.add(payeeUnitPrice);
+			}
+		}
+
+		return result;
 	}
 }

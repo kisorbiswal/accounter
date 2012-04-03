@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.CreateClassDialog;
 public class ClassTable extends AbstractDropDownTable<ClientAccounterClass> {
 
 	public ClassTable() {
-		super(getClasses());
+		super(getClasses(), true);
 	}
 
 	private static List<ClientAccounterClass> getClasses() {

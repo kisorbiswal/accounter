@@ -3,10 +3,12 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
@@ -19,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionUnitPriceListColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatCodeColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 
@@ -26,6 +29,7 @@ public abstract class CustomerItemTransactionTable extends
 		CustomerTransactionTable {
 
 	private ClientPriceLevel priceLevel;
+	private TransactionUnitPriceListColumn transactionUnitPriceListColumn;
 
 	/**
 	 * Creates the instance
@@ -137,14 +141,20 @@ public abstract class CustomerItemTransactionTable extends
 				update(row);
 			}
 		});
+		transactionUnitPriceListColumn = new TransactionUnitPriceListColumn(
+				true);
 
-		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
-			@Override
-			public void setValue(ClientTransactionItem row, String value) {
-				super.setValue(row, value);
-				update(row);
-			}
-		});
+		if (Accounter.hasPermission(Features.HOSTORICAL_UNITPRICES)) {
+			this.addColumn(transactionUnitPriceListColumn);
+		} else {
+			this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
+				@Override
+				public void setValue(ClientTransactionItem row, String value) {
+					super.setValue(row, value);
+					update(row);
+				}
+			});
+		}
 
 		if (needDiscount) {
 			if (showDiscount) {
@@ -232,4 +242,9 @@ public abstract class CustomerItemTransactionTable extends
 		this.priceLevel = priceLevel;
 	}
 
+	public void setPayee(ClientPayee payee) {
+		if (transactionUnitPriceListColumn != null) {
+			transactionUnitPriceListColumn.setPayee(payee);
+		}
+	}
 }

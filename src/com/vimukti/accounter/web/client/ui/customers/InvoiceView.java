@@ -748,7 +748,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	protected void customerSelected(final ClientCustomer customer) {
 		ClientCurrency currency = getCurrency(customer.getCurrency());
-
+		customerTransactionTable.setPayee(customer);
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
 				&& transaction.getID() == 0) {
 			customerTransactionTable.resetRecords();
@@ -857,6 +857,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setEnabled(!isInViewMode());
 			}
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			customerTransactionTable.setPayee(customer);
 			this.contact = transaction.getContact();
 
 			if (transaction.getPhone() != null)

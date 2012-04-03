@@ -17,7 +17,7 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	private ListFilter<ClientVendor> filter;
 
 	public VendorDropDownTable(ListFilter<ClientVendor> filter) {
-		super(getVendors(filter));
+		super(getVendors(filter),true);
 		this.filter = filter;
 	}
 

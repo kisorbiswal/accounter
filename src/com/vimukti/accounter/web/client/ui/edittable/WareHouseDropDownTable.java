@@ -13,7 +13,7 @@ public class WareHouseDropDownTable extends
 		AbstractDropDownTable<ClientWarehouse> {
 
 	public WareHouseDropDownTable() {
-		super(Accounter.getCompany().getWarehouses());
+		super(Accounter.getCompany().getWarehouses(),true);
 	}
 
 	@Override

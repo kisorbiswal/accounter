@@ -16,7 +16,7 @@ public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 	private long customerId;
 
 	public JobDropDownTable() {
-		super(getjobs(0));
+		super(getjobs(0), true);
 	}
 
 	@Override

@@ -144,6 +144,7 @@ public class VendorBillView extends
 					transaction.getVendor());
 			vendorCombo.setValue(vendor);
 			this.vendor = vendor;
+			vendorItemTransactionTable.setPayee(vendor);
 			billToaddressSelected(transaction.getVendorAddress());
 			selectedVendor(vendor);
 			contactSelected(transaction.getContact());
@@ -280,6 +281,7 @@ public class VendorBillView extends
 		if (vendor == null) {
 			return;
 		}
+		vendorItemTransactionTable.setPayee(vendor);
 		transactionsTree.clear();
 		updatePurchaseOrderOrItemReceipt(vendor);
 
