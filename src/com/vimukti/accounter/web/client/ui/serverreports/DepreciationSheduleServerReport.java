@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class DepreciationSheduleServerReport extends
@@ -126,13 +125,7 @@ public class DepreciationSheduleServerReport extends
 		case 5:
 			return getDateByCompanyType(record.getPurchaseDate());
 		case 6:
-			if (record.getDisposeDate().getDate() != 0) {
-				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
-						record.getDisposeDate().getDate()));
-			} else
-				return record.getDisposeDate().getDate() != 0 ? UIUtils
-						.getDateByCompanyType(new ClientFinanceDate(record
-								.getDisposeDate().getDate())) : "";
+			return getDateByCompanyType(record.getDisposeDate());
 		case 7:
 			return record.getPurchaseCost();
 		case 8:

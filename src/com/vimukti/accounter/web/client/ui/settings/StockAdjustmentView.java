@@ -67,8 +67,11 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		listForms = new ArrayList<DynamicForm>();
 
 		wareHouseCombo = new WarehouseCombo(messages.wareHouse());
-		wareHouseCombo.setEnabled(!getCompany().getPreferences()
-				.iswareHouseEnabled() || !isInViewMode());
+		if (!getCompany().getPreferences().iswareHouseEnabled()) {
+			wareHouseCombo.setEnabled(false);
+		} else {
+			wareHouseCombo.setEnabled(!isInViewMode());
+		}
 		wareHouseCombo.setRequired(true);
 		wareHouse = getCompany().getWarehouse(
 				getCompany().getDefaultWarehouse());
@@ -291,8 +294,11 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		wareHouseCombo.setEnabled(!getCompany().getPreferences()
-				.iswareHouseEnabled() || !isInViewMode());
+		if (!getCompany().getPreferences().iswareHouseEnabled()) {
+			wareHouseCombo.setEnabled(false);
+		} else {
+			wareHouseCombo.setEnabled(!isInViewMode());
+		}
 		table.setEnabled(!isInViewMode());
 		table.clear();
 		table.setAllRows(data.getTransactionItems());

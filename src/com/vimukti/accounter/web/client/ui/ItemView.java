@@ -688,7 +688,11 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setEnabled(!isEdit);
 		salesPriceText.setEnabled(!isEdit);
 		accountCombo.setEnabled(!isEdit);
-		itemTaxCheck.setEnabled(!isEdit);
+		if (getPreferences().isTrackTax()) {
+			itemTaxCheck.setEnabled(!isEdit);
+		} else {
+			itemTaxCheck.setEnabled(false);
+		}
 		comCheck.setEnabled(!isEdit);
 	}
 
@@ -802,7 +806,9 @@ public class ItemView extends BaseView<ClientItem> {
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
-		data.setTaxable(getBooleanValue(itemTaxCheck));
+		if (getPreferences().isTrackTax()) {
+			data.setTaxable(getBooleanValue(itemTaxCheck));
+		}
 		if (type == ClientItem.TYPE_NON_INVENTORY_PART
 				|| type == ClientItem.TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);

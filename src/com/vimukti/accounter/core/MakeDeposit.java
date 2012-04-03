@@ -142,6 +142,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 				newTransactionItem.setOnSaveProccessed(false);
 				newTransactionItem.setLineTotal(transactionItem.getTotal()
 						* getCurrencyFactor());
+				newTransactionItem.setDiscount(0.00D);
+				newTransactionItem.setVATfraction(0.00D);
 				newTransactionItem.setUnitPrice(transactionItem.getTotal()
 						* getCurrencyFactor());
 				newTransactionItem.setBillable(transactionItem.isBillable());

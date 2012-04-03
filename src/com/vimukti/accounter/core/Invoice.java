@@ -543,7 +543,8 @@ public class Invoice extends Transaction implements Lifecycle {
 							TransactionItem clone = item.clone();
 							clone.transaction = this;
 							clone.setReferringTransactionItem(item);
-							if (estimate.getEstimateType() == Estimate.CREDITS) {
+							if (estimate.getEstimateType() == Estimate.CREDITS
+									|| estimate.getEstimateType() == Estimate.DEPOSIT_EXPENSES) {
 								clone.updateAsCredit();
 							}
 							this.transactionItems.add(clone);

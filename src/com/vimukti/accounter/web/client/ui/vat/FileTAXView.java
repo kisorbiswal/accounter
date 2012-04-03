@@ -28,6 +28,14 @@ public class FileTAXView extends AbstractFileTAXView {
 			Accounter.showError(messages.pleaseSelect(messages.taxAgency()));
 			return;
 		}
+		if (fromDate.getDate() == null || fromDate.getDate().getDate() == 0) {
+			Accounter.showError(messages.pleaseSelect(messages.fromDate()));
+			return;
+		}
+		if (toDate.getDate() == null || toDate.getDate().getDate() == 0) {
+			Accounter.showError(messages.pleaseSelect(messages.toDate()));
+			return;
+		}
 		canSaveFileVat = true;
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
