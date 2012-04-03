@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
@@ -18,10 +20,12 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 	public DateItem fromItem;
 	public DateItem toItem;
 
+	private SelectCombo dateRangeItem;
 	public TAXAgencyCombo taxAgencyCombo;
 	ClientTAXAgency selectedAgency;
 	public Button updateButton;
 	private boolean isVATPriorReport;
+	private List<String> dateRangeList;
 
 	public TaxAgencyStartDateEndDateToolbar(boolean isVATPriorReport) {
 		this.isVATPriorReport = isVATPriorReport;
@@ -29,6 +33,14 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
+		
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate(),
+				messages.custom() };
 
 		String[] reportBasisArray = { messages.cash(), messages.accrual() };
 
@@ -47,6 +59,32 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 				});
 		taxAgencyCombo.setSelectedItem(0);
 		selectedAgency = taxAgencyCombo.getSelectedValue();
+		
+		
+		dateRangeItem = new SelectCombo(messages.dateRange());
+		dateRangeItem.setValueMap(dateRangeArray);
+		dateRangeItem.setDefaultValue(dateRangeArray[0]);
+		dateRangeList = new ArrayList<String>();
+		for (int i = 0; i < dateRangeArray.length; i++) {
+			dateRangeList.add(dateRangeArray[i]);
+		}
+		dateRangeItem.initCombo(dateRangeList);
+		dateRangeItem.setComboItem(messages.financialYearToDate());
+		dateRangeItem
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (!dateRangeItem.getSelectedValue().equals(
+								messages.custom())) {
+							dateRangeChanged(dateRangeItem.getSelectedValue());
+							
+						}
+					}
+				});
+		
+		
+		
 		fromItem = new DateItem(messages.from(), "fromItem");
 		fromItem.setEnteredDate(new ClientFinanceDate());
 
@@ -94,6 +132,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 				reportRequest();
 
 				setSelectedDateRange(messages.custom());
+				
 			}
 
 		});
@@ -108,7 +147,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 		});
 
-		addItems(taxAgencyCombo, fromItem, toItem);
+		addItems(taxAgencyCombo,dateRangeItem, fromItem, toItem);
 
 		add(updateButton);
 
@@ -145,6 +184,8 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 	@Override
 	public void setDefaultDateRange(String defaultDateRange) {
+		dateRangeItem.setDefaultValue(defaultDateRange);
+		dateRangeItem.setComboItem(defaultDateRange);
 		dateRangeChanged(defaultDateRange);
 	}
 
@@ -154,7 +195,15 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 					startDate, endDate);
 
 	}
+@Override
+public void setDateRanageOptions(String... dateRanages) {
+	List<String> dateRangesList = new ArrayList<String>();
+	for (int i = 0; i < dateRanages.length; i++) {
+		dateRangesList.add(dateRanages[i]);
+	}
 
+	dateRangeItem.initCombo(dateRangesList);
+}
 	public void setFromDate(ClientFinanceDate date) {
 		fromItem.setDateWithNoEvent(date);
 		startDate = date;
