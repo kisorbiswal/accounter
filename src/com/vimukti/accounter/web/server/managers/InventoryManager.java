@@ -502,6 +502,10 @@ public class InventoryManager extends Manager {
 			detail.setItemId(next[6] != null ? (Long) next[6] : 0);
 			detail.setAssetValue(next[7] != null ? (Double) next[7] : 0);
 			detail.setPerOfTotAsset(next[8] != null ? (Double) next[8] : 0);
+			detail.setRetailValue(next[9] != null ? (Double) next[9] : 0);
+			double totalRetail = next[10] != null ? (Double) next[10] : 0;
+			detail.setPerOfTotRetail((detail.getRetailValue() * 100)
+					/ totalRetail);
 			result.add(detail);
 		}
 		return result;

@@ -10966,6 +10966,8 @@
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ASSET_TOTAL" type="double" />
 		<return-scalar column="ASSET_PERC" type="double" />
+		<return-scalar column="RETAIL_VALUE" type="double" />
+		<return-scalar column="TOTAL_RETAIL" type="double" />
 		
 		<![CDATA[
 				SELECT ITEM_NAME,
@@ -10978,7 +10980,9 @@
 				       ITEM_SALE_PRICE,
 				       ITEM_ID,
 				       ASSET_CHANGE                               AS ASSET_TOTAL,
-				       ( ASSET_CHANGE * 100 / ( V.TOTAL_ASSET ) ) AS ASSET_PERC
+				       ( ASSET_CHANGE * 100 / ( V.TOTAL_ASSET ) ) AS ASSET_PERC,
+				       (ITEM_SALE_PRICE * ITEM_TOTAL_QUANTITY)          AS RETAIL_VALUE,
+				       (SELECT (SALES_PRICE*ON_HAND_QTY_VALUE) FROM ITEM WHERE TYPE IN (2,4)) AS TOTAL_RETAIL
 				FROM   INVENTORY_HISTORY_VIEW V
 				WHERE  V.COMPANY = :companyId
 				       AND ( V.ASOFDATE BETWEEN :fromDate AND :toDate )

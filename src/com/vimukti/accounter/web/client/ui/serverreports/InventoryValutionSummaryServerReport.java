@@ -22,7 +22,7 @@ public class InventoryValutionSummaryServerReport extends
 		return new String[] { messages.itemName(), messages.description(),
 				messages.onHand(), messages.avgCost(), messages.assetsTotal(),
 				messages.percentOfToTAsset(), messages.salesPrice(),
-				messages.retailCost(), messages.perOfTotRetail() };
+				messages.retailValue(), messages.perOfTotRetail() };
 	}
 
 	@Override
@@ -35,14 +35,14 @@ public class InventoryValutionSummaryServerReport extends
 		return new String[] { messages.itemName(), messages.description(),
 				messages.onHand(), messages.avgCost(), messages.assetsTotal(),
 				messages.percentOfToTAsset(), messages.salesPrice(),
-				messages.retailCost(), messages.perOfTotRetail() };
+				messages.retailValue(), messages.perOfTotRetail() };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_QUATITY,
-				COLUMN_TYPE_PERCENTAGE, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_NUMBER,
+				COLUMN_TYPE_PERCENTAGE, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_PERCENTAGE };
 	}
 
