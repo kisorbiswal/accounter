@@ -6,15 +6,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.KeyGenerator;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.rackspacecloud.client.cloudfiles.FilesClient;
@@ -33,8 +29,6 @@ public class AttachmentFileServer extends Thread {
 		}
 	}
 
-	private static Key encryptionKey = generateKey();
-
 	@Override
 	public void run() {
 		while (true) {
@@ -45,17 +39,6 @@ public class AttachmentFileServer extends Thread {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	private static Key generateKey() {
-		try {
-			KeyGenerator instance2 = KeyGenerator.getInstance("AES");
-			instance2.init(128);
-			return instance2.generateKey();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	public synchronized static InputStream getAttachmentStream(
@@ -72,11 +55,9 @@ public class AttachmentFileServer extends Thread {
 
 	private static InputStream createCipherInputStream(FileInputStream fin,
 			byte[] keyData) throws Exception {
-		Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
-		Key decryptionKey = new SecretKeySpec(encryptionKey.getEncoded(),
-				encryptionKey.getAlgorithm());
-		cipher.init(Cipher.DECRYPT_MODE, decryptionKey, new IvParameterSpec(
-				keyData));
+		Cipher cipher = Cipher.getInstance("AES");
+		SecretKeySpec skeySpec = new SecretKeySpec(keyData, "AES");
+		cipher.init(Cipher.DECRYPT_MODE, skeySpec);
 		return new CipherInputStream(fin, cipher);
 	}
 
@@ -219,9 +200,9 @@ public class AttachmentFileServer extends Thread {
 
 	private CipherOutputStream createCipherOutputStream(OutputStream fos,
 			byte[] keyData) throws Exception {
-		Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding"); //$NON-NLS-1$ //$NON-NLS-2$
-		cipher.init(Cipher.ENCRYPT_MODE, encryptionKey, new IvParameterSpec(
-				keyData));
+		Cipher cipher = Cipher.getInstance("AES");
+		SecretKeySpec skeySpec = new SecretKeySpec(keyData, "AES");
+		cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
 		return new CipherOutputStream(fos, cipher);
 	}
 
