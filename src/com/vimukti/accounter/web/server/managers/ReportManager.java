@@ -861,6 +861,11 @@ public class ReportManager extends Manager {
 		// startDate1 = new FinanceDate(year, 01, 01);
 		// + ((month + "").length() == 1 ? "0" + month : month) + "01");
 
+		if (startDate1.getYear() == endDate1.getYear()
+				&& startDate1.getMonth() > endDate1.getMonth()) {
+			startDate1.setYear(startDate1.getYear() - 1);
+		}
+
 		List l = session.getNamedQuery("getProfitAndLoss")
 				.setParameter("companyId", companyId)
 

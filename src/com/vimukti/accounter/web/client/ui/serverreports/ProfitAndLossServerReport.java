@@ -102,13 +102,8 @@ public class ProfitAndLossServerReport extends
 				"",
 				// FIXME for reports these are NULL...
 				"" + getDateByCompanyType(getStartDate()) + " - "
-						+ getDateByCompanyType(getEndDate()),
-				"",
-				getDateByCompanyType(getCurrentFiscalYearStartDate())
-						+ " - "
-						+ getDateByCompanyType(getLastMonth(new ClientFinanceDate())),
-
-				"" };
+						+ getDateByCompanyType(getEndDate()), "",
+				getHeaderDates(), "" };
 	}
 
 	@Override
@@ -118,13 +113,22 @@ public class ProfitAndLossServerReport extends
 				getMessages().categoryNumber(),
 				"",
 				"" + getDateByCompanyType(getStartDate()) + " - "
-						+ getDateByCompanyType(getEndDate()),
-				"",
-				getDateByCompanyType(getCurrentFiscalYearStartDate())
-						+ " - "
-						+ getDateByCompanyType(getLastMonth(new ClientFinanceDate())),
+						+ getDateByCompanyType(getEndDate()), "",
+				getHeaderDates(),
 
 				"" };
+	}
+
+	private String getHeaderDates() {
+		ClientFinanceDate currentFiscalYearStartDate = getCurrentFiscalYearStartDate();
+		ClientFinanceDate lastMonth = getLastMonth(new ClientFinanceDate());
+		if (currentFiscalYearStartDate.getYear() == lastMonth.getYear()
+				&& currentFiscalYearStartDate.getMonth() > lastMonth.getMonth()) {
+			currentFiscalYearStartDate.setYear(currentFiscalYearStartDate
+					.getYear() - 1);
+		}
+		return getDateByCompanyType(currentFiscalYearStartDate) + " - "
+				+ getDateByCompanyType(lastMonth);
 	}
 
 	@Override
