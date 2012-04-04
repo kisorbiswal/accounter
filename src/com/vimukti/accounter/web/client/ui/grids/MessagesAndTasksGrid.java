@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -21,34 +22,46 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 	protected Object getColumnValue(ClientMessageOrTask obj, int index) {
 		switch (index) {
 		case 0:
-			return Accounter.getFinanceImages().tickMark();
+			if (obj.getType() == 1) {
+				return Accounter.getFinanceImages().message();
+			} else if (obj.getType() == 2) {
+				return Accounter.getFinanceImages().task();
+			} else {
+				return Accounter.getFinanceImages().warningicon();
+			}
 		case 1:
 			if (obj.isSystemCreated()) {
 				return messages.accounter();
 			} else {
 				return Accounter.getCompany().getUserById(obj.getCreatedBy())
-						.getName();
+						.getFirstName();
 			}
+
 		case 2:
-			return obj.getContent();
+			return getToUserName(obj);
 		case 3:
+			return obj.getContent();
+		case 4:
 			return UIUtils.getDateByCompanyType(new ClientFinanceDate(obj
 					.getDate()));
-		case 4:
+		case 5:
 			return Accounter.getFinanceMenuImages().delete();
 		}
 		return null;
 	}
 
-	@Override
-	protected String[] getSelectValues(ClientMessageOrTask obj, int index) {
-		return null;
+	private String getToUserName(ClientMessageOrTask obj) {
+		long toUser = obj.getToUser();
+		if (toUser == ClientMessageOrTask.TO_USER_TYPE_ALL) {
+			return messages.allUsers();
+		}
+		ClientUserInfo userById = Accounter.getCompany().getUserById(toUser);
+		return userById.getFirstName();
 	}
 
 	@Override
-	protected void onValueChange(ClientMessageOrTask obj, int index,
-			Object value) {
-
+	protected String[] getSelectValues(ClientMessageOrTask obj, int index) {
+		return null;
 	}
 
 	@Override
@@ -61,7 +74,7 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 		if (index == 2) {
 			Accounter.getMainFinanceWindow().historyChanged(
 					obj.getActionToken());
-		} else if (index == 4) {
+		} else if (index == 5) {
 			if (obj != null)
 				showWarnDialog(obj);
 		}
@@ -74,10 +87,12 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 		case 0:
 			return 35;
 		case 1:
-			return 65;
-		case 3:
-			return 70;
+			return 60;
+		case 2:
+			return 40;
 		case 4:
+			return 60;
+		case 5:
 			if (UIUtils.isMSIEBrowser()) {
 				return 25;
 			} else {
@@ -88,8 +103,13 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 	}
 
 	@Override
+	protected String[] setHeaderStyle() {
+		return new String[] { "type", "from", "to", "item", "date", "delete" };
+	}
+
+	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.type(), messages.from(),
+		return new String[] { messages.type(), messages.from(), messages.to(),
 				messages.item(), messages.date(), "" };
 	}
 
@@ -97,12 +117,19 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_IMAGE,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DATE,
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected void executeDelete(ClientMessageOrTask data) {
 		deleteObject(data);
+	}
+
+	@Override
+	protected void onValueChange(ClientMessageOrTask obj, int index,
+			Object value) {
+
 	}
 
 	@Override
@@ -112,14 +139,9 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 	}
 
 	@Override
-	protected String[] setHeaderStyle() {
-		return new String[] { "type", "from", "item", "date", "delete" };
-	}
-
-	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { "type-value", "from-value", "item-value",
-				"date-value", "delete-value" };
+		return new String[] { "type-value", "from-value", "to-value",
+				"item-value", "date-value", "delete-value" };
 	}
 
 }

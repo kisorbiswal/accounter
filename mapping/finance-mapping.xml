@@ -1959,6 +1959,8 @@
 		<property name="createdDate" column="CREATED_ON" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
 			not-null="true" />
+		 <property name="toUser" column="TO_USER_ID"
+			  />
 	</class>
 
 	<!-- budget item class -->

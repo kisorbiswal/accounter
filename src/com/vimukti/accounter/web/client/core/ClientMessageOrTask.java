@@ -14,10 +14,13 @@ public class ClientMessageOrTask implements IAccounterCore {
 	public static final int TYPE_RECURRING_REMINDER = 1;
 	public static final int TYPE_AUTOMATIC_TRANSACTIONS = 2;
 
+	public static final int TO_USER_TYPE_ALL = 0;
+
 	private long id;
 
 	private int version;
 
+	private long toUser;
 	/**
 	 * To store the type of object, It may be message, task or warning.
 	 */
@@ -139,4 +142,13 @@ public class ClientMessageOrTask implements IAccounterCore {
 	public void setCreatedBy(long createdBy) {
 		this.createdBy = createdBy;
 	}
+
+	public long getToUser() {
+		return toUser;
+	}
+
+	public void setToUser(long toUser) {
+		this.toUser = toUser;
+	}
+
 }

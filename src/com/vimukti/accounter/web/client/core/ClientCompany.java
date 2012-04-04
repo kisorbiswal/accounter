@@ -218,6 +218,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ClientTDSResponsiblePerson tdsResposiblePerson;
 
+	private List<ClientMessageOrTask> messagesAndTasks;
+
 	private int version;
 
 	private long cashDiscountAccount;
@@ -3360,5 +3362,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setBookKeeping(boolean bookKeeping) {
 		this.bookKeeping = bookKeeping;
+	}
+
+	public List<ClientMessageOrTask> getMessagesAndTasks() {
+		return messagesAndTasks;
+	}
+
+	public void setMessagesAndTasks(List<ClientMessageOrTask> messagesAndTasks) {
+		this.messagesAndTasks = messagesAndTasks;
 	}
 }

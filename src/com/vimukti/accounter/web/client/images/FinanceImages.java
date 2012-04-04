@@ -272,4 +272,13 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("next.png")
 	ImageResource next();
+
+	@Source("message.jpg")
+	ImageResource message();
+
+	@Source("task.jpg")
+	ImageResource task();
+
+	@Source("warning.jpg")
+	ImageResource warningicon();
 }
