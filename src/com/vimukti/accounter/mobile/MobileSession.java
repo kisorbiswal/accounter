@@ -39,6 +39,7 @@ public class MobileSession {
 	private Stack<UserMessage> commandStack = new Stack<UserMessage>();
 	private TimerTask task;
 	private User user;
+	private String deviceName;
 
 	private Session hibernateSession;
 
@@ -322,5 +323,13 @@ public class MobileSession {
 
 	public String getId() {
 		return id;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 }

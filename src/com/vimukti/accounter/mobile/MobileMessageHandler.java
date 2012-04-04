@@ -84,7 +84,10 @@ public class MobileMessageHandler extends Thread {
 				if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
 					message = networkId;
 				}
-				String[] split = message.split(" ");
+				String[] split2 = message.split(",");
+				String deviceName = split2.length > 1 ? split2[1] : "";
+
+				String[] split = split2[0].split(" ");
 				String cookie = split.length > 0 ? split[0] : "";
 				String language = split.length > 1 ? split[split.length - 1]
 						: "";
@@ -92,12 +95,14 @@ public class MobileMessageHandler extends Thread {
 				session = sessions.get(cookie);
 				if (session != null && !session.isExpired()) {
 					session.setLanguage(language);
+					session.setDeviceName(deviceName);
 					networkId = cookie;
 					context.changeNetworkId(cookie);
 					// context.setNetworkId(cookie);
 					return session.getLastReply();
 				} else {
 					session = new MobileSession();
+					session.setDeviceName(deviceName);
 					sessions.put(networkId, session);
 					session.setLanguage(language);
 					context.setNetworkId(networkId);
