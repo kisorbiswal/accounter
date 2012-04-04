@@ -7359,3 +7359,32 @@ table.no_records tr td{
 #writechequeview .topHLay .accPanel{
 	width:100%;
 }
+#BaseDialog .bodyLayout{
+   padding:5px;
+}
+#BaseDialog .messageOrTaskForm span{
+    display:block;
+    margin:5px 0px;  
+ }
+ 
+#BaseDialog .bodyLayout .toForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+    -moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	margin-top:15px;
+ }
+ #BaseDialog .messageOrTaskTextareaitem{
+    display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin-top: 15px;
+}
+#BaseDialog .messageOrTaskTextareaitem textarea{
+    width:300px;
+}
