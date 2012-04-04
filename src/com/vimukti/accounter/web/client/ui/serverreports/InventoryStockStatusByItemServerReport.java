@@ -77,9 +77,9 @@ public class InventoryStockStatusByItemServerReport extends
 			int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return record.getPreferVendor();
-		case 1:
 			return record.getItemDesc();
+		case 1:
+			return record.getPreferVendor();
 		case 2:
 			return record.getReorderPts();
 		case 3:
