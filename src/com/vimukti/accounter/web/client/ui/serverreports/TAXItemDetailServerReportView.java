@@ -32,9 +32,9 @@ public class TAXItemDetailServerReportView extends
 		case 0:
 			return 220;
 		case 1:
-			return 80;
+			return 120;
 		case 2:
-			return 40;
+			return 50;
 		case 3:
 			return 100;
 		case 4:
