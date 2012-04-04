@@ -4,8 +4,8 @@
 	<g:FlowPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel" width="100%" height="100%">
-			<g:Label ui:field="customizeAccounter" styleName="customize_Accounter_labels">
-			</g:Label>
+			<g:HTML ui:field="customizeAccounter" styleName="customize_Accounter_labels">
+			</g:HTML>
 			<g:FlowPanel ui:field="industryAccountsPanel" styleName="industry_subindustry_panel">
 				<g:FlowPanel styleName="industry_list_table">
 					<g:Label ui:field="selectIndustryhead" styleName="select_industry" />
