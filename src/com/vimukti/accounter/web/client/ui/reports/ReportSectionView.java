@@ -36,6 +36,8 @@ public class ReportSectionView extends BaseHomeView {
 	private FlowPanel rightPanel, leftPanel;
 	private StyledPanel mainPanel;
 
+	boolean hasExtraReportsPerm = hasPermission(Features.EXTRA_REPORTS);
+
 	@Override
 	public void init() {
 		getLeftLayout().add(createControl());
@@ -131,9 +133,12 @@ public class ReportSectionView extends BaseHomeView {
 				ActionFactory.getGlReportAction().getHistoryToken());
 		companyAndFinancialMap.put(messages.expenseReport(), ActionFactory
 				.getExpenseReportAction().getHistoryToken());
-		companyAndFinancialMap.put(messages.automaticTransactions(),
-				ActionFactory.getAutomaticTransactionsAction()
-						.getHistoryToken());
+		if (hasExtraReportsPerm
+				&& hasPermission(Features.RECURRING_TRANSACTIONS)) {
+			companyAndFinancialMap.put(messages.automaticTransactions(),
+					ActionFactory.getAutomaticTransactionsAction()
+							.getHistoryToken());
+		}
 		if (Global.get().preferences().isTrackTax()) {
 			companyAndFinancialMap.put(messages.salesTaxLiability(),
 					ActionFactory.getSalesTaxLiabilityAction()
@@ -215,9 +220,11 @@ public class ReportSectionView extends BaseHomeView {
 				.getArAgingDetailAction().getHistoryToken());
 		customersAndRecievableMap.put(messages.arAgeingSummary(), ActionFactory
 				.getArAgingSummaryReportAction().getHistoryToken());
-		customersAndRecievableMap.put(
-				messages.payeeStatement(Global.get().Customers()),
-				ActionFactory.getStatementReport(false, 0).getHistoryToken());
+		if (hasExtraReportsPerm) {
+			customersAndRecievableMap.put(messages.payeeStatement(Global.get()
+					.Customers()), ActionFactory.getStatementReport(false, 0)
+					.getHistoryToken());
+		}
 		customersAndRecievableMap.put(messages.payeeTransactionHistory(Global
 				.get().Customer()), ActionFactory
 				.getCustomerTransactionHistoryAction().getHistoryToken());
@@ -226,8 +233,12 @@ public class ReportSectionView extends BaseHomeView {
 				.getAorpAgingDetailAction().getHistoryToken());
 		vendorAndPayableMap.put(messages.apAgeingSummary(), ActionFactory
 				.getAorpAgingSummaryReportAction().getHistoryToken());
-		vendorAndPayableMap.put(messages.payeeStatement(Global.get().Vendor()),
-				ActionFactory.getStatementReport(true, 0).getHistoryToken());
+		if (hasExtraReportsPerm) {
+			vendorAndPayableMap
+					.put(messages.payeeStatement(Global.get().Vendor()),
+							ActionFactory.getStatementReport(true, 0)
+									.getHistoryToken());
+		}
 		vendorAndPayableMap.put(messages.payeeTransactionHistory(Global.get()
 				.Vendor()), ActionFactory.getVendorTransactionHistoryAction()
 				.getHistoryToken());
@@ -336,7 +347,6 @@ public class ReportSectionView extends BaseHomeView {
 		leftPanel.add(customersAndRecievableHeader);
 		leftPanel.add(customersAndRecievablePanel);
 
-		boolean hasExtraReportsPerm = hasPermission(Features.EXTRA_REPORTS);
 		if (Global.get().preferences().isInventoryEnabled()
 				&& hasExtraReportsPerm) {
 			leftPanel.add(inventoryHeader);
