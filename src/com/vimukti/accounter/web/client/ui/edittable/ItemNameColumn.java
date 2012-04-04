@@ -28,7 +28,6 @@ public abstract class ItemNameColumn extends
 		return 0;
 	}
 
-
 	@Override
 	protected ClientItem getValue(ClientTransactionItem row) {
 		return (ClientItem) row.getAccountable();
@@ -52,19 +51,11 @@ public abstract class ItemNameColumn extends
 		if (newValue != null) {
 			Double unitPrice = 0.0;
 			if (isSales()) {
-				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
-					unitPrice = newValue.getSalesPrice()
-							/ currencyProvider.getCurrencyFactor();
-				} else {
-					unitPrice = row.getUnitPrice();
-				}
+				unitPrice = newValue.getSalesPrice()
+						/ currencyProvider.getCurrencyFactor();
 			} else {
-				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
-					unitPrice = newValue.getPurchasePrice()
-							/ currencyProvider.getCurrencyFactor();
-				} else {
-					unitPrice = row.getUnitPrice();
-				}
+				unitPrice = newValue.getPurchasePrice()
+						/ currencyProvider.getCurrencyFactor();
 			}
 			if (getPreferences().isPricingLevelsEnabled()) {
 				if (priceLevel != null && !priceLevel.isDefault()) {
