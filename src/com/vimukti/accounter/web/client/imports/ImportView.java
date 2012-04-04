@@ -469,8 +469,13 @@ public class ImportView extends AbstractBaseView {
 						@Override
 						public void onResultSuccess(Map<Integer, Object> result) {
 							ImporterDialog dialog = new ImporterDialog(messages
-									.importerInformation(), result);
-
+									.importerInformation(), result) {
+								@Override
+								protected void closeView() {
+									ImportView.this.getManager()
+											.closeCurrentView();
+								}
+							};
 						}
 					});
 			super.saveAndUpdateView();

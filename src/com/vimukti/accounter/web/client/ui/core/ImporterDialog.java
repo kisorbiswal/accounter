@@ -107,6 +107,7 @@ public class ImporterDialog extends CustomDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				removeFromParent();
+				closeView();
 			}
 		});
 
@@ -120,5 +121,9 @@ public class ImporterDialog extends CustomDialog {
 
 		add(errorPanel);
 		center();
+	}
+
+	protected void closeView() {
+
 	}
 }
