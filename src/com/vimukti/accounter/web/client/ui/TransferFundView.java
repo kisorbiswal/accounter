@@ -1089,12 +1089,9 @@ public class TransferFundView extends
 						.dipositAccountAndTransferAccountShouldBeDiff());
 				depositInSelect.setComboItem(null);
 			}
-			if (toCurrency != getBaseCurrency()
-					&& fromCurrency != getBaseCurrency()) {
-				Accounter.showError(messages
-						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
-				depositInSelect.setComboItem(null);
-			} else {
+			if (toCurrency == getBaseCurrency()
+					|| fromCurrency == getBaseCurrency()
+					|| (toCurrencyID == fromCurrencyID)) {
 				if (toCurrencyID != fromCurrencyID) {
 					if (toCurrencyID != getBaseCurrency().getID()) {
 						currencyWidget.setSelectedCurrency(toCurrency);
@@ -1108,6 +1105,10 @@ public class TransferFundView extends
 					setCurrency(toCurrency);
 				}
 				amtText.setCurrency(fromCurrency);
+			} else {
+				Accounter.showError(messages
+						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
+				depositInSelect.setComboItem(null);
 			}
 			updateTotals();
 		} else if (depositFrom != null) {
