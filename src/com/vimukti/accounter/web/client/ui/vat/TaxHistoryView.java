@@ -103,7 +103,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 		// grid.getElement().getParentElement()
 		// .addClassName("recounciliation_grid");
-		setData(0, getPageSize());
 		this.add(mainPanel);
 		if (saveAndCloseButton != null)
 			saveAndCloseButton.setVisible(false);
@@ -150,6 +149,11 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 						});
 			}
 		});
+	}
+
+	@Override
+	public void initData() {
+		setData(0, getPageSize());
 	}
 
 	private void updateRecordsCount(int start, int length, int total) {
