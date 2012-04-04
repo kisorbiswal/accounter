@@ -495,7 +495,8 @@ public class SearchInputDialog extends BaseDialog {
 				|| selectItem.equals(messages.creditNo())
 				|| selectItem.equals(messages.creditNoteNo())
 				|| selectItem.equals(messages.chargeNo())
-				|| selectItem.equals(messages.invoiceNo())) {
+				|| selectItem.equals(messages.invoiceNo())
+				|| selectItem.equals(messages.journalEntryNo())) {
 			findbyForm.add(findByItem);
 			findByItem.getMainWidget().addStyleName("search_textbox");
 			matchIfForm.add(matchIfCombo);
@@ -537,8 +538,7 @@ public class SearchInputDialog extends BaseDialog {
 			amountField.getMainWidget().addStyleName("search_textbox");
 			matchIfForm.add(matchIfCombo);
 			matchIfCombo.initCombo(getMatchByNumber());
-		} else if (selectItem.equals(messages.journalEntryNo())
-				|| selectItem.equals(messages.refundNo())
+		} else if (selectItem.equals(messages.refundNo())
 				|| selectItem.equals(messages.saleNo())
 				|| selectItem.equals(messages.estimateNo())) {
 			findbyForm.add(findByItem);
