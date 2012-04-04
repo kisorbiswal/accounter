@@ -314,7 +314,7 @@ table tr.gridHeaderRow td {
 	text-transform: uppercase;
 }
 
-.invoice_zoho_table td:first-child,.table-head,.credit-head,.credito_vimukti tr:first-child td,.main_credit_vimukti th
+.table-head,.credit-head,.credito_vimukti tr:first-child td,.main_credit_vimukti th
 	{
 	background-color: #F2F2F2;
 	font-weight: bold;
@@ -485,9 +485,7 @@ table tr.gridHeaderRow td {
 #vat_sort_bankaccount,#vat_sort_bankaccount tr,#vat_sort_bankaccount td{
    border:2px solid #000 !important;
 }
-.invoice_zoho_table{
-  width:500px;
-}
+
 .credit_zoho_table,.credit_zoho_table tr,.credit_zoho_table td{
 	border:2px solid #000 !important;
 }

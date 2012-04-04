@@ -25,18 +25,14 @@
 		</tr>
   		
  </table>
-   	<table class="margin">
+   	<table class="margin" width="100%">
    <tr>
-      <td style="vertical-align: top;" align="left">
+      <td style="vertical-align: top;width:30%" align="left">
 		    <!-- $BeginBlock billhead -->
-		     <table id="header-part-invoice" class="margin" style="font-family:${fontStyle};font-size:${font};" width="100%">
-			   
-			    <tr>
-				  <td >
-				      <table border="0" id="billingAddressTable" width="100%" style="font-family:${fontStyle};font-size:${font};">
+				      <table border="0" id="billingAddressTable" style="font-family:${fontStyle};font-size:${font};margin-top:10px">
 						 <tr>
 						   <td style="vertical-align: top;" align="left">
-							 <table  id="billto" class="billto_quick" style="width:300px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
+							 <table  id="billto" class="billto_quick" style="width:200px;font-family:${fontStyle};font-size:${font};"><colgroup><col></colgroup>
 							
 							  <tr>
 								<td class="table-head"><p class="fontSetting"><center>${i18_Bill_To}</center></p></td>
@@ -55,9 +51,10 @@
 					
 					 </table>
 					 	  <!-- $EndBlock billhead -->
-				  
-		<!-- $BeginBlock shiphead -->
-		 <table  id = "shippingAddressTable"  class="gridHeader" style="width:300px;font-family:${fontStyle};font-size:${font};"> 
+</td>
+<td style="vertical-align: top;width:30%">
+  <!-- $BeginBlock shiphead -->
+		 <table  id = "shippingAddressTable"  class="gridHeader" style="width:200px;font-family:${fontStyle};font-size:${font};margin-top:10px;"> 
 		    <colgroup><col></colgroup>
 			<tr>
 			  <td class="gridHeaderBackGround" ><center class="fontSetting">${i18_Ship_To}</center></td>
@@ -69,22 +66,15 @@
 			</tr> 
 		 </table>
 		 <!-- $EndBlock shiphead -->
-		</td>
-   </tr>
-</table>
 </td>
 <td style="vertical-align:top" align="right">
-<table style="font-family:${fontStyle};font-size:${font};" width="100%">
-	 
-		<tr>
-		 
-				  <td width="40%" style="vertical-align: top;" align="right">
-		            <table class="invoice_zoho_table margin"   style="font-family:${fontStyle};font-size:${font};">
+
+		            <table class="invoice_zoho_table margin"   style="font-family:${fontStyle};font-size:${font};width:400px">
 					    <colgroup><col></colgroup>
 						<!-- $BeginBlock invNumberHead -->
 						<tr>
 						   <td id ="invoiceNumber">${i18_Invoice_Number}</td>
-						    <td align="right" width="40%">
+						    <td align="right" >
 							 ${invoiceNumber}
 						   </td>
 						</tr>
@@ -172,16 +162,12 @@
 						 </tr>
 						 
 					 </table> 
-				  </td>
-				</tr>
-			 </table>
 		   </td>
 		</tr> 
    </table>
  <!-- $BeginBlock salesNShipping -->
-<table width="100%" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
-		 <tr>
-		 <table>
+
+		 <table width="100%" id="permethterms" style="font-family:${fontStyle};font-size:${font};">
 		 <tr>
 		  <!-- $BeginBlock salespersonhead -->
 			<td id = "salesPerson"  class="gridHeaderBackGround">
@@ -208,8 +194,6 @@
 			<!-- $EndBlock shippingmethod -->
 		 </tr>
 		 </table>
-		 </tr>
-	 </table>
   <!-- $EndBlock salesNShipping -->
 <table width="100%"  class="removeHeadBorder" id="items" style="font-family:${fontStyle};font-size:${font};">
 <!-- $BeginBlock  itemDetails -->
