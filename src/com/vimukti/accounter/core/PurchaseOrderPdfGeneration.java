@@ -121,8 +121,17 @@ public class PurchaseOrderPdfGeneration {
 					vatAmount = Utility.decimalConversation(
 							item.getVATfraction() / currencyFactor, "");
 				}
-				String name = item.getItem() != null ? item.getItem().getName()
-						: item.getAccount().getName();
+				String itemName = null;
+				if (item.getItem() != null) {
+					itemName = item.getItem().getName();
+					String number = item.getItem().getVendorItemNumber();
+					if (number != null && !number.isEmpty()) {
+						itemName = number;
+					}
+				}
+
+				String name = itemName != null ? itemName : item.getAccount()
+						.getName();
 
 				String discount = Utility.decimalConversation(
 						item.getDiscount(), "");
