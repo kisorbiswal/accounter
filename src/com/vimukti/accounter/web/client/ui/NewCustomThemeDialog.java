@@ -37,33 +37,31 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 			overdueBox = new TextItem(messages.overdueInvoiceTitle(),
 					"overdueBox");
-			overdueBox.setValue(messages.overdueValue());
+			overdueBox.setValue(brandingTheme.getOverDueInvoiceTitle());
 
 			creditNoteBox = new TextItem(messages.creditNoteTitle(),
 					"creditNoteBox");
-			creditNoteBox.setValue(messages.creditNoteValue());
+			creditNoteBox.setValue(brandingTheme.getCreditMemoTitle());
 
 			statementBox = new TextItem(messages.statementTitle(),
 					"statementBox");
-			statementBox.setValue(messages.statement());
+			statementBox.setValue(brandingTheme.getStatementTitle());
 
 			quoteBox = new TextItem(messages.quoteTitle(), "quoteBox");
-			quoteBox.setValue(messages.QuoteOverDueTitle());
+			quoteBox.setValue(brandingTheme.getQuoteTitle());
 
 			cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
-			cashSaleBox.setValue(messages.cashSaleValue());
+			cashSaleBox.setValue(brandingTheme.getCashSaleTitle());
 			
 			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
-			purchaseOrderBox.setValue(messages.purchaseOrderValue());
+			purchaseOrderBox.setValue(brandingTheme.getPurchaseOrderTitle());
 			
 			salesOrderBox = new TextItem(messages.salesOrderTitle(),"salesOrderBox");
-			
-			salesOrderBox.setValue(messages.salesOrderValue());
+			salesOrderBox.setValue(brandingTheme.getSalesOrderTitle());
 
 			payPalEmail = new TextItem("PayPal Email", "payPalEmail");
-
 			String emailId = brandingTheme.getPayPalEmailID() != null ? brandingTheme
-					.getThemeName().trim() : "";
+					.getPayPalEmailID().trim() : "";
 			payPalEmail.setValue(emailId);
 
 			form.add(themeName, overdueBox, creditNoteBox, statementBox,
@@ -87,7 +85,18 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setCashSaleTemplateName(messages.classicTemplate());
 			brandingTheme.setPurchaseOrderTemplateName(messages.classicTemplate());
 			brandingTheme.setSalesOrderTemplateName(messages.classicTemplate());
-
+			
+			
+			brandingTheme.setOverDueInvoiceTitle(messages.overdueValue());
+			brandingTheme.setCreditMemoTitle(messages.creditNoteValue());
+			brandingTheme.setQuoteTitle(messages.QuoteOverDueTitle());
+			brandingTheme.setCashSaleTitle(messages.cashSaleValue());
+			brandingTheme.setPurchaseOrderTitle(messages.purchaseOrderValue());
+			brandingTheme.setSalesOrderTitle(messages.salesOrderValue());
+			brandingTheme.setStatementTitle(messages.statement());
+			
+			brandingTheme.setPayPalEmailID("");
+			
 		}
 
 		if (isEdit == true) {
@@ -100,7 +109,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setQuoteTitle(this.quoteBox.getValue().toString());
 			brandingTheme.setCashSaleTitle(this.cashSaleBox.getValue().toString());
 			brandingTheme.setPurchaseOrderTitle(this.purchaseOrderBox.getValue().toString());
-			brandingTheme.setSalesOrderTemplateName(this.salesOrderBox.getValue().toString());
+			brandingTheme.setSalesOrderTitle(this.salesOrderBox.getValue().toString());
 			brandingTheme.setPayPalEmailID(this.payPalEmail.getValue()
 					.toString());
 		}
@@ -127,6 +136,8 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 		String name = themeName.getValue().toString();
 		if (name.trim().length() == 0)
 			result.addError(this, messages.pleaseEnterValidLocationName(""));
+		
+		
 		return result;
 	}
 
