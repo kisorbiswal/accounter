@@ -913,6 +913,10 @@ public class SearchInputDialog extends BaseDialog {
 
 	@Override
 	protected boolean onCancel() {
+		String token = com.google.gwt.user.client.History.getToken();
+		if (token.equalsIgnoreCase("search")) {
+			com.google.gwt.user.client.History.back();
+		}
 		return true;
 	}
 }
