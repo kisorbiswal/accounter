@@ -4,31 +4,35 @@
 }
 
 #InvoiceView .prodAndServiceHLay .boldtext {
-	padding-left: 130px;
+	padding-left: 130px !important;
 }
 
 #writechequeview .amountPanel {
-	padding-left: 130px;
+	padding-left: 130px !important;
 }
 
 #CashPurchaseView .bottomLayout .boldtext {
-	padding-left: 110px;
+	padding-left: 110px !important;
 }
 
 #CashExpenseView .bottomLayout .boldtext {
-	padding-left: 130px;
+	padding-left: 130px !important;
 }
 
 #CashSalesView .prodAndServiceHLay .boldtext {
-	padding-left: 120px
+	padding-left: 120px !important;
 }
 
 #PurchaseOrderView .bottomLayout .boldtext {
-	padding-left: 90px
+	padding-left: 90px !important;
 }
 
 #VendorCreditMemoView .bottomLayout1 .boldtext {
-	padding-left: 110px;
+	padding-left: 110px !important;
+}
+
+#PreferenceSettingsView .fiscal-year-width select {
+	margin-left: 60px;
 }
 
 #MakeDepositView .textbold {
@@ -1912,7 +1916,7 @@ table.no_records .norecord-empty-message td {
 }
 
 #ETdsFillingView .editTable {
-	height: 385px;
+	min-height: 385px;
 	border: 0 none;
 }
 
@@ -5190,10 +5194,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: inline;
 }
 
-#PreferenceSettingsView .fiscal-year-width select {
-	margin-left: 60px;
-}
-
 .viewholder button {
 	cursor: pointer;
 }
@@ -6193,9 +6193,7 @@ form#contactForm .submit {
 
 .totalForm .AmountLabel {
 	-moz-box-flex: 1;
-	-moz-box-pack: end;
 	-webkit-box-pack: end;
-	width: 100%;
 }
 
 #QuoteView .prodAndServiceHLay .boldtext {
@@ -7331,4 +7329,33 @@ textarea[disabled] {
 }
 table.no_records tr td{
 	text-align: center;
+}
+#ETdsFillingView table{
+	table-layout: auto 
+}
+#TDSChalanDetailsView .editTable table{
+	table-layout: auto;
+}
+.totalForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#ClassMergeDialog .horizontalPanel{
+	margin: 10px 0;
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#ClassMergeDialog .horizontalPanel .layout{
+	margin-right:10px;
+}
+#writechequeview .topHLay .accPanel{
+	width:100%;
 }
