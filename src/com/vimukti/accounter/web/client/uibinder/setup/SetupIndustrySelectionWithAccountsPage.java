@@ -38,11 +38,11 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	@UiField
 	FlowPanel accountsPanel;
 	@UiField
-	Label selectIndustryhead, customizeAccounter;
+	Label selectIndustryhead;
 	@UiField
 	Label headerLabel;
 	@UiField
-	HTML accountsLabel;
+	HTML accountsLabel, customizeAccounter;
 
 	private SetupWizard setupWizard;
 	private Map<Integer, List<TemplateAccount>> industriesWithAccounts = new HashMap<Integer, List<TemplateAccount>>();
@@ -100,7 +100,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 		selectIndustryhead.setText(messages.industry());
 		headerLabel.setText(messages.selectYourIndustry());
 
-		customizeAccounter.setText(messages.selectIndustryInfoHTML1() + "<br/>"
+		customizeAccounter.setHTML(messages.selectIndustryInfoHTML1() + "<br/>"
 				+ messages.selectIndustryInfoHTML2() + "<a>"
 				+ messages.selectIndustryInfoAchor1() + "</a>"
 				+ messages.selectIndustryInfoHTML3() + "<br/><a>"
