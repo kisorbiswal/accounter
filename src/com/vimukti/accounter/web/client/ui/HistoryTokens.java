@@ -391,6 +391,7 @@ public class HistoryTokens {
 	public static final String PURCHASESBYCLASSSUMMARY = "PurchasesbyClassSummary";
 	public static final String DELETE_COMPANY = "DeleteCompany";
 	public static final String ACCOUNTER_MENU = "accounterMenu";
+	public static final String MESSAGE_OR_TASK = "messageOrTask";
 
 	public HistoryTokens() {
 

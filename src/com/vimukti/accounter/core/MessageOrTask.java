@@ -52,6 +52,8 @@ public class MessageOrTask extends CreatableObject implements
 	 */
 	private String actionToken;
 
+	private long toUser;
+
 	public MessageOrTask() {
 
 	}
@@ -115,6 +117,14 @@ public class MessageOrTask extends CreatableObject implements
 
 	public void setActionToken(String actionToken) {
 		this.actionToken = actionToken;
+	}
+
+	public long getToUser() {
+		return toUser;
+	}
+
+	public void setToUser(long toUser) {
+		this.toUser = toUser;
 	}
 
 }

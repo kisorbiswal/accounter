@@ -6296,7 +6296,17 @@ public interface AccounterMessages extends Messages {
 
 	public String draftsTransactionsCannotBePrinted();
 
+	public String message();
+
+	public String task();
+
+	public String warning();
+
 	public String enteropenidPasswordinfo();
 
 	public String youcantDeleteSystemAccount();
+
+	public String yourself();
+
+	public String allUsers();
 }
