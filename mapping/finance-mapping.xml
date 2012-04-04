@@ -42,7 +42,8 @@
 		<property name="version" column="VERSION"></property>
 		<property name="flow" column="FLOW" type="encryptedstring"></property>
 		<property name="paypalEmail" type="encryptedstring" column="PAYPAL_EMAIL"></property>
-		<property name="lastCheckNum" column="LAST_CHECK_NUMBER"></property>
+		<property name="lastCheckNum" column="LAST_CHECK_NUMBER"
+			type="encryptedstring"></property>
 		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
 			class="Currency" not-null="true">
 		</many-to-one>
@@ -71,7 +72,8 @@
 			<key column="ID" />
 			<many-to-one name="bank" column="BANK_ID" class="Bank" />
 			<property name="bankAccountType" column="BANK_ACCOUNT_TYPE"></property>
-			<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"></property>
+			<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"
+				type="encryptedstring"></property>
 			<property name="lastReconcilationDate" column="LAST_RECONCILATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
@@ -125,7 +127,8 @@
 		<id name="id" column="ID">
 			<generator class="identity"></generator>
 		</id>
-		<property name="name" not-null="true" column="NAME"></property>
+		<property name="name" not-null="true" type="encryptedstring"
+			column="NAME"></property>
 	</class>
 	<class name="AccountTransaction" table="ACCOUNT_TRANSACTION">
 		<id name="id" column="ID">
@@ -337,7 +340,7 @@
 		</component>
 		<property name="passwordHInt" column="PASSWORD_HINT"></property>
 		<property name="bankAccountNo" type="encryptedstring" column="BANK_ACCOUNT_NO"></property>
-		<property name="sortCode" column="SORT_CODE"></property>
+		<property name="sortCode" column="SORT_CODE" type="encryptedstring"></property>
 		<many-to-one name="cashDiscountAccount" class="Account"
 			column="CASH_DISCOUNT_ACCOUNT"></many-to-one>
 		<many-to-one name="accountsReceivableAccount" class="Account"
@@ -446,8 +449,8 @@
 				column="REGISTRED_STATE" not-null="true" length="100"></property>
 			<property name="zipOrPostalCode" type="encryptedstring"
 				column="REGISTRED_ZIP" not-null="true" length="100"></property>
-			<property name="countryOrRegion" column="REGISTRED_COUNTRY"
-				not-null="true" length="100"></property>
+			<property name="countryOrRegion" type="encryptedstring"
+				column="REGISTRED_COUNTRY" not-null="true" length="100"></property>
 			<property name="isSelected" column="REGISTRED_IS_SELECTED"
 				not-null="true"></property>
 		</component>
@@ -1006,7 +1009,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="value" column="VALUE"></property>
+		<property name="value" column="VALUE" type="encryptedstring"></property>
 		<many-to-one name="payee" column="PAYEE_ID" class="Payee"
 			not-null="true">
 		</many-to-one>

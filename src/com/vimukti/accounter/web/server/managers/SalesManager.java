@@ -65,8 +65,6 @@ public class SalesManager extends Manager {
 				cashSale.setSalesPerson(object[3] != null ? (SalesPerson) session
 						.get(Vendor.class, ((Long) object[3])) : null);
 				cashSale.setTotal((Double) object[4]);
-				// cashSale.setID((object[5] == null ? null : ((String)
-				// object[5])));
 				list.add(cashSale);
 			}
 			if (list != null) {
@@ -151,7 +149,6 @@ public class SalesManager extends Manager {
 			item.setName((String) object[1]);
 			item.setType((Integer) object[2]);
 			item.setSalesPrice((Double) object[3]);
-			// item.setID((String) object[4]);
 
 			list.add(item);
 		}

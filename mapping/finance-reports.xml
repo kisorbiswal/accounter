@@ -62,7 +62,7 @@
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="C_NAME" type="encryptedstring" />
+		<return-scalar column="C_NAME" type="string" />
 		<return-scalar column="TOTAL" type="double" />
 		
 		<![CDATA[
@@ -1043,13 +1043,25 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="A_NUMBER" type="encryptedstring" />
+		<return-scalar column="A_TYPE" type="int" />
+		<return-scalar column="CASHFLOW_CATEGORY" type="int" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="FLOW" type="encryptedstring" />
+		<return-scalar column="BASE_TYPE" type="int" />
+		<return-scalar column="SUB_BASE_TYPE" type="int" />
+		<return-scalar column="GROUP_TYPE" type="int" />
+
 		<![CDATA[
-				SELECT A.ID,
-				       A.NAME,
-				       A.A_NUMBER,
-				       A.A_TYPE,
-				       A.CASHFLOW_CATEGORY,
-				       A.PARENT_ID,
+				SELECT A.ID AS ID,
+				       A.NAME AS NAME,
+				       A.A_NUMBER AS A_NUMBER,
+				       A.A_TYPE AS A_TYPE,
+				       A.CASHFLOW_CATEGORY AS CASHFLOW_CATEGORY,
+				       A.PARENT_ID AS PARENT_ID,
 				       ( CASE
 				           WHEN (SELECT COUNT(AT1.ACCOUNT_ID)
 				                 FROM   ACCOUNT_TRANSACTION AT1
@@ -2460,7 +2472,7 @@
 		<query-param name="paymentmethod" type="encryptedstring" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="ID" type="string" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="DATE" type="long" />
@@ -3944,7 +3956,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
-		<return-scalar column="ID" type="string" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="DATE" type="long" />

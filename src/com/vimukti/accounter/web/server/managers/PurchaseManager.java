@@ -127,7 +127,7 @@ public class PurchaseManager extends Manager {
 		Query query = session.getNamedQuery("getNotReceivedPurchaseOrdersList")
 				.setParameter("vendorId", vendorID)
 				.setParameter("companyId", companyId);
-		;
+
 		// FIXME ::: check the sql query and change it to hql query if required
 
 		List list = query.list();
@@ -176,8 +176,6 @@ public class PurchaseManager extends Manager {
 				cashPurchase.setVendor(object[2] != null ? (Vendor) session
 						.get(Vendor.class, ((Long) object[2])) : null);
 				cashPurchase.setTotal((Double) object[3]);
-				// cashPurchase.setID((object[4] == null ? null
-				// : ((String) object[4])));
 				list.add(cashPurchase);
 			}
 			if (list != null) {

@@ -205,8 +205,6 @@ public class CustomerManager extends PayeeManager {
 						.get(Customer.class, ((Long) object[2])) : null);
 				customerRefund.setTotal((Double) object[3]);
 				customerRefund.setBalanceDue((Double) object[3]);
-				// customerRefund.setID((object[4] == null ? null
-				// : ((String) object[4])));
 
 				list.add(customerRefund);
 			}
@@ -334,7 +332,6 @@ public class CustomerManager extends PayeeManager {
 			receivePayment.setCustomer(object[2] != null ? (Customer) session
 					.get(Customer.class, ((Long) object[2])) : null);
 			receivePayment.setAmount((Double) object[3]);
-			// receivePayment.setID((String) object[4]);
 
 			list.add(receivePayment);
 		}

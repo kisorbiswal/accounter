@@ -233,7 +233,7 @@
 		<query-param name="vendorId" type="Long" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
@@ -825,7 +825,7 @@
 	<sql-query name="getPayBillTransactionsList">
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="ID" type="encryptedstring" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
@@ -1044,7 +1044,7 @@
 	<sql-query name="getLatestInvoices">
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1107,7 +1107,7 @@
 	<sql-query name="getLatestVendorPayments">
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1163,7 +1163,7 @@
 	<sql-query name="getLatestBills">
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1221,7 +1221,7 @@
 	<sql-query name="getLatestPayments">
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1291,14 +1291,12 @@
 		<return-scalar column="RP_DATE" type="long" />
 		<return-scalar column="RP_CUSTOMER_ID" type="long" />
 		<return-scalar column="RP_AMOUNT" type="double" />
-		<return-scalar column="RP_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT RP.ID          AS RP_ID,
 				       T.T_DATE       AS RP_DATE,
 				       RP.CUSTOMER_ID AS RP_CUSTOMER_ID,
-				       RP.AMOUNT      AS RP_AMOUNT,
-				       T.ID           AS RP_ID
+				       RP.AMOUNT      AS RP_AMOUNT				       
 				FROM   RECEIVE_PAYMENT RP
 				       JOIN TRANSACTION T
 				         ON RP.ID = T.ID
@@ -1318,14 +1316,12 @@
 		<return-scalar column="CP_DATE" type="long" />
 		<return-scalar column="CP_VENDOR_ID" type="long" />
 		<return-scalar column="CP_TOTAL" type="double" />
-		<return-scalar column="CP_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT CP.ID        AS CP_ID,
 				       T.T_DATE     AS CP_DATE,
 				       CP.VENDOR_ID AS CP_VENDOR_ID,
-				       T.TOTAL      AS CP_TOTAL,
-				       T.ID         AS CP_ID
+				       T.TOTAL      AS CP_TOTAL
 				FROM   CASH_PURCHASE CP
 				       JOIN TRANSACTION T
 				         ON CP.ID = T.ID
@@ -1346,15 +1342,13 @@
 		<return-scalar column="CS_CUSTOMER_ID" type="long" />
 		<return-scalar column="SALESPERSON_ID" type="long" />
 		<return-scalar column="TOTAL" type="double" />
-		<return-scalar column="CS_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT CS.ID              AS CS_ID,
 				       T.T_DATE           CS_DATE,
 				       CS.CUSTOMER_ID     CS_CUSTOMER_ID,
 				       CS.SALES_PERSON_ID AS SALESPERSON_ID,
-				       T.TOTAL            AS TOTAL,
-				       T.ID               AS CS_ID
+				       T.TOTAL            AS TOTAL
 				FROM   CASH_SALES CS
 				       JOIN TRANSACTION T
 				         ON CS.ID = T.ID
@@ -1378,7 +1372,6 @@
 		<return-scalar column="WC_VENDOR_ID" type="long" />
 		<return-scalar column="TAXAGENCY_ID" type="long" />
 		<return-scalar column="WC_AMOUNT" type="double" />
-		<return-scalar column="WC_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT WC.ID            AS WC_ID,
@@ -1388,8 +1381,7 @@
 				       WC.CUSTOMER_ID   AS WC_CUSTOMER_ID,
 				       WC.VENDOR_ID     AS WC_VENDOR_ID,
 				       WC.TAX_AGENCY_ID AS TAXAGENCY_ID,
-				       WC.AMOUNT        AS WC_AMOUNT,
-				       T.ID             AS WC_ID
+				       WC.AMOUNT        AS WC_AMOUNT
 				FROM   WRITE_CHECKS WC
 				       JOIN TRANSACTION T
 				         ON WC.ID = T.ID
@@ -1410,15 +1402,13 @@
 		<return-scalar column="CR_CUSTOMER_ID" type="long" />
 		<return-scalar column="CR_AMOUNT" type="double" />
 		<return-scalar column="CR_BALANCE_DUE" type="double" />
-		<return-scalar column="CR_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT CR.ID          AS CR_ID,
 				       T.T_DATE       AS CR_DATE,
 				       CR.CUSTOMER_ID AS CR_CUSTOMER_ID,
 				       T.TOTAL        AS CR_AMOUNT,
-				       CR.BALANCE_DUE AS CR_BALANCE_DUE,
-				       T.ID           AS CR_ID
+				       CR.BALANCE_DUE AS CR_BALANCE_DUE
 				FROM   CUSTOMER_REFUND CR
 				       JOIN TRANSACTION T
 				         ON CR.ID = T.ID
@@ -1442,7 +1432,6 @@
 		<return-scalar column="CASH_BACK_MEMO" type="encryptedstring" />
 		<return-scalar column="CASH_BACK_AMOUNT" type="double" />
 		<return-scalar column="TOTAL" type="double" />
-		<return-scalar column="TF_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT TF.ID                   AS TF_ID,
@@ -1451,8 +1440,7 @@
 				       T.TOTAL                 AS TOTAL_AMOUNT,
 				       TF.CASH_BACK_ACCOUNT_ID AS CASH_BACK_ACCOUNT_ID,
 				       TF.CASH_BACK_MEMO       AS CASH_BACK_MEMO,
-				       TF.CASH_BACK_AMOUNT     AS CASH_BACK_AMOUNT,
-				       T.ID                    AS TF_ID
+				       TF.CASH_BACK_AMOUNT     AS CASH_BACK_AMOUNT
 				FROM   TRANSFER_FUND TF
 				       JOIN TRANSACTION T
 				         ON TF.ID = T.ID
@@ -1473,15 +1461,13 @@
 		<return-scalar column="TRANSFER_FROM" type="long" />
 		<return-scalar column="TRANSFER_TO" type="long" />
 		<return-scalar column="TRANSFER_AMOUNT" type="double" />
-		<return-scalar column="TF_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT TF.ID            AS TF_ID,
 				       T.T_DATE         AS TF_DATE,
 				       TF.TRANSFER_FROM AS TRANSFER_FROM,
 				       TF.TRANSFER_TO   AS TRANSFER_TO,
-				       T.TOTAL          AS TRANSFER_AMOUNT,
-				       T.ID             AS TF_ID
+				       T.TOTAL          AS TRANSFER_AMOUNT
 				FROM   TRANSFER_FUND TF
 				       JOIN TRANSACTION T
 				         ON TF.ID = T.ID
@@ -1500,14 +1486,12 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="I_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT I.ID          AS ITEM_ID,
 				       I.NAME        AS ITEM_NAME,
 				       I.TYPE        AS ITEM_TYPE,
-				       I.SALES_PRICE AS SALES_PRICE,
-				       I.ID          AS I_ID
+				       I.SALES_PRICE AS SALES_PRICE
 				FROM   ITEM I
 				WHERE  I.COMPANY_ID = :companyId
 				ORDER  BY I.ID DESC
@@ -1524,14 +1508,12 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="ITEM_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT I.ID          AS ITEM_ID,
 				       I.NAME        AS ITEM_NAME,
 				       I.TYPE        AS ITEM_TYPE,
-				       I.SALES_PRICE AS SALES_PRICE,
-				       I.ID          AS ITEM_ID
+				       I.SALES_PRICE AS SALES_PRICE
 				FROM   ITEM I
 				WHERE  I.IS_SELL_ITEM = TRUE
 				       AND I.COMPANY_ID = :companyId
@@ -1549,14 +1531,12 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="ITEM_ID" type="encryptedstring" />
 		
 		<![CDATA[
 				SELECT I.ID          AS ITEM_ID,
 				       I.NAME        AS ITEM_NAME,
 				       I.TYPE        AS ITEM_TYPE,
-				       I.SALES_PRICE AS SALES_PRICE,
-				       I.ID          AS ITEM_ID
+				       I.SALES_PRICE AS SALES_PRICE
 				FROM   ITEM I
 				WHERE  I.IS_BUY_ITEM = TRUE
 				       AND I.COMPANY_ID = :companyId
@@ -1573,7 +1553,7 @@
 		<return-scalar column="VENDOR_ID" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="PAYEE_DATE" type="long" />
-		<return-scalar column="PAYEE_ID" type="encryptedstring" />
+		<return-scalar column="PAYEE_ID" type="long" />
 
 		<![CDATA[
 				SELECT V.ID     AS VENDOR_ID,
@@ -1640,7 +1620,7 @@
 		<query-param name="year" type="int" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="transaction_id" type="encryptedstring" />
+		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_date" type="long" />
 		<return-scalar column="taxcode_name" type="encryptedstring" />
 		<return-scalar column="taxagency_name" type="encryptedstring" />
@@ -4518,7 +4498,7 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
-		<return-scalar column="ID" type="encryptedstring" />
+		<return-scalar column="ID" type="long" />
 		<return-scalar column="SOURCE_NAME" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -4582,7 +4562,7 @@
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="IS_PERCENTAGE" type="boolean" />
 		<return-scalar column="VAT_RATE" type="double" />
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="LINE_TOTAL" type="double" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -6316,7 +6296,7 @@
 	</sql-query>
 
 	<query name="getPortletPageConfiguration">
-		<query-param name="pageName" type="encryptedstring" />
+		<query-param name="pageName" type="string" />
 		<query-param name="userId" type="long" />
 		from com.vimukti.accounter.core.PortletPageConfiguration p where
 		p.pageName=:pageName AND p.user.id=:userId
@@ -10239,8 +10219,8 @@
 	</sql-query>
 
 	<sql-query name="getClientByCompany">
-		<query-param name="clientEmail" type="encryptedstring" />
-		<query-param name="companyName" type="encryptedstring" />
+		<query-param name="clientEmail" type="string" />
+		<query-param name="companyName" type="string" />
 		
 		<![CDATA[
 				SELECT C.ID
@@ -10326,7 +10306,7 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="TAX_CODE" type="encryptedstring" />
 		<return-scalar column="TAX_AMOUNT" type="double" />
-		<return-scalar column="CURRENCY" type="encryptedstring" />
+		<return-scalar column="CURRENCY" type="string" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		<return-scalar column="COUNTRY" type="encryptedstring" />
 		<return-scalar column="LINE_NUMBER" type="long" />
@@ -11508,7 +11488,7 @@
 		<query-param name="fromTo" type="long" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ORIGINAL_AMOUNT" type="double" />

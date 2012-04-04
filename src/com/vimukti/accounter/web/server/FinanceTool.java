@@ -1109,8 +1109,6 @@ public class FinanceTool {
 				writeCheck.setTaxAgency(object[6] != null ? (TAXAgency) session
 						.get(TAXAgency.class, ((Long) object[5])) : null);
 				writeCheck.setAmount((Double) object[7]);
-				// writeCheck.setID((object[8] == null ? null
-				// : ((String) object[8])));
 				list.add(writeCheck);
 			}
 			if (list != null) {
@@ -1152,7 +1150,6 @@ public class FinanceTool {
 				makeDeposit.setCashBackMemo((String) object[5]);
 				makeDeposit.setCashBackAmount((object[6] == null ? null
 						: ((Double) object[6])));
-				// makeDeposit.setID((String) object[7]);
 				list.add(makeDeposit);
 
 			}
@@ -1184,7 +1181,6 @@ public class FinanceTool {
 				item.setName((String) object[1]);
 				item.setType((Integer) object[2]);
 				item.setSalesPrice((Double) object[3]);
-				// item.setID((String) object[4]);
 				list.add(item);
 			}
 			if (list != null) {
@@ -1548,7 +1544,8 @@ public class FinanceTool {
 						.getNamedQuery("getTransaction.by.check.type.number.id")
 						.setParameter("company", company)
 						.setParameter("type", clientObject.getType())
-						.setParameter("number", clientObject.getNumber())
+						.setParameter("number", clientObject.getNumber(),
+								EncryptedStringType.INSTANCE)
 						.setParameter("id", clientObject.getID());
 
 				List list = query.list();
@@ -3881,8 +3878,8 @@ public class FinanceTool {
 
 		List<TDSChalanDetail> challansGot = session
 				.getNamedQuery("getTDSChallansForAckNo")
-				.setString("ackNo", ackNo).setLong("companyId", companyId)
-				.list();
+				.setParameter("ackNo", ackNo, EncryptedStringType.INSTANCE)
+				.setLong("companyId", companyId).list();
 
 		for (TDSChalanDetail chalan : challansGot) {
 			ClientTDSChalanDetail clientObject = new ClientConvertUtil()
@@ -4442,7 +4439,8 @@ public class FinanceTool {
 					.setEntity("company", getCompany(companyId))
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
-					.setParameter("acknowledgementNo", acknowledgementNo);
+					.setParameter("acknowledgementNo", acknowledgementNo,
+							EncryptedStringType.INSTANCE);
 
 			return (ArrayList<TDSChalanDetail>) query.list();
 		} catch (Exception e) {
@@ -4599,9 +4597,11 @@ public class FinanceTool {
 	public Long getAccountByNumber(Long companyId, String accountNumber) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Object uniqueResult = session.getNamedQuery("getAccountByNumber")
+		Object uniqueResult = session
+				.getNamedQuery("getAccountByNumber")
 				.setParameter("company", company)
-				.setParameter("accountNumber", accountNumber).uniqueResult();
+				.setParameter("accountNumber", accountNumber,
+						EncryptedStringType.INSTANCE).uniqueResult();
 		if (uniqueResult != null) {
 			return (Long) uniqueResult;
 		}
@@ -4611,10 +4611,11 @@ public class FinanceTool {
 	public Long getAccountByName(Long companyId, String accountNameOrNumber) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Object uniqueResult = session.getNamedQuery("getAccountByName")
+		Object uniqueResult = session
+				.getNamedQuery("getAccountByName")
 				.setParameter("company", company)
-				.setParameter("accountName", accountNameOrNumber)
-				.uniqueResult();
+				.setParameter("accountName", accountNameOrNumber,
+						EncryptedStringType.INSTANCE).uniqueResult();
 		if (uniqueResult != null) {
 			return (Long) uniqueResult;
 		}
@@ -4624,9 +4625,11 @@ public class FinanceTool {
 	public Long getItemGrupByName(Long companyId, String itemGrupName) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Object uniqueResult = session.getNamedQuery("getItemGrupByName")
+		Object uniqueResult = session
+				.getNamedQuery("getItemGrupByName")
 				.setParameter("company", company)
-				.setParameter("itemGrupName", itemGrupName).uniqueResult();
+				.setParameter("itemGrupName", itemGrupName,
+						EncryptedStringType.INSTANCE).uniqueResult();
 		if (uniqueResult != null) {
 			return (Long) uniqueResult;
 		}
@@ -4648,9 +4651,11 @@ public class FinanceTool {
 	public Long getWarehouseByName(Long companyId, String warehouse) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Object uniqueResult = session.getNamedQuery("getWarehouseByName")
+		Object uniqueResult = session
+				.getNamedQuery("getWarehouseByName")
 				.setParameter("company", company)
-				.setParameter("warehouse", warehouse).uniqueResult();
+				.setParameter("warehouse", warehouse,
+						EncryptedStringType.INSTANCE).uniqueResult();
 		if (uniqueResult != null) {
 			return (Long) uniqueResult;
 		}
@@ -4661,7 +4666,8 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Object uniqueResult = session.getNamedQuery("getPayeeIdByName")
-				.setParameter("company", company).setParameter("payee", payee)
+				.setParameter("company", company)
+				.setParameter("payee", payee, EncryptedStringType.INSTANCE)
 				.uniqueResult();
 		if (uniqueResult != null) {
 			return (Long) uniqueResult;
