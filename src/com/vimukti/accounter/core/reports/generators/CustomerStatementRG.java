@@ -1,6 +1,14 @@
 package com.vimukti.accounter.core.reports.generators;
 
+import java.util.Set;
+
+import com.vimukti.accounter.core.Address;
+import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.serverreports.ReportGridTemplate;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 
@@ -32,7 +40,34 @@ public class CustomerStatementRG extends AbstractReportGenerator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return statementReport.getGridTemplate();
+		ReportGridTemplate<PayeeStatementsList> gridTemplate = statementReport
+				.getGridTemplate();
+		gridTemplate.addAdditionalDetails(getStatementReportDetails());
+		return gridTemplate;
 	}
+
+	private String[] getStatementReportDetails() {
+		String address1 = "", street = "", city = "", state = "", country = "";
+		Payee payee = (Payee) financeTool.getManager().getServerObjectForid(
+				AccounterCoreType.PAYEE, getInputAsLong(0));
+		String payeeName = payee.getName();
+		Set<Address> address = payee.getAddress();
+		StringBuffer dataBuffer = new StringBuffer();
+		for (Address clientAddress : address) {
+			address1 = clientAddress.getAddress1().concat(",");
+			street = clientAddress.getStreet().concat(",");
+			city = clientAddress.getCity().concat(" - ")
+					.concat(clientAddress.getZipOrPostalCode().concat(","));
+			state = clientAddress.getStateOrProvinence().concat(",");
+			country = clientAddress.getCountryOrRegion().concat(".");
+			break;
+		}
+		AccounterMessages messages = Global.get().messages();
+		String fromDate=messages.fromDate() + ": "+ startDate.toString();
+		String toDate=messages.toDate() + ": "+ endDate.toString();
+		return  new String[]{payeeName,address1,street,city,state,country, fromDate, toDate};
+		
+	}
+
 
 }

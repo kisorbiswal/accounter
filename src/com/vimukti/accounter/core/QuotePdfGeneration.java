@@ -125,7 +125,7 @@ public class QuotePdfGeneration {
 						: item.getAccount().getName();
 
 				String discount = Utility.decimalConversation(
-						item.getDiscount(), symbol);
+						item.getDiscount(), "");
 
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";

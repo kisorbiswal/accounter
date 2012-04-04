@@ -49,17 +49,7 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 
 	@Override
 	public String getHeader() {
-
-		if (reportType == ReportsGenerator.REPORT_TYPE_CUSTOMERSTATEMENT) {
-			return this.headerHtml
-					+ ReportsGenerator.getStatementReportDetails();
-		} else if (reportType == ReportsGenerator.REPORT_TYPE_VENDORSTATEMENT) {
-			return this.headerHtml
-					+ ReportsGenerator.getStatementReportDetails();
-		} else {
 			return this.headerHtml;
-		}
-
 	}
 
 	@Override

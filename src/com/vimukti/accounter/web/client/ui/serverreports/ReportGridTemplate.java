@@ -97,5 +97,6 @@ public abstract class ReportGridTemplate<R> {
 	}
 
 	public abstract void prepareBodyHead();
-
+	public void addAdditionalDetails(String[] details){
+	}
 }

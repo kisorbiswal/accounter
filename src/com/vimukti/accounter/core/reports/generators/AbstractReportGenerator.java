@@ -370,7 +370,7 @@ public abstract class AbstractReportGenerator implements IReportGenerator {
 		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
 			return "VAT Exception Detail Report";
 		case REPORT_TYPE_VENDORSTATEMENT:
-			return getVendorName();
+			return "Vendor Statement";
 		case REPORT_TYPE_TAX_EXCEPTION_DETAIL:
 			return "TAX Item Exception Report";
 		case REALISED_EXCHANGE_LOSSES_AND_GAINS:

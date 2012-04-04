@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
 
 public class PDFReportGridTemplate<R> extends ReportGridTemplate {
-
+private String additionalDetails;
 	public PDFReportGridTemplate(String[] columns, boolean ishowGridFooter) {
 		super(columns, ishowGridFooter);
 	}
@@ -59,7 +59,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}
-		return this.body.toString();
+		return this.additionalDetails +this.body.toString();
 	}
 
 	@Override
@@ -244,8 +244,33 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}
-		return this.body.toString();
+		return this.additionalDetails+this.body.toString();
 
+	}
+	@Override
+	public void addAdditionalDetails(String[] details) {
+		StringBuffer dataBuffer = new StringBuffer();
+		dataBuffer.append("<table><tr><td style=\"width:100%;\"><table>");
+		if (details[0].trim().length() > 0)
+			dataBuffer.append("<tr><td>" + details[0] + "</td></tr>");
+		if (details[1].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[1] + "</td></tr>");
+		if (details[2].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[2] + "</td></tr>");
+		if (details[3].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[3] + "</td></tr>");
+		if (details[4].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[4] + "</td></tr>");
+		if (details[5].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[5] + "</td></tr>");
+		dataBuffer.append("</table></td><td  style=\"width:100%;\">");
+		dataBuffer.append("<table >");
+		if (details[6].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[6] + "</td></tr>");
+		if (details[7].trim().length() > 1)
+			dataBuffer.append("<tr><td>" + details[7] + "</td></tr>");
+		dataBuffer.append("</table></td></tr></table>");
+		this.additionalDetails = dataBuffer.toString();
 	}
 
 }
