@@ -1,5 +1,5 @@
 .MENU_BAR_BG {
-	display: none;
+	
 }
 
 .MENU_BAR_BG table,.decor02,.finance-portlet .decor00,.td01,#branding,.tabletmainmenu,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,.gwt-DecoratedTabBar .gwt-TabBarItem,.tabletmenu
@@ -20,7 +20,7 @@
 
 .MENU_BAR_BG table,.gwt-DialogBox,.gwt-MenuBarPopup div table:only-child,.recounciliation_grid,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.cusotmerCentrGrid,.details-Panel
 	{
-	border: 1px solid #918C8C;
+	border: 1px solid #918C8C !important;
 }
 
 .main-class-pannel,.gwt-PopupPanel,.gwt-TabPanelBottom {
@@ -304,6 +304,7 @@ html,body {
 	display: table-cell;
 	white-space: pre-wrap;
 	word-wrap: break-word;
+	color:black;
 }
 
 input[type="checkbox"] {
@@ -352,7 +353,7 @@ select[multiple] {
 	color: #E23333;
 }
 
-.helpContent,.measurePanel,.commentPanel,.portlet-body {
+.helpContent,.commentPanel,.portlet-body {
 	background-color: #FFFFFF;
 }
 
@@ -767,7 +768,8 @@ iframe,.address div {
 }
 
 .general-setting-invoice {
-	margin: 0 30px;
+	margin: 0 20px;
+	width: 550px;
 }
 
 .general-image {
@@ -826,13 +828,7 @@ iframe,.address div {
 }
 
 .measurePanel {
-	margin-top: 80px;
-	border: #989898 solid 1px;
-	padding: 2px;
-}
-
-.rightBorder {
-	border-right: #CCCCCC solid 1px;
+	margin-top:80px 0 0px 5px;
 }
 
 .tax-form td:nth-child (1){
@@ -1747,10 +1743,6 @@ input.date-field-textbox {
 	padding: 5px;
 }
 
-.grouped-buttons {
-	margin: 0 5px;
-}
-
 .search_buttons .gwt-Button {
 	padding-top: 3px;
 	width: 70px;
@@ -2125,4 +2117,11 @@ input.date-field-textbox {
 
 .gwt-Button[disabled], .detailsTab .customField button.gwt-Button[disabled] {
    color: black !important;
+}
+
+.setting-class-panel .detailsPanel .downloadPanel{
+	width:300px;
+}
+#exportButton{
+	padding: 0px 10px 1px 34px !important;
 }
