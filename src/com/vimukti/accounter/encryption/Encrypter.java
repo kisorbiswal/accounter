@@ -33,7 +33,7 @@ public class Encrypter extends Thread {
 	public static void init() {
 		classes = new ArrayList<Class<?>>();
 		Logger logger = Logger.getLogger(Encrypter.class);
-
+		logger.info("Initializing Encrypter...");
 		// File core = getDirectoryFile();
 		// File[] listFiles = core.listFiles();
 		Class<?>[] allClasses = getClasses();
