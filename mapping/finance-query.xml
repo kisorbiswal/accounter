@@ -6077,15 +6077,15 @@
 
 		<return-scalar column="COMPANY_ID" type="long" />
 		<return-scalar column="TRADING_NAME" type="string" />
-		<return-scalar column="REGISTRED_COUNTRY" type="string" />
+		<return-scalar column="TRADING_COUNTRY" type="string" />
 		
 		<![CDATA[
 				SELECT B.COMPANY_ID        AS COMPANY_ID,
 				       B.TRADING_NAME      TRADING_NAME,
-				       B.REGISTRED_COUNTRY REGISTRED_COUNTRY
+				       B.TRADING_COUNTRY TRADING_COUNTRY
 				FROM   (SELECT C.ID                AS COMPANY_ID,
 				               C.TRADING_NAME      TRADING_NAME,
-				               C.REGISTRED_COUNTRY REGISTRED_COUNTRY,
+				               C.TRADING_COUNTRY TRADING_COUNTRY,
 				               Max(A.TIME_STAMP)   A_DATE
 				        FROM   COMPANY C
 				               LEFT JOIN ACTIVITY A
@@ -6095,11 +6095,11 @@
 				        WHERE  U.ID IN :userIds
 				        GROUP  BY C.ID,
 				                  C.TRADING_NAME,
-				                  C.REGISTRED_COUNTRY
+				                  C.TRADING_COUNTRY
 				        ORDER  BY A_DATE DESC) AS B
 				GROUP  BY COMPANY_ID,
 				          TRADING_NAME,
-				          REGISTRED_COUNTRY
+				          TRADING_COUNTRY
 				ORDER  BY Max(A_DATE) DESC  
 				]]>
 
