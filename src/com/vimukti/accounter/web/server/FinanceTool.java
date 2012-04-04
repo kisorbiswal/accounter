@@ -338,11 +338,11 @@ public class FinanceTool {
 
 			return serverObject.getID();
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
 			transaction.rollback();
 			if (e instanceof AccounterException) {
 				throw (AccounterException) e;
 			} else {
+				log.error(e.getMessage(), e);
 				throw new AccounterException(AccounterException.ERROR_INTERNAL,
 						e.getMessage());
 			}

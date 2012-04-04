@@ -13,15 +13,16 @@ public class CreateProcessor extends CRUDProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		ServletInputStream inputStream = req.getInputStream();
+		IAccounterCore deserialize;
 		try {
-			IAccounterCore deserialize = getSerializationFactory(req)
-					.deserialize(inputStream);
-			long create = ((IAccounterCRUDService) getS2sSyncProxy(req,
-					"/do/accounter/crud/rpc/service",
-					IAccounterCRUDService.class)).create(deserialize);
-			sendResult(create);
+			deserialize = getSerializationFactory(req).deserialize(inputStream);
 		} catch (Exception e) {
-			sendFail(e.getMessage());
+			sendFail("Given informate/data is wrong.");
+			return;
 		}
+		long create = ((IAccounterCRUDService) getS2sSyncProxy(req,
+				"/do/accounter/crud/rpc/service", IAccounterCRUDService.class))
+				.create(deserialize);
+		sendResult(create);
 	}
 }

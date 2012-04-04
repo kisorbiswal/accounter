@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javassist.bytecode.ExceptionsAttribute;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.developer.api.process.ApiProcessor;
+import com.vimukti.accounter.developer.api.process.CompanyidsProcessor;
 import com.vimukti.accounter.developer.api.process.CreateProcessor;
 import com.vimukti.accounter.developer.api.process.DeleteProcessor;
 import com.vimukti.accounter.developer.api.process.ReadProcessor;
@@ -21,6 +24,8 @@ import com.vimukti.accounter.developer.api.process.UpdateProcessor;
 import com.vimukti.accounter.developer.api.process.lists.CustomerProcessor;
 import com.vimukti.accounter.developer.api.process.lists.InvoicesProcessor;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 
 public class ApiBaseServlet extends HttpServlet {
 
@@ -43,6 +48,7 @@ public class ApiBaseServlet extends HttpServlet {
 
 		processors.put("invoices", new InvoicesProcessor());
 
+		processors.put("companies", new CompanyidsProcessor());
 		// Reports
 		processors.put("salesbycustomersummary", null);
 		super.init();
@@ -59,7 +65,12 @@ public class ApiBaseServlet extends HttpServlet {
 		try {
 			processor.process(req, resp);
 			processor.sendData(req, resp);
-
+		} catch (AccounterException e) {
+			String msg = AccounterExceptions.getErrorString(e.getErrorCode());
+			if (msg == null) {
+				msg = e.getMessage();
+			}
+			sendFail(req, resp, msg);
 		} catch (Exception e) {
 			sendFail(req, resp, e.getMessage());
 			return;

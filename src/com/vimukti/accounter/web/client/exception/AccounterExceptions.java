@@ -1,13 +1,11 @@
 package com.vimukti.accounter.web.client.exception;
 
-import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class AccounterExceptions {
 
-	public static AccounterMessages accounterMessages = (AccounterMessages) GWT
-			.create(AccounterMessages.class);
+	public static AccounterMessages accounterMessages = Global.get().messages();
 
 	public static String getErrorString(int errorCode) {
 		switch (errorCode) {

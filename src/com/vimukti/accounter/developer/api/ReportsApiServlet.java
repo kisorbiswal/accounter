@@ -21,6 +21,6 @@ public class ReportsApiServlet extends ApiBaseServlet {
 			sendFail(req, resp, "type should be present");
 			return;
 		}
-		doProcess(req, resp, "reports");
+		doProcess(req, resp, type);
 	}
 }
