@@ -241,7 +241,7 @@ public class FixedAssestManager extends Manager {
 
 		FixedAsset fixedAsset = new FixedAsset();
 		fixedAsset.setBookValue(purchasePrice);
-		fixedAsset.setPurchaseDate(new FinanceDate(depreciationTo));
+		fixedAsset.setPurchaseDate(new FinanceDate(depreciationFrom));
 		fixedAsset.setPurchasePrice(purchasePrice);
 		fixedAsset.setDepreciationMethod(depreciationMethod);
 		fixedAsset.setDepreciationRate(depreciationRate);
@@ -263,11 +263,6 @@ public class FixedAssestManager extends Manager {
 		Calendar toCal = new GregorianCalendar();
 		toCal.setTime(new FinanceDate(depreciationTo).getAsDateObject());
 
-		int maxDay = fromCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-		fromCal.set(fromCal.get(Calendar.YEAR), fromCal.get(Calendar.MONTH),
-				maxDay);
-
 		/**
 		 * This is to get the depreciation start date. Here the purpose of this
 		 * depreciation start date is, if this Fixed Asset depreciation method
@@ -284,12 +279,15 @@ public class FixedAssestManager extends Manager {
 		fixedAsset
 				.setOpeningBalanceForFiscalYear(fixedAsset.getPurchasePrice());
 
+		FinanceDate fromDate = new FinanceDate(fromCal.getTime());
+		FinanceDate toDat = new FinanceDate(toCal.getTime());
+
 		/**
 		 * The following loop should iterate once for each month between the
 		 * from date and end date.
 		 */
 
-		while (fromCal.getTime().compareTo(toCal.getTime()) <= 0) {
+		while (fromDate.compareTo(toDat) < 0) {
 
 			/**
 			 * If the depreciation method is Straight Line then The depreciation
@@ -300,6 +298,9 @@ public class FixedAssestManager extends Manager {
 					.getPurchasePrice() : fixedAsset
 					.getOpeningBalanceForFiscalYear();
 
+			double depreCiaAmt = getDepreciationAmountAsPerDay(amount,
+					fromDate, fixedAsset.getDepreciationRate());
+
 			/**
 			 * To calculate the depreciation amount for this month based on the
 			 * depreciation rate.
@@ -307,41 +308,41 @@ public class FixedAssestManager extends Manager {
 			double depreciationAmount = Double.parseDouble(decimalFormat
 					.format(amount * fixedAsset.getDepreciationRate() / 1200));
 
-			amountToBeDepreciatedforThisFixedAsset += depreciationAmount;
+			amountToBeDepreciatedforThisFixedAsset += depreCiaAmt;
 
 			/**
 			 * Decreasing the Book Value of this Fixed Asset by the calculated
 			 * depreciation amount for this month.
 			 */
-			fixedAsset.setBookValue(fixedAsset.getBookValue()
-					- depreciationAmount);
+			fixedAsset.setBookValue(fixedAsset.getBookValue() - depreCiaAmt);
 
 			/**
 			 * Updating this Fixed Asset's accumulated depreciation amount by
 			 * this calculated depreciation amount for this month.
 			 */
 			fixedAsset.setAccumulatedDepreciationAmount(fixedAsset
-					.getAccumulatedDepreciationAmount() + depreciationAmount);
+					.getAccumulatedDepreciationAmount() + depreCiaAmt);
 
 			/**
 			 * Adjusting the from date so that it will hold the next month last
 			 * date.
 			 */
-			int year = fromCal.get(Calendar.YEAR);
-			int month = fromCal.get(Calendar.MONTH) + 1;
 
-			fromCal.clear();
-			fromCal.set(Calendar.YEAR, year);
-			fromCal.set(Calendar.MONTH, month);
-			fromCal.set(Calendar.DATE,
-					fromCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			int year = fromDate.getYear();
+			int month = fromDate.getMonth() + 1;
+
+			// int year = fromCal.get(Calendar.YEAR);
+			// int month = fromCal.get(Calendar.MONTH) + 1;
+
+			fromDate.setYear(year);
+			fromDate.setMonth(month);
 
 			/**
 			 * Adjusting the opening balance of this Fixed Asset each year after
 			 * the start date by the actual bookvalue which represents the
 			 * updated bookvalue at the end of each month.
 			 */
-			if (fromCal.get(Calendar.MONTH) == startDateCal.get(Calendar.MONTH)) {
+			if (fromDate.getMonth() == startDateCal.get(Calendar.MONTH)) {
 				fixedAsset.setOpeningBalanceForFiscalYear(fixedAsset
 						.getBookValue());
 			}
@@ -349,6 +350,27 @@ public class FixedAssestManager extends Manager {
 		}
 
 		return amountToBeDepreciatedforThisFixedAsset;
+	}
+
+	private double getDepreciationAmountAsPerDay(double amount,
+			FinanceDate fromDate, double depreciationRate) {
+		Calendar fromAsCal = Calendar.getInstance();
+		double depAmt = 0.0;
+		fromAsCal.setTime(fromDate.getAsDateObject());
+		int noOfDaysPerYer = 365;
+		int year = fromAsCal.get(Calendar.YEAR);
+		int dayOfMonth = fromAsCal.get(Calendar.DAY_OF_MONTH);
+		if (year % 4 == 0) {
+			noOfDaysPerYer = 366;
+		}
+		double temp1 = (amount * depreciationRate) / 100;
+		double temp2 = ((temp1) / noOfDaysPerYer);
+		for (int i = dayOfMonth; i < fromAsCal
+				.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+			depAmt += temp2;
+		}
+
+		return depAmt;
 	}
 
 	public FixedAssetSellOrDisposeReviewJournal getReviewJournal(
@@ -661,7 +683,7 @@ public class FixedAssestManager extends Manager {
 			FinanceDate rollBackDepreciationTo, Company company)
 			throws DAOException {
 
-		Session session =  HibernateUtil.getCurrentSession();
+		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getFixedAsset.from.id")
 				.setParameter("id", fixedAssetID)

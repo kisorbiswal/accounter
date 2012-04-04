@@ -32,8 +32,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialog;
 import com.vimukti.accounter.web.client.ui.fixedassets.StartDateDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -122,7 +124,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 		});
-//		depreciatedToCombo.setWidth("100px");
+		// depreciatedToCombo.setWidth("100px");
 
 		Button updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
@@ -507,5 +509,13 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		saveAndCloseButton = new SaveAndCloseButton(this);
+		buttonBar.add(saveAndCloseButton);
+		super.createButtons(buttonBar);
+
 	}
 }
