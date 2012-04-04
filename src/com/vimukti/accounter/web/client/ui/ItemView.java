@@ -64,8 +64,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private TextItem nameText, skuText;
 	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
 			openingBalTxt, itemTotalValue;
-	private IntegerField vendItemNumText, weightText, reorderPoint,
-			onHandQuantity;
+	private TextItem vendItemNumText;
+	private IntegerField weightText, reorderPoint, onHandQuantity;
 	private AmountField avarageCost;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck;
@@ -434,10 +434,11 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 
-		vendItemNumText = new IntegerField(this,
-				this.type != ClientItem.TYPE_SERVICE ? messages
-						.vendorProductNo(Global.get().Vendor()) : messages
-						.vendorServiceNo(Global.get().Vendor()));
+		vendItemNumText = new TextItem(
+				this.type != ClientItem.TYPE_SERVICE ? messages.vendorProductNo(Global
+						.get().Vendor())
+						: messages.vendorServiceNo(Global.get().Vendor()),
+				"vendorServiceNo");
 		// vendItemNumText.setWidth(100);
 		vendItemNumText.setEnabled(!isInViewMode());
 
@@ -458,7 +459,7 @@ public class ItemView extends BaseView<ClientItem> {
 		ibuyCheck = new CheckboxItem(
 				this.type == ClientItem.TYPE_SERVICE ? messages.ibuythisservice()
 						: messages.ibuythisproduct(), "ibuyCheck");
-
+		ibuyCheck.setEnabled(!isInViewMode());
 		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -1197,20 +1198,20 @@ public class ItemView extends BaseView<ClientItem> {
 			purchasePriceTxt.setEnabled(!isInViewMode());
 			vendItemNumText.setEnabled(!isInViewMode());
 		} else {
-			purchaseDescArea.setEnabled(!true);
-			expAccCombo.setEnabled(!true);
-			prefVendorCombo.setEnabled(!true);
-			purchasePriceTxt.setEnabled(!true);
-			vendItemNumText.setEnabled(!true);
+			purchaseDescArea.setEnabled(false);
+			expAccCombo.setEnabled(false);
+			prefVendorCombo.setEnabled(false);
+			purchasePriceTxt.setEnabled(false);
+			vendItemNumText.setEnabled(false);
 		}
 		if (isellCheck.getValue()) {
 			salesDescArea.setEnabled(!isInViewMode());
 			accountCombo.setEnabled(!isInViewMode());
 			salesPriceText.setEnabled(!isInViewMode());
 		} else {
-			salesDescArea.setEnabled(!true);
-			accountCombo.setEnabled(!true);
-			salesPriceText.setEnabled(!true);
+			salesDescArea.setEnabled(false);
+			accountCombo.setEnabled(false);
+			salesPriceText.setEnabled(false);
 		}
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
