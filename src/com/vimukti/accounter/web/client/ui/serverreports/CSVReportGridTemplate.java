@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	private String additionalDetails;
+
 	public CSVReportGridTemplate(String[] columns, boolean ishowGridFooter) {
 		super(columns, ishowGridFooter);
 	}
@@ -47,13 +48,18 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	public String getBody() {
 		System.out.println("It is the body of CSV Report " + this.body);
 		System.err.println(this.body);
-		return this.additionalDetails+this.body.toString();
+		if (reportView instanceof StatementServerReport) {
+			return this.additionalDetails + this.body.toString();
+		} else {
+			return this.body.toString();
+		}
 	}
 
 	@Override
 	public String getValue(Object object) {
 		return (object instanceof Double ? DataUtils
-				.getAmountAsStringInPrimaryCurrency((Double) object) : object.toString());
+				.getAmountAsStringInPrimaryCurrency((Double) object) : object
+				.toString());
 	}
 
 	@Override
@@ -122,29 +128,34 @@ public class CSVReportGridTemplate<R> extends ReportGridTemplate {
 	public String getBody(AccounterMessages messages) {
 		if (body == null || body.toString().isEmpty()) {
 			body = new StringBuffer(messages.noRecordsToShow());
-		} 
-		return this.additionalDetails +this.body.toString();
+		}
+
+		if (reportView instanceof StatementServerReport) {
+			return this.additionalDetails + this.body.toString();
+		} else {
+			return this.body.toString();
+		}
 	}
 
 	@Override
 	public void addAdditionalDetails(String[] details) {
 		StringBuffer dataBuffer = new StringBuffer();
 		if (details[0].trim().length() > 0)
-			dataBuffer.append( details[0] + "\n");
+			dataBuffer.append(details[0] + "\n");
 		if (details[1].trim().length() > 1)
-			dataBuffer.append( details[1] + "\n");
+			dataBuffer.append(details[1] + "\n");
 		if (details[2].trim().length() > 1)
-			dataBuffer.append( details[2] + "\n");
+			dataBuffer.append(details[2] + "\n");
 		if (details[3].trim().length() > 1)
-			dataBuffer.append( details[3] + "\n");
+			dataBuffer.append(details[3] + "\n");
 		if (details[4].trim().length() > 1)
-			dataBuffer.append( details[4] + "\n");
+			dataBuffer.append(details[4] + "\n");
 		if (details[5].trim().length() > 1)
-			dataBuffer.append( details[5] + "\n");
+			dataBuffer.append(details[5] + "\n");
 		if (details[6].trim().length() > 1)
-			dataBuffer.append(  details[6] + "\n");
+			dataBuffer.append(details[6] + "\n");
 		if (details[7].trim().length() > 1)
-			dataBuffer.append( details[7] + "\n");
+			dataBuffer.append(details[7] + "\n");
 		this.additionalDetails = dataBuffer.toString();
 	}
 }

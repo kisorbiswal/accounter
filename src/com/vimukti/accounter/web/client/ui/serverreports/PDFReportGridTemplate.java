@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.core.reports.generators.CustomerStatementRG;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.reports.StatementReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
 
 public class PDFReportGridTemplate<R> extends ReportGridTemplate {
@@ -244,7 +246,12 @@ private String additionalDetails;
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}
+		if(reportView instanceof StatementServerReport )
+		{
 		return this.additionalDetails+this.body.toString();
+		}else{
+			return this.body.toString();
+		}
 
 	}
 	@Override
