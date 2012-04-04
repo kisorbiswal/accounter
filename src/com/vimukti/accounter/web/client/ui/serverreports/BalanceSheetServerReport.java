@@ -218,8 +218,7 @@ public class BalanceSheetServerReport extends
 				}
 			}
 			if (record.getSubBaseType() == ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY) {
-				if (!sectiontypes
-						.contains(getMessages().longTermLiabilities())) {
+				if (!sectiontypes.contains(getMessages().longTermLiabilities())) {
 					closeSection(types.indexOf(getMessages()
 							.currentLiabilities()));
 					addTypeSection(getMessages().longTermLiabilities());
@@ -305,20 +304,23 @@ public class BalanceSheetServerReport extends
 					if (types.size() > 0) {
 						curentParent = types.get(types.size() - 1);
 					}
-					endSection();
+					if (sectionDepth > 0) {
+						endSection();
+					}
 					return true;
 				}
 			}
-		} else {
-			if (sectiontypes.contains(title)) {
-				types.remove(types.size() - 1);
-				if (types.size() > 0) {
-					curentParent = types.get(types.size() - 1);
-				}
-				endSection();
-				return true;
-			}
 		}
+		// else {
+		// if (sectiontypes.contains(title)) {
+		// types.remove(types.size() - 1);
+		// if (types.size() > 0) {
+		// curentParent = types.get(types.size() - 1);
+		// }
+		// endSection();
+		// return true;
+		// }
+		// }
 		// if (sectiontypes.contains(title)) {
 		// types.remove(title);
 		// sectiontypes.remove(title);
@@ -373,12 +375,6 @@ public class BalanceSheetServerReport extends
 			types.add(title);
 			sectiontypes.add(sectionType);
 		}
-	}
-
-	public boolean isExist(String title) {
-		if (!sectiontypes.contains(title))
-			return true;
-		return false;
 	}
 
 	/**
