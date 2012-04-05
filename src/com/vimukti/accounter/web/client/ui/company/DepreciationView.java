@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialog;
 import com.vimukti.accounter.web.client.ui.fixedassets.StartDateDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -62,6 +61,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	private DateTimeFormat format;
 	private Map<Long, List<DepreciableFixedAssetsEntry>> assets;
 	FixedAssetLinkedAccountMap map;
+	private Button updateButton;
 
 	public DepreciationView() {
 		super();
@@ -512,10 +512,22 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		saveAndCloseButton = new SaveAndCloseButton(this);
-		buttonBar.add(saveAndCloseButton);
-		super.createButtons(buttonBar);
+	protected boolean isSaveButtonAllowed() {
+		return false;
+	}
 
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		updateButton = new Button();
+		updateButton.setText(messages.update());
+		updateButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onSave(false);
+			}
+		});
+		buttonBar.add(updateButton);
+		super.createButtons(buttonBar);
 	}
 }
