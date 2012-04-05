@@ -391,8 +391,9 @@ public class FixedAssestManager extends Manager {
 		 * Preparing the keys and values for disposalSummary Map.
 		 */
 		Company company = getCompany(companyId);
-		String purchasedDate = Global.get().messages().purchase()
-				+ format.format(fixedAsset.getPurchaseDate().getDateAsObject());
+		String purchasedDate = Global.get().messages().purchase() + " ( "
+				+ format.format(fixedAsset.getPurchaseDate().getDateAsObject())
+				+ " ) ";
 		String currentAccumulatedDepreciation = Global.get().messages()
 				.currentAccumulatedDepreciation();
 		String depreciationTobePosted = Global.get().messages()
@@ -515,7 +516,8 @@ public class FixedAssestManager extends Manager {
 									.getDate());
 					depreciationTobePosted += format.format(depFrom
 							.getAsDateObject());
-					depreciationTobePosted += Global.get().messages().to();
+					depreciationTobePosted += "  "
+							+ Global.get().messages().to() + "  ";
 					depreciationTobePosted += format
 							.format(depreciationTillDate.getAsDateObject());
 					depreciationTobePosted += ")";
@@ -546,8 +548,9 @@ public class FixedAssestManager extends Manager {
 		}
 
 		String soldDate = Global.get().messages().Sold()
+				+ " ( "
 				+ format.format(fixedAsset.getSoldOrDisposedDate()
-						.getDateAsObject());
+						.getDateAsObject()) + " ) ";
 
 		/**
 		 * Preparing the disposalSummary Map with the above calculated Keys and
