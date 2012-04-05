@@ -3740,22 +3740,17 @@ public class FinanceTool {
 		return trans;
 	}
 
-	List<ClientAdvertisement> getAdvertisements() {
+	List<ClientAdvertisement> getAdvertisements() throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		try {
-			Query query = session.getNamedQuery("getAdvertisements");
-			List<Advertisement> list = query.list();
-			List<ClientAdvertisement> adds = new ArrayList<ClientAdvertisement>();
-			for (Advertisement advertisement : list) {
-				ClientAdvertisement clientAdvertisement = new ClientConvertUtil()
-						.toClientObject(advertisement,
-								ClientAdvertisement.class);
-				adds.add(clientAdvertisement);
-			}
-			return adds;
-		} catch (Exception e) {
+		Query query = session.getNamedQuery("getAdvertisements");
+		List<Advertisement> list = query.list();
+		List<ClientAdvertisement> adds = new ArrayList<ClientAdvertisement>();
+		for (Advertisement advertisement : list) {
+			ClientAdvertisement clientAdvertisement = new ClientConvertUtil()
+					.toClientObject(advertisement, ClientAdvertisement.class);
+			adds.add(clientAdvertisement);
 		}
-		return null;
+		return adds;
 
 	}
 

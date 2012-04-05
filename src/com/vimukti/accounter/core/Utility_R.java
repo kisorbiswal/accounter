@@ -11,12 +11,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.Session;
-
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 
 public class Utility_R {
 
@@ -29,7 +25,6 @@ public class Utility_R {
 	public int getVersion() {
 		return version;
 	}
-
 
 	public static String getTransactionName(int transactionType) {
 
@@ -1323,34 +1318,35 @@ public class Utility_R {
 
 	public static ClientFinanceDate getCurrentFiscalYearStartDate(
 			Company company) {
-		Session session = HibernateUtil.getCurrentSession();
-		List<FiscalYear> clientFiscalYears = new ArrayList<FiscalYear>(session
-				.getNamedQuery("list.FiscalYear").setEntity("company", company)
-				.list());
+		Calendar cal = Calendar.getInstance();
+		ClientFinanceDate startDate = new ClientFinanceDate();
+		cal.setTime(startDate.getDateAsObject());
+		cal.set(Calendar.MONTH, company.getPreferences()
+				.getFiscalYearFirstMonth());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
 
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			if (clientFiscalYears.get(i).status == FiscalYear.STATUS_OPEN
-					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
-				return clientFiscalYears.get(i).getStartDate()
-						.toClientFinanceDate();
-			}
+		while (new ClientFinanceDate(cal.getTime())
+				.after(new ClientFinanceDate())) {
+			cal.add(Calendar.YEAR, -1);
 		}
+		startDate = new ClientFinanceDate(cal.getTime());
+		return startDate;
 
-		return null;
 	}
 
 	public static ClientFinanceDate getCurrentFiscalYearEndDate(Company company) {
-		List<FiscalYear> clientFiscalYears = new ArrayList<FiscalYear>(
-				company.getFiscalYears());
-		for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-			if (clientFiscalYears.get(i).status == ClientFiscalYear.STATUS_OPEN
-					&& clientFiscalYears.get(i).getIsCurrentFiscalYear()) {
-				return clientFiscalYears.get(i).getEndDate()
-						.toClientFinanceDate();
-			}
-		}
+		ClientFinanceDate startDate = getCurrentFiscalYearStartDate(company);
 
-		return null;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate.getDateAsObject());
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1);
+		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+		calendar.set(Calendar.DATE,
+				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
+
+		return endDate;
 	}
 
 	public static int compareInt(int category, int category2) {

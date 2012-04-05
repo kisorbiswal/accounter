@@ -58,8 +58,8 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ItemUnitPrice;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -430,7 +430,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	List<ClientFixedAsset> getFixedAssetList(int status)
 			throws AccounterException;
 
-	List<ClientAdvertisement> getAdvertisements();
+	List<ClientAdvertisement> getAdvertisements() throws AccounterException;
 
 	ClientTransaction getTransactionToCreate(ClientRecurringTransaction obj,
 			long transactionDate) throws AccounterException;

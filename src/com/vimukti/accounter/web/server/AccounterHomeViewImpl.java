@@ -96,8 +96,8 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ItemUnitPrice;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -1841,7 +1841,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientAdvertisement> getAdvertisements() {
+	public List<ClientAdvertisement> getAdvertisements()
+			throws AccounterException {
 		FinanceTool financeTool = new FinanceTool();
 		return financeTool.getAdvertisements();
 	}
@@ -2440,8 +2441,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ItemUnitPrice> getUnitPricesByPayee(boolean isCust,
-			long payee, long item) throws AccounterException {
+	public List<ItemUnitPrice> getUnitPricesByPayee(boolean isCust, long payee,
+			long item) throws AccounterException {
 		return getFinanceTool().getCompanyManager().getUnitPricesByPayee(
 				getCompanyId(), isCust, payee, item);
 	}

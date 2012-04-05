@@ -9,8 +9,7 @@ public class ProfitAndLossRG extends AbstractReportGenerator {
 
 	@Override
 	public int getReportType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return REPORT_TYPE_PROFITANDLOSS;
 	}
 
 	@Override

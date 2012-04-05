@@ -460,7 +460,8 @@ public class Invoice extends Transaction implements Lifecycle {
 						for (TransactionItem item : estimate.transactionItems) {
 							TransactionItem clone = item.clone();
 							clone.transaction = this;
-							if (estimate.getEstimateType() == Estimate.CREDITS) {
+							if (estimate.getEstimateType() == Estimate.CREDITS
+									|| estimate.getEstimateType() == Estimate.DEPOSIT_EXPENSES) {
 								clone.updateAsCredit();
 							}
 							this.transactionItems.add(clone);
@@ -897,7 +898,8 @@ public class Invoice extends Transaction implements Lifecycle {
 					TransactionItem clone = item.clone();
 					clone.transaction = this;
 					clone.setReferringTransactionItem(item);
-					if (est.getEstimateType() == Estimate.CREDITS) {
+					if (est.getEstimateType() == Estimate.CREDITS
+							|| est.getEstimateType() == Estimate.DEPOSIT_EXPENSES) {
 						clone.updateAsCredit();
 					}
 					// super.chekingTaxCodeNull(clone.taxCode);
