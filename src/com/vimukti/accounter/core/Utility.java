@@ -1,5 +1,9 @@
 package com.vimukti.accounter.core;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1569,6 +1573,70 @@ public class Utility {
 
 		return itemText;
 
+	}
+
+	public static String getCommandForMAC(String type, String width,
+			String height) {
+		return " --resampleHeightWidth " + height + " " + width + " ";
+	}
+
+	public static String getImageProperty(String property, String filePath) {
+		try {
+			String cmd;
+			if (property.equals("width")) {
+				cmd = "pixelWidth";
+			} else if (property.equals("height")) {
+				cmd = "pixelHeight";
+			} else {
+				cmd = "";
+			}
+			Process process = Runtime.getRuntime().exec(
+					"sips -g " + cmd + " " + filePath);
+			InputStream is = process.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);
+			String line;
+			StringBuilder sb = new StringBuilder();
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			br.close();
+			String prop = sb.toString().split(":")[1].trim();
+			return prop;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String getResizedImageSize(String image_Width,
+			String image_Height, String thumbWidth, String thumbHeight) {
+		int width;
+		int height;
+		if (thumbHeight.length() != 0 && thumbWidth.length() != 0) {
+			width = Integer.parseInt(thumbWidth);
+			height = Integer.parseInt(thumbHeight);
+			double thumbRatio = (double) width / (double) height;
+			double imageRatio = (double) Integer.parseInt(image_Width)
+					/ (double) Integer.parseInt(image_Height);
+			if (thumbRatio < imageRatio) {
+				height = (int) (width / imageRatio);
+			} else {
+				width = (int) (height * imageRatio);
+			}
+		} else {
+			width = Integer.parseInt(image_Width);
+			height = Integer.parseInt(image_Height);
+		}
+		return width + "X" + height;
+	}
+
+	public static String getCommandForType(String type) {
+		if (type.equals("thumbnail")) {
+			return " -resize 160X160 ";
+		} else {
+			return "";
+		}
 	}
 
 }
