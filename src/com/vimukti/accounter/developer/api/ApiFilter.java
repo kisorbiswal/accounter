@@ -61,7 +61,6 @@ public class ApiFilter implements Filter {
 			sendFail(resp, "Wrong expire date formate");
 			return;
 		}
-		Company company = null;
 		Session session = HibernateUtil.openSession();
 		try {
 			Developer developer = getDeveloperByApiKey(apiKey);
@@ -79,20 +78,21 @@ public class ApiFilter implements Filter {
 
 			Client client = developer.getClient();
 			String companyId = req.getParameter("CompanyId");
-			long id = 0;
-			try {
-				id = Long.parseLong(companyId);
-			} catch (Exception e) {
-				sendFail(resp, "Company Id should be long");
-				return;
-			}
-			company = getCompany(id, client);
-			if (company == null) {
-				sendFail(resp, "Wrong company id");
-				return;
+			if (companyId != null) {
+				try {
+					long id = Long.parseLong(companyId);
+					Company company = getCompany(id, client);
+					if (company == null) {
+						sendFail(resp, "Wrong company id");
+						return;
+					}
+					req.setAttribute("companyId", company.getID());
+				} catch (Exception e) {
+					sendFail(resp, "Company Id should be long");
+					return;
+				}
 			}
 			req.setAttribute("id", developer.getId());
-			req.setAttribute("companyId", company.getID());
 			req.setAttribute("emailId", client.getEmailId());
 			arg2.doFilter(req2, resp2);
 		} catch (Exception e) {
