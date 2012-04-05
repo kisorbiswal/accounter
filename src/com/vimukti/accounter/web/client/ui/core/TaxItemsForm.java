@@ -49,15 +49,12 @@ public class TaxItemsForm extends DynamicForm {
 		this.clear();
 		codeValues = new HashMap<ClientTAXItem, List<Double>>();
 		int category = getTransactionCategory(transaction.getObjectType());
-		double netAmount = 0.00D;
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem clientTransactionItem : transaction
 				.getTransactionItems()) {
 			if (clientTransactionItem.getReferringTransactionItem() == 0) {
 				if (clientTransactionItem.getLineTotal() != null
 						&& clientTransactionItem.getVATfraction() != null) {
-					netAmount += clientTransactionItem.getLineTotal()
-							- clientTransactionItem.getVATfraction();
 				}
 				transactionItems.add(clientTransactionItem);
 			}
@@ -127,20 +124,22 @@ public class TaxItemsForm extends DynamicForm {
 			double value = transactionItem.getLineTotal() != null ? transactionItem
 					.getLineTotal() : 0;
 			if (transactionItem.isAmountIncludeTAX()) {
-				value = netAmount;
+				value = transactionItem.getLineTotal()
+						- transactionItem.getVATfraction();
 			}
 
 			for (ClientTAXItem clientTAXItem : taxItems) {
+				double netAmt = value;
 				double taxRate = clientTAXItem.getTaxRate();
-				double taxAmount = value * taxRate / 100;
+				double taxAmount = netAmt * taxRate / 100;
 
 				if (codeValues.containsKey(clientTAXItem)) {
-					value += codeValues.get(clientTAXItem).get(0);
+					netAmt += codeValues.get(clientTAXItem).get(0);
 					taxAmount += codeValues.get(clientTAXItem).get(1);
 				}
 				if (clientTAXItem != null && taxRate != 0 && value != 0) {
 					ArrayList<Double> arrayList = new ArrayList<Double>();
-					arrayList.add(value);
+					arrayList.add(netAmt);
 					arrayList.add(taxAmount);
 					codeValues.put(clientTAXItem, arrayList);
 				}
