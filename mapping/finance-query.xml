@@ -10054,11 +10054,11 @@
 				         ON P.ID = C.ID
 				WHERE  T.T_TYPE = 7
 				       AND T.SAVE_STATUS != 202
-				       AND ( ( :status = 102
-				               AND T.STATUS = 102 )
-				              OR ( :status = 0
-				                   AND T.STATUS = 0 )
-				              OR ( :status NOT IN ( 0, 102 ) ) )
+				      	and
+						(:status=1 or
+						:status=T.SAVE_STATUS or
+						(:status=T.STATUS and T.SAVE_STATUS !=201 and
+						T.SAVE_STATUS != 204))
 				       AND E.ESTIMATETYPE = :estimateType
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
