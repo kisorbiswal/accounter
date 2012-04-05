@@ -77,8 +77,6 @@ public class Measurement extends CreatableObject implements
 		for (Unit unit : this.getUnits()) {
 			if (unit.isDefault()) {
 				return unit.getType();
-			} else {
-				return "";
 			}
 		}
 		return "";

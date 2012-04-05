@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -108,7 +109,15 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 	}
 
 	public List<ClientUnit> getRecords() {
-		return getAllRows();
+		List<ClientUnit> selectedRecords = new ArrayList<ClientUnit>();
+		List<ClientUnit> allRows = getAllRows();
+		for (ClientUnit clientUnit : allRows) {
+			if (clientUnit.getName() != null
+					&& !clientUnit.getName().trim().isEmpty()) {
+				selectedRecords.add(clientUnit);
+			}
+		}
+		return selectedRecords;
 	}
 
 	public boolean isEmpty() {

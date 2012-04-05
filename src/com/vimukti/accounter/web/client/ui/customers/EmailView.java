@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
@@ -38,7 +37,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private EmailField ccAddress;
 	private TextItem subject;
 	private TextAreaItem emailBody;
-	private Label attachmentLabel;
 	private long brandingThemeId;
 	private String ToAdd, ccAdd, sub, body, companyName, fileName;
 
@@ -135,7 +133,8 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		subject = new TextItem(messages.subject(), "subject");
 
 		emailBody = new TextAreaItem(messages.email(), "emailBody");
-		emailBody.setTitle(messages.writeCommentsForThis(getAction().getViewName()));
+		emailBody.setTitle(messages.writeCommentsForThis(getAction()
+				.getViewName()));
 		emailBody.setValue(Global
 				.get()
 				.messages()
@@ -143,16 +142,14 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 						this.invoice.getNumber(), invoice.getDate()));
 
 		StyledPanel vPanel = new StyledPanel("vPanel");
-		attachmentLabel = new Label(messages.attachments());
 
 		TextAreaItem attachmentItem = new TextAreaItem(messages.attachments(),
 				"attachmentItem");
 		attachmentItem.setValue("Invoice_" + invoice.getNumber() + ".pdf");
 		attachmentItem.setDisabled(true);
-//		attachmentItem.setWidth(60);
+		// attachmentItem.setWidth(60);
 
 		form2.add(attachmentItem);
-		vPanel.add(attachmentLabel);
 		vPanel.add(form2);
 
 		form1.add(fromAddcombo, toAddress, ccAddress, subject);

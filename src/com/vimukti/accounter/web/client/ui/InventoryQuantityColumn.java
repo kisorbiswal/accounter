@@ -43,7 +43,8 @@ public class InventoryQuantityColumn extends
 		if (item == null) {
 			return quantity != null ? String.valueOf(quantity.getValue()) : "";
 		} else {
-			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+			if (item.getType() == ClientItem.TYPE_INVENTORY_PART
+					|| item.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 				StringBuffer data = new StringBuffer();
 				data.append(String.valueOf(quantity.getValue()));
 				if (getPreferences().isUnitsEnabled()) {
@@ -92,7 +93,8 @@ public class InventoryQuantityColumn extends
 					ClientItem item = Accounter.getCompany().getItem(
 							row.getInventoryItem());
 					if (item != null
-							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+							&& (item.getType() == ClientItem.TYPE_INVENTORY_PART || item
+									.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)) {
 						showPopUp(row);
 						((TextBox) widget).setFocus(false);
 					}

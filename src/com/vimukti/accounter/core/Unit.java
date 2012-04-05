@@ -56,7 +56,6 @@ public class Unit extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
