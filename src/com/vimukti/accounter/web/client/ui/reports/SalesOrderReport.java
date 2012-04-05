@@ -18,6 +18,7 @@ public class SalesOrderReport extends AbstractReportView<OpenAndClosedOrders> {
 
 	public SalesOrderReport() {
 		this.serverReport = new SalesOrderServerReport(this);
+		this.getElement().setId("SalesOrderReport");
 	}
 
 	@Override

@@ -2,33 +2,50 @@
 .editTable table td .gwt-TextBox {
 	width: 99%;
 }
-
-#InvoiceView .prodAndServiceHLay .boldtext {
-	padding-left: 130px !important;
+#customercreditmemoview .prodAndServiceHLay .boldtext{
+	text-align: right;
+    width: 350px;
 }
-
+#InvoiceView .prodAndServiceHLay .boldtext {
+    text-align: right;
+    width: 375px;
+}
+#QuoteView .prodAndServiceHLay .boldtext {
+    text-align: right;
+    width: 375px;
+}
+#CreditCardExpenseView .botPanel .boldtext{
+	text-align: right;
+    width: 375px;
+}
 #writechequeview .amountPanel {
-	padding-left: 130px !important;
+	width:375px;
+	text-align: right;
 }
 
 #CashPurchaseView .bottomLayout .boldtext {
-	padding-left: 110px !important;
+	text-align: right;
+    width: 375px;
 }
 
 #CashExpenseView .bottomLayout .boldtext {
-	padding-left: 130px !important;
+	text-align: right;
+    width: 375px;
 }
 
 #CashSalesView .prodAndServiceHLay .boldtext {
-	padding-left: 120px !important;
+	text-align: right;
+    width: 350px;
 }
 
 #PurchaseOrderView .bottomLayout .boldtext {
-	padding-left: 90px !important;
+	text-align: right;
+    width: 375px;
 }
 
 #VendorCreditMemoView .bottomLayout1 .boldtext {
-	padding-left: 110px !important;
+	text-align: right;
+    width: 350px;
 }
 
 #PreferenceSettingsView .fiscal-year-width select {
@@ -436,6 +453,7 @@ html,body {
 
 .formItem .gwt-Label {
 	width: 200px;
+	text-align: left;
 }
 
 .labeldateNoLayout .formItem .gwt-Label {
@@ -1084,10 +1102,8 @@ input[type="text"] {
 #InvoiceView .prodAndServiceHLay .boldtext {
 	padding-left: 10px;
 	display: -webkit-box;
-	display: -moz-box;
 	display: box;
 	-webkit-box-orient: vertical;
-	-moz-box-orient: vertical;
 	box-orient: vertical;
 }
 
@@ -1816,9 +1832,12 @@ table.no_records .norecord-empty-message td {
 	text-align: center;
 }
 
-.report-toolbar .formItem input[type=text] {
+#customervendor_statement_report .report-toolbar .formItem input[type=text] {
 	width: 100px;
-}
+} 
+/*.report-toolbar .formItem input[type=text] {
+	width: 100px;
+}*/
 
 .no_records .norecord-empty-message { /*margin-left: 400px;
 	position: absolute;*/
@@ -3925,8 +3944,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #CashSalesView .prodAndServiceHLay .boldtext {
-	-moz-box-orient: vertical;
-	display: -moz-box;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	display: box;
@@ -4174,6 +4191,8 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
+	-moz-box-flex: 1;
+    width: 100%;
 }
 
 #newAccountView .topHLay {
@@ -4316,10 +4335,9 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #customercreditmemoview .prodAndServiceHLay .boldtext {
-	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-	-moz-box-orient: vertical;
+	box-orient: vertical;
 	-webkit-box-orient: vertical;
 }
 
@@ -6196,10 +6214,6 @@ form#contactForm .submit {
 	-webkit-box-pack: end;
 }
 
-#QuoteView .prodAndServiceHLay .boldtext {
-	width: 375px;
-}
-
 #CashExpenseView .bottomLayout .boldtext .AmountLabel {
 	-moz-box-flex: 1;
 	-moz-box-pack: end;
@@ -6854,7 +6868,7 @@ textarea[disabled] {
 }
 
 #SellingRegisteredItemView .button_bar .gwt-Button {
-	margin: 5px;
+	margin: 0 10px;
 }
 
 #QuoteView .rightVLay .locationform .formItem {
@@ -7328,7 +7342,7 @@ textarea[disabled] {
 	 margin-right: 25px;
 }
 table.no_records tr td{
-	text-align: center;
+	text-align: center !important;
 }
 #ETdsFillingView table{
 	table-layout: auto 
@@ -7387,4 +7401,59 @@ table.no_records tr td{
 }
 #BaseDialog .messageOrTaskTextareaitem textarea{
     width:300px;
+}
+#AddPriceLevelDialog .mainVLay .nameDescForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	padding: 10px;
+}
+#NoteDialog .notePanel{
+	padding:10px;
+}
+#NoteDialog .notePanel .noteArea .gwt-Label{
+	width:auto;
+}
+#NoteDialog .notePanel .noteArea textarea{
+	width:300px;
+}
+#CustomerCenterView .rightform .notes .label{
+	 min-height: 50px;
+    overflow: auto;
+}
+#DepreciationView .buttonPanel button:last-child{
+	margin-left:10px;
+}
+#CopyThemeDialog .footerLayout{
+	margin-top:10px;
+}
+#CopyThemeDialog .footerLayout button:first-child{
+    margin-right: 5px;
+}
+#ExpenseReport .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#SalesOrderReport .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#PurchaseOrderReport .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#taxitemdetailreportview .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#taxitemexceptionreport .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#MissingChecksReport .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#ReconciliationDiscrepancyReport .report-toolbar .formItem input[type="text"]{
+	width:130px;
+}
+#JobProfitabilityDetailReport .report-toolbar .formItem input[type="text"]{
+	width:105px;
 }

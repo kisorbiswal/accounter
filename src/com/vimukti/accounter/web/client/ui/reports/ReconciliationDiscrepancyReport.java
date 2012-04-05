@@ -19,6 +19,7 @@ public class ReconciliationDiscrepancyReport extends
 	public ReconciliationDiscrepancyReport() {
 		this.serverReport = new ReconciliationDiscrepancyServerReport(this);
 		serverReport.setRecords(new ArrayList<ReconciliationDiscrepancy>());
+		this.getElement().setId("ReconciliationDiscrepancyReport");
 	}
 
 	@Override

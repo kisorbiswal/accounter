@@ -26,12 +26,14 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public StatementReport(boolean isVendor) {
 		this.isVendor = isVendor;
 		this.serverReport = new StatementServerReport(isVendor, this);
+		this.getElement().setId("customervendor_statement_report");
 	}
 
 	public StatementReport(boolean isVendor, long payeeId) {
 		this.setPayeeId(payeeId);
 		this.isVendor = isVendor;
 		this.serverReport = new StatementServerReport(isVendor, this);
+		this.getElement().setId("customervendor_statement_report");
 	}
 
 	@Override

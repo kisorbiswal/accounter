@@ -17,6 +17,7 @@ public class PurchaseOrderReport extends
 
 	public PurchaseOrderReport() {
 		this.serverReport = new PurchaseOrderServerReport(this);
+		this.getElement().setId("PurchaseOrderReport");
 	}
 
 	@Override

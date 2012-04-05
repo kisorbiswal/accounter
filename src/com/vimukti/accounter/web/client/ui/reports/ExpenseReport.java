@@ -18,6 +18,7 @@ public class ExpenseReport extends AbstractReportView<ExpenseList> {
 
 	public ExpenseReport() {
 		this.serverReport = new ExpenseServerReport(this);
+		this.getElement().setId("ExpenseReport");
 	}
 
 	@Override

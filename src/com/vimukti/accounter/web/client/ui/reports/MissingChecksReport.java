@@ -19,6 +19,7 @@ public class MissingChecksReport extends
 	public MissingChecksReport() {
 		this.serverReport = new MissingChecksServerReport(this);
 		serverReport.setRecords(new ArrayList<TransactionDetailByAccount>());
+		this.getElement().setId("MissingChecksReport");
 	}
 
 	@Override

@@ -19,6 +19,7 @@ public class JobProfitabilityDetailReport extends
 
 	public JobProfitabilityDetailReport() {
 		this.serverReport = new JobProfitabilityDetailServerReport(this);
+		this.getElement().setId("JobProfitabilityDetailReport");
 	}
 
 	@Override
