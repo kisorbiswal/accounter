@@ -124,8 +124,7 @@ public class ClientUnit implements IAccounterCore, Serializable,
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override

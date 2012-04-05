@@ -607,6 +607,11 @@ public class CashPurchase extends Transaction {
 			session.saveOrUpdate(est);
 		}
 
+		for (Estimate estimate : cashPurchase.getEstimates()) {
+			session.delete(estimate);
+		}
+		cashPurchase.estimates.clear();
+
 	}
 
 	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
@@ -693,6 +698,12 @@ public class CashPurchase extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_PURCHASE_ORDERS_USED, Global.get()
 							.messages().cashPurchase());
+		}
+
+		for (Estimate estimate : this.getEstimates()) {
+			if (estimate.getUsedInvoice() != null) {
+				throw new AccounterException(AccounterException.USED_IN_INVOICE);
+			}
 		}
 
 		return super.canEdit(clientObject, goingToBeEdit);

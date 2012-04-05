@@ -67,7 +67,7 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 	@Override
 	public int compareTo(ClientQuantity o) {
 		// TODO verify this method later
-		ClientUnit unitById = Accounter.getCompany().getUnitById(unit);
+		ClientUnit unitById = Accounter.getCompany().getUnitById(getUnit());
 		ClientQuantity thisQty = convertToDefaultUnit(unitById);
 		ClientQuantity otherQty = o.convertToDefaultUnit(unitById);
 		return (int) (thisQty.getValue() - otherQty.getValue());
