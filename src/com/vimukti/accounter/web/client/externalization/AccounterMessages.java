@@ -6309,4 +6309,8 @@ public interface AccounterMessages extends Messages {
 	public String yourself();
 
 	public String allUsers();
+
+	public String emailBody();
+
+	public String emailBodyShouldNotBeEmpty();
 }
