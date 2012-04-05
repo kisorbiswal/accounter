@@ -76,7 +76,8 @@ public class SaveAndCloseButton extends ImageButton {
 							}, transaction);
 							transaction.setID(0);
 						}
-						if (transaction.getSaveStatus() != ClientTransaction.STATUS_VOID) {
+						if (transaction.getSaveStatus() != ClientTransaction.STATUS_VOID
+								&& transaction.getSaveStatus() != ClientTransaction.STATUS_TEMPLATE) {
 							transaction
 									.setSaveStatus(ClientTransaction.STATUS_APPROVE);
 						}
