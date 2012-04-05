@@ -88,7 +88,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		setPageSize(50);
 		listDataProvider.addDataDisplay(this);
 
-//		this.setWidth("100%", true);
+		// this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		initTableColumns();
@@ -222,7 +222,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			public String getValue(ClientActivity object) {
 				if (object.getObjectID() == 0
 						|| object.getDataType().equalsIgnoreCase(
-								messages.vatReturn())) {
+								messages.vatReturn())
+						|| object.getAuditHistory().equals("[]")) {
 					return null;
 				} else {
 					return "->";
@@ -233,6 +234,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			@Override
 			public void update(int index, ClientActivity object, String value) {
 				if (object.getObjType() == ClientTransaction.TYPE_TAX_RETURN) {
+					return;
+				} else if (object.getAuditHistory().equals("[]")) {
 					return;
 				} else {
 					if (object.getObjectID() != 0) {
