@@ -344,44 +344,71 @@ public class WriteCheck extends Transaction {
 		WriteCheck writeCheck = (WriteCheck) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
-		if (!this.isVoid() && !writeCheck.isVoid() && !isDraftOrTemplate()) {
+		if (isBecameVoid()) {
 
-			if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
-					|| !DecimalUtil.isEquals(this.total, writeCheck.total)
-					|| isCurrencyFactorChanged()) {
+			doVoidEffect(session, this);
 
-				Account account = (Account) session.get(Account.class,
-						writeCheck.bankAccount.getID());
-				account.updateCurrentBalance(this, -writeCheck.total,
-						writeCheck.currencyFactor);
-				session.update(account);
-				account.onUpdate(session);
+		} else {
+			if (!this.isVoid() && !writeCheck.isVoid() && !isDraftOrTemplate()) {
 
-				writeCheck.total = 0.0;
+				if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
+						|| !DecimalUtil.isEquals(this.total, writeCheck.total)
+						|| isCurrencyFactorChanged()) {
 
-				this.bankAccount.updateCurrentBalance(this, this.total,
-						currencyFactor);
-				this.bankAccount.onUpdate(session);
+					Account account = (Account) session.get(Account.class,
+							writeCheck.bankAccount.getID());
+					account.updateCurrentBalance(this, -writeCheck.total,
+							writeCheck.currencyFactor);
+					session.update(account);
+					account.onUpdate(session);
+
+					writeCheck.total = 0.0;
+
+					this.bankAccount.updateCurrentBalance(this, this.total,
+							currencyFactor);
+					this.bankAccount.onUpdate(session);
+				}
+
+				cleanTransactionitems(writeCheck);
+
+			}
+			if ((this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
+					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
+				this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+			} else {
+				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			cleanTransactionitems(writeCheck);
-
+			for (Estimate estimate : writeCheck.getEstimates()) {
+				session.delete(estimate);
+			}
+			writeCheck.getEstimates().clear();
+			this.createAndSaveEstimates(this.transactionItems, session);
 		}
-		if ((this.paymentMethod
-				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
-				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
-			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-		} else {
-			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		}
+		super.onEdit(writeCheck);
 
-		for (Estimate estimate : writeCheck.getEstimates()) {
+	}
+
+	private void doVoidEffect(Session session, WriteCheck writecheck) {
+
+		writecheck.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+
+		writecheck.total = 0.0;
+
+		for (Estimate estimate : writecheck.getEstimates()) {
 			session.delete(estimate);
 		}
-		writeCheck.getEstimates().clear();
-		this.createAndSaveEstimates(this.transactionItems, session);
+		writecheck.estimates.clear();
 
-		super.onEdit(writeCheck);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doVoidEffect(session, this);
+		}
+		return super.onDelete(session);
 	}
 
 	private void createAndSaveEstimates(List<TransactionItem> transactionItems,

@@ -402,8 +402,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			// }
 			t.setVariable("payment",
 					Utility.decimalConversation(invoice.getPayments(), symbol));
-			t.setVariable("netAmount",
-					Utility.decimalConversation(invoice.getNetAmount(), symbol));
+			// t.setVariable("netAmount",
+			// Utility.decimalConversation(invoice.getNetAmount(), symbol));
 			t.setVariable("balancedue", Utility.decimalConversation(
 					invoice.getBalanceDue(), symbol));
 			t.addBlock("itemDetails");
@@ -502,7 +502,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		t.setVariable("i18_Job", messages.job());
 		t.setVariable("i18_Class", messages.className());
 		t.setVariable("i18_Location", messages.location());
-		t.setVariable("i18_Net_Amount", messages.netAmount());
 		Map<String, String> variables = t.getVariables();
 		System.out.println(variables);
 	}

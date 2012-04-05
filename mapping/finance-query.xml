@@ -3054,17 +3054,21 @@
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
-		<return-scalar column="ID" type="long" />
+		<return-scalar column="ESTIMATE_ID" type="long" />
 		
 		<![CDATA[
-				SELECT C.ID AS ID
+				SELECT ES.ID AS ESTIMATE_ID
 				FROM   WRITE_CHECKS C
 				       LEFT JOIN TRANSACTION T
 				         ON T.ID = C.ID
-				WHERE  C.ID IS NULL
-				       AND C.ID = :inputId
+				       LEFT JOIN WRITE_CHECKS_ESTIMATES WE
+				         ON WE.WRITE_CHECKS_ID = C.ID
+				       LEFT JOIN ESTIMATE ES
+				         ON ES.ID = WE.ELT
+				            AND ES.USED_INVOICE IS NOT NULL
+				WHERE  C.ID = :inputId
 				       AND T.COMPANY_ID = :companyId
-				LIMIT  1  
+				LIMIT  1 
 				]]>
 
 	</sql-query>

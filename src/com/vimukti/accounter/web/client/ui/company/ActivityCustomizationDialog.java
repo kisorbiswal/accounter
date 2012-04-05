@@ -58,7 +58,7 @@ public class ActivityCustomizationDialog extends BaseDialog {
 			public void onClick(ClickEvent event) {
 				mainPanel.add(allCheckBoxPanel);
 				allCheckBoxPanel.setStyleName("customise-checkbox-align");
-//				allCheckBoxPanel.setSpacing(5);
+				// allCheckBoxPanel.setSpacing(5);
 			}
 		});
 		allCheckBoxPanel = new StyledPanel("allCheckBoxPanel");
@@ -97,19 +97,14 @@ public class ActivityCustomizationDialog extends BaseDialog {
 		mainPanel.add(showLabel);
 		mainPanel.add(form);
 		mainPanel.add(actiPanel);
-//		actiPanel.setSpacing(5);
+		// actiPanel.setSpacing(5);
 		setBodyLayout(mainPanel);
 	}
 
 	@Override
 	protected boolean onOK() {
 		if (showAllActivitesButton.getValue() == true) {
-			setValue(ClientActivity.LOGIN_LOGOUT, true);
-			setValue(ClientActivity.BUDGETS, true);
-			setValue(ClientActivity.PREFERENCES, true);
-			setValue(ClientActivity.RECONCILIATIONS, true);
-			// setValue(ClientActivity.RECURRING_TRNASACTIONS, true);
-			setValue(ClientActivity.TRNASACTIONS, true);
+			this.result = 0;
 		} else {
 			setValue(ClientActivity.LOGIN_LOGOUT, logoutOrLoginBox.getValue());
 			setValue(ClientActivity.BUDGETS, budgetsBox.getValue());
