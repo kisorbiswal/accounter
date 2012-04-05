@@ -71,6 +71,11 @@ public abstract class TransactionDepositTable extends
 		this.addColumn(new AccountNameColumn<ClientTransactionDepositItem>() {
 
 			@Override
+			protected String getColumnName() {
+				return messages.depositFrom();
+			}
+
+			@Override
 			public List<Integer> getCanAddedAccountTypes() {
 				ArrayList<Integer> arrayList = new ArrayList<Integer>();
 				for (Integer integer : UIUtils.accountTypes) {

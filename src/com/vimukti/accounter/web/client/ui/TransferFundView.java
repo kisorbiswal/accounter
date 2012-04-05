@@ -453,7 +453,7 @@ public class TransferFundView extends
 		datepanel.add(dateForm);
 		currencyWidget = createCurrencyFactorWidget();
 
-		depositInSelect = new MakeDepositAccountCombo(messages.depositIn()) {
+		depositInSelect = new MakeDepositAccountCombo(messages.transferTo()) {
 			@Override
 			public void addItemThenfireEvent(ClientAccount obj) {
 				super.addItemThenfireEvent(obj);
@@ -490,7 +490,7 @@ public class TransferFundView extends
 
 				});
 
-		depositFromSelect = new MakeDepositAccountCombo(messages.depositFrom()) {
+		depositFromSelect = new MakeDepositAccountCombo(messages.transferFrom()) {
 			@Override
 			public void addItemThenfireEvent(ClientAccount obj) {
 				super.addItemThenfireEvent(obj);

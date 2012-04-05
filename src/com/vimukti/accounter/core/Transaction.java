@@ -719,7 +719,9 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected void checkNullValues() throws AccounterException {
 		checkTransactionDateNull();
-		checkNumber();
+		if (!isTemplate()) {
+			checkNumber();
+		}
 	}
 
 	protected void checkTransactionItemsNull() throws AccounterException {
