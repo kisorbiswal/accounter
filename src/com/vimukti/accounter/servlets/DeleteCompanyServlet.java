@@ -53,21 +53,27 @@ public class DeleteCompanyServlet extends BaseServlet {
 			redirectExternal(req, resp, COMPANIES_URL);
 			return;
 		}
-
 		String companyId = req.getParameter(COMPANY_ID);
 		setOptions(req, companyId, emailID);
 		dispatch(req, resp, deleteCompanyView);
+	}
+
+	private boolean isOpenIdUser(Client client) {
+		if (client.getPassword() == null) {
+			return true;
+		}
+		return false;
 	}
 
 	private void setOptions(HttpServletRequest req, String companyId,
 			String emailID) {
 		boolean canDeleteFromSingle = true, canDeleteFromAll = true;
 		Session hibernateSession = HibernateUtil.getCurrentSession();
+		User user = null;
 		try {
 			Company company = (Company) hibernateSession.get(Company.class,
 					Long.parseLong(companyId));
-			User user = (User) hibernateSession
-					.getNamedQuery("user.by.emailid")
+			user = (User) hibernateSession.getNamedQuery("user.by.emailid")
 					.setParameter("emailID", emailID)
 					.setParameter("company", company).uniqueResult();
 
@@ -88,6 +94,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 			}
 		} finally {
 		}
+		req.setAttribute("isOpenIdUser", isOpenIdUser(user.getClient()));
 		req.setAttribute("canDeleteFromSingle", canDeleteFromSingle);
 		req.setAttribute("canDeleteFromAll", canDeleteFromAll);
 		req.getSession().setAttribute(COMPANY_ID, Long.parseLong(companyId));
@@ -110,23 +117,26 @@ public class DeleteCompanyServlet extends BaseServlet {
 				COMPANY_ID));
 		String delete = req.getParameter("delete");
 		String password = req.getParameter("userPassword");
-		if (password == null || password.isEmpty()) {
-			req.setAttribute("message", "Password shoudn't empty");
-			setOptions(req, companyID, email);
-			dispatch(req, resp, deleteCompanyView);
-			return;
+		if (!isOpenIdUser(client)) {
+			if (password == null || password.isEmpty()) {
+				req.setAttribute("message", "Password shoudn't empty");
+				setOptions(req, companyID, email);
+				dispatch(req, resp, deleteCompanyView);
+				return;
 
-		}
-		String passwordWord = HexUtil.bytesToHex(Security.makeHash(email
-				+ Client.PASSWORD_HASH_STRING + password.trim()));
-		String passwordHash2 = HexUtil.bytesToHex(Security.makeHash(email
-				+ password.trim()));
-		if (!passwordWord.equals(client.getPassword())
-				&& !passwordHash2.equals(client.getPassword())) {
-			req.setAttribute("message", "Password is incorrect");
-			setOptions(req, companyID, email);
-			dispatch(req, resp, deleteCompanyView);
-			return;
+			}
+
+			String passwordWord = HexUtil.bytesToHex(Security.makeHash(email
+					+ Client.PASSWORD_HASH_STRING + password.trim()));
+			String passwordHash2 = HexUtil.bytesToHex(Security.makeHash(email
+					+ password.trim()));
+			if (!passwordWord.equals(client.getPassword())
+					&& !passwordHash2.equals(client.getPassword())) {
+				req.setAttribute("message", "Password is incorrect");
+				setOptions(req, companyID, email);
+				dispatch(req, resp, deleteCompanyView);
+				return;
+			}
 		}
 		if (delete == null) {
 			req.setAttribute("message", "Please select the option.");

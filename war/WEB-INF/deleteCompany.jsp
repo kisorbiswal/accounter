@@ -12,7 +12,9 @@
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 	<script type="text/javascript">
 	window.onload=function(){
-	<%	boolean isDelComRTL=(Boolean) request.getAttribute("isRTL");	%>
+	<%	boolean isDelComRTL=(Boolean) request.getAttribute("isRTL");	
+		boolean isOpenIdUser=(Boolean) request.getAttribute("isOpenIdUser");
+	%>
 	document.body.style.direction=(<%= isDelComRTL %>)?"rtl":"ltr";
 	}
 	</script>
@@ -29,8 +31,10 @@
         </c:if>
         
 	   <form class="accounterform" action="/main/deletecompany" method="post">
+	   <c:if test="${!isOpenIdUser}">
 	   <label><i18n:i18n msg='pleaseEntertheUserPassword'/></label>
 	   <input id="userPassword"  type="password" name="userPassword"   value="" />
+	    </c:if>
 	  	 	<c:if test="${canDeleteFromSingle}">
             	<input type="radio" name="delete" value="deleteUser">
             		<i18n:i18n msg='deletecompanyfromaccount'/>
