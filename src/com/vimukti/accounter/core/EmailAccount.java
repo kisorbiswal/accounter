@@ -2,8 +2,10 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class EmailAccount extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
@@ -68,7 +70,12 @@ public class EmailAccount extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.email(), this.emailId);
+
+		w.put(messages.portNumber(), this.portNumber);
+
+		w.put(messages.smtpMailServer(), this.smtpMailServer);
 
 	}
 
