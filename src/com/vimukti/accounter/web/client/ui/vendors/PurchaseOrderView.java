@@ -342,16 +342,14 @@ public class PurchaseOrderView extends
 			dateform.add(locationCombo);
 		dateform.add( /* despatchDateItem, */deliveryDateItem);
 
-		classListCombo = createAccounterClassListCombo();
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			dateform.add(classListCombo);
-		}
-
 		termsForm = new DynamicForm("termsForm");
 		termsForm.add(transactionNumber, purchaseOrderText, payTermsSelect);
 		if (getPreferences().isDoProductShipMents()) {
 			termsForm.add(shippingTermsCombo, shippingMethodsCombo);
+		}
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
+			termsForm.add(classListCombo);
 		}
 		// termsForm.getCellFormatter().setWidth(0, 0, "208px");
 		// dateform.getCellFormatter().setWidth(0, 0, "230px");
