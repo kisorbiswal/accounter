@@ -94,6 +94,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	// private Double currencyfactor;
 	// private ClientCurrency currencyCode;
 	TransactionsTree<EstimatesAndSalesOrdersList> transactionsTree;
+	private TextItem phone, email;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
@@ -304,6 +305,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 
+		phone = new TextItem(messages.phoneNumber(), "phone");
+		email = new TextItem(messages.email(), "email");
+		phone.setEnabled(false);
+		email.setEnabled(false);
+
 		orderNumText = new TextItem(messages.orderNumber(), "orderNumText");
 		orderNumText.setWidth(38);
 		if (transaction != null)
@@ -318,10 +324,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
 			if (isTemplate) {
-				termsForm.add(salesPersonCombo, payTermsSelect, orderNumText);
+				termsForm.add(salesPersonCombo, payTermsSelect, orderNumText,
+						phone, email);
 			} else {
 				termsForm.add(salesPersonCombo, payTermsSelect, dueDateItem,
-						orderNumText);
+						orderNumText, phone, email);
 			}
 
 			if (getPreferences().isDoProductShipMents())
@@ -329,9 +336,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						deliveryDate);
 		} else {
 			if (isTemplate) {
-				termsForm.add(payTermsSelect, orderNumText);
+				termsForm.add(payTermsSelect, orderNumText, phone, email);
 			} else {
-				termsForm.add(payTermsSelect, dueDateItem, orderNumText);
+				termsForm.add(payTermsSelect, dueDateItem, orderNumText, phone,
+						email);
 			}
 			if (getPreferences().isDoProductShipMents())
 				termsForm.add(shippingTermsCombo, shippingMethodsCombo,
@@ -767,6 +775,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			jobListCombo.setCustomer(customer);
 			jobListCombo.setEnabled(true);
 		}
+		phone.setValue(customer.getPhoneNo());
+		email.setValue(customer.getEmail());
+
 		this.setCustomer(customer);
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -857,6 +868,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setEnabled(!isInViewMode());
 			}
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
+			phone.setValue(customer.getPhoneNo());
+			email.setValue(customer.getEmail());
 			customerTransactionTable.setPayee(customer);
 			this.contact = transaction.getContact();
 
