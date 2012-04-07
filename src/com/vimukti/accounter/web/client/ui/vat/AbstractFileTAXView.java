@@ -323,10 +323,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
 							fromDate.setDatethanFireEvent(new ClientFinanceDate(
 									date));
-							fromDate.setEnabled(true);
+							fromDate.setEnabled(false);
 						} else {
 							fromDate.setDatethanFireEvent(new ClientFinanceDate(
 									DateUtil.getCurrentMonthFirstDate()));
+							fromDate.setEnabled(true);
 						}
 						reloadGrid();
 					}
