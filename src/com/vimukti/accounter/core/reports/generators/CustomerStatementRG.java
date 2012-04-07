@@ -47,27 +47,48 @@ public class CustomerStatementRG extends AbstractReportGenerator {
 	}
 
 	private String[] getStatementReportDetails() {
-		String address1 = "", street = "", city = "", state = "", country = "";
+		String address1 = "", street = "", city = "", state = "", country = "", postcode = "";
 		Payee payee = (Payee) financeTool.getManager().getServerObjectForid(
 				AccounterCoreType.PAYEE, getInputAsLong(0));
 		String payeeName = payee.getName();
 		Set<Address> address = payee.getAddress();
-		StringBuffer dataBuffer = new StringBuffer();
 		for (Address clientAddress : address) {
-			address1 = clientAddress.getAddress1().concat(",");
-			street = clientAddress.getStreet().concat(",");
-			city = clientAddress.getCity().concat(" - ")
-					.concat(clientAddress.getZipOrPostalCode().concat(","));
-			state = clientAddress.getStateOrProvinence().concat(",");
-			country = clientAddress.getCountryOrRegion().concat(".");
+			if (clientAddress.getAddress1() != null
+					&& !clientAddress.getAddress1().equals("")) {
+				address1 = clientAddress.getAddress1();
+			}
+			if (clientAddress.getStreet() != null
+					&& !clientAddress.getStreet().equals("")) {
+				address1.concat(", ");
+				street = clientAddress.getStreet();
+			}
+			if (clientAddress.getCity() != null
+					&& !clientAddress.getCity().equals("")) {
+				street.concat(", ");
+				city = clientAddress.getCity();
+			}
+			if (clientAddress.getStateOrProvinence() != null
+					&& !clientAddress.getStateOrProvinence().equals("")) {
+				city.concat(", ");
+				state = clientAddress.getStateOrProvinence();
+			}
+			if (clientAddress.getZipOrPostalCode() != null
+					&& !clientAddress.getZipOrPostalCode().equals("")) {
+				state.concat(", ");
+				postcode = clientAddress.getZipOrPostalCode();
+			}
+			if (clientAddress.getCountryOrRegion() != null
+					&& !clientAddress.getCountryOrRegion().equals("")) {
+				postcode.concat(", ");
+				country = clientAddress.getCountryOrRegion().concat(".");
+			}
 			break;
 		}
 		AccounterMessages messages = Global.get().messages();
-		String fromDate=messages.fromDate() + ": "+ startDate.toString();
-		String toDate=messages.toDate() + ": "+ endDate.toString();
-		return  new String[]{payeeName,address1,street,city,state,country, fromDate, toDate};
-		
+		String fromDate = messages.fromDate() + ": " + startDate.toString();
+		String toDate = messages.toDate() + ": " + endDate.toString();
+		return new String[] { payeeName, address1, street,
+				city + " " + postcode, state, country, fromDate, toDate };
+
 	}
-
-
 }
