@@ -94,7 +94,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	// private Double currencyfactor;
 	// private ClientCurrency currencyCode;
 	TransactionsTree<EstimatesAndSalesOrdersList> transactionsTree;
-	private TextItem phone, email;
+	private TextItem phone, email, vatNo;
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
@@ -307,8 +307,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		phone = new TextItem(messages.phoneNumber(), "phone");
 		email = new TextItem(messages.email(), "email");
+		vatNo = new TextItem(messages.taxRegNo(), "vatNo");
+		if (getCountryPreferences().isServiceTaxAvailable()) {
+			vatNo.setTitle(messages.taxRegNo());
+		} else {
+			vatNo.setTitle(messages.vatRegistrationNumber());
+		}
 		phone.setEnabled(false);
 		email.setEnabled(false);
+		vatNo.setEnabled(false);
 
 		orderNumText = new TextItem(messages.orderNumber(), "orderNumText");
 		orderNumText.setWidth(38);
@@ -345,6 +352,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				termsForm.add(shippingTermsCombo, shippingMethodsCombo,
 						deliveryDate);
 
+		}
+		if (getPreferences().isTrackTax()) {
+			termsForm.add(vatNo);
 		}
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
@@ -777,6 +787,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		phone.setValue(customer.getPhoneNo());
 		email.setValue(customer.getEmail());
+		if (getCountryPreferences().isVatAvailable()) {
+			vatNo.setValue(customer.getVATRegistrationNumber());
+		} else {
+			vatNo.setValue(customer.getServiceTaxRegistrationNumber());
+		}
 
 		this.setCustomer(customer);
 		super.customerSelected(customer);
@@ -870,6 +885,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			phone.setValue(customer.getPhoneNo());
 			email.setValue(customer.getEmail());
+			if (getCountryPreferences().isVatAvailable()) {
+				vatNo.setValue(customer.getVATRegistrationNumber());
+			} else {
+				vatNo.setValue(customer.getServiceTaxRegistrationNumber());
+			}
 			customerTransactionTable.setPayee(customer);
 			this.contact = transaction.getContact();
 
