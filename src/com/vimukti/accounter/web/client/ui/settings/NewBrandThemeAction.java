@@ -41,13 +41,7 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 	@Override
 	public void run() {
-		if (Accounter.hasPermission(Features.BRANDING_THEME)) {
-			runAysnc(data, isDependent);
-		} else {
-			if (!isCalledFromHistory) {
-				Accounter.showSubscriptionWarning();
-			}
-		}
+		runAysnc(data, isDependent);
 	}
 
 	private void runAysnc(Object data, Boolean isDependent) {
