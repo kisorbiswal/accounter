@@ -296,8 +296,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
-		// original.append("<img style='width:90px;height:90px'  src='file:///");
-		original.append("<img src='file:///");
+		original.append("<img style='width:90px;height:90px'  src='file:///");
+		// original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");

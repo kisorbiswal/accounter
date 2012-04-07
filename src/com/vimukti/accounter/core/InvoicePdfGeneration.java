@@ -61,30 +61,33 @@ public class InvoicePdfGeneration {
 			i.setInvoiceNumber(invoice.getNumber());
 			i.setInvoiceDate(Utility.getDateInSelectedFormat(invoice.getDate()));
 
-			
 			Customer customer = invoice.getCustomer();
-			//for customer details
-			i.setCstNumber(customer.getCSTno()== null?"" :customer.getCSTno());
-			i.setServiceTaxRegistrationNumber(customer.getServiceTaxRegistrationNo()== null?"" :customer.getServiceTaxRegistrationNo());
-			i.setTaxpayerIdentificationNumber(customer.getTINNumber()== null?"" :customer.getTINNumber());
-			i.setTaxRegistrationNumber(customer.getVATRegistrationNumber()== null?"" :customer.getVATRegistrationNumber());
-			i.setCustomerTaxCode(customer.getTAXCode() ==null?"" :customer.getTAXCode().getName());
-			
-			//for primary curreny
+			// for customer details
+			i.setCstNumber(customer.getCSTno() == null ? "" : customer
+					.getCSTno());
+			i.setServiceTaxRegistrationNumber(customer
+					.getServiceTaxRegistrationNo() == null ? "" : customer
+					.getServiceTaxRegistrationNo());
+			i.setTaxpayerIdentificationNumber(customer.getTINNumber() == null ? ""
+					: customer.getTINNumber());
+			i.setTaxRegistrationNumber(customer.getVATRegistrationNumber() == null ? ""
+					: customer.getVATRegistrationNumber());
+			i.setCustomerTaxCode(customer.getTAXCode() == null ? "" : customer
+					.getTAXCode().getName());
+
+			// for primary curreny
 			Currency currency = customer.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());
 				}
 
-			
 			PaymentTerms paymentterm = invoice.getPaymentTerm();
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
 
 			i.setDueDate(Utility.getDateInSelectedFormat(invoice.getDueDate()));
 			i.setShipAddress(getShippingAddress());
-			
 
 			ShippingMethod shipMtd = invoice.getShippingMethod();
 			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
@@ -107,7 +110,7 @@ public class InvoicePdfGeneration {
 			List<TransactionItem> transactionItems = invoice
 					.getTransactionItems();
 
-		//	double currencyFactor = invoice.getCurrencyFactor();
+			// double currencyFactor = invoice.getCurrencyFactor();
 			String symbol = invoice.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -122,15 +125,15 @@ public class InvoicePdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() , "");
+						item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() , "");
+						item.getLineTotal(), "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() , "");
+							item.getVATfraction(), "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -172,11 +175,10 @@ public class InvoicePdfGeneration {
 					symbol));
 			i.setBalancedue(Utility.decimalConversation(
 					invoice.getBalanceDue(), symbol));
-			String orderNum = invoice.getOrderNum()== null ?"":invoice.getOrderNum().trim();
+			String orderNum = invoice.getOrderNum() == null ? "" : invoice
+					.getOrderNum().trim();
 			i.setOrderNumber(orderNum);
-			
-			
-			
+
 			i.setMemo(invoice.getMemo());
 			String termsNCondn = forNullValue(brandingTheme
 					.getTerms_And_Payment_Advice());
@@ -197,7 +199,7 @@ public class InvoicePdfGeneration {
 			if (preferences.isJobTrackingEnabled()) {
 				if (invoice.getJob() != null) {
 					i.setJob(invoice.getJob().getJobName());
-				}else{
+				} else {
 					i.setJob("");
 				}
 			} else {
@@ -205,11 +207,10 @@ public class InvoicePdfGeneration {
 			}
 
 			if (preferences.isLocationTrackingEnabled()) {
-				Location location = invoice.getLocation() ;
-				if(location != null)
-				{
+				Location location = invoice.getLocation();
+				if (location != null) {
 					i.setLocation(location.getName());
-				}else {
+				} else {
 					i.setLocation("");
 				}
 			} else {
@@ -268,7 +269,7 @@ public class InvoicePdfGeneration {
 					.getDeliverydate()));
 			if (invoice.getShippingTerm() != null) {
 				i.setShippingTerms(invoice.getShippingTerm().getName());
-			}else{
+			} else {
 				i.setShippingTerms("");
 			}
 
@@ -316,13 +317,12 @@ public class InvoicePdfGeneration {
 
 	}
 
-	
-
 	public String getImage() {
 		StringBuffer original = new StringBuffer();
 
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
+		original.append(ServerConfiguration.getAttachmentsDir()
+				+ File.separator + company.getId() + File.separator
+				+ brandingTheme.getFileName());
 
 		return original.toString();
 
