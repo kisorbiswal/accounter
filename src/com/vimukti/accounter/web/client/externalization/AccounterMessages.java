@@ -6313,4 +6313,6 @@ public interface AccounterMessages extends Messages {
 	public String emailBody();
 
 	public String emailBodyShouldNotBeEmpty();
+
+	public String employeeGroup();
 }
