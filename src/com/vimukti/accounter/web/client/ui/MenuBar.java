@@ -216,10 +216,8 @@ public class MenuBar {
 			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS,
 					"U");
 		}
-		if (canChangeSettings && hasPermission(Features.BRANDING_THEME)) {
-			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
-					HistoryTokens.INVOICEBRANDING, "i");
-		}
+		settingsMenuBar.addMenuItem(messages.invoiceBranding(),
+				HistoryTokens.INVOICEBRANDING, "i");
 		settingsMenuBar.addMenuItem(messages.translation(),
 				HistoryTokens.TRANSLATION, "T");
 		settingsMenuBar.addMenuItem(messages.chequePrintSetting(),

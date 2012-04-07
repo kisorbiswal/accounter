@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -186,7 +187,10 @@ public class InvoiceBrandingView<T> extends
 	private IMenu getBrandingMenu() {
 		IMenu themesMenuBar = createMenu();
 		themesMenuBar.addMenuItem(ActionFactory.getNewBrandThemeAction());
-		themesMenuBar.addMenuItem(ActionFactory.getNewBrandCustomThemeAction());
+		if (Accounter.hasPermission(Features.BRANDING_THEME)) {
+			themesMenuBar.addMenuItem(ActionFactory
+					.getNewBrandCustomThemeAction());
+		}
 		return themesMenuBar;
 	}
 
