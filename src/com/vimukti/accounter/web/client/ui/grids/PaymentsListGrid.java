@@ -114,7 +114,9 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	protected int getCellWidth(int index) {
 		if (index == 9)
 			return 40;
-		else if (index == 0 || index == 2 || index == 3)
+		else if (index == 0) {
+			return 125;
+		} else if (index == 2 || index == 3)
 			return 65;
 		else if (index == 1)
 			return 50;
