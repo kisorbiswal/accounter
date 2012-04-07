@@ -387,7 +387,7 @@ public class VendorCreditMemoView extends
 		}
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			currencyWidget.setEnabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
