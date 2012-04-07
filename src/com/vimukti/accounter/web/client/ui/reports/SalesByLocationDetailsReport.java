@@ -3,8 +3,10 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.StringReportInput;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -107,4 +109,52 @@ public class SalesByLocationDetailsReport extends
 		return map;
 	}
 
+	@Override
+	public int sort(SalesByLocationDetails obj1, SalesByLocationDetails obj2,
+			int col) {
+		String locationOrClassName1 = (obj1.getLocationName() == null || obj1
+				.getLocationName().isEmpty()) ? Global.get().messages()
+				.notSpecified().toLowerCase() : obj1.getLocationName()
+				.toLowerCase();
+		String locationOrClassName2 = (obj2.getLocationName() == null || obj2
+				.getLocationName().isEmpty()) ? Global.get().messages()
+				.notSpecified().toLowerCase() : obj2.getLocationName()
+				.toLowerCase();
+		int ret = locationOrClassName1.compareTo(locationOrClassName2);
+		if (ret != 0) {
+			return ret;
+		}
+
+		switch (col) {
+		case 1:
+			return new ClientFinanceDate(obj1.getDate())
+					.compareTo(new ClientFinanceDate(obj2.getDate()));
+		case 2:
+			String transactionName = Utility.getTransactionName(obj1.getType());
+			String transactionName2 = Utility
+					.getTransactionName(obj2.getType());
+			return transactionName.toLowerCase().compareTo(
+					transactionName2.toLowerCase());
+		case 3:
+			int num1 = UIUtils.isInteger(obj1.getNumber()) ? Integer
+					.parseInt(obj1.getNumber()) : 0;
+			int num2 = UIUtils.isInteger(obj2.getNumber()) ? Integer
+					.parseInt(obj2.getNumber()) : 0;
+			if (num1 != 0 && num2 != 0)
+				return UIUtils.compareInt(num1, num2);
+			else
+				return obj1.getNumber().compareTo(obj2.getNumber());
+		case 4:
+			return obj1.getAccount().toLowerCase()
+					.compareTo(obj2.getAccount().toLowerCase());
+		case 5:
+			return obj1.getProuductOrService().toLowerCase()
+					.compareTo(obj2.getProuductOrService().toLowerCase());
+		case 6:
+			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
+		case 7:
+			return UIUtils.compareDouble(obj1.getBalance(), obj2.getBalance());
+		}
+		return 0;
+	}
 }
