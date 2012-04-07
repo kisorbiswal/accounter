@@ -66,6 +66,10 @@
 .Transactions_center div#listPanel{
 	width:181px;
 }
+#itemView .topHLay .topPanel2 .purchzVPanel {
+    -moz-box-flex: 0;
+    width: 465px;
+}
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#VendorView .accInfoForm {
@@ -89,6 +93,9 @@
 	.report-toolbar .form .dropdown-button .gwt-Label{
 	   width:50px;
 	}
+	.editTable .editheader td {
+		padding: 2px;
+	}
 }
 
 body {
@@ -100,7 +107,6 @@ body {
 html,body {
 	width: 100%;
 	height: 100%;
-	min-height: 100%;
 }
 
 #mainWindow {
@@ -1980,6 +1986,7 @@ table.no_records .norecord-empty-message td {
 #CustomerCenterView #CustomersListGrid {
 	border: 1px solid #2D8B93;
 	height: 600px;
+	overflow: auto;
 }
 
 #CustomerCenterView .rightPanel {
@@ -2144,6 +2151,7 @@ table.no_records .norecord-empty-message td {
 #vendorCenterView .mainPanel #VendorsListGrid {
 	height: 600px;
 	border: 1px solid #2D8B93;
+	overflow: auto;
 }
 
 #vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp {
@@ -2257,10 +2265,6 @@ table.no_records .norecord-empty-message td {
 
 #NewVendorPaymentView .hLay .leftPanel .memoArea .gwt-Label {
 	width: 200px;
-}
-
-#NewVendorPaymentView .hLay .leftPanel .memoArea textarea {
-	width: 172px !important;
 }
 
 .empty_menu_bar {
@@ -4113,6 +4117,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 .gwt-DialogBox .RadioGroupItem .readioGropuitem span {
 	display: block;
+	margin:5px;
 }
 
 #customercreditmemoview .prodAndServiceHLay {
@@ -6468,16 +6473,8 @@ input[type="text"] {
 	-moz-box-orient: vertical;
 }
 
-#SelectItemTypeDialog .dialogMiddle .dialogMiddleCenterInner .mainPanel
-	{
+#SelectItemTypeDialog .dialogMiddle .dialogMiddleCenterInner .mainPanel{
 	padding-right: 200px;
-	width: 100%;
-}
-
-#SelectItemTypeDialog .dialogMiddle .dialogMiddleCenterInner .mainPanel .footerLayout
-	{
-	-moz-box-pack: end;
-	display: -moz-box;
 	width: 100%;
 }
 
@@ -6499,30 +6496,32 @@ input[type="text"] {
 }
 
 #NewFixedAssetView .mainVPanel .depreciationHPanel {
-	-moz-box-orient: horizontal;
+	-moz-box-orient: vertical;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-	-webkit-box-orient: horizontal;
-	box-orient: horizontal;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	width:100%;
+	-moz-box-flex: 1;
 }
 
 #NewFixedAssetView .mainVPanel .itemInfoForm {
-	-moz-box-orient: horizontal;
+	-moz-box-orient: vertical;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-	-webkit-box-orient: horizontal;
-	box-orient: horizontal;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
 
-#NewFixedAssetView .mainVPanel .purchaseInfoVPanel {
-	-moz-box-orient: horizontal;
+#NewFixedAssetView .mainVPanel .purchaseInfoVPanel .purchaseInfoForm {
+	-moz-box-orient: vertical;
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
-	-webkit-box-orient: horizontal;
-	box-orient: horizontal;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #NewFixedAssetView .mainVPanel .itmInfoVPanel {
@@ -6532,6 +6531,8 @@ input[type="text"] {
 	display: box;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+	width:100%;
+	-moz-box-flex: 1;
 }
 
 #NewFixedAssetView .mainVPanel .itmNameForm {
@@ -7470,4 +7471,76 @@ table.no_records tr td{
 #invoicebrandingview .panel-logo div{
 	color:#3299A4;
 	margin-right:15px;
+}
+#AddPaymentTermDialog .mainVLay .fixedDaysPanel span{
+	display: block;
+}
+#AddPaymentTermDialog .mainVLay .fixedDaysPanel .fixedDaysForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#AddPaymentTermDialog .mainVLay .dateDrivenPanel span{
+	display: block;
+}
+#AddPaymentTermDialog .mainVLay .dateDrivenPanel .dateDrivenForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#AddPaymentTermDialog .mainPanel{
+	padding:10px;
+}
+#SelectItemTypeDialog table{
+	width:300px;
+}
+#AddNewContactDialog .newContactForm{
+	 padding: 10px;
+	 display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#NewFixedAssetView .mainVPanel .descriptionVPanel{
+	 display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#NewFixedAssetView .mainVPanel .descriptionVPanel .gwt-Label{
+	width:200px;
+}
+.depth1 {
+	padding-left: 10% !important;
+}
+.depth2 {
+	padding-left: 20% !important;
+}
+.depth3 {
+	padding-left: 30% !important;
+}
+.depth4 {
+	padding-left: 40% !important;
+}
+.depth5 {
+	padding-left: 50% !important;
+}
+.depth6 {
+	padding-left: 60% !important;
+}
+.depth7 {
+	padding-left: 70% !important;
+}
+.depth8 {
+	padding-left: 80% !important;
 }
