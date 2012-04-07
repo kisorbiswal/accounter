@@ -66,11 +66,11 @@ public class ViewManager extends FlowPanel {
 
 	public final Map<String, Object> viewDataHistory = new HashMap<String, Object>();
 
-	private final MainFinanceWindow mainWindow;
+	private MainFinanceWindow mainWindow;
 
 	private final HistoryList views = new HistoryList();
 
-	private final ToolBar toolBar;
+	private ToolBar toolBar;
 
 	private ActivityManager manager;
 
@@ -103,7 +103,7 @@ public class ViewManager extends FlowPanel {
 	ButtonGroup group2;
 	ButtonGroup group3;
 
-	private final SimplePanel viewHolder;
+	private SimplePanel viewHolder;
 
 	ButtonGroup group4;
 	ButtonGroup group5;
@@ -111,45 +111,8 @@ public class ViewManager extends FlowPanel {
 	ButtonGroup group7;
 	ButtonGroup group8;
 
-	public ViewManager(MainFinanceWindow financeWindow) {
-		keyValues.put("ispaid", getCompany().isPaid() ? "Yes" : "No");
-		// for bookkeeping value
-		keyValues.put("bookKeeping", getCompany().isBookKeeping() ? "Yes"
-				: "No");
-		this.mainWindow = financeWindow;
-		StyledPanel mainPanel = new StyledPanel("mainPanel");
-		StyledPanel rightPanel = new StyledPanel("rightPanel");
-		if (!Accounter.hasPermission(Features.TRANSACTIONS)) {
-			TransactionMeterPanel meterPanel = new TransactionMeterPanel();
-			rightPanel.add(meterPanel);
-		}
-		getAdvertisePanel(rightPanel);
-		StyledPanel leftPanel = new StyledPanel("leftPanel");
-		leftPanel.addStyleName("view_manager_body");
-		// leftPanel.setWidth("100%");
-		this.viewHolder = new SimplePanel();
-		viewHolder.addStyleName("viewholder");
+	public ViewManager() {
 
-		History.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-
-				historyChanged(event.getValue());
-			}
-		});
-		// handleBackSpaceEvent();
-		this.toolBar = new ToolBar();
-		leftPanel.add(toolBar);
-		leftPanel.add(viewHolder);
-		mainPanel.add(leftPanel);
-		leftPanel.getElement().getParentElement().addClassName("view_manager");
-		rightPanel.addStyleName("frame_manager");
-		mainPanel.add(rightPanel);
-		this.addStyleName("main_manager");
-		this.add(mainPanel);
-		initilizeToolBar();
-		initializeActivityManager();
 	}
 
 	private void getAdvertisePanel(final StyledPanel rightPanel) {
@@ -966,4 +929,55 @@ public class ViewManager extends FlowPanel {
 	public boolean isHelpPanelEnabled() {
 		return this.isHelpPanelEnabled;
 	}
+
+	public void createView(MainFinanceWindow financeWindow) {
+		keyValues.put("ispaid", getCompany().isPaid() ? "Yes" : "No");
+		// for bookkeeping value
+		keyValues.put("bookKeeping", getCompany().isBookKeeping() ? "Yes"
+				: "No");
+		this.mainWindow = financeWindow;
+		StyledPanel mainPanel = new StyledPanel("mainPanel");
+
+		StyledPanel rightPanel = createRightPanel();
+		StyledPanel leftPanel = new StyledPanel("leftPanel");
+		leftPanel.addStyleName("view_manager_body");
+		// leftPanel.setWidth("100%");
+		this.viewHolder = new SimplePanel();
+		viewHolder.addStyleName("viewholder");
+
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+
+				historyChanged(event.getValue());
+			}
+		});
+		// handleBackSpaceEvent();
+		this.toolBar = new ToolBar();
+		leftPanel.add(toolBar);
+		leftPanel.add(viewHolder);
+		mainPanel.add(leftPanel);
+		leftPanel.getElement().getParentElement().addClassName("view_manager");
+
+		if (rightPanel != null) {
+			mainPanel.add(rightPanel);
+		}
+		this.addStyleName("main_manager");
+		this.add(mainPanel);
+		initilizeToolBar();
+		initializeActivityManager();
+	}
+
+	protected StyledPanel createRightPanel() {
+		StyledPanel panel = new StyledPanel("rightPanel");
+		if (!Accounter.hasPermission(Features.TRANSACTIONS)) {
+			TransactionMeterPanel meterPanel = new TransactionMeterPanel();
+			panel.add(meterPanel);
+		}
+		getAdvertisePanel(panel);
+		panel.addStyleName("frame_manager");
+		return panel;
+	}
+
 }

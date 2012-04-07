@@ -60,7 +60,9 @@ public class MainFinanceWindow extends FlowPanel {
 
 	private void createControls() {
 
-		viewManager = new ViewManager(this);
+		viewManager = (ViewManager) GWT.create(ViewManager.class);
+		viewManager.createView(this);
+
 		header = new Header(Accounter.getCompany());
 
 		add(header);
@@ -769,10 +771,10 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(ActionFactory.getBudgetActions().getHistoryToken(),
 				ActionFactory.getBudgetActions());
-		
+
 		actions.put(ActionFactory.getClassMergeAction().getHistoryToken(),
 				ActionFactory.getClassMergeAction());
-		
+
 		actions.put(ActionFactory.getLocationMergeAction().getHistoryToken(),
 				ActionFactory.getLocationMergeAction());
 

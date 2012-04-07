@@ -111,4 +111,14 @@
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 
+	<replace-with class="com.vimukti.accounter.web.client.ui.core.IpadViewManager">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.core.WebViewManager" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+	
+		<replace-with class="com.vimukti.accounter.web.client.ui.IPadMenu">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.WebMenu" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
 </module>
