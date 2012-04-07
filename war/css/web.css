@@ -592,6 +592,7 @@ input[type="text"] {
 .formItem .gwt-TextArea {
 	width: 172px;
 	height: 65px;
+	resize: vertical;
 }
 
 .detailsTab .customField .gwt-Button {
@@ -7251,7 +7252,7 @@ textarea[disabled] {
 	width: 30px;
 }
 
-.attachment_panel .attachmentTable div,.attachment_panel .attachmentTable a
+.attachment_panel .attachmentTable .transaction_attachment_hpanel div, .attachment_panel .attachmentTable .transaction_attachment_hpanel a
 	{
 	display: inline;
 	margin-right: 10px;
@@ -7543,4 +7544,44 @@ table.no_records tr td{
 }
 .depth8 {
 	padding-left: 80% !important;
+}
+#StatementTransactionsReconcileView .transactionStyles .rightBorder{
+	 -moz-box-flex: 1;
+	 -moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+    display: -moz-box;
+	display: -webkit-box;
+	display: box;
+    width: 100%;
+}
+#StatementTransactionsReconcileView .mainVLay table.gwt-DecoratedTabPanel{
+	width:100%;
+}
+.gwt-Tree .gwt-CheckBox{
+	display: inline;
+}
+.gwt-Tree table td{
+	vertical-align: top;
+}
+.gwt-Tree table td .editTable_enable_anchor {
+    padding-left: 5px;
+    color: black;
+}
+#EditProfileDialog .edit_user_profile{
+	 display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	padding:10px;
+}
+#CheckPrintingSettingView .cheque_print_text{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }

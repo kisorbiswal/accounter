@@ -1350,7 +1350,7 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 }
 
 .ReportGrid .gridHeader .gridHeaderRow,.listgrid {
-	border: 1px solid #1A1A1A;
+	border: 1px solid #1A1A1A !important;
 }
 
 
@@ -2124,4 +2124,11 @@ input.date-field-textbox {
 }
 #exportButton{
 	padding: 0px 10px 1px 34px !important;
+}
+.allPanel .pageFormatPanel{
+	background: -webkit-gradient(linear, left top, left bottom, from(#F9F7F7), to(#C4C0C0) );
+    padding:5px 0;
+}
+.allPanel .pageFormatPanel .gwt-Label{
+	color:black;
 }
