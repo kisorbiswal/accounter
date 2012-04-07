@@ -34,7 +34,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 	@Override
 	public void init() {
 		super.init();
-
+		toolbar.setDefaultDateRange(messages.all());
 	}
 
 	@Override
@@ -103,6 +103,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 			toolBar.fromItem.setEnabled(false);
 			toolBar.toItem.setEnabled(false);
 			toolBar.updateButton.setEnabled(false);
+			toolBar.dateRangeItem.setEnabled(false);
 			this.serverReport.initRecords(detail);
 		} else {
 			super.initData();

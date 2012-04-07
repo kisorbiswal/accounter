@@ -20,7 +20,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 	public DateItem fromItem;
 	public DateItem toItem;
 
-	private SelectCombo dateRangeItem;
+	public SelectCombo dateRangeItem;
 	public TAXAgencyCombo taxAgencyCombo;
 	ClientTAXAgency selectedAgency;
 	public Button updateButton;
