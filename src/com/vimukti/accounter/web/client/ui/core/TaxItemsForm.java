@@ -55,8 +55,8 @@ public class TaxItemsForm extends DynamicForm {
 			if (clientTransactionItem.getReferringTransactionItem() == 0) {
 				if (clientTransactionItem.getLineTotal() != null
 						&& clientTransactionItem.getVATfraction() != null) {
+					transactionItems.add(clientTransactionItem);
 				}
-				transactionItems.add(clientTransactionItem);
 			}
 		}
 		if (transaction instanceof ClientInvoice) {

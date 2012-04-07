@@ -99,8 +99,8 @@ public abstract class CustomerItemTransactionTable extends
 					ClientItem newValue) {
 				row.setAmountIncludeTAX(isShowPriceWithVat());
 				super.setPriceLevel(priceLevel);
-				updateDiscountValues(row);
 				super.setValue(row, newValue);
+				updateDiscountValues(row);
 				if (newValue != null
 						&& (newValue.getType() == ClientItem.TYPE_INVENTORY_PART || newValue
 								.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)) {

@@ -1005,8 +1005,7 @@ public class PurchaseOrderView extends
 		netAmount.setAmount(lineTotal);
 		// vatTotalNonEditableText.setValue(vendorTransactionGrid.getVatTotal());
 		if (getPreferences().isTrackPaidTax()) {
-			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) && !isInViewMode()) {
+			if ((transaction.getTransactionItems() != null) && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(
