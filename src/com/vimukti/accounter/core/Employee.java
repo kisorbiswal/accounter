@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -133,6 +136,8 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	private Contact contactDetail;
 
 	private PayStructure payStructure;
+
+	private List<CustomField> customeFields = new ArrayList<CustomField>();
 
 	/**
 	 * @return the name
@@ -475,5 +480,20 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return the customeFields
+	 */
+	public List<CustomField> getCustomeFields() {
+		return customeFields;
+	}
+
+	/**
+	 * @param customeFields
+	 *            the customeFields to set
+	 */
+	public void setCustomeFields(List<CustomField> customeFields) {
+		this.customeFields = customeFields;
 	}
 }

@@ -109,7 +109,7 @@ public class Encrypter extends Thread {
 				Misc1099PDFTemplate.class, Misc1099SamplePDFTemplate.class,
 				MISCInformationTemplate.class, MobileCookie.class, News.class,
 				NominalCodeRange.class, NumberUtils.class,
-				ObjectConvertUtil.class, PayBill.class, PayEmployee.class,
+				ObjectConvertUtil.class, PayBill.class, EmployeePaymentDetails.class,
 				PayExpense.class, PayHead.class, PayHeadField.class,
 				PaymentTerms.class, PayrollUnit.class, PayRun.class,
 				PayStructure.class, PayStructureItem.class, PayTAX.class,

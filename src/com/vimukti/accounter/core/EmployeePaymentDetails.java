@@ -2,12 +2,14 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
-public class PayEmployee {
+public class EmployeePaymentDetails {
 
 	/**
 	 * Pay Run
 	 */
 	private PayRun payRun;
+
+	private Employee employee;
 
 	private List<EmployeePayHeadComponent> payHeadComponents;
 
@@ -40,5 +42,20 @@ public class PayEmployee {
 	 */
 	public void setPayRun(PayRun payRun) {
 		this.payRun = payRun;
+	}
+
+	/**
+	 * @return the employee
+	 */
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	/**
+	 * @param employee
+	 *            the employee to set
+	 */
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 }

@@ -6,7 +6,7 @@ public class PayRun extends CreatableObject {
 
 	private Account payableAccount;
 
-	private List<PayEmployee> payEmployee;
+	private List<EmployeePaymentDetails> payEmployee;
 
 	private FinanceDate payPeriodStartDate;
 
@@ -30,7 +30,7 @@ public class PayRun extends CreatableObject {
 	/**
 	 * @return the payEmployee
 	 */
-	public List<PayEmployee> getPayEmployee() {
+	public List<EmployeePaymentDetails> getPayEmployee() {
 		return payEmployee;
 	}
 
@@ -38,7 +38,7 @@ public class PayRun extends CreatableObject {
 	 * @param payEmployee
 	 *            the payEmployee to set
 	 */
-	public void setPayEmployee(List<PayEmployee> payEmployee) {
+	public void setPayEmployee(List<EmployeePaymentDetails> payEmployee) {
 		this.payEmployee = payEmployee;
 	}
 
