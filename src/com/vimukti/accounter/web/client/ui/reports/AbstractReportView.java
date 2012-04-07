@@ -129,12 +129,11 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		try {
 			if (result != null && result.size() > 1) {
 				grid.removeAllRows();
-				refreshMakeDetailLayout();
+
 				setFromAndToDate(result);
 				initRecords(result);
 			} else {
 				grid.removeAllRows();
-
 				if (result != null && result.size() == 1)
 					setFromAndToDate(result);
 
@@ -142,7 +141,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 				addEmptyMessage(emptyMsg);
 			}
-
+			refreshMakeDetailLayout();
 			showRecords();
 		} catch (Exception e) {
 			e.printStackTrace();
