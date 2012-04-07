@@ -53,7 +53,7 @@ public class CreditsandPaymentsGrid extends
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
-			return 75;
+			return 125;
 		case 1:
 		case 2:
 		case 3:
