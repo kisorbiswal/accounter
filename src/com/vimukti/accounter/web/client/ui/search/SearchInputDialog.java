@@ -183,7 +183,7 @@ public class SearchInputDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				close();
+				onCancel();
 			}
 		});
 		buttonPanel.add(findButton);
