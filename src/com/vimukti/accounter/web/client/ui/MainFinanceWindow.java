@@ -769,10 +769,10 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(ActionFactory.getBudgetActions().getHistoryToken(),
 				ActionFactory.getBudgetActions());
-		
+
 		actions.put(ActionFactory.getClassMergeAction().getHistoryToken(),
 				ActionFactory.getClassMergeAction());
-		
+
 		actions.put(ActionFactory.getLocationMergeAction().getHistoryToken(),
 				ActionFactory.getLocationMergeAction());
 
@@ -895,6 +895,39 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(ActionFactory.getBankCheckDetailReportAction()
 				.getHistoryToken(), ActionFactory
 				.getBankCheckDetailReportAction());
+
+		actions.put(ActionFactory.getNewEmployeeAction().getHistoryToken(),
+				ActionFactory.getNewEmployeeAction());
+
+		actions.put(ActionFactory.getNewPayHeadAction().getHistoryToken(),
+				ActionFactory.getNewPayHeadAction());
+
+		actions.put(
+				ActionFactory.getNewEmployeeGroupAction().getHistoryToken(),
+				ActionFactory.getNewEmployeeGroupAction());
+
+		actions.put(ActionFactory.getNewEmployeeCategoryAction()
+				.getHistoryToken(), ActionFactory
+				.getNewEmployeeCategoryAction());
+
+		actions.put(ActionFactory.getNewPayrollUnitAction().getHistoryToken(),
+				ActionFactory.getNewPayrollUnitAction());
+
+		actions.put(ActionFactory.getEmployeeListAction().getHistoryToken(),
+				ActionFactory.getEmployeeListAction());
+
+		actions.put(ActionFactory.getEmployeeCategoryListAction()
+				.getHistoryToken(), ActionFactory
+				.getEmployeeCategoryListAction());
+
+		actions.put(ActionFactory.getPayheadListAction().getHistoryToken(),
+				ActionFactory.getPayheadListAction());
+
+		actions.put(ActionFactory.getPayrollUnitListAction().getHistoryToken(),
+				ActionFactory.getPayrollUnitListAction());
+
+		actions.put(ActionFactory.getEmployeeGroupListAction()
+				.getHistoryToken(), ActionFactory.getEmployeeGroupListAction());
 
 	}
 

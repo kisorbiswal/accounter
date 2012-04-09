@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-
 /**
  * An Employee Group allows you to group/classify the employees in a logical
  * manner as required.
@@ -18,5 +17,20 @@ package com.vimukti.accounter.core;
  * 
  */
 public class EmployeeCategory extends CreatableObject {
+	private String name;
 
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 }

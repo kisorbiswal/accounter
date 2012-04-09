@@ -383,6 +383,27 @@
 	</query>
 	<query name="getallMaintanaceInfoUsers">
 		from com.vimukti.accounter.core.MaintananceInfoUser m
-	</query>	
-	
+	</query>
+
+	<query name="list.All.Employees">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Employee e where
+		e.company=:company
+		order by e.id
+	</query>
+
+	<query name="list.All.Payheads">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayHead ph where
+		ph.company=:company
+		order by ph.id
+	</query>
+
+	<query name="list.All.PayrollUnits">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayrollUnit pr where
+		pr.company=:company
+		order by pr.id
+	</query>
+
 </hibernate-mapping>

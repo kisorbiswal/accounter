@@ -1,12 +1,13 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientPayHeadField implements IAccounterCore {
+public class ClientPayHeadField implements IAccounterCore{
 
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** Pay Head Field Types */
 	public static final int TYPE_STRING = 1;
 	public static final int TYPE_INTEGER = 2;
@@ -25,26 +26,50 @@ public class ClientPayHeadField implements IAccounterCore {
 	 */
 	private boolean isRequired;
 
-	public int getType() {
-		return type;
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	public boolean isRequired() {
-		return isRequired;
-	}
-
-	public void setRequired(boolean isRequired) {
-		this.isRequired = isRequired;
-	}
-
+	/**
+	 * @param name
+	 *            the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the isRequired
+	 */
+	public boolean isRequired() {
+		return isRequired;
+	}
+
+	/**
+	 * @param isRequired
+	 *            the isRequired to set
+	 */
+	public void setRequired(boolean isRequired) {
+		this.isRequired = isRequired;
+	}
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -54,12 +79,7 @@ public class ClientPayHeadField implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
+		
 	}
 
 	@Override
@@ -77,7 +97,7 @@ public class ClientPayHeadField implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

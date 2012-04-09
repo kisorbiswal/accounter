@@ -188,6 +188,7 @@ import com.vimukti.accounter.web.server.managers.ExportManager;
 import com.vimukti.accounter.web.server.managers.FixedAssestManager;
 import com.vimukti.accounter.web.server.managers.InventoryManager;
 import com.vimukti.accounter.web.server.managers.Manager;
+import com.vimukti.accounter.web.server.managers.PayrollManager;
 import com.vimukti.accounter.web.server.managers.PurchaseManager;
 import com.vimukti.accounter.web.server.managers.ReportManager;
 import com.vimukti.accounter.web.server.managers.SalesManager;
@@ -229,6 +230,7 @@ public class FinanceTool {
 	private Manager manager;
 	private CompanyManager companyManager;
 	private ExportManager exportManager;
+	private PayrollManager payrollManager;
 
 	/**
 	 * This will Get Called when Create Operation is Invoked by the Client
@@ -2727,6 +2729,13 @@ public class FinanceTool {
 			manager = new Manager();
 		}
 		return manager;
+	}
+
+	public PayrollManager getPayrollManager() {
+		if (payrollManager == null) {
+			payrollManager = new PayrollManager();
+		}
+		return payrollManager;
 	}
 
 	public boolean createMessage(Message message) {

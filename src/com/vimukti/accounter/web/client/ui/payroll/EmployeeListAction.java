@@ -1,18 +1,18 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class EmployeeGroupAction extends Action {
-
-	protected EmployeeView view;
+public class EmployeeListAction extends Action<ClientEmployee> {
 
 	@Override
 	public String getText() {
-		return messages.newPayee(messages.employeeGroup());
+		return messages.employeeList();
 	}
 
 	@Override
@@ -20,18 +20,15 @@ public class EmployeeGroupAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	public void runAsync(final Object data, final Boolean isDependent) {
-
+	private void runAsync(final ClientEmployee data, final boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
 			public void onCreated() {
-				view = new EmployeeView();
-
+				EmployeeListView view = new EmployeeListView();
 				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, EmployeeGroupAction.this);
+						isDependent, EmployeeListAction.this);
 			}
-
 		});
 	}
 
@@ -49,14 +46,12 @@ public class EmployeeGroupAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return HistoryTokens.EMPLOYEELIST;
 	}
 
 	@Override
 	public String getHelpToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return "employee-list";
 	}
 
 }

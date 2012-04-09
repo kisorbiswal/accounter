@@ -1,23 +1,17 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class EmployeeAction extends Action {
-
-	private EmployeeView view;
-
-	public EmployeeAction() {
-		super();
-		super.setToolTip(messages.employee());
-	}
+public class EmployeeCategoryListAction extends Action<ClientEmployeeCategory> {
 
 	@Override
 	public String getText() {
-		return messages.newPayee(messages.employee());
+		return messages.employeeCategoryList();
 	}
 
 	@Override
@@ -25,23 +19,23 @@ public class EmployeeAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	public void runAsync(final Object data, final Boolean isDependent) {
-
+	private void runAsync(final ClientEmployeeCategory data,
+			final boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
 			public void onCreated() {
-				view = new EmployeeView();
-
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, EmployeeAction.this);
+				EmployeeCategoryListDialog dialog = new EmployeeCategoryListDialog(
+						messages.employeeGroup(), messages
+								.toAddPayeeGroup(messages.employeeGroup()));
+				dialog.show();
 			}
-
 		});
 	}
 
 	@Override
 	public ImageResource getBigImage() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -53,12 +47,12 @@ public class EmployeeAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "newEmployee";
+		return HistoryTokens.EMPLOYEECATEGORYLIST;
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "add-employee";
+		return "employee-category-list";
 	}
 
 }

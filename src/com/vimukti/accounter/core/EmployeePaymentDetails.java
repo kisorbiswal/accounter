@@ -2,7 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
-public class EmployeePaymentDetails {
+public class EmployeePaymentDetails extends CreatableObject {
 
 	/**
 	 * Pay Run
@@ -58,4 +58,5 @@ public class EmployeePaymentDetails {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
+
 }

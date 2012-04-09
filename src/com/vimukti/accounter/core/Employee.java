@@ -133,11 +133,11 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * Contact Details
 	 */
-	private Contact contactDetail;
+	private Contact contact;
 
 	private PayStructure payStructure;
 
-	private List<CustomField> customeFields = new ArrayList<CustomField>();
+	private List<CustomFieldValue> customFieldValues = new ArrayList<CustomFieldValue>();
 
 	/**
 	 * @return the name
@@ -443,7 +443,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 * @return the contactDetail
 	 */
 	public Contact getContactDetail() {
-		return contactDetail;
+		return contact;
 	}
 
 	/**
@@ -451,7 +451,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 *            the contactDetail to set
 	 */
 	public void setContactDetail(Contact contactDetail) {
-		this.contactDetail = contactDetail;
+		this.contact = contactDetail;
 	}
 
 	/**
@@ -485,15 +485,15 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * @return the customeFields
 	 */
-	public List<CustomField> getCustomeFields() {
-		return customeFields;
+	public List<CustomFieldValue> getCustomeFields() {
+		return customFieldValues;
 	}
 
 	/**
 	 * @param customeFields
 	 *            the customeFields to set
 	 */
-	public void setCustomeFields(List<CustomField> customeFields) {
-		this.customeFields = customeFields;
+	public void setCustomeFields(List<CustomFieldValue> customFieldValues) {
+		this.customFieldValues = customFieldValues;
 	}
 }

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientEmployee implements IAccounterCore {
 
 	/**
@@ -19,17 +20,17 @@ public class ClientEmployee implements IAccounterCore {
 	/**
 	 * Employee belongs to Group
 	 */
-	private ClientEmployeeGroup group;
+	private long group;
 
 	/**
 	 * Category of the Employee
 	 */
-	private ClientEmployeeCategory category;
+	private long category;
 
 	/**
 	 * Date of Joining of the Employee
 	 */
-	private ClientFinanceDate dateofJoining;
+	private long dateofJoining;
 
 	/** General Information */
 
@@ -52,7 +53,7 @@ public class ClientEmployee implements IAccounterCore {
 	 * Date of Birth of the Employee. And this will be used to find if the
 	 * Employee is a senior citizen
 	 */
-	private ClientFinanceDate dateOfBirth;
+	private long dateOfBirth;
 
 	/**
 	 * Gender of the Employee
@@ -103,7 +104,7 @@ public class ClientEmployee implements IAccounterCore {
 	/**
 	 * Expiry Date of the Passport
 	 */
-	private ClientFinanceDate passportExpiryDate;
+	private long passportExpiryDate;
 
 	/**
 	 * Visa Number of the Employee
@@ -113,7 +114,7 @@ public class ClientEmployee implements IAccounterCore {
 	/**
 	 * Expiry Date of the Visa
 	 */
-	private ClientFinanceDate visaExpiryDate;
+	private long visaExpiryDate;
 
 	/** Contact Details */
 
@@ -122,214 +123,369 @@ public class ClientEmployee implements IAccounterCore {
 	 */
 	private ClientContact contactDetail;
 
-	private ClientPayStructure payStructure;
+	private long payStructure;
 
-	public ClientEmployeeGroup getGroup() {
-		return group;
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 
-	public void setGroup(ClientEmployeeGroup group) {
-		this.group = group;
-	}
-
-	public ClientEmployeeCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(ClientEmployeeCategory category) {
-		this.category = category;
-	}
-
-	public ClientFinanceDate getDateofJoining() {
-		return dateofJoining;
-	}
-
-	public void setDateofJoining(ClientFinanceDate dateofJoining) {
-		this.dateofJoining = dateofJoining;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getDesignation() {
-		return designation;
-	}
-
-	public void setDesignation(String designation) {
-		this.designation = designation;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public ClientFinanceDate getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(ClientFinanceDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public int getGender() {
-		return gender;
-	}
-
-	public void setGender(int gender) {
-		this.gender = gender;
-	}
-
-	public ClientAddress getAddress() {
-		return address;
-	}
-
-	public void setAddress(ClientAddress address) {
-		this.address = address;
-	}
-
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	public String getBankAccountNumber() {
-		return bankAccountNumber;
-	}
-
-	public void setBankAccountNumber(String bankAccountNumber) {
-		this.bankAccountNumber = bankAccountNumber;
-	}
-
-	public String getBranch() {
-		return branch;
-	}
-
-	public void setBranch(String branch) {
-		this.branch = branch;
-	}
-
-	public String getPassportNumber() {
-		return passportNumber;
-	}
-
-	public void setPassportNumber(String passportNumber) {
-		this.passportNumber = passportNumber;
-	}
-
-	public String getCountryOfIssue() {
-		return countryOfIssue;
-	}
-
-	public void setCountryOfIssue(String countryOfIssue) {
-		this.countryOfIssue = countryOfIssue;
-	}
-
-	public ClientFinanceDate getPassportExpiryDate() {
-		return passportExpiryDate;
-	}
-
-	public void setPassportExpiryDate(ClientFinanceDate passportExpiryDate) {
-		this.passportExpiryDate = passportExpiryDate;
-	}
-
-	public String getVisaNumber() {
-		return visaNumber;
-	}
-
-	public void setVisaNumber(String visaNumber) {
-		this.visaNumber = visaNumber;
-	}
-
-	public ClientFinanceDate getVisaExpiryDate() {
-		return visaExpiryDate;
-	}
-
-	public void setVisaExpiryDate(ClientFinanceDate visaExpiryDate) {
-		this.visaExpiryDate = visaExpiryDate;
-	}
-
-	public ClientContact getContactDetail() {
-		return contactDetail;
-	}
-
-	public void setContactDetail(ClientContact contactDetail) {
-		this.contactDetail = contactDetail;
-	}
-
-	public ClientPayStructure getPayStructure() {
-		return payStructure;
-	}
-
-	public void setPayStructure(ClientPayStructure payStructure) {
-		this.payStructure = payStructure;
-	}
-
+	/**
+	 * @param name
+	 *            the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * @return the group
+	 */
+	public long getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param group
+	 *            the group to set
+	 */
+	public void setGroup(long group) {
+		this.group = group;
+	}
+
+	/**
+	 * @return the category
+	 */
+	public long getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category
+	 *            the category to set
+	 */
+	public void setCategory(long category) {
+		this.category = category;
+	}
+
+	/**
+	 * @return the dateofJoining
+	 */
+	public long getDateofJoining() {
+		return dateofJoining;
+	}
+
+	/**
+	 * @param dateofJoining
+	 *            the dateofJoining to set
+	 */
+	public void setDateofJoining(long dateofJoining) {
+		this.dateofJoining = dateofJoining;
+	}
+
+	/**
+	 * @return the dateOfBirth
+	 */
+	public long getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	/**
+	 * @param dateOfBirth
+	 *            the dateOfBirth to set
+	 */
+	public void setDateOfBirth(long dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @return the gender
+	 */
+	public int getGender() {
+		return gender;
+	}
+
+	/**
+	 * @param gender
+	 *            the gender to set
+	 */
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the employeeNumber
+	 */
+	public String getNumber() {
+		return number;
+	}
+
+	/**
+	 * @param employeeNumber
+	 *            the employeeNumber to set
+	 */
+	public void setNumber(String employeeNumber) {
+		this.number = employeeNumber;
+	}
+
+	/**
+	 * @return the designation
+	 */
+	public String getDesignation() {
+		return designation;
+	}
+
+	/**
+	 * @param designation
+	 *            the designation to set
+	 */
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location
+	 *            the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public ClientAddress getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address
+	 *            the address to set
+	 */
+	public void setAddress(ClientAddress address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the contactNumber
+	 */
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	/**
+	 * @param contactNumber
+	 *            the contactNumber to set
+	 */
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email
+	 *            the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the bankName
+	 */
+	public String getBankName() {
+		return bankName;
+	}
+
+	/**
+	 * @param bankName
+	 *            the bankName to set
+	 */
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	/**
+	 * @return the bankAccountNumber
+	 */
+	public String getBankAccountNumber() {
+		return bankAccountNumber;
+	}
+
+	/**
+	 * @param bankAccountNumber
+	 *            the bankAccountNumber to set
+	 */
+	public void setBankAccountNumber(String bankAccountNumber) {
+		this.bankAccountNumber = bankAccountNumber;
+	}
+
+	/**
+	 * @return the branch
+	 */
+	public String getBranch() {
+		return branch;
+	}
+
+	/**
+	 * @param branch
+	 *            the branch to set
+	 */
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	/**
+	 * @return the passportNumber
+	 */
+	public String getPassportNumber() {
+		return passportNumber;
+	}
+
+	/**
+	 * @param passportNumber
+	 *            the passportNumber to set
+	 */
+	public void setPassportNumber(String passportNumber) {
+		this.passportNumber = passportNumber;
+	}
+
+	/**
+	 * @return the countryOfIssue
+	 */
+	public String getCountryOfIssue() {
+		return countryOfIssue;
+	}
+
+	/**
+	 * @param countryOfIssue
+	 *            the countryOfIssue to set
+	 */
+	public void setCountryOfIssue(String countryOfIssue) {
+		this.countryOfIssue = countryOfIssue;
+	}
+
+	/**
+	 * @return the passportExpiryDate
+	 */
+	public long getPassportExpiryDate() {
+		return passportExpiryDate;
+	}
+
+	/**
+	 * @param passportExpiryDate
+	 *            the passportExpiryDate to set
+	 */
+	public void setPassportExpiryDate(long passportExpiryDate) {
+		this.passportExpiryDate = passportExpiryDate;
+	}
+
+	/**
+	 * @return the visaNumber
+	 */
+	public String getVisaNumber() {
+		return visaNumber;
+	}
+
+	/**
+	 * @param visaNumber
+	 *            the visaNumber to set
+	 */
+	public void setVisaNumber(String visaNumber) {
+		this.visaNumber = visaNumber;
+	}
+
+	/**
+	 * @return the visaExpiryDate
+	 */
+	public long getVisaExpiryDate() {
+		return visaExpiryDate;
+	}
+
+	/**
+	 * @param visaExpiryDate
+	 *            the visaExpiryDate to set
+	 */
+	public void setVisaExpiryDate(long visaExpiryDate) {
+		this.visaExpiryDate = visaExpiryDate;
+	}
+
+	/**
+	 * @return the contactDetail
+	 */
+	public ClientContact getContactDetail() {
+		return contactDetail;
+	}
+
+	/**
+	 * @param contactDetail
+	 *            the contactDetail to set
+	 */
+	public void setContactDetail(ClientContact contactDetail) {
+		this.contactDetail = contactDetail;
+	}
+
+	/**
+	 * @return the payStructure
+	 */
+	public long getPayStructure() {
+		return payStructure;
+	}
+
+	/**
+	 * @param payStructure
+	 *            the payStructure to set
+	 */
+	public void setPayStructure(long payStructure) {
+		this.payStructure = payStructure;
+	}
+
 	@Override
 	public int getVersion() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void setVersion(int version) {
+		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.name;
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.EMPLOYEE;
 	}
 
 	@Override
 	public void setID(long id) {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public long getID() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -13,26 +13,51 @@ public class ClientEmployeeGroup implements IAccounterCore {
 
 	private List<ClientEmployee> employees;
 
-	private ClientPayStructure payStructure;
+	private long payStructure;
 
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the employees
+	 */
 	public List<ClientEmployee> getEmployees() {
 		return employees;
 	}
 
+	/**
+	 * @param employees
+	 *            the employees to set
+	 */
 	public void setEmployees(List<ClientEmployee> employees) {
 		this.employees = employees;
 	}
 
-	public ClientPayStructure getPayStructure() {
+	/**
+	 * @return the payStructure
+	 */
+	public long getPayStructure() {
 		return payStructure;
 	}
 
-	public void setPayStructure(ClientPayStructure payStructure) {
+	/**
+	 * @param payStructure
+	 *            the payStructure to set
+	 */
+	public void setPayStructure(long payStructure) {
 		this.payStructure = payStructure;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	@Override
@@ -48,20 +73,13 @@ public class ClientEmployeeGroup implements IAccounterCore {
 	}
 
 	@Override
-	public String getName() {
+	public String getDisplayName() {
 		return this.name;
 	}
 
 	@Override
-	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.EMPLOYEE_GROUP;
 	}
 
 	@Override

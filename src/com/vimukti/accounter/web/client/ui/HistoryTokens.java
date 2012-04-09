@@ -219,11 +219,11 @@ public class HistoryTokens {
 	public static final String LOCATIONGROUPLIST = "location-group-list";
 
 	public static final String MERGEITEM = "merge_item";
-	
+
 	public static final String MERGECLASS = "merge_class";
-	
+
 	public static final String MERGELOCATION = "merge_location";
-	
+
 	public static final String MERGEACCOUNT = "merge_account";
 
 	public static final String MERGEVENDOR = "merge_vendor";
@@ -392,6 +392,26 @@ public class HistoryTokens {
 	public static final String DELETE_COMPANY = "DeleteCompany";
 	public static final String ACCOUNTER_MENU = "accounterMenu";
 	public static final String MESSAGE_OR_TASK = "messageOrTask";
+
+	public static final String NEWEMPLOYEE = "newEmployee";
+
+	public static final String EMPLOYEELIST = "employeeList";
+
+	public static final String NEWPAYHEAD = "newPayHead";
+
+	public static final String NEWEMPLOYEEGROUP = "newEmployeeGroup";
+
+	public static final String NEWPAYROLLUNIT = "newPayrollUnit";
+
+	public static final String NEWEMPLOYEECATEGORY = "newEmployeeCategory";
+
+	public static final String EMPLOYEEGROUPLIST = "employeeGroupList";
+
+	public static final String EMPLOYEECATEGORYLIST = "employeeCategoryList";
+
+	public static final String PAYHEADLIST = "payheadList";
+
+	public static final String PAYROLLUNITLIST = "payrollUnitList";
 
 	public HistoryTokens() {
 

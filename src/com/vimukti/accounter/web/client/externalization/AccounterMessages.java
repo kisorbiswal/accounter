@@ -6314,5 +6314,88 @@ public interface AccounterMessages extends Messages {
 
 	public String emailBodyShouldNotBeEmpty();
 
+	public String newEmployeeGroup();
+
+	public String payrollUnitList();
+
+	public String payrollUnit();
+
+	public String noOfDecimalPlaces();
+
+	public String payhead();
+
+	public String formalName();
+
+	public String symbol();
+
+	public String paySlipName();
+
+	public String roundingMethod();
+
+	public String calculationPeriod();
+
+	public String addaNewEmployee();
+
+	public String addaNewEmployeeCategory();
+
+	public String employeeCategoryName();
+
+	public String payheadList();
+
+	public String employeeCategoryList();
+
+	public String employeeGroupList();
+
+	public String newPayrollUnit();
+
+	public String newEmployeeCategory();
+
+	public String employeeName();
+
+	public String middleName();
+
+	public String newEmployee();
+
+	public String payroll();
+
+	public String genderType();
+
+	public String employeeID();
+
+	public String dateOfJoining();
+
 	public String employeeGroup();
+
+	public String panOrEinNumber();
+
+	public String employeeBasicInfo();
+
+	public String employeeCategory();
+
+	public String employeeDetailsInfo();
+
+	public String workingLocation();
+
+	public String countryOfIssue();
+
+	public String passportNumber();
+
+	public String passportExpiryDate();
+
+	public String visaNumber();
+
+	public String payrollLists();
+
+	public String employeeList();
+
+	public String newPayHead();
+
+	public String visaExpiryDate();
+
+	public String alias();
+
+	public String calculationType();
+
+	public String affectNetSalary();
+
 }

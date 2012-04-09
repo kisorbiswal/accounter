@@ -23,26 +23,47 @@ public class ClientPayrollUnit implements IAccounterCore {
 	 */
 	private int noofDecimalPlaces;
 
+	/**
+	 * @return the symbol
+	 */
 	public String getSymbol() {
 		return symbol;
 	}
 
+	/**
+	 * @param symbol
+	 *            the symbol to set
+	 */
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
 
+	/**
+	 * @return the formalname
+	 */
 	public String getFormalname() {
 		return formalname;
 	}
 
+	/**
+	 * @param formalname
+	 *            the formalname to set
+	 */
 	public void setFormalname(String formalname) {
 		this.formalname = formalname;
 	}
 
+	/**
+	 * @return the noofDecimalPlaces
+	 */
 	public int getNoofDecimalPlaces() {
 		return noofDecimalPlaces;
 	}
 
+	/**
+	 * @param noofDecimalPlaces
+	 *            the noofDecimalPlaces to set
+	 */
 	public void setNoofDecimalPlaces(int noofDecimalPlaces) {
 		this.noofDecimalPlaces = noofDecimalPlaces;
 	}

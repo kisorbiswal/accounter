@@ -9,43 +9,71 @@ public class ClientPayRun implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientAccount payableAccount;
+	private long payableAccount;
 
 	private List<ClientPayEmployee> payEmployee;
 
-	private ClientFinanceDate payPeriodStartDate;
+	private long payPeriodStartDate;
 
-	private ClientFinanceDate payPeriodEndDate;
+	private long payPeriodEndDate;
 
-	public ClientAccount getPayableAccount() {
+	/**
+	 * @return the payableAccount
+	 */
+	public long getPayableAccount() {
 		return payableAccount;
 	}
 
-	public void setPayableAccount(ClientAccount payableAccount) {
+	/**
+	 * @param payableAccount
+	 *            the payableAccount to set
+	 */
+	public void setPayableAccount(long payableAccount) {
 		this.payableAccount = payableAccount;
 	}
 
+	/**
+	 * @return the payEmployee
+	 */
 	public List<ClientPayEmployee> getPayEmployee() {
 		return payEmployee;
 	}
 
+	/**
+	 * @param payEmployee
+	 *            the payEmployee to set
+	 */
 	public void setPayEmployee(List<ClientPayEmployee> payEmployee) {
 		this.payEmployee = payEmployee;
 	}
 
-	public ClientFinanceDate getPayPeriodStartDate() {
+	/**
+	 * @return the payPeriodStartDate
+	 */
+	public long getPayPeriodStartDate() {
 		return payPeriodStartDate;
 	}
 
-	public void setPayPeriodStartDate(ClientFinanceDate payPeriodStartDate) {
+	/**
+	 * @param payPeriodStartDate
+	 *            the payPeriodStartDate to set
+	 */
+	public void setPayPeriodStartDate(long payPeriodStartDate) {
 		this.payPeriodStartDate = payPeriodStartDate;
 	}
 
-	public ClientFinanceDate getPayPeriodEndDate() {
+	/**
+	 * @return the payPeriodEndDate
+	 */
+	public long getPayPeriodEndDate() {
 		return payPeriodEndDate;
 	}
 
-	public void setPayPeriodEndDate(ClientFinanceDate payPeriodEndDate) {
+	/**
+	 * @param payPeriodEndDate
+	 *            the payPeriodEndDate to set
+	 */
+	public void setPayPeriodEndDate(long payPeriodEndDate) {
 		this.payPeriodEndDate = payPeriodEndDate;
 	}
 

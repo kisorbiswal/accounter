@@ -4,7 +4,7 @@ package com.vimukti.accounter.core;
  * @author Prasanna Kumar G
  * 
  */
-public class EmployeePayHeadComponent {
+public class EmployeePayHeadComponent extends CreatableObject {
 
 	private PayHead payHead;
 

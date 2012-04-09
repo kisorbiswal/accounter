@@ -220,6 +220,10 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientMessageOrTask> messagesAndTasks;
 
+	private ArrayList<ClientEmployee> employees;
+
+	private ArrayList<ClientEmployeeGroup> employeeGroups;
+
 	private int version;
 
 	private long cashDiscountAccount;
@@ -3370,5 +3374,30 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setMessagesAndTasks(List<ClientMessageOrTask> messagesAndTasks) {
 		this.messagesAndTasks = messagesAndTasks;
+	}
+
+	public ArrayList<ClientEmployee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(ArrayList<ClientEmployee> employees) {
+		this.employees = employees;
+	}
+
+	public ArrayList<ClientEmployeeGroup> getEmployeeGroups() {
+		return employeeGroups;
+	}
+
+	public void setEmployeeGroups(ArrayList<ClientEmployeeGroup> employeeGroups) {
+		this.employeeGroups = employeeGroups;
+	}
+
+	public ClientEmployeeGroup getEmployeeGroupByName(String employeeGroupName) {
+		return Utility.getObjectByName(this.employeeGroups, employeeGroupName);
+	}
+
+	public ClientEmployeeCategory getEmployeeCategoryByName(String str) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

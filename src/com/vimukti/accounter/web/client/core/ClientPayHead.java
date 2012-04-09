@@ -53,80 +53,154 @@ public class ClientPayHead implements IAccounterCore {
 
 	private List<ClientPayHeadField> employeeFields;
 
-	public String getAlias() {
-		return alias;
-	}
-
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	public String getNameToAppearInPaySlip() {
-		return nameToAppearInPaySlip;
-	}
-
-	public void setNameToAppearInPaySlip(String nameToAppearInPaySlip) {
-		this.nameToAppearInPaySlip = nameToAppearInPaySlip;
-	}
-
-	public int getCalculationType() {
-		return calculationType;
-	}
-
-	public void setCalculationType(int calculationType) {
-		this.calculationType = calculationType;
-	}
-
-	public int getCalculationPeriod() {
-		return calculationPeriod;
-	}
-
-	public void setCalculationPeriod(int calculationPeriod) {
-		this.calculationPeriod = calculationPeriod;
-	}
-
-	public int getRoundingMethod() {
-		return roundingMethod;
-	}
-
-	public void setRoundingMethod(int roundingMethod) {
-		this.roundingMethod = roundingMethod;
-	}
-
-	public boolean isAffectNetSalary() {
-		return isAffectNetSalary;
-	}
-
-	public void setAffectNetSalary(boolean isAffectNetSalary) {
-		this.isAffectNetSalary = isAffectNetSalary;
-	}
-
+	/**
+	 * @return the companyFields
+	 */
 	public List<ClientPayHeadField> getCompanyFields() {
 		return companyFields;
 	}
 
+	/**
+	 * @param companyFields
+	 *            the companyFields to set
+	 */
 	public void setCompanyFields(List<ClientPayHeadField> companyFields) {
 		this.companyFields = companyFields;
 	}
 
+	/**
+	 * @return the employeeFields
+	 */
 	public List<ClientPayHeadField> getEmployeeFields() {
 		return employeeFields;
 	}
 
+	/**
+	 * @param employeeFields
+	 *            the employeeFields to set
+	 */
 	public void setEmployeeFields(List<ClientPayHeadField> employeeFields) {
 		this.employeeFields = employeeFields;
 	}
 
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the nameToAppearInPaySlip
+	 */
+	public String getNameToAppearInPaySlip() {
+		return nameToAppearInPaySlip;
+	}
+
+	/**
+	 * @param nameToAppearInPaySlip
+	 *            the nameToAppearInPaySlip to set
+	 */
+	public void setNameToAppearInPaySlip(String nameToAppearInPaySlip) {
+		this.nameToAppearInPaySlip = nameToAppearInPaySlip;
+	}
+
+	/**
+	 * @return the calculationType
+	 */
+	public int getCalculationType() {
+		return calculationType;
+	}
+
+	/**
+	 * @param calculationType
+	 *            the calculationType to set
+	 */
+	public void setCalculationType(int calculationType) {
+		this.calculationType = calculationType;
+	}
+
+	/**
+	 * @return the calculationPeriod
+	 */
+	public int getCalculationPeriod() {
+		return calculationPeriod;
+	}
+
+	/**
+	 * @param calculationPeriod
+	 *            the calculationPeriod to set
+	 */
+	public void setCalculationPeriod(int calculationPeriod) {
+		this.calculationPeriod = calculationPeriod;
+	}
+
+	/**
+	 * @return the roundingMethod
+	 */
+	public int getRoundingMethod() {
+		return roundingMethod;
+	}
+
+	/**
+	 * @param roundingMethod
+	 *            the roundingMethod to set
+	 */
+	public void setRoundingMethod(int roundingMethod) {
+		this.roundingMethod = roundingMethod;
+	}
+
+	/**
+	 * @return the isAffectNetSalary
+	 */
+	public boolean isAffectNetSalary() {
+		return isAffectNetSalary;
+	}
+
+	/**
+	 * @param isAffectNetSalary
+	 *            the isAffectNetSalary to set
+	 */
+	public void setAffectNetSalary(boolean isAffectNetSalary) {
+		this.isAffectNetSalary = isAffectNetSalary;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the alias
+	 */
+	public String getAlias() {
+		return alias;
+	}
+
+	/**
+	 * @param alias
+	 *            the alias to set
+	 */
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 	@Override
@@ -139,11 +213,6 @@ public class ClientPayHead implements IAccounterCore {
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public String getName() {
-		return this.name;
 	}
 
 	@Override

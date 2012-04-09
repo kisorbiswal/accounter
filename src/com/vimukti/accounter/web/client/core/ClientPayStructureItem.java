@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientPayStructureItem implements IAccounterCore {
 
 	/**
@@ -10,36 +11,57 @@ public class ClientPayStructureItem implements IAccounterCore {
 	/**
 	 * PayHead of this PayStructure Item
 	 */
-	private ClientPayHead payHead;
+	private long payHead;
 
 	/**
 	 * Rate
 	 */
 	private double rate;
 
-	private ClientPayStructure payStructure;
+	private long payStructure;
 
-	public ClientPayHead getPayHead() {
+	/**
+	 * @return the payHead
+	 */
+	public long getPayHead() {
 		return payHead;
 	}
 
-	public void setPayHead(ClientPayHead payHead) {
+	/**
+	 * @param payHead
+	 *            the payHead to set
+	 */
+	public void setPayHead(long payHead) {
 		this.payHead = payHead;
 	}
 
+	/**
+	 * @return the rate
+	 */
 	public double getRate() {
 		return rate;
 	}
 
+	/**
+	 * @param rate
+	 *            the rate to set
+	 */
 	public void setRate(double rate) {
 		this.rate = rate;
 	}
 
-	public ClientPayStructure getPayStructure() {
+	/**
+	 * @return the payStructure
+	 */
+	public long getPayStructure() {
 		return payStructure;
 	}
 
-	public void setPayStructure(ClientPayStructure payStructure) {
+	/**
+	 * @param payStructure
+	 *            the payStructure to set
+	 */
+	public void setPayStructure(long payStructure) {
 		this.payStructure = payStructure;
 	}
 

@@ -316,6 +316,10 @@ public class Company implements IAccounterServerCore {
 	private Set<ChequeLayout> chequeLayouts = new HashSet<ChequeLayout>();
 
 	private Set<EmailAccount> emailAccounts = new HashSet<EmailAccount>();
+	
+	private Set<Employee> employees = new HashSet<Employee>();
+
+	private Set<EmployeeGroup> employeeGroups = new HashSet<EmployeeGroup>();
 
 	String bankAccountNo;
 
@@ -1699,5 +1703,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setTransactionCount(int transactionCount) {
 		this.transactionCount = transactionCount;
+	}
+
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
 	}
 }

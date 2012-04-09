@@ -9,44 +9,72 @@ public class ClientPayStructure implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientEmployee employee;
+	private long employee;
 
-	private ClientEmployeeGroup employeeGroup;
+	private long employeeGroup;
 
-	private ClientFinanceDate effectiveFrom;
+	private long effectiveFrom;
 
 	private List<ClientPayStructureItem> items;
 
-	public ClientEmployee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(ClientEmployee employee) {
-		this.employee = employee;
-	}
-
-	public ClientEmployeeGroup getEmployeeGroup() {
-		return employeeGroup;
-	}
-
-	public void setEmployeeGroup(ClientEmployeeGroup employeeGroup) {
-		this.employeeGroup = employeeGroup;
-	}
-
-	public ClientFinanceDate getEffectiveFrom() {
+	/**
+	 * @return the effectiveFrom
+	 */
+	public long getEffectiveFrom() {
 		return effectiveFrom;
 	}
 
-	public void setEffectiveFrom(ClientFinanceDate effectiveFrom) {
+	/**
+	 * @param effectiveFrom
+	 *            the effectiveFrom to set
+	 */
+	public void setEffectiveFrom(long effectiveFrom) {
 		this.effectiveFrom = effectiveFrom;
 	}
 
+	/**
+	 * @return the items
+	 */
 	public List<ClientPayStructureItem> getItems() {
 		return items;
 	}
 
+	/**
+	 * @param items
+	 *            the items to set
+	 */
 	public void setItems(List<ClientPayStructureItem> items) {
 		this.items = items;
+	}
+
+	/**
+	 * @return the employeeGroup
+	 */
+	public long getEmployeeGroup() {
+		return employeeGroup;
+	}
+
+	/**
+	 * @param employeeGroup
+	 *            the employeeGroup to set
+	 */
+	public void setEmployeeGroup(long employeeGroup) {
+		this.employeeGroup = employeeGroup;
+	}
+
+	/**
+	 * @return the employee
+	 */
+	public long getEmployee() {
+		return employee;
+	}
+
+	/**
+	 * @param employee
+	 *            the employee to set
+	 */
+	public void setEmployee(long employee) {
+		this.employee = employee;
 	}
 
 	@Override

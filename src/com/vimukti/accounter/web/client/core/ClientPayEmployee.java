@@ -8,29 +8,40 @@ public class ClientPayEmployee implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Pay Run
-	 */
-	private ClientPayRun payRun;
+
+	private long payRun;
 
 	private List<ClientEmployeePayHeadComponent> payHeadComponents;
-	
-	public ClientPayRun getPayRun() {
-		return payRun;
-	}
 
-	public void setPayRun(ClientPayRun payRun) {
-		this.payRun = payRun;
-	}
-
+	/**
+	 * @return the payHeadComponents
+	 */
 	public List<ClientEmployeePayHeadComponent> getPayHeadComponents() {
 		return payHeadComponents;
 	}
 
+	/**
+	 * @param payHeadComponents
+	 *            the payHeadComponents to set
+	 */
 	public void setPayHeadComponents(
 			List<ClientEmployeePayHeadComponent> payHeadComponents) {
 		this.payHeadComponents = payHeadComponents;
+	}
+
+	/**
+	 * @return the payRun
+	 */
+	public long getPayRun() {
+		return payRun;
+	}
+
+	/**
+	 * @param payRun
+	 *            the payRun to set
+	 */
+	public void setPayRun(long payRun) {
+		this.payRun = payRun;
 	}
 
 	@Override
@@ -42,7 +53,7 @@ public class ClientPayEmployee implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -66,7 +77,7 @@ public class ClientPayEmployee implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -74,5 +85,4 @@ public class ClientPayEmployee implements IAccounterCore {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

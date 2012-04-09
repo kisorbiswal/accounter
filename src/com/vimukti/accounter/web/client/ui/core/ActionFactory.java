@@ -128,6 +128,16 @@ import com.vimukti.accounter.web.client.ui.fixedassets.PendingItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.RegisteredItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SellingRegisteredItemAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SoldDisposedFixedAssetsListAction;
+import com.vimukti.accounter.web.client.ui.payroll.EmployeeCategoryListAction;
+import com.vimukti.accounter.web.client.ui.payroll.EmployeeGroupListAction;
+import com.vimukti.accounter.web.client.ui.payroll.EmployeeListAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeCategoryAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeGroupAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewPayHeadAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewPayrollUnitAction;
+import com.vimukti.accounter.web.client.ui.payroll.PayheadListAction;
+import com.vimukti.accounter.web.client.ui.payroll.PayrollUnitListAction;
 import com.vimukti.accounter.web.client.ui.reports.APAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.APAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
@@ -1367,12 +1377,15 @@ public class ActionFactory {
 	public static MergeItemsAction getItemMergeAction() {
 		return new MergeItemsAction();
 	}
+
 	public static MergeClassAction getClassMergeAction() {
 		return new MergeClassAction();
 	}
+
 	public static MergeLocationAction getLocationMergeAction() {
 		return new MergeLocationAction();
 	}
+
 	public static BudgetOverviewReportAction getBudgetOverView() {
 		return new BudgetOverviewReportAction();
 	}
@@ -1552,5 +1565,45 @@ public class ActionFactory {
 
 	public static AccounterMenuAction getAccounterMenuAction() {
 		return new AccounterMenuAction();
+	}
+
+	public static NewEmployeeAction getNewEmployeeAction() {
+		return new NewEmployeeAction();
+	}
+
+	public static NewPayHeadAction getNewPayHeadAction() {
+		return new NewPayHeadAction();
+	}
+
+	public static NewEmployeeGroupAction getNewEmployeeGroupAction() {
+		return new NewEmployeeGroupAction();
+	}
+
+	public static NewPayrollUnitAction getNewPayrollUnitAction() {
+		return new NewPayrollUnitAction();
+	}
+
+	public static NewEmployeeCategoryAction getNewEmployeeCategoryAction() {
+		return new NewEmployeeCategoryAction();
+	}
+
+	public static EmployeeListAction getEmployeeListAction() {
+		return new EmployeeListAction();
+	}
+
+	public static EmployeeCategoryListAction getEmployeeCategoryListAction() {
+		return new EmployeeCategoryListAction();
+	}
+
+	public static PayheadListAction getPayheadListAction() {
+		return new PayheadListAction();
+	}
+
+	public static PayrollUnitListAction getPayrollUnitListAction() {
+		return new PayrollUnitListAction();
+	}
+
+	public static EmployeeGroupListAction getEmployeeGroupListAction() {
+		return new EmployeeGroupListAction();
 	}
 }

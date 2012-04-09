@@ -128,6 +128,7 @@ public class MenuBar {
 		}
 
 		// this.addMenu(getFixedAssetsMenu(messages.fixedAssets()));
+		this.addMenu(getPayrollMenu(messages.payroll()));
 
 		if (canViewReports) {
 			this.addMenu(getReportMenu(messages.reports()));
@@ -136,6 +137,47 @@ public class MenuBar {
 			this.addMenu(getSettingsMenu(messages.settings()));
 		}
 
+	}
+
+	private Menu getPayrollMenu(String payroll) {
+		Menu payrollMenuBar = new Menu(payroll);
+		payrollMenuBar.addMenuItem(getNewPayrollMenu(messages.new1()));
+		payrollMenuBar
+				.addMenuItem(getPayrollListsMenu(messages.payrollLists()));
+		return payrollMenuBar;
+	}
+
+	private MenuItem getPayrollListsMenu(String payrollLists) {
+		Menu listMenuBar = new Menu(payrollLists);
+
+		listMenuBar.addMenuItem(messages.employeeList(),
+				HistoryTokens.EMPLOYEELIST);
+		listMenuBar.addMenuItem(messages.employeeGroupList(),
+				HistoryTokens.EMPLOYEEGROUPLIST);
+		listMenuBar.addMenuItem(messages.employeeCategoryList(),
+				HistoryTokens.EMPLOYEECATEGORYLIST);
+		listMenuBar.addMenuItem(messages.payheadList(),
+				HistoryTokens.PAYHEADLIST);
+		listMenuBar.addMenuItem(messages.payrollUnitList(),
+				HistoryTokens.PAYROLLUNITLIST);
+
+		return listMenuBar;
+	}
+
+	private MenuItem getNewPayrollMenu(String new1) {
+		Menu newMenuBar = new Menu(new1);
+
+		newMenuBar.addMenuItem(messages.newEmployee(),
+				HistoryTokens.NEWEMPLOYEE);
+		newMenuBar.addMenuItem(messages.newEmployeeGroup(),
+				HistoryTokens.NEWEMPLOYEEGROUP);
+		newMenuBar.addMenuItem(messages.newEmployeeCategory(),
+				HistoryTokens.NEWEMPLOYEECATEGORY);
+		newMenuBar.addMenuItem(messages.newPayHead(), HistoryTokens.NEWPAYHEAD);
+		newMenuBar.addMenuItem(messages.newPayrollUnit(),
+				HistoryTokens.NEWPAYROLLUNIT);
+
+		return newMenuBar;
 	}
 
 	private Menu getInventoryMenu(String string) {

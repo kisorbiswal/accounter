@@ -26,6 +26,8 @@ import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAs
 import com.vimukti.accounter.web.client.IAccounterExportCSVServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
+import com.vimukti.accounter.web.client.IAccounterPayrollService;
+import com.vimukti.accounter.web.client.IAccounterPayrollServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.IGlobal;
@@ -83,6 +85,7 @@ public class Accounter implements EntryPoint {
 	public static final String TRANSLATE_SERVICE_ENTRY_POINT = "/do/accounter/translate/rpc/service";
 	public final static String EXPORT_CSV_SERVICE_ENTRY_POINT = "/do/accounter/exportcsv/rpc/service";
 	public final static String WINDOW_RPC_SERVICE_ENTRY_POINT = "/do/accounter/windows/rpc/service";
+	public final static String PAYROLL_ENTRY_POINT = "/do/accounter/payroll/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
 	private static IAccounterCompanyInitializationServiceAsync cIService;
@@ -91,6 +94,7 @@ public class Accounter implements EntryPoint {
 	private static IAccounterReportServiceAsync reportService;
 	private static IAccounterExportCSVServiceAsync exportCSVService;
 	private static IAccounterWindowsHomeServiceAsync windowsService;
+	private static IAccounterPayrollServiceAsync payrollService;
 
 	private static AccounterMessages messages;
 	private static FinanceImages financeImages;
@@ -296,6 +300,13 @@ public class Accounter implements EntryPoint {
 			translateService = rpcInitialiser.createTranslateService();
 		}
 		return translateService;
+	}
+
+	public static IAccounterPayrollServiceAsync createPayrollService() {
+		if (payrollService == null) {
+			payrollService = rpcInitialiser.createPayrollService();
+		}
+		return payrollService;
 	}
 
 	public static ClientFinanceDate getStartDate() {

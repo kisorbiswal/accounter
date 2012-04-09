@@ -4,7 +4,7 @@
                 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field" auto-import="false">
-	
+
 	<class name="Employee" table="EMPLOYEE">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -18,49 +18,55 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<many-to-one name="payStructure" column="PAY_STRUCTURE" class="PayStructure"/>
-		<property name="name" column="NAME"/>
-		<property name="number" column="NUMBER"/>
-		<many-to-one name="group" column="EMPLOYEE_GROUP" class="EmployeeGroup"/>
-		<many-to-one name="category" column="CATEGORY" class="EmployeeCategory"/>
-		<property name="dateofJoining" column="DATE_OF_JOINING" type="com.vimukti.accounter.core.LongUseType"/>
-		<property name="gender" column="GENDER"/>
-		<property name="contactNumber" column="CONTACT_NUMBER"/>
-		<property name="email" column="EMAIL"/>
-		<property name="bankName" column="BANK_NAME"/>
-		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER"/>
-		<property name="branch" column="BANK_BRANCH"/>
-		<property name="passportNumber" column="PASSPORT_NUMBER"/>
-		<property name="countryOfIssue" column="COUNTRY_OF_ISSUE"/>
-		<property name="passportExpiryDate" column="PASSPORT_EXPIRY_DATE" type="com.vimukti.accounter.core.LongUseType"/>
-		<property name="visaNumber" column="VISA_NUMBER"/>
-		<property name="visaExpiryDate" column="VISA_EXPIRY_DATE"/>
-		<property name="name" column="NAME"/>
-		<property name="name" column="NAME"/>
-		
+		<many-to-one name="payStructure" column="PAY_STRUCTURE"
+			class="PayStructure" />
+		<property name="name" column="NAME" />
+		<property name="number" column="NUMBER" />
+		<many-to-one name="group" column="EMPLOYEE_GROUP" class="EmployeeGroup" />
+		<many-to-one name="category" column="CATEGORY" class="EmployeeCategory" />
+		<property name="dateofJoining" column="DATE_OF_JOINING"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="gender" column="GENDER" />
+		<property name="contactNumber" column="CONTACT_NUMBER" />
+		<property name="email" column="EMAIL" />
+		<property name="bankName" column="BANK_NAME" />
+		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER" />
+		<property name="branch" column="BANK_BRANCH" />
+		<property name="passportNumber" column="PASSPORT_NUMBER" />
+		<property name="countryOfIssue" column="COUNTRY_OF_ISSUE" />
+		<property name="passportExpiryDate" column="PASSPORT_EXPIRY_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="visaNumber" column="VISA_NUMBER" />
+		<property name="visaExpiryDate" column="VISA_EXPIRY_DATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<set name="customFieldValues" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="CustomFieldValue" />
+		</set>
 		<component name="address" class="Address">
-			<property name="type" column="ADDRESS_TYPE"/>
-			<property name="address1" column="ADDRESS_ADDRESS1"/>
-			<property name="street" column="ADDRESS_STREET"/>
-			<property name="city" column="ADDRESS_CITY"/>
-			<property name="stateOrProvinence" column="ADDRESS_STATE"/>
-			<property name="zipOrPostalCode" column="ADDRESS_ZIP"/>
-			<property name="countryOrRegion" column="ADDRESS_COUNTRY"/>
-			<property name="isSelected" column="ADDRESS_IS_SELECTED"/>
+			<property name="type" column="ADDRESS_TYPE" />
+			<property name="address1" column="ADDRESS_ADDRESS1" />
+			<property name="street" column="ADDRESS_STREET" />
+			<property name="city" column="ADDRESS_CITY" />
+			<property name="stateOrProvinence" column="ADDRESS_STATE" />
+			<property name="zipOrPostalCode" column="ADDRESS_ZIP" />
+			<property name="countryOrRegion" column="ADDRESS_COUNTRY" />
+			<property name="isSelected" column="ADDRESS_IS_SELECTED" />
 		</component>
-		
-		<composite  name="contact"  class="Contact">
-				<property name="isPrimary" column="IS_PRIMARY" not-null="true"/>
-				<property name="name" column="NAME" not-null="true" length="100"/>
-				<property name="title" column="TITLE" not-null="true"
-					length="100"/>
-				<property name="businessPhone" column="BUSINESS_PHONE"
-					not-null="true" length="100"/>
-				<property name="email" column="EMAIL" not-null="true"/>
-		</composite>
-		
+
+		<component name="contact" class="Contact">
+			<property name="isPrimary" column="IS_PRIMARY" not-null="true" />
+			<property name="name" column="CONTACT_NAME" not-null="true"
+				length="100" />
+			<property name="title" column="TITLE" not-null="true"
+				length="100" />
+			<property name="businessPhone" column="BUSINESS_PHONE"
+				not-null="true" length="100" />
+			<property name="email" column="CONTACT_EMAIL" not-null="true" />
+		</component>
+
 	</class>
-	
+
 	<class name="EmployeeGroup" table="EMPLOYEE_GROUP">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -74,16 +80,17 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<property name="name" column="NAME"/>	
-		<many-to-one name="payStructure" column="PAY_STRUCTURE" class="PayStructure"/>
+		<property name="name" column="NAME" />
+		<many-to-one name="payStructure" column="PAY_STRUCTURE"
+			class="PayStructure" />
 		<list name="employees">
-			<key column="EMPLOYEE_GROUP"/>
-			<list-index column="IDX"/>
-			<one-to-many class="Employee"/>
+			<key column="EMPLOYEE_GROUP" />
+			<list-index column="IDX" />
+			<one-to-many class="Employee" />
 		</list>
-		
+
 	</class>
-	
+
 	<class name="PayrollUnit" table="PAY_ROLL_UNIT">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -97,13 +104,13 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		
-		<property name="symbol" column="SYMBOL"/>
-		<property name="formalname" column="FORMAL_NAME"/>
-		<property name="noofDecimalPlaces" column="NO_OF_DECIMAL_PLACES"/>
-		
+
+		<property name="symbol" column="SYMBOL" />
+		<property name="formalname" column="FORMAL_NAME" />
+		<property name="noofDecimalPlaces" column="NO_OF_DECIMAL_PLACES" />
+
 	</class>
-	
+
 	<class name="PayStructure" table="PAY_STRUCTURE">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -117,23 +124,22 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		
-		<many-to-one name="employee" column="EMPLOYEE_ID" class="Employee"/>
-		<many-to-one name="employeeGroup" column="EMPLOYEE_GROUP_ID" class="EmployeeGroup"/>
-		<property name="effectiveFrom" column="EFFECTIVE_FROM" type="com.vimukti.accounter.core.LongUseType"/>
+
+		<property name="effectiveFrom" column="EFFECTIVE_FROM"
+			type="com.vimukti.accounter.core.LongUseType" />
 		<list name="items" cascade="save-update,delete">
-			<key column="PAY_STRUCTURE"/>
-			<list-index column="IDX"/>
-			<one-to-many class="PayStructureItem"/>
+			<key column="PAY_STRUCTURE" />
+			<list-index column="IDX" />
+			<one-to-many class="PayStructureItem" />
 		</list>
-		
+
 	</class>
-	
+
 	<class name="PayStructureItem" table="PAY_STRUCTURE_ITEM">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"/>
+		<many-to-one name="company" column="COMPANY_ID" class="Company" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -141,10 +147,11 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<many-to-one name="PayStructure" column="PAY_HEAD" class="PayHead"/>
-		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead"/>
+		<many-to-one name="payStructure" column="PAY_STRUCTURE"
+			class="PayStructure" />
+		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
 	</class>
-	
+
 	<class name="PayHead" table="PAY_HEAD">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -158,9 +165,63 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		
+
 	</class>
-	
-	
-	
+
+	<class name="EmployeeCategory" table="EMPLOYEE_CATEGORY">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
+
+		<property name="name" column="NAME" />
+	</class>
+
+	<class name="EmployeePayHeadComponent" table="EMPLOYEE_PAYHEAD_COMPONENT">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead">
+		</many-to-one>
+		<property name="rate" column="RATE" />
+	</class>
+
+	<class name="EmployeePaymentDetails" table="EMPLOYEE_PAYHEAD_COMPONENT">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="payRun" column="PAY_RUN" class="PayRun">
+		</many-to-one>
+		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
+		</many-to-one>
+		<set name="payHeadComponents" inverse="true" cascade="save-update,delete">
+			<key column="PAYHEAD_COMPONENT_ID" />
+			<one-to-many class="EmployeePayHeadComponent" />
+		</set>
+	</class>
+
+	<class name="PayRun" table="PAY_RUN">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="payableAccount" column="PAYABLE_ACCOUNT"
+			class="Account">
+		</many-to-one>
+		<property name="payPeriodStartDate" column="PAY_PERIOD_STARTDATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="payPeriodEndDate" column="PAY_PERIOD_ENDDATE"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<set name="payEmployee" inverse="true" cascade="save-update,delete">
+			<key column="EMPLOYEE_PAYMENT_ID" />
+			<one-to-many class="EmployeePaymentDetails" />
+		</set>
+	</class>
 </hibernate-mapping>
