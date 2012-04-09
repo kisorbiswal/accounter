@@ -470,21 +470,25 @@
 	<query name="getPayBill.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayBill pst where pst.company=:company
-		and pst.payFrom.id =:accountId and pst.saveStatus!=204 and pst.status
+		and pst.payFrom.id =:accountId and pst.checkNumber=:tobePrinted and
+		pst.saveStatus!=204 and pst.status
 		=:status
 	</query>
 
 	<query name="getVendorPayment.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.VendorPayment pst where
 		pst.company=:company
 		and pst.payFrom.id =:accountId and
 		pst.saveStatus!=204 and pst.status
-		=:status
+		=:status and
+		pst.checkNumber=:tobePrinted
 	</query>
 
 	<query name="getReceiveVAT.form.accountId.and.status">
@@ -492,7 +496,8 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.ReceiveVAT rv where
-		rv.company=:company and rv.depositIn.id
+		rv.company=:company and rv.checkNumber!=:tobePrinted and
+		rv.depositIn.id
 		=:accountId and
 		rv.saveStatus!=204
 		and rv.status =:status
@@ -501,10 +506,12 @@
 	<query name="getCreditCardCharge.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CreditCardCharge pst where
 		pst.company=:company and
 		pst.payFrom.id =:accountId and
+		pst.checkNumber=:tobePrinted and
 		pst.saveStatus!=204
 		and pst.status
 		=:status
@@ -513,11 +520,14 @@
 	<query name="getCashPurchase.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CashPurchase pst where
 		pst.company=:company and pst.payFrom.id
 		=:accountId and
-		pst.saveStatus!=204 and pst.status =:status
+		pst.checkNumber=:tobePrinted and
+		pst.saveStatus!=204 and pst.status
+		=:status
 	</query>
 
 	<query name="getCustomerPrePayment.form.accountId.and.status">
@@ -956,9 +966,11 @@
 	<query name="getWriteCheck.by.bankacountIdandstatus">
 		<query-param name="id" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.WriteCheck wc where
 		wc.bankAccount.id=:id and wc.saveStatus!=204 and wc.status=:status and
+		wc.checkNumber=:tobePrinted and
 		wc.company=:company
 	</query>
 
@@ -983,21 +995,25 @@
 	<query name="getCustomerRefund.by.payFromand.isvoid.status">
 		<query-param name="id" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
 		where cr.payFrom.id
 		=:id and cr.saveStatus!=204 and cr.status=:status and
+		cr.checkNumber=:tobePrinted and
 		cr.company=:company
 	</query>
 
 	<query name="getPayTax.by.payFromand.isvoid.status">
 		<query-param name="id" type="long" />
 		<query-param name="status" type="int" />
+		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayTAX pst where
 		pst.payFrom.id =
 		:id
 		and pst.saveStatus!=204 and pst.status =:status and
+		pst.checkNumber=:tobePrinted and
 		pst.company=:company
 	</query>
 
@@ -2298,26 +2314,28 @@
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.Transaction set
-		accounterClass=:toID where
-		accounterClass=:fromID 
+		accounterClass=:toID
+		where
+		accounterClass=:fromID
 	</query>
 	<query name="update.merge.transaction.deposit.item.class.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.TransactionDepositItem set
 		accounterClass=:toID where
-		accounterClass=:fromID 
+		accounterClass=:fromID
 	</query>
 	<query name="update.merge.transaction.location.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.Transaction set
 		location=:toID where
-		location=:fromID 
+		location=:fromID
 	</query>
 	<query name="deleteBankChequeLayouts">
 		<query-param name="account" type="Account" />
-		delete from com.vimukti.accounter.core.ChequeLayout cl 
-		where cl.account=:account
+		delete from com.vimukti.accounter.core.ChequeLayout cl
+		where
+		cl.account=:account
 	</query>
 </hibernate-mapping>

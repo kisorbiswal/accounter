@@ -23,7 +23,6 @@ import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
-import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
@@ -33,7 +32,6 @@ import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayTAX;
-import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionPayBill;
@@ -534,6 +532,9 @@ public class VendorManager extends PayeeManager {
 					.setInteger(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			List list = query.list();
 			if (list != null) {
@@ -564,6 +565,9 @@ public class VendorManager extends PayeeManager {
 					.setParameter(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 
 			list = query.list();
@@ -596,6 +600,9 @@ public class VendorManager extends PayeeManager {
 					.setParameter(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -627,6 +634,9 @@ public class VendorManager extends PayeeManager {
 					.setInteger(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -659,6 +669,9 @@ public class VendorManager extends PayeeManager {
 					.setInteger(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -685,35 +698,36 @@ public class VendorManager extends PayeeManager {
 				}
 			}
 
-			query = session
-					.getNamedQuery("getReceiveVAT.form.accountId.and.status")
-					.setParameter("accountId", accountId)
-					.setParameter(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-					.setEntity("company", company);
-			list = query.list();
-			if (list != null) {
-				Iterator i = list.iterator();
-				while (i.hasNext()) {
-					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					ReceiveVAT rv = (ReceiveVAT) i.next();
-					issuePaymentTransaction.setTransactionId(rv.getID());
-					issuePaymentTransaction.setType(rv.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(rv
-							.getDate().getDate()));
-					issuePaymentTransaction.setNumber(rv.getNumber());
-					issuePaymentTransaction.setName("VAT Agency Payment");
-					issuePaymentTransaction.setMemo(null);
-					issuePaymentTransaction.setAmount(rv.getTotal());
-					issuePaymentTransaction.setPaymentMethod(rv
-							.getPaymentMethod());
-					issuePaymentTransaction.setCurrency(rv.getCurrency()
-							.getID());
-					issuePaymentTransactionsList.add(issuePaymentTransaction);
-
-				}
-			}
+			// query = session
+			// .getNamedQuery("getReceiveVAT.form.accountId.and.status")
+			// .setParameter("accountId", accountId)
+			// .setParameter(
+			// "status",
+			// Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			// .setEntity("company", company);
+			// list = query.list();
+			// if (list != null) {
+			// Iterator i = list.iterator();
+			// while (i.hasNext()) {
+			// IssuePaymentTransactionsList issuePaymentTransaction = new
+			// IssuePaymentTransactionsList();
+			// ReceiveVAT rv = (ReceiveVAT) i.next();
+			// issuePaymentTransaction.setTransactionId(rv.getID());
+			// issuePaymentTransaction.setType(rv.getType());
+			// issuePaymentTransaction.setDate(new ClientFinanceDate(rv
+			// .getDate().getDate()));
+			// issuePaymentTransaction.setNumber(rv.getNumber());
+			// issuePaymentTransaction.setName("VAT Agency Payment");
+			// issuePaymentTransaction.setMemo(null);
+			// issuePaymentTransaction.setAmount(rv.getTotal());
+			// issuePaymentTransaction.setPaymentMethod(rv
+			// .getPaymentMethod());
+			// issuePaymentTransaction.setCurrency(rv.getCurrency()
+			// .getID());
+			// issuePaymentTransactionsList.add(issuePaymentTransaction);
+			//
+			// }
+			// }
 
 			query = session
 					.getNamedQuery(
@@ -722,6 +736,9 @@ public class VendorManager extends PayeeManager {
 					.setParameter(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -754,6 +771,9 @@ public class VendorManager extends PayeeManager {
 					.setParameter(
 							"status",
 							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+					.setParameter("tobePrinted",
+							Global.get().messages().toBePrinted(),
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			list = query.list();
 			if (list != null) {
@@ -782,39 +802,40 @@ public class VendorManager extends PayeeManager {
 				}
 			}
 
-			query = session
-					.getNamedQuery(
-							"getCustomerPrePayment.form.accountId.and.status")
-					.setParameter("accountId", accountId)
-					.setParameter(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-					.setEntity("company", company);
-			list = query.list();
-
-			if (list != null) {
-				Iterator i = list.iterator();
-				while (i.hasNext()) {
-					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					CustomerPrePayment cpp = (CustomerPrePayment) i.next();
-					issuePaymentTransaction.setTransactionId(cpp.getID());
-					issuePaymentTransaction.setType(cpp.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(cpp
-							.getDate().getDate()));
-					issuePaymentTransaction.setNumber(cpp.getNumber());
-					issuePaymentTransaction
-							.setName(cpp.getCustomer() != null ? cpp
-									.getCustomer().getName() : null);
-					issuePaymentTransaction.setMemo(cpp.getMemo());
-					issuePaymentTransaction.setAmount(cpp.getTotal());
-					issuePaymentTransaction.setPaymentMethod(cpp
-							.getPaymentMethod());
-					issuePaymentTransaction.setCurrency(cpp.getCurrency()
-							.getID());
-					issuePaymentTransactionsList.add(issuePaymentTransaction);
-
-				}
-			}
+			// query = session
+			// .getNamedQuery(
+			// "getCustomerPrePayment.form.accountId.and.status")
+			// .setParameter("accountId", accountId)
+			// .setParameter(
+			// "status",
+			// Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
+			// .setEntity("company", company);
+			// list = query.list();
+			//
+			// if (list != null) {
+			// Iterator i = list.iterator();
+			// while (i.hasNext()) {
+			// IssuePaymentTransactionsList issuePaymentTransaction = new
+			// IssuePaymentTransactionsList();
+			// CustomerPrePayment cpp = (CustomerPrePayment) i.next();
+			// issuePaymentTransaction.setTransactionId(cpp.getID());
+			// issuePaymentTransaction.setType(cpp.getType());
+			// issuePaymentTransaction.setDate(new ClientFinanceDate(cpp
+			// .getDate().getDate()));
+			// issuePaymentTransaction.setNumber(cpp.getNumber());
+			// issuePaymentTransaction
+			// .setName(cpp.getCustomer() != null ? cpp
+			// .getCustomer().getName() : null);
+			// issuePaymentTransaction.setMemo(cpp.getMemo());
+			// issuePaymentTransaction.setAmount(cpp.getTotal());
+			// issuePaymentTransaction.setPaymentMethod(cpp
+			// .getPaymentMethod());
+			// issuePaymentTransaction.setCurrency(cpp.getCurrency()
+			// .getID());
+			// issuePaymentTransactionsList.add(issuePaymentTransaction);
+			//
+			// }
+			// }
 
 			if (issuePaymentTransactionsList != null) {
 				return new ArrayList<IssuePaymentTransactionsList>(
@@ -1806,8 +1827,9 @@ public class VendorManager extends PayeeManager {
 		Object[] uniqueResult = (Object[]) session
 				.getNamedQuery("getCashPurchaseByEstimate")
 				.setParameter("estimate", estimate).uniqueResult();
-		ClientCashPurchase cashPurchase = new ClientConvertUtil().toClientObject(
-				((CashPurchase) uniqueResult[0]), ClientCashPurchase.class);
+		ClientCashPurchase cashPurchase = new ClientConvertUtil()
+				.toClientObject(((CashPurchase) uniqueResult[0]),
+						ClientCashPurchase.class);
 		return cashPurchase;
 	}
 
