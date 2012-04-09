@@ -296,11 +296,22 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
-		original.append("<img style='width:90px;height:90px'  src='file:///");
-		// original.append("<img src='file:///");
-		original.append(ServerConfiguration.getAttachmentsDir() + "/"
-				+ company.getId() + "/" + brandingTheme.getFileName());
-		original.append("'/>");
+		// original.append("<img style='width:90px;height:90px'  src='file:///");
+		File file = new File(ServerConfiguration.getAttachmentsDir()
+				+ File.separator + company.getId() + File.separator
+				+ "thummnail" + File.separator, brandingTheme.getFileName());
+		if (file.exists()) {
+			original.append("<img src='file:///");
+			original.append(ServerConfiguration.getAttachmentsDir() + "/"
+					+ company.getId() + "/" + "thumbnail" + "/"
+					+ brandingTheme.getFileName());
+			original.append("'/>");
+		} else {
+			original.append("<img src='file:///");
+			original.append(ServerConfiguration.getAttachmentsDir() + "/"
+					+ company.getId() + "/" + brandingTheme.getFileName());
+			original.append("'/>");
+		}
 		return original;
 	}
 

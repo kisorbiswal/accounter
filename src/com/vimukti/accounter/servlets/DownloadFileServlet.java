@@ -65,7 +65,8 @@ public class DownloadFileServlet extends BaseServlet {
 			File resize = file2;
 			if (!file2.exists()) {
 				try {
-					resize = resizeFile(companyId, fileName, file, response);
+					// resize = resizeFile(companyId, fileName, file, response);
+					resize = file;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
