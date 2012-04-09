@@ -7648,3 +7648,23 @@ table.no_records tr td {
 	box-orient: vertical;
 
 }
+
+#EmailView .emailBody {
+    margin: 0 15px;
+}
+#EmailView .email_textarea button{
+	margin-right:10px;
+}
+#BaseDialog .emailPanel {
+	display: -webkit-box;
+	 display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	padding: 10px;
+}
+#BaseDialog .emailPanel .emailBody textarea{
+	width:350px;
+	height:240px;
+}

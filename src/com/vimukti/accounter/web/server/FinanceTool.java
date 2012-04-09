@@ -67,6 +67,7 @@ import com.vimukti.accounter.core.CustomField;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.EmailTemplate;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
@@ -580,6 +581,9 @@ public class FinanceTool {
 			} else if (serverObject instanceof BuildAssembly) {
 				session.delete(serverObject);
 			} else if (serverObject instanceof MessageOrTask) {
+				session.delete(serverObject);
+
+			} else if (serverObject instanceof EmailTemplate) {
 				session.delete(serverObject);
 			} else {
 				if (serverObject instanceof Transaction) {

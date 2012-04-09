@@ -220,6 +220,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientMessageOrTask> messagesAndTasks;
 
+	private List<ClientEmailTemplate> emailTemplates;
+
 	private int version;
 
 	private long cashDiscountAccount;
@@ -1252,6 +1254,11 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.fixedAssets, fixedAssetID);
 	}
 
+	public ClientEmailTemplate getEmailTemplate(long templateId) {
+
+		return Utility.getObject(this.emailTemplates, templateId);
+	}
+
 	public ClientTAXCode getTAXCode(long taxCodeId) {
 
 		return Utility.getObject(this.taxCodes, taxCodeId);
@@ -1921,7 +1928,10 @@ public class ClientCompany implements IAccounterCore {
 				Utility.updateClientList(clientjob, clientCustomer.getJobs());
 				Utility.updateClientList(clientjob, jobs);
 				break;
-
+			case EMAIL_TEMPLATE:
+				ClientEmailTemplate emailTemplate = (ClientEmailTemplate) accounterCoreObject;
+				Utility.updateClientList(emailTemplate, emailTemplates);
+				break;
 			// case VATITEM:
 			// ClientTAXItem vatItem = (ClientTAXItem)
 			// accounterCoreObject;
@@ -2141,6 +2151,8 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case TAXITEM:
 			deleteTaxItem(id);
+		case EMAIL_TEMPLATE:
+			deleteTemplate(id);
 			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
 			// deleteTaxCode(id);
 			// for (ClientTAXCode taxCode : getActiveTaxCodes()) {
@@ -2192,6 +2204,11 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
+	private void deleteTemplate(long id) {
+		ClientEmailTemplate object = Utility.getObject(emailTemplates, id);
+		this.emailTemplates.remove(object);
+	}
+
 	private void deleteJob(long id) {
 		ClientJob object = Utility.getObject(this.jobs, id);
 		if (object != null) {
@@ -2240,6 +2257,15 @@ public class ClientCompany implements IAccounterCore {
 			this.fixedAssets.remove(fixedAsset);
 			fireEvent(new CoreEvent<ClientFixedAsset>(ChangeType.DELETE,
 					fixedAsset));
+		}
+	}
+
+	public void deleteEmailTemplate(long id) {
+		ClientEmailTemplate emailTemplate = this.getEmailTemplate(id);
+		if (emailTemplate != null) {
+			this.emailTemplates.remove(emailTemplate);
+			fireEvent(new CoreEvent<ClientEmailTemplate>(ChangeType.DELETE,
+					emailTemplate));
 		}
 	}
 
@@ -3370,5 +3396,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setMessagesAndTasks(List<ClientMessageOrTask> messagesAndTasks) {
 		this.messagesAndTasks = messagesAndTasks;
+	}
+
+	public List<ClientEmailTemplate> getEmailTemplates() {
+		return emailTemplates;
+	}
+
+	public void setEmailTemplates(List<ClientEmailTemplate> emailTemplates) {
+		this.emailTemplates = emailTemplates;
 	}
 }

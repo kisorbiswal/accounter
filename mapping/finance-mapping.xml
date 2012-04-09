@@ -666,6 +666,12 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="EmailAccount" />
 		</set>
+		
+		<set name="emailTemplates" inverse="true" cascade="delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="EmailTemplate" />
+		</set>
+		
 	</class>
 
 	<class name="NominalCodeRange" table="NOMINAL_CODE_RANGE">
@@ -2373,4 +2379,15 @@
 		<many-to-one name="effectingAccount" not-null="true"
 			column="EFFECTING_ACCOUNT" class="Account" />
 	</class>
+	<class name="EmailTemplate" table="EMAIL_TEMPLATE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<property name="emailTemplateName" type="encryptedstring" column="EMAIL_TEMPLATE_NAME"></property>
+		<property name="emailBody" type="encryptedstring" column="EMAIL_BODY"></property>
+	</class>
+	
 </hibernate-mapping>
