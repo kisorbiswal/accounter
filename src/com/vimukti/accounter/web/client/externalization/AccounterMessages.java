@@ -6313,4 +6313,10 @@ public interface AccounterMessages extends Messages {
 	public String emailBody();
 
 	public String emailBodyShouldNotBeEmpty();
+
+	public String emaiTemplate();
+
+	public String selectEmailBodyTemplate();
+
+	public String defaultTemplate();
 }

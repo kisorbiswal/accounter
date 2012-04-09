@@ -15,6 +15,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -117,6 +118,9 @@ public class Company implements IAccounterServerCore {
 	private int transactionCount;
 
 	boolean isLocked;
+
+	private String invoiceEmailBody;
+
 	/**
 	 * Book Keeping
 	 */
@@ -316,6 +320,8 @@ public class Company implements IAccounterServerCore {
 	private Set<ChequeLayout> chequeLayouts = new HashSet<ChequeLayout>();
 
 	private Set<EmailAccount> emailAccounts = new HashSet<EmailAccount>();
+
+	private Set<ClientEmailTemplate> emailTemplates = new HashSet<ClientEmailTemplate>();
 
 	String bankAccountNo;
 
@@ -904,6 +910,9 @@ public class Company implements IAccounterServerCore {
 		cmp.emailAccounts = this.getEmailAccounts();
 
 		cmp.emailAccounts = this.getEmailAccounts();
+
+		cmp.emailTemplates = this.getEmailTemplates();
+
 		return cmp;
 	}
 
@@ -1435,6 +1444,7 @@ public class Company implements IAccounterServerCore {
 		delete(usersList, session);
 		delete(currencies, session);
 		delete(chequeLayouts, session);
+		delete(emailTemplates, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {
@@ -1700,4 +1710,17 @@ public class Company implements IAccounterServerCore {
 	public void setTransactionCount(int transactionCount) {
 		this.transactionCount = transactionCount;
 	}
+
+	public void setInvoiceEmailBody(String invoiceEmailBody) {
+		this.invoiceEmailBody = invoiceEmailBody;
+	}
+
+	public Set<ClientEmailTemplate> getEmailTemplates() {
+		return emailTemplates;
+	}
+
+	public void setEmailTemplates(Set<ClientEmailTemplate> emailTemplates) {
+		this.emailTemplates = emailTemplates;
+	}
+
 }

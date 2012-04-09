@@ -5288,6 +5288,23 @@
 
 	</sql-query>
 
+	<sql-query name="getEmailTemplate">
+		<query-param name="companyId" type="long" />
+		<query-param name="emailTemplateName" type="encryptedstring" />
+		<query-param name="id" type="long" />
+
+		<return-scalar column="EMAIL_TEMPLATE_NAME" type="encryptedstring" />
+		
+		<![CDATA[
+				SELECT T.EMAIL_TEMPLATE_NAME AS TEMPLATE_NAME
+				FROM   EMAIL_TEMPLATE T
+				WHERE  T.EMAIL_TEMPLATE_NAME = :emailTemplateName
+				       AND T.ID != :id
+				       AND T.COMPANY_ID = :companyId  
+				]]>
+
+	</sql-query>
+	
 	<sql-query name="getBrandingTheme">
 		<query-param name="companyId" type="long" />
 		<query-param name="themeName" type="encryptedstring" />

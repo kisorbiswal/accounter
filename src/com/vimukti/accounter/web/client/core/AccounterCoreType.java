@@ -113,7 +113,7 @@ public enum AccounterCoreType implements IsSerializable {
 	ISSUEPAYMENT("ClientIssuePayment", "IssuePayment"),
 
 	PAYBILL("ClientPayBill", "PayBill"),
-	
+
 	VENDORPAYMENT("ClientVendorPayment", "VendorPayment"),
 
 	PAYSALESTAX("ClientPaySalesTax", "PaySalesTax"),
@@ -258,7 +258,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	BUILD_ASSEMBLY("ClientBuildAssembly", "BuildAssembly"),
 
-	JOB("ClientJob", "Job");
+	JOB("ClientJob", "Job"),
+
+	EMAIL_TEMPLATE("ClientEmailTemplate", "EmailTemplate");
 
 	private String clientName;
 	private String serverName;
