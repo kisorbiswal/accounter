@@ -73,6 +73,7 @@ public class WriteChequeView extends
 	TaxItemsForm vatTotalNonEditableText;
 	private TextAreaItem addrArea;
 	private DynamicForm payForm;
+	private TextItem checkNumberField;
 
 	protected ClientAccount selectBankAcc;
 	protected ClientAccount selectPayToMethod;
@@ -98,8 +99,6 @@ public class WriteChequeView extends
 
 	private final ClientCompany company;
 	private List<ClientAccount> payFromAccounts;
-
-	private final String checkNo = ClientWriteCheck.IS_TO_BE_PRINTED;
 
 	private DynamicForm numForm;
 
@@ -449,7 +448,7 @@ public class WriteChequeView extends
 
 		transaction.setInFavourOf(inFavourOf.getValue());
 
-		transaction.setCheckNumber(checkNo);
+		transaction.setCheckNumber(checkNumberField.getValue());
 
 		transaction.setTransactionDate(transactionDate.getDate());
 
@@ -508,7 +507,7 @@ public class WriteChequeView extends
 		transaction.setNumber(transactionNumber.getValue().toString());
 
 		// setting checknumber
-		transaction.setCheckNumber(checkNo);
+		transaction.setCheckNumber(checkNumberField.getValue());
 
 		// setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -607,7 +606,9 @@ public class WriteChequeView extends
 			bankAccForm.add(jobListCombo);
 		}
 		jobListCombo.setVisible(false);
-		bankAccForm.add(bankAccSelect, balText);
+		checkNumberField = new TextItem(messages.checkNumber(),
+				"chekNumberField");
+		bankAccForm.add(bankAccSelect, balText, checkNumberField);
 
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
@@ -1202,6 +1203,7 @@ public class WriteChequeView extends
 		accountTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setEnabled(!false);
 		discountField.setEnabled(!isInViewMode());
+		checkNumberField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
 		if (isTrackJob()) {
@@ -1359,6 +1361,7 @@ public class WriteChequeView extends
 		updateAddressAndGrid();
 		amtText.setAmount(transaction.getAmount());
 		inFavourOf.setValue(transaction.getInFavourOf());
+		checkNumberField.setValue(transaction.getCheckNumber());
 		if (transaction.getAmount() != 0) {
 			validateAmountAndTotal();
 		}
