@@ -394,8 +394,6 @@ public class WriteCheck extends Transaction {
 
 		writecheck.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
-		writecheck.total = 0.0;
-
 		for (Estimate estimate : writecheck.getEstimates()) {
 			session.delete(estimate);
 		}
