@@ -5,18 +5,14 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.JobCombo;
 
 public class CreateJobIdToolBar extends CreateStatementToolBar {
 
-	private JobCombo jobCombo;
 	private ClientJob selectedJob;
 
 	public CreateJobIdToolBar(boolean isVendor, AbstractReportView reportView) {
 		super(isVendor, reportView);
 		getViewSelect().setVisible(false);
-		jobCombo = new JobCombo("Job", false);
-		addItems(jobCombo);
 
 	}
 
@@ -60,8 +56,7 @@ public class CreateJobIdToolBar extends CreateStatementToolBar {
 				ClientFinanceDate endDate = toItem.getDate();
 				reportview.removeEmptyStyle();
 				jobCombo.setSelected(selectedJob.getName());
-				reportview.makeReportRequest(getPayeeId(), startDate,
-						endDate);
+				reportview.makeReportRequest(getPayeeId(), startDate, endDate);
 			}
 		}
 	}

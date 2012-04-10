@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.JobCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
@@ -36,6 +37,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_VOIDED = 3;
 	public static final int VIEW_DRAFT = 4;
+	protected JobCombo jobCombo;
 
 	public CreateStatementToolBar(boolean isVendor,
 			AbstractReportView reportView) {
@@ -65,6 +67,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
 				messages.financialYearToDate(), messages.custom() };
+
+		jobCombo = new JobCombo("Job", false);
 
 		if (isVendor) {
 			vendorCombo = new VendorCombo(
@@ -174,7 +178,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
 		if (this instanceof CreateJobIdToolBar) {
-			addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
+			addItems(customerCombo, jobCombo, dateRangeItemCombo, fromItem,
+					toItem);
 		} else {
 			if (isVendor) {
 				addItems(getViewSelect(), vendorCombo, dateRangeItemCombo,
