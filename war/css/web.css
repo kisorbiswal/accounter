@@ -6626,7 +6626,7 @@ input[type="text"] {
 textarea[disabled] {
 	background-color: #EBEBE4;
 	margin-bottom: 5px;
-	resize: none;
+	resize: none !important;
 }
 
 #reconcilationView .hPanel {
@@ -7652,7 +7652,6 @@ table.no_records tr td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-
 }
 
 #EmailView .emailBody {
@@ -7690,4 +7689,10 @@ table.no_records tr td {
 } 
 .title_voided_panel{
     margin:15px 0;
+}
+#TDSDeductorDetailsView .taxDynamicForm .formItem .gwt-Label{
+	width:250px;
+}
+#paybillview .topHLay {
+    width: 100%;
 }
