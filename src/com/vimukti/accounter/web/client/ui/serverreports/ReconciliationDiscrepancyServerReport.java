@@ -65,11 +65,7 @@ public class ReconciliationDiscrepancyServerReport extends
 		case 5:
 			double reconciliedAmount = record.getReconciliedAmount();
 			double transactionAmount = record.getTransactionAmount();
-			if (reconciliedAmount > transactionAmount) {
-				return reconciliedAmount - transactionAmount;
-			} else {
-				return transactionAmount - reconciliedAmount;
-			}
+			return reconciliedAmount - transactionAmount;
 		default:
 			return null;
 		}

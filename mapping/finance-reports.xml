@@ -1042,7 +1042,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		
+
 		<return-scalar column="ID" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="A_NUMBER" type="encryptedstring" />
@@ -3666,8 +3666,8 @@
 				               AT.TRANSACTION_ID                  AS TRANSACTION_ID,
 				               T.T_DATE                           AS TRANSACTION_DATE,
 				               T.NUMBER                           AS NUMBER,
-				               SUM(AT.AMOUNT * T.CURRENCY_FACTOR) AS TRANSACTION_AMOUNT,
-				               RI.AMOUNT * T.CURRENCY_FACTOR      AS RECONCILIED_AMOUNT,
+				               SUM(AT.AMOUNT) AS TRANSACTION_AMOUNT,
+				               RI.AMOUNT      AS RECONCILIED_AMOUNT,
 				               P.NAME                             AS PAYEE_NAME
 				        FROM   RECONCILIATION_ITEM RI
 				               LEFT OUTER JOIN RECONCILIATION R
