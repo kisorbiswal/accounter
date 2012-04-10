@@ -221,7 +221,7 @@ public class CustomerPrePaymentView extends
 			this.billingAddress = transaction.getAddress();
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
-			amountText.setEnabled(false);
+			amountText.setEnabled(!isInViewMode());
 			amountText.setAmount(transaction.getTotal());
 			if (customer != null) {
 				customerBalText.setAmount(customer.getBalance());
