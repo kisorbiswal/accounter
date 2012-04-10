@@ -2,6 +2,13 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+
 /**
  * The salary components constituting Pay Structures are called Pay Heads. A Pay
  * Head may be an earning, which is paid to an employee, or a deduction, which
@@ -215,4 +222,13 @@ public abstract class PayHead extends CreatableObject {
 		this.expenseAccount = expenseAccount;
 	}
 
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.PAY_HEAD);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
+	}
 }

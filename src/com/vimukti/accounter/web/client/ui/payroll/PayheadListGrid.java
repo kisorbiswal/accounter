@@ -44,7 +44,7 @@ public class PayheadListGrid extends BaseListGrid<ClientPayHead> {
 		case 3:
 			return obj.getCalculationType();
 		case 4:
-			return obj.getCalculationPeriod();
+//			return obj.getCalculationPeriod();
 		case 5:
 			return Accounter.getFinanceImages().delete();
 		default:

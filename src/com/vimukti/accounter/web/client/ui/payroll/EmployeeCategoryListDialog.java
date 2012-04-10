@@ -59,12 +59,6 @@ public class EmployeeCategoryListDialog extends
 
 			public void onThirdButtonClick() {
 				if (listGridView != null) {
-					ClientEmployeeCategory selectedGroup = (ClientEmployeeCategory) listGridView
-							.getSelection();
-					if (selectedGroup != null) {
-						return;
-					}
-
 					deleteObject((IAccounterCore) listGridView.getSelection());
 					if (employeeCategories == null) {
 						enableEditRemoveButtons(false);
@@ -107,7 +101,7 @@ public class EmployeeCategoryListDialog extends
 
 	@Override
 	protected List<ClientEmployeeCategory> getRecords() {
-		return null;
+		return getCompany().getEmployeeCategories();
 	}
 
 	@Override
@@ -144,8 +138,8 @@ public class EmployeeCategoryListDialog extends
 			String value = inputDlg.getTextItems().get(0).getValue().toString();
 			ClientEmployeeCategory employeeCategoryByName = getCompany()
 					.getEmployeeCategoryByName(UIUtils.toStr(value));
-			if (employeeCategory != null) {
-				if (!(employeeCategory.getName().equalsIgnoreCase(value) ? true
+			if (employeeCategoryByName != null) {
+				if ((employeeCategoryByName.getName().equalsIgnoreCase(value) ? true
 						: employeeCategoryByName == null)) {
 					result.addError(this, messages.alreadyExist());
 				}

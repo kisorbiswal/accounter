@@ -498,6 +498,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientPayHead> payheads;
 
+	private List<ClientEmployeeCategory> employeeCategories;
+
 	// private List<ClientTaxItem> taxItems;
 
 	// List<ClientPayType> payTypes;
@@ -1842,6 +1844,38 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
+			case EMPLOYEE_GROUP:
+
+				ClientEmployeeGroup employeeGroup = (ClientEmployeeGroup) accounterCoreObject;
+
+				Utility.updateClientList(employeeGroup, employeeGroups);
+
+				break;
+
+			case EMPLOYEE:
+
+				ClientEmployee employee = (ClientEmployee) accounterCoreObject;
+
+				Utility.updateClientList(employee, employees);
+
+				break;
+
+			case PAY_HEAD:
+
+				ClientPayHead payhead = (ClientPayHead) accounterCoreObject;
+
+				Utility.updateClientList(payhead, payheads);
+
+				break;
+
+			case EMPLOYEE_CATEGORY:
+
+				ClientEmployeeCategory employeeCategory = (ClientEmployeeCategory) accounterCoreObject;
+
+				Utility.updateClientList(employeeCategory, employeeCategories);
+
+				break;
+
 			case PAYMENT_TERM:
 
 				ClientPaymentTerms paymentsTerms = (ClientPaymentTerms) accounterCoreObject;
@@ -2195,6 +2229,57 @@ public class ClientCompany implements IAccounterCore {
 		case USER:
 			deleteUser(id);
 			break;
+
+		case EMPLOYEE:
+			deleteEmployee(id);
+			break;
+
+		case EMPLOYEE_GROUP:
+			deleteEmployeeGroup(id);
+			break;
+
+		case PAY_HEAD:
+			deletePayHead(id);
+			break;
+
+		case EMPLOYEE_CATEGORY:
+			deleteEmployeeCategory(id);
+			break;
+		}
+	}
+
+	private void deleteEmployeeCategory(long id) {
+		ClientEmployeeCategory category = this.getEmployeeCategory(id);
+		if (category != null) {
+			this.employeeCategories.remove(category);
+			fireEvent(new CoreEvent<ClientEmployeeCategory>(ChangeType.DELETE,
+					category));
+		}
+	}
+
+	private void deletePayHead(long id) {
+		ClientPayHead payhead = this.getPayHead(id);
+		if (payhead != null) {
+			this.payheads.remove(payhead);
+			fireEvent(new CoreEvent<ClientPayHead>(ChangeType.DELETE, payhead));
+		}
+	}
+
+	private void deleteEmployee(long id) {
+		ClientEmployee clientEmployee = this.getEmployee(id);
+		if (clientEmployee != null) {
+			this.employees.remove(clientEmployee);
+			fireEvent(new CoreEvent<ClientEmployee>(ChangeType.DELETE,
+					clientEmployee));
+		}
+	}
+
+	private void deleteEmployeeGroup(long id) {
+		ClientEmployeeGroup clientEmployee = this.getEmployeeGroup(id);
+		if (clientEmployee != null) {
+			this.employeeGroups.remove(clientEmployee);
+			fireEvent(new CoreEvent<ClientEmployeeGroup>(ChangeType.DELETE,
+					clientEmployee));
 		}
 	}
 
@@ -3398,18 +3483,16 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObjectByName(this.employeeGroups, employeeGroupName);
 	}
 
-	public ClientEmployeeCategory getEmployeeCategoryByName(String str) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientEmployeeCategory getEmployeeCategoryByName(String name) {
+		return Utility.getObjectByName(this.getEmployeeCategories(), name);
 	}
 
 	public ClientEmployeeGroup getEmployeeGroup(long id) {
 		return Utility.getObject(this.employeeGroups, id);
 	}
 
-	public ClientEmployeeGroup getEmployeeCategory(long category) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientEmployeeCategory getEmployeeCategory(long id) {
+		return Utility.getObject(this.employeeCategories, id);
 	}
 
 	public ClientPayHead getPayHead(long payHead) {
@@ -3426,5 +3509,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientEmployee getEmployee(long id) {
 		return Utility.getObject(this.employees, id);
+	}
+
+	public List<ClientEmployeeCategory> getEmployeeCategories() {
+		return this.employeeCategories;
+	}
+
+	public void setEmployeeCategories(
+			List<ClientEmployeeCategory> employeeCategories) {
+		this.employeeCategories = employeeCategories;
 	}
 }

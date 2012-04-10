@@ -25,9 +25,10 @@ public class ClientPayHead implements IAccounterCore {
 	public static final int CALCULATION_TYPE_ON_PRODUCTION = 4;
 	public static final int CALCULATION_TYPE_AS_USER_DEFINED = 5;
 
-	public static final int CALCULATION_TYPE_DAYS = 1;
-	public static final int CALCULATION_TYPE_WEEKS = 2;
-	public static final int CALCULATION_TYPE_MONTHS = 3;
+	public static final int CALCULATION_PERIOD_DAYS = 1;
+	public static final int CALCULATION_PERIOD_FOR_NIGHTS = 2;
+	public static final int CALCULATION_PERIOD_WEEKS = 3;
+	public static final int CALCULATION_PERIOD_MONTHS = 4;
 
 	public static final int ROUNDING_METHOD_DOWNWORD = 1;
 	public static final int ROUNDING_METHOD_NORMAL = 2;
@@ -43,8 +44,6 @@ public class ClientPayHead implements IAccounterCore {
 
 	private int calculationType;
 
-	private int calculationPeriod;
-
 	private int roundingMethod;
 
 	private boolean isAffectNetSalary;
@@ -54,6 +53,8 @@ public class ClientPayHead implements IAccounterCore {
 	private List<ClientPayHeadField> employeeFields;
 
 	private long id;
+
+	private ClientAccount expenseAccount;
 
 	/**
 	 * @return the companyFields
@@ -128,21 +129,6 @@ public class ClientPayHead implements IAccounterCore {
 	 */
 	public void setCalculationType(int calculationType) {
 		this.calculationType = calculationType;
-	}
-
-	/**
-	 * @return the calculationPeriod
-	 */
-	public int getCalculationPeriod() {
-		return calculationPeriod;
-	}
-
-	/**
-	 * @param calculationPeriod
-	 *            the calculationPeriod to set
-	 */
-	public void setCalculationPeriod(int calculationPeriod) {
-		this.calculationPeriod = calculationPeriod;
 	}
 
 	/**
@@ -236,6 +222,14 @@ public class ClientPayHead implements IAccounterCore {
 	@Override
 	public long getID() {
 		return this.id;
+	}
+
+	public ClientAccount getExpenseAccount() {
+		return expenseAccount;
+	}
+
+	public void setExpenseAccount(ClientAccount expenseAccount) {
+		this.expenseAccount = expenseAccount;
 	}
 
 }

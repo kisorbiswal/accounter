@@ -57,12 +57,6 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 
 			public void onThirdButtonClick() {
 				if (listGridView != null) {
-					ClientEmployeeGroup selectedGroup = (ClientEmployeeGroup) listGridView
-							.getSelection();
-					if (selectedGroup != null) {
-						return;
-					}
-
 					deleteObject((IAccounterCore) listGridView.getSelection());
 					if (employeeGroups == null) {
 						enableEditRemoveButtons(false);

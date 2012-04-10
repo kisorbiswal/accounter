@@ -125,7 +125,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		head.setAlias(aliasItem.getValue());
 		head.setType(typeCombo.getSelectedIndex());
 		head.setCalculationType(calculationTypeCombo.getSelectedIndex());
-		head.setCalculationPeriod(calculationPeriodCombo.getSelectedIndex());
+		// head.setCalculationPeriod(calculationPeriodCombo.getSelectedIndex());
 		head.setRoundingMethod(roundingMethodCombo.getSelectedIndex());
 		head.setNameToAppearInPaySlip(payslipNameItem.getValue());
 		saveOrUpdate(head);

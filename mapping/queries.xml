@@ -2298,26 +2298,32 @@
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.Transaction set
-		accounterClass=:toID where
-		accounterClass=:fromID 
+		accounterClass=:toID
+		where
+		accounterClass=:fromID
 	</query>
 	<query name="update.merge.transaction.deposit.item.class.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.TransactionDepositItem set
 		accounterClass=:toID where
-		accounterClass=:fromID 
+		accounterClass=:fromID
 	</query>
 	<query name="update.merge.transaction.location.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		update com.vimukti.accounter.core.Transaction set
 		location=:toID where
-		location=:fromID 
+		location=:fromID
 	</query>
 	<query name="deleteBankChequeLayouts">
 		<query-param name="account" type="Account" />
-		delete from com.vimukti.accounter.core.ChequeLayout cl 
+		delete from com.vimukti.accounter.core.ChequeLayout cl
 		where cl.account=:account
+	</query>
+
+	<query name="list.PayrollUnit">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayrollUnit p where p.company=:company
 	</query>
 </hibernate-mapping>

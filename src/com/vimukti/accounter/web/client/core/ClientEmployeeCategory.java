@@ -6,9 +6,11 @@ public class ClientEmployeeCategory implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String name;
-	
+
+	private long id;
+
 	/**
 	 * @param name
 	 *            the name to set
@@ -44,12 +46,12 @@ public class ClientEmployeeCategory implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		return 0;
+		return this.id;
 	}
 
 }

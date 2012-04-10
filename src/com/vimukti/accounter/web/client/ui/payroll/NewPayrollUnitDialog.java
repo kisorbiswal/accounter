@@ -48,4 +48,12 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 		symbolItem.setFocus();
 	}
 
+	public void setData(ClientPayrollUnit data) {
+		if (data != null) {
+			symbolItem.setValue(data.getSymbol());
+			formalNameItem.setValue(data.getFormalname());
+			noOfDecimalsItem.setValue("" + data.getNoofDecimalPlaces());
+		}
+	}
+
 }

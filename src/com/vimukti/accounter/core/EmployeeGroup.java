@@ -2,8 +2,13 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -88,5 +93,15 @@ public class EmployeeGroup extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE_GROUP);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
 	}
 }

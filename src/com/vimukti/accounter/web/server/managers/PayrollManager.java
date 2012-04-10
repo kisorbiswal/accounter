@@ -10,6 +10,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.PayHead;
+import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
@@ -75,16 +76,16 @@ public class PayrollManager extends Manager {
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.PayrollUnit").setEntity(
 				"company", company);
-		List<PayHead> employees = query.list();
-		if (employees == null) {
+		List<PayrollUnit> units = query.list();
+		if (units == null) {
 			return null;
 		}
 		PaginationList<ClientPayrollUnit> clientPayrollUnits = new PaginationList<ClientPayrollUnit>();
-		for (PayHead payHead : employees) {
+		for (PayrollUnit unit : units) {
 			ClientPayrollUnit clientPayrollUnit;
 			try {
 				clientPayrollUnit = new ClientConvertUtil().toClientObject(
-						payHead, ClientPayrollUnit.class);
+						unit, ClientPayrollUnit.class);
 				clientPayrollUnits.add(clientPayrollUnit);
 			} catch (AccounterException e) {
 				e.printStackTrace();

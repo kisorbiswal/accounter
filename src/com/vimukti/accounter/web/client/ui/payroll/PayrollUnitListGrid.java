@@ -1,8 +1,11 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 
@@ -32,6 +35,9 @@ public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 			return obj.getFormalname();
 		case 2:
 			return obj.getNoofDecimalPlaces();
+
+		case 3:
+			return Accounter.getFinanceImages().delete();
 		default:
 			break;
 		}
@@ -40,8 +46,7 @@ public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 
 	@Override
 	public void onDoubleClick(ClientPayrollUnit obj) {
-		// TODO Auto-generated method stub
-
+		ReportsRPC.openTransactionView(IAccounterCore.PAYROLL_UNIT, obj.getID());
 	}
 
 	@Override

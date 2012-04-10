@@ -15,6 +15,8 @@ public class ClientEmployeeGroup implements ClientPayStructureDestination {
 
 	private long payStructure;
 
+	private long id;
+
 	/**
 	 * @return the name
 	 */
@@ -84,14 +86,12 @@ public class ClientEmployeeGroup implements ClientPayStructureDestination {
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 }

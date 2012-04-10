@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
@@ -370,6 +371,10 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			initCallBack(new ClientBuildAssembly(),
 					ActionFactory.getBuildAssemblyAction(), transactionId);
+			break;
+		case IAccounterCore.PAYROLL_UNIT:
+			initCallBack(new ClientPayrollUnit(),
+					ActionFactory.getNewPayrollUnitAction(), transactionId);
 			break;
 		}
 

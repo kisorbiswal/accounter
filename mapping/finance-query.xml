@@ -2110,6 +2110,42 @@
 
 	</sql-query>
 
+	<sql-query name="canDeleteEmployeeGroup">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="EMPLOYEE_ID" type="long" />
+
+		<![CDATA[
+				SELECT E.ID AS EMPLOYEE_ID
+				FROM   EMPLOYEE_GROUP EG
+				       LEFT OUTER JOIN EMPLOYEE E
+				         ON EG.ID = E.EMPLOYEE_GROUP
+				WHERE  EG.ID = :inputId
+				       AND EG.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteEmployeeCategory">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT EC.ID AS ID
+				FROM   EMPLOYEE_CATEGORY EC
+				       
+				WHERE  EC.ID IS NULL
+				       AND EC.ID = :inputId
+				       AND EC.COMPANY_ID = :companyId
+				LIMIT  1 
+				]]>
+
+	</sql-query>
+
 	<sql-query name="canDeletePaymentTerms">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />

@@ -23,6 +23,8 @@ public class ClientPayrollUnit implements IAccounterCore {
 	 */
 	private int noofDecimalPlaces;
 
+	private long id;
+
 	/**
 	 * @return the symbol
 	 */
@@ -94,20 +96,17 @@ public class ClientPayrollUnit implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.PAYROLL_UNIT;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 }

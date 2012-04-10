@@ -262,7 +262,11 @@ public enum AccounterCoreType implements IsSerializable {
 
 	EMPLOYEE_CATEGORY("ClientEmployeeCategory", "EmployeeCategory"),
 
-	EMPLOYEE_GROUP("ClientEmployeeGroup", "EmployeeGroup");
+	EMPLOYEE_GROUP("ClientEmployeeGroup", "EmployeeGroup"),
+
+	PAY_HEAD("ClientPayHead", "PayHead"),
+
+	PAYROLL_UNIT("ClientPayrollUnit", "PayrollUnit");
 
 	private String clientName;
 	private String serverName;

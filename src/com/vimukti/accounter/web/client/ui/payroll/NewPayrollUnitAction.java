@@ -19,13 +19,14 @@ public class NewPayrollUnitAction extends Action<ClientPayrollUnit> {
 		runAsync(data, isDependent);
 	}
 
-	private void runAsync(ClientPayrollUnit data, boolean isDependent) {
+	private void runAsync(final ClientPayrollUnit data, boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
 			public void onCreated() {
 				NewPayrollUnitDialog dialog = new NewPayrollUnitDialog(messages
 						.newPayrollUnit());
+				dialog.setData(data);
 				dialog.show();
 				dialog.center();
 			}

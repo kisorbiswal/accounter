@@ -1,5 +1,9 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * An Employee Group allows you to group/classify the employees in a logical
  * manner as required.
@@ -16,7 +20,8 @@ package com.vimukti.accounter.core;
  * @author prasanna Kumar G
  * 
  */
-public class EmployeeCategory extends CreatableObject {
+public class EmployeeCategory extends CreatableObject implements
+		IAccounterServerCore {
 	private String name;
 
 	/**
@@ -32,5 +37,18 @@ public class EmployeeCategory extends CreatableObject {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }

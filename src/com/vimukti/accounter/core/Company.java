@@ -323,6 +323,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<PayHead> payheads = new HashSet<PayHead>();
 
+	private Set<EmployeeCategory> employeeCategories = new HashSet<EmployeeCategory>();
+
 	String bankAccountNo;
 
 	String sortCode;
@@ -910,6 +912,15 @@ public class Company implements IAccounterServerCore {
 		cmp.emailAccounts = this.getEmailAccounts();
 
 		cmp.emailAccounts = this.getEmailAccounts();
+
+		cmp.employees = this.getEmployees();
+
+		cmp.employeeGroups = this.getEmployeeGroups();
+
+		cmp.payheads = this.getPayheads();
+
+		cmp.employeeCategories = this.getEmployeeCategories();
+
 		return cmp;
 	}
 
@@ -1729,5 +1740,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setPayheads(Set<PayHead> payheads) {
 		this.payheads = payheads;
+	}
+
+	public Set<EmployeeCategory> getEmployeeCategories() {
+		return employeeCategories;
+	}
+
+	public void setEmployeeCategories(Set<EmployeeCategory> employeeCategories) {
+		this.employeeCategories = employeeCategories;
 	}
 }

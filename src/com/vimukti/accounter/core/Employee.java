@@ -3,8 +3,13 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -496,5 +501,15 @@ public class Employee extends CreatableObject implements
 	 */
 	public void setCustomeFields(HashSet<CustomFieldValue> customFieldValues) {
 		this.customFieldValues = customFieldValues;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
 	}
 }
