@@ -1,4 +1,4 @@
-@-moz-document url-prefix (){
+@-moz-document url-prefix(){
 .editTable table td .gwt-TextBox {
 	width:99%;
 }
@@ -559,7 +559,9 @@ input[type="text"] {
 }
 
 .editTable table td {
-	border: 1px solid #ccc;
+	border-color: #CCCCCC;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
 	padding: 0px;
 	margin: 0px;
 	word-wrap: break-word;
@@ -7285,10 +7287,6 @@ textarea[disabled] {
 	table-layout: fixed;
 }
 
-#group2 button:first-child {
-	margin-right: 10px;
-}
-
 #ImporterDialog .errorPanel .importInfoForm {
 	display: -moz-box;
 	display: -webkit-box;
@@ -7508,7 +7506,7 @@ table.no_records tr td {
 
 #JobProfitabilityDetailReport .report-toolbar .formItem input[type="text"]
 	{
-	width: 105px;
+	width: 100px;
 }
 
 #invoicebrandingview .upload-logo img {
@@ -7678,4 +7676,18 @@ table.no_records tr td {
 }
 #SoldAndDisposedItemsListGrid .gridHeader, #SoldAndDisposedItemsListGrid table.gridBody{
 	table-layout: fixed;
+}
+#ClassMergeDialog .horizontalPanel .form, #ClassMergeDialog .horizontalPanel .form1{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#CustomFieldDialog .editTable table{
+    table-layout:auto !important;
+} 
+.title_voided_panel{
+    margin:15px 0;
 }
