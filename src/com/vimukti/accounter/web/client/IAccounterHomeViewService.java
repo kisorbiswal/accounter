@@ -367,10 +367,13 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int formType);
 
 	ArrayList<ClientETDSFillingItem> getEtdsDetails(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			int startYear, int endYear);
 
-	boolean updateAckNoForChallans(int formNo, int quater, int startYear,
-			int endYear, String ackNo, long date) throws AccounterException;
+	boolean updateAckNoForChallans(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			int startYear, int endYear, String ackNo, long date)
+			throws AccounterException;
 
 	ClientTDSDeductorMasters getDeductorMasterDetails();
 
@@ -486,8 +489,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ClientMakeDeposit getDepositByEstimateId(long id) throws AccounterException;
 
-	boolean isChalanDetailsFiled(int formNo, int quater, int startYear,
-			int endYear) throws AccounterException;
+	boolean isChalanDetailsFiled(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			int startYear, int endYear) throws AccounterException;
 
 	PaginationList<DepositsTransfersList> getDepositsList(long date,
 			long date2, int start, int length, int type)

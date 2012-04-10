@@ -12,6 +12,7 @@ import com.vimukti.accounter.core.Form26QAnnexureGenerator;
 import com.vimukti.accounter.core.Form27EQAnnexureGenerator;
 import com.vimukti.accounter.core.Form27QAnnexureGenerator;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -27,6 +28,8 @@ public class GenerateETDSServlet extends BaseServlet {
 	private ClientTDSResponsiblePerson responsiblePersonDetails;
 	private String formNo;
 	private String quater;
+	private String fromDate;
+	private String toDate;
 	private String startYear;
 	private String endYear;
 	private List<ClientTDSChalanDetail> chalanList;
@@ -47,6 +50,8 @@ public class GenerateETDSServlet extends BaseServlet {
 
 		formNo = request.getParameter("formNo");
 		quater = request.getParameter("quater");
+		fromDate = request.getParameter("fromDate");
+		toDate = request.getParameter("toDate");
 		startYear = request.getParameter("startYear");
 		endYear = request.getParameter("endYear");
 		panList = request.getParameter("panList");
@@ -58,8 +63,11 @@ public class GenerateETDSServlet extends BaseServlet {
 
 		try {
 			chalanList = financetool.getChalanList(Integer.parseInt(formNo),
-					Integer.parseInt(quater), Integer.parseInt(startYear),
-					Integer.parseInt(endYear), getCompany(request).getId());
+					Integer.parseInt(quater),
+					new ClientFinanceDate(Long.valueOf(fromDate)),
+					new ClientFinanceDate(Long.valueOf(toDate)),
+					Integer.parseInt(startYear), Integer.parseInt(endYear),
+					getCompany(request).getId());
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (DAOException e) {

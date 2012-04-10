@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.customers.EmailView;
 
@@ -19,7 +19,7 @@ public class EmailViewAction extends Action {
 	}
 
 	private void runAsync(Object invoice, long themeId, Boolean boolean1) {
-		EmailView emailView = new EmailView((ClientInvoice) data);
+		EmailView emailView = new EmailView((ClientTransaction) data);
 		emailView.setThemeId(themeId);
 
 		MainFinanceWindow.getViewManager().showView(emailView, data,

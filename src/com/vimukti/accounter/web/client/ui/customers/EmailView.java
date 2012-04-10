@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -34,15 +35,15 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
-	private ClientInvoice invoice;
+public class EmailView extends AbstractBaseView<ClientTransaction> {
+	private ClientTransaction transaction;
 	// private EmailField fromAddress;
 	private EmailField toAddress;
 	private EmailField ccAddress;
 	private TextItem subject;
 	private TextAreaItem emailBody;
 	private long brandingThemeId;
-	private String ToAdd, ccAdd, sub, body, companyName, fileName;
+	private String ToAdd, ccAdd, sub, body, fileName;
 
 	private EmailCombo fromAddcombo;
 
@@ -58,8 +59,8 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private Button deleteButton;
 	private ClientEmailTemplate emailTemplate;
 
-	public EmailView(ClientInvoice inovoice) {
-		this.invoice = inovoice;
+	public EmailView(ClientTransaction transaction) {
+		this.transaction = transaction;
 		this.getElement().setId("EmailView");
 	}
 
@@ -76,7 +77,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	private void preparePdfFile() {
 
-		AsyncCallback callback = new AsyncCallback<String>() {
+		AsyncCallback<String> callback = new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
@@ -89,16 +90,14 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		};
 
 		try {
-			Accounter.createHomeService().createPdfFile(
-					((ClientInvoice) invoice).getID(),
-					ClientTransaction.TYPE_INVOICE, brandingThemeId, callback);
+			Accounter.createHomeService().createPdfFile(transaction.getID(),
+					transaction.getType(), brandingThemeId, callback);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	@SuppressWarnings("unchecked")
 	public void createControls() {
 
 		final AccounterMessages messages = Global.get().messages();
@@ -130,7 +129,10 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		smtpBtn.setEnabled(fromAddcombo.getSelectedValue() != null ? true
 				: false);
 
-		ClientContact contact = invoice.getContact();
+		ClientContact contact = null;
+		if (transaction instanceof ClientInvoice) {
+			contact = ((ClientInvoice) transaction).getContact();
+		}
 		String toemail = contact != null ? contact.getEmail() : "";
 		toAddress = new EmailField(messages.to());
 		toAddress.setText(toemail.trim());
@@ -141,7 +143,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		subject = new TextItem(messages.subject(), "subject");
 
 		emailBodyTemplateCombo = new EmailTemplateCombo(
-				messages.selectEmailBodyTemplate(), true, invoice);
+				messages.selectEmailBodyTemplate(), true, transaction);
 		emailBodyTemplateCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmailTemplate>() {
 
@@ -163,11 +165,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 				});
 		emailTemplate = new ClientEmailTemplate();
 		emailTemplate.setEmailTemplateName(messages.defaultTemplate());
-		emailTemplate.setEmailBody(Global
-				.get()
-				.messages()
-				.invoiceMailMessage(Global.get().Customer(),
-						this.invoice.getNumber(), invoice.getDate()));
+		emailTemplate.setEmailBody(getMailMessage());
 		emailBodyTemplateCombo.setComboItem(emailTemplate);
 
 		emailBody = new TextAreaItem(messages.email(), "emailBody");
@@ -185,7 +183,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 				if (emailBodyTemplateCombo.getValidator().size() == 1) {
 					dialog = new EmailTemplateDialog(messages.email(), "",
-							invoice);
+							transaction);
 				} else {
 					ClientEmailTemplate selectedValue = emailBodyTemplateCombo
 							.getSelectedValue();
@@ -234,7 +232,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		TextAreaItem attachmentItem = new TextAreaItem(messages.attachments(),
 				"attachmentItem");
-		attachmentItem.setValue("Invoice_" + invoice.getNumber() + ".pdf");
+		attachmentItem.setValue(getAttachmentName());
 		attachmentItem.setDisabled(true);
 		// attachmentItem.setWidth(60);
 
@@ -350,7 +348,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	@Override
 	public void saveAndUpdateView() {
 		if (UIUtils.isValidMultipleEmailIds(toAddress.getValue().toString())) {
-			companyName = getPreferences().getTradingName();
 			ToAdd = toAddress.getValue().toString() != null ? toAddress
 					.getValue().toString() : "";
 			getValidMail(toAddress.getValue().toString());
@@ -397,18 +394,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	}
 
 	@Override
-	public void onFailure(Throwable caught) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSuccess(Void result) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
@@ -416,6 +401,67 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	public void setThemeId(long themeId) {
 		this.brandingThemeId = themeId;
+
+	}
+
+	private String getAttachmentName() {
+		if (transaction != null) {
+			int type = transaction.getType();
+			if (type == ClientTransaction.TYPE_INVOICE) {
+				return "Invoice_" + transaction.getNumber() + ".pdf";
+			} else if (type == ClientTransaction.TYPE_CASH_SALES) {
+				return "CashSale_" + transaction.getNumber() + ".pdf";
+			} else if (type == ClientTransaction.TYPE_ESTIMATE) {
+				if (((ClientEstimate) transaction).getEstimateType() == ClientEstimate.QUOTES) {
+					return "Quote_" + transaction.getNumber() + ".pdf";
+				} else if (((ClientEstimate) transaction).getEstimateType() == ClientEstimate.SALES_ORDER) {
+					return "SalesOrder_" + transaction.getNumber() + ".pdf";
+				}
+			} else if (type == ClientTransaction.TYPE_PURCHASE_ORDER) {
+				return "PurchaseOrder_" + transaction.getNumber() + ".pdf";
+			}
+		}
+		return "";
+	}
+
+	private String getMailMessage() {
+		String message = null;
+		if (transaction.getType() == ClientTransaction.TYPE_INVOICE) {
+			message = Global
+					.get()
+					.messages()
+					.invoiceMailMessage(Global.get().Customer(),
+							this.transaction.getNumber(), transaction.getDate());
+		} else if (transaction.getType() == ClientTransaction.TYPE_CASH_SALES) {
+			message = Global
+					.get()
+					.messages()
+					.cashSaleMailMessage(Global.get().Customer(),
+							this.transaction.getNumber(), transaction.getDate());
+		} else if (transaction.getType() == ClientTransaction.TYPE_ESTIMATE) {
+			if (((ClientEstimate) transaction).getEstimateType() == ClientEstimate.QUOTES) {
+				message = Global
+						.get()
+						.messages()
+						.quoteMailMessage(Global.get().Customer(),
+								this.transaction.getNumber(),
+								transaction.getDate());
+			} else if (((ClientEstimate) transaction).getEstimateType() == ClientEstimate.SALES_ORDER) {
+				message = Global
+						.get()
+						.messages()
+						.salesOrderMailMessage(Global.get().Customer(),
+								this.transaction.getNumber(),
+								transaction.getDate());
+			}
+		} else if (transaction.getType() == ClientTransaction.TYPE_PURCHASE_ORDER) {
+			message = Global
+					.get()
+					.messages()
+					.purchaseOrderMailMessage(Global.get().Vendor(),
+							this.transaction.getNumber(), transaction.getDate());
+		}
+		return message;
 
 	}
 }

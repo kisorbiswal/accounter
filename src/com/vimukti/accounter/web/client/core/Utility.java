@@ -2105,4 +2105,54 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		return isAllowed;
 	}
+	
+	public static ClientFinanceDate[] getFinancialQuarter(int quarter) {
+
+		ClientFinanceDate startDate;
+		ClientFinanceDate endDate;
+
+		ClientFinanceDate start = Accounter.getCompany().getCurrentFiscalYearStartDate();
+
+		switch (quarter) {
+		case 1:
+			startDate = start;
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(start.getDateAsObject());
+			endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 3);
+			endCal.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal.getTime());
+			break;
+
+		case 2:
+			startDate = start;
+			startDate.setMonth(start.getMonth() + 3);
+			Calendar endCal2 = Calendar.getInstance();
+			endCal2.setTime(startDate.getDateAsObject());
+			endCal2.set(Calendar.MONTH, endCal2.get(Calendar.MONTH) + 3);
+			endCal2.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal2.getTime());
+			break;
+
+		case 3:
+			startDate = start;
+			startDate.setMonth(start.getMonth() + 6);
+			Calendar endCal3 = Calendar.getInstance();
+			endCal3.setTime(startDate.getDateAsObject());
+			endCal3.set(Calendar.MONTH, endCal3.get(Calendar.MONTH) + 3);
+			endCal3.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal3.getTime());
+			break;
+		default:
+			startDate = start;
+			startDate.setMonth(start.getMonth() + 9);
+			Calendar endCal4 = Calendar.getInstance();
+			endCal4.setTime(startDate.getDateAsObject());
+			endCal4.set(Calendar.MONTH, endCal4.get(Calendar.MONTH) + 3);
+			endCal4.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal4.getTime());
+			break;
+		}
+		ClientFinanceDate[] dates = new ClientFinanceDate[] { startDate, endDate };
+		return dates;
+	}
 }

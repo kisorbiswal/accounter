@@ -48,6 +48,7 @@ import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -96,6 +97,7 @@ public class PurchaseOrderView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	GwtDisclosurePanel accountsDisclosurePanel;
 	GwtDisclosurePanel itemsDisclosurePanel;
+	private Button emailButton;
 
 	public PurchaseOrderView() {
 		super(ClientTransaction.TYPE_PURCHASE_ORDER);
@@ -1325,6 +1327,13 @@ public class PurchaseOrderView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+
+		if (!isInViewMode() && !data.isTemplate()
+				&& data.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
+
+			getButtonBar().remove(emailButton);
+		}
+
 		statusSelect.setEnabled(!isInViewMode());
 		transactionDateItem.setEnabled(!isInViewMode());
 		transactionNumber.setEnabled(!isInViewMode());
@@ -1579,5 +1588,37 @@ public class PurchaseOrderView extends
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		if (isInViewMode()
+				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
+			emailButton = new Button(messages.email());
+			buttonBar.add(emailButton);
+
+			emailButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					// ActionFactory.getEmailViewAction().run(transaction,
+					// false);
+					ArrayList<ClientBrandingTheme> themesList = Accounter
+							.getCompany().getBrandingTheme();
+
+					if (themesList.size() > 1) {
+						// if there are more than one branding themes, then show
+						// branding
+						// theme dialog box
+						ActionFactory.getEmailThemeComboAction().run(
+								transaction, false);
+					} else {
+						ActionFactory.getEmailViewAction().run(transaction,
+								themesList.get(0).getID(), false);
+					}
+				}
+			});
+		}
 	}
 }

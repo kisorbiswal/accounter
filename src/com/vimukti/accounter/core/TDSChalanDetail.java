@@ -42,6 +42,8 @@ public class TDSChalanDetail extends Transaction implements
 	private int assesmentYearStart;
 	private int assesmentYearEnd;
 	private Account payFrom;
+	private FinanceDate fromDate;
+	private FinanceDate toDate;
 
 	private String etdsfillingAcknowledgementNo;
 	private FinanceDate acknowledgementDate;
@@ -362,6 +364,22 @@ public class TDSChalanDetail extends Transaction implements
 
 	public void setFiled(boolean isFiled) {
 		this.isFiled = isFiled;
+	}
+
+	public FinanceDate getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(FinanceDate fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public FinanceDate getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(FinanceDate toDate) {
+		this.toDate = toDate;
 	}
 
 }

@@ -2010,12 +2010,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<ClientETDSFillingItem> getEtdsDetails(int formNo,
-			int quater, int startYear, int endYear) {
+			int quater, ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			int startYear, int endYear) {
 		List<ClientETDSFillingItem> etdsList = new ArrayList<ClientETDSFillingItem>();
 		try {
 
-			etdsList = getFinanceTool().getEtdsList(formNo, quater, startYear,
-					endYear, getCompanyId());
+			etdsList = getFinanceTool().getEtdsList(formNo, quater, fromDate,
+					toDate, startYear, endYear, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2025,10 +2026,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public boolean updateAckNoForChallans(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			int startYear, int endYear, String ackNo, long date)
 			throws AccounterException {
 		return getFinanceTool().updateAckNoForChallans(formNo, quater,
-				startYear, endYear, ackNo, date, getCompanyId());
+				fromDate, toDate, startYear, endYear, ackNo, date,
+				getCompanyId());
 	}
 
 	@Override
@@ -2110,12 +2113,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public boolean isChalanDetailsFiled(int formNo, int quater, int startYear,
-			int endYear) throws AccounterException {
+	public boolean isChalanDetailsFiled(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			int startYear, int endYear) throws AccounterException {
 		List<ClientTDSChalanDetail> chalanList;
 		try {
 			chalanList = new FinanceTool().getChalanList(formNo, quater,
-					startYear, endYear, getCompanyId());
+					fromDate, toDate, startYear, endYear, getCompanyId());
 			for (ClientTDSChalanDetail clientTDSChalanDetail : chalanList) {
 				if (clientTDSChalanDetail.isFiled()) {
 					return true;
@@ -2446,5 +2450,4 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return getFinanceTool().getCompanyManager().getUnitPricesByPayee(
 				getCompanyId(), isCust, payee, item);
 	}
-
 }

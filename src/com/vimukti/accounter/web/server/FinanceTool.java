@@ -56,6 +56,8 @@ import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.CashSalePdfGeneration;
+import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.CloneUtil2;
@@ -95,12 +97,17 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.core.PurchaseOrder;
+import com.vimukti.accounter.core.PurchaseOrderPdfGeneration;
+import com.vimukti.accounter.core.QuotePdfGeneration;
+import com.vimukti.accounter.core.QuotePdfTemplate;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
+import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Statement;
 import com.vimukti.accounter.core.StockAdjustment;
@@ -2449,6 +2456,151 @@ public class FinanceTool {
 			}
 			// UsersMailSendar.sendPdfMail(file, companyName, subject, content,
 			// senderEmail, toEmail, ccEmail);
+		} else if (type == Transaction.TYPE_ESTIMATE) {
+
+			Estimate estimate = (Estimate) manager.getServerObjectForid(
+					AccounterCoreType.ESTIMATE, objectID);
+
+			if (brandingTheme.isCustomFile()) {
+				// for custom Branding Theme
+				String templeteName = "";
+				QuotePdfGeneration quotePdf = null;
+				SalesOrderPdfGeneration salesOrderPdf = null;
+				if (estimate.getEstimateType() == Estimate.TYPE_ESTIMATE) {
+					quotePdf = new QuotePdfGeneration(estimate, company,
+							brandingTheme);
+
+					if (brandingTheme.getQuoteTemplateName().equalsIgnoreCase(
+							"Classic Template")) {
+						templeteName = "templetes" + File.separator
+								+ "QuoteDocx.docx";
+					} else {
+						templeteName = ServerConfiguration.getAttachmentsDir()
+								+ "/" + company.getId() + "/" + "templateFiles"
+								+ "/" + brandingTheme.getID() + "/"
+								+ brandingTheme.getQuoteTemplateName();
+					}
+					fileName = "Quote_" + estimate.getNumber();
+				} else if (estimate.getEstimateType() == Estimate.TYPE_SALES_ORDER) {
+					salesOrderPdf = new SalesOrderPdfGeneration(estimate,
+							company, brandingTheme);
+
+					if (brandingTheme.getSalesOrderTemplateName()
+							.equalsIgnoreCase("Classic Template")) {
+						templeteName = "templetes" + File.separator
+								+ "SalesOrder.docx";
+					} else {
+						templeteName = ServerConfiguration.getAttachmentsDir()
+								+ "/" + company.getId() + "/" + "templateFiles"
+								+ "/" + brandingTheme.getID() + "/"
+								+ brandingTheme.getSalesOrderTemplateName();
+					}
+					fileName = "SalesOrder_" + estimate.getNumber();
+				}
+
+				InputStream in = new BufferedInputStream(new FileInputStream(
+						templeteName));
+
+				IXDocReport report = XDocReportRegistry.getRegistry()
+						.loadReport(in, TemplateEngineKind.Velocity);
+				IContext context = report.createContext();
+				if (quotePdf != null) {
+					context = quotePdf.assignValues(context, report);
+				} else if (salesOrderPdf != null) {
+					context = salesOrderPdf.assignValues(context, report);
+				}
+
+				Options options = Options.getTo(ConverterTypeTo.PDF).via(
+						ConverterTypeVia.ITEXT);
+
+				file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+				java.io.FileOutputStream fos = new java.io.FileOutputStream(
+						file);
+				report.convert(context, options, fos);
+
+			} else {
+				// for regular html branding theme
+				printTemplete = new QuotePdfTemplate(estimate, brandingTheme,
+						company, "ClassicQuote");
+
+				fileName = printTemplete.getFileName();
+
+				String output = printTemplete.getPdfData();
+
+				java.io.InputStream inputStream = new ByteArrayInputStream(
+						output.getBytes("UTF-8"));
+
+				InputStreamReader reader = new InputStreamReader(inputStream,
+						Charset.forName("UTF-8"));
+				Converter converter = new Converter();
+				file = converter.getPdfFile(printTemplete, reader);
+			}
+		} else if (type == Transaction.TYPE_CASH_SALES) {
+
+			CashSales cashSale = (CashSales) manager.getServerObjectForid(
+					AccounterCoreType.CASHSALES, objectID);
+
+			CashSalePdfGeneration pdf = new CashSalePdfGeneration(cashSale,
+					company, brandingTheme);
+
+			String templeteName = "";
+			if (brandingTheme.getCashSaleTemplateName().equalsIgnoreCase(
+					"Classic Template")) {
+				templeteName = "templetes" + File.separator + "CashSaleOdt.odt";
+			} else {
+				templeteName = ServerConfiguration.getAttachmentsDir() + "/"
+						+ company.getId() + "/" + "templateFiles" + "/"
+						+ brandingTheme.getID() + "/"
+						+ brandingTheme.getCashSaleTemplateName();
+			}
+			InputStream in = new BufferedInputStream(new FileInputStream(
+					templeteName));
+
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+			IContext context = report.createContext();
+			context = pdf.assignValues(context, report);
+
+			Options options = Options.getTo(ConverterTypeTo.PDF).via(
+					ConverterTypeVia.ITEXT);
+			fileName = "CashSale_" + cashSale.getNumber();
+			file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+			java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+			report.convert(context, options, fos);
+		} else if (type == Transaction.TYPE_PURCHASE_ORDER) {
+
+			PurchaseOrder purchaseOrder = (PurchaseOrder) manager
+					.getServerObjectForid(AccounterCoreType.PURCHASEORDER,
+							objectID);
+
+			PurchaseOrderPdfGeneration pdf = new PurchaseOrderPdfGeneration(
+					purchaseOrder, company, brandingTheme);
+
+			String templeteName = "";
+			if (brandingTheme.getPurchaseOrderTemplateName().equalsIgnoreCase(
+					"Classic Template")) {
+				templeteName = "templetes" + File.separator
+						+ "PurchaseOrder.docx";
+			} else {
+				templeteName = ServerConfiguration.getAttachmentsDir() + "/"
+						+ company.getId() + "/" + "templateFiles" + "/"
+						+ brandingTheme.getID() + "/"
+						+ brandingTheme.getPurchaseOrderTemplateName();
+			}
+			InputStream in = new BufferedInputStream(new FileInputStream(
+					templeteName));
+
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+			IContext context = report.createContext();
+			context = pdf.assignValues(context, report);
+
+			Options options = Options.getTo(ConverterTypeTo.PDF).via(
+					ConverterTypeVia.ITEXT);
+			fileName = "PurchaseOrder_" + purchaseOrder.getNumber();
+			file = File.createTempFile(fileName.replace(" ", ""), ".pdf");
+			java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+			report.convert(context, options, fos);
 		}
 		return file.getPath();
 
@@ -3915,6 +4067,7 @@ public class FinanceTool {
 	}
 
 	public List<ClientETDSFillingItem> getEtdsList(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			int startYear, int endYear, Long companyId) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -3923,10 +4076,14 @@ public class FinanceTool {
 		boolean isForm27EQ = (formNo == TDSChalanDetail.Form27EQ);
 		try {
 
-			Query query = session.getNamedQuery("getTdsChalanDetails")
+			Query query = session
+					.getNamedQuery("getTdsChalanDetails")
 					.setEntity("company", getCompany(companyId))
 					.setParameter("formNum", formNo)
 					.setParameter("quarter", quater)
+					.setParameter("fromDate",
+							new FinanceDate(fromDate.getDate()))
+					.setParameter("toDate", new FinanceDate(toDate.getDate()))
 					.setParameter("startYear", startYear + 1)
 					.setParameter("endYear", endYear + 1);
 
@@ -3988,15 +4145,20 @@ public class FinanceTool {
 	}
 
 	public boolean updateAckNoForChallans(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			int startYear, int endYear, String ackNo, long date, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Query query = session.getNamedQuery("getTdsChalanDetails")
+			Query query = session
+					.getNamedQuery("getTdsChalanDetails")
 					.setEntity("company", getCompany(companyId))
 					.setParameter("formNum", formNo)
 					.setParameter("quarter", quater)
+					.setParameter("fromDate",
+							new FinanceDate(fromDate.getDate()))
+					.setParameter("toDate", new FinanceDate(toDate.getDate()))
 					.setParameter("startYear", startYear + 1)
 					.setParameter("endYear", endYear + 1);
 
@@ -4022,16 +4184,21 @@ public class FinanceTool {
 	}
 
 	public List<ClientTDSChalanDetail> getChalanList(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
 			int startYear, int endYear, Long companyId) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
 		ArrayList<ClientTDSChalanDetail> chalanList = new ArrayList<ClientTDSChalanDetail>();
 		try {
 
-			Query query = session.getNamedQuery("getTdsChalanDetails")
+			Query query = session
+					.getNamedQuery("getTdsChalanDetails")
 					.setEntity("company", getCompany(companyId))
 					.setParameter("formNum", formNo)
 					.setParameter("quarter", quater)
+					.setParameter("fromDate",
+							new FinanceDate(fromDate.getDate()))
+					.setParameter("toDate", new FinanceDate(toDate.getDate()))
 					.setParameter("startYear", startYear + 1)
 					.setParameter("endYear", endYear + 1);
 

@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -58,6 +59,8 @@ public class TDSChalanDetailsView extends
 	private DynamicForm otherDynamicForm;
 	TdsChalanTransactionItemsTable table;
 	private SelectCombo chalanQuarterPeriod;
+	private DateField fromDateField;
+	private DateField toDateField;
 	private IntegerField chalanSerialNumber;
 	private SelectCombo tdsDepositedBY;
 	private SelectCombo selectFormTypeCombo;
@@ -272,9 +275,19 @@ public class TDSChalanDetailsView extends
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						// initRPCService();
+						quarterChanged(selectItem);
 					}
 				});
+
+		ClientFinanceDate[] dates = Utility.getFinancialQuarter(1);
+
+		fromDateField = new DateField(messages.fromDate(), "dateItem2");
+		fromDateField.setEnteredDate(dates[0]);
+		fromDateField.setEnabled(false);
+
+		toDateField = new DateField(messages.toDate(), "dateItem2");
+		toDateField.setEnteredDate(dates[1]);
+		toDateField.setEnabled(false);
 
 		checkNumber = new IntegerField(this, messages.chequeOrRefNo());
 		checkNumber.setEnabled(!isInViewMode());
@@ -334,8 +347,8 @@ public class TDSChalanDetailsView extends
 
 		taxDynamicForm = new DynamicForm("taxDynamicForm");
 		taxDynamicForm.add(selectFormTypeCombo, financialYearCombo,
-				chalanSerialNumber, chalanQuarterPeriod, modeOFPaymentCombo,
-				tdsDepositedBY);
+				chalanSerialNumber, chalanQuarterPeriod, fromDateField,
+				toDateField, modeOFPaymentCombo, tdsDepositedBY);
 
 		otherDynamicForm = new DynamicForm("otherDynamicForm");
 		otherDynamicForm.add(natureOfPaymentCombo, slectAssecementYear,
@@ -385,6 +398,21 @@ public class TDSChalanDetailsView extends
 		//
 		// natureOfPaymentCombo27Q.hide();
 		// natureOfPaymentCombo27EQ.hide();
+	}
+
+	protected void quarterChanged(String selectdQuarter) {
+		if (selectdQuarter.equalsIgnoreCase(messages.custom())) {
+			fromDateField.setEnabled(true);
+			toDateField.setEnabled(true);
+		} else {
+			int quarter = getFinancialQuatersList().indexOf(selectdQuarter);
+			ClientFinanceDate[] dates = Utility
+					.getFinancialQuarter(quarter + 1);
+			fromDateField.setEnteredDate(dates[0]);
+			toDateField.setEnteredDate(dates[1]);
+			fromDateField.setEnabled(false);
+			toDateField.setEnabled(false);
+		}
 	}
 
 	// protected void changeFormTypeStatus(int formTypeSeclected) {
@@ -445,7 +473,14 @@ public class TDSChalanDetailsView extends
 			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(2));
 		} else if (transaction.getChalanPeriod() == 4) {
 			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(3));
+		} else if (transaction.getChalanPeriod() == 5) {
+			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(4));
 		}
+
+		fromDateField.setEnteredDate(new ClientFinanceDate(transaction
+				.getFromDate()));
+		toDateField.setEnteredDate(new ClientFinanceDate(transaction
+				.getToDate()));
 
 		payFromAccCombo.setComboItem(getCompany().getAccount(
 				transaction.getPayFrom()));
@@ -707,6 +742,8 @@ public class TDSChalanDetailsView extends
 			transaction.setChalanSerialNumber(chalanSerialNumber.getNumber());
 		}
 		transaction.setChalanPeriod(chalanQuarterPeriod.getSelectedIndex() + 1);
+		transaction.setFromDate(fromDateField.getEnteredDate().getDate());
+		transaction.setToDate(toDateField.getEnteredDate().getDate());
 
 		if (checkNumber.getNumber() != null) {
 			transaction.setCheckNumber(checkNumber.getNumber());
