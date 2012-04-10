@@ -1262,7 +1262,7 @@ public abstract class Transaction extends CreatableObject implements
 		Set<String> features = transaction.getCompany().getCreatedBy()
 				.getClient().getClientSubscription().getSubscription()
 				.getFeatures();
-		if (!features.contains(Features.MULTI_CURRENCY)) {
+		if (currency != null && !features.contains(Features.MULTI_CURRENCY)) {
 			if (!transaction
 					.getCurrency()
 					.getFormalName()
