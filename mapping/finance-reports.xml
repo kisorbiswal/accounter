@@ -3579,16 +3579,19 @@
 				               T.TOTAL * T.CURRENCY_FACTOR AS TOTAL_AMOUNT,
 				               CASE
 				                 WHEN T.T_TYPE = 15 THEN W.CHECK_NUMBER
-				                 WHEN T_TYPE IN( 2, 26, 28 ) THEN CP.CHECK_NUMBER
+				                 WHEN T_TYPE IN( 2 ) THEN CP.CHECK_NUMBER
 				                 WHEN T_TYPE = 5 THEN CR.CHECK_NUMBER
 				                 WHEN T.T_TYPE = 17 THEN PT.CHECK_NUMBER
-				                 WHEN T_TYPE = 11 THEN PB.CHECK_NUMBER
-				                 WHEN T_TYPE IN( 3, 27 ) THEN CCC.CHECK_NUMBER
+				                 WHEN T.T_TYPE = 11 THEN PB.CHECK_NUMBER
+				                 WHEN T.T_TYPE IN( 3, 27 ) THEN CCC.CHECK_NUMBER
 				                 WHEN T.T_TYPE = 31 THEN RV.CHECK_NUMBER
 				                 WHEN T.T_TYPE = 29 THEN CPP.CHECK_NUMBER
 				                 WHEN T.T_TYPE = 12 THEN RP.CHECK_NUMBER
 				                 WHEN T.T_TYPE = 1 THEN CS.CHECK_NUMBER
+				                 WHEN T.T_TYPE = 25 THEN VP.CHECK_NUMBER
+				               
 				               END                         AS CHECK_NUMBER
+				               
 				        FROM   TRANSACTION T
 				               LEFT JOIN WRITE_CHECKS W
 				                 ON W.ID = T.ID
@@ -3633,7 +3636,7 @@
 				                     OR P.ID = CS.CUSTOMER_ID
 				        WHERE  T.T_TYPE IN ( 1, 2, 3, 5,
 				                             11, 12, 15, 17,
-				                             29, 31, 35 )
+				                             29, 31, 35,25 )
 				               AND T.COMPANY_ID = :companyId
 				               AND ( T.T_DATE BETWEEN :startDate AND :endDate )
 				               AND A.ID = :accountId) AS TT
