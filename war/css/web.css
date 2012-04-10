@@ -1,6 +1,6 @@
-@
--moz-document url-prefix (){ .editTable table td .gwt-TextBox { width:99%;
-	
+@-moz-document url-prefix (){
+.editTable table td .gwt-TextBox {
+	width:99%;
 }
 
 #customercreditmemoview .prodAndServiceHLay .boldtext {
@@ -104,6 +104,12 @@
 	}
 	.editTable .editheader td {
 		padding: 2px;
+	}
+	#NewFixedAssetView .mainVPanel .descriptionVPanel .descriptionForm{
+	    padding-bottom:1px;
+    }
+	.editTable .editheader td{
+		padding:2px !important;
 	}
 }
 
@@ -870,6 +876,7 @@ input[type="text"] {
 	border: 1px solid #002E36;
 	height: 25px;
 	padding: 2px 5px 5px;
+	margin:0 10px;
 }
 
 .gridHeader {
@@ -1309,6 +1316,7 @@ input[type="text"] {
 	-moz-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex: 1;
+	width:100%;
 }
 
 .Transactions_center .tree_menu_item {
@@ -7667,4 +7675,7 @@ table.no_records tr td {
 #BaseDialog .emailPanel .emailBody textarea{
 	width:350px;
 	height:240px;
+}
+#SoldAndDisposedItemsListGrid .gridHeader, #SoldAndDisposedItemsListGrid table.gridBody{
+	table-layout: fixed;
 }
