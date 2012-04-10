@@ -63,7 +63,6 @@ public class SearchInputDialog extends BaseDialog {
 			messages.cashSale(), messages.deposit(), messages.invoice(),
 			messages.journalEntry(), messages.paymentFromCustomer(),
 			messages.payeeCredit(Global.get().Vendor()), messages.transfer(),
-			messages.vatPayment(), messages.vatAdjustment(),
 			messages.writeCheck() };
 
 	private final String[] searchByAll = { messages.amount(), messages.date(),
@@ -895,6 +894,10 @@ public class SearchInputDialog extends BaseDialog {
 
 		if (getCompany().getPreferences().isPurchaseOrderEnabled()) {
 			transactionTypes.add(messages.purchaseOrder());
+		}
+		if (getCompany().getPreferences().isTrackTax()) {
+			transactionTypes.add(messages.vatPayment());
+			transactionTypes.add(messages.vatAdjustment());
 		}
 
 		Collections.sort(transactionTypes);
