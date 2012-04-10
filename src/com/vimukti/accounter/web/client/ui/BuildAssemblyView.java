@@ -350,6 +350,8 @@ public class BuildAssemblyView extends
 					assemblyItems.add(clientInventoryAssemblyItem);
 				}
 				itemTable.setRecords(assemblyItems);
+				Double calculateNumberOfBuilds = calculateNumberOfBuilds(assemblyItems);
+				maximumBuildsLabel.setAmount(calculateNumberOfBuilds);
 			}
 
 			if (data.getInventoryAssembly() != 0) {
@@ -366,6 +368,7 @@ public class BuildAssemblyView extends
 			if (data.getQuantityToBuild() != null) {
 				quantityToBuild.setAmount(data.getQuantityToBuild());
 			}
+
 		}
 
 		initTransactionNumber();
