@@ -883,14 +883,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				currencyWidget.setEnabled(!isInViewMode());
 			}
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
-			phone.setValue(customer.getPhoneNo());
-			email.setValue(customer.getEmail());
-			if (getCountryPreferences().isVatAvailable()) {
-				vatNo.setValue(customer.getVATRegistrationNumber());
-			} else {
-				vatNo.setValue(customer.getServiceTaxRegistrationNumber());
+			if (customer != null) {
+				phone.setValue(customer.getPhoneNo());
+				email.setValue(customer.getEmail());
+				if (getCountryPreferences().isVatAvailable()) {
+					vatNo.setValue(customer.getVATRegistrationNumber());
+				} else {
+					vatNo.setValue(customer.getServiceTaxRegistrationNumber());
+				}
+				customerTransactionTable.setPayee(customer);
 			}
-			customerTransactionTable.setPayee(customer);
 			this.contact = transaction.getContact();
 
 			if (transaction.getPhone() != null)
