@@ -325,14 +325,23 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		case 2:
 			buffer.append(messages.added());
 			buffer.append(" : ");
+			if (activity.getObjStatus() == ClientTransaction.STATUS_DRAFT) {
+				buffer.append("( " + messages.draft() + " ) ");
+			}
 			return buffer.toString();
 		case 3:
 			buffer.append(messages.edited());
 			buffer.append(" : ");
+			if (activity.getObjStatus() == ClientTransaction.STATUS_DRAFT) {
+				buffer.append("( " + messages.draft() + " ) ");
+			}
 			return buffer.toString();
 		case 4:
 			buffer.append(messages.deleted());
 			buffer.append(" : ");
+			if (activity.getObjStatus() == ClientTransaction.STATUS_DRAFT) {
+				buffer.append("( " + messages.draft() + " ) ");
+			}
 			return buffer.toString();
 		case 5:
 			return messages.updatedPreferences();
