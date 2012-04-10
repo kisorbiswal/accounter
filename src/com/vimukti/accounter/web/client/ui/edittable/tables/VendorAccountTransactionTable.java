@@ -194,7 +194,7 @@ public abstract class VendorAccountTransactionTable extends
 			@Override
 			public int getWidth() {
 				if (isCustomerAllowedToAdd && isTrackJob()) {
-					return 80;
+					return 85;
 				}
 				return super.getWidth();
 			}
@@ -206,7 +206,7 @@ public abstract class VendorAccountTransactionTable extends
 					@Override
 					public int getWidth() {
 						if (isCustomerAllowedToAdd && isTrackJob()) {
-							return 40;
+							return 55;
 						}
 						return super.getWidth();
 					}
@@ -280,7 +280,7 @@ public abstract class VendorAccountTransactionTable extends
 					@Override
 					public int getWidth() {
 						if (isCustomerAllowedToAdd && isTrackJob()) {
-							return 110;
+							return 90;
 						}
 						return super.getWidth();
 					}
@@ -303,7 +303,7 @@ public abstract class VendorAccountTransactionTable extends
 					public int getWidth() {
 						if (isCustomerAllowedToAdd && isTrackJob()
 								&& enableClass && showDiscount) {
-							return 30;
+							return 45;
 						} else if ((isCustomerAllowedToAdd && showClass)
 								|| (isCustomerAllowedToAdd && showDiscount)
 								|| (isCustomerAllowedToAdd && showTaxCode)
@@ -376,7 +376,7 @@ public abstract class VendorAccountTransactionTable extends
 							|| (showClass && showDiscount)
 							|| (showClass && showTaxCode)
 							|| (showDiscount && showTaxCode)) {
-						return 24;
+						return 55;
 					}
 					return super.getWidth();
 				}
