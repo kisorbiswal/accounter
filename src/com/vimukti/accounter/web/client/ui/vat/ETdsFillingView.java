@@ -12,9 +12,11 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -25,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ETdsCellTable;
@@ -42,6 +45,8 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 	private SelectCombo slectAssecementYear;
 	private SelectCombo financialYearCombo;
 	private SelectCombo quaterSelectionCombo;
+	private DateField fromDateField;
+	private DateField toDateField;
 	private DynamicForm dynamicFormLeft;
 	private DynamicForm dynamicFormRight;
 	private int formNoSelected;
@@ -194,17 +199,30 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 								.get(3))) {
 							quaterSelected = 4;
 						}
+
+						quarterChanged(selectItem);
 						initCallBack();
 					}
 				});
 
+		ClientFinanceDate[] dates = Utility.getFinancialQuarter(1);
+
+		fromDateField = new DateField(messages.fromDate(), "dateItem2");
+		fromDateField.setEnteredDate(dates[0]);
+		fromDateField.setEnabled(false);
+
+		toDateField = new DateField(messages.toDate(), "dateItem2");
+		toDateField.setEnteredDate(dates[1]);
+		toDateField.setEnabled(false);
+
 		dynamicFormLeft = UIUtils.form(messages.chartOfAccountsInformation());
-//		dynamicFormLeft.setWidth("100%");
+		// dynamicFormLeft.setWidth("100%");
 		dynamicFormLeft.add(formType, financialYearCombo);
 
 		dynamicFormRight = UIUtils.form(messages.chartOfAccountsInformation());
-//		dynamicFormRight.setWidth("100%");
-		dynamicFormRight.add(quaterSelectionCombo, slectAssecementYear);
+		// dynamicFormRight.setWidth("100%");
+		dynamicFormRight.add(quaterSelectionCombo, fromDateField, toDateField,
+				slectAssecementYear);
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
 		// topHLay.setWidth("100%");
@@ -224,14 +242,14 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		};
 
 		mainVLay = new StyledPanel("mainVLay");
-	//	mainVLay.setSize("100%", "300px");
+		// mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 		topHLay.getElement().getStyle().setPaddingTop(10, Unit.PX);
 
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
-//		scroll.setWidth("910px");
+		// scroll.setWidth("910px");
 		scroll.setTouchScrollingDisabled(false);
 		scroll.addStyleName("tds-scroll-panel");
 
@@ -239,6 +257,21 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		this.add(mainVLay);
 
+	}
+
+	protected void quarterChanged(String selectdQuarter) {
+		if (selectdQuarter.equalsIgnoreCase(messages.custom())) {
+			fromDateField.setEnabled(true);
+			toDateField.setEnabled(true);
+		} else {
+			int quarter = getFinancialQuatersList().indexOf(selectdQuarter);
+			ClientFinanceDate[] dates = Utility
+					.getFinancialQuarter(quarter + 1);
+			fromDateField.setEnteredDate(dates[0]);
+			toDateField.setEnteredDate(dates[1]);
+			fromDateField.setEnabled(false);
+			toDateField.setEnabled(false);
+		}
 	}
 
 	@Override
@@ -283,10 +316,12 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 			}
 			grossingUpList = grossingUpList + "-";
 		}
+		int fromDate = (int) fromDateField.getEnteredDate().getDate();
+		int toDate = (int) toDateField.getEnteredDate().getDate();
 
 		UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
-				startYear, endYear, panList, codeList, remarkList,
-				grossingUpList);
+				fromDate, toDate, startYear, endYear, panList, codeList,
+				remarkList, grossingUpList);
 		changeButtonBarMode(false);
 	}
 
@@ -367,7 +402,8 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 	private void initCallBack() {
 		Accounter.createHomeService().getEtdsDetails(formNoSelected,
-				quaterSelected, startYear, endYear,
+				quaterSelected, fromDateField.getEnteredDate(),
+				toDateField.getEnteredDate(), startYear, endYear,
 				new AccounterAsyncCallback<ArrayList<ClientETDSFillingItem>>() {
 
 					@Override

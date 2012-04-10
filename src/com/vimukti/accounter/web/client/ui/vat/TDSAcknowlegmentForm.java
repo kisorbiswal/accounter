@@ -6,11 +6,13 @@ import java.util.List;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -27,6 +29,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	private SelectCombo formTypeCombo;
 	private SelectCombo financialYearCombo;
 	private SelectCombo quaterCombo;
+	private DateField fromDateField;
+	private DateField toDateField;
 
 	private TextItem ackNoField;
 
@@ -35,7 +39,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	public TDSAcknowlegmentForm() {
 		super(messages.TDSAcknowledgementForm(), messages
 				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
-//		setWidth("650px");
+		// setWidth("650px");
 		this.getElement().setId("TDSAcknowlegmentForm");
 		createControls();
 		center();
@@ -44,10 +48,10 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	private void createControls() {
 		form = new DynamicForm("form");
 		form1 = new DynamicForm("form1");
-//		form.setWidth("100%");
-//		form.setHeight("100%");
-//		form1.setHeight("100%");
-//		form1.setWidth("100%");
+		// form.setWidth("100%");
+		// form.setHeight("100%");
+		// form1.setHeight("100%");
+		// form1.setWidth("100%");
 		StyledPanel layout1 = new StyledPanel("layout1");
 		StyledPanel vPanel = new StyledPanel("vPanel");
 
@@ -67,6 +71,24 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		quaterCombo.initCombo(getFinancialQuatersList());
 		quaterCombo.setSelectedItem(0);
 		quaterCombo.setRequired(true);
+		quaterCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						quarterChanged(selectItem);
+					}
+				});
+
+		ClientFinanceDate[] dates = Utility.getFinancialQuarter(1);
+
+		fromDateField = new DateField(messages.fromDate(), "dateItem2");
+		fromDateField.setEnteredDate(dates[0]);
+		fromDateField.setEnabled(false);
+
+		toDateField = new DateField(messages.toDate(), "dateItem2");
+		toDateField.setEnteredDate(dates[1]);
+		toDateField.setEnabled(false);
 
 		ackNoField = new TextItem(messages.acknowledgmentNo(), "ackNoField");
 		ackNoField.setRequired(true);
@@ -77,7 +99,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		dateField.setTitle(messages.date());
 		dateField.setValue(todaysDate);
 
-		form.add(formTypeCombo, quaterCombo, financialYearCombo);
+		form.add(formTypeCombo, quaterCombo, fromDateField, toDateField,
+				financialYearCombo);
 		form1.add(ackNoField, dateField);
 
 		layout1.add(form);
@@ -85,6 +108,21 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		vPanel.add(layout1);
 		setBodyLayout(vPanel);
 
+	}
+
+	protected void quarterChanged(String selectdQuarter) {
+		if (selectdQuarter.equalsIgnoreCase(messages.custom())) {
+			fromDateField.setEnabled(true);
+			toDateField.setEnabled(true);
+		} else {
+			int quarter = getFinancialQuatersList().indexOf(selectdQuarter);
+			ClientFinanceDate[] dates = Utility
+					.getFinancialQuarter(quarter + 1);
+			fromDateField.setEnteredDate(dates[0]);
+			toDateField.setEnteredDate(dates[1]);
+			fromDateField.setEnabled(false);
+			toDateField.setEnabled(false);
+		}
 	}
 
 	private List<String> getFormTypes() {
@@ -119,7 +157,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 				endYear = Integer.parseInt(tokens[1]);
 			}
 			Accounter.createHomeService().isChalanDetailsFiled(formType,
-					quater, startYear, endYear,
+					quater, fromDateField.getEnteredDate(),
+					toDateField.getEnteredDate(), startYear, endYear,
 					new AccounterAsyncCallback<Boolean>() {
 
 						@Override
@@ -157,6 +196,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 			endYear = Integer.parseInt(tokens[1]);
 		}
 		Accounter.createHomeService().isChalanDetailsFiled(formType, quater,
+				fromDateField.getEnteredDate(), toDateField.getEnteredDate(),
 				startYear, endYear, new AccounterAsyncCallback<Boolean>() {
 
 					@Override
@@ -214,6 +254,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 			endYear = Integer.parseInt(tokens[1]);
 		}
 		Accounter.createHomeService().updateAckNoForChallans(formType, quater,
+				fromDateField.getEnteredDate(), toDateField.getEnteredDate(),
 				startYear, endYear, ackNoField.getValue(),
 				dateField.getValue().getDate(),
 				new AccounterAsyncCallback<Boolean>() {

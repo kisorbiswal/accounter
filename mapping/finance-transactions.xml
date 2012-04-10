@@ -148,6 +148,8 @@
 			<property name="isFiled"></property>
 			<property name="etdsfillingAcknowledgementNo" type="encryptedstring"></property>
 			<property name="acknowledgementDate" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="fromDate" type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="toDate" type="com.vimukti.accounter.core.LongUseType"></property>
 			<list name="tdsTransactionItems" cascade="save-update,delete-orphan">
 				<key column="TDS_CHALLANDETAIL_ID"></key>
 				<list-index column="IDX" />

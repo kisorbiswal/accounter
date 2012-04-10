@@ -2235,6 +2235,18 @@ public interface AccounterMessages extends Messages {
 	public String invoiceMailMessage(String payee, String number,
 			ClientFinanceDate date);
 
+	public String cashSaleMailMessage(String payee, String number,
+			ClientFinanceDate date);
+
+	public String quoteMailMessage(String payee, String number,
+			ClientFinanceDate date);
+
+	public String salesOrderMailMessage(String payee, String number,
+			ClientFinanceDate date);
+
+	public String purchaseOrderMailMessage(String payee, String number,
+			ClientFinanceDate date);
+
 	public String invoiceNo();
 
 	public String invoicePrefix();

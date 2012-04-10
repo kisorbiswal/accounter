@@ -38,6 +38,9 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 
 	private long payFrom;
 
+	private long fromDate;
+	private long toDate;
+
 	private String etdsfillingAcknowledgementNo;
 	private long acknowledgementDate;
 	private boolean isFiled;
@@ -252,5 +255,21 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 
 	public void setFiled(boolean isFiled) {
 		this.isFiled = isFiled;
+	}
+
+	public long getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(long fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public long getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(long toDate) {
+		this.toDate = toDate;
 	}
 }

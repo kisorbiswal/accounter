@@ -74,8 +74,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	private void createView() {
 
-//		setWidth("100%");
-//		setHeight("100%");
+		// setWidth("100%");
+		// setHeight("100%");
 
 		buttonBar = new ButtonBar(this);
 		buttonBar.setStyleName("button_bar");
@@ -354,7 +354,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				+ DayAndMonthUtil.dec());
 		list.add("Q4" + " " + DayAndMonthUtil.jan() + " - "
 				+ DayAndMonthUtil.mar());
-
+		list.add(messages.custom());
 		return list;
 	}
 

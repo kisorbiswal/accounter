@@ -498,11 +498,13 @@ public interface IAccounterHomeViewServiceAsync {
 	public void printCheques(long chequeLayoutId,
 			List<PrintCheque> printCheques, AsyncCallback<String> callback);
 
-	void getEtdsDetails(int formNo, int quater, int startYear, int endYear,
+	void getEtdsDetails(int formNo, int quater, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate, int startYear, int endYear,
 			AsyncCallback<ArrayList<ClientETDSFillingItem>> callback);
 
-	void updateAckNoForChallans(int formNo, int quater, int startYear,
-			int endYear, String ackNo, long date,
+	void updateAckNoForChallans(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			int startYear, int endYear, String ackNo, long date,
 			AsyncCallback<Boolean> callback);
 
 	void getItemsBySalesQuantity(ClientFinanceDate startDate,
@@ -531,8 +533,9 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getDepositByEstimateId(long id,
 			AsyncCallback<ClientMakeDeposit> asyncCallback);
 
-	void isChalanDetailsFiled(int formNo, int quater, int startYear,
-			int endYear, AsyncCallback<Boolean> callback);
+	void isChalanDetailsFiled(int formNo, int quater,
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			int startYear, int endYear, AsyncCallback<Boolean> callback);
 
 	public void getDepositsList(long date, long date2, int start, int length,
 			int type,

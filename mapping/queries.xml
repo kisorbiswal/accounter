@@ -2135,11 +2135,15 @@
 		<query-param name="company" type="Company" />
 		<query-param name="formNum" type="int" />
 		<query-param name="quarter" type="int" />
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="startYear" type="int" />
 		<query-param name="endYear" type="int" />
 		from com.vimukti.accounter.core.TDSChalanDetail tc where
 		tc.company=:company and tc.formType=:formNum and
-		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
+		tc.chalanPeriod=:quarter 
+		and tc.fromDate=:fromDate and tc.toDate=:toDate
+		and tc.assesmentYearStart = :startYear and
 		tc.assesmentYearEnd=:endYear
 	</query>
 

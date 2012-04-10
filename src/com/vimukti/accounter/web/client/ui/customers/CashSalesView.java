@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -47,6 +48,7 @@ import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
@@ -91,6 +93,7 @@ public class CashSalesView extends
 	// private CheckboxItem printCheck;
 	private boolean isChecked = false;
 	List<ClientEstimate> previousEstimates = new ArrayList<ClientEstimate>();
+	private Button emailButton;
 
 	TransactionsTree<PurchaseOrdersAndItemReceiptsList> transactionsTree;
 
@@ -1351,6 +1354,13 @@ public class CashSalesView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
+
+		if (!isInViewMode() && !data.isTemplate()
+				&& data.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
+
+			getButtonBar().remove(emailButton);
+		}
+
 		transactionDateItem.setEnabled(!isInViewMode());
 		transactionNumber.setEnabled(!isInViewMode());
 		customerCombo.setEnabled(!isInViewMode());
@@ -1606,6 +1616,38 @@ public class CashSalesView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return true;
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		super.createButtons(buttonBar);
+		if (isInViewMode()
+				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
+			emailButton = new Button(messages.email());
+			buttonBar.add(emailButton);
+
+			emailButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					// ActionFactory.getEmailViewAction().run(transaction,
+					// false);
+					ArrayList<ClientBrandingTheme> themesList = Accounter
+							.getCompany().getBrandingTheme();
+
+					if (themesList.size() > 1) {
+						// if there are more than one branding themes, then show
+						// branding
+						// theme dialog box
+						ActionFactory.getEmailThemeComboAction().run(
+								transaction, false);
+					} else {
+						ActionFactory.getEmailViewAction().run(transaction,
+								themesList.get(0).getID(), false);
+					}
+				}
+			});
+		}
 	}
 
 }

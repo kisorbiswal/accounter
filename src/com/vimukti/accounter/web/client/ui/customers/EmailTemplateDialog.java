@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
-import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class EmailTemplateDialog extends BaseDialog<ClientEmailTemplate> {
-	private ClientInvoice invoice;
+	private ClientTransaction transaction;
 	private TextAreaItem emailBody;
 	private TextItem emailTemplateNameText;
 	private ClientEmailTemplate template;
@@ -24,9 +24,9 @@ public class EmailTemplateDialog extends BaseDialog<ClientEmailTemplate> {
 		center();
 	}
 
-	public EmailTemplateDialog(String title, String desc, ClientInvoice invoice) {
+	public EmailTemplateDialog(String title, String desc, ClientTransaction transaction) {
 		super(title, desc);
-		this.invoice = invoice;
+		this.transaction = transaction;
 		createContrls();
 		center();
 	}
@@ -44,7 +44,7 @@ public class EmailTemplateDialog extends BaseDialog<ClientEmailTemplate> {
 				.get()
 				.messages()
 				.invoiceMailMessage(Global.get().Customer(),
-						this.invoice.getNumber(), invoice.getDate()) : template
+						this.transaction.getNumber(), transaction.getDate()) : template
 				.getEmailBody());
 		emailPanel.add(emailTemplateNameText);
 		emailPanel.add(emailBody);

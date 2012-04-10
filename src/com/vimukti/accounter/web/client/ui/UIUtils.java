@@ -2055,12 +2055,14 @@ public class UIUtils {
 	}-*/;
 
 	public native static void generateETDSFillingtext(int formNo, int quarter,
-			int startYear, int endYear, String panList, String codeList,
-			String remarkList, String grossingUpList)/*-{
+			int fromDate, int toDate, int startYear, int endYear,
+			String panList, String codeList, String remarkList,
+			String grossingUpList)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src", "/do/finance/GenerateETDSServlet?formNo="
-					+ formNo + "&quater=" + quarter + "&startYear=" + startYear
+					+ formNo + "&quater=" + quarter + "&fromDate=" + fromDate
+					+ "&toDate=" + toDate + "&startYear=" + startYear
 					+ "&endYear=" + endYear + "&panList=" + panList
 					+ "&codeList=" + codeList + "&remarkList=" + remarkList
 					+ "&grossingUpList=" + grossingUpList);
