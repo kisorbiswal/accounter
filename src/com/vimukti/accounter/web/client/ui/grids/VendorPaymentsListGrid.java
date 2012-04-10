@@ -232,28 +232,34 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (type != 0 && index == 8) {
+		switch (index) {
+		case 8:
+			if (type != 0) {
+				return 40;
+			} else {
+				return 100;
+			}
+		case 9:
 			return 40;
-		}
-		if (index == 9)
-			return 40;
-		else if (index == 0 || index == 2 || index == 3)
+		case 0:
+		case 3:
+			return 100;
+		case 2:
 			return 65;
-		else if (index == 1)
+		case 1:
 			return 50;
-		else if (index == 4) {
+		case 4:
 			if (type != 0) {
 				return 120;
-			} else {
-				return 165;
 			}
-		} else if (index == 5)
-			return 130;
-		else if (index == 6)
+			return 125;
+		case 5:
+			return 120;
+		case 6:
 			return 80;
-		else if (index == 8 || index == 7)
+		case 7:
 			return 100;
-
+		}
 		return -1;
 	}
 
