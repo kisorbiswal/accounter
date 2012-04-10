@@ -61,7 +61,8 @@ public class SalesOrderPdfGeneration {
 			i.setDate(Utility.getDateInSelectedFormat(salesOrder
 					.getExpirationDate()));
 			i.setCustomerNo(salesOrder.getCustomerOrderNumber());
-			i.setDueDate(Utility.getDateInSelectedFormat(salesOrder.getDeliveryDate()));
+			i.setDueDate(Utility.getDateInSelectedFormat(salesOrder
+					.getDeliveryDate()));
 
 			// for primary curreny
 			Currency currency = salesOrder.getCustomer().getCurrency();
@@ -80,7 +81,8 @@ public class SalesOrderPdfGeneration {
 			ShippingMethod shipMtd = salesOrder.getShippingMethod();
 			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
 			i.setShippingMethod(shipMtdName);
-			i.setShipTerms(salesOrder.getShippingTerm() !=null ?salesOrder.getShippingTerm().getName():"");
+			i.setShipTerms(salesOrder.getShippingTerm() != null ? salesOrder
+					.getShippingTerm().getName() : "");
 			// for transactions
 
 			FieldsMetadata headersMetaData = new FieldsMetadata();
@@ -131,7 +133,8 @@ public class SalesOrderPdfGeneration {
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
 				if (taxCode != null) {
-					vatRate = item.getTaxCode().getName();
+					double rate = item.getTaxCode().getSalesTaxRate();
+					vatRate = String.valueOf(rate) + " %";
 				}
 				itemList.add(new ItemList(name, description, qty, unitPrice,
 						discount, totalPrice, vatRate, vatAmount));

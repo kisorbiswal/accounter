@@ -130,7 +130,8 @@ public class QuotePdfGeneration {
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
 				if (taxCode != null) {
-					vatRate = item.getTaxCode().getName();
+					double rate = item.getTaxCode().getSalesTaxRate();
+					vatRate = String.valueOf(rate) + " %";
 				}
 				itemList.add(new ItemList(name, description, qty, unitPrice,
 						discount, totalPrice, vatRate, vatAmount));

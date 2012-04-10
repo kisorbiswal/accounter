@@ -83,7 +83,7 @@ public class CreditNotePdfGeneration {
 			List<ItemList> itemList = new ArrayList<ItemList>();
 			List<TransactionItem> transactionItems = memo.getTransactionItems();
 
-	//		double currencyFactor = memo.getCurrencyFactor();
+			// double currencyFactor = memo.getCurrencyFactor();
 			String symbol = memo.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -98,15 +98,15 @@ public class CreditNotePdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() , "");
+						item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() , "");
+						item.getLineTotal(), "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() , "");
+							item.getVATfraction(), "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -117,7 +117,8 @@ public class CreditNotePdfGeneration {
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
 				if (taxCode != null) {
-					vatRate = item.getTaxCode().getName();
+					double rate = item.getTaxCode().getSalesTaxRate();
+					vatRate = String.valueOf(rate) + " %";
 				}
 				itemList.add(new ItemList(name, description, qty, unitPrice,
 						discount, totalPrice, vatRate, vatAmount));
@@ -127,8 +128,8 @@ public class CreditNotePdfGeneration {
 
 			i.setTotal(total);
 
-			String subtotal = Utility.decimalConversation(memo.getNetAmount()
-					, symbol);
+			String subtotal = Utility.decimalConversation(memo.getNetAmount(),
+					symbol);
 			i.setNetAmount(subtotal);
 
 			i.setMemo(memo.getMemo());

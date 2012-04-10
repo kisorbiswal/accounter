@@ -147,7 +147,8 @@ public class InvoicePdfGeneration {
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
 				if (taxCode != null) {
-					vatRate = item.getTaxCode().getName();
+					double valRate1 = item.getTaxCode().getSalesTaxRate();
+					vatRate = String.valueOf(valRate1) + " %";
 				}
 
 				String className = "";

@@ -139,7 +139,8 @@ public class PurchaseOrderPdfGeneration {
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";
 				if (taxCode != null) {
-					vatRate = item.getTaxCode().getName();
+					double rate = item.getTaxCode().getPurchaseTaxRate();
+					vatRate = String.valueOf(rate) + " %";
 				}
 				itemList.add(new ItemList(name, description, qty, unitPrice,
 						discount, totalPrice, vatRate, vatAmount));
