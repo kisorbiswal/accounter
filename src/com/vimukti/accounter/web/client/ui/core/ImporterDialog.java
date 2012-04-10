@@ -77,7 +77,7 @@ public class ImporterDialog extends CustomDialog {
 							.get(i);
 					LabelItem exceptionLabel = new LabelItem(messages.hash()
 							+ key.intValue() + "    " + messages.column() + "("
-							+ i + ")" + "   "
+							+ i + ")" + "   " + exception1.getMessage() + "  "
 							+ AccounterExceptions.getErrorString(exception1),
 							"exceptionLabel");
 					scrollPanel.add(exceptionLabel);
