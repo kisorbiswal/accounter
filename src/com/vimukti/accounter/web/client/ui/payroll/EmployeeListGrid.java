@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class EmployeeListGrid extends BaseListGrid<ClientEmployee> {
 
@@ -45,8 +47,7 @@ public class EmployeeListGrid extends BaseListGrid<ClientEmployee> {
 
 	@Override
 	public void onDoubleClick(ClientEmployee emp) {
-		// TODO Auto-generated method stub
-
+		ReportsRPC.openTransactionView(IAccounterCore.EMPLOYEE, emp.getID());
 	}
 
 	@Override

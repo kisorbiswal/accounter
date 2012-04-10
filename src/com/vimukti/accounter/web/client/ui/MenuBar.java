@@ -141,7 +141,24 @@ public class MenuBar {
 
 	private Menu getPayrollMenu(String payroll) {
 		Menu payrollMenuBar = new Menu(payroll);
-		payrollMenuBar.addMenuItem(getNewPayrollMenu(messages.new1()));
+
+		payrollMenuBar.addMenuItem(messages.newEmployee(),
+				HistoryTokens.NEWEMPLOYEE);
+		payrollMenuBar.addMenuItem(messages.newEmployeeGroup(),
+				HistoryTokens.NEWEMPLOYEEGROUP);
+		payrollMenuBar.addMenuItem(messages.newEmployeeCategory(),
+				HistoryTokens.NEWEMPLOYEECATEGORY);
+		payrollMenuBar.addMenuItem(messages.newPayHead(),
+				HistoryTokens.NEWPAYHEAD);
+		payrollMenuBar.addMenuItem(messages.newPayrollUnit(),
+				HistoryTokens.NEWPAYROLLUNIT);
+		payrollMenuBar.addMenuItem(messages.newPayee(messages.payStructure()),
+				HistoryTokens.NEW_PAYSTRUCTURE);
+		payrollMenuBar.addMenuItem(messages.newPayee(messages.payrun()),
+				HistoryTokens.NEW_PAYRUN);
+
+		payrollMenuBar.addSeparatorItem();
+
 		payrollMenuBar
 				.addMenuItem(getPayrollListsMenu(messages.payrollLists()));
 		return payrollMenuBar;
@@ -162,22 +179,6 @@ public class MenuBar {
 				HistoryTokens.PAYROLLUNITLIST);
 
 		return listMenuBar;
-	}
-
-	private MenuItem getNewPayrollMenu(String new1) {
-		Menu newMenuBar = new Menu(new1);
-
-		newMenuBar.addMenuItem(messages.newEmployee(),
-				HistoryTokens.NEWEMPLOYEE);
-		newMenuBar.addMenuItem(messages.newEmployeeGroup(),
-				HistoryTokens.NEWEMPLOYEEGROUP);
-		newMenuBar.addMenuItem(messages.newEmployeeCategory(),
-				HistoryTokens.NEWEMPLOYEECATEGORY);
-		newMenuBar.addMenuItem(messages.newPayHead(), HistoryTokens.NEWPAYHEAD);
-		newMenuBar.addMenuItem(messages.newPayrollUnit(),
-				HistoryTokens.NEWPAYROLLUNIT);
-
-		return newMenuBar;
 	}
 
 	private Menu getInventoryMenu(String string) {

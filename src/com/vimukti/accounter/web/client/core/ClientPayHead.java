@@ -53,6 +53,8 @@ public class ClientPayHead implements IAccounterCore {
 
 	private List<ClientPayHeadField> employeeFields;
 
+	private long id;
+
 	/**
 	 * @return the companyFields
 	 */
@@ -217,8 +219,7 @@ public class ClientPayHead implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.name;
 	}
 
 	@Override
@@ -229,14 +230,12 @@ public class ClientPayHead implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 }

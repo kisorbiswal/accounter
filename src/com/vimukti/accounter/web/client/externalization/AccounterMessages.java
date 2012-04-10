@@ -6398,4 +6398,14 @@ public interface AccounterMessages extends Messages {
 
 	public String affectNetSalary();
 
+	public String payStructure();
+
+	public String payHeadType();
+
+	public String payrun();
+
+	public String computedOn();
+
+	public String employeeOrGroup();
+
 }

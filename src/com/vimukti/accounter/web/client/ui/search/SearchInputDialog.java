@@ -183,7 +183,7 @@ public class SearchInputDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				close();
+				onCancel();
 			}
 		});
 		buttonPanel.add(findButton);
@@ -446,11 +446,6 @@ public class SearchInputDialog extends BaseDialog {
 			return ClientTransaction.TYPE_PURCHASE_ORDER;
 		}
 		return 0;
-	}
-
-	protected void close() {
-		// com.google.gwt.user.client.History.back();
-		this.removeFromParent();
 	}
 
 	private List<String> getMatchIfComboList() {

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONException;
 
@@ -13,7 +13,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class Employee extends CreatableObject implements IAccounterServerCore {
+public class Employee extends CreatableObject implements
+		PayStructureDestination {
 
 	/**
 	 * 
@@ -137,7 +138,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 
 	private PayStructure payStructure;
 
-	private List<CustomFieldValue> customFieldValues = new ArrayList<CustomFieldValue>();
+	private Set<CustomFieldValue> customFieldValues = new HashSet<CustomFieldValue>();
 
 	/**
 	 * @return the name
@@ -485,7 +486,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * @return the customeFields
 	 */
-	public List<CustomFieldValue> getCustomeFields() {
+	public Set<CustomFieldValue> getCustomeFields() {
 		return customFieldValues;
 	}
 
@@ -493,7 +494,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 * @param customeFields
 	 *            the customeFields to set
 	 */
-	public void setCustomeFields(List<CustomFieldValue> customFieldValues) {
+	public void setCustomeFields(HashSet<CustomFieldValue> customFieldValues) {
 		this.customFieldValues = customFieldValues;
 	}
 }

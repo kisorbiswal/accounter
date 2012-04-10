@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 
@@ -16,5 +20,8 @@ public interface IAccounterPayrollServiceAsync {
 
 	public void getPayrollUnitsList(int start, int length,
 			AsyncCallback<PaginationList<ClientPayrollUnit>> callBack);
+
+	public void getPayStructureItems(ClientPayStructureDestination selectItem,
+			AsyncCallback<ArrayList<ClientPayStructureItem>> callback);
 
 }

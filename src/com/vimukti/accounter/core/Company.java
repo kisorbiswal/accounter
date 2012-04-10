@@ -316,10 +316,12 @@ public class Company implements IAccounterServerCore {
 	private Set<ChequeLayout> chequeLayouts = new HashSet<ChequeLayout>();
 
 	private Set<EmailAccount> emailAccounts = new HashSet<EmailAccount>();
-	
+
 	private Set<Employee> employees = new HashSet<Employee>();
 
 	private Set<EmployeeGroup> employeeGroups = new HashSet<EmployeeGroup>();
+
+	private Set<PayHead> payheads = new HashSet<PayHead>();
 
 	String bankAccountNo;
 
@@ -1711,5 +1713,21 @@ public class Company implements IAccounterServerCore {
 
 	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
+	}
+
+	public Set<EmployeeGroup> getEmployeeGroups() {
+		return employeeGroups;
+	}
+
+	public void setEmployeeGroups(Set<EmployeeGroup> employeeGroups) {
+		this.employeeGroups = employeeGroups;
+	}
+
+	public Set<PayHead> getPayheads() {
+		return payheads;
+	}
+
+	public void setPayheads(Set<PayHead> payheads) {
+		this.payheads = payheads;
 	}
 }

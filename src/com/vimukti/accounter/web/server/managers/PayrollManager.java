@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.server.managers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -12,6 +13,8 @@ import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -80,8 +83,8 @@ public class PayrollManager extends Manager {
 		for (PayHead payHead : employees) {
 			ClientPayrollUnit clientPayrollUnit;
 			try {
-				clientPayrollUnit = new ClientConvertUtil().toClientObject(payHead,
-						ClientPayrollUnit.class);
+				clientPayrollUnit = new ClientConvertUtil().toClientObject(
+						payHead, ClientPayrollUnit.class);
 				clientPayrollUnits.add(clientPayrollUnit);
 			} catch (AccounterException e) {
 				e.printStackTrace();
@@ -90,4 +93,8 @@ public class PayrollManager extends Manager {
 		return clientPayrollUnits;
 	}
 
+	public ArrayList<ClientPayStructureItem> getPayStructureItems(
+			ClientPayStructureDestination selectItem, Long companyId) {
+		return null;
+	}
 }

@@ -413,6 +413,10 @@ public class HistoryTokens {
 
 	public static final String PAYROLLUNITLIST = "payrollUnitList";
 
+	public static final String NEW_PAYSTRUCTURE = "newPayStructure";
+
+	public static final String NEW_PAYRUN = "newPayRun";
+
 	public HistoryTokens() {
 
 	}

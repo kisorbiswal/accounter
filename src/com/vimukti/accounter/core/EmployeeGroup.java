@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class EmployeeGroup extends CreatableObject implements
-		IAccounterServerCore {
+		PayStructureDestination {
 
 	/**
 	 * 

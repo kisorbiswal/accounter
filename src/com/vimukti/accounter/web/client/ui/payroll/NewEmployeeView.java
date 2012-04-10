@@ -1,42 +1,58 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.AddressDialog;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 	private DynamicForm basicInfoForm, empDetailsInfoForm,
 			empOtherDetailsInfoForm;
-	private TextItem nameItem, employeeIdItem, designationItem, addressItem,
-			streetItem, cityItem, stateItem, countryItem, postalCodeItem,
-			panItem, bankNameItem, bankAccountNumberItem, bankBranchItem,
-			locationItem, contactNumberItem, emailItem, passportNumberItem,
+	private TextItem nameItem, employeeIdItem, designationItem, panItem,
+			bankNameItem, bankAccountNumberItem, bankBranchItem, locationItem,
+			contactNumberItem, emailItem, passportNumberItem,
 			countryOfIssueItem, emplVisaNumberItem;
 	private DateItem dateOfBirthItem, dateOfHire, passportExpiryDateItem,
 			emplVisaNumberDateItem;
-	private RadioGroupItem genderGroupItem;
 	private SelectCombo employeeCategoryCombo;
 	private VerticalPanel mainPanel;
 	private HorizontalPanel firstPanel, secondPanel;
 	private EmployeeGroupCombo employeeGroupCombo;
+	private final String[] genderTypes = { messages.unspecified(),
+			messages.male(), messages.female() };
+	private ArrayList<String> listOfgenders;
+	private SelectCombo genderSelect;
+	private TextAreaItem addrArea;
+	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
 	@Override
 	public void init() {
@@ -50,17 +66,107 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		if (getData() == null) {
 			setData(new ClientEmployee());
 		} else {
-			initWarehouseData(getData());
+			initViewData(getData());
 		}
 		super.initData();
 	}
 
-	private void initWarehouseData(ClientEmployee data) {
-		// TODO Auto-generated method stub
+	private void initViewData(ClientEmployee data) {
+		nameItem.setValue(data.getName());
+		dateOfBirthItem.setValue(new ClientFinanceDate(data.getDateOfBirth()));
+		genderSelect.setValue(genderTypes[data.getGender()]);
+		contactNumberItem.setValue(data.getContactNumber());
+		emailItem.setValue(data.getEmail());
 
+		Set<ClientAddress> addresses = new HashSet<ClientAddress>();
+		addresses.add(data.getAddress());
+		setAddresses(addresses);
+
+		ClientAddress toBeShown = allAddresses.get(ClientAddress.TYPE_BILL_TO);
+		if (toBeShown != null) {
+			String toToSet = new String();
+			if (toBeShown.getAddress1() != null
+					&& !toBeShown.getAddress1().isEmpty()) {
+				toToSet = toBeShown.getAddress1().toString() + "\n";
+			}
+
+			if (toBeShown.getStreet() != null
+					&& !toBeShown.getStreet().isEmpty()) {
+				toToSet += toBeShown.getStreet().toString() + "\n";
+			}
+
+			if (toBeShown.getCity() != null && !toBeShown.getCity().isEmpty()) {
+				toToSet += toBeShown.getCity().toString() + "\n";
+			}
+
+			if (toBeShown.getStateOrProvinence() != null
+					&& !toBeShown.getStateOrProvinence().isEmpty()) {
+				toToSet += toBeShown.getStateOrProvinence() + "\n";
+			}
+			if (toBeShown.getZipOrPostalCode() != null
+					&& !toBeShown.getZipOrPostalCode().isEmpty()) {
+				toToSet += toBeShown.getZipOrPostalCode() + "\n";
+			}
+			if (toBeShown.getCountryOrRegion() != null
+					&& !toBeShown.getCountryOrRegion().isEmpty()) {
+				toToSet += toBeShown.getCountryOrRegion();
+			}
+			addrArea.setValue(toToSet);
+		}
+
+		employeeIdItem.setValue(data.getNumber());
+		dateOfHire.setValue(new ClientFinanceDate(data.getDateofJoining()));
+		employeeGroupCombo.setValue(getCompany().getEmployeeGroup(
+				data.getGroup()));
+		employeeCategoryCombo.setValue(getCompany().getEmployeeCategory(
+				data.getCategory()));
+		designationItem.setValue(data.getDesignation());
+		locationItem.setValue(data.getLocation());
+		bankAccountNumberItem.setValue(data.getBankAccountNumber());
+		bankBranchItem.setValue(data.getBranch());
+		bankNameItem.setValue(data.getBankName());
+		passportNumberItem.setValue(data.getPassportNumber());
+		passportExpiryDateItem.setValue(new ClientFinanceDate(data
+				.getPassportExpiryDate()));
+		countryOfIssueItem.setValue(data.getCountryOfIssue());
+		emplVisaNumberItem.setValue(data.getVisaNumber());
+	}
+
+	private void setAddresses(Set<ClientAddress> addresses) {
+		if (addresses != null) {
+			Iterator<ClientAddress> it = addresses.iterator();
+			while (it.hasNext()) {
+				ClientAddress addr = (ClientAddress) it.next();
+				if (addr != null) {
+					allAddresses.put(addr.getType(), addr);
+				}
+			}
+		}
+	}
+
+	public ClientAddress getAddresss() {
+		ClientAddress selectedAddress = allAddresses.get(UIUtils
+				.getAddressType("company"));
+		if (selectedAddress != null) {
+			selectedAddress.setIsSelected(true);
+			allAddresses
+					.put(UIUtils.getAddressType("company"), selectedAddress);
+		}
+		Collection<ClientAddress> add = allAddresses.values();
+		Iterator<ClientAddress> it = add.iterator();
+		while (it.hasNext()) {
+			ClientAddress a = (ClientAddress) it.next();
+			return a;
+			// toBeSet.add(a);
+			// System.out.println("Sending Address  Type " + a.getType()
+			// + " Street is " + a.getStreet() + " Is Selected"
+			// + a.getIsSelected());
+		}
+		return null;
 	}
 
 	private void createControls() {
+		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		mainPanel = new VerticalPanel();
 		firstPanel = new HorizontalPanel();
@@ -139,28 +245,44 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		basicInfoForm = new DynamicForm("basicInfoForm");
 
-		nameItem = new TextItem(messages.lastName(), "nameItem");
+		nameItem = new TextItem(messages.name(), "nameItem");
 
 		dateOfBirthItem = new DateItem(messages.dateofBirth(),
 				"dateOfBirthItem");
 
-		genderGroupItem = new RadioGroupItem(messages.gender());
-		genderGroupItem.setValueMap(messages.male(), messages.female());
+		genderSelect = new SelectCombo(messages.gender());
+		listOfgenders = new ArrayList<String>();
+		for (int i = 0; i < genderTypes.length; i++) {
+			listOfgenders.add(genderTypes[i]);
+		}
+		genderSelect.initCombo(listOfgenders);
 
 		contactNumberItem = new TextItem(messages.contactNumber(),
 				"contactNumberItem");
 		emailItem = new TextItem(messages.email(), "emailItem");
 
-		addressItem = new TextItem(messages.address(), "addressItem");
-		streetItem = new TextItem(messages.streetName(), "streetItem");
-		cityItem = new TextItem(messages.city(), "cityItem");
-		stateItem = new TextItem(messages.stateOrProvince(), "stateItem");
-		countryItem = new TextItem(messages.country(), "countryItem");
-		postalCodeItem = new TextItem(messages.postalCode(), "postalCodeItem");
+		addrArea = new TextAreaItem(messages.address(), "addrArea");
+		addrArea.setDisabled(isInViewMode());
+		addrArea.addClickHandler(new ClickHandler() {
 
-		basicInfoForm.add(nameItem, dateOfBirthItem, genderGroupItem,
-				contactNumberItem, emailItem, addressItem, streetItem,
-				cityItem, stateItem, countryItem, postalCodeItem);
+			@Override
+			public void onClick(ClickEvent event) {
+				new AddressDialog("", "", addrArea, "Bill to", allAddresses);
+
+			}
+		});
+
+		addrArea.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				new AddressDialog("", "", addrArea, "Bill to", allAddresses);
+
+			}
+		});
+
+		basicInfoForm.add(nameItem, dateOfBirthItem, genderSelect,
+				contactNumberItem, emailItem, addrArea);
 
 		employeeBasicInfo.setContentWidget(basicInfoForm);
 		return employeeBasicInfo;
@@ -175,15 +297,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	private void updateData() {
 		data.setName(nameItem.getValue());
 
-		ClientAddress address = new ClientAddress();
-		address.setAddress1(addressItem.getValue());
-		address.setStreet(streetItem.getValue());
-		address.setCity(cityItem.getValue());
-		address.setStateOrProvinence(stateItem.getValue());
-		address.setCountryOrRegion(countryItem.getValue());
-		address.setZipOrPostalCode(postalCodeItem.getValue());
-
-		data.setAddress(address);
+		data.setAddress(getAddresss());
 		data.setBankAccountNumber(bankAccountNumberItem.getValue());
 		data.setBankName(bankNameItem.getValue());
 		data.setBranch(bankBranchItem.getValue());

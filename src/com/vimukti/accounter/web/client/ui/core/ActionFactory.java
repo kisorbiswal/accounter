@@ -135,6 +135,8 @@ import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeCategoryAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeGroupAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayHeadAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewPayRunAction;
+import com.vimukti.accounter.web.client.ui.payroll.NewPayStructureAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayrollUnitAction;
 import com.vimukti.accounter.web.client.ui.payroll.PayheadListAction;
 import com.vimukti.accounter.web.client.ui.payroll.PayrollUnitListAction;
@@ -1605,5 +1607,13 @@ public class ActionFactory {
 
 	public static EmployeeGroupListAction getEmployeeGroupListAction() {
 		return new EmployeeGroupListAction();
+	}
+
+	public static NewPayStructureAction getPayStructureAction() {
+		return new NewPayStructureAction();
+	}
+
+	public static NewPayRunAction getPayRunAction() {
+		return new NewPayRunAction();
 	}
 }

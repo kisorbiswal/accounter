@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-
-public class ClientEmployee implements IAccounterCore {
+public class ClientEmployee implements ClientPayStructureDestination {
 
 	/**
 	 * 
@@ -121,9 +120,11 @@ public class ClientEmployee implements IAccounterCore {
 	/**
 	 * Contact Details
 	 */
-	private ClientContact contactDetail;
+	private ClientContact contact;
 
 	private long payStructure;
+
+	private long id;
 
 	/**
 	 * @return the name
@@ -429,7 +430,7 @@ public class ClientEmployee implements IAccounterCore {
 	 * @return the contactDetail
 	 */
 	public ClientContact getContactDetail() {
-		return contactDetail;
+		return contact;
 	}
 
 	/**
@@ -437,7 +438,7 @@ public class ClientEmployee implements IAccounterCore {
 	 *            the contactDetail to set
 	 */
 	public void setContactDetail(ClientContact contactDetail) {
-		this.contactDetail = contactDetail;
+		this.contact = contactDetail;
 	}
 
 	/**
@@ -479,14 +480,12 @@ public class ClientEmployee implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 }

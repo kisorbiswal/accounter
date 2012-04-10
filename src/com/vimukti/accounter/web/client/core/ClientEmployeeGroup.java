@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
-public class ClientEmployeeGroup implements IAccounterCore {
+public class ClientEmployeeGroup implements ClientPayStructureDestination {
 
 	/**
 	 * 

@@ -496,6 +496,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ICountryPreferences countryPreferences;
 
+	private List<ClientPayHead> payheads;
+
 	// private List<ClientTaxItem> taxItems;
 
 	// List<ClientPayType> payTypes;
@@ -3399,5 +3401,30 @@ public class ClientCompany implements IAccounterCore {
 	public ClientEmployeeCategory getEmployeeCategoryByName(String str) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ClientEmployeeGroup getEmployeeGroup(long id) {
+		return Utility.getObject(this.employeeGroups, id);
+	}
+
+	public ClientEmployeeGroup getEmployeeCategory(long category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ClientPayHead getPayHead(long payHead) {
+		return Utility.getObject(this.payheads, id);
+	}
+
+	public void setPayHeads(List<ClientPayHead> payheads) {
+		this.payheads = payheads;
+	}
+
+	public List<ClientPayHead> getPayHeads() {
+		return this.payheads;
+	}
+
+	public ClientEmployee getEmployee(long id) {
+		return Utility.getObject(this.employees, id);
 	}
 }
