@@ -316,9 +316,9 @@ public abstract class TransactionDepositTable extends
 				}
 			}
 		}
-		if (DecimalUtil.isLessThan(total, 0.0)) {
-			result.addError(this, messages.invalidTransactionAmount());
-		}
+		// if (DecimalUtil.isLessThan(total, 0.0)) {
+		// result.addError(this, messages.invalidTransactionAmount());
+		// }
 		return result;
 	}
 

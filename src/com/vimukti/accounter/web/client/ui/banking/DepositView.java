@@ -457,7 +457,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 								"TransactionItem"
 										+ transactionItem.getAccount()
 										+ transactionItem.getAccount(),
-								messages.pleaseEnterAccAndAmount());
+								messages.amountShouldNotBeNegative());
 					}
 				} else {
 					result.addError("TransactionItem",
