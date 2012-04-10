@@ -309,6 +309,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		styledPanel.add(taxDynamicForm);
 		styledPanel.add(otherDynamicForm);
 		StyledPanel styledPanel1 = new StyledPanel("panel2");
+		styledPanel1.add(titleLabel);
 		styledPanel1.add(styledPanel);
 
 		this.add(styledPanel1);
