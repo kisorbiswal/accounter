@@ -25,11 +25,11 @@ String user_Name=(String)request.getAttribute("userName");
 		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 			  	<p>Subscription Notification</p>
 			  	<% if(premiumType==0){ %>
-			  		<p>Dear <%= user_Name %>, Your subscription will be expired  on <%= expireDate %>.
+			  		<p>Dear <%= user_Name %>, Your subscription has been expired  on <%= expireDate %>.
 			  	<% } else { %>
-			  		<p>Dear <%= user_Name %>, Your subscription will be degraded on <%= expireDate %>.
+			  		<p>Dear <%= user_Name %>, Your degraded subscription will be expire on <%= expireDate %>.
 			  	<% } %>		    
-			  	We will provide <%= remainigDays %> grace period. After this period following users are deleted.
+			  	We will provide <%= remainigDays %> grace period. After this period following users will be delete.
 			  	<c:if test="${users!=null}"> 
 				  	<c:forEach items="<%= users %>" var="name">  
 					<span>${name}</span></br>
