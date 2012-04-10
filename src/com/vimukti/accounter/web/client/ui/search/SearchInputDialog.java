@@ -448,7 +448,6 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	protected void close() {
-		// com.google.gwt.user.client.History.back();
 		this.removeFromParent();
 	}
 
@@ -920,6 +919,7 @@ public class SearchInputDialog extends BaseDialog {
 		if (token.equalsIgnoreCase("search")) {
 			com.google.gwt.user.client.History.back();
 		}
+		close();
 		return true;
 	}
 }
