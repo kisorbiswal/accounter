@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-public class AttendanceOrProductionType {
+public class AttendanceOrProductionType extends CreatableObject {
 
 	public static final int TYPE_LEAVE_WITH_PAY = 1;
 	public static final int TYPE_LEAVE_WITHOUT_PAY = 2;

@@ -13,7 +13,7 @@ import java.util.List;
  * @author Prasanna Kumar G
  * 
  */
-public class ComputedValuePayHead extends PayHead {
+public class ComputionPayHead extends PayHead {
 
 	/** Calculation Types */
 	public static final int COMPUTATE_ON_DEDUCTION_TOTAL = 1;
@@ -32,7 +32,7 @@ public class ComputedValuePayHead extends PayHead {
 
 	private int calculationPeriod;
 
-	public ComputedValuePayHead() {
+	public ComputionPayHead() {
 		super(CALCULATION_TYPE_AS_COMPUTED_VALUE);
 	}
 

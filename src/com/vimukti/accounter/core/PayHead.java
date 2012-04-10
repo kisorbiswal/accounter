@@ -26,9 +26,8 @@ public abstract class PayHead extends CreatableObject {
 	public static final int TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS = 4;
 	public static final int TYPE_EMPLOYEES_OTHER_CHARGES = 5;
 	public static final int TYPE_BONUS = 6;
-	public static final int TYPE_GRATUITY = 7;
-	public static final int TYPE_LOANS_AND_ADVANCES = 8;
-	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 9;
+	public static final int TYPE_LOANS_AND_ADVANCES = 7;
+	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 8;
 
 	public static final int CALCULATION_TYPE_ON_ATTENDANCE = 1;
 	public static final int CALCULATION_TYPE_AS_COMPUTED_VALUE = 2;
@@ -47,8 +46,6 @@ public abstract class PayHead extends CreatableObject {
 
 	private String name;
 
-	private String alias;
-
 	private int type;
 
 	private String nameToAppearInPaySlip;
@@ -66,10 +63,10 @@ public abstract class PayHead extends CreatableObject {
 	/**
 	 * Expense Account of this PayHead
 	 */
-	private Account expenseAccount;
+	private Account account;
 
 	public PayHead(int calculationType) {
-
+		this.calculationType = calculationType;
 	}
 
 	/**
@@ -193,33 +190,18 @@ public abstract class PayHead extends CreatableObject {
 	}
 
 	/**
-	 * @return the alias
+	 * @return the account
 	 */
-	public String getAlias() {
-		return alias;
+	public Account getAccount() {
+		return account;
 	}
 
 	/**
-	 * @param alias
-	 *            the alias to set
+	 * @param account
+	 *            the account to set
 	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
-
-	/**
-	 * @return the expenseAccount
-	 */
-	public Account getExpenseAccount() {
-		return expenseAccount;
-	}
-
-	/**
-	 * @param expenseAccount
-	 *            the expenseAccount to set
-	 */
-	public void setExpenseAccount(Account expenseAccount) {
-		this.expenseAccount = expenseAccount;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	@Override

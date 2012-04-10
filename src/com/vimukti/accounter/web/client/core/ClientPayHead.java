@@ -15,9 +15,8 @@ public class ClientPayHead implements IAccounterCore {
 	public static final int TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS = 4;
 	public static final int TYPE_EMPLOYEES_OTHER_CHARGES = 5;
 	public static final int TYPE_BONUS = 6;
-	public static final int TYPE_GRATUITY = 7;
-	public static final int TYPE_LOANS_AND_ADVANCES = 8;
-	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 9;
+	public static final int TYPE_LOANS_AND_ADVANCES = 7;
+	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 8;
 
 	public static final int CALCULATION_TYPE_ON_ATTENDANCE = 1;
 	public static final int CALCULATION_TYPE_AS_COMPUTED_VALUE = 2;
