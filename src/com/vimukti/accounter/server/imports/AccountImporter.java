@@ -225,7 +225,7 @@ public class AccountImporter extends AbstractImporter<ClientAccount> {
 
 		StringField accountNumberField = (StringField) getFieldByName("accountNumber");
 		Long accountNumber = 0l;
-		if (accountNumberField != null) {
+		if (accountNumberField != null && accountNumberField.getValue() != null) {
 			accountNumber = Long.parseLong(accountNumberField.getValue());
 		}
 		if (accountNumber == 0) {

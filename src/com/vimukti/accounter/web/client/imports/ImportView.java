@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -463,7 +464,9 @@ public class ImportView extends AbstractBaseView {
 												.get(importType)));
 								return;
 							}
-							Accounter.showError(exception.getMessage());
+							String errorString = AccounterExceptions
+									.getErrorString(exception);
+							Accounter.showError(errorString);
 						}
 
 						@Override
