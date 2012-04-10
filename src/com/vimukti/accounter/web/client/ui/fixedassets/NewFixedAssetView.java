@@ -107,6 +107,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		} else {
 			switch (data.getStatus()) {
 			case 0:
+				labl.setText(messages.newAsset());
+				labl.setStyleName("label-title");
+				break;
 			case ClientFixedAsset.STATUS_PENDING:
 				labl.setText(messages.pendingAsset());
 				labl.setStyleName("label-title");
@@ -767,7 +770,22 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void saveAndUpdateView() {
 		updateAssetObject();
+		setStatus();
 		saveOrUpdate(data);
+	}
+
+	private void setStatus() {
+		/* while registering the data from viewmode or updating a registeritem */
+		if ((false && data != null)
+				|| (data != null && data.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
+			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
+		} else if (false) {
+			/* while creating a registeritem */
+			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
+		} else {
+			/* while updating/creating a pending item */
+			data.setStatus(ClientFixedAsset.STATUS_PENDING);
+		}
 	}
 
 	@Override
@@ -860,18 +878,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					.getAmount());
 		else
 			data.setAccumulatedDepreciationAmount(0.0);
-
-		/* while registering the data from viewmode or updating a registeritem */
-		if ((false && data != null)
-				|| (data != null && data.getStatus() == ClientFixedAsset.STATUS_REGISTERED)) {
-			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-		} else if (false) {
-			/* while creating a registeritem */
-			data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
-		} else {
-			/* while updating/creating a pending item */
-			data.setStatus(ClientFixedAsset.STATUS_PENDING);
-		}
 
 	}
 
@@ -1128,6 +1134,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
 		setRequiredFields();
 		updateAssetObject();
+		setStatus();
 		this.onSave(false);
 	}
 
