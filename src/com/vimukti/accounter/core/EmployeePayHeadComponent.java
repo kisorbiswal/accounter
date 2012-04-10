@@ -40,4 +40,19 @@ public class EmployeePayHeadComponent extends CreatableObject {
 		this.rate = rate;
 	}
 
+	public boolean isEarning() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isDeduction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public double calculatePayment() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

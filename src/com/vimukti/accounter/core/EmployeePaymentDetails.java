@@ -59,4 +59,35 @@ public class EmployeePaymentDetails extends CreatableObject {
 		this.employee = employee;
 	}
 
+	/**
+	 * Run the Payment of this Employee
+	 */
+	public void runPayment() {
+		double earnings = getEarnings();
+
+		double deductions = getDeductions();
+	}
+
+	private double getDeductions() {
+		double deduction = 0.00D;
+		for (EmployeePayHeadComponent component : payHeadComponents) {
+			if (component.isDeduction()) {
+				deduction = component.calculatePayment();
+			}
+
+		}
+		return deduction;
+	}
+
+	private double getEarnings() {
+		double earnings = 0.00D;
+		for (EmployeePayHeadComponent component : payHeadComponents) {
+			if (component.isEarning()) {
+				earnings = component.calculatePayment();
+			}
+
+		}
+		return earnings;
+	}
+
 }

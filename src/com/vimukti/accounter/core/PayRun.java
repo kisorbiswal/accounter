@@ -2,6 +2,9 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+
 public class PayRun extends CreatableObject {
 
 	private Account payableAccount;
@@ -72,4 +75,13 @@ public class PayRun extends CreatableObject {
 		this.payPeriodEndDate = payPeriodEndDate;
 	}
 
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		// Running Payment of Each Employee
+		for (EmployeePaymentDetails detail : payEmployee) {
+			detail.runPayment();
+		}
+
+		return super.onSave(session);
+	}
 }
