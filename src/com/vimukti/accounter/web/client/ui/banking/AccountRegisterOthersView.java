@@ -110,7 +110,7 @@ public class AccountRegisterOthersView extends
 
 	@Override
 	protected int getPageSize() {
-		return 20;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override
