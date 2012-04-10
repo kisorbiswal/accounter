@@ -299,7 +299,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		// original.append("<img style='width:90px;height:90px'  src='file:///");
 		File file = new File(ServerConfiguration.getAttachmentsDir()
 				+ File.separator + company.getId() + File.separator
-				+ "thummnail" + File.separator, brandingTheme.getFileName());
+				+ "thumbnail" + File.separator + brandingTheme.getFileName());
 		if (file.exists()) {
 			original.append("<img src='file:///");
 			original.append(ServerConfiguration.getAttachmentsDir() + "/"
