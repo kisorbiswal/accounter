@@ -116,7 +116,9 @@ public class FileTAXView extends AbstractFileTAXView {
 					.getPeriodStartDate()));
 			toDate.setDateWithNoEvent(new ClientFinanceDate(viewDate
 					.getPeriodEndDate()));
-			reloadGrid();
+			if (selectedTaxAgency != null) {
+				reloadGrid();
+			}
 		}
 		super.restoreView(viewDate);
 	}
