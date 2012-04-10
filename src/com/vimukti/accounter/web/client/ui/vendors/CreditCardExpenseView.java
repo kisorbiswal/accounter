@@ -539,6 +539,7 @@ public class CreditCardExpenseView extends
 			}
 			StyledPanel hPanel = new StyledPanel("hpanel");
 			hPanel.add(memoForm);
+			hPanel.add(botPanel);
 			hPanel.add(totForm);
 
 			StyledPanel vpanel = new StyledPanel("vpanel");
