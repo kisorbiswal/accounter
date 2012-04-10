@@ -272,4 +272,9 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 				"increase-value", "reduce-value", "account-value",
 				"memo-value", "current-balance-value", "is-voided-value" };
 	}
+
+	public void setOpeningBalance(double amount) {
+		this.totalBalance = amount;
+		this.balance = amount;
+	}
 }

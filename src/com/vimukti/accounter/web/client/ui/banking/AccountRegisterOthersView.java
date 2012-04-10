@@ -110,12 +110,15 @@ public class AccountRegisterOthersView extends
 
 	@Override
 	protected int getPageSize() {
-		return DEFAULT_PAGE_SIZE;
+		return 20;
 	}
 
 	@Override
 	public void onSuccess(PaginationList<AccountRegister> result) {
 		grid.removeAllRecords();
+		AccountRegister accountRegister = result.get(0);
+		result.remove(0);
+		grid.setOpeningBalance(accountRegister.getAmount());
 		if (result.isEmpty()) {
 			updateRecordsCount(result.getStart(), result.size(),
 					result.getTotalCount());

@@ -1367,6 +1367,18 @@ public class FinanceTool {
 		for (Long account : parents) {
 
 			Session session = HibernateUtil.getCurrentSession();
+			Query balanceQuery = session
+					.getNamedQuery("getAccountRegisterOpeningBalance")
+					.setParameter("companyId", companyId)
+					.setParameter("accountId", account)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("openingBalance",
+							AccounterServerConstants.OPENING_BALANCE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("limit", start);
+			Double balance = (java.lang.Double) balanceQuery.uniqueResult();
+
 			Query query = session
 					.getNamedQuery("getAccountRegister")
 					.setParameter("companyId", companyId)
@@ -1440,6 +1452,10 @@ public class FinanceTool {
 
 				result.setTotalCount(total);
 				result.setStart(start);
+
+				AccountRegister ar = new AccountRegister();
+				ar.setAmount(balance == null ? 0 : balance);
+				result.add(0, ar);
 
 				if (length < 0) {
 					result.addAll(queryResult);

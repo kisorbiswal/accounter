@@ -4235,6 +4235,65 @@
 
 	</sql-query>
 
+	<sql-query name="getAccountRegisterOpeningBalance">
+		<query-param name="accountId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="openingBalance" type="encryptedString" />
+		<query-param name="limit" type="int" />
+
+		<return-scalar column="BALANCE" type="double" />
+		
+		<![CDATA[
+								SELECT SUM(A.TRANSACTION_AMOUNT) AS BALANCE
+								FROM (SELECT 
+						       
+						       CASE
+						         WHEN T.T_TYPE = 16
+						              AND A.ID = 1
+						              AND (SELECT A1.NAME
+						                   FROM   ACCOUNT A1
+						                          LEFT JOIN ACCOUNT_TRANSACTION AT1
+						                            ON A1.ID = AT1.ACCOUNT_ID
+						                          LEFT JOIN TRANSACTION T1
+						                            ON AT1.TRANSACTION_ID = T1.ID
+						                   WHERE  A1.COMPANY_ID = :companyId
+						                          AND AT1.TRANSACTION_ID = AT.TRANSACTION_ID
+						                          AND AT1.ACCOUNT_ID != AT.ACCOUNT_ID
+						                          AND T1.T_TYPE = 16
+						                   GROUP  BY A1.ID) IN ( :openingBalance ) THEN
+						         -1 * SUM(AT.AMOUNT) / T.CURRENCY_FACTOR
+						         WHEN A.ACCOUNT_CURRENCY != COM.PRIMARY_CURRENCY THEN
+						         SUM(AT.AMOUNT) / T.CURRENCY_FACTOR
+						         ELSE SUM(AT.AMOUNT)
+						       END               AS TRANSACTION_AMOUNT
+						       
+						      
+						FROM   ACCOUNT_TRANSACTION AT
+						       LEFT JOIN COMPANY COM
+						         ON AT.COMPANY_ID = COM.ID
+						       JOIN ACCOUNT A
+						         ON A.ID = AT.ACCOUNT_ID
+						      
+						       JOIN TRANSACTION T
+						         ON T.ID = AT.TRANSACTION_ID
+						       
+						WHERE  A.ID = :accountId
+						       AND A.COMPANY_ID = :companyId
+						       AND T.T_DATE BETWEEN :startDate AND :endDate
+						GROUP  BY T.ID,
+						          AT.TRANSACTION_ID,
+						          A.ID,
+						          AT.ACCOUNT_ID,	          
+						          COM.ID
+						          
+						ORDER  BY T.T_DATE,
+						          AT.TRANSACTION_ID  LIMIT :limit) AS A
+				]]>
+
+	</sql-query>
+
 	<sql-query
 		name="getTransactionDetailByAccount_ForParticularAccountAndCategory">
 		<query-param name="companyId" type="long" />
