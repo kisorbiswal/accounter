@@ -106,7 +106,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				if (isCustomerAllowedToAdd && isTrackJob()) {
 					return 100;
 				} else if (isCustomerAllowedToAdd) {
-					return 110;
+					return 90;
 				}
 				return super.getWidth();
 			}
@@ -184,7 +184,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			public int getWidth() {
 				if (isCustomerAllowedToAdd && isTrackJob() && enableClass
 						&& enableDisCount) {
-					return 40;
+					return 60;
 				} else if ((isCustomerAllowedToAdd && enableClass)
 						|| (isCustomerAllowedToAdd && enableDisCount)
 						|| (isCustomerAllowedToAdd && showTaxCode)
@@ -207,7 +207,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						|| (showClass && showDiscount)
 						|| (showClass && showTaxCode)
 						|| (showDiscount && showTaxCode)) {
-					return 60;
+					return 75;
 				}
 				return super.getWidth();
 			}
@@ -243,7 +243,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 								|| (showClass && showDiscount)
 								|| (showClass && showTaxCode)
 								|| (showDiscount && showTaxCode)) {
-							return 40;
+							return 55;
 						}
 						return super.getWidth();
 					}
@@ -273,7 +273,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 					@Override
 					public int getWidth() {
 						if (isCustomerAllowedToAdd && isTrackJob()) {
-							return 60;
+							return 75;
 						}
 						return super.getWidth();
 					}
@@ -343,7 +343,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 					public int getWidth() {
 						if (isCustomerAllowedToAdd && isTrackJob()
 								&& enableClass && enableDisCount && showTaxCode) {
-							return 30;
+							return 35;
 						} else if ((isCustomerAllowedToAdd && showClass)
 								|| (isCustomerAllowedToAdd && showDiscount)
 								|| (isCustomerAllowedToAdd && showTaxCode)
@@ -414,7 +414,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 							|| (showClass && showDiscount)
 							|| (showClass && showTaxCode)
 							|| (showDiscount && showTaxCode)) {
-						return 24;
+						return 55;
 					}
 					return super.getWidth();
 				}
