@@ -59,8 +59,8 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ItemUnitPrice;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
@@ -1318,10 +1318,16 @@ public class CompanyManager extends Manager {
 						.setParameter("memo", "%" + input.getFindBy() + "%",
 								EncryptedStringType.INSTANCE);
 			} else if (input.getSearchbyType() == SearchInput.TYPE_ENTRY_NO) {
+				String searchString = null;
+				if (input.getMatchType() == 3) {
+					searchString = "%" + input.getFindBy() + "%";
+				} else {
+					searchString = input.getFindBy();
+				}
 				query = session
 						.getNamedQuery("getAllJournalEntriesByEntryNo")
 						.setParameter("companyId", companyId)
-						.setParameter("number", input.getFindBy(),
+						.setParameter("number", searchString,
 								EncryptedStringType.INSTANCE)
 						.setParameter("match", input.getMatchType());
 			}
