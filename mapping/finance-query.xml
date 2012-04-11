@@ -2270,12 +2270,15 @@
 		<query-param name="companyId" type="long" />
 
 		<return-scalar column="TRANS_ID" type="long" />
-		
+		<return-scalar column="PAYYE_ID" type="long" />
 		<![CDATA[
-				SELECT T.ID AS TRANS_ID
+				SELECT T.ID AS TRANS_ID,
+				P.ID AS PAYYE_ID
 				FROM   CURRENCY C
 				       LEFT OUTER JOIN TRANSACTION T
 				         ON C.ID = T.CURRENCY
+				       LEFT OUTER JOIN PAYEE P ON
+				       C.ID = P.CURRENCY  
 				WHERE  C.ID = :inputId
 				       AND C.COMPANY_ID = :companyId
 				LIMIT  1  

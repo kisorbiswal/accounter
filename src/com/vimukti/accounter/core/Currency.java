@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
@@ -206,5 +207,12 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 
 	private boolean isPrimaryCurrency() {
 		return getCompany().getPrimaryCurrency().getID() == getID();
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		arg0.delete(accountsPayable);
+		arg0.delete(accountsReceivable);
+		return super.onDelete(arg0);
 	}
 }

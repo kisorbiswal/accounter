@@ -615,6 +615,36 @@ public class FinanceTool {
 					}
 				} else if (serverObject instanceof TAXItem) {
 					((TAXItem) serverObject).canDelete(serverObject);
+				} else if (serverObject instanceof Currency) {
+					Currency currency = (Currency) serverObject;
+					long accountPayable = currency.getAccountsPayable().getID();
+					Boolean isExists = (Boolean) session
+							.getNamedQuery("isCompanyAccount")
+							.setParameter("accountId", accountPayable)
+							.setParameter("companyId", company.getID()).list()
+							.get(0);
+					if (isExists
+							|| !canDelete(
+									AccounterCoreType.ACCOUNT
+											.getServerClassSimpleName(),
+									accountPayable, company.getID())) {
+						throw new AccounterException(
+								AccounterException.ERROR_OBJECT_IN_USE);
+					}
+					accountPayable = currency.getAccountsReceivable().getID();
+					isExists = (Boolean) session
+							.getNamedQuery("isCompanyAccount")
+							.setParameter("accountId", accountPayable)
+							.setParameter("companyId", company.getID()).list()
+							.get(0);
+					if (isExists
+							|| !canDelete(
+									AccounterCoreType.ACCOUNT
+											.getServerClassSimpleName(),
+									accountPayable, company.getID())) {
+						throw new AccounterException(
+								AccounterException.ERROR_OBJECT_IN_USE);
+					}
 				}
 				if (canDelete(serverClass.getSimpleName(),
 						Long.parseLong(arg1), company.getID())) {
