@@ -1,6 +1,6 @@
-@-moz-document url-prefix(){
-.editTable table td .gwt-TextBox {
-	width:99%;
+@
+-moz-document url-prefix  (){ .editTable table td .gwt-TextBox {
+	width: 99%;
 }
 
 #customercreditmemoview .prodAndServiceHLay .boldtext {
@@ -105,11 +105,11 @@
 	.editTable .editheader td {
 		padding: 2px;
 	}
-	#NewFixedAssetView .mainVPanel .descriptionVPanel .descriptionForm{
-	    padding-bottom:1px;
-    }
-	.editTable .editheader td{
-		padding:2px !important;
+	#NewFixedAssetView .mainVPanel .descriptionVPanel .descriptionForm {
+		padding-bottom: 1px;
+	}
+	.editTable .editheader td {
+		padding: 2px !important;
 	}
 }
 
@@ -560,8 +560,8 @@ input[type="text"] {
 
 .editTable table td {
 	border-color: #CCCCCC;
-    border-style: solid;
-    border-width: 1px 1px 1px 0;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
 	padding: 0px;
 	margin: 0px;
 	word-wrap: break-word;
@@ -878,7 +878,7 @@ input[type="text"] {
 	border: 1px solid #002E36;
 	height: 25px;
 	padding: 2px 5px 5px;
-	margin:0 10px;
+	margin: 0 10px;
 }
 
 .gridHeader {
@@ -1318,7 +1318,7 @@ input[type="text"] {
 	-moz-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex: 1;
-	width:100%;
+	width: 100%;
 }
 
 .Transactions_center .tree_menu_item {
@@ -7275,7 +7275,7 @@ textarea[disabled] {
 	width: 30px;
 }
 
-.attachment_panel .attachmentTable .transaction_attachment_hpanel div, .attachment_panel .attachmentTable .transaction_attachment_hpanel a
+.attachment_panel .attachmentTable .transaction_attachment_hpanel div,.attachment_panel .attachmentTable .transaction_attachment_hpanel a
 	{
 	display: inline;
 	margin-right: 10px;
@@ -7615,39 +7615,47 @@ table.no_records tr td {
 #AccounterClassListDialog .depth8 {
 	padding-left: 80% !important;
 }
-#StatementTransactionsReconcileView .transactionStyles .rightBorder{
-	 -moz-box-flex: 1;
-	 -moz-box-orient: horizontal;
+
+#StatementTransactionsReconcileView .transactionStyles .rightBorder {
+	-moz-box-flex: 1;
+	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
-    display: -moz-box;
+	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-    width: 100%;
+	width: 100%;
 }
-#StatementTransactionsReconcileView .mainVLay table.gwt-DecoratedTabPanel{
-	width:100%;
+
+#StatementTransactionsReconcileView .mainVLay table.gwt-DecoratedTabPanel
+	{
+	width: 100%;
 }
-.gwt-Tree .gwt-CheckBox{
+
+.gwt-Tree .gwt-CheckBox {
 	display: inline;
 }
-.gwt-Tree table td{
+
+.gwt-Tree table td {
 	vertical-align: top;
 }
+
 .gwt-Tree table td .editTable_enable_anchor {
-    padding-left: 5px;
-    color: black;
+	padding-left: 5px;
+	color: black;
 }
-#EditProfileDialog .edit_user_profile{
-	 display: -moz-box;
+
+#EditProfileDialog .edit_user_profile {
+	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-	padding:10px;
+	padding: 10px;
 }
-#CheckPrintingSettingView .cheque_print_text{
+
+#CheckPrintingSettingView .cheque_print_text {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7657,28 +7665,35 @@ table.no_records tr td {
 }
 
 #EmailView .emailBody {
-    margin: 0 15px;
+	margin: 0 15px;
 }
-#EmailView .email_textarea button{
-	margin-right:10px;
+
+#EmailView .email_textarea button {
+	margin-right: 10px;
 }
+
 #BaseDialog .emailPanel {
 	display: -webkit-box;
-	 display: -moz-box;
+	display: -moz-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	padding: 10px;
 }
-#BaseDialog .emailPanel .emailBody textarea{
-	width:350px;
-	height:240px;
+
+#BaseDialog .emailPanel .emailBody textarea {
+	width: 350px;
+	height: 240px;
 }
-#SoldAndDisposedItemsListGrid .gridHeader, #SoldAndDisposedItemsListGrid table.gridBody{
+
+#SoldAndDisposedItemsListGrid .gridHeader,#SoldAndDisposedItemsListGrid table.gridBody
+	{
 	table-layout: fixed;
 }
-#ClassMergeDialog .horizontalPanel .form, #ClassMergeDialog .horizontalPanel .form1{
+
+#ClassMergeDialog .horizontalPanel .form,#ClassMergeDialog .horizontalPanel .form1
+	{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7686,19 +7701,36 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#CustomFieldDialog .editTable table{
-    table-layout:auto !important;
-} 
-.title_voided_panel{
-    margin:15px 0;
+
+#CustomFieldDialog .editTable table {
+	table-layout: auto !important;
 }
-#TDSDeductorDetailsView .taxDynamicForm .formItem .gwt-Label{
-	width:250px;
+
+.title_voided_panel {
+	margin: 15px 0;
 }
+
+#TDSDeductorDetailsView .taxDynamicForm .formItem .gwt-Label {
+	width: 250px;
+}
+
 #paybillview .topHLay {
-    width: 100%;
+	width: 100%;
 }
-#CustomerMergeDialog .horizontalPanel .gwt-Label{
+
+#CreateClassDialog .verticalPanel .trackClassForm {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin: 10px;
+}
+
+#CreateClassDialog .verticalPanel .trackClassForm .formItem .gwt-Label {
+	width: auto;
+}#CustomerMergeDialog .horizontalPanel .gwt-Label{
 	width:120px;
 }
 #VendorMergeDialog .horizontalPanel .gwt-Label{
