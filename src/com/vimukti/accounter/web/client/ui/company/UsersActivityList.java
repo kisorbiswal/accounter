@@ -18,13 +18,18 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -405,6 +410,28 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		}
 		if (object.getObjType() == ClientTransaction.TYPE_ISSUE_PAYMENT) {
 			return;
+		} else if (object.getObjType() == IAccounterCore.BRANDING_THEME) {
+			AccounterAsyncCallback<ClientBrandingTheme> callback = new AccounterAsyncCallback<ClientBrandingTheme>() {
+
+				@Override
+				public void onException(AccounterException caught) {
+					Accounter.showMessage(Global.get().messages()
+							.sessionExpired());
+				}
+
+				@Override
+				public void onResultSuccess(ClientBrandingTheme result) {
+					if (result != null) {
+						ActionFactory.getNewBrandCustomThemeAction().run(
+								result, true);
+					}
+				}
+
+			};
+
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.BRANDINGTHEME, object.getObjectID(),
+					callback);
 		} else {
 			ReportsRPC.openTransactionView(object.getObjType(),
 					object.getObjectID());
