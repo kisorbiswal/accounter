@@ -34,7 +34,11 @@ public class LongField extends ImportField {
 	@Override
 	public boolean validate(String value) {
 		try {
-			setValue(Long.parseLong(value));
+			if (!value.trim().isEmpty()) {
+				setValue(Long.parseLong(value));
+			} else {
+				setValue(0l);
+			}
 		} catch (Exception e) {
 			return false;
 		}
@@ -48,5 +52,5 @@ public class LongField extends ImportField {
 		}
 		return getValue().toString();
 	}
-	
+
 }
