@@ -7137,7 +7137,7 @@
 				WHERE  T.T_TYPE = 8
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				       AND C.ID = :customerId
+				       AND C.ID = :customerId AND T.SAVE_STATUS != 202
 				ORDER  BY DUE_DATE  
 				]]>
 
