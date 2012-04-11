@@ -3557,4 +3557,8 @@ public class ClientCompany implements IAccounterCore {
 			List<ClientAttendanceOrProductionType> attendanceProductionTypes) {
 		this.attendanceProductionTypes = attendanceProductionTypes;
 	}
+
+	public ClientEmployee getEmployeeByName(String name) {
+		return Utility.getObjectByName(this.employees, name);
+	}
 }

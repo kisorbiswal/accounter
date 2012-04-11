@@ -16,6 +16,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
@@ -23,11 +25,14 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -193,18 +198,26 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 				"1px solid #ccc");
 		bankAccountNumberItem = new TextItem(messages.bankAccountNumber(),
 				"bankAccountNumberItem");
+		bankAccountNumberItem.setEnabled(!isInViewMode());
 		bankNameItem = new TextItem(messages.bankName(), "bankNameItem");
+		bankNameItem.setEnabled(!isInViewMode());
 		bankBranchItem = new TextItem(messages.bankBranch(), "bankBranchItem");
+		bankBranchItem.setEnabled(!isInViewMode());
 		passportNumberItem = new TextItem(messages.passportNumber(),
 				"passportNumberItem");
+		passportNumberItem.setEnabled(!isInViewMode());
 		passportExpiryDateItem = new DateItem(messages.passportExpiryDate(),
 				"passportExpiryDateItem");
+		passportExpiryDateItem.setEnabled(!isInViewMode());
 		countryOfIssueItem = new TextItem(messages.countryOfIssue(),
 				"countryOfIssueItem");
+		countryOfIssueItem.setEnabled(!isInViewMode());
 		emplVisaNumberItem = new TextItem(messages.visaNumber(),
 				"emplVisaNumberItem");
+		emplVisaNumberItem.setEnabled(!isInViewMode());
 		emplVisaNumberDateItem = new DateItem(messages.visaExpiryDate(),
 				"emplVisaNumberDateItem");
+		emplVisaNumberDateItem.setEnabled(!isInViewMode());
 		empOtherDetailsInfoForm = new DynamicForm("empOtherDetailsInfoForm");
 		empOtherDetailsInfoForm.add(bankAccountNumberItem, bankNameItem,
 				bankBranchItem, passportNumberItem, passportExpiryDateItem,
@@ -221,15 +234,21 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		empDetailsInfoForm = new DynamicForm("empDetailsInfoForm");
 
 		employeeIdItem = new TextItem(messages.employeeID(), "employeeIdItem");
+		employeeIdItem.setEnabled(!isInViewMode());
 		dateOfHire = new DateItem(messages.dateofHire(), "dateOfHire");
+		dateOfHire.setEnabled(!isInViewMode());
 		panItem = new TextItem(messages.panOrEinNumber(), "panItem");
+		panItem.setEnabled(!isInViewMode());
 		employeeGroupCombo = new EmployeeGroupCombo(messages.employeeGroup(),
 				true);
+		employeeGroupCombo.setEnabled(!isInViewMode());
 		employeeCategoryCombo = new SelectCombo(messages.employeeCategory());
+		employeeCategoryCombo.setEnabled(!isInViewMode());
 		designationItem = new TextItem(messages.designation(),
 				"designationItem");
+		designationItem.setEnabled(!isInViewMode());
 		locationItem = new TextItem(messages.workingLocation(), "locationItem");
-
+		locationItem.setEnabled(!isInViewMode());
 		empDetailsInfoForm.add(employeeIdItem, dateOfHire, panItem,
 				employeeGroupCombo, employeeCategoryCombo, designationItem,
 				locationItem);
@@ -246,11 +265,15 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		basicInfoForm = new DynamicForm("basicInfoForm");
 
 		nameItem = new TextItem(messages.name(), "nameItem");
+		nameItem.setRequired(true);
+		nameItem.setEnabled(!isInViewMode());
 
 		dateOfBirthItem = new DateItem(messages.dateofBirth(),
 				"dateOfBirthItem");
+		dateOfBirthItem.setEnabled(!isInViewMode());
 
 		genderSelect = new SelectCombo(messages.gender());
+		genderSelect.setEnabled(!isInViewMode());
 		listOfgenders = new ArrayList<String>();
 		for (int i = 0; i < genderTypes.length; i++) {
 			listOfgenders.add(genderTypes[i]);
@@ -259,10 +282,12 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		contactNumberItem = new TextItem(messages.contactNumber(),
 				"contactNumberItem");
+		contactNumberItem.setEnabled(!isInViewMode());
 		emailItem = new TextItem(messages.email(), "emailItem");
-
+		emailItem.setEnabled(!isInViewMode());
 		addrArea = new TextAreaItem(messages.address(), "addrArea");
 		addrArea.setDisabled(isInViewMode());
+		addrArea.setEnabled(!isInViewMode());
 		addrArea.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -323,12 +348,72 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 	@Override
 	public ValidationResult validate() {
-		return super.validate();
+		ValidationResult result = new ValidationResult();
+		result.add(basicInfoForm.validate());
+		String name = nameItem.getValue();
+
+		ClientEmployee employeeByName = getCompany().getEmployeeByName(name);
+		if (employeeByName != null
+				&& !(this.getData().getID() == employeeByName.getID())) {
+			result.addError(nameItem, messages.alreadyExist());
+		}
+		return result;
+	}
+
+	@Override
+	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				int errorCode = caught.getErrorCode();
+
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.EMPLOYEE, data.getID(),
+				editCallBack);
+
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
+
+	}
+
+	private void enableFormItems() {
+		setMode(EditMode.EDIT);
+		nameItem.setEnabled(!isInViewMode());
+		employeeIdItem.setEnabled(!isInViewMode());
+		designationItem.setEnabled(!isInViewMode());
+		panItem.setEnabled(!isInViewMode());
+		bankNameItem.setEnabled(!isInViewMode());
+		bankAccountNumberItem.setEnabled(!isInViewMode());
+		bankBranchItem.setEnabled(!isInViewMode());
+		locationItem.setEnabled(!isInViewMode());
+		contactNumberItem.setEnabled(!isInViewMode());
+		emailItem.setEnabled(!isInViewMode());
+		passportNumberItem.setEnabled(!isInViewMode());
+		countryOfIssueItem.setEnabled(!isInViewMode());
+		emplVisaNumberItem.setEnabled(!isInViewMode());
+		dateOfBirthItem.setEnabled(!isInViewMode());
+		dateOfHire.setEnabled(!isInViewMode());
+		passportExpiryDateItem.setEnabled(!isInViewMode());
+		emplVisaNumberDateItem.setEnabled(!isInViewMode());
+		employeeCategoryCombo.setEnabled(!isInViewMode());
+		employeeGroupCombo.setEnabled(!isInViewMode());
+		genderSelect.setEnabled(!isInViewMode());
+		addrArea.setEnabled(!isInViewMode());
+		super.onEdit();
 
 	}
 
