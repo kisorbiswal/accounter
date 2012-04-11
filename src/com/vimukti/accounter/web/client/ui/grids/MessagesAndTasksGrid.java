@@ -85,13 +85,13 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 
 		switch (index) {
 		case 0:
-			return 35;
+			return 30;
 		case 1:
 			return 60;
 		case 2:
-			return 40;
-		case 4:
 			return 60;
+		case 4:
+			return 100;
 		case 5:
 			if (UIUtils.isMSIEBrowser()) {
 				return 25;

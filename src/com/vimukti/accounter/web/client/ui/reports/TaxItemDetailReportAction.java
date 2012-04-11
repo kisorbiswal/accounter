@@ -9,6 +9,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TaxItemDetailReportAction extends Action {
 
+	private boolean isFromReports;
+
 	public TaxItemDetailReportAction() {
 		super();
 		this.catagory = messages.report();
@@ -29,9 +31,9 @@ public class TaxItemDetailReportAction extends Action {
 
 				TaxItemDetailReportView report = new TaxItemDetailReportView();
 				report.setTaxReturnId(id);
+				report.setIsFromReports(isFromReports);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, TaxItemDetailReportAction.this);
-
 			}
 
 			public void onCreateFailed(Throwable t) {
@@ -65,6 +67,10 @@ public class TaxItemDetailReportAction extends Action {
 	@Override
 	public String getText() {
 		return messages.taxItemDetailReport();
+	}
+
+	public void setFromReports(boolean fromReports) {
+		this.isFromReports = fromReports;
 	}
 
 }

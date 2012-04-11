@@ -23,6 +23,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 	private long taxAgency;
 	private long taxReturnId;
 	private TaxAgencyStartDateEndDateToolbar toolBar;
+	private boolean isFromReports;
 
 	public TaxItemDetailReportView() {
 		super(false, messages.noRecordsToShow());
@@ -94,13 +95,15 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 			}
 			toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 			toolBar.taxAgencyCombo.select(taxAgency2);
-			toolBar.taxAgencyCombo.setEnabled(false);
 			toolBar.fromItem.setEnteredDate(toolBar.getStartDate());
 			toolBar.toItem.setEnteredDate(toolBar.getEndDate());
-			toolBar.fromItem.setEnabled(false);
-			toolBar.toItem.setEnabled(false);
-			toolBar.updateButton.setEnabled(false);
-			toolBar.dateRangeItem.setEnabled(false);
+			if (!isFromReports) {
+				toolBar.taxAgencyCombo.setEnabled(false);
+				toolBar.fromItem.setEnabled(false);
+				toolBar.toItem.setEnabled(false);
+				toolBar.updateButton.setEnabled(false);
+				toolBar.dateRangeItem.setEnabled(false);
+			}
 			this.serverReport.initRecords(detail);
 		} else {
 			super.initData();
@@ -144,5 +147,9 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	public void setTaxReturnId(long taxReturnId) {
 		this.taxReturnId = taxReturnId;
+	}
+
+	public void setIsFromReports(boolean isFromReports) {
+		this.isFromReports = isFromReports;
 	}
 }
