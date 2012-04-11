@@ -10704,12 +10704,12 @@
 				         ON TI.TYPE = 1
 				            AND IT.TYPE IN ( 2, 4 )
 				            AND IT.ID = TI.ITEM_ID
-				WHERE  T.SAVE_STATUS NOT IN ( 201, 202 )
+				WHERE  T.SAVE_STATUS NOT IN ( 201, 202, 204 )
 				       AND ( T.T_TYPE IN ( 2, 6, 4, 26, 27 )
 				              OR CASE
 				                   WHEN T.T_TYPE = 36 THEN TI.QTY_VALUE >= 0
 				                   ELSE FALSE
-				                 END )
+				                 END ) AND IT.TYPE IN (2,4)
 		]]>
 
 	</sql-query>

@@ -678,7 +678,7 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	public boolean isBuildAssembly() {
-		return getType() == TYPE_BUILD_ASSEMBLY;
+		return this instanceof BuildAssembly;
 	}
 
 	/**
