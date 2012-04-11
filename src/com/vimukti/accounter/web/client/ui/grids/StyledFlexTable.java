@@ -11,8 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 
-//public class StyledFlexTable extends GwtFlexTable {
-public class StyledFlexTable {
+public class StyledFlexTable extends GwtFlexTable {
 	private StyledPanel flexTable;
 
 	public StyledFlexTable() {
@@ -120,4 +119,8 @@ public class StyledFlexTable {
 		flexTable.addStyleName(string);
 	}
 
+	@Override
+	public void insertRow(int beforeRow) {
+
+	}
 }

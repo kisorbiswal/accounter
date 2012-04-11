@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{d9964787-15de-41ff-ba87-96f55da65ad6}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\4.0\Microsoft.VisualStudioVersion.v11.Common.props" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WWAProject\Microsoft.VisualStudio.WWAProject.Default.props" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WWAProject\Microsoft.VisualStudio.WWAProject.props" />
+  <PropertyGroup>
+    <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppxManifest Include="package.appxmanifest" />
+    <Content Include="accounter.client\056D1E7E08A68FE41E58B2E0CB9BD06E.gwt.rpc" />
+    <Content Include="accounter.client\3A7523E78CC5E5E3ED536F766D298DA6.gwt.rpc" />
+    <Content Include="accounter.client\40CCD219FD8A116DE5894BFEB11C4468.gwt.rpc" />
+    <Content Include="accounter.client\4BCF194ED6FF67D117D091B3DC62FCC4.gwt.rpc" />
+    <Content Include="accounter.client\accounter.client.nocache.js" />
+    <Content Include="accounter.client\B8F30A67EDD73A1350EC0445D016065F.gwt.rpc" />
+    <Content Include="accounter.client\clear.cache.gif" />
+    <AppxManifest Include="accounter.client\D7C3DD966B02267C037BE63FB61A6F14.cache.html" />
+    <Content Include="accounter.client\D7C3DD966B02267C037BE63FB61A6F14.gwt.rpc" />
+    <Content Include="accounter.client\deferredjs\D7C3DD966B02267C037BE63FB61A6F14\1.cache.js" />
+    <Content Include="accounter.client\deferredjs\D7C3DD966B02267C037BE63FB61A6F14\2.cache.js" />
+    <Content Include="accounter.client\F446606C5EE2B77414BB5395818C24A6.gwt.rpc" />
+    <Content Include="accounter.client\F5215F7F0E92EA96AA137CF1D3116086.gwt.rpc" />
+    <Content Include="accounter.client\F8445EC6AC79A7340361A1056DA2B6BF.gwt.rpc" />
+    <Content Include="accounter.client\hosted.html" />
+    <Content Include="default.html" />
+    <Content Include="images\Add.png" />
+    <Content Include="images\back.png" />
+    <Content Include="images\bullet-green.png" />
+    <Content Include="images\bullet-red.png" />
+    <Content Include="images\calendar.png" />
+    <Content Include="images\closeItem.png" />
+    <Content Include="images\default.html" />
+    <Content Include="images\icon.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\menu.png" />
+    <Content Include="images\search.png" />
+    <Content Include="images\small.png" />
+    <Content Include="images\smalllogo.png" />
+    <Content Include="images\splashscreen.png" />
+    <Content Include="images\storelogo.png" />
+    <Content Include="images\storelogog.png" />
+    <Content Include="js\default.js" />
+    <Content Include="css\default.css" />
+    <Content Include="js\script.js" />
+    <Content Include="winjs\Css\ui-dark.css" />
+    <Content Include="winjs\Css\ui-light.css" />
+    <Content Include="winjs\js\animations.js" />
+    <Content Include="winjs\js\base.js" />
+    <Content Include="winjs\js\binding.js" />
+    <Content Include="winjs\js\controls.js" />
+    <Content Include="winjs\js\res.js" />
+    <Content Include="winjs\js\ui.js" />
+    <Content Include="winjs\js\uicollections.js" />
+    <Content Include="winjs\js\wwaapp.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WWAProject\Microsoft.VisualStudio.WWAProject.targets" />
+</Project>

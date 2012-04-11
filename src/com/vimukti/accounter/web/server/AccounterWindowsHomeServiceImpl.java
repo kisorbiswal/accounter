@@ -250,9 +250,10 @@ public class AccounterWindowsHomeServiceImpl extends
 				client.setCountry(details.getCountry());
 				client.setSubscribedToNewsLetters(details.isSubscribeUpdates());
 				ClientSubscription clientSubscription = new ClientSubscription();
-				clientSubscription.setSubscription(new Subscription());
+				clientSubscription.setCreatedDate(new Date());
+				clientSubscription.setSubscription(Subscription
+						.getInstance(Subscription.FREE_CLIENT));
 				saveEntry(clientSubscription);
-
 				client.setClientSubscription(clientSubscription);
 				client.setDeleted(false);
 				saveEntry(client);

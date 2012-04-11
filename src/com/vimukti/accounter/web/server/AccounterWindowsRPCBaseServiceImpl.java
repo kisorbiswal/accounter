@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class AccounterWindowsRPCBaseServiceImpl extends RemoteServiceServlet {
@@ -35,6 +36,14 @@ public class AccounterWindowsRPCBaseServiceImpl extends RemoteServiceServlet {
 		} catch (Exception e) {
 		}
 
+	}
+
+	@Override
+	protected SerializationPolicy doGetSerializationPolicy(
+			HttpServletRequest request, String moduleBaseURL, String strongName) {
+		moduleBaseURL = moduleBaseURL.replace("ms-wwa://", "http://");
+		return super.doGetSerializationPolicy(request, moduleBaseURL,
+				strongName);
 	}
 
 }

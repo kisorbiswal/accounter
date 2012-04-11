@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="9c091f7d-1680-446f-aa70-ce9b6f6e6eca" Version="1.0.0.0" Publisher="CN=vimukti" />
+  <Properties>
+    <DisplayName>Accounter</DisplayName>
+    <Description>Accounter</Description>
+    <PublisherDisplayName>vimukti</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2</OSMinVersion>
+    <OSMaxVersionTested>6.2</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="en-US" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="default.html">
+      <VisualElements DisplayName="Accounter" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Accounter" ForegroundText="light" BackgroundColor="#0084FF" InitialRotationPreference="portrait">
+        <DefaultTile ShowName="true" />
+        <SplashScreen Image="images\splashscreen.png" />
+      </VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClientServer" />
+    <Capability Name="privateNetworkClientServer" />
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

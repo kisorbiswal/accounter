@@ -1,20 +1,20 @@
 package com.vimukti.accounter.web.client.ui.win8;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
+import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -84,6 +84,8 @@ public class AccounterMenuView extends BaseView {
 
 	private String countryOrRegion;
 
+	private Set<String> features;
+
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
 
@@ -93,12 +95,14 @@ public class AccounterMenuView extends BaseView {
 		ICountryPreferences countryPreferences = Accounter.getCompany()
 				.getCountryPreferences();
 		setPreferencesandPermissions(preferences, Accounter.getUser(),
-				countryPreferences);
+				countryPreferences, Accounter.getFeatures());
 	}
 
-	private void setPreferencesandPermissions(
-			ClientCompanyPreferences preferences2, ClientUser clientUser,
-			ICountryPreferences countryPreferences) {
+	public void setPreferencesandPermissions(
+			ClientCompanyPreferences preferences, ClientUser clientUser,
+			ICountryPreferences countryPreferences, Set<String> features) {
+
+		this.features = features;
 
 		this.canDoInvoiceAndBillTransactions = canDoInvoiceTransactions(clientUser);
 
@@ -242,26 +246,37 @@ public class AccounterMenuView extends BaseView {
 			return false;
 	}
 
+	public boolean hasPermission(String feature) {
+		return features.contains(feature);
+	}
+
 	private void getMenu() {
 
 		StyledPanel mainMenuPanel = new StyledPanel("mainMenu");
 
 		mainMenuPanel.add(getCompanyMenu(messages.company()));
 
+		if (canDoTaxTransactions && isTrackTax) {
+			mainMenuPanel.add(getVATMenu(messages.tax()));
+		}
+
 		mainMenuPanel.add(getCustomerMenu(Global.get().Customer()));
 
-		mainMenuPanel.add(getVendorsMenu(Global.get().Vendor()));
+		mainMenuPanel.add(getVendorMenu(Global.get().Vendor()));
 
 		if (canDoBanking) {
 			mainMenuPanel.add(getBankingMenu(messages.banking()));
 		}
-		if (canDoTaxTransactions && isTrackTax) {
-			mainMenuPanel.add(getTaxMenu(messages.tax()));
-		}
+
 		if (canDoInventory && isInventoryEnabled) {
 			mainMenuPanel.add(getInventoryMenu(messages.inventory()));
 		}
 
+		// this.addMenu(getFixedAssetsMenu(messages.fixedAssets()));
+
+		if (canViewReports) {
+			mainMenuPanel.add(getReportMenu(messages.reports()));
+		}
 		if (canChangeSettings || canDoUserManagement) {
 			mainMenuPanel.add(getSettingsMenu(messages.settings()));
 		}
@@ -271,445 +286,8 @@ public class AccounterMenuView extends BaseView {
 
 	}
 
-	private DynamicForm getCompanyMenu(String company) {
-
-		DynamicForm companyMenuForm = new DynamicForm("companyMenuForm");
-
-		Label companyLabel = new Label(company);
-		companyLabel.setStyleName("menuName");
-
-		DynamicForm companyListForm = new DynamicForm("companyListForm");
-
-		W8MenuItem transactionCenterItem = new W8MenuItem(
-				messages.transactionscenter(), "",
-				HistoryTokens.TRANSACTIONS_CENTER);
-		companyListForm.add(transactionCenterItem);
-
-		if (canDoManageAccounts) {
-			W8MenuItem journalEntryItem = new W8MenuItem(
-					messages.journalEntry(),
-					"Create a new journal entry from here.",
-					HistoryTokens.NEWJOURNALENTRY);
-			W8MenuItem newAccountItem = new W8MenuItem(messages.newAccount(),
-					"", HistoryTokens.NEWACCOUNT);
-			companyListForm.add(journalEntryItem);
-			companyListForm.add(newAccountItem);
-		}
-
-		if (canDoTaxTransactions) {
-			W8MenuItem budgetItem = new W8MenuItem(messages.budget(),
-					"Create your monthly budget and decrease your expenses",
-					HistoryTokens.BUDGET);
-			companyListForm.add(budgetItem);
-		}
-
-		if (canChangeSettings) {
-			// companyListForm.add(getManageSupportListMenu());
-			// W8MenuItem manageSupportListSubmenus = new W8MenuItem(
-			// messages.manageSupportLists(),
-			// "Get the list all Support items",
-			// HistoryTokens.MANAGESUPPORTLIST);
-			// companyListForm.add(manageSupportListSubmenus);
-		}
-
-		if (canDoTaxTransactions) {
-			// companyListForm.add(getFixedAssetsMenu());
-			// W8MenuItem fixedAssetsSubMenu = new W8MenuItem(
-			// messages.fixedAssetsList(),
-			// "Manage fixed assets for your company from here.",
-			// HistoryTokens.FIXEDASSESTSLIST);
-			// companyListForm.add(fixedAssetsSubMenu);
-			//
-			// W8MenuItem mergeSubMenu = new W8MenuItem(messages.merge(),
-			// "Merge the accounts or items you want.",
-			// HistoryTokens.MERGESUBMENULIST);
-			// companyListForm.add(mergeSubMenu);
-			// companyListForm.add(getMergeMenu());
-		}
-
-		if (countryOrRegion.equals(CountryPreferenceFactory.SINGAPORE)) {
-			W8MenuItem generateGSTItem = new W8MenuItem(
-					messages.generateIrasAuditFile(), "",
-					HistoryTokens.GST_FILE);
-			companyListForm.add(generateGSTItem);
-		}
-
-		companyMenuForm.add(companyLabel);
-		companyMenuForm.add(companyListForm);
-
-		return companyMenuForm;
-	}
-
-	private DynamicForm getManageSupportListMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem shppingTermsItem = new W8MenuItem(
-				messages.shippingTermList(), "",
-				HistoryTokens.SHIPPINGTERMSLIST);
-		W8MenuItem shippingMethodsItem = new W8MenuItem(
-				messages.shippingMethodList(), "",
-				HistoryTokens.SHIPPINGMETHODSLIST);
-		W8MenuItem paymentTerms = new W8MenuItem(messages.paymentTerms(), "",
-				HistoryTokens.PAYMENTTERMS);
-		W8MenuItem currenciesItem = new W8MenuItem(messages.currencyList(), "",
-				HistoryTokens.CURRENCYGROUPLIST);
-
-		menuItems.add(shppingTermsItem);
-		menuItems.add(shippingMethodsItem);
-		menuItems.add(paymentTerms);
-		menuItems.add(currenciesItem);
-
-		if (isClassTracking) {
-			W8MenuItem classItem = new W8MenuItem(
-					messages.accounterClassList(), "",
-					HistoryTokens.ACCOUNTERCLASSLIST);
-			menuItems.add(classItem);
-		}
-
-		if (isLocationTracking) {
-			W8MenuItem locationItem = new W8MenuItem(
-					messages.locationsList(Global.get().Location()), "",
-					HistoryTokens.LOCATIONGROUPLIST);
-			menuItems.add(locationItem);
-		}
-
-		if (isPriceLevelEnabled) {
-			W8MenuItem priceLevelItem = new W8MenuItem(
-					messages.priceLevelList(), "", HistoryTokens.PRICELEVELLIST);
-			menuItems.add(priceLevelItem);
-		}
-
-		return new W8MenuItem(messages.manageSupportLists(), "", menuItems);
-
-	}
-
-	private DynamicForm getCompanyListMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		if (canSeeInvoiceTransactions) {
-			W8MenuItem accountsListItem = new W8MenuItem(
-					messages.payeeList(messages.Accounts()), "",
-					HistoryTokens.ACCOUNTSLIST);
-			menuItems.add(accountsListItem);
-		}
-
-		if (canSeeBanking) {
-			W8MenuItem journalEntriesItem = new W8MenuItem(
-					messages.journalEntries(), "", HistoryTokens.JOURNALENTRIES);
-			menuItems.add(journalEntriesItem);
-		}
-
-		W8MenuItem salesPersonsListItem = new W8MenuItem(
-				messages.salesPersons(), "", HistoryTokens.SALESPRESONS);
-		W8MenuItem userActivityLogItem = new W8MenuItem(
-				messages.usersActivityLogTitle(), "",
-				HistoryTokens.USERACTIVITY);
-		W8MenuItem recurringTransactionsItem = new W8MenuItem(
-				messages.recurringTransactions(), "",
-				HistoryTokens.RECURRINGTRANSACTIONS);
-		W8MenuItem remindersListItem = new W8MenuItem(messages.remindersList(),
-				"", HistoryTokens.RECURRINGREMINDERS);
-
-		if (canSeeInvoiceTransactions) {
-			W8MenuItem items = new W8MenuItem(messages.productAndServices(),
-					"", HistoryTokens.ALLITEMS);
-			menuItems.add(items);
-		}
-
-		menuItems.add(salesPersonsListItem);
-		menuItems.add(userActivityLogItem);
-		menuItems.add(recurringTransactionsItem);
-		menuItems.add(remindersListItem);
-
-		return new W8MenuItem(messages.companyLists(), "comepnyDesc", menuItems);
-	}
-
-	private DynamicForm getMergeMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem mergeItemsItem = new W8MenuItem(messages.mergeItems(), "",
-				HistoryTokens.MERGEITEM);
-		W8MenuItem mergeCustomersItem = new W8MenuItem(
-				messages.mergeCustomers(Global.get().Customers()), "",
-				HistoryTokens.MERGECUSTOMERS);
-		W8MenuItem mergeAccountsItem = new W8MenuItem(messages.mergeAccounts(),
-				"", HistoryTokens.MERGEACCOUNT);
-		W8MenuItem mergeVendorsItem = new W8MenuItem(
-				messages.mergeVendors(Global.get().Vendors()), "",
-				HistoryTokens.MERGEVENDOR);
-
-		menuItems.add(mergeItemsItem);
-		menuItems.add(mergeCustomersItem);
-		menuItems.add(mergeAccountsItem);
-		menuItems.add(mergeVendorsItem);
-
-		return new W8MenuItem(messages.merge(), messages.mergeDescription(),
-				menuItems);
-
-	}
-
-	private DynamicForm getFixedAssetsMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem deprecationItem = new W8MenuItem(messages.depreciation(),
-				"", HistoryTokens.DEPRICATION);
-		W8MenuItem pendingItemsItem = new W8MenuItem(
-				messages.pendingItemsList(), "", HistoryTokens.PENDINGITEMS);
-		W8MenuItem registeredItemsItem = new W8MenuItem(
-				messages.registeredItemsList(), "",
-				HistoryTokens.REGISTEREDITEMS);
-		W8MenuItem soldItemsItem = new W8MenuItem(messages.soldDisposedItems(),
-				"", HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
-
-		menuItems.add(deprecationItem);
-		menuItems.add(pendingItemsItem);
-		menuItems.add(registeredItemsItem);
-		menuItems.add(soldItemsItem);
-
-		return new W8MenuItem(messages.fixedAssets(), "", menuItems);
-	}
-
-	private DynamicForm getFixedAssetReportSubMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem depreciationReport = new W8MenuItem(
-				messages.depreciationReport(), "",
-				HistoryTokens.DEPRECIATIONSHEDULE);
-		menuItems.add(depreciationReport);
-
-		return new W8MenuItem(messages.fixedAssets(), "", menuItems);
-
-	}
-
-	private DynamicForm getVATReportMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		if (company instanceof UnitedKingdom) {
-			W8MenuItem priorVATReturns = new W8MenuItem(
-					messages.priorVATReturns(), "",
-					HistoryTokens.PRIORVATRETURN);
-			menuItems.add(priorVATReturns);
-
-			W8MenuItem vatDetail = new W8MenuItem(messages.vatDetail(), "",
-					HistoryTokens.VATDETAIL);
-			menuItems.add(vatDetail);
-
-			W8MenuItem vat100 = new W8MenuItem(messages.vat100(), "",
-					HistoryTokens.VAT100);
-			menuItems.add(vat100);
-
-			W8MenuItem uncategorisedVATAmounts = new W8MenuItem(
-					messages.uncategorisedVATAmounts(), "",
-					HistoryTokens.UNCATEGORISEDVATAMOUNT);
-			menuItems.add(uncategorisedVATAmounts);
-
-			W8MenuItem ecSalesList = new W8MenuItem(messages.ecSalesList(), "",
-					HistoryTokens.ECSALESLIST);
-			menuItems.add(ecSalesList);
-
-		} else {
-			W8MenuItem taxItemDetailReport = new W8MenuItem(
-					messages.taxItemDetailReport(), "",
-					HistoryTokens.TAXITEMDETAIL);
-			menuItems.add(taxItemDetailReport);
-
-			W8MenuItem taxItemExceptionDetailReport = new W8MenuItem(
-					messages.taxItemExceptionDetailReport(), "",
-					HistoryTokens.TAXITEMEXCEPTIONDETAILS);
-			menuItems.add(taxItemExceptionDetailReport);
-		}
-
-		W8MenuItem vatItemSummary = new W8MenuItem(messages.vatItemSummary(),
-				"", HistoryTokens.VATITEMSUMMARY);
-		menuItems.add(vatItemSummary);
-
-		return new W8MenuItem(messages.tax(), "", menuItems);
-
-	}
-
-	private DynamicForm getBudgetSubMenus() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem budgetOverview = new W8MenuItem(messages.budgetOverview(),
-				"", HistoryTokens.BUDGETREPORTOVERVIEW);
-		menuItems.add(budgetOverview);
-
-		W8MenuItem budgetvsActuals = new W8MenuItem(messages.budgetvsActuals(),
-				"", HistoryTokens.BUDGETVSACTUALS);
-		menuItems.add(budgetvsActuals);
-
-		return new W8MenuItem(messages.budget(), "", menuItems);
-	}
-
-	private DynamicForm getPurchaseMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem purchaseByVendorSummary = new W8MenuItem(
-				messages.purchaseByVendorSummary(Global.get().Vendor()), "",
-				HistoryTokens.PURCHASEBYVENDORSUMMARY);
-		menuItems.add(purchaseByVendorSummary);
-
-		W8MenuItem purchaseByVendorDetail = new W8MenuItem(
-				messages.purchaseByVendorDetail(Global.get().Vendor()), "",
-				HistoryTokens.PURCHASEBYVENDORDETAIL);
-		menuItems.add(purchaseByVendorDetail);
-
-		W8MenuItem purchaseByItemSummary = new W8MenuItem(
-				messages.purchaseByItemSummary(), "",
-				HistoryTokens.PURCHASEBYITEMSUMMARY);
-		menuItems.add(purchaseByItemSummary);
-
-		W8MenuItem purchaseByItemDetail = new W8MenuItem(
-				messages.purchaseByItemDetail(), "",
-				HistoryTokens.PURCHASEBYITEMDETAIL);
-		menuItems.add(purchaseByItemDetail);
-
-		if (isPurchaseOrderEnabled) {
-			W8MenuItem purchaseOrderReport = new W8MenuItem(
-					messages.purchaseOrderReport(), "",
-					HistoryTokens.PURCHASEORDERREPORT);
-			menuItems.add(purchaseOrderReport);
-		}
-
-		return new W8MenuItem(messages.purchases(), "", menuItems);
-	}
-
-	private DynamicForm getVendorAndPayablesMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem apAgeingSummary = new W8MenuItem(messages.apAgeingSummary(),
-				"", HistoryTokens.APAGINGSUMMARY);
-		menuItems.add(apAgeingSummary);
-
-		W8MenuItem apAgeingDetail = new W8MenuItem(messages.apAgeingDetail(),
-				"", HistoryTokens.APAGINGDETAIL);
-		menuItems.add(apAgeingDetail);
-
-		W8MenuItem payeeStatement = new W8MenuItem(
-				messages.payeeStatement(Global.get().Vendors()), "",
-				HistoryTokens.VENDORSTATEMENT);
-		menuItems.add(payeeStatement);
-
-		W8MenuItem payeeTransactionHistory = new W8MenuItem(
-				messages.payeeTransactionHistory(Global.get().Vendor()), "",
-				HistoryTokens.VENDORTRANSACTIONHISTORY);
-		menuItems.add(payeeTransactionHistory);
-
-		return new W8MenuItem(messages.vendorsAndPayables(Global.get()
-				.Vendors()), "", menuItems);
-
-	}
-
-	private DynamicForm getSalesMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem salesByCustomerSummary = new W8MenuItem(
-				messages.salesByCustomerSummary(Global.get().Customer()), "",
-				HistoryTokens.SALESBYCUSTOMERSUMMARY);
-		menuItems.add(salesByCustomerSummary);
-
-		W8MenuItem salesByCustomerDetail = new W8MenuItem(
-				messages.salesByCustomerDetail(Global.get().Customer()), "",
-				HistoryTokens.SALESBYCUSTOMERDETAIL);
-		menuItems.add(salesByCustomerDetail);
-
-		W8MenuItem salesByItemSummary = new W8MenuItem(
-				messages.salesByItemSummary(), "",
-				HistoryTokens.SALESBYITEMSUMMARY);
-		menuItems.add(salesByItemSummary);
-
-		W8MenuItem salesByItemDetail = new W8MenuItem(
-				messages.salesByItemDetail(), "",
-				HistoryTokens.SALESBYITEMDETAIL);
-		menuItems.add(salesByItemDetail);
-
-		if (isSalesOrderEnabled) {
-
-			W8MenuItem salesOrderReport = new W8MenuItem(
-					messages.salesOrderReport(), "",
-					HistoryTokens.SALESORDERREPORT);
-			menuItems.add(salesOrderReport);
-		}
-		if (isLocationTrackingEnabled) {
-
-			W8MenuItem getSalesByLocationDetails = new W8MenuItem(
-					messages.getSalesByLocationDetails(Global.get().Location()),
-					"", HistoryTokens.SALESBYCLASSDETAILS);
-			menuItems.add(getSalesByLocationDetails);
-
-			W8MenuItem salesByLocationSummary = new W8MenuItem(
-					messages.salesByLocationSummary(Global.get().Location()),
-					"", HistoryTokens.SALESBYCLASSSUMMARY);
-			menuItems.add(salesByLocationSummary);
-		}
-
-		if (isClassTrackingEnabled) {
-
-			W8MenuItem salesByClassDetails = new W8MenuItem(
-					messages.salesByClassDetails(), "",
-					HistoryTokens.SALESBYLOCATIONDETAILS);
-			menuItems.add(salesByClassDetails);
-
-			W8MenuItem salesByClassSummary = new W8MenuItem(
-					messages.salesByClassSummary(), "",
-					HistoryTokens.SALESBYLOCATIONSUMMARY);
-			menuItems.add(salesByClassSummary);
-		}
-
-		return new W8MenuItem(messages.sales(), "", menuItems);
-
-	}
-
-	/**
-	 * creating getCustomersAndReceivableMenu menu
-	 * 
-	 * @param companyAndFinance
-	 * @return
-	 */
-	private DynamicForm getCustomersAndReceivableMenu() {
-
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
-
-		W8MenuItem arAgeingSummary = new W8MenuItem(messages.arAgeingSummary(),
-				"", HistoryTokens.ARAGINGSUMMARY);
-		menuItems.add(arAgeingSummary);
-
-		W8MenuItem arAgeingDetail = new W8MenuItem(messages.arAgeingDetail(),
-				"", HistoryTokens.ARAGINGDETAIL);
-		menuItems.add(arAgeingDetail);
-
-		W8MenuItem payeeStatement = new W8MenuItem(
-				messages.payeeStatement(Global.get().Customers()), "",
-				HistoryTokens.CUSTOMERSTATEMENT);
-		menuItems.add(payeeStatement);
-
-		W8MenuItem customer = new W8MenuItem(
-				messages.payeeTransactionHistory(messages.customer()), "",
-				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
-		menuItems.add(customer);
-
-		return new W8MenuItem(messages.customersAndReceivable(Global.get()
-				.Customers()), "", menuItems);
-	}
-
-	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-		super.createButtons(buttonBar);
-		buttonBar.setVisible(false);
-	}
-
-	private DynamicForm getSettingsMenu(String settings) {
-		DynamicForm settingsMenuForm = new DynamicForm("settingsMenuForm");
+	private StyledPanel getSettingsMenu(String settings) {
+		StyledPanel settingsMenuForm = new StyledPanel("settingsMenuForm");
 
 		DynamicForm settingdListForm = new DynamicForm("settingdListForm");
 
@@ -747,87 +325,15 @@ public class AccounterMenuView extends BaseView {
 		return settingsMenuForm;
 	}
 
-	/**
-	 * creating getCompanyAndFinancialMenu report menu
-	 * 
-	 * @param customersAndReceivable
-	 * @return
-	 */
-	private DynamicForm getCompanyAndFinancialMenu() {
-		ArrayList<W8MenuItem> menuItems = new ArrayList<W8MenuItem>();
+	private StyledPanel getReportMenu(String reports) {
+		StyledPanel reportMenu = new StyledPanel("reportMenu");
 
-		W8MenuItem chequePrintItem = new W8MenuItem(messages.profitAndLoss(),
-				"", HistoryTokens.PROFITANDLOSS);
-		menuItems.add(chequePrintItem);
-
-		W8MenuItem balanceSheet = new W8MenuItem(messages.balanceSheet(), "",
-				HistoryTokens.BALANCESHEET);
-		menuItems.add(balanceSheet);
-
-		W8MenuItem cashFlowReport = new W8MenuItem(messages.cashFlowReport(),
-				"", HistoryTokens.CASHFLOWREPORT);
-		menuItems.add(cashFlowReport);
-
-		W8MenuItem trialBalance = new W8MenuItem(messages.trialBalance(), "",
-				HistoryTokens.TRIALBALANCE);
-		menuItems.add(trialBalance);
-
-		W8MenuItem transactionDetailByAccount = new W8MenuItem(
-				messages.transactionDetailByAccount(), "",
-				HistoryTokens.TRANSACTIONDETAILBYACCOUNT);
-		menuItems.add(transactionDetailByAccount);
-
-		W8MenuItem generalLedgerReport = new W8MenuItem(
-				messages.generalLedgerReport(), "", HistoryTokens.GENERALLEDGER);
-		menuItems.add(generalLedgerReport);
-
-		W8MenuItem expenseReport = new W8MenuItem(messages.expenseReport(), "",
-				HistoryTokens.EXPENSEREPORT);
-		menuItems.add(expenseReport);
-
-		W8MenuItem automaticTransactions = new W8MenuItem(
-				messages.automaticTransactions(), "",
-				HistoryTokens.AUTOMATICTRANSACTIONS);
-		menuItems.add(automaticTransactions);
-
-		if (isTaxTracking) {
-
-			W8MenuItem salesTaxLiability = new W8MenuItem(
-					messages.salesTaxLiability(), "",
-					HistoryTokens.SALESTAXLIABILITY);
-			menuItems.add(salesTaxLiability);
-
-			W8MenuItem transactionDetailByTaxItem = new W8MenuItem(
-					messages.transactionDetailByTaxItem(), "",
-					HistoryTokens.TRANSACTIONDETAILBYTAXITEM);
-			menuItems.add(transactionDetailByTaxItem);
-		}
-		if (isLocationTrackingEnabled) {
-
-			W8MenuItem profitAndLossByLocation = new W8MenuItem(
-					messages.profitAndLossByLocation(Global.get().Location()),
-					"", HistoryTokens.PROFITANDLOSSBYLOCATION);
-			menuItems.add(profitAndLossByLocation);
-		}
-		if (isClassTrackingEnabled) {
-			W8MenuItem profitAndLossbyClass = new W8MenuItem(
-					messages.profitAndLossbyClass(), "",
-					HistoryTokens.PROFITANDLOSSBYCLASS);
-			menuItems.add(profitAndLossbyClass);
-		}
-
-		W8MenuItem reconciliationsReport = new W8MenuItem(
-				messages.reconciliationsReport(), "",
-				HistoryTokens.RECONCILATION_LIST);
-		menuItems.add(reconciliationsReport);
-
-		return new W8MenuItem(messages.companyAndFinancial(), "", menuItems);
-
+		return reportMenu;
 	}
 
-	private DynamicForm getInventoryMenu(String inventory) {
+	private StyledPanel getInventoryMenu(String inventory) {
 
-		DynamicForm inventoryMenuForm = new DynamicForm("inventoryMenuForm");
+		StyledPanel inventoryMenuForm = new StyledPanel("inventoryMenuForm");
 
 		DynamicForm inventoryListForm = new DynamicForm("inventoryListForm");
 
@@ -837,9 +343,21 @@ public class AccounterMenuView extends BaseView {
 		W8MenuItem stockAdjustmentsItem = new W8MenuItem(
 				messages.stockAdjustments(), "Perform the stock adjustments",
 				HistoryTokens.STOCKADJUSTMENTS);
+		W8MenuItem warehouseDetailsItem = new W8MenuItem("",
+				"Get the details of warehouses your company is having.",
+				HistoryTokens.WAREHOUSELIST);
+		W8MenuItem warehouseTransfersItem = new W8MenuItem("",
+				"Get the history of all previous warehouse transfers",
+				HistoryTokens.WAREHOUSETRANSFERLIST);
+		W8MenuItem measurementItem = new W8MenuItem("Measurements",
+				"Create your predefined measurements",
+				HistoryTokens.MEASUREMENTLIST);
 
 		inventoryListForm.add(inventoryLabel);
 		inventoryListForm.add(stockAdjustmentsItem);
+		inventoryListForm.add(warehouseDetailsItem);
+		inventoryListForm.add(warehouseTransfersItem);
+		inventoryListForm.add(measurementItem);
 
 		inventoryMenuForm.add(inventoryLabel);
 		inventoryMenuForm.add(inventoryListForm);
@@ -847,15 +365,19 @@ public class AccounterMenuView extends BaseView {
 		return inventoryMenuForm;
 	}
 
-	private DynamicForm getBankingMenu(String banking) {
+	private StyledPanel getBankingMenu(String banking) {
 
-		DynamicForm bankingMenuForm = new DynamicForm("bankingMenuForm");
+		StyledPanel bankingMenuForm = new StyledPanel("bankingMenuForm");
 
 		DynamicForm bankingListForm = new DynamicForm("bankingListForm");
 
 		Label bankingLabel = new Label(banking);
 		bankingLabel.setStyleName("menuName");
 
+		W8MenuItem bankAccountItem = new W8MenuItem(messages.bankAccount(), "",
+				HistoryTokens.NEWBANKACCOUNT);
+		W8MenuItem writeCheckItem = new W8MenuItem(messages.writeCheck(), "",
+				HistoryTokens.WRITECHECK);
 		W8MenuItem depositAndTransfersItem = new W8MenuItem(
 				messages.depositTransferFunds(),
 				"Deposite or transfer funds in between your accounts.",
@@ -865,6 +387,8 @@ public class AccounterMenuView extends BaseView {
 				"Compare your bank statements with your transactions.",
 				HistoryTokens.RECOUNCILATIONSLIST);
 
+		bankingListForm.add(bankAccountItem);
+		bankingListForm.add(writeCheckItem);
 		bankingListForm.add(depositAndTransfersItem);
 		bankingListForm.add(reconciliationItem);
 
@@ -874,14 +398,20 @@ public class AccounterMenuView extends BaseView {
 		return bankingMenuForm;
 	}
 
-	private DynamicForm getVendorsMenu(String vendor) {
+	private StyledPanel getVendorMenu(String vendor) {
 
-		DynamicForm vendorMenuForm = new DynamicForm("vendorMenuForm");
+		StyledPanel vendorMenuForm = new StyledPanel("vendorMenuForm");
 
 		DynamicForm vendorListForm = new DynamicForm("vendorListForm");
 
 		Label vendorLabel = new Label(vendor);
 		vendorLabel.setStyleName("menuName");
+
+		W8MenuItem vendorCenterItem = new W8MenuItem(
+				messages.vendorCentre(Global.get().Vendor()), "",
+				HistoryTokens.VENDORCENTRE);
+
+		vendorListForm.add(vendorCenterItem);
 
 		if (canDoInvoiceAndBillTransactions || canDoBanking
 				|| canDoManageAccounts) {
@@ -903,12 +433,35 @@ public class AccounterMenuView extends BaseView {
 
 		}
 
+		if (canDoInvoiceAndBillTransactions) {
+			if (isKeepTrackofBills) {
+				W8MenuItem enterBillItem = new W8MenuItem(messages.enterBill(),
+						"", HistoryTokens.ENTERBILL);
+				vendorListForm.add(enterBillItem);
+			}
+		}
+
 		if (canDoPayBillAndReceivePayment) {
+			if (isKeepTrackofBills) {
+				W8MenuItem paybillItem = new W8MenuItem(messages.payBill(), "",
+						HistoryTokens.PAYBILL);
+				W8MenuItem printChequeItem = new W8MenuItem(
+						messages.printCheque(), "", HistoryTokens.PRINTCHEQUE);
+
+				vendorListForm.add(paybillItem);
+				vendorListForm.add(printChequeItem);
+			}
 			W8MenuItem vendorPrepaymentItem = new W8MenuItem(
 					messages.payeePrePayment(Global.get().Vendor()),
 					"Add all vendor prepayments here.",
 					HistoryTokens.VENDORPREPAYMENT);
 			vendorListForm.add(vendorPrepaymentItem);
+		}
+		if (canDoInvoiceAndBillTransactions) {
+			W8MenuItem recordExpenseItem = new W8MenuItem(
+					messages.recordExpenses(), "", HistoryTokens.RECORDEXPENSES);
+
+			vendorListForm.add(recordExpenseItem);
 		}
 
 		vendorMenuForm.add(vendorLabel);
@@ -917,16 +470,21 @@ public class AccounterMenuView extends BaseView {
 		return vendorMenuForm;
 	}
 
-	private DynamicForm getCustomerMenu(String customer) {
+	private StyledPanel getCustomerMenu(String customer) {
 
-		DynamicForm customerMenuForm = new DynamicForm("customerMenuForm");
+		StyledPanel customerMenuForm = new StyledPanel("customerMenuForm");
 
 		Label customerLabel = new Label(customer);
 		customerLabel.setStyleName("menuName");
 
 		DynamicForm customerForm = new DynamicForm("customerForm");
 
+		W8MenuItem customerCenterItem = new W8MenuItem(
+				messages.customerCentre(Global.get().Customer()), "",
+				HistoryTokens.CUSTOMERCENTRE);
+
 		customerForm.add(customerLabel);
+		customerForm.add(customerCenterItem);
 
 		if (canDoInvoiceAndBillTransactions || canDoBanking
 				|| canDoManageAccounts) {
@@ -970,54 +528,442 @@ public class AccounterMenuView extends BaseView {
 		return customerMenuForm;
 	}
 
-	private DynamicForm getTaxMenu(String tax) {
-		DynamicForm taxMenuForm = new DynamicForm("taxMenuForm");
+	private StyledPanel getVATMenu(String tax) {
 
-		Label taxLabel = new Label(tax);
-		taxLabel.setStyleName("menuName");
+		StyledPanel vatmenu = new StyledPanel("vatmenu");
+		vatmenu.add(new Label(tax));
 
-		W8MenuItem taxItemsItem = new W8MenuItem(messages.taxItemsList(),
-				"Add new tax items for your transactions",
-				HistoryTokens.VATITEMS);
-		W8MenuItem taxCodesItem = new W8MenuItem(messages.taxCodesList(),
-				"Add new tax codes", HistoryTokens.VATCODES);
-		W8MenuItem taxAgencyItem = new W8MenuItem(messages.taxAgenciesList(),
-				"Check the list of all tax agencies",
-				HistoryTokens.TAXAGENCYLIST);
-
-		DynamicForm taxListForm = new DynamicForm("taxListForm");
-
-		taxListForm.add(taxItemsItem);
-		taxListForm.add(taxCodesItem);
-		taxListForm.add(taxAgencyItem);
+		DynamicForm menuForm = new DynamicForm("menuForm");
 
 		if (canDoInvoiceAndBillTransactions) {
-			W8MenuItem taxAdjustmentItem = new W8MenuItem(
-					messages.taxAdjustment(), "", HistoryTokens.TAXADJUSTMENT);
-			W8MenuItem fileTaxItem = new W8MenuItem(messages.fileTAX(),
-					"File a tax", HistoryTokens.FILETAX);
+			StyledPanel vatNews = new StyledPanel("vatNews");
+			vatNews.add(new Label(messages.new1()));
 
-			taxListForm.add(taxAdjustmentItem);
-			taxListForm.add(fileTaxItem);
+			DynamicForm submenuForm = new DynamicForm("submenuForm");
+
+			W8MenuItem newTaxItem = new W8MenuItem(messages.newTaxItem(), "",
+					HistoryTokens.NEWTAXITEM);
+			submenuForm.add(newTaxItem);
+
+			W8MenuItem newTaxCode = new W8MenuItem(messages.newTaxCode(), "",
+					HistoryTokens.NEWVATCODE);
+			submenuForm.add(newTaxCode);
+
+			W8MenuItem newTAXAgency = new W8MenuItem(messages.newTAXAgency(),
+					"", HistoryTokens.NEWTAXAGENCY);
+			submenuForm.add(newTAXAgency);
+
+			vatNews.add(submenuForm);
+
+			menuForm.add(vatNews);
+		}
+
+		if (canDoInvoiceAndBillTransactions) {
+			W8MenuItem taxAdjustment = new W8MenuItem(messages.taxAdjustment(),
+					"", HistoryTokens.TAXADJUSTMENT);
+			menuForm.add(taxAdjustment);
+
+			W8MenuItem fileTAX = new W8MenuItem(messages.fileTAX(), "",
+					HistoryTokens.FILETAX);
+			menuForm.add(fileTAX);
 		}
 
 		if (canDoManageAccounts) {
-			W8MenuItem payTaxItem = new W8MenuItem(messages.payTax(),
-					"Pay tax to government", HistoryTokens.PAYTAX);
-			W8MenuItem taxRefundItem = new W8MenuItem(messages.tAXRefund(),
-					"Monitor tax refunds", HistoryTokens.TAXREFUND);
-			W8MenuItem taxHistoryItem = new W8MenuItem(messages.taxHistory(),
-					"Get details of tax history items",
+			W8MenuItem payTax = new W8MenuItem(messages.payTax(), "",
+					HistoryTokens.PAYTAX);
+			menuForm.add(payTax);
+
+			W8MenuItem tAXRefund = new W8MenuItem(messages.tAXRefund(), "",
+					HistoryTokens.TAXREFUND);
+			menuForm.add(tAXRefund);
+
+			W8MenuItem taxHistory = new W8MenuItem(messages.taxHistory(), "",
 					HistoryTokens.TAXHISTORY);
-
-			taxListForm.add(payTaxItem);
-			taxListForm.add(taxRefundItem);
-			taxListForm.add(taxHistoryItem);
+			menuForm.add(taxHistory);
 		}
-		taxMenuForm.add(taxLabel);
-		taxMenuForm.add(taxListForm);
 
-		return taxMenuForm;
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				menuForm.add(getDeductorMasterMenu(messages.deducatorMaster()));
+
+				menuForm.add(getForm16AMenu(messages.tds()));
+			}
+		}
+		W8MenuItem taxItemsList = new W8MenuItem(messages.taxItemsList(), "",
+				HistoryTokens.VATITEMS);
+		menuForm.add(taxItemsList);
+
+		W8MenuItem taxCodesList = new W8MenuItem(messages.taxCodesList(), "",
+				HistoryTokens.VATCODES);
+		menuForm.add(taxCodesList);
+
+		W8MenuItem payeeList = new W8MenuItem(messages.payeeList(messages
+				.taxAgencies()), "", HistoryTokens.TAXAGENCYLIST);
+		menuForm.add(payeeList);
+
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				W8MenuItem chalan = new W8MenuItem("Chalan Details List", "",
+						HistoryTokens.CHALANDETAILSLIST);
+				menuForm.add(chalan);
+			}
+		}
+
+		vatmenu.add(menuForm);
+		return vatmenu;
+	}
+
+	private StyledPanel getForm16AMenu(String tds) {
+
+		StyledPanel form16menu = new StyledPanel("tds");
+		form16menu.add(new Label(tds));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem challanDetails = new W8MenuItem(messages.challanDetails(),
+				"", HistoryTokens.CHALANDETAILS);
+		menuForm.add(challanDetails);
+
+		W8MenuItem eTDSFilling = new W8MenuItem(messages.eTDSFilling(), "",
+				HistoryTokens.eTDSFILLING);
+		menuForm.add(eTDSFilling);
+
+		W8MenuItem Ack = new W8MenuItem("Enter Ack No.", "",
+				HistoryTokens.ENTER_TDS_ACK_NO);
+		menuForm.add(Ack);
+
+		W8MenuItem f16A = new W8MenuItem("Form 16A", "",
+				HistoryTokens.TDS_FORM16A);
+		menuForm.add(f16A);
+
+		form16menu.add(menuForm);
+		return form16menu;
+	}
+
+	private StyledPanel getDeductorMasterMenu(String deducatorMaster) {
+
+		StyledPanel eductorMasterMenu = new StyledPanel("deducatorMaster");
+		eductorMasterMenu.add(new Label(deducatorMaster));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem deducatorDetails = new W8MenuItem(
+				messages.deducatorDetails(), "", HistoryTokens.DEDUCTORDETAILS);
+		menuForm.add(deducatorDetails);
+
+		W8MenuItem responsePersonDetails = new W8MenuItem(
+				messages.responsePersonDetails(), "",
+				HistoryTokens.PERSONDETAILS);
+		menuForm.add(responsePersonDetails);
+
+		eductorMasterMenu.add(menuForm);
+		return eductorMasterMenu;
+	}
+
+	private StyledPanel getCompanyMenu(String company2) {
+
+		StyledPanel companyMenuBar = new StyledPanel("companyMenuBar");
+		companyMenuBar.add(new Label(company2));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem dashBoard = new W8MenuItem(messages.dashBoard(), "",
+				HistoryTokens.DASHBOARD);
+		menuForm.add(dashBoard);
+
+		if (canDoManageAccounts) {
+			W8MenuItem journalEntry = new W8MenuItem(messages.journalEntry(),
+					"", HistoryTokens.NEWJOURNALENTRY);
+			menuForm.add(journalEntry);
+
+		}
+		W8MenuItem transactionscenter = new W8MenuItem(
+				messages.transactionscenter(), "",
+				HistoryTokens.TRANSACTIONS_CENTER);
+		menuForm.add(transactionscenter);
+
+		if (canDoManageAccounts) {
+			W8MenuItem Account = new W8MenuItem(messages.Account(), "",
+					HistoryTokens.NEWACCOUNT);
+			menuForm.add(Account);
+		}
+
+		if (canChangeSettings) {
+			W8MenuItem companyPreferences = new W8MenuItem(
+					messages.companyPreferences(), "",
+					HistoryTokens.COMPANYPREFERENCES);
+			menuForm.add(companyPreferences);
+		}
+
+		if (canDoTaxTransactions) {
+			W8MenuItem budget = new W8MenuItem(messages.budget(), "",
+					HistoryTokens.BUDGET);
+			menuForm.add(budget);
+
+		}
+
+		if (canDoTaxTransactions && isTrackTax) {
+			menuForm.add(getSalesTaxSubmenu(messages.itemTax()));
+
+		}
+		if (canChangeSettings) {
+			menuForm.add(getManageSupportListSubmenu(messages
+					.manageSupportLists()));
+		}
+
+		if (canDoTaxTransactions) {
+			menuForm.add(getFixedAssetsMenu(messages.fixedAssets()));
+
+			if (hasPermission(Features.MERGING)) {
+				menuForm.add(getMergeSubMenu(messages.mergeAccounts()));
+			}
+		}
+		menuForm.add(getCompanyListMenu(messages.companyLists()));
+
+		if (countryOrRegion.equals(CountryPreferenceFactory.SINGAPORE)) {
+			W8MenuItem generateIrasAuditFile = new W8MenuItem(
+					messages.generateIrasAuditFile(), "",
+					HistoryTokens.GST_FILE);
+			menuForm.add(generateIrasAuditFile);
+		}
+
+		companyMenuBar.add(menuForm);
+		return companyMenuBar;
+	}
+
+	private StyledPanel getCompanyListMenu(String companyLists) {
+		StyledPanel companyListMenuBar = new StyledPanel("companyListMenuBar");
+		companyListMenuBar.add(new Label(companyLists));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		if (canSeeInvoiceTransactions) {
+			W8MenuItem payeeList = new W8MenuItem(messages.payeeList(messages
+					.Accounts()), "", HistoryTokens.ACCOUNTSLIST);
+			menuForm.add(payeeList);
+		}
+		if (canSeeBanking) {
+			W8MenuItem journalEntries = new W8MenuItem(
+					messages.journalEntries(), "", HistoryTokens.JOURNALENTRIES);
+			menuForm.add(journalEntries);
+		}
+
+		if (canSeeInvoiceTransactions) {
+			W8MenuItem items = new W8MenuItem(messages.items(), "",
+					HistoryTokens.ALLITEMS);
+			menuForm.add(items);
+		}
+		W8MenuItem Customers = new W8MenuItem(Global.get().Customers(), "",
+				HistoryTokens.CUSTOMERS);
+		menuForm.add(Customers);
+
+		W8MenuItem Vendors = new W8MenuItem(Global.get().Vendors(), "",
+				HistoryTokens.VENDORLIST);
+		menuForm.add(Vendors);
+		if (canSeeBanking) {
+			W8MenuItem payments = new W8MenuItem(messages.payments(), "",
+					HistoryTokens.PAYMENTS);
+			menuForm.add(payments);
+		}
+		W8MenuItem salesPersons = new W8MenuItem(messages.salesPersons(), "",
+				HistoryTokens.SALESPRESONS);
+		menuForm.add(salesPersons);
+
+		if (hasPermission(Features.USER_ACTIVITY)) {
+			W8MenuItem usersActivityLogTitle = new W8MenuItem(
+					messages.usersActivityLogTitle(), "",
+					HistoryTokens.USERACTIVITY);
+			menuForm.add(usersActivityLogTitle);
+		}
+		W8MenuItem recurringTransactions = new W8MenuItem(
+				messages.recurringTransactions(), "",
+				HistoryTokens.RECURRINGTRANSACTIONS);
+		menuForm.add(recurringTransactions);
+
+		W8MenuItem remindersList = new W8MenuItem(messages.remindersList(), "",
+				HistoryTokens.RECURRINGREMINDERS);
+		menuForm.add(remindersList);
+
+		companyListMenuBar.add(menuForm);
+		return companyListMenuBar;
+
+	}
+
+	private StyledPanel getMergeSubMenu(String mergeAccounts) {
+
+		StyledPanel mergeAccountsMenuBar = new StyledPanel(
+				"mergeAccountsMenuBar");
+		mergeAccountsMenuBar.add(new Label(mergeAccounts));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem mergeCustomers = new W8MenuItem(
+				messages.mergeCustomers(Global.get().Customers()), "",
+				HistoryTokens.MERGECUSTOMERS);
+		menuForm.add(mergeCustomers);
+
+		W8MenuItem mergeVendors = new W8MenuItem(messages.mergeVendors(Global
+				.get().Vendors()), "", HistoryTokens.MERGEVENDOR);
+		menuForm.add(mergeVendors);
+
+		W8MenuItem remindersList = new W8MenuItem(messages.mergeAccounts(), "",
+				HistoryTokens.MERGEACCOUNT);
+		menuForm.add(remindersList);
+
+		W8MenuItem mergeItems = new W8MenuItem(messages.mergeItems(), "",
+				HistoryTokens.MERGEITEM);
+		menuForm.add(mergeItems);
+
+		mergeAccountsMenuBar.add(menuForm);
+		return mergeAccountsMenuBar;
+	}
+
+	private StyledPanel getFixedAssetsMenu(String fixedAssets) {
+
+		StyledPanel fixedAssetMenu = new StyledPanel("fixedAssetMenu");
+		fixedAssetMenu.add(new Label(fixedAssets));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem newFixedAsset = new W8MenuItem(messages.newFixedAsset(), "",
+				HistoryTokens.NEWFIXEDASSETS);
+		menuForm.add(newFixedAsset);
+
+		W8MenuItem depreciation = new W8MenuItem(messages.depreciation(), "",
+				HistoryTokens.DEPRICATION);
+		menuForm.add(depreciation);
+
+		W8MenuItem pendingItemsList = new W8MenuItem(
+				messages.pendingItemsList(), "", HistoryTokens.PENDINGITEMS);
+		menuForm.add(pendingItemsList);
+
+		W8MenuItem registeredItemsList = new W8MenuItem(
+				messages.registeredItemsList(), "",
+				HistoryTokens.REGISTEREDITEMS);
+		menuForm.add(registeredItemsList);
+
+		W8MenuItem soldAndDisposedItems = new W8MenuItem(
+				messages.soldAndDisposedItems(), "",
+				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+		menuForm.add(soldAndDisposedItems);
+
+		fixedAssetMenu.add(menuForm);
+		return fixedAssetMenu;
+	}
+
+	private StyledPanel getManageSupportListSubmenu(String manageSupportLists) {
+
+		StyledPanel manageSupportListMenuBar = new StyledPanel(
+				"manageSupportListMenuBar");
+		manageSupportListMenuBar.add(new Label(manageSupportLists));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		W8MenuItem payeeGroupList = new W8MenuItem(
+				messages.payeeGroupList(Global.get().Customer()), "",
+				HistoryTokens.CUSTOMERGROUPLIST);
+		menuForm.add(payeeGroupList);
+
+		W8MenuItem vendrGroupList = new W8MenuItem(
+				messages.payeeGroupList(Global.get().Vendor()), "",
+				HistoryTokens.VENDORGROUPLIST);
+		menuForm.add(vendrGroupList);
+
+		W8MenuItem paymentTermList = new W8MenuItem(messages.paymentTermList(),
+				"", HistoryTokens.PAYMENTTERMS);
+		menuForm.add(paymentTermList);
+
+		W8MenuItem shippingMethodList = new W8MenuItem(
+				messages.shippingMethodList(), "",
+				HistoryTokens.SHIPPINGMETHODSLIST);
+		menuForm.add(shippingMethodList);
+
+		W8MenuItem shippingTermList = new W8MenuItem(
+				messages.shippingTermList(), "",
+				HistoryTokens.SHIPPINGTERMSLIST);
+		menuForm.add(shippingTermList);
+
+		W8MenuItem itemGroupList = new W8MenuItem(messages.itemGroupList(), "",
+				HistoryTokens.ITEMGROUPLIST);
+		menuForm.add(itemGroupList);
+
+		W8MenuItem currencyList = new W8MenuItem(messages.currencyList(), "",
+				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+		menuForm.add(currencyList);
+
+		if (hasPermission(Features.CLASS)) {
+			if (isClassTracking) {
+				W8MenuItem accounterClassList = new W8MenuItem(
+						messages.accounterClassList(), "",
+						HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+				menuForm.add(accounterClassList);
+
+			}
+		}
+		if (hasPermission(Features.LOCATION)) {
+			if (isLocationTracking) {
+				W8MenuItem locationsList = new W8MenuItem(
+						messages.locationsList(Global.get().Location()), "",
+						HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
+				menuForm.add(locationsList);
+
+			}
+		}
+		if (isPriceLevelEnabled) {
+			W8MenuItem priceLevelList = new W8MenuItem(
+					messages.priceLevelList(), "", HistoryTokens.PRICELEVELLIST);
+			menuForm.add(priceLevelList);
+		}
+
+		manageSupportListMenuBar.add(menuForm);
+		return manageSupportListMenuBar;
+
+	}
+
+	private StyledPanel getSalesTaxSubmenu(String itemTax) {
+
+		StyledPanel salesTaxMenuBar = new StyledPanel("salesTaxMenuBar");
+		salesTaxMenuBar.add(new Label(itemTax));
+
+		DynamicForm menuForm = new DynamicForm("menuForm");
+
+		if (canDoInvoiceAndBillTransactions) {
+			W8MenuItem manageSalesTaxGroups = new W8MenuItem(
+					messages.manageSalesTaxGroups(), "",
+					HistoryTokens.MANAGESALESTAXGROUP);
+			menuForm.add(manageSalesTaxGroups);
+		} else {
+			W8MenuItem salesTaxGroups = new W8MenuItem(
+					messages.salesTaxGroups(), "",
+					HistoryTokens.SALESTAXGROUPsalesTaxGroup);
+			menuForm.add(salesTaxGroups);
+		}
+		if (canDoInvoiceAndBillTransactions) {
+			W8MenuItem manageSalesItems = new W8MenuItem(
+					messages.manageSalesItems(), "",
+					HistoryTokens.MANAGESALESTAXITEMS);
+			menuForm.add(manageSalesItems);
+		} else {
+			W8MenuItem salesTaxItems = new W8MenuItem(messages.salesTaxItems(),
+					"", HistoryTokens.SALESTAXITEMS);
+			menuForm.add(salesTaxItems);
+		}
+		if (canDoInvoiceAndBillTransactions) {
+			W8MenuItem taxAdjustment = new W8MenuItem(messages.taxAdjustment(),
+					"", HistoryTokens.TAXADJUSTMENT);
+			menuForm.add(taxAdjustment);
+		}
+		if (canDoManageAccounts) {
+			W8MenuItem payTax = new W8MenuItem(messages.payTax(), "",
+					HistoryTokens.PAYSALESTAX);
+			menuForm.add(payTax);
+		}
+		if (canDoInvoiceAndBillTransactions) {
+			W8MenuItem newTAXAgency = new W8MenuItem(messages.newTAXAgency(),
+					"", HistoryTokens.NEWTAXAGENCY);
+			menuForm.add(newTAXAgency);
+		}
+		return salesTaxMenuBar;
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.Widget;
 
-public  class GwtFlexTable {
+public class GwtFlexTable {
 
 	private FlexTable flexTable;
 
@@ -26,13 +26,13 @@ public  class GwtFlexTable {
 				default:
 					break;
 				}
-				
+
 			}
 		};
 	}
-	
-	public void onClick(Event event){
-		
+
+	public void onClick(Event event) {
+
 	}
 
 	public RowFormatter getRowFormatter() {
@@ -119,8 +119,7 @@ public  class GwtFlexTable {
 	public void removeStyleName(String string) {
 		flexTable.removeStyleName(string);
 	}
-	
-	
+
 	public FlexTable getFlexTable() {
 		return flexTable;
 	}
@@ -128,6 +127,9 @@ public  class GwtFlexTable {
 	public void addStyleName(String string) {
 		flexTable.addStyleName(string);
 	}
-	
+
+	public void insertRow(int beforeRow) {
+		flexTable.insertRow(beforeRow);
+	}
 
 }

@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.WebsocketAccounterInitialiser;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
 import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
@@ -32,7 +33,7 @@ public class LoginPanel extends FlowPanel {
 	}
 
 	private void createControls() {
-
+		StyledPanel mainPanel = new StyledPanel("main_loginpanel");
 		signInItem = new HTML("<h2>" + Accounter.getMessages().signIn()
 				+ "</h2>");
 		useritem = new TextItem(Accounter.getMessages().emailId(), "useritem");
@@ -45,7 +46,6 @@ public class LoginPanel extends FlowPanel {
 			@Override
 			public void onException(AccounterException exception) {
 				errorlLabel.setText(exception.getMessage());
-
 			}
 
 			@Override
@@ -78,14 +78,15 @@ public class LoginPanel extends FlowPanel {
 		signuplink.setValue("Dont have Accounter Id");
 		LinkItem forgotPassword = new LinkItem();
 		forgotPassword.setValue("Cannot access your account");
-		add(signInItem);
-		add(errorlLabel);
-		add(useritem);
-		add(password);
-		add(signuplink);
-		add(forgotPassword);
+		mainPanel.add(signInItem);
+		mainPanel.add(errorlLabel);
+		mainPanel.add(useritem);
+		mainPanel.add(password);
+		mainPanel.add(signuplink);
+		mainPanel.add(forgotPassword);
 
-		add(submitbutton);
+		mainPanel.add(submitbutton);
+		add(mainPanel);
 
 		signuplink.addClickHandler(new ClickHandler() {
 

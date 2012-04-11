@@ -66,18 +66,20 @@ public class AccounterCompanyInitializationServiceImpl extends
 			if (isValidSession(request)) {
 				Session session = HibernateUtil.openSession();
 				try {
-					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
-						super.service(request, response);
-						Long serverCompanyID = (Long) request.getSession()
-								.getAttribute(BaseServlet.COMPANY_ID);
-						if (serverCompanyID != null) {
-							new FinanceTool()
-									.putChangesInCometStream(serverCompanyID);
-						}
-					} else {
-						response.sendError(HttpServletResponse.SC_FORBIDDEN,
-								"Could Not Complete the Request!");
+					int a = 0;
+					// if
+					// (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
+					super.service(request, response);
+					Long serverCompanyID = (Long) request.getSession()
+							.getAttribute(BaseServlet.COMPANY_ID);
+					if (serverCompanyID != null) {
+						new FinanceTool()
+								.putChangesInCometStream(serverCompanyID);
 					}
+					// } else {
+					// response.sendError(HttpServletResponse.SC_FORBIDDEN,
+					// "Could Not Complete the Request!");
+					// }
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw e;
@@ -393,7 +395,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Session session = HibernateUtil.getCurrentSession();
 		Object res = session.getNamedQuery("isCompanyLocked")
 				.setLong("companyId", companyID).uniqueResult();
-		return (Boolean) res;
+		return res == null ? false : (Boolean) res;
 	}
 
 	public byte[] getD2(HttpServletRequest request)
