@@ -101,7 +101,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				new RollBackDepreciationDialog();
+				getLastDepreciationDate();
 			}
 		});
 
@@ -158,6 +158,29 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		mainPanel.add(actionButtonPanel);
 
 		this.add(mainPanel);
+
+	}
+
+	private void getLastDepreciationDate() {
+		AccounterAsyncCallback<ClientFinanceDate> callBack = new AccounterAsyncCallback<ClientFinanceDate>() {
+
+			private ClientFinanceDate lastDepreciationDate;
+
+			@Override
+			public void onException(AccounterException caught) {
+				saveFailed(caught);
+				return;
+
+			}
+
+			@Override
+			public void onResultSuccess(ClientFinanceDate result) {
+				lastDepreciationDate = result;
+				new RollBackDepreciationDialog(lastDepreciationDate);
+			}
+
+		};
+		Accounter.createHomeService().getDepreciationLastDate(callBack);
 
 	}
 

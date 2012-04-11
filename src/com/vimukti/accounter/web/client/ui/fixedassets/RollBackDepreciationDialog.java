@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -25,26 +24,20 @@ public class RollBackDepreciationDialog extends BaseDialog {
 	protected List<String> depreciationDate = new ArrayList<String>();
 	private ListBox dateBox;
 
-	public RollBackDepreciationDialog() {
+	public RollBackDepreciationDialog(ClientFinanceDate lastDepreciationDate2) {
 		super(messages.rollBackDepreciation(), "");
 		this.getElement().setId("RollBackDepreciationDialog");
-		getLastDepreciationDate();
 		this.addStyleName("depreciation_table");
-		// getAllDepreciationDates();
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				createControl();
-				center();
-			}
-		};
-		timer.schedule(500);
+		this.lastDepreciationDate = lastDepreciationDate2;
+		getAllDepreciationDates();
+		createControl();
+		center();
 	}
 
 	private void createControl() {
 
 		StyledPanel typeForm = new StyledPanel("typeForm");
-//		typeForm.setWidth("100%");
+		// typeForm.setWidth("100%");
 
 		StyledPanel contentPanel = new StyledPanel("contentPanel");
 		contentPanel.setStyleName("margin-b");
@@ -62,20 +55,20 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			dateBox.addItem(date);
 		}
 
-//		okbtn.setWidth("50px");
-//		cancelBtn.setWidth("80px");
+		// okbtn.setWidth("50px");
+		// cancelBtn.setWidth("80px");
 
 		// footerLayout.setCellHorizontalAlignment(okbtn,
 		// HasHorizontalAlignment.ALIGN_RIGHT);
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-//		mainVLay.setSize("100%", "100%");
+		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(contentPanel);
 		mainVLay.add(prefixText);
 		mainVLay.add(dateBox);
 
 		setBodyLayout(mainVLay);
-//		footerLayout.getElement().getStyle().setMarginLeft(29, Unit.PCT);
-//		setWidth("300px");
+		// footerLayout.getElement().getStyle().setMarginLeft(29, Unit.PCT);
+		// setWidth("300px");
 		// mainPanel.setSpacing(3);
 
 	}
