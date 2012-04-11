@@ -686,6 +686,11 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="EmployeeCategory" />
 		</set>
+
+		<set name="attendanceProductionTypes" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="AttendanceOrProductionType" />
+		</set>
 	</class>
 
 	<class name="NominalCodeRange" table="NOMINAL_CODE_RANGE">

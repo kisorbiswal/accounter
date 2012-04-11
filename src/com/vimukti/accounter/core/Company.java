@@ -13,6 +13,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -324,6 +325,8 @@ public class Company implements IAccounterServerCore {
 	private Set<PayHead> payheads = new HashSet<PayHead>();
 
 	private Set<EmployeeCategory> employeeCategories = new HashSet<EmployeeCategory>();
+
+	private Set<ClientAttendanceOrProductionType> attendanceProductionTypes = new HashSet<ClientAttendanceOrProductionType>();
 
 	String bankAccountNo;
 
@@ -920,6 +923,8 @@ public class Company implements IAccounterServerCore {
 		cmp.payheads = this.getPayheads();
 
 		cmp.employeeCategories = this.getEmployeeCategories();
+
+		cmp.attendanceProductionTypes = this.getAttendanceProductionTypes();
 
 		return cmp;
 	}
@@ -1748,5 +1753,14 @@ public class Company implements IAccounterServerCore {
 
 	public void setEmployeeCategories(Set<EmployeeCategory> employeeCategories) {
 		this.employeeCategories = employeeCategories;
+	}
+
+	public Set<ClientAttendanceOrProductionType> getAttendanceProductionTypes() {
+		return attendanceProductionTypes;
+	}
+
+	public void setAttendanceProductionTypes(
+			Set<ClientAttendanceOrProductionType> attendanceProductionTypes) {
+		this.attendanceProductionTypes = attendanceProductionTypes;
 	}
 }

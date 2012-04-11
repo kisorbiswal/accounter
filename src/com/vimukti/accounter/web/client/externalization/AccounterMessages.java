@@ -6408,4 +6408,26 @@ public interface AccounterMessages extends Messages {
 
 	public String employeeOrGroup();
 
+	public String attendanceOrProductionType();
+
+	public String productionType();
+
+	public String leaveWithPay();
+
+	public String leaveWithoutPay();
+
+	public String perDayCalculationBasis();
+
+	public String compute();
+
+	public String effectiveFrom();
+
+	public String fromAmount();
+
+	public String amountUpto();
+
+	public String slabType();
+
+	public String valueBasis();
+
 }

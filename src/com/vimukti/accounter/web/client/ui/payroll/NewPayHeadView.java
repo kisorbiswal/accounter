@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientAttendancePayhead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -17,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 	private VerticalPanel panel;
-	private TextItem nameItem, aliasItem, payslipNameItem;
+	private TextItem nameItem, payslipNameItem;
 	private SelectCombo typeCombo, calculationTypeCombo,
 			calculationPeriodCombo, roundingMethodCombo;
 	RadioGroupItem affectNetSalarytem;
@@ -34,10 +38,26 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 	String[] roundingMethods = { "Downword", "Normal", "Upword" };
 
+	String[] perDayCalculations = { "As Per Calendar Period", "User Defined",
+			"User Defined Calendar" };
+
+	String[] computationTypes = { "On Deduction Total", "On Earning Total",
+			"On Subtotal", "On Specified Formula" };
+
 	List<String> typeList = new ArrayList<String>();
 	List<String> calTypeList = new ArrayList<String>();
 	List<String> calPeriodList = new ArrayList<String>();
 	List<String> roundingList = new ArrayList<String>();
+	private List<String> perDayCalcList = new ArrayList<String>();
+	private List<String> computationTypeList = new ArrayList<String>();
+	private AttendanceOrProductionTypeCombo productionTypeCombo;
+	private AttendanceOrProductionTypeCombo leaveWithPayCombo;
+	private AttendanceOrProductionTypeCombo leaveWithoutPayCombo;
+	private SelectCombo perdayCalculationCombo;
+	private SelectCombo computationTypeCombo;
+	private ComputationSlabTable slabTable;
+	private DynamicForm calculationForm;
+	private DynamicForm computationForm;
 
 	@Override
 	public void init() {
@@ -80,32 +100,125 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			roundingList.add(roundingMethods[i]);
 		}
 
+		for (int i = 0; i < perDayCalculations.length; i++) {
+			perDayCalcList.add(perDayCalculations[i]);
+		}
+
+		for (int i = 0; i < computationTypes.length; i++) {
+			computationTypeList.add(computationTypes[i]);
+		}
+
 		nameItem = new TextItem(messages.name(), "nameItem");
-		aliasItem = new TextItem(messages.alias(), "aliasItem");
-		typeCombo = new SelectCombo(messages.type(), false);
+
+		typeCombo = new SelectCombo(messages.payHeadType(), false);
 		typeCombo.initCombo(typeList);
-		calculationTypeCombo = new SelectCombo(messages.calculationType(),
-				false);
-		calculationTypeCombo.initCombo(calTypeList);
-		calculationPeriodCombo = new SelectCombo(messages.calculationPeriod(),
-				false);
-		calculationPeriodCombo.initCombo(calPeriodList);
-		roundingMethodCombo = new SelectCombo(messages.roundingMethod(), false);
-		roundingMethodCombo.initCombo(roundingList);
+
 		affectNetSalarytem = new RadioGroupItem(messages.affectNetSalary());
 		affectNetSalarytem.setValueMap(messages.yes(), messages.no());
+
 		payslipNameItem = new TextItem(messages.paySlipName(),
 				"payslipNameItem");
 
+		roundingMethodCombo = new SelectCombo(messages.roundingMethod(), false);
+		roundingMethodCombo.initCombo(roundingList);
+
+		calculationTypeCombo = new SelectCombo(messages.calculationType(),
+				false);
+		calculationTypeCombo.initCombo(calTypeList);
+		calculationTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						calculationTypeChanged(selectItem);
+					}
+				});
+
+		productionTypeCombo = new AttendanceOrProductionTypeCombo(
+				ClientAttendanceOrProductionType.TYPE_PRODUCTION,
+				messages.productionType(), "productionTypeCombo");
+
+		calculationPeriodCombo = new SelectCombo(messages.calculationPeriod(),
+				false);
+		calculationPeriodCombo.initCombo(calPeriodList);
+
+		leaveWithPayCombo = new AttendanceOrProductionTypeCombo(
+				ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY,
+				messages.leaveWithPay(), "leaveWithPayCombo");
+		leaveWithPayCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAttendanceOrProductionType>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAttendanceOrProductionType selectItem) {
+						if (selectItem.getName().equals("Not Applicable")) {
+							leaveWithoutPayCombo.setEnabled(true);
+						} else {
+							leaveWithoutPayCombo.setEnabled(false);
+						}
+					}
+				});
+
+		leaveWithoutPayCombo = new AttendanceOrProductionTypeCombo(
+				ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY,
+				messages.leaveWithoutPay(), "leaveWithoutPayCombo");
+		leaveWithoutPayCombo.setEnabled(false);
+
+		perdayCalculationCombo = new SelectCombo(
+				messages.perDayCalculationBasis(), false);
+		perdayCalculationCombo.initCombo(perDayCalcList);
+
+		computationTypeCombo = new SelectCombo(messages.compute(), false);
+		computationTypeCombo.initCombo(computationTypeList);
+		computationTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						computationTypeChanged(selectItem);
+					}
+				});
+
+		slabTable = new ComputationSlabTable();
+
 		DynamicForm form = new DynamicForm("form");
-		form.add(nameItem, aliasItem, typeCombo, calculationTypeCombo,
-				calculationPeriodCombo, roundingMethodCombo,
-				affectNetSalarytem, payslipNameItem);
+		form.add(nameItem, typeCombo, affectNetSalarytem, payslipNameItem,
+				roundingMethodCombo, calculationTypeCombo);
+
+		calculationForm = new DynamicForm("calculationForm");
 
 		panel.add(form);
+		panel.add(calculationForm);
 		this.add(panel);
 
 		setSize("100%", "100%");
+	}
+
+	protected void computationTypeChanged(String selectItem) {
+
+	}
+
+	protected void calculationTypeChanged(String selectItem) {
+		calculationForm.clear();
+		if (selectItem.equals("Attendence")) {
+			calculationForm.add(leaveWithPayCombo, leaveWithoutPayCombo,
+					calculationPeriodCombo, perdayCalculationCombo);
+
+		} else if (selectItem.equals("As Computed Value")) {
+			computationForm = new DynamicForm("computationForm");
+			calculationForm.add(calculationPeriodCombo, computationTypeCombo);
+			calculationForm.add(computationForm);
+			calculationForm.add(slabTable);
+
+		} else if (selectItem.equals("Flat Rate")) {
+			calculationForm.add(calculationPeriodCombo);
+
+		} else if (selectItem.equals("Production")) {
+			calculationForm.add(productionTypeCombo);
+
+		} else if (selectItem.equals("As User Defined")) {
+
+		}
 	}
 
 	@Override
@@ -121,11 +234,30 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 	private void updateData() {
 		ClientPayHead head = new ClientPayHead();
+
+		String selectedValue = calculationTypeCombo.getSelectedValue();
+		if (selectedValue.equals("Attendence")) {
+			ClientAttendancePayhead payhead = new ClientAttendancePayhead();
+			payhead.setLeaveWithoutPay(leaveWithoutPayCombo.getSelectedValue());
+			payhead.setLeaveWithPay(leaveWithPayCombo.getSelectedValue());
+			payhead.setCalculationPeriod(calculationPeriodCombo
+					.getSelectedIndex());
+			payhead.setPerDayCalculationBasis(perdayCalculationCombo
+					.getSelectedIndex());
+			head = payhead;
+		} else if (selectedValue.equals("As Computed Value")) {
+
+		} else if (selectedValue.equals("Flat Rate")) {
+
+		} else if (selectedValue.equals("Production")) {
+
+		} else if (selectedValue.equals("As User Defined")) {
+
+		}
+
 		head.setName(nameItem.getValue());
-		head.setAlias(aliasItem.getValue());
 		head.setType(typeCombo.getSelectedIndex());
 		head.setCalculationType(calculationTypeCombo.getSelectedIndex());
-		// head.setCalculationPeriod(calculationPeriodCombo.getSelectedIndex());
 		head.setRoundingMethod(roundingMethodCombo.getSelectedIndex());
 		head.setNameToAppearInPaySlip(payslipNameItem.getValue());
 		saveOrUpdate(head);

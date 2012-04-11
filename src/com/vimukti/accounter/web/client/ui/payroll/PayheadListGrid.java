@@ -15,15 +15,14 @@ public class PayheadListGrid extends BaseListGrid<ClientPayHead> {
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.name(), messages.alias(),
-				messages.paySlipName(), messages.calculationType(),
-				messages.calculationPeriod(), messages.delete() };
+		return new String[] { messages.name(), messages.paySlipName(),
+				messages.calculationType(), messages.calculationPeriod(),
+				messages.delete() };
 	}
 
 	@Override
@@ -38,14 +37,12 @@ public class PayheadListGrid extends BaseListGrid<ClientPayHead> {
 		case 0:
 			return obj.getName();
 		case 1:
-			return obj.getAlias();
-		case 2:
 			return obj.getNameToAppearInPaySlip();
-		case 3:
+		case 2:
 			return obj.getCalculationType();
+		case 3:
+			// return obj.getCalculationPeriod();
 		case 4:
-//			return obj.getCalculationPeriod();
-		case 5:
 			return Accounter.getFinanceImages().delete();
 		default:
 			break;
@@ -61,16 +58,16 @@ public class PayheadListGrid extends BaseListGrid<ClientPayHead> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { messages.name(), messages.alias(),
-				messages.paySlipName(), messages.calculationType(),
-				messages.calculationPeriod(), messages.delete() };
+		return new String[] { messages.name(), messages.paySlipName(),
+				messages.calculationType(), messages.calculationPeriod(),
+				messages.delete() };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { messages.name(), messages.alias(),
-				messages.paySlipName(), messages.calculationType(),
-				messages.calculationPeriod(), messages.delete() };
+		return new String[] { messages.name(), messages.paySlipName(),
+				messages.calculationType(), messages.calculationPeriod(),
+				messages.delete() };
 	}
 
 }

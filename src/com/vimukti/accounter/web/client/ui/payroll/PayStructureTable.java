@@ -56,7 +56,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Effective from";
+				return messages.effectiveFrom();
 			}
 
 			@Override
@@ -122,9 +122,9 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			protected String getValue(ClientPayStructureItem row) {
 				ClientPayHead payHead = Accounter.getCompany().getPayHead(
 						row.getPayHead());
-//				if (payHead != null) {
-//					return "" + payHead.getCalculationPeriod();
-//				}
+				// if (payHead != null) {
+				// return "" + payHead.getCalculationPeriod();
+				// }
 				return "";
 			}
 

@@ -17,7 +17,7 @@ public class EmployeesAndGroupsCombo extends
 	@Override
 	protected String getColumnData(ClientPayStructureDestination object, int col) {
 		if (col == 0) {
-			object.getDisplayName();
+			return object.getDisplayName();
 		}
 		return null;
 	}

@@ -1616,4 +1616,8 @@ public class ActionFactory {
 	public static NewPayRunAction getPayRunAction() {
 		return new NewPayRunAction();
 	}
+
+	public static NewAttendanceProductionTypeAction getNewAttendanceProductionTypeAction() {
+		return new NewAttendanceProductionTypeAction();
+	}
 }

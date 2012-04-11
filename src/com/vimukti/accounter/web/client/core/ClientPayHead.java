@@ -35,8 +35,6 @@ public class ClientPayHead implements IAccounterCore {
 
 	private String name;
 
-	private String alias;
-
 	private int type;
 
 	private String nameToAppearInPaySlip;
@@ -53,7 +51,7 @@ public class ClientPayHead implements IAccounterCore {
 
 	private long id;
 
-	private ClientAccount expenseAccount;
+	private ClientAccount account;
 
 	/**
 	 * @return the companyFields
@@ -175,21 +173,6 @@ public class ClientPayHead implements IAccounterCore {
 		this.name = name;
 	}
 
-	/**
-	 * @return the alias
-	 */
-	public String getAlias() {
-		return alias;
-	}
-
-	/**
-	 * @param alias
-	 *            the alias to set
-	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
-
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -224,11 +207,11 @@ public class ClientPayHead implements IAccounterCore {
 	}
 
 	public ClientAccount getExpenseAccount() {
-		return expenseAccount;
+		return account;
 	}
 
-	public void setExpenseAccount(ClientAccount expenseAccount) {
-		this.expenseAccount = expenseAccount;
+	public void setExpenseAccount(ClientAccount account) {
+		this.account = account;
 	}
 
 }

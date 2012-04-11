@@ -266,7 +266,13 @@ public enum AccounterCoreType implements IsSerializable {
 
 	PAY_HEAD("ClientPayHead", "PayHead"),
 
-	PAYROLL_UNIT("ClientPayrollUnit", "PayrollUnit");
+	PAYROLL_UNIT("ClientPayrollUnit", "PayrollUnit"),
+
+	ATTENDANCE_PRODUCTION_TYPE("ClientAttendanceOrProductionType",
+			"AttendanceOrProductionType"),
+
+	COMPUTATION_FORMULA_FUNCTION("ClientComputationFormulaFunction",
+			"ComputaionFormulaFunction");
 
 	private String clientName;
 	private String serverName;

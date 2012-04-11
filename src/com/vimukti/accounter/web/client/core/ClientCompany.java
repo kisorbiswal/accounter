@@ -500,6 +500,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private List<ClientEmployeeCategory> employeeCategories;
 
+	private List<ClientAttendanceOrProductionType> attendanceProductionTypes = new ArrayList<ClientAttendanceOrProductionType>();
+
 	// private List<ClientTaxItem> taxItems;
 
 	// List<ClientPayType> payTypes;
@@ -1876,6 +1878,15 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
+			case ATTENDANCE_PRODUCTION_TYPE:
+
+				ClientAttendanceOrProductionType attendanceProcutionType = (ClientAttendanceOrProductionType) accounterCoreObject;
+
+				Utility.updateClientList(attendanceProcutionType,
+						attendanceProductionTypes);
+
+				break;
+
 			case PAYMENT_TERM:
 
 				ClientPaymentTerms paymentsTerms = (ClientPaymentTerms) accounterCoreObject;
@@ -2245,6 +2256,20 @@ public class ClientCompany implements IAccounterCore {
 		case EMPLOYEE_CATEGORY:
 			deleteEmployeeCategory(id);
 			break;
+
+		case ATTENDANCE_PRODUCTION_TYPE:
+			deleteAttendanceProductionType(id);
+			break;
+		}
+	}
+
+	private void deleteAttendanceProductionType(long id) {
+		ClientAttendanceOrProductionType category = this
+				.getAttendanceProductionType(id);
+		if (category != null) {
+			this.attendanceProductionTypes.remove(category);
+			fireEvent(new CoreEvent<ClientAttendanceOrProductionType>(
+					ChangeType.DELETE, category));
 		}
 	}
 
@@ -3495,6 +3520,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.employeeCategories, id);
 	}
 
+	private ClientAttendanceOrProductionType getAttendanceProductionType(long id) {
+		return Utility.getObject(this.attendanceProductionTypes, id);
+	}
+
 	public ClientPayHead getPayHead(long payHead) {
 		return Utility.getObject(this.payheads, id);
 	}
@@ -3518,5 +3547,14 @@ public class ClientCompany implements IAccounterCore {
 	public void setEmployeeCategories(
 			List<ClientEmployeeCategory> employeeCategories) {
 		this.employeeCategories = employeeCategories;
+	}
+
+	public List<ClientAttendanceOrProductionType> getAttendanceProductionTypes() {
+		return this.attendanceProductionTypes;
+	}
+
+	public void setAttendanceProductionTypes(
+			List<ClientAttendanceOrProductionType> attendanceProductionTypes) {
+		this.attendanceProductionTypes = attendanceProductionTypes;
 	}
 }
