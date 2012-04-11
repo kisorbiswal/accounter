@@ -5074,6 +5074,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 #InventoryCentreView #InventoryCentreItemsListGrid .gridBodyContainer {
 	height: 600px;
+	overflow: auto;
 }
 
 #InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform
@@ -6179,6 +6180,7 @@ form#contactForm .submit {
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
+	width:100%;
 }
 
 #ItemMergeDialog .horizontalPanel .form {
@@ -7695,4 +7697,20 @@ table.no_records tr td {
 }
 #paybillview .topHLay {
     width: 100%;
+}
+#CustomerMergeDialog .horizontalPanel .gwt-Label{
+	width:120px;
+}
+#VendorMergeDialog .horizontalPanel .gwt-Label{
+	width:120px;
+}
+#ItemMergeDialog .horizontalPanel .gwt-Label{
+	width:120px;
+}
+#SalesTaxGroupDialog .horizontalPanel .buttonsLayout{
+	margin-top: 10px;
+}
+#SalesTaxGroupDialog .horizontalPanel .buttonsLayout button{
+	width:70px;
+	margin: 0 5px;
 }
