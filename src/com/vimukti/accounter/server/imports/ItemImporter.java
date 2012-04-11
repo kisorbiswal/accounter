@@ -99,7 +99,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setAssestsAccount(assetAccountId);
 		item.setReorderPoint(getInteger("reOrderPts"));
 		int itemType = getItemType();
-		
+
 		if ((itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_INVENTORY_PART)
 				&& getInteger("weight") != 0) {
 			item.setWeight(getInteger("weight"));
@@ -142,15 +142,20 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		itemType = getInteger("numberItemType");
 		if (itemType == 0) {
 			String itemName = getString("stringItemType");
-			if (itemName.trim().contains("service")||itemName.trim().contains("Service")) {
-				itemType = ClientItem.TYPE_SERVICE;
-			} else if (itemName.trim().contains("non")||itemName.trim().contains("Non")) {
-				itemType = ClientItem.TYPE_NON_INVENTORY_PART;
+			if (itemName != null && !itemName.trim().isEmpty()) {
+				if (itemName.trim().contains("service")
+						|| itemName.trim().contains("Service")) {
+					itemType = ClientItem.TYPE_SERVICE;
+				} else if (itemName.trim().contains("non")
+						|| itemName.trim().contains("Non")) {
+					itemType = ClientItem.TYPE_NON_INVENTORY_PART;
 
-			} else if (itemName.trim().contains("inventory")||itemName.trim().contains("Inventory")) {
-				itemType = ClientItem.TYPE_INVENTORY_PART;
+				} else if (itemName.trim().contains("inventory")
+						|| itemName.trim().contains("Inventory")) {
+					itemType = ClientItem.TYPE_INVENTORY_PART;
 
-			} 
+				}
+			}
 		}
 		return itemType;
 	}

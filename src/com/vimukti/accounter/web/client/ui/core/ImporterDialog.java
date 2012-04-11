@@ -94,6 +94,7 @@ public class ImporterDialog extends CustomDialog {
 								+ key.intValue()
 								+ ")"
 								+ "   "
+								+ ((AccounterException) exception).getMessage()
 								+ AccounterExceptions
 										.getErrorString((AccounterException) exception),
 						"exceptionLabel");
