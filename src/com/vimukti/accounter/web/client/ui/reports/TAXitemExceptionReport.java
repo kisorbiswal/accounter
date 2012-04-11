@@ -21,8 +21,6 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 
 	private long taxAgency;
 	private long taxReturnId;
-	private int row;
-	boolean fromReport = true;
 	private TaxAgencyStartDateEndDateToolbar toolBar;
 
 	public TAXitemExceptionReport() {
@@ -44,7 +42,6 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 	@Override
 	public void makeReportRequest(long vatAgency, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		this.row = -1;
 		this.taxAgency = vatAgency;
 
 		Accounter.createReportService().getTAXItemExceptionDetailReport(
@@ -103,6 +100,7 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 			toolBar.toItem.setEnteredDate(this.endDate);
 			toolBar.fromItem.setEnabled(false);
 			toolBar.toItem.setEnabled(false);
+			toolBar.dateRangeItem.setEnabled(false);
 			toolBar.updateButton.setEnabled(false);
 			this.serverReport.initRecords(detail);
 

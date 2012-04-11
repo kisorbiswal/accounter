@@ -22,7 +22,6 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	private long taxAgency;
 	private long taxReturnId;
-	private int row;
 	private TaxAgencyStartDateEndDateToolbar toolBar;
 
 	public TaxItemDetailReportView() {
@@ -34,7 +33,6 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDefaultDateRange(messages.all());
 	}
 
 	@Override
@@ -45,7 +43,6 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 	@Override
 	public void makeReportRequest(long vatAgency, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		this.row = -1;
 		this.taxAgency = vatAgency;
 
 		Accounter.createReportService().getTAXItemDetailReport(

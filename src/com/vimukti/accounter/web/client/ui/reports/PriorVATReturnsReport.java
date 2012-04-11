@@ -43,6 +43,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 			toolBar.toItem.setEnteredDate(this.endDate);
 			toolBar.fromItem.setEnabled(false);
 			toolBar.toItem.setEnabled(false);
+			toolBar.dateRangeItem.setEnabled(false);
 			toolBar.updateButton.setEnabled(false);
 			this.serverReport.initRecords(summary);
 		} else {
