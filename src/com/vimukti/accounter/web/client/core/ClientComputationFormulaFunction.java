@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.core.PayHead;
-
 public class ClientComputationFormulaFunction implements IAccounterCore {
 
 	/**
@@ -19,7 +17,9 @@ public class ClientComputationFormulaFunction implements IAccounterCore {
 
 	private int functionType;
 
-	private PayHead payHead;
+	private ClientPayHead payHead;
+
+	private ClientAttendanceOrProductionType attendanceType;
 
 	private long id;
 
@@ -31,11 +31,11 @@ public class ClientComputationFormulaFunction implements IAccounterCore {
 		this.functionType = functionType;
 	}
 
-	public PayHead getPayHead() {
+	public ClientPayHead getPayHead() {
 		return payHead;
 	}
 
-	public void setPayHead(PayHead payHead) {
+	public void setPayHead(ClientPayHead payHead) {
 		this.payHead = payHead;
 	}
 
@@ -76,6 +76,15 @@ public class ClientComputationFormulaFunction implements IAccounterCore {
 	@Override
 	public long getID() {
 		return this.id;
+	}
+
+	public ClientAttendanceOrProductionType getAttendanceType() {
+		return attendanceType;
+	}
+
+	public void setAttendanceType(
+			ClientAttendanceOrProductionType attendanceType) {
+		this.attendanceType = attendanceType;
 	}
 
 }

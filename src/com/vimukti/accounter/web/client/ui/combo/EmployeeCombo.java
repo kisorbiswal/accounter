@@ -12,6 +12,9 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 	public EmployeeCombo(String title) {
 		this(title, false);
+		List<ClientEmployee> employees = new ArrayList<ClientEmployee>(
+				getCompany().getEmployees());
+		initCombo(employees);
 	}
 
 	public EmployeeCombo(String title, boolean b) {

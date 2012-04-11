@@ -165,88 +165,88 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		
+
 		<property name="name" column="NAME" not-null="true" />
-		<property name="type" column="TYPE"/>
+		<property name="type" column="TYPE" />
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
-		<property name="calculationType" column="CALCULATION_TYPE"/>
-		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY"/>
-		<many-to-one name="account" column="ACCOUNT"
-			class="Account" />
+		<property name="calculationType" column="CALCULATION_TYPE" />
+		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY" />
+		<many-to-one name="account" column="ACCOUNT" class="Account" />
 
 		<joined-subclass name="AttendancePayHead" table="ATTENDANCE_PAYHEAD">
 			<key column="ID" />
-			<property name="calculationPeriod" column="CALCULATION_PERIOD"/>
-			<property name="perDayCalculationBasis" column="PER_DAY_CALCULATION_BASIS"/>
+			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
+			<property name="perDayCalculationBasis" column="PER_DAY_CALCULATION_BASIS" />
 			<many-to-one name="leaveWithPay" column="LEAVE_WITH_PAY"
 				class="AttendanceOrProductionType" />
 			<many-to-one name="leaveWithoutPay" column="LEAVE_WITHOUT_PAY"
 				class="AttendanceOrProductionType" />
 		</joined-subclass>
-		
+
 		<joined-subclass name="ComputionPayHead" table="COMPUTATION_PAY_HEAD">
 			<key column="ID" />
-			<property name="computationType" column="COMPUTATION_TYPE"/>
-			<property name="calculationPeriod" column="CALCULATION_PERIOD"/>
+			<property name="computationType" column="COMPUTATION_TYPE" />
+			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 			<list name="slabs" table="COMPUTATION_SLABS">
-		        <key column="PAY_HEAD_ID" not-null="true" />
-		        <list-index column="SLAB_INDEX" base="1"/>
-		        <composite-element class="ComputationSlab">
-		            <property name="effectiveFrom" column="EFFECTIVE_FROM"
-						type="com.vimukti.accounter.core.LongUseType"/>
-					<property name="fromAmount" column="FROM_AMOUNT"/>
-					<property name="toAmount" column="TO_AMOUNT"/>
-					<property name="slabType" column="SLAB_TYPE"/>
-					<property name="value" column="VALUE"/>
-		        </composite-element>
-		    </list>
-		    <list name="formulaFunctions" table="FORMULA_FUNCTION">
-		        <key column="PAY_HEAD_ID" not-null="true" />
-		        <list-index column="FUNCTION_INDEX" base="1"/>
-		        <composite-element class="ComputaionFormulaFunction">
-					<property name="functionType" column="FUNCION_TYPE"/>
-					<many-to-one name="payHead" column="PAY_HEAD"
-						class="PayHead" />
-		        </composite-element>
-		    </list>
+				<key column="PAY_HEAD_ID" not-null="true" />
+				<list-index column="SLAB_INDEX" base="1" />
+				<composite-element class="ComputationSlab">
+					<property name="effectiveFrom" column="EFFECTIVE_FROM"
+						type="com.vimukti.accounter.core.LongUseType" />
+					<property name="fromAmount" column="FROM_AMOUNT" />
+					<property name="toAmount" column="TO_AMOUNT" />
+					<property name="slabType" column="SLAB_TYPE" />
+					<property name="value" column="VALUE" />
+				</composite-element>
+			</list>
+			<list name="formulaFunctions" table="FORMULA_FUNCTION">
+				<key column="PAY_HEAD_ID" not-null="true" />
+				<list-index column="FUNCTION_INDEX" base="1" />
+				<composite-element class="ComputaionFormulaFunction">
+					<property name="functionType" column="FUNCION_TYPE" />
+					<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
+					<many-to-one name="attendanceType" column="PAY_HEAD"
+						class="AttendanceOrProductionType" />
+				</composite-element>
+			</list>
 		</joined-subclass>
-		
+
 		<joined-subclass name="FlatRatePayHead" table="FLAT_RATE_PAY_HEAD">
 			<key column="ID" />
-			<property name="calculationPeriod" column="CALCULATION_PERIOD"/>
+			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 		</joined-subclass>
-		
+
 		<joined-subclass name="ProductionPayHead" table="PRODUCTION_PAY_HEAD">
 			<key column="ID" />
 			<many-to-one name="productionType" column="PRODUCTION_TYPE"
 				class="AttendanceOrProductionType" />
 		</joined-subclass>
-		
+
 		<joined-subclass name="UserDefinedPayHead" table="USER_DEFINED_PAY_HEAD">
 			<key column="ID" />
-			
+
 		</joined-subclass>
 	</class>
-	
+
 	<class name="AttendanceOrProductionType" table="ATTENDANCE_OR_PRODUCTION_TPE">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-		<property name="type" column="TYPE"/>
-		<property name="name" column="NAME"/>
-		<many-to-one name="unit" column="UNIT" class="PayrollUnit"/>
-		<property name="periodType" column="PERIOD_TYPE"/>
+		<property name="type" column="TYPE" />
+		<property name="name" column="NAME" />
+		<many-to-one name="unit" column="UNIT" class="PayrollUnit" />
+		<property name="periodType" column="PERIOD_TYPE" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"/>
+			not-null="true" />
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"/>
+			class="User" not-null="true" />
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 	</class>
-	
+
 
 	<class name="EmployeeCategory" table="EMPLOYEE_CATEGORY">
 		<id name="id" column="ID">

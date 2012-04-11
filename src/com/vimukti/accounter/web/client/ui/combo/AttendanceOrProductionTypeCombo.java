@@ -27,6 +27,10 @@ public class AttendanceOrProductionTypeCombo extends
 
 					@Override
 					public boolean filter(ClientAttendanceOrProductionType e) {
+						if (type == 100) {
+							return e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY
+									|| e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY;
+						}
 						return e.getType() == type;
 					}
 				}, getCompany().getAttendanceProductionTypes());

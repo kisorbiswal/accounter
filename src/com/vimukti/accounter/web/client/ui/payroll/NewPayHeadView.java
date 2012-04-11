@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayhead;
+import com.vimukti.accounter.web.client.core.ClientComputationFormulaFunction;
+import com.vimukti.accounter.web.client.core.ClientComputationPayHead;
+import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -58,6 +66,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	private ComputationSlabTable slabTable;
 	private DynamicForm calculationForm;
 	private DynamicForm computationForm;
+
+	private List<ClientComputationFormulaFunction> formulas = new ArrayList<ClientComputationFormulaFunction>();
+	private AccountCombo accountCombo;
 
 	@Override
 	public void init() {
@@ -122,6 +133,14 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		roundingMethodCombo = new SelectCombo(messages.roundingMethod(), false);
 		roundingMethodCombo.initCombo(roundingList);
 
+		accountCombo = new AccountCombo(messages.expenseAccount()) {
+
+			@Override
+			protected List<ClientAccount> getAccounts() {
+				return getCompany().getActiveAccounts();
+			}
+		};
+
 		calculationTypeCombo = new SelectCombo(messages.calculationType(),
 				false);
 		calculationTypeCombo.initCombo(calTypeList);
@@ -183,7 +202,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		DynamicForm form = new DynamicForm("form");
 		form.add(nameItem, typeCombo, affectNetSalarytem, payslipNameItem,
-				roundingMethodCombo, calculationTypeCombo);
+				roundingMethodCombo, accountCombo, calculationTypeCombo);
 
 		calculationForm = new DynamicForm("calculationForm");
 
@@ -195,7 +214,25 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	protected void computationTypeChanged(String selectItem) {
+		if (selectItem.equals("On Specified Formula")) {
+			ComputationFormulaDialog dialog = new ComputationFormulaDialog(
+					"Computation Formula") {
+				@Override
+				protected boolean onOK() {
 
+					return super.onOK();
+				}
+			};
+			dialog.addCallback(new ValueCallBack<List<ClientComputationFormulaFunction>>() {
+
+				@Override
+				public void execute(List<ClientComputationFormulaFunction> value) {
+					NewPayHeadView.this.formulas = value;
+				}
+			});
+			dialog.center();
+			dialog.show();
+		}
 	}
 
 	protected void calculationTypeChanged(String selectItem) {
@@ -245,13 +282,31 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			payhead.setPerDayCalculationBasis(perdayCalculationCombo
 					.getSelectedIndex());
 			head = payhead;
+
 		} else if (selectedValue.equals("As Computed Value")) {
+			ClientComputationPayHead payhead = new ClientComputationPayHead();
+
+			payhead.setCalculationPeriod(calculationPeriodCombo
+					.getSelectedIndex());
+			payhead.setComputationType(computationTypeCombo.getSelectedIndex());
+			payhead.setFormulaFunctions(this.formulas);
+			payhead.setSlabs(slabTable.getAllRows());
+			head = payhead;
 
 		} else if (selectedValue.equals("Flat Rate")) {
+			ClientFlatRatePayHead payHead = new ClientFlatRatePayHead();
+			payHead.setCalculationPeriod(calculationPeriodCombo
+					.getSelectedIndex());
+			head = payHead;
 
 		} else if (selectedValue.equals("Production")) {
+			ClientProductionPayHead payHead = new ClientProductionPayHead();
+			payHead.setProductionType(productionTypeCombo.getSelectedValue());
+			head = payHead;
 
 		} else if (selectedValue.equals("As User Defined")) {
+			ClientUserDefinedPayHead payHead = new ClientUserDefinedPayHead();
+			head = payHead;
 
 		}
 
@@ -260,6 +315,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		head.setCalculationType(calculationTypeCombo.getSelectedIndex());
 		head.setRoundingMethod(roundingMethodCombo.getSelectedIndex());
 		head.setNameToAppearInPaySlip(payslipNameItem.getValue());
+		head.setAffectNetSalary(affectNetSalarytem.getValue().endsWith("true"));
+		head.setExpenseAccount(accountCombo.getSelectedValue());
 		saveOrUpdate(head);
 	}
 

@@ -18,6 +18,8 @@ public class ComputaionFormulaFunction {
 
 	private PayHead payHead;
 
+	private AttendanceOrProductionType attendanceType;
+
 	/**
 	 * @return the functionType
 	 */
@@ -46,6 +48,14 @@ public class ComputaionFormulaFunction {
 	 */
 	public void setPayHead(PayHead payHead) {
 		this.payHead = payHead;
+	}
+
+	public AttendanceOrProductionType getAttendanceType() {
+		return attendanceType;
+	}
+
+	public void setAttendanceType(AttendanceOrProductionType attendanceType) {
+		this.attendanceType = attendanceType;
 	}
 
 }

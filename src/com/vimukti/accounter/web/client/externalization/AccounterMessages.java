@@ -6430,4 +6430,6 @@ public interface AccounterMessages extends Messages {
 
 	public String valueBasis();
 
+	public String functionType();
+
 }
