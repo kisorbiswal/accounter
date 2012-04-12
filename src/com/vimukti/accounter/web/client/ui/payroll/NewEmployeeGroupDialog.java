@@ -20,13 +20,14 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 
 		nameItem = new TextItem(messages.employeeGroup(), "nameItem");
 		form = new DynamicForm("form");
+		nameItem.setRequired(true);
 		form.add(nameItem);
 		bodyLayout.add(form);
 	}
 
 	@Override
 	protected ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = form.validate();
 		return result;
 	}
 

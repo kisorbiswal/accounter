@@ -20,6 +20,7 @@ public class NewEmployeeCategoryDialog extends
 	public void createControls() {
 		nameItem = new TextItem(messages.employeeCategory(), "nameItem");
 		form = new DynamicForm("form");
+		nameItem.setRequired(true);
 		form.add(nameItem);
 		bodyLayout.add(form);
 
@@ -33,9 +34,8 @@ public class NewEmployeeCategoryDialog extends
 
 	@Override
 	protected ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
-		result.add(form.validate());
-		return super.validate();
+		ValidationResult result = form.validate();
+		return result;
 	}
 
 	private void updateData() {
