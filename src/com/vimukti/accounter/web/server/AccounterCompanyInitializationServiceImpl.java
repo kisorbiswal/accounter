@@ -66,20 +66,18 @@ public class AccounterCompanyInitializationServiceImpl extends
 			if (isValidSession(request)) {
 				Session session = HibernateUtil.openSession();
 				try {
-					int a = 0;
-					// if
-					// (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
-					super.service(request, response);
-					Long serverCompanyID = (Long) request.getSession()
-							.getAttribute(BaseServlet.COMPANY_ID);
-					if (serverCompanyID != null) {
-						new FinanceTool()
-								.putChangesInCometStream(serverCompanyID);
+					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
+						super.service(request, response);
+						Long serverCompanyID = (Long) request.getSession()
+								.getAttribute(BaseServlet.COMPANY_ID);
+						if (serverCompanyID != null) {
+							new FinanceTool()
+									.putChangesInCometStream(serverCompanyID);
+						}
+					} else {
+						response.sendError(HttpServletResponse.SC_FORBIDDEN,
+								"Could Not Complete the Request!");
 					}
-					// } else {
-					// response.sendError(HttpServletResponse.SC_FORBIDDEN,
-					// "Could Not Complete the Request!");
-					// }
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw e;
