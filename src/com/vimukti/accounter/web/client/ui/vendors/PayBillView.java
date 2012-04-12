@@ -592,7 +592,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.add(memoTextAreaItem);
-		unUsedCreditsText = new AmountLabel(messages.unusedCredits());
+		unUsedCreditsText = new AmountLabel(
+				messages.unusedCreditsWithCurrencyName(getBaseCurrency()
+						.getFormalName()), getBaseCurrency());
 		unUsedCreditsText.setEnabled(false);
 
 		amountLabelForeign = new AmountLabel(
@@ -607,11 +609,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		currencyWidget = createCurrencyFactorWidget();
 
-		this.tdsPayableAmount = new AmountLabel(messages.tdsAmount());
+		this.tdsPayableAmount = new AmountLabel(
+				messages.tdsAmountWithCurrencyName(getBaseCurrency()
+						.getFormalName()), getBaseCurrency());
 		tdsPayableAmount.setEnabled(false);
 
-		this.amountToVendor = new AmountLabel(messages.payeePayment(Global
-				.get().Vendor()));
+		this.amountToVendor = new AmountLabel(
+				messages.payeePaymentWithCurrencyName(Global.get().Vendor(),
+						getBaseCurrency().getFormalName()), getBaseCurrency());
 		amountToVendor.setEnabled(false);
 
 		textForm = new DynamicForm("textForm");
@@ -778,6 +783,18 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amountLabelForeign.setTitle(messages.currencyTotal(vendorCurrency
 				.getFormalName()));
 		amountLabelForeign.setCurrency(vendorCurrency);
+
+		tdsPayableAmount.setTitle(messages
+				.tdsAmountWithCurrencyName(vendorCurrency.getFormalName()));
+		tdsPayableAmount.setCurrency(vendorCurrency);
+
+		amountToVendor.setTitle(messages.payeePaymentWithCurrencyName(Global
+				.get().Vendor(), vendorCurrency.getFormalName()));
+		amountToVendor.setCurrency(vendorCurrency);
+
+		unUsedCreditsText.setTitle(messages
+				.unusedCreditsWithCurrencyName(vendorCurrency.getFormalName()));
+		unUsedCreditsText.setCurrency(vendorCurrency);
 
 		grid.resetValues();
 		grid.creditsAndPayments.clear();

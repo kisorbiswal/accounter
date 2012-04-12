@@ -687,7 +687,9 @@ public class ReceivePaymentView extends
 		textForm.add(unUsedCreditsText, unUsedPaymentsText);
 		unUsedCreditsText.setVisible(!isInViewMode());
 
-		totalWithTDS = new AmountLabel(messages.total());
+		totalWithTDS = new AmountLabel(
+				messages.totalWithCurrencyName(getBaseCurrency()
+						.getFormalName()), getBaseCurrency());
 		textForm.add(totalWithTDS);
 		// textForm.addStyleName("textbold");
 
@@ -1297,6 +1299,9 @@ public class ReceivePaymentView extends
 		unUsedPaymentsText.setTitle(messages.unusedPayments(currencyWidget
 				.getSelectedCurrency().getFormalName()));
 		unUsedPaymentsText.setCurrency(currencyWidget.getSelectedCurrency());
+		totalWithTDS.setTitle(messages.totalWithCurrencyName(currencyWidget
+				.getSelectedCurrency().getFormalName()));
+		totalWithTDS.setCurrency(currencyWidget.getSelectedCurrency());
 		amtText.setTitle(messages.amountReceivedWithCurrencyName(currencyWidget
 				.getSelectedCurrency().getFormalName()));
 	}
