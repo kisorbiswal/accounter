@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -58,7 +59,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class WriteChequeView extends
-		AbstractBankTransactionView<ClientWriteCheck> {
+		AbstractBankTransactionView<ClientWriteCheck> implements IPrintableView {
 
 	private PayFromAccountsCombo bankAccSelect;
 
@@ -1234,7 +1235,9 @@ public class WriteChequeView extends
 
 	@Override
 	public void print() {
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_WRITE_CHECK);
 	}
 
 	@Override
@@ -1486,6 +1489,23 @@ public class WriteChequeView extends
 
 	@Override
 	public boolean allowEmptyTransactionItems() {
+		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

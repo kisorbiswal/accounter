@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
@@ -54,7 +55,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * 
  */
 public class VendorBillView extends
-		AbstractVendorTransactionView<ClientEnterBill> {
+		AbstractVendorTransactionView<ClientEnterBill> implements
+		IPrintableView {
 	private PaymentTermsCombo paymentTermsCombo;
 	private ClientPaymentTerms selectedPaymentTerm;
 	private DateField dueDateItem;
@@ -1352,6 +1354,9 @@ public class VendorBillView extends
 
 	@Override
 	public void print() {
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_ENTER_BILL);
 
 	}
 
@@ -1511,5 +1516,21 @@ public class VendorBillView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return true;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -39,12 +39,14 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CustomerPrePaymentView extends
-		AbstractCustomerTransactionView<ClientCustomerPrePayment> {
+		AbstractCustomerTransactionView<ClientCustomerPrePayment> implements
+		IPrintableView {
 
 	// private CheckboxItem printCheck;
 	private AmountField amountText, bankBalText, customerBalText;
@@ -768,8 +770,9 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 	}
 
 	@Override
@@ -892,6 +895,22 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected boolean needTransactionItems() {
+		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
 		return false;
 	}
 }

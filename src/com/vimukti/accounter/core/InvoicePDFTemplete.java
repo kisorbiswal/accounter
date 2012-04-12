@@ -450,8 +450,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			return outPutString;
 
 		} catch (Exception e) {
-			System.err.println(e.getMessage() + "..." + e.getStackTrace()
-					+ "..." + e.getLocalizedMessage());
+			System.err.println("invoice err......");
+			e.printStackTrace();
 		}
 		return "";
 	}

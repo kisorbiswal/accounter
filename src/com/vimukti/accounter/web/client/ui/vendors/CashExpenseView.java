@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
@@ -43,7 +44,8 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CashExpenseView extends
-		AbstractVendorTransactionView<ClientCashPurchase> {
+		AbstractVendorTransactionView<ClientCashPurchase> implements
+		IPrintableView {
 
 	protected DynamicForm vendorForm;
 	public List<String> selectedComboList;
@@ -959,7 +961,9 @@ public class CashExpenseView extends
 
 	@Override
 	public void print() {
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_CASH_EXPENSE);
 	}
 
 	@Override
@@ -1103,6 +1107,23 @@ public class CashExpenseView extends
 
 	@Override
 	public boolean allowEmptyTransactionItems() {
+		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 }

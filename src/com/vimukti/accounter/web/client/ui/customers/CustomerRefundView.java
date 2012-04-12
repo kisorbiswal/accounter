@@ -39,12 +39,14 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CustomerRefundView extends
-		AbstractCustomerTransactionView<ClientCustomerRefund> {
+		AbstractCustomerTransactionView<ClientCustomerRefund> implements
+		IPrintableView {
 
 	protected PayFromAccountsCombo payFromSelect;
 	protected ClientAccount selectedAccount;
@@ -663,7 +665,9 @@ public class CustomerRefundView extends
 
 	@Override
 	public void print() {
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_CUSTOMER_REFUNDS);
 	}
 
 	@Override
@@ -743,6 +747,23 @@ public class CustomerRefundView extends
 
 	@Override
 	protected boolean needTransactionItems() {
+		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 }

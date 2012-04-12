@@ -365,6 +365,7 @@ public class QuotePdfTemplate implements PrintTemplete {
 			outPutString = t.getFileString();
 			return outPutString;
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return "";
 	}

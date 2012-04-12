@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
@@ -55,7 +56,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class CreditCardExpenseView extends
-		AbstractBankTransactionView<ClientCreditCardCharge> {
+		AbstractBankTransactionView<ClientCreditCardCharge> implements
+		IPrintableView {
 
 	protected List<String> selectedComboList;
 	protected DateField date, delivDate;;
@@ -1330,5 +1332,28 @@ public class CreditCardExpenseView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return false;
+	}
+
+	@Override
+	public void print() {
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 	}
 }
