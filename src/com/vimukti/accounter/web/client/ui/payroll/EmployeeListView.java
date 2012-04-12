@@ -15,6 +15,10 @@ import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class EmployeeListView extends BaseListView<ClientEmployee> {
 
+	public EmployeeListView() {
+		this.getElement().setId("EmployeeListView");
+	}
+
 	@Override
 	public void init() {
 		super.init();

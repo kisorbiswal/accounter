@@ -14,6 +14,7 @@ public class NewEmployeeCategoryDialog extends
 
 	public NewEmployeeCategoryDialog(String title) {
 		super(title);
+		this.getElement().setId("NewEmployeeCategoryDialog");
 		createControls();
 	}
 

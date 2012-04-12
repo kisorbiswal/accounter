@@ -136,4 +136,13 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 		return false;
 	}
 
+	public List<ClientComputationSlab> getRows() {
+		List<ClientComputationSlab> rows = new ArrayList<ClientComputationSlab>();
+		for (ClientComputationSlab row : getAllRows()) {
+			if (!row.isEmpty()) {
+				rows.add(row);
+			}
+		}
+		return rows;
+	}
 }

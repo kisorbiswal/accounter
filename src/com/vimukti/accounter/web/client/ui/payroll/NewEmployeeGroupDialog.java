@@ -13,6 +13,7 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 
 	public NewEmployeeGroupDialog(String title) {
 		super(title);
+		this.getElement().setId("NewEmployeeGroupDialog");
 		createControls();
 	}
 

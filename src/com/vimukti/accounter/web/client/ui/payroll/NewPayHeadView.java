@@ -68,14 +68,19 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	private SelectCombo perdayCalculationCombo;
 	private SelectCombo computationTypeCombo;
 	private ComputationSlabTable slabTable;
-	private DynamicForm calculationForm;
-	private DynamicForm computationForm;
+	private DynamicForm formulaForm, computationForm, calculationForm,
+			attendanceForm, flatrateForm, productionForm;
 
 	private List<ClientComputationFormulaFunction> formulas = new ArrayList<ClientComputationFormulaFunction>();
 	private AccountCombo accountCombo;
 
 	private AddNewButton itemTableButton;
 	private TextItem formula;
+	private DynamicForm mainform;
+
+	public NewPayHeadView() {
+		this.getElement().setId("NewPayHeadView");
+	}
 
 	@Override
 	public void init() {
@@ -95,8 +100,10 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	private void initViewData(ClientPayHead data) {
-		// TODO Auto-generated method stub
-
+		nameItem.setValue(data.getName());
+		typeCombo.setValue(data.getType());
+		affectNetSalarytem
+				.setValue(data.isAffectNetSalary() ? "true" : "false");
 	}
 
 	protected void createControls() {
@@ -127,19 +134,26 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		}
 
 		nameItem = new TextItem(messages.name(), "nameItem");
+		nameItem.setRequired(true);
+		nameItem.setEnabled(!isInViewMode());
 
 		typeCombo = new SelectCombo(messages.payHeadType(), false);
 		typeCombo.initCombo(typeList);
+		typeCombo.setRequired(true);
+		typeCombo.setEnabled(!isInViewMode());
 
 		affectNetSalarytem = new RadioGroupItem(messages.affectNetSalary());
 		affectNetSalarytem.setValueMap(messages.yes(), messages.no());
 		affectNetSalarytem.setDefaultValue(messages.yes());
+		affectNetSalarytem.setEnabled(!isInViewMode());
 
 		payslipNameItem = new TextItem(messages.paySlipName(),
 				"payslipNameItem");
+		payslipNameItem.setEnabled(!isInViewMode());
 
 		roundingMethodCombo = new SelectCombo(messages.roundingMethod(), false);
 		roundingMethodCombo.initCombo(roundingList);
+		roundingMethodCombo.setEnabled(!isInViewMode());
 
 		accountCombo = new AccountCombo(messages.expenseAccount()) {
 
@@ -148,6 +162,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				return getCompany().getActiveAccounts();
 			}
 		};
+		accountCombo.setEnabled(!isInViewMode());
+		accountCombo.setRequired(true);
 
 		calculationTypeCombo = new SelectCombo(messages.calculationType(),
 				false);
@@ -160,14 +176,20 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 						calculationTypeChanged(selectItem);
 					}
 				});
+		calculationTypeCombo.setRequired(true);
+		calculationTypeCombo.setEnabled(!isInViewMode());
 
 		productionTypeCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_PRODUCTION,
 				messages.productionType(), "productionTypeCombo");
+		productionTypeCombo.setRequired(true);
+		productionTypeCombo.setEnabled(!isInViewMode());
 
 		calculationPeriodCombo = new SelectCombo(messages.calculationPeriod(),
 				false);
 		calculationPeriodCombo.initCombo(calPeriodList);
+		calculationPeriodCombo.setEnabled(!isInViewMode());
+		calculationPeriodCombo.setRequired(true);
 
 		leaveWithPayCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY,
@@ -180,11 +202,15 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 							ClientAttendanceOrProductionType selectItem) {
 						if (selectItem.getName().equals("Not Applicable")) {
 							leaveWithoutPayCombo.setEnabled(true);
+							leaveWithoutPayCombo.setRequired(true);
 						} else {
 							leaveWithoutPayCombo.setEnabled(false);
+							leaveWithoutPayCombo.setRequired(false);
 						}
 					}
 				});
+		leaveWithPayCombo.setEnabled(!isInViewMode());
+		leaveWithPayCombo.setRequired(true);
 
 		leaveWithoutPayCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY,
@@ -194,6 +220,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		perdayCalculationCombo = new SelectCombo(
 				messages.perDayCalculationBasis(), false);
 		perdayCalculationCombo.initCombo(perDayCalcList);
+		perdayCalculationCombo.setEnabled(!isInViewMode());
+		perdayCalculationCombo.setRequired(true);
 
 		computationTypeCombo = new SelectCombo(messages.compute(), false);
 		computationTypeCombo.initCombo(computationTypeList);
@@ -205,8 +233,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 						computationTypeChanged(selectItem);
 					}
 				});
+		computationTypeCombo.setEnabled(!isInViewMode());
+		computationTypeCombo.setRequired(true);
 
 		slabTable = new ComputationSlabTable();
+		slabTable.setEnabled(!isInViewMode());
+
 		itemTableButton = new AddNewButton();
 		itemTableButton.addClickHandler(new ClickHandler() {
 
@@ -216,16 +248,18 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				slabTable.add(row);
 			}
 		});
+		itemTableButton.setEnabled(!isInViewMode());
 
 		formula = new TextItem(messages.specifiedFormula(), "formula");
+		formula.setEnabled(!isInViewMode());
 
-		DynamicForm form = new DynamicForm("form");
-		form.add(nameItem, typeCombo, affectNetSalarytem, payslipNameItem,
+		mainform = new DynamicForm("form");
+		mainform.add(nameItem, typeCombo, affectNetSalarytem, payslipNameItem,
 				roundingMethodCombo, accountCombo, calculationTypeCombo);
 
 		calculationForm = new DynamicForm("calculationForm");
 
-		panel.add(form);
+		panel.add(mainform);
 		panel.add(calculationForm);
 		this.add(panel);
 
@@ -247,47 +281,14 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				@Override
 				public void execute(List<ClientComputationFormulaFunction> value) {
 					NewPayHeadView.this.formulas = value;
-					check();
 					prepareFormula();
 				}
 			});
 			dialog.center();
 			dialog.show();
 		} else {
-			computationForm.clear();
+			formulaForm.clear();
 		}
-	}
-
-	public void check() {
-		formulas.clear();
-		ClientComputationFormulaFunction f1 = new ClientComputationFormulaFunction();
-		f1.setFunctionType(ClientComputationFormulaFunction.FUNCTION_ADD_PAY_HEAD);
-		ClientPayHead p1 = new ClientPayHead();
-		p1.setName("PH1");
-		f1.setPayHead(p1);
-
-		ClientComputationFormulaFunction f2 = new ClientComputationFormulaFunction();
-		f2.setFunctionType(ClientComputationFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD);
-		ClientPayHead p2 = new ClientPayHead();
-		p2.setName("PH2");
-		f2.setPayHead(p2);
-
-		ClientComputationFormulaFunction f3 = new ClientComputationFormulaFunction();
-		f3.setFunctionType(ClientComputationFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE);
-		ClientAttendanceOrProductionType a1 = new ClientAttendanceOrProductionType();
-		a1.setName("ATT1");
-		f3.setAttendanceType(a1);
-
-		ClientComputationFormulaFunction f4 = new ClientComputationFormulaFunction();
-		f4.setFunctionType(ClientComputationFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE);
-		ClientAttendanceOrProductionType a2 = new ClientAttendanceOrProductionType();
-		a2.setName("ATT2");
-		f4.setAttendanceType(a2);
-
-		formulas.add(f1);
-		formulas.add(f2);
-		formulas.add(f3);
-		formulas.add(f4);
 	}
 
 	protected void prepareFormula() {
@@ -313,27 +314,35 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			}
 		}
 		formula.setValue(string);
-		computationForm.add(formula);
+		formulaForm.add(formula);
 	}
 
 	protected void calculationTypeChanged(String selectItem) {
 		calculationForm.clear();
 		if (selectItem.equals("Attendence")) {
-			calculationForm.add(leaveWithPayCombo, leaveWithoutPayCombo,
+			attendanceForm = new DynamicForm("attendanceForm");
+			attendanceForm.add(leaveWithPayCombo, leaveWithoutPayCombo,
 					calculationPeriodCombo, perdayCalculationCombo);
+			calculationForm.add(attendanceForm);
 
 		} else if (selectItem.equals("As Computed Value")) {
+			formulaForm = new DynamicForm("computationForm");
 			computationForm = new DynamicForm("computationForm");
-			calculationForm.add(calculationPeriodCombo, computationTypeCombo);
+			computationForm.add(calculationPeriodCombo, computationTypeCombo);
+			calculationForm.add(formulaForm);
+			computationForm.add(slabTable);
+			computationForm.add(itemTableButton);
 			calculationForm.add(computationForm);
-			calculationForm.add(slabTable);
-			calculationForm.add(itemTableButton);
 
 		} else if (selectItem.equals("Flat Rate")) {
-			calculationForm.add(calculationPeriodCombo);
+			flatrateForm = new DynamicForm("flaterateForm");
+			flatrateForm.add(calculationPeriodCombo);
+			calculationForm.add(flatrateForm);
 
 		} else if (selectItem.equals("Production")) {
-			calculationForm.add(productionTypeCombo);
+			productionForm = new DynamicForm("productionForm");
+			productionForm.add(productionTypeCombo);
+			calculationForm.add(productionForm);
 
 		} else if (selectItem.equals("As User Defined")) {
 
@@ -348,7 +357,32 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 	@Override
 	public ValidationResult validate() {
-		return super.validate();
+		ValidationResult result = super.validate();
+		result.add(mainform.validate());
+		if (result.haveErrors()) {
+			return result;
+		}
+		String selectedValue = calculationTypeCombo.getSelectedValue();
+		if (selectedValue.equals("Attendence")) {
+			result.add(attendanceForm.validate());
+
+		} else if (selectedValue.equals("As Computed Value")) {
+			result.add(computationForm.validate());
+			if (result.haveErrors()) {
+				return result;
+			}
+			if (slabTable.getRows().isEmpty()) {
+				result.addError(slabTable, "");
+				return result;
+			}
+		} else if (selectedValue.equals("Flat Rate")) {
+			result.add(flatrateForm.validate());
+
+		} else if (selectedValue.equals("Production")) {
+			result.add(productionForm.validate());
+
+		}
+		return result;
 	}
 
 	private void updateData() {

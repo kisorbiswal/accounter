@@ -23,6 +23,10 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 	private PayStructureTable grid;
 	private AddNewButton itemTableButton;
 
+	public NewPayStructureView() {
+		this.getElement().setId("NewPayStructureView");
+	}
+
 	@Override
 	public void init() {
 		super.init();

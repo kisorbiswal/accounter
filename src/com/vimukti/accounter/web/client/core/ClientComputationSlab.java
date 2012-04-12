@@ -56,4 +56,7 @@ public class ClientComputationSlab {
 		this.value = value;
 	}
 
+	public boolean isEmpty() {
+		return false;
+	}
 }

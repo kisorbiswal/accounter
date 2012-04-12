@@ -21,6 +21,7 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 
 	public EmployeeGroupListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("EmployeeGroupListDialog");
 		setWidth("380px");
 		initialise();
 		center();

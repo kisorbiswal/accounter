@@ -22,6 +22,10 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	private EmployeesAndGroupsCombo empsAndGroups;
 	private PayStructureTable grid;
 
+	public NewPayRunView() {
+		this.getElement().setId("NewPayRunView");
+	}
+
 	@Override
 	public void init() {
 		super.init();

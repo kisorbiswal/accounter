@@ -23,6 +23,7 @@ public class EmployeeCategoryListDialog extends
 
 	public EmployeeCategoryListDialog(String title, String descript) {
 		super(title, descript);
+		this.getElement().setId("EmployeeCategoryListDialog");
 		setWidth("380px");
 		initialise();
 		center();

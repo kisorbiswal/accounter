@@ -59,6 +59,10 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	private TextAreaItem addrArea;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 
+	public NewEmployeeView() {
+		this.getElement().setId("NewEmployeeView");
+	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -174,12 +178,16 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		mainPanel = new VerticalPanel();
+		mainPanel.addStyleName("mainPanel");
+
 		firstPanel = new HorizontalPanel();
+		firstPanel.addStyleName("firstPanel");
 
 		firstPanel.add(getEmpBasicInfo());
 		firstPanel.add(getEmpDetails());
 
 		secondPanel = new HorizontalPanel();
+		secondPanel.addStyleName("secondPanel");
 		secondPanel.add(getEmpOtherDetailsInfo());
 
 		mainPanel.add(firstPanel);
@@ -374,7 +382,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 			@Override
 			public void onResultSuccess(Boolean result) {
-					enableFormItems();
+				enableFormItems();
 			}
 
 		};

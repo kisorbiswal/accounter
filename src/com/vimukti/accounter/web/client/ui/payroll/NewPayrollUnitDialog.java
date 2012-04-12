@@ -12,6 +12,7 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 
 	public NewPayrollUnitDialog(String string) {
 		super(string);
+		this.getElement().setId("NewPayrollUnitDialog");
 		createControls();
 	}
 

@@ -58,7 +58,7 @@ public class AttendanceOrProductionTypeCombo extends
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return messages.addNew(messages.attendanceOrProductionType());
+		return messages.attendanceOrProductionType();
 	}
 
 	@Override

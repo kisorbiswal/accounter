@@ -15,6 +15,10 @@ import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class PayheadListView extends BaseListView<ClientPayHead> {
 
+	public PayheadListView() {
+		this.getElement().setId("PayheadListView");
+	}
+
 	@Override
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);

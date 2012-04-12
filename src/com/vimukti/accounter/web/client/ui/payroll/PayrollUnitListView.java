@@ -15,6 +15,10 @@ import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 
+	public PayrollUnitListView() {
+		this.getElement().setId("PayrollUnitListView");
+	}
+
 	@Override
 	public void deleteFailed(AccounterException caught) {
 		super.deleteFailed(caught);
