@@ -860,7 +860,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.discount = -this.discount;
 		this.lineTotal = -this.lineTotal;
 		this.unitPrice = -this.unitPrice;
-		this.VATfraction = -this.VATfraction;
+		if (this.VATfraction != null) {
+			this.VATfraction = -this.VATfraction;
+		}
 	}
 
 	public TransactionItem getReferringTransactionItem() {

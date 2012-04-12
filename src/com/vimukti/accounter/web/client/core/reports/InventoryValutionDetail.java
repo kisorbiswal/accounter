@@ -42,6 +42,8 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	private double transactionAmount;
 
+	private double avgCost;
+
 	public int getTransType() {
 		return transType;
 	}
@@ -170,4 +172,12 @@ public class InventoryValutionDetail extends BaseReport implements
 		this.onHandUnit = onHandUnit;
 	}
 
+	public void setAvgCost(double avgCost) {
+		this.avgCost = avgCost;
+
+	}
+
+	public double getAvgCost() {
+		return avgCost;
+	}
 }

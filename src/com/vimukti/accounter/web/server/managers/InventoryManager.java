@@ -575,6 +575,7 @@ public class InventoryManager extends Manager {
 			detail.setItemId(next[10] != null ? (Long) next[10] : 0);
 			detail.setPayeeName((String) next[11]);
 			detail.setPayeeId(next[12] != null ? (Long) next[12] : 0);
+			detail.setAvgCost(next[13] != null ? (Double) next[13] : 0);
 			result.add(detail);
 		}
 		return result;

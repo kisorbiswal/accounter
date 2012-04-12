@@ -10927,7 +10927,7 @@
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="PAYEE_ID" type="long" />
-		
+		<return-scalar column="AVG_COST" type="double" />
 		<![CDATA[
 				SELECT TRANSACTION_ID,
 				       TRANSACTION_DATE,
@@ -10941,8 +10941,10 @@
 				       ITEM_NAME,
 				       ITEM_ID,
 				       PAYEE_NAME,
-				       PAYEE_ID
+				       PAYEE_ID,
+				       I.AVERAGE_COST AS AVG_COST 
 				FROM   INVENTORY_HISTORY_VIEW V
+				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
 				LEFT JOIN UNIT U ON U.ID = V.ITEM_UNITS
 				LEFT JOIN UNIT QTYUNIT ON QTYUNIT.ID = V.QTY_UNIT
 				
@@ -10980,15 +10982,14 @@
 				       ITEM_PURCHASE_DESCRIPTION                  DESCRIPTION,
 				       ITEM_TOTAL_QUANTITY,
 				       V.UNIT AS ITEM_UNITS,
-				       (SELECT ( ( SUM(QUANTITY * UNIT_PRICE) ) / SUM(QUANTITY) )
-				        FROM   INVENTORY_PURCHASE_HISTORY_VIEW IHV
-				        WHERE  IHV.ITEM_ID = V.ITEM_ID)           AS COST,
+				       I.AVERAGE_COST AS COST,
 				       ITEM_SALE_PRICE,
 				       ITEM_ID,
 				       ASSET_CHANGE                               AS ASSET_TOTAL,
 				       ( ASSET_CHANGE * 100 / ( V.TOTAL_ASSET ) ) AS ASSET_PERC,
 				       (ITEM_SALE_PRICE * ITEM_TOTAL_QUANTITY)          AS RETAIL_VALUE,
 				       (SELECT SUM(SALES_PRICE*ON_HAND_QTY_VALUE) FROM ITEM WHERE TYPE IN (2,4)) AS TOTAL_RETAIL
+				       LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
 				FROM   INVENTORY_HISTORY_VIEW V
 				WHERE  V.COMPANY = :companyId
 				       AND ( V.ASOFDATE BETWEEN :fromDate AND :toDate )

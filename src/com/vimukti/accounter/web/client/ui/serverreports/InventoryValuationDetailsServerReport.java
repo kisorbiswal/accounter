@@ -92,7 +92,7 @@ public class InventoryValuationDetailsServerReport extends
 		case 6:
 			return record.getOnHand() + " " + record.getOnHandUnit();
 		case 7:
-			return record.getCost();
+			return record.getAvgCost();
 		case 8:
 			return record.getQuantity() * record.getCost();
 		}

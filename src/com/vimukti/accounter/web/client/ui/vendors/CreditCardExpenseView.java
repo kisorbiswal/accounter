@@ -473,7 +473,6 @@ public class CreditCardExpenseView extends
 		// totText.setWidth(100);
 
 		totForm = new DynamicForm("totForm");
-		totForm.setWidth("100%");
 		totForm.addStyleName("unused-payments");
 		totForm.getElement().getStyle().setMarginTop(10, Unit.PX);
 
