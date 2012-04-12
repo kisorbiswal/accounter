@@ -92,7 +92,7 @@ public class MissingChecksServerReport extends
 		case 0:
 			return Utility.getTransactionName(record.getTransactionType());
 		case 1:
-			return UIUtils.getDateByCompanyType(record.getTransactionDate());
+			return getDateByCompanyType(record.getTransactionDate());
 		case 2:
 			return record.getTransactionNumber();
 		case 3:
