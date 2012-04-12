@@ -7787,3 +7787,36 @@ table.no_records tr td {
 .editheader td {
     text-align: center;
 }
+
+/* Location merge dialog should align properly */
+#LocationMergeDialog .horizontalPanel{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	margin: 10px 0;
+    width: 100%;
+}
+#LocationMergeDialog .horizontalPanel .layout .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#LocationMergeDialog .horizontalPanel .layout{
+	width:50%;
+	-moz-box-flex:1;
+}
+#LocationMergeDialog .horizontalPanel .layout1 .form1{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+/*Location merge dialog end*/
