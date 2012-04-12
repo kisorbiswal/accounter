@@ -9767,7 +9767,9 @@
 				             WHEN A.A_TYPE = 14 THEN AT.AMOUNT
 				           END)AS INCOME_AMOUNT,
 				       SUM(CASE
-				             WHEN A.A_TYPE = 16 THEN AT.AMOUNT
+				             WHEN  ( A.A_TYPE = 15
+				        	  OR A.A_TYPE = 16
+				         	  OR A.A_TYPE = 18 ) THEN AT.AMOUNT
 				           END)AS EXPENSE_AMOUNT
 				FROM   ACCOUNT_TRANSACTION AT
 				       LEFT JOIN ACCOUNT A
