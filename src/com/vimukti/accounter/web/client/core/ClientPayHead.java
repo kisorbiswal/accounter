@@ -192,8 +192,7 @@ public class ClientPayHead implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.PAY_HEAD;
 	}
 
 	@Override

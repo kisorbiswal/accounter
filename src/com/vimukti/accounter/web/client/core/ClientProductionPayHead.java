@@ -18,4 +18,8 @@ public class ClientProductionPayHead extends ClientPayHead {
 		this.productionType = productionType;
 	}
 
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.PRODUCTION_PAY_HEAD;
+	}
 }

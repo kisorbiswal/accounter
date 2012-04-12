@@ -205,7 +205,7 @@
 				<composite-element class="ComputaionFormulaFunction">
 					<property name="functionType" column="FUNCION_TYPE" />
 					<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
-					<many-to-one name="attendanceType" column="PAY_HEAD"
+					<many-to-one name="attendanceType" column="ATTENDANCE_TYPE"
 						class="AttendanceOrProductionType" />
 				</composite-element>
 			</list>

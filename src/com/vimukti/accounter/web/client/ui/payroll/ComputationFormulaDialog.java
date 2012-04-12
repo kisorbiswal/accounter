@@ -175,6 +175,9 @@ public class ComputationFormulaDialog extends
 	}
 
 	private int getFunctionType(String selectedValue) {
+		if (selectedValue == null) {
+			return 0;
+		}
 		if (selectedValue.equals("Add Pay Head")) {
 			return ClientComputationFormulaFunction.FUNCTION_ADD_PAY_HEAD;
 		} else if (selectedValue.equals("Subtract Pay Head")) {
