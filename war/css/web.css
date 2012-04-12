@@ -1866,13 +1866,6 @@ table.no_records .norecord-empty-message td {
 	{
 	width: 100px;
 }
-/*.report-toolbar .formItem input[type=text] {
-	width: 100px;
-}*/
-.no_records .norecord-empty-message { /*margin-left: 400px;
-	position: absolute;*/
-	
-}
 
 .no_records .norecord-empty-message td {
 	border: 0 none;
@@ -2994,7 +2987,6 @@ table.no_records .norecord-empty-message td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-	width: 50%;
 }
 
 #newAccountView .topHLay .frameTitle {
@@ -3085,6 +3077,8 @@ table.no_records .norecord-empty-message td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+	width: 50%;
+	-moz-box-flex:1;
 }
 
 #CustomerView .generalTab .topHLay .rightVLay {
