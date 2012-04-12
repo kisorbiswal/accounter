@@ -265,6 +265,7 @@ public class EU {
 			byte[] cipherData = cipher.doFinal(password);
 			return new String(cipherData);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
