@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -327,6 +328,8 @@ public class Company implements IAccounterServerCore {
 	private Set<EmployeeCategory> employeeCategories = new HashSet<EmployeeCategory>();
 
 	private Set<ClientAttendanceOrProductionType> attendanceProductionTypes = new HashSet<ClientAttendanceOrProductionType>();
+	
+	private Set<ClientPayrollUnit> payrollUnits = new  HashSet<ClientPayrollUnit>();
 
 	String bankAccountNo;
 
@@ -1762,5 +1765,13 @@ public class Company implements IAccounterServerCore {
 	public void setAttendanceProductionTypes(
 			Set<ClientAttendanceOrProductionType> attendanceProductionTypes) {
 		this.attendanceProductionTypes = attendanceProductionTypes;
+	}
+
+	public Set<ClientPayrollUnit> getPayrollUnits() {
+		return payrollUnits;
+	}
+
+	public void setPayrollUnits(Set<ClientPayrollUnit> payrollUnits) {
+		this.payrollUnits = payrollUnits;
 	}
 }
