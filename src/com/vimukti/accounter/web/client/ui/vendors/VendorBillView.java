@@ -127,11 +127,11 @@ public class VendorBillView extends
 			if (!getAccountTransactionItems(transaction.getTransactionItems())
 					.isEmpty()) {
 				this.vendorAccountTransactionTable
-						.setRecords(getAccountTransactionItems(transaction
+						.setAllRows(getAccountTransactionItems(transaction
 								.getTransactionItems()));
 			}
 			this.vendorItemTransactionTable
-					.setRecords(getItemTransactionItems(transaction
+					.setAllRows(getItemTransactionItems(transaction
 							.getTransactionItems()));
 
 			paymentTermsCombo.setValue(transaction.getPaymentTerm());
@@ -1045,9 +1045,9 @@ public class VendorBillView extends
 			}
 			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
-						.getAllRows());
+						.getTransactionItems());
 				transaction.getTransactionItems().addAll(
-						vendorItemTransactionTable.getAllRows());
+						vendorItemTransactionTable.getTransactionItems());
 			}
 			if (currency != null) {
 				transaction.setCurrency(currency.getID());

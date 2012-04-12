@@ -6338,5 +6338,5 @@ public interface AccounterMessages extends Messages {
 
 	public String newInventoryItem();
 
-	public String newItem(String name);
+	public String newPayeeItem(String name);
 }

@@ -698,10 +698,10 @@ public class CashExpenseView extends
 			if (transaction.getTransactionItems() != null
 					&& !transaction.getTransactionItems().isEmpty()) {
 				this.vendorAccountTransactionTable
-						.setRecords(getAccountTransactionItems(transaction
+						.setAllRows(getAccountTransactionItems(transaction
 								.getTransactionItems()));
 				this.vendorItemTransactionTable
-						.setRecords(getItemTransactionItems(transaction
+						.setAllRows(getItemTransactionItems(transaction
 								.getTransactionItems()));
 			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());

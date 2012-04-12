@@ -302,10 +302,10 @@ public class CreditCardChargeView extends
 			paymentMethodSelected(transaction.getPaymentMethod());
 			payMethSelect.setComboItem(transaction.getPaymentMethod());
 			vendorAccountTransactionTable
-					.setRecords(getAccountTransactionItems(transaction
+					.setAllRows(getAccountTransactionItems(transaction
 							.getTransactionItems()));
 			vendorItemTransactionTable
-					.setRecords(getItemTransactionItems(transaction
+					.setAllRows(getItemTransactionItems(transaction
 							.getTransactionItems()));
 
 		}

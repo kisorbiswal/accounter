@@ -180,9 +180,9 @@ public class NewItemAction extends Action<ClientItem> {
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			return messages.newInventoryItem();
 		} else if (forCustomer) {
-			return messages.newItem(Global.get().Customer());
+			return messages.newPayeeItem(Global.get().Customer());
 		}
-		return messages.newItem(Global.get().Vendor());
+		return messages.newPayeeItem(Global.get().Vendor());
 	}
 
 	public void setisItemEditable(boolean isItemViewEditable) {

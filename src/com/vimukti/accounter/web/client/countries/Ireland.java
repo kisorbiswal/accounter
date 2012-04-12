@@ -36,4 +36,8 @@ public class Ireland extends AbstractCountryPreferences {
 		return "UTC+0:00 Europe/Dublin";
 	}
 
+	@Override
+	public boolean isVatAvailable() {
+		return true;
+	}
 }

@@ -336,8 +336,8 @@ public class ItemView extends BaseView<ClientItem> {
 
 		itemTaxCheck = new CheckboxItem(messages.taxable(), "itemTaxCheck");
 		itemTaxCheck.setValue(true);
-		itemTaxCheck.setEnabled(false);
-
+		itemTaxCheck.setEnabled(!isInViewMode());
+		itemTaxCheck.setVisible(getPreferences().isTrackTax());
 		comCheck = new CheckboxItem(messages.commissionItem(), "comCheck");
 
 		salesInfoForm = UIUtils.form(messages.salesInformation());
@@ -689,11 +689,6 @@ public class ItemView extends BaseView<ClientItem> {
 		salesDescArea.setEnabled(!isEdit);
 		salesPriceText.setEnabled(!isEdit);
 		accountCombo.setEnabled(!isEdit);
-		if (getPreferences().isTrackTax()) {
-			itemTaxCheck.setEnabled(!isEdit);
-		} else {
-			itemTaxCheck.setEnabled(false);
-		}
 		comCheck.setEnabled(!isEdit);
 	}
 
@@ -1191,6 +1186,7 @@ public class ItemView extends BaseView<ClientItem> {
 		taxCode.setEnabled(!isInViewMode());
 		isellCheck.setEnabled(!isInViewMode());
 		ibuyCheck.setEnabled(!isInViewMode());
+		itemTaxCheck.setEnabled(!isInViewMode());
 		if (ibuyCheck.getValue()) {
 			purchaseDescArea.setEnabled(!isInViewMode());
 			expAccCombo.setEnabled(!isInViewMode());
