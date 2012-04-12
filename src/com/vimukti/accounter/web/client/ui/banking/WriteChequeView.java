@@ -429,7 +429,8 @@ public class WriteChequeView extends
 	@Override
 	public void saveAndUpdateView() {
 
-		if (isInViewMode()) {
+		if (isInViewMode()
+				&& transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
 			updatePaySalesTax();
 			return;
 		}
