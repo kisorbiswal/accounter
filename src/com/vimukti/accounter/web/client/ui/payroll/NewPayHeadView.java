@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -21,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -32,7 +32,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class NewPayHeadView extends BaseView<ClientPayHead> {
 
-	private VerticalPanel panel;
+	private StyledPanel panel;
 	private TextItem nameItem, payslipNameItem;
 	private SelectCombo typeCombo, calculationTypeCombo,
 			calculationPeriodCombo, roundingMethodCombo;
@@ -104,10 +104,52 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		typeCombo.setValue(data.getType());
 		affectNetSalarytem
 				.setValue(data.isAffectNetSalary() ? "true" : "false");
+		payslipNameItem.setValue(data.getNameToAppearInPaySlip());
+		roundingMethodCombo.setValue(data.getRoundingMethod());
+		accountCombo.setValue(data.getExpenseAccount());
+		calculationTypeCombo.setValue(data.getCalculationType());
+		String calType = calTypeList.get(data.getCalculationType());
+		calculationTypeChanged(calType);
+		if (calType.equals("Attendence")) {
+			ClientAttendancePayhead attendance = (ClientAttendancePayhead) data;
+
+			leaveWithPayCombo.setValue(attendance.getLeaveWithPay());
+			leaveWithoutPayCombo.setValue(attendance.getLeaveWithoutPay());
+			calculationPeriodCombo.setValue(attendance.getCalculationPeriod());
+			perdayCalculationCombo.setValue(attendance
+					.getPerDayCalculationBasis());
+
+		} else if (calType.equals("As Computed Value")) {
+			ClientComputationPayHead computation = (ClientComputationPayHead) data;
+
+			calculationPeriodCombo.setValue(computation.getCalculationPeriod());
+			String compType = computationTypeList.get(computation
+					.getComputationType());
+			computationTypeCombo.setValue(compType);
+			computationTypeChanged(compType);
+			if (compType.equals("On Specified Formula")) {
+				this.formulas = computation.getFormulaFunctions();
+				prepareFormula(formulas);
+			}
+			slabTable.setAllRows(computation.getSlabs());
+
+		} else if (calType.equals("Flat Rate")) {
+			ClientFlatRatePayHead flatrate = (ClientFlatRatePayHead) data;
+
+			calculationPeriodCombo.setValue(flatrate.getCalculationPeriod());
+
+		} else if (calType.equals("Production")) {
+			ClientProductionPayHead production = (ClientProductionPayHead) data;
+
+			productionTypeCombo.setValue(production.getProductionType());
+
+		} else if (calType.equals("As User Defined")) {
+
+		}
 	}
 
 	protected void createControls() {
-		panel = new VerticalPanel();
+		panel = new StyledPanel("panel");
 
 		for (int i = 0; i < types.length; i++) {
 			typeList.add(types[i]);
@@ -281,7 +323,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				@Override
 				public void execute(List<ClientComputationFormulaFunction> value) {
 					NewPayHeadView.this.formulas = value;
-					prepareFormula();
+					prepareFormula(value);
 				}
 			});
 			dialog.center();
@@ -291,7 +333,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		}
 	}
 
-	protected void prepareFormula() {
+	protected void prepareFormula(
+			List<ClientComputationFormulaFunction> formulas) {
 		String string = new String();
 		ClientComputationFormulaFunction formulaFunction = formulas.get(0);
 		string += formulaFunction.getPayHead() != null ? formulaFunction

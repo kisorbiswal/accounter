@@ -14,8 +14,6 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -28,6 +26,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -49,8 +48,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	private DateItem dateOfBirthItem, dateOfHire, passportExpiryDateItem,
 			emplVisaNumberDateItem;
 	private SelectCombo employeeCategoryCombo;
-	private VerticalPanel mainPanel;
-	private HorizontalPanel firstPanel, secondPanel;
+	private StyledPanel mainPanel;
+	private StyledPanel firstPanel, secondPanel;
 	private EmployeeGroupCombo employeeGroupCombo;
 	private final String[] genderTypes = { messages.unspecified(),
 			messages.male(), messages.female() };
@@ -177,17 +176,14 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	private void createControls() {
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
-		mainPanel = new VerticalPanel();
-		mainPanel.addStyleName("mainPanel");
+		mainPanel = new StyledPanel("mainPanel");
 
-		firstPanel = new HorizontalPanel();
-		firstPanel.addStyleName("firstPanel");
+		firstPanel = new StyledPanel("firstPanel");
 
 		firstPanel.add(getEmpBasicInfo());
 		firstPanel.add(getEmpDetails());
 
-		secondPanel = new HorizontalPanel();
-		secondPanel.addStyleName("secondPanel");
+		secondPanel = new StyledPanel("secondPanel");
 		secondPanel.add(getEmpOtherDetailsInfo());
 
 		mainPanel.add(firstPanel);
