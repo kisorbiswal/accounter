@@ -1,5 +1,4 @@
-@
--moz-document url-prefix  (){ .editTable table td .gwt-TextBox {
+@-moz-document url-prefix(){ .editTable table td .gwt-TextBox {
 	width: 99%;
 }
 
@@ -110,6 +109,10 @@
 	}
 	.editTable .editheader td {
 		padding: 2px !important;
+	}
+	/* this is for manage custom button that is attached to top one in chrome */
+	#VendorView .detailsTab .vendorGrpForm{
+	    padding-bottom:1px;
 	}
 }
 
@@ -3696,11 +3699,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	width: 100%;
 }
 
-#CreditCardExpenseView .totForm {
-	width: 100%;
-	-moz-box-flex: 1;
-}
-
 #CreditCardExpenseView .totForm .AmountLabel {
 	width: 100%;
 	-moz-box-flex: 1;
@@ -4217,8 +4215,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-	-moz-box-flex: 1;
-	width: 100%;
 }
 
 #newAccountView .topHLay {
@@ -5462,13 +5458,9 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	width: auto;
 	padding: 2px 5px 0 0;
 }
-
-#searchInputDialog .mainForm .search_combo_width .downarrow-button {
-	
-}
-
+/* amount text field should be right. but align center overrides this one because only i put the important  */
 .amountText .gwt-TextBox,.editTable .amount,.AmountField .gwt-TextBox {
-	text-align: right;
+	text-align: right !important;
 }
 
 .change_password_view a {
@@ -7789,4 +7781,9 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	margin:10px;
+}
+
+/*edit table headers align to center */
+.editheader td {
+    text-align: center;
 }
