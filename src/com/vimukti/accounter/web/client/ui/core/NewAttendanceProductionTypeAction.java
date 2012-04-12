@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.ui.payroll.NewClientAttendanceOrProductionDialog;
 
 public class NewAttendanceProductionTypeAction extends
 		Action<ClientAttendanceOrProductionType> {
@@ -14,8 +15,11 @@ public class NewAttendanceProductionTypeAction extends
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		NewClientAttendanceOrProductionDialog comboDialog = new NewClientAttendanceOrProductionDialog(
+				messages.attendanceOrProductionType(), data);
 
+		comboDialog.show();
+		comboDialog.center();
 	}
 
 	@Override

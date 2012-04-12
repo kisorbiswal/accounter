@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -19,10 +20,12 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 	public void createControls() {
 
 		symbolItem = new TextItem(messages.symbol(), "symbolItem");
+		symbolItem.setRequired(true);
 		formalNameItem = new TextItem(messages.formalName(), "formalNameItem");
+		formalNameItem.setRequired(true);
 		noOfDecimalsItem = new TextItem(messages.noOfDecimalPlaces(),
 				"noOfDecimalsItem");
-
+		noOfDecimalsItem.setRequired(true);
 		form = new DynamicForm("form");
 		form.add(symbolItem, formalNameItem, noOfDecimalsItem);
 
@@ -55,6 +58,12 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 			formalNameItem.setValue(data.getFormalname());
 			noOfDecimalsItem.setValue("" + data.getNoofDecimalPlaces());
 		}
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = form.validate();
+		return result;
 	}
 
 }
