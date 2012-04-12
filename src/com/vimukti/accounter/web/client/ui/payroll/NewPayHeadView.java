@@ -126,6 +126,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		affectNetSalarytem = new RadioGroupItem(messages.affectNetSalary());
 		affectNetSalarytem.setValueMap(messages.yes(), messages.no());
+		affectNetSalarytem.setDefaultValue(messages.yes());
 
 		payslipNameItem = new TextItem(messages.paySlipName(),
 				"payslipNameItem");
@@ -228,11 +229,37 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				@Override
 				public void execute(List<ClientComputationFormulaFunction> value) {
 					NewPayHeadView.this.formulas = value;
+					prepareFormula();
 				}
 			});
 			dialog.center();
 			dialog.show();
 		}
+	}
+
+	protected void prepareFormula() {
+		String string = new String();
+		ClientComputationFormulaFunction formulaFunction = formulas.get(0);
+		string += formulaFunction.getPayHead() != null ? formulaFunction
+				.getPayHead().getName() : formulaFunction.getAttendanceType()
+				.getName();
+		formulas.remove(0);
+		for (ClientComputationFormulaFunction function : formulas) {
+			if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_ADD_PAY_HEAD) {
+				string = "(" + string + "+" + function.getPayHead().getName()
+						+ ")";
+			} else if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
+				string = "(" + string + "-" + function.getPayHead().getName()
+						+ ")";
+			} else if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE) {
+				string = "(" + string + "*"
+						+ function.getAttendanceType().getName() + ")";
+			} else if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
+				string = "(" + string + "/"
+						+ function.getAttendanceType().getName() + ")";
+			}
+		}
+		System.out.println("@@@@@ Formula -----" + string);
 	}
 
 	protected void calculationTypeChanged(String selectItem) {

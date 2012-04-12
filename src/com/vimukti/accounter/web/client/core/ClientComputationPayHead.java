@@ -60,4 +60,8 @@ public class ClientComputationPayHead extends ClientPayHead {
 		this.calculationPeriod = calculationPeriod;
 	}
 
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.COMPUTATION_PAY_HEAD;
+	}
 }

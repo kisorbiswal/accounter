@@ -17,4 +17,8 @@ public class ClientFlatRatePayHead extends ClientPayHead {
 		this.calculationPeriod = calculationPeriod;
 	}
 
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.FLATRATE_PAY_HEAD;
+	}
 }

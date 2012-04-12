@@ -76,4 +76,8 @@ public class ClientAttendancePayhead extends ClientPayHead {
 		this.leaveWithoutPay = leaveWithoutPay;
 	}
 
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.ATTENDANCE_PAY_HEAD;
+	}
 }
