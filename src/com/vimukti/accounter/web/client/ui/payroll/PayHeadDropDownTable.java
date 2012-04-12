@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
-	public PayHeadDropDownTable() {
-		super(getItems(), true);
+	public PayHeadDropDownTable(boolean isAddNewRequired) {
+		super(getItems(), isAddNewRequired);
 	}
 
 	private static List<ClientPayHead> getItems() {

@@ -3,13 +3,17 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayhead;
 import com.vimukti.accounter.web.client.core.ClientComputationFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientComputationPayHead;
+import com.vimukti.accounter.web.client.core.ClientComputationSlab;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
@@ -69,6 +73,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 	private List<ClientComputationFormulaFunction> formulas = new ArrayList<ClientComputationFormulaFunction>();
 	private AccountCombo accountCombo;
+
+	private AddNewButton itemTableButton;
+	private TextItem formula;
 
 	@Override
 	public void init() {
@@ -200,6 +207,17 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				});
 
 		slabTable = new ComputationSlabTable();
+		itemTableButton = new AddNewButton();
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ClientComputationSlab row = new ClientComputationSlab();
+				slabTable.add(row);
+			}
+		});
+
+		formula = new TextItem(messages.specifiedFormula(), "formula");
 
 		DynamicForm form = new DynamicForm("form");
 		form.add(nameItem, typeCombo, affectNetSalarytem, payslipNameItem,
@@ -229,12 +247,47 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				@Override
 				public void execute(List<ClientComputationFormulaFunction> value) {
 					NewPayHeadView.this.formulas = value;
+					check();
 					prepareFormula();
 				}
 			});
 			dialog.center();
 			dialog.show();
+		} else {
+			computationForm.clear();
 		}
+	}
+
+	public void check() {
+		formulas.clear();
+		ClientComputationFormulaFunction f1 = new ClientComputationFormulaFunction();
+		f1.setFunctionType(ClientComputationFormulaFunction.FUNCTION_ADD_PAY_HEAD);
+		ClientPayHead p1 = new ClientPayHead();
+		p1.setName("PH1");
+		f1.setPayHead(p1);
+
+		ClientComputationFormulaFunction f2 = new ClientComputationFormulaFunction();
+		f2.setFunctionType(ClientComputationFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD);
+		ClientPayHead p2 = new ClientPayHead();
+		p2.setName("PH2");
+		f2.setPayHead(p2);
+
+		ClientComputationFormulaFunction f3 = new ClientComputationFormulaFunction();
+		f3.setFunctionType(ClientComputationFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE);
+		ClientAttendanceOrProductionType a1 = new ClientAttendanceOrProductionType();
+		a1.setName("ATT1");
+		f3.setAttendanceType(a1);
+
+		ClientComputationFormulaFunction f4 = new ClientComputationFormulaFunction();
+		f4.setFunctionType(ClientComputationFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE);
+		ClientAttendanceOrProductionType a2 = new ClientAttendanceOrProductionType();
+		a2.setName("ATT2");
+		f4.setAttendanceType(a2);
+
+		formulas.add(f1);
+		formulas.add(f2);
+		formulas.add(f3);
+		formulas.add(f4);
 	}
 
 	protected void prepareFormula() {
@@ -259,7 +312,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 						+ function.getAttendanceType().getName() + ")";
 			}
 		}
-		System.out.println("@@@@@ Formula -----" + string);
+		formula.setValue(string);
+		computationForm.add(formula);
 	}
 
 	protected void calculationTypeChanged(String selectItem) {
@@ -273,6 +327,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			calculationForm.add(calculationPeriodCombo, computationTypeCombo);
 			calculationForm.add(computationForm);
 			calculationForm.add(slabTable);
+			calculationForm.add(itemTableButton);
 
 		} else if (selectItem.equals("Flat Rate")) {
 			calculationForm.add(calculationPeriodCombo);

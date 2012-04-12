@@ -6434,4 +6434,6 @@ public interface AccounterMessages extends Messages {
 
 	public String userDefindCalendar();
 
+	public String specifiedFormula();
+
 }

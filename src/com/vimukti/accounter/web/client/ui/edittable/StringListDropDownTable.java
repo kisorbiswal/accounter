@@ -166,9 +166,6 @@ public abstract class StringListDropDownTable extends CellTable<String> {
 		}
 		for (String t : data) {
 			if (filter(t, text)) {
-				if (data.indexOf(t) == 0) {
-					return null;
-				}
 				return t;
 			}
 		}
