@@ -168,7 +168,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					t.setVariable("itemTotalPrice", totalPrice);
 					if (company.getPreferences().isTrackTax()
 							&& brandingTheme.isShowTaxColumn()) {
-						String vatRate = item.getTaxCode().getName();
+						String vatRate ="";
+						double vat1=item.getTaxCode().getSalesTaxRate();
+						vatRate=String.valueOf(vat1)+" %";
 						String vatAmount = item.getVATfraction() == null ? " "
 								: Utility.decimalConversation(
 										item.getVATfraction(), "");

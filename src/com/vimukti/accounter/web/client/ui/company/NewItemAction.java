@@ -177,7 +177,12 @@ public class NewItemAction extends Action<ClientItem> {
 
 	@Override
 	public String getText() {
-		return messages.newItem();
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			return messages.newInventoryItem();
+		} else if (forCustomer) {
+			return messages.newItem(Global.get().Customer());
+		}
+		return messages.newItem(Global.get().Vendor());
 	}
 
 	public void setisItemEditable(boolean isItemViewEditable) {

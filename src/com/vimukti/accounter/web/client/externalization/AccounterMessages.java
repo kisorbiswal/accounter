@@ -3250,7 +3250,7 @@ public interface AccounterMessages extends Messages {
 	public String payeeOrderNumber(String payee);
 
 	public String payeePayment(String payee);
-	
+
 	public String payeePaymentWithCurrencyName(String payee, String currency);
 
 	public String payeePaymentList(String payee);
@@ -4537,7 +4537,7 @@ public interface AccounterMessages extends Messages {
 	public String tdsAcknowledgmentsReport();
 
 	public String tdsAmount();
-	
+
 	public String tdsAmountWithCurrencyName(String currency);
 
 	public String tdsApplicable();
@@ -6335,4 +6335,8 @@ public interface AccounterMessages extends Messages {
 	public String selectEmailBodyTemplate();
 
 	public String defaultTemplate();
+
+	public String newInventoryItem();
+
+	public String newItem(String name);
 }

@@ -112,7 +112,7 @@
 	</replace-with>
 
 	<replace-with class="com.vimukti.accounter.web.client.ui.core.IpadViewManager">
-		<when-type-is class="com.vimukti.accounter.web.client.ui.core.WebViewManager" />
+		<when-type-is class="com.vimukti.accounter.web.client.ui.core.ViewManager" />
 		<when-property-is name="tablet.user.agent" value="ipad" />
 	</replace-with>
 	

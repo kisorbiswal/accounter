@@ -369,7 +369,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				if (company.getPreferences().isTrackTax()
 						&& brandingTheme.isShowTaxColumn()) {
 					if (item.getTaxCode() != null) {
-						String vatRate = item.getTaxCode().getName();
+						String vatRate = "";
+						double vat1 = item.getTaxCode().getSalesTaxRate();
+						vatRate = String.valueOf(vat1) + " %";
 						t.setVariable("itemVatRate", vatRate);
 					}
 
