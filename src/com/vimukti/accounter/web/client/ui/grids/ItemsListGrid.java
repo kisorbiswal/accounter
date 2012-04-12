@@ -183,7 +183,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 							.amountAsStringWithCurrency(obj.getPurchasePrice(),
 									currency) : "";
 				}
-				if (ItemListView.isSalesType) {
+				if ((!ItemListView.isPurchaseType && !ItemListView.isSalesType)
+						|| ItemListView.isSalesType) {
 					return DataUtils.amountAsStringWithCurrency(
 							obj.getSalesPrice(), currency) != null ? DataUtils
 							.amountAsStringWithCurrency(obj.getSalesPrice(),

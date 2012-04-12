@@ -254,8 +254,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	private List<String> getOtherCenterItems() {
 		List<String> otherItems = new ArrayList<String>();
 		// otherItems.add(getMessages().deposits());
-		if (getCompany().getPreferences().isInventoryEnabled()
-				&& getCompany().getPreferences().iswareHouseEnabled()) {
+		if (getCompany().getPreferences().isInventoryEnabled()) {
 			otherItems.add(getMessages().inventoryAdjustments());
 		}
 		otherItems.add(getMessages().journalEntries());

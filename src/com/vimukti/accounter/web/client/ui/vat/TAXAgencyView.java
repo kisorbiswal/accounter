@@ -846,20 +846,20 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 		addButton.setEnabled(!isInViewMode());
-		taxAgencyText.setEnabled(isInViewMode());
-		fileAsText.setEnabled(isInViewMode());
-		statusCheck.setEnabled(isInViewMode());
-		paymentTermsCombo.setEnabled(isInViewMode());
-		taxTypeCombo.setEnabled(isInViewMode());
-		vatReturnCombo.setEnabled(isInViewMode());
-		liabilitySalesAccountCombo.setEnabled(isInViewMode());
-		liabilityPurchaseAccountCombo.setEnabled(isInViewMode());
+		taxAgencyText.setEnabled(!isInViewMode());
+		fileAsText.setEnabled(!isInViewMode());
+		statusCheck.setEnabled(!isInViewMode());
+		paymentTermsCombo.setEnabled(!isInViewMode());
+		taxTypeCombo.setEnabled(!isInViewMode());
+		vatReturnCombo.setEnabled(!isInViewMode());
+		liabilitySalesAccountCombo.setEnabled(!isInViewMode());
+		liabilityPurchaseAccountCombo.setEnabled(!isInViewMode());
 		memoArea.setDisabled(isInViewMode());
-		addrsForm.setEnabled(isInViewMode());
-		phoneFaxForm.setEnabled(isInViewMode());
-		emailForm.setEnabled(isInViewMode());
+		addrsForm.setEnabled(!isInViewMode());
+		phoneFaxForm.setEnabled(!isInViewMode());
+		emailForm.setEnabled(!isInViewMode());
 		gridView.setEnabled(isInViewMode());
-		tAXFilingFrequency.setEnabled(isInViewMode());
+		tAXFilingFrequency.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}

@@ -245,7 +245,7 @@ public class RecurringTransactionDialog extends
 		setBodyLayout(mainLayout);
 
 		okbtn.setText(messages.saveTemplate());
-//		okbtn.setWidth("100px");
+		// okbtn.setWidth("100px");
 
 		initDataForNewTemplate();
 	}
@@ -784,10 +784,9 @@ public class RecurringTransactionDialog extends
 		// schedule we need to save only schedule not with template. Template
 		// will be saved separately. But first time we should save transaction
 		// also as a template.
-
+		ClientTransaction transaction = view.getTransactionObject();
+		transctionId = transaction.getID();
 		if (data.getId() == 0 && view != null) {
-			ClientTransaction transaction = view.getTransactionObject();
-			transctionId = transaction.getID();
 			transaction.setID(0);
 			data.setTransaction(transaction);
 		}
