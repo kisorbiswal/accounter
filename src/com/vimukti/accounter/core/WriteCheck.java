@@ -477,7 +477,7 @@ public class WriteCheck extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		checkNullValues();
+		super.canEdit(clientObject, goingToBeEdit);
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
 			User user = AccounterThreadLocal.get();
