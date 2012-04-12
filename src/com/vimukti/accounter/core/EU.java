@@ -1,19 +1,13 @@
 package com.vimukti.accounter.core;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.KeyFactory;
+import java.security.Key;
+import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.KeySpec;
-import java.security.spec.RSAPrivateKeySpec;
-import java.security.spec.RSAPublicKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +24,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
 
 public class EU {
 	private static Map<String, ByteArrayWrapper> keys = new HashMap<String, EU.ByteArrayWrapper>();
+	private static PublicKey publicKey;
 
 	public synchronized static String d(byte[] in) {
 		CipherCouple cipherCouple = CipherThreadLocal.get();
@@ -194,6 +189,16 @@ public class EU {
 		byte[] s1 = decrypt(d2, s2);
 		byte[] key = decrypt(userSecret, s1);
 
+		createCipher(key);
+	}
+
+	public static void createCipher(byte[] companySecret, byte[] pbs)
+			throws Exception {
+		byte[] key = decrypt(companySecret, pbs);
+		createCipher(key);
+	}
+
+	private static void createCipher(byte[] key) throws Exception {
 		SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
 		Cipher eCipher = Cipher.getInstance("AES");
 		eCipher.init(Cipher.ENCRYPT_MODE, skeySpec);
@@ -233,67 +238,62 @@ public class EU {
 	}
 
 	public static byte[] encryptPassword(String password) {
-		// try {
-		// PublicKey pubKey = readPublicKeyFromFile();
-		// Cipher cipher = Cipher.getInstance("RSA");
-		// cipher.init(Cipher.ENCRYPT_MODE, pubKey);
-		// byte[] cipherData = cipher.doFinal(password.getBytes());
-		// return cipherData;
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		return null;
-	}
-
-	public static String decryptPassword(byte[] password) {
 		try {
-			PrivateKey pubKey = readPrivateKeyFromFile();
+			PublicKey pubKey = readPublicKeyFromFile();
+			if (pubKey == null) {
+				return null;
+			}
 			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(Cipher.DECRYPT_MODE, pubKey);
-			byte[] cipherData = cipher.doFinal(password);
-			return new String(cipherData);
+			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+			byte[] cipherData = cipher.doFinal(password.getBytes());
+			return cipherData;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	private static PrivateKey readPrivateKeyFromFile() throws IOException {
-		InputStream in = new FileInputStream(ServerConfiguration.getKeysDir()
-				+ File.separator + "private.key");
-		ObjectInputStream oin = new ObjectInputStream(new BufferedInputStream(
-				in));
+	public static String decryptPassword(byte[] password,
+			String keyStorePassword) {
 		try {
-			BigInteger m = (BigInteger) oin.readObject();
-			BigInteger e = (BigInteger) oin.readObject();
-			RSAPrivateKeySpec keySpec = new RSAPrivateKeySpec(m, e);
-			KeyFactory fact = KeyFactory.getInstance("RSA");
-			PrivateKey privateKey = fact.generatePrivate(keySpec);
-			return privateKey;
+			PrivateKey pubKey = readPrivateKeyFromFile(keyStorePassword);
+			if (pubKey == null) {
+				return null;
+			}
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, pubKey);
+			byte[] cipherData = cipher.doFinal(password);
+			return new String(cipherData);
 		} catch (Exception e) {
-			throw new RuntimeException("Spurious serialisation error", e);
-		} finally {
-			oin.close();
 		}
+		return null;
 	}
 
-	private static PublicKey readPublicKeyFromFile() throws IOException {
-		InputStream in = new FileInputStream(ServerConfiguration.getKeysDir()
-				+ File.separator + "public.key");
-		ObjectInputStream oin = new ObjectInputStream(new BufferedInputStream(
-				in));
-		try {
-			BigInteger m = (BigInteger) oin.readObject();
-			BigInteger e = (BigInteger) oin.readObject();
-			RSAPublicKeySpec keySpec = new RSAPublicKeySpec(m, e);
-			KeyFactory fact = KeyFactory.getInstance("RSA");
-			PublicKey pubKey = fact.generatePublic(keySpec);
-			return pubKey;
-		} catch (Exception e) {
-			throw new RuntimeException("Spurious serialisation error", e);
-		} finally {
-			oin.close();
+	private static PrivateKey readPrivateKeyFromFile(String keyStorePassword)
+			throws Exception {
+		FileInputStream is = new FileInputStream(
+				ServerConfiguration.getKeysDir() + File.separator + ".keystore");
+		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+		String password = "***REMOVED***";
+		keystore.load(is, password.toCharArray());
+		Key key = keystore.getKey(ServerConfiguration.getCertificateAlias(),
+				keyStorePassword.toCharArray());
+		return (PrivateKey) key;
+	}
+
+	private static PublicKey readPublicKeyFromFile() throws Exception {
+		if (publicKey != null) {
+			return publicKey;
 		}
+		FileInputStream is = new FileInputStream(
+				ServerConfiguration.getKeysDir() + File.separator + ".keystore");
+		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+		String password = "***REMOVED***";
+		keystore.load(is, password.toCharArray());
+		java.security.cert.Certificate cert = keystore
+				.getCertificate(ServerConfiguration.getCertificateAlias());
+		publicKey = cert.getPublicKey();
+		return publicKey;
 	}
 
 	public static boolean hasChiper() {

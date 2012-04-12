@@ -15,6 +15,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -103,6 +104,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			// update password and set isActive true
 			client.setPassword(HexUtil.bytesToHex(Security.makeHash(emailId
 					+ Client.PASSWORD_HASH_STRING + password.trim())));
+			client.setPasswordRecoveryKey(EU.encryptPassword(password.trim()));
 			// set isActive true
 			// client.setActive(true);
 			// make Require Password Reset False

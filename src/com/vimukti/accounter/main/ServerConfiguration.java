@@ -44,6 +44,7 @@ public class ServerConfiguration {
 	private static int gracePeriod;
 	private static boolean isInLive;
 	private static String paypalButtonId;
+	private static String certificateAlias;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -93,6 +94,7 @@ public class ServerConfiguration {
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
 			paypalButtonId = prop.getProperty("paypalButtonId", "No Id");
+			certificateAlias = prop.getProperty("certificateAlias", "mykey");
 
 			setValidIP(prop.getProperty("validIP", null));
 			setEmailLogger(prop.getProperty("emailLogger", null));
@@ -360,5 +362,9 @@ public class ServerConfiguration {
 
 	public static String getPaypalButtonId() {
 		return paypalButtonId;
+	}
+
+	public static String getCertificateAlias() {
+		return certificateAlias;
 	}
 }

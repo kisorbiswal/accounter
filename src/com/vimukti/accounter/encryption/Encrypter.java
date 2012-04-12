@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.h2.tools.Server;
@@ -25,9 +26,12 @@ public class Encrypter extends Thread {
 	private byte[] csk;
 	private byte[] d2;
 	private byte[] s2;
+	private byte[] companySecret;
 	private String sessionId;
 	private String emailId;
 	private User user;
+
+	private boolean isEncrypt;
 	private static List<Class<?>> classes;
 
 	public static void init() {
@@ -160,6 +164,15 @@ public class Encrypter extends Thread {
 		this.sessionId = sessionId;
 		s2 = EU.getKey(sessionId);
 		user = getUser();
+		this.isEncrypt = true;
+	}
+
+	public Encrypter(long companyId, byte[] companySecret, String password,
+			long userId) {
+		this.companyId = companyId;
+		this.companySecret = companySecret;
+		csk = EU.generatePBS(password);
+		user = (User) HibernateUtil.getCurrentSession().get(User.class, userId);
 	}
 
 	@Override
@@ -167,7 +180,8 @@ public class Encrypter extends Thread {
 		try {
 			List<List> lists = loadCoreObjects();
 			updateAll(lists);
-			log.info("Encryption completed for companyID..:" + companyId
+			log.info((isEncrypt ? "Encryption" : "Decryption")
+					+ " is completed for companyID..:" + companyId
 					+ ",and emailId:" + emailId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,7 +204,9 @@ public class Encrypter extends Thread {
 			}
 			user = (User) session.get(User.class, user.getID());
 			AccounterThreadLocal.set(user);
+
 			initChipher();
+
 			beginTransaction.commit();
 		} catch (Exception e) {
 			beginTransaction.rollback();
@@ -216,25 +232,39 @@ public class Encrypter extends Thread {
 	private void initChipher() throws Exception {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany();
-		byte[] s3 = EU.generateSymetric();
-		byte[] companySecret = EU.encrypt(s3, csk);
+		if (isEncrypt) {
+			byte[] s3 = EU.generateSymetric();
+			byte[] companySecret = EU.encrypt(s3, csk);
 
-		String string = SecureUtils.createID(16);
-		byte[] prk = EU.generatePBS(string);
+			String string = SecureUtils.createID(16);
+			byte[] prk = EU.generatePBS(string);
 
-		byte[] encryptedPass = EU.encrypt(csk, prk);
-		company.setEncryptedPassword(encryptedPass);
-		company.setSecretKey(companySecret);
-		session.saveOrUpdate(company);
+			byte[] encryptedPass = EU.encrypt(csk, prk);
+			company.setEncryptedPassword(encryptedPass);
+			company.setSecretKey(companySecret);
+			session.saveOrUpdate(company);
 
-		byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
-		EU.storeKey(s2, sessionId);
-		EU.createCipher(userSecret, d2, sessionId);
-		user.setSecretKey(userSecret);
-		session.saveOrUpdate(user);
+			byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
+			EU.storeKey(s2, sessionId);
+			user.setSecretKey(userSecret);
+			session.saveOrUpdate(user);
 
-		log.info("Company password recovery key---" + string);
-		sendCompanyPasswordRecoveryKey(emailId, string);
+			EU.createCipher(userSecret, d2, sessionId);
+
+			log.info("Company password recovery key---" + string);
+			sendCompanyPasswordRecoveryKey(emailId, string);
+		} else {
+			company.setEncryptedPassword(null);
+			company.setSecretKey(null);
+			Set<User> users = company.getUsers();
+			for (User u : users) {
+				u.setSecretKey(null);
+				session.saveOrUpdate(u);
+			}
+			session.saveOrUpdate(company);
+			EU.removeCipher();
+		}
+
 	}
 
 	private User getUser() {
@@ -255,8 +285,14 @@ public class Encrypter extends Thread {
 
 		Session session = HibernateUtil.openSession();
 		try {
+			if (isEncrypt) {
+				EU.removeCipher();
+			} else {
+				EU.createCipher(companySecret, csk);
+			}
 			Company company = getCompany();
-			log.info("Encrypting is started (" + company.getTradingName() + ")");
+			log.info((isEncrypt ? "Encryption" : "Decryption")
+					+ " is started (" + company.getTradingName() + ")");
 			List<List> lists = new ArrayList<List>();
 			// classes.clear();
 			// classes.add("FixedAsset");

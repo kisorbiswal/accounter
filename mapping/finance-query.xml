@@ -6082,6 +6082,8 @@
 	<sql-query name="get.NonEncrypted.CompanyNames.by.client">
 		<query-param name="userIds" type="long" />
 		
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="TRADING_NAME" type="string" />
 		<![CDATA[
 				SELECT C.ID,
 				       C.TRADING_NAME

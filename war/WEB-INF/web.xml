@@ -892,6 +892,30 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>DecryptCompaniesServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.DecryptCompanyServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DecryptCompaniesServlet </servlet-name>
+		<url-pattern>/main/decryption</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DecryptPasswordServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.DecryptPasswordServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DecryptPasswordServlet </servlet-name>
+		<url-pattern>/main/decryptpassword</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Company locked</servlet-name>
 		<servlet-class>
 			com.vimukti.accounter.servlets.CompanyLockedServlet

@@ -180,7 +180,53 @@
 		update com.vimukti.accounter.core.Client c set c.isEmailBounced = true
 		where c.emailId=:email
 	</query>
+	
+	<sql-query name="get.company.passwordkey">
+		<query-param name="companyName" type="String" />
+		
+		<return-scalar column="PASSWORD_KEY" type="binary" />
+		<return-scalar column="ID" type="long" />
+		<![CDATA[
+				SELECT c.password_recovery_key AS password_key, 
+				       c.id 
+				FROM   company c 
+				WHERE  c.trading_name = :companyName 			
+		]]>
 
+	</sql-query>
+	
+	<sql-query name="get.client.passwordkey">
+		<query-param name="emailId" type="String" />
+		
+		<return-scalar column="PASSWORD_KEY" type="binary" />
+		<return-scalar column="ID" type="long" />
+		<![CDATA[
+				SELECT c.password_reovery_key AS password_key, 
+				       c.id 
+				FROM   client c 
+				WHERE  c.email_id = :emailId 			
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="get.companyId.secret.createdUserId">
+		<query-param name="companyName" type="String" />
+		
+		<return-scalar column="C_ID" type="long" />
+		<return-scalar column="SECRET_KEY" type="binary" />
+		<return-scalar column="U_ID" type="long" />
+		<![CDATA[
+				SELECT c.id AS c_id, 
+				       c.secret_key, 
+				       u.id AS u_id 
+				FROM   company c 
+				       LEFT JOIN users u 
+				         ON u.id = c.created_by 
+				WHERE  c.trading_name = :companyName 			
+		]]>
+
+	</sql-query>
+	
 	<query name="getUser.by.mailId.and.companyId">
 		<query-param name="emailId" type="String" />
 		<query-param name="companyId" type="long" />

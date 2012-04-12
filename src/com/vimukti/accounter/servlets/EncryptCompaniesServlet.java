@@ -87,8 +87,9 @@ public class EncryptCompaniesServlet extends BaseServlet {
 			}
 			List<Object[]> nonEncryptedCompanies = getNonEncryptedCompanies(client);
 			boolean isContain = false;
+			long comId = Long.parseLong(companyId);
 			for (Object[] obj : nonEncryptedCompanies) {
-				if (obj[0] == companyId) {
+				if ((Long) obj[0] == comId) {
 					isContain = true;
 					break;
 				}
