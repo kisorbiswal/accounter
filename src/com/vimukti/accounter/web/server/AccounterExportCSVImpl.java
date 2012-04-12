@@ -989,17 +989,19 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getType()) : "";
 						break;
 					case 3:
-						if (obj.getType() != 0)
-							if (obj.getType() != ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
-								columnValue = obj.getFrequencyString();
-							} else {
-								columnValue = "";
-							}
+						if (obj.getType() != ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
+
+							columnValue = obj.getFrequencyString();
+						} else {
+							columnValue = "";
+						}
 						break;
 					case 4: // prevScheduleOn
-						columnValue = Utility.getDateInSelectedFormat(obj
-								.getPrevScheduleOn() == 0 ? null
-								: new FinanceDate(obj.getPrevScheduleOn()));
+						columnValue = obj.getPrevScheduleOn() == 0 ? ""
+								: Utility
+										.getDateInSelectedFormat(new FinanceDate(
+												obj.getPrevScheduleOn()));
+
 						break;
 					case 5: // nextScheduleOn
 						columnValue = Utility.getDateInSelectedFormat(obj
