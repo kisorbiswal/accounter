@@ -461,10 +461,10 @@ html,body {
 	clear: both;
 }
 
-.fields-panel .leftVLay,.fields-panel .rightVLay {
+/*.fields-panel .leftVLay,.fields-panel .rightVLay {
 	width: 50%;
 	-moz-box-flex: 1;
-}
+}*/
 
 .formItem {
 	display: -webkit-box;
@@ -7580,10 +7580,6 @@ table.no_records tr td {
 	box-orient: horizontal;
 }
 
-#NewFixedAssetView .mainVPanel .descriptionVPanel .gwt-Label {
-	width: 200px;
-}
-
 #AccounterClassListDialog .depth1 {
 	padding-left: 10% !important;
 }
@@ -7719,6 +7715,12 @@ table.no_records tr td {
 }
 
 #CreateClassDialog .verticalPanel .trackClassForm {
+    width: 100%;
+}
+#salespersonview .topHLay{
+	width: 100%;
+}
+#salespersonview .topHLay .leftVLay{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7726,11 +7728,14 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	margin: 10px;
+	width:50%;
+	-moz-box-flex:1;
 }
 
 #CreateClassDialog .verticalPanel .trackClassForm .formItem .gwt-Label {
 	width: auto;
-}#CustomerMergeDialog .horizontalPanel .gwt-Label{
+}
+#CustomerMergeDialog .horizontalPanel .gwt-Label{
 	width:120px;
 }
 #VendorMergeDialog .horizontalPanel .gwt-Label{
@@ -7745,4 +7750,43 @@ table.no_records tr td {
 #SalesTaxGroupDialog .horizontalPanel .buttonsLayout button{
 	width:70px;
 	margin: 0 5px;
+}
+#salespersonview .topHLay .rightVLay{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#salespersonview .topHLay .leftVLay .frameTitle,#salespersonview .topHLay .leftVLay .phone-fax-formatter{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#salespersonview .topHLay .rightVLay .emailForm,#salespersonview .topHLay .rightVLay .salesPersonInfoForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label{
+	width:220px;
+}
+.printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer{
+	overflow: hidden !important;
+}
+#NewCustomThemeDialog .layout .formItems{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin:10px;
 }
