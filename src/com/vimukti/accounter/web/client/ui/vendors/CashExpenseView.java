@@ -995,9 +995,9 @@ public class CashExpenseView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.setRecords(getAccountTransactionItems(transactionItems));
+				.setAllRows(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.setRecords(getItemTransactionItems(transactionItems));
+				.setAllRows(getItemTransactionItems(transactionItems));
 	}
 
 	@Override

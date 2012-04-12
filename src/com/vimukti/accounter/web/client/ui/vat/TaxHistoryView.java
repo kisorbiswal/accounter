@@ -119,6 +119,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
+				deleteButton.setVisible(false);
 				final ClientTAXReturn selection = grid.getSelection();
 				if (selection == null || !canDelete(selection)) {
 					return;
@@ -302,7 +303,10 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		grid.removeRow(grid.getSelectedRecordIndex());
+		grid.deleteRecord(grid.getSelectedRecordIndex());
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+		}
 	}
 
 	@Override

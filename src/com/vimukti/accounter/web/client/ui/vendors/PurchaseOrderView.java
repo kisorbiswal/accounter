@@ -721,10 +721,10 @@ public class PurchaseOrderView extends
 			ClientCompany company = getCompany();
 
 			vendorAccountTransactionTable
-					.setRecords(getAccountTransactionItems(transaction
+					.setAllRows(getAccountTransactionItems(transaction
 							.getTransactionItems()));
 			vendorItemTransactionTable
-					.setRecords(getItemTransactionItems(transaction
+					.setAllRows(getItemTransactionItems(transaction
 							.getTransactionItems()));
 
 			// String status;
@@ -1446,9 +1446,9 @@ public class PurchaseOrderView extends
 	protected void addAllRecordToGrid(
 			List<ClientTransactionItem> transactionItems) {
 		vendorAccountTransactionTable
-				.setRecords(getAccountTransactionItems(transactionItems));
+				.setAllRows(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
-				.setRecords(getItemTransactionItems(transactionItems));
+				.setAllRows(getItemTransactionItems(transactionItems));
 	}
 
 	@Override
