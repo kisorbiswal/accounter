@@ -208,8 +208,8 @@ public class ServerConfiguration {
 	/**
 	 * @return
 	 */
-	public static String getKeysDir() {
-		return "config/keys";
+	public static String getConfig() {
+		return "config";
 	}
 
 	public static String getDefaultCompanyDir() {

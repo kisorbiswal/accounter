@@ -273,7 +273,7 @@ public class EU {
 	private static PrivateKey readPrivateKeyFromFile(String keyStorePassword)
 			throws Exception {
 		FileInputStream is = new FileInputStream(
-				ServerConfiguration.getKeysDir() + File.separator + ".keystore");
+				ServerConfiguration.getConfig() + File.separator + ".keystore");
 		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
 		String password = "***REMOVED***";
 		keystore.load(is, password.toCharArray());
@@ -287,7 +287,7 @@ public class EU {
 			return publicKey;
 		}
 		FileInputStream is = new FileInputStream(
-				ServerConfiguration.getKeysDir() + File.separator + ".keystore");
+				ServerConfiguration.getConfig() + File.separator + ".keystore");
 		KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
 		String password = "***REMOVED***";
 		keystore.load(is, password.toCharArray());
