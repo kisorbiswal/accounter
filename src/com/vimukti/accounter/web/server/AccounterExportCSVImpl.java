@@ -36,6 +36,9 @@ import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -2336,4 +2339,68 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
+	@Override
+	public String getTaxAdjustmentsList(int viewId, long startDate,
+			long endDate, int start, int length) {
+		PaginationList<ClientTAXAdjustment> taxAdjustmentsList = new PaginationList<ClientTAXAdjustment>();
+
+		taxAdjustmentsList = new FinanceTool().getTaxManager()
+				.getTaxAdjustments(viewId, getCompanyId(), startDate, endDate,
+						start, length);
+		try {
+			ICSVExportRunner<ClientTAXAdjustment> icsvExportRunner = new ICSVExportRunner<ClientTAXAdjustment>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.date(),
+							messages.taxAgency(), messages.taxItem(),
+							messages.adjustmentAccount(), messages.total() };
+				}
+
+				@Override
+				public String getColumnValue(ClientTAXAdjustment obj, int index) {
+					String columnValue = null;
+					switch (index) {
+					case 0:
+						columnValue = Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getDate()));
+						break;
+					case 1:
+						TAXAgency taxAgency = (TAXAgency) HibernateUtil
+								.getCurrentSession().get(TAXAgency.class,
+										obj.getTaxAgency());
+						columnValue = taxAgency != null ? taxAgency.getName()
+								: "";
+						break;
+					case 2:
+						TAXItem taxItem = (TAXItem) HibernateUtil
+								.getCurrentSession().get(TAXItem.class,
+										obj.getTaxItem());
+						columnValue = taxItem != null ? taxItem.getName() : "";
+						break;
+					case 3:
+						Account account = (Account) HibernateUtil
+								.getCurrentSession().get(Account.class,
+										obj.getAdjustmentAccount());
+						columnValue = account != null ? account.getName() : "";
+						break;
+					case 4:
+						columnValue = amountAsStringWithCurrency(
+								obj.getTotal(), obj.getCurrency());
+						break;
+					}
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
+				}
+			};
+			CSVExporter<ClientTAXAdjustment> csvExporter = new CSVExporter<ClientTAXAdjustment>(
+					icsvExportRunner);
+			return csvExporter.export(taxAdjustmentsList);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 }

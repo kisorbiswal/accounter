@@ -87,4 +87,7 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getAccounterRegister(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long id, int start, int length);
 
+	String getTaxAdjustmentsList(int viewId, long startDate, long endDate,
+			int start, int length);
+
 }

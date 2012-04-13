@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -11,13 +12,15 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.TaxAdjustmentListGrid;
 
 public class TaxAdjustmentsListView extends
-		TransactionsListView<ClientTAXAdjustment> {
+		TransactionsListView<ClientTAXAdjustment> implements IPrintableView {
 
 	public int viewId;
+	private int length;
 
 	public TaxAdjustmentsListView() {
 		super(messages.all());
@@ -67,6 +70,7 @@ public class TaxAdjustmentsListView extends
 
 	@Override
 	protected void onPageChange(int start, int length) {
+		this.length = length;
 		setViewId(checkViewType(getViewType()));
 		Accounter.createHomeService().getTaxAdjustmentsList(getViewId(),
 				getStartDate().getDate(), getEndDate().getDate(), start,
@@ -138,4 +142,22 @@ public class TaxAdjustmentsListView extends
 		this.viewId = viewId;
 	}
 
+	@Override
+	public boolean canPrint() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getTaxAdjustmentsList(getViewId(),
+				getStartDate().getDate(), getEndDate().getDate(), start,
+				length,
+				getExportCSVCallback(Global.get().messages().taxAdjustment()));
+	}
 }
