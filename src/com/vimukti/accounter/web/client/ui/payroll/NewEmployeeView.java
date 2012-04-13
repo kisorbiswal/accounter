@@ -40,7 +40,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 	private DynamicForm basicInfoForm, empDetailsInfoForm,
-			empOtherDetailsInfoForm;
+			empOtherDetailsInfoForm, empOtherDetailsLeftForm,
+			empOtherDetailsRightForm;
 	private TextItem nameItem, employeeIdItem, designationItem, panItem,
 			bankNameItem, bankAccountNumberItem, bankBranchItem, locationItem,
 			contactNumberItem, emailItem, passportNumberItem,
@@ -223,9 +224,18 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 				"emplVisaNumberDateItem");
 		emplVisaNumberDateItem.setEnabled(!isInViewMode());
 		empOtherDetailsInfoForm = new DynamicForm("empOtherDetailsInfoForm");
-		empOtherDetailsInfoForm.add(bankAccountNumberItem, bankNameItem,
-				bankBranchItem, passportNumberItem, passportExpiryDateItem,
+
+		empOtherDetailsRightForm = new DynamicForm("empOtherDetailsLeftForm");
+		empOtherDetailsRightForm.add(passportExpiryDateItem,
 				countryOfIssueItem, emplVisaNumberItem);
+
+		empOtherDetailsLeftForm = new DynamicForm("empOtherDetailsLeftForm");
+		empOtherDetailsLeftForm.add(bankAccountNumberItem, bankNameItem,
+				bankBranchItem, passportNumberItem);
+
+		empOtherDetailsInfoForm.add(empOtherDetailsLeftForm);
+		empOtherDetailsInfoForm.add(empOtherDetailsRightForm);
+
 		empOtherDetailsInfo.setContentWidget(empOtherDetailsInfoForm);
 		return empOtherDetailsInfo;
 	}

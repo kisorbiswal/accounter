@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -75,8 +76,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	private AccountCombo accountCombo;
 
 	private AddNewButton itemTableButton;
-	private TextItem formula;
-	private DynamicForm mainform;
+	private LabelItem formula;
+	private DynamicForm mainform, leftForm, rightForm, attendanceLeftForm,
+			attendanceRightForm;
 
 	public NewPayHeadView() {
 		this.getElement().setId("NewPayHeadView");
@@ -100,6 +102,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	private void initViewData(ClientPayHead data) {
+		if (data.getID() == 0) {
+			return;
+		}
 		nameItem.setValue(data.getName());
 		typeCombo.setValue(data.getType());
 		affectNetSalarytem
@@ -108,7 +113,10 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		roundingMethodCombo.setValue(data.getRoundingMethod());
 		accountCombo.setValue(data.getExpenseAccount());
 		calculationTypeCombo.setValue(data.getCalculationType());
-		String calType = calTypeList.get(data.getCalculationType());
+		if (data.getCalculationType() == 0) {
+			return;
+		}
+		String calType = calTypeList.get(data.getCalculationType() - 1);
 		calculationTypeChanged(calType);
 		if (calType.equals("Attendence")) {
 			ClientAttendancePayhead attendance = (ClientAttendancePayhead) data;
@@ -292,12 +300,18 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		});
 		itemTableButton.setEnabled(!isInViewMode());
 
-		formula = new TextItem(messages.specifiedFormula(), "formula");
-		formula.setEnabled(!isInViewMode());
+		formula = new LabelItem(messages.specifiedFormula(), "formula");
 
+		leftForm = new DynamicForm("leftForm");
+		rightForm = new DynamicForm("rightForm");
 		mainform = new DynamicForm("form");
-		mainform.add(nameItem, typeCombo, affectNetSalarytem, payslipNameItem,
-				roundingMethodCombo, accountCombo, calculationTypeCombo);
+
+		leftForm.add(nameItem, typeCombo, affectNetSalarytem,
+				calculationTypeCombo);
+		rightForm.add(payslipNameItem, roundingMethodCombo, accountCombo);
+
+		mainform.add(leftForm);
+		mainform.add(rightForm);
 
 		calculationForm = new DynamicForm("calculationForm");
 
@@ -343,16 +357,16 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		formulas.remove(0);
 		for (ClientComputationFormulaFunction function : formulas) {
 			if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_ADD_PAY_HEAD) {
-				string = "(" + string + "+" + function.getPayHead().getName()
+				string = "(" + string + " + " + function.getPayHead().getName()
 						+ ")";
 			} else if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
-				string = "(" + string + "-" + function.getPayHead().getName()
+				string = "(" + string + " - " + function.getPayHead().getName()
 						+ ")";
 			} else if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE) {
-				string = "(" + string + "*"
+				string = "(" + string + " * "
 						+ function.getAttendanceType().getName() + ")";
 			} else if (function.getFunctionType() == ClientComputationFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
-				string = "(" + string + "/"
+				string = "(" + string + " / "
 						+ function.getAttendanceType().getName() + ")";
 			}
 		}
@@ -364,15 +378,24 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		calculationForm.clear();
 		if (selectItem.equals("Attendence")) {
 			attendanceForm = new DynamicForm("attendanceForm");
-			attendanceForm.add(leaveWithPayCombo, leaveWithoutPayCombo,
-					calculationPeriodCombo, perdayCalculationCombo);
+
+			attendanceLeftForm = new DynamicForm("attendanceLeftForm");
+			attendanceRightForm = new DynamicForm("attendanceRightForm");
+
+			attendanceLeftForm.add(leaveWithPayCombo, calculationPeriodCombo);
+			attendanceRightForm.add(leaveWithoutPayCombo,
+					perdayCalculationCombo);
+
+			attendanceForm.add(attendanceLeftForm);
+			attendanceForm.add(attendanceRightForm);
+
 			calculationForm.add(attendanceForm);
 
 		} else if (selectItem.equals("As Computed Value")) {
 			formulaForm = new DynamicForm("computationForm");
 			computationForm = new DynamicForm("computationForm");
 			computationForm.add(calculationPeriodCombo, computationTypeCombo);
-			calculationForm.add(formulaForm);
+			computationForm.add(formulaForm);
 			computationForm.add(slabTable);
 			computationForm.add(itemTableButton);
 			calculationForm.add(computationForm);
@@ -429,7 +452,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	private void updateData() {
-		ClientPayHead head = new ClientPayHead();
 
 		String selectedValue = calculationTypeCombo.getSelectedValue();
 		if (selectedValue.equals("Attendence")) {
@@ -440,7 +462,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 					.getSelectedIndex());
 			payhead.setPerDayCalculationBasis(perdayCalculationCombo
 					.getSelectedIndex());
-			head = payhead;
+			data = payhead;
 
 		} else if (selectedValue.equals("As Computed Value")) {
 			ClientComputationPayHead payhead = new ClientComputationPayHead();
@@ -450,33 +472,32 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			payhead.setComputationType(computationTypeCombo.getSelectedIndex());
 			payhead.setFormulaFunctions(this.formulas);
 			payhead.setSlabs(slabTable.getAllRows());
-			head = payhead;
+			data = payhead;
 
 		} else if (selectedValue.equals("Flat Rate")) {
 			ClientFlatRatePayHead payHead = new ClientFlatRatePayHead();
 			payHead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex());
-			head = payHead;
+			data = payHead;
 
 		} else if (selectedValue.equals("Production")) {
 			ClientProductionPayHead payHead = new ClientProductionPayHead();
 			payHead.setProductionType(productionTypeCombo.getSelectedValue());
-			head = payHead;
+			data = payHead;
 
 		} else if (selectedValue.equals("As User Defined")) {
 			ClientUserDefinedPayHead payHead = new ClientUserDefinedPayHead();
-			head = payHead;
+			data = payHead;
 
 		}
 
-		head.setName(nameItem.getValue());
-		head.setType(typeCombo.getSelectedIndex());
-		head.setCalculationType(calculationTypeCombo.getSelectedIndex());
-		head.setRoundingMethod(roundingMethodCombo.getSelectedIndex());
-		head.setNameToAppearInPaySlip(payslipNameItem.getValue());
-		head.setAffectNetSalary(affectNetSalarytem.getValue().endsWith("true"));
-		head.setExpenseAccount(accountCombo.getSelectedValue());
-		saveOrUpdate(head);
+		data.setName(nameItem.getValue());
+		data.setType(typeCombo.getSelectedIndex());
+		data.setCalculationType(calculationTypeCombo.getSelectedIndex());
+		data.setRoundingMethod(roundingMethodCombo.getSelectedIndex());
+		data.setNameToAppearInPaySlip(payslipNameItem.getValue());
+		data.setAffectNetSalary(affectNetSalarytem.getValue().endsWith("true"));
+		data.setExpenseAccount(accountCombo.getSelectedValue());
 	}
 
 	@Override

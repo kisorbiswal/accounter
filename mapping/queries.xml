@@ -2319,11 +2319,8 @@
 	<query name="deleteBankChequeLayouts">
 		<query-param name="account" type="Account" />
 		delete from com.vimukti.accounter.core.ChequeLayout cl
-		where cl.account=:account
+		where
+		cl.account=:account
 	</query>
 
-	<query name="list.PayrollUnit">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PayrollUnit p where p.company=:company
-	</query>
 </hibernate-mapping>

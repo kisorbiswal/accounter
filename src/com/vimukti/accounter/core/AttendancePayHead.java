@@ -1,5 +1,9 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * On Attendance type of Calculation Type is based on the attendance data where
  * the component will get pro-rated based on the actual days the Employee is
@@ -12,6 +16,11 @@ package com.vimukti.accounter.core;
 public class AttendancePayHead extends PayHead {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * As per Calendar Period refers to the perpetual calendar month, i.e. if
 	 * the payroll process is carried out for the month of March, then the
 	 * attendance records will be entered for 31 days.
@@ -20,9 +29,9 @@ public class AttendancePayHead extends PayHead {
 
 	/**
 	 * User Defined refers to the consistent payroll period irrespective of
-	 * calendar month, i.e. If an employee�s salary is based on a standard month
-	 * of 30 days irrespective of the calendar month, then you can select User
-	 * Defined as the Calculation Basis and define the periodicity of the
+	 * calendar month, i.e. If an employee�s salary is based on a standard
+	 * month of 30 days irrespective of the calendar month, then you can select
+	 * User Defined as the Calculation Basis and define the periodicity of the
 	 * specified period or month.
 	 */
 	public static final int PER_DAY_CALCULATION_USER_DEFINED = 2;
@@ -108,6 +117,19 @@ public class AttendancePayHead extends PayHead {
 	 */
 	public void setLeaveWithoutPay(AttendanceOrProductionType leaveWithoutPay) {
 		this.leaveWithoutPay = leaveWithoutPay;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }
