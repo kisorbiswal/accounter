@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
@@ -44,6 +45,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		arrayList.addAll(getCompany().getEmployees());
 		arrayList.addAll(getCompany().getEmployeeGroups());
 		empsAndGroups.initCombo(arrayList);
+		empsAndGroups.setRequired(true);
 
 		grid = new PayStructureTable(false);
 
@@ -119,6 +121,19 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult validate = new ValidationResult();
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+		if (selectedValue == null) {
+			validate.addError(empsAndGroups,
+					messages.shouldNotBeNull(messages.employeeGroup()));
+		}
+		return validate;
 
 	}
 
