@@ -116,15 +116,15 @@ public class AccountRegisterOthersView extends
 	@Override
 	public void onSuccess(PaginationList<AccountRegister> result) {
 		grid.removeAllRecords();
-		AccountRegister accountRegister = result.get(0);
-		result.remove(0);
-		grid.setOpeningBalance(accountRegister.getAmount());
 		if (result.isEmpty()) {
 			updateRecordsCount(result.getStart(), result.size(),
 					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}
+		AccountRegister accountRegister = result.get(0);
+		result.remove(0);
+		grid.setOpeningBalance(accountRegister.getAmount());
 		grid.removeLoadingImage();
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);

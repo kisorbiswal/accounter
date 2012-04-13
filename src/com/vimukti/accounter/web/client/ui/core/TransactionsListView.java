@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,14 +194,15 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	public void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
-		startDate = Accounter.getStartDate();
-		endDate = getCompany().getCurrentFiscalYearEndDate();
+		startDate = getCompany().getTransactionStartDate();
+		endDate = new ClientFinanceDate();
 		// getLastandOpenedFiscalYearEndDate();
 		if (dateRange.equals(messages.thisWeek())) {
 			startDate = getWeekStartDate();
-			endDate.setDay(startDate.getDay() + 6);
-			endDate.setMonth(startDate.getMonth());
-			endDate.setYear(startDate.getYear());
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(new ClientFinanceDate().getDateAsObject());
+			endCal.add(Calendar.DAY_OF_MONTH, 2);
+			endDate = new ClientFinanceDate(endCal.getTime());
 		}
 		if (dateRange.equals(messages.thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
@@ -215,8 +217,11 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		if (dateRange.equals(messages.lastWeek())) {
 			endDate = getWeekStartDate();
 			endDate.setDay(endDate.getDay() - 1);
-			startDate = new ClientFinanceDate(endDate.getDate());
-			startDate.setDay(startDate.getDay() - 6);
+			Calendar startCal = Calendar.getInstance();
+			startCal.setTime(endDate.getDateAsObject());
+			startCal.set(Calendar.DAY_OF_MONTH,
+					startCal.get(Calendar.DAY_OF_MONTH) - 6);
+			startDate = new ClientFinanceDate(startCal.getTime());
 
 		}
 		if (dateRange.equals(messages.lastMonth())) {
@@ -226,7 +231,9 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 				startDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
 				endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
 			} else {
-				day = getMonthLastDate(date.getMonth() - 1, date.getYear());
+				Date dateAsObject = date.getDateAsObject();
+				int month = dateAsObject.getMonth();
+				day = getMonthLastDate(month - 1, date.getYear());
 				startDate = new ClientFinanceDate(date.getYear(),
 						date.getMonth() - 1, 1);
 				endDate = new ClientFinanceDate(date.getYear(),
@@ -238,7 +245,6 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 		}
 		if (dateRange.equals(messages.lastFinancialYear())) {
-
 			startDate = Accounter.getCompany().getCurrentFiscalYearStartDate();
 			startDate.setYear(startDate.getYear() - 1);
 			Calendar endCal = Calendar.getInstance();
@@ -248,21 +254,25 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			endDate = new ClientFinanceDate(endCal.getTime());
 			endDate.setYear(endDate.getYear() - 1);
-
 		}
 		if (dateRange.equals(messages.thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 			// getLastandOpenedFiscalYearEndDate();
-			getCurrentQuarter();
+			getCurrentFiscalYearQuarter();
 		}
 		if (dateRange.equals(messages.lastFinancialQuarter())) {
-			startDate = new ClientFinanceDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
 			// getLastandOpenedFiscalYearEndDate();
-			getCurrentQuarter();
-			startDate.setYear(startDate.getYear() - 1);
-			endDate.setYear(endDate.getYear() - 1);
+			getCurrentFiscalYearQuarter();
+			Calendar startDateCal = Calendar.getInstance();
+			startDateCal.setTime(startDate.getDateAsObject());
+			startDateCal.set(Calendar.MONTH,
+					startDateCal.get(Calendar.MONTH) - 3);
+			Calendar endDateCal = Calendar.getInstance();
+			endDateCal.setTime(endDate.getDateAsObject());
+			endDateCal.set(Calendar.MONTH, endDateCal.get(Calendar.MONTH) - 3);
+			startDate = new ClientFinanceDate(startDateCal.getTime());
+			endDate = new ClientFinanceDate(endDateCal.getTime());
 		}
 		if (dateRange.equals(messages.financialYearToDate())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
@@ -297,15 +307,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	}
 
 	public ClientFinanceDate getWeekStartDate() {
-		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDay() % 6;
-		ClientFinanceDate newDate = new ClientFinanceDate();
-		if (day != 1) {
-			newDate.setDay(date.getDay() - day);
-		} else {
-			newDate.setDay(date.getDay());
-		}
-		return newDate;
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new ClientFinanceDate().getDateAsObject());
+		int i = calendar.get(Calendar.DAY_OF_WEEK);
+		calendar.add(Calendar.DAY_OF_MONTH, 1 - i);
+		ClientFinanceDate financeDate = new ClientFinanceDate(
+				calendar.getTime());
+		return financeDate;
 	}
 
 	// public native double getWeekStartDate()/*-{
@@ -317,7 +325,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	// return tmp;
 	// }-*/;
 
-	public int getMonthLastDate(int month, int year) {
+	private int getMonthLastDate(int month, int year) {
 		int lastDay;
 		switch (month) {
 		case 0:
@@ -343,66 +351,93 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		return lastDay;
 	}
 
-	public void getCurrentQuarter() {
+	private void getCurrentFiscalYearQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();
+		ClientFinanceDate start = Accounter.getCompany()
+				.getCurrentFiscalYearStartDate();
+		ClientFinanceDate end = Accounter.getCompany()
+				.getCurrentFiscalYearEndDate();
 
-		int currentQuarter;
-		if ((date.getMonth() + 1) % 3 == 0) {
-			currentQuarter = (date.getMonth() + 1) / 3;
-		} else {
-			currentQuarter = ((date.getMonth() + 1) / 3) + 1;
+		int currentQuarter = 0;
+		ClientFinanceDate quarterStart = Accounter.getCompany()
+				.getCurrentFiscalYearStartDate();
+		ClientFinanceDate quarterEnd;
+
+		Calendar quarterEndCal = Calendar.getInstance();
+		quarterEndCal.setTime(quarterStart.getDateAsObject());
+		quarterEndCal
+				.set(Calendar.MONTH, quarterEndCal.get(Calendar.MONTH) + 3);
+		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
+
+		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
+
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
+			currentQuarter = 1;
+		}
+		quarterStart.setMonth(quarterStart.getMonth() + 3);
+		quarterEndCal.setTime(quarterStart.getDateAsObject());
+		quarterEndCal
+				.set(Calendar.MONTH, quarterEndCal.get(Calendar.MONTH) + 3);
+		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
+
+		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
+			currentQuarter = 2;
+		}
+		quarterStart.setMonth(quarterStart.getMonth() + 3);
+		quarterEndCal.setTime(quarterStart.getDateAsObject());
+		quarterEndCal
+				.set(Calendar.MONTH, quarterEndCal.get(Calendar.MONTH) + 3);
+		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
+
+		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
+			currentQuarter = 3;
+		}
+		quarterStart.setMonth(quarterStart.getMonth() + 3);
+		quarterEndCal.setTime(quarterStart.getDateAsObject());
+		quarterEndCal
+				.set(Calendar.MONTH, quarterEndCal.get(Calendar.MONTH) + 3);
+		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
+
+		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
+			currentQuarter = 4;
 		}
 		switch (currentQuarter) {
 		case 1:
-			startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 2, 31);
+			startDate = start;
+			Calendar endCal = Calendar.getInstance();
+			endCal.setTime(start.getDateAsObject());
+			endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 3);
+			endCal.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal.getTime());
 			break;
 
 		case 2:
-			startDate = new ClientFinanceDate(date.getYear(), 3, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 5, 30);
+			startDate = start;
+			startDate.setMonth(start.getMonth() + 3);
+			Calendar endCal2 = Calendar.getInstance();
+			endCal2.setTime(startDate.getDateAsObject());
+			endCal2.set(Calendar.MONTH, endCal2.get(Calendar.MONTH) + 3);
+			endCal2.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal2.getTime());
 			break;
 
 		case 3:
-			startDate = new ClientFinanceDate(date.getYear(), 6, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 8, 30);
+			startDate = start;
+			startDate.setMonth(start.getMonth() + 6);
+			Calendar endCal3 = Calendar.getInstance();
+			endCal3.setTime(startDate.getDateAsObject());
+			endCal3.set(Calendar.MONTH, endCal3.get(Calendar.MONTH) + 3);
+			endCal3.set(Calendar.DAY_OF_MONTH, startDate.getDay() - 1);
+			endDate = new ClientFinanceDate(endCal3.getTime());
 			break;
 		default:
-			startDate = new ClientFinanceDate(date.getYear(), 9, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-			break;
-		}
-	}
-
-	public void getPreviousQuarter() {
-
-		ClientFinanceDate date = new ClientFinanceDate();
-
-		int currentQuarter;
-		if ((date.getMonth() + 1) % 3 == 0) {
-			currentQuarter = (date.getMonth() + 1) / 3;
-		} else {
-			currentQuarter = ((date.getMonth() + 1) / 3) + 1;
-		}
-		switch (currentQuarter) {
-		case 1:
-			startDate = new ClientFinanceDate(date.getYear() - 1, 9, 1);
-			endDate = new ClientFinanceDate(date.getYear() - 1, 11, 31);
-			break;
-
-		case 2:
-			startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 2, 31);
-			break;
-
-		case 3:
-			startDate = new ClientFinanceDate(date.getYear(), 3, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 5, 30);
-			break;
-		default:
-			startDate = new ClientFinanceDate(date.getYear(), 6, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 8, 30);
+			startDate = start;
+			startDate.setMonth(start.getMonth() + 9);
+			endDate = end;
 			break;
 		}
 	}

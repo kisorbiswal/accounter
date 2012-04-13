@@ -1225,6 +1225,8 @@ public class UIUtils {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			return AccounterCoreType.BUILD_ASSEMBLY;
 
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+			return AccounterCoreType.TAXADJUSTMENT;
 		}
 		return null;
 
