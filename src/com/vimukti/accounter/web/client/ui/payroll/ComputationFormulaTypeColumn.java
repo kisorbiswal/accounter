@@ -24,7 +24,7 @@ public class ComputationFormulaTypeColumn extends
 
 	@Override
 	public int getWidth() {
-		return 100;
+		return -1;
 	}
 
 	@SuppressWarnings("unchecked")

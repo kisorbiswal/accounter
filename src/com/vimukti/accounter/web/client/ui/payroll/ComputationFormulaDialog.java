@@ -22,6 +22,7 @@ public class ComputationFormulaDialog extends
 
 	public ComputationFormulaDialog(String string) {
 		super(string);
+		this.getElement().setId("ComputationFormulaDialog");
 		createControls();
 	}
 
