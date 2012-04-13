@@ -182,6 +182,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			}
 		});
 		email = new EmailField(messages.email());
+		email.setRequired(true);
 		// email.setHelpInformation(true);
 		email.setEnabled(!isInViewMode());
 
