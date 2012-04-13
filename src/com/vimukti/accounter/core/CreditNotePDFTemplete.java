@@ -168,9 +168,9 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					t.setVariable("itemTotalPrice", totalPrice);
 					if (company.getPreferences().isTrackTax()
 							&& brandingTheme.isShowTaxColumn()) {
-						String vatRate ="";
-						double vat1=item.getTaxCode().getSalesTaxRate();
-						vatRate=String.valueOf(vat1)+" %";
+						String vatRate = "";
+						double vat1 = item.getTaxCode().getSalesTaxRate();
+						vatRate = String.valueOf(vat1) + " %";
 						String vatAmount = item.getVATfraction() == null ? " "
 								: Utility.decimalConversation(
 										item.getVATfraction(), "");
@@ -236,8 +236,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			String outPutString = t.getFileString();
 			return outPutString;
 		} catch (Exception e) {
-			System.err.println("credit memeo err......." + e.getMessage()
-					+ "..." + e.getStackTrace());
+			System.err.println("credit memeo err.......");
+			e.printStackTrace();
 		}
 		return "";
 	}

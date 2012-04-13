@@ -219,11 +219,11 @@ public class HistoryTokens {
 	public static final String LOCATIONGROUPLIST = "location-group-list";
 
 	public static final String MERGEITEM = "merge_item";
-	
+
 	public static final String MERGECLASS = "merge_class";
-	
+
 	public static final String MERGELOCATION = "merge_location";
-	
+
 	public static final String MERGEACCOUNT = "merge_account";
 
 	public static final String MERGEVENDOR = "merge_vendor";

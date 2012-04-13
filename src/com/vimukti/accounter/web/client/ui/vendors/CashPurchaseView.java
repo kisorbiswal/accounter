@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
@@ -55,7 +56,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * 
  */
 public class CashPurchaseView extends
-		AbstractVendorTransactionView<ClientCashPurchase> {
+		AbstractVendorTransactionView<ClientCashPurchase> implements
+		IPrintableView {
 
 	protected DynamicForm vendorForm;
 	protected DynamicForm termsForm;
@@ -1293,7 +1295,9 @@ public class CashPurchaseView extends
 
 	@Override
 	public void print() {
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_CASH_PURCHASE);
 	}
 
 	@Override
@@ -1467,5 +1471,15 @@ public class CashPurchaseView extends
 	@Override
 	public boolean allowEmptyTransactionItems() {
 		return true;
+	}
+
+	@Override
+	public boolean canPrint() {
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return false;
 	}
 }

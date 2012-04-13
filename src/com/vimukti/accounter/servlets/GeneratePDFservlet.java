@@ -35,12 +35,22 @@ import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfWriter;
 import com.vimukti.accounter.core.BrandingTheme;
+import com.vimukti.accounter.core.CCExpensePdfGeneration;
+import com.vimukti.accounter.core.CashExpensePdfGeneration;
+import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.CashPurchasePdfGeneration;
 import com.vimukti.accounter.core.CashSalePdfGeneration;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditNotePDFTemplete;
 import com.vimukti.accounter.core.CreditNotePdfGeneration;
 import com.vimukti.accounter.core.CustomerCreditMemo;
+import com.vimukti.accounter.core.CustomerPaymentPdfGeneration;
+import com.vimukti.accounter.core.CustomerPrePayment;
+import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.EnterBill;
+import com.vimukti.accounter.core.EnterBillPdfGeneration;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.Invoice;
@@ -48,6 +58,8 @@ import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.JournelEntryPdfGeneration;
+import com.vimukti.accounter.core.PayBill;
+import com.vimukti.accounter.core.PayBillPdfGeneration;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.PurchaseOrderPdfGeneration;
@@ -55,11 +67,18 @@ import com.vimukti.accounter.core.QuotePdfGeneration;
 import com.vimukti.accounter.core.QuotePdfTemplate;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceivePaymentPdfGeneration;
+import com.vimukti.accounter.core.RefundPdfGeneration;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.SalesOrderPdfGeneration;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.VendorCreditMemo;
+import com.vimukti.accounter.core.VendorCreditPdfGeneration;
+import com.vimukti.accounter.core.VendorPayment;
+import com.vimukti.accounter.core.VendorPaymentPdfGeneration;
+import com.vimukti.accounter.core.WriteCheck;
+import com.vimukti.accounter.core.WriteCheckPdfGeneration;
 import com.vimukti.accounter.core.reports.generators.IReportGenerator;
 import com.vimukti.accounter.core.vat.IndianVATTemplate;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
@@ -405,7 +424,6 @@ public class GeneratePDFservlet extends BaseServlet {
 							map = Odt2PdfGeneration(cashSales, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
-
 						if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
 							ReceivePayment receivepayment = (ReceivePayment) financetool
 									.getManager().getServerObjectForid(
@@ -416,7 +434,6 @@ public class GeneratePDFservlet extends BaseServlet {
 							map = Odt2PdfGeneration(receivepayment, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
-
 						if (transactionType == Transaction.TYPE_PURCHASE_ORDER) {
 							PurchaseOrder order = (PurchaseOrder) financetool
 									.getManager().getServerObjectForid(
@@ -439,6 +456,103 @@ public class GeneratePDFservlet extends BaseServlet {
 							map = Odt2PdfGeneration(journalEntry, company,
 									brandingTheme, isMultipleId, fileNames);
 
+						}
+						if (transactionType == Transaction.TYPE_CUSTOMER_REFUNDS) {
+							CustomerRefund customerRefund = (CustomerRefund) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.CUSTOMERREFUND,
+											Long.parseLong(ids[i]));
+							fileName = "Refund_" + customerRefund.getNumber();
+							map = Odt2PdfGeneration(customerRefund, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+						if (transactionType == Transaction.TYPE_CASH_PURCHASE) {
+							CashPurchase purchase = (CashPurchase) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.CASHPURCHASE,
+											Long.parseLong(ids[i]));
+							fileName = "CashPurcahse_" + purchase.getNumber();
+							map = Odt2PdfGeneration(purchase, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+						if (transactionType == Transaction.TYPE_CUSTOMER_PRE_PAYMENT) {
+							CustomerPrePayment prePayment = (CustomerPrePayment) financetool
+									.getManager()
+									.getServerObjectForid(
+											AccounterCoreType.CUSTOMERPREPAYMENT,
+											Long.parseLong(ids[i]));
+							fileName = "Payment Receipt_"
+									+ prePayment.getNumber();
+							map = Odt2PdfGeneration(prePayment, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+						if (transactionType == Transaction.TYPE_CREDIT_CARD_EXPENSE) {
+							CreditCardCharge charge = (CreditCardCharge) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.CREDITCARDCHARGE,
+											Long.parseLong(ids[i]));
+							fileName = "Expense_" + charge.getNumber();
+							map = Odt2PdfGeneration(charge, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+						if (transactionType == Transaction.TYPE_CASH_EXPENSE) {
+							CashPurchase purchase = (CashPurchase) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.CASHPURCHASE,
+											Long.parseLong(ids[i]));
+							fileName = "Expense_" + purchase.getNumber();
+							map = Odt2PdfGeneration(purchase, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+						if (transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
+							VendorCreditMemo vendorCreditMemo = (VendorCreditMemo) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.VENDORCREDITMEMO,
+											Long.parseLong(ids[i]));
+							fileName = "CreditMemo"
+									+ vendorCreditMemo.getNumber();
+							map = Odt2PdfGeneration(vendorCreditMemo, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+						if (transactionType == Transaction.TYPE_WRITE_CHECK) {
+							WriteCheck writeCheck = (WriteCheck) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.WRITECHECK,
+											Long.parseLong(ids[i]));
+							fileName = "WriteCheck" + writeCheck.getNumber();
+							map = Odt2PdfGeneration(writeCheck, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+
+						if (transactionType == Transaction.TYPE_VENDOR_PAYMENT) {
+							VendorPayment vendorPayment = (VendorPayment) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.VENDORPAYMENT,
+											Long.parseLong(ids[i]));
+							fileName = "PaymentRecipt_"
+									+ vendorPayment.getNumber();
+							map = Odt2PdfGeneration(vendorPayment, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+
+						if (transactionType == Transaction.TYPE_ENTER_BILL) {
+							EnterBill enterBill = (EnterBill) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.ENTERBILL,
+											Long.parseLong(ids[i]));
+							fileName = "EnterBill" + enterBill.getNumber();
+							map = Odt2PdfGeneration(enterBill, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+
+						if (transactionType == Transaction.TYPE_PAY_BILL) {
+							PayBill payBill = (PayBill) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.PAYBILL,
+											Long.parseLong(ids[i]));
+							fileName = "PayBill_" + payBill.getNumber();
+							map = Odt2PdfGeneration(payBill, company,
+									brandingTheme, isMultipleId, fileNames);
 						}
 
 					}
@@ -497,6 +611,16 @@ public class GeneratePDFservlet extends BaseServlet {
 				case Transaction.TYPE_RECEIVE_PAYMENT:
 				case Transaction.TYPE_PURCHASE_ORDER:
 				case Transaction.TYPE_JOURNAL_ENTRY:
+				case Transaction.TYPE_CUSTOMER_REFUNDS:
+				case Transaction.TYPE_CASH_PURCHASE:
+				case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
+				case Transaction.TYPE_CREDIT_CARD_EXPENSE:
+				case Transaction.TYPE_CASH_EXPENSE:
+				case Transaction.TYPE_VENDOR_CREDIT_MEMO:
+				case Transaction.TYPE_WRITE_CHECK:
+				case Transaction.TYPE_VENDOR_PAYMENT:
+				case Transaction.TYPE_ENTER_BILL:
+				case Transaction.TYPE_PAY_BILL:
 
 					if (isMultipleId) {// for merging multiple custom pdf
 										// documents
@@ -712,9 +836,20 @@ public class GeneratePDFservlet extends BaseServlet {
 			QuotePdfGeneration quotePdfGeneration = null;
 			CashSalePdfGeneration cashSalePdfGeneration = null;
 			ReceivePaymentPdfGeneration receivePaymentPdfGeneration = null;
+			RefundPdfGeneration refundPdfGeneration = null;
 			PurchaseOrderPdfGeneration purchaseOrderPdfGeneration = null;
 			SalesOrderPdfGeneration salesOrderPdfGeneration = null;
 			JournelEntryPdfGeneration journelEntryPdfGeneration = null;
+			CashPurchasePdfGeneration purchasePdfGeneration = null;
+			CustomerPaymentPdfGeneration customerPaymentPdfGeneration = null;
+			CCExpensePdfGeneration ccExpensePdfGeneration = null;
+			CashExpensePdfGeneration cashExpensePdfGeneration = null;
+			VendorCreditPdfGeneration vendorCreditPdfGeneration = null;
+			WriteCheckPdfGeneration writeCheckPdfGeneration = null;
+			VendorPaymentPdfGeneration vendorPaymentPdfGeneration = null;
+			EnterBillPdfGeneration enterBillPdfGeneration = null;
+			PayBillPdfGeneration payBillPdfGeneration = null;
+
 			String templeteName = null;
 			String fileName = null;
 
@@ -760,6 +895,89 @@ public class GeneratePDFservlet extends BaseServlet {
 				fileName = "Receive Payment_" + transaction.getNumber();
 				receivePaymentPdfGeneration = new ReceivePaymentPdfGeneration(
 						(ReceivePayment) transaction, company);
+			}
+
+			if (transaction instanceof CustomerRefund) {
+				templeteName = "templetes" + File.separator + "RefundOdt.odt";
+				fileName = "Refund_" + transaction.getNumber();
+				refundPdfGeneration = new RefundPdfGeneration(
+						(CustomerRefund) transaction, company);
+			}
+
+			if (transaction instanceof CashPurchase) {
+				if (transaction.getType() == Transaction.TYPE_CASH_PURCHASE) {
+					templeteName = "templetes" + File.separator
+							+ "CashPurchaseOdt.odt";
+					fileName = "Cash Purchase_" + transaction.getNumber();
+					purchasePdfGeneration = new CashPurchasePdfGeneration(
+							(CashPurchase) transaction, company);
+				} else {
+					templeteName = "templetes" + File.separator
+							+ "CashExpenseOdt.odt";
+					fileName = "Expense_" + transaction.getNumber();
+					cashExpensePdfGeneration = new CashExpensePdfGeneration(
+							(CashPurchase) transaction, company);
+				}
+			}
+
+			if (transaction instanceof CustomerPrePayment) {
+				templeteName = "templetes" + File.separator
+						+ "CustomerPaymentOdt.odt";
+				fileName = "Payment Receipt_" + transaction.getNumber();
+				customerPaymentPdfGeneration = new CustomerPaymentPdfGeneration(
+						(CustomerPrePayment) transaction, company);
+			}
+
+			if (transaction instanceof CreditCardCharge) {
+				templeteName = "templetes" + File.separator
+						+ "CCExpenseOdt.odt";
+				fileName = "Expense_" + transaction.getNumber();
+				ccExpensePdfGeneration = new CCExpensePdfGeneration(
+						(CreditCardCharge) transaction, company);
+			}
+
+			if (transaction instanceof VendorCreditMemo) {
+				templeteName = "templetes" + File.separator
+						+ "VendorCreditOdt.odt";
+				fileName = "CreditMemo_" + transaction.getNumber();
+				vendorCreditPdfGeneration = new VendorCreditPdfGeneration(
+						(VendorCreditMemo) transaction, company);
+
+			}
+
+			if (transaction instanceof WriteCheck) {
+				templeteName = "templetes" + File.separator
+						+ "WriteCheckOdt.odt";
+				fileName = "WriteCheck" + transaction.getNumber();
+				writeCheckPdfGeneration = new WriteCheckPdfGeneration(
+						(WriteCheck) transaction, company);
+
+			}
+
+			if (transaction instanceof VendorPayment) {
+				templeteName = "templetes" + File.separator
+						+ "VendorPaymentOdt.odt";
+				fileName = "Paymentrecipt_" + transaction.getNumber();
+				vendorPaymentPdfGeneration = new VendorPaymentPdfGeneration(
+						(VendorPayment) transaction, company);
+
+			}
+
+			if (transaction instanceof EnterBill) {
+				templeteName = "templetes" + File.separator
+						+ "EnterBillOdt.odt";
+				fileName = "Bill_" + transaction.getNumber();
+				enterBillPdfGeneration = new EnterBillPdfGeneration(
+						(EnterBill) transaction, company);
+
+			}
+
+			if (transaction instanceof PayBill) {
+				templeteName = "templetes" + File.separator + "PaybillOdt.odt";
+				fileName = "PayBill_" + transaction.getNumber();
+				payBillPdfGeneration = new PayBillPdfGeneration(
+						(PayBill) transaction, company);
+
 			}
 
 			if (transaction instanceof CashSales) {
@@ -881,7 +1099,35 @@ public class GeneratePDFservlet extends BaseServlet {
 			} else if (transaction instanceof JournalEntry) {
 				context = journelEntryPdfGeneration.assignValues(context,
 						report);
+			} else if (transaction instanceof CustomerRefund) {
+				context = refundPdfGeneration.assignValues(context, report);
+			} else if (transaction instanceof CashPurchase) {
+				if (transaction.getType() == Transaction.TYPE_CASH_PURCHASE) {
+					context = purchasePdfGeneration.assignValues(context,
+							report);
+				} else {
+					context = cashExpensePdfGeneration.assignValues(context,
+							report);
+				}
+			} else if (transaction instanceof CustomerPrePayment) {
+				context = customerPaymentPdfGeneration.assignValues(context,
+						report);
+			} else if (transaction instanceof CreditCardCharge) {
+				context = ccExpensePdfGeneration.assignValues(context, report);
+			} else if (transaction instanceof VendorCreditMemo) {
+				context = vendorCreditPdfGeneration.assignValues(context,
+						report);
+			} else if (transaction instanceof WriteCheck) {
+				context = writeCheckPdfGeneration.assignValues(context, report);
+			} else if (transaction instanceof VendorPayment) {
+				context = vendorPaymentPdfGeneration.assignValues(context,
+						report);
+			} else if (transaction instanceof EnterBill) {
+				context = enterBillPdfGeneration.assignValues(context, report);
+			} else if (transaction instanceof PayBill) {
+				context = payBillPdfGeneration.assignValues(context, report);
 			}
+
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			if (multipleIds) {
 				Options options = Options.getTo(ConverterTypeTo.PDF).via(
