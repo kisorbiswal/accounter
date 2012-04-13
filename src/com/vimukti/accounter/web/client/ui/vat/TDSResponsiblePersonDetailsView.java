@@ -471,4 +471,9 @@ public class TDSResponsiblePersonDetailsView extends
 		}
 		showSaveButtons();
 	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
 }

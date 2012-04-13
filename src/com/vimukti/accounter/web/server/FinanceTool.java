@@ -401,7 +401,8 @@ public class FinanceTool {
 
 			isTransactionNumberExist(data, company);
 
-			new ServerConvertUtil().toServerObject(serverObject, data, session);
+			serverObject = new ServerConvertUtil().toServerObject(serverObject,
+					data, session);
 
 			serverObject.setVersion(++version);
 

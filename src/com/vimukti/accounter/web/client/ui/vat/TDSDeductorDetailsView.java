@@ -744,4 +744,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		saveAndNewButton.setVisible(false);
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
 }

@@ -117,7 +117,7 @@ public class TDSChalanDetailsView extends
 
 		slectAssecementYear = new SelectCombo(messages.assessmentYear());
 		// slectAssecementYear.setHelpInformation(true);
-		slectAssecementYear.initCombo(getFinancialYearList());
+		slectAssecementYear.initCombo(getAssessmentYearList());
 		slectAssecementYear.setEnabled(false);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
@@ -847,24 +847,24 @@ public class TDSChalanDetailsView extends
 		// incomeTaxAmount.setDisabled(false);
 		// surchargePaidAmount.setDisabled(false);
 		// eduCessAmount.setDisabled(false);
-		interestPaidAmount.setEnabled(false);
-		penaltyPaidAmount.setEnabled(false);
-		otherAmountPaid.setEnabled(false);
+		interestPaidAmount.setEnabled(true);
+		penaltyPaidAmount.setEnabled(true);
+		otherAmountPaid.setEnabled(true);
 		// totalAmountPaid.setDisabled(false);
-		natureOfPaymentCombo.setEnabled(false);
-		modeOFPaymentCombo.setEnabled(false);
-		checkNumber.setEnabled(false);
-		dateItem2.setEnabled(false);
-		bankBsrCode.setEnabled(false);
-		table.setEnabled(false);
-		chalanQuarterPeriod.setEnabled(false);
-		chalanSerialNumber.setEnabled(false);
-		tdsDepositedBY.setEnabled(false);
+		natureOfPaymentCombo.setEnabled(true);
+		modeOFPaymentCombo.setEnabled(true);
+		checkNumber.setEnabled(true);
+		dateItem2.setEnabled(true);
+		bankBsrCode.setEnabled(true);
+		table.setEnabled(true);
+		chalanQuarterPeriod.setEnabled(true);
+		chalanSerialNumber.setEnabled(true);
+		tdsDepositedBY.setEnabled(true);
 		// selectFormTypeCombo.setDisabled(false);
 		// slectAssecementYear.setDisabled(false);
-		financialYearCombo.setEnabled(false);
+		financialYearCombo.setEnabled(true);
 		// endingBalanceText.setEnabled(false);
-		payFromAccCombo.setEnabled(false);
+		payFromAccCombo.setEnabled(true);
 
 		super.onEdit();
 	}

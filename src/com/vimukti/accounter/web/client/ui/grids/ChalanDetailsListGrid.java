@@ -51,9 +51,9 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 		}
 		case 1: {
 			String assessmentYear = Integer.toString(obj
-					.getAssesmentYearStart())
+					.getAssesmentYearStart() - 1)
 					+ "-"
-					+ Integer.toString(obj.getAssessmentYearEnd());
+					+ Integer.toString(obj.getAssessmentYearEnd() - 1);
 			return assessmentYear;
 		}
 		case 2:
@@ -102,7 +102,7 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.formType(), messages.assessmentYear(),
+		return new String[] { messages.formType(), messages.financialYear(),
 				messages.totalAmount(), messages.challanPeriod(),
 				messages.dateofPayment(), messages.bankBSRCode(), "" };
 	}
@@ -136,16 +136,15 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { "formType", "assessmentYear",
-				"totalAmount", "challanPeriod",
-				"dateofPayment", "bankBSRCode", "unknown" };
+		return new String[] { "formType", "assessmentYear", "totalAmount",
+				"challanPeriod", "dateofPayment", "bankBSRCode", "unknown" };
 
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "formTypeValue", "assessmentYearValue",
-				"totalAmountValue", "challanPeriodValue",
-				"dateofPaymentValue", "bankBSRCodeValue", "unknownValue", };
+				"totalAmountValue", "challanPeriodValue", "dateofPaymentValue",
+				"bankBSRCodeValue", "unknownValue", };
 	}
 }

@@ -48,12 +48,12 @@ public class TDSDeductorMasters extends CreatableObject implements
 
 	@Override
 	public String getName() {
-		return "TDSDeductorMasters";
+		return deductorName;
 	}
 
 	@Override
 	public void setName(String name) {
-
+		this.deductorName = name;
 	}
 
 	public String getDeductorName() {
@@ -277,8 +277,6 @@ public class TDSDeductorMasters extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
 	}
 
 	public boolean isAddressSameForResopsiblePerson() {
