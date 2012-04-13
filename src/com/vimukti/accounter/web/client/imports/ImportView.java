@@ -52,6 +52,7 @@ public class ImportView extends AbstractBaseView {
 	private Label dateFormat_Label;
 	private ListBox dateFormatList;
 	private String selectedDateFormate;
+	private int size;
 
 	public ImportView(int importType, String fileID,
 			List<ImportField> importerFields, Map<String, List<String>> data,
@@ -470,13 +471,17 @@ public class ImportView extends AbstractBaseView {
 						}
 
 						@Override
-						public void onResultSuccess(Map<Integer, Object> result) {
+						public void onResultSuccess(
+								final Map<Integer, Object> result) {
+							size = result.size();
 							ImporterDialog dialog = new ImporterDialog(messages
 									.importerInformation(), result) {
 								@Override
 								protected void closeView() {
-									ImportView.this.getManager()
-											.closeCurrentView();
+									if (size <= 1) {
+										ImportView.this.getManager()
+												.closeCurrentView();
+									}
 								}
 							};
 						}

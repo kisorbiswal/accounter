@@ -23,7 +23,6 @@ public class VendorImporter extends PayeeImporter<ClientVendor> {
 		vendor.setName(getString("payeeName"));
 		vendor.setFileAs(getString("payeeName"));
 		vendor.setVendorNumber(getString("number"));
-		vendor.setCustomFieldValues(getSetCusFieldList(messages.CustomField()));
 		vendor.setPayeeSince(getFinanceDate("payeeSince") == null ? new ClientFinanceDate()
 				.getDate() : getFinanceDate("payeeSince").getDate());
 		vendor.setBalanceAsOf(getFinanceDate(messages.balanceAsOf()) == null ? new ClientFinanceDate()
@@ -43,8 +42,6 @@ public class VendorImporter extends PayeeImporter<ClientVendor> {
 				.Vendor()), true));
 		fields.add(new StringField("number", messages.number()));
 		fields.add(new LongField(messages.creditLimit(), messages.creditLimit()));
-		fields.add(new StringField(messages.CustomField(), messages
-				.CustomField()));
 		fields.add(new LongField(messages.preferredShippingMethod(), messages
 				.preferredShippingMethod()));
 		fields.add(new FinanceDateField("payeeSince", messages
