@@ -78,11 +78,11 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 4:
-			return 40;
+			return 45;
 		default:
 			break;
 		}
-		return 0;
+		return -1;
 	}
 
 	@Override

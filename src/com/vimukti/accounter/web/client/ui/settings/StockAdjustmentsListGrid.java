@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientUnit;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -120,11 +119,11 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 3:
-			return 40;
+			return 45;
 		default:
 			break;
 		}
-		return 0;
+		return -1;
 	}
 
 	@Override
@@ -151,18 +150,6 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 		}
 	}
 
-	private boolean isUserHavePermissions(StockAdjustmentList obj) {
-		ClientUser user = Accounter.getUser();
-		if (user.canDoInvoiceTransactions()) {
-			return true;
-		}
-
-		if (user.getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.wareHouse(), messages.itemName(),
@@ -172,8 +159,8 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "ware-house", "item-name", "adj-quantity",
-		"delete-img" };
-}
+				"delete-img" };
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
