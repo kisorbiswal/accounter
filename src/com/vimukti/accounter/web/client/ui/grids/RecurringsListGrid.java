@@ -28,6 +28,8 @@ public class RecurringsListGrid extends
 	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
+		case 0:
+			return 237;
 		case 1:
 			return 75;
 		case 2:

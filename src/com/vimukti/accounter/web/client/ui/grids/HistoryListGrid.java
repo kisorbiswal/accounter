@@ -114,7 +114,23 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	protected int[] setColTypes() {
 		return null;
 	}
-
+	
+	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 205;
+		case 1:
+			return 175;
+		case 2:
+			return 225;
+		case 3:
+			return 275;
+		default:
+			return -1;
+		}
+	}
+	
 	@Override
 	protected void executeDelete(ClientFixedAssetHistory object) {
 		// NOTHING TO DO

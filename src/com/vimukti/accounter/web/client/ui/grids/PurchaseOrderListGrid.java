@@ -59,10 +59,13 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 0)
-			return 75;
-		if (index == 1 || index == 3)
+		if (index == 0) {
+			return 100;
+		} else if (index == 2) {
+			return 100;
+		} else if (index == 1 || index == 3) {
 			return 150;
+		}
 		return -1;
 	}
 
@@ -112,12 +115,12 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "date", "number", "payeename", "purchaseprice" };
-		}
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "date-value", "number-value", "payeename-value",
-		"purchaseprice-value" };
-}
+				"purchaseprice-value" };
+	}
 
 }

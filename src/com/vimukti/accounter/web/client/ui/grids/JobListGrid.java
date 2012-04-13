@@ -70,6 +70,10 @@ public class JobListGrid extends BaseListGrid<ClientJob> {
 	protected int getCellWidth(int index) {
 		if (index == 0 || index == 4) {
 			return 60;
+		}else if (index == 1 || index == 2) {
+			return 165;
+		}else if (index == 3) {
+			return 175;
 		}
 		return -1;
 	}

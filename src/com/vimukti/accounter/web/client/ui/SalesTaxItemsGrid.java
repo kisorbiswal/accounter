@@ -37,8 +37,10 @@ public class SalesTaxItemsGrid extends BaseListGrid<ClientTAXItem> {
 	protected int getCellWidth(int index) {
 		if (index == 1)
 			return 450;
-		else
-			return -1;
+		else if (index ==0) {
+			return 465;
+		}
+		return -1;
 	}
 
 	@Override

@@ -66,8 +66,10 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (getCompany().getPreferences().isInventoryEnabled()) {
 			if (index == 0)
 				return 40;
+			else if(index == 1)
+				return 130;
 			else if (index == 2)
-				return 300;
+				return 250;
 			else if (index == 3)
 				return 150;
 			else if (index == 4)
@@ -98,8 +100,10 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		} else {
 			if (index == 0)
 				return 40;
+			else if(index == 1)
+				return 130;
 			else if (index == 2)
-				return 300;
+				return 250;
 			else if (index == 3)
 				return 150;
 			else if (index == 4)

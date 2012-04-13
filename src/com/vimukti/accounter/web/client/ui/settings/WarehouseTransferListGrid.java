@@ -106,9 +106,11 @@ public class WarehouseTransferListGrid extends
 		switch (index) {
 		case 0:
 		case 1:
-			return 175;
+			return 200;
+		case 2:
+			return 470;
 		case 3:
-			return 25;
+			return 40;
 		}
 		return -1;
 	}

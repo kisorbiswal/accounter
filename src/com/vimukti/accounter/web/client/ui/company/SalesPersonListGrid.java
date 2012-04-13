@@ -147,9 +147,10 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 		}
 		if (index == 0) {
 			return 40;
-		}
-		if (index == 2 || index == 3 || index == 4 || index == 5 || index == 6
-				|| index == 7) {
+		} else if (index == 1) {
+			return 227;
+		} else if (index == 2 || index == 3 || index == 4 || index == 5
+				|| index == 6 || index == 7) {
 			return 100;
 		}
 		return -1;

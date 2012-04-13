@@ -143,6 +143,25 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 225;
+		case 1:
+			return 115;
+		case 2:
+			return 200;
+		case 3:
+			return 200;
+		case 4:
+			return 150;
+
+		default:
+			return -1;
+		}
+	}
+
+	@Override
 	public List<ClientReminder> getSelectedRecords() {
 		List<ClientReminder> reminders = new ArrayList<ClientReminder>();
 		List<ClientReminder> selectedRecords = super.getSelectedRecords();
@@ -157,13 +176,13 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] {"col-0", "name", "col-new", "transactiondate",
+		return new String[] { "col-0", "name", "col-new", "transactiondate",
 				"transactiontype", "amount" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { "col-0-value","name-value", "col-new-value",
+		return new String[] { "col-0-value", "name-value", "col-new-value",
 				"transactiondate-value", "transactiontype-value",
 				"amount-value" };
 	}

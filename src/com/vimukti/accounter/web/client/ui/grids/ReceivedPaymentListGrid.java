@@ -75,7 +75,6 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.paymentDate(), messages.no(),
 					messages.payeeName(Global.get().Customer()),
@@ -228,6 +227,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		else if (index == 2)
 			return 50;
 
+		else if (index == 3)
+			return 58;
+		
 		else if (index == 7)
 			return 43;
 

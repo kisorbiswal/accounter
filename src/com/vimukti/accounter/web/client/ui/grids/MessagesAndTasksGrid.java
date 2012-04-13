@@ -90,6 +90,8 @@ public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 			return 60;
 		case 2:
 			return 60;
+		case 3:
+			return 153;
 		case 4:
 			return 100;
 		case 5:

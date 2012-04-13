@@ -57,7 +57,7 @@ public class SoldAndDisposedItemsListGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		return super.getCellWidth(index);
+		return 111;
 	}
 
 	/*

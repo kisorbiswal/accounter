@@ -69,6 +69,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 			return 150;
 		case 1:
 			return 150;
+		case 2:
+			return 353;
 		case 3:
 			return 150;
 		case 4:

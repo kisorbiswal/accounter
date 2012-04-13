@@ -18,7 +18,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	public CustomerRefundListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
-this.getElement().setId("CustomerRefundListGrid");
+		this.getElement().setId("CustomerRefundListGrid");
 	}
 
 	boolean isDeleted;
@@ -72,7 +72,6 @@ this.getElement().setId("CustomerRefundListGrid");
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		return new String[] { messages.paymentDate(), messages.paymentNo(),
 				messages.status(), messages.issueDate(), messages.name(),
 				messages.paymentMethod(), messages.amountPaid(),
@@ -201,6 +200,8 @@ this.getElement().setId("CustomerRefundListGrid");
 			return 80;
 		else if (index == 3)
 			return 80;
+		else if(index == 4)
+			return 318;
 		else if (index == 5)
 			return 100;
 		else if (index == 6)

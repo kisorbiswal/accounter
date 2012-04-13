@@ -235,26 +235,27 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		switch (index) {
 		case 8:
 			if (type != 0) {
-				return 40;
+				return 45;
 			} else {
 				return 100;
 			}
 		case 9:
-			return 40;
+			return 45;
 		case 0:
+			return 90;
 		case 3:
 			return 100;
 		case 2:
 			return 65;
 		case 1:
-			return 50;
+			return 55;
 		case 4:
 			if (type != 0) {
-				return 120;
+				return 110;
 			}
-			return 125;
+			return 115;
 		case 5:
-			return 120;
+			return 110;
 		case 6:
 			return 80;
 		case 7:
