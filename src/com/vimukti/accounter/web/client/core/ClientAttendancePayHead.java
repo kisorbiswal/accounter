@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 
-public class ClientAttendancePayhead extends ClientPayHead {
+public class ClientAttendancePayHead extends ClientPayHead {
 
 	/**
 	 * 

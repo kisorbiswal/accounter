@@ -227,7 +227,7 @@ public class ClientCompany implements IAccounterCore {
 	private int version;
 
 	private long cashDiscountAccount;
-	
+
 	private ArrayList<ClientPayrollUnit> payrollUnits;
 
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
@@ -3570,5 +3570,9 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setPayrollUnits(ArrayList<ClientPayrollUnit> payrollUnits) {
 		this.payrollUnits = payrollUnits;
+	}
+
+	public ClientPayHead getPayHeadByName(String name) {
+		return Utility.getObjectByName(this.payheads, name);
 	}
 }

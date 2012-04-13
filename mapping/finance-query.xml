@@ -2146,6 +2146,24 @@
 
 	</sql-query>
 
+	<sql-query name="canDeletePayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PH.ID AS ID
+				FROM   PAY_HEAD PH
+				       
+				WHERE  PH.ID IS NULL
+				       AND PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
 	<sql-query name="canDeletePaymentTerms">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />

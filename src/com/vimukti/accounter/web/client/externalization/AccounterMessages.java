@@ -6436,4 +6436,50 @@ public interface AccounterMessages extends Messages {
 
 	public String specifiedFormula();
 
+	public String attendance();
+
+	public String asComputedValue();
+
+	public String flatRate();
+
+	public String production();
+
+	public String asUserDefined();
+
+	public String earningsForEmployees();
+
+	public String deductionsForEmployees();
+
+	public String employeesStatutoryDeductions();
+
+	public String employeesStatutoryContributions();
+
+	public String employeesOtherCharges();
+
+	public String bonus();
+
+	public String loansAndAdvances();
+
+	public String reimbursmentsToEmployees();
+
+	public String downward();
+
+	public String normal();
+
+	public String upward();
+
+	public String asPerCalendarPeriod();
+
+	public String userDefined();
+
+	public String userDefinedCalendar();
+
+	public String onDeductionTotal();
+
+	public String onEarningTotal();
+
+	public String onSubTotal();
+
+	public String onSpecifiedFormula();
+
 }

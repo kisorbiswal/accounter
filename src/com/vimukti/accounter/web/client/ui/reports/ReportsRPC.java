@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -376,6 +377,11 @@ public class ReportsRPC {
 			initCallBack(new ClientPayrollUnit(),
 					ActionFactory.getNewPayrollUnitAction(), transactionId);
 			break;
+		case IAccounterCore.PAY_HEAD:
+			initCallBack(new ClientPayHead(),
+					ActionFactory.getNewPayHeadAction(), transactionId);
+			break;
+
 		}
 
 	}

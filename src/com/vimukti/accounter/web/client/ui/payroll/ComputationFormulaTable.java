@@ -3,13 +3,13 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientComputationFormulaFunction;
+import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.StringListColumn;
 
 public class ComputationFormulaTable extends
-		EditTable<ClientComputationFormulaFunction> {
+		EditTable<ClientComputaionFormulaFunction> {
 
 	String[] functionTypes = { "Add Pay Head", "Subtract Pay Head",
 			"Divide Attendance", "Multiply Attendance" };
@@ -24,16 +24,16 @@ public class ComputationFormulaTable extends
 
 	@Override
 	public void addEmptyRowAtLast() {
-		ClientComputationFormulaFunction item = new ClientComputationFormulaFunction();
+		ClientComputaionFormulaFunction item = new ClientComputaionFormulaFunction();
 		add(item);
 	}
 
 	@Override
 	protected void initColumns() {
-		this.addColumn(new StringListColumn<ClientComputationFormulaFunction>() {
+		this.addColumn(new StringListColumn<ClientComputaionFormulaFunction>() {
 
 			@Override
-			protected String getValue(ClientComputationFormulaFunction row) {
+			protected String getValue(ClientComputaionFormulaFunction row) {
 				if (row.getFunctionType() == 0) {
 					return null;
 				}
@@ -46,7 +46,7 @@ public class ComputationFormulaTable extends
 			}
 
 			@Override
-			protected void setValue(ClientComputationFormulaFunction row,
+			protected void setValue(ClientComputaionFormulaFunction row,
 					String newValue) {
 				row.setFunctionType(functionTypesList.indexOf(newValue) + 1);
 				update(row);
@@ -65,7 +65,7 @@ public class ComputationFormulaTable extends
 			}
 		});
 
-		this.addColumn(new DeleteColumn<ClientComputationFormulaFunction>());
+		this.addColumn(new DeleteColumn<ClientComputaionFormulaFunction>());
 	}
 
 	@Override

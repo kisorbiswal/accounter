@@ -2,6 +2,9 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientPayHead implements IAccounterCore {
 
 	/**
@@ -213,4 +216,57 @@ public class ClientPayHead implements IAccounterCore {
 		this.account = account;
 	}
 
+	public static String getCalculationType(int type) {
+		switch (type) {
+		case CALCULATION_TYPE_ON_ATTENDANCE:
+			return Accounter.getMessages().attendance();
+
+		case CALCULATION_TYPE_AS_COMPUTED_VALUE:
+			return Accounter.getMessages().asComputedValue();
+
+		case CALCULATION_TYPE_FLAT_RATE:
+			return Accounter.getMessages().flatRate();
+
+		case CALCULATION_TYPE_ON_PRODUCTION:
+			return Accounter.getMessages().production();
+
+		case CALCULATION_TYPE_AS_USER_DEFINED:
+			return Accounter.getMessages().asUserDefined();
+
+		default:
+			return null;
+		}
+	}
+
+	public static String getPayHeadType(int type) {
+		AccounterMessages messages = Accounter.getMessages();
+		switch (type) {
+		case TYPE_EARNINGS_FOR_EMPLOYEES:
+			return messages.earningsForEmployees();
+
+		case TYPE_DEDUCTIONS_FOR_EMPLOYEES:
+			return messages.deductionsForEmployees();
+
+		case TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS:
+			return messages.employeesStatutoryDeductions();
+
+		case TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS:
+			return messages.employeesStatutoryContributions();
+
+		case TYPE_EMPLOYEES_OTHER_CHARGES:
+			return messages.employeesOtherCharges();
+
+		case TYPE_BONUS:
+			return messages.bonus();
+
+		case TYPE_LOANS_AND_ADVANCES:
+			return messages.loansAndAdvances();
+
+		case TYPE_REIMBURSEMENTS_TO_EMPLOYEES:
+			return messages.reimbursmentsToEmployees();
+
+		default:
+			return null;
+		}
+	}
 }

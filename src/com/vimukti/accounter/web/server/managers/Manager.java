@@ -12,13 +12,17 @@ import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.InventoryAssembly;
+import com.vimukti.accounter.core.ProductionPayHead;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -27,17 +31,23 @@ import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.core.UserDefinedPayHead;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
+import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -199,6 +209,21 @@ public class Manager {
 			if (serverObject instanceof InventoryAssembly) {
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,
 						ClientInventoryAssembly.class);
+			} else if (serverObject instanceof ComputionPayHead) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientComputionPayHead.class);
+			} else if (serverObject instanceof FlatRatePayHead) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientFlatRatePayHead.class);
+			} else if (serverObject instanceof AttendancePayHead) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientAttendancePayHead.class);
+			} else if (serverObject instanceof ProductionPayHead) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientProductionPayHead.class);
+			} else if (serverObject instanceof UserDefinedPayHead) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientUserDefinedPayHead.class);
 			} else {
 
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,

@@ -7,16 +7,16 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AddNewButton;
-import com.vimukti.accounter.web.client.core.ClientComputationFormulaFunction;
+import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class ComputationFormulaDialog extends
-		BaseDialog<ClientComputationFormulaFunction> {
+		BaseDialog<ClientComputaionFormulaFunction> {
 
 	private DynamicForm mainForm;
 
-	private ValueCallBack<List<ClientComputationFormulaFunction>> successCallback;
+	private ValueCallBack<List<ClientComputaionFormulaFunction>> successCallback;
 	private ComputationFormulaTable table;
 	private AddNewButton itemTableButton;
 
@@ -34,7 +34,7 @@ public class ComputationFormulaDialog extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ClientComputationFormulaFunction row = new ClientComputationFormulaFunction();
+				ClientComputaionFormulaFunction row = new ClientComputaionFormulaFunction();
 				table.add(row);
 			}
 		});
@@ -54,12 +54,12 @@ public class ComputationFormulaDialog extends
 	}
 
 	public void addCallback(
-			ValueCallBack<List<ClientComputationFormulaFunction>> successCallback) {
+			ValueCallBack<List<ClientComputaionFormulaFunction>> successCallback) {
 		this.successCallback = successCallback;
 	}
 
-	private List<ClientComputationFormulaFunction> createFunctions() {
-		List<ClientComputationFormulaFunction> functions = new ArrayList<ClientComputationFormulaFunction>();
+	private List<ClientComputaionFormulaFunction> createFunctions() {
+		List<ClientComputaionFormulaFunction> functions = new ArrayList<ClientComputaionFormulaFunction>();
 		functions = table.getAllRows();
 		return functions;
 	}
@@ -68,6 +68,13 @@ public class ComputationFormulaDialog extends
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setData(List<ClientComputaionFormulaFunction> formulas) {
+		if (table == null) {
+			return;
+		}
+		table.setAllRows(formulas);
 	}
 
 }

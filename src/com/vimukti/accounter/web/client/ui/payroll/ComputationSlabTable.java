@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientComputationSlab;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -28,7 +29,12 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 
 			@Override
 			protected ClientFinanceDate getValue(ClientComputationSlab row) {
-				return row.getEffectiveFrom();
+				ClientFinanceDate date = row.getEffectiveFrom();
+				if (date == null) {
+					date = new ClientFinanceDate();
+					setValue(row, date);
+				}
+				return date;
 			}
 
 			@Override
@@ -60,6 +66,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			protected String getColumnName() {
 				return messages.fromAmount();
 			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 160;
+			}
 		});
 
 		this.addColumn(new AmountColumn<ClientComputationSlab>(null, false) {
@@ -72,11 +88,24 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			@Override
 			protected void setAmount(ClientComputationSlab row, Double value) {
 				row.setToAmount(value);
+				update(row);
+				List<ClientComputationSlab> rows = getAllRows();
+				int index = rows.indexOf(row);
+				if (index < rows.size() - 1) {
+					ClientComputationSlab slab = rows.get(index + 1);
+					slab.setFromAmount(value);
+					update(slab);
+				}
 			}
 
 			@Override
 			protected String getColumnName() {
 				return messages.amountUpto();
+			}
+
+			@Override
+			public int getWidth() {
+				return 160;
 			}
 		});
 
@@ -84,7 +113,12 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 
 			@Override
 			protected String getValue(ClientComputationSlab row) {
-				return slabTypes.get(row.getSlabType());
+				if (row.getSlabType() == 0) {
+					String string = slabTypes.get(0);
+					setValue(row, string);
+					return string;
+				}
+				return slabTypes.get(row.getSlabType() - 1);
 			}
 
 			@Override
@@ -94,7 +128,7 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 
 			@Override
 			protected void setValue(ClientComputationSlab row, String newValue) {
-				row.setSlabType(slabTypes.indexOf(newValue));
+				row.setSlabType(slabTypes.indexOf(newValue) + 1);
 			}
 
 			@Override
@@ -119,9 +153,26 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			protected String getColumnName() {
 				return messages.valueBasis();
 			}
+
+			@Override
+			public int getWidth() {
+				return 160;
+			}
 		});
 
 		this.addColumn(new DeleteColumn<ClientComputationSlab>());
+	}
+
+	@Override
+	public void delete(ClientComputationSlab row) {
+		List<ClientComputationSlab> rows = getAllRows();
+		int index = rows.indexOf(row);
+		if (index < rows.size() - 1) {
+			ClientComputationSlab slab = rows.get(index + 1);
+			slab.setFromAmount(row.getFromAmount());
+			update(slab);
+		}
+		super.delete(row);
 	}
 
 	@Override
@@ -144,5 +195,27 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			}
 		}
 		return rows;
+	}
+
+	public void addRow(ClientComputationSlab row) {
+		List<ClientComputationSlab> rows = getAllRows();
+		if (rows.size() > 1) {
+			ClientComputationSlab previous = rows.get(rows.size() - 1);
+			row.setFromAmount(previous.getToAmount());
+		}
+		add(row);
+	}
+
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		List<ClientComputationSlab> rows = getAllRows();
+		for (ClientComputationSlab slab : rows) {
+			if (slab.getToAmount() <= slab.getFromAmount()) {
+				result.addError(slab,
+						"To amount should not be lessthan or equal to from amount");
+				return result;
+			}
+		}
+		return null;
 	}
 }

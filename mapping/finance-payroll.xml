@@ -189,7 +189,7 @@
 			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 			<list name="slabs" table="COMPUTATION_SLABS">
 				<key column="PAY_HEAD_ID" not-null="true" />
-				<list-index column="SLAB_INDEX" base="1" />
+				<list-index column="SLAB_INDEX" />
 				<composite-element class="ComputationSlab">
 					<property name="effectiveFrom" column="EFFECTIVE_FROM"
 						type="com.vimukti.accounter.core.LongUseType" />
@@ -201,7 +201,7 @@
 			</list>
 			<list name="formulaFunctions" table="FORMULA_FUNCTION">
 				<key column="PAY_HEAD_ID" not-null="true" />
-				<list-index column="FUNCTION_INDEX" base="1" />
+				<list-index column="FUNCTION_INDEX" />
 				<composite-element class="ComputaionFormulaFunction">
 					<property name="functionType" column="FUNCION_TYPE" />
 					<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />

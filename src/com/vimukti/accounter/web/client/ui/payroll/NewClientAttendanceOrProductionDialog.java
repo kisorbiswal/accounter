@@ -28,6 +28,7 @@ public class NewClientAttendanceOrProductionDialog extends
 	public NewClientAttendanceOrProductionDialog(String text,
 			ClientAttendanceOrProductionType clientAttendanceOrProductionType) {
 		super(text);
+		this.getElement().setId("NewClientAttendanceOrProductionDialog");
 		this.selectedAttendanceOrProductionType = clientAttendanceOrProductionType;
 		createControl();
 		center();
@@ -97,16 +98,16 @@ public class NewClientAttendanceOrProductionDialog extends
 			clientAttendanceOrProductionType = selectedAttendanceOrProductionType;
 			clientAttendanceOrProductionType.setName(name.getValue());
 			clientAttendanceOrProductionType.setPeriodType(leaveType
-					.getSelectedIndex());
+					.getSelectedIndex() + 1);
 			clientAttendanceOrProductionType.setType(daysTypeCombo
-					.getSelectedIndex());
+					.getSelectedIndex() + 1);
 		} else {
 			clientAttendanceOrProductionType = new ClientAttendanceOrProductionType();
 			clientAttendanceOrProductionType.setName(name.getValue());
 			clientAttendanceOrProductionType.setPeriodType(leaveType
-					.getSelectedIndex());
+					.getSelectedIndex() + 1);
 			clientAttendanceOrProductionType.setType(daysTypeCombo
-					.getSelectedIndex());
+					.getSelectedIndex() + 1);
 
 		}
 		AccounterAsyncCallback<Long> callback = new AccounterAsyncCallback<Long>() {

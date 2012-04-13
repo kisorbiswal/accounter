@@ -1,11 +1,19 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class ComputationSlab {
+public class ComputationSlab implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/** Slab Types */
 
 	public static final int TYPE_PERCENTAGE = 1;
@@ -94,6 +102,37 @@ public class ComputationSlab {
 	 */
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

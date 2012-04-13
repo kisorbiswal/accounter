@@ -71,6 +71,10 @@ public abstract class PayHead extends CreatableObject implements
 	 */
 	private Account account;
 
+	public PayHead() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public PayHead(int calculationType) {
 		this.calculationType = calculationType;
 	}

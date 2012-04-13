@@ -28,10 +28,10 @@ public class AttendanceOrProductionTypeCombo extends
 					@Override
 					public boolean filter(ClientAttendanceOrProductionType e) {
 						if (type == 100) {
-							return e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY
-									|| e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY;
+							return e.getPeriodType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY
+									|| e.getPeriodType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY;
 						}
-						return e.getType() == type;
+						return e.getPeriodType() == type;
 					}
 				}, getCompany().getAttendanceProductionTypes());
 		if (type == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {

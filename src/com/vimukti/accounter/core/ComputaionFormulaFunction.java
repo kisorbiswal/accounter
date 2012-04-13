@@ -1,10 +1,19 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * @author Prasanna Kumar g
  * 
  */
-public class ComputaionFormulaFunction {
+public class ComputaionFormulaFunction implements IAccounterServerCore{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final int FUNCTION_ADD_PAY_HEAD = 1;
 
@@ -56,6 +65,37 @@ public class ComputaionFormulaFunction {
 
 	public void setAttendanceType(AttendanceOrProductionType attendanceType) {
 		this.attendanceType = attendanceType;
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,6 +1,16 @@
 package com.vimukti.accounter.core;
 
-public class AttendanceOrProductionType extends CreatableObject {
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class AttendanceOrProductionType extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final int TYPE_LEAVE_WITH_PAY = 1;
 	public static final int TYPE_LEAVE_WITHOUT_PAY = 2;
@@ -78,6 +88,19 @@ public class AttendanceOrProductionType extends CreatableObject {
 	 */
 	public void setPeriodType(int periodType) {
 		this.periodType = periodType;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

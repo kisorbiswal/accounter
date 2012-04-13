@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientComputationPayHead extends ClientPayHead {
+public class ClientComputionPayHead extends ClientPayHead {
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public class ClientComputationPayHead extends ClientPayHead {
 	/**
 	 * It exists if ComputaionType is COMPUTATE_ON_SPECIFIED_FORMULA
 	 */
-	private List<ClientComputationFormulaFunction> formulaFunctions;
+	private List<ClientComputaionFormulaFunction> formulaFunctions;
 
 	private int calculationPeriod;
 
@@ -43,12 +43,12 @@ public class ClientComputationPayHead extends ClientPayHead {
 		this.slabs = slabs;
 	}
 
-	public List<ClientComputationFormulaFunction> getFormulaFunctions() {
+	public List<ClientComputaionFormulaFunction> getFormulaFunctions() {
 		return formulaFunctions;
 	}
 
 	public void setFormulaFunctions(
-			List<ClientComputationFormulaFunction> formulaFunctions) {
+			List<ClientComputaionFormulaFunction> formulaFunctions) {
 		this.formulaFunctions = formulaFunctions;
 	}
 

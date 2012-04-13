@@ -271,18 +271,20 @@ public enum AccounterCoreType implements IsSerializable {
 	ATTENDANCE_PRODUCTION_TYPE("ClientAttendanceOrProductionType",
 			"AttendanceOrProductionType"),
 
-	COMPUTATION_FORMULA_FUNCTION("ClientComputationFormulaFunction",
+	COMPUTATION_FORMULA_FUNCTION("ClientComputaionFormulaFunction",
 			"ComputaionFormulaFunction"),
 
-	ATTENDANCE_PAY_HEAD("ClientAttendancePayhead", "AttendancePayhead"),
+	ATTENDANCE_PAY_HEAD("ClientAttendancePayHead", "AttendancePayHead"),
 
-	COMPUTATION_PAY_HEAD("ClientComputationPayHead", "ComputionPayHead"),
+	COMPUTATION_PAY_HEAD("ClientComputionPayHead", "ComputionPayHead"),
 
 	FLATRATE_PAY_HEAD("ClientFlatRatePayHead", "FlatRatePayHead"),
 
 	PRODUCTION_PAY_HEAD("ClientProductionPayHead", "ProductionPayHead"),
 
-	USERDEFINED_PAY_HEAD("ClientUserDefinedPayHead", "UserDefinedPayHead");
+	USERDEFINED_PAY_HEAD("ClientUserDefinedPayHead", "UserDefinedPayHead"),
+
+	COMPUTATION_SLAB("ClientComputationSlab", "ComputationSlab");
 
 	private String clientName;
 	private String serverName;

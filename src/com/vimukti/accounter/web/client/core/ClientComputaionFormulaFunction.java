@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientComputationFormulaFunction implements IAccounterCore {
+public class ClientComputaionFormulaFunction implements IAccounterCore {
 
 	/**
 	 * 
