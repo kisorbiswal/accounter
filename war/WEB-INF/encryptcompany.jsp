@@ -56,27 +56,26 @@ $('#submitButton').click(function() {
 			  <div id="content" >
 			  <div  ><i18n:i18n msg='encryptionEnablesyourCompanydata'/></div>
 			  <div  ><i18n:i18n msg='encryptionPasswordisImportant'/></div>
-			  </div><div>
-			 <input type="hidden" name="on0" value="Companies list">Companies list
+			  </div><div class="encryptiondiv">
+			 <input type="hidden" name="on0" value="Companies list"><label>Companies list</label>
 			<c:if test="${companeyList != null}">
 			<select name="companyname">
 			<c:forEach var="company" items="${companeyList}">
 			<option value="${company[0]}">${company[1]}</option> 
 			</c:forEach></select> 
 			</c:if>
-			 Enter password
-			<input type="password" id= "pass1" name="password" >Confirm password
-			<input type="password" id= "pass2"  name="confirm" >Hint
+			 <label>Enter password</label>
+			<input type="password" id= "pass1" name="password" ><label>Confirm password</label>
+			<input type="password" id= "pass2"  name="confirm" ><label>Hint</label>
 			<input type="text" id= "hint"  name="hint" >
 			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="<i18n:i18n msg='submit'/>">
-			 <a   href="/main/companies" ><i18n:i18n msg='companieslist'/></a> | 
-			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
 			<div>
 			</div>
 		</div>
 		   </form>
 		   <div class="form-bottom-options">
-		     
+		     <a   href="/main/companies" ><i18n:i18n msg='companieslist'/></a> | 
+			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
 		   </div>
 		   </div>
 	     <!-- Footer Section-->
