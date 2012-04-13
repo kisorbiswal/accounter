@@ -18,7 +18,13 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
  * @author Prasanna Kumar G
  * 
  */
-public abstract class PayHead extends CreatableObject {
+public abstract class PayHead extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static final int TYPE_EARNINGS_FOR_EMPLOYEES = 1;
 	public static final int TYPE_DEDUCTIONS_FOR_EMPLOYEES = 2;

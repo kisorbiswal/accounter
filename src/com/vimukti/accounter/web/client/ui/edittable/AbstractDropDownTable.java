@@ -174,7 +174,7 @@ public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 		}
 		for (T t : data) {
 			if (filter(t, text)) {
-				if (data.indexOf(t) == 0) {
+				if (isAddNewReq && data.indexOf(t) == 0) {
 					return null;
 				}
 				return t;
