@@ -96,6 +96,8 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 			return 50;
 		if (index == 1)
 			return 150;
+		if (index == 2)
+			return 588;
 		if (index == 3)
 			return 100;
 		if (index == 4) {

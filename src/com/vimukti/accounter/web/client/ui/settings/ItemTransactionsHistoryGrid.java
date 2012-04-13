@@ -130,9 +130,9 @@ public abstract class ItemTransactionsHistoryGrid extends
 		case 1:
 			return 120;
 		case 2:
-			return 30;
+			return 40;
 		case 3:
-			return -1;
+			return 265;
 		case 4:
 			return 80;
 		case 5:

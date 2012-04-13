@@ -39,10 +39,13 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
+		case 0:
+		case 1:
+		case 2:
+			return 275;
 		case 3:
-			return 40;
 		case 4:
-			return 40;
+			return 50;
 		default:
 			break;
 		}

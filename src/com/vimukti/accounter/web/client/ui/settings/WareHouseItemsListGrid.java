@@ -19,6 +19,11 @@ public class WareHouseItemsListGrid extends BaseListGrid<ClientItemStatus> {
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		return 455;
+	}
+
+	@Override
 	protected void executeDelete(ClientItemStatus object) {
 		// TODO Auto-generated method stub
 

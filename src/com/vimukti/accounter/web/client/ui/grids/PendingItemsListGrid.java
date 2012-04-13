@@ -92,10 +92,16 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 7)
-			return 20;
-		if (index == 2) {
+		if (index == 0 || index == 1) {
+			return 105;
+		} else if (index == 2) {
 			return 200;
+		} else if (index == 3 || index == 5 || index == 6) {
+			return 105;
+		} else if (index == 4) {
+			return 105;
+		} else if (index == 7) {
+			return 20;
 		}
 		return super.getCellWidth(index);
 	}

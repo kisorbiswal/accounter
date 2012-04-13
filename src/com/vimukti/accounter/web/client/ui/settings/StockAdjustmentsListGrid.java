@@ -119,8 +119,12 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
+		case 0:
+		case 1:
+		case 2:
+			return 289;
 		case 3:
-			return 40;
+			return 45;
 		default:
 			break;
 		}

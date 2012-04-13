@@ -150,6 +150,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			}
 			if (index == 0 || index == 1) {
 				return 50;
+			}else if(index == 2){
+				return 348;				
 			} else if (index == 4)
 				return 150;
 			else if (index == 5)
@@ -167,6 +169,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			}
 			if (index == 0) {
 				return 50;
+			}else if(index == 2){
+				return 348;				
 			} else if (index == 3)
 				return 200;
 			else if (index == 4)

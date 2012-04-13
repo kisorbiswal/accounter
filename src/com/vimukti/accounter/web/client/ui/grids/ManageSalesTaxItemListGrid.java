@@ -73,6 +73,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 		switch (index) {
 		case 0:
 			return 300;
+		case 1:
+			return 298;
 		case 2:
 			return 105;
 		case 3:

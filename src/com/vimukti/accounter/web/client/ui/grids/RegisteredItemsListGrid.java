@@ -61,7 +61,9 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return 120;
 		else if (index == 1)
 			return 85;
-
+		else if (index == 2) {
+			return 218;
+		}
 		return super.getCellWidth(index);
 	}
 

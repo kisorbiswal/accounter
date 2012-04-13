@@ -139,11 +139,13 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return 60;
 		else if (index == 3 || index == 4 || index == 5)
 			return 105;
+		else if(index==6)
+			return 142;
 		else if (index == 7)
 			return 115;
 		else if (index == 8)
-			return 30;
-
+			return 40;
+		
 		return super.getCellWidth(index);
 		// return -1;
 	}

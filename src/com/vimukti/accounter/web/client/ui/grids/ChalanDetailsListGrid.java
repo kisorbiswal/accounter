@@ -116,6 +116,18 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected int getCellWidth(int index) {
+		if (index == 0)
+			return 105;
+		if (index == 1)
+			return 173;
+		if (index == 2)
+			return 128;
+		if (index == 3)
+			return 138;
+		if (index == 4)
+			return 170;
+		if (index == 5)
+			return 163;
 		if (index == 6) {
 			return 15;
 		}
