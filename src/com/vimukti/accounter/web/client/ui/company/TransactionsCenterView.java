@@ -63,7 +63,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 			@Override
 			protected void onMenuItemClick(String menuItemName) {
-				initGridData(menuItemName);
+				initGridData(menuItemName, false);
 			}
 
 		};
@@ -77,7 +77,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		listPanel.addMenuPanel(messages.others(), getOtherCenterItems());
 		baseListView = (TransactionsListView<T>) new InvoiceListView();
 
-		initGridData(getMessages().invoices());
+		initGridData(getMessages().invoices(), false);
 	}
 
 	private List<String> getBankCenterItems() {
@@ -89,7 +89,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void initGridData(String itemName) {
+	protected void initGridData(String itemName, boolean isRestoreView) {
 		selectedItem = itemName;
 		baseListView.clear();
 		mainPanel.remove(baseListView);
@@ -197,7 +197,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		mainPanel.add(baseListView);
 		MainFinanceWindow.getViewManager().updateButtons();
 		baseListView.init();
-		baseListView.initData();
+		if (!isRestoreView) {
+			baseListView.initData();
+		}
 		baseListView.removeStyleName("abstract_base_view");
 	}
 
@@ -327,19 +329,17 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		}
 		String selectedItem = (String) map.get("selectedItem");
 		if (selectedItem != null) {
-			initGridData(selectedItem);
+			initGridData(selectedItem, true);
 			listPanel.setMenuSelected(selectedItem);
 		}
 		String currentView = (String) map.get("currentView");
 		baseListView.setViewType(currentView);
 		String dateRange1 = (String) map.get("dateRange");
 		baseListView.setDateRange(dateRange1);
-		baseListView.dateRangeChanged(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
 		baseListView.setStartDate(startDate1);
 		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
 		baseListView.setEndDate(endDate1);
-
 		baseListView.restoreView(currentView, dateRange1);
 	}
 

@@ -457,6 +457,9 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	public void setViewType(String viewType) {
 		this.viewType = viewType;
+		if (viewSelect != null) {
+			viewSelect.setComboItem(viewType);
+		}
 	}
 
 	@Override
@@ -471,14 +474,12 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	@Override
 	public void restoreView(String currentView, String dateRange) {
-		if (currentView != null) {
-			viewSelect.setComboItem(currentView);
-			setViewType(currentView);
-		}
 		if (dateRange != null) {
 			dateRangeSelector.setComboItem(dateRange);
 			setDateRange(dateRange);
 		}
+		fromItem.setDateWithNoEvent(getStartDate());
+		toItem.setDateWithNoEvent(getEndDate());
 		filterList(currentView);
 	}
 }

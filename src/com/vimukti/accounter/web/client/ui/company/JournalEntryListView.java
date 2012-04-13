@@ -163,11 +163,9 @@ public class JournalEntryListView extends
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (viewSelect.getSelectedValue().equalsIgnoreCase(messages.all())) {
-			grid.setRecords(initialRecords);
-		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+		grid.removeAllRecords();
+		grid.addLoadingImagePanel();
+		onPageChange(0, getPageSize());
 
 	}
 

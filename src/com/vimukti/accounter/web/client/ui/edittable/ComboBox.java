@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -125,7 +127,15 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 
 	private void editComplete() {
 		String text = textBox.getText();
-		C filteredValue = dropDown.getFilteredValue(text.toLowerCase());
+		List<C> totalRowsData = dropDown.getTotalRowsData();
+		C filteredValue = null;
+		for (C c : totalRowsData) {
+			if (dropDown.getDisplayValue(c).toLowerCase()
+					.equals(text.toLowerCase())) {
+				filteredValue = c;
+				break;
+			}
+		}
 		if (filteredValue != null) {
 			setValue(filteredValue);
 			if (changeHandler != null && value != null) {
@@ -161,7 +171,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 		popupPanel.getElement().setAttribute("style",
 				"min-width:" + textBox.getOffsetWidth() + "px");
 		scrollPanel.addStyleName("combo-scroll-panel");
-//		popupPanel.setHeight("100px");
+		// popupPanel.setHeight("100px");
 
 		if ((x + popupWdth) > clientwidth) {
 			x = x - (popupPanel.getOffsetWidth() - this.getOffsetWidth());
@@ -238,7 +248,7 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 			}
 		} else {
 			if (isClicked) {
-				popupPanel.hide();				
+				popupPanel.hide();
 				dropDown.addNewItem();
 			}
 		}

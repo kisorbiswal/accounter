@@ -120,6 +120,7 @@ public class BillListView extends TransactionsListView<BillsList> implements
 	public void onSuccess(PaginationList<BillsList> result) {
 		allEnterBills = result;
 		grid.refreshAllRecords();
+		grid.removeLoadingImage();
 		grid.setRecords(result);
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
@@ -147,6 +148,7 @@ public class BillListView extends TransactionsListView<BillsList> implements
 	protected void filterList(String text) {
 		this.setViewType(text);
 		grid.removeAllRecords();
+		grid.addLoadingImagePanel();
 		onPageChange(0, getPageSize());
 	}
 
