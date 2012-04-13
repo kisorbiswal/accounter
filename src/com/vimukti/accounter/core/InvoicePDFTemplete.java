@@ -32,8 +32,23 @@ public class InvoicePDFTemplete implements PrintTemplete {
 	}
 
 	public String getTempleteName() {
+		String tempName = getTempName(templateName);
+		return "templetes" + File.separator + tempName + ".html";
+	}
 
-		return "templetes" + File.separator + templateName + ".html";
+	private String getTempName(String templateName2) {
+
+		if (templateName2.contains("Classic")) {
+			return "ClassicInvoice";
+		} else if (templateName2.contains("Plain")) {
+			return "PlainInvoice";
+		} else if (templateName2.contains("Professional")) {
+			return "ProfessionalInvoice";
+		} else if (templateName2.contains("Modern")) {
+			return "ModernInvoice";
+		}
+		return "";
+
 	}
 
 	@Override

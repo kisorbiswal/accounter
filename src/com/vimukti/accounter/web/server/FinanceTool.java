@@ -2486,7 +2486,7 @@ public class FinanceTool {
 			} else {
 				// for regular html branding theme
 				printTemplete = new InvoicePDFTemplete(invoice, brandingTheme,
-						company, "ClassicInvoice");
+						company, brandingTheme.getInvoiceTempleteName());
 
 				fileName = printTemplete.getFileName();
 
