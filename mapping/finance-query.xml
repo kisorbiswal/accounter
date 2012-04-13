@@ -11271,6 +11271,7 @@
 				             OR P.ID = RP.CUSTOMER_ID
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.PAYMENT_METHOD = :paymentMethod
+				       AND T.SAVE_STATUS NOT IN (201,202,204)
 				       AND (  T.T_DATE BETWEEN :startDate AND :endDate);  
 				]]>
 
