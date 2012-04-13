@@ -4877,7 +4877,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 .inner_transactionMeterBar_yellow {
-	background: none repeat scroll 0 0 yellow;
+	background: none repeat scroll 0 0 #F2746D;
 }
 
 .inner_transactionMeterBar_red {
@@ -7387,4 +7387,91 @@ table.no_records tr td{
 }
 #BaseDialog .messageOrTaskTextareaitem textarea{
     width:300px;
+}
+
+/* payroll views and list views css*/
+#PayrollUnitListView .hlay .form{
+	float:right;
+}
+#EmployeeListView .hlayTop .form{
+	float:right;
+}
+#EmployeeGroupListDialog .bodyLayout1 .gridHeaderParent{
+	width:250px;
+}
+#EmployeeGroupListDialog .bodyLayout1{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+    -moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#EmployeeCategoryListDialog .bodyLayout1 .gridHeaderParent{
+	width:250px;
+}
+#EmployeeCategoryListDialog .bodyLayout1{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+    -moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#NewPayrollUnitDialog .bodyLayout .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin: 10px;
+}
+#NewEmployeeView .firstPanel{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	-moz-box-flex: 1;
+	width:100%;
+}
+#NewEmployeeView .firstPanel fieldset:first-child {
+    margin: 10px 20px 10px 0;
+    width: 454px;
+}
+#NewEmployeeView .firstPanel fieldset:last-child {
+    margin: 10px 0;
+    width: 454px;
+}
+#NewEmployeeView .firstPanel .basicInfoForm, #NewEmployeeView .firstPanel .empDetailsInfoForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin:10px;
+}
+#NewEmployeeView .secondPanel .empOtherDetailsInfoForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin:10px;
+}
+
+#NewPayHeadView .panel .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#NewPayHeadView .panel .form .readioGropuitem .panel span{
+	margin-right:15px;
 }
