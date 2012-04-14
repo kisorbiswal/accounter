@@ -420,7 +420,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		
+
 		this.isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
 			if (isTemplate()) {
@@ -842,10 +842,6 @@ public class Invoice extends Transaction implements Lifecycle {
 					|| isCurrencyFactorChanged()) {
 				doVoidEffect(session, invoice);
 
-				Customer customer = (Customer) session.get(Customer.class,
-						invoice.customer.getID());
-				customer.updateBalance(session, this, invoice.total,
-						invoice.getCurrencyFactor());
 				this.onSave(session);
 				return;
 			}
