@@ -581,8 +581,9 @@ public class Estimate extends Transaction {
 	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		Estimate estimate = (Estimate) super.clone();
-		this.usedInvoice = null;
-		status = STATUS_OPEN;
+		estimate.usedInvoice = null;
+		estimate.usedCashSale = null;
+		estimate.status = STATUS_OPEN;
 		return estimate;
 	}
 
