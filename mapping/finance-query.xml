@@ -2785,7 +2785,7 @@
 
 	</sql-query>
 
-	<sql-query name="canDeleteVendorPayment">
+	<sql-query name="canDeleteVendorPrePayment">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
