@@ -6514,6 +6514,9 @@
 
 		DELETE FROM account_transaction
 		WHERE  company_id = cid;
+		
+		DELETE FROM payee_update
+		WHERE company_id = cid;
 
 		DELETE FROM adjustment_reason
 		WHERE  company_id = cid;

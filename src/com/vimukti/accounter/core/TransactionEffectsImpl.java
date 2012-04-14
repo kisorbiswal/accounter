@@ -89,6 +89,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				account = trc.purchaseLiabilityAccount;
 			}
 			add(account, trc.getTAXAmount() / transaction.getCurrencyFactor());
+			addTRC(trc);
 
 		}
 	}
@@ -117,6 +118,15 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 			newIUs.get(index).add(itemUpdate);
 		} else {
 			newIUs.add(itemUpdate);
+		}
+	}
+
+	private void addTRC(TAXRateCalculation trc) {
+		int index = newTRCs.indexOf(trc);
+		if (index >= 0) {
+			newTRCs.get(index).add(trc);
+		} else {
+			newTRCs.add(trc);
 		}
 	}
 

@@ -316,4 +316,9 @@ public class TAXRateCalculation implements IAccounterServerCore {
 		return false;
 	}
 
+	public void add(TAXRateCalculation trc) {
+		this.lineTotal += trc.getLineTotal();
+		this.taxAmount += trc.getTAXAmount();
+	}
+
 }
