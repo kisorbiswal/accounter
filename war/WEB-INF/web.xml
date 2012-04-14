@@ -962,4 +962,17 @@
 		<url-pattern>/do/accounter/windows/rpc/service</url-pattern>
 	</servlet-mapping>
 
+	<!-- for creating caching file -->
+	<servlet>
+		<servlet-name>CacheFilenameCreatorServlet</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.CacheFilenameCreatorServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CacheFilenameCreatorServlet</servlet-name>
+		<url-pattern>/main/cache/*</url-pattern>
+	</servlet-mapping>
+
+
 </web-app>
