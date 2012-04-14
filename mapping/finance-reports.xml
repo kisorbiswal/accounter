@@ -2123,17 +2123,13 @@
 				         ELSE P.NAME
 				       END            AS PAYEE_NAME,
 				       T.ID           AS TRANSACTION_ID,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END            AS TRANSACTION_TYPE,
+				       T.T_TYPE		  AS TRANSACTION_TYPE,
 				       T.T_DATE       AS TRANSACTION_DATE,
 				       T.NUMBER       AS TRANSACTION_NUMBER,
 				       SUM(AT.AMOUNT) AS AMOUNT,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25
+				              THEN NULL
 				         ELSE T.MEMO
 				       END            AS MEMO
 				FROM   ACCOUNT_TRANSACTION AT
@@ -2230,17 +2226,13 @@
 				         ELSE P.NAME
 				       END            AS PAYEE_NAME,
 				       T.ID           AS TRANSACTION_ID,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END            AS TRANSACTION_TYPE,
+				       T.T_TYPE       AS TRANSACTION_TYPE,
 				       T.T_DATE       AS TRANSACTION_DATE,
 				       T.NUMBER       AS TRANSACTION_NUMBER,
 				       SUM(AT.AMOUNT) AS AMOUNT,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25
+				              THEN NULL
 				         ELSE T.MEMO
 				       END            AS MEMO,
 				       C.FULL_NAME    AS C_NAME
@@ -2467,8 +2459,8 @@
 				         ELSE AT.AMOUNT
 				       END              AS AMOUNT,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25
+				              THEN NULL
 				         ELSE T.MEMO
 				       END              AS MEMO
 				FROM   ACCOUNT_TRANSACTION AT
@@ -2511,8 +2503,7 @@
 				               OR ( T.T_TYPE = 11
 				                    AND A.A_TYPE NOT IN ( 4, 9, 13 )
 				                    AND A.ID = TI.ACCOUNT_ID ) )
-				             OR ( ( T.T_TYPE != 11
-				                     OR PB.PAYBILL_TYPE != 1 )
+				             OR ( ( T.T_TYPE != 11)
 				                  AND A.ID = AT.ACCOUNT_ID )
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
@@ -2815,11 +2806,7 @@
 		
 		<![CDATA[
 				SELECT T.ID              AS TRANSACTION_ID,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END               AS TRANSACTION_TYPE,
+				       T.T_TYPE 	     AS TRANSACTION_TYPE,
 				       T.T_DATE          AS TRANSACTION_DATE,
 				       CASE
 				         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
@@ -3532,13 +3519,7 @@
 		<![CDATA[
 				SELECT *
 				FROM   (SELECT T.ID                        AS TRANSACTION_ID,
-				               CASE
-				                 WHEN T.T_TYPE = 11 THEN CASE
-				                                           WHEN PB.PAYBILL_TYPE = 1 THEN 11
-				                                           ELSE 25
-				                                         END
-				                 ELSE T.T_TYPE
-				               END                         AS TRANSACTION_TYPE,
+				               T.T_TYPE 	               AS TRANSACTION_TYPE,
 				               T.T_DATE                    AS TRANSACTION_DATE,
 				               P.NAME                      AS NAME,
 				               A.NAME                      AS ACCOUNT_NAME,
@@ -4060,13 +4041,7 @@
 									SELECT T.CURRENCY        AS CURRENCY,
 						       T.CURRENCY_FACTOR AS CURRENCY_FACTOR,
 						       T.T_DATE          AS TRANSACTION_DATE,
-						       CASE
-						         WHEN T.T_TYPE != 11 THEN T.T_TYPE
-						         ELSE CASE
-						                WHEN PB.PAYBILL_TYPE = 1 THEN 11
-						                ELSE 25
-						              END
-						       END               AS TRANSACTION_TYPE,
+						       T.T_TYPE		     AS TRANSACTION_TYPE,
 						       CASE
 						         WHEN T.T_TYPE = 34 THEN CAST (CAST(TDS.CHALANSERIALNUMBER AS TEXT) AS
 						                                       BYTEA)
@@ -4116,11 +4091,9 @@
 						                          AND TRP.WRITE_OFF_ID IS NOT NULL
 						                          AND TRP.TRANSACTION_ID = AT.TRANSACTION_ID) = 0 THEN
 						         :debtors
-						         WHEN T.T_TYPE = 11
-						              AND PB.PAYBILL_TYPE = 2
+						         WHEN T.T_TYPE = 25
 						              AND A.ID != 3 THEN :creditors
 						         WHEN T.T_TYPE = 11
-						              AND PB.PAYBILL_TYPE = 1
 						              AND A.ID != 3
 						              AND (SELECT COUNT(TPB.DISCOUNT_ID)
 						                   FROM   TRANSACTION_PAYBILL TPB
@@ -4179,7 +4152,6 @@
 						       AND T.T_DATE BETWEEN :startDate AND :endDate
 						GROUP  BY T.ID,
 						          AT.TRANSACTION_ID,
-						          PB.PAYBILL_TYPE,
 						          A.ID,
 						          AT.ACCOUNT_ID,
 						          A.NAME,
@@ -4284,17 +4256,13 @@
 							         ELSE P.NAME
 							       END            AS PAYEE_NAME,
 							       T.ID           AS TRANSACTION_ID,
-							       CASE
-							         WHEN T.T_TYPE = 11
-							              AND PB.PAYBILL_TYPE = 2 THEN 25
-							         ELSE T.T_TYPE
-							       END            AS TRANSACTION_TYPE,
+							       T.T_TYPE       AS TRANSACTION_TYPE,
 							       T.T_DATE       AS TRANSACTION_DATE,
 							       T.NUMBER       AS TRANSACTION_NUMBER,
 							       SUM(AT.AMOUNT) AS AMOUNT,
 							       CASE
-							         WHEN T.T_TYPE = 11
-							              AND PB.PAYBILL_TYPE = 2 THEN NULL
+							         WHEN T.T_TYPE = 25
+							              THEN NULL
 							         ELSE T.MEMO
 							       END            AS MEMO,
 							       C.FULL_NAME    AS C_NAME
