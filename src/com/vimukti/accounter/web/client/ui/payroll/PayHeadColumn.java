@@ -6,18 +6,13 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 
-public class PayHeadColumn extends
+public abstract class PayHeadColumn extends
 		ComboColumn<ClientPayStructureItem, ClientPayHead> {
 	PayHeadDropDownTable dropdown = new PayHeadDropDownTable(true);
 
 	@Override
 	protected ClientPayHead getValue(ClientPayStructureItem row) {
 		return Accounter.getCompany().getPayHead(row.getPayHead());
-	}
-
-	@Override
-	protected void setValue(ClientPayStructureItem row, ClientPayHead newValue) {
-		row.setPayHead(newValue.getID());
 	}
 
 	@Override
