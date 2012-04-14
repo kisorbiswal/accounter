@@ -26,6 +26,9 @@ public class NewBrandCustomThemeAction extends Action {
 					isDependent);
 		}
 		customThemeDialog.setUsersActivityList(isUsersActivityList());
+		if (getCallback() != null) {
+			customThemeDialog.setCallback(getCallback());
+		}
 		customThemeDialog.show();
 
 	}

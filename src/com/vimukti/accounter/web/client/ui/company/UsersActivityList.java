@@ -430,9 +430,9 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 									.getNewBrandCustomThemeAction();
 							newBrandCustomThemeAction
 									.setUsersActivityList(true);
-							newBrandCustomThemeAction.run(result, true);
 							newBrandCustomThemeAction
 									.setCallback(getCoreActionCallBack());
+							newBrandCustomThemeAction.run(result, true);
 						} else {
 							NewBrandThemeAction newBrandThemeAction = ActionFactory
 									.getNewBrandThemeAction();

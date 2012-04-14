@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -25,7 +26,7 @@ public class TAXGroup extends TAXItemGroup {
 	/**
 	 * VAT group consists of a list of VAT Items. {@link TAXItem}
 	 */
-	List<TAXItem> taxItems;
+	List<TAXItem> taxItems = new ArrayList<TAXItem>();
 
 	double groupRate;
 

@@ -84,6 +84,10 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 	}
 
 	private void createControls() {
+		if (getData() != null) {
+			this.selectedAccount = getCompany().getAccount(
+					getData().getAccount());
+		}
 		resetLayout(false);
 		// Loading default cheque layout
 		allPanel = new StyledPanel("allPanel");
@@ -510,7 +514,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 		DynamicForm amountForm4 = new DynamicForm("fourForm");
 		amountForm4.add(companyLabel, companyTop, companyLeft, companyWidth);
-		
+
 		DynamicForm amountForm5 = new DynamicForm("fourForm");
 		amountForm5.add(signatoryLabel, signatoryTop, signatoryLeft,
 				signatoryWidth);

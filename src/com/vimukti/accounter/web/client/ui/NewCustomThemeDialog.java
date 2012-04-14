@@ -136,6 +136,10 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 		super.saveSuccess(object);
 		if (!isUsersActivityList()) {
 			ActionFactory.getInvoiceBrandingAction().run(null, true);
+		} else {
+			if (getCallback() != null) {
+				getCallback().actionResult((ClientBrandingTheme) object);
+			}
 		}
 	}
 

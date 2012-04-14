@@ -9,8 +9,8 @@ public class ClientTAXGroup extends ClientTAXItemGroup {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	List<ClientTAXItem> taxItems;
+
+	List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
 	double groupRate;
 
 	/**

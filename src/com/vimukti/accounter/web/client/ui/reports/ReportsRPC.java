@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
+import com.vimukti.accounter.web.client.core.ClientChequeLayout;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -365,6 +366,10 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			initCallBack(new ClientBuildAssembly(),
 					ActionFactory.getBuildAssemblyAction(), transactionId);
+			break;
+		case IAccounterCore.CHECK_LAYOUT:
+			initCallBack(new ClientChequeLayout(),
+					ActionFactory.getCheckPrintSettingAction(), transactionId);
 			break;
 		}
 

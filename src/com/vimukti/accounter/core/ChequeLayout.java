@@ -2,10 +2,11 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ChequeLayout extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -249,6 +250,21 @@ public class ChequeLayout extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+	}
+
+	@Override
+	public String getName() {
+		return getAuthorisedSignature();
+	}
+
+	@Override
+	public void setName(String name) {
+		this.setAuthorisedSignature(name);
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.CHECK_LAYOUT;
 	}
 
 }
