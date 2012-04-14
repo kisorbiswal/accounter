@@ -247,38 +247,6 @@ public class CustomerPrePayment extends Transaction {
 
 			}
 
-			if (customerPrePayment.customer.getID() != this.customer.getID()
-					|| (!DecimalUtil.isEquals(customerPrePayment.total,
-							this.total) || isCurrencyFactorChanged())) {
-				customerPrePayment.customer.updateBalance(session, this,
-						-customerPrePayment.total,
-						customerPrePayment.getCurrencyFactor());
-				this.customer.updateBalance(session, this, +this.total);
-				this.creditsAndPayments.updateCreditPayments(this.total);
-			}
-
-			if (this.depositIn.getID() != customerPrePayment.depositIn.getID()
-					|| !DecimalUtil.isEquals(this.total,
-							customerPrePayment.total)
-					|| isCurrencyFactorChanged()) {
-
-				Account depositInAccount = (Account) session.get(Account.class,
-						customerPrePayment.depositIn.getID());
-				depositInAccount.updateCurrentBalance(this,
-						customerPrePayment.total,
-						customerPrePayment.currencyFactor);
-				depositInAccount.onUpdate(session);
-				this.depositIn.updateCurrentBalance(this, -this.total,
-						this.currencyFactor);
-				this.depositIn.onUpdate(session);
-
-			}
-			// else {
-			// this.depositIn.updateCurrentBalance(this,
-			// customerPrePayment.total - this.total);
-			// this.depositIn.onUpdate(session);
-			//
-			// }
 		}
 		if ((this.paymentMethod
 				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
@@ -310,6 +278,21 @@ public class CustomerPrePayment extends Transaction {
 		return effectingAccountsWithAmounts;
 	}
 
+	/**
+	 * @return the depositIn
+	 */
+	public Account getDepositIn() {
+		return depositIn;
+	}
+
+	/**
+	 * @param depositIn
+	 *            the depositIn to set
+	 */
+	public void setDepositIn(Account depositIn) {
+		this.depositIn = depositIn;
+	}
+
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
@@ -338,6 +321,13 @@ public class CustomerPrePayment extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? total : -total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(getDepositIn(), -getTotal());
+		e.add(getCustomer(), getTotal());
+		// TODO DEAL WITH CREADITS AND PAYMENTS
 	}
 
 }

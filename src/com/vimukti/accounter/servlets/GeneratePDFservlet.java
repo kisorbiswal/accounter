@@ -75,8 +75,8 @@ import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.VendorCreditMemo;
 import com.vimukti.accounter.core.VendorCreditPdfGeneration;
-import com.vimukti.accounter.core.VendorPayment;
 import com.vimukti.accounter.core.VendorPaymentPdfGeneration;
+import com.vimukti.accounter.core.VendorPrePayment;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.WriteCheckPdfGeneration;
 import com.vimukti.accounter.core.reports.generators.IReportGenerator;
@@ -525,7 +525,7 @@ public class GeneratePDFservlet extends BaseServlet {
 						}
 
 						if (transactionType == Transaction.TYPE_VENDOR_PAYMENT) {
-							VendorPayment vendorPayment = (VendorPayment) financetool
+							VendorPrePayment vendorPayment = (VendorPrePayment) financetool
 									.getManager().getServerObjectForid(
 											AccounterCoreType.VENDORPAYMENT,
 											Long.parseLong(ids[i]));
@@ -954,12 +954,12 @@ public class GeneratePDFservlet extends BaseServlet {
 
 			}
 
-			if (transaction instanceof VendorPayment) {
+			if (transaction instanceof VendorPrePayment) {
 				templeteName = "templetes" + File.separator
 						+ "VendorPaymentOdt.odt";
 				fileName = "Paymentrecipt_" + transaction.getNumber();
 				vendorPaymentPdfGeneration = new VendorPaymentPdfGeneration(
-						(VendorPayment) transaction, company);
+						(VendorPrePayment) transaction, company);
 
 			}
 
@@ -1119,7 +1119,7 @@ public class GeneratePDFservlet extends BaseServlet {
 						report);
 			} else if (transaction instanceof WriteCheck) {
 				context = writeCheckPdfGeneration.assignValues(context, report);
-			} else if (transaction instanceof VendorPayment) {
+			} else if (transaction instanceof VendorPrePayment) {
 				context = vendorPaymentPdfGeneration.assignValues(context,
 						report);
 			} else if (transaction instanceof EnterBill) {

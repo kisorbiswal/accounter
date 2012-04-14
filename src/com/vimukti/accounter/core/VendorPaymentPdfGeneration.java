@@ -7,10 +7,10 @@ import fr.opensagres.xdocreport.template.IContext;
 
 public class VendorPaymentPdfGeneration {
 
-	private VendorPayment vendorPayment;
+	private VendorPrePayment vendorPayment;
 	private Company company;
 
-	public VendorPaymentPdfGeneration(VendorPayment payment, Company company) {
+	public VendorPaymentPdfGeneration(VendorPrePayment payment, Company company) {
 		this.company = company;
 		this.vendorPayment = payment;
 	}

@@ -248,8 +248,6 @@ public class VendorCreditMemo extends Transaction {
 
 		} else if (!this.equals(vendorCreditMemo)) {
 
-			this.cleanTransactionitems(this);
-
 			/**
 			 * Checking that whether two vendors are same are not. If they are
 			 * not same then update clonedObject Vendor and New Vendor balances
@@ -276,20 +274,7 @@ public class VendorCreditMemo extends Transaction {
 					.isEquals(this.total, vendorCreditMemo.total)))
 					|| isCurrencyFactorChanged()) {
 
-				// if (DecimalUtil.isLessThan(this.total,
-				// vendorCreditMemo.total)) {
-				vendor.updateBalance(session, this, vendorCreditMemo.total,
-						vendorCreditMemo.getCurrencyFactor());
-				this.vendor.updateBalance(session, this, -this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
-				// } else {
-				//
-				// this.vendor.updateBalance(session, this,
-				// vendorCreditMemo.total - this.total);
-				// this.creditsAndPayments.updateCreditPayments(this.total);
-				// }
-
-				// session.saveOrUpdate(this.creditsAndPayments);
 
 			}
 
@@ -380,5 +365,36 @@ public class VendorCreditMemo extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? -total : total;
 		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getVendor(), -getTotal());
 	}
 }

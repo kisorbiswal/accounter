@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -16,6 +17,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * Payee is the object which represents a real-time entity of either
@@ -26,6 +28,8 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  */
 public abstract class Payee extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
+
+	Logger log = Logger.getLogger(FinanceTool.class);
 
 	/**
 	 * 
@@ -399,6 +403,25 @@ public abstract class Payee extends CreatableObject implements
 		 * balance should not be editable. So we will make it as un editable.
 		 */
 		// isOpeningBalanceEditable = Boolean.FALSE;
+		ChangeTracker.put(this);
+	}
+
+	public void effectBalance(double amount) {
+
+		/**
+		 * To check whether this payee is Customer, Vendor or Tax Agency.
+		 * Depending on the type we will either decrease or increase the balance
+		 * of the corresponding Payee.
+		 */
+		log.info("Effecting Balance of " + getName() + "(" + getBalance()
+				+ ") with " + amount);
+
+		if (this.type == TYPE_CUSTOMER) {
+			this.balance -= amount;
+		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
+			this.balance += amount;
+		}
+
 		ChangeTracker.put(this);
 	}
 

@@ -811,6 +811,12 @@ public class SalesOrder extends Transaction {
 
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
 // package com.vimukti.accounter.core;
 //

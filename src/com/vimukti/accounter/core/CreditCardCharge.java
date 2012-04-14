@@ -8,7 +8,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -265,24 +264,6 @@ public class CreditCardCharge extends Transaction {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			if (this.payFrom.getID() != creditCardCharge.getPayFrom().getID()
-					|| isCurrencyFactorChanged()) {
-				Account prePayFrom = (Account) session.get(Account.class,
-						creditCardCharge.payFrom.getID());
-				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total,
-						creditCardCharge.currencyFactor);
-				prePayFrom.onUpdate(session);
-				this.payFrom.updateCurrentBalance(this, this.total,
-						this.currencyFactor);
-				payFrom.onUpdate(session);
-			} else if (!DecimalUtil.isEquals(this.getTotal(),
-					creditCardCharge.getTotal())) {
-				this.payFrom.updateCurrentBalance(this, this.total
-						- creditCardCharge.total,
-						creditCardCharge.currencyFactor);
-				this.payFrom.onUpdate(session);
-			}
-
 		}
 
 		super.onEdit(clonedObject);
@@ -380,6 +361,39 @@ public class CreditCardCharge extends Transaction {
 	@Override
 	protected void updatePayee(boolean onCreate) {
 
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getPayFrom(), getTotal());
 	}
 
 }

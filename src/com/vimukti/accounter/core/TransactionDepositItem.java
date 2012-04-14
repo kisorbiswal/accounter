@@ -211,33 +211,12 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
-
-		if (!transaction.isDraftOrTemplate() && !transaction.isVoid()) {
-			doCreateEffect(session);
-		}
 		return false;
 	}
 
 	private void checkNullValues() {
 		if (this.total == null) {
 			this.setTotal(new Double(0));
-		}
-	}
-
-	private void doCreateEffect(Session session) {
-
-		/**
-		 * First take the Back up of the TransactionItem information
-		 */
-		Double amount = (transaction.isPositiveTransaction() ? 1d : -1d)
-				* (this.total);
-		// this.setUpdateAmount(amount);
-		Account effectingAccount = this.account;
-		if (effectingAccount != null) {
-			effectingAccount.updateCurrentBalance(this.transaction, -amount,
-					transaction.currencyFactor);
-			session.saveOrUpdate(effectingAccount);
-			effectingAccount.onUpdate(session);
 		}
 	}
 
@@ -277,20 +256,6 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public void onLoad(Session s, Serializable id) {
-
-	}
-
-	public void doReverseEffect(Session session) {
-
-		Account effectingAccount = this.getAccount();
-		Double amount = (transaction.isPositiveTransaction() ? 1d : -1d)
-				* (this.total);
-		if (effectingAccount != null) {
-			effectingAccount.updateCurrentBalance(this.transaction, amount,
-					transaction.currencyFactor);
-			effectingAccount.onUpdate(session);
-			session.saveOrUpdate(effectingAccount);
-		}
 
 	}
 

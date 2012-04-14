@@ -405,67 +405,6 @@ public class CustomerCreditMemo extends Transaction implements
 			session.save(creditsAndPayments);
 
 		}
-		if ((this.customer.getID() == customerCreditMemo.customer.getID())
-				&& (!DecimalUtil.isEquals(this.total, customerCreditMemo.total))) {
-			// updateCreditPayments
-			// if (this.total > customerCreditMemo.total) {
-			// this.total += this.total - customerCreditMemo.total;
-			// } else if (this.total < customerCreditMemo.total) {
-			// this.total -= customerCreditMemo.total - this.total;
-			// }
-
-			// Double dueAmount = this.total;
-			// for (TransactionCreditsAndPayments tcp :
-			// this.creditsAndPayments.transactionCreditsAndPayments) {
-			// if (tcp.getTransactionReceivePayment() != null) {
-			// this.creditsAndPayments.updateCreditPayments(dueAmount);
-			// }
-			// HibernateUtil.getCurrentSession().saveOrUpdate(tcp);
-			// }
-
-			// if (DecimalUtil.isLessThan(this.total, customerCreditMemo.total))
-			// {
-
-			customerCreditMemo.getCustomer().updateBalance(session, this,
-					-customerCreditMemo.total,
-					customerCreditMemo.getCurrencyFactor());
-			this.customer.updateBalance(session, this, this.total);
-			this.creditsAndPayments.updateCreditPayments(this.total);
-			// } else {
-			// // this.total = this.total - customerCreditMemo.total;
-			// this.customer.updateBalance(session, this, this.total
-			// - customerCreditMemo.total);
-			// if (creditsAndPayments != null) {
-			// this.creditsAndPayments.updateCreditPayments(this.total);
-			// }
-
-			// CreditsAndPayments creditsAndPayments = new
-			// CreditsAndPayments(
-			// this);
-			// session.saveOrUpdate(creditsAndPayments);
-			// this.creditsAndPayments
-			// .updateCreditPayments(customerCreditMemo.total
-			// - this.total);
-
-			// }
-			// session.saveOrUpdate(this.creditsAndPayments);
-
-		}
-		// this.customer.updateBalance(session, this, this.total);
-		// if (customerCreditMemo.customer.id == this.customer.id) {
-		//
-		// if (customerCreditMemo.total > this.total) {
-		// customerCreditMemo.total -= customerCreditMemo.total
-		// - this.total;
-		//
-		// } else if (customerCreditMemo.total < this.total) {
-		// customerCreditMemo.total -= customerCreditMemo.total
-		// - this.total;
-		// }
-		//
-		// this.customer.updateBalance(session, customerCreditMemo,
-		// customerCreditMemo.total);
-		// }
 
 		super.onEdit(clonedObject);
 
@@ -556,4 +495,37 @@ public class CustomerCreditMemo extends Transaction implements
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				e.add(item.getIncomeAccount(), amount);
+				if (item.isInventory()) {
+					double purchaseCost = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -purchaseCost);
+					e.add(item.getExpenseAccount(), purchaseCost);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForSales();
+				e.add(taxItemGroup, amount);
+			}
+
+		}
+		e.add(getCustomer(), getTotal());
+	}
 }

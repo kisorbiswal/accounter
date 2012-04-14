@@ -455,4 +455,21 @@ public class TAXReturn extends Transaction {
 							.get().messages().transactionItem());
 		}
 	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		double salesTaxTotal = 0, purchaseTaxTotal = 0, totalTAXAmount;
+		for (TAXReturnEntry entry : getTaxReturnEntries()) {
+			if (entry.getCategory() == Transaction.CATEGORY_CUSTOMER) {
+				salesTaxTotal += entry.getTaxAmount();
+			} else if (entry.getCategory() == Transaction.CATEGORY_VENDOR) {
+				purchaseTaxTotal += entry.getTaxAmount();
+			}
+		}
+		totalTAXAmount = salesTaxTotal + purchaseTaxTotal;
+		e.add(getTaxAgency().getSalesLiabilityAccount(), -1 * salesTaxTotal);
+		e.add(getTaxAgency().getPurchaseLiabilityAccount(), -1
+				* purchaseTaxTotal);
+		e.add(getTaxAgency().getFiledLiabilityAccount(), totalTAXAmount);
+	}
 }

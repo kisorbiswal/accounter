@@ -352,4 +352,10 @@ public class Expense extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 
 	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -775,7 +775,22 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	@Override
 	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
+		vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
+				onCreate ? getTotal() : -getTotal());
 
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		Account pendingItemReceipt = (Account) HibernateUtil
+				.getCurrentSession()
+				.getNamedQuery("getNameofAccount.by.Name")
+				.setParameter("name",
+						AccounterServerConstants.PENDING_ITEM_RECEIPTS,
+						EncryptedStringType.INSTANCE)
+				.setEntity("company", getCompany()).uniqueResult();
+		e.add(pendingItemReceipt, getTotal());
+
+		e.add(getVendor(), getTotal());
 	}
 }

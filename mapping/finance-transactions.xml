@@ -94,7 +94,13 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="TAXRateCalculation" />
 		</set>
-
+		
+		<set name="payeeUpdates" inverse="true"
+			cascade="all-delete-orphan">
+			<key column="TRANSACTION"></key>
+			<one-to-many class="PayeeUpdate" />
+		</set>
+		
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
@@ -667,7 +673,6 @@
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="unusedAmount" column="UNUSED_AMOUNT"></property>
 			<property name="vendorBalance" column="VENDOR_BALANCE"></property>
-			<property name="payBillType" column="PAYBILL_TYPE"></property>
 			<component name="address" class="Address">
 				<property name="type" column="PAYBILL_ADDRESS_TYPE"></property>
 				<property name="address1" type="encryptedstring" column="PAYBILL_ADDRESS_ADDRESS1"
@@ -694,7 +699,7 @@
 			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="isAmountIncludeTDS" column="IS_AMOUNT_INCLUDE_TDS"></property>
 		</joined-subclass>
-		<joined-subclass name="VendorPayment" table="VENDOR_PAYMENT">
+		<joined-subclass name="VendorPrePayment" table="VENDOR_PAYMENT">
 			<key column="ID" />
 			<many-to-one name="payFrom" class="Account" cascade="save-update"
 				column="PAYFROM_ID">
@@ -1574,4 +1579,16 @@
 			column="TRANSACTION_ID">
 		</many-to-one>
 	</class>
+	
+	<class name="PayeeUpdate" table="PAYEE_UPDATE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="payee" class="Payee"
+			column="PAYEE"/>
+		<many-to-one name="transaction" class="Transaction"
+			column="TRANSACTION"/>
+		<property name="amount" column="AMOUNT"/>
+	</class>
+	
 </hibernate-mapping>

@@ -340,37 +340,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			doVoidEffect(session);
 		} else {
 
-			// if (!this.payTo.equals(customerRefund.payTo)) {
-			// Customer preCustomer = (Customer) session.get(Customer.class,
-			// customerRefund.payTo.id);
-			customerRefund.payTo.updateBalance(session, this,
-					customerRefund.total, customerRefund.getCurrencyFactor());
-			// customerRefund.doVoidEffect(session);
-			// }
-
-			this.payTo.updateBalance(session, this, -this.total);
-
-			// if (!this.payFrom.equals(customerRefund.payFrom)) {
-			// Account oldAccount = (Account) session.get(Account.class,
-			// customerRefund.payFrom.id);
-			customerRefund.payFrom.updateCurrentBalance(this,
-					-clonedObject.total, customerRefund.currencyFactor);
-			customerRefund.payFrom.onUpdate(session);
-			// }
-			this.payFrom.updateCurrentBalance(this, this.total,
-					this.currencyFactor);
-			this.payFrom.onUpdate(session);
-
-			// }
-			// if (customerRefund.transactionReceivePayments != null) {
-			// Double amtdue = this.total;
-			// for (TransactionReceivePayment trp :
-			// customerRefund.transactionReceivePayments) {
-			// trp.updatePayments(amtdue);
-			// session.saveOrUpdate(trp);
-			// }
-			// }
-
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -458,5 +427,11 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? -total : total;
 		payTo.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(getPayFrom(), getTotal());
+		e.add(getPayTo(), -getTotal());
 	}
 }

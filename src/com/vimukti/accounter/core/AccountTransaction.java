@@ -3,12 +3,15 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 
 import org.apache.log4j.Logger;
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -45,34 +48,16 @@ public class AccountTransaction extends CreatableObject implements
 	 * specified transaction.
 	 */
 	double amount;
-	/**
-	 * This is used to indicate the end of fiscal year. If true, it indicates
-	 * that the fiscal year is being closed and we have to add the closing
-	 * fiscal year entry.
-	 */
-	boolean closingFYEntry = false;
-	/**
-	 * This is maintained to avoid unnecessary confusion with the Accrual
-	 * entries and Cashbasis journal entries.
-	 */
-	boolean cashBasisEntry = false;
 
 	public AccountTransaction() {
 	}
 
 	public AccountTransaction(Account account, Transaction transaction,
-			double amount, boolean closingFYEntry, boolean cashBasisEntry) {
+			double amount) {
 		setCompany(transaction.getCompany());
 		this.account = account;
 		this.transaction = transaction;
 		this.amount = amount;
-		this.closingFYEntry = closingFYEntry;
-		this.cashBasisEntry = cashBasisEntry;
-
-		// CompanyPreferences preferences =
-		// Company.getCompany().getPreferences();
-		// if (this.transaction.transactionDate.getYear() == preferences
-		// .getStartOfFiscalYear().getYear()) {
 
 		int key = (transaction.getDate().getYear() + 1900) * 100
 				+ transaction.getDate().getMonth();
@@ -82,7 +67,6 @@ public class AccountTransaction extends CreatableObject implements
 		} else {
 			this.account.monthViceAmounts.put(key, amount);
 		}
-		// }
 	}
 
 	@Override
@@ -181,9 +165,47 @@ public class AccountTransaction extends CreatableObject implements
 		if (this.account != null)
 			w.put(messages.account(), this.account.getName());
 
-		w.put(messages.closeFiscalYear(), closingFYEntry);
-
-		w.put(messages.cashBasisAccounting(), this.cashBasisEntry);
-
 	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		account.effectCurrentBalance(amount, getTransaction()
+				.getCurrencyFactor());
+		session.saveOrUpdate(account);
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		getAccount().effectCurrentBalance(-amount,
+				getTransaction().getCurrencyFactor());
+		session.saveOrUpdate(getAccount());
+		return super.onDelete(session);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		long tID = getTransaction().getID();
+		hash = 37 * hash + (int) (tID ^ (tID >>> 32));
+		long aID = getAccount().getID();
+		long bits = Double.doubleToLongBits(getAmount());
+		hash = (int) (aID ^ (aID >>> 32)) + (int) (bits ^ (bits >>> 32));
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof AccountTransaction)) {
+			return false;
+		}
+		AccountTransaction other = (AccountTransaction) obj;
+		if (this.getTransaction().getID() == other.getTransaction().getID()
+				&& this.getAccount().getID() == other.getAccount().getID()
+				&& DecimalUtil.isEquals(this.getAmount(), other.getAmount())) {
+			return true;
+		}
+		return false;
+	}
+
 }

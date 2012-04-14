@@ -605,4 +605,8 @@ public class PurchaseOrder extends Transaction {
 		status = STATUS_OPEN;
 		return po;
 	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+	}
 }

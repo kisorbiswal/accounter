@@ -372,42 +372,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 		if (shouldUpdateAccounts(true)) {
 
-			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-				if (this.effectingAccount != null) {
-					effectingAccount.updateCurrentBalance(this.transaction, -1
-							* this.updateAmount,
-							transaction.previousCurrencyFactor);
-
-					session.saveOrUpdate(effectingAccount);
-					effectingAccount.onUpdate(session);
-				}
-
-				if (this.type == TYPE_ITEM) {
-					doReverseEffectForitem(session);
-				}
+			if (this.type == TYPE_ITEM) {
+				doReverseEffectForitem(session);
 			}
 		}
 
-		//
-		// if (this.isTaxable
-		// && taxGroup != null
-		// && Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US)
-		// Company.setTaxRateCalculation(this, session, amount);
-		// else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK)
-		// Company.setVATRateCalculation(this, session);
-		// } else if (this.type == TYPE_SALESTAX) {
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		//
-		// Company.setTaxRateCalculation(this, session, amount);
-		// } else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK) {
-		// Company.setVATRateCalculation(this, session);
-		// }
-		// }
-		// doReverseEffect(session);
 		return false;
 	}
 
@@ -495,31 +464,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public void doCreateEffect(Session session) {
 
-		/**
-		 * First take the Back up of the TransactionItem information
-		 */
-		// ItemBackUp itemBackUp = null;
-		// if (this.type == TYPE_ITEM) {
-		// this.itemBackUp = new ItemBackUp(this);
-		// // this.itemBackUpList.add(itemBackUp);
-		// }
 		if (shouldUpdateAccounts(false)) {
-			Double amount = (isPositiveTransaction() ? 1d : -1d)
-					* (this.isAmountIncludeTAX() ? this.lineTotal
-							- this.VATfraction : this.lineTotal);
-			this.setUpdateAmount(amount);
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-				Account effectingAccount = getEffectingAccount();
-				if (effectingAccount != null) {
-					this.effectingAccount = effectingAccount;
-					effectingAccount.updateCurrentBalance(this.transaction,
-							amount, transaction.currencyFactor);
-					session.saveOrUpdate(effectingAccount);
-					effectingAccount.onUpdate(session);
-				}
-				if (this.isTaxable) {
-					transaction.setTAXRateCalculation(this);
-				}
 
 				if (this.type == TYPE_ITEM && getItem() != null) {
 					doCreateEffectForItem(session);
@@ -527,16 +473,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 			}
 		}
-		// else if (this.type == TYPE_SALESTAX) {
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		// // Company.setTaxRateCalculation(this, session, amount);
-		// } else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK) {
-		// Company.setTAXRateCalculation(this, session);
-		// }
-		// }
-		// ChangeTracker.put(this);
 	}
 
 	private void doCreateEffectForItem(Session session) {
@@ -647,53 +583,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		this.isReverseEffected = true;
 
-		// Double amount = (isPositiveTransaction() ? -1d : 1d)
-		// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
-		// - this.VATfraction : this.lineTotal);
-		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-			if (this.effectingAccount != null) {
-				effectingAccount.updateCurrentBalance(this.transaction, -1
-						* this.getUpdateAmount(), transaction.currencyFactor);
-				effectingAccount.onUpdate(session);
-				session.saveOrUpdate(effectingAccount);
-			}
-
-			if (this.isTaxable) {
-				transaction.setTAXRateCalculation(this);
-			}
-			if (this.type == TYPE_ITEM && getItem() != null) {
-				doReverseEffectForitem(session);
-			}
-
+		if (this.type == TYPE_ITEM && getItem() != null) {
+			doReverseEffectForitem(session);
 		}
-		// else if (this.type == TYPE_SALESTAX) {
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		// // Company.setTaxRateCalculation(this, session, amount);
-		// } else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK) {
-		// Company.setTAXRateCalculation(this, session);
-		// }
-		// }
 
 	}
-
-	// private TaxRateCalculation getTaxRateCalculation(
-	// Set<TaxRateCalculation> trcList, TaxCode code) {
-	//
-	// TaxRateCalculation result = null;
-	//
-	// for (TaxRateCalculation trc : trcList) {
-	//
-	// if (trc.transactionItem == this && trc.taxCode == code) {
-	// result = trc;
-	// break;
-	// }
-	//
-	// }
-	//
-	// return result;
-	// }
 
 	public boolean isPositiveTransaction() {
 		return this.transaction.isPositiveTransaction();

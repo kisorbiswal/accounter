@@ -559,26 +559,6 @@ public class CashPurchase extends Transaction {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			/**
-			 * To get the payFrom Account of clonedObject cashPurchase
-			 */
-			if (this.type != Transaction.TYPE_EMPLOYEE_EXPENSE
-					|| (this.type == Transaction.TYPE_EMPLOYEE_EXPENSE && this.expenseStatus == cashPurchase.expenseStatus)) {
-
-				Account payFromAccount = (Account) session.get(Account.class,
-						cashPurchase.payFrom.getID());
-
-				/**
-				 * Updating the balance values of present and previous accounts
-				 * of vendors
-				 */
-				payFromAccount.updateCurrentBalance(this,
-						isDebitTransaction() ? -cashPurchase.total
-								: cashPurchase.total, cashPurchase
-								.getCurrencyFactor());
-				payFromAccount.onUpdate(session);
-			}
-
 			for (Estimate estimate : cashPurchase.estimates) {
 				session.delete(estimate);
 			}
@@ -586,10 +566,6 @@ public class CashPurchase extends Transaction {
 
 			this.createAndSaveEstimates(this.transactionItems, session);
 
-			this.payFrom.updateCurrentBalance(this,
-					isDebitTransaction() ? this.total : -this.total,
-					this.currencyFactor);
-			this.payFrom.onUpdate(session);
 			doUpdateEffectPurchaseOrders(this, cashPurchase, session);
 		}
 
@@ -878,5 +854,38 @@ public class CashPurchase extends Transaction {
 
 	public void setEstimates(Set<Estimate> estimates) {
 		this.estimates = estimates;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getPayFrom(), getTotal());
 	}
 }

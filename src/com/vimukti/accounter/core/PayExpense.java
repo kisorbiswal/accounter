@@ -162,4 +162,10 @@ public class PayExpense extends Transaction {
 
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(getCurrency().getAccountsPayable(), -getTotal());
+		e.add(getPaidFrom(), getTotal());
+	}
+
 }

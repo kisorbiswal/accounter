@@ -642,11 +642,11 @@ public class TaxManager extends Manager {
 										.getTotalBox()
 										.equals(AccounterServerConstants.BOX_NONE)))
 							box.setAmount(box.getAmount()
-									+ (-1 * (taxRateCalculation.getVatAmount())));
+									+ (-1 * (taxRateCalculation.getTAXAmount())));
 
 						else
 							box.setAmount(box.getAmount()
-									+ (taxRateCalculation.getVatAmount()));
+									+ (taxRateCalculation.getTAXAmount()));
 
 					}
 					// if (box.getBoxNumber() == 4) {

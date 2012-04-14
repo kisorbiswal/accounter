@@ -554,10 +554,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		if (this.isVoid() && !receivePayment.isVoid()) {
 
-			this.depositIn.updateCurrentBalance(this, this.amount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
-
 			if (this.creditsAndPayments != null) {
 				// this.creditsAndPayments.setTransaction(null);
 				// session.delete(this.creditsAndPayments);
@@ -574,49 +570,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			}
 
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-
-			Account tdsAccount = getTDSAccount();
-			if (tdsAccount != null) {
-				tdsAccount.updateCurrentBalance(this, tdsTotal, currencyFactor);
-				session.save(tdsAccount);
-			}
 		} else {
-
-			if (this.depositIn.getID() != receivePayment.getDepositIn().getID()
-					|| isCurrencyFactorChanged()
-					|| !DecimalUtil.isEquals(this.amount,
-							receivePayment.getAmount())) {
-				Account old = receivePayment.getDepositIn();
-				old.updateCurrentBalance(this, receivePayment.getAmount(),
-						receivePayment.previousCurrencyFactor);
-				session.update(old);
-				depositIn.updateCurrentBalance(this, -this.amount,
-						currencyFactor);
-				session.update(depositIn);
-			}
-
-			if (!DecimalUtil.isEquals(this.total, receivePayment.getTotal())
-					|| isCurrencyFactorChanged()) {
-				customer.updateBalance(session, this,
-						-receivePayment.getTotal(),
-						receivePayment.previousCurrencyFactor);
-
-				customer.updateBalance(session, this, this.total);
-			}
-
-			if (!DecimalUtil.isEquals(this.tdsTotal,
-					receivePayment.getTdsTotal())
-					|| isCurrencyFactorChanged()) {
-				Account tdsAccount = getTDSAccount();
-				if (tdsAccount != null) {
-					tdsAccount.updateCurrentBalance(this,
-							receivePayment.getTdsTotal(),
-							receivePayment.previousCurrencyFactor);
-					tdsAccount.updateCurrentBalance(this, -tdsTotal,
-							currencyFactor);
-					session.save(tdsAccount);
-				}
-			}
 
 			if (receivePayment.getCreditsAndPayments() != null) {
 				voidCreditsAndPayments(receivePayment);
@@ -635,39 +589,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 			}
-			// for (TransactionReceivePayment tReceivePaymentOld :
-			// receivePayment
-			// .getTransactionReceivePayment()) {
-			// for (TransactionCreditsAndPayments tcp : tReceivePaymentOld
-			// .getTransactionCreditsAndPayments()) {
-			// boolean isExists = false;
-			// for (TransactionReceivePayment tReceivePayment : this
-			// .getTransactionReceivePayment()) {
-			// List<TransactionCreditsAndPayments> transactionCreditsAndPayments
-			// = tReceivePayment
-			// .getTransactionCreditsAndPayments();
-			// if (transactionCreditsAndPayments != null)
-			// for (TransactionCreditsAndPayments tcp2 :
-			// transactionCreditsAndPayments) {
-			// if (tcp.getCreditsAndPayments().getID() == tcp2
-			// .getCreditsAndPayments().getID()) {
-			// isExists = true;
-			// break;
-			// }
-			// }
-			//
-			// }
-			// if (!isExists) {
-			// tcp.onEditTransaction(-tcp.amountToUse);
-			// tcp.amountToUse = 0.0;
-			// session.saveOrUpdate(tcp.getCreditsAndPayments());
-			// }
-			// }
-			//
-			// tReceivePaymentOld.doReverseEffect(true);
-			// }
 
-			cleanTransactionitems(receivePayment);
 		}
 	}
 
@@ -800,5 +722,18 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? total : -total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(getDepositIn(), -getAmount());
+		e.add(getTDSAccount(), -getTdsTotal());
+		e.add(getCustomer(), getTotal());
+		for (TransactionReceivePayment payment : getTransactionReceivePayment()) {
+			e.add(payment.getDiscountAccount(), -payment.getCashDiscount());
+			e.add(getCustomer(), payment.getCashDiscount());
+			e.add(getCustomer(), payment.getWriteOff());
+			e.add(payment.getWriteOffAccount(), -payment.getWriteOff());
+		}
 	}
 }

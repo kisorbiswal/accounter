@@ -362,34 +362,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			return false;
 		}
 
-		if (this.discountAccount != null
-				&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
-
-			// update the corresponding payee with discount amount
-			this.receivePayment.getCustomer().updateBalance(session,
-					this.receivePayment, this.cashDiscount);
-
-			// updating the corresponding discount account current balance with
-			// discount amount
-			this.discountAccount.updateCurrentBalance(this.receivePayment, -1
-					* this.cashDiscount, receivePayment.currencyFactor);
-			this.discountAccount.onUpdate(session);
-		}
-
-		if (this.writeOffAccount != null
-				&& DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
-
-			// update the corresponding payee with write off amount
-			this.receivePayment.getCustomer().updateBalance(session,
-					this.receivePayment, this.writeOff);
-
-			// updating the corresponding write off account current balance with
-			// write off amount
-			this.writeOffAccount.updateCurrentBalance(this.receivePayment, -1
-					* this.writeOff, receivePayment.currencyFactor);
-			this.writeOffAccount.onUpdate(session);
-		}
-
 		// To make the Invoice as Un Void or Un Editable
 		if ((this.discountAccount != null && DecimalUtil.isGreaterThan(
 				this.cashDiscount, 0.0))
@@ -447,45 +419,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	public void doReverseEffect(boolean isDeleting) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		// session
-		// .createQuery(
-		// "delete from TaxRateCalculation where transaction =:transaction")
-		// .setEntity("transaction", this.receivePayment)
-		// .executeUpdate();
-		// this.receivePayment.taxRateCalculationEntriesList.clear();
-		if (this.discountAccount != null
-				&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
-
-			// update the corresponding payee with discount amount
-			this.receivePayment.getCustomer().updateBalance(session,
-					this.receivePayment, -this.cashDiscount,
-					receivePayment.previousCurrencyFactor);
-
-			// updating the corresponding discount account current balance
-			// with
-			// discount amount
-			this.discountAccount.updateCurrentBalance(this.receivePayment,
-					this.cashDiscount, receivePayment.previousCurrencyFactor);
-			this.discountAccount.onUpdate(session);
-		}
-
-		if (this.writeOffAccount != null
-				&& DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
-
-			// update the corresponding payee with write off amount
-			this.receivePayment.getCustomer().updateBalance(session,
-					this.receivePayment, -this.writeOff,
-					receivePayment.previousCurrencyFactor);
-
-			// updating the corresponding write off account current balance
-			// with
-			// write off amount
-			this.writeOffAccount.updateCurrentBalance(this.receivePayment,
-					this.writeOff, receivePayment.previousCurrencyFactor);
-			this.writeOffAccount.onUpdate(session);
-		}
-
-		session.saveOrUpdate(this.getReceivePayment().getCustomer());
 
 		for (TransactionCreditsAndPayments tcp : transactionCreditsAndPayments) {
 			session.delete(tcp);

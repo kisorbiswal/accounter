@@ -594,4 +594,10 @@ public class Estimate extends Transaction {
 		this.refferingTransactionType = refferingTransactionType;
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

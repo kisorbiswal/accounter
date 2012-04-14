@@ -386,4 +386,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+	}
+
 }

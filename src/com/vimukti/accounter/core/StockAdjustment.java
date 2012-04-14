@@ -246,4 +246,10 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
+	}
 }

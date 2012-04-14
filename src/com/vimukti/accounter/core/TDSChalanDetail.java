@@ -382,4 +382,10 @@ public class TDSChalanDetail extends Transaction implements
 		this.toDate = toDate;
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(getTDSTaxAgencyAccount(), -getTotal());
+		e.add(getPayFrom(), getTotal());
+	}
+
 }

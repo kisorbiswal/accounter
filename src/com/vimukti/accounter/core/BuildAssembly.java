@@ -192,4 +192,10 @@ public class BuildAssembly extends Transaction {
 		this.quantityToBuild = quantityToBuild;
 	}
 
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

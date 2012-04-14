@@ -7,7 +7,6 @@ import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -157,31 +156,20 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
 				.getPurchaseLiabilityAccount();
 
-		double amount1 = 0;
-		double amount2 = 0;
+		double amount = 0.00D;
 		if (taxAdjustment.increaseVATLine) {
-			if (taxAdjustment.isSales) {
-				amount1 = taxAdjustment.total;
-				amount2 = -1 * taxAdjustment.total;
-			} else {
-				amount1 = -1 * taxAdjustment.total;
-				amount2 = taxAdjustment.total;
-			}
+			amount = taxAdjustment.isSales() ? taxAdjustment.getTotal() : -1
+					* taxAdjustment.getTotal();
 		} else {
-			if (this.isSales) {
-				amount1 = -1 * taxAdjustment.total;
-				amount2 = taxAdjustment.total;
-			} else {
-				amount1 = taxAdjustment.total;
-				amount2 = -1 * taxAdjustment.total;
-			}
+			amount = taxAdjustment.isSales() ? -1 * taxAdjustment.getTotal()
+					: taxAdjustment.getTotal();
 		}
 
-		liabilityAccount.updateCurrentBalance(this, amount1, currencyFactor);
+		liabilityAccount.updateCurrentBalance(this, amount, currencyFactor);
 		session.saveOrUpdate(liabilityAccount);
 		liabilityAccount.onUpdate(session);
 
-		adjustmentAccount.updateCurrentBalance(this, amount2, currencyFactor);
+		adjustmentAccount.updateCurrentBalance(this, -amount, currencyFactor);
 		session.saveOrUpdate(adjustmentAccount);
 		adjustmentAccount.onUpdate(session);
 	}
@@ -230,7 +218,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	public void onEdit(Transaction clonedObject) {
 
 		TAXAdjustment taxAdjustment = (TAXAdjustment) clonedObject;
-		Session session = HibernateUtil.getCurrentSession();
 
 		if (isDraftOrTemplate()) {
 			super.onEdit(taxAdjustment);
@@ -239,11 +226,8 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 		if (this.isVoid() && !taxAdjustment.isVoid()) {
 			this.balanceDue = 0;
-			doVoidEffect(session, this);
 		} else {
-			doVoidEffect(session, taxAdjustment);
 			this.balanceDue = this.total;
-			doCreateEffect(session, this);
 		}
 		super.onEdit(taxAdjustment);
 	}
@@ -254,31 +238,20 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 				: taxAdjustment.getTaxItem().getTaxAgency()
 						.getPurchaseLiabilityAccount();
 
-		double amount1 = 0;
-		double amount2 = 0;
+		double amount = 0.00D;
 		if (taxAdjustment.increaseVATLine) {
-			if (taxAdjustment.isSales) {
-				amount1 = -1 * taxAdjustment.total;
-				amount2 = taxAdjustment.total;
-			} else {
-				amount1 = taxAdjustment.total;
-				amount2 = -1 * taxAdjustment.total;
-			}
+			amount = taxAdjustment.isSales() ? taxAdjustment.getTotal() : -1
+					* taxAdjustment.getTotal();
 		} else {
-			if (taxAdjustment.isSales) {
-				amount1 = taxAdjustment.total;
-				amount2 = -1 * taxAdjustment.total;
-			} else {
-				amount1 = -1 * taxAdjustment.total;
-				amount2 = taxAdjustment.total;
-			}
+			amount = taxAdjustment.isSales() ? -1 * taxAdjustment.getTotal()
+					: taxAdjustment.getTotal();
 		}
 
-		liabilityAccount.updateCurrentBalance(this, amount1, currencyFactor);
+		liabilityAccount.updateCurrentBalance(this, -amount, currencyFactor);
 		session.saveOrUpdate(liabilityAccount);
 		liabilityAccount.onUpdate(session);
 
-		adjustmentAccount.updateCurrentBalance(this, amount2, currencyFactor);
+		adjustmentAccount.updateCurrentBalance(this, amount, currencyFactor);
 		session.saveOrUpdate(adjustmentAccount);
 		adjustmentAccount.onUpdate(session);
 	}
@@ -379,6 +352,22 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		Account liabilityAccount = isSales() == true ? getTaxItem()
+				.getTaxAgency().getSalesLiabilityAccount() : getTaxItem()
+				.getTaxAgency().getPurchaseLiabilityAccount();
+
+		double amount = 0;
+		if (increaseVATLine) {
+			amount = isSales() ? getTotal() : -1 * getTotal();
+		} else {
+			amount = isSales() ? -1 * getTotal() : getTotal();
+		}
+		e.add(liabilityAccount, amount);
+		e.add(getAdjustmentAccount(), -amount);
 	}
 
 }

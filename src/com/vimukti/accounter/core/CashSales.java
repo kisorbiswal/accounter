@@ -697,28 +697,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			/**
-			 * if we compare depositIn accounts the condition never satisfies so
-			 * if we compare total and the account is same then first previous
-			 * total will be decreased and present total will be increased
-			 */
-
-			// if (cashSales.depositIn.id != this.depositIn.id) {
-			Account preDepositAccnt = (Account) session.get(Account.class,
-					cashSales.depositIn.getID());
-			preDepositAccnt.updateCurrentBalance(this, cashSales.total,
-					cashSales.currencyFactor);
-			preDepositAccnt.onUpdate(session);
-
-			this.depositIn.updateCurrentBalance(this, -this.total,
-					this.currencyFactor);
-			this.depositIn.onUpdate(session);
 			doUpdateEffectEstiamtes(this, cashSales, session);
-			// }
-			// if(cashSales.total!=this.total){
-			// this.depositIn.updateCurrentBalance(this,
-			// this.total-cashSales.total);
-			// }
 
 		}
 
@@ -936,6 +915,31 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		sale.salesOrders = new ArrayList<Estimate>();
 		return sale;
 
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				e.add(item.getIncomeAccount(), amount);
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForSales();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getDepositIn(), -getTotal());
 	}
 
 }

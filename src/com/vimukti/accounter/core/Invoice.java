@@ -838,7 +838,6 @@ public class Invoice extends Transaction implements Lifecycle {
 				this.creditsAndPayments = null;
 				session.delete(invoice.creditsAndPayments);
 			}
-			this.cleanTransactionitems(this);
 			if (this.customer.getID() != invoice.getCustomer().getID()
 					|| isCurrencyFactorChanged()) {
 				doVoidEffect(session, invoice);
@@ -849,15 +848,6 @@ public class Invoice extends Transaction implements Lifecycle {
 						invoice.getCurrencyFactor());
 				this.onSave(session);
 				return;
-			}
-			if (!DecimalUtil.isEquals(this.total, invoice.total)) {
-				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
-				Customer customer = (Customer) session.get(Customer.class,
-						invoice.customer.getID());
-				customer.updateBalance(session, this, invoice.total,
-						invoice.getCurrencyFactor());
-				this.customer.updateBalance(session, this, -this.total);
-				// }
 			}
 			this.updateTransactionReceivepayments();
 			doUpdateEffectEstiamtes(this, invoice, session);
@@ -1088,6 +1078,31 @@ public class Invoice extends Transaction implements Lifecycle {
 		invoice.payments = 0;
 		invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		return invoice;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				e.add(item.getIncomeAccount(), amount);
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForSales();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getCustomer(), -getTotal());
 	}
 
 }

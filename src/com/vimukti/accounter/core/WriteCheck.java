@@ -13,7 +13,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -349,29 +348,6 @@ public class WriteCheck extends Transaction {
 			doVoidEffect(session, this);
 
 		} else {
-			if (!this.isVoid() && !writeCheck.isVoid() && !isDraftOrTemplate()) {
-
-				if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
-						|| !DecimalUtil.isEquals(this.total, writeCheck.total)
-						|| isCurrencyFactorChanged()) {
-
-					Account account = (Account) session.get(Account.class,
-							writeCheck.bankAccount.getID());
-					account.updateCurrentBalance(this, -writeCheck.total,
-							writeCheck.currencyFactor);
-					session.update(account);
-					account.onUpdate(session);
-
-					writeCheck.total = 0.0;
-
-					this.bankAccount.updateCurrentBalance(this, this.total,
-							currencyFactor);
-					this.bankAccount.onUpdate(session);
-				}
-
-				cleanTransactionitems(writeCheck);
-
-			}
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -579,5 +555,38 @@ public class WriteCheck extends Transaction {
 
 	public void setEstimates(Set<Estimate> estimates) {
 		this.estimates = estimates;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(bankAccount, getTotal());
 	}
 }

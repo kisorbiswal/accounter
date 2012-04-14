@@ -1053,35 +1053,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		this.updateTotalBalance(amount, currencyFactor);
 		// log.info(accountTransaction);
 
-		// if (!transaction.isBecameVoid()) {
-
-		// This condition checking is for the purpose of not to consider
-		// this entry in Profit and Loss Report if the entry is for the
-		// closing Fiscal Year.
-		boolean closingFYEntry, cashBasisEntry;
-		AccountTransaction accountTransaction;
-		if (transaction.type == Transaction.TYPE_JOURNAL_ENTRY
-				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY
-				&& transaction.memo != null
-				&& transaction.memo.equals("Closing Fiscal Year")) {
-			closingFYEntry = true;
-			cashBasisEntry = false;
-
-		}
-		// The below condition never satisfy because while creating
-		// Cash-Basis Journal Entry Account Balances should not effect.
-		else if (transaction.type == Transaction.TYPE_JOURNAL_ENTRY
-				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_CASH_BASIS_JOURNAL_ENTRY
-				&& transaction.memo != null
-				&& transaction.memo.equals("Closing Fiscal Year")) {
-			closingFYEntry = true;
-			cashBasisEntry = true;
-		} else {
-			closingFYEntry = false;
-			cashBasisEntry = false;
-		}
-		accountTransaction = new AccountTransaction(this, transaction, amount,
-				closingFYEntry, cashBasisEntry);
+		AccountTransaction accountTransaction = new AccountTransaction(this,
+				transaction, amount);
 		transaction.addAccountTransaction(accountTransaction);
 
 		if (this.name.equalsIgnoreCase("Un Deposited Funds")) {
@@ -1099,6 +1072,31 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			}
 
 		}
+		ChangeTracker.put(this);
+	}
+
+	public void effectCurrentBalance(double amount, double currencyFactor) {
+
+		if (amount == 0) {
+			return;
+		}
+
+		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
+			currencyFactor = 1;
+		}
+
+		log.info("Effecting Current Balance of  " + this.getName() + "("
+				+ this.getCurrentBalance() + ") " + "with " + amount);
+
+		this.currentBalance += amount;
+
+		if (!DecimalUtil.isEquals(this.currentBalance, 0.0)
+				&& isOpeningBalanceEditable) {
+			isOpeningBalanceEditable = Boolean.FALSE;
+		}
+
+		this.updateTotalBalance(amount, currencyFactor);
+
 		ChangeTracker.put(this);
 	}
 

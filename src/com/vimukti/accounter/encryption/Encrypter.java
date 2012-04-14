@@ -150,7 +150,7 @@ public class Encrypter extends Thread {
 				TransferFund.class, Unit.class, UnitOfMeasure.class,
 				User.class, UserPermissions.class, UserPreferences.class,
 				UserUtils.class, VATReturnBox.class, Vendor.class,
-				VendorCreditMemo.class, VendorGroup.class, VendorPayment.class,
+				VendorCreditMemo.class, VendorGroup.class, VendorPrePayment.class,
 				Warehouse.class, WareHouseAllocation.class, WriteCheck.class };
 		return classes;
 	}

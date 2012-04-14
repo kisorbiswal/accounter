@@ -258,13 +258,12 @@ public class JournalEntry extends Transaction {
 
 	private void doReverseEffect(Session session) {
 		if (this.involvedPayee != null) {
-			involvedPayee.clearOpeningBalance();
+			involvedPayee.setOpeningBalance(0.00D);
 			session.save(involvedPayee);
 		} else if (this.involvedAccount != null) {
 			involvedAccount.setOpeningBalance(0.00D);
 			session.save(involvedAccount);
 		}
-		voidTransactionItems();
 	}
 
 	@Override
@@ -358,5 +357,17 @@ public class JournalEntry extends Transaction {
 		jEntry.transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 		jEntry.transactionPayBills = new HashSet<TransactionPayBill>();
 		return jEntry;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem item : getTransactionItems()) {
+			double amount = -item.getLineTotal();
+			e.add(item.getAccount(), amount);
+		}
+		// if (getInvolvedPayee() != null) {
+		// // This is Payee Opening Balance related Journal Entry
+		// e.add(involvedPayee, involvedPayee.getOpeningBalance());
+		// }
 	}
 }

@@ -229,6 +229,8 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	Set<AccountTransaction> accountTransactionEntriesList = new HashSet<AccountTransaction>();
 
+	Set<PayeeUpdate> payeeUpdates = new HashSet<PayeeUpdate>();
+
 	/**
 	 * Some transaction such as {@link CashSales}, {@link Invoice},
 	 * {@link CustomerCreditMemo}, ... results in SalesTax payments. So these
@@ -644,7 +646,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean isVendorPayment() {
 
-		return this != null && this instanceof VendorPayment;
+		return this != null && this instanceof VendorPrePayment;
 	}
 
 	public boolean isCreditCardCharge() {
@@ -714,6 +716,7 @@ public abstract class Transaction extends CreatableObject implements
 			currency = getCompany().getPrimaryCurrency();
 			currencyFactor = 1;
 		}
+
 		return false;
 	}
 
@@ -767,40 +770,14 @@ public abstract class Transaction extends CreatableObject implements
 
 		setTransactionType();
 
-		/**
-		 * These lines are commented as this condition is already checked in all
-		 * the subclasses of this class
-		 */
-
-		/**
-		 * Updating the Transaction amount according to the type of Transaction.
-		 */
-
-		double amount = (isDebitTransaction() ? 1d : -1d) * this.total;
-
-		/**
-		 * Some Transactions may have linked Account. This linked Account need
-		 * to update with the Transaction amount.
-		 */
-		this.updateEffectedAccount(amount);
-		/**
-		 * Each Transaction must have one Payee linked with it. But for Some
-		 * transactions we need to update the linked Payee Balance depending on
-		 * the type of Transaction.
-		 */
-		// amount = (isDebitTransaction() ? 1d : -1d)
-		// * (type == Transaction.TYPE_PAY_BILL ? this.subTotal
-		// : this.total);
-		// if (!DecimalUtil.isEquals(amount, 0))
-		this.updatePayee(true);
+		TransactionEffectsImpl instance = new TransactionEffectsImpl(this);
+		getEffects(instance);
+		instance.saveOrUpdate();
 
 		/**
 		 * The following code is particularly for Sales Tax Liability Report
 		 */
-		// if (getCompany().getAccountingType() == Company.ACCOUNTING_TYPE_US) {
 		this.updateTaxAndNonTaxableAmounts();
-		// }
-		// }
 		if (tobeDeleteReminder != null) {
 			RecurringTransaction recurringTransaction = tobeDeleteReminder
 					.getRecurringTransaction();
@@ -1029,6 +1006,15 @@ public abstract class Transaction extends CreatableObject implements
 	public abstract Payee getInvolvedPayee();
 
 	public void onEdit(Transaction clonedObject) {
+
+		addUpdateHistory();
+		if (saveStatus == STATUS_TEMPLATE) {
+			updateReminders();
+		}
+		if (isDraftOrTemplate()) {
+			return;
+		}
+
 		/**
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it will entered into the loop
@@ -1038,20 +1024,12 @@ public abstract class Transaction extends CreatableObject implements
 			voidTransactionItems();
 			doDeleteEffect(clonedObject);
 
+		} else {
+			TransactionEffectsImpl instance = new TransactionEffectsImpl(this);
+			getEffects(instance);
+			instance.saveOrUpdate();
 		}
-		/*
-		 * else if (this.transactionItems != null &&
-		 * !this.transactionItems.equals(clonedObject.transactionItems)) {
-		 * updateTranasactionItems(clonedObject);
-		 * deleteCreatedEntries(clonedObject);
-		 * clonedObject.transactionItems.clear(); addUpdateHistory(); }
-		 */
-		else {
-			addUpdateHistory();
-		}
-		if (saveStatus == STATUS_TEMPLATE) {
-			updateReminders();
-		}
+
 	}
 
 	private void updateReminders() {
@@ -1066,18 +1044,12 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	private void doDeleteEffect(Transaction clonedObject) {
-		double amount = (isDebitTransaction() ? -1d : 1d) * this.total;
-
-		this.updateEffectedAccount(amount);
-
-		this.updatePayee(false);
-
 		this.voidCreditsAndPayments(this);
-
 		addVoidHistory();
-		cleanTransactionitems(clonedObject);
-		deleteCreatedEntries(clonedObject);
 		updateTAxReturnEntries();
+
+		TransactionEffectsImpl instance = new TransactionEffectsImpl(this);
+		instance.doVoid();
 	}
 
 	private void updateTAxReturnEntries() {
@@ -1683,5 +1655,22 @@ public abstract class Transaction extends CreatableObject implements
 
 	public void setJob(Job job) {
 		this.job = job;
+	}
+
+	public abstract void getEffects(ITransactionEffects e);
+
+	/**
+	 * @return the payeeUpdates
+	 */
+	public Set<PayeeUpdate> getPayeeUpdates() {
+		return payeeUpdates;
+	}
+
+	/**
+	 * @param payeeUpdates
+	 *            the payeeUpdates to set
+	 */
+	public void setPayeeUpdates(Set<PayeeUpdate> payeeUpdates) {
+		this.payeeUpdates = payeeUpdates;
 	}
 }

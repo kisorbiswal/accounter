@@ -1145,12 +1145,12 @@ public class ReportManager extends Manager {
 							VATSummary.UK_BOX1_VAT_DUE_ON_SALES) && v
 							.getTaxItem().getVatReturnBox().getTotalBox()
 							.equals(AccounterServerConstants.BOX_NONE))) {
-				double amount = -1 * (v.getVatAmount());
+				double amount = -1 * (v.getTAXAmount());
 				// double amount = (!v.getTransactionItem().isVoid()) ? (-1 * (v
 				// .getVatAmount())) : 0;
 				vd.setTotal(amount);
 			} else {
-				double amount = v.getVatAmount();
+				double amount = v.getTAXAmount();
 				// double amount = (!v.getTransactionItem().isVoid()) ? v
 				// .getVatAmount() : 0;
 				vd.setTotal(amount);
@@ -1840,20 +1840,20 @@ public class ReportManager extends Manager {
 
 				if (maps.containsKey(s)) {
 					maps.put(s,
-							maps.get(s) + v.getVatAmount() + v.getLineTotal());
+							maps.get(s) + v.getTAXAmount() + v.getLineTotal());
 					if (v.getTransaction().isVoid()) {
 						maps.put(
 								s,
 								maps.get(s)
-										- (v.getVatAmount() + v.getLineTotal()));
+										- (v.getTAXAmount() + v.getLineTotal()));
 					}
 				} else {
-					maps.put(s, v.getVatAmount() + v.getLineTotal());
+					maps.put(s, v.getTAXAmount() + v.getLineTotal());
 					if (v.getTransaction().isVoid()) {
 						maps.put(
 								s,
 								maps.get(s)
-										- (v.getVatAmount() + v.getLineTotal()));
+										- (v.getTAXAmount() + v.getLineTotal()));
 					}
 				}
 
@@ -1969,9 +1969,9 @@ public class ReportManager extends Manager {
 									.getTaxItem().getVatReturnBox()
 									.getTotalBox()
 									.equals(AccounterServerConstants.BOX_NONE)))
-						vs.setValue(vs.getValue() + (-1 * (v.getVatAmount())));
+						vs.setValue(vs.getValue() + (-1 * (v.getTAXAmount())));
 					else
-						vs.setValue(vs.getValue() + v.getVatAmount());
+						vs.setValue(vs.getValue() + v.getTAXAmount());
 					// if (v
 					// .getVatItem()
 					// .getVatReturnBox()
@@ -2457,7 +2457,7 @@ public class ReportManager extends Manager {
 				vi.setName(tempVATItemName);
 				// vi.setAmount(v.getVatAmount());
 				vi.setAmount(v.getLineTotal());
-				vi.setTaxAmount(v.getTaxDue());
+				vi.setTaxAmount(v.getTAXAmount());
 				vi.setTaxRate(v.getTaxItem().getTaxRate());
 				if (v.getTransaction().isVoid()) {
 					vi.setAmount(vi.getAmount() - v.getLineTotal());

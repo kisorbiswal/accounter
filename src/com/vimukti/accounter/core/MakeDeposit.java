@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class MakeDeposit extends Transaction implements Lifecycle {
@@ -318,24 +317,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			return;
 		}
 		if (this.isVoid() && !deposit.isVoid()) {
-			this.doVoidEffect(session);
 
 		} else {
-			if (this.depositTo.getID() != deposit.depositTo.getID()
-					|| !DecimalUtil.isEquals(this.total, deposit.total)
-					|| isCurrencyFactorChanged()) {
-				Account depositInAccount = (Account) session.get(Account.class,
-						deposit.depositTo.getID());
-				depositInAccount.updateCurrentBalance(this, deposit.total,
-						deposit.currencyFactor);
-				depositInAccount.onUpdate(session);
-				session.saveOrUpdate(depositInAccount);
-
-				this.depositTo.updateCurrentBalance(this, -this.total,
-						this.currencyFactor);
-				this.depositTo.onUpdate(session);
-				session.saveOrUpdate(this.depositTo);
-			}
 			for (Estimate estimate : this.estimates) {
 				session.delete(estimate);
 			}
@@ -345,18 +328,10 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		super.onEdit(deposit);
 	}
 
-	private void doVoidEffect(Session session) {
-		depositTo.updateCurrentBalance(this, this.total, this.currencyFactor);
-		session.save(depositTo);
-		for (TransactionDepositItem item : getTransactionDepositItems()) {
-			item.doReverseEffect(session);
-		}
-	}
-
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
-			doVoidEffect(session);
+
 		}
 		for (Estimate estimate : this.getEstimates()) {
 			session.delete(estimate);
@@ -386,6 +361,14 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	public void onLoad(Session session, Serializable arg1) {
 		// TODO Auto-generated method stub
 		super.onLoad(session, arg1);
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(depositTo, -getTotal());
+		for (TransactionDepositItem dItem : getTransactionDepositItems()) {
+			e.add(dItem.getAccount(), dItem.getTotal());
+		}
 	}
 
 }

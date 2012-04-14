@@ -329,4 +329,10 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
+	}
 }

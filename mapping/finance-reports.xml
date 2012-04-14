@@ -855,7 +855,6 @@
 				                        LEFT JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT CASE
@@ -871,7 +870,6 @@
 				                        LEFT JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -915,7 +913,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE <= :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -923,7 +920,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE <= :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -982,8 +978,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -991,8 +985,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -1003,8 +995,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE BETWEEN :startDate1 AND :endDate1
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -1012,8 +1002,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate1 AND :endDate1
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -1068,7 +1056,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CASH_BASIS_ENTRY = 'FALSE'
 				                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -1077,7 +1064,6 @@
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
 				                        AND AT.COMPANY_ID = :companyId
-				                        AND AT.IS_CASH_BASIS_ENTRY = 'FALSE'
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                 GROUP  BY AT.ACCOUNT_ID)
 				         END )         AS AMOUNT,
@@ -1131,7 +1117,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -1139,7 +1124,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -1149,7 +1133,6 @@
 				               JOIN TRANSACTION T1
 				                 ON AT1.TRANSACTION_ID = T1.ID
 				        WHERE  AT1.ACCOUNT_ID = A.ID
-				               AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				               AND T1.T_DATE BETWEEN :start AND :end
 				               AND AT1.COMPANY_ID = :companyId) AS CASH_AT_BEGINNING_OF_PERIOD,
 				       A.FLOW                                   AS FLOW,
@@ -1182,8 +1165,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1193,8 +1174,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1205,8 +1184,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -1216,8 +1193,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -1243,7 +1218,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1253,7 +1227,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1264,7 +1237,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -1274,7 +1246,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -3174,8 +3145,6 @@
 						                        AND ( T.JOB_ID IS NOT NULL
 						                               OR (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ))
 						                        AND AT1.ACCOUNT_ID = A.ID
-						                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = 'FALSE'
-						                        AND AT1.IS_CASH_BASIS_ENTRY = 'FALSE'
 						                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 						           ELSE (SELECT SUM(AT.AMOUNT)
 						                 FROM   ACCOUNT_TRANSACTION AT
@@ -3192,8 +3161,6 @@
 						                        AND ( T.JOB_ID IS NOT NULL
 						                               OR  (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ) )
 						                        AND AT.ACCOUNT_ID = A.ID
-						                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = 'FALSE'
-						                        AND AT.IS_CASH_BASIS_ENTRY = 'FALSE'
 						AND AT.COMPANY_ID=:companyId)
 						 END )    AS AMOUNT,
 						A.PARENT_ID,
@@ -3857,8 +3824,6 @@
 					                          ON L.ID = T1.LOCATION_ID
 					                 WHERE  AT1.ACCOUNT_ID = A.ID
 					                        AND L.ID IS NOT NULL
-					                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-					                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 					                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 					                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 					           ELSE (SELECT SUM(AT.AMOUNT)
@@ -3869,8 +3834,6 @@
 					                          ON L.ID = T.LOCATION_ID
 					                 WHERE  AT.ACCOUNT_ID = A.ID
 					                        AND L.ID IS NOT NULL
-					                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-					                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 					                        AND T.T_DATE BETWEEN :startDate AND :endDate
 					                        AND AT.COMPANY_ID = :companyId
 					                 GROUP  BY AT.ACCOUNT_ID)

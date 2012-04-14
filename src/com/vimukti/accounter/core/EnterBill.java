@@ -626,64 +626,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				// modifyItemReceipt(enterBill, false);
 			}
 
-			if (!DecimalUtil.isEquals(this.total, enterBill.total)) {
-				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
-				Vendor vendor = (Vendor) session.get(Vendor.class,
-						enterBill.vendor.getID());
-				vendor.updateBalance(session, this, this.total
-						- enterBill.total, enterBill.getCurrencyFactor());
-				// }
-			}
-
-			// if (this.purchaseOrders != null || enterBill.purchaseOrders !=
-			// null)
-			// if (this.purchaseOrders == null
-			// && enterBill.purchaseOrders != null) {
-			// modifyPurchaseOrder(enterBill, false);
-			// } else if (this.purchaseOrders != null
-			// && enterBill.purchaseOrders == null) {
-			// modifyPurchaseOrder(this, true);
-			// } else if (!this.purchaseOrder.equals(enterBill.purchaseOrder)) {
-			// modifyPurchaseOrder(enterBill, false);
-			// modifyPurchaseOrder(this, true);
-			//
-			// } else {
-			// for (TransactionItem transactionItem :
-			// enterBill.transactionItems) {
-			// if (transactionItem.getReferringTransactionItem() != null
-			// && DecimalUtil.isGreaterThan(transactionItem
-			// .getReferringTransactionItem().usedamt,
-			// 0)) {
-			// transactionItem.getReferringTransactionItem().usedamt -=
-			// transactionItem.lineTotal;
-			// }
-			// }
-			// modifyPurchaseOrder(this, true);
-			//
-			// }
-			// else if (enterBill.vendor.getID() == this.vendor.getID()) {
-			//
-			// /*
-			// * If cloned and client Object vendors are same then update
-			// * balances and PurchaseOrder
-			// */
-			//
-			// if (DecimalUtil.isGreaterThan(enterBill.total, this.total)) {
-			// modifyPurchaseOrder(this, false);
-			// // modifyItemReceipt(this, false);
-			//
-			// } else if (DecimalUtil.isLessThan(enterBill.total, this.total)) {
-			// modifyPurchaseOrder(this, true);
-			// // modifyItemReceipt(this, true);
-			// }
-			//
-			// this.vendor.updateBalance(session, this, -enterBill.total,
-			// enterBill.getCurrencyFactor());
-			//
-			// this.vendor.updateBalance(session, this, this.total);
-			//
-			// }
-
 			for (Estimate estimate : enterBill.estimates) {
 				session.delete(estimate);
 			}
@@ -1428,6 +1370,39 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		bill.payments = 0;
 		bill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		return bill;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getVendor(), getTotal());
 	}
 
 }
