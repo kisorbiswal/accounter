@@ -177,7 +177,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 		case 0:
 			return 40;
 		case 1:
-			return -1;
+			return 213;
 		case 2:
 			return 100;
 		case 3:

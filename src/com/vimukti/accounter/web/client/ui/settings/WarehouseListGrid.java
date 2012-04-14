@@ -40,6 +40,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
+			return 250;
 		case 1:
 		case 2:
 			return 275;

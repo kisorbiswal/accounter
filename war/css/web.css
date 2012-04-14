@@ -1450,6 +1450,7 @@ input[type="text"] {
 table.gridBody {
 	width: 100%;
 	border-collapse: collapse;
+	table-layout: fixed;
 }
 
 .gridOddRow {
@@ -1468,6 +1469,7 @@ table.gridBody {
 
 table.gridHeader {
 	border-collapse: collapse;
+	table-layout: fixed;
 }
 
 table.gridHeader tr td {
