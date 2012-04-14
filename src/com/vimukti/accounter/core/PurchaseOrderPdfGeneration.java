@@ -112,15 +112,15 @@ public class PurchaseOrderPdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() / currencyFactor, "");
+						item.getUnitPrice() , "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, "");
+						item.getLineTotal() , "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() / currencyFactor, "");
+							item.getVATfraction() , "");
 				}
 				String itemName = null;
 				if (item.getItem() != null) {
