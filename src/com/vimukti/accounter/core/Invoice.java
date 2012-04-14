@@ -420,7 +420,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		super.onSave(session);
+		
 		this.isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
 			if (isTemplate()) {
@@ -443,7 +443,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			session.save(creditsAndPayments);
 		}
 		doCreateEffect(session);
-		return false;
+		return super.onSave(session);
 	}
 
 	private void addEstimateTransactionItems() {
