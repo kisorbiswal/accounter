@@ -2164,6 +2164,101 @@
 
 	</sql-query>
 
+	<sql-query name="canDeleteComputionPayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PH.ID AS ID
+				FROM   COMPUTATION_PAY_HEAD CPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = CPH.ID
+				       
+				WHERE  PH.ID IS NULL
+				       AND PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteAttendancePayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PH.ID AS ID
+				FROM   ATTENDANCE_PAYHEAD APH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = APH.ID
+				       
+				WHERE  PH.ID IS NULL
+				       AND PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteFlatRatePayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PH.ID AS ID
+				FROM   FLAT_RATE_PAY_HEAD FPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = FPH.ID
+				       
+				WHERE  PH.ID IS NULL
+				       AND PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteProductionPayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PH.ID AS ID
+				FROM   PRODUCTION_PAY_HEAD PPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = PPH.ID
+				       
+				WHERE  PH.ID IS NULL
+				       AND PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteUserDefinedPayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PH.ID AS ID
+				FROM   USER_DEFINED_PAY_HEAD UPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = UPH.ID
+				       
+				WHERE  PH.ID IS NULL
+				       AND PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
 	<sql-query name="canDeletePaymentTerms">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />

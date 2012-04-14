@@ -95,7 +95,14 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			});
 
 		} else {
-			this.addColumn(new PayHeadColumn());
+			this.addColumn(new PayHeadColumn() {
+				@Override
+				protected void setValue(ClientPayStructureItem row,
+						ClientPayHead newValue) {
+					row.setPayHead(newValue.getID());
+					update(row);
+				}
+			});
 		}
 
 		this.addColumn(new AmountColumn<ClientPayStructureItem>(null, false) {
