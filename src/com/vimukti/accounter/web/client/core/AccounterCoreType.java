@@ -114,7 +114,7 @@ public enum AccounterCoreType implements IsSerializable {
 
 	PAYBILL("ClientPayBill", "PayBill"),
 
-	VENDORPAYMENT("ClientVendorPayment", "VendorPayment"),
+	VENDORPAYMENT("ClientVendorPrePayment", "VendorPrePayment"),
 
 	PAYSALESTAX("ClientPaySalesTax", "PaySalesTax"),
 

@@ -56,7 +56,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
-import com.vimukti.accounter.web.client.core.ClientVendorPayment;
+import com.vimukti.accounter.web.client.core.ClientVendorPrePayment;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -114,7 +114,7 @@ public class ReportsRPC {
 					ActionFactory.getPayBillsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
-			initCallBack(new ClientVendorPayment(),
+			initCallBack(new ClientVendorPrePayment(),
 					ActionFactory.getNewVendorPaymentAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
