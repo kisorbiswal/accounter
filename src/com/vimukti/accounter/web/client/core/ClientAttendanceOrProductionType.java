@@ -90,4 +90,8 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

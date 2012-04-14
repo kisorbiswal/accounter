@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
@@ -20,12 +23,16 @@ import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -467,6 +474,43 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		} else if (selectItem.equals(messages.asUserDefined())) {
 
 		}
+	}
+
+	@Override
+	public void onEdit() {
+
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(messages.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+
+				}
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		AccounterCoreType type = data.getObjectType();
+		this.rpcDoSerivce.canEdit(type, data.getID(), editCallBack);
+
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+
+		nameItem.setEnabled(!isInViewMode());
 	}
 
 	@Override

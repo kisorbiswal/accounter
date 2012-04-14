@@ -28,9 +28,9 @@ public class ClientPayHead implements IAccounterCore {
 	public static final int CALCULATION_TYPE_AS_USER_DEFINED = 5;
 
 	public static final int CALCULATION_PERIOD_DAYS = 1;
-	public static final int CALCULATION_PERIOD_FOR_NIGHTS = 2;
-	public static final int CALCULATION_PERIOD_WEEKS = 3;
-	public static final int CALCULATION_PERIOD_MONTHS = 4;
+	public static final int CALCULATION_PERIOD_WEEKS = 2;
+	public static final int CALCULATION_PERIOD_MONTHS = 3;
+	public static final int CALCULATION_PERIOD_FOR_NIGHTS = 4;
 
 	public static final int ROUNDING_METHOD_DOWNWORD = 1;
 	public static final int ROUNDING_METHOD_NORMAL = 2;
