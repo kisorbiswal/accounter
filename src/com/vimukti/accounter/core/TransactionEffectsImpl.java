@@ -95,7 +95,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	private void addAT(AccountTransaction at) {
 		int index = newATs.indexOf(at);
-		if (index > 0) {
+		if (index >= 0) {
 			newATs.get(index).add(at);
 		} else {
 			newATs.add(at);
@@ -104,7 +104,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	private void addPU(PayeeUpdate payeeUpdate) {
 		int index = newPUs.indexOf(payeeUpdate);
-		if (index > 0) {
+		if (index >= 0) {
 			newPUs.get(index).add(payeeUpdate);
 		} else {
 			newPUs.add(payeeUpdate);
@@ -113,7 +113,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	private void addIU(ItemUpdate itemUpdate) {
 		int index = newIUs.indexOf(itemUpdate);
-		if (index > 0) {
+		if (index >= 0) {
 			newIUs.get(index).add(itemUpdate);
 		} else {
 			newIUs.add(itemUpdate);

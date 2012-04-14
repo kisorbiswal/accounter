@@ -258,7 +258,7 @@ public class JournalEntry extends Transaction {
 
 	private void doReverseEffect(Session session) {
 		if (this.involvedPayee != null) {
-			involvedPayee.setOpeningBalance(0.00D);
+			involvedPayee.clearOpeningBalance();
 			session.save(involvedPayee);
 		} else if (this.involvedAccount != null) {
 			involvedAccount.setOpeningBalance(0.00D);
