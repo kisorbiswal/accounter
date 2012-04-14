@@ -6,7 +6,9 @@
 * {
 	outline: none;
 }
-
+body,html{
+	height:auto;
+}
 button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner
 	{
 	border: none;
@@ -794,6 +796,7 @@ form {
 	color: #777777;
 	font-size: 14px;
 	margin: 0;
+	text-align: left;
 }
 
 #commanContainer .accounterform,.form-box,.new_login_page,.signup-total-form
@@ -1386,4 +1389,12 @@ color: #28757D;
 }
 .form-bottom-options a{
 	font-size:13px;
+}
+#accounterForm .encryptiondiv{
+	margin: 10px;
+    width: 300px;
+}
+#accounterForm #content div{
+	text-align: left;
+	margin-bottom: 15px;
 }
