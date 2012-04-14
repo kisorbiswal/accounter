@@ -8,8 +8,7 @@ public abstract class StringListColumn<T> extends EditColumn<T> {
 
 	@Override
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 140;
 	}
 
 	@Override

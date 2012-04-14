@@ -461,7 +461,7 @@ input[type="text"] {
 	border: 1px solid #AAA;
 }
 
-.button_bar .image-button,.viewholder .image-button {
+.button_bar .image-button,.viewholder .image-button,#ComputationFormulaDialog .image-button{
 	background-repeat: no-repeat;
 	border-radius: 5px;
 	background-color: #29646C;
@@ -7458,20 +7458,106 @@ table.no_records tr td{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
-	-moz-box-orient: vertical;
-	-webkit-box-orient: vertical;
-	box-orient: vertical;
-	margin:10px;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	margin:10px 0px 10px 10px;
+	width:100%;
 }
-
-#NewPayHeadView .panel .form{
+#NewEmployeeView .secondPanel .empOtherDetailsInfoForm .empOtherDetailsLeftForm{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+	-moz-box-flex:1;
+	width:50%;
+}
+#NewPayHeadView .panel .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	width: 100%;
+}
+#NewPayHeadView .panel .form .leftForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-flex:1;
+}
+#NewPayHeadView .panel .form .rightForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	width: 50%;
+	-moz-box-flex:1;
 }
 #NewPayHeadView .panel .form .readioGropuitem .panel span{
 	margin-right:15px;
+}
+#NewClientAttendanceOrProductionDialog .newClientAttendanceForm {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin:10px;
+}
+#NewPayHeadView .calculationForm .attendanceLeftForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-flex:1;
+}
+#NewPayHeadView .calculationForm .attendanceRightForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;                
+	width: 50%;
+	-moz-box-flex:1;
+}
+#NewPayHeadView .calculationForm .attendanceForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	width: 100%;
+}
+#NewPayHeadView .compuPeriodAndTypeForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	width: 100%;
+}
+#NewPayHeadView .compuPeriodAndTypeForm .formItem{
+	-moz-box-flex: 1;
+    width: 50%;
+}
+#ComputationFormulaDialog .bodyLayout{
+	margin:10px;
+}
+#PayheadListView .hlay .form{
+	float: right;
 }
