@@ -399,14 +399,6 @@ public class PurchaseOrder extends Transaction {
 			return false;
 		}
 		super.onUpdate(session);
-		// if (this.transactionItems != null) {
-		// for (TransactionItem ti : this.transactionItems) {
-		// if (ti instanceof Lifecycle) {
-		// Lifecycle lifeCycle = (Lifecycle) ti;
-		// lifeCycle.onUpdate(session);
-		// }
-		// }
-		// }
 		return false;
 	}
 

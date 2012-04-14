@@ -219,7 +219,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		if (isDraftOrTemplate()) {
@@ -227,65 +226,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			return false;
 		}
 
-		/**
-		 * To check if any Purchase Order is involved in this Purchase Invoice.
-		 * If this Purchase Invoice uses any Purchase Order then we should
-		 * update the status accordingly. The Status of the Purchase Order may
-		 * be Not Received or Partially Received or Received. First of all we
-		 * need to check whether this Purchase Invoice uses any Purchase Order
-		 * or not.
-		 */
-		// if (this.purchaseOrder != null) {
-		// boolean isPartiallyReceived = false;
-		// boolean flag = true;
-		// if (this.transactionItems != null
-		// && this.transactionItems.size() > 0) {
-		// for (TransactionItem transactionItem : this.transactionItems) {
-		//
-		// /**
-		// * This is to know whether this transaction item is of new
-		// * one or it's came from any Purchase Order.
-		// */
-		// TransactionItem referringTransactionItem =
-		// transactionItem.referringTransactionItem;
-		// double amount = 0d;
-		//
-		// if (referringTransactionItem != null) {
-		// referringTransactionItem.usedamt += transactionItem.quantity
-		// * referringTransactionItem.unitPrice;
-		// amount = referringTransactionItem.usedamt;
-		// /**
-		// * This is to save changes to the invoiced amount of the
-		// * referring transaction item to this transaction item.
-		// */
-		// session.update(referringTransactionItem);
-		//
-		// if (flag
-		// && ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-		// || transactionItem.type == TransactionItem.TYPE_SALESTAX ||
-		// transactionItem.type == transactionItem.TYPE_ITEM) && amount <
-		// referringTransactionItem.lineTotal)) {
-		// isPartiallyReceived = true;
-		// flag = false;
-		// }
-		// }
-		//
-		// }
-		// }
-		// /**
-		// * Updating the Status of the Purchase Order involved in this
-		// * Purchase Invoice depending on the above Analysis.
-		// */
-		// if (isPartiallyReceived) {
-		// this.purchaseOrder.status =
-		// Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
-		// } else {
-		// this.purchaseOrder.status =
-		// Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		//
-		// }
-		//
-		// }
+	
 		if (this.transactionItems == null) {
 			this.transactionItems = new ArrayList<TransactionItem>();
 		}
@@ -306,7 +247,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				session.saveOrUpdate(purchaseOrder);
 			}
 		}
-		return false;
+		return super.onSave(session);
 	}
 
 	@Override
@@ -1122,7 +1063,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						false);
 				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setTaxCode(null);
 				newTransactionItem.setOnSaveProccessed(false);
 				newTransactionItem.setLineTotal(newTransactionItem
 						.getLineTotal() * getCurrencyFactor());
@@ -1130,8 +1071,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						* getCurrencyFactor());
 				newTransactionItem.setUnitPrice(newTransactionItem
 						.getUnitPrice() * getCurrencyFactor());
-				newTransactionItem.setVATfraction(newTransactionItem
-						.getVATfraction() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(new Double(0));
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {

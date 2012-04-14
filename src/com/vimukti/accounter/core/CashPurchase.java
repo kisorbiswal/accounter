@@ -603,7 +603,7 @@ public class CashPurchase extends Transaction {
 						false);
 				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setTaxCode(null);
 				newTransactionItem.setOnSaveProccessed(false);
 				newTransactionItem.setLineTotal(newTransactionItem
 						.getLineTotal() * getCurrencyFactor());
@@ -611,8 +611,7 @@ public class CashPurchase extends Transaction {
 						* getCurrencyFactor());
 				newTransactionItem.setUnitPrice(newTransactionItem
 						.getUnitPrice() * getCurrencyFactor());
-				newTransactionItem.setVATfraction(newTransactionItem
-						.getVATfraction() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(0.0D);
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {
