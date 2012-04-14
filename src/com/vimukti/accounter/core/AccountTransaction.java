@@ -189,7 +189,7 @@ public class AccountTransaction extends CreatableObject implements
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!donnotUpdateAccountOnSave) {
 			getAccount().effectCurrentBalance(-amount,
-					getTransaction().getCurrencyFactor());
+					getTransaction().previousCurrencyFactor);
 			session.saveOrUpdate(getAccount());
 		}
 		return super.onDelete(session);

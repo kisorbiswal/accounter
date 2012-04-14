@@ -605,12 +605,15 @@ public class FinanceTool {
 					}
 				} else if (serverObject instanceof Account
 						|| serverObject instanceof BankAccount) {
-					Boolean isExists = (Boolean) session
-							.getNamedQuery("isCompanyAccount")
-							.setParameter("accountId", serverObject.getID())
-							.setParameter("companyId", company.getID()).list()
-							.get(0);
-					if (isExists) {
+
+					Boolean isDefault = ((Account) serverObject).isDefault()
+							|| (Boolean) session
+									.getNamedQuery("isCompanyAccount")
+									.setParameter("accountId",
+											serverObject.getID())
+									.setParameter("companyId", company.getID())
+									.list().get(0);
+					if (isDefault) {
 						throw new AccounterException(
 								AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT);
 					}

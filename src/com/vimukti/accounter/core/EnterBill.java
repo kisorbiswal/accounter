@@ -515,8 +515,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		} else {
 
-			this.cleanTransactionitems(this);
-
 			/**
 			 * If cloned and client Object vendors are not same then update
 			 * cloned and client Object vendor balances and PurchaseOrder
@@ -526,11 +524,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					|| isCurrencyFactorChanged()) {
 
 				doVoidEffect(session, enterBill);
-
-				Vendor vendor = (Vendor) session.get(Vendor.class,
-						enterBill.vendor.getID());
-				vendor.updateBalance(session, this, -enterBill.total,
-						enterBill.getCurrencyFactor());
 
 				this.onSave(session);
 				return;
