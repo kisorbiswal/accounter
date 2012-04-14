@@ -226,7 +226,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			return false;
 		}
 
-	
 		if (this.transactionItems == null) {
 			this.transactionItems = new ArrayList<TransactionItem>();
 		}
@@ -1114,28 +1113,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		this.estimates = estimates;
 	}
 
-	public void updateBalance(double amount, Transaction transaction) {
-		updateBalance(amount, transaction, transaction.getCurrencyFactor());
-	}
-
-	public void updateBalance(double amount, Transaction transaction,
-			double currencyFactor) {
-		Session session = HibernateUtil.getCurrentSession();
-
-		double amountToUpdate = amount * this.currencyFactor;
+	public void updateBalance(double amount) {
 
 		this.payments += amount;
 		this.balanceDue -= amount;
 
-		// loss is paid amount - entered amount in base currency
-		double diff = amount * currencyFactor - amountToUpdate;
-
-		Account exchangeLossOrGainAccount = getCompany()
-				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
-
-		vendor.updateBalance(session, transaction, diff / currencyFactor,
-				currencyFactor, false);
 		updateStatus();
 	}
 

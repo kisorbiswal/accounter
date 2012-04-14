@@ -970,28 +970,11 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.estimates = estimates;
 	}
 
-	public void updateBalance(double amount, Transaction transaction) {
-		updateBalance(amount, transaction, transaction.getCurrencyFactor());
-	}
-
-	public void updateBalance(double amount, Transaction transaction,
-			double currencyFactor) {
-		Session session = HibernateUtil.getCurrentSession();
-
-		double amountToUpdate = amount * this.currencyFactor;
+	public void updateBalance(double amount) {
 
 		this.payments += amount;
 		this.balanceDue -= amount;
 
-		// loss is invoiced amount - received amount in base currency
-		double diff = amountToUpdate - amount * currencyFactor;
-
-		Account exchangeLossOrGainAccount = getCompany()
-				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
-
-		customer.updateBalance(session, transaction, diff / currencyFactor,
-				currencyFactor, false);
 		updateStatus();
 	}
 

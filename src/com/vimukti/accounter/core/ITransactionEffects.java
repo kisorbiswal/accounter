@@ -11,4 +11,6 @@ public interface ITransactionEffects {
 
 	public void add(TAXItemGroup taxItemGroup, Double amount);
 
+	public void add(Account account, Double amount, double currencyFactor);
+
 }

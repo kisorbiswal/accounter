@@ -322,8 +322,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.invoice != null) {
 			// Update the Payments and the balance due of the corresponding
 			// Invoice
-			this.invoice.updateBalance(-amount, this.receivePayment,
-					this.receivePayment.previousCurrencyFactor);
+			this.invoice.updateBalance(-amount);
 
 		} else if (this.customerRefund != null) {
 			// Update the Payments and the balance due of the corresponding
@@ -381,7 +380,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.invoice != null) {
 			// Update the Payments and the balance due of the corresponding
 			// Invoice
-			this.invoice.updateBalance(amount, this.receivePayment);
+			this.invoice.updateBalance(amount);
 
 		} else if (this.customerRefund != null) {
 			// Update the Payments and the balance due of the corresponding
@@ -432,8 +431,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		// this.payment = 0.0;
 
 		if (this.getInvoice() != null) {
-			this.getInvoice().updateBalance(-amount, this.receivePayment,
-					receivePayment.previousCurrencyFactor);
+			this.getInvoice().updateBalance(-amount);
 			session.saveOrUpdate(this.getInvoice());
 			this.invoice = null;
 		} else if (this.getCustomerRefund() != null) {
@@ -469,7 +467,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 		this.appliedCredits -= amount;
 		if (this.invoice != null) {
-			this.invoice.updateBalance(amount, transaction);
+			this.invoice.updateBalance(amount);
 		} else if (this.customerRefund != null) {
 			this.customerRefund.updatePaymentsAndBalanceDue(amount);
 		} else if (this.journalEntry != null) {

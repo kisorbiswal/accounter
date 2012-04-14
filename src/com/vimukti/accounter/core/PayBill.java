@@ -717,6 +717,20 @@ public class PayBill extends Transaction {
 						- bill.amountDue;
 			}
 
+			// Calculating Exchange Loss or Gain
+			{
+				double amount = (bill.cashDiscount) + (bill.appliedCredits)
+						+ (bill.payment);
+
+				double amountToUpdate = amount
+						* bill.getEnterBill().currencyFactor;
+				// loss is paid amount - entered amount in base currency
+				double diff = amount * currencyFactor - amountToUpdate;
+
+				e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
+				e.add(getVendor().getAccount(), diff, 1);
+			}
+
 		}
 		e.add(getVendor(), unUsedAmount - getTotal());
 		double vendorPayment = getTotal() - getTdsTotal();
@@ -727,5 +741,6 @@ public class PayBill extends Transaction {
 				e.add(getTdsTaxItem(), getTotal());
 			}
 		}
+
 	}
 }

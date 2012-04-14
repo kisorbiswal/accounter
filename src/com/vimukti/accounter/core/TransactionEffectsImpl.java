@@ -33,12 +33,17 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 
 	@Override
 	public void add(Account account, Double amount) {
+		add(account, amount, transaction.getCurrencyFactor());
+	}
+
+	@Override
+	public void add(Account account, Double amount, double currencyFactor) {
 		if (account == null || amount == null
 				|| DecimalUtil.isEquals(amount, 0.00D)) {
 			return;
 		}
 		double atAamount = (account.isIncrease() ? 1 : -1) * amount
-				* transaction.getCurrencyFactor();
+				* currencyFactor;
 		addAT(new AccountTransaction(account, transaction, atAamount));
 	}
 

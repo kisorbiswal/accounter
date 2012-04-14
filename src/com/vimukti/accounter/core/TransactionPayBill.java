@@ -309,7 +309,7 @@ public class TransactionPayBill extends CreatableObject implements
 				setCompany(enterBill.getCompany());
 				// Update the Payments and the balance due of the corresponding
 				// enterBill
-				this.enterBill.updateBalance(amount, this.payBill);
+				this.enterBill.updateBalance(amount);
 
 			}/*
 			 * else if (this.transactionMakeDeposit != null) { // Update the
@@ -362,9 +362,7 @@ public class TransactionPayBill extends CreatableObject implements
 		// this.payment = 0.0;
 		if (this.enterBill != null) {
 
-			this.enterBill.updateBalance(-amount, this.payBill,
-					payBill.previousCurrencyFactor);
-			session.saveOrUpdate(this.enterBill);
+			this.enterBill.updateBalance(-amount);
 			this.enterBill = null;
 
 		} /*
@@ -416,7 +414,7 @@ public class TransactionPayBill extends CreatableObject implements
 		this.appliedCredits -= amount;
 
 		if (this.enterBill != null) {
-			this.enterBill.updateBalance(amount, transaction);
+			this.enterBill.updateBalance(amount);
 			HibernateUtil.getCurrentSession().saveOrUpdate(this.enterBill);
 		} /*
 		 * else if (this.transactionMakeDeposit != null) {

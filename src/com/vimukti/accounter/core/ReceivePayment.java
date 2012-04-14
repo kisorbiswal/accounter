@@ -700,6 +700,22 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			e.add(getCustomer(), payment.getCashDiscount());
 			e.add(getCustomer(), payment.getWriteOff());
 			e.add(payment.getWriteOffAccount(), -payment.getWriteOff());
+
+			// Calculating Exchange Loss or Gain
+			{
+				double amount = (payment.cashDiscount) + (payment.writeOff)
+						+ (payment.appliedCredits) + (payment.payment);
+
+				// loss is invoiced amount - received amount in base currency
+				double amountToUpdate = amount
+						* payment.getInvoice().getCurrencyFactor();
+
+				double diff = amountToUpdate - amount * currencyFactor;
+
+				e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
+				e.add(getCustomer().getAccount(), diff, 1);
+			}
+
 		}
 	}
 }
