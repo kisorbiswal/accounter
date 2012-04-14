@@ -6,8 +6,8 @@ import com.vimukti.accounter.web.client.ui.NewCustomThemeDialog;
 
 public class NewBrandCustomThemeAction extends Action {
 
-	private boolean isNew;
 	private NewCustomThemeDialog customThemeDialog;
+	private boolean isUsersActivityList;
 
 	public NewBrandCustomThemeAction() {
 		super();
@@ -17,15 +17,21 @@ public class NewBrandCustomThemeAction extends Action {
 	@Override
 	public void run() {
 		if (isDependent) {
-			customThemeDialog = new NewCustomThemeDialog(messages
-					.editBrandingThemeLabel(), (ClientBrandingTheme) data,
-					isDependent);
+			customThemeDialog = new NewCustomThemeDialog(
+					messages.editBrandingThemeLabel(),
+					(ClientBrandingTheme) data, isDependent);
 		} else {
-			customThemeDialog = new NewCustomThemeDialog(messages
-					.newBrandTheme(), (ClientBrandingTheme) data, isDependent);
+			customThemeDialog = new NewCustomThemeDialog(
+					messages.newBrandTheme(), (ClientBrandingTheme) data,
+					isDependent);
 		}
+		customThemeDialog.setUsersActivityList(isUsersActivityList());
 		customThemeDialog.show();
 
+	}
+
+	private boolean isUsersActivityList() {
+		return isUsersActivityList;
 	}
 
 	@Override
@@ -54,6 +60,10 @@ public class NewBrandCustomThemeAction extends Action {
 	@Override
 	public String getText() {
 		return messages.customTheme();
+	}
+
+	public void setUsersActivityList(boolean isUsersActivityList) {
+		this.isUsersActivityList = isUsersActivityList;
 	}
 
 }

@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
-import com.vimukti.accounter.web.client.core.Features;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -12,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  * @author Uday Kumar
  * 
  */
-public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
+public class NewBrandThemeAction extends Action {
 
 	private NewBrandingThemeView view;
 

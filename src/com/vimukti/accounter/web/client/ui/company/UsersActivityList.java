@@ -33,11 +33,14 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.NewBrandCustomThemeAction;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.grids.columns.ClickImage;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
+import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 
 public class UsersActivityList extends CellTable<ClientActivity> {
 
@@ -422,8 +425,25 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				@Override
 				public void onResultSuccess(ClientBrandingTheme result) {
 					if (result != null) {
-						ActionFactory.getNewBrandCustomThemeAction().run(
-								result, true);
+						if (result.isCustomFile()) {
+							NewBrandCustomThemeAction newBrandCustomThemeAction = ActionFactory
+									.getNewBrandCustomThemeAction();
+							newBrandCustomThemeAction
+									.setUsersActivityList(true);
+							newBrandCustomThemeAction.run(result, true);
+							newBrandCustomThemeAction
+									.setCallback(getCoreActionCallBack());
+						} else {
+							NewBrandThemeAction newBrandThemeAction = ActionFactory
+									.getNewBrandThemeAction();
+							ActionFactory.getNewBrandThemeAction().run(result,
+									false);
+							MainFinanceWindow.getViewManager().existingView
+									.onEdit();
+							MainFinanceWindow.getViewManager()
+									.removeEditButton();
+						}
+
 					}
 				}
 
@@ -444,6 +464,17 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public void actionResult(ClientEmailAccount result) {
+				refreshData();
+			}
+		};
+		return callBack;
+	}
+
+	private ActionCallback<IAccounterCore> getCoreActionCallBack() {
+		ActionCallback<IAccounterCore> callBack = new ActionCallback<IAccounterCore>() {
+
+			@Override
+			public void actionResult(IAccounterCore result) {
 				refreshData();
 			}
 		};

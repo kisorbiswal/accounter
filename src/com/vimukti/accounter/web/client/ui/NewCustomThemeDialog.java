@@ -12,9 +12,11 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 	private DynamicForm form;
 	private TextItem themeName, overdueBox, creditNoteBox, statementBox,
-			quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, payPalEmail;
+			quoteBox, cashSaleBox, purchaseOrderBox, salesOrderBox,
+			payPalEmail;
 	private ClientBrandingTheme brandingTheme;
 	private boolean isEdit;
+	private boolean isUsersActivityList;
 
 	public NewCustomThemeDialog(String title,
 			ClientBrandingTheme brandingTheme, boolean isNew) {
@@ -52,11 +54,13 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 			cashSaleBox = new TextItem(messages.cashSaleTitle(), "cashSaleBox");
 			cashSaleBox.setValue(brandingTheme.getCashSaleTitle());
-			
-			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),"purchaseOrderBox");
+
+			purchaseOrderBox = new TextItem(messages.purchaseOrderTitle(),
+					"purchaseOrderBox");
 			purchaseOrderBox.setValue(brandingTheme.getPurchaseOrderTitle());
-			
-			salesOrderBox = new TextItem(messages.salesOrderTitle(),"salesOrderBox");
+
+			salesOrderBox = new TextItem(messages.salesOrderTitle(),
+					"salesOrderBox");
 			salesOrderBox.setValue(brandingTheme.getSalesOrderTitle());
 
 			payPalEmail = new TextItem("PayPal Email", "payPalEmail");
@@ -65,7 +69,8 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			payPalEmail.setValue(emailId);
 
 			form.add(themeName, overdueBox, creditNoteBox, statementBox,
-					quoteBox, cashSaleBox,purchaseOrderBox,salesOrderBox, payPalEmail);
+					quoteBox, cashSaleBox, purchaseOrderBox, salesOrderBox,
+					payPalEmail);
 		} else {
 			form.add(themeName);
 		}
@@ -83,10 +88,10 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setCreditNoteTempleteName(messages.classicTemplate());
 			brandingTheme.setQuoteTemplateName(messages.classicTemplate());
 			brandingTheme.setCashSaleTemplateName(messages.classicTemplate());
-			brandingTheme.setPurchaseOrderTemplateName(messages.classicTemplate());
+			brandingTheme.setPurchaseOrderTemplateName(messages
+					.classicTemplate());
 			brandingTheme.setSalesOrderTemplateName(messages.classicTemplate());
-			
-			
+
 			brandingTheme.setOverDueInvoiceTitle(messages.overdueValue());
 			brandingTheme.setCreditMemoTitle(messages.creditNoteValue());
 			brandingTheme.setQuoteTitle(messages.QuoteOverDueTitle());
@@ -94,9 +99,9 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setPurchaseOrderTitle(messages.purchaseOrderValue());
 			brandingTheme.setSalesOrderTitle(messages.salesOrderValue());
 			brandingTheme.setStatementTitle(messages.statement());
-			
+
 			brandingTheme.setPayPalEmailID("");
-			
+
 		}
 
 		if (isEdit == true) {
@@ -107,9 +112,12 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 			brandingTheme.setStatementTitle(this.statementBox.getValue()
 					.toString());
 			brandingTheme.setQuoteTitle(this.quoteBox.getValue().toString());
-			brandingTheme.setCashSaleTitle(this.cashSaleBox.getValue().toString());
-			brandingTheme.setPurchaseOrderTitle(this.purchaseOrderBox.getValue().toString());
-			brandingTheme.setSalesOrderTitle(this.salesOrderBox.getValue().toString());
+			brandingTheme.setCashSaleTitle(this.cashSaleBox.getValue()
+					.toString());
+			brandingTheme.setPurchaseOrderTitle(this.purchaseOrderBox
+					.getValue().toString());
+			brandingTheme.setSalesOrderTitle(this.salesOrderBox.getValue()
+					.toString());
 			brandingTheme.setPayPalEmailID(this.payPalEmail.getValue()
 					.toString());
 		}
@@ -126,7 +134,9 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 	public void saveSuccess(IAccounterCore object) {
 		removeFromParent();
 		super.saveSuccess(object);
-		ActionFactory.getInvoiceBrandingAction().run(null, true);
+		if (!isUsersActivityList()) {
+			ActionFactory.getInvoiceBrandingAction().run(null, true);
+		}
 	}
 
 	@Override
@@ -136,8 +146,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 		String name = themeName.getValue().toString();
 		if (name.trim().length() == 0)
 			result.addError(this, messages.pleaseEnterValidLocationName(""));
-		
-		
+
 		return result;
 	}
 
@@ -154,5 +163,13 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 	@Override
 	protected boolean onCancel() {
 		return true;
+	}
+
+	public boolean isUsersActivityList() {
+		return isUsersActivityList;
+	}
+
+	public void setUsersActivityList(boolean isUsersActivityList) {
+		this.isUsersActivityList = isUsersActivityList;
 	}
 }
