@@ -109,7 +109,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			this.balanceDue = 0;
-			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);
 	}
@@ -143,35 +142,10 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			this.setType(Transaction.TYPE_ADJUST_VAT_RETURN);
 			this.balanceDue = this.total;
 
-			doCreateEffect(session, this);
-
 		} finally {
 			session.setFlushMode(flushMode);
 		}
 		return false;
-	}
-
-	private void doCreateEffect(Session session, TAXAdjustment taxAdjustment) {
-		Account liabilityAccount = taxAdjustment.isSales == true ? taxAdjustment.taxItem.taxAgency
-				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
-				.getPurchaseLiabilityAccount();
-
-		double amount = 0.00D;
-		if (taxAdjustment.increaseVATLine) {
-			amount = taxAdjustment.isSales() ? taxAdjustment.getTotal() : -1
-					* taxAdjustment.getTotal();
-		} else {
-			amount = taxAdjustment.isSales() ? -1 * taxAdjustment.getTotal()
-					: taxAdjustment.getTotal();
-		}
-
-		liabilityAccount.updateCurrentBalance(this, amount, currencyFactor);
-		session.saveOrUpdate(liabilityAccount);
-		liabilityAccount.onUpdate(session);
-
-		adjustmentAccount.updateCurrentBalance(this, -amount, currencyFactor);
-		session.saveOrUpdate(adjustmentAccount);
-		adjustmentAccount.onUpdate(session);
 	}
 
 	@Override
@@ -230,30 +204,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 			this.balanceDue = this.total;
 		}
 		super.onEdit(taxAdjustment);
-	}
-
-	private void doVoidEffect(Session session, TAXAdjustment taxAdjustment) {
-		Account liabilityAccount = taxAdjustment.isSales == true ? taxAdjustment
-				.getTaxItem().getTaxAgency().getSalesLiabilityAccount()
-				: taxAdjustment.getTaxItem().getTaxAgency()
-						.getPurchaseLiabilityAccount();
-
-		double amount = 0.00D;
-		if (taxAdjustment.increaseVATLine) {
-			amount = taxAdjustment.isSales() ? taxAdjustment.getTotal() : -1
-					* taxAdjustment.getTotal();
-		} else {
-			amount = taxAdjustment.isSales() ? -1 * taxAdjustment.getTotal()
-					: taxAdjustment.getTotal();
-		}
-
-		liabilityAccount.updateCurrentBalance(this, -amount, currencyFactor);
-		session.saveOrUpdate(liabilityAccount);
-		liabilityAccount.onUpdate(session);
-
-		adjustmentAccount.updateCurrentBalance(this, amount, currencyFactor);
-		session.saveOrUpdate(adjustmentAccount);
-		adjustmentAccount.onUpdate(session);
 	}
 
 	@Override

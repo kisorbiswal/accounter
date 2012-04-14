@@ -97,21 +97,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 		if (isDraftOrTemplate()) {
 			return false;
 		}
-		if (this.cashBackAccount != null) {
-
-			this.cashBackAccount.updateCurrentBalance(this,
-					this.cashBackAmount, currencyFactor);
-			this.cashBackAccount.onUpdate(session);
-
-		}
-		double transferAmount = getTransferAmount(this);
-
-		depositIn.updateCurrentBalance(this, -transferAmount,
-				this.currencyFactor);
-		session.save(depositIn);
-		depositFrom.updateCurrentBalance(this, transferAmount,
-				this.currencyFactor);
-		session.save(depositFrom);
 
 		return false;
 	}
@@ -302,5 +287,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 
 		e.add(getDepositIn(), -transferAmount);
 		e.add(getDepositFrom(), transferAmount);
+		e.add(getCashBackAccount(), getCashBackAmount());
 	}
 }

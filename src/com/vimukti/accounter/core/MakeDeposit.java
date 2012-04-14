@@ -121,9 +121,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			createAndSaveEstimates(this.transactionDepositItems, session);
 		}
 
-		depositTo.updateCurrentBalance(this, -this.total, this.currencyFactor);
-		session.save(depositTo);
-
 		return false;
 	}
 

@@ -526,8 +526,6 @@ public class PayBill extends Transaction {
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doVoidEffect(session, this);
-			this.vendor.updateBalance(session, this,
-					-(this.unusedAmount - this.total));
 		}
 		return super.onDelete(session);
 	}

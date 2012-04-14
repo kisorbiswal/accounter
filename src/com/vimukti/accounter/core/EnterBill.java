@@ -290,29 +290,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			this.transactionItems = new ArrayList<TransactionItem>();
 		}
 		modifyPurchaseOrder(this, true);
-		/*
-		 * Make void the corresponding Item Receipt.
-		 */
-		if (this.itemReceipt != null) {
-			this.itemReceipt.setSaveStatus(STATUS_VOID);
-			this.itemReceipt.isBilled = true;
-			this.itemReceipt.balanceDue = 0;
-			this.itemReceipt.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-
-			Account pendingItemReceipt = getCompany()
-					.getPendingItemReceiptsAccount();
-			pendingItemReceipt.updateCurrentBalance(this.itemReceipt,
-					-this.itemReceipt.total, itemReceipt.currencyFactor);
-			session.update(pendingItemReceipt);
-			pendingItemReceipt.onUpdate(session);
-
-			session.saveOrUpdate(pendingItemReceipt);
-
-			this.itemReceipt.balanceDue = 0.0;
-
-			this.itemReceipt.voidTransactionItems();
-			deleteCreatedEntries(this.itemReceipt);
-		}
 		if (getCompany().getPreferences()
 				.isProductandSerivesTrackingByCustomerEnabled()
 				&& getCompany().getPreferences()

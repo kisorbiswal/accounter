@@ -321,26 +321,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		if (isDraftOrTemplate()) {
 			return false;
 		}
-		// this.total = this.amount;
-		//
-		// this.subTotal = this.total - this.unUsedPayments;
-
-		if (this.depositIn != null) {
-			// Deposit in account should be updated by the amount received, not
-			// by transaction total.
-			this.depositIn.updateCurrentBalance(this, -this.amount,
-					currencyFactor);
-			// -(this.amount != 0 ? this.amount : this.total));
-			this.depositIn.onUpdate(session);
-		}
-
-		// the following condition checking is for UK
-		// if (Company.getCompany().accountingType == Company.ACCOUNTING_TYPE_UK
-		// && !this.customer.isEUVATExemptPayee
-		// && this.showPricesWithVATOrVATInclusive
-		// ) {
-		// this.unUsedPayments += this.total;
-		// }
 
 		if (!DecimalUtil.isEquals(this.unUsedPayments, 0D)) {
 			if (creditsAndPayments != null
@@ -378,15 +358,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
-		if (DecimalUtil.isGreaterThan(tdsTotal, 0)
-				&& getCompany().getPreferences().isTDSEnabled()
-				&& this.getCustomer().isWillDeductTDS()) {
-			Account tdsAccount = getTDSAccount();
-			if (tdsAccount != null) {
-				tdsAccount
-						.updateCurrentBalance(this, -tdsTotal, currencyFactor);
-			}
-		}
 		return false;
 	}
 
@@ -596,15 +567,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
-			this.depositIn.updateCurrentBalance(this, this.amount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
-
-			// if (this.creditsAndPayments != null) {
-			// this.creditsAndPayments.setTransaction(null);
-			// session.delete(this.creditsAndPayments);
-			// this.creditsAndPayments = null;
-			// }
 
 			this.totalCashDiscount = 0.0;
 			this.totalWriteOff = 0.0;
@@ -727,7 +689,11 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 		e.add(getDepositIn(), -getAmount());
-		e.add(getTDSAccount(), -getTdsTotal());
+		if (DecimalUtil.isGreaterThan(tdsTotal, 0)
+				&& getCompany().getPreferences().isTDSEnabled()
+				&& this.getCustomer().isWillDeductTDS()) {
+			e.add(getTDSAccount(), -getTdsTotal());
+		}
 		e.add(getCustomer(), getTotal());
 		for (TransactionReceivePayment payment : getTransactionReceivePayment()) {
 			e.add(payment.getDiscountAccount(), -payment.getCashDiscount());

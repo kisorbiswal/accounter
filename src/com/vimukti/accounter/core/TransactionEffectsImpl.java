@@ -124,13 +124,8 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				.intersection(newATs, oldAT);
 		newATs.removeAll(intersection);
 		oldAT.removeAll(intersection);
-		for (AccountTransaction at : newATs) {
-			session.saveOrUpdate(at);
-		}
-		for (AccountTransaction at : oldAT) {
-			transaction.getAccountTransactionEntriesList().remove(at);
-			session.delete(at);
-		}
+		transaction.getAccountTransactionEntriesList().removeAll(oldAT);
+		transaction.getAccountTransactionEntriesList().addAll(newATs);
 
 	}
 
@@ -141,13 +136,9 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				oldPUs);
 		newPUs.removeAll(intersection);
 		oldPUs.removeAll(intersection);
-		for (PayeeUpdate pu : newPUs) {
-			session.saveOrUpdate(pu);
-		}
-		for (PayeeUpdate pu : oldPUs) {
-			transaction.getPayeeUpdates().remove(pu);
-			session.delete(pu);
-		}
+
+		transaction.getPayeeUpdates().removeAll(oldPUs);
+		transaction.getPayeeUpdates().addAll(newPUs);
 	}
 
 	private void mergeTAXRateCalculation(Session session) {
@@ -157,30 +148,24 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				oldTRCs);
 		newTRCs.removeAll(intersection);
 		oldTRCs.removeAll(intersection);
-		for (TAXRateCalculation trc : newTRCs) {
-			session.saveOrUpdate(trc);
-		}
-		for (TAXRateCalculation trc : oldTRCs) {
-			transaction.getTaxRateCalculationEntriesList().remove(trc);
-			session.delete(trc);
-		}
+
+		transaction.getTaxRateCalculationEntriesList().removeAll(oldTRCs);
+		transaction.getTaxRateCalculationEntriesList().addAll(newTRCs);
 	}
 
 	public void doVoid() {
-		Session session = HibernateUtil.getCurrentSession();
-		for (AccountTransaction at : transaction
-				.getAccountTransactionEntriesList()) {
-			session.delete(at);
-		}
-		for (PayeeUpdate pu : transaction.getPayeeUpdates()) {
-			session.delete(pu);
-		}
+		transaction.getAccountTransactionEntriesList().clear();
+		transaction.getPayeeUpdates().clear();
+		transaction.getTaxRateCalculationEntriesList().clear();
 
-		for (TAXRateCalculation trc : transaction
-				.getTaxRateCalculationEntriesList()) {
-			session.delete(trc);
-		}
+	}
 
+	public boolean isEmpty() {
+		if (!newATs.isEmpty() || !newPUs.isEmpty() || !newTRCs.isEmpty()
+				|| !newIUs.isEmpty()) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -333,19 +333,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		super.onSave(session);
 		this.balanceDue = this.total;
-
-		Account pendingItemReceipt = (Account) session
-				.getNamedQuery("getNameofAccount.by.Name")
-				.setParameter("name",
-						AccounterServerConstants.PENDING_ITEM_RECEIPTS,
-						EncryptedStringType.INSTANCE)
-				.setEntity("company", getCompany()).uniqueResult();
-		if (pendingItemReceipt != null) {
-			pendingItemReceipt.updateCurrentBalance(this, this.total,
-					currencyFactor);
-			session.update(pendingItemReceipt);
-			pendingItemReceipt.onUpdate(session);
-		}
 		/**
 		 * To Update the Status of the purchase order involved in this Item
 		 * Receipt. The Status of the Purchase Order may be Not Receive or

@@ -49,7 +49,15 @@ public class AccountTransaction extends CreatableObject implements
 	 */
 	double amount;
 
+	boolean donnotUpdateAccountOnSave;
+
 	public AccountTransaction() {
+	}
+
+	public AccountTransaction(Account account, Transaction transaction,
+			double amount, boolean donnotUpdateAccountOnSave) {
+		this(account, transaction, amount);
+		this.donnotUpdateAccountOnSave = donnotUpdateAccountOnSave;
 	}
 
 	public AccountTransaction(Account account, Transaction transaction,
@@ -169,17 +177,21 @@ public class AccountTransaction extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		account.effectCurrentBalance(amount, getTransaction()
-				.getCurrencyFactor());
-		session.saveOrUpdate(account);
+		if (!donnotUpdateAccountOnSave) {
+			account.effectCurrentBalance(amount, getTransaction()
+					.getCurrencyFactor());
+			session.saveOrUpdate(account);
+		}
 		return super.onSave(session);
 	}
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		getAccount().effectCurrentBalance(-amount,
-				getTransaction().getCurrencyFactor());
-		session.saveOrUpdate(getAccount());
+		if (!donnotUpdateAccountOnSave) {
+			getAccount().effectCurrentBalance(-amount,
+					getTransaction().getCurrencyFactor());
+			session.saveOrUpdate(getAccount());
+		}
 		return super.onDelete(session);
 	}
 
@@ -206,6 +218,12 @@ public class AccountTransaction extends CreatableObject implements
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+		super.onLoad(arg0, arg1);
 	}
 
 }

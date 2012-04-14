@@ -166,11 +166,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		super.onSave(session);
-		if (!isDraftOrTemplate()) {
-			this.payFrom.updateCurrentBalance(this, this.total, currencyFactor);
-			this.payFrom.onUpdate(session);
-		}
-
 		if (this.paymentMethod != null) {
 			// update the status of the customer refund based on the selected
 			// payment method
@@ -218,20 +213,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	private void doVoidEffect(Session session) {
-
-		this.payFrom
-				.updateCurrentBalance(this, -1 * this.total, currencyFactor);
-		this.payFrom.onUpdate(session);
-
-		// if (this.transactionReceivePayments != null) {
-		// for (TransactionReceivePayment trp : this.transactionReceivePayments)
-		// {
-		// trp.onVoidTransaction(session);
-		// }
-		// }
-
-		// if (this.status != Transaction.STATUS_DELETED)
-		// this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
 		this.payments = this.total;
 		this.balanceDue = 0.0;

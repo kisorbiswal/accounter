@@ -1054,7 +1054,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// log.info(accountTransaction);
 
 		AccountTransaction accountTransaction = new AccountTransaction(this,
-				transaction, amount);
+				transaction, amount, true);
 		transaction.addAccountTransaction(accountTransaction);
 
 		if (this.name.equalsIgnoreCase("Un Deposited Funds")) {

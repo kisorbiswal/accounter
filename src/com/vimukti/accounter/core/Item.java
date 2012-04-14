@@ -738,19 +738,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		return schemeType;
 	}
 
-	public void adjustQuantityAndValue(StockAdjustment adjustment,
-			Quantity currentQty, Quantity adjustedQty, double currentValue,
-			double adjustedValue) {
-		Session session = HibernateUtil.getCurrentSession();
-		double amountToUpdate = adjustedValue - currentValue;
-		Quantity quantityToUpdate = adjustedQty.subtract(currentQty);
-		getAssestsAccount()
-				.updateCurrentBalance(adjustment, -amountToUpdate, 1);
-		session.saveOrUpdate(assestsAccount);
-		setOnhandQuantity(getOnhandQty().add(quantityToUpdate));
-		ChangeTracker.put(this);
-	}
-
 	public double getAverageCost() {
 		return averageCost;
 	}

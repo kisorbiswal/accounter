@@ -221,45 +221,6 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean onUpdate(Session s) throws CallbackException {
-		if (OnUpdateThreadLocal.get()) {
-			return false;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-
-		if (transaction.isVoid()) {
-			return false;
-		}
-
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
-				|| transaction.isDraftOrTemplate())
-			return false;
-
-		Double amount = (transaction.isPositiveTransaction() ? 1d : -1d)
-				* (this.total);
-
-		Account effectingAccount = this.account;
-		if (effectingAccount != null) {
-			effectingAccount.updateCurrentBalance(this.transaction, amount,
-					transaction.previousCurrencyFactor);
-
-			session.saveOrUpdate(effectingAccount);
-			effectingAccount.onUpdate(session);
-		}
-
-		return false;
-	}
-
-	@Override
-	public void onLoad(Session s, Serializable id) {
-
-	}
-
-	@Override
 	protected TransactionDepositItem clone() throws CloneNotSupportedException {
 		TransactionDepositItem item = (TransactionDepositItem) super.clone();
 		item.setId(0);
@@ -281,6 +242,24 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 
 	public void setJob(Job job) {
 		this.job = job;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

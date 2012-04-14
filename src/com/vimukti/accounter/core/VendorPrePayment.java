@@ -276,26 +276,6 @@ public class VendorPrePayment extends Transaction {
 				session.save(creditsAndPayments);
 			}
 
-			double amountEffectedToAccount = total - tdsTotal;
-			if (!DecimalUtil.isEquals(amountEffectedToAccount, 0.00D)) {
-				payFrom.updateCurrentBalance(this, amountEffectedToAccount,
-						currencyFactor);
-				session.update(payFrom);
-				payFrom.onUpdate(HibernateUtil.getCurrentSession());
-			}
-
-			// Update TDS Account if TDSEnabled
-			if (getCompany().getPreferences().isTDSEnabled()
-					&& this.getVendor().isTdsApplicable()) {
-				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
-					TAXItem taxItem = this.getTdsTaxItem();
-					if (taxItem != null) {
-						addTAXRateCalculation(taxItem, amountEffectedToAccount,
-								false);
-					}
-				}
-			}
-
 		}
 		return false;
 	}
@@ -396,7 +376,10 @@ public class VendorPrePayment extends Transaction {
 	public void getEffects(ITransactionEffects e) {
 		double vendorPayment = getTotal() - getTdsTotal();
 		e.add(getPayFrom(), vendorPayment);
-		e.add(getTdsTaxItem(), vendorPayment);
+		if (getCompany().getPreferences().isTDSEnabled()
+				&& this.getVendor().isTdsApplicable()) {
+			e.add(getTdsTaxItem(), vendorPayment);
+		}
 		e.add(getVendor(), -getTotal());
 	}
 }

@@ -770,9 +770,11 @@ public abstract class Transaction extends CreatableObject implements
 
 		setTransactionType();
 
-		TransactionEffectsImpl instance = new TransactionEffectsImpl(this);
-		getEffects(instance);
-		instance.saveOrUpdate();
+		TransactionEffectsImpl effects = new TransactionEffectsImpl(this);
+		getEffects(effects);
+		if (!effects.isEmpty()) {
+			effects.saveOrUpdate();
+		}
 
 		/**
 		 * The following code is particularly for Sales Tax Liability Report
@@ -960,21 +962,6 @@ public abstract class Transaction extends CreatableObject implements
 	// }
 	// }
 	// }
-
-	/**
-	 * It can be called while voiding the {@link Transaction}. It's effect
-	 * includes clearing all the list entries which are created as a back up at
-	 * the time of creation of the Transaction.
-	 * 
-	 * @param session
-	 */
-
-	protected void deleteCreatedEntries(Transaction transaction) {
-		if (transaction.accountTransactionEntriesList != null) {
-			transaction.accountTransactionEntriesList.clear();
-		}
-
-	}
 
 	protected boolean isBecameVoid() {
 		return isVoid() && !this.isVoidBefore;
@@ -1204,15 +1191,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected abstract void updatePayee(boolean onCreate);
 
-	private void updateEffectedAccount(double amount) {
-		Account effectingAccount = getEffectingAccount();
-		if (effectingAccount != null) {
-			effectingAccount.updateCurrentBalance(this, amount, currencyFactor);
-			HibernateUtil.getCurrentSession().update(effectingAccount);
-			effectingAccount.onUpdate(HibernateUtil.getCurrentSession());
-		}
-	}
-
 	public int compareTo(Object o) {
 		return 0;
 	}
@@ -1378,6 +1356,7 @@ public abstract class Transaction extends CreatableObject implements
 		} else {
 			getAccountTransactionEntriesList().remove(similar);
 			Session session = HibernateUtil.getCurrentSession();
+			similar.donnotUpdateAccountOnSave = true;
 			session.delete(similar);
 			return false;
 		}
