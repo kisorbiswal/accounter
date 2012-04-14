@@ -76,7 +76,7 @@ public class CashExpensePdfGeneration {
 							item.getVATfraction(), "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
-						: "";
+						: "Others";
 
 				String discount = Utility.decimalConversation(
 						item.getDiscount(), "");

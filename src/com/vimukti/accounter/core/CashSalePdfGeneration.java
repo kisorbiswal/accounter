@@ -101,21 +101,21 @@ public class CashSalePdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice(), symbol);
+						item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal(), symbol);
+						item.getLineTotal(), "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction(), symbol);
+							item.getVATfraction(), "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
 
 				String discount = Utility.decimalConversation(
-						item.getDiscount(), symbol);
+						item.getDiscount(), "");
 
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";

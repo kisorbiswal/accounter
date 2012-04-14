@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -169,7 +170,7 @@ public class PurchaseOrderPdfGeneration {
 				paypalEmail = " ";
 			}
 			i.setEmail(paypalEmail);
-
+			i.setStatus(getStatusString(purchaseOrder.getStatus()));
 			i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("logo", logo);
@@ -181,6 +182,20 @@ public class PurchaseOrderPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String getStatusString(int status) {
+		switch (status) {
+		case ClientTransaction.STATUS_OPEN:
+			return Global.get().messages().open();
+		case ClientTransaction.STATUS_COMPLETED:
+			return Global.get().messages().completed();
+		case ClientTransaction.STATUS_CANCELLED:
+			return Global.get().messages().cancelled();
+		default:
+			break;
+		}
+		return "";
 	}
 
 	private String getRegistrationAddress() {
@@ -338,6 +353,7 @@ public class PurchaseOrderPdfGeneration {
 		private String adviceTerms;
 		private String email;
 		private String registrationAddress;
+		private String status;
 
 		public String getCurrency() {
 			return currency;
@@ -465,6 +481,14 @@ public class PurchaseOrderPdfGeneration {
 
 		public void setVendorNo(String vendorNo) {
 			this.vendorNo = vendorNo;
+		}
+
+		public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
 		}
 	}
 

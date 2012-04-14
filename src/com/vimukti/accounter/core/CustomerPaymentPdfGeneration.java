@@ -1,13 +1,9 @@
 package com.vimukti.accounter.core;
 
-import java.io.File;
-
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
-import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 
 public class CustomerPaymentPdfGeneration {
@@ -22,34 +18,50 @@ public class CustomerPaymentPdfGeneration {
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
-
-		DummyPayment template = new DummyPayment();
-		IImageProvider footerImg = new ClassPathImageProvider(
-				CustomerPaymentPdfGeneration.class, "templetes"
-						+ File.separator + "footer-print-img.jpg");
-		template.setTitle("Payment Receipt");
-		template.setName(prePayment.getCustomer().getName());
-		// template.setPayFrom(prePayment.getAccount().getName());
-		Address regAdr = company.getRegisteredAddress();
-
-		String regAddress = forAddress(regAdr.getAddress1(), false)
-				+ forAddress(regAdr.getStreet(), false)
-				+ forAddress(regAdr.getCity(), false)
-				+ forAddress(regAdr.getStateOrProvinence(), false)
-				+ forAddress(regAdr.getZipOrPostalCode(), false)
-				+ forAddress(regAdr.getCountryOrRegion(), true);
-		template.setRegisteredAddress(regAddress);
-		template.setDate(prePayment.getDate().toString());
-		template.setPaymentMethod(prePayment.getPaymentMethod());
-		template.setChequeOrRefNo(prePayment.getCheckNumber());
-		template.setCustomerName(Global.get().Customer());
-		String symbol = prePayment.getCurrency().getSymbol();
-		template.setAmount(DataUtils.getAmountAsStringInCurrency(
-				prePayment.getTotal(), symbol));
-		context.put("payment", template);
-		context.put("companyImg", footerImg);
-		return context;
-
+		try {
+			DummyPayment template = new DummyPayment();
+			template.setTitle(Global.get().Customer() + " Prepayment");
+			template.setName(prePayment.getCustomer().getName());
+			template.setNumber(prePayment.getNumber());
+			Address address = prePayment.getAddress();
+			String customerNAddress = "";
+			if (address != null) {
+				customerNAddress = forAddress(address.getAddress1(), false)
+						+ forAddress(address.getStreet(), false)
+						+ forAddress(address.getCity(), false)
+						+ forAddress(address.getStateOrProvinence(), false)
+						+ forAddress(address.getZipOrPostalCode(), false)
+						+ forAddress(address.getCountryOrRegion(), true);
+			} else {
+				customerNAddress = "";
+			}
+			template.setCustomerNAddress(prePayment.getCustomer().getName()
+					+ customerNAddress);
+			Address regAdr = company.getRegisteredAddress();
+			String regAddress = forAddress(regAdr.getAddress1(), false)
+					+ forAddress(regAdr.getStreet(), false)
+					+ forAddress(regAdr.getCity(), false)
+					+ forAddress(regAdr.getStateOrProvinence(), false)
+					+ forAddress(regAdr.getZipOrPostalCode(), false)
+					+ forAddress(regAdr.getCountryOrRegion(), true);
+			template.setRegisteredAddress(regAddress);
+			template.setDate(prePayment.getDate().toString());
+			template.setPayMethod(prePayment.getPaymentMethod());
+			template.setCheckNo(prePayment.getCheckNumber());
+			template.setCustomerName(Global.get().Customer());
+			Currency currency = prePayment.getCustomer() != null ? prePayment
+					.getCustomer().getCurrency() : prePayment.getCurrency();
+			String symbol = currency.getSymbol();
+			template.setAmount(DataUtils.getAmountAsStringInCurrency(
+					prePayment.getTotal(), symbol));
+			template.setCurrency(currency.getFormalName());
+			template.setMemo(prePayment.getMemo());
+			context.put("payment", template);
+			return context;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public class DummyPayment {
@@ -58,10 +70,14 @@ public class CustomerPaymentPdfGeneration {
 		private String customerName;
 		private String registeredAddress;
 		private String date;
-		private String paymentMethod;
-		private String chequeOrRefNo;
+		private String payMethod;
+		private String checkNo;
 		private String amount;
 		private String title;
+		private String number;
+		private String customerNAddress;
+		private String memo;
+		private String currency;
 
 		public String getRegisteredAddress() {
 			return registeredAddress;
@@ -77,22 +93,6 @@ public class CustomerPaymentPdfGeneration {
 
 		public void setDate(String date) {
 			this.date = date;
-		}
-
-		public String getPaymentMethod() {
-			return paymentMethod;
-		}
-
-		public void setPaymentMethod(String paymentMethod) {
-			this.paymentMethod = paymentMethod;
-		}
-
-		public String getChequeOrRefNo() {
-			return chequeOrRefNo;
-		}
-
-		public void setChequeOrRefNo(String chequeOrRefNo) {
-			this.chequeOrRefNo = chequeOrRefNo;
 		}
 
 		public String getTitle() {
@@ -125,6 +125,54 @@ public class CustomerPaymentPdfGeneration {
 
 		public void setAmount(String amount) {
 			this.amount = amount;
+		}
+
+		public String getPayMethod() {
+			return payMethod;
+		}
+
+		public void setPayMethod(String payMethod) {
+			this.payMethod = payMethod;
+		}
+
+		public String getCheckNo() {
+			return checkNo;
+		}
+
+		public void setCheckNo(String checkNo) {
+			this.checkNo = checkNo;
+		}
+
+		public String getNumber() {
+			return number;
+		}
+
+		public void setNumber(String number) {
+			this.number = number;
+		}
+
+		public String getCustomerNAddress() {
+			return customerNAddress;
+		}
+
+		public void setCustomerNAddress(String customerNAddress) {
+			this.customerNAddress = customerNAddress;
+		}
+
+		public String getMemo() {
+			return memo;
+		}
+
+		public void setMemo(String memo) {
+			this.memo = memo;
+		}
+
+		public String getCurrency() {
+			return currency;
+		}
+
+		public void setCurrency(String currency) {
+			this.currency = currency;
 		}
 
 	}

@@ -1,12 +1,9 @@
 package com.vimukti.accounter.core;
 
-import java.io.File;
-
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
-import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 
 public class RefundPdfGeneration {
@@ -20,33 +17,56 @@ public class RefundPdfGeneration {
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
+		try {
+			CustomerRefundTemplate template = new CustomerRefundTemplate();
+			template.setTitle(Global.get().Customer() + " Refund");
+			template.setPayTo(refund.getPayTo().getName());
+			template.setPayFrom(refund.getPayFrom().getName());
+			template.setNumber(refund.getNumber());
 
-		CustomerRefundTemplate template = new CustomerRefundTemplate();
-		IImageProvider footerImg = new ClassPathImageProvider(
-				InvoicePdfGeneration.class, "templetes" + File.separator
-						+ "footer-print-img.jpg");
-		template.setTitle("Refund");
-		template.setPayTo(refund.getPayTo().getName());
-		template.setPayFrom(refund.getPayFrom().getName());
-		Address regAdr = company.getRegisteredAddress();
+			Address address = refund.getAddress();
+			String customerNAddress = "";
+			if (address != null) {
+				customerNAddress = forAddress(address.getAddress1(), false)
+						+ forAddress(address.getStreet(), false)
+						+ forAddress(address.getCity(), false)
+						+ forAddress(address.getStateOrProvinence(), false)
+						+ forAddress(address.getZipOrPostalCode(), false)
+						+ forAddress(address.getCountryOrRegion(), true);
+			} else {
+				customerNAddress = "";
+			}
+			template.setCustomerNAddress(refund.getPayTo().getName()
+					+ customerNAddress);
 
-		String regAddress = forAddress(regAdr.getAddress1(), false)
-				+ forAddress(regAdr.getStreet(), false)
-				+ forAddress(regAdr.getCity(), false)
-				+ forAddress(regAdr.getStateOrProvinence(), false)
-				+ forAddress(regAdr.getZipOrPostalCode(), false)
-				+ forAddress(regAdr.getCountryOrRegion(), true);
-		template.setRegisteredAddress(regAddress);
-		template.setDate(refund.getDate().toString());
-		template.setPaymentMethod(refund.getPaymentMethod());
-		template.setChequeOrRefNo(refund.getCheckNumber());
-		String symbol = refund.getCurrency().getSymbol();
-		template.setRefundAmount(DataUtils.getAmountAsStringInCurrency(
-				refund.getTotal(), symbol));
-		context.put("refund", template);
-		context.put("companyImg", footerImg);
-		return context;
+			Address regAdr = company.getRegisteredAddress();
+			String regAddress = forAddress(regAdr.getAddress1(), false)
+					+ forAddress(regAdr.getStreet(), false)
+					+ forAddress(regAdr.getCity(), false)
+					+ forAddress(regAdr.getStateOrProvinence(), false)
+					+ forAddress(regAdr.getZipOrPostalCode(), false)
+					+ forAddress(regAdr.getCountryOrRegion(), true);
 
+			template.setRegisteredAddress(regAddress);
+			template.setDate(refund.getDate().toString());
+			template.setPaymentMethod(refund.getPaymentMethod());
+			template.setChequeOrRefNo(refund.getCheckNumber());
+
+			Currency currency = refund.getPayTo() != null ? refund.getPayTo()
+					.getCurrency() : refund.getCurrency();
+			String symbol = currency.getSymbol();
+
+			template.setRefundAmount(DataUtils.getAmountAsStringInCurrency(
+					refund.getTotal(), symbol));
+			template.setMemo(refund.getMemo());
+			template.setCurrency(currency.getFormalName());
+
+			context.put("refund", template);
+			return context;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public class CustomerRefundTemplate {
@@ -59,6 +79,10 @@ public class RefundPdfGeneration {
 		private String chequeOrRefNo;
 		private String refundAmount;
 		private String title;
+		private String memo;
+		private String currency;
+		private String customerNAddress;
+		private String number;
 
 		public String getPayTo() {
 			return payTo;
@@ -122,6 +146,38 @@ public class RefundPdfGeneration {
 
 		public void setTitle(String title) {
 			this.title = title;
+		}
+
+		public String getMemo() {
+			return memo;
+		}
+
+		public void setMemo(String memo) {
+			this.memo = memo;
+		}
+
+		public String getCurrency() {
+			return currency;
+		}
+
+		public void setCurrency(String currency) {
+			this.currency = currency;
+		}
+
+		public String getCustomerNAddress() {
+			return customerNAddress;
+		}
+
+		public void setCustomerNAddress(String customerNAddress) {
+			this.customerNAddress = customerNAddress;
+		}
+
+		public String getNumber() {
+			return number;
+		}
+
+		public void setNumber(String number) {
+			this.number = number;
 		}
 
 	}

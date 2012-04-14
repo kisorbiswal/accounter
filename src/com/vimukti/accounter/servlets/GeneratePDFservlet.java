@@ -481,8 +481,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getServerObjectForid(
 											AccounterCoreType.CUSTOMERPREPAYMENT,
 											Long.parseLong(ids[i]));
-							fileName = "Payment Receipt_"
-									+ prePayment.getNumber();
+							fileName = "Prepayment_" + prePayment.getNumber();
 							map = Odt2PdfGeneration(prePayment, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
@@ -491,7 +490,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getManager().getServerObjectForid(
 											AccounterCoreType.CREDITCARDCHARGE,
 											Long.parseLong(ids[i]));
-							fileName = "Expense_" + charge.getNumber();
+							fileName = "CCExpense_" + charge.getNumber();
 							map = Odt2PdfGeneration(charge, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
@@ -500,7 +499,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getManager().getServerObjectForid(
 											AccounterCoreType.CASHPURCHASE,
 											Long.parseLong(ids[i]));
-							fileName = "Expense_" + purchase.getNumber();
+							fileName = "CashExpense_" + purchase.getNumber();
 							map = Odt2PdfGeneration(purchase, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
@@ -509,7 +508,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getManager().getServerObjectForid(
 											AccounterCoreType.VENDORCREDITMEMO,
 											Long.parseLong(ids[i]));
-							fileName = "CreditMemo"
+							fileName = "CreditMemo_"
 									+ vendorCreditMemo.getNumber();
 							map = Odt2PdfGeneration(vendorCreditMemo, company,
 									brandingTheme, isMultipleId, fileNames);
@@ -519,7 +518,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getManager().getServerObjectForid(
 											AccounterCoreType.WRITECHECK,
 											Long.parseLong(ids[i]));
-							fileName = "WriteCheck" + writeCheck.getNumber();
+							fileName = "WriteCheck_" + writeCheck.getNumber();
 							map = Odt2PdfGeneration(writeCheck, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
@@ -529,8 +528,7 @@ public class GeneratePDFservlet extends BaseServlet {
 									.getManager().getServerObjectForid(
 											AccounterCoreType.VENDORPAYMENT,
 											Long.parseLong(ids[i]));
-							fileName = "PaymentRecipt_"
-									+ vendorPayment.getNumber();
+							fileName = "Payment" + vendorPayment.getNumber();
 							map = Odt2PdfGeneration(vendorPayment, company,
 									brandingTheme, isMultipleId, fileNames);
 						}
@@ -892,7 +890,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			if (transaction instanceof ReceivePayment) {
 				templeteName = "templetes" + File.separator
 						+ "ReceivePaymentOdt.odt";
-				fileName = "Receive Payment_" + transaction.getNumber();
+				fileName = "ReceivePayment_" + transaction.getNumber();
 				receivePaymentPdfGeneration = new ReceivePaymentPdfGeneration(
 						(ReceivePayment) transaction, company);
 			}
@@ -908,13 +906,13 @@ public class GeneratePDFservlet extends BaseServlet {
 				if (transaction.getType() == Transaction.TYPE_CASH_PURCHASE) {
 					templeteName = "templetes" + File.separator
 							+ "CashPurchaseOdt.odt";
-					fileName = "Cash Purchase_" + transaction.getNumber();
+					fileName = "CashPurchase_" + transaction.getNumber();
 					purchasePdfGeneration = new CashPurchasePdfGeneration(
 							(CashPurchase) transaction, company);
 				} else {
 					templeteName = "templetes" + File.separator
 							+ "CashExpenseOdt.odt";
-					fileName = "Expense_" + transaction.getNumber();
+					fileName = "CashExpense_" + transaction.getNumber();
 					cashExpensePdfGeneration = new CashExpensePdfGeneration(
 							(CashPurchase) transaction, company);
 				}
@@ -923,7 +921,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			if (transaction instanceof CustomerPrePayment) {
 				templeteName = "templetes" + File.separator
 						+ "CustomerPaymentOdt.odt";
-				fileName = "Payment Receipt_" + transaction.getNumber();
+				fileName = "Prepayment_" + transaction.getNumber();
 				customerPaymentPdfGeneration = new CustomerPaymentPdfGeneration(
 						(CustomerPrePayment) transaction, company);
 			}
@@ -931,7 +929,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			if (transaction instanceof CreditCardCharge) {
 				templeteName = "templetes" + File.separator
 						+ "CCExpenseOdt.odt";
-				fileName = "Expense_" + transaction.getNumber();
+				fileName = "CCExpense_" + transaction.getNumber();
 				ccExpensePdfGeneration = new CCExpensePdfGeneration(
 						(CreditCardCharge) transaction, company);
 			}
@@ -948,7 +946,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			if (transaction instanceof WriteCheck) {
 				templeteName = "templetes" + File.separator
 						+ "WriteCheckOdt.odt";
-				fileName = "WriteCheck" + transaction.getNumber();
+				fileName = "WriteCheck_" + transaction.getNumber();
 				writeCheckPdfGeneration = new WriteCheckPdfGeneration(
 						(WriteCheck) transaction, company);
 
@@ -957,7 +955,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			if (transaction instanceof VendorPayment) {
 				templeteName = "templetes" + File.separator
 						+ "VendorPaymentOdt.odt";
-				fileName = "Paymentrecipt_" + transaction.getNumber();
+				fileName = "Payment_" + transaction.getNumber();
 				vendorPaymentPdfGeneration = new VendorPaymentPdfGeneration(
 						(VendorPayment) transaction, company);
 

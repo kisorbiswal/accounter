@@ -501,6 +501,7 @@ public class WriteChequeView extends
 		transaction.setTotal(amtText.getAmount());
 		transaction.setAmount(amtText.getAmount());
 		transaction.setInWords(amtText.getValue().toString());
+		transaction.setNetAmount(netAmount.getAmount());
 
 		// Setting Date
 		if (date != null)

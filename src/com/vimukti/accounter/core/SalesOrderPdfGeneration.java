@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -158,6 +160,7 @@ public class SalesOrderPdfGeneration {
 			}
 			i.setAdviceTerms(termsNCondn);
 
+			i.setStatus(getStatusString(salesOrder.getStatus()));
 			String paypalEmail = forNullValue(brandingTheme.getPayPalEmailID());
 			if (paypalEmail.equalsIgnoreCase("(None Added)")) {
 				paypalEmail = " ";
@@ -175,6 +178,30 @@ public class SalesOrderPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String getStatusString(int status) {
+		AccounterMessages messages = Global.get().messages();
+		switch (status) {
+		case ClientEstimate.STATUS_OPEN:
+			return messages.open();
+
+		case ClientEstimate.STATUS_ACCECPTED:
+			return messages.accepted();
+
+		case ClientEstimate.STATUS_CLOSE:
+			return messages.closed();
+
+		case ClientEstimate.STATUS_REJECTED:
+			return messages.rejected();
+
+		case ClientEstimate.STATUS_COMPLETED:
+			return messages.closed();
+
+		default:
+			break;
+		}
+		return "";
 	}
 
 	private String getRegistrationAddress() {
@@ -334,6 +361,7 @@ public class SalesOrderPdfGeneration {
 		private String email;
 		private String registrationAddress;
 		private String shipTerms;
+		private String status;
 
 		public String getCurrency() {
 			return currency;
@@ -477,6 +505,14 @@ public class SalesOrderPdfGeneration {
 
 		public void setDueDate(String dueDate) {
 			this.dueDate = dueDate;
+		}
+
+		public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
 		}
 
 	}

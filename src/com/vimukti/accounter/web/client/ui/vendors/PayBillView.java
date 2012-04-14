@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionPayBillTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
@@ -51,7 +52,8 @@ import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
-public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
+public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
+		implements IPrintableView {
 
 	AmountField endBalText;
 	DateField date;
@@ -1350,8 +1352,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_PAY_BILL);
 	}
 
 	@Override
@@ -1539,6 +1542,23 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	public boolean allowEmptyTransactionItems() {
+		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
