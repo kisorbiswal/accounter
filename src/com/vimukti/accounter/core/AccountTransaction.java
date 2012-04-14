@@ -226,4 +226,8 @@ public class AccountTransaction extends CreatableObject implements
 		super.onLoad(arg0, arg1);
 	}
 
+	public void add(AccountTransaction at) {
+		this.amount += at.amount;
+	}
+
 }

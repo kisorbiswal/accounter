@@ -107,4 +107,8 @@ public class PayeeUpdate extends CreatableObject {
 		}
 		return false;
 	}
+
+	public void add(PayeeUpdate payeeUpdate) {
+		amount += payeeUpdate.getAmount();
+	}
 }

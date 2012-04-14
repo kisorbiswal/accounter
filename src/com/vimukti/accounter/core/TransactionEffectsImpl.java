@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 public class TransactionEffectsImpl implements ITransactionEffects {
 
 	/** New Account Transaction */
-	Set<AccountTransaction> newATs = new HashSet<AccountTransaction>();
+	List<AccountTransaction> newATs = new ArrayList<AccountTransaction>();
 
 	/** New Payee Updates */
 	List<PayeeUpdate> newPUs = new ArrayList<PayeeUpdate>();
@@ -94,15 +94,30 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	}
 
 	private void addAT(AccountTransaction at) {
-		newATs.add(at);
+		int index = newATs.indexOf(at);
+		if (index > 0) {
+			newATs.get(index).add(at);
+		} else {
+			newATs.add(at);
+		}
 	}
 
 	private void addPU(PayeeUpdate payeeUpdate) {
-		newPUs.add(payeeUpdate);
+		int index = newPUs.indexOf(payeeUpdate);
+		if (index > 0) {
+			newPUs.get(index).add(payeeUpdate);
+		} else {
+			newPUs.add(payeeUpdate);
+		}
 	}
 
 	private void addIU(ItemUpdate itemUpdate) {
-		newIUs.add(itemUpdate);
+		int index = newIUs.indexOf(itemUpdate);
+		if (index > 0) {
+			newIUs.get(index).add(itemUpdate);
+		} else {
+			newIUs.add(itemUpdate);
+		}
 	}
 
 	public void saveOrUpdate() {

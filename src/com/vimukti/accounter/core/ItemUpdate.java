@@ -79,4 +79,8 @@ public class ItemUpdate extends CreatableObject {
 		this.warehouse = warehouse;
 	}
 
+	public void add(ItemUpdate itemUpdate) {
+		this.quantity.add(itemUpdate.getQuantity());
+	}
+
 }
