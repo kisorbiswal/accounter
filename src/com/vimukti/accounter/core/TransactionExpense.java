@@ -242,4 +242,10 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 
 	}
 
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
