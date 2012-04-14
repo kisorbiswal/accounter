@@ -137,4 +137,9 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		this.itemname = itemname;
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }

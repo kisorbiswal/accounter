@@ -11,8 +11,7 @@ public class JobTrackingOption extends AbstractPreferenceOption {
 
 	@UiField
 	CheckBox jobTrackingCheckBox;
-	@UiField
-	Label jobTrackingCheckBoxLabel;
+
 	@UiField
 	Label jobTrackingdescriptionLabel;
 

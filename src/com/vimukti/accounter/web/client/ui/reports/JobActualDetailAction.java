@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class JobActualDetailAction extends Action {
 
-	
 	protected JobActualCostDetailReport report;
 
 	public JobActualDetailAction() {
@@ -27,11 +26,12 @@ public class JobActualDetailAction extends Action {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
-				if(data instanceof JobProfitability){
-					JobProfitability obj=(JobProfitability)data;
-				report = new JobActualCostDetailReport(obj.isCost(),obj.getCustomerId(), obj.getJobId());
-				MainFinanceWindow.getViewManager().showView(report, data,
-						isDependent, JobActualDetailAction.this);
+				if (data instanceof JobProfitability) {
+					JobProfitability obj = (JobProfitability) data;
+					report = new JobActualCostDetailReport(obj.isCost(), obj
+							.getCustomerId(), obj.getJobId());
+					MainFinanceWindow.getViewManager().showView(report, data,
+							isDependent, JobActualDetailAction.this);
 				}
 
 			}
@@ -65,7 +65,7 @@ public class JobActualDetailAction extends Action {
 
 	@Override
 	public String getText() {
-		return "job Actual Detail";
+		return messages.jobActualCostDetail();
 	}
 
 }

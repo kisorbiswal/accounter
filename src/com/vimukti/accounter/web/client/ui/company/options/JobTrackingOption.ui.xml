@@ -3,8 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:FlowPanel styleName="companyInfoPanel">
 		<g:FlowPanel styleName="jobTrackCheckAndLabelPanel">
-			<g:CheckBox ui:field="jobTrackingCheckBox" />
-			<g:Label ui:field="jobTrackingCheckBoxLabel" styleName="header" />
+			<g:CheckBox ui:field="jobTrackingCheckBox" styleName="header" />
 		</g:FlowPanel>
 		<g:FlowPanel styleName="jobTrackDescPanel">
 			<g:Label ui:field="jobTrackingdescriptionLabel" />
