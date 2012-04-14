@@ -22,7 +22,6 @@ public class CustomerImporter extends PayeeImporter<ClientCustomer> {
 		customer.setNumber(getString("number"));
 		customer.setSalesPerson(getLong("salesPerson"));
 		customer.setCreditRating(getLong(messages.creditRating()));
-		customer.setCustomFieldValues(getSetCusFieldList(messages.CustomField()));
 		customer.setPayeeSince(getFinanceDate("payeeSince") == null ? new ClientFinanceDate()
 				.getDate() : getFinanceDate("payeeSince").getDate());
 		customer.setBalanceAsOf(getFinanceDate("balanceAsof") == null ? new ClientFinanceDate()
@@ -44,8 +43,6 @@ public class CustomerImporter extends PayeeImporter<ClientCustomer> {
 		fields.add(new LongField("salesPerson", messages.salesPerson()));
 		fields.add(new LongField(messages.creditRating(), messages
 				.creditRating()));
-		fields.add(new StringField(messages.CustomField(), messages
-				.CustomField()));
 		fields.add(new FinanceDateField("payeeSince", messages
 				.payeeSince(Global.get().Customer()), true));
 		fields.add(new FinanceDateField("balanceAsof", messages.balanceAsOf(),
