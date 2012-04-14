@@ -112,8 +112,6 @@
 	<classpathentry kind="lib" path="libs/openid4java-0.9.6.jar"/>
 	<classpathentry kind="lib" path="libs/openxri-client-1.2.0.jar"/>
 	<classpathentry kind="lib" path="libs/openxri-syntax-1.2.0.jar"/>
-	<classpathentry kind="lib" path="libs/org.apache.poi.xwpf.converter-0.9.6.jar"/>
-	<classpathentry kind="lib" path="libs/org.odftoolkit.odfdom.converter-0.9.6.jar"/>
 	<classpathentry kind="lib" path="libs/oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="libs/pd4ml.jar"/>
 	<classpathentry kind="lib" path="libs/pim.jar"/>
@@ -155,5 +153,7 @@
 	<classpathentry kind="lib" path="libs/fr.opensagres.xdocreport.itext.extension-0.9.7.jar"/>
 	<classpathentry kind="lib" path="libs/fr.opensagres.xdocreport.template-0.9.7.jar"/>
 	<classpathentry kind="lib" path="libs/fr.opensagres.xdocreport.template.velocity-0.9.7.jar"/>
+	<classpathentry kind="lib" path="libs/org.apache.poi.xwpf.converter-0.9.7.jar"/>
+	<classpathentry kind="lib" path="libs/org.odftoolkit.odfdom.converter-0.9.7.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
