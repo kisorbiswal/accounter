@@ -172,25 +172,9 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			return true;
 		this.isOnSaveProccessed = true;
 		if (this.id == 0l && !payTAX.isDraftOrTemplate() && !payTAX.isVoid()) {
-			// this.liabilityAccount=this.vatAgency.getLiabilityAccount();
-
-			// We need to update the corresponding VATAgency's balance with this
-			// amount to pay.
-			this.taxAgency.updateBalance(session, this.taxReturn,
-					-this.amountToPay, 1);
 
 			// At the same time we need to update the vatReturn reference in it.
 			this.taxReturn.updateBalance(-this.amountToPay);
-
-			// The Accounts payable is also to be decreased as the amount to pay
-			// to VATAgency is decreased.
-			Account account = taxReturn.getTaxAgency()
-					.getFiledLiabilityAccount();
-			if (account != null) {
-				account.updateCurrentBalance(this.payTAX, -this.amountToPay, 1);
-				session.update(account);
-				account.onUpdate(session);
-			}
 
 		}
 		return false;
@@ -208,22 +192,8 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	}
 
 	public void doVoidEffect(Session session) {
-		// We need to update the corresponding VATAgency's balance with this
-		// amount to pay.
-		this.taxAgency.updateBalance(session, this.taxReturn, this.amountToPay,
-				1);
-
 		// At the same time we need to update the vatReturn reference in it.
 		this.taxReturn.updateBalance(this.amountToPay);
-
-		// The Accounts payable is also to be decreased as the amount to pay
-		// to VATAgency is decreased.
-		Account account = taxReturn.getTaxAgency().getFiledLiabilityAccount();
-		if (account != null) {
-			account.updateCurrentBalance(this.payTAX, this.amountToPay, 1);
-			session.update(account);
-			account.onUpdate(session);
-		}
 	}
 
 	protected boolean isBecameVoid() {

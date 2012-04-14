@@ -195,22 +195,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 		if (this.id == 0l && !receiveVAT.isDraftOrTemplate()
 				&& !receiveVAT.isVoid()) {
 
-			this.taxAgency.updateBalance(session, this.taxReturn,
-					this.amountToReceive);
-
 			// At the same time we need to update the vatReturn reference in it.
 			this.taxReturn.updateBalance(this.amountToReceive);
-
-			// The Accounts payable is also to be decreased as the amount to pay
-			// to VATAgency is decreased.
-			Account account = taxReturn.getTaxAgency()
-					.getFiledLiabilityAccount();
-			if (account != null) {
-				account.updateCurrentBalance(this.receiveVAT,
-						this.amountToReceive, 1);
-				session.update(account);
-				account.onUpdate(session);
-			}
 
 		}
 		// ChangeTracker.put(this);
@@ -224,20 +210,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 		}
 		if (isBecameVoid()) {
 
-			// We need to update the corresponding VATAgency's balance with this
-			// amount to pay.
-			this.taxAgency.updateBalance(session, this.taxReturn, -1
-					* this.amountToReceive);
-
 			// At the same time we need to update the vatReturn reference in it.
 			this.taxReturn.updateBalance(-1 * this.amountToReceive);
-
-			// The Accounts payable is also to be decreased as the amount to pay
-			// to VATAgency is decreased.
-			Account account = taxReturn.getTaxAgency()
-					.getFiledLiabilityAccount();
-			account.updateCurrentBalance(this.receiveVAT, -1
-					* this.amountToReceive, 1);
 
 			this.taxReturn = null;
 		}
