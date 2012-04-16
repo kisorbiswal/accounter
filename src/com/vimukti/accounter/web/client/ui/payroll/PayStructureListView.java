@@ -17,6 +17,7 @@ public class PayStructureListView extends BaseListView<ClientPayStructure> {
 
 	public PayStructureListView() {
 		this.getElement().setId("PayStructureListView");
+		isViewSelectRequired = false;
 	}
 
 	@Override

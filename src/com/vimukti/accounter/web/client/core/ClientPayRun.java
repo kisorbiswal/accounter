@@ -11,11 +11,13 @@ public class ClientPayRun implements IAccounterCore {
 
 	private long payableAccount;
 
-	private List<ClientPayEmployee> payEmployee;
+	private List<ClientEmployeePaymentDetails> payEmployee;
 
 	private long payPeriodStartDate;
 
 	private long payPeriodEndDate;
+
+	private long id;
 
 	/**
 	 * @return the payableAccount
@@ -35,7 +37,7 @@ public class ClientPayRun implements IAccounterCore {
 	/**
 	 * @return the payEmployee
 	 */
-	public List<ClientPayEmployee> getPayEmployee() {
+	public List<ClientEmployeePaymentDetails> getPayEmployee() {
 		return payEmployee;
 	}
 
@@ -43,7 +45,7 @@ public class ClientPayRun implements IAccounterCore {
 	 * @param payEmployee
 	 *            the payEmployee to set
 	 */
-	public void setPayEmployee(List<ClientPayEmployee> payEmployee) {
+	public void setPayEmployee(List<ClientEmployeePaymentDetails> payEmployee) {
 		this.payEmployee = payEmployee;
 	}
 
@@ -103,20 +105,17 @@ public class ClientPayRun implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.PAY_RUN;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 }

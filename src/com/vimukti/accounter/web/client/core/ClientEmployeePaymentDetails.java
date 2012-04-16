@@ -2,7 +2,9 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
-public class ClientPayEmployee implements IAccounterCore {
+import com.vimukti.accounter.core.Employee;
+
+public class ClientEmployeePaymentDetails implements IAccounterCore {
 
 	/**
 	 * 
@@ -10,6 +12,8 @@ public class ClientPayEmployee implements IAccounterCore {
 	private static final long serialVersionUID = 1L;
 
 	private long payRun;
+
+	private long employee;
 
 	private List<ClientEmployeePayHeadComponent> payHeadComponents;
 
@@ -53,7 +57,7 @@ public class ClientPayEmployee implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -77,12 +81,20 @@ public class ClientPayEmployee implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public long getID() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public long getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(long employee) {
+		this.employee = employee;
 	}
 }

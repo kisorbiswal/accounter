@@ -17,6 +17,7 @@ public class PayheadListView extends BaseListView<ClientPayHead> {
 
 	public PayheadListView() {
 		this.getElement().setId("PayheadListView");
+		isViewSelectRequired = false;
 	}
 
 	@Override

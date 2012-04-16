@@ -14,6 +14,7 @@ import com.vimukti.accounter.core.EmployeeCategory;
 import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
+import com.vimukti.accounter.core.PayStructureItem;
 import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
@@ -31,7 +32,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class PayrollManager extends Manager {
 
 	public PaginationList<ClientEmployee> getEmployees(int start, int lenght,
-			Long companyId) {
+			Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.All.Employees").setEntity(
@@ -43,19 +44,15 @@ public class PayrollManager extends Manager {
 		PaginationList<ClientEmployee> clientEmployees = new PaginationList<ClientEmployee>();
 		for (Employee employee : employees) {
 			ClientEmployee clientEmployee;
-			try {
-				clientEmployee = new ClientConvertUtil().toClientObject(
-						employee, ClientEmployee.class);
-				clientEmployees.add(clientEmployee);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+			clientEmployee = new ClientConvertUtil().toClientObject(employee,
+					ClientEmployee.class);
+			clientEmployees.add(clientEmployee);
 		}
 		return clientEmployees;
 	}
 
 	public PaginationList<ClientPayHead> getPayheadsList(int start, int length,
-			Long companyId) {
+			Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.Payhead").setEntity(
@@ -65,20 +62,16 @@ public class PayrollManager extends Manager {
 		if (employees != null) {
 			for (PayHead payHead : employees) {
 				ClientPayHead clientPayHead;
-				try {
-					clientPayHead = new ClientConvertUtil().toClientObject(
-							payHead, ClientPayHead.class);
-					clientPayHeads.add(clientPayHead);
-				} catch (AccounterException e) {
-					e.printStackTrace();
-				}
+				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
+						ClientPayHead.class);
+				clientPayHeads.add(clientPayHead);
 			}
 		}
 		return clientPayHeads;
 	}
 
 	public PaginationList<ClientPayrollUnit> getPayrollUnitsList(int start,
-			int length, Long companyId) {
+			int length, Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.PayrollUnit").setEntity(
@@ -90,24 +83,37 @@ public class PayrollManager extends Manager {
 		PaginationList<ClientPayrollUnit> clientPayrollUnits = new PaginationList<ClientPayrollUnit>();
 		for (PayrollUnit unit : units) {
 			ClientPayrollUnit clientPayrollUnit;
-			try {
-				clientPayrollUnit = new ClientConvertUtil().toClientObject(
-						unit, ClientPayrollUnit.class);
-				clientPayrollUnits.add(clientPayrollUnit);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+			clientPayrollUnit = new ClientConvertUtil().toClientObject(unit,
+					ClientPayrollUnit.class);
+			clientPayrollUnits.add(clientPayrollUnit);
 		}
 		return clientPayrollUnits;
 	}
 
 	public ArrayList<ClientPayStructureItem> getPayStructureItems(
-			ClientPayStructureDestination selectItem, Long companyId) {
-		return null;
+			ClientPayStructureDestination selectItem, Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getPayStructureItem.by.employee")
+				.setParameter("id", selectItem.getID())
+				.setParameter("company", getCompany(companyId));
+		List<PayStructureItem> list = query.list();
+
+		if (list == null) {
+			return null;
+		}
+		ArrayList<ClientPayStructureItem> clientPayStructures = new ArrayList<ClientPayStructureItem>();
+		for (PayStructureItem payStructureItem : list) {
+			ClientPayStructureItem clientPayStructureItem;
+			clientPayStructureItem = new ClientConvertUtil().toClientObject(
+					payStructureItem, ClientPayStructureItem.class);
+			clientPayStructures.add(clientPayStructureItem);
+		}
+		return clientPayStructures;
 	}
 
 	public PaginationList<ClientPayStructure> getPayrollStructuresList(
-			int start, int length, Long companyId) {
+			int start, int length, Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.PayStructure").setEntity(
@@ -119,19 +125,15 @@ public class PayrollManager extends Manager {
 		PaginationList<ClientPayStructure> clientPayStructures = new PaginationList<ClientPayStructure>();
 		for (PayStructure payStructure : paystructures) {
 			ClientPayStructure clientPayStructure;
-			try {
-				clientPayStructure = new ClientConvertUtil().toClientObject(
-						payStructure, ClientPayStructure.class);
-				clientPayStructures.add(clientPayStructure);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+			clientPayStructure = new ClientConvertUtil().toClientObject(
+					payStructure, ClientPayStructure.class);
+			clientPayStructures.add(clientPayStructure);
 		}
 		return clientPayStructures;
 	}
 
 	public ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
-			Long companyId) {
+			Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.AttendanceProductionType")
@@ -143,18 +145,15 @@ public class PayrollManager extends Manager {
 		ArrayList<ClientAttendanceOrProductionType> clientTypes = new ArrayList<ClientAttendanceOrProductionType>();
 		for (AttendanceOrProductionType type : types) {
 			ClientAttendanceOrProductionType clientType;
-			try {
-				clientType = new ClientConvertUtil().toClientObject(type,
-						ClientAttendanceOrProductionType.class);
-				clientTypes.add(clientType);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+			clientType = new ClientConvertUtil().toClientObject(type,
+					ClientAttendanceOrProductionType.class);
+			clientTypes.add(clientType);
 		}
 		return clientTypes;
 	}
 
-	public ArrayList<ClientEmployeeGroup> getEmployeeGroups(Long companyId) {
+	public ArrayList<ClientEmployeeGroup> getEmployeeGroups(Long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.EmployeeGroups").setEntity(
@@ -166,19 +165,15 @@ public class PayrollManager extends Manager {
 		ArrayList<ClientEmployeeGroup> clientGroups = new ArrayList<ClientEmployeeGroup>();
 		for (EmployeeGroup group : groups) {
 			ClientEmployeeGroup clientGroup;
-			try {
-				clientGroup = new ClientConvertUtil().toClientObject(group,
-						ClientEmployeeGroup.class);
-				clientGroups.add(clientGroup);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+			clientGroup = new ClientConvertUtil().toClientObject(group,
+					ClientEmployeeGroup.class);
+			clientGroups.add(clientGroup);
 		}
 		return clientGroups;
 	}
 
 	public List<ClientPayStructureDestination> getEmployeesAndGroups(
-			Long companyId) {
+			Long companyId) throws AccounterException {
 		ArrayList<ClientPayStructureDestination> arrayList = new ArrayList<ClientPayStructureDestination>();
 		PaginationList<ClientEmployee> employees = getEmployees(0, 0, companyId);
 		arrayList.addAll(employees);
@@ -188,7 +183,8 @@ public class PayrollManager extends Manager {
 		return arrayList;
 	}
 
-	public List<ClientEmployeeCategory> getEmployeeCategories(Long companyId) {
+	public List<ClientEmployeeCategory> getEmployeeCategories(Long companyId)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.EmployeeCategories")
@@ -200,13 +196,9 @@ public class PayrollManager extends Manager {
 		ArrayList<ClientEmployeeCategory> clientCategories = new ArrayList<ClientEmployeeCategory>();
 		for (EmployeeCategory category : categories) {
 			ClientEmployeeCategory clientCategory;
-			try {
-				clientCategory = new ClientConvertUtil().toClientObject(
-						category, ClientEmployeeCategory.class);
-				clientCategories.add(clientCategory);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+			clientCategory = new ClientConvertUtil().toClientObject(category,
+					ClientEmployeeCategory.class);
+			clientCategories.add(clientCategory);
 		}
 		return clientCategories;
 	}

@@ -46,6 +46,7 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 		unit.setFormalname(formalNameItem.getValue());
 		unit.setNoofDecimalPlaces(Integer.valueOf(noOfDecimalsItem.getValue()));
 		saveOrUpdate(unit);
+		getCallback().actionResult(unit);
 	}
 
 	@Override

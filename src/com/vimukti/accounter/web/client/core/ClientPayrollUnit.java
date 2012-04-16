@@ -84,12 +84,12 @@ public class ClientPayrollUnit implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return getFormalname();
+		return this.formalname;
 	}
 
 	@Override
 	public String getDisplayName() {
-		return getName();
+		return this.formalname;
 	}
 
 	@Override

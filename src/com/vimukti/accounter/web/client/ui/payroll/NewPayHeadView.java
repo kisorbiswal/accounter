@@ -593,6 +593,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				payhead.setLeaveWithPay(leaveWithPayCombo.getSelectedValue()
 						.getID());
 			}
+			payhead.setID(data.getID());
 			payhead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex() + 1);
 			payhead.setPerDayCalculationBasis(perdayCalculationCombo
@@ -601,7 +602,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		} else if (selectedValue.equals(messages.asComputedValue())) {
 			ClientComputionPayHead payhead = new ClientComputionPayHead();
-
+			payhead.setID(data.getID());
 			payhead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex() + 1);
 			payhead.setComputationType(computationTypeCombo.getSelectedIndex() + 1);
@@ -611,6 +612,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		} else if (selectedValue.equals(messages.flatRate())) {
 			ClientFlatRatePayHead payHead = new ClientFlatRatePayHead();
+			payHead.setID(data.getID());
 			payHead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex() + 1);
 			data = payHead;
@@ -619,10 +621,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			ClientProductionPayHead payHead = new ClientProductionPayHead();
 			payHead.setProductionType(productionTypeCombo.getSelectedValue()
 					.getID());
+			payHead.setID(data.getID());
 			data = payHead;
 
 		} else if (selectedValue.equals(messages.asUserDefined())) {
 			ClientUserDefinedPayHead payHead = new ClientUserDefinedPayHead();
+			payHead.setID(data.getID());
 			data = payHead;
 
 		}

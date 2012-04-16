@@ -485,10 +485,8 @@ public class Employee extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 
 		Employee employee = (Employee) clientObject;
-		Query query = session
-				.getNamedQuery("getEmployee.by.Name")
-				.setParameter("name", employee.name,
-						EncryptedStringType.INSTANCE)
+		Query query = session.getNamedQuery("getEmployee.by.Name")
+				.setParameter("name", employee.name)
 				.setEntity("company", employee.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

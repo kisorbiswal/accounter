@@ -35,7 +35,9 @@ public class ComputationFormulaTable extends
 			@Override
 			protected String getValue(ClientComputaionFormulaFunction row) {
 				if (row.getFunctionType() == 0) {
-					return null;
+					String string = functionTypesList.get(0);
+					row.setFunctionType(functionTypesList.indexOf(string) + 1);
+					return string;
 				}
 				return functionTypesList.get(row.getFunctionType() - 1);
 			}

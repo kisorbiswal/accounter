@@ -26,6 +26,7 @@ public class NewPayrollUnitAction extends Action<ClientPayrollUnit> {
 			public void onCreated() {
 				NewPayrollUnitDialog dialog = new NewPayrollUnitDialog(messages
 						.newPayrollUnit());
+				dialog.setCallback(getCallback());
 				dialog.setData(data);
 				dialog.setCallback(getCallback());
 				dialog.show();

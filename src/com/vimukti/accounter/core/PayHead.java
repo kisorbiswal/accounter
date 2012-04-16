@@ -245,11 +245,18 @@ public abstract class PayHead extends CreatableObject implements
 
 		PayHead payhead = (PayHead) clientObject;
 		Query query = session.getNamedQuery("getPayhead.by.Name")
-				.setParameter("name", payhead.getName())
+				.setParameter("name", payhead.name)
 				.setParameter("id", payhead.getID())
 				.setEntity("company", payhead.getCompany());
 		List list = query.list();
-		return list == null || list.size() == 0;
+		if (list != null && list.size() > 0) {
+			PayHead newPayhead = (PayHead) list.get(0);
+			if (payhead.getID() != newPayhead.getID()) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
+		}
+		return true;
 	}
 
 	@Override

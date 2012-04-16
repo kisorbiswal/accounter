@@ -47,13 +47,16 @@ public class ComputationFormulaTypeColumn extends
 			payheadComboBox.setValue((ClientPayHead) value);
 			payheadComboBox.setDesable(false);
 			attendanceCombobox.setDesable(true);
+			payheadComboBox.setVisible(true);
+			attendanceCombobox.setVisible(false);
 		} else if (row.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE
 				|| row.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
 			attendanceCombobox
 					.setValue((ClientAttendanceOrProductionType) value);
 			payheadComboBox.setDesable(true);
 			attendanceCombobox.setDesable(false);
-
+			payheadComboBox.setVisible(false);
+			attendanceCombobox.setVisible(true);
 		}
 	}
 

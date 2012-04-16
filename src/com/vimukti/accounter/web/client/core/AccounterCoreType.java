@@ -286,7 +286,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	COMPUTATION_SLAB("ClientComputationSlab", "ComputationSlab"),
 
-	PAY_STRUCTURE("ClientPayStructure", "PayStructure");
+	PAY_STRUCTURE("ClientPayStructure", "PayStructure"),
+
+	PAY_RUN("ClientPayRun", "PayRun");
 
 	private String clientName;
 	private String serverName;
