@@ -478,6 +478,11 @@ public class WriteCheck extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		super.canEdit(clientObject, goingToBeEdit);
+		for (Estimate estimate : this.getEstimates()) {
+			if (estimate.getUsedInvoice() != null) {
+				throw new AccounterException(AccounterException.USED_IN_INVOICE);
+			}
+		}
 		Transaction transaction = (Transaction) clientObject;
 		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
 			User user = AccounterThreadLocal.get();
