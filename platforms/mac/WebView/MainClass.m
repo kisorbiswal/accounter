@@ -63,20 +63,34 @@
 }
 
 
+//this checks teh receipt of the application before starting the app.
+
+-(void)applicationDidFinishLaunching:(NSNotification *)notification{
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[[[NSBundle mainBundle] appStoreReceiptURL] path]] == NO) 
+    {
+      // exit(173);
+    }
+    
+
+}
+
 - (void)appDidLaunch:(NSNotification*)note
 {
     if(!applicationOpen){
         applicationOpen = TRUE;
         
-         [localaddressTextField setEnabled:FALSE];
-         [NSApp beginSheet:openingURLpanel modalForWindow:mainWindow modalDelegate:self didEndSelector: NULL contextInfo:nil];
+        /*  enable the following lines if you want to enable debugging dialogue. This will enable application to open any address*/
+                [localaddressTextField setEnabled:FALSE];
+                [NSApp beginSheet:openingURLpanel modalForWindow:mainWindow modalDelegate:self didEndSelector: NULL contextInfo:nil];
+               
         
-//       [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
-//        [self InitiateURL:mainPathLocation];
-//        NSString *xmlFinalPath = [[NSString alloc]init];
-//        xmlFinalPath = [[NSString alloc]initWithString:[mainPathLocation stringByAppendingString:@"desktop/mac/newmenu"]];         
-//        menuCreator = [[AccounterMenuCreator alloc]initWith:xmlFinalPath :mainMenu :accounterMenu :self];
-//        
+        /*add these lines and comment the above two lines while releasing in live to remove the debugging dialogue and anble app to get live server address*/       
+      /*  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+        [self InitiateURL:mainPathLocation];
+        NSString *xmlFinalPath = [[NSString alloc]init];
+        xmlFinalPath = [[NSString alloc]initWithString:[mainPathLocation stringByAppendingString:@"desktop/mac/newmenu"]];         
+        menuCreator = [[AccounterMenuCreator alloc]initWith:xmlFinalPath :mainMenu :accounterMenu :self];*/
+        
     }
 }
 
@@ -96,17 +110,49 @@
 #pragma mark -
 #pragma mark load files & web page
 
+/**
+ append main/login to the url and initiate webview to load accounter
+ **/
 -(void)LoadOpeningURL:(NSString *)url
 {
+    
+    
     NSString *openingUrl = [url stringByAppendingString:@"main/login"];
     
+    
+    
+    /*
+     Add cacheupdater class to enable saving the files in the disk.
+     */
+    [cacheProgressBar startAnimation:self];
+    CacheUpdater *updater = [[CacheUpdater alloc]init];
+    [updater setMainWindow:mainWindow :cacheUpdaterView];
+    [updater initUpdating:url];
+    
+    
+    /*
+     this will make sure the previous file saved by webview(not cache) are deleted. this is needed to make sure our changes in css appear
+     */
+    [[WebHistory optionalSharedHistory]removeAllItems];
+    
+    /*create request for the main url, add the new HTTPheader to that request
+     */
     mainRequest = [[[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:openingUrl]]autorelease];
     [mainRequest setValue:@"Accounter.live.in" forHTTPHeaderField:@"NativeApp"];
-    
     [[webPage mainFrame] loadRequest:mainRequest];
     [webPage setPolicyDelegate:self];
 	[webPage setUIDelegate:self];
     
+
+    
+    /*
+     add custom url protocol cache
+     */
+    [CustomURLProtocol registerSpecialProtocol];
+    
+    /*
+     for showing progress bar for the application.
+     */
     [longProgressBar bind:@"value" toObject:webPage withKeyPath:@"estimatedProgress" options:nil];
     [longProgressBar startAnimation:nil];
 }
@@ -114,7 +160,6 @@
 
 -(void)reloadMenu
 {
-    
     [menuCreator create];
 }
 -(void)clearMenu{
@@ -123,7 +168,6 @@
 
 #pragma mark -
 #pragma mark javascript methods being called.
-
 
 
 
@@ -227,14 +271,14 @@
 }
 - (void)webView:(WebView *)sender decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id<WebPolicyDecisionListener>)listener
 {
-  
+    
 	if ([[sender class] canShowMIMEType:type]) // Why sender class.  In case this is actually a WebView subclass that can show extra mime types
 	{
-		        
+        
         if([type isEqualToString:@"text/html"]){
             [listener use];
         }else{
-              [listener download]; 
+            [listener download]; 
         }
 	}
 	else
@@ -243,8 +287,8 @@
 		[listener download];
 	}
     
-    
 }
+
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
     
@@ -306,8 +350,6 @@
     
     [self LoadOpeningURL:url];
     
-    
-    
     //required to remove http:// from mainPathLocation//
     NSRange range = [mainPathLocation rangeOfString:@"//"];
     NSString *substring = [[mainPathLocation substringFromIndex:NSMaxRange(range)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -357,20 +399,33 @@ mouseDidMoveOverElement:(NSDictionary *)elementInformation
 	return ok;
 }
 
+
+/**check if the url contains go premium or not and stops the application from letting it open in new window**/
 - (void)webView:(WebView *)sender decidePolicyForNewWindowAction:(NSDictionary *)actionInformation
     	request:(NSURLRequest *)request
    newFrameName:(NSString *)frameName
 decisionListener:(id)listener
 {
-	[self _sendBrowserRequest: request forAction: actionInformation];
-	[listener ignore];
+    NSString *host = [[request URL]absoluteString];
+    NSLog(@"host:%@",host);
+
+    NSString *string = @"gopremium";
+    if ([host rangeOfString:string].location == NSNotFound) {
+        NSLog(@"string does not contain gopremium");
+        [self _sendBrowserRequest: request forAction: actionInformation];
+        [listener ignore];
+    } else {
+        NSLog(@"string contains gopremium!");
+        [self OnPurchaseInitiate];
+    }
 }
 
+
 - (void)webView:(WebView *)sender runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame {
-     NSAlert *alert = [[NSAlert alloc] init];
-     [alert addButtonWithTitle:@"OK"];
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert addButtonWithTitle:@"OK"];
     [alert setMessageText:message];
-     [alert runModal];
+    [alert runModal];
     [alert release];
 }
 
@@ -405,6 +460,7 @@ decisionListener:(id)listener
 - (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame
 {
     _loading = YES;
+
 }
 
 - (void)webView:(WebView *)sender runOpenPanelForFileButtonWithResultListener:(id < WebOpenPanelResultListener >)resultListener
@@ -437,6 +493,8 @@ decisionListener:(id)listener
 {
     
     NSDictionary *headers = [request allHTTPHeaderFields];
+    
+//    NSLog(@"URL:%@",[[request URL]absoluteString]);
     NSMutableURLRequest *newRequest = [[request mutableCopy]autorelease];
     
     if([headers valueForKey:@"Nativeapp"]== nil)
@@ -446,6 +504,7 @@ decisionListener:(id)listener
     return newRequest;
     
 }
+
 
 
 -(void)changeWebPageLink:(NSString*)link{
@@ -465,6 +524,9 @@ decisionListener:(id)listener
     
 }
 
+/*
+ following two methods are used to enable copy-paste functionality in the application 
+ */
 - (IBAction)copyWebviewText:(id)sender {
     [webPage copy:sender];
 }
@@ -482,7 +544,7 @@ decisionListener:(id)listener
 - (void) checkNetworkStatus:(NSNotification *)notice
 {
     
-     
+    
     NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
     switch (internetStatus)
     
@@ -504,7 +566,7 @@ decisionListener:(id)listener
                 NSURLRequest* request = [NSURLRequest requestWithURL:fileURL];
                 [[webPage mainFrame] loadRequest:request];
                 
-               // [[webPage load]reload];
+                // [[webPage load]reload];
                 
             }
             break;
@@ -603,8 +665,6 @@ decisionListener:(id)listener
     // [NSApp terminate:self]; 
     //TODO enable this if you want to close the app after the  button is closed
 }
-
-
 
 
 

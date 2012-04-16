@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "WebKit/WebKit.h"
 #import "Reachability.h"
-#import "CachedUrlProtocol.h"
 #import "AccounterMenuCreator.h"
+#import "CustomURLProtocol.h"
+#import "CacheUpdater.h"
+
 
 @class Reachability;
 
-@interface MyClass : NSObject<NSXMLParserDelegate,NSWindowDelegate> {
+@interface MyClass : NSObject<NSXMLParserDelegate,NSWindowDelegate,NSApplicationDelegate> {
 @private
     
     IBOutlet NSWindow *mainWindow;
@@ -25,18 +27,18 @@
     IBOutlet NSMenu *helpMenu;
     IBOutlet NSMenu *accounterMenu;
     
-
+    
     BOOL webPageLoadingComplete;
     BOOL urlAdded;
     BOOL _loading;
-
+    
     BOOL applicationOpen;
     BOOL localServer;
     
     
     IBOutlet NSPanel *helpPanel;
     
-
+    
     int inc;
     int countingTimer;
     
@@ -59,6 +61,16 @@
     IBOutlet NSButton *checkButton;
     AccounterMenuCreator * menuCreator;
     
+
+    IBOutlet NSPanel *inAppPurchsePanel;
+    IBOutlet NSProgressIndicator *progressPanel;
+    IBOutlet NSTextField *description;
+    IBOutlet NSComboBox *productCombo;
+    IBOutlet NSTextField *loadingText;
+    NSMutableArray *productsList;
+
+    IBOutlet NSPanel *cacheUpdaterView;
+    IBOutlet NSProgressIndicator *cacheProgressBar;
 }
 
 -(void) reloadMenu;
@@ -66,6 +78,7 @@
 -(void) checkNetworkStatus:(NSNotification *)notice;
 -(void)clearMenu;
 -(void)changeWebPageLink:(NSString*)link;
+
 
 - (IBAction)copyWebviewText:(id)sender;
 - (IBAction)pasteWebviewText:(id)sender;
