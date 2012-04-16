@@ -2,6 +2,10 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * Salary Details is used to define the Pay Structure for an Employee or an
  * Employee Group. To speed up the entry of individual Employee's Pay Structure
@@ -16,9 +20,19 @@ import java.util.List;
  * @author Prasanna Kumar G
  * 
  */
-public class PayStructure extends CreatableObject {
+public class PayStructure extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private FinanceDate effectiveFrom;
+
+	private Employee employee;
+
+	private EmployeeGroup employeeGroup;
 
 	private List<PayStructureItem> items;
 
@@ -50,6 +64,35 @@ public class PayStructure extends CreatableObject {
 	 */
 	public void setItems(List<PayStructureItem> items) {
 		this.items = items;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public EmployeeGroup getEmployeeGroup() {
+		return employeeGroup;
+	}
+
+	public void setEmployeeGroup(EmployeeGroup employeeGroup) {
+		this.employeeGroup = employeeGroup;
 	}
 
 }

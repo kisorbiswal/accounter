@@ -1,13 +1,17 @@
 package com.vimukti.accounter.core;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -478,8 +482,23 @@ public class Employee extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = HibernateUtil.getCurrentSession();
+
+		Employee employee = (Employee) clientObject;
+		Query query = session
+				.getNamedQuery("getEmployee.by.Name")
+				.setParameter("name", employee.name,
+						EncryptedStringType.INSTANCE)
+				.setEntity("company", employee.getCompany());
+		List list = query.list();
+		if (list != null && list.size() > 0) {
+			Employee newEmp = (Employee) list.get(0);
+			if (employee.getID() != newEmp.getID()) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
+		}
+		return true;
 	}
 
 	@Override

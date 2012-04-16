@@ -4,20 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class AttendanceDropDownTable extends
 		AbstractDropDownTable<ClientAttendanceOrProductionType> {
 
-	private List<ClientAttendanceOrProductionType> list;
+	private static List<ClientAttendanceOrProductionType> list = new ArrayList<ClientAttendanceOrProductionType>();
 
 	public AttendanceDropDownTable() {
-		super(new ArrayList<ClientAttendanceOrProductionType>(), false);
+		super(list, false);
+		initList();
 	}
 
-	public void setList(List<ClientAttendanceOrProductionType> list) {
-		this.list = list;
+	private void initList() {
+		Accounter
+				.createPayrollService()
+				.getAttendanceProductionTypes(
+						new AsyncCallback<ArrayList<ClientAttendanceOrProductionType>>() {
+
+							@Override
+							public void onSuccess(
+									ArrayList<ClientAttendanceOrProductionType> result) {
+								list = result;
+								reInitData();
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+
+							}
+						});
 	}
 
 	@Override

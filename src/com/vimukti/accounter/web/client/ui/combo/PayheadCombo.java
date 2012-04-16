@@ -3,15 +3,34 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class PayheadCombo extends CustomCombo<ClientPayHead> {
 
 	public PayheadCombo(String title) {
 		super(title, false, 1, "payheadcombo");
-		List<ClientPayHead> payheads = new ArrayList<ClientPayHead>(
-				getCompany().getPayHeads());
-		initCombo(payheads);
+		getPayHeads();
+
+	}
+
+	private void getPayHeads() {
+		Accounter.createPayrollService().getPayheads(0, 0,
+				new AsyncCallback<PaginationList<ClientPayHead>>() {
+
+					@Override
+					public void onSuccess(PaginationList<ClientPayHead> result) {
+						initCombo(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	@Override

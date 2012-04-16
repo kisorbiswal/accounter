@@ -1,12 +1,35 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.List;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class EmployeesAndGroupsCombo extends
 		CustomCombo<ClientPayStructureDestination> {
 
 	public EmployeesAndGroupsCombo(String title, String styleName) {
 		super(title, false, 1, styleName);
+		initList();
+	}
+
+	private void initList() {
+		Accounter.createPayrollService().getEmployeesAndGroups(
+				new AsyncCallback<List<ClientPayStructureDestination>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(
+							List<ClientPayStructureDestination> result) {
+						initCombo(result);
+					}
+				});
 	}
 
 	@Override

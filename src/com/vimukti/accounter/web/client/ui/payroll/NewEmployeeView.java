@@ -125,10 +125,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		employeeIdItem.setValue(data.getNumber());
 		dateOfHire.setValue(new ClientFinanceDate(data.getDateofJoining()));
-		employeeGroupCombo.setValue(getCompany().getEmployeeGroup(
-				data.getGroup()));
-		employeeCategoryCombo.setValue(getCompany().getEmployeeCategory(
-				data.getCategory()));
+		employeeGroupCombo.setValue(data.getGroup());
+		employeeCategoryCombo.setValue(data.getCategory());
 		designationItem.setValue(data.getDesignation());
 		locationItem.setValue(data.getLocation());
 		bankAccountNumberItem.setValue(data.getBankAccountNumber());
@@ -364,13 +362,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(basicInfoForm.validate());
-		String name = nameItem.getValue();
 
-		ClientEmployee employeeByName = getCompany().getEmployeeByName(name);
-		if (employeeByName != null
-				&& !(this.getData().getID() == employeeByName.getID())) {
-			result.addError(nameItem, messages.alreadyExist());
-		}
 		return result;
 	}
 

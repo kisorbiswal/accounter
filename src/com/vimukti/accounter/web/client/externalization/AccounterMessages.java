@@ -6482,4 +6482,6 @@ public interface AccounterMessages extends Messages {
 
 	public String onSpecifiedFormula();
 
+	public String payStructureList();
+
 }

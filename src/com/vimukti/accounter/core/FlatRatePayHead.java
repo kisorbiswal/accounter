@@ -1,9 +1,5 @@
 package com.vimukti.accounter.core;
 
-import org.json.JSONException;
-
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
 /**
  * Flat Rate is a Calculation Type is used where the value of the Pay head is a
  * fixed amount for a period. Pro-rata will not happen in this type of the
@@ -37,19 +33,6 @@ public class FlatRatePayHead extends PayHead {
 	 */
 	public void setCalculationPeriod(int calculationPeriod) {
 		this.calculationPeriod = calculationPeriod;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject,
-			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

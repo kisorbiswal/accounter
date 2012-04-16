@@ -124,7 +124,11 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-
+		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
+		</many-to-one>
+		<many-to-one name="employeeGroup" column="EMPLOYEE_GROUP"
+			class="EmployeeGroup">
+		</many-to-one>
 		<property name="effectiveFrom" column="EFFECTIVE_FROM"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<list name="items" cascade="save-update,delete">
@@ -150,6 +154,7 @@
 		<many-to-one name="payStructure" column="PAY_STRUCTURE"
 			class="PayStructure" />
 		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
+		<property name="rate" column="RATE" />
 	</class>
 
 	<class name="PayHead" table="PAY_HEAD">

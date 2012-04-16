@@ -94,4 +94,8 @@ public class ClientEmployeeGroup implements ClientPayStructureDestination {
 		return this.id;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

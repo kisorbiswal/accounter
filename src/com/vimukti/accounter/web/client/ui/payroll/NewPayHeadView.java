@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -119,16 +118,16 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			return;
 		}
 		nameItem.setValue(data.getName());
-		typeCombo.setValue(ClientPayHead.getPayHeadType(data.getType()));
+		typeCombo.setComboItem(ClientPayHead.getPayHeadType(data.getType()));
 		affectNetSalarytem
 				.setValue(data.isAffectNetSalary() ? "true" : "false");
 		payslipNameItem.setValue(data.getNameToAppearInPaySlip());
 		if (data.getRoundingMethod() != 0) {
-			roundingMethodCombo.setValue(roundingList.get(data
+			roundingMethodCombo.setComboItem(roundingList.get(data
 					.getRoundingMethod() - 1));
 		}
-		accountCombo.setValue(data.getExpenseAccount());
-		calculationTypeCombo.setValue(ClientPayHead.getCalculationType(data
+		accountCombo.setComboItem(data.getExpenseAccount());
+		calculationTypeCombo.setComboItem(ClientPayHead.getCalculationType(data
 				.getCalculationType()));
 		if (data.getCalculationType() == 0) {
 			return;
@@ -139,22 +138,23 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		if (calType.equals(messages.attendance())) {
 			ClientAttendancePayHead attendance = (ClientAttendancePayHead) data;
 
-			leaveWithPayCombo.setValue(attendance.getLeaveWithPay());
-			leaveWithoutPayCombo.setValue(attendance.getLeaveWithoutPay());
-			calculationPeriodCombo.setValue(getCalculationPeriod(attendance
+			leaveWithPayCombo.setComboItem(attendance.getLeaveWithPay());
+			leaveWithoutPayCombo.setComboItem(attendance.getLeaveWithoutPay());
+			calculationPeriodCombo.setComboItem(getCalculationPeriod(attendance
 					.getCalculationPeriod()));
 			perdayCalculationCombo
-					.setValue(getPerdayCalculationBasis(attendance
+					.setComboItem(getPerdayCalculationBasis(attendance
 							.getPerDayCalculationBasis()));
 
 		} else if (calType.equals(messages.asComputedValue())) {
 			ClientComputionPayHead computation = (ClientComputionPayHead) data;
 
-			calculationPeriodCombo.setValue(getCalculationPeriod(computation
-					.getCalculationPeriod()));
+			calculationPeriodCombo
+					.setComboItem(getCalculationPeriod(computation
+							.getCalculationPeriod()));
 			String compType = computationTypeList.get(computation
 					.getComputationType() - 1);
-			computationTypeCombo.setValue(compType);
+			computationTypeCombo.setComboItem(compType);
 			if (compType.equals(messages.onSpecifiedFormula())) {
 				this.formulas = computation.getFormulaFunctions();
 				prepareFormula(formulas);
@@ -164,13 +164,13 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		} else if (calType.equals(messages.flatRate())) {
 			ClientFlatRatePayHead flatrate = (ClientFlatRatePayHead) data;
 
-			calculationPeriodCombo.setValue(getCalculationPeriod(flatrate
+			calculationPeriodCombo.setComboItem(getCalculationPeriod(flatrate
 					.getCalculationPeriod()));
 
 		} else if (calType.equals(messages.production())) {
 			ClientProductionPayHead production = (ClientProductionPayHead) data;
 
-			productionTypeCombo.setValue(production.getProductionType());
+			productionTypeCombo.setComboItem(production.getProductionType());
 
 		} else if (calType.equals(messages.asUserDefined())) {
 
@@ -527,13 +527,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		if (result.haveErrors()) {
 			return result;
-		}
-
-		String name = nameItem.getValue();
-		ClientPayHead payHeadByName = getCompany().getPayHeadByName(name);
-		if (payHeadByName != null
-				&& !(this.getData().getID() == payHeadByName.getID())) {
-			result.addError(nameItem, messages.alreadyExist());
 		}
 
 		String selectedValue = calculationTypeCombo.getSelectedValue();

@@ -1,9 +1,5 @@
 package com.vimukti.accounter.core;
 
-import org.json.JSONException;
-
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
 /**
  * As User defined Value allows you to manually enter the value at the time of
  * processing the salary. This Calculation Type is used the value of pay is not
@@ -23,19 +19,6 @@ public class UserDefinedPayHead extends PayHead {
 
 	public UserDefinedPayHead() {
 		super(CALCULATION_TYPE_AS_USER_DEFINED);
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject,
-			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

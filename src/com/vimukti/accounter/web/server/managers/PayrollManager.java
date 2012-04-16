@@ -6,14 +6,22 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Employee;
+import com.vimukti.accounter.core.EmployeeCategory;
+import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.PayHead;
+import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -97,5 +105,110 @@ public class PayrollManager extends Manager {
 	public ArrayList<ClientPayStructureItem> getPayStructureItems(
 			ClientPayStructureDestination selectItem, Long companyId) {
 		return null;
+	}
+
+	public PaginationList<ClientPayStructure> getPayrollStructuresList(
+			int start, int length, Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.PayStructure").setEntity(
+				"company", company);
+		List<PayStructure> paystructures = query.list();
+		if (paystructures == null) {
+			return null;
+		}
+		PaginationList<ClientPayStructure> clientPayStructures = new PaginationList<ClientPayStructure>();
+		for (PayStructure payStructure : paystructures) {
+			ClientPayStructure clientPayStructure;
+			try {
+				clientPayStructure = new ClientConvertUtil().toClientObject(
+						payStructure, ClientPayStructure.class);
+				clientPayStructures.add(clientPayStructure);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientPayStructures;
+	}
+
+	public ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
+			Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.AttendanceProductionType")
+				.setEntity("company", company);
+		List<AttendanceOrProductionType> types = query.list();
+		if (types == null) {
+			return null;
+		}
+		ArrayList<ClientAttendanceOrProductionType> clientTypes = new ArrayList<ClientAttendanceOrProductionType>();
+		for (AttendanceOrProductionType type : types) {
+			ClientAttendanceOrProductionType clientType;
+			try {
+				clientType = new ClientConvertUtil().toClientObject(type,
+						ClientAttendanceOrProductionType.class);
+				clientTypes.add(clientType);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientTypes;
+	}
+
+	public ArrayList<ClientEmployeeGroup> getEmployeeGroups(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.EmployeeGroups").setEntity(
+				"company", company);
+		List<EmployeeGroup> groups = query.list();
+		if (groups == null) {
+			return null;
+		}
+		ArrayList<ClientEmployeeGroup> clientGroups = new ArrayList<ClientEmployeeGroup>();
+		for (EmployeeGroup group : groups) {
+			ClientEmployeeGroup clientGroup;
+			try {
+				clientGroup = new ClientConvertUtil().toClientObject(group,
+						ClientEmployeeGroup.class);
+				clientGroups.add(clientGroup);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientGroups;
+	}
+
+	public List<ClientPayStructureDestination> getEmployeesAndGroups(
+			Long companyId) {
+		ArrayList<ClientPayStructureDestination> arrayList = new ArrayList<ClientPayStructureDestination>();
+		PaginationList<ClientEmployee> employees = getEmployees(0, 0, companyId);
+		arrayList.addAll(employees);
+		ArrayList<ClientEmployeeGroup> employeeGroups = getEmployeeGroups(companyId);
+		arrayList.addAll(employeeGroups);
+
+		return arrayList;
+	}
+
+	public List<ClientEmployeeCategory> getEmployeeCategories(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("list.EmployeeCategories").setEntity(
+				"company", company);
+		List<EmployeeCategory> categories = query.list();
+		if (categories == null) {
+			return null;
+		}
+		ArrayList<ClientEmployeeCategory> clientCategories = new ArrayList<ClientEmployeeCategory>();
+		for (EmployeeCategory category : categories) {
+			ClientEmployeeCategory clientCategory;
+			try {
+				clientCategory = new ClientConvertUtil().toClientObject(category,
+						ClientEmployeeCategory.class);
+				clientCategories.add(clientCategory);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientCategories;
 	}
 }

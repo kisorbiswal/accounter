@@ -2153,12 +2153,31 @@
 		<return-scalar column="ID" type="long" />
 
 		<![CDATA[
-				SELECT PH.ID AS ID
+				SELECT PSI.ID AS ID
 				FROM   PAY_HEAD PH
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = PH.ID
 				       
-				WHERE  PH.ID IS NULL
-				       AND PH.ID = :inputId
+				WHERE  PH.ID = :inputId
 				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeletePayStructure">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PS.ID AS ID
+				FROM   PAY_STRUCTURE PS
+				       
+				WHERE  PS.ID IS NULL
+				       AND PS.ID = :inputId
+				       AND PS.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>
 
@@ -2171,12 +2190,13 @@
 		<return-scalar column="ID" type="long" />
 
 		<![CDATA[
-				SELECT PH.ID AS ID
+				SELECT PSI.ID AS ID
 				FROM   COMPUTATION_PAY_HEAD CPH
 						LEFT JOIN PAY_HEAD PH ON PH.ID = CPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = CPH.ID
 				       
-				WHERE  PH.ID IS NULL
-				       AND PH.ID = :inputId
+				WHERE  PH.ID = :inputId
 				       AND PH.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>
@@ -2190,12 +2210,13 @@
 		<return-scalar column="ID" type="long" />
 
 		<![CDATA[
-				SELECT PH.ID AS ID
+				SELECT PSI.ID AS ID
 				FROM   ATTENDANCE_PAYHEAD APH
 						LEFT JOIN PAY_HEAD PH ON PH.ID = APH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = APH.ID
 				       
-				WHERE  PH.ID IS NULL
-				       AND PH.ID = :inputId
+				WHERE  PH.ID = :inputId
 				       AND PH.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>
@@ -2209,12 +2230,13 @@
 		<return-scalar column="ID" type="long" />
 
 		<![CDATA[
-				SELECT PH.ID AS ID
+				SELECT PSI.ID AS ID
 				FROM   FLAT_RATE_PAY_HEAD FPH
 						LEFT JOIN PAY_HEAD PH ON PH.ID = FPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = FPH.ID
 				       
-				WHERE  PH.ID IS NULL
-				       AND PH.ID = :inputId
+				WHERE  PH.ID = :inputId
 				       AND PH.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>
@@ -2228,12 +2250,13 @@
 		<return-scalar column="ID" type="long" />
 
 		<![CDATA[
-				SELECT PH.ID AS ID
+				SELECT PSI.ID AS ID
 				FROM   PRODUCTION_PAY_HEAD PPH
 						LEFT JOIN PAY_HEAD PH ON PH.ID = PPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = PPH.ID
 				       
-				WHERE  PH.ID IS NULL
-				       AND PH.ID = :inputId
+				WHERE  PH.ID = :inputId
 				       AND PH.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>
@@ -2247,12 +2270,13 @@
 		<return-scalar column="ID" type="long" />
 
 		<![CDATA[
-				SELECT PH.ID AS ID
+				SELECT PSI.ID AS ID
 				FROM   USER_DEFINED_PAY_HEAD UPH
 						LEFT JOIN PAY_HEAD PH ON PH.ID = UPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = UPH.ID
 				       
-				WHERE  PH.ID IS NULL
-				       AND PH.ID = :inputId
+				WHERE  PH.ID = :inputId
 				       AND PH.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>

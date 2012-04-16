@@ -9,13 +9,15 @@ public class ClientPayStructure implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private long employee;
+	private ClientEmployee employee;
 
-	private long employeeGroup;
+	private ClientEmployeeGroup employeeGroup;
 
 	private long effectiveFrom;
 
 	private List<ClientPayStructureItem> items;
+
+	private long id;
 
 	/**
 	 * @return the effectiveFrom
@@ -50,7 +52,7 @@ public class ClientPayStructure implements IAccounterCore {
 	/**
 	 * @return the employeeGroup
 	 */
-	public long getEmployeeGroup() {
+	public ClientEmployeeGroup getEmployeeGroup() {
 		return employeeGroup;
 	}
 
@@ -58,14 +60,14 @@ public class ClientPayStructure implements IAccounterCore {
 	 * @param employeeGroup
 	 *            the employeeGroup to set
 	 */
-	public void setEmployeeGroup(long employeeGroup) {
+	public void setEmployeeGroup(ClientEmployeeGroup employeeGroup) {
 		this.employeeGroup = employeeGroup;
 	}
 
 	/**
 	 * @return the employee
 	 */
-	public long getEmployee() {
+	public ClientEmployee getEmployee() {
 		return employee;
 	}
 
@@ -73,7 +75,7 @@ public class ClientPayStructure implements IAccounterCore {
 	 * @param employee
 	 *            the employee to set
 	 */
-	public void setEmployee(long employee) {
+	public void setEmployee(ClientEmployee employee) {
 		this.employee = employee;
 	}
 
@@ -103,20 +105,17 @@ public class ClientPayStructure implements IAccounterCore {
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.PAY_STRUCTURE;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 }

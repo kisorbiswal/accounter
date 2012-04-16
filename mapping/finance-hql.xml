@@ -417,4 +417,45 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayrollUnit p where p.company=:company
 	</query>
+
+	<query name="list.PayStructure">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayStructure p where
+		p.company=:company
+	</query>
+
+	<query name="list.AttendanceProductionType">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.AttendanceOrProductionType p where
+		p.company=:company
+	</query>
+
+	<query name="list.EmployeeGroups">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.EmployeeGroup eg where
+		eg.company=:company
+	</query>
+
+	<query name="list.EmployeeCategories">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.EmployeeCategory ec where
+		ec.company=:company
+	</query>
+
+	<query name="getEmployee.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		from com.vimukti.accounter.core.Employee E where
+		E.company=:company and
+		E.name=:name
+	</query>
+
+	<query name="getPayhead.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		from com.vimukti.accounter.core.PayHead PH where
+		PH.company=:company
+		and
+		PH.name=:name
+	</query>
 </hibernate-mapping>

@@ -2,11 +2,14 @@ package com.vimukti.accounter.web.client.ui.payroll;
 
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -20,6 +23,7 @@ public class EmployeeCategoryListDialog extends
 	private ClientEmployeeCategory employeeCategory;
 	List<ClientEmployeeCategory> employeeCategories;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
+	private List<ClientEmployeeCategory> list;
 
 	public EmployeeCategoryListDialog(String title, String descript) {
 		super(title, descript);
@@ -27,6 +31,24 @@ public class EmployeeCategoryListDialog extends
 		setWidth("380px");
 		initialise();
 		center();
+		initList();
+	}
+
+	private void initList() {
+		Accounter.createPayrollService().getEmployeeCategories(
+				new AsyncCallback<List<ClientEmployeeCategory>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(List<ClientEmployeeCategory> result) {
+						list = result;
+					}
+				});
 	}
 
 	public void initialise() {
@@ -102,7 +124,7 @@ public class EmployeeCategoryListDialog extends
 
 	@Override
 	protected List<ClientEmployeeCategory> getRecords() {
-		return getCompany().getEmployeeCategories();
+		return list;
 	}
 
 	@Override
@@ -137,8 +159,8 @@ public class EmployeeCategoryListDialog extends
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
 			String value = inputDlg.getTextItems().get(0).getValue().toString();
-			ClientEmployeeCategory employeeCategoryByName = getCompany()
-					.getEmployeeCategoryByName(UIUtils.toStr(value));
+			ClientEmployeeCategory employeeCategoryByName = Utility
+					.getObjectByName(this.list, UIUtils.toStr(value));
 			if (employeeCategoryByName != null) {
 				if ((employeeCategoryByName.getName().equalsIgnoreCase(value) ? true
 						: employeeCategoryByName == null)) {
@@ -146,10 +168,9 @@ public class EmployeeCategoryListDialog extends
 				}
 			}
 		} else {
-			ClientEmployeeCategory employeeCategoryByName2 = getCompany()
-					.getEmployeeCategoryByName(
-							inputDlg.getTextItems().get(0).getValue()
-									.toString());
+			ClientEmployeeCategory employeeCategoryByName2 = Utility
+					.getObjectByName(this.list, inputDlg.getTextItems().get(0)
+							.getValue().toString());
 			if (employeeCategoryByName2 != null) {
 				result.addError(this, messages.payeeGroupAlreadyExists(Global
 						.get().Customer()));

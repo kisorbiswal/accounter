@@ -3,11 +3,16 @@ package com.vimukti.accounter.core;
 import java.util.List;
 
 import org.hibernate.CallbackException;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
+import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * The salary components constituting Pay Structures are called Pay Heads. A Pay
@@ -215,6 +220,16 @@ public abstract class PayHead extends CreatableObject implements
 	}
 
 	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.CREATION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.PAY_HEAD);
+		ChangeTracker.put(accounterCore);
+		return super.onSave(session);
+	}
+
+	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
@@ -223,4 +238,33 @@ public abstract class PayHead extends CreatableObject implements
 		ChangeTracker.put(accounterCore);
 		return super.onDelete(arg0);
 	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		PayHead payhead = (PayHead) clientObject;
+		Query query = session
+				.getNamedQuery("getPayhead.by.Name")
+				.setParameter("name", payhead.name,
+						EncryptedStringType.INSTANCE)
+				.setEntity("company", payhead.getCompany());
+		List list = query.list();
+		if (list != null && list.size() > 0) {
+			PayHead newPayhead = (PayHead) list.get(0);
+			if (payhead.getID() != newPayhead.getID()) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
+	}
+
 }

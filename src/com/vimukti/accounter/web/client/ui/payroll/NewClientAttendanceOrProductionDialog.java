@@ -93,20 +93,18 @@ public class NewClientAttendanceOrProductionDialog extends
 	}
 
 	private void createorUpdateObject() {
-		ClientAttendanceOrProductionType clientAttendanceOrProductionType = null;
 		if (selectedAttendanceOrProductionType != null) {
-			clientAttendanceOrProductionType = selectedAttendanceOrProductionType;
-			clientAttendanceOrProductionType.setName(name.getValue());
-			clientAttendanceOrProductionType.setPeriodType(leaveType
+			selectedAttendanceOrProductionType.setName(name.getValue());
+			selectedAttendanceOrProductionType.setPeriodType(leaveType
 					.getSelectedIndex() + 1);
-			clientAttendanceOrProductionType.setType(daysTypeCombo
+			selectedAttendanceOrProductionType.setType(daysTypeCombo
 					.getSelectedIndex() + 1);
 		} else {
-			clientAttendanceOrProductionType = new ClientAttendanceOrProductionType();
-			clientAttendanceOrProductionType.setName(name.getValue());
-			clientAttendanceOrProductionType.setPeriodType(leaveType
+			selectedAttendanceOrProductionType = new ClientAttendanceOrProductionType();
+			selectedAttendanceOrProductionType.setName(name.getValue());
+			selectedAttendanceOrProductionType.setPeriodType(leaveType
 					.getSelectedIndex() + 1);
-			clientAttendanceOrProductionType.setType(daysTypeCombo
+			selectedAttendanceOrProductionType.setType(daysTypeCombo
 					.getSelectedIndex() + 1);
 
 		}
@@ -120,12 +118,11 @@ public class NewClientAttendanceOrProductionDialog extends
 
 			@Override
 			public void onResultSuccess(Long result) {
-				// TODO Auto-generated method stub
-
+				getCallback().actionResult(selectedAttendanceOrProductionType);
 			}
 		};
-		Accounter.createCRUDService().create(clientAttendanceOrProductionType,
-				callback);
+		Accounter.createCRUDService().create(
+				selectedAttendanceOrProductionType, callback);
 
 	}
 

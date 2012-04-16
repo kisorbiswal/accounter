@@ -1,10 +1,15 @@
 package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.vimukti.accounter.web.client.IAccounterPayrollService;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -48,5 +53,38 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 			ClientPayStructureDestination selectItem) throws AccounterException {
 		return getFinanceTool().getPayrollManager().getPayStructureItems(
 				selectItem, getCompanyId());
+	}
+
+	@Override
+	public PaginationList<ClientPayStructure> getPayStructures(int start,
+			int length) throws AccounterException {
+		return getFinanceTool().getPayrollManager().getPayrollStructuresList(
+				start, length, getCompanyId());
+	}
+
+	@Override
+	public ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes()
+			throws AccounterException {
+		return getFinanceTool().getPayrollManager()
+				.getAttendanceProductionTypes(getCompanyId());
+	}
+
+	@Override
+	public ArrayList<ClientEmployeeGroup> getEmployeeGroups()
+			throws AccounterException {
+		return getFinanceTool().getPayrollManager().getEmployeeGroups(
+				getCompanyId());
+	}
+
+	@Override
+	public List<ClientPayStructureDestination> getEmployeesAndGroups() throws AccounterException {
+		return getFinanceTool().getPayrollManager().getEmployeesAndGroups(
+				getCompanyId());
+	}
+
+	@Override
+	public List<ClientEmployeeCategory> getEmployeeCategories() throws AccounterException {
+		return getFinanceTool().getPayrollManager().getEmployeeCategories(
+				getCompanyId());
 	}
 }

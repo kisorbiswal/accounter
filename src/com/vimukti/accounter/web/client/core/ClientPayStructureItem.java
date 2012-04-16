@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientPayStructureItem implements IAccounterCore {
 
 	/**
@@ -11,7 +10,7 @@ public class ClientPayStructureItem implements IAccounterCore {
 	/**
 	 * PayHead of this PayStructure Item
 	 */
-	private long payHead;
+	private ClientPayHead payHead;
 
 	/**
 	 * Rate
@@ -20,10 +19,12 @@ public class ClientPayStructureItem implements IAccounterCore {
 
 	private long payStructure;
 
+	private long id;
+
 	/**
 	 * @return the payHead
 	 */
-	public long getPayHead() {
+	public ClientPayHead getPayHead() {
 		return payHead;
 	}
 
@@ -31,7 +32,7 @@ public class ClientPayStructureItem implements IAccounterCore {
 	 * @param payHead
 	 *            the payHead to set
 	 */
-	public void setPayHead(long payHead) {
+	public void setPayHead(ClientPayHead payHead) {
 		this.payHead = payHead;
 	}
 
@@ -97,14 +98,19 @@ public class ClientPayStructureItem implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
+	}
+
+	public boolean isEmpty() {
+		if (this.getPayHead() == null && this.getRate() == 0) {
+			return true;
+		}
+		return false;
 	}
 
 }

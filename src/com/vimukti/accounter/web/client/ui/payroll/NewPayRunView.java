@@ -39,10 +39,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 		empsAndGroups = new EmployeesAndGroupsCombo(messages.employeeOrGroup(),
 				"empsAndGroups");
-		ArrayList<ClientPayStructureDestination> arrayList = new ArrayList<ClientPayStructureDestination>();
-		arrayList.addAll(getCompany().getEmployees());
-		arrayList.addAll(getCompany().getEmployeeGroups());
-		empsAndGroups.initCombo(arrayList);
 		empsAndGroups
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayStructureDestination>() {
 

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 
@@ -12,7 +11,7 @@ public abstract class PayHeadColumn extends
 
 	@Override
 	protected ClientPayHead getValue(ClientPayStructureItem row) {
-		return Accounter.getCompany().getPayHead(row.getPayHead());
+		return row.getPayHead();
 	}
 
 	@Override

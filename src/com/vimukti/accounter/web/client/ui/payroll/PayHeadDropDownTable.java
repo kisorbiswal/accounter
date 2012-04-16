@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -11,17 +14,34 @@ import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
+	private static List<ClientPayHead> list = new ArrayList<ClientPayHead>();
+
 	public PayHeadDropDownTable(boolean isAddNewRequired) {
-		super(getItems(), isAddNewRequired);
+		super(list, isAddNewRequired);
+		initList();
 	}
 
-	private static List<ClientPayHead> getItems() {
-		return Accounter.getCompany().getPayHeads();
+	private void initList() {
+		Accounter.createPayrollService().getPayheads(0, 0,
+				new AsyncCallback<PaginationList<ClientPayHead>>() {
+
+					@Override
+					public void onSuccess(PaginationList<ClientPayHead> result) {
+						list = result;
+						reInitData();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	@Override
 	public List<ClientPayHead> getTotalRowsData() {
-		return getItems();
+		return list;
 	}
 
 	@Override

@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -70,8 +73,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 				@Override
 				protected String getValue(ClientPayStructureItem row) {
-					ClientPayHead payHead = Accounter.getCompany().getPayHead(
-							row.getPayHead());
+					ClientPayHead payHead = row.getPayHead();
 					if (payHead != null) {
 						return payHead.getName();
 					}
@@ -99,7 +101,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 				@Override
 				protected void setValue(ClientPayStructureItem row,
 						ClientPayHead newValue) {
-					row.setPayHead(newValue.getID());
+					row.setPayHead(newValue);
 					update(row);
 				}
 			});
@@ -127,8 +129,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = Accounter.getCompany().getPayHead(
-						row.getPayHead());
+				ClientPayHead payHead = row.getPayHead();
 				// if (payHead != null) {
 				// return "" + payHead.getCalculationPeriod();
 				// }
@@ -155,10 +156,9 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = Accounter.getCompany().getPayHead(
-						row.getPayHead());
+				ClientPayHead payHead = row.getPayHead();
 				if (payHead != null) {
-					return "" + payHead.getType();
+					return ClientPayHead.getPayHeadType(payHead.getType());
 				}
 				return "";
 			}
@@ -183,10 +183,10 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = Accounter.getCompany().getPayHead(
-						row.getPayHead());
+				ClientPayHead payHead = row.getPayHead();
 				if (payHead != null) {
-					return "" + payHead.getCalculationType();
+					return ClientPayHead.getCalculationType(payHead
+							.getCalculationType());
 				}
 				return "";
 			}
@@ -211,8 +211,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = Accounter.getCompany().getPayHead(
-						row.getPayHead());
+				ClientPayHead payHead = row.getPayHead();
 				return "";
 			}
 
@@ -241,6 +240,28 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 	protected boolean isInViewMode() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		for (ClientPayStructureItem row : getRows()) {
+			if (row.getRate() == 0) {
+				result.addError(row, "Rate should not be zero");
+				return result;
+			}
+		}
+		return result;
+	}
+
+	public List<ClientPayStructureItem> getRows() {
+		List<ClientPayStructureItem> rows = new ArrayList<ClientPayStructureItem>();
+
+		for (ClientPayStructureItem row : getAllRows()) {
+			if (!row.isEmpty()) {
+				rows.add(row);
+			}
+		}
+		return rows;
 	}
 
 }

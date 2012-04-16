@@ -1,9 +1,5 @@
 package com.vimukti.accounter.core;
 
-import org.json.JSONException;
-
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
 /**
  * On Attendance type of Calculation Type is based on the attendance data where
  * the component will get pro-rated based on the actual days the Employee is
@@ -117,19 +113,6 @@ public class AttendancePayHead extends PayHead {
 	 */
 	public void setLeaveWithoutPay(AttendanceOrProductionType leaveWithoutPay) {
 		this.leaveWithoutPay = leaveWithoutPay;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject,
-			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

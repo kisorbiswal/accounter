@@ -417,6 +417,8 @@ public class HistoryTokens {
 
 	public static final String NEW_PAYRUN = "newPayRun";
 
+	public static final String PAY_STRUCTURE_LIST = "payStructureList";
+
 	public HistoryTokens() {
 
 	}

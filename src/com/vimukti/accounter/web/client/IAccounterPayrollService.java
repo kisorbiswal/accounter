@@ -1,10 +1,15 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -24,4 +29,14 @@ public interface IAccounterPayrollService extends RemoteService {
 
 	ArrayList<ClientPayStructureItem> getPayStructureItems(
 			ClientPayStructureDestination selectItem) throws AccounterException;
+
+	PaginationList<ClientPayStructure> getPayStructures(int start, int length) throws AccounterException;
+
+	ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes() throws AccounterException;
+
+	ArrayList<ClientEmployeeGroup> getEmployeeGroups() throws AccounterException;
+
+	List<ClientPayStructureDestination> getEmployeesAndGroups() throws AccounterException;
+
+	List<ClientEmployeeCategory> getEmployeeCategories() throws AccounterException;
 }

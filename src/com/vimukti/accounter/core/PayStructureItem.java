@@ -1,6 +1,16 @@
 package com.vimukti.accounter.core;
 
-public class PayStructureItem extends CreatableObject {
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class PayStructureItem extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * PayHead of this PayStructure Item
@@ -57,6 +67,19 @@ public class PayStructureItem extends CreatableObject {
 	 */
 	public void setPayStructure(PayStructure payStructure) {
 		this.payStructure = payStructure;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

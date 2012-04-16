@@ -3,7 +3,10 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
@@ -12,16 +15,28 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 	public EmployeeCombo(String title) {
 		this(title, false);
-		List<ClientEmployee> employees = new ArrayList<ClientEmployee>(
-				getCompany().getEmployees());
-		initCombo(employees);
+		getEmployees();
+	}
+
+	private void getEmployees() {
+		Accounter.createPayrollService().getEmployees(0, 0,
+				new AsyncCallback<PaginationList<ClientEmployee>>() {
+
+					@Override
+					public void onSuccess(PaginationList<ClientEmployee> result) {
+						initCombo(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
 	}
 
 	public EmployeeCombo(String title, boolean b) {
 		super(title, b, 1, "employeecombo");
-		List<ClientEmployee> employees = new ArrayList<ClientEmployee>(
-				getCompany().getEmployees());
-		initCombo(employees);
+		getEmployees();
 	}
 
 	@Override

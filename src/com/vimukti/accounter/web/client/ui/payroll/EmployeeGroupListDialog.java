@@ -1,11 +1,15 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -18,6 +22,7 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 	private ClientEmployeeGroup employeeGroup;
 	List<ClientEmployeeGroup> employeeGroups;
 	private GroupDialogButtonsHandler dialogButtonsHandler;
+	protected ArrayList<ClientEmployeeGroup> list = new ArrayList<ClientEmployeeGroup>();
 
 	public EmployeeGroupListDialog(String title, String descript) {
 		super(title, descript);
@@ -25,6 +30,24 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 		setWidth("380px");
 		initialise();
 		center();
+		initList();
+	}
+
+	private void initList() {
+		Accounter.createPayrollService().getEmployeeGroups(
+				new AsyncCallback<ArrayList<ClientEmployeeGroup>>() {
+
+					@Override
+					public void onSuccess(ArrayList<ClientEmployeeGroup> result) {
+						list = result;
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	public void initialise() {
@@ -100,7 +123,7 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 
 	@Override
 	protected List<ClientEmployeeGroup> getRecords() {
-		return getCompany().getEmployeeGroups();
+		return list;
 	}
 
 	@Override
@@ -122,8 +145,8 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 		ValidationResult result = new ValidationResult();
 		if (inputDlg != null) {
 			String value = inputDlg.getTextItems().get(0).getValue().toString();
-			ClientEmployeeGroup employeeGroupByName = company
-					.getEmployeeGroupByName(UIUtils.toStr(value));
+			ClientEmployeeGroup employeeGroupByName = Utility.getObjectByName(
+					list, UIUtils.toStr(value));
 			if (employeeGroup != null) {
 				if (!(employeeGroup.getName().equalsIgnoreCase(value) ? true
 						: employeeGroupByName == null)) {
@@ -131,10 +154,8 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 				}
 			}
 		} else {
-			ClientEmployeeGroup employeeGroupByName2 = getCompany()
-					.getEmployeeGroupByName(
-							inputDlg.getTextItems().get(0).getValue()
-									.toString());
+			ClientEmployeeGroup employeeGroupByName2 = Utility.getObjectByName(
+					list, inputDlg.getTextItems().get(0).getValue().toString());
 			if (employeeGroupByName2 != null) {
 				result.addError(this,
 						messages.payeeGroupAlreadyExists(messages.employee()));

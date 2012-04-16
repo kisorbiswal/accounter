@@ -5,17 +5,25 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class NewPayStructureView extends BaseView<ClientPayStructure> {
@@ -41,13 +49,11 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 
 		empsAndGroups = new EmployeesAndGroupsCombo(messages.employeeOrGroup(),
 				"empsAndGroups");
-		ArrayList<ClientPayStructureDestination> arrayList = new ArrayList<ClientPayStructureDestination>();
-		arrayList.addAll(getCompany().getEmployees());
-		arrayList.addAll(getCompany().getEmployeeGroups());
-		empsAndGroups.initCombo(arrayList);
+		empsAndGroups.setEnabled(!isInViewMode());
 		empsAndGroups.setRequired(true);
 
 		grid = new PayStructureTable(false);
+		grid.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();
 		itemTableButton.setEnabled(!isInViewMode());
@@ -85,12 +91,11 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 	}
 
 	private void initViewData(ClientPayStructure data) {
-		ClientPayStructureDestination employee = getCompany().getEmployee(
-				data.getEmployee());
+		ClientPayStructureDestination employee = data.getEmployee();
 		if (employee == null) {
-			employee = getCompany().getEmployeeGroup(data.getEmployeeGroup());
+			employee = data.getEmployeeGroup();
 		}
-		empsAndGroups.setValue(employee);
+		empsAndGroups.setComboItem(employee);
 
 		grid.setAllRows(data.getItems());
 	}
@@ -120,8 +125,64 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		empsAndGroups.setFocus();
+	}
 
+	@Override
+	public void onEdit() {
+
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(messages.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+
+				}
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		AccounterCoreType type = data.getObjectType();
+		this.rpcDoSerivce.canEdit(type, data.getID(), editCallBack);
+
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+
+		empsAndGroups.setEnabled(!isInViewMode());
+		grid.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		updateData();
+		saveOrUpdate(getData());
+	}
+
+	private void updateData() {
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+		if (selectedValue instanceof ClientEmployee) {
+			data.setEmployee((ClientEmployee) selectedValue);
+		} else {
+			data.setEmployeeGroup((ClientEmployeeGroup) selectedValue);
+		}
+
+		data.setItems(grid.getRows());
 	}
 
 	@Override
@@ -132,6 +193,15 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		if (selectedValue == null) {
 			validate.addError(empsAndGroups,
 					messages.shouldNotBeNull(messages.employeeGroup()));
+			return validate;
+		}
+		validate = grid.validate();
+		if (validate.haveErrors()) {
+			return validate;
+		}
+		List<ClientPayStructureItem> rows = grid.getRows();
+		if (rows.isEmpty()) {
+			validate.addError(grid, "There is no item");
 		}
 		return validate;
 

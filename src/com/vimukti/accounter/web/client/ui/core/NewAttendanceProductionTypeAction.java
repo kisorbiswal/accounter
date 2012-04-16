@@ -17,7 +17,7 @@ public class NewAttendanceProductionTypeAction extends
 	public void run() {
 		NewClientAttendanceOrProductionDialog comboDialog = new NewClientAttendanceOrProductionDialog(
 				messages.attendanceOrProductionType(), data);
-
+		comboDialog.setCallback(getCallback());
 		comboDialog.show();
 		comboDialog.center();
 	}

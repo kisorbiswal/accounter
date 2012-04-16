@@ -488,4 +488,8 @@ public class ClientEmployee implements ClientPayStructureDestination {
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

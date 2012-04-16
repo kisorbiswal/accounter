@@ -1,10 +1,15 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -23,5 +28,20 @@ public interface IAccounterPayrollServiceAsync {
 
 	public void getPayStructureItems(ClientPayStructureDestination selectItem,
 			AsyncCallback<ArrayList<ClientPayStructureItem>> callback);
+
+	public void getPayStructures(int start, int length,
+			AsyncCallback<PaginationList<ClientPayStructure>> callback);
+
+	public void getAttendanceProductionTypes(
+			AsyncCallback<ArrayList<ClientAttendanceOrProductionType>> asyncCallback);
+
+	public void getEmployeeGroups(
+			AsyncCallback<ArrayList<ClientEmployeeGroup>> asyncCallback);
+
+	public void getEmployeesAndGroups(
+			AsyncCallback<List<ClientPayStructureDestination>> asyncCallback);
+
+	public void getEmployeeCategories(
+			AsyncCallback<List<ClientEmployeeCategory>> asyncCallback);
 
 }

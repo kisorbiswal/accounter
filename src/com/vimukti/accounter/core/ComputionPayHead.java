@@ -3,10 +3,6 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-
-import com.vimukti.accounter.web.client.exception.AccounterException;
-
 /**
  * As Computed Value is used if the Pay Head value is based on a dependent
  * component. You will be able to define the dependent component by specifying
@@ -105,16 +101,4 @@ public class ComputionPayHead extends PayHead {
 		this.calculationPeriod = calculationPeriod;
 	}
 
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject,
-			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
-	}
 }

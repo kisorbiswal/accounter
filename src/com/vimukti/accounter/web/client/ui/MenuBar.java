@@ -177,6 +177,8 @@ public class MenuBar {
 				HistoryTokens.PAYHEADLIST);
 		listMenuBar.addMenuItem(messages.payrollUnitList(),
 				HistoryTokens.PAYROLLUNITLIST);
+		listMenuBar.addMenuItem(messages.payStructureList(),
+				HistoryTokens.PAY_STRUCTURE_LIST);
 
 		return listMenuBar;
 	}
