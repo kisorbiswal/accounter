@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -14,10 +15,12 @@ public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 
 	private boolean isAddNew;
 	protected ArrayList<ClientPayrollUnit> list = new ArrayList<ClientPayrollUnit>();
+	private long payRollId;
 
-	public PayRollUnitCombo(String title, String styleName) {
+	public PayRollUnitCombo(String title, String styleName, long payRollId) {
 		super(title, "payRollUnitCombo");
 		getPayrollUnits();
+		this.payRollId = payRollId;
 	}
 
 	private void getPayrollUnits() {
@@ -29,15 +32,25 @@ public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 							PaginationList<ClientPayrollUnit> result) {
 						list = result;
 						initCombo(result);
+						if (payRollId != 0) {
+							setComboItem();
+						}
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
 					}
 				});
 
+	}
+
+	protected void setComboItem() {
+		List<ClientPayrollUnit> comboItems2 = getComboItems();
+		for (ClientPayrollUnit clientPayrollUnit : comboItems2) {
+			if (payRollId == clientPayrollUnit.getID()) {
+				setComboItem(clientPayrollUnit);
+			}
+		}
 	}
 
 	@Override
@@ -85,7 +98,6 @@ public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-
 		return messages.payrollUnit();
 	}
 

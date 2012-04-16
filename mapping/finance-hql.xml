@@ -453,9 +453,10 @@
 	<query name="getPayhead.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />
+		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.PayHead PH where
 		PH.company=:company
 		and
-		PH.name=:name
+		PH.name=:name and PH.id !=:id
 	</query>
 </hibernate-mapping>

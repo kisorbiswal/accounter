@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -64,6 +65,14 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
 		return result;
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		super.saveSuccess(object);
+		if (getCallback() != null) {
+			getCallback().actionResult((ClientPayrollUnit) object);
+		}
 	}
 
 }

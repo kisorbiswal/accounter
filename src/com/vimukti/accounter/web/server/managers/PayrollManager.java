@@ -61,18 +61,17 @@ public class PayrollManager extends Manager {
 		Query query = session.getNamedQuery("list.Payhead").setEntity(
 				"company", company);
 		List<PayHead> employees = query.list();
-		if (employees == null) {
-			return null;
-		}
 		PaginationList<ClientPayHead> clientPayHeads = new PaginationList<ClientPayHead>();
-		for (PayHead payHead : employees) {
-			ClientPayHead clientPayHead;
-			try {
-				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
-						ClientPayHead.class);
-				clientPayHeads.add(clientPayHead);
-			} catch (AccounterException e) {
-				e.printStackTrace();
+		if (employees != null) {
+			for (PayHead payHead : employees) {
+				ClientPayHead clientPayHead;
+				try {
+					clientPayHead = new ClientConvertUtil().toClientObject(
+							payHead, ClientPayHead.class);
+					clientPayHeads.add(clientPayHead);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return clientPayHeads;
@@ -192,8 +191,8 @@ public class PayrollManager extends Manager {
 	public List<ClientEmployeeCategory> getEmployeeCategories(Long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery("list.EmployeeCategories").setEntity(
-				"company", company);
+		Query query = session.getNamedQuery("list.EmployeeCategories")
+				.setEntity("company", company);
 		List<EmployeeCategory> categories = query.list();
 		if (categories == null) {
 			return null;
@@ -202,8 +201,8 @@ public class PayrollManager extends Manager {
 		for (EmployeeCategory category : categories) {
 			ClientEmployeeCategory clientCategory;
 			try {
-				clientCategory = new ClientConvertUtil().toClientObject(category,
-						ClientEmployeeCategory.class);
+				clientCategory = new ClientConvertUtil().toClientObject(
+						category, ClientEmployeeCategory.class);
 				clientCategories.add(clientCategory);
 			} catch (AccounterException e) {
 				e.printStackTrace();

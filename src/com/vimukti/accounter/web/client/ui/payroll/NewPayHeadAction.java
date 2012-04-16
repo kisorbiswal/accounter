@@ -38,13 +38,11 @@ public class NewPayHeadAction extends Action<ClientPayHead> {
 
 	@Override
 	public ImageResource getBigImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ImageResource getSmallImage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

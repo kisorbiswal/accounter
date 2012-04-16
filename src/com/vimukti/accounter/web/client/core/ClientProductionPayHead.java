@@ -7,14 +7,13 @@ public class ClientProductionPayHead extends ClientPayHead {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientAttendanceOrProductionType productionType;
+	private long productionType;
 
-	public ClientAttendanceOrProductionType getProductionType() {
+	public long getProductionType() {
 		return productionType;
 	}
 
-	public void setProductionType(
-			ClientAttendanceOrProductionType productionType) {
+	public void setProductionType(long productionType) {
 		this.productionType = productionType;
 	}
 

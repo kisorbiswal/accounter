@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -245,20 +244,12 @@ public abstract class PayHead extends CreatableObject implements
 		Session session = HibernateUtil.getCurrentSession();
 
 		PayHead payhead = (PayHead) clientObject;
-		Query query = session
-				.getNamedQuery("getPayhead.by.Name")
-				.setParameter("name", payhead.name,
-						EncryptedStringType.INSTANCE)
+		Query query = session.getNamedQuery("getPayhead.by.Name")
+				.setParameter("name", payhead.getName())
+				.setParameter("id", payhead.getID())
 				.setEntity("company", payhead.getCompany());
 		List list = query.list();
-		if (list != null && list.size() > 0) {
-			PayHead newPayhead = (PayHead) list.get(0);
-			if (payhead.getID() != newPayhead.getID()) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-			}
-		}
-		return false;
+		return list == null || list.size() == 0;
 	}
 
 	@Override

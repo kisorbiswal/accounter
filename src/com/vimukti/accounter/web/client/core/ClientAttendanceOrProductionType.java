@@ -19,11 +19,12 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 	private String name;
 
 	/** Will use for Type Production */
-	private ClientPayrollUnit unit;
+	private long unit;
 
 	/** Use for all AttendanceOrProductionType except Production */
 	private int periodType;
 	private long id;
+	private int version;
 
 	public int getType() {
 		return type;
@@ -33,11 +34,11 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 		this.type = type;
 	}
 
-	public ClientPayrollUnit getUnit() {
+	public long getUnit() {
 		return unit;
 	}
 
-	public void setUnit(ClientPayrollUnit unit) {
+	public void setUnit(long unit) {
 		this.unit = unit;
 	}
 
@@ -55,14 +56,12 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
+		this.version = version;
 	}
 
 	@Override

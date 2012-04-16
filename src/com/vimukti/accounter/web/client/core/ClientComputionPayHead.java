@@ -23,7 +23,7 @@ public class ClientComputionPayHead extends ClientPayHead {
 	/**
 	 * It exists if ComputaionType is COMPUTATE_ON_SPECIFIED_FORMULA
 	 */
-	private List<ClientComputaionFormulaFunction> formulaFunctions;
+	private List<ClientComputaionFormulaFunction> formulaFunctions = new ArrayList<ClientComputaionFormulaFunction>();
 
 	private int calculationPeriod;
 

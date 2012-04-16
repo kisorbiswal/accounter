@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -30,6 +31,9 @@ public class NewClientAttendanceOrProductionDialog extends
 		super(text);
 		this.getElement().setId("NewClientAttendanceOrProductionDialog");
 		this.selectedAttendanceOrProductionType = clientAttendanceOrProductionType;
+		if (this.selectedAttendanceOrProductionType == null) {
+			selectedAttendanceOrProductionType = new ClientAttendanceOrProductionType();
+		}
 		createControl();
 		center();
 	}
@@ -47,19 +51,17 @@ public class NewClientAttendanceOrProductionDialog extends
 		daysTypeCombo.initCombo(getDaysTypeList());
 		form.add(daysTypeCombo);
 		payrollUnitCombo = new PayRollUnitCombo(messages.payrollUnitList(),
-				"payrollUnitsListCombo");
+				"payrollUnitsListCombo",
+				selectedAttendanceOrProductionType.getUnit());
 		form.add(payrollUnitCombo);
 		layout.add(form);
 		setBodyLayout(layout);
-		if (this.selectedAttendanceOrProductionType != null) {
+		if (this.selectedAttendanceOrProductionType.getID() != 0) {
 			name.setValue(selectedAttendanceOrProductionType.getName());
 			leaveType.setValue(attendanceOrProductionType
 					.get(selectedAttendanceOrProductionType.getPeriodType()));
 			daysTypeCombo.setValue(daysTypeList
 					.get(selectedAttendanceOrProductionType.getType()));
-			daysTypeCombo
-					.setValue(selectedAttendanceOrProductionType.getUnit());
-
 		}
 	}
 
@@ -93,31 +95,24 @@ public class NewClientAttendanceOrProductionDialog extends
 	}
 
 	private void createorUpdateObject() {
-		if (selectedAttendanceOrProductionType != null) {
-			selectedAttendanceOrProductionType.setName(name.getValue());
-			selectedAttendanceOrProductionType.setPeriodType(leaveType
-					.getSelectedIndex() + 1);
-			selectedAttendanceOrProductionType.setType(daysTypeCombo
-					.getSelectedIndex() + 1);
-		} else {
-			selectedAttendanceOrProductionType = new ClientAttendanceOrProductionType();
-			selectedAttendanceOrProductionType.setName(name.getValue());
-			selectedAttendanceOrProductionType.setPeriodType(leaveType
-					.getSelectedIndex() + 1);
-			selectedAttendanceOrProductionType.setType(daysTypeCombo
-					.getSelectedIndex() + 1);
-
+		selectedAttendanceOrProductionType.setName(name.getValue());
+		selectedAttendanceOrProductionType.setPeriodType(leaveType
+				.getSelectedIndex() + 1);
+		selectedAttendanceOrProductionType.setType(daysTypeCombo
+				.getSelectedIndex() + 1);
+		ClientPayrollUnit selectedValue = payrollUnitCombo.getSelectedValue();
+		if (selectedValue != null) {
+			selectedAttendanceOrProductionType.setUnit(selectedValue.getID());
 		}
 		AccounterAsyncCallback<Long> callback = new AccounterAsyncCallback<Long>() {
 
 			@Override
 			public void onException(AccounterException exception) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onResultSuccess(Long result) {
+				selectedAttendanceOrProductionType.setID(result);
 				getCallback().actionResult(selectedAttendanceOrProductionType);
 			}
 		};

@@ -137,9 +137,30 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		calculationTypeChanged(calType);
 		if (calType.equals(messages.attendance())) {
 			ClientAttendancePayHead attendance = (ClientAttendancePayHead) data;
-
-			leaveWithPayCombo.setComboItem(attendance.getLeaveWithPay());
-			leaveWithoutPayCombo.setComboItem(attendance.getLeaveWithoutPay());
+			if (attendance.getLeaveWithPay() != 0) {
+				List<ClientAttendanceOrProductionType> comboItems = leaveWithPayCombo
+						.getComboItems();
+				for (ClientAttendanceOrProductionType clientAttendanceOrProductionType : comboItems) {
+					if (attendance.getLeaveWithPay() == clientAttendanceOrProductionType
+							.getID()) {
+						leaveWithPayCombo
+								.setComboItem(clientAttendanceOrProductionType);
+						break;
+					}
+				}
+			}
+			if (attendance.getLeaveWithoutPay() != 0) {
+				List<ClientAttendanceOrProductionType> comboItems = leaveWithoutPayCombo
+						.getComboItems();
+				for (ClientAttendanceOrProductionType clientAttendanceOrProductionType : comboItems) {
+					if (attendance.getLeaveWithoutPay() == clientAttendanceOrProductionType
+							.getID()) {
+						leaveWithoutPayCombo
+								.setComboItem(clientAttendanceOrProductionType);
+						break;
+					}
+				}
+			}
 			calculationPeriodCombo.setComboItem(getCalculationPeriod(attendance
 					.getCalculationPeriod()));
 			perdayCalculationCombo
@@ -169,8 +190,15 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		} else if (calType.equals(messages.production())) {
 			ClientProductionPayHead production = (ClientProductionPayHead) data;
-
-			productionTypeCombo.setComboItem(production.getProductionType());
+			List<ClientAttendanceOrProductionType> comboItems = productionTypeCombo
+					.getComboItems();
+			for (ClientAttendanceOrProductionType clientAttendanceOrProductionType : comboItems) {
+				if (production.getProductionType() == clientAttendanceOrProductionType
+						.getID()) {
+					productionTypeCombo
+							.setComboItem(clientAttendanceOrProductionType);
+				}
+			}
 
 		} else if (calType.equals(messages.asUserDefined())) {
 
@@ -557,8 +585,14 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		}
 		if (selectedValue.equals(messages.attendance())) {
 			ClientAttendancePayHead payhead = new ClientAttendancePayHead();
-			payhead.setLeaveWithoutPay(leaveWithoutPayCombo.getSelectedValue());
-			payhead.setLeaveWithPay(leaveWithPayCombo.getSelectedValue());
+			if (leaveWithoutPayCombo.getSelectedValue() != null) {
+				payhead.setLeaveWithoutPay(leaveWithoutPayCombo
+						.getSelectedValue().getID());
+			}
+			if (leaveWithPayCombo.getSelectedValue() != null) {
+				payhead.setLeaveWithPay(leaveWithPayCombo.getSelectedValue()
+						.getID());
+			}
 			payhead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex() + 1);
 			payhead.setPerDayCalculationBasis(perdayCalculationCombo
@@ -583,7 +617,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		} else if (selectedValue.equals(messages.production())) {
 			ClientProductionPayHead payHead = new ClientProductionPayHead();
-			payHead.setProductionType(productionTypeCombo.getSelectedValue());
+			payHead.setProductionType(productionTypeCombo.getSelectedValue()
+					.getID());
 			data = payHead;
 
 		} else if (selectedValue.equals(messages.asUserDefined())) {

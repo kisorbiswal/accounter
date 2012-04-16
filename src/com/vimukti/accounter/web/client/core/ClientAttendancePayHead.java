@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientAttendancePayHead extends ClientPayHead {
 
 	/**
@@ -36,12 +35,12 @@ public class ClientAttendancePayHead extends ClientPayHead {
 
 	private int perDayCalculationBasis;
 
-	private ClientAttendanceOrProductionType leaveWithPay;
+	private long leaveWithPay;
 
 	/**
 	 * Will be used if leaveWithPay does not Exist
 	 */
-	private ClientAttendanceOrProductionType leaveWithoutPay;
+	private long leaveWithoutPay;
 
 	public int getCalculationPeriod() {
 		return calculationPeriod;
@@ -59,20 +58,19 @@ public class ClientAttendancePayHead extends ClientPayHead {
 		this.perDayCalculationBasis = perDayCalculationBasis;
 	}
 
-	public ClientAttendanceOrProductionType getLeaveWithPay() {
+	public long getLeaveWithPay() {
 		return leaveWithPay;
 	}
 
-	public void setLeaveWithPay(ClientAttendanceOrProductionType leaveWithPay) {
+	public void setLeaveWithPay(long leaveWithPay) {
 		this.leaveWithPay = leaveWithPay;
 	}
 
-	public ClientAttendanceOrProductionType getLeaveWithoutPay() {
+	public long getLeaveWithoutPay() {
 		return leaveWithoutPay;
 	}
 
-	public void setLeaveWithoutPay(
-			ClientAttendanceOrProductionType leaveWithoutPay) {
+	public void setLeaveWithoutPay(long leaveWithoutPay) {
 		this.leaveWithoutPay = leaveWithoutPay;
 	}
 

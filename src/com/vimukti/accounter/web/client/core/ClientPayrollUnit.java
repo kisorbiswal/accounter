@@ -84,14 +84,12 @@ public class ClientPayrollUnit implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getFormalname();
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
