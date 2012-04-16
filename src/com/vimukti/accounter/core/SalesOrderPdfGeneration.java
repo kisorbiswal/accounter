@@ -8,6 +8,7 @@ import java.util.List;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
@@ -197,7 +198,10 @@ public class SalesOrderPdfGeneration {
 
 		case ClientEstimate.STATUS_COMPLETED:
 			return messages.closed();
-
+			
+		case ClientTransaction.STATUS_CANCELLED:
+			return messages.cancelled();
+			
 		default:
 			break;
 		}
