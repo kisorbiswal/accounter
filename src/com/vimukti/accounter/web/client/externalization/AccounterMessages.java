@@ -460,6 +460,8 @@ public interface AccounterMessages extends Messages {
 	public String balances();
 
 	public String balanceSheet();
+	
+	public String balanceWithCurrencyName(String currency);
 
 	public String bank();
 
@@ -3084,6 +3086,8 @@ public interface AccounterMessages extends Messages {
 	public String openFiscalYear();
 
 	public String openingBalance();
+	
+	public String openingBalanceWithCurrencyName(String currency);
 
 	public String openingBalances();
 
@@ -4886,6 +4890,8 @@ public interface AccounterMessages extends Messages {
 
 	public String unassignedAmount();
 
+	public String unassignedAmountWithCurrencyName(String currency);
+	
 	public String unavailabel();
 
 	public String unCategorisedTaxAmountsDetail();

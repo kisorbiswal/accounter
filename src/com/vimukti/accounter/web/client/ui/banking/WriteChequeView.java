@@ -835,7 +835,9 @@ public class WriteChequeView extends
 
 		DynamicForm unassignedAmountForm = new DynamicForm(
 				"unassignedAmountForm");
-		unassignedAmount = new AmountLabel(messages.unassignedAmount());
+		unassignedAmount = new AmountLabel(
+				messages.unassignedAmountWithCurrencyName(getBaseCurrency()
+						.getFormalName()), getBaseCurrency());
 		unassignedAmountForm.add(unassignedAmount);
 
 		unassignedAmountPanel.add(recalculateButton);
@@ -1463,6 +1465,8 @@ public class WriteChequeView extends
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
 		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
+		unassignedAmount.setTitle(messages.currencyNetAmount(formalName));
+		unassignedAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
 	@Override

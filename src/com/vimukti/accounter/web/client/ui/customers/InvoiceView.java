@@ -407,11 +407,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 
-		paymentsNonEditableText = new AmountLabel(messages.payments());
+		paymentsNonEditableText = new AmountLabel(messages.nameWithCurrency(
+				messages.payments(), getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		paymentsNonEditableText.setEnabled(false);
 		paymentsNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
-		balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(messages.nameWithCurrency(
+				messages.balanceDue(), getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		balanceDueNonEditableText.setEnabled(false);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -1821,6 +1825,18 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (netAmountLabel != null) {
 			netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
 			netAmountLabel.setCurrency(currencyWidget.getSelectedCurrency());
+		}
+		if (paymentsNonEditableText != null) {
+			paymentsNonEditableText.setTitle(messages.nameWithCurrency(
+					messages.payments(), formalName));
+			paymentsNonEditableText.setCurrency(currencyWidget
+					.getSelectedCurrency());
+		}
+		if (balanceDueNonEditableText != null) {
+			balanceDueNonEditableText.setTitle(messages.nameWithCurrency(
+					messages.balanceDue(), formalName));
+			balanceDueNonEditableText.setCurrency(currencyWidget
+					.getSelectedCurrency());
 		}
 	}
 

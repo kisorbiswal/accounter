@@ -213,12 +213,18 @@ public class PurchaseOrderView extends
 			transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 					.getPrimaryCurrency());
 
-			paymentsNonEditableText = new AmountLabel(messages.payments());
+			paymentsNonEditableText = new AmountLabel(
+					messages.nameWithCurrency(messages.payments(),
+							getBaseCurrency().getFormalName()),
+					getBaseCurrency());
 			paymentsNonEditableText.setEnabled(false);
 			paymentsNonEditableText.setDefaultValue(""
 					+ UIUtils.getCurrencySymbol() + " 0.00");
 
-			balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
+			balanceDueNonEditableText = new AmountLabel(
+					messages.nameWithCurrency(messages.balanceDue(),
+							getBaseCurrency().getFormalName()),
+					getBaseCurrency());
 			// balanceDueNonEditableText = new
 			// AmountField(messages.balanceDue(),
 			// this, getBaseCurrency());
@@ -1529,6 +1535,14 @@ public class PurchaseOrderView extends
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
 		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
+		paymentsNonEditableText.setTitle(messages.nameWithCurrency(
+				messages.payments(), formalName));
+		paymentsNonEditableText.setCurrency(currencyWidget
+				.getSelectedCurrency());
+		balanceDueNonEditableText.setTitle(messages.nameWithCurrency(
+				messages.balanceDue(), formalName));
+		balanceDueNonEditableText.setCurrency(currencyWidget
+				.getSelectedCurrency());
 	}
 
 	protected void updateDiscountValues() {

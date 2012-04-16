@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -42,7 +43,12 @@ public class VendorDetailsPanel extends FlowPanel {
 
 		email = new LabelItem(messages.email(), "email");
 
-		balance = new AmountLabel(messages.balance());
+		ClientCurrency vendorCurrency = Accounter.getCompany().getCurrency(
+				selectedVendor.getCurrency());
+
+		balance = new AmountLabel(
+				messages.balanceWithCurrencyName(vendorCurrency.getFormalName()),
+				vendorCurrency);
 
 		currency = new LabelItem(messages.currency(), "currency");
 
@@ -54,7 +60,9 @@ public class VendorDetailsPanel extends FlowPanel {
 		webpageadress = new LabelItem(messages.webPageAddress(),
 				"webpageadress");
 
-		openingBalance = new AmountLabel(messages.balanceAsOf());
+		openingBalance = new AmountLabel(
+				messages.openingBalanceWithCurrencyName(vendorCurrency
+						.getFormalName()), vendorCurrency);
 
 		notes = new LabelItem(messages.notes(), "notes");
 
@@ -95,6 +103,12 @@ public class VendorDetailsPanel extends FlowPanel {
 
 			email.setValue(selectedVendor.getEmail());
 
+			ClientCurrency vendorCurrency = Accounter.getCompany().getCurrency(
+					selectedVendor.getCurrency());
+
+			balance.setTitle(messages.balanceWithCurrencyName(vendorCurrency
+					.getFormalName()));
+			balance.setCurrency(vendorCurrency);
 			balance.setAmount(selectedVendor.getBalance());
 
 			currency.setValue(Accounter.getCompany()
@@ -113,6 +127,10 @@ public class VendorDetailsPanel extends FlowPanel {
 
 			webpageadress.setValue(selectedVendor.getWebPageAddress());
 
+			openingBalance.setTitle(messages
+					.openingBalanceWithCurrencyName(vendorCurrency
+							.getFormalName()));
+			openingBalance.setCurrency(vendorCurrency);
 			openingBalance.setAmount(selectedVendor.getOpeningBalance());
 
 			notes.setValue(selectedVendor.getMemo());
