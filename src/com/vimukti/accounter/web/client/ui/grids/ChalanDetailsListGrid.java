@@ -22,7 +22,7 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
@@ -124,16 +124,15 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { "formType", "assessmentYear",
-				"totalAmount", "challanPeriod",
-				"dateofPayment", "bankBSRCode", "unknown" };
+		return new String[] { "formType", "assessmentYear", "totalAmount",
+				"challanPeriod", "dateofPayment", "bankBSRCode", "unknown" };
 
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "formTypeValue", "assessmentYearValue",
-				"totalAmountValue", "challanPeriodValue",
-				"dateofPaymentValue", "bankBSRCodeValue", "unknownValue", };
+				"totalAmountValue", "challanPeriodValue", "dateofPaymentValue",
+				"bankBSRCodeValue", "unknownValue", };
 	}
 }
