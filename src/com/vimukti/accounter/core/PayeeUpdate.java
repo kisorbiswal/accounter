@@ -109,6 +109,10 @@ public class PayeeUpdate extends CreatableObject {
 	}
 
 	public void add(PayeeUpdate payeeUpdate) {
+		if (getTransaction().getID() != payeeUpdate.getTransaction().getID()
+				|| getPayee().getID() != payeeUpdate.getPayee().getID()) {
+			return;
+		}
 		amount += payeeUpdate.getAmount();
 	}
 }

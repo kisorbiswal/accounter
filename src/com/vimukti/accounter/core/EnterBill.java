@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -394,16 +393,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean isPositiveTransaction() {
 		return false;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.vendor;
 	}
 
 	public void updatePaymentsAndBalanceDue(double amount) {
@@ -1031,17 +1020,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (itemReceipt != null) {
-			map.put(getCompany().getPendingItemReceiptsAccount(),
-					itemReceipt.total);
-		}
-		return map;
-
-	}
-
 	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
 			Session session) {
 		this.estimates.clear();
@@ -1194,12 +1172,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return valid;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? total : -total;
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
 	public List<PurchaseOrder> getPurchaseOrders() {
 		return purchaseOrders;
 	}
@@ -1281,6 +1253,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					e.add(item, tItem.getQuantity(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					double calculatePrice = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

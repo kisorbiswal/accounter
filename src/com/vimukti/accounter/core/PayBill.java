@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -412,16 +411,6 @@ public class PayBill extends Transaction {
 		return false;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
 	public void updateUnUsedAmount(Session session, double amount) {
 		if (DecimalUtil.isEquals(this.unusedAmount, 0.0)) {
 			this.unusedAmount += amount;
@@ -618,21 +607,6 @@ public class PayBill extends Transaction {
 		this.billDueOnOrBefore = billDueOnOrBefore;
 	}
 
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (creditsAndPayments != null) {
-			map.put(creditsAndPayments.getPayee().getAccount(),
-					creditsAndPayments.getEffectingAmount());
-		}
-		map.put(vendor.getAccount(), (total - unusedAmount) < 0 ? -1
-				* (total - unusedAmount) : (total - unusedAmount));
-		if (payFrom != null) {
-			map.put(payFrom, total - tdsTotal);
-		}
-		return map;
-	}
-
 	/**
 	 * @return the taxItem
 	 */
@@ -697,10 +671,6 @@ public class PayBill extends Transaction {
 		if (this.transactionPayBill != null) {
 			w.put(messages.details(), this.transactionPayBill);
 		}
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
 	}
 
 	@Override

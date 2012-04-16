@@ -294,17 +294,6 @@ public class Estimate extends Transaction {
 		return true;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return getCustomer();
-	}
-
 	public void setTotal(Double total) {
 		this.total = total;
 	}
@@ -533,11 +522,6 @@ public class Estimate extends Transaction {
 			valid = false;
 		}
 		return valid;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
 	}
 
 	public String getCustomerOrderNumber() {

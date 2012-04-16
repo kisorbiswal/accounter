@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
@@ -242,16 +241,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	 */
 	public double getTotalAppliedCredits() {
 		return totalAppliedCredits;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.customer;
 	}
 
 	@Override
@@ -632,15 +621,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(depositIn, amount);
-		map.put(creditsAndPayments.getPayee().getAccount(),
-				creditsAndPayments.getEffectingAmount());
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -681,12 +661,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? total : -total;
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		e.add(getDepositIn(), -getAmount());
 		if (DecimalUtil.isGreaterThan(tdsTotal, 0)
@@ -705,15 +679,17 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			{
 				double amount = (payment.cashDiscount) + (payment.writeOff)
 						+ (payment.appliedCredits) + (payment.payment);
+				if (payment.getInvoice() != null) {
+					// loss is invoiced amount - received amount in base
+					// currency
+					double amountToUpdate = amount
+							* payment.getInvoice().getCurrencyFactor();
 
-				// loss is invoiced amount - received amount in base currency
-				double amountToUpdate = amount
-						* payment.getInvoice().getCurrencyFactor();
+					double diff = amountToUpdate - amount * currencyFactor;
 
-				double diff = amountToUpdate - amount * currencyFactor;
-
-				e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
-				e.add(getCustomer().getAccount(), diff, 1);
+					e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
+					e.add(getCustomer().getAccount(), diff, 1);
+				}
 			}
 
 		}

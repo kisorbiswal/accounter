@@ -2,10 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -230,6 +228,8 @@ public abstract class Transaction extends CreatableObject implements
 	Set<AccountTransaction> accountTransactionEntriesList = new HashSet<AccountTransaction>();
 
 	Set<PayeeUpdate> payeeUpdates = new HashSet<PayeeUpdate>();
+
+	Set<ItemUpdate> itemUpdates = new HashSet<ItemUpdate>();
 
 	/**
 	 * Some transaction such as {@link CashSales}, {@link Invoice},
@@ -981,10 +981,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	public abstract boolean isDebitTransaction();
 
-	public abstract Account getEffectingAccount();
-
-	public abstract Payee getPayee();
-
 	public abstract int getTransactionCategory();
 
 	@Override
@@ -1054,82 +1050,6 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	/**
-	 * Creates an entry in the VATRateCalculation entry for a transactionItem in
-	 * the UK company. This makes us to track all the VAT related amount to pay
-	 * while making the PayVAT.
-	 * 
-	 * @param transactionItem
-	 * @param session
-	 * @return boolean
-	 * 
-	 */
-	public boolean setTAXRateCalculation(TransactionItem transactionItem) {
-
-		if (isBecameVoid()) {
-			this.taxRateCalculationEntriesList.clear();
-			return false;
-		}
-		if (transactionItem.getTaxCode() == null) {
-			return false;
-		}
-
-		TAXCode code = transactionItem.getTaxCode();
-		TAXItemGroup taxItemGroup = null;
-
-		if (getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
-			taxItemGroup = code.getTAXItemGrpForSales();
-		} else if (transactionItem.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-			taxItemGroup = code.getTAXItemGrpForPurchases();
-		}
-		if (taxItemGroup == null) {
-			return false;
-		}
-
-		double lineTotal = transactionItem.isAmountIncludeTAX() ? transactionItem
-				.getLineTotal() - transactionItem.getVATfraction()
-				: transactionItem.getLineTotal();
-
-		if (taxItemGroup instanceof TAXItem) {
-			TAXItem vatItem = ((TAXItem) taxItemGroup);
-			addTAXRateCalculation(vatItem, lineTotal, false);
-		} else {
-			TAXGroup vatGroup = (TAXGroup) taxItemGroup;
-			for (TAXItem taxItem : vatGroup.getTAXItems()) {
-				addTAXRateCalculation(taxItem, lineTotal, true);
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Set the VATItem entry in the VATRateCalculation. This is used to differ
-	 * this entry from the VATGroup type entry.
-	 * 
-	 * @param vatItem
-	 * @param transactionItem
-	 * @param session
-	 */
-	public void addTAXRateCalculation(TAXItem vatItem, double lineTotal,
-			boolean isGroup) {
-		/**
-		 * Line total will be positive for all receiving money and negative for
-		 * paying money. But for TDS line total is always positive.
-		 */
-		if (!isPositiveTransaction()
-				&& vatItem.getTaxAgency().getTaxType() != TAXAgency.TAX_TYPE_TDS) {
-			lineTotal = -lineTotal;
-		}
-
-		TAXRateCalculation vc = new TAXRateCalculation(vatItem, this, lineTotal);
-
-		vc.setVATGroupEntry(isGroup);
-
-		getTaxRateCalculationEntriesList().add(vc);
-
-	}
-
-	/**
 	 * when you edit transaction, previous transaction items and related objects
 	 * has to delete, THis method is to clear lists objects that transaction
 	 * item has those no longer need for editing transactions
@@ -1189,8 +1109,6 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
-	protected abstract void updatePayee(boolean onCreate);
-
 	public int compareTo(Object o) {
 		return 0;
 	}
@@ -1237,34 +1155,6 @@ public abstract class Transaction extends CreatableObject implements
 		// }
 
 		return true;
-	}
-
-	protected void checkForReconciliation(Transaction transaction)
-			throws AccounterException {
-		if (reconciliationItems == null || reconciliationItems.isEmpty()) {
-			return;
-		}
-		Map<Account, Double> map = getEffectingAccountsWithAmounts();
-		if (map.size() == 0) {
-			throw new AccounterException(
-					AccounterException.ERROR_THERE_IS_NO_TRANSACTION_ITEMS);
-		}
-		for (ReconciliationItem item : reconciliationItems) {
-			Account reconciliedAccount = item.getReconciliation().getAccount();
-			for (Account account : map.keySet()) {
-				if (reconciliedAccount.getID() == account.getID()) {
-					Double presentAmount = map.get(account);
-					double amount = item.getAmount();
-					if (DecimalUtil.isLessThan(amount, 0.00D)) {
-						amount *= -1;
-					}
-					if (!DecimalUtil.isEquals(presentAmount, amount)) {
-						throw new AccounterException(
-								AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED);
-					}
-				}
-			}
-		}
 	}
 
 	public void setRecurringTransaction(
@@ -1356,7 +1246,6 @@ public abstract class Transaction extends CreatableObject implements
 		} else {
 			getAccountTransactionEntriesList().remove(similar);
 			Session session = HibernateUtil.getCurrentSession();
-			similar.donnotUpdateAccountOnSave = true;
 			session.delete(similar);
 			return false;
 		}
@@ -1391,25 +1280,6 @@ public abstract class Transaction extends CreatableObject implements
 	public void setReconciliationItems(
 			Set<ReconciliationItem> reconciliationItems) {
 		this.reconciliationItems = reconciliationItems;
-	}
-
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		if (getEffectingAccount() != null) {
-			map.put(getEffectingAccount(), total);
-		}
-		if (getPayee() != null) {
-			map.put(getPayee().getAccount(),
-					type == Transaction.TYPE_PAY_BILL ? this.subTotal
-							: this.total);
-		}
-		for (TransactionItem item : transactionItems) {
-			map.put(item.getEffectingAccount(), item.getEffectiveAmount());
-		}
-		// for (TransactionDepositItem item : getTransactionDepositItems()) {
-		// map.put(item.getAccount(), item.getTotal());
-		// }
-		return map;
 	}
 
 	public List<TransactionLog> getHistory() {
@@ -1651,5 +1521,20 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	public void setPayeeUpdates(Set<PayeeUpdate> payeeUpdates) {
 		this.payeeUpdates = payeeUpdates;
+	}
+
+	/**
+	 * @return the itemUpdates
+	 */
+	public Set<ItemUpdate> getItemUpdates() {
+		return itemUpdates;
+	}
+
+	/**
+	 * @param itemUpdates
+	 *            the itemUpdates to set
+	 */
+	public void setItemUpdates(Set<ItemUpdate> itemUpdates) {
+		this.itemUpdates = itemUpdates;
 	}
 }

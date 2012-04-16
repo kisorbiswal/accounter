@@ -587,16 +587,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.depositIn;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public String toString() {
 
 		return AccounterServerConstants.TYPE_CASH_SALES;
@@ -886,11 +876,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		return valid;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
-	}
-
 	public String getCheckNumber() {
 		return checkNumber;
 	}
@@ -927,6 +912,11 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			case TransactionItem.TYPE_ITEM:
 				Item item = tItem.getItem();
 				e.add(item.getIncomeAccount(), amount);
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity().reverse(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				}
 				break;
 			default:
 				break;

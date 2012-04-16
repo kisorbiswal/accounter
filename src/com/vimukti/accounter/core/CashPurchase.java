@@ -252,16 +252,6 @@ public class CashPurchase extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.payFrom;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public String toString() {
 
 		return AccounterServerConstants.TYPE_CASH_PURCHASE;
@@ -774,11 +764,6 @@ public class CashPurchase extends Transaction {
 		this.deliveryDate = deliveryDate;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
-	}
-
 	public List<PurchaseOrder> getPurchaseOrders() {
 		return purchaseOrders;
 	}
@@ -872,6 +857,9 @@ public class CashPurchase extends Transaction {
 					e.add(item, tItem.getQuantity(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					double calculatePrice = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

@@ -253,16 +253,6 @@ public class Expense extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public boolean isDebitTransaction() {
 		return false;
 	}
@@ -327,11 +317,6 @@ public class Expense extends Transaction {
 		w.put(messages.memo(), this.memo).gap();
 
 		w.put(messages.details(), this.transactionExpenses);
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
 	}
 
 	@Override

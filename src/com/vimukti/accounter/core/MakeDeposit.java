@@ -56,16 +56,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_BANKING;
 	}
@@ -96,11 +86,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public Payee getInvolvedPayee() {
 		return null;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
 	}
 
 	@Override

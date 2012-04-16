@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -61,7 +62,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	@Override
 	public void add(Item item, Quantity quantity, Double unitPrice,
 			Warehouse wareHouse) {
-		addIU(new ItemUpdate(item, quantity, unitPrice, wareHouse));
+		addIU(new ItemUpdate(transaction, item, quantity, unitPrice, wareHouse));
 	}
 
 	@Override
@@ -140,6 +141,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		mergeAccountTransactions(session);
 		mergePayeeUpdates(session);
 		mergeTAXRateCalculation(session);
+		mergeItemUpdates(session);
 
 		for (TAXRateCalculation trc : newTRCs) {
 			session.save(trc);
@@ -148,8 +150,13 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	}
 
 	private void mergeAccountTransactions(Session session) {
-		Set<AccountTransaction> oldAT = new HashSet<AccountTransaction>(
-				transaction.getAccountTransactionEntriesList());
+		Set<AccountTransaction> oldAT = new HashSet<AccountTransaction>();
+		for (AccountTransaction at : transaction
+				.getAccountTransactionEntriesList()) {
+			if (at.isUpdateAccount()) {
+				oldAT.add(at);
+			}
+		}
 		Collection<?> intersection = CollectionUtils
 				.intersection(newATs, oldAT);
 		newATs.removeAll(intersection);
@@ -171,6 +178,18 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		transaction.getPayeeUpdates().addAll(newPUs);
 	}
 
+	private void mergeItemUpdates(Session session) {
+		Set<ItemUpdate> oldIUs = new HashSet<ItemUpdate>(
+				transaction.getItemUpdates());
+		Collection<?> intersection = CollectionUtils.intersection(newIUs,
+				oldIUs);
+		newIUs.removeAll(intersection);
+		oldIUs.removeAll(intersection);
+
+		transaction.getItemUpdates().removeAll(oldIUs);
+		transaction.getItemUpdates().addAll(newIUs);
+	}
+
 	private void mergeTAXRateCalculation(Session session) {
 		Set<TAXRateCalculation> oldTRCs = new HashSet<TAXRateCalculation>(
 				transaction.getTaxRateCalculationEntriesList());
@@ -184,7 +203,14 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	}
 
 	public void doVoid() {
-		transaction.getAccountTransactionEntriesList().clear();
+		Iterator<AccountTransaction> iterator = transaction
+				.getAccountTransactionEntriesList().iterator();
+		while (iterator.hasNext()) {
+			AccountTransaction next = iterator.next();
+			if (next.isUpdateAccount()) {
+				iterator.remove();
+			}
+		}
 		transaction.getPayeeUpdates().clear();
 		transaction.getTaxRateCalculationEntriesList().clear();
 
@@ -196,6 +222,21 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @return the newATs
+	 */
+	public List<AccountTransaction> getNewATs() {
+		return newATs;
+	}
+
+	/**
+	 * @param newATs
+	 *            the newATs to set
+	 */
+	public void setNewATs(List<AccountTransaction> newATs) {
+		this.newATs = newATs;
 	}
 
 }

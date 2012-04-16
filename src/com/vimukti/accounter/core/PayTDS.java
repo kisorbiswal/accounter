@@ -39,18 +39,6 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -82,12 +70,6 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 		w.put(messages.amount(), this.total).gap();
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo).gap();
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

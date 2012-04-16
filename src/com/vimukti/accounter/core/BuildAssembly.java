@@ -129,18 +129,6 @@ public class BuildAssembly extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_CUSTOMER;
 	}
@@ -154,12 +142,6 @@ public class BuildAssembly extends Transaction {
 	public Payee getInvolvedPayee() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -194,8 +176,18 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public void getEffects(ITransactionEffects e) {
-		// TODO Auto-generated method stub
-
+		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
+		quantityToBuild.setValue(this.quantityToBuild);
+		e.add(getInventoryAssembly(), quantityToBuild, 0.00D,
+				inventoryAssembly.getWarehouse());
+		for (TransactionItem tItem : getTransactionItems()) {
+			Item item = tItem.getItem();
+			e.add(item, tItem.getQuantity().reverse(),
+					tItem.getUnitPriceInBaseCurrency(), tItem.getWareHouse());
+			double purchaseValue = tItem.getQuantity().calculatePrice(
+					tItem.getUnitPriceInBaseCurrency());
+			e.add(item.getExpenseAccount(), purchaseValue, 1);
+			e.add(getInventoryAssembly().getAssestsAccount(), -purchaseValue, 1);
+		}
 	}
-
 }

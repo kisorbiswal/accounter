@@ -715,16 +715,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return true;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return customer;
-	}
-
 	public void updateStatus() {
 		if (DecimalUtil.isGreaterThan(this.balanceDue, 0.0)
 				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
@@ -1043,12 +1033,6 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		Invoice invoice = (Invoice) super.clone();
 		invoice.estimates = new ArrayList<Estimate>();
@@ -1071,6 +1055,11 @@ public class Invoice extends Transaction implements Lifecycle {
 			case TransactionItem.TYPE_ITEM:
 				Item item = tItem.getItem();
 				e.add(item.getIncomeAccount(), amount);
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity().reverse(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				}
 				break;
 			default:
 				break;

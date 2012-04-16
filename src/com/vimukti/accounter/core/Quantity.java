@@ -238,4 +238,10 @@ public class Quantity implements Comparable<Quantity> {
 				&& getUnit().getID() == qty.getUnit().getID();
 	}
 
+	public Quantity reverse() {
+		Quantity copy = copy();
+		copy.setValue(-copy.getValue());
+		return copy;
+	}
+
 }

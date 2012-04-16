@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -298,16 +296,6 @@ public class CustomerCreditMemo extends Transaction implements
 		return false;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return customer;
-	}
-
 	public void setSalesPerson(SalesPerson salesPerson) {
 		this.salesPerson = salesPerson;
 	}
@@ -437,14 +425,6 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		map.put(creditsAndPayments.getPayee().getAccount(),
-				creditsAndPayments.getEffectingAmount());
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -490,12 +470,6 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? total : -total;
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
 			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
@@ -510,10 +484,14 @@ public class CustomerCreditMemo extends Transaction implements
 				Item item = tItem.getItem();
 				e.add(item.getIncomeAccount(), amount);
 				if (item.isInventory()) {
+					// Doing PurchaseEffect for CustomerCreditMemo
+					e.add(item, tItem.getQuantity().reverse(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
 					double purchaseCost = tItem.getQuantity().calculatePrice(
 							tItem.getUnitPriceInBaseCurrency());
-					e.add(item.getAssestsAccount(), -purchaseCost);
-					e.add(item.getExpenseAccount(), purchaseCost);
+					e.add(item.getAssestsAccount(), -purchaseCost, 1);
+					e.add(item.getExpenseAccount(), purchaseCost, 1);
 				}
 				break;
 			default:

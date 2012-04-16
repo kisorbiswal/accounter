@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Map;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -89,16 +87,6 @@ public class VendorPrePayment extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
 	}
@@ -122,12 +110,6 @@ public class VendorPrePayment extends Transaction {
 	@Override
 	public Payee getInvolvedPayee() {
 		return this.vendor;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
 	public boolean isAmountIncludeTDS() {
@@ -350,20 +332,6 @@ public class VendorPrePayment extends Transaction {
 			this.creditsAndPayments.updateCreditPayments(this.total);
 		}
 
-	}
-
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (creditsAndPayments != null) {
-			map.put(creditsAndPayments.getPayee().getAccount(),
-					creditsAndPayments.getEffectingAmount());
-		}
-
-		if (payFrom != null) {
-			map.put(payFrom, total - tdsTotal);
-		}
-		return map;
 	}
 
 	@Override

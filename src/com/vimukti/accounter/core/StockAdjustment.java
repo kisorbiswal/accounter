@@ -171,18 +171,6 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -195,23 +183,33 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		double totalAdjustment = 0.00D;
-		for (TransactionItem item : getTransactionItems()) {
-			item.setWareHouse(getWareHouse());
-			item.setTransaction(this);
-			if (item.getQuantity().getValue() < 0) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			tItem.setWareHouse(getWareHouse());
+			tItem.setTransaction(this);
+			if (tItem.getQuantity().getValue() < 0) {
 				continue;
 			}
-			double adjustmentValue = item.getQuantity().calculatePrice(
-					item.getUnitPrice());
+			e.add(tItem.getItem(), tItem.getQuantity(),
+					tItem.getUnitPriceInBaseCurrency(), tItem.getWareHouse());
+			double adjustmentValue = tItem.getQuantity().calculatePrice(
+					tItem.getUnitPrice());
 			totalAdjustment += adjustmentValue;
+
+			Item item = tItem.getItem();
+			if (tItem.getQuantity().getValue() > 0) {
+				e.add(item, tItem.getQuantity(),
+						tItem.getUnitPriceInBaseCurrency(),
+						tItem.getWareHouse());
+				double calculatePrice = tItem.getQuantity().calculatePrice(
+						tItem.getUnitPriceInBaseCurrency());
+				e.add(item.getAssestsAccount(), -calculatePrice, 1);
+			} else {
+				e.add(item, tItem.getQuantity().reverse(),
+						tItem.getUnitPriceInBaseCurrency(),
+						tItem.getWareHouse());
+			}
 		}
 		e.add(getAdjustmentAccount(), totalAdjustment);
 	}

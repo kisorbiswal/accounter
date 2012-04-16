@@ -235,17 +235,6 @@ public class WriteCheck extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.bankAccount;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// Must return null. because no need update payee balance in writecheck.
-		return null;
-	}
-
-	@Override
 	public String toString() {
 		return AccounterServerConstants.TYPE_WRITE_CHECK;
 	}
@@ -274,10 +263,9 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public Payee getInvolvedPayee() {
-
-		if (this.getPayee() instanceof Customer)
+		if (customer != null)
 			return this.customer;
-		else if (this.getPayee() instanceof Vendor)
+		else if (vendor != null)
 			return this.vendor;
 		else
 			return this.taxAgency;
@@ -474,11 +462,6 @@ public class WriteCheck extends Transaction {
 					AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS);
 			// "You can't void or edit because it has been deposited from Undeposited Funds");
 		}
-		checkForReconciliation((Transaction) clientObject);
-		// if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-		// throw new AccounterException(
-		// AccounterException.WRITECHECK_PAID_VOID_IT);
-		// }
 		return true;
 	}
 
@@ -542,12 +525,6 @@ public class WriteCheck extends Transaction {
 		this.inFavourOf = inFavourOf;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public Set<Estimate> getEstimates() {
 		return estimates;
 	}
@@ -573,6 +550,9 @@ public class WriteCheck extends Transaction {
 					e.add(item, tItem.getQuantity(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					double calculatePrice = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

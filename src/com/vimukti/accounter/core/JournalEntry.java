@@ -1,10 +1,8 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -113,16 +111,6 @@ public class JournalEntry extends Transaction {
 	public boolean isPositiveTransaction() {
 
 		return false;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
 	}
 
 	@Override
@@ -285,22 +273,6 @@ public class JournalEntry extends Transaction {
 		return true;
 	}
 
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		for (TransactionItem e : transactionItems) {
-			if (e == null) {
-				try {
-					throw new AccounterException(
-							AccounterException.ERROR_TRANSACTION_ITEM_NULL);
-				} catch (Exception e2) {
-				}
-			}
-			map.put(e.getAccount(), e.getLineTotal());
-		}
-		return map;
-	}
-
 	public void setInvolvedPayee(Payee involvedPayee) {
 		this.involvedPayee = involvedPayee;
 	}
@@ -343,12 +315,6 @@ public class JournalEntry extends Transaction {
 
 	public void updateBalanceDue(double balanceDue) {
 		setBalanceDue(getBalanceDue() + balanceDue);
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -115,18 +114,6 @@ public class TAXReturn extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -175,12 +162,6 @@ public class TAXReturn extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		super.onSave(session);
-
-		// FlushMode flushMode = session.getFlushMode();
-		// session.setFlushMode(FlushMode.COMMIT);
-
-		// try {
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -189,20 +170,9 @@ public class TAXReturn extends Transaction {
 		this.balance = this.total;
 		this.type = Transaction.TYPE_TAX_RETURN;
 
-		taxAgency.updateBalance(session, this, this.total);
 		taxAgency.setLastTAXReturnDate(this.periodEndDate);
 		taxAgency.onUpdate(session);
 		session.saveOrUpdate(taxAgency);
-
-		// this.taxAgency.salesLiabilityAccount.updateCurrentBalance(this,
-		// -this.boxes.get(2).getAmount());
-		// session.update(this.taxAgency.salesLiabilityAccount);
-		// this.taxAgency.salesLiabilityAccount.onUpdate(session);
-		//
-		// this.taxAgency.purchaseLiabilityAccount.updateCurrentBalance(this,
-		// this.boxes.get(3).getAmount());
-		// session.update(this.taxAgency.purchaseLiabilityAccount);
-		// this.taxAgency.purchaseLiabilityAccount.onUpdate(session);
 
 		Query query = session.getNamedQuery("getTaxAdjustment.by.dates")
 				.setParameter("fromDate", this.periodStartDate)
@@ -222,25 +192,15 @@ public class TAXReturn extends Transaction {
 				.setParameter("vatAgency", taxAgency.getID())
 				.setEntity("company", getCompany());
 
-		// this.setJournalEntry(new JournalEntry(this));
-
 		List<TAXRateCalculation> vrc = query.list();
-		// org.hibernate.Transaction t = session.beginTransaction();
 		for (TAXRateCalculation v : vrc) {
 			v.taxReturn = this;
 			session.update(v);
 		}
-		// t.commit();
-
-		// Company.getCompany().getAccountsPayableAccount().updateCurrentBalance(
-		// this, (total + this.boxes.get(boxes.size() - 1).getAmount()));
 
 		ChangeTracker.put(this);
-		return false;
+		return super.onSave(session);
 
-		// } finally {
-		// session.setFlushMode(flushMode);
-		// }
 	}
 
 	/**
@@ -271,13 +231,6 @@ public class TAXReturn extends Transaction {
 	 */
 	public void setPurchaseTaxTotal(double purchaseTaxTotal) {
 		this.purchaseTaxTotal = purchaseTaxTotal;
-	}
-
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(taxAgency.getAccount(), total);
-		return map;
 	}
 
 	/**
@@ -316,12 +269,6 @@ public class TAXReturn extends Transaction {
 			return;
 		}
 
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
 	}
@@ -397,5 +344,6 @@ public class TAXReturn extends Transaction {
 		e.add(getTaxAgency().getPurchaseLiabilityAccount(), -1
 				* purchaseTaxTotal);
 		e.add(getTaxAgency().getFiledLiabilityAccount(), totalTAXAmount);
+		e.add(getTaxAgency(), getTotal());
 	}
 }

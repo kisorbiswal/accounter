@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -217,18 +216,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
 
 		return null;
 	}
@@ -300,17 +288,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		for (TransactionPayTAX vat : transactionPayTAX) {
-			map.put(vat.getTaxAgency().getAccount(), vat.getAmountToPay());
-			map.put(vat.getVatReturn().getTaxAgency()
-					.getFiledLiabilityAccount(), vat.getAmountToPay());
-		}
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -341,12 +318,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_TAX_AGENCY_NULL);
 		}
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

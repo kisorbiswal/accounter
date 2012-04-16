@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -171,16 +170,6 @@ public class CustomerPrePayment extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.depositIn;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return customer;
-	}
-
-	@Override
 	public String toString() {
 		return AccounterServerConstants.TYPE_CUSTOMER_PRE_PAYMENT;
 	}
@@ -269,15 +258,6 @@ public class CustomerPrePayment extends Transaction {
 		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> effectingAccountsWithAmounts = super
-				.getEffectingAccountsWithAmounts();
-		effectingAccountsWithAmounts.put(creditsAndPayments.getPayee()
-				.getAccount(), creditsAndPayments.getEffectingAmount());
-		return effectingAccountsWithAmounts;
-	}
-
 	/**
 	 * @return the depositIn
 	 */
@@ -315,12 +295,6 @@ public class CustomerPrePayment extends Transaction {
 
 		w.put(messages.memo(), this.memo);
 
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? total : -total;
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
 	@Override

@@ -240,17 +240,6 @@ public class TDSChalanDetail extends Transaction implements
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.payFrom;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -274,12 +263,6 @@ public class TDSChalanDetail extends Transaction implements
 	public void setEtdsfillingAcknowledgementNo(
 			String etdsfillingAcknowledgementNo) {
 		this.etdsfillingAcknowledgementNo = etdsfillingAcknowledgementNo;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public FinanceDate getAcknowledgementDate() {

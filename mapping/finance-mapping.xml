@@ -150,6 +150,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
+		<property name="updateAccount" column="UPDATE_ACCOUNT"></property>
 	</class>
 
 	<class name="FiscalYear" table="FISCAL_YEAR">

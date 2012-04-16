@@ -158,11 +158,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return 0;
 	}
@@ -185,7 +180,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@Override
 	public Payee getInvolvedPayee() {
 
-		return this.getPayee();
+		return null;
 	}
 
 	@Override
@@ -295,12 +290,6 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		w.put(messages.balanceDue(), this.balanceDue);
 
 		w.put(messages.sales(), this.isSales);
-
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
 
 	}
 

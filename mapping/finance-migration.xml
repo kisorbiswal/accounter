@@ -76,4 +76,11 @@
 		where at.account.id=at.company.accountsPayableAccount.id and at.company.id=:companyId
 	</query>
 	
+	<query name="getAllTransactionOfCompany">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Transaction t  where t.company=:company
+	</query>
+	
+	
+	
 </hibernate-mapping>

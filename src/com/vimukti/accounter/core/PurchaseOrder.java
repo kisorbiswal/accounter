@@ -345,18 +345,6 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
 	}
@@ -566,12 +554,6 @@ public class PurchaseOrder extends Transaction {
 
 		if (this.usedBill != null)
 			w.put(messages.memo(), this.usedBill.toString()).gap();
-
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
 
 	}
 

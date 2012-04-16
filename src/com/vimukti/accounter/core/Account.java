@@ -987,7 +987,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// log.info(accountTransaction);
 
 		AccountTransaction accountTransaction = new AccountTransaction(this,
-				transaction, amount, true);
+				transaction, amount, false);
 		transaction.addAccountTransaction(accountTransaction);
 
 		if (this.name.equalsIgnoreCase("Un Deposited Funds")) {
@@ -1211,8 +1211,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public String toString() {
-		return "Account Name: " + this.name + "    Balance: "
-				+ this.totalBalance;
+		return "Account ID:" + getID() + " Name: " + this.name
+				+ "    Balance: " + this.totalBalance;
 	}
 
 	public void setNumber(String number) {

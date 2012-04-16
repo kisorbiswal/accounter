@@ -1,8 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
@@ -505,16 +502,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
 	}
@@ -727,20 +714,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		Account account = (Account) HibernateUtil
-				.getCurrentSession()
-				.getNamedQuery("getNameofAccount.by.Name")
-				.setParameter("name",
-						AccounterServerConstants.PENDING_ITEM_RECEIPTS,
-						EncryptedStringType.INSTANCE)
-				.setEntity("company", getCompany()).uniqueResult();
-		map.put(account, total);
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -758,13 +731,6 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		w.put(messages.paymentMethod(), this.paymentMethod);
 
 		w.put(messages.memo(), this.memo).gap();
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
-				onCreate ? getTotal() : -getTotal());
-
 	}
 
 	@Override

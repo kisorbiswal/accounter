@@ -49,15 +49,20 @@ public class AccountTransaction extends CreatableObject implements
 	 */
 	double amount;
 
-	boolean donnotUpdateAccountOnSave;
+	/**
+	 * Will Be used by Inventory Transaction. If this is FALSE, then the
+	 * Accounts will not be updated or reverse updated on Saving or Deleting
+	 * respectively.
+	 */
+	boolean updateAccount = Boolean.TRUE;
 
 	public AccountTransaction() {
 	}
 
 	public AccountTransaction(Account account, Transaction transaction,
-			double amount, boolean donnotUpdateAccountOnSave) {
+			double amount, boolean updateAccount) {
 		this(account, transaction, amount);
-		this.donnotUpdateAccountOnSave = donnotUpdateAccountOnSave;
+		this.updateAccount = updateAccount;
 	}
 
 	public AccountTransaction(Account account, Transaction transaction,
@@ -79,11 +84,16 @@ public class AccountTransaction extends CreatableObject implements
 
 	@Override
 	public String toString() {
-		if (transaction != null) {
-			return getAccount().getName() + "   " + transaction.toString()
-					+ "    " + amount;
-		} else
-			return "";
+		StringBuffer sb = new StringBuffer("Account :");
+		sb.append(getAccount());
+		sb.append("Transaction :");
+		sb.append(getTransaction());
+		sb.append("Transaction ID:");
+		sb.append(getTransaction().getID());
+		sb.append("Amount : ");
+		sb.append(amount);
+
+		return sb.toString();
 	}
 
 	/**
@@ -177,7 +187,7 @@ public class AccountTransaction extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		if (!donnotUpdateAccountOnSave) {
+		if (isUpdateAccount()) {
 			account.effectCurrentBalance(amount, getTransaction()
 					.getCurrencyFactor());
 			session.saveOrUpdate(account);
@@ -187,7 +197,7 @@ public class AccountTransaction extends CreatableObject implements
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!donnotUpdateAccountOnSave) {
+		if (isUpdateAccount()) {
 			getAccount().effectCurrentBalance(-amount,
 					getTransaction().previousCurrencyFactor);
 			session.saveOrUpdate(getAccount());
@@ -227,7 +237,26 @@ public class AccountTransaction extends CreatableObject implements
 	}
 
 	public void add(AccountTransaction at) {
+		if (getTransaction().getID() != at.getTransaction().getID()
+				|| getAccount().getID() != at.getAccount().getID()) {
+			return;
+		}
 		this.amount += at.amount;
+	}
+
+	/**
+	 * @return the updateAccount
+	 */
+	public boolean isUpdateAccount() {
+		return updateAccount;
+	}
+
+	/**
+	 * @param updateAccount
+	 *            the updateAccount to set
+	 */
+	public void setUpdateAccount(boolean updateAccount) {
+		this.updateAccount = updateAccount;
 	}
 
 }

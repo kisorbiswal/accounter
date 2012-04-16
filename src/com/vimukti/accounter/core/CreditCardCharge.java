@@ -156,18 +156,6 @@ public class CreditCardCharge extends Transaction {
 		return false;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return this.payFrom;
-
-	}
-
-	@Override
-	public Payee getPayee() {
-
-		return null;
-	}
-
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
 	}
@@ -359,11 +347,6 @@ public class CreditCardCharge extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
 			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
@@ -380,6 +363,9 @@ public class CreditCardCharge extends Transaction {
 					e.add(item, tItem.getQuantity(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					double calculatePrice = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

@@ -171,18 +171,6 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.vendor;
-		// return null;
-
-	}
-
-	@Override
 	public void setTotal(double total) {
 		this.total = total;
 	}
@@ -362,12 +350,6 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
 			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
@@ -379,9 +361,13 @@ public class VendorCreditMemo extends Transaction {
 			case TransactionItem.TYPE_ITEM:
 				Item item = tItem.getItem();
 				if (item.isInventory()) {
-					e.add(item, tItem.getQuantity(),
+					Quantity quantityCopy = tItem.getQuantity().reverse();
+					e.add(item, quantityCopy,
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
+					double calculatePrice = quantityCopy.calculatePrice(tItem
+							.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);
 				}

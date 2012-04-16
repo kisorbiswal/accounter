@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Map;
-
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -144,16 +142,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 		return false;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -235,15 +223,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (cashBackAccount != null) {
-			map.put(cashBackAccount, cashBackAmount);
-		}
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -269,12 +248,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 			valid = false;
 		}
 		return valid;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

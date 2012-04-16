@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -229,16 +227,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		return false;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.payTo;
-	}
-
 	public void updatePaymentsAndBalanceDue(double amount2) {
 		this.payments -= amount2;
 		this.balanceDue += amount2;
@@ -375,14 +363,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		map.put(payFrom, total);
-		map.put(payTo.getAccount(), total);
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -402,12 +382,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		if (this.paymentMethod != null)
 			w.put(messages.paymentMethod(), this.paymentMethod);
 
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		payTo.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
 	@Override

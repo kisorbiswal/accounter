@@ -540,18 +540,6 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_CUSTOMER;
 	}
@@ -715,9 +703,6 @@ public class SalesOrder extends Transaction {
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
 		if (this.usedInvoice == null) {
 			this.usedInvoice = usedTransaction;
-			for (TransactionItem item : transactionItems) {
-				item.doCreateEffect(session);
-			}
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
 			List<TransactionItem> newItems = new ArrayList<TransactionItem>();
@@ -802,12 +787,6 @@ public class SalesOrder extends Transaction {
 			w.put(messages.salesTaxItem(), this.salesTaxItem.getName()).gap();
 
 		w.put(messages.orderNo(), this.customerOrderNumber);
-
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
 
 	}
 

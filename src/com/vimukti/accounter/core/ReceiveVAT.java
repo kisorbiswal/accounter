@@ -149,19 +149,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
 
 		return null;
 	}
@@ -306,12 +294,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
