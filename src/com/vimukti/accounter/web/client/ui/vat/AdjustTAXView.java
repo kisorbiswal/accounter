@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -98,8 +99,9 @@ public class AdjustTAXView extends
 
 		vatform = new DynamicForm("vatform");
 		// vatform.setWidth("64%");
-
+		currencyWidget = createCurrencyFactorWidget();
 		vatform.add(vatLine, vatLinetxt, vatAccount, vatAccounttxt);
+
 		vatItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
 
@@ -158,6 +160,21 @@ public class AdjustTAXView extends
 		// adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
 		adjustAccountCombo.setEnabled(!isInViewMode());
+		adjustAccountCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
+					public void selectedComboBoxItem(ClientAccount selectItem) {
+						ClientAccount selectedValue = adjustAccountCombo
+								.getSelectedValue();
+						long currency2 = selectedValue.getCurrency();
+						ClientCurrency currency3 = getCompany().getCurrency(
+								currency2);
+						currencyWidget.setSelectedCurrency(currency3);
+						setCurrency(currency3);
+
+					}
+
+				});
 		amount = new AmountField(messages.amount(), this, getBaseCurrency(),
 				"amount");
 		amount.setRequired(true);
@@ -200,7 +217,9 @@ public class AdjustTAXView extends
 		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.addStyleName("fields-panel");
 		// memoForm.setWidth("50%");
-		memoForm.add(adjustAccountCombo, amount, typeRadio, memo);
+		memoForm.add(adjustAccountCombo);
+		DynamicForm amountForm = new DynamicForm("amountForm");
+		amountForm.add(amount, typeRadio, memo);
 		// memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// memoForm.getCellFormatter().setWidth(0, 0, "190");
 
@@ -214,9 +233,12 @@ public class AdjustTAXView extends
 		// mainPanel.add(vatform);
 		// }
 		mainPanel.add(memoForm);
+		mainPanel.add(currencyWidget);
+		mainPanel.add(amountForm);
 
 		this.add(mainPanel);
 		listforms.add(memoForm);
+		listforms.add(amountForm);
 		listforms.add(topform);
 		// settabIndexes();
 
@@ -393,6 +415,9 @@ public class AdjustTAXView extends
 		amount.setEnabled(!isInViewMode());
 		typeRadio.setEnabled(!isInViewMode());
 		memo.setDisabled(isInViewMode());
+		if (isMultiCurrencyEnabled()) {
+			currencyWidget.setEnabled(!isInViewMode());
+		}
 	}
 
 	@Override
@@ -451,6 +476,14 @@ public class AdjustTAXView extends
 				typeRadio.setDefaultValue(messages.decreaseTAXLine());
 			}
 			memo.setValue(data.getMemo());
+			if (currencyWidget != null) {
+				setCurrency(transaction.getCurrency() != 0 ? getCurrency(transaction
+						.getCurrency()) : getCompany().getPrimaryCurrency());
+				this.currencyFactor = transaction.getCurrencyFactor();
+				currencyWidget.setCurrencyFactor(transaction
+						.getCurrencyFactor());
+				currencyWidget.setEnabled(!isInViewMode());
+			}
 		}
 		initTransactionNumber();
 	}
