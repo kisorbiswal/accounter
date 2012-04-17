@@ -7826,4 +7826,36 @@ table.no_records tr td {
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 }
+
+#JobView .main-panel {
+	margin: 10px 0;
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+}
+
+#JobView .main-panel .leftVLay,#JobView .main-panel .rightVLay {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+
+#JobView .main-panel .rightVLay {
+	-moz-box-flex: 2;
+	-webkit-box-flex: 2;
+}
+
+#JobView .main-panel .leftVLay {
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+}
+
 /*Location merge dialog end*/

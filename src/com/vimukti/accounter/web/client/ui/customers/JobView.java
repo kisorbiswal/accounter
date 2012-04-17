@@ -120,7 +120,7 @@ public class JobView extends BaseView<ClientJob> {
 		rightVLay.add(form);
 
 		StyledPanel topHLay = new StyledPanel("topHLay");
-		topHLay.addStyleName("fields-panel");
+		topHLay.addStyleName("main-panel");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
 
