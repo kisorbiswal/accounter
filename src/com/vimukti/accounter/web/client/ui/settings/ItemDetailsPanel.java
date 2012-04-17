@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientUnit;
@@ -38,9 +39,16 @@ public class ItemDetailsPanel extends FlowPanel {
 
 		availableQty = new LabelItem(messages.availableQty(), "availableQty");
 
-		standardCost = new AmountLabel(messages.standardCost());
+		ClientCurrency baseCurrency = Accounter.getCompany()
+				.getPrimaryCurrency();
 
-		salesPrice = new AmountLabel(messages.salesPrice());
+		standardCost = new AmountLabel(messages.nameWithCurrency(
+				messages.standardCost(), baseCurrency.getFormalName()),
+				baseCurrency);
+
+		salesPrice = new AmountLabel(messages.nameWithCurrency(
+				messages.salesPrice(), baseCurrency.getFormalName()),
+				baseCurrency);
 
 		itemGroup = new LabelItem(messages.itemGroup(), "itemGroup");
 

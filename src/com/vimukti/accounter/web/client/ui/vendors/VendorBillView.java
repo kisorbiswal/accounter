@@ -522,7 +522,9 @@ public class VendorBillView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		// balanceDueNonEditableText = new AmountField(messages
 		// .balanceDue(), this, getBaseCurrency());
-		balanceDueNonEditableText = new AmountLabel(messages.balanceDue());
+		balanceDueNonEditableText = new AmountLabel(messages.nameWithCurrency(
+				messages.balanceDue(), getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 		balanceDueNonEditableText.setEnabled(false);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
@@ -1486,6 +1488,10 @@ public class VendorBillView extends
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
 		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
+		balanceDueNonEditableText.setTitle(messages.nameWithCurrency(
+				messages.balanceDue(), formalName));
+		balanceDueNonEditableText.setCurrency(currencyWidget
+				.getSelectedCurrency());
 	}
 
 	@Override

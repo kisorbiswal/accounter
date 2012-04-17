@@ -309,10 +309,15 @@ public class NewVendorPaymentView extends
 				adjustBalance();
 			}
 		});
-		this.vendorPayment = new AmountLabel(messages.payeePayment(Global.get()
-				.Vendor()));
-		this.tdsAmount = new AmountLabel(messages.tdsAmount());
-		this.totalAmount = new AmountLabel(messages.total());
+		this.vendorPayment = new AmountLabel(messages.nameWithCurrency(messages
+				.payeePayment(Global.get().Vendor()), getBaseCurrency()
+				.getFormalName()), getBaseCurrency());
+		this.tdsAmount = new AmountLabel(messages.nameWithCurrency(
+				messages.tdsAmount(), getBaseCurrency().getFormalName()),
+				getBaseCurrency());
+		this.totalAmount = new AmountLabel(messages.nameWithCurrency(
+				messages.total(), getBaseCurrency().getFormalName()),
+				getBaseCurrency());
 
 		this.tdsPanel = new StyledPanel("tdsPanel");
 
@@ -503,6 +508,17 @@ public class NewVendorPaymentView extends
 		ClientCurrency clientCurrency = getCurrency(vendor.getCurrency());
 		amountText.setCurrency(clientCurrency);
 		vendorBalText.setCurrency(clientCurrency);
+
+		vendorPayment.setTitle(messages.nameWithCurrency(
+				messages.payeePayment(Global.get().Vendor()),
+				clientCurrency.getFormalName()));
+		vendorPayment.setCurrency(clientCurrency);
+		tdsAmount.setTitle(messages.nameWithCurrency(messages.tdsAmount(),
+				clientCurrency.getFormalName()));
+		tdsAmount.setCurrency(clientCurrency);
+		totalAmount.setTitle(messages.nameWithCurrency(messages.total(),
+				clientCurrency.getFormalName()));
+		totalAmount.setCurrency(clientCurrency);
 
 		tdsPanel.setVisible(vendor.isTdsApplicable());
 		this.addressListOfVendor = vendor.getAddress();

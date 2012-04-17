@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -40,7 +41,12 @@ public class CustomerDetailsPanel extends FlowPanel {
 
 		email = new LabelItem(messages.email(), "email");
 
-		balance = new AmountLabel(messages.balance());
+		ClientCurrency customerCurrency = Accounter.getCompany().getCurrency(
+				selectedCustomer.getCurrency());
+
+		balance = new AmountLabel(
+				messages.balanceWithCurrencyName(customerCurrency
+						.getFormalName()), customerCurrency);
 
 		currency = new LabelItem(messages.currency(), "currency");
 
@@ -56,7 +62,9 @@ public class CustomerDetailsPanel extends FlowPanel {
 
 		address = new LabelItem(messages.address(), "address");
 
-		openingBalance = new AmountLabel(messages.balanceAsOf());
+		openingBalance = new AmountLabel(
+				messages.openingBalanceWithCurrencyName(customerCurrency
+						.getFormalName()), customerCurrency);
 
 		leftform = new DynamicForm("leftForm");
 		rightform = new DynamicForm("rightform");
@@ -76,7 +84,7 @@ public class CustomerDetailsPanel extends FlowPanel {
 		custname.setText(messages.noPayeeSelected(Global.get().Customer()));
 
 		headingPanel.add(heading);
-		 headingPanel.add(custname);
+		headingPanel.add(custname);
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
@@ -88,16 +96,20 @@ public class CustomerDetailsPanel extends FlowPanel {
 	protected void showCustomerDetails(ClientCustomer selectedCustomer) {
 		if (selectedCustomer != null) {
 			addressListOfCustomer = selectedCustomer.getAddress();
-			 custname.setText(selectedCustomer.getName());
+			custname.setText(selectedCustomer.getName());
 			name.setValue(selectedCustomer.getName());
 
 			email.setValue(selectedCustomer.getEmail());
 
+			ClientCurrency customerCurrency = Accounter.getCompany()
+					.getCurrency(selectedCustomer.getCurrency());
+
+			balance.setTitle(messages.balanceWithCurrencyName(customerCurrency
+					.getFormalName()));
+			balance.setCurrency(customerCurrency);
 			balance.setAmount(selectedCustomer.getBalance());
 
-			currency.setValue(Accounter.getCompany()
-					.getCurrency(selectedCustomer.getCurrency())
-					.getFormalName());
+			currency.setValue(customerCurrency.getFormalName());
 
 			fax.setValue(selectedCustomer.getFaxNo());
 
@@ -111,6 +123,10 @@ public class CustomerDetailsPanel extends FlowPanel {
 
 			webpageadress.setValue(selectedCustomer.getWebPageAddress());
 
+			openingBalance.setTitle(messages
+					.openingBalanceWithCurrencyName(customerCurrency
+							.getFormalName()));
+			openingBalance.setCurrency(customerCurrency);
 			openingBalance.setAmount(selectedCustomer.getOpeningBalance());
 
 			notes.setValue(selectedCustomer.getMemo());
