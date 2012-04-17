@@ -4024,7 +4024,6 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 #TDSResponsiblePersonDetailsView .horizontalPanel {
 	display: -webkit-box;
-	display: -moz-box;
 	-webkit-box-orient: horizontal;
 	-moz-box-orient: horizontal;
 	display: box;
@@ -4032,13 +4031,17 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 }
 
 #TDSResponsiblePersonDetailsView .horizontalPanel .taxDynamicForm {
-	width: 50%;
 	-moz-box-flex: 1;
+    -moz-box-orient: vertical;
+    display: -moz-box;
+    width: 50%;
 }
 
 #TDSResponsiblePersonDetailsView .horizontalPanel .otherDynamicForm {
-	width: 50%;
-	-moz-box-flex: 1;
+	-moz-box-flex: 2;
+    -moz-box-orient: vertical;
+    display: -moz-box;
+    width: 50%;
 }
 
 #SelectChallanTypeDialog .mainVLay .RadioGroupItem {
@@ -7322,7 +7325,7 @@ textarea[disabled] {
 
 .Transactions_center #TransactionsListView .gridHeader,.Transactions_center #TransactionsListView .gridBody
 	{
-	table-layout: fixed;
+	/*table-layout: fixed;*/
 }
 
 #paytaxview .gridHeader,#paytaxview .gridBody {
@@ -7814,5 +7817,13 @@ table.no_records tr td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+}
+#CashExpenseView .topHLay .leftVLay{
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+}
+#CashExpenseView .topHLay .rightVLay{
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
 }
 /*Location merge dialog end*/

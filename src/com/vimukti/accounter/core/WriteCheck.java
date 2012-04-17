@@ -296,6 +296,11 @@ public class WriteCheck extends Transaction {
 		}
 		setType(Transaction.TYPE_WRITE_CHECK);
 		super.onSave(session);
+		
+		if (isDraftOrTemplate()) {
+			this.estimates.clear();
+			return false;
+		}
 
 		if (getCompany().getPreferences()
 				.isProductandSerivesTrackingByCustomerEnabled()
@@ -584,5 +589,16 @@ public class WriteCheck extends Transaction {
 
 	public void setEstimates(Set<Estimate> estimates) {
 		this.estimates = estimates;
+	}
+	
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		WriteCheck bill = (WriteCheck) super.clone();
+		bill.estimates = new HashSet<Estimate>();
+		bill.status = 0;
+		if (!isToBePrinted()) {
+			bill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		}
+		return bill;
 	}
 }
