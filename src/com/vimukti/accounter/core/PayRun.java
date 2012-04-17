@@ -1,19 +1,31 @@
 package com.vimukti.accounter.core;
 
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.json.JSONException;
 
-public class PayRun extends CreatableObject {
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class PayRun extends CreatableObject implements IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Account payableAccount;
 
-	private List<EmployeePaymentDetails> payEmployee;
+	private Set<EmployeePaymentDetails> payEmployee;
 
 	private FinanceDate payPeriodStartDate;
 
 	private FinanceDate payPeriodEndDate;
+
+	public PayRun() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @return the payableAccount
@@ -33,7 +45,7 @@ public class PayRun extends CreatableObject {
 	/**
 	 * @return the payEmployee
 	 */
-	public List<EmployeePaymentDetails> getPayEmployee() {
+	public Set<EmployeePaymentDetails> getPayEmployee() {
 		return payEmployee;
 	}
 
@@ -41,7 +53,7 @@ public class PayRun extends CreatableObject {
 	 * @param payEmployee
 	 *            the payEmployee to set
 	 */
-	public void setPayEmployee(List<EmployeePaymentDetails> payEmployee) {
+	public void setPayEmployee(Set<EmployeePaymentDetails> payEmployee) {
 		this.payEmployee = payEmployee;
 	}
 
@@ -83,5 +95,18 @@ public class PayRun extends CreatableObject {
 		}
 
 		return super.onSave(session);
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }

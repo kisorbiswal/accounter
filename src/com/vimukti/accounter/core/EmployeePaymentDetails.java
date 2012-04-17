@@ -1,8 +1,19 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Set;
 
-public class EmployeePaymentDetails extends CreatableObject {
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class EmployeePaymentDetails extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Pay Run
@@ -11,12 +22,12 @@ public class EmployeePaymentDetails extends CreatableObject {
 
 	private Employee employee;
 
-	private List<EmployeePayHeadComponent> payHeadComponents;
+	private Set<EmployeePayHeadComponent> payHeadComponents;
 
 	/**
 	 * @return the payHeadComponents
 	 */
-	public List<EmployeePayHeadComponent> getPayHeadComponents() {
+	public Set<EmployeePayHeadComponent> getPayHeadComponents() {
 		return payHeadComponents;
 	}
 
@@ -25,7 +36,7 @@ public class EmployeePaymentDetails extends CreatableObject {
 	 *            the payHeadComponents to set
 	 */
 	public void setPayHeadComponents(
-			List<EmployeePayHeadComponent> payHeadComponents) {
+			Set<EmployeePayHeadComponent> payHeadComponents) {
 		this.payHeadComponents = payHeadComponents;
 	}
 
@@ -88,6 +99,19 @@ public class EmployeePaymentDetails extends CreatableObject {
 
 		}
 		return earnings;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
 }

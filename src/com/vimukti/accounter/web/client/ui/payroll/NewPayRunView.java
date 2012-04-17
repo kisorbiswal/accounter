@@ -128,6 +128,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 			}
 		}
+		data.setPayEmployee(details);
 	}
 
 	protected void selectionChanged(ClientPayStructureDestination selectItem) {
@@ -148,8 +149,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 		};
 
-		Accounter.createPayrollService().getEmployeePayHeadComponents(selectItem,
-				callback);
+		Accounter.createPayrollService().getEmployeePayHeadComponents(
+				selectItem, callback);
 
 	}
 

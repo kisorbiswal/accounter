@@ -1,10 +1,19 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class EmployeePayHeadComponent extends CreatableObject {
+public class EmployeePayHeadComponent extends CreatableObject implements IAccounterServerCore{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private PayHead payHead;
 
@@ -63,6 +72,19 @@ public class EmployeePayHeadComponent extends CreatableObject {
 
 	public void setNoOfLeaves(int noOfLeaves) {
 		this.noOfLeaves = noOfLeaves;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
