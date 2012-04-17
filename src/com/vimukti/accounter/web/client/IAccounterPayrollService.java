@@ -8,10 +8,10 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
+import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
-import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -27,16 +27,21 @@ public interface IAccounterPayrollService extends RemoteService {
 	public PaginationList<ClientPayrollUnit> getPayrollUnitsList(int start,
 			int length) throws AccounterException;
 
-	ArrayList<ClientPayStructureItem> getPayStructureItems(
+	ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			ClientPayStructureDestination selectItem) throws AccounterException;
 
-	PaginationList<ClientPayStructure> getPayStructures(int start, int length) throws AccounterException;
+	PaginationList<ClientPayStructure> getPayStructures(int start, int length)
+			throws AccounterException;
 
-	ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes() throws AccounterException;
+	ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes()
+			throws AccounterException;
 
-	ArrayList<ClientEmployeeGroup> getEmployeeGroups() throws AccounterException;
+	ArrayList<ClientEmployeeGroup> getEmployeeGroups()
+			throws AccounterException;
 
-	List<ClientPayStructureDestination> getEmployeesAndGroups() throws AccounterException;
+	List<ClientPayStructureDestination> getEmployeesAndGroups()
+			throws AccounterException;
 
-	List<ClientEmployeeCategory> getEmployeeCategories() throws AccounterException;
+	List<ClientEmployeeCategory> getEmployeeCategories()
+			throws AccounterException;
 }

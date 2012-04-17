@@ -1,27 +1,23 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
+import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
-import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
-public class PayStructureTable extends EditTable<ClientPayStructureItem> {
+public class EmployeePayHeadComponentTable extends
+		EditTable<ClientEmployeePayHeadComponent> {
 
-	public PayStructureTable() {
+	public EmployeePayHeadComponentTable() {
 		super();
-		addEmptyRecords();
 	}
 
 	/**
@@ -35,22 +31,23 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 	@Override
 	public void addEmptyRowAtLast() {
-		ClientPayStructureItem item = new ClientPayStructureItem();
+		ClientEmployeePayHeadComponent item = new ClientEmployeePayHeadComponent();
 		add(item);
 	}
 
 	@Override
 	protected void initColumns() {
-		this.addColumn(new DateColumn<ClientPayStructureItem>() {
+		this.addColumn(new DateColumn<ClientEmployeePayHeadComponent>() {
 
 			@Override
-			protected ClientFinanceDate getValue(ClientPayStructureItem row) {
+			protected ClientFinanceDate getValue(
+					ClientEmployeePayHeadComponent row) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
-			protected void setValue(ClientPayStructureItem row,
+			protected void setValue(ClientEmployeePayHeadComponent row,
 					ClientFinanceDate value) {
 				// TODO Auto-generated method stub
 
@@ -61,26 +58,51 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 				return messages.effectiveFrom();
 			}
 
-		});
-
-		this.addColumn(new PayHeadColumn() {
 			@Override
-			protected void setValue(ClientPayStructureItem row,
-					ClientPayHead newValue) {
-				row.setPayHead(newValue);
-				update(row);
+			protected boolean isEnable() {
+				return false;
 			}
 		});
 
-		this.addColumn(new AmountColumn<ClientPayStructureItem>(null, false) {
+		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
 
 			@Override
-			protected Double getAmount(ClientPayStructureItem row) {
+			protected String getValue(ClientEmployeePayHeadComponent row) {
+				ClientPayHead payHead = row.getPayHead();
+				if (payHead != null) {
+					return payHead.getName();
+				}
+				return "";
+			}
+
+			@Override
+			protected void setValue(ClientEmployeePayHeadComponent row,
+					String value) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.payhead();
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		});
+
+		this.addColumn(new AmountColumn<ClientEmployeePayHeadComponent>(null,
+				false) {
+
+			@Override
+			protected Double getAmount(ClientEmployeePayHeadComponent row) {
 				return row.getRate();
 			}
 
 			@Override
-			protected void setAmount(ClientPayStructureItem row, Double value) {
+			protected void setAmount(ClientEmployeePayHeadComponent row,
+					Double value) {
 				row.setRate(value);
 			}
 
@@ -90,10 +112,34 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 		});
 
-		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
+		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
 
 			@Override
-			protected String getValue(ClientPayStructureItem row) {
+			protected String getValue(ClientEmployeePayHeadComponent row) {
+				return UIUtils.toStr(row.getNoOfLeaves());
+			}
+
+			@Override
+			protected void setValue(ClientEmployeePayHeadComponent row,
+					String value) {
+				row.setRate(UIUtils.toInt(value));
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.noOfLeaves();
+			}
+
+			@Override
+			public int getWidth() {
+				return 50;
+			}
+		});
+
+		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
+
+			@Override
+			protected String getValue(ClientEmployeePayHeadComponent row) {
 				ClientPayHead payHead = row.getPayHead();
 				if (payHead == null) {
 					return "";
@@ -116,7 +162,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 
 			@Override
-			protected void setValue(ClientPayStructureItem row, String value) {
+			protected void setValue(ClientEmployeePayHeadComponent row,
+					String value) {
 				// TODO Auto-generated method stub
 			}
 
@@ -136,10 +183,10 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 		});
 
-		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
+		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
 
 			@Override
-			protected String getValue(ClientPayStructureItem row) {
+			protected String getValue(ClientEmployeePayHeadComponent row) {
 				ClientPayHead payHead = row.getPayHead();
 				if (payHead != null) {
 					return ClientPayHead.getPayHeadType(payHead.getType());
@@ -148,7 +195,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 
 			@Override
-			protected void setValue(ClientPayStructureItem row, String value) {
+			protected void setValue(ClientEmployeePayHeadComponent row,
+					String value) {
 				// TODO Auto-generated method stub
 			}
 
@@ -168,10 +216,10 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 		});
 
-		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
+		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
 
 			@Override
-			protected String getValue(ClientPayStructureItem row) {
+			protected String getValue(ClientEmployeePayHeadComponent row) {
 				ClientPayHead payHead = row.getPayHead();
 				if (payHead != null) {
 					return ClientPayHead.getCalculationType(payHead
@@ -181,7 +229,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 
 			@Override
-			protected void setValue(ClientPayStructureItem row, String value) {
+			protected void setValue(ClientEmployeePayHeadComponent row,
+					String value) {
 				// TODO Auto-generated method stub
 			}
 
@@ -197,14 +246,14 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			public int getWidth() {
-				return 150;
+				return 130;
 			}
 		});
 
-		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
+		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
 
 			@Override
-			protected String getValue(ClientPayStructureItem row) {
+			protected String getValue(ClientEmployeePayHeadComponent row) {
 				ClientPayHead payHead = row.getPayHead();
 				if (payHead != null
 						&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
@@ -222,7 +271,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 
 			@Override
-			protected void setValue(ClientPayStructureItem row, String value) {
+			protected void setValue(ClientEmployeePayHeadComponent row,
+					String value) {
 				// TODO Auto-generated method stub
 			}
 
@@ -238,11 +288,10 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			public int getWidth() {
-				return 130;
+				return 100;
 			}
 		});
 
-		this.addColumn(new DeleteColumn<ClientPayStructureItem>());
 	}
 
 	@Override
@@ -252,24 +301,13 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		for (ClientPayStructureItem row : getRows()) {
+		for (ClientEmployeePayHeadComponent row : getAllRows()) {
 			if (row.getRate() == 0) {
 				result.addError(row, "Rate should not be zero");
 				return result;
 			}
 		}
 		return result;
-	}
-
-	public List<ClientPayStructureItem> getRows() {
-		List<ClientPayStructureItem> rows = new ArrayList<ClientPayStructureItem>();
-
-		for (ClientPayStructureItem row : getAllRows()) {
-			if (!row.isEmpty()) {
-				rows.add(row);
-			}
-		}
-		return rows;
 	}
 
 }

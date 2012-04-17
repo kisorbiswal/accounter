@@ -7,7 +7,7 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private long payHead;
+	private ClientPayHead payHead;
 
 	private double rate;
 
@@ -55,11 +55,11 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 		return 0;
 	}
 
-	public long getPayHead() {
+	public ClientPayHead getPayHead() {
 		return payHead;
 	}
 
-	public void setPayHead(long payHead) {
+	public void setPayHead(ClientPayHead payHead) {
 		this.payHead = payHead;
 	}
 

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,7 +51,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		empsAndGroups.setEnabled(!isInViewMode());
 		empsAndGroups.setRequired(true);
 
-		grid = new PayStructureTable(false);
+		grid = new PayStructureTable();
 		grid.setEnabled(!isInViewMode());
 
 		itemTableButton = new AddNewButton();

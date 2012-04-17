@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
+import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
@@ -116,7 +117,7 @@ public class PayrollManager extends Manager {
 		return clientPayrollUnits;
 	}
 
-	public ArrayList<ClientPayStructureItem> getPayStructureItems(
+	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			ClientPayStructureDestination selectItem, Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -128,14 +129,33 @@ public class PayrollManager extends Manager {
 		if (list == null) {
 			return null;
 		}
-		ArrayList<ClientPayStructureItem> clientPayStructures = new ArrayList<ClientPayStructureItem>();
+		ArrayList<ClientEmployeePayHeadComponent> clientEmployeePayHeadComponents = new ArrayList<ClientEmployeePayHeadComponent>();
 		for (PayStructureItem payStructureItem : list) {
-			ClientPayStructureItem clientPayStructureItem;
-			clientPayStructureItem = new ClientConvertUtil().toClientObject(
-					payStructureItem, ClientPayStructureItem.class);
-			clientPayStructures.add(clientPayStructureItem);
+			int type = payStructureItem.getPayHead().getCalculationType();
+			PayHead payHead = payStructureItem.getPayHead();
+			ClientPayHead clientPayHead = null;
+			if (type == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
+						ClientAttendancePayHead.class);
+			} else if (type == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
+						ClientComputionPayHead.class);
+			} else if (type == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
+				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
+						ClientFlatRatePayHead.class);
+			} else if (type == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
+				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
+						ClientProductionPayHead.class);
+			} else if (type == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
+				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
+						ClientUserDefinedPayHead.class);
+			}
+			ClientEmployeePayHeadComponent component = new ClientEmployeePayHeadComponent();
+			component.setPayHead(clientPayHead);
+			component.setRate(payStructureItem.getRate());
+			clientEmployeePayHeadComponents.add(component);
 		}
-		return clientPayStructures;
+		return clientEmployeePayHeadComponents;
 	}
 
 	public PaginationList<ClientPayStructure> getPayrollStructuresList(

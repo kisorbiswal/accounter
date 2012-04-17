@@ -8,10 +8,10 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
+import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
-import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -49,9 +49,9 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	}
 
 	@Override
-	public ArrayList<ClientPayStructureItem> getPayStructureItems(
+	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			ClientPayStructureDestination selectItem) throws AccounterException {
-		return getFinanceTool().getPayrollManager().getPayStructureItems(
+		return getFinanceTool().getPayrollManager().getEmployeePayHeadComponents(
 				selectItem, getCompanyId());
 	}
 

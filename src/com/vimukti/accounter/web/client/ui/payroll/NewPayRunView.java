@@ -5,10 +5,13 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
+import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
+import com.vimukti.accounter.web.client.core.ClientEmployeePaymentDetails;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
-import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -17,14 +20,13 @@ import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
-import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class NewPayRunView extends BaseView<ClientPayRun> {
 
 	private DateField fromDate, toDate;
 	private EmployeesAndGroupsCombo empsAndGroups;
-	private PayStructureTable grid;
+	private EmployeePayHeadComponentTable grid;
 
 	public NewPayRunView() {
 		this.getElement().setId("NewPayRunView");
@@ -62,7 +64,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		toDate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnabled(!isInViewMode());
 
-		grid = new PayStructureTable(true);
+		grid = new EmployeePayHeadComponentTable();
 		grid.setEnabled(!isInViewMode());
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
@@ -99,10 +101,37 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		if (data == null) {
 			data = new ClientPayRun();
 		}
+
+		data.setPayPeriodStartDate(fromDate.getDate().getDate());
+		data.setPayPeriodEndDate(toDate.getDate().getDate());
+
+		List<ClientEmployeePaymentDetails> details = new ArrayList<ClientEmployeePaymentDetails>();
+
+		List<ClientEmployeePayHeadComponent> allRows = grid.getAllRows();
+
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+		if (selectedValue instanceof ClientEmployee) {
+			ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
+			employeePaymentDetails.setEmployee(selectedValue.getID());
+			employeePaymentDetails.setPayHeadComponents(allRows);
+
+			details.add(employeePaymentDetails);
+		} else {
+			ClientEmployeeGroup group = (ClientEmployeeGroup) selectedValue;
+			for (ClientEmployee employee : group.getEmployees()) {
+				ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
+				employeePaymentDetails.setEmployee(employee.getID());
+				employeePaymentDetails.setPayHeadComponents(allRows);
+
+				details.add(employeePaymentDetails);
+
+			}
+		}
 	}
 
 	protected void selectionChanged(ClientPayStructureDestination selectItem) {
-		AsyncCallback<ArrayList<ClientPayStructureItem>> callback = new AsyncCallback<ArrayList<ClientPayStructureItem>>() {
+		AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback = new AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -110,7 +139,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 			}
 
 			@Override
-			public void onSuccess(ArrayList<ClientPayStructureItem> result) {
+			public void onSuccess(
+					ArrayList<ClientEmployeePayHeadComponent> result) {
 				if (result == null)
 					onFailure(new Exception());
 				grid.setAllRows(result);
@@ -118,7 +148,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 		};
 
-		Accounter.createPayrollService().getPayStructureItems(selectItem,
+		Accounter.createPayrollService().getEmployeePayHeadComponents(selectItem,
 				callback);
 
 	}

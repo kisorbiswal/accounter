@@ -6486,4 +6486,6 @@ public interface AccounterMessages extends Messages {
 
 	public String computationFormula();
 
+	public String noOfLeaves();
+
 }
