@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -206,30 +205,30 @@ public class AccountTransaction extends CreatableObject implements
 		return super.onDelete(session);
 	}
 
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		long tID = getTransaction().getID();
-		hash = 37 * hash + (int) (tID ^ (tID >>> 32));
-		long aID = getAccount().getID();
-		long bits = Double.doubleToLongBits(getAmount());
-		hash = (int) (aID ^ (aID >>> 32)) + (int) (bits ^ (bits >>> 32));
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof AccountTransaction)) {
-			return false;
-		}
-		AccountTransaction other = (AccountTransaction) obj;
-		if (this.getTransaction().getID() == other.getTransaction().getID()
-				&& this.getAccount().getID() == other.getAccount().getID()
-				&& DecimalUtil.isEquals(this.getAmount(), other.getAmount())) {
-			return true;
-		}
-		return false;
-	}
+	// @Override
+	// public int hashCode() {
+	// int hash = 7;
+	// long tID = getTransaction().getID();
+	// hash = 37 * hash + (int) (tID ^ (tID >>> 32));
+	// long aID = getAccount().getID();
+	// long bits = Double.doubleToLongBits(getAmount());
+	// hash = (int) (aID ^ (aID >>> 32)) + (int) (bits ^ (bits >>> 32));
+	// return hash;
+	// }
+	//
+	// @Override
+	// public boolean equals(Object obj) {
+	// if (!(obj instanceof AccountTransaction)) {
+	// return false;
+	// }
+	// AccountTransaction other = (AccountTransaction) obj;
+	// if (this.getTransaction().getID() == other.getTransaction().getID()
+	// && this.getAccount().getID() == other.getAccount().getID()
+	// && DecimalUtil.isEquals(this.getAmount(), other.getAmount())) {
+	// return true;
+	// }
+	// return false;
+	// }
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {

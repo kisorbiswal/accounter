@@ -1,13 +1,11 @@
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
@@ -105,39 +103,19 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	}
 
 	private void addAT(AccountTransaction at) {
-		int index = newATs.indexOf(at);
-		if (index >= 0) {
-			newATs.get(index).add(at);
-		} else {
-			newATs.add(at);
-		}
+		newATs.add(at);
 	}
 
 	private void addPU(PayeeUpdate payeeUpdate) {
-		int index = newPUs.indexOf(payeeUpdate);
-		if (index >= 0) {
-			newPUs.get(index).add(payeeUpdate);
-		} else {
-			newPUs.add(payeeUpdate);
-		}
+		newPUs.add(payeeUpdate);
 	}
 
 	private void addIU(ItemUpdate itemUpdate) {
-		int index = newIUs.indexOf(itemUpdate);
-		if (index >= 0) {
-			newIUs.get(index).add(itemUpdate);
-		} else {
-			newIUs.add(itemUpdate);
-		}
+		newIUs.add(itemUpdate);
 	}
 
 	private void addTRC(TAXRateCalculation trc) {
-		int index = newTRCs.indexOf(trc);
-		if (index >= 0) {
-			newTRCs.get(index).add(trc);
-		} else {
-			newTRCs.add(trc);
-		}
+		newTRCs.add(trc);
 	}
 
 	public void saveOrUpdate() throws AccounterException {
@@ -162,49 +140,129 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				oldAT.add(at);
 			}
 		}
-		Collection<?> intersection = CollectionUtils
-				.intersection(newATs, oldAT);
-		newATs.removeAll(intersection);
-		oldAT.removeAll(intersection);
+
+		findOutIntersectionAT(oldAT, newATs);
+
 		transaction.getAccountTransactionEntriesList().removeAll(oldAT);
 		transaction.getAccountTransactionEntriesList().addAll(newATs);
 
 	}
 
+	private void findOutIntersectionAT(Set<AccountTransaction> oldATs,
+			List<AccountTransaction> newATs) {
+		Iterator<AccountTransaction> oldAtsIterator = oldATs.iterator();
+		while (oldAtsIterator.hasNext()) {
+			AccountTransaction oldAT = oldAtsIterator.next();
+			Iterator<AccountTransaction> newATsIterator = newATs.iterator();
+			while (newATsIterator.hasNext()) {
+				AccountTransaction newAT = newATsIterator.next();
+				if (oldAT.getTransaction() == newAT.getTransaction()
+						&& oldAT.getAccount() == newAT.getAccount()
+
+						&& DecimalUtil.isEquals(oldAT.getAmount(),
+								newAT.getAmount())) {
+					newATsIterator.remove();
+					oldAtsIterator.remove();
+					break;
+				}
+			}
+		}
+	}
+
 	private void mergePayeeUpdates(Session session) {
 		Set<PayeeUpdate> oldPUs = new HashSet<PayeeUpdate>(
 				transaction.getPayeeUpdates());
-		Collection<?> intersection = CollectionUtils.intersection(newPUs,
-				oldPUs);
-		newPUs.removeAll(intersection);
-		oldPUs.removeAll(intersection);
-
+		findOutIntersectionPU(oldPUs, newPUs);
 		transaction.getPayeeUpdates().removeAll(oldPUs);
 		transaction.getPayeeUpdates().addAll(newPUs);
+	}
+
+	private void findOutIntersectionPU(Set<PayeeUpdate> oldPUs,
+			List<PayeeUpdate> newPUs) {
+		Iterator<PayeeUpdate> oldPUsIterator = oldPUs.iterator();
+		while (oldPUsIterator.hasNext()) {
+			PayeeUpdate oldPU = oldPUsIterator.next();
+			Iterator<PayeeUpdate> newPUIterator = newPUs.iterator();
+			while (newPUIterator.hasNext()) {
+				PayeeUpdate newPU = newPUIterator.next();
+				if (oldPU.getTransaction() == newPU.getTransaction()
+						&& oldPU.getPayee() == newPU.getPayee()
+						&& DecimalUtil.isEquals(oldPU.getAmount(),
+								newPU.getAmount())) {
+					newPUIterator.remove();
+					oldPUsIterator.remove();
+					break;
+				}
+			}
+		}
 	}
 
 	private void mergeItemUpdates(Session session) {
 		Set<ItemUpdate> oldIUs = new HashSet<ItemUpdate>(
 				transaction.getItemUpdates());
-		Collection<?> intersection = CollectionUtils.intersection(newIUs,
-				oldIUs);
-		newIUs.removeAll(intersection);
-		oldIUs.removeAll(intersection);
-
+		findOutIntersectionIU(oldIUs, newIUs);
 		transaction.getItemUpdates().removeAll(oldIUs);
 		transaction.getItemUpdates().addAll(newIUs);
+	}
+
+	private void findOutIntersectionIU(Set<ItemUpdate> oldIUs,
+			List<ItemUpdate> newIUs) {
+		Iterator<ItemUpdate> oldPUsIterator = oldIUs.iterator();
+		while (oldPUsIterator.hasNext()) {
+			ItemUpdate oldIU = oldPUsIterator.next();
+			Iterator<ItemUpdate> newPUIterator = newIUs.iterator();
+			while (newPUIterator.hasNext()) {
+				ItemUpdate newIU = newPUIterator.next();
+				if (oldIU.getTransaction() == newIU.getTransaction()
+						&& oldIU.getItem() == newIU.getItem()
+						&& oldIU.getWarehouse() == newIU.getWarehouse()
+						&& oldIU.getQuantity().equals(newIU.getQuantity())
+						&& DecimalUtil.isEquals(oldIU.getUnitPrice(),
+								newIU.getUnitPrice())) {
+					newPUIterator.remove();
+					oldPUsIterator.remove();
+					break;
+				}
+			}
+		}
 	}
 
 	private void mergeTAXRateCalculation(Session session) {
 		Set<TAXRateCalculation> oldTRCs = new HashSet<TAXRateCalculation>(
 				transaction.getTaxRateCalculationEntriesList());
-		Collection<?> intersection = CollectionUtils.intersection(newTRCs,
-				oldTRCs);
-		newTRCs.removeAll(intersection);
-		oldTRCs.removeAll(intersection);
-
+		findOutIntersectionTRC(oldTRCs, newTRCs);
 		transaction.getTaxRateCalculationEntriesList().removeAll(oldTRCs);
 		transaction.getTaxRateCalculationEntriesList().addAll(newTRCs);
+	}
+
+	private void findOutIntersectionTRC(Set<TAXRateCalculation> oldTRCs,
+			List<TAXRateCalculation> newTRCs) {
+		Iterator<TAXRateCalculation> oldPUsIterator = oldTRCs.iterator();
+		while (oldPUsIterator.hasNext()) {
+			TAXRateCalculation oldTRC = oldPUsIterator.next();
+			Iterator<TAXRateCalculation> newPUIterator = newTRCs.iterator();
+			while (newPUIterator.hasNext()) {
+				TAXRateCalculation newTRC = newPUIterator.next();
+				if (oldTRC.getTransaction() == newTRC.getTransaction()
+						&& oldTRC.getTaxItem() == newTRC.getTaxItem()
+						&& oldTRC.getTaxAgency() == newTRC.getTaxAgency()
+						&& oldTRC.getSalesLiabilityAccount() == newTRC
+								.getSalesLiabilityAccount()
+						&& oldTRC.getPurchaseLiabilityAccount() == newTRC
+								.getPurchaseLiabilityAccount()
+						&& DecimalUtil.isEquals(oldTRC.getRate(),
+								newTRC.getRate())
+						&& DecimalUtil.isEquals(oldTRC.getLineTotal(),
+								newTRC.getLineTotal())
+						&& DecimalUtil.isEquals(oldTRC.getTAXAmount(),
+								newTRC.getTAXAmount())
+						&& oldTRC.isVATGroupEntry() == newTRC.isVATGroupEntry()) {
+					newPUIterator.remove();
+					oldPUsIterator.remove();
+					break;
+				}
+			}
+		}
 	}
 
 	public void doVoid() {
@@ -234,14 +292,6 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	 */
 	public List<AccountTransaction> getNewATs() {
 		return newATs;
-	}
-
-	/**
-	 * @param newATs
-	 *            the newATs to set
-	 */
-	public void setNewATs(List<AccountTransaction> newATs) {
-		this.newATs = newATs;
 	}
 
 	public void checkTrailBalance() throws AccounterException {

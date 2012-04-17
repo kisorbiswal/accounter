@@ -1,13 +1,10 @@
 package com.vimukti.accounter.core.migration;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 
@@ -18,10 +15,11 @@ import com.vimukti.accounter.core.InventoryPurchase;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionEffectsImpl;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class Migrator7 extends AbstractMigrator {
-	Logger log = Logger.getLogger(Migrator6.class);
+	Logger log = Logger.getLogger(Migrator7.class);
 
 	@Override
 	public int getVersion() {
@@ -30,12 +28,30 @@ public class Migrator7 extends AbstractMigrator {
 
 	@Override
 	public void migrate(Company company) {
-		log.info("Started Migrator7");
-		Query query = getSession().getNamedQuery("getAllTransactionOfCompany")
+		log.info("Started Migrator7.");
+
+		Query query = getSession().getNamedQuery(
+				"getAccountTransactionsOfVoidTransaction").setEntity("company",
+				company);
+
+		List<AccountTransaction> aTs = query.list();
+		Iterator<AccountTransaction> iterator = aTs.iterator();
+		while (iterator.hasNext()) {
+			AccountTransaction next = iterator.next();
+			getSession().delete(next);
+			next.getTransaction().getAccountTransactionEntriesList()
+					.remove(next);
+		}
+
+		query = getSession().getNamedQuery("getAllTransactionOfCompany")
 				.setEntity("company", company);
 		List<Transaction> list = query.list();
 		for (Transaction transaction : list) {
-			migrate(transaction);
+			try {
+				migrate(transaction);
+			} catch (Exception e) {
+				throw new RuntimeException();
+			}
 		}
 		log.info("Finished Migrator7");
 	}
@@ -44,10 +60,12 @@ public class Migrator7 extends AbstractMigrator {
 	 * Migrates the Transaction
 	 * 
 	 * @param transaction
+	 * @throws AccounterException
 	 */
-	private void migrate(Transaction transaction) {
-		log.info("***Migrating Transaction ID: " + transaction.getID() + " "
-				+ transaction);
+	private void migrate(Transaction transaction) throws AccounterException {
+		int a = 0;
+		log.info("***Migrating Transaction ID: " + transaction.getID()
+				+ " Number: " + transaction.getNumber() + " " + transaction);
 		Set<AccountTransaction> oldATs = new HashSet<AccountTransaction>(
 				transaction.getAccountTransactionEntriesList());
 
@@ -59,25 +77,43 @@ public class Migrator7 extends AbstractMigrator {
 			}
 		}
 
-		// Compressing the Old AccountTransactions
-		oldATs = compress(oldATs);
-
 		TransactionEffectsImpl tEffects = new TransactionEffectsImpl(
 				transaction);
 		transaction.getEffects(tEffects);
 		List<AccountTransaction> newATs = tEffects.getNewATs();
+		tEffects.checkTrailBalance();
 
 		// Finding Intersection
-		Collection<?> intersection = CollectionUtils.intersection(oldATs,
-				newATs);
+		findOutIntersectionAT(oldATs, newATs);
 
-		oldATs.removeAll(intersection);
-		newATs.removeAll(intersection);
 		if (!oldATs.isEmpty() || !newATs.isEmpty()) {
 			log.warn("Removing ATs : " + oldATs);
-			// transaction.getAccountTransactionEntriesList().removeAll(oldATs);
+			transaction.getAccountTransactionEntriesList().removeAll(oldATs);
+
 			log.warn("Creating ATs : " + newATs);
-			// transaction.getAccountTransactionEntriesList().addAll(newATs);
+			transaction.getAccountTransactionEntriesList().addAll(newATs);
+		}
+		getSession().save(transaction);
+	}
+
+	private void findOutIntersectionAT(Set<AccountTransaction> oldATs,
+			List<AccountTransaction> newATs) {
+		Iterator<AccountTransaction> oldAtsIterator = oldATs.iterator();
+		while (oldAtsIterator.hasNext()) {
+			AccountTransaction oldAT = oldAtsIterator.next();
+			Iterator<AccountTransaction> newATsIterator = newATs.iterator();
+			while (newATsIterator.hasNext()) {
+				AccountTransaction newAT = newATsIterator.next();
+				if (oldAT.getTransaction() == newAT.getTransaction()
+						&& oldAT.getAccount() == newAT.getAccount()
+
+						&& DecimalUtil.isEquals(oldAT.getAmount(),
+								newAT.getAmount())) {
+					newATsIterator.remove();
+					oldAtsIterator.remove();
+					break;
+				}
+			}
 		}
 	}
 
@@ -101,8 +137,9 @@ public class Migrator7 extends AbstractMigrator {
 			purchaseValue = (effectingAccount.isIncrease() ? 1 : -1)
 					* purchaseValue;
 			checkAndRemoveAT(oldATs, purchase.getEffectingAccount(),
-					purchaseValue);
+					-purchaseValue);
 		}
+		assetChange = (assetAccount.isIncrease() ? 1 : -1) * assetChange;
 		checkAndRemoveAT(oldATs, assetAccount, assetChange);
 		return assetChange;
 	}
@@ -124,33 +161,13 @@ public class Migrator7 extends AbstractMigrator {
 			if (next.getAccount().getID() == account.getID()
 					&& DecimalUtil.isEquals(next.getAmount(), amount)) {
 				log.info("Found the AT match for Purchase : " + next);
-				// next.setUpdateAccount(false);
-				// getSession().saveOrUpdate(next);
-				// iterator.remove();
+				next.setUpdateAccount(false);
+				getSession().saveOrUpdate(next);
+				iterator.remove();
 				return next;
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * It will make the similar AccountTransactions that has same Transaction
-	 * and Account into one
-	 * 
-	 * @param oldATs
-	 * @return
-	 */
-	private Set<AccountTransaction> compress(Set<AccountTransaction> oldATs) {
-		List<AccountTransaction> compressed = new ArrayList<AccountTransaction>();
-		for (AccountTransaction at : oldATs) {
-			int index = compressed.indexOf(at);
-			if (index >= 0) {
-				compressed.get(index).add(at);
-			} else {
-				compressed.add(at);
-			}
-		}
-		return new HashSet<AccountTransaction>(compressed);
 	}
 
 }
