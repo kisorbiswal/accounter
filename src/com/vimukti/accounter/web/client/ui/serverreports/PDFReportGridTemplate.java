@@ -1,14 +1,13 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
-import com.vimukti.accounter.core.reports.generators.CustomerStatementRG;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.reports.StatementReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
 
 public class PDFReportGridTemplate<R> extends ReportGridTemplate {
-private String additionalDetails;
+	private String additionalDetails;
+
 	public PDFReportGridTemplate(String[] columns, boolean ishowGridFooter) {
 		super(columns, ishowGridFooter);
 	}
@@ -61,7 +60,7 @@ private String additionalDetails;
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}
-		return this.additionalDetails +this.body.toString();
+		return this.additionalDetails + this.body.toString();
 	}
 
 	@Override
@@ -246,14 +245,14 @@ private String additionalDetails;
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}
-		if(reportView instanceof StatementServerReport )
-		{
-		return this.additionalDetails+this.body.toString();
-		}else{
+		if (reportView instanceof StatementServerReport) {
+			return this.additionalDetails + this.body.toString();
+		} else {
 			return this.body.toString();
 		}
 
 	}
+
 	@Override
 	public void addAdditionalDetails(String[] details) {
 		StringBuffer dataBuffer = new StringBuffer();
@@ -271,7 +270,7 @@ private String additionalDetails;
 		if (details[5].trim().length() > 1)
 			dataBuffer.append("<tr><td>" + details[5] + "</td></tr>");
 		dataBuffer.append("</table></td><td  style=\"width:100%;\">");
-		dataBuffer.append("<table >");
+		dataBuffer.append("<table style=\"width: 260px;\">");
 		if (details[6].trim().length() > 1)
 			dataBuffer.append("<tr><td>" + details[6] + "</td></tr>");
 		if (details[7].trim().length() > 1)
