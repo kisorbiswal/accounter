@@ -331,6 +331,15 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		saveOrUpdate(getData());
 	}
 
+	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		AccounterException accounterException = exception;
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
+		Accounter.showError(errorString);
+	}
+
 	private void updateData() {
 		data.setName(nameItem.getValue());
 

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.payroll.NewClientAttendanceOrProductionDialog;
 
 public class NewAttendanceProductionTypeAction extends
@@ -9,17 +10,28 @@ public class NewAttendanceProductionTypeAction extends
 
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
-		return null;
+		return messages.attendanceOrProductionType();
 	}
 
 	@Override
 	public void run() {
-		NewClientAttendanceOrProductionDialog comboDialog = new NewClientAttendanceOrProductionDialog(
-				messages.attendanceOrProductionType(), data);
-		comboDialog.setCallback(getCallback());
-		comboDialog.show();
-		comboDialog.center();
+		runAsync(data, isDependent);
+	}
+
+	private void runAsync(final ClientAttendanceOrProductionType data,
+			boolean isDependent) {
+		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+
+			@Override
+			public void onCreated() {
+				NewClientAttendanceOrProductionDialog comboDialog = new NewClientAttendanceOrProductionDialog(
+						messages.attendanceOrProductionType(), data);
+				comboDialog.setCallback(getCallback());
+				comboDialog.show();
+				comboDialog.center();
+			}
+		});
+
 	}
 
 	@Override
@@ -36,8 +48,7 @@ public class NewAttendanceProductionTypeAction extends
 
 	@Override
 	public String getHistoryToken() {
-		// TODO Auto-generated method stub
-		return null;
+		return HistoryTokens.ATTENDANCE_PRODUCTION_TYPE;
 	}
 
 	@Override

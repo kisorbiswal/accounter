@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientComputionPayHead extends ClientPayHead {
 
 	/**
@@ -63,5 +66,26 @@ public class ClientComputionPayHead extends ClientPayHead {
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.COMPUTATION_PAY_HEAD;
+	}
+
+	public static String getComputationType(int computationType) {
+		AccounterMessages messages = Accounter.getMessages();
+		switch (computationType) {
+		case COMPUTATE_ON_SUBTOTAL:
+			return messages.onSubTotal();
+
+		case COMPUTATE_ON_DEDUCTION_TOTAL:
+			return messages.onDeductionTotal();
+
+		case COMPUTATE_ON_EARNING_TOTAL:
+			return messages.onEarningTotal();
+
+		case COMPUTATE_ON_SPECIFIED_FORMULA:
+			return messages.onSpecifiedFormula();
+
+		default:
+			break;
+		}
+		return null;
 	}
 }

@@ -269,4 +269,21 @@ public class ClientPayHead implements IAccounterCore {
 			return null;
 		}
 	}
+
+	public static String getCalculationPeriod(int type) {
+		AccounterMessages messages = Accounter.getMessages();
+		switch (type) {
+		case CALCULATION_PERIOD_DAYS:
+			return messages.days();
+
+		case CALCULATION_PERIOD_WEEKS:
+			return messages.weeks();
+
+		case CALCULATION_PERIOD_MONTHS:
+			return messages.months();
+
+		default:
+			return null;
+		}
+	}
 }

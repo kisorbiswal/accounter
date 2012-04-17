@@ -3,10 +3,14 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -130,10 +134,24 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
 				ClientPayHead payHead = row.getPayHead();
-				// if (payHead != null) {
-				// return "" + payHead.getCalculationPeriod();
-				// }
-				return "";
+				if (payHead == null) {
+					return "";
+				}
+				int type = 0;
+				if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+					ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
+					type = payhead.getCalculationPeriod();
+				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+					ClientComputionPayHead payhead = ((ClientComputionPayHead) payHead);
+					type = payhead.getCalculationPeriod();
+				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
+					ClientFlatRatePayHead payhead = ((ClientFlatRatePayHead) payHead);
+					type = payhead.getCalculationPeriod();
+				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+					ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
+					type = payhead.getCalculationPeriod();
+				}
+				return ClientPayHead.getCalculationPeriod(type);
 			}
 
 			@Override
@@ -149,6 +167,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected boolean isEnable() {
 				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 120;
 			}
 		});
 
@@ -176,6 +199,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected boolean isEnable() {
 				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 180;
 			}
 		});
 
@@ -205,6 +233,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public int getWidth() {
+				return 150;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
@@ -212,6 +245,18 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
 				ClientPayHead payHead = row.getPayHead();
+				if (payHead != null
+						&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+					ClientComputionPayHead payhead = (ClientComputionPayHead) payHead;
+					if (payhead.getComputationType() != ClientComputionPayHead.COMPUTATE_ON_SPECIFIED_FORMULA) {
+						return ClientComputionPayHead
+								.getComputationType(payhead
+										.getComputationType());
+					} else {
+						return UIUtils.prepareFormula(payhead
+								.getFormulaFunctions());
+					}
+				}
 				return "";
 			}
 
@@ -229,6 +274,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public int getWidth() {
+				return 130;
+			}
 		});
 
 		if (!isPayRun) {
@@ -238,7 +288,6 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 	@Override
 	protected boolean isInViewMode() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

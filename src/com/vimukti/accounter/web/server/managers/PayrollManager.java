@@ -7,25 +7,35 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AttendanceOrProductionType;
+import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeCategory;
 import com.vimukti.accounter.core.EmployeeGroup;
+import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayStructureItem;
 import com.vimukti.accounter.core.PayrollUnit;
+import com.vimukti.accounter.core.ProductionPayHead;
+import com.vimukti.accounter.core.UserDefinedPayHead;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
+import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
+import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -61,10 +71,26 @@ public class PayrollManager extends Manager {
 		PaginationList<ClientPayHead> clientPayHeads = new PaginationList<ClientPayHead>();
 		if (employees != null) {
 			for (PayHead payHead : employees) {
-				ClientPayHead clientPayHead;
-				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
-						ClientPayHead.class);
-				clientPayHeads.add(clientPayHead);
+				ClientPayHead clientPayHead = null;
+				if (payHead instanceof AttendancePayHead) {
+					clientPayHead = new ClientConvertUtil().toClientObject(
+							payHead, ClientAttendancePayHead.class);
+				} else if (payHead instanceof ComputionPayHead) {
+					clientPayHead = new ClientConvertUtil().toClientObject(
+							payHead, ClientComputionPayHead.class);
+				} else if (payHead instanceof FlatRatePayHead) {
+					clientPayHead = new ClientConvertUtil().toClientObject(
+							payHead, ClientFlatRatePayHead.class);
+				} else if (payHead instanceof ProductionPayHead) {
+					clientPayHead = new ClientConvertUtil().toClientObject(
+							payHead, ClientProductionPayHead.class);
+				} else if (payHead instanceof UserDefinedPayHead) {
+					clientPayHead = new ClientConvertUtil().toClientObject(
+							payHead, ClientUserDefinedPayHead.class);
+				}
+				if (clientPayHead != null) {
+					clientPayHeads.add(clientPayHead);
+				}
 			}
 		}
 		return clientPayHeads;

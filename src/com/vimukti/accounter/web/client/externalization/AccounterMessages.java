@@ -6484,4 +6484,6 @@ public interface AccounterMessages extends Messages {
 
 	public String payStructureList();
 
+	public String computationFormula();
+
 }

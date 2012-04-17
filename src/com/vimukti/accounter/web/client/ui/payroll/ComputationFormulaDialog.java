@@ -78,4 +78,9 @@ public class ComputationFormulaDialog extends
 		table.setAllRows(formulas);
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }

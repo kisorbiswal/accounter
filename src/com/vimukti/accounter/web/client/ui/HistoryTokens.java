@@ -419,6 +419,8 @@ public class HistoryTokens {
 
 	public static final String PAY_STRUCTURE_LIST = "payStructureList";
 
+	public static final String ATTENDANCE_PRODUCTION_TYPE = "AttendanceProductionType";
+
 	public HistoryTokens() {
 
 	}

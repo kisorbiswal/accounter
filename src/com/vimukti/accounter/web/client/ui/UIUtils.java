@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
@@ -2268,6 +2269,34 @@ public class UIUtils {
 			break;
 		}
 		return action;
+	}
+
+	public static String prepareFormula(
+			List<ClientComputaionFormulaFunction> formulas) {
+		List<ClientComputaionFormulaFunction> formulasList = new ArrayList<ClientComputaionFormulaFunction>();
+		formulasList.addAll(formulas);
+		String string = new String();
+		ClientComputaionFormulaFunction formulaFunction = formulasList.get(0);
+		string += formulaFunction.getPayHead() != null ? formulaFunction
+				.getPayHead().getName() : formulaFunction.getAttendanceType()
+				.getName();
+		formulasList.remove(0);
+		for (ClientComputaionFormulaFunction function : formulasList) {
+			if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_ADD_PAY_HEAD) {
+				string = "(" + string + " + " + function.getPayHead().getName()
+						+ ")";
+			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
+				string = "(" + string + " - " + function.getPayHead().getName()
+						+ ")";
+			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE) {
+				string = "(" + string + " * "
+						+ function.getAttendanceType().getName() + ")";
+			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
+				string = "(" + string + " / "
+						+ function.getAttendanceType().getName() + ")";
+			}
+		}
+		return string;
 	}
 
 }

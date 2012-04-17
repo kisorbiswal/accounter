@@ -1625,4 +1625,5 @@ public class ActionFactory {
 	public static PayStructureListAction getPayStructureListAction() {
 		return new PayStructureListAction();
 	}
+
 }

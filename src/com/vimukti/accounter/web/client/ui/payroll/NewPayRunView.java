@@ -48,7 +48,10 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 						selectionChanged(selectItem);
 					}
 				});
+		empsAndGroups.setEnabled(!isInViewMode());
+
 		grid = new PayStructureTable(true);
+		grid.setEnabled(!isInViewMode());
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
@@ -70,6 +73,18 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 	private void initViewData(ClientPayRun data) {
 
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		updateData();
+		saveOrUpdate(getData());
+	}
+
+	private void updateData() {
+		if (data == null) {
+			data = new ClientPayRun();
+		}
 	}
 
 	protected void selectionChanged(ClientPayStructureDestination selectItem) {
@@ -119,8 +134,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
+		empsAndGroups.setFocus();
 	}
 
 }

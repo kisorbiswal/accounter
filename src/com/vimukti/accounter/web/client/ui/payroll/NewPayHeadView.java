@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -404,9 +405,10 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	protected void computationTypeChanged(String selectItem) {
-		if (selectItem.equals("On Specified Formula")) {
+		if (selectItem.equals(messages.onSpecifiedFormula())) {
 			if (dialog == null) {
-				dialog = new ComputationFormulaDialog("Computation Formula") {
+				dialog = new ComputationFormulaDialog(
+						messages.computationFormula()) {
 					@Override
 					protected boolean onOK() {
 
@@ -435,27 +437,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	protected void prepareFormula(List<ClientComputaionFormulaFunction> formulas) {
-		String string = new String();
-		ClientComputaionFormulaFunction formulaFunction = formulas.get(0);
-		string += formulaFunction.getPayHead() != null ? formulaFunction
-				.getPayHead().getName() : formulaFunction.getAttendanceType()
-				.getName();
-		formulas.remove(0);
-		for (ClientComputaionFormulaFunction function : formulas) {
-			if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_ADD_PAY_HEAD) {
-				string = "(" + string + " + " + function.getPayHead().getName()
-						+ ")";
-			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
-				string = "(" + string + " - " + function.getPayHead().getName()
-						+ ")";
-			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE) {
-				string = "(" + string + " * "
-						+ function.getAttendanceType().getName() + ")";
-			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
-				string = "(" + string + " / "
-						+ function.getAttendanceType().getName() + ")";
-			}
-		}
+		String string = UIUtils.prepareFormula(formulas);
 		formula.setValue(string);
 		formulaForm.add(formula);
 	}
@@ -641,9 +623,17 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		AccounterException accounterException = exception;
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
+		Accounter.showError(errorString);
+	}
 
+	@Override
+	public void setFocus() {
+		nameItem.setFocus();
 	}
 
 	@Override

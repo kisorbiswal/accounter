@@ -127,4 +127,9 @@ public class NewClientAttendanceOrProductionDialog extends
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }

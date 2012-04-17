@@ -490,11 +490,7 @@ public class Employee extends CreatableObject implements
 				.setEntity("company", employee.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {
-			Employee newEmp = (Employee) list.get(0);
-			if (employee.getID() != newEmp.getID()) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-			}
+			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
 		}
 		return true;
 	}
