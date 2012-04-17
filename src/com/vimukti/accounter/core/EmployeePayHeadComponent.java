@@ -9,6 +9,8 @@ public class EmployeePayHeadComponent extends CreatableObject {
 	private PayHead payHead;
 
 	private double rate;
+	
+	private int noOfLeaves;
 
 	/**
 	 * @return the payHead
@@ -53,6 +55,14 @@ public class EmployeePayHeadComponent extends CreatableObject {
 	public double calculatePayment() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public int getNoOfLeaves() {
+		return noOfLeaves;
+	}
+
+	public void setNoOfLeaves(int noOfLeaves) {
+		this.noOfLeaves = noOfLeaves;
 	}
 
 }

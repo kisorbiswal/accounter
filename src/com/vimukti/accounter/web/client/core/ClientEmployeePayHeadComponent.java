@@ -11,6 +11,8 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	private double rate;
 
+	private int noOfLeaves;
+
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -67,6 +69,14 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	public void setRate(double rate) {
 		this.rate = rate;
+	}
+
+	public int getNoOfLeaves() {
+		return noOfLeaves;
+	}
+
+	public void setNoOfLeaves(int noOfLeaves) {
+		this.noOfLeaves = noOfLeaves;
 	}
 
 }

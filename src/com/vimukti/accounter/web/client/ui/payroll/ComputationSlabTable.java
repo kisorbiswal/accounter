@@ -199,7 +199,7 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 
 	public void addRow(ClientComputationSlab row) {
 		List<ClientComputationSlab> rows = getAllRows();
-		if (rows.size() > 1) {
+		if (rows.size() > 0) {
 			ClientComputationSlab previous = rows.get(rows.size() - 1);
 			row.setFromAmount(previous.getToAmount());
 		}

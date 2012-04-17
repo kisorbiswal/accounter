@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
@@ -15,10 +16,13 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class NewPayRunView extends BaseView<ClientPayRun> {
 
+	private DateField fromDate, toDate;
 	private EmployeesAndGroupsCombo empsAndGroups;
 	private PayStructureTable grid;
 
@@ -50,12 +54,22 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 				});
 		empsAndGroups.setEnabled(!isInViewMode());
 
+		fromDate = new DateField(messages.fromDate(), "fromDate");
+		fromDate.setEnteredDate(new ClientFinanceDate());
+		fromDate.setEnabled(!isInViewMode());
+
+		toDate = new DateField(messages.toDate(), "toDate");
+		toDate.setEnteredDate(new ClientFinanceDate());
+		toDate.setEnabled(!isInViewMode());
+
 		grid = new PayStructureTable(true);
 		grid.setEnabled(!isInViewMode());
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(empsAndGroups);
+		mainVLay.add(fromDate);
+		mainVLay.add(toDate);
 		mainVLay.add(grid);
 
 		this.add(mainVLay);
