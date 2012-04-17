@@ -485,7 +485,7 @@ public class PayBill extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		PayBill payBill = (PayBill) clonedObject;
 
@@ -691,25 +691,23 @@ public class PayBill extends Transaction {
 			{
 				double amount = (bill.cashDiscount) + (bill.appliedCredits)
 						+ (bill.payment);
+				if (bill.getEnterBill() != null) {
+					double amountToUpdate = amount
+							* bill.getEnterBill().currencyFactor;
+					// loss is paid amount - entered amount in base currency
+					double diff = amount * currencyFactor - amountToUpdate;
 
-				double amountToUpdate = amount
-						* bill.getEnterBill().currencyFactor;
-				// loss is paid amount - entered amount in base currency
-				double diff = amount * currencyFactor - amountToUpdate;
-
-				e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
-				e.add(getVendor().getAccount(), diff, 1);
+					e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
+					e.add(getVendor().getAccount(), diff, 1);
+				}
 			}
 
 		}
 		e.add(getVendor(), unUsedAmount - getTotal());
 		double vendorPayment = getTotal() - getTdsTotal();
 		e.add(getPayFrom(), vendorPayment);
-		if (getCompany().getPreferences().isTDSEnabled()
-				&& this.getVendor().isTdsApplicable()) {
-			if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
-				e.add(getTdsTaxItem(), getTotal());
-			}
+		if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
+			e.add(getTdsTaxItem(), getTotal());
 		}
 
 	}

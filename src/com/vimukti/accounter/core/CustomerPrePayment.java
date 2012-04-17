@@ -203,7 +203,7 @@ public class CustomerPrePayment extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		CustomerPrePayment customerPrePayment = (CustomerPrePayment) clonedObject;

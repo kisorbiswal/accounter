@@ -480,7 +480,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		EnterBill enterBill = (EnterBill) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 		this.balanceDue = this.total - payments;

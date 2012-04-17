@@ -184,7 +184,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		TAXAdjustment taxAdjustment = (TAXAdjustment) clonedObject;
 

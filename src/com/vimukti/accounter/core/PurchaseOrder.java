@@ -397,7 +397,7 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		// Session session = HibernateUtil.getCurrentSession();
 		// PurchaseOrder purchaseOrder = (PurchaseOrder) clonedObject;
 		// if (this.status != STATUS_DELETED

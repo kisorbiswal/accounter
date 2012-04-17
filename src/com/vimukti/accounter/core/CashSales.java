@@ -657,10 +657,12 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * This method is called when we save in the edit mode
+	 * 
+	 * @throws AccounterException
 	 */
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		CashSales cashSales = (CashSales) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 

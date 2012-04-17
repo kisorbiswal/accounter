@@ -263,7 +263,7 @@ public class VendorPrePayment extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		VendorPrePayment vendorPayment = (VendorPrePayment) clonedObject;
 

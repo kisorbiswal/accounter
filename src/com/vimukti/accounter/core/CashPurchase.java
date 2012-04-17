@@ -515,7 +515,7 @@ public class CashPurchase extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		CashPurchase cashPurchase = (CashPurchase) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();

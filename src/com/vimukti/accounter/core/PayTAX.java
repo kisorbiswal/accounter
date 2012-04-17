@@ -165,7 +165,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		PayTAX oldPayTAX = (PayTAX) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 

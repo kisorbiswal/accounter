@@ -794,7 +794,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		Invoice invoice = (Invoice) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();

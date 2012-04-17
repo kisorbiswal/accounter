@@ -326,7 +326,7 @@ public class WriteCheck extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		WriteCheck writeCheck = (WriteCheck) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();

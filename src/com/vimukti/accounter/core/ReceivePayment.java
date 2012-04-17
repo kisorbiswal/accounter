@@ -498,7 +498,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		ReceivePayment receivePayment = (ReceivePayment) clonedObject;
 
 		super.onEdit(receivePayment);
@@ -663,9 +663,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 		e.add(getDepositIn(), -getAmount());
-		if (DecimalUtil.isGreaterThan(tdsTotal, 0)
-				&& getCompany().getPreferences().isTDSEnabled()
-				&& this.getCustomer().isWillDeductTDS()) {
+		if (DecimalUtil.isGreaterThan(tdsTotal, 0)) {
 			e.add(getTDSAccount(), -getTdsTotal());
 		}
 		e.add(getCustomer(), getTotal());

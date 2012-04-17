@@ -289,7 +289,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		MakeDeposit deposit = (MakeDeposit) clonedObject;

@@ -84,14 +84,15 @@ public class AccountTransaction extends CreatableObject implements
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer("Account :");
-		sb.append(getAccount());
-		sb.append("Transaction :");
-		sb.append(getTransaction());
-		sb.append("Transaction ID:");
-		sb.append(getTransaction().getID());
-		sb.append("Amount : ");
+		StringBuffer sb = new StringBuffer("Amount : ");
 		sb.append(amount);
+		sb.append(" Account :");
+		sb.append(getAccount().getName());
+		sb.append(" Transaction :");
+		sb.append(getTransaction());
+		sb.append(" Transaction ID:");
+		sb.append(getTransaction().getID());
+		;
 
 		return sb.toString();
 	}

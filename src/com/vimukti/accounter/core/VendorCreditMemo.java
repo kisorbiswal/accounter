@@ -208,7 +208,7 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		VendorCreditMemo vendorCreditMemo = (VendorCreditMemo) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();

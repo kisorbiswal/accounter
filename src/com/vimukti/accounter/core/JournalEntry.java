@@ -227,7 +227,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		super.onEdit(clonedObject);
 		if (isBecameVoid()) {

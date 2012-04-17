@@ -8,12 +8,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class TransactionEffectsImpl implements ITransactionEffects {
+
+	Logger log = Logger.getLogger(TransactionEffectsImpl.class);
 
 	/** New Account Transaction */
 	List<AccountTransaction> newATs = new ArrayList<AccountTransaction>();
@@ -136,7 +140,8 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		}
 	}
 
-	public void saveOrUpdate() {
+	public void saveOrUpdate() throws AccounterException {
+		checkTrailBalance();
 		Session session = HibernateUtil.getCurrentSession();
 		mergeAccountTransactions(session);
 		mergePayeeUpdates(session);
@@ -237,6 +242,20 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	 */
 	public void setNewATs(List<AccountTransaction> newATs) {
 		this.newATs = newATs;
+	}
+
+	public void checkTrailBalance() throws AccounterException {
+		double total = 0.00D;
+		for (AccountTransaction at : newATs) {
+			total += (at.getAccount().isIncrease() ? -1 : 1) * at.getAmount();
+		}
+		if (!DecimalUtil.isEquals(total, 0.00D)) {
+			log.info("New ATs : " + newATs);
+			log.info("Old ATs :"
+					+ transaction.getAccountTransactionEntriesList());
+			throw new AccounterException(
+					AccounterException.ERROR_ILLEGAL_ARGUMENT);
+		}
 	}
 
 }

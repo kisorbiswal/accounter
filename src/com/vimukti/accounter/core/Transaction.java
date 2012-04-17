@@ -709,7 +709,12 @@ public abstract class Transaction extends CreatableObject implements
 			session.saveOrUpdate(getStatementRecord());
 		}
 		if (!isDraftOrTemplate()) {
-			doCreateEffect(session);
+
+			try {
+				doCreateEffect(session);
+			} catch (AccounterException e) {
+				throw new CallbackException(e);
+			}
 		}
 		addCreateHistory();
 		if (currency == null) {
@@ -766,7 +771,7 @@ public abstract class Transaction extends CreatableObject implements
 		this.getHistory().add(log);
 	}
 
-	private void doCreateEffect(Session session) {
+	private void doCreateEffect(Session session) throws AccounterException {
 
 		setTransactionType();
 
@@ -988,7 +993,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	public abstract Payee getInvolvedPayee();
 
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		addUpdateHistory();
 		if (saveStatus == STATUS_TEMPLATE) {
