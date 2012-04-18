@@ -481,7 +481,7 @@ public class MenuBar {
 		if (isClassTracking) {
 			purchaseMenuBar.addMenuItem(messages.purchasesbyClassSummary(),
 					HistoryTokens.PURCHASESBYCLASSSUMMARY);
-			purchaseMenuBar.addMenuItem("Purchases by Class Detail",
+			purchaseMenuBar.addMenuItem(messages.purchasesbyClassDetail(),
 					HistoryTokens.PURCHASESBYCLASSDETAIL);
 		}
 

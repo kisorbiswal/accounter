@@ -223,6 +223,15 @@ public class ReportSectionView extends BaseHomeView {
 					HistoryTokens.PURCHASEORDERREPORT);
 		}
 
+		if (Global.get().preferences().isClassTrackingEnabled()) {
+			salesMap.put(messages.purchasesbyClassDetail(), ActionFactory
+					.getSalesByLocationDetailsAction(false, false)
+					.getHistoryToken());
+			salesMap.put(messages.purchasesbyClassSummary(), ActionFactory
+					.getSalesByLocationSummaryAction(false, false)
+					.getHistoryToken());
+
+		}
 		// Form for customer receivable type reports
 
 		customersAndRecievableMap.put(messages.arAgeing(), ActionFactory
