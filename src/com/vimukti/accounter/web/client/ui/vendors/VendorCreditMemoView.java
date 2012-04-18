@@ -122,6 +122,12 @@ public class VendorCreditMemoView extends
 			super.vendorSelected(getCompany()
 					.getVendor(transaction.getVendor()));
 			vendorItemTransactionTable.setPayee(vendor);
+			vendorItemTransactionTable
+					.setAllRows(getItemTransactionItems(transaction
+							.getTransactionItems()));
+			vendorAccountTransactionTable
+					.setAllRows(getAccountTransactionItems(transaction
+							.getTransactionItems()));
 			contactSelected(transaction.getContact());
 			phoneSelect.setValue(transaction.getPhone());
 			transactionNumber.setValue(transaction.getNumber());

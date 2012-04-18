@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -88,6 +89,8 @@ public class TDSChalanDetailsView extends
 
 	@Override
 	protected void createControls() {
+		Label label = new Label(messages.tdsChallan());
+		label.setStyleName("label-title");
 		selectFormTypeCombo = new SelectCombo(messages.formType());
 		// selectFormTypeCombo.setHelpInformation(true);
 		selectFormTypeCombo.initCombo(getFormTypes());
@@ -390,6 +393,8 @@ public class TDSChalanDetailsView extends
 		horizontalPanel2.add(belowForm2);
 
 		StyledPanel verticalPanel = new StyledPanel("verticalPanel");
+		verticalPanel.add(label);
+		verticalPanel.add(voidedPanel);
 		verticalPanel.add(horizontalPanel1);
 		verticalPanel.add(table);
 		verticalPanel.add(horizontalPanel2);

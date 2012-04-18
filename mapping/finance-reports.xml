@@ -4400,7 +4400,9 @@
 							       AND T.T_DATE BETWEEN :startDate AND :endDate
 							       AND AT.AMOUNT != 0
 							       AND CASE WHEN 2=:categoryType THEN L.ID=:categoryId 
-								         WHEN 3=:categoryType THEN J.ID=:categoryId
+								         WHEN 3=:categoryType THEN (J.ID=:categoryId OR T.ID IN (SELECT TI.TRANSACTION_ID
+							                                           FROM   TRANSACTION_ITEM TI
+							                                           WHERE  TI.JOB_ID = :categoryId))
 							                 WHEN 1=:categoryType THEN ( T.TRANSACTION_ACCOUNTER_CLASS = :categoryId
 							                               OR T.ID IN (SELECT TI.TRANSACTION_ID
 							                                           FROM   TRANSACTION_ITEM TI

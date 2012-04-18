@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -447,5 +448,18 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		TDSAcknowlegmentForm ackFormDialogue = new TDSAcknowlegmentForm();
 		ackFormDialogue.show();
 
+	}
+
+	@Override
+	protected boolean isSaveButtonAllowed() {
+		if (data == null) {
+			return false;
+		}
+		return Utility.isUserHavePermissions(AccounterCoreType.TDSCHALANDETAIL);
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
 	}
 }

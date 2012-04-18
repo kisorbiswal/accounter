@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
@@ -69,8 +70,7 @@ public class CustomField extends CreatableObject implements
 
 	@Override
 	public int getObjType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return IAccounterCore.CUSTOM_FIELD;
 	}
 
 	@Override

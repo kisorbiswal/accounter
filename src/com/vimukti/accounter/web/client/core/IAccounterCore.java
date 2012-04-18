@@ -63,6 +63,7 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int EMAIL_ACCOUNT = 90;
 	public static final int EMAIL_TEMPLATE = 91;
 	public static final int CHECK_LAYOUT = 94;
+	public static final int CUSTOM_FIELD = 95;
 
 	String getName();
 

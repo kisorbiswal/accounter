@@ -289,7 +289,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				SafeHtmlBuilder shb = new SafeHtmlBuilder();
 				if (value.equalsIgnoreCase(messages.issuePayment())
 						|| object.getObjType() == 0
-						|| object.getObjType() == ClientTransaction.TYPE_TAX_RETURN) {
+						|| object.getObjType() == ClientTransaction.TYPE_TAX_RETURN
+						|| object.getObjType() == IAccounterCore.CUSTOM_FIELD) {
 					shb.appendEscaped(value);
 				} else {
 					shb.appendHtmlConstant("<a href='#'>");

@@ -72,6 +72,13 @@ public class CopyThemeDialog extends BaseDialog {
 			clientBrandingTheme.setStatementTitle(theme.getStatementTitle());
 			clientBrandingTheme.setQuoteTitle(theme.getQuoteTitle());
 			clientBrandingTheme.setPayPalEmailID(theme.getPayPalEmailID());
+			clientBrandingTheme.setPurchaseOrderTitle(theme
+					.getPurchaseOrderTitle());
+			clientBrandingTheme.setPurchaseOrderTemplateName(theme
+					.getPurchaseOrderTemplateName());
+			clientBrandingTheme.setSalesOrderTitle(theme.getSalesOrderTitle());
+			clientBrandingTheme.setSalesOrderTemplateName(theme
+					.getSalesOrderTemplateName());
 		} else {
 			// for regular BrandingTheme
 			clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
@@ -106,6 +113,10 @@ public class CopyThemeDialog extends BaseDialog {
 					.getCreditNoteTempleteName());
 			clientBrandingTheme.setQuoteTemplateName(theme
 					.getQuoteTemplateName());
+			clientBrandingTheme.setPurchaseOrderTemplateName(theme
+					.getPurchaseOrderTemplateName());
+			clientBrandingTheme.setSalesOrderTemplateName(theme
+					.getSalesOrderTemplateName());
 			clientBrandingTheme.setCustomFile(false);
 		}
 		return clientBrandingTheme;
