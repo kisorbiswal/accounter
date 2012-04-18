@@ -832,8 +832,9 @@ public class PurchaseOrderView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -1535,21 +1536,26 @@ public class PurchaseOrderView extends
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
 		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
-		paymentsNonEditableText.setTitle(messages.nameWithCurrency(
-				messages.payments(), formalName));
-		paymentsNonEditableText.setCurrency(currencyWidget
-				.getSelectedCurrency());
-		balanceDueNonEditableText.setTitle(messages.nameWithCurrency(
-				messages.balanceDue(), formalName));
-		balanceDueNonEditableText.setCurrency(currencyWidget
-				.getSelectedCurrency());
+		if (paymentsNonEditableText != null) {
+			paymentsNonEditableText.setTitle(messages.nameWithCurrency(
+					messages.payments(), formalName));
+			paymentsNonEditableText.setCurrency(currencyWidget
+					.getSelectedCurrency());
+		}
+		if (balanceDueNonEditableText != null) {
+			balanceDueNonEditableText.setTitle(messages.nameWithCurrency(
+					messages.balanceDue(), formalName));
+			balanceDueNonEditableText.setCurrency(currencyWidget
+					.getSelectedCurrency());
+		}
 	}
 
 	protected void updateDiscountValues() {
 		if (discountField.getPercentage() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
-			vendorAccountTransactionTable
-					.setDiscount(discountField.getPercentage());
+			vendorItemTransactionTable.setDiscount(discountField
+					.getPercentage());
+			vendorAccountTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

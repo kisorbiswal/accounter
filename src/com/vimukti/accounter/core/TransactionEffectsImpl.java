@@ -47,7 +47,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 		}
 		double atAamount = (account.isIncrease() ? 1 : -1) * amount
 				* currencyFactor;
-		addAT(new AccountTransaction(account, transaction, atAamount));
+		newATs.add(new AccountTransaction(account, transaction, atAamount));
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				|| DecimalUtil.isEquals(amount, 0.00D)) {
 			return;
 		}
-		addPU(new PayeeUpdate(payee, transaction, amount));
+		newPUs.add(new PayeeUpdate(payee, transaction, amount));
 		Account account = payee.getAccount();
 		add(account, amount);
 	}
@@ -64,7 +64,12 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 	@Override
 	public void add(Item item, Quantity quantity, Double unitPrice,
 			Warehouse wareHouse) {
-		addIU(new ItemUpdate(transaction, item, quantity, unitPrice, wareHouse));
+		if (item == null || quantity == null || quantity.isEmpty()
+				|| wareHouse == null) {
+			return;
+		}
+		newIUs.add(new ItemUpdate(transaction, item, quantity, unitPrice,
+				wareHouse));
 	}
 
 	@Override
@@ -87,8 +92,8 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 					amount);
 			trc.setVATGroupEntry(isTAXGroup);
 
-			addPU(new PayeeUpdate(trc.getTaxAgency(), transaction,
-					trc.getTAXAmount()));
+			newPUs.add(new PayeeUpdate(trc.getTaxAgency(), transaction, trc
+					.getTAXAmount()));
 
 			Account account = null;
 			if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
@@ -97,25 +102,9 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 				account = trc.purchaseLiabilityAccount;
 			}
 			add(account, trc.getTAXAmount() / transaction.getCurrencyFactor());
-			addTRC(trc);
+			newTRCs.add(trc);
 
 		}
-	}
-
-	private void addAT(AccountTransaction at) {
-		newATs.add(at);
-	}
-
-	private void addPU(PayeeUpdate payeeUpdate) {
-		newPUs.add(payeeUpdate);
-	}
-
-	private void addIU(ItemUpdate itemUpdate) {
-		newIUs.add(itemUpdate);
-	}
-
-	private void addTRC(TAXRateCalculation trc) {
-		newTRCs.add(trc);
 	}
 
 	public void saveOrUpdate() throws AccounterException {
@@ -275,6 +264,7 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 			}
 		}
 		transaction.getPayeeUpdates().clear();
+		transaction.getItemUpdates().clear();
 		transaction.getTaxRateCalculationEntriesList().clear();
 
 	}

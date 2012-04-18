@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -40,9 +41,10 @@ public class CustomerDetailsPanel extends FlowPanel {
 		name = new LabelItem(messages.name(), "name");
 
 		email = new LabelItem(messages.email(), "email");
-
-		ClientCurrency customerCurrency = Accounter.getCompany().getCurrency(
-				selectedCustomer.getCurrency());
+		ClientCompany company = Accounter.getCompany();
+		ClientCurrency customerCurrency = selectedCustomer != null ? company
+				.getCurrency(selectedCustomer.getCurrency()) : company
+				.getPrimaryCurrency();
 
 		balance = new AmountLabel(
 				messages.balanceWithCurrencyName(customerCurrency
