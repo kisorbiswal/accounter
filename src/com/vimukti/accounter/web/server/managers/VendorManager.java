@@ -37,7 +37,7 @@ import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.core.VendorPayment;
+import com.vimukti.accounter.core.VendorPrePayment;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -427,7 +427,7 @@ public class VendorManager extends PayeeManager {
 			Iterator i = list.iterator();
 			while (i.hasNext()) {
 				IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-				VendorPayment pb = (VendorPayment) i.next();
+				VendorPrePayment pb = (VendorPrePayment) i.next();
 				issuePaymentTransaction.setTransactionId(pb.getID());
 				issuePaymentTransaction.setType(pb.getType());
 				issuePaymentTransaction.setDate(new ClientFinanceDate(pb
@@ -678,7 +678,7 @@ public class VendorManager extends PayeeManager {
 				Iterator i = list.iterator();
 				while (i.hasNext()) {
 					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					VendorPayment pst = (VendorPayment) i.next();
+					VendorPrePayment pst = (VendorPrePayment) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
 					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
@@ -1899,25 +1899,8 @@ public class VendorManager extends PayeeManager {
 			object = (Object[]) iterator.next();
 			transactionHistory.setTransactionId((Long) object[0]);
 
-			int ttype = (Integer) object[2];
-			if (ttype == ClientTransaction.TYPE_PAY_BILL) {
-				Session currentSession = HibernateUtil.getCurrentSession();
-				PayBill paybill = (PayBill) currentSession.get(PayBill.class,
-						(Long) object[0]);
-				if (paybill.getPayBillType() == PayBill.TYPE_PAYBILL) {
-					transactionHistory.setName(Global.get().messages()
-							.payBill());
-				} else {
-					transactionHistory.setName(Global.get().messages()
-							.payeePrePayment(Global.get().Vendor()));
-				}
-			} else {
-				transactionHistory.setName(Utility
-						.getTransactionName((Integer) object[2]));
-			}
-
-			// transactionHistory.setName(Utility
-			// .getTransactionName((Integer) object[2]));
+			transactionHistory.setName(Utility
+					.getTransactionName((Integer) object[2]));
 
 			transactionHistory.setType((Integer) object[2]);
 			transactionHistory.setNumber((String) object[3]);

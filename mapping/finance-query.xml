@@ -2785,7 +2785,7 @@
 
 	</sql-query>
 
-	<sql-query name="canDeleteVendorPayment">
+	<sql-query name="canDeleteVendorPrePayment">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
@@ -3218,13 +3218,7 @@
 				               OR T.T_TYPE = 26
 				               OR T.T_TYPE = 27 THEN P.NAME
 				       END           AS NAME,
-				       CASE
-				         WHEN T.T_TYPE = 11 THEN CASE
-				                                   WHEN PB.PAYBILL_TYPE = 2 THEN 25
-				                                   ELSE T.T_TYPE
-				                                 END
-				         ELSE T.T_TYPE
-				       END           AS TYPE,
+				       T.T_TYPE      AS TYPE,
 				       T.T_DATE      AS DATE,
 				       T.NUMBER,
 				       CASE
@@ -3275,7 +3269,6 @@
 				               OR T.T_TYPE = 15
 				               OR T.T_TYPE = 27 THEN T.TOTAL
 				         WHEN T.T_TYPE = 11 THEN CASE
-				                                   WHEN PB.PAYBILL_TYPE = 1 THEN CASE
 				                                                                   WHEN
 				                                   (SELECT SUM(TPB.CASH_DISCOUNT *
 				                                               T.CURRENCY_FACTOR)
@@ -3294,7 +3287,7 @@
 				                                                         NOT NULL
 				                                                     AND TPB.CASH_DISCOUNT >
 				                                                         0.0)
-				                                                                 END
+				                                                                 
 				                                 END
 						 WHEN T.T_TYPE = 25 THEN
 				                                   T.TOTAL * T.CURRENCY_FACTOR
@@ -3605,8 +3598,7 @@
 				               OR T.T_TYPE = 15
 				               OR T.T_TYPE = 27 THEN T.TOTAL
 				         WHEN T.T_TYPE = 11 THEN CASE
-				                                   WHEN PB.PAYBILL_TYPE = 1 THEN CASE
-				                                                                   WHEN
+				                                   WHEN
 				                                   (SELECT SUM(TPB.CASH_DISCOUNT)
 				                                    FROM   TRANSACTION_PAYBILL TPB
 				                                    WHERE  TPB.TRANSACTION_ID = T.ID
@@ -3623,8 +3615,9 @@
 				                                                     AND TPB.CASH_DISCOUNT >
 				                                                         0.0)
 				                                                                 END
-				                                   WHEN PB.PAYBILL_TYPE = 2 THEN T.TOTAL
-				                                 END
+				                                                                 
+				                                   WHEN PB.T_TYPE = 25 THEN T.TOTAL
+				                                
 				         WHEN T.T_TYPE = 16 THEN CASE
 				                                   WHEN P.TYPE = 1 THEN TI.LINE_TOTAL
 				                                   ELSE 0.0
@@ -4981,11 +4974,7 @@
 		
 		<![CDATA[
 				SELECT T.T_DATE          AS TRANSACTION_DATE,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END               AS TRANSACTION_TYPE,
+				       T.T_TYPE          AS TRANSACTION_TYPE,
 				       T.NUMBER          AS TRANSACTION_NUMBER,
 				       T.TOTAL           AS TRANSACTION_TOTAL,
 				       CASE
@@ -5307,7 +5296,7 @@
 				]]>
 
 	</sql-query>
-	
+
 	<sql-query name="getBrandingTheme">
 		<query-param name="companyId" type="long" />
 		<query-param name="themeName" type="encryptedstring" />
@@ -6081,7 +6070,7 @@
 
 	<sql-query name="get.NonEncrypted.CompanyNames.by.client">
 		<query-param name="userIds" type="long" />
-		
+
 		<return-scalar column="ID" type="long" />
 		<return-scalar column="TRADING_NAME" type="string" />
 		<![CDATA[
@@ -6525,6 +6514,12 @@
 
 		DELETE FROM account_transaction
 		WHERE  company_id = cid;
+		
+		DELETE FROM payee_update
+		WHERE company_id = cid;
+		
+		DELETE FROM item_update
+		WHERE company_id = cid;
 
 		DELETE FROM adjustment_reason
 		WHERE  company_id = cid;

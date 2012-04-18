@@ -289,73 +289,6 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	}
 
 	/**
-	 * Constructor of Account class
-	 * 
-	 * @param type
-	 *            Type of the account
-	 * @param number
-	 * @param name
-	 *            Name of the account
-	 * @param isActive
-	 *            status of the account
-	 * @param parent
-	 *            The parent of the account
-	 * @param cashFlowCategory
-	 *            Cash Flow Category
-	 * @param openingBalance
-	 *            Opening balance
-	 * @param isConsiderAsCashAccount
-	 *            cash account status
-	 * @param comment
-	 *            Comment on the account
-	 * @param bank
-	 *            Bank of the account
-	 * @param bankAccountType
-	 *            Type of the bank
-	 * @param bankAccountNumber
-	 *            Bank account number
-	 * @param creditLimit
-	 *            Credit limit on the bank account
-	 * @param cardOrLoanNumber
-	 *            Credit card or loan account number
-	 * @param isIncrease
-	 *            Behaviour of cash (true Increase else decrease )
-	 * @param isOpeningBalanceEditable
-	 *            Edit status of opening balance
-	 * @param openingBalanceAccount
-	 *            Not being used
-	 * @param flow
-	 *            The parent and child flow of account
-	 */
-	public Account(int type, String number, String name, boolean isActive,
-			Account parent, int cashFlowCategory, double openingBalance,
-			boolean isConsiderAsCashAccount, String comment,
-			double creditLimit, String cardOrLoanNumber, boolean isIncrease,
-			boolean isOpeningBalanceEditable, Account openingBalanceAccount,
-			String flow, boolean isDefaultAccount, FinanceDate asOf) {
-
-		this.type = type;
-		this.number = number;
-		this.name = name;
-		this.isActive = isActive;
-		this.parent = parent;
-		this.cashFlowCategory = cashFlowCategory;
-		this.openingBalance = openingBalance;
-		this.isConsiderAsCashAccount = isConsiderAsCashAccount;
-		this.comment = comment;
-		// this.bank = bank;
-		// this.bankAccountType = bankAccountType;
-		// this.bankAccountNumber = bankAccountNumber;
-		this.creditLimit = creditLimit;
-		this.cardOrLoanNumber = cardOrLoanNumber;
-		this.isIncrease = isIncrease;
-		this.isOpeningBalanceEditable = isOpeningBalanceEditable;
-		this.flow = flow;
-		this.isDefault = isDefaultAccount;
-		this.asOf = asOf;
-	}
-
-	/**
 	 * Creates new Instance Used to Create Default Accounts
 	 * 
 	 * @param type
@@ -1053,35 +986,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		this.updateTotalBalance(amount, currencyFactor);
 		// log.info(accountTransaction);
 
-		// if (!transaction.isBecameVoid()) {
-
-		// This condition checking is for the purpose of not to consider
-		// this entry in Profit and Loss Report if the entry is for the
-		// closing Fiscal Year.
-		boolean closingFYEntry, cashBasisEntry;
-		AccountTransaction accountTransaction;
-		if (transaction.type == Transaction.TYPE_JOURNAL_ENTRY
-				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_NORMAL_JOURNAL_ENTRY
-				&& transaction.memo != null
-				&& transaction.memo.equals("Closing Fiscal Year")) {
-			closingFYEntry = true;
-			cashBasisEntry = false;
-
-		}
-		// The below condition never satisfy because while creating
-		// Cash-Basis Journal Entry Account Balances should not effect.
-		else if (transaction.type == Transaction.TYPE_JOURNAL_ENTRY
-				&& ((JournalEntry) transaction).journalEntryType == JournalEntry.TYPE_CASH_BASIS_JOURNAL_ENTRY
-				&& transaction.memo != null
-				&& transaction.memo.equals("Closing Fiscal Year")) {
-			closingFYEntry = true;
-			cashBasisEntry = true;
-		} else {
-			closingFYEntry = false;
-			cashBasisEntry = false;
-		}
-		accountTransaction = new AccountTransaction(this, transaction, amount,
-				closingFYEntry, cashBasisEntry);
+		AccountTransaction accountTransaction = new AccountTransaction(this,
+				transaction, amount, false);
 		transaction.addAccountTransaction(accountTransaction);
 
 		if (this.name.equalsIgnoreCase("Un Deposited Funds")) {
@@ -1099,6 +1005,31 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			}
 
 		}
+		ChangeTracker.put(this);
+	}
+
+	public void effectCurrentBalance(double amount, double currencyFactor) {
+
+		if (amount == 0) {
+			return;
+		}
+
+		if (this.getCurrency() == getCompany().getPrimaryCurrency()) {
+			currencyFactor = 1;
+		}
+
+		log.info("Effecting Current Balance of  " + this.getName() + "("
+				+ this.getCurrentBalance() + ") " + "with " + amount);
+
+		this.currentBalance += amount;
+
+		if (!DecimalUtil.isEquals(this.currentBalance, 0.0)
+				&& isOpeningBalanceEditable) {
+			isOpeningBalanceEditable = Boolean.FALSE;
+		}
+
+		this.updateTotalBalance(amount, currencyFactor);
+
 		ChangeTracker.put(this);
 	}
 
@@ -1280,8 +1211,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public String toString() {
-		return "Account Name: " + this.name + "    Balance: "
-				+ this.totalBalance;
+		return "Account ID:" + getID() + " Name: " + this.name
+				+ "    Balance: " + this.totalBalance;
 	}
 
 	public void setNumber(String number) {

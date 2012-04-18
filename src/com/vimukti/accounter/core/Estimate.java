@@ -294,17 +294,6 @@ public class Estimate extends Transaction {
 		return true;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return getCustomer();
-	}
-
 	public void setTotal(Double total) {
 		this.total = total;
 	}
@@ -326,7 +315,7 @@ public class Estimate extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		super.onEdit(clonedObject);
 	}
 
@@ -535,11 +524,6 @@ public class Estimate extends Transaction {
 		return valid;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
-	}
-
 	public String getCustomerOrderNumber() {
 		return customerOrderNumber;
 	}
@@ -593,6 +577,12 @@ public class Estimate extends Transaction {
 
 	public void setRefferingTransactionType(int refferingTransactionType) {
 		this.refferingTransactionType = refferingTransactionType;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

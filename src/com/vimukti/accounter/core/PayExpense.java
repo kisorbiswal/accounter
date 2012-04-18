@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -69,16 +68,6 @@ public class PayExpense extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.paidFrom;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public boolean isDebitTransaction() {
 		return true;
 	}
@@ -95,10 +84,6 @@ public class PayExpense extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		Account accountPayable = getCurrency().getAccountsPayable();
-		accountPayable.updateCurrentBalance(this, -this.total, currencyFactor);
-		session.update(accountPayable);
-		accountPayable.onUpdate(session);
 
 		return false;
 	}
@@ -132,13 +117,6 @@ public class PayExpense extends Transaction {
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(getCurrency().getAccountsPayable(), total);
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -157,9 +135,9 @@ public class PayExpense extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
+	public void getEffects(ITransactionEffects e) {
+		e.add(getCurrency().getAccountsPayable(), -getTotal());
+		e.add(getPaidFrom(), getTotal());
 	}
 
 }

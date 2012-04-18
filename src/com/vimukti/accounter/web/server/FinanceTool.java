@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -128,7 +129,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Vendor;
-import com.vimukti.accounter.core.VendorPayment;
+import com.vimukti.accounter.core.VendorPrePayment;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -345,6 +346,16 @@ public class FinanceTool {
 			ChangeTracker.put(serverObject);
 
 			return serverObject.getID();
+		} catch (CallbackException e) {
+			transaction.rollback();
+			Throwable cause = e.getCause();
+			if (cause instanceof AccounterException) {
+				throw (AccounterException) cause;
+			} else {
+				log.error(e.getMessage(), e);
+				throw new AccounterException(AccounterException.ERROR_INTERNAL,
+						e.getMessage());
+			}
 		} catch (Exception e) {
 			transaction.rollback();
 			if (e instanceof AccounterException) {
@@ -605,12 +616,15 @@ public class FinanceTool {
 					}
 				} else if (serverObject instanceof Account
 						|| serverObject instanceof BankAccount) {
-					Boolean isExists = (Boolean) session
-							.getNamedQuery("isCompanyAccount")
-							.setParameter("accountId", serverObject.getID())
-							.setParameter("companyId", company.getID()).list()
-							.get(0);
-					if (isExists) {
+
+					Boolean isDefault = ((Account) serverObject).isDefault()
+							|| (Boolean) session
+									.getNamedQuery("isCompanyAccount")
+									.setParameter("accountId",
+											serverObject.getID())
+									.setParameter("companyId", company.getID())
+									.list().get(0);
+					if (isDefault) {
 						throw new AccounterException(
 								AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT);
 					}
@@ -3690,7 +3704,9 @@ public class FinanceTool {
 										((BigInteger) object[4]).longValue()));
 				recentTransactionsList.setCurrecyId(object[5] == null ? null
 						: ((BigInteger) object[5]).longValue());
-				recentTransactionsList.setEstimateType((Integer) object[6]);
+				recentTransactionsList
+						.setEstimateType(object[6] != null ? (Integer) object[6]
+								: 0);
 				activities.add(recentTransactionsList);
 			}
 			return activities;
@@ -3882,7 +3898,7 @@ public class FinanceTool {
 			case ClientTransaction.TYPE_VENDOR_PAYMENT:
 				transaction = getTransactionById(
 						clientTransactionIssuePayment.getPayBill(), company);
-				VendorPayment vendorPayment = (VendorPayment) transaction;
+				VendorPrePayment vendorPayment = (VendorPrePayment) transaction;
 				vendorPayment.setCheckNumber(nextCheckNumber);
 				transaction = vendorPayment;
 				break;

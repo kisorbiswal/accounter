@@ -2,8 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
@@ -255,33 +253,6 @@ public class Expense extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-		if (OnUpdateThreadLocal.get()) {
-			return false;
-		}
-		super.onUpdate(session);
-		if (this.status == STATUS_APPROVED && this.isAuthorised) {
-			Account accountPayable = getCurrency().getAccountsPayable();
-			accountPayable.updateCurrentBalance(this, this.total,
-					currencyFactor);
-			session.update(accountPayable);
-			accountPayable.onUpdate(session);
-		}
-
-		return false;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public boolean isDebitTransaction() {
 		return false;
 	}
@@ -349,7 +320,12 @@ public class Expense extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-
+	public void getEffects(ITransactionEffects e) {
+		if (this.getStatus() == STATUS_APPROVED && this.isAuthorised()) {
+			e.add(getCurrency().getAccountsPayable(), this.getTotal());
+			for (TransactionExpense expense : getTransactionExpenses()) {
+				e.add(expense.getEffectingAccount(), expense.getAmount());
+			}
+		}
 	}
 }

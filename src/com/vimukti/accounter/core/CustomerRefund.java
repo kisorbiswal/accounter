@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -166,11 +164,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		super.onSave(session);
-		if (!isDraftOrTemplate()) {
-			this.payFrom.updateCurrentBalance(this, this.total, currencyFactor);
-			this.payFrom.onUpdate(session);
-		}
-
 		if (this.paymentMethod != null) {
 			// update the status of the customer refund based on the selected
 			// payment method
@@ -219,20 +212,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 
 	private void doVoidEffect(Session session) {
 
-		this.payFrom
-				.updateCurrentBalance(this, -1 * this.total, currencyFactor);
-		this.payFrom.onUpdate(session);
-
-		// if (this.transactionReceivePayments != null) {
-		// for (TransactionReceivePayment trp : this.transactionReceivePayments)
-		// {
-		// trp.onVoidTransaction(session);
-		// }
-		// }
-
-		// if (this.status != Transaction.STATUS_DELETED)
-		// this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-
 		this.payments = this.total;
 		this.balanceDue = 0.0;
 
@@ -246,16 +225,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	@Override
 	public boolean isPositiveTransaction() {
 		return false;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.payTo;
 	}
 
 	public void updatePaymentsAndBalanceDue(double amount2) {
@@ -323,7 +292,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	// }
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		CustomerRefund customerRefund = (CustomerRefund) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
@@ -339,37 +308,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		if (this.isVoid() && !customerRefund.isVoid()) {
 			doVoidEffect(session);
 		} else {
-
-			// if (!this.payTo.equals(customerRefund.payTo)) {
-			// Customer preCustomer = (Customer) session.get(Customer.class,
-			// customerRefund.payTo.id);
-			customerRefund.payTo.updateBalance(session, this,
-					customerRefund.total, customerRefund.getCurrencyFactor());
-			// customerRefund.doVoidEffect(session);
-			// }
-
-			this.payTo.updateBalance(session, this, -this.total);
-
-			// if (!this.payFrom.equals(customerRefund.payFrom)) {
-			// Account oldAccount = (Account) session.get(Account.class,
-			// customerRefund.payFrom.id);
-			customerRefund.payFrom.updateCurrentBalance(this,
-					-clonedObject.total, customerRefund.currencyFactor);
-			customerRefund.payFrom.onUpdate(session);
-			// }
-			this.payFrom.updateCurrentBalance(this, this.total,
-					this.currencyFactor);
-			this.payFrom.onUpdate(session);
-
-			// }
-			// if (customerRefund.transactionReceivePayments != null) {
-			// Double amtdue = this.total;
-			// for (TransactionReceivePayment trp :
-			// customerRefund.transactionReceivePayments) {
-			// trp.updatePayments(amtdue);
-			// session.saveOrUpdate(trp);
-			// }
-			// }
 
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
@@ -425,14 +363,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		map.put(payFrom, total);
-		map.put(payTo.getAccount(), total);
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -455,8 +385,8 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		payTo.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	public void getEffects(ITransactionEffects e) {
+		e.add(getPayFrom(), getTotal());
+		e.add(getPayTo(), -getTotal());
 	}
 }

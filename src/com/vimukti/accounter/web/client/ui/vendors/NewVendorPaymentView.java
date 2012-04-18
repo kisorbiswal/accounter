@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.ClientVendorPayment;
+import com.vimukti.accounter.web.client.core.ClientVendorPrePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -45,7 +45,7 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class NewVendorPaymentView extends
-		AbstractTransactionBaseView<ClientVendorPayment> implements
+		AbstractTransactionBaseView<ClientVendorPrePayment> implements
 		IPrintableView {
 
 	private CheckboxItem printCheck;
@@ -90,7 +90,7 @@ public class NewVendorPaymentView extends
 	protected void initTransactionViewData() {
 
 		if (transaction == null) {
-			setData(new ClientVendorPayment());
+			setData(new ClientVendorPrePayment());
 		} else {
 			ClientCompany comapny = getCompany();
 
@@ -119,7 +119,7 @@ public class NewVendorPaymentView extends
 			if (payFromAccount != null)
 				payFromCombo.select(payFromAccount);
 			amountText.setEnabled(!isInViewMode());
-			ClientVendorPayment clientPayBill = transaction;
+			ClientVendorPrePayment clientPayBill = transaction;
 			paymentMethodCombo.setComboItem(clientPayBill.getPaymentMethod());
 			paymentMethodCombo.setEnabled(!isInViewMode());
 			paymentMethodSelected(transaction.getPaymentMethod());
@@ -383,8 +383,8 @@ public class NewVendorPaymentView extends
 		cancelButton.setTabIndex(15);
 	}
 
-	public ClientVendorPayment saveView() {
-		ClientVendorPayment saveView = super.saveView();
+	public ClientVendorPrePayment saveView() {
+		ClientVendorPrePayment saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
 		}

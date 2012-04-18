@@ -149,19 +149,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
 
 		return null;
 	}
@@ -215,13 +203,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 		}
 
-		double paidAmount = total;
-		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
-			paidAmount = (paidAmount / currencyFactor);
-		}
-		this.depositIn.updateCurrentBalance(this, -paidAmount, currencyFactor);
-		this.depositIn.onUpdate(session);
-		session.update(this.depositIn);
 		return false;
 	}
 
@@ -243,15 +224,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 					}
 				}
 			}
-			double paidAmount = total;
-			if (getCurrency().getID() != getCompany().getPrimaryCurrency()
-					.getID()) {
-				paidAmount = (paidAmount / currencyFactor);
-			}
-			this.depositIn.updateCurrentBalance(this, paidAmount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
-			session.update(this.depositIn);
 		}
 		return false;
 	}
@@ -325,8 +297,16 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
+	public void getEffects(ITransactionEffects e) {
+		double paidAmount = total;
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / currencyFactor);
+		}
+		e.add(getDepositIn(), paidAmount);
+		for (TransactionReceiveVAT vat : getTransactionReceiveVAT()) {
+			e.add(vat.getTaxAgency(), vat.getAmountToReceive());
+			e.add(vat.getTAXReturn().getTaxAgency().getFiledLiabilityAccount(),
+					vat.getAmountToReceive());
+		}
 	}
 }

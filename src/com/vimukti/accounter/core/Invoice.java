@@ -420,7 +420,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		super.onSave(session);
+
 		this.isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
 			if (isTemplate()) {
@@ -443,7 +443,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			session.save(creditsAndPayments);
 		}
 		doCreateEffect(session);
-		return false;
+		return super.onSave(session);
 	}
 
 	private void addEstimateTransactionItems() {
@@ -715,16 +715,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return true;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return customer;
-	}
-
 	public void updateStatus() {
 		if (DecimalUtil.isGreaterThan(this.balanceDue, 0.0)
 				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
@@ -804,7 +794,7 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		Invoice invoice = (Invoice) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
@@ -838,26 +828,12 @@ public class Invoice extends Transaction implements Lifecycle {
 				this.creditsAndPayments = null;
 				session.delete(invoice.creditsAndPayments);
 			}
-			this.cleanTransactionitems(this);
 			if (this.customer.getID() != invoice.getCustomer().getID()
 					|| isCurrencyFactorChanged()) {
 				doVoidEffect(session, invoice);
 
-				Customer customer = (Customer) session.get(Customer.class,
-						invoice.customer.getID());
-				customer.updateBalance(session, this, invoice.total,
-						invoice.getCurrencyFactor());
 				this.onSave(session);
 				return;
-			}
-			if (!DecimalUtil.isEquals(this.total, invoice.total)) {
-				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
-				Customer customer = (Customer) session.get(Customer.class,
-						invoice.customer.getID());
-				customer.updateBalance(session, this, invoice.total,
-						invoice.getCurrencyFactor());
-				this.customer.updateBalance(session, this, -this.total);
-				// }
 			}
 			this.updateTransactionReceivepayments();
 			doUpdateEffectEstiamtes(this, invoice, session);
@@ -984,28 +960,11 @@ public class Invoice extends Transaction implements Lifecycle {
 		this.estimates = estimates;
 	}
 
-	public void updateBalance(double amount, Transaction transaction) {
-		updateBalance(amount, transaction, transaction.getCurrencyFactor());
-	}
-
-	public void updateBalance(double amount, Transaction transaction,
-			double currencyFactor) {
-		Session session = HibernateUtil.getCurrentSession();
-
-		double amountToUpdate = amount * this.currencyFactor;
+	public void updateBalance(double amount) {
 
 		this.payments += amount;
 		this.balanceDue -= amount;
 
-		// loss is invoiced amount - received amount in base currency
-		double diff = amountToUpdate - amount * currencyFactor;
-
-		Account exchangeLossOrGainAccount = getCompany()
-				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
-
-		customer.updateBalance(session, transaction, diff / currencyFactor,
-				currencyFactor, false);
 		updateStatus();
 	}
 
@@ -1074,12 +1033,6 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		Invoice invoice = (Invoice) super.clone();
 		invoice.estimates = new ArrayList<Estimate>();
@@ -1088,6 +1041,36 @@ public class Invoice extends Transaction implements Lifecycle {
 		invoice.payments = 0;
 		invoice.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		return invoice;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				e.add(item.getIncomeAccount(), amount);
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity().reverse(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForSales();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getCustomer(), -getTotal());
 	}
 
 }

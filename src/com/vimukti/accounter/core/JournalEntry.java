@@ -1,10 +1,8 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -113,16 +111,6 @@ public class JournalEntry extends Transaction {
 	public boolean isPositiveTransaction() {
 
 		return false;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
 	}
 
 	@Override
@@ -239,7 +227,7 @@ public class JournalEntry extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		super.onEdit(clonedObject);
 		if (isBecameVoid()) {
@@ -264,7 +252,6 @@ public class JournalEntry extends Transaction {
 			involvedAccount.setOpeningBalance(0.00D);
 			session.save(involvedAccount);
 		}
-		voidTransactionItems();
 	}
 
 	@Override
@@ -284,22 +271,6 @@ public class JournalEntry extends Transaction {
 			checkNullValues();
 		}
 		return true;
-	}
-
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = new HashMap<Account, Double>();
-		for (TransactionItem e : transactionItems) {
-			if (e == null) {
-				try {
-					throw new AccounterException(
-							AccounterException.ERROR_TRANSACTION_ITEM_NULL);
-				} catch (Exception e2) {
-				}
-			}
-			map.put(e.getAccount(), e.getLineTotal());
-		}
-		return map;
 	}
 
 	public void setInvolvedPayee(Payee involvedPayee) {
@@ -347,16 +318,22 @@ public class JournalEntry extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		JournalEntry jEntry = (JournalEntry) super.clone();
 		jEntry.transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 		jEntry.transactionPayBills = new HashSet<TransactionPayBill>();
 		return jEntry;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem item : getTransactionItems()) {
+			double amount = -item.getLineTotal();
+			e.add(item.getAccount(), amount);
+		}
+		// if (getInvolvedPayee() != null) {
+		// // This is Payee Opening Balance related Journal Entry
+		// e.add(involvedPayee, involvedPayee.getOpeningBalance());
+		// }
 	}
 }

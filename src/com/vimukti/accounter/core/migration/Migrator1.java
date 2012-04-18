@@ -25,14 +25,13 @@ public class Migrator1 extends AbstractMigrator {
 
 	@Override
 	public void migrate(Company company) {
-
+		log.info("Started Migrator1");
 		Session session = getSession();
 
 		// CREATING COST OF GOODS SOLD ACCOUNT
 		if (company.getCostOfGoodsSold() == null) {
 			AccounterThreadLocal.set(company.getOpeningBalancesAccount()
 					.getCreatedBy());
-			log.info("Updating Company - " + company.getTradingName());
 			String accountNumber = getNextAccountNumber(company.getID(),
 					Account.TYPE_COST_OF_GOODS_SOLD);
 			Account account = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
@@ -85,7 +84,7 @@ public class Migrator1 extends AbstractMigrator {
 		}
 
 		InventoryUtils.remapSalesPurchases(list);
-
+		log.info("Finished Migrator1");
 	}
 
 	private void createAssetsAccount(Item inventoryItem) {
@@ -94,9 +93,6 @@ public class Migrator1 extends AbstractMigrator {
 
 		String nextNum = getNextAccountNumber(company.getId(),
 				Account.TYPE_INVENTORY_ASSET);
-		log.info("Creating Account with number " + nextNum + " for Item '"
-				+ inventoryItem.getName() + "' of Company '"
-				+ company.getTradingName() + "'.");
 		Account account = new Account(Account.TYPE_INVENTORY_ASSET, nextNum,
 				AccounterServerConstants.ASSETS_INVENTORY,
 				Account.CASH_FLOW_CATEGORY_OPERATING);

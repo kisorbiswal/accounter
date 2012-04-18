@@ -171,18 +171,6 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.vendor;
-		// return null;
-
-	}
-
-	@Override
 	public void setTotal(double total) {
 		this.total = total;
 	}
@@ -220,7 +208,7 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		VendorCreditMemo vendorCreditMemo = (VendorCreditMemo) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
@@ -248,8 +236,6 @@ public class VendorCreditMemo extends Transaction {
 
 		} else if (!this.equals(vendorCreditMemo)) {
 
-			this.cleanTransactionitems(this);
-
 			/**
 			 * Checking that whether two vendors are same are not. If they are
 			 * not same then update clonedObject Vendor and New Vendor balances
@@ -276,20 +262,7 @@ public class VendorCreditMemo extends Transaction {
 					.isEquals(this.total, vendorCreditMemo.total)))
 					|| isCurrencyFactorChanged()) {
 
-				// if (DecimalUtil.isLessThan(this.total,
-				// vendorCreditMemo.total)) {
-				vendor.updateBalance(session, this, vendorCreditMemo.total,
-						vendorCreditMemo.getCurrencyFactor());
-				this.vendor.updateBalance(session, this, -this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
-				// } else {
-				//
-				// this.vendor.updateBalance(session, this,
-				// vendorCreditMemo.total - this.total);
-				// this.creditsAndPayments.updateCreditPayments(this.total);
-				// }
-
-				// session.saveOrUpdate(this.creditsAndPayments);
 
 			}
 
@@ -377,8 +350,37 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					Quantity quantityCopy = tItem.getQuantity().reverse();
+					e.add(item, quantityCopy,
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+					double calculatePrice = quantityCopy.calculatePrice(tItem
+							.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getVendor(), -getTotal());
 	}
 }

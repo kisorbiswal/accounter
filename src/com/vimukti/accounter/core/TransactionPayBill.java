@@ -290,19 +290,6 @@ public class TransactionPayBill extends CreatableObject implements
 		if (this.getID() == 0l && !payBill.isDraftOrTemplate()
 				&& !payBill.isVoid()) {
 
-			// this.enterBill.getVendor().updateBalance(session, this.payBill,
-			// -this.payment);
-
-			if (this.getDiscountAccount() != null
-					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
-				this.payBill.getVendor().updateBalance(session, this.payBill,
-						-this.cashDiscount);
-
-				this.discountAccount.updateCurrentBalance(this.payBill,
-						this.cashDiscount, payBill.currencyFactor);
-				this.discountAccount.onUpdate(session);
-
-			}
 			// To make the EnterBill as Un Void or Un Editable
 			if (this.discountAccount != null
 					&& DecimalUtil.isGreaterThan(this.cashDiscount, 0.0)) {
@@ -322,7 +309,7 @@ public class TransactionPayBill extends CreatableObject implements
 				setCompany(enterBill.getCompany());
 				// Update the Payments and the balance due of the corresponding
 				// enterBill
-				this.enterBill.updateBalance(amount, this.payBill);
+				this.enterBill.updateBalance(amount);
 
 			}/*
 			 * else if (this.transactionMakeDeposit != null) { // Update the
@@ -362,18 +349,6 @@ public class TransactionPayBill extends CreatableObject implements
 	public void doReverseEffect(boolean isDeleting) {
 
 		Session session = HibernateUtil.getCurrentSession();
-		// this.payBill.getVendor().updateBalance(session, this.payBill,
-		// this.payment);
-		if (this.getDiscountAccount() != null
-				&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
-
-			this.payBill.getVendor().updateBalance(session, this.payBill,
-					this.cashDiscount, payBill.previousCurrencyFactor);
-			this.discountAccount.updateCurrentBalance(this.payBill,
-					-this.cashDiscount, payBill.previousCurrencyFactor);
-			this.discountAccount.onUpdate(session);
-			session.saveOrUpdate(this.discountAccount);
-		}
 
 		double amount = (this.cashDiscount) + (this.appliedCredits)
 				+ (this.payment);
@@ -387,9 +362,7 @@ public class TransactionPayBill extends CreatableObject implements
 		// this.payment = 0.0;
 		if (this.enterBill != null) {
 
-			this.enterBill.updateBalance(-amount, this.payBill,
-					payBill.previousCurrencyFactor);
-			session.saveOrUpdate(this.enterBill);
+			this.enterBill.updateBalance(-amount);
 			this.enterBill = null;
 
 		} /*
@@ -441,7 +414,7 @@ public class TransactionPayBill extends CreatableObject implements
 		this.appliedCredits -= amount;
 
 		if (this.enterBill != null) {
-			this.enterBill.updateBalance(amount, transaction);
+			this.enterBill.updateBalance(amount);
 			HibernateUtil.getCurrentSession().saveOrUpdate(this.enterBill);
 		} /*
 		 * else if (this.transactionMakeDeposit != null) {

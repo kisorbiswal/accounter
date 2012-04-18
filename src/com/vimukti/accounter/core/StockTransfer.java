@@ -78,9 +78,10 @@ public class StockTransfer extends CreatableObject implements
 			double value = (item.getQuantity().getValue() * item.getQuantity()
 					.getUnit().getFactor())
 					/ fromitemStatus.getQuantity().getUnit().getFactor();
-			fromWarehouse.updateItemStatus(item.getItem(), value, true);
 
-			toWarehouse.updateItemStatus(item.getItem(), value, false);
+			fromWarehouse.updateItemStatus(item.getItem(), -value);
+
+			toWarehouse.updateItemStatus(item.getItem(), value);
 			item.setCompany(getCompany());
 		}
 		session.saveOrUpdate(fromWarehouse);
@@ -99,8 +100,8 @@ public class StockTransfer extends CreatableObject implements
 				double value = (item.getQuantity().getValue() * item
 						.getQuantity().getUnit().getFactor())
 						/ fromitemStatus.getQuantity().getUnit().getFactor();
-				fromWarehouse.updateItemStatus(item.getItem(), value, false);
-				toWarehouse.updateItemStatus(item.getItem(), value, true);
+				fromWarehouse.updateItemStatus(item.getItem(), value);
+				toWarehouse.updateItemStatus(item.getItem(), -value);
 			}
 		}
 		session.saveOrUpdate(fromWarehouse);

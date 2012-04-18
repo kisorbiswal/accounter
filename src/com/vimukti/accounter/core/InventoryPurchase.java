@@ -123,4 +123,18 @@ public class InventoryPurchase implements IAccounterServerCore {
 		this.effectingAccount = effectingAccount;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer("Item Purchase ID:");
+		buffer.append(getID());
+		buffer.append(" Item :");
+		buffer.append(getItem());
+		buffer.append(" Quantity : ");
+		buffer.append(getQuantity());
+		buffer.append(" Cost : ");
+		buffer.append(getCost());
+		buffer.append(" Effecting Account : ");
+		buffer.append(getEffectingAccount());
+		return buffer.toString();
+	}
 }

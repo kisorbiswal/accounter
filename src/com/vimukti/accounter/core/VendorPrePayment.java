@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Map;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -12,7 +10,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class VendorPayment extends Transaction {
+public class VendorPrePayment extends Transaction {
 
 	/**
 	 * 
@@ -48,7 +46,7 @@ public class VendorPayment extends Transaction {
 
 	boolean isToBePrinted;
 
-	public VendorPayment() {
+	public VendorPrePayment() {
 		setType(Transaction.TYPE_VENDOR_PAYMENT);
 	}
 
@@ -89,16 +87,6 @@ public class VendorPayment extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
 	}
@@ -122,12 +110,6 @@ public class VendorPayment extends Transaction {
 	@Override
 	public Payee getInvolvedPayee() {
 		return this.vendor;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? -total : total;
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
 	public boolean isAmountIncludeTDS() {
@@ -276,34 +258,14 @@ public class VendorPayment extends Transaction {
 				session.save(creditsAndPayments);
 			}
 
-			double amountEffectedToAccount = total - tdsTotal;
-			if (!DecimalUtil.isEquals(amountEffectedToAccount, 0.00D)) {
-				payFrom.updateCurrentBalance(this, amountEffectedToAccount,
-						currencyFactor);
-				session.update(payFrom);
-				payFrom.onUpdate(HibernateUtil.getCurrentSession());
-			}
-
-			// Update TDS Account if TDSEnabled
-			if (getCompany().getPreferences().isTDSEnabled()
-					&& this.getVendor().isTdsApplicable()) {
-				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
-					TAXItem taxItem = this.getTdsTaxItem();
-					if (taxItem != null) {
-						addTAXRateCalculation(taxItem, amountEffectedToAccount,
-								false);
-					}
-				}
-			}
-
 		}
 		return false;
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		VendorPayment vendorPayment = (VendorPayment) clonedObject;
+		VendorPrePayment vendorPayment = (VendorPrePayment) clonedObject;
 
 		if (isDraftOrTemplate()) {
 			super.onEdit(vendorPayment);
@@ -324,7 +286,7 @@ public class VendorPayment extends Transaction {
 		super.onEdit(vendorPayment);
 	}
 
-	private void doVoidEffect(Session session, VendorPayment vendorPayment) {
+	private void doVoidEffect(Session session, VendorPrePayment vendorPayment) {
 
 		vendorPayment.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 
@@ -337,16 +299,9 @@ public class VendorPayment extends Transaction {
 			vendorPayment.creditsAndPayments = null;
 		}
 
-		double amountEffectedToAccount = total - tdsTotal;
-		if (DecimalUtil.isGreaterThan(amountEffectedToAccount, 0.00D)) {
-			payFrom.updateCurrentBalance(this, -1 * amountEffectedToAccount,
-					currencyFactor);
-			session.update(payFrom);
-			payFrom.onUpdate(HibernateUtil.getCurrentSession());
-		}
 	}
 
-	private void editVendorPayment(VendorPayment vendorPayment) {
+	private void editVendorPayment(VendorPrePayment vendorPayment) {
 		Session session = HibernateUtil.getCurrentSession();
 		if (this.vendor.getID() != vendorPayment.vendor.getID()) {
 
@@ -364,33 +319,6 @@ public class VendorPayment extends Transaction {
 
 		}
 
-		double effectToAccount = vendorPayment.total - vendorPayment.tdsTotal;
-		double preEffectedToAccount = this.total - this.tdsTotal;
-		if (this.payFrom.getID() != vendorPayment.payFrom.getID()
-				|| isCurrencyFactorChanged()) {
-			Account payFromAccount = (Account) session.get(Account.class,
-					vendorPayment.payFrom.getID());
-			payFromAccount.updateCurrentBalance(this, -effectToAccount,
-					vendorPayment.currencyFactor);
-			payFromAccount.onUpdate(session);
-			this.payFrom.updateCurrentBalance(this, preEffectedToAccount,
-					currencyFactor);
-			this.payFrom.onUpdate(session);
-		} else if (!DecimalUtil.isEquals(effectToAccount, preEffectedToAccount)) {
-			this.payFrom.updateCurrentBalance(this, preEffectedToAccount
-					- effectToAccount, currencyFactor);
-			this.payFrom.onUpdate(session);
-		}
-
-		doEffectTDS(session, vendorPayment);
-
-		if (this.vendor.getID() == vendorPayment.vendor.getID()
-				&& (!(DecimalUtil.isEquals(this.total, vendorPayment.total)) || isCurrencyFactorChanged())) {
-			this.vendor.updateBalance(session, this, vendorPayment.total,
-					vendorPayment.previousCurrencyFactor);
-			this.vendor.updateBalance(session, this, -total, currencyFactor);
-		}
-
 		if (!this.paymentMethod
 				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK)
 				&& !this.paymentMethod
@@ -406,39 +334,20 @@ public class VendorPayment extends Transaction {
 
 	}
 
-	private void doEffectTDS(Session session, VendorPayment vendorPayment) {
-		cleanTransactionitems(vendorPayment);
-		double amountEffectedToAccount = total - tdsTotal;
-		if (getCompany().getPreferences().isTDSEnabled()
-				&& this.getVendor().isTdsApplicable()) {
-			if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
-				TAXItem taxItem = this.getTdsTaxItem();
-				if (taxItem != null) {
-					addTAXRateCalculation(taxItem, amountEffectedToAccount,
-							false);
-
-				}
-			}
-		}
-	}
-
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (creditsAndPayments != null) {
-			map.put(creditsAndPayments.getPayee().getAccount(),
-					creditsAndPayments.getEffectingAmount());
-		}
-
-		if (payFrom != null) {
-			map.put(payFrom, total - tdsTotal);
-		}
-		return map;
-	}
-
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		return false;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		double vendorPayment = getTotal() - getTdsTotal();
+		e.add(getPayFrom(), vendorPayment);
+		if (getCompany().getPreferences().isTDSEnabled()
+				&& this.getVendor().isTdsApplicable()) {
+			e.add(getTdsTaxItem(), vendorPayment);
+		}
+		e.add(getVendor(), -getTotal());
 	}
 }

@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -115,18 +114,6 @@ public class TAXReturn extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -173,54 +160,8 @@ public class TAXReturn extends Transaction {
 				+ periodEndDate + "Balance:" + balance;
 	}
 
-	protected void updateTaxLiabilityAccounts() {
-		for (TAXReturnEntry entry : taxReturnEntries) {
-			if (entry.getCategory() == Transaction.CATEGORY_CUSTOMER) {
-				salesTaxTotal += entry.getTaxAmount();
-			} else if (entry.getCategory() == Transaction.CATEGORY_VENDOR) {
-				purchaseTaxTotal += entry.getTaxAmount();
-			}
-		}
-		totalTAXAmount = salesTaxTotal + purchaseTaxTotal;
-		balance = totalTAXAmount;
-		Session session = HibernateUtil.getCurrentSession();
-		Account salesLiabilityAccount = taxAgency.getSalesLiabilityAccount();
-		if (salesLiabilityAccount != null) {
-			salesLiabilityAccount.updateCurrentBalance(this,
-					-1 * salesTaxTotal, currencyFactor);
-			salesLiabilityAccount.onUpdate(session);
-			session.update(salesLiabilityAccount);
-		}
-
-		Account purchaseLiabilityAccount = taxAgency
-				.getPurchaseLiabilityAccount();
-		if (purchaseLiabilityAccount != null) {
-			purchaseLiabilityAccount.updateCurrentBalance(this, -1
-					* purchaseTaxTotal, currencyFactor);
-			purchaseLiabilityAccount.onUpdate(session);
-			session.update(purchaseLiabilityAccount);
-		}
-
-		// double amount = vatReturn.getBoxes().get(4).getAmount()
-		// + vatReturn.getBoxes().get(vatReturn.getBoxes().size() - 1)
-		// .getAmount();
-		Account vatFiledLiabilityAccount = taxAgency.getFiledLiabilityAccount();
-		vatFiledLiabilityAccount.updateCurrentBalance(this,
-				this.totalTAXAmount, currencyFactor);
-		vatFiledLiabilityAccount.onUpdate(session);
-		session.update(vatFiledLiabilityAccount);
-
-	}
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		super.onSave(session);
-
-		// FlushMode flushMode = session.getFlushMode();
-		// session.setFlushMode(FlushMode.COMMIT);
-
-		// try {
-		updateTaxLiabilityAccounts();
 
 		if (this.isOnSaveProccessed)
 			return true;
@@ -229,20 +170,9 @@ public class TAXReturn extends Transaction {
 		this.balance = this.total;
 		this.type = Transaction.TYPE_TAX_RETURN;
 
-		taxAgency.updateBalance(session, this, this.total);
 		taxAgency.setLastTAXReturnDate(this.periodEndDate);
 		taxAgency.onUpdate(session);
 		session.saveOrUpdate(taxAgency);
-
-		// this.taxAgency.salesLiabilityAccount.updateCurrentBalance(this,
-		// -this.boxes.get(2).getAmount());
-		// session.update(this.taxAgency.salesLiabilityAccount);
-		// this.taxAgency.salesLiabilityAccount.onUpdate(session);
-		//
-		// this.taxAgency.purchaseLiabilityAccount.updateCurrentBalance(this,
-		// this.boxes.get(3).getAmount());
-		// session.update(this.taxAgency.purchaseLiabilityAccount);
-		// this.taxAgency.purchaseLiabilityAccount.onUpdate(session);
 
 		Query query = session.getNamedQuery("getTaxAdjustment.by.dates")
 				.setParameter("fromDate", this.periodStartDate)
@@ -262,25 +192,15 @@ public class TAXReturn extends Transaction {
 				.setParameter("vatAgency", taxAgency.getID())
 				.setEntity("company", getCompany());
 
-		// this.setJournalEntry(new JournalEntry(this));
-
 		List<TAXRateCalculation> vrc = query.list();
-		// org.hibernate.Transaction t = session.beginTransaction();
 		for (TAXRateCalculation v : vrc) {
 			v.taxReturn = this;
 			session.update(v);
 		}
-		// t.commit();
-
-		// Company.getCompany().getAccountsPayableAccount().updateCurrentBalance(
-		// this, (total + this.boxes.get(boxes.size() - 1).getAmount()));
 
 		ChangeTracker.put(this);
-		return false;
+		return super.onSave(session);
 
-		// } finally {
-		// session.setFlushMode(flushMode);
-		// }
 	}
 
 	/**
@@ -311,13 +231,6 @@ public class TAXReturn extends Transaction {
 	 */
 	public void setPurchaseTaxTotal(double purchaseTaxTotal) {
 		this.purchaseTaxTotal = purchaseTaxTotal;
-	}
-
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(taxAgency.getAccount(), total);
-		return map;
 	}
 
 	/**
@@ -361,12 +274,6 @@ public class TAXReturn extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		doReverseEffect();
 		return super.onDelete(session);
@@ -385,11 +292,6 @@ public class TAXReturn extends Transaction {
 					.getPeriodEndDate());
 		}
 
-		taxAgency.updateBalance(session, this, -this.total);
-
-		taxAgency.onUpdate(session);
-		session.update(taxAgency);
-
 		query = session.getNamedQuery("getTaxAdjustment.by.dates")
 				.setParameter("fromDate", this.periodStartDate)
 				.setParameter("toDate", this.periodEndDate)
@@ -403,8 +305,6 @@ public class TAXReturn extends Transaction {
 			}
 		}
 
-		doReverseEffectTaxLiabilityAccounts();
-
 		query = session.getNamedQuery("getTaxrateCalc.of.TAXReturn")
 				.setParameter("taxReturnId", this.getID());
 
@@ -413,33 +313,6 @@ public class TAXReturn extends Transaction {
 			taxRateCalculation.taxReturn = null;
 			session.update(taxRateCalculation);
 		}
-	}
-
-	private void doReverseEffectTaxLiabilityAccounts() {
-		Session session = HibernateUtil.getCurrentSession();
-		Account salesLiabilityAccount = taxAgency.getSalesLiabilityAccount();
-		if (salesLiabilityAccount != null) {
-			salesLiabilityAccount.updateCurrentBalance(this, salesTaxTotal,
-					currencyFactor);
-			salesLiabilityAccount.onUpdate(session);
-			session.update(salesLiabilityAccount);
-		}
-
-		Account purchaseLiabilityAccount = taxAgency
-				.getPurchaseLiabilityAccount();
-		if (purchaseLiabilityAccount != null) {
-			purchaseLiabilityAccount.updateCurrentBalance(this,
-					purchaseTaxTotal, currencyFactor);
-			purchaseLiabilityAccount.onUpdate(session);
-			session.update(purchaseLiabilityAccount);
-		}
-
-		Account vatFiledLiabilityAccount = taxAgency.getFiledLiabilityAccount();
-		vatFiledLiabilityAccount.updateCurrentBalance(this,
-				-this.totalTAXAmount, currencyFactor);
-		vatFiledLiabilityAccount.onUpdate(session);
-		session.update(vatFiledLiabilityAccount);
-
 	}
 
 	@Override
@@ -454,5 +327,23 @@ public class TAXReturn extends Transaction {
 					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
 							.get().messages().transactionItem());
 		}
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		double salesTaxTotal = 0, purchaseTaxTotal = 0, totalTAXAmount;
+		for (TAXReturnEntry entry : getTaxReturnEntries()) {
+			if (entry.getCategory() == Transaction.CATEGORY_CUSTOMER) {
+				salesTaxTotal += entry.getTaxAmount();
+			} else if (entry.getCategory() == Transaction.CATEGORY_VENDOR) {
+				purchaseTaxTotal += entry.getTaxAmount();
+			}
+		}
+		totalTAXAmount = salesTaxTotal + purchaseTaxTotal;
+		e.add(getTaxAgency().getSalesLiabilityAccount(), -1 * salesTaxTotal);
+		e.add(getTaxAgency().getPurchaseLiabilityAccount(), -1
+				* purchaseTaxTotal);
+		e.add(getTaxAgency().getFiledLiabilityAccount(), totalTAXAmount);
+		e.add(getTaxAgency(), getTotal());
 	}
 }

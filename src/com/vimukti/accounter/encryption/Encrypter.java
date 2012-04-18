@@ -150,8 +150,9 @@ public class Encrypter extends Thread {
 				TransferFund.class, Unit.class, UnitOfMeasure.class,
 				User.class, UserPermissions.class, UserPreferences.class,
 				UserUtils.class, VATReturnBox.class, Vendor.class,
-				VendorCreditMemo.class, VendorGroup.class, VendorPayment.class,
-				Warehouse.class, WareHouseAllocation.class, WriteCheck.class };
+				VendorCreditMemo.class, VendorGroup.class,
+				VendorPrePayment.class, Warehouse.class,
+				WareHouseAllocation.class, WriteCheck.class };
 		return classes;
 	}
 
@@ -218,7 +219,7 @@ public class Encrypter extends Thread {
 			session = HibernateUtil.openSession();
 			try {
 				Transaction transaction = session.beginTransaction();
-				session.getNamedQuery("unloack.company")
+				session.getNamedQuery("unlock.company")
 						.setParameter("companyId", companyId).executeUpdate();
 				transaction.commit();
 			} catch (Exception e) {

@@ -146,12 +146,23 @@
 
 	</sql-query>
 
-	<sql-query name="unloack.company">
+	<sql-query name="unlock.company">
 		<query-param name="companyId" type="long" />
 		
 		<![CDATA[
 				UPDATE company 
 				SET    is_locked = false 
+				WHERE  id = :companyId 
+		]]>
+
+	</sql-query>
+
+	<sql-query name="lock.company">
+		<query-param name="companyId" type="long" />
+		
+		<![CDATA[
+				UPDATE company 
+				SET    is_locked = true 
 				WHERE  id = :companyId 
 		]]>
 

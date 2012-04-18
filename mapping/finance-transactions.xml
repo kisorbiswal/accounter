@@ -94,7 +94,19 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="TAXRateCalculation" />
 		</set>
-
+		
+		<set name="payeeUpdates" inverse="true"
+			cascade="all-delete-orphan">
+			<key column="TRANSACTION"></key>
+			<one-to-many class="PayeeUpdate" />
+		</set>
+		
+		<set name="itemUpdates" inverse="true"
+			cascade="all-delete-orphan">
+			<key column="TRANSACTION"></key>
+			<one-to-many class="ItemUpdate" />
+		</set>
+		
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
@@ -667,7 +679,6 @@
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="unusedAmount" column="UNUSED_AMOUNT"></property>
 			<property name="vendorBalance" column="VENDOR_BALANCE"></property>
-			<property name="payBillType" column="PAYBILL_TYPE"></property>
 			<component name="address" class="Address">
 				<property name="type" column="PAYBILL_ADDRESS_TYPE"></property>
 				<property name="address1" type="encryptedstring" column="PAYBILL_ADDRESS_ADDRESS1"
@@ -694,7 +705,7 @@
 			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="isAmountIncludeTDS" column="IS_AMOUNT_INCLUDE_TDS"></property>
 		</joined-subclass>
-		<joined-subclass name="VendorPayment" table="VENDOR_PAYMENT">
+		<joined-subclass name="VendorPrePayment" table="VENDOR_PAYMENT">
 			<key column="ID" />
 			<many-to-one name="payFrom" class="Account" cascade="save-update"
 				column="PAYFROM_ID">
@@ -1574,4 +1585,55 @@
 			column="TRANSACTION_ID">
 		</many-to-one>
 	</class>
+	
+	<class name="PayeeUpdate" table="PAYEE_UPDATE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<many-to-one name="payee" class="Payee"
+			column="PAYEE"/>
+		<many-to-one name="transaction" class="Transaction"
+			column="TRANSACTION"/>
+		<property name="amount" column="AMOUNT"/>
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
+	</class>
+	
+	<class name="ItemUpdate" table="ITEM_UPDATE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		
+		<many-to-one name="item" class="Item"
+			column="ITEM"/>
+		<many-to-one name="transaction" class="Transaction"
+			column="TRANSACTION"/>
+		<many-to-one name="warehouse" class="Warehouse"
+			column="WARE_HOUSE"/>
+		<component name="quantity" class="Quantity">
+			<property name="value" column="QTY_VALUE"></property>
+			<many-to-one name="unit" class="Unit" column="QTY_UNIT"></many-to-one>
+		</component>
+		<property name="unitPrice" column="UNIT_PRICE"/>
+		
+		<many-to-one name="createdBy" column="CREATED_BY" class="User"
+			not-null="true"></many-to-one>
+		<many-to-one name="lastModifier" column="LAST_MODIFIER"
+			class="User" not-null="true"></many-to-one>
+		<property name="createdDate" column="CREATED_DATE" not-null="true" />
+		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
+			not-null="true" />
+	</class>
+	
 </hibernate-mapping>
