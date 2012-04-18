@@ -57,7 +57,21 @@ public class CreditNotePdfGeneration {
 					: brandingTheme.getCreditMemoTitle().toString();
 
 			i.setTitle(title);
-			i.setCustomerNameNBillAddress(getBillingAddress());
+			i.setCustomerName(memo.getCustomer().getName());
+			Address billAddress = memo.getBillingAddress();
+			if (billAddress != null) {
+				i.setBillTo(billAddress);
+				i.billTo.setAddress1(forNullValue(billAddress.getAddress1()));
+				i.billTo.setStreet(forNullValue(billAddress.getStreet()));
+				i.billTo.setCity(forNullValue(billAddress.getCity()));
+				i.billTo.setStateOrProvinence(forNullValue(billAddress
+						.getStateOrProvinence()));
+				i.billTo.setZipOrPostalCode(forNullValue(billAddress
+						.getZipOrPostalCode()));
+				i.billTo.setCountryOrRegion(forNullValue(billAddress
+						.getCountryOrRegion()));
+
+			}
 			i.setCreditNoteNumber(memo.getNumber());
 			i.setCreditNoteDate(Utility.getDateInSelectedFormat(memo.getDate()));
 
@@ -147,7 +161,21 @@ public class CreditNotePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			i.setRegistrationAddress(getRegistrationAddress());
+			Address regAddress1 = company.getRegisteredAddress();
+			if (regAddress1 != null) {
+				i.setRegAddress(regAddress1);
+				i.regAddress
+						.setAddress1(forNullValue(regAddress1.getAddress1()));
+				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
+				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
+				i.regAddress.setStateOrProvinence(forNullValue(regAddress1
+						.getStateOrProvinence()));
+				i.regAddress.setCountryOrRegion(forNullValue(regAddress1
+						.getCountryOrRegion()));
+				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
+						.getZipOrPostalCode()));
+			}
+			// i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("logo", logo);
 			context.put("credit", i);
@@ -296,13 +324,15 @@ public class CreditNotePdfGeneration {
 		private String creditNoteDate;
 		private String creditNoteCustomerNumber;
 		private String currency;
-		private String customerNameNBillAddress;
+		private String customerName;
 		private String total;
 		private String netAmount;
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		private String registrationAddress;
+		// private String registrationAddress;
+		private Address billTo;
+		private Address regAddress;
 
 		public String getCreditNoteNumber() {
 			return creditNoteNumber;
@@ -334,14 +364,6 @@ public class CreditNotePdfGeneration {
 
 		public void setCurrency(String currency) {
 			this.currency = currency;
-		}
-
-		public String getCustomerNameNBillAddress() {
-			return customerNameNBillAddress;
-		}
-
-		public void setCustomerNameNBillAddress(String customerNameNBillAddress) {
-			this.customerNameNBillAddress = customerNameNBillAddress;
 		}
 
 		public String getTotal() {
@@ -392,12 +414,36 @@ public class CreditNotePdfGeneration {
 			this.title = title;
 		}
 
-		public String getRegistrationAddress() {
-			return registrationAddress;
+		// public String getRegistrationAddress() {
+		// return registrationAddress;
+		// }
+		//
+		// public void setRegistrationAddress(String registrationAddress) {
+		// this.registrationAddress = registrationAddress;
+		// }
+
+		public Address getBillTo() {
+			return billTo;
 		}
 
-		public void setRegistrationAddress(String registrationAddress) {
-			this.registrationAddress = registrationAddress;
+		public void setBillTo(Address billTo) {
+			this.billTo = billTo;
+		}
+
+		public Address getRegAddress() {
+			return regAddress;
+		}
+
+		public void setRegAddress(Address regAddress) {
+			this.regAddress = regAddress;
+		}
+
+		public String getCustomerName() {
+			return customerName;
+		}
+
+		public void setCustomerName(String customerName) {
+			this.customerName = customerName;
 		}
 
 	}

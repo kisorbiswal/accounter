@@ -26,7 +26,21 @@ public class CashExpensePdfGeneration {
 
 			DummyExpense i = new DummyExpense();
 			i.setTitle("Cash Expense");
-			i.setVendorNBillingAddress(getBillingAddress());
+			i.setVendorName(cashPurchase.getVendor().getName());
+			Address billAddress = cashPurchase.getVendorAddress();
+			if (billAddress != null) {
+				i.setBillTo(billAddress);
+				i.billTo.setAddress1(forNullValue(billAddress.getAddress1()));
+				i.billTo.setStreet(forNullValue(billAddress.getStreet()));
+				i.billTo.setCity(forNullValue(billAddress.getCity()));
+				i.billTo.setStateOrProvinence(forNullValue(billAddress
+						.getStateOrProvinence()));
+				i.billTo.setZipOrPostalCode(forNullValue(billAddress
+						.getZipOrPostalCode()));
+				i.billTo.setCountryOrRegion(forNullValue(billAddress
+						.getCountryOrRegion()));
+
+			}
 			i.setNumber(cashPurchase.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(cashPurchase.getDate()));
 
@@ -102,7 +116,21 @@ public class CashExpensePdfGeneration {
 
 			i.setMemo(cashPurchase.getMemo());
 
-			i.setRegistrationAddress(getRegistrationAddress());
+			Address regAddress1 = company.getRegisteredAddress();
+			if (regAddress1 != null) {
+				i.setRegAddress(regAddress1);
+				i.regAddress
+						.setAddress1(forNullValue(regAddress1.getAddress1()));
+				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
+				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
+				i.regAddress.setStateOrProvinence(forNullValue(regAddress1
+						.getStateOrProvinence()));
+				i.regAddress.setCountryOrRegion(forNullValue(regAddress1
+						.getCountryOrRegion()));
+				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
+						.getZipOrPostalCode()));
+			}
+			// i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("expense", i);
 			context.put("item", itemList);
@@ -225,14 +253,16 @@ public class CashExpensePdfGeneration {
 	public class DummyExpense {
 
 		private String title;
-		private String vendorNBillingAddress;
+		private String vendorName;
 		private String number;
 		private String date;
 		private String currency;
 		private String total;
 		private String netAmount;
 		private String memo;
-		private String registrationAddress;
+		// private String registrationAddress;
+		private Address billTo;
+		private Address regAddress;
 
 		public String getCurrency() {
 			return currency;
@@ -274,21 +304,21 @@ public class CashExpensePdfGeneration {
 			this.title = title;
 		}
 
-		public String getRegistrationAddress() {
-			return registrationAddress;
-		}
-
-		public void setRegistrationAddress(String registrationAddress) {
-			this.registrationAddress = registrationAddress;
-		}
-
-		public String getVendorNBillingAddress() {
-			return vendorNBillingAddress;
-		}
-
-		public void setVendorNBillingAddress(String vendorNBillingAddress) {
-			this.vendorNBillingAddress = vendorNBillingAddress;
-		}
+		// public String getRegistrationAddress() {
+		// return registrationAddress;
+		// }
+		//
+		// public void setRegistrationAddress(String registrationAddress) {
+		// this.registrationAddress = registrationAddress;
+		// }
+		//
+		// public String getVendorNBillingAddress() {
+		// return vendorNBillingAddress;
+		// }
+		//
+		// public void setVendorNBillingAddress(String vendorNBillingAddress) {
+		// this.vendorNBillingAddress = vendorNBillingAddress;
+		// }
 
 		public String getNumber() {
 			return number;
@@ -304,6 +334,30 @@ public class CashExpensePdfGeneration {
 
 		public void setDate(String date) {
 			this.date = date;
+		}
+
+		public Address getBillTo() {
+			return billTo;
+		}
+
+		public void setBillTo(Address billTo) {
+			this.billTo = billTo;
+		}
+
+		public Address getRegAddress() {
+			return regAddress;
+		}
+
+		public void setRegAddress(Address regAddress) {
+			this.regAddress = regAddress;
+		}
+
+		public String getVendorName() {
+			return vendorName;
+		}
+
+		public void setVendorName(String vendorName) {
+			this.vendorName = vendorName;
 		}
 
 	}

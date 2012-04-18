@@ -57,7 +57,21 @@ public class PurchaseOrderPdfGeneration {
 			String title = brandingTheme.getPurchaseOrderTitle() == null ? "Purchase Order"
 					: brandingTheme.getPurchaseOrderTitle().toString();
 			i.setTitle(title);
-			i.setBillAddress(getBillingAddress());
+			Address billAddress = purchaseOrder.getVendorAddress();
+			if (billAddress != null) {
+				i.setBillTo(billAddress);
+				i.getBillTo().setAddress1(
+						forNullValue(billAddress.getAddress1()));
+				i.getBillTo().setStreet(forNullValue(billAddress.getStreet()));
+				i.getBillTo().setCity(forNullValue(billAddress.getCity()));
+				i.getBillTo().setStateOrProvinence(
+						forNullValue(billAddress.getStateOrProvinence()));
+				i.getBillTo().setZipOrPostalCode(
+						forNullValue(billAddress.getZipOrPostalCode()));
+				i.getBillTo().setCountryOrRegion(
+						forNullValue(billAddress.getCountryOrRegion()));
+
+			}
 			i.setNumber(purchaseOrder.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(purchaseOrder
 					.getDespatchDate()));
@@ -74,7 +88,23 @@ public class PurchaseOrderPdfGeneration {
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
 
-			i.setShipAddress(getShippingAddress());
+			// i.setShipAddress(getShippingAddress());
+			Address shippAdress = purchaseOrder.getShippingAddress();
+			if (shippAdress != null) {
+				i.setShipTo(shippAdress);
+				// i.shipTo.setShip_customerName(invoice.getCustomer().getName()
+				// .trim());
+				i.shipTo.setAddress1(forNullValue(shippAdress.getAddress1()));
+				i.shipTo.setStreet(forNullValue(shippAdress.getStreet()));
+				i.shipTo.setCity(forNullValue(shippAdress.getCity()));
+				i.shipTo.setStateOrProvinence(forNullValue(shippAdress
+						.getStateOrProvinence()));
+				i.shipTo.setCountryOrRegion(forNullValue(shippAdress
+						.getCountryOrRegion()));
+				i.shipTo.setZipOrPostalCode(forNullValue(shippAdress
+						.getZipOrPostalCode()));
+
+			}
 			i.setVendorName(purchaseOrder.getVendor().getName());
 
 			ShippingMethod shipMtd = purchaseOrder.getShippingMethod();
@@ -112,15 +142,15 @@ public class PurchaseOrderPdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() , "");
+						item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() , "");
+						item.getLineTotal(), "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() , "");
+							item.getVATfraction(), "");
 				}
 				String itemName = null;
 				if (item.getItem() != null) {
@@ -171,7 +201,21 @@ public class PurchaseOrderPdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 			i.setStatus(getStatusString(purchaseOrder.getStatus()));
-			i.setRegistrationAddress(getRegistrationAddress());
+			// i.setRegistrationAddress(getRegistrationAddress());
+			Address regAddress1 = company.getRegisteredAddress();
+			if (regAddress1 != null) {
+				i.setRegAddress(regAddress1);
+				i.regAddress
+						.setAddress1(forNullValue(regAddress1.getAddress1()));
+				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
+				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
+				i.regAddress.setStateOrProvinence(forNullValue(regAddress1
+						.getStateOrProvinence()));
+				i.regAddress.setCountryOrRegion(forNullValue(regAddress1
+						.getCountryOrRegion()));
+				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
+						.getZipOrPostalCode()));
+			}
 
 			context.put("logo", logo);
 			context.put("purchaseOrder", i);
@@ -343,8 +387,8 @@ public class PurchaseOrderPdfGeneration {
 		private String date;
 		private String currency;
 		private String terms;
-		private String billAddress;
-		private String shipAddress;
+		// private String billAddress;
+		// private String shipAddress;
 		private String vendorName;
 		private String shippingMethod;
 		private String total;
@@ -352,8 +396,11 @@ public class PurchaseOrderPdfGeneration {
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		private String registrationAddress;
+		// private String registrationAddress;
 		private String status;
+		private Address billTo;
+		private Address regAddress;
+		private Address shipTo;
 
 		public String getCurrency() {
 			return currency;
@@ -395,21 +442,21 @@ public class PurchaseOrderPdfGeneration {
 			this.shippingMethod = shippingMethod;
 		}
 
-		public String getBillAddress() {
-			return billAddress;
-		}
-
-		public void setBillAddress(String billAddress) {
-			this.billAddress = billAddress;
-		}
-
-		public String getShipAddress() {
-			return shipAddress;
-		}
-
-		public void setShipAddress(String shipAddress) {
-			this.shipAddress = shipAddress;
-		}
+		// public String getBillAddress() {
+		// return billAddress;
+		// }
+		//
+		// public void setBillAddress(String billAddress) {
+		// this.billAddress = billAddress;
+		// }
+		//
+		// public String getShipAddress() {
+		// return shipAddress;
+		// }
+		//
+		// public void setShipAddress(String shipAddress) {
+		// this.shipAddress = shipAddress;
+		// }
 
 		public String getTerms() {
 			return terms;
@@ -435,13 +482,13 @@ public class PurchaseOrderPdfGeneration {
 			this.title = title;
 		}
 
-		public String getRegistrationAddress() {
-			return registrationAddress;
-		}
-
-		public void setRegistrationAddress(String registrationAddress) {
-			this.registrationAddress = registrationAddress;
-		}
+		// public String getRegistrationAddress() {
+		// return registrationAddress;
+		// }
+		//
+		// public void setRegistrationAddress(String registrationAddress) {
+		// this.registrationAddress = registrationAddress;
+		// }
 
 		public String getNumber() {
 			return number;
@@ -489,6 +536,30 @@ public class PurchaseOrderPdfGeneration {
 
 		public void setStatus(String status) {
 			this.status = status;
+		}
+
+		public Address getBillTo() {
+			return billTo;
+		}
+
+		public void setBillTo(Address billTo) {
+			this.billTo = billTo;
+		}
+
+		public Address getRegAddress() {
+			return regAddress;
+		}
+
+		public void setRegAddress(Address regAddress) {
+			this.regAddress = regAddress;
+		}
+
+		public Address getShipTo() {
+			return shipTo;
+		}
+
+		public void setShipTo(Address shipTo) {
+			this.shipTo = shipTo;
 		}
 	}
 

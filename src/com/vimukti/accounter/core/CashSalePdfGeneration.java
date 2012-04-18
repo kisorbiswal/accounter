@@ -49,10 +49,41 @@ public class CashSalePdfGeneration {
 					: brandingTheme.getCashSaleTitle().toString();
 
 			i.setTitle(title);
-			i.setCustomerNameNBillAddress(getBillingAddress());
+			i.setCustomerName(sale.getCustomer() != null ? sale.getCustomer()
+					.getName() : "");
+			Address billAddress = sale.getBillingAddress();
+			if (billAddress != null) {
+				i.setBillTo(billAddress);
+				i.billTo.setAddress1(forNullValue(billAddress.getAddress1()));
+				i.billTo.setStreet(forNullValue(billAddress.getStreet()));
+				i.billTo.setCity(forNullValue(billAddress.getCity()));
+				i.billTo.setStateOrProvinence(forNullValue(billAddress
+						.getStateOrProvinence()));
+				i.billTo.setZipOrPostalCode(forNullValue(billAddress
+						.getZipOrPostalCode()));
+				i.billTo.setCountryOrRegion(forNullValue(billAddress
+						.getCountryOrRegion()));
+
+			}
 			i.setSaleNumber(sale.getNumber());
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(sale.getDate()));
-			i.setShipAddress(getShippingAddress());
+			// i.setShipAddress(getShippingAddress());
+			Address shippAdress = sale.getShippingAdress();
+			if (shippAdress != null) {
+				i.setShipTo(shippAdress);
+				// i.shipTo.setShip_customerName(invoice.getCustomer().getName()
+				// .trim());
+				i.shipTo.setAddress1(forNullValue(shippAdress.getAddress1()));
+				i.shipTo.setStreet(forNullValue(shippAdress.getStreet()));
+				i.shipTo.setCity(forNullValue(shippAdress.getCity()));
+				i.shipTo.setStateOrProvinence(forNullValue(shippAdress
+						.getStateOrProvinence()));
+				i.shipTo.setCountryOrRegion(forNullValue(shippAdress
+						.getCountryOrRegion()));
+				i.shipTo.setZipOrPostalCode(forNullValue(shippAdress
+						.getZipOrPostalCode()));
+
+			}
 
 			// for primary curreny
 			Currency currency = sale.getCustomer().getCurrency();
@@ -143,7 +174,21 @@ public class CashSalePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			i.setRegistrationAddress(getRegistrationAddress());
+			// i.setRegistrationAddress(getRegistrationAddress());
+			Address regAddress1 = company.getRegisteredAddress();
+			if (regAddress1 != null) {
+				i.setRegAddress(regAddress1);
+				i.regAddress
+						.setAddress1(forNullValue(regAddress1.getAddress1()));
+				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
+				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
+				i.regAddress.setStateOrProvinence(forNullValue(regAddress1
+						.getStateOrProvinence()));
+				i.regAddress.setCountryOrRegion(forNullValue(regAddress1
+						.getCountryOrRegion()));
+				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
+						.getZipOrPostalCode()));
+			}
 
 			context.put("logo", logo);
 			context.put("sale", i);
@@ -295,13 +340,16 @@ public class CashSalePdfGeneration {
 		private String paymentMethod;
 		private String shippingMethod;
 		private String shippingTerms;
-		private String customerNameNBillAddress;
-		private String shipAddress;
+		private String customerName;
+		// private String shipAddress;
 		private String total;
 		private String netAmount;
 		private String memo;
 		private String email;
-		private String registrationAddress;
+		// private String registrationAddress;
+		private Address billTo;
+		private Address regAddress;
+		private Address shipTo;
 
 		public String getSaleNumber() {
 			return saleNumber;
@@ -317,14 +365,6 @@ public class CashSalePdfGeneration {
 
 		public void setCurrency(String currency) {
 			this.currency = currency;
-		}
-
-		public String getCustomerNameNBillAddress() {
-			return customerNameNBillAddress;
-		}
-
-		public void setCustomerNameNBillAddress(String customerNameNBillAddress) {
-			this.customerNameNBillAddress = customerNameNBillAddress;
 		}
 
 		public String getTotal() {
@@ -367,13 +407,13 @@ public class CashSalePdfGeneration {
 			this.title = title;
 		}
 
-		public String getRegistrationAddress() {
-			return registrationAddress;
-		}
-
-		public void setRegistrationAddress(String registrationAddress) {
-			this.registrationAddress = registrationAddress;
-		}
+		// public String getRegistrationAddress() {
+		// return registrationAddress;
+		// }
+		//
+		// public void setRegistrationAddress(String registrationAddress) {
+		// this.registrationAddress = registrationAddress;
+		// }
 
 		public String getDeliveryDate() {
 			return deliveryDate;
@@ -407,12 +447,44 @@ public class CashSalePdfGeneration {
 			this.shippingTerms = shippingTerms;
 		}
 
-		public String getShipAddress() {
-			return shipAddress;
+		// public String getShipAddress() {
+		// return shipAddress;
+		// }
+		//
+		// public void setShipAddress(String shipAddress) {
+		// this.shipAddress = shipAddress;
+		// }
+
+		public String getCustomerName() {
+			return customerName;
 		}
 
-		public void setShipAddress(String shipAddress) {
-			this.shipAddress = shipAddress;
+		public void setCustomerName(String customerName) {
+			this.customerName = customerName;
+		}
+
+		public Address getBillTo() {
+			return billTo;
+		}
+
+		public void setBillTo(Address billTo) {
+			this.billTo = billTo;
+		}
+
+		public Address getRegAddress() {
+			return regAddress;
+		}
+
+		public void setRegAddress(Address regAddress) {
+			this.regAddress = regAddress;
+		}
+
+		public Address getShipTo() {
+			return shipTo;
+		}
+
+		public void setShipTo(Address shipTo) {
+			this.shipTo = shipTo;
 		}
 
 	}

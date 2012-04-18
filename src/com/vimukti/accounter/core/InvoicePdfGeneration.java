@@ -57,7 +57,50 @@ public class InvoicePdfGeneration {
 			String title = brandingTheme.getOverDueInvoiceTitle() == null ? "Invoice"
 					: brandingTheme.getOverDueInvoiceTitle().toString();
 			i.setTitle(title);
-			i.setBillAddress(getBillingAddress());
+			// i.setBillAddress(getBillingAddress());
+
+			// Contact selectedContact = invoice.getContact();
+			// if (selectedContact != null) {
+			// billTo.setContactName(selectedContact.getName() != null ?
+			// selectedContact
+			// .getName().trim() : "");
+			// } else {
+			// billTo.setContactName("");
+			// }
+			//
+			// billTo.setBill_customerName(invoice.getCustomer().getName().trim());
+			Address billAddress = invoice.getBillingAddress();
+			if (billAddress != null) {
+				i.setBillTo(billAddress);
+				i.billTo.setAddress1(forNullValue(billAddress.getAddress1()));
+				i.billTo.setStreet(forNullValue(billAddress.getStreet()));
+				i.billTo.setCity(forNullValue(billAddress.getCity()));
+				i.billTo.setStateOrProvinence(forNullValue(billAddress
+						.getStateOrProvinence()));
+				i.billTo.setZipOrPostalCode(forNullValue(billAddress
+						.getZipOrPostalCode()));
+				i.billTo.setCountryOrRegion(forNullValue(billAddress
+						.getCountryOrRegion()));
+
+			}
+
+			Address shippAdress = invoice.getShippingAdress();
+			if (shippAdress != null) {
+				i.setShipTo(shippAdress);
+				// i.shipTo.setShip_customerName(invoice.getCustomer().getName()
+				// .trim());
+				i.shipTo.setAddress1(forNullValue(shippAdress.getAddress1()));
+				i.shipTo.setStreet(forNullValue(shippAdress.getStreet()));
+				i.shipTo.setCity(forNullValue(shippAdress.getCity()));
+				i.shipTo.setStateOrProvinence(forNullValue(shippAdress
+						.getStateOrProvinence()));
+				i.shipTo.setCountryOrRegion(forNullValue(shippAdress
+						.getCountryOrRegion()));
+				i.shipTo.setZipOrPostalCode(forNullValue(shippAdress
+						.getZipOrPostalCode()));
+
+			}
+
 			i.setInvoiceNumber(invoice.getNumber());
 			i.setInvoiceDate(Utility.getDateInSelectedFormat(invoice.getDate()));
 
@@ -87,7 +130,7 @@ public class InvoicePdfGeneration {
 			i.setTerms(payterm);
 
 			i.setDueDate(Utility.getDateInSelectedFormat(invoice.getDueDate()));
-			i.setShipAddress(getShippingAddress());
+			// i.setShipAddress(getShippingAddress());
 
 			ShippingMethod shipMtd = invoice.getShippingMethod();
 			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
@@ -152,13 +195,13 @@ public class InvoicePdfGeneration {
 				}
 
 				String className = "";
-				if (preferences.isClassTrackingEnabled()) {
-					if (preferences.isClassPerDetailLine()) {
-						if (item.getAccounterClass() != null) {
-							className = item.getAccounterClass().getName();
-						}
-					}
-				}
+				// if (preferences.isClassTrackingEnabled()) {
+				// if (preferences.isClassPerDetailLine()) {
+				// if (item.getAccounterClass() != null) {
+				className = forNullValue(item.getAccounterClass().getName());
+				// }
+				// }
+				// }
 				itemList.add(new ItemList(name, description, qty, unitPrice,
 						className, discount, totalPrice, vatRate, vatAmount));
 			}
@@ -195,29 +238,41 @@ public class InvoicePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			i.setRegistrationAddress(getRegistrationAddress());
-
-			if (preferences.isJobTrackingEnabled()) {
-				if (invoice.getJob() != null) {
-					i.setJob(invoice.getJob().getJobName());
-				} else {
-					i.setJob("");
-				}
-			} else {
-				i.setJob("");
+			// i.setRegistrationAddress(getRegistrationAddress());
+			Address regAddress1 = company.getRegisteredAddress();
+			if (regAddress1 != null) {
+				i.setRegAddress(regAddress1);
+				i.regAddress
+						.setAddress1(forNullValue(regAddress1.getAddress1()));
+				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
+				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
+				i.regAddress.setStateOrProvinence(forNullValue(regAddress1
+						.getStateOrProvinence()));
+				i.regAddress.setCountryOrRegion(forNullValue(regAddress1
+						.getCountryOrRegion()));
+				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
+						.getZipOrPostalCode()));
 			}
+			// if (preferences.isJobTrackingEnabled()) {
+			// if (invoice.getJob() != null) {
+			// i.setJob(invoice.getJob().getJobName());
+			// } else {
+			// i.setJob("");
+			// }
+			// } else {
+			// i.setJob("");
+			// }
 
-			if (preferences.isLocationTrackingEnabled()) {
-				Location location = invoice.getLocation();
-				if (location != null) {
-					i.setLocation(location.getName());
-				} else {
-					i.setLocation("");
-				}
-			} else {
-				i.setLocation("");
-			}
-
+			// if (preferences.isLocationTrackingEnabled()) {
+			// Location location = invoice.getLocation();
+			// if (location != null) {
+			// i.setLocation(location.getName());
+			// } else {
+			// i.setLocation("");
+			// }
+			// } else {
+			// i.setLocation("");
+			// }
 			i.setCustomerName(invoice.getCustomer().getName());
 
 			List<TransactionItem> items = invoice.getTransactionItems();
@@ -245,27 +300,27 @@ public class InvoicePdfGeneration {
 			} else {
 				i.setDiscount("");
 			}
-			if (preferences.isClassTrackingEnabled()
-					&& (!preferences.isClassPerDetailLine() == false)) {
-				String accounterClass = "";
-				for (TransactionItem trItem : items) {
-					if (trItem.getAccounterClass() != null) {
-						if (trItem.getAccounterClass() != null) {
-							accounterClass = trItem.getAccounterClass()
-									.getclassName();
-						}
-						if (accounterClass != null) {
-							break;
-						} else {
-							continue;
-						}
-					}
-
-				}
-				i.setClassName(accounterClass);
-			} else {
-				i.setClassName("");
-			}
+			// if (preferences.isClassTrackingEnabled()
+			// && (!preferences.isClassPerDetailLine() == false)) {
+			// String accounterClass = "";
+			// for (TransactionItem trItem : items) {
+			// if (trItem.getAccounterClass() != null) {
+			// if (trItem.getAccounterClass() != null) {
+			// accounterClass = trItem.getAccounterClass()
+			// .getclassName();
+			// }
+			// if (accounterClass != null) {
+			// break;
+			// } else {
+			// continue;
+			// }
+			// }
+			//
+			// }
+			// i.setClassName(accounterClass);
+			// } else {
+			// i.setClassName("");
+			// }
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(invoice
 					.getDeliverydate()));
 			if (invoice.getShippingTerm() != null) {
@@ -432,8 +487,6 @@ public class InvoicePdfGeneration {
 		private String currency;
 		private String terms;
 		private String dueDate;
-		private String billAddress;
-		private String shipAddress;
 		private String shippingMethod;
 		private String total;
 		private String payment;
@@ -445,9 +498,9 @@ public class InvoicePdfGeneration {
 		private String discount;
 		private String netAmount;
 		private String customerName;
-		private String job;
-		private String className;
-		private String location;
+		// private String job;
+		// private String className;
+		// private String location;
 		private String deliveryDate;
 		private String shippingTerms;
 		private String cstNumber;
@@ -455,6 +508,9 @@ public class InvoicePdfGeneration {
 		private String taxpayerIdentificationNumber;
 		private String taxRegistrationNumber;
 		private String customerTaxCode;
+		private Address billTo;
+		private Address regAddress;
+		private Address shipTo;
 
 		public String getInvoiceNumber() {
 			return invoiceNumber;
@@ -536,22 +592,6 @@ public class InvoicePdfGeneration {
 			this.shippingMethod = shippingMethod;
 		}
 
-		public String getBillAddress() {
-			return billAddress;
-		}
-
-		public void setBillAddress(String billAddress) {
-			this.billAddress = billAddress;
-		}
-
-		public String getShipAddress() {
-			return shipAddress;
-		}
-
-		public void setShipAddress(String shipAddress) {
-			this.shipAddress = shipAddress;
-		}
-
 		public String getTerms() {
 			return terms;
 		}
@@ -608,29 +648,29 @@ public class InvoicePdfGeneration {
 			this.netAmount = netAmount;
 		}
 
-		public String getJob() {
-			return job;
-		}
-
-		public void setJob(String job) {
-			this.job = job;
-		}
-
-		public String getClassName() {
-			return className;
-		}
-
-		public void setClassName(String className) {
-			this.className = className;
-		}
-
-		public String getLocation() {
-			return location;
-		}
-
-		public void setLocation(String location) {
-			this.location = location;
-		}
+		// public String getJob() {
+		// return job;
+		// }
+		//
+		// public void setJob(String job) {
+		// this.job = job;
+		// }
+		//
+		// public String getClassName() {
+		// return className;
+		// }
+		//
+		// public void setClassName(String className) {
+		// this.className = className;
+		// }
+		//
+		// public String getLocation() {
+		// return location;
+		// }
+		//
+		// public void setLocation(String location) {
+		// this.location = location;
+		// }
 
 		public String getDeliveryDate() {
 			return deliveryDate;
@@ -698,6 +738,30 @@ public class InvoicePdfGeneration {
 			this.customerTaxCode = customerTaxCode;
 		}
 
+		public Address getBillTo() {
+			return billTo;
+		}
+
+		public void setBillTo(Address billTo) {
+			this.billTo = billTo;
+		}
+
+		public Address getRegAddress() {
+			return regAddress;
+		}
+
+		public void setRegAddress(Address regAddress) {
+			this.regAddress = regAddress;
+		}
+
+		public Address getShipTo() {
+			return shipTo;
+		}
+
+		public void setShipTo(Address shipTo) {
+			this.shipTo = shipTo;
+		}
+
 	}
 
 	public class ItemList {
@@ -709,6 +773,7 @@ public class InvoicePdfGeneration {
 		private String itemTotalPrice;
 		private String itemVatRate;
 		private String itemVatAmount;
+
 		private String className;
 
 		ItemList(String name, String description, String quantity,
@@ -798,4 +863,5 @@ public class InvoicePdfGeneration {
 		}
 
 	}
+
 }
