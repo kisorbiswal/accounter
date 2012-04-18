@@ -1009,6 +1009,11 @@ public abstract class Transaction extends CreatableObject implements
 		 */
 
 		if (this.isVoid() && !clonedObject.isVoid()) {
+
+			if (!getReconciliationItems().isEmpty()) {
+				throw new AccounterException(
+						AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED);
+			}
 			voidTransactionItems();
 			doDeleteEffect(clonedObject);
 
