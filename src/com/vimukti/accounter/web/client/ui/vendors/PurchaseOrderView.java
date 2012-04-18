@@ -393,9 +393,9 @@ public class PurchaseOrderView extends
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				PurchaseOrderView.this.updateNonEditableItems();
 			}
@@ -444,9 +444,9 @@ public class PurchaseOrderView extends
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				PurchaseOrderView.this.updateNonEditableItems();
 			}
@@ -832,7 +832,7 @@ public class PurchaseOrderView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setAmount(getdiscount(transaction
+						this.discountField.setPercentage(getdiscount(transaction
 								.getTransactionItems()));
 					}
 				}
@@ -1103,9 +1103,9 @@ public class PurchaseOrderView extends
 			setAmountIncludeTAX();
 		}
 
-		if (discountField.getAmount() != 0.0 && transactionItems != null) {
+		if (discountField.getPercentage() != 0.0 && transactionItems != null) {
 			for (ClientTransactionItem item : transactionItems) {
-				item.setDiscount(discountField.getAmount());
+				item.setDiscount(discountField.getPercentage());
 			}
 		}
 		if (currency != null)
@@ -1546,12 +1546,12 @@ public class PurchaseOrderView extends
 	}
 
 	protected void updateDiscountValues() {
-		if (discountField.getAmount() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+		if (discountField.getPercentage() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
 			vendorAccountTransactionTable
-					.setDiscount(discountField.getAmount());
+					.setDiscount(discountField.getPercentage());
 		} else {
-			discountField.setAmount(0d);
+			discountField.setPercentage(0d);
 		}
 	}
 

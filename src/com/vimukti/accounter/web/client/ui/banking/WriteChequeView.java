@@ -523,9 +523,9 @@ public class WriteChequeView extends
 		}
 
 		if (isTrackDiscounts()) {
-			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
-					item.setDiscount(discountField.getAmount());
+					item.setDiscount(discountField.getPercentage());
 				}
 			}
 		}
@@ -918,9 +918,9 @@ public class WriteChequeView extends
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				WriteChequeView.this.updateNonEditableItems();
 			}
@@ -1349,7 +1349,7 @@ public class WriteChequeView extends
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
 						this.discountField
-								.setAmount(getdiscount(this.transactionItems));
+								.setPercentage(getdiscount(this.transactionItems));
 					}
 				}
 			}
@@ -1472,11 +1472,11 @@ public class WriteChequeView extends
 	@Override
 	protected void updateDiscountValues() {
 
-		if (discountField.getAmount() != null) {
+		if (discountField.getPercentage() != null) {
 			transactionVendorAccountTable
-					.setDiscount(discountField.getAmount());
+					.setDiscount(discountField.getPercentage());
 		} else {
-			discountField.setAmount(0d);
+			discountField.setPercentage(0d);
 		}
 	}
 

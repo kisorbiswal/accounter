@@ -987,7 +987,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		// transactionItem.setVatCode(zvatCodeid);
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
-				transactionItem.setDiscount(discountField.getAmount());
+				transactionItem.setDiscount(discountField.getPercentage());
 			}
 		}
 		addAccountTransactionItem(transactionItem);
@@ -1010,7 +1010,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
-				transactionItem.setDiscount(discountField.getAmount());
+				transactionItem.setDiscount(discountField.getPercentage());
 			}
 		}
 		if (isTrackClass() && !getPreferences().isClassPerDetailLine()
