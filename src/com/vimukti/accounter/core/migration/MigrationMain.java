@@ -2,6 +2,9 @@ package com.vimukti.accounter.core.migration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
@@ -12,9 +15,12 @@ import org.apache.log4j.PatternLayout;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerGlobal;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -28,8 +34,8 @@ public class MigrationMain {
 		Session session = HibernateUtil.openSession();
 		FinanceTool.createViews();
 		Global.set(new ServerGlobal());
+		ServerLocal.set(Locale.ENGLISH);
 		log.info("Started Migration of All Companies!!");
-
 		long currentCompany = 0l;
 		while (true) {
 			Query query = session.getNamedQuery("getNextCompany").setParameter(
@@ -38,6 +44,10 @@ public class MigrationMain {
 			Company company = (Company) query.uniqueResult();
 			if (company == null) {
 				break;
+			}
+			List<User> usersList = new ArrayList<User>(company.getUsers());
+			if (!usersList.isEmpty()) {
+				AccounterThreadLocal.set(usersList.get(0));
 			}
 			currentCompany = company.getID();
 			log.info("Migrating Company : " + currentCompany);
