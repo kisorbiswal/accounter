@@ -3,34 +3,47 @@ package com.vimukti.accounter.core.migration;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class MigrationMain {
-	public static void main(String[] args) {
+	static Logger log = Logger.getLogger(MigrationMain.class);
+
+	public static void main(String[] args) throws IOException {
 		ServerConfiguration.init(null);
 		initLogger();
 		Session session = HibernateUtil.openSession();
-		Transaction transaction = session.beginTransaction();
-		try {
-			InventoryMigration migration = new InventoryMigration();
-			migration.start();
-			transaction.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
-		} finally {
-			session.close();
+		FinanceTool.createViews();
+		Global.set(new ServerGlobal());
+		log.info("Started Migration of All Companies!!");
+
+		long currentCompany = 0l;
+		while (true) {
+			Query query = session.getNamedQuery("getNextCompany").setParameter(
+					"companyId", currentCompany);
+			query.setMaxResults(1);
+			Company company = (Company) query.uniqueResult();
+			if (company == null) {
+				break;
+			}
+			currentCompany = company.getID();
+			log.info("Migrating Company : " + currentCompany);
+			MigrationUtil.migrate(company);
 		}
-		System.out.println("Migration Completed...!");
+		log.info("Done Migration of All Companies!!");
 	}
 
 	protected static String getArgument(String[] args, String name) {
@@ -50,10 +63,13 @@ public class MigrationMain {
 		}
 		String path = new File(logsdir, "serverlog").getAbsolutePath();
 		try {
-			Layout layout = new PatternLayout("%d %x %C{1}.%M- %m%n");
+			Layout layout = new PatternLayout(
+					"%d{dd MMM yyyy HH:mm:ss} %p [%c{1}] - %m %n");
 			Logger.getRootLogger().addAppender(
 					new DailyRollingFileAppender(layout, path,
 							"'.'yyyy-MM-dd-a"));
+			Appender appender = Logger.getRootLogger().getAppender("console");
+			appender.setLayout(layout);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

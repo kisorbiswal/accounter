@@ -300,8 +300,10 @@ public class TransactionEffectsImpl implements ITransactionEffects {
 			total += (at.getAccount().isIncrease() ? -1 : 1) * at.getAmount();
 		}
 		if (!DecimalUtil.isEquals(total, 0.00D)) {
-			log.info("New ATs : " + newATs);
-			log.info("Old ATs :"
+			log.error("### Company '" + transaction.getCompany().getID()
+					+ "' Trail Balance is not Equal !!");
+			log.error("New ATs : " + newATs);
+			log.error("Old ATs : "
 					+ transaction.getAccountTransactionEntriesList());
 			throw new AccounterException(
 					AccounterException.ERROR_ILLEGAL_ARGUMENT);
