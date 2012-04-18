@@ -288,6 +288,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 						.getDataType() : "";
 				SafeHtmlBuilder shb = new SafeHtmlBuilder();
 				if (value.equalsIgnoreCase(messages.issuePayment())
+						|| object.getObjType() == 0
 						|| object.getObjType() == ClientTransaction.TYPE_TAX_RETURN) {
 					shb.appendEscaped(value);
 				} else {
