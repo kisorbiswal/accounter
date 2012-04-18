@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -159,7 +160,7 @@ public class PayBill extends Transaction {
 	 * List of {@link TransactionPayBill}'s
 	 */
 	@ReffereredObject
-	List<TransactionPayBill> transactionPayBill;
+	List<TransactionPayBill> transactionPayBill = new ArrayList<TransactionPayBill>();
 
 	String checkNumber;
 
