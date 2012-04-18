@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.antcontrib.logic.ForEach;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -336,28 +338,39 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getCustomersAndReceivableMenu(messages
 				.customersAndReceivable(Global.get().Customers())));
 
-		reportMenuBar.addMenuItem(getSalesMenu(messages.sales()));
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			reportMenuBar.addMenuItem(getSalesMenu(messages.sales()));
+		}
 
 		reportMenuBar.addMenuItem(getVendorAndPayablesMenu(messages
 				.vendorsAndPayables(Global.get().Vendors())));
 
-		reportMenuBar.addMenuItem(getPurchaseMenu(messages.purchase()));
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			reportMenuBar.addMenuItem(getPurchaseMenu(messages.purchase()));
+		}
 
-		reportMenuBar.addMenuItem(getBudgetSubMenus(messages.budget()));
+		if (hasPermission(Features.BUDGET)
+				&& hasPermission(Features.EXTRA_REPORTS)) {
+			reportMenuBar.addMenuItem(getBudgetSubMenus(messages.budget()));
+		}
 
 		if (isTrackTax) {
 			reportMenuBar.addMenuItem(getVATReportMenu(messages.tax()));
 		}
-		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
-				.fixedAsset()));
-		if (isInventoryEnabled) {
+		if (hasPermission(Features.FIXED_ASSET)
+				&& hasPermission(Features.EXTRA_REPORTS)) {
+			reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
+					.fixedAsset()));
+		}
+		if (isInventoryEnabled && hasPermission(Features.EXTRA_REPORTS)) {
 			reportMenuBar.addMenuItem(getInventoryReportMenu(messages
 					.inventory()));
 		}
 
-		// reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
+		}
 
-		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
 		if (isJobTrackingEnabled) {
 			reportMenuBar.addMenuItem(getJobReportMenu(messages.job()));
 		}
@@ -427,9 +440,11 @@ public class MenuBar {
 				HistoryTokens.APAGINGSUMMARY);
 		vendorAndPayableMenuBar.addMenuItem(messages.apAgeingDetail(),
 				HistoryTokens.APAGINGDETAIL);
-		vendorAndPayableMenuBar.addMenuItem(
-				messages.payeeStatement(Global.get().Vendors()),
-				HistoryTokens.VENDORSTATEMENT);
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			vendorAndPayableMenuBar.addMenuItem(
+					messages.payeeStatement(Global.get().Vendors()),
+					HistoryTokens.VENDORSTATEMENT);
+		}
 		vendorAndPayableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Vendor()),
 				HistoryTokens.VENDORTRANSACTIONHISTORY);
@@ -501,9 +516,11 @@ public class MenuBar {
 		} else {
 			vatReportMenuBar.addMenuItem(messages.taxItemDetailReport(),
 					HistoryTokens.TAXITEMDETAIL);
-			vatReportMenuBar.addMenuItem(
-					messages.taxItemExceptionDetailReport(),
-					HistoryTokens.TAXITEMEXCEPTIONDETAILS);
+			if (hasPermission(Features.EXTRA_REPORTS)) {
+				vatReportMenuBar.addMenuItem(
+						messages.taxItemExceptionDetailReport(),
+						HistoryTokens.TAXITEMEXCEPTIONDETAILS);
+			}
 		}
 		vatReportMenuBar.addMenuItem(messages.vatItemSummary(),
 				HistoryTokens.VATITEMSUMMARY);
@@ -563,9 +580,11 @@ public class MenuBar {
 				HistoryTokens.ARAGINGSUMMARY);
 		customersAndReceivableMenuBar.addMenuItem(messages.arAgeingDetail(),
 				HistoryTokens.ARAGINGDETAIL);
-		customersAndReceivableMenuBar.addMenuItem(
-				messages.payeeStatement(Global.get().Customers()),
-				HistoryTokens.CUSTOMERSTATEMENT);
+		if (hasPermission(Features.EXTRA_REPORTS)) {
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.payeeStatement(Global.get().Customers()),
+					HistoryTokens.CUSTOMERSTATEMENT);
+		}
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
@@ -594,9 +613,11 @@ public class MenuBar {
 		companyAndFinancialMenuBar.addMenuItem(messages.expenseReport(),
 				HistoryTokens.EXPENSEREPORT);
 
-		companyAndFinancialMenuBar.addMenuItem(
-				messages.automaticTransactions(),
-				HistoryTokens.AUTOMATICTRANSACTIONS);
+		if (hasPermission(Features.RECURRING_TRANSACTIONS)) {
+			companyAndFinancialMenuBar.addMenuItem(
+					messages.automaticTransactions(),
+					HistoryTokens.AUTOMATICTRANSACTIONS);
+		}
 
 		if (isTaxTracking) {
 			companyAndFinancialMenuBar.addMenuItem(
@@ -952,7 +973,7 @@ public class MenuBar {
 			companyMenuBar.addSeparatorItem();
 		}
 
-		if (canDoTaxTransactions) {
+		if (canDoTaxTransactions && hasPermission(Features.BUDGET)) {
 			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET,
 					"b");
 			companyMenuBar.addSeparatorItem();
@@ -968,9 +989,11 @@ public class MenuBar {
 		}
 
 		if (canDoTaxTransactions) {
-			companyMenuBar.addMenuItem(getFixedAssetsMenu(messages
-					.fixedAssets()));
-			companyMenuBar.addSeparatorItem();
+			if (hasPermission(Features.FIXED_ASSET)) {
+				companyMenuBar.addMenuItem(getFixedAssetsMenu(messages
+						.fixedAssets()));
+				companyMenuBar.addSeparatorItem();
+			}
 			if (hasPermission(Features.MERGING)) {
 				companyMenuBar.addMenuItem(getMergeSubMenu(messages
 						.mergeAccounts()));
@@ -1382,7 +1405,7 @@ public class MenuBar {
 	 * 
 	 * return customerListMenuBar; }
 	 */
-	
+
 	/*
 	 * private Menu getInventoryListsMenu(String string) { Menu inventoryMenu =
 	 * new Menu(string);

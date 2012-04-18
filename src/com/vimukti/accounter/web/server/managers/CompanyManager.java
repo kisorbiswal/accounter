@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -713,7 +714,7 @@ public class CompanyManager extends Manager {
 		ClientConvertUtil clientConvertUtil = new ClientConvertUtil();
 		ClientCompany clientCompany = clientConvertUtil.toClientObject(company,
 				ClientCompany.class);
-
+		clientCompany.setTransactionsCount(getTransactionsCount(companyId));
 		ClientFinanceDate[] dates = getMinimumAndMaximumTransactionDate(companyId);
 
 		clientCompany.setTransactionStartDate(dates[0]);
@@ -741,6 +742,22 @@ public class CompanyManager extends Manager {
 		clientCompany.setConfigured(company.isConfigured());
 
 		return clientCompany;
+	}
+
+	public int getTransactionsCount(long companyId) {
+		Calendar instance = Calendar.getInstance();
+		instance.set(Calendar.DATE, 1);
+		Session session = HibernateUtil.getCurrentSession();
+		Integer count = (Integer) session
+				.getNamedQuery("transactions.count.per.month")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate",
+						new Timestamp(instance.getTime().getTime()))
+				.uniqueResult();
+		if (count == null) {
+			return 0;
+		}
+		return count;
 	}
 
 	private void activateUser(User user) throws AccounterException {

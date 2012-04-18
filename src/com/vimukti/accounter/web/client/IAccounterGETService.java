@@ -316,6 +316,4 @@ public interface IAccounterGETService extends RemoteService {
 
 	public int getClientCompaniesCount();
 	
-	public int getInitialTransactionCount();
-
 }

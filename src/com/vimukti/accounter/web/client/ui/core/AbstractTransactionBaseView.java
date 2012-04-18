@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -667,7 +668,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void createButtons(ButtonBar buttonBar) {
 
 		// FIXME > Need to complete Recurring transaction feature.
-		if (canRecur()) {
+		if (canRecur()
+				&& Accounter.hasPermission(Features.RECURRING_TRANSACTIONS)) {
 			recurringButton = new RecurringButton(this);
 			if (!isTemplate) {
 				if (getCompany().getLoggedInUser().getPermissions()
@@ -675,9 +677,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					buttonBar.add(recurringButton);
 			}
 		}
-		draftsButton = new DraftsButton(messages.Saveasdraft(), this);
-		draftsButton.setVisible(!isInViewMode() && canAddDraftButton());
-		buttonBar.add(draftsButton);
+		if (Accounter.hasPermission(Features.DRAFTS)) {
+			draftsButton = new DraftsButton(messages.Saveasdraft(), this);
+			draftsButton.setVisible(!isInViewMode() && canAddDraftButton());
+			buttonBar.add(draftsButton);
+		}
 
 		super.createButtons(buttonBar);
 	}

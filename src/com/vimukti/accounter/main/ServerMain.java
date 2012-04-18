@@ -131,6 +131,19 @@ public class ServerMain extends Main {
 		premiumFeatures.add(Features.JOB_COSTING);
 		premiumFeatures.add(Features.ENCRYPTION);
 		premiumFeatures.add(Features.INVITE_USERS);
+
+		premiumFeatures.add(Features.INVENTORY);
+		premiumFeatures.add(Features.EXTRA_REPORTS);
+		premiumFeatures.add(Features.MULTI_CURRENCY);
+		premiumFeatures.add(Features.SALSE_ORDER);
+		premiumFeatures.add(Features.PURCHASE_ORDER);
+		premiumFeatures.add(Features.RECURRING_TRANSACTIONS);
+		premiumFeatures.add(Features.DRAFTS);
+		premiumFeatures.add(Features.DASHBOARD_WIDGETS);
+		premiumFeatures.add(Features.BUDGET);
+		premiumFeatures.add(Features.TRANSACTIONS);
+		premiumFeatures.add(Features.FIXED_ASSET);
+
 		premium.setFeatures(premiumFeatures);
 
 		Subscription before = Subscription

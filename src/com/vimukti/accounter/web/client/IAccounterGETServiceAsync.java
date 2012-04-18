@@ -437,6 +437,4 @@ public interface IAccounterGETServiceAsync {
 
 	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
 	
-	public void getInitialTransactionCount(AsyncCallback<Integer> callback);
-
 }

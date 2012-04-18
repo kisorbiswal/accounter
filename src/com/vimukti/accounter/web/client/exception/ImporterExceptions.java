@@ -3,16 +3,17 @@ package com.vimukti.accounter.web.client.exception;
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 /**
  * 
  * @author Devaraju.K
- *
+ * 
  */
 public class ImporterExceptions {
 
 	public static AccounterMessages accounterMessages = (AccounterMessages) GWT
 			.create(AccounterMessages.class);
-	
+
 	public static String getErrorString(int errorCode) {
 		switch (errorCode) {
 		case AccounterException.ERROR_NUMBER_CONFLICT:
@@ -176,6 +177,12 @@ public class ImporterExceptions {
 
 		case AccounterException.ERROR_DELETING_DEFAULT_TAX_ITEM:
 			return accounterMessages.youcannotEditDeleteDefaultTaxItem();
+
+		case AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS:
+			return accounterMessages.youcannotCreateMoreTransactions();
+
+		case AccounterException.ERROR_CANT_EDIT_MULTI_CURRENCY_TRANSACTION:
+			return accounterMessages.youcannotEditMultiCurrencyTransaction();
 
 		default:
 			return null;

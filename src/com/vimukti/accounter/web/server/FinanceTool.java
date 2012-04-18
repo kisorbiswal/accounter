@@ -160,6 +160,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ImportField;
@@ -238,11 +239,25 @@ public class FinanceTool {
 			String userID = createContext.getUserEmail();
 			Company company = getCompany(createContext.getCompanyId());
 			User user = company.getUserByUserEmail(userID);
-
 			if (data == null) {
 				throw new AccounterException(
 						AccounterException.ERROR_ILLEGAL_ARGUMENT,
 						"Operation Data Found Null...." + createContext);
+			}
+
+			if (data instanceof ClientTransaction) {
+				Set<String> features = company.getCreatedBy().getClient()
+						.getClientSubscription().getSubscription()
+						.getFeatures();
+				if (!features.contains(Features.TRANSACTIONS)) {
+					int count = getCompanyManager().getTransactionsCount(
+							company.getId());
+					if (count >= Features.TRANSACTION_PER_MONTH) {
+						throw new AccounterException(
+								AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS);
+					}
+				}
+
 			}
 
 			Class<IAccounterServerCore> serverClass = ObjectConvertUtil
@@ -370,6 +385,20 @@ public class FinanceTool {
 
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
+				Set<String> features = company.getCreatedBy().getClient()
+						.getClientSubscription().getSubscription()
+						.getFeatures();
+				if (!features.contains(Features.MULTI_CURRENCY)) {
+					if (!transaction
+							.getCurrency()
+							.getFormalName()
+							.equals(company.getPrimaryCurrency()
+									.getFormalName())) {
+						throw new AccounterException(
+								AccounterException.ERROR_CANT_EDIT_MULTI_CURRENCY_TRANSACTION);
+					}
+				}
+
 				Transaction clonedTransaction = (Transaction) clonedObject;
 				if (!(transaction.getSaveStatus() == Transaction.STATUS_VOID
 						&& clonedTransaction.getSaveStatus() == Transaction.STATUS_VOID || clonedTransaction

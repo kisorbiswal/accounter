@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.Features;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti36
@@ -102,7 +104,10 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		both.setText(messages.bothservicesandProduct_labelonly());
 		bothText.setText(messages.bothServicesandProducts());
 
+		inventoryCheckBox.setVisible(Accounter
+				.hasPermission(Features.INVENTORY));
 		inventoryCheckBox.setText(messages.inventoryTracking());
+
 		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
 		unitsCheckBox.setText(messages.enableUnits());
 

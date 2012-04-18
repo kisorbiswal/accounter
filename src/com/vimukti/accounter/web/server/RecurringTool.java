@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -24,6 +25,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -70,6 +72,13 @@ public class RecurringTool extends Thread {
 		Map<Company, FinanceDate> companyTransactions = new HashMap<Company, FinanceDate>();
 		Map<Company, FinanceDate> companyReminders = new HashMap<Company, FinanceDate>();
 		for (RecurringTransaction recurringTransaction : recurrings) {
+			Set<String> features = recurringTransaction.getCompany()
+					.getCreatedBy().getClient().getClientSubscription()
+					.getSubscription().getFeatures();
+			if (!features.contains(Features.RECURRING_TRANSACTIONS)) {
+				continue;
+			}
+
 			FinanceDate nextScheduleOn = recurringTransaction
 					.getNextScheduleOn();
 			AccounterThreadLocal.set(recurringTransaction.getCreatedBy());

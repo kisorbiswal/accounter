@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.Features;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ManageBillsOption extends AbstractPreferenceOption {
 
@@ -43,9 +45,9 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 			managingBillYesRadioButton.setValue(false);
 			managingBillNoRadioButton.setValue(true);
 		}
-		if (getCompanyPreferences().isPricingLevelsEnabled()){
+		if (getCompanyPreferences().isPricingLevelsEnabled()) {
 			isPriceLevelsEnabled.setValue(true);
-		}else{
+		} else {
 			isPriceLevelsEnabled.setValue(false);
 		}
 		purchaseOrderCheckBox.setValue(getCompanyPreferences()
@@ -54,14 +56,16 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		managingBillLabelItem.setText(messages.managingBills());
-		managingBilldescritionLabel
-				.setText(messages.managingBillDescription());
+		managingBilldescritionLabel.setText(messages.managingBillDescription());
 		managingBilldescritionLabel.setStyleName("organisation_comment");
 
 		managingBillYesRadioButton.setText(messages.yes());
 		managingBillNoRadioButton.setText(messages.no());
-		isPriceLevelsEnabled.setText(messages.enabled() + " " +messages.priceLevel());
+		isPriceLevelsEnabled.setText(messages.enabled() + " "
+				+ messages.priceLevel());
 		isPriceLevelsEnabled.setStyleName("header");
+		purchaseOrderCheckBox.setValue(Accounter
+				.hasPermission(Features.PURCHASE_ORDER));
 		purchaseOrderCheckBox.setText(messages.enablePreference(messages
 				.purchaseOrder()));
 		purchaseOrderCheckBox.setStyleName("bold");
@@ -84,9 +88,9 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		} else {
 			getCompanyPreferences().setKeepTrackofBills(false);
 		}
-		if (isPriceLevelsEnabled.getValue()){
+		if (isPriceLevelsEnabled.getValue()) {
 			getCompanyPreferences().setPricingLevelsEnabled(true);
-		}else{
+		} else {
 			getCompanyPreferences().setPricingLevelsEnabled(false);
 		}
 		getCompanyPreferences().setPurchaseOrderEnabled(

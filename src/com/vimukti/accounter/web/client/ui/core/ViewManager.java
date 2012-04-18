@@ -148,14 +148,6 @@ public class ViewManager extends FlowPanel {
 		initializeActivityManager();
 	}
 
-	public void increment() {
-		meterPanel.increase();
-	}
-
-	public void decrement() {
-		meterPanel.decrease();
-	}
-	
 	@SuppressWarnings("deprecation")
 	private void getAdvertisePanel(final StyledPanel rightPanel) {
 		Accounter.createHomeService().getAdvertisements(
@@ -611,31 +603,31 @@ public class ViewManager extends FlowPanel {
 
 		group1 = new ButtonGroup();
 		group1.getElement().setId("group1");
-		
+
 		group2 = new ButtonGroup();
 		group2.getElement().setId("group2");
-		
+
 		group3 = new ButtonGroup();
 		group3.getElement().setId("group3");
-		
+
 		group4 = new ButtonGroup();
 		group4.getElement().setId("group4");
-		
+
 		group5 = new ButtonGroup();
 		group5.getElement().setId("group5");
-		
+
 		group6 = new ButtonGroup();
 		group6.getElement().setId("group6");
-		
+
 		group7 = new ButtonGroup();
 		group7.getElement().setId("group7");
-		
+
 		group8 = new ButtonGroup();
 		group8.getElement().setId("group8");
-		
+
 		group9 = new ButtonGroup();
 		group9.getElement().setId("group9");
-		
+
 		viewTitleLabel = new Label(messages.dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
@@ -797,7 +789,7 @@ public class ViewManager extends FlowPanel {
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		nextButton.getElement().setAttribute("lang",
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		
+
 		group1.add(previousButton);
 		group1.add(nextButton);
 		group1.add(viewTitleLabel);
@@ -966,5 +958,13 @@ public class ViewManager extends FlowPanel {
 
 	public boolean isHelpPanelEnabled() {
 		return this.isHelpPanelEnabled;
+	}
+
+	public void addedTransaction() {
+		meterPanel.increase();
+	}
+
+	public void deletedTransaction() {
+		meterPanel.decrease();
 	}
 }

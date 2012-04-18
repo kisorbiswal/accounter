@@ -6175,7 +6175,7 @@ public interface AccounterMessages extends Messages {
 	public String youCannotSelectTheItemWhichHaveNoExpenseAccount();
 
 	public String transactionsCount();
-	
+
 	public String pleaseEnterOrMapField();
 
 	public String alreadyExistWithThisName();
@@ -6185,4 +6185,8 @@ public interface AccounterMessages extends Messages {
 	public String doesNotExistWithThisNumber();
 
 	public String doesNotExistWithThisName();
+
+	public String youcannotCreateMoreTransactions();
+
+	public String youcannotEditMultiCurrencyTransaction();
 }

@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -930,14 +931,21 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// list.add("Income");
 		// return list;
 		List<String> list = new ArrayList<String>();
+		boolean hasPermission = Accounter.hasPermission(Features.FIXED_ASSET);
 		if (accountTypes != null && accountTypes.size() != 0) {
 			for (int type : accountTypes) {
+				if (type == ClientAccount.FIXED_ASSET && !hasPermission) {
+					continue;
+				}
 				list.add(Utility.getAccountTypeString(type));
 			}
 			defaultId = String.valueOf(accountTypes.get(0));
 
 		} else {
 			for (int type : UIUtils.accountTypes) {
+				if (type == ClientAccount.FIXED_ASSET && !hasPermission) {
+					continue;
+				}
 				// if (getCompany().getAccountingType() !=
 				// ClientCompany.ACCOUNTING_TYPE_UK)
 				// list.add(Utility.getAccountTypeString(type));

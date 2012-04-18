@@ -64,6 +64,34 @@
 		c.preferences.tradingName=:name
 	</query>
 
+	<sql-query name="get.client.created.companies">
+		<query-param name="clientId" type="long" />
+	
+		<![CDATA[
+				SELECT *
+				FROM   company
+				WHERE  created_by IN (SELECT id
+                				    	FROM   users
+                      					WHERE  client_id = :clientId)  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="transactions.count.per.month">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+
+		<return-scalar column="TRANSACTION_COUNT" type="int" />
+		
+		<![CDATA[
+				SELECT COUNT(*) AS TRANSACTION_COUNT
+				FROM   TRANSACTION
+				WHERE  company_id = :companyId
+       			AND created_date > :startDate 
+				]]>
+
+	</sql-query>
+
 	<sql-query name="get.company.contactsupport">
 		<query-param name="companyId" type="long" />
 
@@ -98,7 +126,7 @@
 
 	<sql-query name="list.Users.by.emailIds">
 		<query-param name="users" type="String" />
-		
+
 		<return-scalar column="EMAIL_ID" type="string" />
 		<return-scalar column="FIRST_NAME" type="string" />
 		<return-scalar column="LAST_NAME" type="string" />
@@ -115,7 +143,7 @@
 				         ON C.ID = U.CLIENT_ID
 				WHERE  C.EMAIL_ID IN ( :users )  
 		]]>
-		
+
 	</sql-query>
 
 	<sql-query name="delete.Client.Companies">
@@ -125,7 +153,7 @@
 				DELETE FROM CLIENT_COMPANIES
 				WHERE  COMPANY_ID = :serverCompanyID  
 		]]>
-		
+
 	</sql-query>
 
 	<query name="delete.ServerCompany.by.Id">
@@ -153,13 +181,16 @@
 	<sql-query name="getUserIds.invited.by.client">
 		<query-param name="emailId" type="String" />
 		<query-param name="clientId" type="long" />
-
 		SELECT * FROM USERS U2 WHERE U2.ID IN (SELECT U.ID AS USER_ID
-		FROM USERS U LEFT JOIN CLIENT C2 ON C2.ID=U.CLIENT_ID
-		WHERE U.IS_DELETED=FALSE AND C2.EMAIL_ID=:emailId AND
+		FROM
+		USERS U LEFT JOIN CLIENT C2 ON C2.ID=U.CLIENT_ID
+		WHERE
+		U.IS_DELETED=FALSE AND C2.EMAIL_ID=:emailId AND
 		U.COMPANY_ID IN
-		(SELECT C.ID FROM COMPANY C WHERE C.CREATED_BY IN
-		(SELECT U1.ID FROM USERS U1 WHERE U1.CLIENT_ID=:clientId)))
+		(SELECT
+		C.ID FROM COMPANY C WHERE C.CREATED_BY IN
+		(SELECT U1.ID FROM USERS U1
+		WHERE U1.CLIENT_ID=:clientId)))
 	</sql-query>
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />
@@ -171,7 +202,7 @@
 		<query-param name="key" type="String" />
 		from com.vimukti.accounter.core.RememberMeKey rk where rk.key=:key
 	</query>
-	
+
 	<sql-query name="getExpensesTotalByType">
 		<query-param name="expenseType" type="long" />
 		<query-param name="companyId" type="long" />
@@ -201,12 +232,12 @@
 				       AND T.SAVE_STATUS = 203
 				       AND T.COMPANY_ID = :companyId  
 				]]>
-		
+
 	</sql-query>
 
 	<sql-query name="isCompanyLocked">
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="IS_LOCKED" type="boolean" />
 		
 		<![CDATA[
@@ -214,12 +245,12 @@
 				FROM   COMPANY
 				WHERE  ID = :companyId  
 				]]>
-		
+
 	</sql-query>
-	
+
 	<sql-query name="isCompanyExists">
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="COMPANY_ID" type="long" />
 		
 		<![CDATA[
@@ -227,7 +258,7 @@
 				FROM   COMPANY
 				WHERE  ID = :companyId  
 				]]>
-		
+
 	</sql-query>
 
 	<sql-query name="getCompaniesByClientId">
@@ -238,12 +269,12 @@
 				FROM   USERS C
 				WHERE  C.CLIENT_ID = :clientId  
 				]]>
-		
+
 	</sql-query>
 
 	<sql-query name="getCompanySecret">
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="SECRET" type="binary" />
 		
 		<![CDATA[
@@ -251,7 +282,7 @@
 				FROM   COMPANY C
 				WHERE  C.ID = :companyId  
 				]]>
-		
+
 	</sql-query>
 
 	<query name="get.company.by.tradingname">
@@ -259,14 +290,14 @@
 		from com.vimukti.accounter.core.Company c where
 		c.preferences.tradingName=:tradingName
 	</query>
-	
+
 	<query name="get.all.clients">
 		from com.vimukti.accounter.core.Client
 	</query>
-	
+
 	<query name="get.subscription">
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Subscription where type=:type
 	</query>
-	
+
 </hibernate-mapping>

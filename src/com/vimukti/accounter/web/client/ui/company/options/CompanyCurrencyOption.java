@@ -14,6 +14,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.Features;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 /**
@@ -32,7 +34,6 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	Label currencyCommentLabel;
 
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
-	
 
 	private static CompanyCurrencyOptionUiBinder uiBinder = GWT
 			.create(CompanyCurrencyOptionUiBinder.class);
@@ -64,15 +65,17 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		primaryCurrenyLabel.setText(messages.primaryCurrency());
-		primaryCurrenyLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		primaryCurrenyLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 		currenciesList = CoreUtils.getCurrencies(getCompany().getCurrencies());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
+		isEnableMultiCurrencyCheckBox.setValue(Accounter
+				.hasPermission(Features.MULTI_CURRENCY));
 		currencyCommentLabel.setText(messages.changingCurrencyComment());
-		isEnableMultiCurrencyCheckBox
-				.setText(messages.isMultiCurrencyEnable());
+		isEnableMultiCurrencyCheckBox.setText(messages.isMultiCurrencyEnable());
 
 		if (getCompany().hasOtherCountryCurrency()) {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);

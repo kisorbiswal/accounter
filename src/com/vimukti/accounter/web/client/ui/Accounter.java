@@ -30,7 +30,6 @@ import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.ValueCallBack;
-import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.AccounterCometInitializer;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -39,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.theme.ThemeImages;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.uibinder.setup.SetupWizard;
 
@@ -501,6 +502,10 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Long result) {
+				if (coreObj instanceof ClientTransaction
+						&& coreObj.getID() == 0) {
+					ViewManager.getInstance().addedTransaction();
+				}
 				if (coreObj.getID() != 0) {
 					coreObj.setVersion(coreObj.getVersion() + 1);
 				}
@@ -545,6 +550,11 @@ public class Accounter implements EntryPoint {
 			}
 
 			public void onResultSuccess(Boolean result) {
+				if (result != null && result) {
+					if (data instanceof ClientTransaction) {
+						ViewManager.getInstance().deletedTransaction();
+					}
+				}
 				getCompany().processDeleteObject(data.getObjectType(),
 						data.getID());
 				source.deleteSuccess(data);

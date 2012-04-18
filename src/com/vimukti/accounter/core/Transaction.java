@@ -13,6 +13,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
@@ -1238,6 +1239,20 @@ public abstract class Transaction extends CreatableObject implements
 			creditsAndPayments.canEdit(clientObject);
 		}
 		Transaction transaction = (Transaction) clientObject;
+		Set<String> features = transaction.getCompany().getCreatedBy()
+				.getClient().getClientSubscription().getSubscription()
+				.getFeatures();
+		if (!features.contains(Features.MULTI_CURRENCY)) {
+			if (!transaction
+					.getCurrency()
+					.getFormalName()
+					.equals(transaction.getCompany().getPrimaryCurrency()
+							.getFormalName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_CANT_EDIT_MULTI_CURRENCY_TRANSACTION);
+			}
+		}
+
 		if (transaction.getSaveStatus() == STATUS_DRAFT) {
 			return true;
 		}

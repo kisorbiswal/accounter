@@ -2114,9 +2114,4 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		return 0;
 	}
 
-	@Override
-	public int getInitialTransactionCount() {
-		// TODO Auto-generated method stub
-		return 10;
-	}
 }

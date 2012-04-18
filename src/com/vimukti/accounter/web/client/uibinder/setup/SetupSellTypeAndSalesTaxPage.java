@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -135,6 +136,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 			}
 		});
+
+		inventoryCheckBox.setVisible(Accounter
+				.hasPermission(Features.INVENTORY));
 		inventoryCheckBox.setText(messages.enableInventoryTracking());
 		inventoryCommentLabel.setText(messages.inventoryTrackingComment());
 		warehousesCheckBox.setText(messages.haveMultipleWarehouses());

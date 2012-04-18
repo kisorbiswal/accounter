@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
@@ -71,8 +72,9 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		isMultiCurrencyAllowed.setText(messages
-				.isMultiCurrencyEnable());
+		isMultiCurrencyAllowed.setVisible(Accounter
+				.hasPermission(Features.MULTI_CURRENCY));
+		isMultiCurrencyAllowed.setText(messages.isMultiCurrencyEnable());
 		// currenciesGrid = new CurrenciesGrid();
 		// currenciesGrid.init();
 		// currenciesGrid.setRecords(currenciesList);
@@ -111,8 +113,7 @@ public class SetupCurrencyPage extends AbstractSetupPage {
 	protected boolean validate() {
 		if (primaryCurrencyListBox.getSelectedIndex() == -1) {
 			Accounter.showError(messages
-					.pleaseselectvalidtransactionGrid(messages
-							.currency()));
+					.pleaseselectvalidtransactionGrid(messages.currency()));
 			return false;
 		} else {
 			return true;

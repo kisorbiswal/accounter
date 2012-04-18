@@ -1,13 +1,9 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 public class CompanyAndFeatures implements IsSerializable {
 
@@ -19,6 +15,7 @@ public class CompanyAndFeatures implements IsSerializable {
 	private ClientCompany clientCompany;
 
 	private ArrayList<String> features = new ArrayList<String>();
+
 	/**
 	 * @return the clientCompany
 	 */

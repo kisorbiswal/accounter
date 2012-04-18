@@ -25,7 +25,7 @@ String user_Name=(String)request.getAttribute("userName");
 		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 			  	<p>Subscription Notification</p>
 			  	<% if(premiumType==0){ %>
-			  		<p>Dear <%= user_Name %>, Your subscription will be expired  on <%= expireDate %>.
+			  		<p>Dear <%= user_Name %>, Your subscription will be expired.
 			  	<% } else { %>
 			  		<p>Dear <%= user_Name %>, Your subscription will be degraded on <%= expireDate %>.
 			  	<% } %>		    

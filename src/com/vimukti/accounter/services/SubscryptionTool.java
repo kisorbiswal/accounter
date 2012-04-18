@@ -1,5 +1,6 @@
 package com.vimukti.accounter.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,12 +19,19 @@ import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
+import com.vimukti.accounter.core.PortletConfiguration;
+import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.portlet.PortletFactory;
+import com.vimukti.accounter.web.client.portlet.PortletPage;
 
 public class SubscryptionTool extends Thread {
 	Logger log = Logger.getLogger(SubscryptionTool.class);
@@ -75,6 +83,7 @@ public class SubscryptionTool extends Thread {
 	private void doExpireSubscription(Client c) throws AccounterException {
 		ClientSubscription subscription = c.getClientSubscription();
 		subscription.setGracePeriodDate(null);
+		subscription.setExpiredDate(null);
 		Set<String> members = subscription.getMembers();
 		int premiumType = subscription.getPremiumType();
 		Set<String> deletedMembers = getDeletedMembers(members, c.getEmailId(),
@@ -82,15 +91,66 @@ public class SubscryptionTool extends Thread {
 		deleteUsers(deletedMembers, c);
 		members.removeAll(deletedMembers);
 		subscription.setMembers(members);
+		if (subscription.getSubscription().getType() == Subscription.FREE_CLIENT) {
 
+			List<Company> companies = getAllCompaniesByClient(c);
+			List<String> defPortlets = new ArrayList<String>();
+			defPortlets.add(PortletFactory.BANKING);
+			defPortlets.add(PortletFactory.EXPENSES_CLAIM);
+			defPortlets.add(PortletFactory.MONEY_COMING);
+			defPortlets.add(PortletFactory.MONEY_GOING);
+
+			for (Company company : companies) {
+				CompanyPreferences preferences = company.getPreferences();
+				preferences.setInventoryEnabled(false);
+				preferences.setEnableMultiCurrency(false);
+				preferences.setSalesOrderEnabled(false);
+				preferences.setPurchaseOrderEnabled(false);
+				Set<User> users = company.getUsers();
+				for (User user : users) {
+					Set<PortletPageConfiguration> portletPages = user
+							.getPortletPages();
+					for (PortletPageConfiguration pg : portletPages) {
+						if (pg.getPageName().equals(PortletPage.DASHBOARD)) {
+							List<PortletConfiguration> def = new ArrayList<PortletConfiguration>();
+							List<PortletConfiguration> portlets = pg
+									.getPortlets();
+
+							for (PortletConfiguration pc : portlets) {
+								if (defPortlets.contains(pc.getPortletName())) {
+									def.add(pc);
+									if (def.size() == defPortlets.size()) {
+										break;
+									}
+								}
+							}
+							pg.setPortlets(def);
+							break;
+						}
+					}
+					HibernateUtil.getCurrentSession().saveOrUpdate(user);
+				}
+				HibernateUtil.getCurrentSession().saveOrUpdate(company);
+			}
+		}
 		HibernateUtil.getCurrentSession().saveOrUpdate(
 				c.getClientSubscription());
 		log.info("Complted..:" + c.getEmailId());
-		// try {
-		// UsersMailSendar.sendMailToSubscriptionExpiredUser(c);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
+		try {
+			UsersMailSendar.sendMailToSubscriptionExpiredUser(c);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private List<Company> getAllCompaniesByClient(Client c) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session
+				.getNamedQuery("get.client.created.companies");
+		((SQLQuery) namedQuery).addEntity(Company.class);
+		List<Company> list = namedQuery.setParameter("clientId", c.getID())
+				.list();
+		return list;
 	}
 
 	public static Set<String> getDeletedMembers(Set<String> members,

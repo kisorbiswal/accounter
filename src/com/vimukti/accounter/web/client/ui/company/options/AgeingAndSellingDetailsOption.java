@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.Features;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 
@@ -55,6 +57,9 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		ageingLabel.setText(messages.ageingDetails());
 		ageingdescriptionLabel.setText(messages.agingDetailsDescription());
 		ageingdescriptionLabel.setStyleName("organisation_comment");
+
+		salesOrderCheckBox.setValue(Accounter
+				.hasPermission(Features.SALSE_ORDER));
 		salesOrderCheckBox.setText(messages.enablePreference(messages
 				.salesOrder()));
 		salesOrderCheckBox.setStyleName("bold");

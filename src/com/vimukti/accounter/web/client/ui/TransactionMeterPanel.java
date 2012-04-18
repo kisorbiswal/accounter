@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -11,21 +10,8 @@ public class TransactionMeterPanel extends SimplePanel {
 	private Label countLabel;
 
 	public TransactionMeterPanel() {
-		Accounter.createGETService().getInitialTransactionCount(
-				new AsyncCallback<Integer>() {
-
-					@Override
-					public void onSuccess(Integer result) {
-						transactionNumber = result;
-						initGui();
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+		transactionNumber = Accounter.getCompany().getTransactionsCount();
+		initGui();
 
 	}
 
@@ -44,7 +30,8 @@ public class TransactionMeterPanel extends SimplePanel {
 		transactionCountLabel.addStyleName("transaction_count");
 		countLabel.addStyleName("count_label");
 		mainPanel.addStyleName("transaction_meter");
-		mainPanel.setCellHorizontalAlignment(countLabel, HasHorizontalAlignment.ALIGN_CENTER);
+		mainPanel.setCellHorizontalAlignment(countLabel,
+				HasHorizontalAlignment.ALIGN_CENTER);
 		add(mainPanel);
 	}
 

@@ -46,6 +46,8 @@ public class ClientCompany implements IAccounterCore {
 	// int accountingType = 0;
 	private int premiumType;
 
+	private int transactionsCount;
+
 	private String registrationNumber;
 
 	private String companyEmail;
@@ -216,7 +218,7 @@ public class ClientCompany implements IAccounterCore {
 	private int version;
 
 	private long cashDiscountAccount;
-	
+
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
 	}
@@ -3335,5 +3337,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setPremiumType(int premiumType) {
 		this.premiumType = premiumType;
+	}
+
+	public int getTransactionsCount() {
+		return transactionsCount;
+	}
+
+	public void setTransactionsCount(int transactionsCount) {
+		this.transactionsCount = transactionsCount;
 	}
 }

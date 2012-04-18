@@ -181,6 +181,10 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_NEGATIVE_AMOUNT = 65;
 
+	public static final int ERROR_CANT_CREATE_MORE_TRANSACTIONS = 66;
+
+	public static final int ERROR_CANT_EDIT_MULTI_CURRENCY_TRANSACTION = 67;
+
 	protected int errorCode;
 
 	// private long id;
