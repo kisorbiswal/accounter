@@ -50,7 +50,6 @@ public class Migrator7 extends AbstractMigrator {
 			try {
 				migrate(transaction);
 			} catch (Exception e) {
-				throw new RuntimeException();
 			}
 		}
 		log.info("Finished Migrator7");
