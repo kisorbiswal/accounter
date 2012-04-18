@@ -486,10 +486,13 @@ public class MenuBar {
 		}
 
 		if (isLocationTracking) {
-			purchaseMenuBar.addMenuItem(messages.purchasesbyLocationSummary(),
+			purchaseMenuBar.addMenuItem(messages
+					.purchasesbyLocationSummary(Global.get().Location()),
 					HistoryTokens.PURCHASESBYLOCATIONSUMMARY);
-			purchaseMenuBar.addMenuItem("Purchases by Location Detail",
-					HistoryTokens.PURCHASESBYLOCATIONDETAIL);
+			purchaseMenuBar
+					.addMenuItem(messages.purchasesbyLocationDetail(Global
+							.get().Location()),
+							HistoryTokens.PURCHASESBYLOCATIONDETAIL);
 		}
 
 		return purchaseMenuBar;

@@ -198,6 +198,15 @@ public class ReportSectionView extends BaseHomeView {
 		}
 
 		// Form for purchase type reports
+		if (Global.get().preferences().isLocationTrackingEnabled()) {
+			purchaseMap.put(messages.purchasesbyLocationDetail(Global.get().Location()), ActionFactory
+					.getPurchaseByVendorDetailAction()
+					.getHistoryToken());
+			purchaseMap.put(messages.purchasesbyLocationSummary(Global.get()
+					.Location()), ActionFactory
+					.getPurchaseByVendorSummaryAction()
+					.getHistoryToken());
+		}
 		purchaseMap.put(
 				messages.purchaseByVendorSummary(Global.get().vendor()),
 				ActionFactory.getPurchaseByVendorSummaryAction()

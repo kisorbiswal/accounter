@@ -44,7 +44,8 @@ public class SalesByLocationsummaryServerReport extends
 			}
 		} else {
 			if (isLocation) {
-				actionsting = messages.purchasesbyLocationSummary();
+				actionsting = messages.purchasesbyLocationSummary(Global.get()
+						.Location());
 			} else {
 				actionsting = messages.purchasesbyClassSummary();
 			}

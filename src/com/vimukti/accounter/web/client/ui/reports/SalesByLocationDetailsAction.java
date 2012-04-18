@@ -119,7 +119,8 @@ public class SalesByLocationDetailsAction extends Action {
 			}
 		} else {
 			if (isLocation) {
-				actionsting = messages.purchasesbyLocationDetail();
+				actionsting = messages.purchasesbyLocationDetail(Global.get()
+						.Location());
 			} else {
 				actionsting = messages.purchasesbyClassDetail();
 			}

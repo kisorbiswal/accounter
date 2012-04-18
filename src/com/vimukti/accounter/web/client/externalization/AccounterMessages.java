@@ -6164,7 +6164,7 @@ public interface AccounterMessages extends Messages {
 
 	public String salesOrderValue();
 
-	public String purchasesbyLocationDetail();
+	public String purchasesbyLocationDetail(String location);
 
 	public String purchasesbyClassDetail();
 
@@ -6194,7 +6194,7 @@ public interface AccounterMessages extends Messages {
 
 	public String importFailureCount();
 
-	public String purchasesbyLocationSummary();
+	public String purchasesbyLocationSummary(String location);
 
 	public String purchasesbyClassSummary();
 
