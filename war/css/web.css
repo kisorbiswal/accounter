@@ -77,7 +77,13 @@
 	-moz-box-flex: 0;
 	width: 465px;
 }
+#ShippingTermListDialog .bodyLayout1 .gridHeader,#ShippingTermListDialog .bodyLayout1 .gridBody{
+	table-layout: auto !important
+}
 
+#ShippingMethodListDialog .bodyLayout1 .gridHeader,#ShippingMethodListDialog .bodyLayout1 .gridBody{
+	table-layout: auto !important
+}
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#VendorView .accInfoForm {
@@ -112,6 +118,10 @@
 	}
 	/* this is for manage custom button that is attached to top one in chrome */
 	#VendorView .detailsTab .vendorGrpForm{
+	    padding-bottom:1px;
+	}
+	/* this is for manage custom button that is attached to top one in chrome */
+	#VendorView .detailsTab .vatform{
 	    padding-bottom:1px;
 	}
 }
@@ -2066,7 +2076,11 @@ table.no_records .norecord-empty-message td {
 	word-wrap: break-word;
 }
 
-#CustomerCenterView .customers_detail_rightpanel .address .label {
+#CustomerCenterView .panel .label{
+	width: 200px;
+	word-wrap: break-word;
+}
+#vendorCenterView .hp .label{
 	width: 200px;
 	word-wrap: break-word;
 }
@@ -7857,5 +7871,13 @@ table.no_records tr td {
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 }
-
+#InputDialog .layout .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin: 10px;
+}
 /*Location merge dialog end*/
