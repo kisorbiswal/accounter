@@ -43,8 +43,13 @@ public class VendorDetailsPanel extends FlowPanel {
 
 		email = new LabelItem(messages.email(), "email");
 
-		ClientCurrency vendorCurrency = Accounter.getCompany().getCurrency(
-				selectedVendor.getCurrency());
+		ClientCurrency vendorCurrency;
+		if (selectedVendor != null) {
+			vendorCurrency = Accounter.getCompany().getCurrency(
+					selectedVendor.getCurrency());
+		} else {
+			vendorCurrency = Accounter.getCompany().getPrimaryCurrency();
+		}
 
 		balance = new AmountLabel(
 				messages.balanceWithCurrencyName(vendorCurrency.getFormalName()),
