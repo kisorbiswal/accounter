@@ -84,7 +84,8 @@
 	
 	<query name="getNextCompany">
 		<query-param name="companyId" type="long" />
-		from com.vimukti.accounter.core.Company c where c.version!=7 and c.isConfigured=true  and c.id &gt; :companyId  order by id
+		from com.vimukti.accounter.core.Company c where c.version!=7 and 
+		c.isConfigured=true and isLocked=false and c.id &gt; :companyId  order by id
 	</query>
 	
 	<query name="getAccountTransactionsOfVoidTransaction">
