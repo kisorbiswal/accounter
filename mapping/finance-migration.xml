@@ -91,5 +91,11 @@
 		from com.vimukti.accounter.core.AccountTransaction at where at.transaction.saveStatus in (201,202,204) and at.company=:company
 	</query>
 	
+	<query name="get.All.TdsChallans">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TDSChalanDetail tc where
+		tc.company=:company
+	</query>
+	
 	
 </hibernate-mapping>
