@@ -565,9 +565,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				QuoteView.this.updateNonEditableItems();
 			}
@@ -757,9 +757,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			}
 		}
 		if (isTrackDiscounts()) {
-			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
-					item.setDiscount(discountField.getAmount());
+					item.setDiscount(discountField.getPercentage());
 				}
 			}
 		}
@@ -957,7 +957,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
 					this.discountField
-							.setAmount(getdiscount(this.transactionItems));
+							.setPercentage(getdiscount(this.transactionItems));
 				}
 			}
 			memoTextAreaItem.setDisabled(true);
@@ -1421,10 +1421,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	protected void updateDiscountValues() {
 
-		if (discountField.getAmount() != null) {
-			customerTransactionTable.setDiscount(discountField.getAmount());
+		if (discountField.getPercentage() != null) {
+			customerTransactionTable.setDiscount(discountField.getPercentage());
 		} else {
-			discountField.setAmount(0d);
+			discountField.setPercentage(0d);
 		}
 	}
 

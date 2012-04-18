@@ -468,9 +468,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				InvoiceView.this.updateNonEditableItems();
 			}
@@ -1015,7 +1015,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setAmount(getdiscount(transaction
+						this.discountField.setPercentage(getdiscount(transaction
 								.getTransactionItems()));
 					}
 				}
@@ -1325,9 +1325,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// if (taxItemGroup != null)
 		// transaction.setTaxItemGroup(taxItemGroup);
 		if (isTrackDiscounts()) {
-			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
-					item.setDiscount(discountField.getAmount());
+					item.setDiscount(discountField.getPercentage());
 				}
 			}
 		}
@@ -1850,10 +1850,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void updateDiscountValues() {
-		if (discountField.getAmount() != null) {
-			customerTransactionTable.setDiscount(discountField.getAmount());
+		if (discountField.getPercentage() != null) {
+			customerTransactionTable.setDiscount(discountField.getPercentage());
 		} else {
-			discountField.setAmount(0d);
+			discountField.setPercentage(0d);
 		}
 	}
 

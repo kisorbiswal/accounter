@@ -117,7 +117,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private HTML lastActivityHTML, noteHTML;
 
-	protected AmountField discountField;
+	protected PercentageField discountField;
 
 	// public static final int CUSTOMER_TRANSACTION_GRID = 1;
 	// public static final int VENDOR_TRANSACTION_GRID = 2;
@@ -408,8 +408,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected abstract void refreshTransactionGrid();
 
-	protected AmountField getDiscountField() {
-		discountField = new AmountField(messages.discount(), this);
+	protected PercentageField getDiscountField() {
+		discountField = new PercentageField(this, messages.discount());
 		discountField.setEnabled(!isInViewMode());
 		discountField.addBlurHandler(new BlurHandler() {
 

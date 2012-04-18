@@ -185,9 +185,9 @@ public class ItemReceiptView extends
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				ItemReceiptView.this.updateNonEditableItems();
 			}
@@ -234,9 +234,9 @@ public class ItemReceiptView extends
 
 			@Override
 			protected void updateDiscountValues(ClientTransactionItem row) {
-				if (discountField.getAmount() != null
-						&& discountField.getAmount() != 0) {
-					row.setDiscount(discountField.getAmount());
+				if (discountField.getPercentage() != null
+						&& discountField.getPercentage() != 0) {
+					row.setDiscount(discountField.getPercentage());
 				}
 				ItemReceiptView.this.updateNonEditableItems();
 			}
