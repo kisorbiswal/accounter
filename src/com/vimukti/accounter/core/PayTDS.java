@@ -39,18 +39,6 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -85,7 +73,7 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
+	public void getEffects(ITransactionEffects e) {
 		// TODO Auto-generated method stub
 
 	}

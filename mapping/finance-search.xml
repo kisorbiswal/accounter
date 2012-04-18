@@ -625,17 +625,13 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 		
 		<![CDATA[
 				SELECT T.ID            AS TRANSACTION_ID,
 				       T.T_DATE        AS TRANSACTION_DATE,
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
-				       T.CURRENCY      AS CURRENCY,
-				       CASE
-				         WHEN T.T_TYPE = 11 THEN PB.PAYBILL_TYPE 
-				         ELSE 2 END AS PAYBILL_TYPE
+				       T.CURRENCY      AS CURRENCY
 				FROM   TRANSACTION T
 					   LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
@@ -668,17 +664,13 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 		
 		<![CDATA[
 				SELECT T.ID            AS TRANSACTION_ID,
 				       T.T_DATE        AS TRANSACTION_DATE,
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
-				       T.CURRENCY      AS CURRENCY,
-				       CASE WHEN T.T_TYPE = 11 
-				        THEN PB.PAYBILL_TYPE 
-				        ELSE 2 END AS PAYBILL_TYPE
+				       T.CURRENCY      AS CURRENCY
 				FROM   TRANSACTION T
 					   LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
@@ -713,17 +705,13 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 
 		<![CDATA[
 				SELECT T.ID            AS TRANSACTION_ID,
 				       T.T_DATE        AS TRANSACTION_DATE,
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
-				       T.CURRENCY      AS CURRENCY,
-				       CASE WHEN T.T_TYPE = 11
-				        THEN PB.PAYBILL_TYPE 
-				        ELSE 2 END AS PAYBILL_TYPE
+				       T.CURRENCY      AS CURRENCY
 				FROM   TRANSACTION T
 					   LEFT JOIN PAY_BILL PB
 				         ON T.ID = PB.ID
@@ -758,17 +746,13 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 		
 		<![CDATA[
 				SELECT T.ID            AS TRANSACTION_ID,
 				       T.T_DATE        AS TRANSACTION_DATE,
 				       T.T_TYPE        AS TRANSACTION_TYPE,
 				       T.TOTAL         AS TOTAL_PRICE,
-				       T.CURRENCY      AS CURRENCY,
-				       CASE WHEN T.T_TYPE = 11 
-				       THEN P.PAYBILL_TYPE 
-				       ELSE 2 END AS PAYBILL_TYPE
+				       T.CURRENCY      AS CURRENCY
 				FROM   TRANSACTION T
 					   LEFT JOIN PAY_BILL P
 				         ON T.ID = P.ID
@@ -793,17 +777,13 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-		<return-scalar column="PAYBILL_TYPE" type="int" />
 		
 		<![CDATA[
 				SELECT T.ID           AS TRANSACTION_ID,
 				       T.T_DATE       AS TRANSACTION_DATE,
 				       T.T_TYPE       AS TRANSACTION_TYPE,
 				       T.TOTAL        AS TOTAL_PRICE,
-				       T.CURRENCY     AS CURRENCY,
-				       CASE WHEN T.T_TYPE = 11 
-				       THEN P.PAYBILL_TYPE 
-				       ELSE 2 END AS PAYBILL_TYPE
+				       T.CURRENCY     AS CURRENCY
 				FROM   TRANSACTION T
 					   LEFT JOIN PAY_BILL P
 				         ON T.ID = P.ID

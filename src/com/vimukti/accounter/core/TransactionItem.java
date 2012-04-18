@@ -370,44 +370,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				|| transaction.isDraftOrTemplate())
 			return false;
 
-		if (shouldUpdateAccounts(true)) {
-
-			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-				if (this.effectingAccount != null) {
-					effectingAccount.updateCurrentBalance(this.transaction, -1
-							* this.updateAmount,
-							transaction.previousCurrencyFactor);
-
-					session.saveOrUpdate(effectingAccount);
-					effectingAccount.onUpdate(session);
-				}
-
-				if (this.type == TYPE_ITEM) {
-					doReverseEffectForitem(session);
-				}
-			}
+		if (this.type == TYPE_ITEM && getItem() != null
+				&& getItem().isInventory()) {
+			modifyPurchases(null, false, null);
 		}
 
-		//
-		// if (this.isTaxable
-		// && taxGroup != null
-		// && Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US)
-		// Company.setTaxRateCalculation(this, session, amount);
-		// else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK)
-		// Company.setVATRateCalculation(this, session);
-		// } else if (this.type == TYPE_SALESTAX) {
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		//
-		// Company.setTaxRateCalculation(this, session, amount);
-		// } else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK) {
-		// Company.setVATRateCalculation(this, session);
-		// }
-		// }
-		// doReverseEffect(session);
 		return false;
 	}
 
@@ -424,13 +391,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		this.setOnSaveProccessed(true);
 		isNewlyCreated = true;
 
-		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
-				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
-			return false;
-
-		if (!transaction.isDraftOrTemplate() && !transaction.isVoid()) {
-			doCreateEffect(session);
-		}
 		return false;
 	}
 
@@ -493,137 +453,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 	}
 
-	public void doCreateEffect(Session session) {
-
-		/**
-		 * First take the Back up of the TransactionItem information
-		 */
-		// ItemBackUp itemBackUp = null;
-		// if (this.type == TYPE_ITEM) {
-		// this.itemBackUp = new ItemBackUp(this);
-		// // this.itemBackUpList.add(itemBackUp);
-		// }
-		if (shouldUpdateAccounts(false)) {
-			Double amount = (isPositiveTransaction() ? 1d : -1d)
-					* (this.isAmountIncludeTAX() ? this.lineTotal
-							- this.VATfraction : this.lineTotal);
-			this.setUpdateAmount(amount);
-			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-				Account effectingAccount = getEffectingAccount();
-				if (effectingAccount != null) {
-					this.effectingAccount = effectingAccount;
-					effectingAccount.updateCurrentBalance(this.transaction,
-							amount, transaction.currencyFactor);
-					session.saveOrUpdate(effectingAccount);
-					effectingAccount.onUpdate(session);
-				}
-				if (this.isTaxable) {
-					transaction.setTAXRateCalculation(this);
-				}
-
-				if (this.type == TYPE_ITEM && getItem() != null) {
-					doCreateEffectForItem(session);
-				}
-
-			}
-		}
-		// else if (this.type == TYPE_SALESTAX) {
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		// // Company.setTaxRateCalculation(this, session, amount);
-		// } else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK) {
-		// Company.setTAXRateCalculation(this, session);
-		// }
-		// }
-		// ChangeTracker.put(this);
-	}
-
-	private void doCreateEffectForItem(Session session) {
-		if (getItem().isInventory()) {
-			getItem().updateBalance(this, isSalesTransaction());
-
-			if (getTransaction().isCustomerCreditMemo()) {
-				// Doing PurchaseEffect for CustomerCreditMemo
-				Account assestsAccount = getItem().getAssestsAccount();
-				Account expenseAccount = getItem().getExpenseAccount();
-				double purchaseCost = getQuantity().calculatePrice(
-						this.getUnitPriceInBaseCurrency());
-				assestsAccount.updateCurrentBalance(getTransaction(),
-						-purchaseCost, 1);
-				expenseAccount.updateCurrentBalance(getTransaction(),
-						purchaseCost, 1);
-				session.save(assestsAccount);
-				session.save(expenseAccount);
-			}
-		} else if (getTransaction().isBuildAssembly()) {
-			double purchaseValue = getQuantity().calculatePrice(
-					this.getUnitPriceInBaseCurrency());
-			Account expenseAccount = getItem().getExpenseAccount();
-			expenseAccount.updateCurrentBalance(getTransaction(),
-					purchaseValue, 1);
-			session.saveOrUpdate(expenseAccount);
-
-			// Updating Assembly Assets
-			Account assestsAccount = ((BuildAssembly) getTransaction())
-					.getInventoryAssembly().getAssestsAccount();
-			assestsAccount.updateCurrentBalance(getTransaction(),
-					-purchaseValue, 1);
-			session.saveOrUpdate(assestsAccount);
-		}
-	}
-
-	private void doReverseEffectForitem(Session session) {
-		if (getItem().isInventory()) {
-			getItem().doReverseEffect(this, isSalesTransaction());
-
-			if (getTransaction().isCustomerCreditMemo()) {
-				// Doing PurchaseEffect for CustomerCreditMemo
-				Account assestsAccount = getItem().getAssestsAccount();
-				Account expenseAccount = getItem().getExpenseAccount();
-				double purchaseCost = getQuantity().calculatePrice(
-						this.getUnitPriceInBaseCurrency());
-				assestsAccount.updateCurrentBalance(getTransaction(),
-						purchaseCost, 1);
-				expenseAccount.updateCurrentBalance(getTransaction(),
-						-purchaseCost, 1);
-				session.save(assestsAccount);
-				session.save(expenseAccount);
-			}
-		} else if (getTransaction().isBuildAssembly()) {
-			double purchaseValue = getQuantity().calculatePrice(
-					this.getUnitPriceInBaseCurrency());
-			Account expenseAccount = getItem().getExpenseAccount();
-			expenseAccount.updateCurrentBalance(getTransaction(),
-					-purchaseValue, 1);
-			session.saveOrUpdate(expenseAccount);
-
-			// Updating Assembly Assets
-			Account assestsAccount = ((BuildAssembly) getTransaction())
-					.getInventoryAssembly().getAssestsAccount();
-			assestsAccount.updateCurrentBalance(getTransaction(),
-					purchaseValue, 1);
-			session.saveOrUpdate(assestsAccount);
-
-		}
-	}
-
-	private boolean shouldUpdateAccounts(boolean whenDeleting) {
-		switch (transaction.getType()) {
-		case Transaction.TYPE_ESTIMATE:
-			Estimate est = (Estimate) transaction;
-			if (whenDeleting) {
-				return est.getUsedInvoice() != est.getOldUsedInvoice();
-			} else {
-				return est.getUsedInvoice() != null;
-			}
-		case Transaction.TYPE_PURCHASE_ORDER:
-			return ((PurchaseOrder) transaction).getUsedBill() != null;
-		default:
-			return true;
-		}
-	}
-
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
@@ -647,53 +476,12 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		this.isReverseEffected = true;
 
-		// Double amount = (isPositiveTransaction() ? -1d : 1d)
-		// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
-		// - this.VATfraction : this.lineTotal);
-		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-			if (this.effectingAccount != null) {
-				effectingAccount.updateCurrentBalance(this.transaction, -1
-						* this.getUpdateAmount(), transaction.currencyFactor);
-				effectingAccount.onUpdate(session);
-				session.saveOrUpdate(effectingAccount);
-			}
-
-			if (this.isTaxable) {
-				transaction.setTAXRateCalculation(this);
-			}
-			if (this.type == TYPE_ITEM && getItem() != null) {
-				doReverseEffectForitem(session);
-			}
-
+		if (this.type == TYPE_ITEM && getItem() != null
+				&& getItem().isInventory()) {
+			modifyPurchases(null, false, null);
 		}
-		// else if (this.type == TYPE_SALESTAX) {
-		// if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_US) {
-		// // Company.setTaxRateCalculation(this, session, amount);
-		// } else if (Company.getCompany().getAccountingType() ==
-		// Company.ACCOUNTING_TYPE_UK) {
-		// Company.setTAXRateCalculation(this, session);
-		// }
-		// }
 
 	}
-
-	// private TaxRateCalculation getTaxRateCalculation(
-	// Set<TaxRateCalculation> trcList, TaxCode code) {
-	//
-	// TaxRateCalculation result = null;
-	//
-	// for (TaxRateCalculation trc : trcList) {
-	//
-	// if (trc.transactionItem == this && trc.taxCode == code) {
-	// result = trc;
-	// break;
-	// }
-	//
-	// }
-	//
-	// return result;
-	// }
 
 	public boolean isPositiveTransaction() {
 		return this.transaction.isPositiveTransaction();
@@ -1114,7 +902,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					: purchaseCost;
 
 			mapped = mapped.subtract(qty);
-			amountToUpdate += qty.getValue() * cost;
+			amountToUpdate += qty.calculatePrice(cost);
 		}
 
 		if (!mapped.isEmpty()) {
@@ -1122,7 +910,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					: getUnitPriceInBaseCurrency();
 			double cost = (useAverage && averageCost != null) ? averageCost
 					: purchaseCost;
-			amountToUpdate += mapped.getValue() * cost;
+			amountToUpdate += mapped.calculatePrice(cost);
 		}
 		return amountToUpdate;
 	}
@@ -1131,7 +919,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		double amountToReverseUpdate = 0;
 		for (InventoryPurchase purchase : getPurchases()) {
 			Quantity quantity = purchase.getQuantity();
-			double purchaseValue = quantity.getValue() * purchase.getCost();
+			double purchaseValue = quantity.calculatePrice(purchase.getCost());
 			amountToReverseUpdate += purchaseValue;
 		}
 		return amountToReverseUpdate;

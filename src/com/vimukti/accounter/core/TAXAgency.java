@@ -147,36 +147,6 @@ public class TAXAgency extends Payee {
 		this.paymentTerm = paymentTerm;
 	}
 
-	/**
-	 * Deals with updating the VATAgency's liability Account's balance. If it is
-	 * called through a {@link Customer} transaction, the account to be
-	 * considered is its salesLiabilityAccount else if it is {@link Vendor}
-	 * Transaction, then the account is purchaseLiabilityAccount.
-	 * 
-	 * @param session
-	 * @param transaction
-	 * @param transactionCategory
-	 * @param amount
-	 */
-	public void updateTAXAgencyAccount(Session session,
-			Transaction transaction, double amount) {
-		updateBalance(session, transaction, amount);
-		Account account = null;
-		if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER) {
-			account = this.salesLiabilityAccount;
-		} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-			account = this.purchaseLiabilityAccount;
-		}
-		if (account != null) {
-			account.updateCurrentBalance(transaction,
-					amount / transaction.getCurrencyFactor(),
-					transaction.getCurrencyFactor());
-			session.update(account);
-			account.onUpdate(session);
-		}
-
-	}
-
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
 		AccounterCommand accounterCore = new AccounterCommand();

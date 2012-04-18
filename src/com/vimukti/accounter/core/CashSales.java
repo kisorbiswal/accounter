@@ -587,16 +587,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.depositIn;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
-	}
-
-	@Override
 	public String toString() {
 
 		return AccounterServerConstants.TYPE_CASH_SALES;
@@ -667,10 +657,12 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	/**
 	 * This method is called when we save in the edit mode
+	 * 
+	 * @throws AccounterException
 	 */
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		CashSales cashSales = (CashSales) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -687,8 +679,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			doVoidEffect(session, this);
 		} else {
 
-			this.cleanTransactionitems(this);
-
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -697,28 +687,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			/**
-			 * if we compare depositIn accounts the condition never satisfies so
-			 * if we compare total and the account is same then first previous
-			 * total will be decreased and present total will be increased
-			 */
-
-			// if (cashSales.depositIn.id != this.depositIn.id) {
-			Account preDepositAccnt = (Account) session.get(Account.class,
-					cashSales.depositIn.getID());
-			preDepositAccnt.updateCurrentBalance(this, cashSales.total,
-					cashSales.currencyFactor);
-			preDepositAccnt.onUpdate(session);
-
-			this.depositIn.updateCurrentBalance(this, -this.total,
-					this.currencyFactor);
-			this.depositIn.onUpdate(session);
 			doUpdateEffectEstiamtes(this, cashSales, session);
-			// }
-			// if(cashSales.total!=this.total){
-			// this.depositIn.updateCurrentBalance(this,
-			// this.total-cashSales.total);
-			// }
 
 		}
 
@@ -909,11 +878,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		return valid;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-
-	}
-
 	public String getCheckNumber() {
 		return checkNumber;
 	}
@@ -936,6 +900,36 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		sale.salesOrders = new ArrayList<Estimate>();
 		return sale;
 
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				e.add(item.getIncomeAccount(), amount);
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity().reverse(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForSales();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getDepositIn(), -getTotal());
 	}
 
 }

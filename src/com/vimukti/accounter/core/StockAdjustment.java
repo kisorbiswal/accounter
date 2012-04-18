@@ -4,7 +4,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -88,30 +87,7 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		return super.onUpdate(session);
 	}
 
-	@Override
-	public void onEdit(Transaction clonedObject) {
-		super.onEdit(clonedObject);
-		StockAdjustment adjustment = (StockAdjustment) clonedObject;
-		Session session = HibernateUtil.getCurrentSession();
-		double totalAdjustment = 0.00D;
-		for (TransactionItem item : adjustment.getTransactionItems()) {
-			if (item.getQuantity().getValue() < 0) {
-				continue;
-			}
-			double adjustmentValue = item.getQuantity().calculatePrice(
-					item.getUnitPrice());
-			totalAdjustment += adjustmentValue;
-		}
-		Account adjustmentAccount = adjustment.getAdjustmentAccount();
-		adjustmentAccount.updateCurrentBalance(this, -totalAdjustment, 1);
-		session.saveOrUpdate(adjustmentAccount);
-		if (!isBecameVoid()) {
-			doCreateEffect(this);
-		}
-	}
-
 	private void doCreateEffect(StockAdjustment adjustment) {
-		Session session = HibernateUtil.getCurrentSession();
 		double totalAdjustment = 0.00D;
 		for (TransactionItem item : adjustment.getTransactionItems()) {
 			item.setWareHouse(adjustment.getWareHouse());
@@ -123,10 +99,7 @@ public class StockAdjustment extends Transaction implements INamedObject {
 					item.getUnitPrice());
 			totalAdjustment += adjustmentValue;
 		}
-		Account adjustmentAccount = adjustment.getAdjustmentAccount();
-		adjustmentAccount.updateCurrentBalance(this, totalAdjustment, 1);
 		setTotal(totalAdjustment);
-		session.saveOrUpdate(adjustmentAccount);
 		if (number == null) {
 			String number = NumberUtils.getNextTransactionNumber(
 					Transaction.TYPE_STOCK_ADJUSTMENT, getCompany());
@@ -134,28 +107,8 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		}
 	}
 
-	private void doReverseEffect(StockAdjustment adjustment) {
-		Session session = HibernateUtil.getCurrentSession();
-		double totalAdjustment = 0.00D;
-		for (TransactionItem item : adjustment.getTransactionItems()) {
-			// item.doReverseEffect(session);
-			if (item.getQuantity().getValue() < 0) {
-				continue;
-			}
-			double adjustmentValue = item.getQuantity().calculatePrice(
-					item.getUnitPrice());
-			totalAdjustment += adjustmentValue;
-		}
-		Account adjustmentAccount = adjustment.getAdjustmentAccount();
-		adjustmentAccount.updateCurrentBalance(this, -totalAdjustment, 1);
-		session.saveOrUpdate(adjustmentAccount);
-	}
-
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
-			doReverseEffect(this);
-		}
 		return super.onDelete(session);
 	}
 
@@ -218,18 +171,6 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -242,8 +183,34 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
+	public void getEffects(ITransactionEffects e) {
+		double totalAdjustment = 0.00D;
+		for (TransactionItem tItem : getTransactionItems()) {
+			tItem.setWareHouse(getWareHouse());
+			tItem.setTransaction(this);
+			if (tItem.getQuantity().getValue() < 0) {
+				continue;
+			}
+			e.add(tItem.getItem(), tItem.getQuantity(),
+					tItem.getUnitPriceInBaseCurrency(), tItem.getWareHouse());
+			double adjustmentValue = tItem.getQuantity().calculatePrice(
+					tItem.getUnitPrice());
+			totalAdjustment += adjustmentValue;
 
+			Item item = tItem.getItem();
+			if (tItem.getQuantity().getValue() > 0) {
+				e.add(item, tItem.getQuantity(),
+						tItem.getUnitPriceInBaseCurrency(),
+						tItem.getWareHouse());
+				double calculatePrice = tItem.getQuantity().calculatePrice(
+						tItem.getUnitPriceInBaseCurrency());
+				e.add(item.getAssestsAccount(), -calculatePrice, 1);
+			} else {
+				e.add(item, tItem.getQuantity().reverse(),
+						tItem.getUnitPriceInBaseCurrency(),
+						tItem.getWareHouse());
+			}
+		}
+		e.add(getAdjustmentAccount(), totalAdjustment);
 	}
 }

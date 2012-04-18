@@ -3,11 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TDSChalanDetail extends Transaction implements
@@ -195,23 +192,6 @@ public class TDSChalanDetail extends Transaction implements
 		this.tdsTransactionItems = list;
 	}
 
-	@Override
-	public boolean onSave(Session session) throws CallbackException {
-		if (this.isOnSaveProccessed)
-			return true;
-		super.onSave(session);
-		this.isOnSaveProccessed = true;
-		if (!isDraftOrTemplate()) {
-			Account account = getTDSTaxAgencyAccount();
-			if (account != null) {
-				account.updateCurrentBalance(this, -total, currencyFactor);
-				session.saveOrUpdate(account);
-				account.onUpdate(session);
-			}
-		}
-		return false;
-	}
-
 	private Account getTDSTaxAgencyAccount() {
 		for (TDSTransactionItem item : tdsTransactionItems) {
 			if (item.getTransaction() instanceof PayBill) {
@@ -224,20 +204,6 @@ public class TDSChalanDetail extends Transaction implements
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-		super.onDelete(session);
-		if (!isVoid() && !isDraftOrTemplate()) {
-			Account account = getTDSTaxAgencyAccount();
-			if (account != null) {
-				account.updateCurrentBalance(this, total, currencyFactor);
-				session.saveOrUpdate(account);
-				account.onUpdate(session);
-			}
-		}
-		return false;
 	}
 
 	@Override
@@ -274,17 +240,6 @@ public class TDSChalanDetail extends Transaction implements
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.payFrom;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -308,46 +263,6 @@ public class TDSChalanDetail extends Transaction implements
 	public void setEtdsfillingAcknowledgementNo(
 			String etdsfillingAcknowledgementNo) {
 		this.etdsfillingAcknowledgementNo = etdsfillingAcknowledgementNo;
-	}
-
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onEdit(Transaction clonedObject) {
-		TDSChalanDetail challan = (TDSChalanDetail) clonedObject;
-		Session session = HibernateUtil.getCurrentSession();
-
-		if (isDraftOrTemplate()) {
-			super.onEdit(challan);
-			return;
-		}
-
-		Account oldPayFrom = challan.getPayFrom();
-		oldPayFrom.updateCurrentBalance(this, -challan.getTotal(),
-				challan.getCurrencyFactor());
-		session.saveOrUpdate(oldPayFrom);
-		oldPayFrom.onUpdate(session);
-
-		payFrom.updateCurrentBalance(this, total, currencyFactor);
-		session.saveOrUpdate(payFrom);
-		payFrom.onUpdate(session);
-
-		Account account = getTDSTaxAgencyAccount();
-		if (account != null) {
-			account.updateCurrentBalance(this, challan.getTotal(),
-					challan.getCurrencyFactor());
-			// session.saveOrUpdate(account);
-			account.onUpdate(session);
-
-			account.updateCurrentBalance(this, -total, currencyFactor);
-			session.saveOrUpdate(account);
-			account.onUpdate(session);
-		}
-		super.onEdit(clonedObject);
 	}
 
 	public FinanceDate getAcknowledgementDate() {
@@ -380,6 +295,12 @@ public class TDSChalanDetail extends Transaction implements
 
 	public void setToDate(FinanceDate toDate) {
 		this.toDate = toDate;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		e.add(getTDSTaxAgencyAccount(), -getTotal());
+		e.add(getPayFrom(), getTotal());
 	}
 
 }

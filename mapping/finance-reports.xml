@@ -855,7 +855,6 @@
 				                        LEFT JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT CASE
@@ -871,7 +870,6 @@
 				                        LEFT JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -915,7 +913,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE <= :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -923,7 +920,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE <= :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -982,8 +978,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -991,8 +985,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -1003,8 +995,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE BETWEEN :startDate1 AND :endDate1
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -1012,8 +1002,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate1 AND :endDate1
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -1068,7 +1056,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CASH_BASIS_ENTRY = 'FALSE'
 				                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -1077,7 +1064,6 @@
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
 				                        AND AT.COMPANY_ID = :companyId
-				                        AND AT.IS_CASH_BASIS_ENTRY = 'FALSE'
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                 GROUP  BY AT.ACCOUNT_ID)
 				         END )         AS AMOUNT,
@@ -1131,7 +1117,6 @@
 				                        JOIN TRANSACTION T1
 				                          ON AT1.TRANSACTION_ID = T1.ID
 				                 WHERE  AT1.ACCOUNT_ID = A.ID
-				                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 				           ELSE (SELECT SUM(AT.AMOUNT)
@@ -1139,7 +1124,6 @@
 				                        JOIN TRANSACTION T
 				                          ON AT.TRANSACTION_ID = T.ID
 				                 WHERE  AT.ACCOUNT_ID = A.ID
-				                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 				                        AND T.T_DATE BETWEEN :startDate AND :endDate
 				                        AND AT.COMPANY_ID = :companyId
 				                 GROUP  BY AT.ACCOUNT_ID)
@@ -1149,7 +1133,6 @@
 				               JOIN TRANSACTION T1
 				                 ON AT1.TRANSACTION_ID = T1.ID
 				        WHERE  AT1.ACCOUNT_ID = A.ID
-				               AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 				               AND T1.T_DATE BETWEEN :start AND :end
 				               AND AT1.COMPANY_ID = :companyId) AS CASH_AT_BEGINNING_OF_PERIOD,
 				       A.FLOW                                   AS FLOW,
@@ -1182,8 +1165,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1193,8 +1174,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1205,8 +1184,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -1216,8 +1193,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -1243,7 +1218,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1253,7 +1227,6 @@
 		                 FROM   ACCOUNT_TRANSACTION AT1
 		                        LEFT JOIN ACCOUNT A
 		                          ON AT1.ACCOUNT_ID = A.ID
-		                             AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                        LEFT JOIN TRANSACTION T
 		                          ON AT1.TRANSACTION_ID = T.ID
 		                 WHERE  A.A_TYPE IN( 14, 17 )
@@ -1264,7 +1237,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -1274,7 +1246,6 @@
 		                       FROM   ACCOUNT_TRANSACTION AT1
 		                              LEFT JOIN ACCOUNT A
 		                                ON AT1.ACCOUNT_ID = A.ID
-		                                   AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 		                              LEFT JOIN TRANSACTION T
 		                                ON AT1.TRANSACTION_ID = T.ID
 		                       WHERE  A.A_TYPE IN( 15, 16, 18 )
@@ -2152,17 +2123,13 @@
 				         ELSE P.NAME
 				       END            AS PAYEE_NAME,
 				       T.ID           AS TRANSACTION_ID,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END            AS TRANSACTION_TYPE,
+				       T.T_TYPE		  AS TRANSACTION_TYPE,
 				       T.T_DATE       AS TRANSACTION_DATE,
 				       T.NUMBER       AS TRANSACTION_NUMBER,
 				       SUM(AT.AMOUNT) AS AMOUNT,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25
+				              THEN NULL
 				         ELSE T.MEMO
 				       END            AS MEMO
 				FROM   ACCOUNT_TRANSACTION AT
@@ -2259,17 +2226,13 @@
 				         ELSE P.NAME
 				       END            AS PAYEE_NAME,
 				       T.ID           AS TRANSACTION_ID,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END            AS TRANSACTION_TYPE,
+				       T.T_TYPE       AS TRANSACTION_TYPE,
 				       T.T_DATE       AS TRANSACTION_DATE,
 				       T.NUMBER       AS TRANSACTION_NUMBER,
 				       SUM(AT.AMOUNT) AS AMOUNT,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25
+				              THEN NULL
 				         ELSE T.MEMO
 				       END            AS MEMO,
 				       C.FULL_NAME    AS C_NAME
@@ -2496,8 +2459,8 @@
 				         ELSE AT.AMOUNT
 				       END              AS AMOUNT,
 				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN NULL
+				         WHEN T.T_TYPE = 25
+				              THEN NULL
 				         ELSE T.MEMO
 				       END              AS MEMO
 				FROM   ACCOUNT_TRANSACTION AT
@@ -2540,8 +2503,7 @@
 				               OR ( T.T_TYPE = 11
 				                    AND A.A_TYPE NOT IN ( 4, 9, 13 )
 				                    AND A.ID = TI.ACCOUNT_ID ) )
-				             OR ( ( T.T_TYPE != 11
-				                     OR PB.PAYBILL_TYPE != 1 )
+				             OR ( ( T.T_TYPE != 11)
 				                  AND A.ID = AT.ACCOUNT_ID )
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
@@ -2844,11 +2806,7 @@
 		
 		<![CDATA[
 				SELECT T.ID              AS TRANSACTION_ID,
-				       CASE
-				         WHEN T.T_TYPE = 11
-				              AND PB.PAYBILL_TYPE = 2 THEN 25
-				         ELSE T.T_TYPE
-				       END               AS TRANSACTION_TYPE,
+				       T.T_TYPE 	     AS TRANSACTION_TYPE,
 				       T.T_DATE          AS TRANSACTION_DATE,
 				       CASE
 				         WHEN T.T_TYPE = 15 THEN WC.IN_FAVOUR_OF
@@ -3174,8 +3132,6 @@
 						                        AND ( T.JOB_ID IS NOT NULL
 						                               OR (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ))
 						                        AND AT1.ACCOUNT_ID = A.ID
-						                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = 'FALSE'
-						                        AND AT1.IS_CASH_BASIS_ENTRY = 'FALSE'
 						                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 						           ELSE (SELECT SUM(AT.AMOUNT)
 						                 FROM   ACCOUNT_TRANSACTION AT
@@ -3192,8 +3148,6 @@
 						                        AND ( T.JOB_ID IS NOT NULL
 						                               OR  (TI.JOB_ID IS NOT NULL AND TI.IS_BILLABLE ) )
 						                        AND AT.ACCOUNT_ID = A.ID
-						                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = 'FALSE'
-						                        AND AT.IS_CASH_BASIS_ENTRY = 'FALSE'
 						AND AT.COMPANY_ID=:companyId)
 						 END )    AS AMOUNT,
 						A.PARENT_ID,
@@ -3565,13 +3519,7 @@
 		<![CDATA[
 				SELECT *
 				FROM   (SELECT T.ID                        AS TRANSACTION_ID,
-				               CASE
-				                 WHEN T.T_TYPE = 11 THEN CASE
-				                                           WHEN PB.PAYBILL_TYPE = 1 THEN 11
-				                                           ELSE 25
-				                                         END
-				                 ELSE T.T_TYPE
-				               END                         AS TRANSACTION_TYPE,
+				               T.T_TYPE 	               AS TRANSACTION_TYPE,
 				               T.T_DATE                    AS TRANSACTION_DATE,
 				               P.NAME                      AS NAME,
 				               A.NAME                      AS ACCOUNT_NAME,
@@ -3857,8 +3805,6 @@
 					                          ON L.ID = T1.LOCATION_ID
 					                 WHERE  AT1.ACCOUNT_ID = A.ID
 					                        AND L.ID IS NOT NULL
-					                        AND AT1.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-					                        AND AT1.IS_CASH_BASIS_ENTRY = FALSE
 					                        AND T1.T_DATE BETWEEN :startDate AND :endDate
 					                        AND AT1.COMPANY_ID = :companyId) = 0 THEN 0
 					           ELSE (SELECT SUM(AT.AMOUNT)
@@ -3869,8 +3815,6 @@
 					                          ON L.ID = T.LOCATION_ID
 					                 WHERE  AT.ACCOUNT_ID = A.ID
 					                        AND L.ID IS NOT NULL
-					                        AND AT.IS_CLOSING_FISCALYEAR_ENTRY = FALSE
-					                        AND AT.IS_CASH_BASIS_ENTRY = FALSE
 					                        AND T.T_DATE BETWEEN :startDate AND :endDate
 					                        AND AT.COMPANY_ID = :companyId
 					                 GROUP  BY AT.ACCOUNT_ID)
@@ -4097,13 +4041,7 @@
 									SELECT T.CURRENCY        AS CURRENCY,
 						       T.CURRENCY_FACTOR AS CURRENCY_FACTOR,
 						       T.T_DATE          AS TRANSACTION_DATE,
-						       CASE
-						         WHEN T.T_TYPE != 11 THEN T.T_TYPE
-						         ELSE CASE
-						                WHEN PB.PAYBILL_TYPE = 1 THEN 11
-						                ELSE 25
-						              END
-						       END               AS TRANSACTION_TYPE,
+						       T.T_TYPE		     AS TRANSACTION_TYPE,
 						       CASE
 						         WHEN T.T_TYPE = 34 THEN CAST (CAST(TDS.CHALANSERIALNUMBER AS TEXT) AS
 						                                       BYTEA)
@@ -4153,11 +4091,9 @@
 						                          AND TRP.WRITE_OFF_ID IS NOT NULL
 						                          AND TRP.TRANSACTION_ID = AT.TRANSACTION_ID) = 0 THEN
 						         :debtors
-						         WHEN T.T_TYPE = 11
-						              AND PB.PAYBILL_TYPE = 2
+						         WHEN T.T_TYPE = 25
 						              AND A.ID != 3 THEN :creditors
 						         WHEN T.T_TYPE = 11
-						              AND PB.PAYBILL_TYPE = 1
 						              AND A.ID != 3
 						              AND (SELECT COUNT(TPB.DISCOUNT_ID)
 						                   FROM   TRANSACTION_PAYBILL TPB
@@ -4216,7 +4152,6 @@
 						       AND T.T_DATE BETWEEN :startDate AND :endDate
 						GROUP  BY T.ID,
 						          AT.TRANSACTION_ID,
-						          PB.PAYBILL_TYPE,
 						          A.ID,
 						          AT.ACCOUNT_ID,
 						          A.NAME,
@@ -4321,17 +4256,13 @@
 							         ELSE P.NAME
 							       END            AS PAYEE_NAME,
 							       T.ID           AS TRANSACTION_ID,
-							       CASE
-							         WHEN T.T_TYPE = 11
-							              AND PB.PAYBILL_TYPE = 2 THEN 25
-							         ELSE T.T_TYPE
-							       END            AS TRANSACTION_TYPE,
+							       T.T_TYPE       AS TRANSACTION_TYPE,
 							       T.T_DATE       AS TRANSACTION_DATE,
 							       T.NUMBER       AS TRANSACTION_NUMBER,
 							       SUM(AT.AMOUNT) AS AMOUNT,
 							       CASE
-							         WHEN T.T_TYPE = 11
-							              AND PB.PAYBILL_TYPE = 2 THEN NULL
+							         WHEN T.T_TYPE = 25
+							              THEN NULL
 							         ELSE T.MEMO
 							       END            AS MEMO,
 							       C.FULL_NAME    AS C_NAME

@@ -1,13 +1,9 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
-
-import org.hibernate.CallbackException;
-import org.hibernate.Session;
-import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -23,14 +19,14 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Chandan
  * 
  */
-public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
+public class TAXRateCalculation implements IAccounterServerCore {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9008613714032328895L;
 	long id;
 	private boolean isVATGroupEntry;
-	double vatAmount;
+	double taxAmount;
 	double lineTotal;
 	Transaction transaction;
 	TAXItem taxItem;
@@ -47,11 +43,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	 * VATRateCalculation is filed to any VATReturn.
 	 */
 	TAXReturn taxReturn;
-
-	/**
-	 * This taxDue is used to know how much Vat Amount is remains to pay
-	 */
-	double taxDue;
 
 	public TAXRateCalculation() {
 	}
@@ -70,8 +61,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 		this.salesLiabilityAccount = this.taxAgency.getSalesLiabilityAccount();
 
 		this.lineTotal = lineTotal * transacton.getCurrencyFactor();
-		this.vatAmount = this.getCeilValueofTAX();
-		this.taxDue = this.vatAmount;
+		this.taxAmount = this.getCeilValueofTAX();
 	}
 
 	/**
@@ -189,16 +179,16 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	/**
 	 * @return the vatAmount
 	 */
-	public double getVatAmount() {
-		return vatAmount;
+	public double getTAXAmount() {
+		return taxAmount;
 	}
 
 	/**
 	 * @param vatAmount
 	 *            the vatAmount to set
 	 */
-	public void setVatAmount(double vatAmount) {
-		this.vatAmount = vatAmount;
+	public void setTAXAmount(double vatAmount) {
+		this.taxAmount = vatAmount;
 	}
 
 	/**
@@ -262,32 +252,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public boolean onDelete(Session s) throws CallbackException {
-		this.taxAgency.updateTAXAgencyAccount(s, transaction, -this.vatAmount);
-		return false;
-	}
-
-	@Override
-	public void onLoad(Session s, Serializable id) {
-
-	}
-
-	@Override
-	public boolean onSave(Session s) throws CallbackException {
-		this.taxAgency.updateTAXAgencyAccount(s, transaction, this.vatAmount);
-		return false;
-	}
-
-	@Override
-	public boolean onUpdate(Session s) throws CallbackException {
-		if (OnUpdateThreadLocal.get()) {
-			return false;
-		}
-
-		return false;
-	}
-
-	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 
@@ -296,21 +260,6 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 
 	private double getCeilValueofTAX() {
 		return this.lineTotal * this.rate / 100;
-	}
-
-	/**
-	 * @return the taxDue
-	 */
-	public double getTaxDue() {
-		return taxDue;
-	}
-
-	/**
-	 * @param taxDue
-	 *            the taxDue to set
-	 */
-	public void setTaxDue(double taxDue) {
-		this.taxDue = taxDue;
 	}
 
 	@Override
@@ -328,6 +277,48 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int hashCode() {
+
+		int hash = 7;
+		long tID = getTransaction().getID();
+		hash = 31 * hash + (int) (tID ^ (tID >>> 32));
+		long iID = getTaxItem().getID();
+		long bits = Double.doubleToLongBits(getTAXAmount());
+		hash = (int) (iID ^ (iID >>> 32)) + (int) (bits ^ (bits >>> 32));
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TAXRateCalculation)) {
+			return false;
+		}
+		TAXRateCalculation other = (TAXRateCalculation) obj;
+		if (this.getTransaction().getID() == other.getTransaction().getID()
+				&& this.getTaxItem().getID() == other.getTaxItem().getID()
+				&& this.getTaxAgency().getID() == other.getTaxAgency().getID()
+				&& this.getVatReturnBox() != other.getVatReturnBox()
+				&& this.getSalesLiabilityAccount() == other
+						.getSalesLiabilityAccount()
+				&& this.getPurchaseLiabilityAccount() == other
+						.getPurchaseLiabilityAccount()
+				&& DecimalUtil.isEquals(this.getRate(), other.getRate())
+				&& DecimalUtil.isEquals(this.getLineTotal(),
+						other.getLineTotal())
+				&& DecimalUtil.isEquals(this.getTAXAmount(),
+						other.getTAXAmount())
+				&& this.isVATGroupEntry() == other.isVATGroupEntry()) {
+			return true;
+		}
+		return false;
+	}
+
+	public void add(TAXRateCalculation trc) {
+		this.lineTotal += trc.getLineTotal();
+		this.taxAmount += trc.getTAXAmount();
 	}
 
 }

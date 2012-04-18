@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 
 import org.apache.log4j.Logger;
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -45,34 +47,29 @@ public class AccountTransaction extends CreatableObject implements
 	 * specified transaction.
 	 */
 	double amount;
+
 	/**
-	 * This is used to indicate the end of fiscal year. If true, it indicates
-	 * that the fiscal year is being closed and we have to add the closing
-	 * fiscal year entry.
+	 * Will Be used by Inventory Transaction. If this is FALSE, then the
+	 * Accounts will not be updated or reverse updated on Saving or Deleting
+	 * respectively.
 	 */
-	boolean closingFYEntry = false;
-	/**
-	 * This is maintained to avoid unnecessary confusion with the Accrual
-	 * entries and Cashbasis journal entries.
-	 */
-	boolean cashBasisEntry = false;
+	boolean updateAccount = Boolean.TRUE;
 
 	public AccountTransaction() {
 	}
 
 	public AccountTransaction(Account account, Transaction transaction,
-			double amount, boolean closingFYEntry, boolean cashBasisEntry) {
+			double amount, boolean updateAccount) {
+		this(account, transaction, amount);
+		this.updateAccount = updateAccount;
+	}
+
+	public AccountTransaction(Account account, Transaction transaction,
+			double amount) {
 		setCompany(transaction.getCompany());
 		this.account = account;
 		this.transaction = transaction;
 		this.amount = amount;
-		this.closingFYEntry = closingFYEntry;
-		this.cashBasisEntry = cashBasisEntry;
-
-		// CompanyPreferences preferences =
-		// Company.getCompany().getPreferences();
-		// if (this.transaction.transactionDate.getYear() == preferences
-		// .getStartOfFiscalYear().getYear()) {
 
 		int key = (transaction.getDate().getYear() + 1900) * 100
 				+ transaction.getDate().getMonth();
@@ -82,16 +79,21 @@ public class AccountTransaction extends CreatableObject implements
 		} else {
 			this.account.monthViceAmounts.put(key, amount);
 		}
-		// }
 	}
 
 	@Override
 	public String toString() {
-		if (transaction != null) {
-			return getAccount().getName() + "   " + transaction.toString()
-					+ "    " + amount;
-		} else
-			return "";
+		StringBuffer sb = new StringBuffer("Amount : ");
+		sb.append(amount);
+		sb.append(" Account :");
+		sb.append(getAccount().getName());
+		sb.append(" Transaction :");
+		sb.append(getTransaction());
+		sb.append(" Transaction ID:");
+		sb.append(getTransaction().getID());
+		;
+
+		return sb.toString();
 	}
 
 	/**
@@ -181,9 +183,80 @@ public class AccountTransaction extends CreatableObject implements
 		if (this.account != null)
 			w.put(messages.account(), this.account.getName());
 
-		w.put(messages.closeFiscalYear(), closingFYEntry);
-
-		w.put(messages.cashBasisAccounting(), this.cashBasisEntry);
-
 	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (isUpdateAccount()) {
+			account.effectCurrentBalance(amount, getTransaction()
+					.getCurrencyFactor());
+			session.saveOrUpdate(account);
+		}
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (isUpdateAccount()) {
+			getAccount().effectCurrentBalance(-amount,
+					getTransaction().previousCurrencyFactor);
+			session.saveOrUpdate(getAccount());
+		}
+		return super.onDelete(session);
+	}
+
+	// @Override
+	// public int hashCode() {
+	// int hash = 7;
+	// long tID = getTransaction().getID();
+	// hash = 37 * hash + (int) (tID ^ (tID >>> 32));
+	// long aID = getAccount().getID();
+	// long bits = Double.doubleToLongBits(getAmount());
+	// hash = (int) (aID ^ (aID >>> 32)) + (int) (bits ^ (bits >>> 32));
+	// return hash;
+	// }
+	//
+	// @Override
+	// public boolean equals(Object obj) {
+	// if (!(obj instanceof AccountTransaction)) {
+	// return false;
+	// }
+	// AccountTransaction other = (AccountTransaction) obj;
+	// if (this.getTransaction().getID() == other.getTransaction().getID()
+	// && this.getAccount().getID() == other.getAccount().getID()
+	// && DecimalUtil.isEquals(this.getAmount(), other.getAmount())) {
+	// return true;
+	// }
+	// return false;
+	// }
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+		super.onLoad(arg0, arg1);
+	}
+
+	public void add(AccountTransaction at) {
+		if (getTransaction().getID() != at.getTransaction().getID()
+				|| getAccount().getID() != at.getAccount().getID()) {
+			return;
+		}
+		this.amount += at.amount;
+	}
+
+	/**
+	 * @return the updateAccount
+	 */
+	public boolean isUpdateAccount() {
+		return updateAccount;
+	}
+
+	/**
+	 * @param updateAccount
+	 *            the updateAccount to set
+	 */
+	public void setUpdateAccount(boolean updateAccount) {
+		this.updateAccount = updateAccount;
+	}
+
 }

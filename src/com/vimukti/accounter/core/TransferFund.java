@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Map;
-
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -12,7 +10,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
@@ -98,21 +95,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 		if (isDraftOrTemplate()) {
 			return false;
 		}
-		if (this.cashBackAccount != null) {
-
-			this.cashBackAccount.updateCurrentBalance(this,
-					this.cashBackAmount, currencyFactor);
-			this.cashBackAccount.onUpdate(session);
-
-		}
-		double transferAmount = getTransferAmount(this);
-
-		depositIn.updateCurrentBalance(this, -transferAmount,
-				this.currencyFactor);
-		session.save(depositIn);
-		depositFrom.updateCurrentBalance(this, transferAmount,
-				this.currencyFactor);
-		session.save(depositFrom);
 
 		return false;
 	}
@@ -158,16 +140,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	@Override
 	public boolean isPositiveTransaction() {
 		return false;
-	}
-
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return null;
 	}
 
 	public void setNumber(String number) {
@@ -218,56 +190,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 		this.depositFrom = depositFrom;
 	}
 
-	@Override
-	public void onEdit(Transaction clonedObject) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		TransferFund makeDeposit = (TransferFund) clonedObject;
-
-		if (isDraftOrTemplate()) {
-			super.onEdit(makeDeposit);
-			return;
-		}
-		if (this.isVoid() && !makeDeposit.isVoid()) {
-			this.doVoidEffect(session);
-
-		} else {
-			if (this.depositIn.getID() != makeDeposit.depositIn.getID()
-					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)
-					|| isCurrencyFactorChanged()) {
-				Account depositInAccount = (Account) session.get(Account.class,
-						makeDeposit.depositIn.getID());
-				depositInAccount.updateCurrentBalance(this,
-						getTransferAmount(makeDeposit),
-						makeDeposit.currencyFactor);
-				depositInAccount.onUpdate(session);
-				session.saveOrUpdate(depositInAccount);
-
-				this.depositIn.updateCurrentBalance(this,
-						-getTransferAmount(this), this.currencyFactor);
-				this.depositIn.onUpdate(session);
-				session.saveOrUpdate(this.depositIn);
-			}
-			if (this.depositFrom.getID() != makeDeposit.depositFrom.getID()
-					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)
-					|| isCurrencyFactorChanged()) {
-				Account depositFromAccount = (Account) session.get(
-						Account.class, makeDeposit.depositFrom.getID());
-				depositFromAccount.updateCurrentBalance(this,
-						-getTransferAmount(makeDeposit),
-						makeDeposit.currencyFactor);
-				depositFromAccount.onUpdate(session);
-				session.saveOrUpdate(depositFromAccount);
-
-				this.depositFrom.updateCurrentBalance(this,
-						getTransferAmount(this), this.currencyFactor);
-				this.depositFrom.onUpdate(session);
-				session.saveOrUpdate(this.depositFrom);
-			}
-		}
-		super.onEdit(makeDeposit);
-	}
-
 	private double getTransferAmount(TransferFund fund) {
 		double transferAmount = fund.total;
 		if (fund.depositFrom.getCurrency().getID() == fund.getCompany()
@@ -275,23 +197,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 			transferAmount = transferAmount / fund.currencyFactor;
 		}
 		return transferAmount;
-	}
-
-	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
-			doVoidEffect(session);
-		}
-		return super.onDelete(session);
-	}
-
-	private void doVoidEffect(Session session) {
-		depositIn.updateCurrentBalance(this, getTransferAmount(this),
-				this.currencyFactor);
-		session.save(depositIn);
-		depositFrom.updateCurrentBalance(this, -getTransferAmount(this),
-				this.currencyFactor);
-		session.save(depositFrom);
 	}
 
 	@Override
@@ -315,15 +220,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 		flag = super.canEdit(clientObject, goingToBeEdit);
 		session.setFlushMode(flushMode);
 		return flag;
-	}
-
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (cashBackAccount != null) {
-			map.put(cashBackAccount, cashBackAmount);
-		}
-		return map;
 	}
 
 	@Override
@@ -355,8 +251,15 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
+	public void getEffects(ITransactionEffects e) {
+		double transferAmount = getTotal();
+		if (getDepositFrom().getCurrency().getID() == getCompany()
+				.getPrimaryCurrency().getID()) {
+			transferAmount = transferAmount / currencyFactor;
+		}
 
+		e.add(getDepositIn(), -transferAmount);
+		e.add(getDepositFrom(), transferAmount);
+		e.add(getCashBackAccount(), getCashBackAmount());
 	}
 }

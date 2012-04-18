@@ -1,7 +1,6 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
@@ -245,16 +244,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.customer;
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -321,26 +310,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		if (isDraftOrTemplate()) {
 			return false;
 		}
-		// this.total = this.amount;
-		//
-		// this.subTotal = this.total - this.unUsedPayments;
-
-		if (this.depositIn != null) {
-			// Deposit in account should be updated by the amount received, not
-			// by transaction total.
-			this.depositIn.updateCurrentBalance(this, -this.amount,
-					currencyFactor);
-			// -(this.amount != 0 ? this.amount : this.total));
-			this.depositIn.onUpdate(session);
-		}
-
-		// the following condition checking is for UK
-		// if (Company.getCompany().accountingType == Company.ACCOUNTING_TYPE_UK
-		// && !this.customer.isEUVATExemptPayee
-		// && this.showPricesWithVATOrVATInclusive
-		// ) {
-		// this.unUsedPayments += this.total;
-		// }
 
 		if (!DecimalUtil.isEquals(this.unUsedPayments, 0D)) {
 			if (creditsAndPayments != null
@@ -378,15 +347,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
-		if (DecimalUtil.isGreaterThan(tdsTotal, 0)
-				&& getCompany().getPreferences().isTDSEnabled()
-				&& this.getCustomer().isWillDeductTDS()) {
-			Account tdsAccount = getTDSAccount();
-			if (tdsAccount != null) {
-				tdsAccount
-						.updateCurrentBalance(this, -tdsTotal, currencyFactor);
-			}
-		}
 		return false;
 	}
 
@@ -538,7 +498,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		ReceivePayment receivePayment = (ReceivePayment) clonedObject;
 
 		super.onEdit(receivePayment);
@@ -553,10 +513,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		 */
 		Session session = HibernateUtil.getCurrentSession();
 		if (this.isVoid() && !receivePayment.isVoid()) {
-
-			this.depositIn.updateCurrentBalance(this, this.amount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
 
 			if (this.creditsAndPayments != null) {
 				// this.creditsAndPayments.setTransaction(null);
@@ -574,49 +530,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			}
 
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-
-			Account tdsAccount = getTDSAccount();
-			if (tdsAccount != null) {
-				tdsAccount.updateCurrentBalance(this, tdsTotal, currencyFactor);
-				session.save(tdsAccount);
-			}
 		} else {
-
-			if (this.depositIn.getID() != receivePayment.getDepositIn().getID()
-					|| isCurrencyFactorChanged()
-					|| !DecimalUtil.isEquals(this.amount,
-							receivePayment.getAmount())) {
-				Account old = receivePayment.getDepositIn();
-				old.updateCurrentBalance(this, receivePayment.getAmount(),
-						receivePayment.previousCurrencyFactor);
-				session.update(old);
-				depositIn.updateCurrentBalance(this, -this.amount,
-						currencyFactor);
-				session.update(depositIn);
-			}
-
-			if (!DecimalUtil.isEquals(this.total, receivePayment.getTotal())
-					|| isCurrencyFactorChanged()) {
-				customer.updateBalance(session, this,
-						-receivePayment.getTotal(),
-						receivePayment.previousCurrencyFactor);
-
-				customer.updateBalance(session, this, this.total);
-			}
-
-			if (!DecimalUtil.isEquals(this.tdsTotal,
-					receivePayment.getTdsTotal())
-					|| isCurrencyFactorChanged()) {
-				Account tdsAccount = getTDSAccount();
-				if (tdsAccount != null) {
-					tdsAccount.updateCurrentBalance(this,
-							receivePayment.getTdsTotal(),
-							receivePayment.previousCurrencyFactor);
-					tdsAccount.updateCurrentBalance(this, -tdsTotal,
-							currencyFactor);
-					session.save(tdsAccount);
-				}
-			}
 
 			if (receivePayment.getCreditsAndPayments() != null) {
 				voidCreditsAndPayments(receivePayment);
@@ -635,54 +549,13 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 			}
-			// for (TransactionReceivePayment tReceivePaymentOld :
-			// receivePayment
-			// .getTransactionReceivePayment()) {
-			// for (TransactionCreditsAndPayments tcp : tReceivePaymentOld
-			// .getTransactionCreditsAndPayments()) {
-			// boolean isExists = false;
-			// for (TransactionReceivePayment tReceivePayment : this
-			// .getTransactionReceivePayment()) {
-			// List<TransactionCreditsAndPayments> transactionCreditsAndPayments
-			// = tReceivePayment
-			// .getTransactionCreditsAndPayments();
-			// if (transactionCreditsAndPayments != null)
-			// for (TransactionCreditsAndPayments tcp2 :
-			// transactionCreditsAndPayments) {
-			// if (tcp.getCreditsAndPayments().getID() == tcp2
-			// .getCreditsAndPayments().getID()) {
-			// isExists = true;
-			// break;
-			// }
-			// }
-			//
-			// }
-			// if (!isExists) {
-			// tcp.onEditTransaction(-tcp.amountToUse);
-			// tcp.amountToUse = 0.0;
-			// session.saveOrUpdate(tcp.getCreditsAndPayments());
-			// }
-			// }
-			//
-			// tReceivePaymentOld.doReverseEffect(true);
-			// }
 
-			cleanTransactionitems(receivePayment);
 		}
 	}
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
-			this.depositIn.updateCurrentBalance(this, this.amount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
-
-			// if (this.creditsAndPayments != null) {
-			// this.creditsAndPayments.setTransaction(null);
-			// session.delete(this.creditsAndPayments);
-			// this.creditsAndPayments = null;
-			// }
 
 			this.totalCashDiscount = 0.0;
 			this.totalWriteOff = 0.0;
@@ -748,15 +621,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(depositIn, amount);
-		map.put(creditsAndPayments.getPayee().getAccount(),
-				creditsAndPayments.getEffectingAmount());
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -797,8 +661,35 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? total : -total;
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	public void getEffects(ITransactionEffects e) {
+		e.add(getDepositIn(), -getAmount());
+		if (DecimalUtil.isGreaterThan(tdsTotal, 0)) {
+			e.add(getTDSAccount(), -getTdsTotal());
+		}
+		e.add(getCustomer(), getTotal());
+		for (TransactionReceivePayment payment : getTransactionReceivePayment()) {
+			e.add(payment.getDiscountAccount(), -payment.getCashDiscount());
+			e.add(getCustomer(), payment.getCashDiscount());
+			e.add(getCustomer(), payment.getWriteOff());
+			e.add(payment.getWriteOffAccount(), -payment.getWriteOff());
+
+			// Calculating Exchange Loss or Gain
+			{
+				double amount = (payment.cashDiscount) + (payment.writeOff)
+						+ (payment.appliedCredits) + (payment.payment);
+				if (payment.getInvoice() != null) {
+					// loss is invoiced amount - received amount in base
+					// currency
+					double amountToUpdate = amount
+							* payment.getInvoice().getCurrencyFactor();
+
+					double diff = amountToUpdate - amount * currencyFactor;
+
+					e.add(getCompany().getExchangeLossOrGainAccount(), -diff, 1);
+					e.add(getCustomer().getAccount(), diff, 1);
+				}
+			}
+
+		}
 	}
 }

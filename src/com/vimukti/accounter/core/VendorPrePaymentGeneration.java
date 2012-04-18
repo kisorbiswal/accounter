@@ -11,10 +11,10 @@ import fr.opensagres.xdocreport.template.IContext;
 
 public class VendorPrePaymentGeneration {
 
-	private final VendorPayment payment;
+	private final VendorPrePayment payment;
 	private final Company company;
 
-	public VendorPrePaymentGeneration(VendorPayment payment, Company company) {
+	public VendorPrePaymentGeneration(VendorPrePayment payment, Company company) {
 		this.payment = payment;
 		this.company = company;
 	}

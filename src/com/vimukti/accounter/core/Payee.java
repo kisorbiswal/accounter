@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -16,6 +17,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * Payee is the object which represents a real-time entity of either
@@ -26,6 +28,8 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  */
 public abstract class Payee extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
+
+	Logger log = Logger.getLogger(FinanceTool.class);
 
 	/**
 	 * 
@@ -308,97 +312,22 @@ public abstract class Payee extends CreatableObject implements
 		this.payeeSince = payeeSince;
 	}
 
-	/**
-	 * 
-	 * @param session
-	 * @param transaction
-	 * @param amount
-	 * @param object
-	 * 
-	 *            method for reverse back effect on the Account related to this
-	 *            Payee
-	 */
-
-	public void updateBalance(Session session, Transaction transaction,
-			double amount) {
-		updateBalance(session, transaction, amount,
-				transaction.getCurrencyFactor());
-	}
-
-	public void updateBalance(Session session, Transaction transaction,
-			double amount, double currencyFactory) {
-		updateBalance(session, transaction, amount, currencyFactory, true);
-	}
-
-	/**
-	 * 
-	 * @param session
-	 * @param transaction
-	 * @param amount
-	 * @param object
-	 * 
-	 *            method for reverse back effect on the Account related to this
-	 *            Payee
-	 */
-
-	public void updateBalance(Session session, Transaction transaction,
-			double amount, double currencyFactor,
-			boolean updateBalanceInPayeeCurrency) {
+	public void effectBalance(double amount) {
 
 		/**
 		 * To check whether this payee is Customer, Vendor or Tax Agency.
 		 * Depending on the type we will either decrease or increase the balance
 		 * of the corresponding Payee.
 		 */
-		String tempStr = this.getName() + " Balance has been updated from "
-				+ this.balance;
+		log.info("Effecting Balance of " + getName() + "(" + getBalance()
+				+ ") with " + amount);
 
 		if (this.type == TYPE_CUSTOMER) {
-			if (updateBalanceInPayeeCurrency) {
-				this.balance -= amount;
-			}
+			this.balance -= amount;
 		} else if (this.type == TYPE_VENDOR || this.type == TYPE_TAX_AGENCY) {
-			if (updateBalanceInPayeeCurrency) {
-				this.balance += amount;
-			}
+			this.balance += amount;
 		}
 
-		/**
-		 * Getting the Account related to this Payee.
-		 */
-		Account account = this.getAccount();
-
-		// /**
-		// * In case of ItemReceipt instead of Updating Accounts Payable balance
-		// * we should update Pending Item Receipt Account Balance.
-		// */
-		// if (transaction instanceof ItemReceipt) {
-		// List<Account> accounts = (List<Account>) session
-		// .createQuery(
-		// "from com.vimukti.accounter.core.Account a where a.name = ?")
-		// .setParameter(0, AccounterConstants.PENDING_ITEM_RECEIPTS)
-		// .list();
-		// if (accounts != null && !accounts.isEmpty()
-		// && accounts.get(0) != null) {
-		// account = accounts.get(0);
-		// }
-		// }
-
-		/**
-		 * Update the account balance by the given amount if the account is not
-		 * null
-		 */
-		if (account != null) {
-			account.updateCurrentBalance(transaction, amount, currencyFactor);
-			session.update(account);
-			account.onUpdate(session);
-		}
-
-		/**
-		 * once if any Payee got created with opening balance then that Payee
-		 * balance should not be editable. So we will make it as un editable.
-		 */
-		// isOpeningBalanceEditable = Boolean.FALSE;
 		ChangeTracker.put(this);
 	}
 

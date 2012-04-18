@@ -540,18 +540,6 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_CUSTOMER;
 	}
@@ -619,7 +607,7 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		// Session session = HibernateUtil.getCurrentSession();
 		// SalesOrder salesOrder = (SalesOrder) clonedObject;
 		// String string =
@@ -715,9 +703,6 @@ public class SalesOrder extends Transaction {
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
 		if (this.usedInvoice == null) {
 			this.usedInvoice = usedTransaction;
-			for (TransactionItem item : transactionItems) {
-				item.doCreateEffect(session);
-			}
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
 			List<TransactionItem> newItems = new ArrayList<TransactionItem>();
@@ -806,7 +791,7 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
+	public void getEffects(ITransactionEffects e) {
 		// TODO Auto-generated method stub
 
 	}

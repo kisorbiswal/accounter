@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientVendorPayment extends ClientTransaction {
+public class ClientVendorPrePayment extends ClientTransaction {
 
 	private String name;
 	private boolean isAmountIncludeTDS;

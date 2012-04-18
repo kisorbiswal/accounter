@@ -197,29 +197,7 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-		if (OnUpdateThreadLocal.get()) {
-			return false;
-		}
-		if (this.expense.getStatus() == Expense.STATUS_APPROVED
-				&& this.expense.isAuthorised()) {
-
-			Account effectingAccount = this.getEffectingAccount();
-			if (effectingAccount != null) {
-				effectingAccount.updateCurrentBalance(this.expense, amount,
-						expense.currencyFactor);
-
-				session.update(effectingAccount);
-
-			}
-
-		}
-		// ChangeTracker.put(this);
-		return false;
-	}
-
-	private Account getEffectingAccount() {
+	public Account getEffectingAccount() {
 
 		switch (this.type) {
 
@@ -262,6 +240,12 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

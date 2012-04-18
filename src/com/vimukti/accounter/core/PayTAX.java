@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -124,7 +123,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	/**
 	 * @return the transactionPayVAT
 	 */
-	public List<TransactionPayTAX> getTransactionPayVAT() {
+	public List<TransactionPayTAX> getTransactionPayTAX() {
 		return transactionPayTAX;
 	}
 
@@ -132,7 +131,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	 * @param transactionPayVAT
 	 *            the transactionPayVAT to set
 	 */
-	public void setTransactionPayVAT(List<TransactionPayTAX> transactionPayVAT) {
+	public void setTransactionPayTAX(List<TransactionPayTAX> transactionPayVAT) {
 		this.transactionPayTAX = transactionPayVAT;
 	}
 
@@ -162,19 +161,11 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			}
 		}
 
-		double paidAmount = total;
-		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
-			paidAmount = (paidAmount / currencyFactor);
-		}
-		payFrom.updateCurrentBalance(this, paidAmount, currencyFactor);
-		payFrom.onUpdate(session);
-		session.update(payFrom);
-
 		return false;
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		PayTAX oldPayTAX = (PayTAX) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -185,29 +176,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		if (this.isVoid() && !oldPayTAX.isVoid()) {
 			doVoidEffect(session, true);
 		} else {
-			if ((payFrom.getID() != oldPayTAX.payFrom.getID())
-					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)
-					|| isCurrencyFactorChanged()) {
-				Account account = (Account) session.get(Account.class,
-						oldPayTAX.payFrom.getID());
-				double oldPaidAmount = oldPayTAX.total;
-				if (getCurrency().getID() != getCompany().getPrimaryCurrency()
-						.getID()) {
-					oldPaidAmount = (oldPaidAmount / oldPayTAX.previousCurrencyFactor);
-				}
-				if (account != null) {
-					account.updateCurrentBalance(this, -oldPaidAmount,
-							oldPayTAX.previousCurrencyFactor);
-					session.update(account);
-				}
-				double paidAmount = total;
-				if (getCurrency().getID() != getCompany().getPrimaryCurrency()
-						.getID()) {
-					paidAmount = (paidAmount / currencyFactor);
-				}
-				payFrom.updateCurrentBalance(this, paidAmount, currencyFactor);
-				session.saveOrUpdate(payFrom);
-			}
 			for (TransactionPayTAX transactoinPayTax : oldPayTAX.transactionPayTAX) {
 				transactoinPayTax.doVoidEffect(session);
 			}
@@ -229,12 +197,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	private void doVoidEffect(Session session, boolean isUpdate) {
 		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		double paidAmount = total;
-		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
-			paidAmount = (paidAmount / currencyFactor);
-		}
-		payFrom.updateCurrentBalance(this, -paidAmount, getCurrencyFactor());
-		session.saveOrUpdate(payFrom);
 		if (this.transactionPayTAX != null) {
 			if (!isUpdate) {
 				if (!this.isVoid()) {
@@ -254,18 +216,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
 	public Payee getInvolvedPayee() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
 
 		return null;
 	}
@@ -337,17 +288,6 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		for (TransactionPayTAX vat : transactionPayTAX) {
-			map.put(vat.getTaxAgency().getAccount(), vat.getAmountToPay());
-			map.put(vat.getVatReturn().getTaxAgency()
-					.getFiledLiabilityAccount(), vat.getAmountToPay());
-		}
-		return map;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -381,9 +321,17 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
+	public void getEffects(ITransactionEffects e) {
+		double paidAmount = getTotal();
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / getCurrencyFactor());
+		}
+		e.add(getPayFrom(), paidAmount);
+		for (TransactionPayTAX pt : getTransactionPayTAX()) {
+			e.add(pt.getTaxAgency(), -pt.getAmountToPay());
 
+			e.add(pt.getVatReturn().getTaxAgency().getFiledLiabilityAccount(),
+					-pt.getAmountToPay(), 1);
+		}
 	}
-
 }

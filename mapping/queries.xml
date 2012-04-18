@@ -483,7 +483,7 @@
 		<query-param name="status" type="int" />
 		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VendorPayment pst where
+		from com.vimukti.accounter.core.VendorPrePayment pst where
 		pst.company=:company
 		and pst.payFrom.id =:accountId and
 		pst.saveStatus!=204 and pst.status
@@ -568,7 +568,7 @@
 	<query name="getVendorPayment.form.status">
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.VendorPayment pb where
+		from com.vimukti.accounter.core.VendorPrePayment pb where
 		pb.company=:company
 		and
 		pb.status =:status
@@ -1351,7 +1351,7 @@
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
 		<query-param name="taxAgency" type="long" />
-		select sum(v.vatAmount), sum(v.lineTotal), max(v.transaction),
+		select sum(v.taxAmount), sum(v.lineTotal), max(v.transaction),
 		v.taxItem, v.isVATGroupEntry from
 		com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is not
@@ -1367,7 +1367,7 @@
 	<query name="getTAXRateCalculation.by.dates.and.taxAgency.of.taxException">
 		<query-param name="company" type="Company" />
 		<query-param name="taxAgency" type="long" />
-		select sum(v.vatAmount), sum(v.lineTotal), max(v.transaction),
+		select sum(v.taxAmount), sum(v.lineTotal), max(v.transaction),
 		v.taxItem, v.isVATGroupEntry from
 		com.vimukti.accounter.core.TAXRateCalculation v
 		where v.taxItem is not

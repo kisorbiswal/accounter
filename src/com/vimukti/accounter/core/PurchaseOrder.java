@@ -345,18 +345,6 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-
-		return null;
-	}
-
-	@Override
 	public int getTransactionCategory() {
 		return Transaction.CATEGORY_VENDOR;
 	}
@@ -399,14 +387,6 @@ public class PurchaseOrder extends Transaction {
 			return false;
 		}
 		super.onUpdate(session);
-		// if (this.transactionItems != null) {
-		// for (TransactionItem ti : this.transactionItems) {
-		// if (ti instanceof Lifecycle) {
-		// Lifecycle lifeCycle = (Lifecycle) ti;
-		// lifeCycle.onUpdate(session);
-		// }
-		// }
-		// }
 		return false;
 	}
 
@@ -417,7 +397,7 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		// Session session = HibernateUtil.getCurrentSession();
 		// PurchaseOrder purchaseOrder = (PurchaseOrder) clonedObject;
 		// if (this.status != STATUS_DELETED
@@ -577,12 +557,6 @@ public class PurchaseOrder extends Transaction {
 
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public CashPurchase getUsedCashPurchase() {
 		return usedCashPurchase;
 	}
@@ -604,5 +578,9 @@ public class PurchaseOrder extends Transaction {
 		po.usedCashPurchase = null;
 		po.status = STATUS_OPEN;
 		return po;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
 	}
 }

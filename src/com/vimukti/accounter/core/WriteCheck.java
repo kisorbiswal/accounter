@@ -13,7 +13,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -236,17 +235,6 @@ public class WriteCheck extends Transaction {
 	}
 
 	@Override
-	public Account getEffectingAccount() {
-		return this.bankAccount;
-	}
-
-	@Override
-	public Payee getPayee() {
-		// Must return null. because no need update payee balance in writecheck.
-		return null;
-	}
-
-	@Override
 	public String toString() {
 		return AccounterServerConstants.TYPE_WRITE_CHECK;
 	}
@@ -275,10 +263,9 @@ public class WriteCheck extends Transaction {
 
 	@Override
 	public Payee getInvolvedPayee() {
-
-		if (this.getPayee() instanceof Customer)
+		if (customer != null)
 			return this.customer;
-		else if (this.getPayee() instanceof Vendor)
+		else if (vendor != null)
 			return this.vendor;
 		else
 			return this.taxAgency;
@@ -344,7 +331,7 @@ public class WriteCheck extends Transaction {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 
 		WriteCheck writeCheck = (WriteCheck) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
@@ -354,29 +341,6 @@ public class WriteCheck extends Transaction {
 			doVoidEffect(session, this);
 
 		} else {
-			if (!this.isVoid() && !writeCheck.isVoid() && !isDraftOrTemplate()) {
-
-				if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
-						|| !DecimalUtil.isEquals(this.total, writeCheck.total)
-						|| isCurrencyFactorChanged()) {
-
-					Account account = (Account) session.get(Account.class,
-							writeCheck.bankAccount.getID());
-					account.updateCurrentBalance(this, -writeCheck.total,
-							writeCheck.currencyFactor);
-					session.update(account);
-					account.onUpdate(session);
-
-					writeCheck.total = 0.0;
-
-					this.bankAccount.updateCurrentBalance(this, this.total,
-							currencyFactor);
-					this.bankAccount.onUpdate(session);
-				}
-
-				cleanTransactionitems(writeCheck);
-
-			}
 			if ((this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
@@ -427,7 +391,7 @@ public class WriteCheck extends Transaction {
 						false);
 				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setTaxCode(null);
 				newTransactionItem.setOnSaveProccessed(false);
 				newTransactionItem.setLineTotal(newTransactionItem
 						.getLineTotal() * getCurrencyFactor());
@@ -435,8 +399,7 @@ public class WriteCheck extends Transaction {
 						* getCurrencyFactor());
 				newTransactionItem.setUnitPrice(newTransactionItem
 						.getUnitPrice() * getCurrencyFactor());
-				newTransactionItem.setVATfraction(newTransactionItem
-						.getVATfraction() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(0.0D);
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {
@@ -509,11 +472,6 @@ public class WriteCheck extends Transaction {
 					AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS);
 			// "You can't void or edit because it has been deposited from Undeposited Funds");
 		}
-		checkForReconciliation((Transaction) clientObject);
-		// if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-		// throw new AccounterException(
-		// AccounterException.WRITECHECK_PAID_VOID_IT);
-		// }
 		return true;
 	}
 
@@ -577,12 +535,6 @@ public class WriteCheck extends Transaction {
 		this.inFavourOf = inFavourOf;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public Set<Estimate> getEstimates() {
 		return estimates;
 	}
@@ -600,5 +552,41 @@ public class WriteCheck extends Transaction {
 			bill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 		return bill;
+	}
+	
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+					double calculatePrice = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(bankAccount, getTotal());
 	}
 }

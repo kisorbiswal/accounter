@@ -76,4 +76,20 @@
 		where at.account.id=at.company.accountsPayableAccount.id and at.company.id=:companyId
 	</query>
 	
+	<query name="getAllTransactionOfCompany">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Transaction t  where t.company=:company and t.saveStatus not in (201,202,204) order by t.type, t.id
+	</query>
+	
+	
+	<query name="getCompanyListOrderById">
+		from com.vimukti.accounter.core.Company c where c.version!=7 and c.isConfigured=true order by id
+	</query>
+	
+	<query name="getAccountTransactionsOfVoidTransaction">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.AccountTransaction at where at.transaction.saveStatus in (201,202,204) and at.company=:company
+	</query>
+	
+	
 </hibernate-mapping>

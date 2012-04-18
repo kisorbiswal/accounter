@@ -3,7 +3,6 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -219,7 +218,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		if (isDraftOrTemplate()) {
@@ -227,92 +225,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			return false;
 		}
 
-		/**
-		 * To check if any Purchase Order is involved in this Purchase Invoice.
-		 * If this Purchase Invoice uses any Purchase Order then we should
-		 * update the status accordingly. The Status of the Purchase Order may
-		 * be Not Received or Partially Received or Received. First of all we
-		 * need to check whether this Purchase Invoice uses any Purchase Order
-		 * or not.
-		 */
-		// if (this.purchaseOrder != null) {
-		// boolean isPartiallyReceived = false;
-		// boolean flag = true;
-		// if (this.transactionItems != null
-		// && this.transactionItems.size() > 0) {
-		// for (TransactionItem transactionItem : this.transactionItems) {
-		//
-		// /**
-		// * This is to know whether this transaction item is of new
-		// * one or it's came from any Purchase Order.
-		// */
-		// TransactionItem referringTransactionItem =
-		// transactionItem.referringTransactionItem;
-		// double amount = 0d;
-		//
-		// if (referringTransactionItem != null) {
-		// referringTransactionItem.usedamt += transactionItem.quantity
-		// * referringTransactionItem.unitPrice;
-		// amount = referringTransactionItem.usedamt;
-		// /**
-		// * This is to save changes to the invoiced amount of the
-		// * referring transaction item to this transaction item.
-		// */
-		// session.update(referringTransactionItem);
-		//
-		// if (flag
-		// && ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-		// || transactionItem.type == TransactionItem.TYPE_SALESTAX ||
-		// transactionItem.type == transactionItem.TYPE_ITEM) && amount <
-		// referringTransactionItem.lineTotal)) {
-		// isPartiallyReceived = true;
-		// flag = false;
-		// }
-		// }
-		//
-		// }
-		// }
-		// /**
-		// * Updating the Status of the Purchase Order involved in this
-		// * Purchase Invoice depending on the above Analysis.
-		// */
-		// if (isPartiallyReceived) {
-		// this.purchaseOrder.status =
-		// Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
-		// } else {
-		// this.purchaseOrder.status =
-		// Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		//
-		// }
-		//
-		// }
 		if (this.transactionItems == null) {
 			this.transactionItems = new ArrayList<TransactionItem>();
 		}
 		modifyPurchaseOrder(this, true);
-		/*
-		 * Make void the corresponding Item Receipt.
-		 */
-		if (this.itemReceipt != null) {
-			this.itemReceipt.setSaveStatus(STATUS_VOID);
-			this.itemReceipt.isBilled = true;
-			this.itemReceipt.balanceDue = 0;
-			this.itemReceipt.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-
-			Account pendingItemReceipt = getCompany()
-					.getPendingItemReceiptsAccount();
-			pendingItemReceipt.updateCurrentBalance(this.itemReceipt,
-					-this.itemReceipt.total, itemReceipt.currencyFactor);
-			session.update(pendingItemReceipt);
-			pendingItemReceipt.onUpdate(session);
-
-			session.saveOrUpdate(pendingItemReceipt);
-
-			this.itemReceipt.balanceDue = 0.0;
-
-			this.itemReceipt.voidTransactionItems();
-			deleteCreatedEntries(this.itemReceipt);
-		}
 		if (getCompany().getPreferences()
 				.isProductandSerivesTrackingByCustomerEnabled()
 				&& getCompany().getPreferences()
@@ -329,7 +245,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				session.saveOrUpdate(purchaseOrder);
 			}
 		}
-		return false;
+		return super.onSave(session);
 	}
 
 	@Override
@@ -479,16 +395,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return false;
 	}
 
-	@Override
-	public Account getEffectingAccount() {
-		return null;
-	}
-
-	@Override
-	public Payee getPayee() {
-		return this.vendor;
-	}
-
 	public void updatePaymentsAndBalanceDue(double amount) {
 		this.payments -= amount;
 		this.balanceDue += amount;
@@ -574,7 +480,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void onEdit(Transaction clonedObject) {
+	public void onEdit(Transaction clonedObject) throws AccounterException {
 		EnterBill enterBill = (EnterBill) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
 		this.balanceDue = this.total - payments;
@@ -597,8 +503,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		} else {
 
-			this.cleanTransactionitems(this);
-
 			/**
 			 * If cloned and client Object vendors are not same then update
 			 * cloned and client Object vendor balances and PurchaseOrder
@@ -608,11 +512,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					|| isCurrencyFactorChanged()) {
 
 				doVoidEffect(session, enterBill);
-
-				Vendor vendor = (Vendor) session.get(Vendor.class,
-						enterBill.vendor.getID());
-				vendor.updateBalance(session, this, -enterBill.total,
-						enterBill.getCurrencyFactor());
 
 				this.onSave(session);
 				return;
@@ -625,64 +524,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				// modifyItemReceipt(this, true);
 				// modifyItemReceipt(enterBill, false);
 			}
-
-			if (!DecimalUtil.isEquals(this.total, enterBill.total)) {
-				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
-				Vendor vendor = (Vendor) session.get(Vendor.class,
-						enterBill.vendor.getID());
-				vendor.updateBalance(session, this, this.total
-						- enterBill.total, enterBill.getCurrencyFactor());
-				// }
-			}
-
-			// if (this.purchaseOrders != null || enterBill.purchaseOrders !=
-			// null)
-			// if (this.purchaseOrders == null
-			// && enterBill.purchaseOrders != null) {
-			// modifyPurchaseOrder(enterBill, false);
-			// } else if (this.purchaseOrders != null
-			// && enterBill.purchaseOrders == null) {
-			// modifyPurchaseOrder(this, true);
-			// } else if (!this.purchaseOrder.equals(enterBill.purchaseOrder)) {
-			// modifyPurchaseOrder(enterBill, false);
-			// modifyPurchaseOrder(this, true);
-			//
-			// } else {
-			// for (TransactionItem transactionItem :
-			// enterBill.transactionItems) {
-			// if (transactionItem.getReferringTransactionItem() != null
-			// && DecimalUtil.isGreaterThan(transactionItem
-			// .getReferringTransactionItem().usedamt,
-			// 0)) {
-			// transactionItem.getReferringTransactionItem().usedamt -=
-			// transactionItem.lineTotal;
-			// }
-			// }
-			// modifyPurchaseOrder(this, true);
-			//
-			// }
-			// else if (enterBill.vendor.getID() == this.vendor.getID()) {
-			//
-			// /*
-			// * If cloned and client Object vendors are same then update
-			// * balances and PurchaseOrder
-			// */
-			//
-			// if (DecimalUtil.isGreaterThan(enterBill.total, this.total)) {
-			// modifyPurchaseOrder(this, false);
-			// // modifyItemReceipt(this, false);
-			//
-			// } else if (DecimalUtil.isLessThan(enterBill.total, this.total)) {
-			// modifyPurchaseOrder(this, true);
-			// // modifyItemReceipt(this, true);
-			// }
-			//
-			// this.vendor.updateBalance(session, this, -enterBill.total,
-			// enterBill.getCurrencyFactor());
-			//
-			// this.vendor.updateBalance(session, this, this.total);
-			//
-			// }
 
 			for (Estimate estimate : enterBill.estimates) {
 				session.delete(estimate);
@@ -1179,17 +1020,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
-	@Override
-	public Map<Account, Double> getEffectingAccountsWithAmounts() {
-		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		if (itemReceipt != null) {
-			map.put(getCompany().getPendingItemReceiptsAccount(),
-					itemReceipt.total);
-		}
-		return map;
-
-	}
-
 	private void createAndSaveEstimates(List<TransactionItem> transactionItems,
 			Session session) {
 		this.estimates.clear();
@@ -1203,7 +1033,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						false);
 				newTransactionItem.setQuantity(transactionItem.getQuantity());
 				newTransactionItem.setId(0);
-				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
+				newTransactionItem.setTaxCode(null);
 				newTransactionItem.setOnSaveProccessed(false);
 				newTransactionItem.setLineTotal(newTransactionItem
 						.getLineTotal() * getCurrencyFactor());
@@ -1211,8 +1041,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 						* getCurrencyFactor());
 				newTransactionItem.setUnitPrice(newTransactionItem
 						.getUnitPrice() * getCurrencyFactor());
-				newTransactionItem.setVATfraction(newTransactionItem
-						.getVATfraction() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(new Double(0));
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {
@@ -1262,28 +1091,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		this.estimates = estimates;
 	}
 
-	public void updateBalance(double amount, Transaction transaction) {
-		updateBalance(amount, transaction, transaction.getCurrencyFactor());
-	}
-
-	public void updateBalance(double amount, Transaction transaction,
-			double currencyFactor) {
-		Session session = HibernateUtil.getCurrentSession();
-
-		double amountToUpdate = amount * this.currencyFactor;
+	public void updateBalance(double amount) {
 
 		this.payments += amount;
 		this.balanceDue -= amount;
 
-		// loss is paid amount - entered amount in base currency
-		double diff = amount * currencyFactor - amountToUpdate;
-
-		Account exchangeLossOrGainAccount = getCompany()
-				.getExchangeLossOrGainAccount();
-		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
-
-		vendor.updateBalance(session, transaction, diff / currencyFactor,
-				currencyFactor, false);
 		updateStatus();
 	}
 
@@ -1360,12 +1172,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		return valid;
 	}
 
-	@Override
-	protected void updatePayee(boolean onCreate) {
-		double amount = onCreate ? total : -total;
-		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
 	public List<PurchaseOrder> getPurchaseOrders() {
 		return purchaseOrders;
 	}
@@ -1428,6 +1234,42 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		bill.payments = 0;
 		bill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 		return bill;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+		for (TransactionItem tItem : getTransactionItems()) {
+			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
+					- tItem.getVATfraction() : tItem.getLineTotal();
+			// This is Not Positive Transaction
+			amount = -amount;
+			switch (tItem.getType()) {
+			case TransactionItem.TYPE_ACCOUNT:
+				e.add(tItem.getAccount(), amount);
+				break;
+			case TransactionItem.TYPE_ITEM:
+				Item item = tItem.getItem();
+				if (item.isInventory()) {
+					e.add(item, tItem.getQuantity(),
+							tItem.getUnitPriceInBaseCurrency(),
+							tItem.getWareHouse());
+					double calculatePrice = tItem.getQuantity().calculatePrice(
+							tItem.getUnitPriceInBaseCurrency());
+					e.add(item.getAssestsAccount(), -calculatePrice, 1);
+				} else {
+					e.add(item.getExpenseAccount(), amount);
+				}
+				break;
+			default:
+				break;
+			}
+			if (tItem.isTaxable() && tItem.getTaxCode() != null) {
+				TAXItemGroup taxItemGroup = tItem.getTaxCode()
+						.getTAXItemGrpForPurchases();
+				e.add(taxItemGroup, amount);
+			}
+		}
+		e.add(getVendor(), getTotal());
 	}
 
 }
