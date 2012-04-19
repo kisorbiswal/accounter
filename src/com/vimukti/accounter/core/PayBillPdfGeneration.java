@@ -58,8 +58,8 @@ public class PayBillPdfGeneration {
 					usedTempletes.setDate(bill.getEnterBill().getDate()
 							.toString());
 					usedTempletes.setAmountApplied(DataUtils
-							.getAmountAsStrings(bill.getEnterBill()
-									.getPayments()));
+							.getAmountAsStringInCurrency(bill.getEnterBill()
+									.getPayments(), currencySymbol));
 					usedTempletes.setName(bill.getEnterBill().getVendor()
 							.getName());
 				}
