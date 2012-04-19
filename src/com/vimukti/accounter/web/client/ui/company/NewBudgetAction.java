@@ -2,10 +2,13 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -13,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewBudgetAction extends Action<ClientBudget> {
 
-	NewBudgetCellTableView view;
 	boolean edit;
 
 	public NewBudgetAction() {
@@ -40,33 +42,57 @@ public class NewBudgetAction extends Action<ClientBudget> {
 
 	private void runAsync(final List<ClientBudget> listData) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				view = new NewBudgetCellTableView(listData);
+			public void onSuccess() {
+					NewBudgetCellTableView view = new NewBudgetCellTableView(listData);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
-
+				
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//			
+//
+//			}
+//
+//		});
 
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				view = new NewBudgetCellTableView();
+			public void onSuccess() {
+				NewBudgetCellTableView view = new NewBudgetCellTableView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBudgetAction.this);
-
+				
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//
+//			}
+//
+//		});
 	}
 
 	// @Override

@@ -1195,9 +1195,6 @@ public class CashPurchaseView extends
 
 	}
 
-	public static CashPurchaseView getInstance() {
-		return new CashPurchaseView();
-	}
 
 	@Override
 	public List<DynamicForm> getForms() {

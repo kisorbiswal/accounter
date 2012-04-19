@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -10,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class PurchaseOrderAction extends Action {
 
-	protected PurchaseOrderView view;
 
 	public PurchaseOrderAction() {
 		super();
@@ -28,22 +29,32 @@ public class PurchaseOrderAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-
-			public void onCreated() {
-
-				view = new PurchaseOrderView();
+			public void onSuccess() {
+				PurchaseOrderView view = new PurchaseOrderView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, PurchaseOrderAction.this);
-				// / UIUtils.setCanvas(view, getViewConfiguration());
-
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Customer list...", t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//				// / UIUtils.setCanvas(view, getViewConfiguration());
+//
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				// //UIUtils.logError("Failed to Load Customer list...", t);
+//			}
+//		});
 
 	}
 

@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -14,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  */
 public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
-	private NewTAXCodeView view;
 	private String taxCodeName;
 
 	public NewTAXCodeAction() {
@@ -40,16 +42,27 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-				view = new NewTAXCodeView();
+			public void onSuccess() {
+				NewTAXCodeView view = new NewTAXCodeView();
 				view.setTaxCodeName(taxCodeName);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewTAXCodeAction.this);
+			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//				
+//
+//			}
+//		});
 	}
 
 	// @Override

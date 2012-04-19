@@ -823,9 +823,6 @@ public class TransferFundView extends
 
 	}
 
-	public static TransferFundView getInstance() {
-		return new TransferFundView();
-	}
 
 	@Override
 	public List<DynamicForm> getForms() {

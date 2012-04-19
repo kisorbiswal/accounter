@@ -29,9 +29,6 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		this.transactionType = transactionType;
 	}
 
-	public static ExpensesListView getInstance() {
-		return new ExpensesListView();
-	}
 
 	@Override
 	protected Action getAddNewAction() {

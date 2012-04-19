@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -18,7 +20,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewCreditMemoAction extends Action {
 
-	protected VendorCreditMemoView view;
 
 	public NewCreditMemoAction() {
 		super();
@@ -37,19 +38,30 @@ public class NewCreditMemoAction extends Action {
 
 	private void runAsync(final Object data, final boolean isDependent) {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				view = VendorCreditMemoView.getInstance();
+			public void onSuccess() {
+				VendorCreditMemoView view = new VendorCreditMemoView();
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewCreditMemoAction.this);
-
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//
+//			}
+//
+//		});
 
 	}
 

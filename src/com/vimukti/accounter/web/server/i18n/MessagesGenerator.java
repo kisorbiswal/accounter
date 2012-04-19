@@ -29,25 +29,11 @@ public class MessagesGenerator extends Generator {
 
 			if (src != null) {
 				src.println("private static Dictionary cache;");
-				src.println("private static ArrayList<String> messgaeUsageOrder;");
-				src.println("private static HashMap<String,Integer> messgaeUsageCount;");
-
-				// If it is TRUE then only we'll track MessageStatistics
-				src.print("public static final boolean TRACK_MESSAGE_STATISTICS = Boolean.TRUE;");
-
 				src.println(classType.getSimpleSourceName()
 						+ "Generated() {if (cache == null) {cache = Dictionary.getDictionary(\""
 						+ classType.getSimpleSourceName() + "\");}"
-						+ "messgaeUsageOrder = new ArrayList<String>();"
-						+ "messgaeUsageCount = new HashMap<String,Integer>();"
 						+ "}");
 
-				src.println("@Override");
-				src.print("public ArrayList<String> getMessagesUsageOrder(){"
-						+ "return messgaeUsageOrder;}");
-				src.println("@Override");
-				src.print("public HashMap<String,Integer> getMessgaesUsageCount(){"
-						+ "return messgaeUsageCount;}");
 				src.println("private String value(String key, HashMap<String,String> values) {"
 						+ "String string = cache.get(key);"
 						+ "for (String name : values.keySet()) "
@@ -66,15 +52,6 @@ public class MessagesGenerator extends Generator {
 								+ "));");
 					}
 					src.print("String key =\"" + method.getName() + "\";");
-					src.print("if(TRACK_MESSAGE_STATISTICS){");
-					src.print("if(!messgaeUsageOrder.contains(key)){");
-					src.print("messgaeUsageOrder.add(key);}");
-
-					src.print("Integer count = messgaeUsageCount.get(key);");
-					src.print("if(messgaeUsageCount.containsKey(key)){"
-							+ "messgaeUsageCount.put(key,messgaeUsageCount.get(key)+1);"
-							+ "}else{" + "messgaeUsageCount.put(key,1);" + "}");
-					src.print("}");
 					src.print("return value(key,map);");
 					src.println("}");
 				}
@@ -97,7 +74,7 @@ public class MessagesGenerator extends Generator {
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory(
 				packageName, simpleName);
 		composer.addImplementedInterface(classType.getQualifiedSourceName());
-		composer.addImplementedInterface("com.vimukti.accounter.web.client.externalization.IMessageStats");
+//		composer.addImplementedInterface("com.vimukti.accounter.web.client.externalization.IMessageStats");
 
 		// Need to add whatever imports your generated class needs.
 		composer.addImport(classType.getQualifiedSourceName());

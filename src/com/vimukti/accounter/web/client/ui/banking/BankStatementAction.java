@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BankStatementsView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -30,20 +34,32 @@ public class BankStatementAction extends Action<ClientTransaction> {
 	}
 
 	private void runAsync(final Object data, final Boolean isEditable) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
+			public void onSuccess() {
 				bankStatementsView = new BankStatementsView(account);
 				MainFinanceWindow.getViewManager().showView(bankStatementsView,
 						data, isDependent, BankStatementAction.this);
+				
 			}
 
-			public void onCreateFailed(Throwable t) {
-				/* UIUtils.logError */System.err
-						.println("Failed to Load Report.." + t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				/* UIUtils.logError */System.err
+//						.println("Failed to Load Report.." + t);
+//			}
+//		});
 	}
 
 	@Override

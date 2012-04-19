@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -8,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class VaTItemDetailAction extends Action {
-	private VATItemDetailReport report;
 
 	public VaTItemDetailAction() {
 		super();
@@ -37,20 +39,31 @@ public class VaTItemDetailAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				report = new VATItemDetailReport();
+			public void onSuccess() {
+				VATItemDetailReport report = new VATItemDetailReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, VaTItemDetailAction.this);
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Report..", t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//			
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				// //UIUtils.logError("Failed to Load Report..", t);
+//			}
+//		});
 
 	}
 

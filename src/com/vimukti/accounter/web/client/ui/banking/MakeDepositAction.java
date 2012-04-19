@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -13,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class MakeDepositAction extends Action {
-	protected TransferFundView view;
 	private double reconcileAmount;
 	private ClientAccount reconcilationAccount;
 	private ClientStatementRecord statementRecord;
@@ -50,21 +52,34 @@ public class MakeDepositAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
+			public void onSuccess() {
+				TransferFundView view;
 				if (reconcilationAccount != null) {
 					view = new TransferFundView(reconcilationAccount,
 							reconcileAmount, statementRecord);
 				} else {
-					view = TransferFundView.getInstance();
+					view = new TransferFundView();
 				}
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, MakeDepositAction.this);
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//		});
 	}
 
 	// @Override

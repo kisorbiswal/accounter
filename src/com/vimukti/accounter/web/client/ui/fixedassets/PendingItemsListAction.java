@@ -3,7 +3,10 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -16,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  */
 public class PendingItemsListAction extends Action {
 
-	private PendingItemsListView view;
 
 	public PendingItemsListAction() {
 		super();
@@ -41,20 +43,31 @@ public class PendingItemsListAction extends Action {
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				view = new PendingItemsListView();
+			public void onSuccess() {
+				PendingItemsListView view = new PendingItemsListView();
 				MainFinanceWindow.getViewManager().showView(view, null, false,
 						PendingItemsListAction.this);
-
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Vendor View..", t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				// //UIUtils.logError("Failed to Load Vendor View..", t);
+//			}
+//		});
 	}
 
 	// @Override

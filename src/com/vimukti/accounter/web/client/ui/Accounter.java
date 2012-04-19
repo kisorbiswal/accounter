@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -131,7 +132,7 @@ public class Accounter implements EntryPoint {
 
 	}
 
-	public static void gotCompany(ClientCompany company) {
+	public static void gotCompany(final ClientCompany company) {
 
 		if (company == null || (!company.isConfigured())) {
 			// and, now we are ready to start the application.
@@ -141,40 +142,65 @@ public class Accounter implements EntryPoint {
 				preferences = company.getPreferences();
 			}
 			// and, now we are ready to start the application.
+			final ClientCompanyPreferences prefs = preferences;
 
-			removeLoadingImage();
+			GWT.runAsync(new RunAsyncCallback() {
 
-			header = new Header();
-			vpanel = new SimplePanel();
-			vpanel.addStyleName("empty_menu_bar");
-			setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
 				@Override
-				public void onSuccess(Boolean result) {
-					if (result) {
-						RootPanel.get("mainWindow").remove(setupWizard);
-						RootPanel.get("mainWindow").remove(header);
-						RootPanel.get("mainWindow").remove(vpanel);
-						loadCompany();
-					}
+				public void onSuccess() {
+					removeLoadingImage();
+					header = new Header();
+					vpanel = new SimplePanel();
+					vpanel.addStyleName("empty_menu_bar");
+					setupWizard = new SetupWizard(new AsyncCallback<Boolean>() {
+						@Override
+						public void onSuccess(Boolean result) {
+							if (result) {
+								RootPanel.get("mainWindow").remove(setupWizard);
+								RootPanel.get("mainWindow").remove(header);
+								RootPanel.get("mainWindow").remove(vpanel);
+								loadCompany();
+							}
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Accounter.showError(Accounter.messages
+									.AccounterLoadingFailed());
+						}
+					}, prefs);
+					RootPanel.get("mainWindow").add(header);
+					RootPanel.get("mainWindow").add(vpanel);
+					RootPanel.get("mainWindow").add(setupWizard);
 				}
 
 				@Override
-				public void onFailure(Throwable caught) {
-					Accounter.showError(Accounter.messages
-							.AccounterLoadingFailed());
+				public void onFailure(Throwable reason) {
+					// TODO Auto-generated method stub
+
 				}
-			}, preferences);
-			RootPanel.get("mainWindow").add(header);
-			RootPanel.get("mainWindow").add(vpanel);
-			RootPanel.get("mainWindow").add(setupWizard);
+			});
+
 		} else {
-			removeLoadingImage();
-			Accounter.setCompany(company);
-			Accounter.setUser(company.getLoggedInUser());
-			startDate = company.getTransactionStartDate();
-			endDate = company.getTransactionStartDate();
+			GWT.runAsync(new RunAsyncCallback() {
 
-			initGUI();
+				@Override
+				public void onSuccess() {
+					removeLoadingImage();
+					Accounter.setCompany(company);
+					Accounter.setUser(company.getLoggedInUser());
+					startDate = company.getTransactionStartDate();
+					endDate = company.getTransactionStartDate();
+
+					initGUI();
+				}
+
+				@Override
+				public void onFailure(Throwable reason) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 		}
 
 	}

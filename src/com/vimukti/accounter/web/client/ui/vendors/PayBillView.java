@@ -1100,9 +1100,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 
 	}
 
-	public static PayBillView getInstance() {
-		return new PayBillView();
-	}
 
 	protected void clearGrid() {
 		grid.removeAllRecords();

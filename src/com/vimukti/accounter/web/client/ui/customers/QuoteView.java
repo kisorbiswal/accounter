@@ -1125,9 +1125,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	}
 
-	public static QuoteView getInstance(int type, String title) {
-		return new QuoteView(type, title);
-	}
 
 	@Override
 	protected void onAddNew(String item) {

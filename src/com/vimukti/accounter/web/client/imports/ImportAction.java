@@ -3,8 +3,12 @@ package com.vimukti.accounter.web.client.imports;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -40,17 +44,28 @@ public class ImportAction extends Action {
 	}
 
 	private void runAsync(final Object data, final boolean isDependent) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-
-			@Override
-			public void onCreated() {
+			public void onSuccess() {
 				ImportView view = new ImportView(importType, fileID,
 						importerFields, columnData, noOfRows);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ImportAction.this);
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//		});
 
 	}
 

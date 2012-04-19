@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -9,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class AdjustTAXAction extends Action {
-	protected AdjustTAXView view;
 	private ClientTAXAgency vatAgency;
 
 	int type;
@@ -40,10 +42,10 @@ public class AdjustTAXAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
+			public void onSuccess() {
+				AdjustTAXView view;
 				if (isDependent) {
 					view = new AdjustTAXView(vatAgency);
 					MainFinanceWindow.getViewManager().showView(view, null,
@@ -54,8 +56,22 @@ public class AdjustTAXAction extends Action {
 							isDependent, AdjustTAXAction.this);
 				}
 
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+		
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//			}
+//		});
 
 	}
 

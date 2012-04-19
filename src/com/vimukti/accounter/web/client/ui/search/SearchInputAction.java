@@ -1,6 +1,10 @@
 package com.vimukti.accounter.web.client.ui.search;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -18,16 +22,27 @@ public class SearchInputAction extends Action {
 	}
 
 	private void runAysnc(Object data, boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
+			public void onSuccess() {
 				SearchInputDialog dialog = new SearchInputDialog(messages
 						.search());
 				dialog.center();
 				dialog.show();
 			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//		});
 	}
 
 	@Override

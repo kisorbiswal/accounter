@@ -2,7 +2,10 @@ package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -27,9 +30,9 @@ public class UnRealisedExchangeLossesAndGainsAction extends
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
+			public void onSuccess() {
 				UnRealisedExchangeLossesAndGainsReport report = new UnRealisedExchangeLossesAndGainsReport();
 				report.setExchangeRates(data);
 				report.setEnteredDate(enteredDate);
@@ -39,10 +42,21 @@ public class UnRealisedExchangeLossesAndGainsAction extends
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Report..", t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//				
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				// //UIUtils.logError("Failed to Load Report..", t);
+//			}
+//		});
 	}
 
 	@Override

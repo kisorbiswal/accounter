@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -9,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ExpensesAction extends Action {
 
-	protected ExpensesListView view;
 	public String viewType;
 
 	public ExpensesAction() {
@@ -47,20 +49,24 @@ public class ExpensesAction extends Action {
 
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
+			public void onSuccess() {
+				ExpensesListView view;
 				if (viewType == null || viewType.equals(""))
-					view = ExpensesListView.getInstance();
+					view = new ExpensesListView();
 				else
 					view = new ExpensesListView(viewType, 0);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, null, false,
 						ExpensesAction.this);
-
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
 	}
 

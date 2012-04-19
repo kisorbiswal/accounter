@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -28,10 +30,9 @@ public class ItemsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
+			public void onSuccess() {
 				ItemListView view = new ItemListView();
 				view.setCatageoryType(getCatagory());
 				// if (getCatagory().equals(Global.get().vendor())) {
@@ -51,9 +52,22 @@ public class ItemsAction extends Action {
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ItemsAction.this);
 
+				
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//
+//		});
 	}
 
 	@Override

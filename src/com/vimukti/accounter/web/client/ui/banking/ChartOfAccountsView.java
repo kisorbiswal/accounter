@@ -48,9 +48,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 		Accounter.showError(errorString);
 	}
 
-	public static ChartOfAccountsView getInstance() {
-		return new ChartOfAccountsView();
-	}
 
 	@Override
 	protected Action getAddNewAction() {

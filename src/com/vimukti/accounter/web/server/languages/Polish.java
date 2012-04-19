@@ -1,14 +1,14 @@
-package com.vimukti.accounter.web.client.languages;
+package com.vimukti.accounter.web.server.languages;
 
 import java.util.Locale;
 
 import com.ibm.icu.text.RuleBasedNumberFormat;
 
-public class Japanees implements Ilanguage {
+public class Polish implements Ilanguage {
 
 	@Override
 	public String getAmountAsString(double amount) {
-		Locale l = new Locale("ja");
+		Locale l = new Locale("pl");
 		RuleBasedNumberFormat rbf = new RuleBasedNumberFormat(l,
 				RuleBasedNumberFormat.SPELLOUT);
 		String[] ruleSetNames = rbf.getRuleSetNames();

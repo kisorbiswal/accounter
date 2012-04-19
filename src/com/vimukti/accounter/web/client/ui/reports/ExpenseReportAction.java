@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -16,24 +19,34 @@ public class ExpenseReportAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-
-			public void onCreated() {
-
+			public void onSuccess() {
 				ExpenseReport report = new ExpenseReport();
 				if (data != null && data instanceof ExpenseList) {
 					report.setType(((ExpenseList) data).getTransactionType());
 				}
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, ExpenseReportAction.this);
-
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// UIUtils.logError("Failed to Load Report...", t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				// UIUtils.logError("Failed to Load Report...", t);
+//			}
+//		});
 
 	}
 

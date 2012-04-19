@@ -1,12 +1,14 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SalesTaxItemsView;
 
 public class ManageSalesTaxItemsAction extends Action {
-	protected SalesTaxItemsView view;
 
 	public ManageSalesTaxItemsAction() {
 		super();
@@ -35,17 +37,28 @@ public class ManageSalesTaxItemsAction extends Action {
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				view = new SalesTaxItemsView();
+			public void onSuccess() {
+				SalesTaxItemsView view = new SalesTaxItemsView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ManageSalesTaxItemsAction.this);
-
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//
+//			}
+//
+//		});
 	}
 
 	@Override

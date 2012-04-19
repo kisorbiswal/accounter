@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -11,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class ReconciliationDiscrepancyReportAction extends
 		Action<ReconciliationDiscrepancy> {
 
-	private ReconciliationDiscrepancyReport report;
 
 	public ReconciliationDiscrepancyReportAction() {
 		super();
@@ -30,16 +33,27 @@ public class ReconciliationDiscrepancyReportAction extends
 
 	private void runAsync(final ReconciliationDiscrepancy data,
 			final boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				report = new ReconciliationDiscrepancyReport();
+			public void onSuccess() {
+				ReconciliationDiscrepancyReport report = new ReconciliationDiscrepancyReport();
 				MainFinanceWindow.getViewManager()
 						.showView(report, data, isDependent,
 								ReconciliationDiscrepancyReportAction.this);
 			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//		});
 	}
 
 	@Override

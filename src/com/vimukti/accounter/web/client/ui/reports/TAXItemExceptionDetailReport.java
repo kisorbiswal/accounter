@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
@@ -32,11 +35,9 @@ public class TAXItemExceptionDetailReport extends Action {
 
 	public void runAsync(final Object data, final long id,
 			final Boolean dependent) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-
-			public void onCreated() {
-
+			public void onSuccess() {
 				TAXitemExceptionReport report = new TAXitemExceptionReport();
 				report.setTaxReturnId(id);
 				MainFinanceWindow.getViewManager().showView(report, data,
@@ -55,10 +56,22 @@ public class TAXItemExceptionDetailReport extends Action {
 
 			}
 
-			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Report...", t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				// //UIUtils.logError("Failed to Load Report...", t);
+//			}
+//		});
 
 	}
 

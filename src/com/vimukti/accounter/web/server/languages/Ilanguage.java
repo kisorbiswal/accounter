@@ -1,4 +1,4 @@
-package com.vimukti.accounter.web.client.languages;
+package com.vimukti.accounter.web.server.languages;
 
 public interface Ilanguage {
 

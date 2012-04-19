@@ -43,9 +43,6 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		this.checkType = checkType;
 	}
 
-	public static PaymentListView getInstance() {
-		return new PaymentListView();
-	}
 
 	@Override
 	protected Action getAddNewAction() {

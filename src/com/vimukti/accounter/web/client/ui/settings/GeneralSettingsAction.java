@@ -1,13 +1,16 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class GeneralSettingsAction extends Action {
-	public GeneralSettingsView view;
 
 	public GeneralSettingsAction() {
 		super();
@@ -45,16 +48,27 @@ public class GeneralSettingsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-				view = new GeneralSettingsView();
+			public void onSuccess() {
+				GeneralSettingsView view = new GeneralSettingsView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, GeneralSettingsAction.this);
-
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//				
+//
+//			}
+//
+//		});
 	}
 
 	@Override

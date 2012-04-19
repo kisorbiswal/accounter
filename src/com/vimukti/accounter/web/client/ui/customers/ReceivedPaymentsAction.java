@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -15,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ReceivedPaymentsAction extends Action {
 
-	protected ReceivedPaymentListView view;
 
 	public ReceivedPaymentsAction() {
 		super();
@@ -28,16 +29,27 @@ public class ReceivedPaymentsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				view = new ReceivedPaymentListView();
+			public void onSuccess() {
+				ReceivedPaymentListView view = new ReceivedPaymentListView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, ReceivedPaymentsAction.this);
+			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//
+//			}
+//		});
 	}
 
 	// @Override

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -17,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewCashSaleAction extends Action {
 
-	protected CashSalesView view;
 
 	public NewCashSaleAction() {
 		super();
@@ -35,22 +36,28 @@ public class NewCashSaleAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		// if (!isEdit)
-		// MainFinanceWindow.addToTab(new CashSalesView(), getText());
-		// else
-		// MainFinanceWindow.addToTab(new CashSalesView(transaction),
-		// getText());
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				view = new CashSalesView();
+			public void onSuccess() {
+				CashSalesView view = new CashSalesView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewCashSaleAction.this);
 
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//
+//		});
 	}
 
 	// @Override

@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -45,13 +48,12 @@ public class FileTAXAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			private AbstractFileTAXView view;
-
-			public void onCreated() {
+			public void onSuccess() {
 				ICountryPreferences countryPreferences = Accounter.getCompany()
 						.getCountryPreferences();
+				AbstractFileTAXView view;
 				if (countryPreferences instanceof UnitedKingdom
 						&& Accounter.getCompany().getCountryPreferences()
 								.isVatAvailable()) {
@@ -64,7 +66,18 @@ public class FileTAXAction extends Action {
 						isDependent, FileTAXAction.this);
 
 			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//				
+//			}
+//		});
 
 	}
 

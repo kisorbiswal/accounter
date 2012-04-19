@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -17,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewVendorAction extends Action<ClientVendor> {
 
-	protected VendorView view;
 	public final static int FROM_CREDIT_CARD_EXPENSE = 119;
 
 	private int openedFrom;
@@ -46,11 +47,10 @@ public class NewVendorAction extends Action<ClientVendor> {
 	}
 
 	private void runAsync(final Object data, final boolean isDependent) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-
-			public void onCreated() {
-				view = new VendorView();
+			public void onSuccess() {
+				VendorView view = new VendorView();
 				if (quickAddText != null) {
 					view.prepareForQuickAdd(quickAddText);
 				}
@@ -62,7 +62,18 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//				
+//			}
+//
+//		});
 
 	}
 

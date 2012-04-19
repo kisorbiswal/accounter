@@ -122,17 +122,12 @@ public class WriteChequeView extends
 
 	// private CurrencyFactorWidget currencyWidget;
 
-	private WriteChequeView() {
+	public WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
 		this.getElement().setId("writechequeview");
 	}
 
-	public static WriteChequeView getInstance() {
-
-		return new WriteChequeView();
-
-	}
 
 	protected void updateAddressAndGrid() {
 		// Set<Address> add = null;

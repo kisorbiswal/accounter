@@ -1,7 +1,14 @@
 package com.vimukti.accounter.web.client.ui.company;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.customers.AddMessageOrTaskDialog;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementView;
 
 public abstract class AddMessageOrTaskAction extends Action {
 
@@ -13,16 +20,28 @@ public abstract class AddMessageOrTaskAction extends Action {
 
 	@Override
 	public void run() {
-		AddMessageOrTaskDialog dialog = new AddMessageOrTaskDialog(
-				messages.messagesAndTasks()) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			protected void onSuccess() {
-				updateData();
-			};
-		};
-		dialog.center();
-		dialog.show();
+			public void onSuccess() {
+				
+				AddMessageOrTaskDialog dialog = new AddMessageOrTaskDialog(
+						messages.messagesAndTasks()) {
+
+					@Override
+					protected void onSuccess() {
+						updateData();
+					};
+				};
+				dialog.center();
+				dialog.show();
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
+		
 
 	}
 

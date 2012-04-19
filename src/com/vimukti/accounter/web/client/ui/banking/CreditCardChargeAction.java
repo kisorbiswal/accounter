@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreditCardChargeView;
@@ -12,9 +15,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class CreditCardChargeAction extends Action {
 
-	// private boolean isEdit;
-	// private ClientCreditCardCharge creditCardCharge;
-	protected CreditCardChargeView view;
 
 	public CreditCardChargeAction() {
 		super();
@@ -35,20 +35,32 @@ public class CreditCardChargeAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			public void onCreated() {
-
-				view = new CreditCardChargeView();
+			public void onSuccess() {
+				CreditCardChargeView view = new CreditCardChargeView();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, CreditCardChargeAction.this);
-
+				
 			}
 
-			public void onCreateFailed(Throwable t) {
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//			}
+//		});
 	}
 
 	public ImageResource getBigImage() {

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -12,7 +14,6 @@ public class ProfitAndLossByLocationAction extends Action {
 	private static final int CLASS = 1;
 	private static final int LOCATION = 2;
 	private static final int JOB = 3;
-	protected ProfitAndLossByLocationReport locationReport;
 	private int category_type = 0;
 
 	public ProfitAndLossByLocationAction(int category) {
@@ -28,22 +29,32 @@ public class ProfitAndLossByLocationAction extends Action {
 
 	public void runAsync(final Object data, final Boolean isDependent,
 			final int category) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-
-			public void onCreated() {
-
-				locationReport = new ProfitAndLossByLocationReport(
+			public void onSuccess() {
+				ProfitAndLossByLocationReport locationReport = new ProfitAndLossByLocationReport(
 						category_type);
 				MainFinanceWindow.getViewManager().showView(locationReport,
 						data, isDependent, ProfitAndLossByLocationAction.this);
 			}
 
-			public void onCreateFailed(Throwable t) {
-				/* UIUtils.logError */System.err
-						.println("Failed to Load Report.." + t);
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
 			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			public void onCreated() {
+//
+//				
+//			}
+//
+//			public void onCreateFailed(Throwable t) {
+//				/* UIUtils.logError */System.err
+//						.println("Failed to Load Report.." + t);
+//			}
+//		});
 
 	}
 

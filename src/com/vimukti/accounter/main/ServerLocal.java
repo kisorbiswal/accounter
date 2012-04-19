@@ -2,24 +2,24 @@ package com.vimukti.accounter.main;
 
 import java.util.Locale;
 
-import com.vimukti.accounter.web.client.languages.Arabic;
-import com.vimukti.accounter.web.client.languages.Chinees;
-import com.vimukti.accounter.web.client.languages.English;
-import com.vimukti.accounter.web.client.languages.French;
-import com.vimukti.accounter.web.client.languages.German;
-import com.vimukti.accounter.web.client.languages.Ilanguage;
-import com.vimukti.accounter.web.client.languages.Indonesian;
-import com.vimukti.accounter.web.client.languages.Italian;
-import com.vimukti.accounter.web.client.languages.Japanees;
-import com.vimukti.accounter.web.client.languages.Korean;
-import com.vimukti.accounter.web.client.languages.Nederlands;
-import com.vimukti.accounter.web.client.languages.Polish;
-import com.vimukti.accounter.web.client.languages.Portuguese;
-import com.vimukti.accounter.web.client.languages.Russian;
-import com.vimukti.accounter.web.client.languages.Spanish;
-import com.vimukti.accounter.web.client.languages.Thai;
-import com.vimukti.accounter.web.client.languages.Turkish;
-import com.vimukti.accounter.web.client.languages.Ukrainian;
+import com.vimukti.accounter.web.server.languages.Arabic;
+import com.vimukti.accounter.web.server.languages.Chinees;
+import com.vimukti.accounter.web.server.languages.English;
+import com.vimukti.accounter.web.server.languages.French;
+import com.vimukti.accounter.web.server.languages.German;
+import com.vimukti.accounter.web.server.languages.Ilanguage;
+import com.vimukti.accounter.web.server.languages.Indonesian;
+import com.vimukti.accounter.web.server.languages.Italian;
+import com.vimukti.accounter.web.server.languages.Japanees;
+import com.vimukti.accounter.web.server.languages.Korean;
+import com.vimukti.accounter.web.server.languages.Nederlands;
+import com.vimukti.accounter.web.server.languages.Polish;
+import com.vimukti.accounter.web.server.languages.Portuguese;
+import com.vimukti.accounter.web.server.languages.Russian;
+import com.vimukti.accounter.web.server.languages.Spanish;
+import com.vimukti.accounter.web.server.languages.Thai;
+import com.vimukti.accounter.web.server.languages.Turkish;
+import com.vimukti.accounter.web.server.languages.Ukrainian;
 
 public class ServerLocal {
 	private static ThreadLocal<Locale> local = new ThreadLocal<Locale>();

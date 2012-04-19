@@ -1,14 +1,14 @@
-package com.vimukti.accounter.web.client.languages;
+package com.vimukti.accounter.web.server.languages;
 
 import java.util.Locale;
 
 import com.ibm.icu.text.RuleBasedNumberFormat;
 
-public class Russian implements Ilanguage {
+public class Nederlands implements Ilanguage {
 
 	@Override
 	public String getAmountAsString(double amount) {
-		Locale l = new Locale("ru");
+		Locale l = new Locale("nl");
 		RuleBasedNumberFormat rbf = new RuleBasedNumberFormat(l,
 				RuleBasedNumberFormat.SPELLOUT);
 		String[] ruleSetNames = rbf.getRuleSetNames();

@@ -1,18 +1,18 @@
-package com.vimukti.accounter.web.client.languages;
+package com.vimukti.accounter.web.server.languages;
 
 import java.util.Locale;
 
 import com.ibm.icu.text.RuleBasedNumberFormat;
 
-public class Nederlands implements Ilanguage {
+public class Korean implements Ilanguage {
 
 	@Override
 	public String getAmountAsString(double amount) {
-		Locale l = new Locale("nl");
+		Locale l = new Locale("ko");
 		RuleBasedNumberFormat rbf = new RuleBasedNumberFormat(l,
 				RuleBasedNumberFormat.SPELLOUT);
 		String[] ruleSetNames = rbf.getRuleSetNames();
-		String format = rbf.format(amount, ruleSetNames[3]);
+		String format = rbf.format(amount, ruleSetNames[4]);
 		return format;
 	}
 

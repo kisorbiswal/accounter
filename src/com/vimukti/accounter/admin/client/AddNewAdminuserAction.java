@@ -1,7 +1,12 @@
 package com.vimukti.accounter.admin.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.customers.AddMessageOrTaskDialog;
 
 public class AddNewAdminuserAction extends Action {
 
@@ -34,7 +39,19 @@ public class AddNewAdminuserAction extends Action {
 
 	@Override
 	public void run() {
+		GWT.runAsync(new RunAsyncCallback() {
 
+			public void onSuccess() {
+				
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
+		
 		AddNewAdminUserDialog addAdminUserDialog = new AddNewAdminUserDialog(
 				messages.addNew(messages.user()));
 		addAdminUserDialog.show();

@@ -3,7 +3,10 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -16,7 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
  */
 public class SoldDisposedFixedAssetsListAction extends Action {
 
-	private SoldAndDisposedItemsListView view;
 
 	/**
 	 * @param text
@@ -58,17 +60,28 @@ public class SoldDisposedFixedAssetsListAction extends Action {
 	 */
 	@Override
 	public void run() {
-		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onCreated() {
-				view = new SoldAndDisposedItemsListView();
+			public void onSuccess() {
+				SoldAndDisposedItemsListView view = new SoldAndDisposedItemsListView();
 				MainFinanceWindow.getViewManager().showView(view, null, false,
 						SoldDisposedFixedAssetsListAction.this);
 
 			}
 
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
 		});
+//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+//
+//			@Override
+//			public void onCreated() {
+//				
+//			}
+//
+//		});
 	}
 
 	// @Override

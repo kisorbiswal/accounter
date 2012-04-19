@@ -46,7 +46,7 @@ public class VendorCreditMemoView extends
 	private AddNewButton accountTableButton, itemTableButton;
 	private GwtDisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
-	private VendorCreditMemoView() {
+	public VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
 		this.getElement().setId("VendorCreditMemoView");
 	}
@@ -689,11 +689,7 @@ public class VendorCreditMemoView extends
 	// }
 	// }
 
-	public static VendorCreditMemoView getInstance() {
 
-		return new VendorCreditMemoView();
-
-	}
 
 	@Override
 	public List<DynamicForm> getForms() {

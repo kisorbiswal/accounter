@@ -96,7 +96,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	TransactionsTree<EstimatesAndSalesOrdersList> transactionsTree;
 	private TextItem phone, email, vatNo;
 
-	private InvoiceView() {
+	public InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
 		this.getElement().setId("InvoiceView");
 	}
