@@ -7795,7 +7795,9 @@ table.no_records tr td {
 	box-orient: vertical;
 	margin:10px;
 }
-
+.listgrid .gridBodyContainer{
+	overflow-x: hidden !important;
+}
 /*edit table headers align to center */
 .editheader td {
     text-align: center;

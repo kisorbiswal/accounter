@@ -296,31 +296,58 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 			index += 2;
 		}
 
-		switch (index) {
-		case 0:
-			return 20;
-		case 1:
-			return 100;
-		case 2:
-			return 90;
-		case 3:
-			return 60;
-		case 4:
-			return 175;
-		case 5:
-			return 90;
-		case 6:
-			return 100;
-		case 7:
-			return 100;
-		case 8:
-			return 100;
-		case 9:
-			return 43;
-		case 10:
-			return 43;
-		default:
-			return -1;
+		if (type == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			switch (index) {
+			case 0:
+				return 20;
+			case 1:
+				return 100;
+			case 2:
+				return 80;
+			case 3:
+				return 50;
+			case 4:
+				return 100;
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+				return 90;
+			case 9:
+				return 80;
+			case 10:
+				return 45;
+			default:
+				return -1;
+			}
+
+		} else {
+			switch (index) {
+			case 0:
+				return 20;
+			case 1:
+				return 100;
+			case 2:
+				return 90;
+			case 3:
+				return 60;
+			case 4:
+				return 120;
+			case 5:
+				return 90;
+			case 6:
+				return 100;
+			case 7:
+				return 100;
+			case 8:
+				return 100;
+			case 9:
+				return 45;
+			case 10:
+				return 45;
+			default:
+				return -1;
+			}
 		}
 	}
 

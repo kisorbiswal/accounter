@@ -76,17 +76,17 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			index = index + 1;
 		}
 		if (index == 0)
-			return 135;
+			return 115;
 		if (index == 1)
 			return 100;
 		if (index == 2)
-			return 70;
+			return 50;
 		if (index == 3)
-			return 325;		
+			return 200;		
 		if (index == 4)
 			return 110;
 		if (index == 5)
-			return 110;
+			return 100;
 		if (index == 6)
 			return 43;
 		return -1;

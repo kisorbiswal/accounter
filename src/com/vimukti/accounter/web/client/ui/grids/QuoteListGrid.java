@@ -172,7 +172,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		else if (index == 1)
 			return 50;
 		else if (index == 2)
-			return 318;
+			return 160;
 		else if (index == 3)
 			return 100;
 		else if (index == 4)
@@ -182,7 +182,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 		else if (index == 6)
 			return 80;
 		else if (index == 7)
-			return 60;
+			return 45;
 		return -1;
 	}
 

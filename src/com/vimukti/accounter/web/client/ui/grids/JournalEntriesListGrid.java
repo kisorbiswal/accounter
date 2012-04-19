@@ -66,15 +66,15 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	protected int getCellWidth(int index) {
 		switch (index) {
 		case 0:
-			return 150;
+			return 100;
 		case 1:
 			return 150;
 		case 2:
-			return 353;
+			return 320;
 		case 3:
-			return 150;
+			return 120;
 		case 4:
-			return 100;
+			return 45;
 		default:
 			return -1;
 		}

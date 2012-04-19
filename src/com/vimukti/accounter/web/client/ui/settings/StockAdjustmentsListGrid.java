@@ -121,7 +121,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 		case 0:
 		case 1:
 		case 2:
-			return 289;
+			return 230;
 		case 3:
 			return 45;
 		default:

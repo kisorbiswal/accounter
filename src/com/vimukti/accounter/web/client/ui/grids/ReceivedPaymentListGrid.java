@@ -217,7 +217,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		if (type != 0) {
 			index += 1;
 		}
-		if (index == 4 || index == 5 || index == 6)
+		if (index == 4 || index == 5)
+			return 70;
+		if (index == 6)
 			return 100;
 		else if (index == 0)
 			return 150;
@@ -228,8 +230,8 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			return 50;
 
 		else if (index == 3)
-			return 58;
-		
+			return 90;
+
 		else if (index == 7)
 			return 43;
 

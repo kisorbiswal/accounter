@@ -201,7 +201,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		else if (index == 3)
 			return 80;
 		else if(index == 4)
-			return 318;
+			return 150;
 		else if (index == 5)
 			return 100;
 		else if (index == 6)

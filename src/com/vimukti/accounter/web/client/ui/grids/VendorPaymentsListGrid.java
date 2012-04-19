@@ -244,7 +244,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 0:
 			return 90;
 		case 3:
-			return 100;
+			return 90;
 		case 2:
 			return 65;
 		case 1:
@@ -255,7 +255,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			}
 			return 115;
 		case 5:
-			return 110;
+			return 85;
 		case 6:
 			return 80;
 		case 7:
