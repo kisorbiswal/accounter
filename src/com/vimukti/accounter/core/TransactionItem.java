@@ -645,11 +645,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	public void updateAsCredit() {
-		this.discount = -this.discount;
-		this.lineTotal = -this.lineTotal;
-		this.unitPrice = -this.unitPrice;
+		this.discount = -1 * this.discount;
+		this.lineTotal = -1 * this.lineTotal;
+		this.unitPrice = -1 * this.unitPrice;
 		if (this.VATfraction != null) {
-			this.VATfraction = -this.VATfraction;
+			this.VATfraction = -1 * this.VATfraction;
 		}
 	}
 
