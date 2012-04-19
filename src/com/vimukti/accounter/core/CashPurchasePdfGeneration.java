@@ -28,11 +28,11 @@ public class CashPurchasePdfGeneration {
 			i.setTitle("Cash Purchase");
 			i.setVendorNBillAddress(getBillingAddress());
 			i.setNumber(purchase.getNumber());
+			i.setDate(Utility.getDateInSelectedFormat(purchase.getDate()));
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(purchase
-					.getDate()));
+					.getDeliveryDate()));
 
-			Currency currency = purchase.getVendor() != null ? purchase
-					.getVendor().getCurrency() : purchase.getCurrency();
+			Currency currency = purchase.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());

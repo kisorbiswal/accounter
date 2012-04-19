@@ -49,8 +49,7 @@ public class CustomerPaymentPdfGeneration {
 			template.setPayMethod(prePayment.getPaymentMethod());
 			template.setCheckNo(prePayment.getCheckNumber());
 			template.setCustomerName(Global.get().Customer());
-			Currency currency = prePayment.getCustomer() != null ? prePayment
-					.getCustomer().getCurrency() : prePayment.getCurrency();
+			Currency currency = prePayment.getCurrency();
 			String symbol = currency.getSymbol();
 			template.setAmount(DataUtils.getAmountAsStringInCurrency(
 					prePayment.getTotal(), symbol));

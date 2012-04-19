@@ -31,8 +31,7 @@ public class VendorCreditPdfGeneration {
 			i.setNumber(creditMemo.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(creditMemo.getDate()));
 
-			Currency currency = creditMemo.getVendor() != null ? creditMemo
-					.getVendor().getCurrency() : creditMemo.getCurrency();
+			Currency currency = creditMemo.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());

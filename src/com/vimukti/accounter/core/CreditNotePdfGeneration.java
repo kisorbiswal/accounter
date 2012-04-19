@@ -71,7 +71,16 @@ public class CreditNotePdfGeneration {
 				i.billTo.setCountryOrRegion(forNullValue(billAddress
 						.getCountryOrRegion()));
 
+			} else {
+				i.setBillTo(new Address());
+				i.billTo.setAddress1("");
+				i.billTo.setStreet("");
+				i.billTo.setCity("");
+				i.billTo.setStateOrProvinence("");
+				i.billTo.setZipOrPostalCode("");
+				i.billTo.setCountryOrRegion("");
 			}
+
 			i.setCreditNoteNumber(memo.getNumber());
 			i.setCreditNoteDate(Utility.getDateInSelectedFormat(memo.getDate()));
 
@@ -146,6 +155,8 @@ public class CreditNotePdfGeneration {
 					symbol);
 			i.setNetAmount(subtotal);
 
+			i.setTaxTotal(Utility.decimalConversation(memo.getTaxTotal(),
+					symbol));
 			i.setMemo(memo.getMemo());
 			String termsNCondn = forNullValue(brandingTheme
 					.getTerms_And_Payment_Advice());
@@ -174,6 +185,15 @@ public class CreditNotePdfGeneration {
 						.getCountryOrRegion()));
 				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
 						.getZipOrPostalCode()));
+			} else {
+				i.setRegAddress(new Address());
+				i.regAddress.setAddress1(company.getTradingName());
+				i.regAddress.setStreet(company.getRegistrationNumber());
+				i.regAddress.setCity("");
+				i.regAddress.setStateOrProvinence(company.getPreferences()
+						.getPhone());
+				i.regAddress.setCountryOrRegion(company.getCountry());
+				i.regAddress.setZipOrPostalCode("");
 			}
 			// i.setRegistrationAddress(getRegistrationAddress());
 
@@ -333,6 +353,7 @@ public class CreditNotePdfGeneration {
 		// private String registrationAddress;
 		private Address billTo;
 		private Address regAddress;
+		private String taxTotal;
 
 		public String getCreditNoteNumber() {
 			return creditNoteNumber;
@@ -444,6 +465,14 @@ public class CreditNotePdfGeneration {
 
 		public void setCustomerName(String customerName) {
 			this.customerName = customerName;
+		}
+
+		public String getTaxTotal() {
+			return taxTotal;
+		}
+
+		public void setTaxTotal(String taxTotal) {
+			this.taxTotal = taxTotal;
 		}
 
 	}

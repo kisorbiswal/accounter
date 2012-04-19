@@ -1563,7 +1563,13 @@ public class PurchaseOrderView extends
 
 	@Override
 	public boolean canPrint() {
-		return true;
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override

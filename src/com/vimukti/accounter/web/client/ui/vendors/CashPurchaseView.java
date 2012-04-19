@@ -647,8 +647,9 @@ public class CashPurchaseView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -921,7 +922,8 @@ public class CashPurchaseView extends
 		// transaction.setWareHouseAllocations(inventoryTransactionTable
 		// .getAllRows());
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -1195,7 +1197,6 @@ public class CashPurchaseView extends
 
 	}
 
-
 	@Override
 	public List<DynamicForm> getForms() {
 
@@ -1425,9 +1426,10 @@ public class CashPurchaseView extends
 	protected void updateDiscountValues() {
 
 		if (discountField.getPercentage() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
-			vendorAccountTransactionTable
-					.setDiscount(discountField.getPercentage());
+			vendorItemTransactionTable.setDiscount(discountField
+					.getPercentage());
+			vendorAccountTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}
@@ -1472,7 +1474,13 @@ public class CashPurchaseView extends
 
 	@Override
 	public boolean canPrint() {
-		return true;
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override

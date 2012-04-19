@@ -71,6 +71,14 @@ public class QuotePdfGeneration {
 				qut.billTo.setCountryOrRegion(forNullValue(billAddress
 						.getCountryOrRegion()));
 
+			} else {
+				qut.setBillTo(new Address());
+				qut.billTo.setAddress1("");
+				qut.billTo.setStreet("");
+				qut.billTo.setCity("");
+				qut.billTo.setStateOrProvinence("");
+				qut.billTo.setZipOrPostalCode("");
+				qut.billTo.setCountryOrRegion("");
 			}
 			// qut.setBillAddress(getBillingAddress());
 			qut.setNumber(estimate.getNumber());
@@ -107,6 +115,14 @@ public class QuotePdfGeneration {
 				qut.shipTo.setZipOrPostalCode(forNullValue(shippAdress
 						.getZipOrPostalCode()));
 
+			} else {
+				qut.setShipTo(new Address());
+				qut.shipTo.setAddress1("");
+				qut.shipTo.setStreet("");
+				qut.shipTo.setCity("");
+				qut.shipTo.setStateOrProvinence("");
+				qut.shipTo.setCountryOrRegion("");
+				qut.shipTo.setZipOrPostalCode("");
 			}
 
 			// for transactions
@@ -173,7 +189,8 @@ public class QuotePdfGeneration {
 					estimate.getNetAmount(), symbol);
 			qut.setTotal(total);
 			qut.setNetAmount(netAmount);
-
+			qut.setTaxTotal(Utility.decimalConversation(estimate.getTaxTotal(),
+					symbol));
 			qut.setMemo(estimate.getMemo());
 			String termsNCondn = forNullValue(brandingTheme
 					.getTerms_And_Payment_Advice());
@@ -202,6 +219,15 @@ public class QuotePdfGeneration {
 						.getCountryOrRegion()));
 				qut.regAddress.setZipOrPostalCode(forNullValue(regAddress1
 						.getZipOrPostalCode()));
+			} else {
+				qut.setRegAddress(new Address());
+				qut.regAddress.setAddress1(company.getTradingName());
+				qut.regAddress.setStreet(company.getRegistrationNumber());
+				qut.regAddress.setCity("");
+				qut.regAddress.setStateOrProvinence(company.getPreferences()
+						.getPhone());
+				qut.regAddress.setCountryOrRegion(company.getCountry());
+				qut.regAddress.setZipOrPostalCode("");
 			}
 
 			// qut.setRegistrationAddress(getRegistrationAddress());
@@ -375,6 +401,7 @@ public class QuotePdfGeneration {
 		private Address billTo;
 		private Address regAddress;
 		private Address shipTo;
+		private String taxTotal;
 
 		public String getCurrency() {
 			return currency;
@@ -534,6 +561,14 @@ public class QuotePdfGeneration {
 
 		public void setShipTo(Address shipTo) {
 			this.shipTo = shipTo;
+		}
+
+		public String getTaxTotal() {
+			return taxTotal;
+		}
+
+		public void setTaxTotal(String taxTotal) {
+			this.taxTotal = taxTotal;
 		}
 
 	}

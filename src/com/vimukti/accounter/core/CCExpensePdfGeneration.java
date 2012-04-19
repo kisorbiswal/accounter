@@ -32,8 +32,7 @@ public class CCExpensePdfGeneration {
 			i.setDate(Utility.getDateInSelectedFormat(creditCardCharge
 					.getDate()));
 
-			Currency currency = creditCardCharge.getVendor() != null ? creditCardCharge
-					.getVendor().getCurrency() : creditCardCharge.getCurrency();
+			Currency currency = creditCardCharge.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());

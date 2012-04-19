@@ -33,8 +33,7 @@ public class EnterBillPdfGeneration {
 			i.setPayTerms(enterBill.getPaymentTerm().getName());
 			i.setDate(Utility.getDateInSelectedFormat(enterBill.getDate()));
 
-			Currency currency = enterBill.getVendor() != null ? enterBill
-					.getVendor().getCurrency() : enterBill.getCurrency();
+			Currency currency = enterBill.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());

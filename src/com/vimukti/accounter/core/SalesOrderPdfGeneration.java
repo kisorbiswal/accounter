@@ -63,17 +63,24 @@ public class SalesOrderPdfGeneration {
 			Address billAddress = salesOrder.getAddress();
 			if (billAddress != null) {
 				i.setBillTo(billAddress);
-				i.getBillTo().setAddress1(
-						forNullValue(billAddress.getAddress1()));
-				i.getBillTo().setStreet(forNullValue(billAddress.getStreet()));
-				i.getBillTo().setCity(forNullValue(billAddress.getCity()));
-				i.getBillTo().setStateOrProvinence(
-						forNullValue(billAddress.getStateOrProvinence()));
-				i.getBillTo().setZipOrPostalCode(
-						forNullValue(billAddress.getZipOrPostalCode()));
-				i.getBillTo().setCountryOrRegion(
-						forNullValue(billAddress.getCountryOrRegion()));
+				i.billTo.setAddress1(forNullValue(billAddress.getAddress1()));
+				i.billTo.setStreet(forNullValue(billAddress.getStreet()));
+				i.billTo.setCity(forNullValue(billAddress.getCity()));
+				i.billTo.setStateOrProvinence(forNullValue(billAddress
+						.getStateOrProvinence()));
+				i.billTo.setZipOrPostalCode(forNullValue(billAddress
+						.getZipOrPostalCode()));
+				i.billTo.setCountryOrRegion(forNullValue(billAddress
+						.getCountryOrRegion()));
 
+			} else {
+				i.setBillTo(new Address());
+				i.billTo.setAddress1("");
+				i.billTo.setStreet("");
+				i.billTo.setCity("");
+				i.billTo.setStateOrProvinence("");
+				i.billTo.setZipOrPostalCode("");
+				i.billTo.setCountryOrRegion("");
 			}
 			i.setNumber(salesOrder.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(salesOrder
@@ -108,7 +115,14 @@ public class SalesOrderPdfGeneration {
 						.getCountryOrRegion()));
 				i.shipTo.setZipOrPostalCode(forNullValue(shippAdress
 						.getZipOrPostalCode()));
-
+			} else {
+				i.setShipTo(new Address());
+				i.shipTo.setAddress1("");
+				i.shipTo.setStreet("");
+				i.shipTo.setCity("");
+				i.shipTo.setStateOrProvinence("");
+				i.shipTo.setCountryOrRegion("");
+				i.shipTo.setZipOrPostalCode("");
 			}
 			i.setCustomerName(salesOrder.getCustomer().getName());
 
@@ -198,7 +212,8 @@ public class SalesOrderPdfGeneration {
 				paypalEmail = " ";
 			}
 			i.setEmail(paypalEmail);
-
+			i.setTaxTotal(Utility.decimalConversation(salesOrder.getTaxTotal(),
+					symbol));
 			// i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
@@ -213,6 +228,15 @@ public class SalesOrderPdfGeneration {
 						.getCountryOrRegion()));
 				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
 						.getZipOrPostalCode()));
+			} else {
+				i.setRegAddress(new Address());
+				i.regAddress.setAddress1(company.getTradingName());
+				i.regAddress.setStreet(company.getRegistrationNumber());
+				i.regAddress.setCity("");
+				i.regAddress.setStateOrProvinence(company.getPreferences()
+						.getPhone());
+				i.regAddress.setCountryOrRegion(company.getCountry());
+				i.regAddress.setZipOrPostalCode("");
 			}
 			context.put("logo", logo);
 			context.put("salesOrder", i);
@@ -413,6 +437,7 @@ public class SalesOrderPdfGeneration {
 		private Address billTo;
 		private Address regAddress;
 		private Address shipTo;
+		private String taxTotal;
 
 		public String getCurrency() {
 			return currency;
@@ -588,6 +613,14 @@ public class SalesOrderPdfGeneration {
 
 		public void setShipTo(Address shipTo) {
 			this.shipTo = shipTo;
+		}
+
+		public String getTaxTotal() {
+			return taxTotal;
+		}
+
+		public void setTaxTotal(String taxTotal) {
+			this.taxTotal = taxTotal;
 		}
 
 	}

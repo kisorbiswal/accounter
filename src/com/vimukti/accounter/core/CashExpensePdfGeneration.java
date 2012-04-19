@@ -44,8 +44,7 @@ public class CashExpensePdfGeneration {
 			i.setNumber(cashPurchase.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(cashPurchase.getDate()));
 
-			Currency currency = cashPurchase.getVendor() != null ? cashPurchase
-					.getVendor().getCurrency() : cashPurchase.getCurrency();
+			Currency currency = cashPurchase.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
 					i.setCurrency(currency.getFormalName().trim());

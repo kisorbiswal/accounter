@@ -52,8 +52,7 @@ public class RefundPdfGeneration {
 			template.setPaymentMethod(refund.getPaymentMethod());
 			template.setChequeOrRefNo(refund.getCheckNumber());
 
-			Currency currency = refund.getPayTo() != null ? refund.getPayTo()
-					.getCurrency() : refund.getCurrency();
+			Currency currency = refund.getCurrency();
 			String symbol = currency.getSymbol();
 
 			template.setRefundAmount(DataUtils.getAmountAsStringInCurrency(

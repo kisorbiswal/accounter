@@ -63,7 +63,14 @@ public class CashSalePdfGeneration {
 						.getZipOrPostalCode()));
 				i.billTo.setCountryOrRegion(forNullValue(billAddress
 						.getCountryOrRegion()));
-
+			} else {
+				i.setBillTo(new Address());
+				i.billTo.setAddress1("");
+				i.billTo.setStreet("");
+				i.billTo.setCity("");
+				i.billTo.setStateOrProvinence("");
+				i.billTo.setZipOrPostalCode("");
+				i.billTo.setCountryOrRegion("");
 			}
 			i.setSaleNumber(sale.getNumber());
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(sale.getDate()));
@@ -82,7 +89,14 @@ public class CashSalePdfGeneration {
 						.getCountryOrRegion()));
 				i.shipTo.setZipOrPostalCode(forNullValue(shippAdress
 						.getZipOrPostalCode()));
-
+			} else {
+				i.setShipTo(new Address());
+				i.shipTo.setAddress1("");
+				i.shipTo.setStreet("");
+				i.shipTo.setCity("");
+				i.shipTo.setStateOrProvinence("");
+				i.shipTo.setCountryOrRegion("");
+				i.shipTo.setZipOrPostalCode("");
 			}
 
 			// for primary curreny
@@ -166,6 +180,8 @@ public class CashSalePdfGeneration {
 					symbol);
 			i.setNetAmount(subtotal);
 
+			i.setTaxTotal(Utility.decimalConversation(sale.getTaxTotal(),
+					symbol));
 			i.setMemo(sale.getMemo());
 
 			String paypalEmail = forNullValue(brandingTheme.getPayPalEmailID());
@@ -188,6 +204,15 @@ public class CashSalePdfGeneration {
 						.getCountryOrRegion()));
 				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
 						.getZipOrPostalCode()));
+			} else {
+				i.setRegAddress(new Address());
+				i.regAddress.setAddress1(company.getTradingName());
+				i.regAddress.setStreet(company.getRegistrationNumber());
+				i.regAddress.setCity("");
+				i.regAddress.setStateOrProvinence(company.getPreferences()
+						.getPhone());
+				i.regAddress.setCountryOrRegion(company.getCountry());
+				i.regAddress.setZipOrPostalCode("");
 			}
 
 			context.put("logo", logo);
@@ -350,6 +375,7 @@ public class CashSalePdfGeneration {
 		private Address billTo;
 		private Address regAddress;
 		private Address shipTo;
+		private String taxTotal;
 
 		public String getSaleNumber() {
 			return saleNumber;
@@ -485,6 +511,14 @@ public class CashSalePdfGeneration {
 
 		public void setShipTo(Address shipTo) {
 			this.shipTo = shipTo;
+		}
+
+		public String getTaxTotal() {
+			return taxTotal;
+		}
+
+		public void setTaxTotal(String taxTotal) {
+			this.taxTotal = taxTotal;
 		}
 
 	}
