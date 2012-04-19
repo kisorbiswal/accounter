@@ -9248,7 +9248,9 @@
 				       T.ID          AS TRANSACTION_ID,
 				       T.T_TYPE      AS TRANSACTION_TYPE,
 				       T.NUMBER      AS TRANSACTION_NUMBER,
-				       T.TOTAL       AS TRANSACTION_NET_AMOUNT,
+				       CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY THEN
+				       T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL END AS TRANSACTION_NET_AMOUNT,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
@@ -9296,6 +9298,10 @@
 				             OR V.ID = EB.VENDOR_ID
 				             OR V.ID = VCM.VENDOR_ID
 				             OR V.ID = PO.VENDOR_ID
+				
+				LEFT OUTER JOIN PAYEE P1 ON P1.ID =:vendorId
+				LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId
+				
 				WHERE  T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
@@ -9490,7 +9496,9 @@
 				       T.T_TYPE          AS TRANSACTION_TYPE,
 				       CCC.DELIVERY_DATE AS DUE_DATE,
 				       T.NUMBER          AS TRANSACTION_NUMBER,
-				       T.TOTAL           AS TRANSACTION_NET_AMOUNT,
+				       CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
+				       THEN T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL END AS TRANSACTION_NET_AMOUNT,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
@@ -9517,6 +9525,8 @@
 				             OR V.ID = CP.VENDOR_ID
 				       LEFT OUTER JOIN PAYEE P
 				         ON P.ID = V.ID
+				LEFT OUTER JOIN PAYEE P1 ON P1.ID =:vendorId
+				LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId
 				WHERE  T.T_TYPE IN ( 27, 26 )
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
@@ -9556,7 +9566,9 @@
 				       T.T_TYPE               AS TRANSACTION_TYPE,
 				       CCC.DELIVERY_DATE      AS DUE_DATE,
 				       T.NUMBER               AS TRANSACTION_NUMBER,
-				       T.TOTAL                AS TRANSACTION_NET_AMOUNT,
+				        CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
+				        THEN T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL END AS TRANSACTION_NET_AMOUNT,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
@@ -9573,6 +9585,8 @@
 				         ON V.ID = CCC.VENDOR_ID
 				       LEFT OUTER JOIN PAYEE P
 				         ON P.ID = V.ID
+				LEFT OUTER JOIN PAYEE P1 ON P1.ID =:vendorId
+				LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId
 				WHERE  T.T_TYPE = 27
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
@@ -9610,7 +9624,9 @@
 				       T.T_TYPE               AS TRANSACTION_TYPE,
 				       CCC.DELIVERY_DATE      AS DUE_DATE,
 				       T.NUMBER               AS TRANSACTION_NUMBER,
-				       T.TOTAL                AS TRANSACTION_NET_AMOUNT,
+				       CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
+				       THEN T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL END AS TRANSACTION_NET_AMOUNT,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
@@ -9627,6 +9643,8 @@
 				         ON V.ID = CCC.VENDOR_ID
 				       LEFT OUTER JOIN PAYEE P
 				         ON P.ID = V.ID
+				LEFT OUTER JOIN PAYEE P1 ON P1.ID =:vendorId
+				LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId
 				WHERE  T.T_TYPE = 27
 				       AND T.SAVE_STATUS = 201
 				       AND T.SAVE_STATUS != 202
@@ -9665,7 +9683,9 @@
 				       T.T_TYPE              AS TRANSACTION_TYPE,
 				       NULL                  AS DUE_DATE,
 				       T.NUMBER              AS TRANSACTION_NUMBER,
-				       T.TOTAL               AS TRANSACTION_NET_AMOUNT,
+				       CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
+				       THEN T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL END AS TRANSACTION_NET_AMOUNT,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
@@ -9682,6 +9702,8 @@
 				         ON V.ID = CP.VENDOR_ID
 				       LEFT OUTER JOIN PAYEE P
 				         ON P.ID = V.ID
+			    LEFT OUTER JOIN PAYEE P1 ON P1.ID =:vendorId
+				LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId
 				WHERE  T.T_TYPE = 26
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
@@ -9719,7 +9741,9 @@
 				       T.T_TYPE              AS TRANSACTION_TYPE,
 				       NULL                  AS DUE_DATE,
 				       T.NUMBER              AS TRANSACTION_NUMBER,
-				       T.TOTAL               AS TRANSACTION_NET_AMOUNT,
+				       CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
+				       THEN T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL END AS TRANSACTION_NET_AMOUNT,
 				       CASE
 				         WHEN T.SAVE_STATUS = 204 THEN TRUE
 				         ELSE FALSE
@@ -9736,6 +9760,8 @@
 				         ON V.ID = CP.VENDOR_ID
 				       LEFT OUTER JOIN PAYEE P
 				         ON P.ID = V.ID
+				LEFT OUTER JOIN PAYEE P1 ON P1.ID =:vendorId
+				LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId
 				WHERE  T.T_TYPE = 26
 				       AND T.SAVE_STATUS = 201
 				       AND T.SAVE_STATUS != 202
