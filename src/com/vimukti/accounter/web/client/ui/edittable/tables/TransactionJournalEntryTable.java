@@ -94,7 +94,11 @@ public abstract class TransactionJournalEntryTable extends
 
 					@Override
 					public boolean filter(ClientAccount e) {
-						return true;
+						if (e.getCurrency() == Accounter.getCompany()
+								.getPrimaryCurrency().getID()) {
+							return true;
+						}
+						return false;
 					}
 				}, null);
 
