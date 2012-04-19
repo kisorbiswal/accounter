@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -162,24 +161,24 @@ public class ComboBox<T, C extends IAccounterCore> extends FlowPanel implements
 		int x = textBox.getAbsoluteLeft();
 		int y = textBox.getAbsoluteTop() + textBox.getOffsetHeight();
 
-		int clientwidth = Window.getClientWidth();
-		int clientHeight = Window.getClientHeight();
-
-		int popupWdth = popupPanel.getOffsetWidth();
-		int popupHeight = popupPanel.getOffsetHeight();
+		// int clientwidth = Window.getClientWidth();
+		// int clientHeight = Window.getClientHeight();
+		//
+		// int popupWdth = popupPanel.getOffsetWidth();
+		// int popupHeight = popupPanel.getOffsetHeight();
 
 		popupPanel.getElement().setAttribute("style",
 				"min-width:" + textBox.getOffsetWidth() + "px");
 		scrollPanel.addStyleName("combo-scroll-panel");
 		// popupPanel.setHeight("100px");
 
-		if ((x + popupWdth) > clientwidth) {
-			x = x - (popupPanel.getOffsetWidth() - this.getOffsetWidth());
-		}
-
-		if ((y + popupHeight) > clientHeight) {
-			y = y - (popupPanel.getOffsetHeight() - textBox.getOffsetHeight());
-		}
+		// if ((x + popupWdth) > clientwidth) {
+		// x = x - (popupPanel.getOffsetWidth() - this.getOffsetWidth());
+		// }
+		//
+		// if ((y + popupHeight) > clientHeight) {
+		// y = y - (popupPanel.getOffsetHeight() - textBox.getOffsetHeight());
+		// }
 
 		popupPanel.setPopupPosition(x, y);
 		popupPanel.show();
