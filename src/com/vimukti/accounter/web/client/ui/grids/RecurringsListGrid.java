@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -60,7 +62,7 @@ public class RecurringsListGrid extends
 		case 1: // Recurring Type
 			return getRecurringType(obj.getType());
 		case 2: // Transaction Type
-			return Utility.getTransactionName(obj.getTransaction().getType());
+			return getTransactionName(obj);
 		case 3:
 			if (obj.getType() != ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
 				return obj.getFrequencyString();
@@ -82,6 +84,34 @@ public class RecurringsListGrid extends
 			break;
 		}
 		return null;
+	}
+
+	private String getTransactionName(ClientRecurringTransaction obj) {
+		ClientTransaction transaction = obj.getTransaction();
+		String transactionName = null;
+		if (transaction.getType() == ClientTransaction.TYPE_ESTIMATE) {
+			transactionName = getEstimateNameByType((ClientEstimate) transaction);
+		} else {
+			transactionName = Utility.getTransactionName(obj.getTransaction()
+					.getType());
+		}
+		return transactionName;
+	}
+
+	private String getEstimateNameByType(ClientEstimate transaction) {
+		String estimateName = messages.quote();
+		switch (transaction.getEstimateType()) {
+		case ClientEstimate.CHARGES:
+			estimateName = messages.charge();
+			break;
+		case ClientEstimate.CREDITS:
+			estimateName = messages.credit();
+			break;
+		case ClientEstimate.SALES_ORDER:
+			estimateName = messages.salesOrder();
+			break;
+		}
+		return estimateName;
 	}
 
 	private String getRecurringType(int type) {
