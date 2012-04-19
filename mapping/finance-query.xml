@@ -6597,6 +6597,11 @@
 		DELETE FROM depreciation
 		WHERE  company_id = cid;
 
+		DELETE FROM enter_bill_orders
+		USING  TRANSACTION
+		WHERE  enter_bill_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid; 
+		
 		DELETE FROM enter_bill
 		USING  TRANSACTION
 		WHERE  enter_bill.id = TRANSACTION.id
@@ -6988,11 +6993,6 @@
 		DELETE FROM email_account
 		WHERE  company_id = cid;  
 		
-		DELETE FROM enter_bill_orders
-		USING  TRANSACTION
-		WHERE  enter_bill_id = TRANSACTION.id
-		       AND TRANSACTION.company_id = cid;  
-		       
 		DELETE FROM tdsdeductormasters
 		WHERE  company_id = cid;
 		
@@ -10663,7 +10663,7 @@
 			       a1.name             AS in_account,
 			       a2.name             AS from_account,
 			       t.total             AS amount,
-			       t.currency AS currency
+			       a2.account_currency AS currency
 			FROM   transfer_fund tf
 			       LEFT JOIN TRANSACTION t
 			         ON t.id = tf.id

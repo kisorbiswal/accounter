@@ -397,11 +397,11 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		if (isOnSaveProccessed)
 			return true;
 		isOnSaveProccessed = true;
-		super.onSave(session);
 		if (isDraftOrTemplate()) {
 			if (this.salesOrders != null) {
 				this.salesOrders.clear();
 			}
+			super.onSave(session);
 			return false;
 		}
 
@@ -413,7 +413,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 
-		return false;
+		return super.onSave(session);
 	}
 
 	private void addSalesOrdersTransactionItems(CashSales cashSales,

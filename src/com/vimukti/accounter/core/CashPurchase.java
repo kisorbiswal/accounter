@@ -295,10 +295,11 @@ public class CashPurchase extends Transaction {
 	public boolean onSave(Session session) throws CallbackException {
 		if (isOnSaveProccessed)
 			return true;
-		super.onSave(session);
+
 		isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
 			this.purchaseOrders.clear();
+			super.onSave(session);
 			return false;
 		}
 
@@ -338,7 +339,7 @@ public class CashPurchase extends Transaction {
 			purchaseOrder.onUpdate(session);
 			session.saveOrUpdate(purchaseOrder);
 		}
-		return false;
+		return super.onSave(session);
 	}
 
 	private void modifyPurchaseOrder(CashPurchase cashPurchase,

@@ -423,6 +423,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		this.isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
+			super.onSave(session);
 			if (isTemplate()) {
 				addEstimateTransactionItems();
 			}

@@ -394,6 +394,11 @@ public class CustomerCreditMemo extends Transaction implements
 
 		}
 
+		if ((this.customer.getID() == customerCreditMemo.customer.getID())
+				&& (!DecimalUtil.isEquals(this.total, customerCreditMemo.total))) {
+			this.creditsAndPayments.updateCreditPayments(this.total);
+		}
+
 		super.onEdit(clonedObject);
 
 	}

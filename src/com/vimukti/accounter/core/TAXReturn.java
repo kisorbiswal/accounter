@@ -166,6 +166,7 @@ public class TAXReturn extends Transaction {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
+		calculateTAXAmounts();
 		this.total = this.totalTAXAmount;
 		this.balance = this.total;
 		this.type = Transaction.TYPE_TAX_RETURN;
@@ -201,6 +202,18 @@ public class TAXReturn extends Transaction {
 		ChangeTracker.put(this);
 		return super.onSave(session);
 
+	}
+
+	protected void calculateTAXAmounts() {
+		for (TAXReturnEntry entry : taxReturnEntries) {
+			if (entry.getCategory() == Transaction.CATEGORY_CUSTOMER) {
+				salesTaxTotal += entry.getTaxAmount();
+			} else if (entry.getCategory() == Transaction.CATEGORY_VENDOR) {
+				purchaseTaxTotal += entry.getTaxAmount();
+			}
+		}
+		totalTAXAmount = salesTaxTotal + purchaseTaxTotal;
+		balance = totalTAXAmount;
 	}
 
 	/**

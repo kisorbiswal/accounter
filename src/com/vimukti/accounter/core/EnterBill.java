@@ -221,6 +221,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
 		if (isDraftOrTemplate()) {
+			super.onSave(session);
 			this.purchaseOrders.clear();
 			return false;
 		}

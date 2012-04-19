@@ -236,6 +236,12 @@ public class CustomerPrePayment extends Transaction {
 
 			}
 
+			if (customerPrePayment.customer.getID() != this.customer.getID()
+					|| (!DecimalUtil.isEquals(customerPrePayment.total,
+							this.total) || isCurrencyFactorChanged())) {
+				this.creditsAndPayments.updateCreditPayments(this.total);
+			}
+
 		}
 		if ((this.paymentMethod
 				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) || this.paymentMethod
