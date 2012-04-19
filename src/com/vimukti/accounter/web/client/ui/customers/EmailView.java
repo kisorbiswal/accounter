@@ -249,8 +249,6 @@ public class EmailView extends AbstractBaseView<ClientTransaction> {
 		mainPanel.add(horPanel);
 		form3.add(emailBodyTemplateCombo);
 		form3.add(emailBody);
-		form3.add(editButton);
-		form3.add(deleteButton);
 		form3.addStyleName("email_textarea");
 		mainPanel.add(form3);
 
@@ -278,6 +276,8 @@ public class EmailView extends AbstractBaseView<ClientTransaction> {
 		});
 
 		StyledPanel buttonsPanel = new StyledPanel("buttonsPanel");
+		buttonsPanel.add(editButton);
+		buttonsPanel.add(deleteButton);
 		buttonsPanel.add(sendBtn);
 		buttonsPanel.add(cancelBtn);
 

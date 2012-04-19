@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientBank implements IAccounterCore {
 
 	/**
@@ -66,7 +65,6 @@ public class ClientBank implements IAccounterCore {
 
 	}
 
-
 	public ClientBank clone() {
 		ClientBank clientBank = (ClientBank) this.clone();
 		return clientBank;
@@ -77,7 +75,8 @@ public class ClientBank implements IAccounterCore {
 	public boolean equals(Object obj) {
 		if (obj instanceof ClientBank) {
 			ClientBank bank = (ClientBank) obj;
-			if (this.getID() == bank.getID())
+			if (this.getID() == bank.getID()
+					&& this.getName().equals(bank.getName()))
 				return true;
 		} else {
 			return false;
