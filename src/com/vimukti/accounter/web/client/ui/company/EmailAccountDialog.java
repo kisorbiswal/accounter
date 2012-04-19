@@ -79,11 +79,15 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				processTest();
+				if (validate().haveErrors()) {
+					processOK();
+				} else {
+					processTest();
+				}
+
 			}
 		});
 		footerLayout.add(testButton);
-
 		bodyLayout.add(form);
 		setBodyLayout(bodyLayout);
 	}
