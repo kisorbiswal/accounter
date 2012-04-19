@@ -2029,11 +2029,8 @@
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" type="encryptedstring" column="DATA_TYPE"></property>
 		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
-		<many-to-one name="currency" class="com.vimukti.accounter.core.Currency"
-			column="CURRENCY">
-		</many-to-one>
+		<property name="currency" column="CURRENCY"></property>
 		<property name="auditHistory" type="text" column="AUDITHISTORY"></property>
-
 	</class>
 
 	<class name="Reconciliation" table="RECONCILIATION">

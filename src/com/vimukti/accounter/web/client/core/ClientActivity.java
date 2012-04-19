@@ -59,7 +59,7 @@ public class ClientActivity implements IAccounterCore {
 
 	private String description;
 
-	private long currency;
+	private String currency;
 
 	private String auditHistory;
 
@@ -194,7 +194,7 @@ public class ClientActivity implements IAccounterCore {
 	/**
 	 * @return the currency
 	 */
-	public long getCurrency() {
+	public String getCurrency() {
 		return currency;
 	}
 
@@ -202,7 +202,7 @@ public class ClientActivity implements IAccounterCore {
 	 * @param currency
 	 *            the currency to set
 	 */
-	public void setCurrency(long currency) {
+	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
 

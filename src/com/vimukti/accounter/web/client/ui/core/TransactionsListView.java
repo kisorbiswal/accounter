@@ -202,7 +202,9 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			Calendar endCal = Calendar.getInstance();
 			endCal.setTime(new ClientFinanceDate().getDateAsObject());
 			endCal.add(Calendar.DAY_OF_MONTH, 2);
-			endDate = new ClientFinanceDate(endCal.getTime());
+			endDate.setDay(startDate.getDay() + 6);
+			endDate.setMonth(startDate.getMonth());
+			endDate.setYear(startDate.getYear());
 		}
 		if (dateRange.equals(messages.thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
@@ -212,7 +214,6 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			endCal.set(Calendar.DAY_OF_MONTH,
 					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			endDate = new ClientFinanceDate(endCal.getTime());
-
 		}
 		if (dateRange.equals(messages.lastWeek())) {
 			endDate = getWeekStartDate();

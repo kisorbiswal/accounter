@@ -37,8 +37,6 @@ import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
-import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -932,7 +930,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getDate())) : "";
 						break;
 					case 5:
-						columnValue = obj.getAmount() != null ? amountAsStringWithCurrency(
+						columnValue = obj.getAmount() != null ? getAmountAsStringInCurrency(
 								obj.getAmount(), obj.getCurrency()) : "";
 						break;
 					}

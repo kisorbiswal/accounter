@@ -177,7 +177,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			@Override
 			public String getValue(ClientActivity object) {
 				if (object.getAmount() != null) {
-					return DataUtils.amountAsStringWithCurrency(
+					return DataUtils.getAmountAsStringInCurrency(
 							object.getAmount(), object.getCurrency());
 				}
 				return "";
@@ -229,6 +229,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			@Override
 			public String getValue(ClientActivity object) {
 				if (object.getObjectID() == 0
+						|| object.getDataType() == null
 						|| object.getDataType().equalsIgnoreCase(
 								messages.vatReturn())
 						|| object.getAuditHistory().equals("[]")) {
@@ -241,9 +242,9 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		imageColumn.setFieldUpdater(new FieldUpdater<ClientActivity, String>() {
 			@Override
 			public void update(int index, ClientActivity object, String value) {
-				if (object.getObjType() == ClientTransaction.TYPE_TAX_RETURN) {
-					return;
-				} else if (object.getAuditHistory().equals("[]")) {
+				if (object.getObjType() == ClientTransaction.TYPE_TAX_RETURN
+						|| object.getAuditHistory() == null
+						|| object.getAuditHistory().equals("[]")) {
 					return;
 				} else {
 					if (object.getObjectID() != 0) {
