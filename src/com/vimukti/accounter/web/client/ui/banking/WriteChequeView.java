@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -127,7 +129,6 @@ public class WriteChequeView extends
 		this.company = getCompany();
 		this.getElement().setId("writechequeview");
 	}
-
 
 	protected void updateAddressAndGrid() {
 		// Set<Address> add = null;
@@ -445,8 +446,6 @@ public class WriteChequeView extends
 
 		transaction.setInFavourOf(inFavourOf.getValue());
 
-		transaction.setCheckNumber(checkNumberField.getValue());
-
 		transaction.setTransactionDate(transactionDate.getDate());
 
 		// Setting Bank account
@@ -505,7 +504,7 @@ public class WriteChequeView extends
 		transaction.setNumber(transactionNumber.getValue().toString());
 
 		// setting checknumber
-		transaction.setCheckNumber(checkNumberField.getValue());
+		transaction.setCheckNumber(getCheckValue());
 
 		// setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -518,7 +517,8 @@ public class WriteChequeView extends
 		}
 
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -533,6 +533,28 @@ public class WriteChequeView extends
 			transaction.setCurrency(currency.getID());
 			transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		}
+	}
+
+	private String getCheckValue() {
+		String value;
+		if (!isInViewMode()) {
+			if (checkNumberField.getValue().equals(messages.toBePrinted())) {
+				value = String.valueOf(messages.toBePrinted());
+			} else {
+				value = String.valueOf(checkNumberField.getValue());
+			}
+		} else {
+			String checknumber = this.checkNumber;
+			if (checknumber == null) {
+				checknumber = messages.toBePrinted();
+			}
+			if (checknumber.equals(messages.toBePrinted())) {
+				value = messages.toBePrinted();
+			} else {
+				value = String.valueOf(checknumber);
+			}
+		}
+		return value;
 	}
 
 	private void updatePaySalesTax() {
@@ -606,7 +628,37 @@ public class WriteChequeView extends
 		jobListCombo.setVisible(false);
 		checkNumberField = new TextItem(messages.checkNumber(),
 				"chekNumberField");
-		bankAccForm.add(bankAccSelect, balText, checkNumberField);
+		checkNumberField.setValue(messages.toBePrinted());
+		toprintCheck = new CheckboxItem(messages.toBePrinted(), "toprintCheck");
+		toprintCheck.setEnabled(!false);
+		toprintCheck.setValue(true);
+
+		toprintCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (toprintCheck.getValue()) {
+					if (toprintCheck.getValue().toString()
+							.equalsIgnoreCase("true")) {
+						checkNumberField.setValue(messages.toBePrinted());
+						checkNumberField.setEnabled(false);
+					} else {
+						if (payFromCombo.getValue() == null)
+							checkNumberField.setValue(messages.toBePrinted());
+						else if (transaction != null) {
+							checkNumberField.setValue(transaction
+									.getCheckNumber());
+						}
+					}
+				} else {
+					checkNumberField.setValue("");
+				}
+				checkNumberField.setEnabled(true);
+
+			}
+		});
+
+		bankAccForm.add(bankAccSelect, balText, toprintCheck, checkNumberField);
 
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
@@ -719,10 +771,6 @@ public class WriteChequeView extends
 		// memoForm.setWidth("100%");
 		memoForm.add(memoTextAreaItem);
 		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
-
-		toprintCheck = new CheckboxItem(messages.toBePrinted(), "toprintCheck");
-		toprintCheck.setEnabled(!false);
-		toprintCheck.setValue(true);
 
 		payForm = new DynamicForm("payForm");
 		// payForm.setWidth("100%");
@@ -1363,7 +1411,16 @@ public class WriteChequeView extends
 		updateAddressAndGrid();
 		amtText.setAmount(transaction.getAmount());
 		inFavourOf.setValue(transaction.getInFavourOf());
-		checkNumberField.setValue(transaction.getCheckNumber());
+		if (transaction.getCheckNumber() != null) {
+			if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
+				checkNumberField.setValue(messages.toBePrinted());
+				toprintCheck.setValue(true);
+			} else {
+				checkNumberField.setValue(transaction.getCheckNumber());
+				toprintCheck.setValue(false);
+			}
+		}
+
 		if (transaction.getAmount() != 0) {
 			validateAmountAndTotal();
 		}
@@ -1468,8 +1525,8 @@ public class WriteChequeView extends
 	protected void updateDiscountValues() {
 
 		if (discountField.getPercentage() != null) {
-			transactionVendorAccountTable
-					.setDiscount(discountField.getPercentage());
+			transactionVendorAccountTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}
