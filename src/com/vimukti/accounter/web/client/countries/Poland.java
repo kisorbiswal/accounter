@@ -17,7 +17,7 @@ public class Poland extends AbstractCountryPreferences {
 
 	@Override
 	public String getPreferredCurrency() {
-		return "PLZ";
+		return "PLN";
 	}
 
 	@Override

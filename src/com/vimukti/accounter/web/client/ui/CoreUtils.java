@@ -1918,6 +1918,7 @@ public class CoreUtils {
 			new ClientCurrency("Paraguayan Guaraní", "PYG", "Gs"),
 			new ClientCurrency("PeruvianNuevo Sol", "PEN", "S/."),
 			new ClientCurrency("Philippine Peso", "PHP", "₱"),
+			new ClientCurrency("Polish złoty", "PLN", "zł"),
 			new ClientCurrency("Qatari Riyal", "QAR", "QR"),
 			new ClientCurrency("Romanian Leu", "RON", "L"),
 			new ClientCurrency("Russian Ruble", "RUB", "R"),
