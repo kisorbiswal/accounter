@@ -763,7 +763,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			limitText = new AmountField(messages.creditLimit(), this,
 					getBaseCurrency(), "limitText");
 			// limitText.setWidth(100);
-			limitText.setValue("" + UIUtils.getCurrencySymbol() + "0");
+			limitText.setAmount(0.00);
 			limitText.addBlurHandler(new BlurHandler() {
 
 				@Override
@@ -782,14 +782,13 @@ public class NewAccountView extends BaseView<ClientAccount> {
 											1000000000000.00)) {
 								Accounter.showError(messages
 										.creditLimitShouldBeInTheRange());
-								limit = 0D;
+								limit = 0.00D;
 							}
 						}
 					} catch (Exception e) {
 						Accounter.showError(messages.invalidCreditLimit());
 					} finally {
-						limitText.setValue(DataUtils
-								.getAmountAsStringInPrimaryCurrency(limit));
+						limitText.setAmount(limit);
 						setCreditLimit(limit);
 					}
 				}
@@ -1333,10 +1332,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
-			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0) ? data
-					.getCreditLimit() : 0D);
-			limitText.setValue(DataUtils
-					.getAmountAsStringInPrimaryCurrency(getCreditLimit()));
+			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0.00) ? data
+					.getCreditLimit() : 0.00D);
+			limitText.setAmount(getCreditLimit());
 			cardNumText.setValue(data.getCardOrLoanNumber() != null ? data
 					.getCardOrLoanNumber() : "");
 		} else {
