@@ -23,8 +23,11 @@ public class PayRun extends CreatableObject implements IAccounterServerCore {
 
 	private FinanceDate payPeriodEndDate;
 
+	private double deductionAmount = 0.0;
+
+	private double earningsAmount = 0.0;
+
 	public PayRun() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -91,9 +94,9 @@ public class PayRun extends CreatableObject implements IAccounterServerCore {
 	public boolean onSave(Session session) throws CallbackException {
 		// Running Payment of Each Employee
 		for (EmployeePaymentDetails detail : payEmployee) {
+			detail.setPayRun(this);
 			detail.runPayment();
 		}
-
 		return super.onSave(session);
 	}
 
@@ -101,12 +104,28 @@ public class PayRun extends CreatableObject implements IAccounterServerCore {
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void addDeductions(double deduction) {
+		this.deductionAmount += deduction;
+	}
+
+	public double getDeductionAmount() {
+		return deductionAmount;
+	}
+
+	public void addEarnings(double earnings) {
+		this.earningsAmount += earnings;
+	}
+
+	public double getEarningsAmount() {
+		return earningsAmount;
 	}
 }

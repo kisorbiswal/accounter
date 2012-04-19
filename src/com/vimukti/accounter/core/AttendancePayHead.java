@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.Calendar;
+
 /**
  * On Attendance type of Calculation Type is based on the attendance data where
  * the component will get pro-rated based on the actual days the Employee is
@@ -115,4 +117,43 @@ public class AttendancePayHead extends PayHead {
 		this.leaveWithoutPay = leaveWithoutPay;
 	}
 
+	@Override
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		double rate = payHeadComponent.getRate();
+		double deductableSalary = rate;
+		double perDayAmount = rate / getWorkingDays(payHeadComponent);
+		deductableSalary = perDayAmount * payHeadComponent.getNoOfLeaves();
+		return deductableSalary;
+	}
+
+	private long getWorkingDays(
+			EmployeePayHeadComponent employeePayHeadComponent) {
+		long workingDays = 0;
+
+		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD) {
+			Calendar calendar1 = Calendar.getInstance();
+			calendar1.setTime(employeePayHeadComponent.getStartDate()
+					.getAsDateObject());
+			Calendar calendar2 = Calendar.getInstance();
+			calendar2.setTime(employeePayHeadComponent.getEndDate()
+					.getAsDateObject());
+			long diff = calendar2.getTimeInMillis()
+					- calendar1.getTimeInMillis();
+			long diffDays = diff / (24 * 60 * 60 * 1000);
+			workingDays = diffDays;
+		}
+
+		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED) {
+			workingDays = 30;
+		}
+
+		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED_CALANDAR) {
+			PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(employeePayHeadComponent);
+			workingDays = companyHolidays.getWorkingDays()
+					- companyHolidays.getHoliDays();
+		}
+
+		return workingDays;
+	}
 }

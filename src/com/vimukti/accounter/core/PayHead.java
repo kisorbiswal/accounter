@@ -261,8 +261,32 @@ public abstract class PayHead extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
 	}
 
+	public boolean isEarning() {
+		return getType() == TYPE_EARNINGS_FOR_EMPLOYEES
+				|| getType() == TYPE_REIMBURSEMENTS_TO_EMPLOYEES
+				|| getType() == TYPE_BONUS
+				|| getType() == TYPE_LOANS_AND_ADVANCES;
+	}
+
+	public boolean isDeduction() {
+		return getType() == TYPE_DEDUCTIONS_FOR_EMPLOYEES
+				|| getType() == TYPE_EMPLOYEES_OTHER_CHARGES
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
+	}
+
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		return 0;
+	}
+
+	public PayRollDetails getCompanyHolidaysWithGivenPeriod(
+			EmployeePayHeadComponent employeePayHeadComponent) {
+		PayRollDetails payRollDetails = PayRollCalendarDetails
+				.getPayRollDetaisl(employeePayHeadComponent.getStartDate(),
+						employeePayHeadComponent.getEndDate());
+		return payRollDetails;
+	}
 }

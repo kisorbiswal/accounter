@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar g
  * 
  */
-public class ComputaionFormulaFunction implements IAccounterServerCore{
+public class ComputaionFormulaFunction implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -76,7 +76,7 @@ public class ComputaionFormulaFunction implements IAccounterServerCore{
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -95,7 +95,12 @@ public class ComputaionFormulaFunction implements IAccounterServerCore{
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		return payHead.calculatePayment(payHeadComponent, deductions, earnings);
 	}
 
 }

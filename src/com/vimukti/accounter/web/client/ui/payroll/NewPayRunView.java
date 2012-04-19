@@ -98,10 +98,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	}
 
 	private void updateData() {
-		if (data == null) {
-			data = new ClientPayRun();
-		}
-
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
 

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.List;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -14,6 +13,9 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public EmployeePaymentDetails() {
+	}
 
 	/**
 	 * Pay Run
@@ -75,37 +77,60 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	 */
 	public void runPayment() {
 		double earnings = getEarnings();
-
 		double deductions = getDeductions();
 	}
 
+	double deduction = 0.00D;
+
 	private double getDeductions() {
-		double deduction = 0.00D;
 		for (EmployeePayHeadComponent component : payHeadComponents) {
+			component.setStartEndDates(payRun.getPayPeriodStartDate(),
+					payRun.getPayPeriodEndDate());
+			component.setEmployeePaymentDetails(this);
 			if (component.isDeduction()) {
-				deduction = component.calculatePayment();
+				double calculatePayment = component
+						.calculatePayment(payRun.getDeductionAmount(),
+								payRun.getEarningsAmount());
+				deduction += calculatePayment;
+				payRun.addDeductions(calculatePayment);
 			}
 
 		}
 		return deduction;
 	}
 
+	double earnings = 0.00D;
+
 	private double getEarnings() {
-		double earnings = 0.00D;
 		for (EmployeePayHeadComponent component : payHeadComponents) {
 			if (component.isEarning()) {
-				earnings = component.calculatePayment();
+				component.setEmployeePaymentDetails(this);
+				component.setStartEndDates(payRun.getPayPeriodStartDate(),
+						payRun.getPayPeriodEndDate());
+				double calculatePayment = component
+						.calculatePayment(payRun.getDeductionAmount(),
+								payRun.getEarningsAmount());
+				earnings += calculatePayment;
+				payRun.addEarnings(calculatePayment);
 			}
 
 		}
 		return earnings;
 	}
 
+	public double getErningAmount() {
+		return earnings;
+	}
+
+	public double getDeductionAmount() {
+		return deduction;
+	}
+
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -114,4 +139,8 @@ public class EmployeePaymentDetails extends CreatableObject implements
 
 	}
 
+	public double getBasicSalary() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

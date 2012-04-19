@@ -122,7 +122,7 @@ public class EmployeePayHeadComponentTable extends
 			@Override
 			protected void setValue(ClientEmployeePayHeadComponent row,
 					String value) {
-				row.setRate(UIUtils.toInt(value));
+				row.setNoOfLeaves(UIUtils.toInt(value));
 			}
 
 			@Override

@@ -101,4 +101,42 @@ public class ComputionPayHead extends PayHead {
 		this.calculationPeriod = calculationPeriod;
 	}
 
+	@Override
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		double basicSal = payHeadComponent.getRate();
+		double calculatedAmount = 0.0D;
+		if (computationType == COMPUTATE_ON_SPECIFIED_FORMULA) {
+			for (ComputaionFormulaFunction function : getFormulaFunctions()) {
+				double amount = function.calculatePayment(payHeadComponent,
+						deductions, earnings);
+				if (function.getFunctionType() == ComputaionFormulaFunction.FUNCTION_ADD_PAY_HEAD) {
+					calculatedAmount += amount;
+				} else if (function.getFunctionType() == ComputaionFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
+					calculatedAmount -= amount;
+				} else if (function.getFunctionType() == ComputaionFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE) {
+					calculatedAmount *= amount;
+				} else if (function.getFunctionType() == ComputaionFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
+					calculatedAmount /= amount;
+				}
+			}
+		} else if (computationType == COMPUTATE_ON_DEDUCTION_TOTAL) {
+			calculatedAmount = deductions;
+		} else if (computationType == COMPUTATE_ON_EARNING_TOTAL) {
+			calculatedAmount = earnings;
+		} else if (computationType == COMPUTATE_ON_SUBTOTAL) {
+			calculatedAmount = (basicSal + earnings) - deductions;
+		}
+		double value = 0.0;
+		for (ComputationSlab slab : getSlabs()) {
+			if (calculatedAmount >= slab.getFromAmount()
+					|| calculatedAmount <= slab.getToAmount()) {
+				value += slab.getSlabType() == ComputationSlab.TYPE_PERCENTAGE ? (calculatedAmount * slab
+						.getValue()) / 100 : slab.getValue();
+			}
+		}
+
+		return isDeduction() ? calculatedAmount - value : calculatedAmount
+				+ value;
+	}
 }

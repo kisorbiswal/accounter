@@ -8,18 +8,28 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class EmployeePayHeadComponent extends CreatableObject implements IAccounterServerCore{
+public class EmployeePayHeadComponent extends CreatableObject implements
+		IAccounterServerCore {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public EmployeePayHeadComponent() {
+	}
+
 	private PayHead payHead;
 
 	private double rate;
-	
+
 	private int noOfLeaves;
+
+	private FinanceDate periodEndDate;
+
+	private FinanceDate periodStartDate;
+
+	private EmployeePaymentDetails employeePaymentDetails;
 
 	/**
 	 * @return the payHead
@@ -52,18 +62,15 @@ public class EmployeePayHeadComponent extends CreatableObject implements IAccoun
 	}
 
 	public boolean isEarning() {
-		// TODO Auto-generated method stub
-		return false;
+		return payHead.isEarning();
 	}
 
 	public boolean isDeduction() {
-		// TODO Auto-generated method stub
-		return false;
+		return payHead.isDeduction();
 	}
 
-	public double calculatePayment() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculatePayment(double deductions, double earnings) {
+		return payHead.calculatePayment(this, deductions, earnings);
 	}
 
 	public int getNoOfLeaves() {
@@ -78,13 +85,38 @@ public class EmployeePayHeadComponent extends CreatableObject implements IAccoun
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
 	}
 
+	public FinanceDate getStartDate() {
+		return periodStartDate;
+	}
+
+	public FinanceDate getEndDate() {
+		return periodEndDate;
+	}
+
+	public void setStartEndDates(FinanceDate payPeriodStartDate,
+			FinanceDate payPeriodEndDate) {
+		this.periodStartDate = payPeriodStartDate;
+		this.periodEndDate = payPeriodEndDate;
+	}
+
+	public double getBasicSalary() {
+		return employeePaymentDetails.getBasicSalary();
+	}
+
+	public EmployeePaymentDetails getEmployeePaymentDetails() {
+		return employeePaymentDetails;
+	}
+
+	public void setEmployeePaymentDetails(
+			EmployeePaymentDetails employeePaymentDetails) {
+		this.employeePaymentDetails = employeePaymentDetails;
+	}
 }

@@ -36,4 +36,16 @@ public class ProductionPayHead extends PayHead {
 		this.productionType = productionType;
 	}
 
+	@Override
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(payHeadComponent);
+		long workingDays = companyHolidays.getWorkingDays()
+				- companyHolidays.getHoliDays();
+		double rate = payHeadComponent.getRate();
+		double perDayAmount = rate / workingDays;
+		double earningSalary = perDayAmount * payHeadComponent.getNoOfLeaves();
+		return earningSalary;
+	}
+
 }

@@ -35,4 +35,9 @@ public class FlatRatePayHead extends PayHead {
 		this.calculationPeriod = calculationPeriod;
 	}
 
+	@Override
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		return payHeadComponent.getRate();
+	}
 }

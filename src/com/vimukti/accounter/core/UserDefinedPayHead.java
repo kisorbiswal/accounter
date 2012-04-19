@@ -21,4 +21,10 @@ public class UserDefinedPayHead extends PayHead {
 		super(CALCULATION_TYPE_AS_USER_DEFINED);
 	}
 
+	@Override
+	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+			double deductions, double earnings) {
+		return payHeadComponent.getRate();
+	}
+
 }
