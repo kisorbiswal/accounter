@@ -3009,8 +3009,16 @@ table.no_records .norecord-empty-message td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+	width:100%;
 }
-
+#newAccountView .topHLay .leftLayout .currencyTextBox{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
 #newAccountView .topHLay .frameTitle {
 	display: -webkit-box;
 	display: -moz-box;
@@ -3019,6 +3027,7 @@ table.no_records .norecord-empty-message td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex: 1;
+	width:50%;
 }
 
 #newAccountView .balanceForm {
@@ -4643,7 +4652,9 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	margin-bottom: 40px;
 	height: 280px;
 	overflow: scroll;
-	padding: 20px;
+	padding: 10px;
+	width: 890px;
+	border:1px solid #ccc;
 }
 
 #CheckPrintingSettingView .chequeBackground {
@@ -7888,8 +7899,19 @@ table.no_records tr td {
 	box-orient: vertical;
 	margin: 10px;
 }
-.bottomLayout1 .percentageField .gwt-Label{
-	width: auto;
+.percentageField .gwt-Label{
+	width: auto !important;
 	padding: 2px 5px 0 0;
+}
+.transactionTotalForm {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#CheckPrintingSettingView .checkprintbox .allFields,#CheckPrintingSettingView .checkprintbox .chequeForm{
+	padding-left:10px;
 }
 /*Location merge dialog end*/
