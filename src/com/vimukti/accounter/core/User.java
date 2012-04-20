@@ -334,4 +334,10 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		this.secretKey = secretKey;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

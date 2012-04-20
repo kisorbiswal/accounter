@@ -120,4 +120,10 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

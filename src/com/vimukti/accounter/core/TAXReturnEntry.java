@@ -289,4 +289,10 @@ public class TAXReturnEntry implements IAccounterServerCore, Lifecycle {
 	public void setCategory(int category) {
 		this.transactionCategory = category;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

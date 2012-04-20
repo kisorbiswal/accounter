@@ -156,4 +156,10 @@ public class VATReturnBox extends CreatableObject implements
 		w.put(messages.total() + " " + messages.box(), this.totalBox).gap();
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

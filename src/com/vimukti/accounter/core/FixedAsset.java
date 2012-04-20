@@ -2058,4 +2058,10 @@ public class FixedAsset extends CreatableObject implements
 		return IAccounterCore.FIXED_ASSET;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

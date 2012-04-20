@@ -309,4 +309,10 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		e.add(getAdjustmentAccount(), -amount);
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -583,4 +583,10 @@ public class PurchaseOrder extends Transaction {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

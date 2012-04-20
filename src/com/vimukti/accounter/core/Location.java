@@ -125,4 +125,10 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 		return super.onDelete(arg0);
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

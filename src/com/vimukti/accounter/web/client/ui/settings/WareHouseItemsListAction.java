@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class WareHouseItemsListAction extends Action<ClientItemStatus> {
 
-	
 	long wareHouse;
 
 	public WareHouseItemsListAction(long wareHouse) {

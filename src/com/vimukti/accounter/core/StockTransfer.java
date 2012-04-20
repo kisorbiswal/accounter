@@ -154,4 +154,10 @@ public class StockTransfer extends CreatableObject implements
 		w.put(messages.memo(), this.memo);
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

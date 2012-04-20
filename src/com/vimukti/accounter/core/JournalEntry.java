@@ -336,4 +336,10 @@ public class JournalEntry extends Transaction {
 		// e.add(involvedPayee, involvedPayee.getOpeningBalance());
 		// }
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

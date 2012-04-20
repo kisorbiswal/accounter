@@ -484,11 +484,6 @@ public class JournalEntryView extends
 
 	}
 
-	public static JournalEntryView getInstance() {
-
-		return new JournalEntryView();
-	}
-
 	@Override
 	public List<DynamicForm> getForms() {
 

@@ -867,4 +867,10 @@ public class RecurringTransaction extends CreatableObject implements
 	public int getObjType() {
 		return IAccounterCore.RECURING_TRANSACTION;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

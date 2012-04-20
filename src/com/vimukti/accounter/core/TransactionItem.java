@@ -997,4 +997,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 		return false;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

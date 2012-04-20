@@ -207,4 +207,10 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		}
 		e.add(getAdjustmentAccount(), totalAdjustment);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

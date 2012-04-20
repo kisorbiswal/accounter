@@ -129,4 +129,10 @@ public class Job extends CreatableObject implements IAccounterServerCore,
 		this.jobType = jobType;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

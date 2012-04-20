@@ -612,4 +612,10 @@ public class Customer extends Payee implements IAccounterServerCore,
 		this.jobs = jobs;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

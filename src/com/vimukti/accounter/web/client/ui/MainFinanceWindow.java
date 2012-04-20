@@ -250,8 +250,6 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(ActionFactory.getManageSalesTaxItemsAction()
 				.getHistoryToken(), ActionFactory
 				.getManageSalesTaxItemsAction());
-		actions.put(ActionFactory.getPaySalesTaxAction().getHistoryToken(),
-				ActionFactory.getPaySalesTaxAction());
 		actions.put(ActionFactory.getAdjustTaxAction().getHistoryToken(),
 				ActionFactory.getAdjustTaxAction());
 		actions.put(ActionFactory.getNewTAXAgencyAction().getHistoryToken(),
@@ -403,8 +401,6 @@ public class MainFinanceWindow extends FlowPanel {
 				ActionFactory.getNewCashPurchaseAction());
 		actions.put(ActionFactory.getNewCreditMemoAction().getHistoryToken(),
 				ActionFactory.getNewCreditMemoAction());
-		actions.put(ActionFactory.getNewCheckAction().getHistoryToken(),
-				ActionFactory.getNewCheckAction());
 		actions.put(ActionFactory.getEnterBillsAction().getHistoryToken(),
 				ActionFactory.getEnterBillsAction());
 		actions.put(ActionFactory.getPayBillsAction().getHistoryToken(),

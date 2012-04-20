@@ -87,4 +87,10 @@ public class CustomFieldValue implements IAccounterServerCore {
 		return id;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

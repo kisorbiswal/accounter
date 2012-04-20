@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.imports.UploadCSVFileDialogAction;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
@@ -32,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.banking.ImportBankFilesAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.MatchTrasactionsAction;
 import com.vimukti.accounter.web.client.ui.banking.MergeCustomerAction;
-import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
@@ -41,7 +39,6 @@ import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
 import com.vimukti.accounter.web.client.ui.banking.StatementReconcilationAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
-import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
 import com.vimukti.accounter.web.client.ui.company.AuditHistoryAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
@@ -79,19 +76,16 @@ import com.vimukti.accounter.web.client.ui.company.MergeLocationAction;
 import com.vimukti.accounter.web.client.ui.company.MergeVendorAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
-import com.vimukti.accounter.web.client.ui.company.NewCashBasisJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.NewbankAction;
-import com.vimukti.accounter.web.client.ui.company.PaySalesTaxAction;
 import com.vimukti.accounter.web.client.ui.company.PayTypeListAction;
 import com.vimukti.accounter.web.client.ui.company.PaymentTermListAction;
 import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.company.PriceLevelListAction;
-import com.vimukti.accounter.web.client.ui.company.PurchaseItemsAction;
 import com.vimukti.accounter.web.client.ui.company.SalesPersonListsAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
 import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
@@ -250,7 +244,6 @@ import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.IssuePaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewCashPurchaseAction;
-import com.vimukti.accounter.web.client.ui.vendors.NewCheckAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewCreditMemoAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewItemReceiptAction;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
@@ -396,8 +389,8 @@ public class ActionFactory {
 		return new BankingHomeAction();
 	}
 
-	public static NewBankAccountAction getNewBankAccountAction() {
-		return new NewBankAccountAction();
+	public static NewAccountAction getNewBankAccountAction() {
+		return new NewAccountAction(ClientAccount.TYPE_BANK);
 	}
 
 	public static AccountRegisterAction getAccountRegisterAction() {
@@ -411,12 +404,6 @@ public class ActionFactory {
 	public static BankStatementAction getBankStatementAction(
 			ClientAccount account) {
 		return new BankStatementAction(account);
-	}
-
-	public static WriteChecksAction getWriteChecksAction(
-			ClientWriteCheck writeCheck,
-			AccounterAsyncCallback<Object> callBackObject) {
-		return new WriteChecksAction(writeCheck, callBackObject);
 	}
 
 	public static MakeDepositAction getMakeDepositAction() {
@@ -496,10 +483,6 @@ public class ActionFactory {
 		return new NewJournalEntryAction();
 	}
 
-	public static NewCashBasisJournalEntryAction getNewCashBasisJournalEntryAction() {
-		return new NewCashBasisJournalEntryAction();
-	}
-
 	public static NewAccountAction getNewAccountAction() {
 		return new NewAccountAction();
 	}
@@ -528,10 +511,6 @@ public class ActionFactory {
 
 	public static ManageItemTaxAction getManageItemTaxAction() {
 		return new ManageItemTaxAction(messages.manageItemTax());
-	}
-
-	public static PaySalesTaxAction getPaySalesTaxAction() {
-		return new PaySalesTaxAction();
 	}
 
 	public static SalesTaxLiabilityAction getViewSalesTaxLiabilityAction() {
@@ -1102,10 +1081,6 @@ public class ActionFactory {
 		return new NewVendorAction();
 	}
 
-	public static PurchaseItemsAction getPurchaseItemsAction() {
-		return new PurchaseItemsAction(Global.get().Vendor());
-	}
-
 	public static NewCashPurchaseAction getNewCashPurchaseAction() {
 		return new NewCashPurchaseAction();
 	}
@@ -1118,10 +1093,6 @@ public class ActionFactory {
 
 	public static NewCreditMemoAction getNewCreditMemoAction() {
 		return new NewCreditMemoAction();
-	}
-
-	public static NewCheckAction getNewCheckAction() {
-		return new NewCheckAction();
 	}
 
 	public static EnterBillsAction getEnterBillsAction() {
@@ -1216,10 +1187,6 @@ public class ActionFactory {
 
 	public static JobListAction getJobListAction() {
 		return new JobListAction();
-	}
-
-	public static NewCurrencyAction getNewCurrencyAction() {
-		return new NewCurrencyAction();
 	}
 
 	public static EditProfileAction getEditProfileAction() {
@@ -1364,12 +1331,15 @@ public class ActionFactory {
 	public static MergeItemsAction getItemMergeAction() {
 		return new MergeItemsAction();
 	}
+
 	public static MergeClassAction getClassMergeAction() {
 		return new MergeClassAction();
 	}
+
 	public static MergeLocationAction getLocationMergeAction() {
 		return new MergeLocationAction();
 	}
+
 	public static BudgetOverviewReportAction getBudgetOverView() {
 		return new BudgetOverviewReportAction();
 	}

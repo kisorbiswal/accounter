@@ -738,4 +738,10 @@ public class BrandingTheme extends CreatableObject implements
 		this.salesOrderTitle = salesOrderTitle;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

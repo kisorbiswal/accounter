@@ -54,8 +54,6 @@ public class HistoryTokens {
 
 	public static final String VENDORCREDIT = "vendorCredit";
 
-	public static final String CHECK = "check";
-
 	public static final String ENTERBILL = "enterBill";
 
 	public static final String PAYBILL = "payBill";
@@ -191,8 +189,6 @@ public class HistoryTokens {
 	public static final String SALESTAXGROUP = "salesTaxGroups";
 
 	public static final String NEWTAXAGENCY = "newTaxAgency";
-
-	public static final String PAYSALESTAX = "paySalesTax";
 
 	public static final String MANAGESALESTAXITEMS = "manageSalesTaxItems";
 

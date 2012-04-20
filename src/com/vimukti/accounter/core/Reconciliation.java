@@ -217,4 +217,10 @@ public class Reconciliation extends CreatableObject implements
 		}
 		return super.onSave(session);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

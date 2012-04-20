@@ -137,4 +137,10 @@ public class InventoryPurchase implements IAccounterServerCore {
 		buffer.append(getEffectingAccount());
 		return buffer.toString();
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

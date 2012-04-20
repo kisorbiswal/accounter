@@ -801,7 +801,7 @@ public class MenuBar {
 		}
 		if (canDoBanking || canDoManageAccounts) {
 			newVendorMenuBar.addMenuItem(messages.writeCheck(),
-					HistoryTokens.CHECK);
+					HistoryTokens.WRITECHECK);
 		}
 
 		return newVendorMenuBar;
@@ -1153,8 +1153,8 @@ public class MenuBar {
 					HistoryTokens.TAXADJUSTMENT);
 		}
 		if (canDoManageAccounts) {
-			salesTaxMenuBar.addMenuItem(messages.payTax(),
-					HistoryTokens.PAYSALESTAX);
+			salesTaxMenuBar
+					.addMenuItem(messages.payTax(), HistoryTokens.PAYTAX);
 		}
 		if (canDoInvoiceAndBillTransactions) {
 			salesTaxMenuBar.addMenuItem(messages.newTAXAgency(),

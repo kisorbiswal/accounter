@@ -1427,4 +1427,39 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		openingBalance = 0.0;
 	}
 
+	@Override
+	public void selfValidate() throws AccounterException {
+
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().Account());
+		}
+		if (this.number == null || this.number.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NUMBER_NULL,
+					Global.get().messages().Account());
+		}
+		if (this.getType() == Account.TYPE_PAYPAL) {
+			if (getPaypalEmail() == null || getPaypalEmail().trim().isEmpty()) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_NULL, Global.get()
+								.messages().paypalEmail());
+			} else {
+				if (!UIUtils.isValidEmail(getPaypalEmail())) {
+					throw new AccounterException(
+							AccounterException.ERROR_INVALID_EMAIL_ID);
+				}
+			}
+		}
+
+		/*
+		 * Set<Account> accounts = getCompany().getAccounts(); for (Account
+		 * account : accounts) { if
+		 * (this.name.equalsIgnoreCase(account.getName())) { throw new
+		 * AccounterException( AccounterException.ERROR_NAME_CONFLICT); } if
+		 * (this.number.equalsIgnoreCase(account.getNumber())) { throw new
+		 * AccounterException( AccounterException.ERROR_NUMBER_CONFLICT); } }
+		 */
+
+	}
+
 }

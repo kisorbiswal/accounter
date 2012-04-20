@@ -143,4 +143,10 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 		return IAccounterCore.BUDGET;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

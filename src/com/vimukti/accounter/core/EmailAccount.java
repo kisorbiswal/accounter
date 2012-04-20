@@ -93,4 +93,10 @@ public class EmailAccount extends CreatableObject implements
 		return IAccounterCore.EMAIL_ACCOUNT;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

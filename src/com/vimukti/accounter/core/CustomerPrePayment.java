@@ -310,4 +310,10 @@ public class CustomerPrePayment extends Transaction {
 		// TODO DEAL WITH CREADITS AND PAYMENTS
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

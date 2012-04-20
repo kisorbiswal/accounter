@@ -408,4 +408,10 @@ public class Vendor extends Payee {
 			w.put(messages.vendors(), this.vendorGroup.getName());
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

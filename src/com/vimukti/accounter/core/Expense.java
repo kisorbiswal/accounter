@@ -328,4 +328,10 @@ public class Expense extends Transaction {
 			}
 		}
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

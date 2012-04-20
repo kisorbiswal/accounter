@@ -185,4 +185,10 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 			w.put(messages.details(), this.items);
 		}
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

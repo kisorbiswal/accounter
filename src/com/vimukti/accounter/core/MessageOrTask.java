@@ -127,4 +127,10 @@ public class MessageOrTask extends CreatableObject implements
 		this.toUser = toUser;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -189,4 +189,10 @@ public class ReceiveVATEntries implements IAccounterServerCore, Lifecycle {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

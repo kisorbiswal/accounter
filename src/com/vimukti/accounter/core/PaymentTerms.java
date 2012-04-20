@@ -204,4 +204,10 @@ public class PaymentTerms extends CreatableObject implements
 		w.put(messages.type(), messages.paymentTerms()).gap();
 		w.put(messages.name(), this.name);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

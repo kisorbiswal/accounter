@@ -876,4 +876,10 @@ public class CashPurchase extends Transaction {
 		}
 		e.add(getPayFrom(), getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

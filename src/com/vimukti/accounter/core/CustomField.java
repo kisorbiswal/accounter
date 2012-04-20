@@ -92,4 +92,10 @@ public class CustomField extends CreatableObject implements
 		w.put(messages.vendor(), this.showVendor).gap();
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -250,4 +250,10 @@ public class TDSResponsiblePerson extends CreatableObject implements
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

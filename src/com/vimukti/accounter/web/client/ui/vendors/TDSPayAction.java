@@ -6,9 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TDSPayAction extends Action {
 
@@ -27,8 +25,9 @@ public class TDSPayAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				MainFinanceWindow.getViewManager().showView(new PayTDSView(0),
-						data, isDependent, TDSPayAction.this);	
+				PayTDSView view = new PayTDSView(0);
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, TDSPayAction.this);
 			}
 
 			public void onFailure(Throwable e) {
@@ -36,15 +35,15 @@ public class TDSPayAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//			
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	@Override
