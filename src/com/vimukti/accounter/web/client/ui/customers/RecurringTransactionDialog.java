@@ -710,11 +710,8 @@ public class RecurringTransactionDialog extends
 		cancelBtn.setEnabled(true);
 		if (view != null) {
 			view.recurringDialog = null;
-			if (data.getId() == 0) {
-				ClientTransaction transactionObject = view
-						.getTransactionObject();
-				transactionObject.setID(transctionId);
-			}
+			ClientTransaction transactionObject = view.getTransactionObject();
+			transactionObject.setID(transctionId);
 		}
 		RecurringConfirmDialog success = new RecurringConfirmDialog();
 		success.center();
@@ -787,10 +784,12 @@ public class RecurringTransactionDialog extends
 		// schedule we need to save only schedule not with template. Template
 		// will be saved separately. But first time we should save transaction
 		// also as a template.
-
-		if (data.getId() == 0 && view != null) {
-			ClientTransaction transaction = view.getTransactionObject();
+		ClientTransaction transaction = null;
+		if (view != null) {
+			transaction = view.getTransactionObject();
 			transctionId = transaction.getID();
+		}
+		if (data.getId() == 0 && transaction != null) {
 			transaction.setID(0);
 			data.setTransaction(transaction);
 		}
