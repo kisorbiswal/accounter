@@ -16,14 +16,15 @@ public class RequestUtil {
 	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
 	private static final String PREFIX_PATH = "/company/api";
 
-	public static int REQUEST_CRUD = 1;
-	public static int REQUEST_LISTS = 2;
-	public static int REQUEST_REPORTS = 2;
+	public static final int REQUEST_CRUD = 1;
+	public static final int REQUEST_LISTS = 2;
+	public static final int REQUEST_REPORTS = 3;
+	public static final int REQUEST_LOGIN = 4;
 
-	public static int METHOD_GET = 1;
-	public static int METHOD_PUT = 2;
-	public static int METHOD_DELETE = 3;
-	public static int METHOD_POST = 4;
+	public static final int METHOD_GET = 1;
+	public static final int METHOD_PUT = 2;
+	public static final int METHOD_DELETE = 3;
+	public static final int METHOD_POST = 4;
 
 	private static Map<Integer, String> paths;
 	private static ApiSerializationFactory json;
@@ -41,6 +42,7 @@ public class RequestUtil {
 		paths.put(REQUEST_CRUD, "/crud");
 		paths.put(REQUEST_LISTS, "/lists");
 		paths.put(REQUEST_REPORTS, "/reports");
+		paths.put(REQUEST_LOGIN, "/login");
 	}
 
 	public static String getPath(int type, int serializationType) {

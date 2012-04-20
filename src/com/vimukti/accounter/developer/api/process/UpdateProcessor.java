@@ -4,6 +4,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.developer.api.ApiBaseServlet;
 import com.vimukti.accounter.developer.api.ApiSerializationFactory;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterGETService;
@@ -18,7 +19,8 @@ public class UpdateProcessor extends CRUDProcessor {
 		ServletInputStream inputStream = req.getInputStream();
 		try {
 
-			ApiSerializationFactory factory = getSerializationFactory(req);
+			ApiSerializationFactory factory = ApiBaseServlet
+					.getSerializationFactory(req);
 			String parameter = req.getParameter("type");
 			AccounterCoreType type = AccounterCoreType.getObject(parameter);
 			if (type == null) {

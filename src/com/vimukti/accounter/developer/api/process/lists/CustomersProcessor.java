@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class CustomerProcessor extends ListProcessor {
+public class CustomersProcessor extends ListProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)

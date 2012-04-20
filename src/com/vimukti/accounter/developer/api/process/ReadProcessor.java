@@ -12,34 +12,27 @@ public class ReadProcessor extends CRUDProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		try {
-			String parameter = req.getParameter("type");
-			AccounterCoreType type = AccounterCoreType.getObject(parameter);
-			if (type == null) {
-				sendFail("Wrong Object type");
-				return;
-			}
-			String id = req.getParameter("id");
-
-			Long objId = null;
-			try {
-				objId = Long.parseLong(id);
-			} catch (Exception e) {
-				sendFail("Wrong Object Id");
-				return;
-			}
-
-			IAccounterGETService get = getS2sSyncProxy(req,
-					"/do/accounter/get/rpc/service", IAccounterGETService.class);
-
-			IAccounterCore objectById = get.getObjectById(type, objId);
-
-			sendResult(objectById);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			sendFail(e.getMessage());
+		String parameter = req.getParameter("type");
+		AccounterCoreType type = AccounterCoreType.getObject(parameter);
+		if (type == null) {
+			sendFail("Wrong Object type");
+			return;
 		}
-	}
+		String id = req.getParameter("id");
 
+		Long objId = null;
+		try {
+			objId = Long.parseLong(id);
+		} catch (Exception e) {
+			sendFail("Wrong Object Id");
+			return;
+		}
+
+		IAccounterGETService get = getS2sSyncProxy(req,
+				"/do/accounter/get/rpc/service", IAccounterGETService.class);
+
+		IAccounterCore objectById = get.getObjectById(type, objId);
+
+		sendResult(objectById);
+	}
 }

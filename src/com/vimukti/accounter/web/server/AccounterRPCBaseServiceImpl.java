@@ -115,6 +115,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			session.setAttribute(EMAIL_ID, request.getHeader("emailId"));
 			session.setAttribute(COMPANY_ID,
 					Long.parseLong(request.getHeader("companyId")));
+			session.setAttribute(BaseServlet.SECRET_KEY_COOKIE,
+					request.getHeader("authentication"));
 		}
 	}
 
@@ -136,8 +138,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
 			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), request
-						.getSession().getId());
+				EU.createCipher(user.getSecretKey(), getD2(request),
+						getS2Id(request));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -163,7 +165,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				.getCompanyManager().getClientCompanyPreferences(company);
 		CompanyPreferenceThreadLocal.set(preferences);
 
-		return true;
+		return false;
+	}
+
+	private String getS2Id(HttpServletRequest request) {
+		String header = request.getHeader("isAPI");
+		if (header != null && header.equalsIgnoreCase("Yes")) {
+			return request.getHeader("ApiKey");
+		}
+		String id = request.getSession().getId();
+		return id;
 	}
 
 	public byte[] getCompanySecretFromDB(Long companyId) {

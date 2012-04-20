@@ -16,13 +16,15 @@ public class RequestService {
 	private long companyId;
 
 	public ApiSerializationFactory serializer;
+	private String autherizedTocken;
 
 	RequestService(int serializationType, String apiKey, String secretKey,
-			long companyId) {
+			String autherizedTocken, long companyId) {
 		this.apiKey = apiKey;
 		this.secretKey = secretKey;
 		this.companyId = companyId;
 		this.serializationType = serializationType;
+		this.autherizedTocken = autherizedTocken;
 		serializer = RequestUtil.getSerializer(serializationType);
 	}
 
@@ -42,6 +44,7 @@ public class RequestService {
 			map = new HashMap<String, String>();
 		}
 		map.put("ApiKey", apiKey);
+		map.put("authentication", autherizedTocken);
 		map.put("CompanyId", Long.toString(companyId));
 		map.put("Expire", RequestUtil.getDateString(new Date()));
 		return RequestUtil.makeQueryString(map);

@@ -95,14 +95,25 @@
 	</filter-mapping>
 
 	<servlet>
+		<servlet-name>Api Login</servlet-name>
+		<servlet-class>com.vimukti.accounter.developer.api.ApiLoginServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Api Login</servlet-name>
+		<url-pattern>/company/api/xml/login</url-pattern>
+		<url-pattern>/company/api/json/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Reports Api</servlet-name>
 		<servlet-class>com.vimukti.accounter.developer.api.ReportsApiServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Reports Api</servlet-name>
-		<url-pattern>/company/api/xml/reports/*</url-pattern>
-		<url-pattern>/company/api/json/reports/*</url-pattern>
+		<url-pattern>/company/api/xml/reports</url-pattern>
+		<url-pattern>/company/api/json/reports</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

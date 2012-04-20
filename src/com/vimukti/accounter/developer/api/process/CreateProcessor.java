@@ -4,6 +4,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.developer.api.ApiBaseServlet;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
@@ -15,7 +16,8 @@ public class CreateProcessor extends CRUDProcessor {
 		ServletInputStream inputStream = req.getInputStream();
 		IAccounterCore deserialize;
 		try {
-			deserialize = getSerializationFactory(req).deserialize(inputStream);
+			deserialize = ApiBaseServlet.getSerializationFactory(req)
+					.deserialize(inputStream);
 		} catch (Exception e) {
 			sendFail("Given informate/data is wrong.");
 			return;

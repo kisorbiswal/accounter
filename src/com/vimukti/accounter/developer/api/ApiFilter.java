@@ -46,7 +46,7 @@ public class ApiFilter implements Filter {
 		String url = req.getQueryString();
 		String signature = req.getParameter(SIGNATURE);
 		if (signature == null) {
-			sendFail(resp, "Signature must be present");
+			sendFail(req, resp, "Signature must be present");
 			return;
 		}
 		String signatureProperty = new String("&" + SIGNATURE + "="
@@ -58,21 +58,21 @@ public class ApiFilter implements Filter {
 			Date expire = format.parse(req.getParameter("Expire"));
 			// TODO
 		} catch (ParseException e1) {
-			sendFail(resp, "Wrong expire date formate");
+			sendFail(req, resp, "Wrong expire date formate");
 			return;
 		}
 		Session session = HibernateUtil.openSession();
 		try {
 			Developer developer = getDeveloperByApiKey(apiKey);
 			if (developer == null) {
-				sendFail(resp, "Wrong API key.");
+				sendFail(req, resp, "Wrong API key.");
 				return;
 			}
 
 			String secretKey = developer.getSecretKey();
 			String sighned = doSigning(remainingUrl, secretKey);
 			if (!sighned.equals(signature)) {
-				sendFail(resp, "Signature not matched");
+				sendFail(req, resp, "Signature not matched");
 				return;
 			}
 
@@ -83,15 +83,16 @@ public class ApiFilter implements Filter {
 					long id = Long.parseLong(companyId);
 					Company company = getCompany(id, client);
 					if (company == null) {
-						sendFail(resp, "Wrong company id");
+						sendFail(req, resp, "Wrong company id");
 						return;
 					}
 					req.setAttribute("companyId", company.getID());
 				} catch (Exception e) {
-					sendFail(resp, "Company Id should be long");
+					sendFail(req, resp, "Company Id should be long");
 					return;
 				}
 			}
+
 			req.setAttribute("id", developer.getId());
 			req.setAttribute("emailId", client.getEmailId());
 			arg2.doFilter(req2, resp2);
@@ -104,12 +105,14 @@ public class ApiFilter implements Filter {
 		}
 	}
 
-	private void sendFail(HttpServletResponse resp, String result) {
+	private void sendFail(HttpServletRequest req, HttpServletResponse resp,
+			String result) {
 		try {
 			ApiResult apiResult = new ApiResult();
 			apiResult.setStatus(ApiResult.FAIL);
 			apiResult.setResult(result);
-			ApiSerializationFactory factory = new ApiSerializationFactory(false);
+			ApiSerializationFactory factory = ApiBaseServlet
+					.getSerializationFactory(req);
 			String string = factory.serialize(apiResult);
 			ServletOutputStream outputStream;
 			outputStream = resp.getOutputStream();
