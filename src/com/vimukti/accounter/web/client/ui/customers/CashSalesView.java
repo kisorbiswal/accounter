@@ -845,8 +845,8 @@ public class CashSalesView extends
 		}
 		if (billingAddress != null)
 			transaction.setBillingAddress(billingAddress);
-		if (shippingAddress != null)
-			transaction.setShippingAdress(shippingAddress);
+		if (shipToAddress != null)
+			transaction.setShippingAdress(shipToAddress.getAddress());
 		if (shippingTerm != null)
 			transaction.setShippingTerm(shippingTerm.getID());
 		if (shippingMethod != null)
