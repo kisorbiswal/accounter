@@ -222,9 +222,11 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		if (quantity != null) {
 			row.setQuantity(quantity);
 			double lt = quantity.getValue() * row.getUnitPrice();
-			double disc = row.getDiscount();
-			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-					* disc / 100)) : lt);
+			Double disc = row.getDiscount();
+			if (disc != null) {
+				row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+						* disc / 100)) : lt);
+			}
 			getTable().update(row);
 		}
 	}
