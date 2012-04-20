@@ -1311,8 +1311,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (salesPerson != null)
 			transaction.setSalesPerson(salesPerson.getID());
 		if (paymentTerm != null)
-			transaction.setPaymentTerm(payTermsSelect.getSelectedValue()
-					.getID());
+			transaction.setPaymentTerm(paymentTerm.getID());
 		if (shippingTerm != null)
 			transaction.setShippingTerm(shippingTerm.getID());
 		if (shippingMethod != null)
