@@ -92,7 +92,6 @@ public class RecurringTransactionsListView extends
 		});
 
 		panel.add(useButton);
-
 		add(panel);
 	}
 
@@ -114,10 +113,15 @@ public class RecurringTransactionsListView extends
 	protected void openUsableTransactionView() {
 		ClientRecurringTransaction selection = (ClientRecurringTransaction) grid
 				.getSelection();
+		if (selection == null) {
+			Accounter.showError(messages.pleaseSelectARowTo(messages.use()));
+			return;
+		}
 		if (!(grid.isCanOpenTransactionView(selection.getTransaction()
 				.getSaveStatus(), selection.getTransaction().getType()))) {
 			return;
 		}
+
 		if (selection != null) {
 			AccounterAsyncCallback<ClientTransaction> callBack = new AccounterAsyncCallback<ClientTransaction>() {
 
