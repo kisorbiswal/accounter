@@ -282,10 +282,10 @@ public class WriteCheck extends Transaction {
 			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		}
 		setType(Transaction.TYPE_WRITE_CHECK);
-		super.onSave(session);
-		
+
 		if (isDraftOrTemplate()) {
 			this.estimates.clear();
+			super.onSave(session);
 			return false;
 		}
 
@@ -297,7 +297,7 @@ public class WriteCheck extends Transaction {
 			createAndSaveEstimates(this.transactionItems, session);
 		}
 
-		return false;
+		return super.onSave(session);
 	}
 
 	@Override
@@ -542,7 +542,7 @@ public class WriteCheck extends Transaction {
 	public void setEstimates(Set<Estimate> estimates) {
 		this.estimates = estimates;
 	}
-	
+
 	@Override
 	public Transaction clone() throws CloneNotSupportedException {
 		WriteCheck bill = (WriteCheck) super.clone();
@@ -553,7 +553,7 @@ public class WriteCheck extends Transaction {
 		}
 		return bill;
 	}
-	
+
 	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
