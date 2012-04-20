@@ -1180,11 +1180,13 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void paymentTermsSelected(ClientPaymentTerms paymentTerm) {
-		this.paymentTerm = paymentTerm;
+		if(paymentTerm!=null){
+			this.paymentTerm = paymentTerm;
+		}
 		if (this.paymentTerm != null && payTermsSelect != null) {
 
 			payTermsSelect.setComboItem(getCompany().getPaymentTerms(
-					paymentTerm.getID()));
+					this.paymentTerm.getID()));
 		}
 		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
 		calculateDatesforPayterm(transDate);
