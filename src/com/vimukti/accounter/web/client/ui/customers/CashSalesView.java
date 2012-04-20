@@ -1069,8 +1069,9 @@ public class CashSalesView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -1397,6 +1398,7 @@ public class CashSalesView extends
 			jobListCombo.setEnabled(!isInViewMode());
 		}
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
+		classListCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 
@@ -1578,7 +1580,8 @@ public class CashSalesView extends
 		if (discountField.getPercentage() != null) {
 			customerAccountTransactionTable.setDiscount(discountField
 					.getPercentage());
-			customerItemTransactionTable.setDiscount(discountField.getPercentage());
+			customerItemTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

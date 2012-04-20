@@ -192,7 +192,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 			t.setReceiveVAT(this);
 		}
 		if (this.getID() == 0) {
-			super.onSave(session);
 
 			if (!(this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
@@ -203,7 +202,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 		}
 
-		return false;
+		return super.onSave(session);
 	}
 
 	@Override
@@ -302,7 +301,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
 			paidAmount = (paidAmount / currencyFactor);
 		}
-		e.add(getDepositIn(), paidAmount);
+		e.add(getDepositIn(), -paidAmount);
 		for (TransactionReceiveVAT vat : getTransactionReceiveVAT()) {
 			e.add(vat.getTaxAgency(), vat.getAmountToReceive());
 			e.add(vat.getTAXReturn().getTaxAgency().getFiledLiabilityAccount(),
