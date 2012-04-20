@@ -4982,17 +4982,23 @@
 				SELECT T.T_DATE          AS TRANSACTION_DATE,
 				       T.T_TYPE          AS TRANSACTION_TYPE,
 				       T.NUMBER          AS TRANSACTION_NUMBER,
-				       T.TOTAL           AS TRANSACTION_TOTAL,
+				       CASE
+				       WHEN (T.T_TYPE IN (26,27) AND P.CURRENCY = CM.PRIMARY_CURRENCY)
+					   THEN T.TOTAL * T.CURRENCY_FACTOR ELSE T.TOTAL END AS TRANSACTION_TOTAL,
 				       CASE
 				         WHEN T.T_TYPE = 6 THEN E.BALANCE_DUE
 				         WHEN T.T_TYPE = 14 THEN -1 * VCM.BALANCE_DUE
-				         ELSE T.TOTAL
+					     WHEN (T.T_TYPE IN (26,27) AND P.CURRENCY = CM.PRIMARY_CURRENCY)
+					     THEN T.TOTAL * T.CURRENCY_FACTOR 
+				       ELSE T.TOTAL
 				       END               AS BALANCE,
 				       T.ID              AS TRANSACTION_ID,
 				       T.CURRENCY        AS CURRENCY,
 				       T.CURRENCY_FACTOR AS CURRENCY_FACTOR,
 				       T.SAVE_STATUS     AS SAVE_STATUS
 				FROM   TRANSACTION T
+					   LEFT OUTER JOIN CASH_PURCHASE CP
+				         ON T.ID = CP.ID
 				       LEFT OUTER JOIN ITEM_RECEIPT IR
 				         ON T.ID = IR.ID
 				       LEFT OUTER JOIN ENTER_BILL E
@@ -5019,7 +5025,9 @@
 				             OR P.ID = PB.VENDOR_ID
 				             OR P.ID = VP.VENDOR_ID
 				             OR P.ID = JE.PAYEE_ID
+				             OR P.ID = CP.VENDOR_ID
 				             OR P.ID = EX.ID
+				       LEFT OUTER JOIN COMPANY CM ON CM.ID =:companyId      
 				WHERE  T.T_TYPE IN ( 3, 6, 11, 14,
 				                     15, 16, 25, 26, 27 )
 				       AND P.ID = :payeeId
