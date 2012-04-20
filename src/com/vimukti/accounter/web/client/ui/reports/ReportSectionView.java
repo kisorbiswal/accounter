@@ -224,10 +224,10 @@ public class ReportSectionView extends BaseHomeView {
 		}
 
 		if (Global.get().preferences().isClassTrackingEnabled()) {
-			salesMap.put(messages.purchasesbyClassDetail(), ActionFactory
+			purchaseMap.put(messages.purchasesbyClassDetail(), ActionFactory
 					.getSalesByLocationDetailsAction(false, false)
 					.getHistoryToken());
-			salesMap.put(messages.purchasesbyClassSummary(), ActionFactory
+			purchaseMap.put(messages.purchasesbyClassSummary(), ActionFactory
 					.getSalesByLocationSummaryAction(false, false)
 					.getHistoryToken());
 
