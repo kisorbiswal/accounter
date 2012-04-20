@@ -7888,4 +7888,8 @@ table.no_records tr td {
 	box-orient: vertical;
 	margin: 10px;
 }
+.bottomLayout1 .percentageField .gwt-Label{
+	width: auto;
+	padding: 2px 5px 0 0;
+}
 /*Location merge dialog end*/
