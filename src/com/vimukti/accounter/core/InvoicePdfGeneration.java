@@ -57,7 +57,7 @@ public class InvoicePdfGeneration {
 			String title = brandingTheme.getOverDueInvoiceTitle() == null ? "Invoice"
 					: brandingTheme.getOverDueInvoiceTitle().toString();
 			i.setTitle(title);
-			// i.setBillAddress(getBillingAddress());
+			i.setBillAddress(getBillingAddress());
 
 			// Contact selectedContact = invoice.getContact();
 			// if (selectedContact != null) {
@@ -146,7 +146,7 @@ public class InvoicePdfGeneration {
 			i.setTerms(payterm);
 
 			i.setDueDate(Utility.getDateInSelectedFormat(invoice.getDueDate()));
-			// i.setShipAddress(getShippingAddress());
+			i.setShipAddress(getShippingAddress());
 
 			ShippingMethod shipMtd = invoice.getShippingMethod();
 			String shipMtdName = shipMtd != null ? shipMtd.getName() : "";
@@ -254,7 +254,7 @@ public class InvoicePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			// i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -514,6 +514,8 @@ public class InvoicePdfGeneration {
 		private String currency;
 		private String terms;
 		private String dueDate;
+		private String billAddress;
+		private String shipAddress;
 		private String shippingMethod;
 		private String total;
 		private String payment;
@@ -618,6 +620,22 @@ public class InvoicePdfGeneration {
 
 		public void setShippingMethod(String shippingMethod) {
 			this.shippingMethod = shippingMethod;
+		}
+
+		public String getBillAddress() {
+			return billAddress;
+		}
+
+		public void setBillAddress(String billAddress) {
+			this.billAddress = billAddress;
+		}
+
+		public String getShipAddress() {
+			return shipAddress;
+		}
+
+		public void setShipAddress(String shipAddress) {
+			this.shipAddress = shipAddress;
 		}
 
 		public String getTerms() {

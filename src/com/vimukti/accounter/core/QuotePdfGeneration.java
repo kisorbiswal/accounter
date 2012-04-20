@@ -80,7 +80,7 @@ public class QuotePdfGeneration {
 				qut.billTo.setZipOrPostalCode("");
 				qut.billTo.setCountryOrRegion("");
 			}
-			// qut.setBillAddress(getBillingAddress());
+			qut.setBillAddress(getBillingAddress());
 			qut.setNumber(estimate.getNumber());
 			qut.setDeliveryDate(Utility.getDateInSelectedFormat(estimate
 					.getDeliveryDate()));
@@ -101,7 +101,7 @@ public class QuotePdfGeneration {
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			qut.setTerms(payterm);
 
-			// qut.setShipAddress(getShippingAddress());
+			qut.setShipAddress(getShippingAddress());
 			Address shippAdress = estimate.getShippingAdress();
 			if (shippAdress != null) {
 				qut.setShipTo(shippAdress);
@@ -230,7 +230,7 @@ public class QuotePdfGeneration {
 				qut.regAddress.setZipOrPostalCode("");
 			}
 
-			// qut.setRegistrationAddress(getRegistrationAddress());
+			qut.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("logo", logo);
 			context.put("quote", qut);
@@ -390,14 +390,14 @@ public class QuotePdfGeneration {
 		private String currency;
 		private String terms;
 		private String dueDate;
-		// private String billAddress;
-		// private String shipAddress;
+		private String billAddress;
+		private String shipAddress;
 		private String total;
 		private String netAmount;
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		// private String registrationAddress;
+		private String registrationAddress;
 		private Address billTo;
 		private Address regAddress;
 		private Address shipTo;
@@ -443,21 +443,21 @@ public class QuotePdfGeneration {
 			this.email = email;
 		}
 
-		// public String getBillAddress() {
-		// return billAddress;
-		// }
-		//
-		// public void setBillAddress(String billAddress) {
-		// this.billAddress = billAddress;
-		// }
-		//
-		// public String getShipAddress() {
-		// return shipAddress;
-		// }
-		//
-		// public void setShipAddress(String shipAddress) {
-		// this.shipAddress = shipAddress;
-		// }
+		public String getBillAddress() {
+			return billAddress;
+		}
+
+		public void setBillAddress(String billAddress) {
+			this.billAddress = billAddress;
+		}
+
+		public String getShipAddress() {
+			return shipAddress;
+		}
+
+		public void setShipAddress(String shipAddress) {
+			this.shipAddress = shipAddress;
+		}
 
 		public String getTerms() {
 			return terms;
@@ -483,13 +483,13 @@ public class QuotePdfGeneration {
 			this.title = title;
 		}
 
-		// public String getRegistrationAddress() {
-		// return registrationAddress;
-		// }
-		//
-		// public void setRegistrationAddress(String registrationAddress) {
-		// this.registrationAddress = registrationAddress;
-		// }
+		public String getRegistrationAddress() {
+			return registrationAddress;
+		}
+
+		public void setRegistrationAddress(String registrationAddress) {
+			this.registrationAddress = registrationAddress;
+		}
 
 		public String getNumber() {
 			return number;
