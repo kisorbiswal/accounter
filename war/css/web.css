@@ -9,32 +9,32 @@
 
 #InvoiceView .prodAndServiceHLay .boldtext {
 	text-align: right;
-	width: 375px;
+	width: 365px;
 }
 
 #QuoteView .prodAndServiceHLay .boldtext {
 	text-align: right;
-	width: 375px;
+	width: 365px;
 }
 
 #CreditCardExpenseView .botPanel .boldtext {
 	text-align: right;
-	width: 375px;
+	width: 365px;
 }
 
 #writechequeview .amountPanel {
-	width: 375px;
+	width: 365px;
 	text-align: right;
 }
 
 #CashPurchaseView .bottomLayout .boldtext {
 	text-align: right;
-	width: 375px;
+	width: 365px;
 }
 
 #CashExpenseView .bottomLayout .boldtext {
 	text-align: right;
-	width: 375px;
+	width: 365px;
 }
 
 #CashSalesView .prodAndServiceHLay .boldtext {
@@ -44,7 +44,7 @@
 
 #PurchaseOrderView .bottomLayout .boldtext {
 	text-align: right;
-	width: 375px;
+	width: 365px;
 }
 
 #VendorCreditMemoView .bottomLayout1 .boldtext {
