@@ -1197,6 +1197,9 @@ public abstract class Transaction extends CreatableObject implements
 
 		clone.setRecurringTransaction(null);
 
+		clone.setPayeeUpdates(new HashSet<PayeeUpdate>());
+		clone.setItemUpdates(new HashSet<ItemUpdate>());
+
 		return clone;
 	}
 
