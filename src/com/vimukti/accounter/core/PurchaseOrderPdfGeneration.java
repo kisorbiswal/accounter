@@ -57,6 +57,7 @@ public class PurchaseOrderPdfGeneration {
 			String title = brandingTheme.getPurchaseOrderTitle() == null ? "Purchase Order"
 					: brandingTheme.getPurchaseOrderTitle().toString();
 			i.setTitle(title);
+			i.setBillAddress(getBillingAddress());
 			Address billAddress = purchaseOrder.getVendorAddress();
 			if (billAddress != null) {
 				i.setBillTo(billAddress);
@@ -95,7 +96,7 @@ public class PurchaseOrderPdfGeneration {
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
 
-			// i.setShipAddress(getShippingAddress());
+			 i.setShipAddress(getShippingAddress());
 			Address shippAdress = purchaseOrder.getShippingAddress();
 			if (shippAdress != null) {
 				i.setShipTo(shippAdress);
@@ -219,7 +220,7 @@ public class PurchaseOrderPdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 			i.setStatus(getStatusString(purchaseOrder.getStatus()));
-			// i.setRegistrationAddress(getRegistrationAddress());
+			 i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -414,8 +415,8 @@ public class PurchaseOrderPdfGeneration {
 		private String date;
 		private String currency;
 		private String terms;
-		// private String billAddress;
-		// private String shipAddress;
+		 private String billAddress;
+		 private String shipAddress;
 		private String vendorName;
 		private String shippingMethod;
 		private String total;
@@ -423,7 +424,7 @@ public class PurchaseOrderPdfGeneration {
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		// private String registrationAddress;
+		 private String registrationAddress;
 		private String status;
 		private Address billTo;
 		private Address regAddress;
@@ -470,21 +471,21 @@ public class PurchaseOrderPdfGeneration {
 			this.shippingMethod = shippingMethod;
 		}
 
-		// public String getBillAddress() {
-		// return billAddress;
-		// }
-		//
-		// public void setBillAddress(String billAddress) {
-		// this.billAddress = billAddress;
-		// }
-		//
-		// public String getShipAddress() {
-		// return shipAddress;
-		// }
-		//
-		// public void setShipAddress(String shipAddress) {
-		// this.shipAddress = shipAddress;
-		// }
+		public String getBillAddress() {
+			return billAddress;
+		}
+
+		public void setBillAddress(String billAddress) {
+			this.billAddress = billAddress;
+		}
+
+		public String getShipAddress() {
+			return shipAddress;
+		}
+
+		public void setShipAddress(String shipAddress) {
+			this.shipAddress = shipAddress;
+		}
 
 		public String getTerms() {
 			return terms;
@@ -510,13 +511,13 @@ public class PurchaseOrderPdfGeneration {
 			this.title = title;
 		}
 
-		// public String getRegistrationAddress() {
-		// return registrationAddress;
-		// }
-		//
-		// public void setRegistrationAddress(String registrationAddress) {
-		// this.registrationAddress = registrationAddress;
-		// }
+		public String getRegistrationAddress() {
+			return registrationAddress;
+		}
+
+		public void setRegistrationAddress(String registrationAddress) {
+			this.registrationAddress = registrationAddress;
+		}
 
 		public String getNumber() {
 			return number;

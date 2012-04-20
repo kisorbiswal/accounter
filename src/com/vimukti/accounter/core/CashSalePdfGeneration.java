@@ -49,6 +49,7 @@ public class CashSalePdfGeneration {
 					: brandingTheme.getCashSaleTitle().toString();
 
 			i.setTitle(title);
+			i.setCustomerNameNBillAddress(getBillingAddress());
 			i.setCustomerName(sale.getCustomer() != null ? sale.getCustomer()
 					.getName() : "");
 			Address billAddress = sale.getBillingAddress();
@@ -74,7 +75,7 @@ public class CashSalePdfGeneration {
 			}
 			i.setSaleNumber(sale.getNumber());
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(sale.getDate()));
-			// i.setShipAddress(getShippingAddress());
+			i.setShipAddress(getShippingAddress());
 			Address shippAdress = sale.getShippingAdress();
 			if (shippAdress != null) {
 				i.setShipTo(shippAdress);
@@ -190,7 +191,7 @@ public class CashSalePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
-			// i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -366,12 +367,13 @@ public class CashSalePdfGeneration {
 		private String shippingMethod;
 		private String shippingTerms;
 		private String customerName;
-		// private String shipAddress;
+		private String customerNameNBillAddress;
+		private String shipAddress;
 		private String total;
 		private String netAmount;
 		private String memo;
 		private String email;
-		// private String registrationAddress;
+		private String registrationAddress;
 		private Address billTo;
 		private Address regAddress;
 		private Address shipTo;
@@ -391,6 +393,14 @@ public class CashSalePdfGeneration {
 
 		public void setCurrency(String currency) {
 			this.currency = currency;
+		}
+
+		public String getCustomerNameNBillAddress() {
+			return customerNameNBillAddress;
+		}
+
+		public void setCustomerNameNBillAddress(String customerNameNBillAddress) {
+			this.customerNameNBillAddress = customerNameNBillAddress;
 		}
 
 		public String getTotal() {
@@ -433,13 +443,13 @@ public class CashSalePdfGeneration {
 			this.title = title;
 		}
 
-		// public String getRegistrationAddress() {
-		// return registrationAddress;
-		// }
-		//
-		// public void setRegistrationAddress(String registrationAddress) {
-		// this.registrationAddress = registrationAddress;
-		// }
+		public String getRegistrationAddress() {
+			return registrationAddress;
+		}
+
+		public void setRegistrationAddress(String registrationAddress) {
+			this.registrationAddress = registrationAddress;
+		}
 
 		public String getDeliveryDate() {
 			return deliveryDate;
@@ -473,13 +483,13 @@ public class CashSalePdfGeneration {
 			this.shippingTerms = shippingTerms;
 		}
 
-		// public String getShipAddress() {
-		// return shipAddress;
-		// }
-		//
-		// public void setShipAddress(String shipAddress) {
-		// this.shipAddress = shipAddress;
-		// }
+		public String getShipAddress() {
+			return shipAddress;
+		}
+
+		public void setShipAddress(String shipAddress) {
+			this.shipAddress = shipAddress;
+		}
 
 		public String getCustomerName() {
 			return customerName;

@@ -1015,8 +1015,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -1308,7 +1309,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (salesPerson != null)
 			transaction.setSalesPerson(salesPerson.getID());
 		if (paymentTerm != null)
-			transaction.setPaymentTerm(paymentTerm.getID());
+			transaction.setPaymentTerm(payTermsSelect.getSelectedValue()
+					.getID());
 		if (shippingTerm != null)
 			transaction.setShippingTerm(shippingTerm.getID());
 		if (shippingMethod != null)
@@ -1325,7 +1327,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		// if (taxItemGroup != null)
 		// transaction.setTaxItemGroup(taxItemGroup);
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}

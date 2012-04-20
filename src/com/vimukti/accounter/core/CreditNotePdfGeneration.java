@@ -57,6 +57,7 @@ public class CreditNotePdfGeneration {
 					: brandingTheme.getCreditMemoTitle().toString();
 
 			i.setTitle(title);
+			i.setCustomerNameNBillAddress(getBillingAddress());
 			i.setCustomerName(memo.getCustomer().getName());
 			Address billAddress = memo.getBillingAddress();
 			if (billAddress != null) {
@@ -172,6 +173,7 @@ public class CreditNotePdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 
+			i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -344,13 +346,14 @@ public class CreditNotePdfGeneration {
 		private String creditNoteDate;
 		private String creditNoteCustomerNumber;
 		private String currency;
+		private String customerNameNBillAddress;
 		private String customerName;
 		private String total;
 		private String netAmount;
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		// private String registrationAddress;
+		private String registrationAddress;
 		private Address billTo;
 		private Address regAddress;
 		private String taxTotal;
@@ -385,6 +388,14 @@ public class CreditNotePdfGeneration {
 
 		public void setCurrency(String currency) {
 			this.currency = currency;
+		}
+
+		public String getCustomerNameNBillAddress() {
+			return customerNameNBillAddress;
+		}
+
+		public void setCustomerNameNBillAddress(String customerNameNBillAddress) {
+			this.customerNameNBillAddress = customerNameNBillAddress;
 		}
 
 		public String getTotal() {
@@ -435,18 +446,6 @@ public class CreditNotePdfGeneration {
 			this.title = title;
 		}
 
-		// public String getRegistrationAddress() {
-		// return registrationAddress;
-		// }
-		//
-		// public void setRegistrationAddress(String registrationAddress) {
-		// this.registrationAddress = registrationAddress;
-		// }
-
-		public Address getBillTo() {
-			return billTo;
-		}
-
 		public void setBillTo(Address billTo) {
 			this.billTo = billTo;
 		}
@@ -473,6 +472,14 @@ public class CreditNotePdfGeneration {
 
 		public void setTaxTotal(String taxTotal) {
 			this.taxTotal = taxTotal;
+		}
+
+		public String getRegistrationAddress() {
+			return registrationAddress;
+		}
+
+		public void setRegistrationAddress(String registrationAddress) {
+			this.registrationAddress = registrationAddress;
 		}
 
 	}
