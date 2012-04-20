@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class WarehouseTransferListAction extends Action<ClientStockTransfer> {
 
-	private WarehouseTransferListView view;
+	
 
 	public WarehouseTransferListAction() {
 		super();
@@ -22,7 +22,7 @@ public class WarehouseTransferListAction extends Action<ClientStockTransfer> {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		try {
-			view = new WarehouseTransferListView();
+			WarehouseTransferListView view = new WarehouseTransferListView();
 			MainFinanceWindow.getViewManager().showView(view, data, false,
 					WarehouseTransferListAction.this);
 		} catch (Exception e) {

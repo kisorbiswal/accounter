@@ -7,8 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class StockAdjustmentsListAction extends Action<ClientStockAdjustment> {
 
-	private StockAdjustmentsListView view;
-
+	
 	public StockAdjustmentsListAction() {
 		super();
 		this.catagory = messages.inventory();
@@ -17,7 +16,7 @@ public class StockAdjustmentsListAction extends Action<ClientStockAdjustment> {
 	@Override
 	public void run() {
 		try {
-			view = new StockAdjustmentsListView();
+			StockAdjustmentsListView view = new StockAdjustmentsListView();
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, StockAdjustmentsListAction.this);
 		} catch (Exception e) {

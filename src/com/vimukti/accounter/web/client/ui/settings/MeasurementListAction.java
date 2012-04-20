@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MeasurementListAction extends Action<ClientMeasurement> {
 
-	MeasurementListView view;
+	
 
 	public MeasurementListAction() {
 		super();
@@ -22,7 +22,7 @@ public class MeasurementListAction extends Action<ClientMeasurement> {
 
 	private void runAsync(ClientMeasurement data, boolean isDependent) {
 		try {
-			view = new MeasurementListView();
+			MeasurementListView view = new MeasurementListView();
 			MainFinanceWindow.getViewManager().showView(view, data, false,
 					MeasurementListAction.this);
 		} catch (Exception e) {

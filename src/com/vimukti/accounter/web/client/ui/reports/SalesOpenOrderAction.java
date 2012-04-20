@@ -22,7 +22,7 @@ public class SalesOpenOrderAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<OpenAndClosedOrders> report = new SalesOrderReport();
+				SalesOrderReport report = new SalesOrderReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesOpenOrderAction.this);
 			}

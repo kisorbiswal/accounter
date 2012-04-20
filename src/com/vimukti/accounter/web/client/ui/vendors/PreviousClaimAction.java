@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PreviousClaimAction extends Action {
 
-	PreviousClaimsView view;
+	
 
 	public PreviousClaimAction() {
 		super();
@@ -34,7 +34,7 @@ public class PreviousClaimAction extends Action {
 	@Override
 	public void run() {
 
-		view = new PreviousClaimsView();
+		PreviousClaimsView view = new PreviousClaimsView();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);

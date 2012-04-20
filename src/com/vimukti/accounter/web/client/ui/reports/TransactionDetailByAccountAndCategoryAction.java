@@ -22,7 +22,7 @@ public class TransactionDetailByAccountAndCategoryAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<TransactionDetailByAccount> report = new TransactionDetailByCatgoryReport();
+				TransactionDetailByCatgoryReport report = new TransactionDetailByCatgoryReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent,
 						TransactionDetailByAccountAndCategoryAction.this);

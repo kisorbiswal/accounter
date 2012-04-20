@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
-import com.vimukti.accounter.web.client.ui.banking.ChartsOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
 import com.vimukti.accounter.web.client.ui.banking.EnterPaymentsAction;
 import com.vimukti.accounter.web.client.ui.banking.ImportBankFilesAction;
@@ -458,9 +457,7 @@ public class ActionFactory {
 		return new PrintChecksAction();
 	}
 
-	public static ChartsOfAccountsAction getChartsOfAccountsAction() {
-		return new ChartsOfAccountsAction();
-	}
+	
 
 	public static PaymentsAction getPaymentsAction(int category) {
 		PaymentsAction action = new PaymentsAction(category);

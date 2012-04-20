@@ -27,7 +27,7 @@ public class SalesTaxLiabilityAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<SalesTaxLiability> report = new SalesTaxLiabilityReport();
+				SalesTaxLiabilityReport report = new SalesTaxLiabilityReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesTaxLiabilityAction.this);
 

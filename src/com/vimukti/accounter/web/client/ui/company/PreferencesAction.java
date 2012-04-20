@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.company.options.PreferenceSettingsVie
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PreferencesAction extends Action {
-	private PreferenceSettingsView page;
+	
 	public int CATEGORY;
 	public static final int COMPANY = 1;
 	public static final int SETTINGS = 2;
@@ -25,7 +25,7 @@ public class PreferencesAction extends Action {
 	public void run() {
 
 		try {
-			page = new PreferenceSettingsView();
+			PreferenceSettingsView page = new PreferenceSettingsView();
 			MainFinanceWindow.getViewManager().showView(page, null, true,
 					PreferencesAction.this);
 		} catch (Exception e) {

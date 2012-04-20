@@ -11,8 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
  */
 public class InvoiceBrandingAction extends Action {
 
-	private InvoiceBrandingView view;
-
+	
 	public InvoiceBrandingAction() {
 		super();
 		this.catagory = messages.settings();
@@ -37,7 +36,7 @@ public class InvoiceBrandingAction extends Action {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		try {
-			view = new InvoiceBrandingView();
+			InvoiceBrandingView view = new InvoiceBrandingView();
 			MainFinanceWindow.getViewManager().showView(view, data, false,
 					InvoiceBrandingAction.this);
 		} catch (Exception e) {

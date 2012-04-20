@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CustomersHomeAction extends Action {
 
-	private CustomerSectionHomeView view;
+	
 
 	public CustomersHomeAction() {
 		super();
@@ -26,7 +26,7 @@ public class CustomersHomeAction extends Action {
 
 	@Override
 	public void run() {
-		view = new CustomerSectionHomeView();
+		CustomerSectionHomeView view = new CustomerSectionHomeView();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, null, false,
 					CustomersHomeAction.this);

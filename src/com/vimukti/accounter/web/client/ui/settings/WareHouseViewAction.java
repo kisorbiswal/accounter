@@ -7,8 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class WareHouseViewAction extends Action<ClientWarehouse> {
 
-	private WareHouseView view;
-
+	
 	public WareHouseViewAction() {
 		super();
 		this.catagory = messages.inventory();
@@ -20,7 +19,7 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-		view = new WareHouseView();
+		WareHouseView view = new WareHouseView();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, WareHouseViewAction.this);

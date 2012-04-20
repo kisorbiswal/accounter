@@ -28,7 +28,7 @@ public class VendorTransactionHistoryAction extends Action {
 
 			public void onSuccess() {
 
-				AbstractReportView<TransactionHistory> report = new VendorTransactionHistoryReport();
+				VendorTransactionHistoryReport report = new VendorTransactionHistoryReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, VendorTransactionHistoryAction.this);
 			}

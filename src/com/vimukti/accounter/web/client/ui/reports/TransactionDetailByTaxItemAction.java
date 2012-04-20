@@ -27,7 +27,7 @@ public class TransactionDetailByTaxItemAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<TransactionDetailByTaxItem> report = new TransactionDetailByTaxItemReport();
+				TransactionDetailByTaxItemReport report = new TransactionDetailByTaxItemReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, TransactionDetailByTaxItemAction.this);
 				// Accounter

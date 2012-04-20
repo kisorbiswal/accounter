@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class DepreciationAction extends Action {
 
-	private DepreciationView view;
+	
 
 	public DepreciationAction() {
 		super();
@@ -34,7 +34,7 @@ public class DepreciationAction extends Action {
 
 	@Override
 	public void run() {
-		view = new DepreciationView();
+		DepreciationView view = new DepreciationView();
 
 		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}

@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 @SuppressWarnings("unchecked")
 public class ExpenseClaimsAction extends Action {
 
-	ExpenseClaims view;
+	
 	int selectedTab;
 
 	public ExpenseClaimsAction(int selectedTab) {
@@ -39,7 +39,7 @@ public class ExpenseClaimsAction extends Action {
 
 	@Override
 	public void run() {
-		view = new ExpenseClaims(selectedTab);
+		ExpenseClaims view = new ExpenseClaims(selectedTab);
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);

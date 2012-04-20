@@ -21,7 +21,7 @@ public class DepositDetailAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<DepositDetail> report = new DepositDetailReport();
+				DepositDetailReport report = new DepositDetailReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, DepositDetailAction.this);
 			}

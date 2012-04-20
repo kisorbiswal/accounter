@@ -35,7 +35,7 @@ public class SalesByLocationDetailsAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<SalesByLocationDetails> report = new SalesByLocationDetailsReport(
+				SalesByLocationDetailsReport report = new SalesByLocationDetailsReport(
 						isLoction, isCustomer);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesByLocationDetailsAction.this);

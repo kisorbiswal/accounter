@@ -27,7 +27,7 @@ public class TrialBalanceAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<TrialBalance> report = new TrialBalanceReport();
+				TrialBalanceReport report = new TrialBalanceReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, TrialBalanceAction.this);
 			}

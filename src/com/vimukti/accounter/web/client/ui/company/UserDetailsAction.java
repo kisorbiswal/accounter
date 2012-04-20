@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class UserDetailsAction extends Action {
 
-	private UserDetailsView view;
+	
 
 	public UserDetailsAction() {
 		super();
@@ -32,7 +32,7 @@ public class UserDetailsAction extends Action {
 
 	@Override
 	public void run() {
-		view = new UserDetailsView();
+		UserDetailsView view = new UserDetailsView();
 		try {
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);

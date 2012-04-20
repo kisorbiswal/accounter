@@ -27,7 +27,7 @@ public class AutomaticTransactionsAction extends
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<TransactionDetailByAccount> report = new AutomaticTransactionsReport();
+				AutomaticTransactionsReport report = new AutomaticTransactionsReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, AutomaticTransactionsAction.this);
 

@@ -11,7 +11,7 @@ public class WareHouseTransferAction extends Action<ClientStockTransfer> {
 		this.catagory = messages.inventory();
 	}
 
-	private WareHouseTransferView view;
+	
 
 	@Override
 	public ImageResource getBigImage() {
@@ -40,7 +40,7 @@ public class WareHouseTransferAction extends Action<ClientStockTransfer> {
 	@Override
 	public void run() {
 		try {
-			view = new WareHouseTransferView();
+			WareHouseTransferView view = new WareHouseTransferView();
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
 		} catch (Exception e) {

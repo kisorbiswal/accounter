@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class WareHouseItemsListAction extends Action<ClientItemStatus> {
 
-	WareHouseItemsListView view;
+	
 	long wareHouse;
 
 	public WareHouseItemsListAction(long wareHouse) {
@@ -19,7 +19,7 @@ public class WareHouseItemsListAction extends Action<ClientItemStatus> {
 	@Override
 	public void run() {
 		try {
-			view = new WareHouseItemsListView(wareHouse);
+			WareHouseItemsListView view = new WareHouseItemsListView(wareHouse);
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, WareHouseItemsListAction.this);
 		} catch (Exception e) {

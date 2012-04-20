@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 
-	StockAdjustmentView view;
+	
 
 	public StockAdjustmentAction() {
 		super();
@@ -17,7 +17,7 @@ public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 	@Override
 	public void run() {
 		try {
-			view = new StockAdjustmentView();
+			StockAdjustmentView view = new StockAdjustmentView();
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, this);
 		} catch (Exception e) {

@@ -5,8 +5,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class ConversionDateAction extends Action {
-	private ConversionDateView view;
-
+	
 	public ConversionDateAction() {
 		super();
 	}
@@ -29,7 +28,7 @@ public class ConversionDateAction extends Action {
 	@Override
 	public void run() {
 		try {
-			view = new ConversionDateView();
+			ConversionDateView view = new ConversionDateView();
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, ConversionDateAction.this);
 		} catch (Exception e) {

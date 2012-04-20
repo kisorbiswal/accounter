@@ -10,8 +10,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class CompanyHomeAction extends Action {
 
-	private DashBoardView view;
-
 	public CompanyHomeAction() {
 		super();
 		this.catagory = messages.company();
@@ -25,7 +23,7 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public void run() {
-		view = (DashBoardView) GWT.create(DashBoardView.class);
+		DashBoardView view = (DashBoardView) GWT.create(DashBoardView.class);
 		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 

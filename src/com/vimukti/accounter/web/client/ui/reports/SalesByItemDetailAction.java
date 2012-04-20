@@ -27,7 +27,7 @@ public class SalesByItemDetailAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				AbstractReportView<SalesByCustomerDetail> report = new SalesByItemDetailReport();
+				SalesByItemDetailReport report = new SalesByItemDetailReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesByItemDetailAction.this);
 			}
