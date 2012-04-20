@@ -165,7 +165,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				.getCompanyManager().getClientCompanyPreferences(company);
 		CompanyPreferenceThreadLocal.set(preferences);
 
-		return false;
+		return true;
 	}
 
 	private String getS2Id(HttpServletRequest request) {

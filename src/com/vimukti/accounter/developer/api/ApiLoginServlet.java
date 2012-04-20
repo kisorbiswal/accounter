@@ -22,7 +22,6 @@ import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
-import com.vimukti.api.core.ClientDetails;
 
 public class ApiLoginServlet extends ApiBaseServlet {
 
@@ -59,8 +58,8 @@ public class ApiLoginServlet extends ApiBaseServlet {
 
 		Map<String, Long> companyIds = getCompanyList(client.getUsers());
 		ApiResult result = new ApiResult();
-		ClientDetails details = new ClientDetails(encode, companyIds);
-		result.setResult(details);
+		// ClientDetails details = new ClientDetails(encode, companyIds);
+		// result.setResult(details);
 		result.setStatus(ApiResult.SUCCESS);
 		sendData(req, resp, result);
 	}
