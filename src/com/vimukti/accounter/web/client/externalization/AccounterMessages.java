@@ -6470,7 +6470,7 @@ public interface AccounterMessages extends Messages {
 
 	public String asPerCalendarPeriod();
 
-	public String userDefined();
+	public String days30();
 
 	public String userDefinedCalendar();
 
@@ -6487,5 +6487,7 @@ public interface AccounterMessages extends Messages {
 	public String computationFormula();
 
 	public String noOfLeaves();
+
+	public String attendanceManagement();
 
 }

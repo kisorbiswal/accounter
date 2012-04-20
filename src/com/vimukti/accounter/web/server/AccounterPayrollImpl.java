@@ -51,8 +51,8 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	@Override
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			ClientPayStructureDestination selectItem) throws AccounterException {
-		return getFinanceTool().getPayrollManager().getEmployeePayHeadComponents(
-				selectItem, getCompanyId());
+		return getFinanceTool().getPayrollManager()
+				.getEmployeePayHeadComponents(selectItem, getCompanyId());
 	}
 
 	@Override
@@ -77,14 +77,24 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	}
 
 	@Override
-	public List<ClientPayStructureDestination> getEmployeesAndGroups() throws AccounterException {
+	public List<ClientPayStructureDestination> getEmployeesAndGroups()
+			throws AccounterException {
 		return getFinanceTool().getPayrollManager().getEmployeesAndGroups(
 				getCompanyId());
 	}
 
 	@Override
-	public List<ClientEmployeeCategory> getEmployeeCategories() throws AccounterException {
+	public List<ClientEmployeeCategory> getEmployeeCategories()
+			throws AccounterException {
 		return getFinanceTool().getPayrollManager().getEmployeeCategories(
 				getCompanyId());
+	}
+
+	@Override
+	public long getEmployeeAttendanceCurrentBal(long employee,
+			long attendanceType) throws AccounterException {
+		return getFinanceTool().getPayrollManager()
+				.getEmployeeAttendanceCurrentBal(employee, attendanceType,
+						getCompanyId());
 	}
 }

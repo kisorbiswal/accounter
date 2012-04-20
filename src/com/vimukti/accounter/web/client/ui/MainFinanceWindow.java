@@ -943,6 +943,10 @@ public class MainFinanceWindow extends FlowPanel {
 				.getHistoryToken(), ActionFactory
 				.getNewAttendanceProductionTypeAction());
 
+		actions.put(ActionFactory.getAttendanceManagementAction()
+				.getHistoryToken(), ActionFactory
+				.getAttendanceManagementAction());
+
 	}
 
 	public ClientCompany getCompany() {

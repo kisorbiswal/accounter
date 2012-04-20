@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
-import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
@@ -18,6 +17,8 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public class PayStructureTable extends EditTable<ClientPayStructureItem> {
+
+	private AmountColumn<ClientPayStructureItem> rateColumn;
 
 	public PayStructureTable() {
 		super();
@@ -67,12 +68,18 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected void setValue(ClientPayStructureItem row,
 					ClientPayHead newValue) {
+				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
+						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
+					rateColumn.setEnable(false);
+				} else {
+					rateColumn.setEnable(true);
+				}
 				row.setPayHead(newValue);
 				update(row);
 			}
 		});
 
-		this.addColumn(new AmountColumn<ClientPayStructureItem>(null, false) {
+		rateColumn = new AmountColumn<ClientPayStructureItem>(null, false) {
 
 			@Override
 			protected Double getAmount(ClientPayStructureItem row) {
@@ -88,7 +95,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			protected String getColumnName() {
 				return messages.rate();
 			}
-		});
+		};
+		this.addColumn(rateColumn);
 
 		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
 
@@ -248,17 +256,6 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 	@Override
 	protected boolean isInViewMode() {
 		return false;
-	}
-
-	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
-		for (ClientPayStructureItem row : getRows()) {
-			if (row.getRate() == 0) {
-				result.addError(row, "Rate should not be zero");
-				return result;
-			}
-		}
-		return result;
 	}
 
 	public List<ClientPayStructureItem> getRows() {

@@ -194,10 +194,6 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 					messages.shouldNotBeNull(messages.employeeGroup()));
 			return validate;
 		}
-		validate = grid.validate();
-		if (validate.haveErrors()) {
-			return validate;
-		}
 		List<ClientPayStructureItem> rows = grid.getRows();
 		if (rows.isEmpty()) {
 			validate.addError(grid, "There is no item");

@@ -21,7 +21,7 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	 * User Defined as the Calculation Basis and define the periodicity of the
 	 * specified period or month.
 	 */
-	public static final int PER_DAY_CALCULATION_USER_DEFINED = 2;
+	public static final int PER_DAY_CALCULATION_30_DAYS = 2;
 
 	/**
 	 * User Defined Calendar Type option will provide the flexibility to the
@@ -41,6 +41,12 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	 * Will be used if leaveWithPay does not Exist
 	 */
 	private long leaveWithoutPay;
+
+	/**
+	 * Will be used if perDayCalculationBasis is
+	 * PER_DAY_CALCULATION_USER_DEFINED_CALANDAR
+	 */
+	private ClientAttendanceOrProductionType userDefinedCalendar;
 
 	public int getCalculationPeriod() {
 		return calculationPeriod;
@@ -77,5 +83,14 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.ATTENDANCE_PAY_HEAD;
+	}
+
+	public ClientAttendanceOrProductionType getUserDefinedCalendar() {
+		return userDefinedCalendar;
+	}
+
+	public void setUserDefinedCalendar(
+			ClientAttendanceOrProductionType userDefinedCalendar) {
+		this.userDefinedCalendar = userDefinedCalendar;
 	}
 }

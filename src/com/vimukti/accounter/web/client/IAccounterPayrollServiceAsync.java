@@ -45,4 +45,7 @@ public interface IAccounterPayrollServiceAsync {
 	public void getEmployeeCategories(
 			AsyncCallback<List<ClientEmployeeCategory>> asyncCallback);
 
+	public void getEmployeeAttendanceCurrentBal(long employee, long attendanceType,
+			AsyncCallback<Long> asyncCallback);
+
 }

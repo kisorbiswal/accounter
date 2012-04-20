@@ -248,4 +248,18 @@ public class PayrollManager extends Manager {
 		}
 		return clientCategories;
 	}
+
+	public long getEmployeeAttendanceCurrentBal(long employee,
+			long attendanceType, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("EmployeeAttendanceCurrentBal")
+				.setParameter("company", companyId)
+				.setParameter("employee", employee)
+				.setParameter("attendanceType", attendanceType);
+		Object result = query.uniqueResult();
+		if (result == null) {
+			return 0;
+		}
+		return (Long) result;
+	}
 }

@@ -62,7 +62,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			messages.upward() };
 
 	String[] perDayCalculations = { messages.asPerCalendarPeriod(),
-			messages.userDefined(), messages.userDefinedCalendar() };
+			messages.days30(), messages.userDefinedCalendar() };
 
 	String[] computationTypes = { messages.onDeductionTotal(),
 			messages.onEarningTotal(), messages.onSubTotal(),
@@ -92,6 +92,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			attendanceRightForm;
 	private DynamicForm compuPeriodAndTypeForm;
 	private ComputationFormulaDialog dialog;
+	private AttendanceOrProductionTypeCombo userDefinedCalendarCombo;
+	private DynamicForm userDefinedCalendarForm;
 
 	public NewPayHeadView() {
 		this.getElement().setId("NewPayHeadView");
@@ -211,8 +213,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		case ClientAttendancePayHead.PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD:
 			return messages.asPerCalendarPeriod();
 
-		case ClientAttendancePayHead.PER_DAY_CALCULATION_USER_DEFINED:
-			return messages.userDefined();
+		case ClientAttendancePayHead.PER_DAY_CALCULATION_30_DAYS:
+			return messages.days30();
 
 		case ClientAttendancePayHead.PER_DAY_CALCULATION_USER_DEFINED_CALANDAR:
 			return messages.userDefindCalendar();
@@ -351,9 +353,23 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		perdayCalculationCombo = new SelectCombo(
 				messages.perDayCalculationBasis(), false);
+		perdayCalculationCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						perDayCalculationChanged(selectItem);
+					}
+				});
 		perdayCalculationCombo.initCombo(perDayCalcList);
 		perdayCalculationCombo.setEnabled(!isInViewMode());
 		perdayCalculationCombo.setRequired(true);
+
+		userDefinedCalendarCombo = new AttendanceOrProductionTypeCombo(
+				ClientAttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR,
+				messages.userDefinedCalendar(), "userDefinedCalendarCombo");
+		userDefinedCalendarCombo.setEnabled(!isInViewMode());
+		userDefinedCalendarCombo.setRequired(true);
 
 		computationTypeCombo = new SelectCombo(messages.compute(), false);
 		computationTypeCombo.initCombo(computationTypeList);
@@ -404,6 +420,13 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		setSize("100%", "100%");
 	}
 
+	protected void perDayCalculationChanged(String selectItem) {
+		userDefinedCalendarForm.clear();
+		if (selectItem.equals(messages.userDefinedCalendar())) {
+			userDefinedCalendarForm.add(userDefinedCalendarCombo);
+		}
+	}
+
 	protected void computationTypeChanged(String selectItem) {
 		if (selectItem.equals(messages.onSpecifiedFormula())) {
 			if (dialog == null) {
@@ -449,10 +472,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 			attendanceLeftForm = new DynamicForm("attendanceLeftForm");
 			attendanceRightForm = new DynamicForm("attendanceRightForm");
+			userDefinedCalendarForm = new DynamicForm("userDefinedCalendarForm");
 
 			attendanceLeftForm.add(leaveWithPayCombo, calculationPeriodCombo);
 			attendanceRightForm.add(leaveWithoutPayCombo,
 					perdayCalculationCombo);
+			attendanceRightForm.add(userDefinedCalendarForm);
 
 			attendanceForm.add(attendanceLeftForm);
 			attendanceForm.add(attendanceRightForm);
@@ -540,19 +565,21 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		}
 
 		String selectedValue = calculationTypeCombo.getSelectedValue();
-		if (selectedValue.equals("Attendence")) {
-			result.add(attendanceForm.validate());
+		if (selectedValue.equals(messages.attendance())) {
+			result.add(attendanceLeftForm.validate());
+			result.add(attendanceRightForm.validate());
+			result.add(userDefinedCalendarForm.validate());
 
-		} else if (selectedValue.equals("As Computed Value")) {
+		} else if (selectedValue.equals(messages.asComputedValue())) {
 			result.add(compuPeriodAndTypeForm.validate());
 			result.add(slabTable.validate());
 			if (result.haveErrors()) {
 				return result;
 			}
-		} else if (selectedValue.equals("Flat Rate")) {
+		} else if (selectedValue.equals(messages.flatRate())) {
 			result.add(flatrateForm.validate());
 
-		} else if (selectedValue.equals("Production")) {
+		} else if (selectedValue.equals(messages.production())) {
 			result.add(productionForm.validate());
 
 		}

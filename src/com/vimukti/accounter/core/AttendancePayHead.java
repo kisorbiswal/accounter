@@ -32,7 +32,7 @@ public class AttendancePayHead extends PayHead {
 	 * User Defined as the Calculation Basis and define the periodicity of the
 	 * specified period or month.
 	 */
-	public static final int PER_DAY_CALCULATION_USER_DEFINED = 2;
+	public static final int PER_DAY_CALCULATION_30_DAYS = 2;
 
 	/**
 	 * User Defined Calendar Type option will provide the flexibility to the
@@ -52,6 +52,12 @@ public class AttendancePayHead extends PayHead {
 	 * Will be used if leaveWithPay does not Exist
 	 */
 	private AttendanceOrProductionType leaveWithoutPay;
+
+	/**
+	 * Will be used if perDayCalculationBasis is
+	 * PER_DAY_CALCULATION_USER_DEFINED_CALANDAR
+	 */
+	private AttendanceOrProductionType userDefinedCalendar;
 
 	public AttendancePayHead() {
 		super(CALCULATION_TYPE_ON_ATTENDANCE);
@@ -144,7 +150,7 @@ public class AttendancePayHead extends PayHead {
 			workingDays = diffDays;
 		}
 
-		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED) {
+		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_30_DAYS) {
 			workingDays = 30;
 		}
 
@@ -155,5 +161,14 @@ public class AttendancePayHead extends PayHead {
 		}
 
 		return workingDays;
+	}
+
+	public AttendanceOrProductionType getUserDefinedCalendar() {
+		return userDefinedCalendar;
+	}
+
+	public void setUserDefinedCalendar(
+			AttendanceOrProductionType userDefinedCalendar) {
+		this.userDefinedCalendar = userDefinedCalendar;
 	}
 }

@@ -186,6 +186,8 @@
 				class="AttendanceOrProductionType" />
 			<many-to-one name="leaveWithoutPay" column="LEAVE_WITHOUT_PAY"
 				class="AttendanceOrProductionType" />
+			<many-to-one name="userDefinedCalendar" column="USER_DEFINED_CALENDAR"
+				class="AttendanceOrProductionType" />
 		</joined-subclass>
 
 		<joined-subclass name="ComputionPayHead" table="COMPUTATION_PAY_HEAD">
@@ -274,6 +276,8 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
 		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead">
 		</many-to-one>
 		<property name="rate" column="RATE" />
@@ -283,6 +287,8 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
 		<many-to-one name="payRun" column="PAY_RUN" class="PayRun">
 		</many-to-one>
 		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
@@ -297,6 +303,8 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
 		<many-to-one name="payableAccount" column="PAYABLE_ACCOUNT"
 			class="Account">
 		</many-to-one>
@@ -309,4 +317,133 @@
 			<one-to-many class="EmployeePaymentDetails" />
 		</set>
 	</class>
+
+	<class name="AttendanceManagement" table="ATTENDANCE_MANAGEMENT">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
+		<list name="items" cascade="save-update,delete">
+			<key column="ATTENDANCE_MANAGEMENT" />
+			<list-index column="IDX" />
+			<one-to-many class="AttendanceManagementItem" />
+		</list>
+	</class>
+
+	<class name="AttendanceManagementItem" table="ATTENDANCE_MANAGEMENT_ITEM">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
+		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
+		</many-to-one>
+		<many-to-one name="attendanceType" column="ATTENDANCE_TYPE"
+			class="AttendanceOrProductionType">
+		</many-to-one>
+		<property name="value" column="VALUE" />
+	</class>
+
+	<sql-query name="EmployeeAttendanceCurrentBal">
+		<query-param name="company" type="long" />
+		<query-param name="employee" type="long" />
+		<query-param name="attendanceType" type="long" />
+
+		<return-scalar column="VAL" type="long" />
+		<![CDATA[
+			SELECT SUM(I.VALUE) AS VAL FROM
+					ATTENDANCE_MANAGEMENT_ITEM I
+					
+					WHERE I.COMPANY_ID = :company
+						  AND I.EMPLOYEE = :employee
+						  AND I.ATTENDANCE_TYPE = :attendanceType
+		]]>
+	</sql-query>
+
+
+	<query name="list.All.Employees">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Employee e where
+		e.company=:company
+		order by e.id
+	</query>
+
+	<query name="list.All.Payheads">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayHead ph where
+		ph.company=:company
+		order by ph.id
+	</query>
+
+	<query name="list.All.PayrollUnits">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayrollUnit pr where
+		pr.company=:company
+		order by pr.id
+	</query>
+
+	<query name="list.Payhead">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayHead ph where
+		ph.company=:company
+		order by ph.id
+	</query>
+
+	<query name="list.PayrollUnit">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayrollUnit p where p.company=:company
+	</query>
+
+	<query name="list.PayStructure">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.PayStructure p where
+		p.company=:company
+	</query>
+
+	<query name="list.AttendanceProductionType">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.AttendanceOrProductionType p where
+		p.company=:company
+	</query>
+
+	<query name="list.EmployeeGroups">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.EmployeeGroup eg where
+		eg.company=:company
+	</query>
+
+	<query name="list.EmployeeCategories">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.EmployeeCategory ec where
+		ec.company=:company
+	</query>
+
+	<query name="getEmployee.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		from com.vimukti.accounter.core.Employee E where
+		E.company=:company and
+		E.name=:name
+	</query>
+
+	<query name="getPayhead.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.PayHead PH where
+		PH.company=:company
+		and
+		PH.name=:name and PH.id !=:id
+	</query>
+
+	<query name="getPayStructureItem.by.employee">
+		<query-param name="company" type="Company" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.PayStructureItem PI where
+		PI.payStructure.employee.id = :id or
+		PI.payStructure.employeeGroup.id =
+		:id
+		and PI.company = :company
+	</query>
 </hibernate-mapping>

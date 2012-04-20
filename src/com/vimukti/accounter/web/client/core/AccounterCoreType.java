@@ -288,7 +288,9 @@ public enum AccounterCoreType implements IsSerializable {
 
 	PAY_STRUCTURE("ClientPayStructure", "PayStructure"),
 
-	PAY_RUN("ClientPayRun", "PayRun");
+	PAY_RUN("ClientPayRun", "PayRun"),
+
+	ATTENDANCE_MANAGEMENT("ClientAttendanceManagement", "AttendanceManagement");
 
 	private String clientName;
 	private String serverName;

@@ -421,6 +421,8 @@ public class HistoryTokens {
 
 	public static final String ATTENDANCE_PRODUCTION_TYPE = "AttendanceProductionType";
 
+	public static final String ATTENDANCE_MANAGEMENT = "attendanceManagement";
+
 	public HistoryTokens() {
 
 	}

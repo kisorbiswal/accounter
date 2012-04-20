@@ -44,4 +44,6 @@ public interface IAccounterPayrollService extends RemoteService {
 
 	List<ClientEmployeeCategory> getEmployeeCategories()
 			throws AccounterException;
+
+	long getEmployeeAttendanceCurrentBal(long employee, long attendanceType) throws AccounterException;
 }
