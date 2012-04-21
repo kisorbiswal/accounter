@@ -4,12 +4,11 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
 	public TaxGroupCombo(String title) {
-		super(title,"TaxGroupCombo");
+		super(title, "TaxGroupCombo");
 
 	}
 
@@ -28,8 +27,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 
 	@Override
 	public void onAddNew() {
-		ManageSalesTaxGroupsAction action = ActionFactory
-				.getManageSalesTaxGroupsAction();
+		ManageSalesTaxGroupsAction action = new ManageSalesTaxGroupsAction();
 		action.setCallback(new ActionCallback<ClientTAXGroup>() {
 
 			@Override
@@ -43,7 +41,7 @@ public class TaxGroupCombo extends CustomCombo<ClientTAXItemGroup> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXItemGroup object,  int col) {
+	protected String getColumnData(ClientTAXItemGroup object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

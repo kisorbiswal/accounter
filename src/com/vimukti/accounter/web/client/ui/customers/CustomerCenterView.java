@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
@@ -69,8 +68,7 @@ public class CustomerCenterView<T> extends
 
 	@Override
 	public void onEdit() {
-		NewCustomerAction newCustomerAction = ActionFactory
-				.getNewCustomerAction();
+		NewCustomerAction newCustomerAction = new NewCustomerAction();
 		newCustomerAction.setisCustomerViewEditable(true);
 		newCustomerAction.run(selectedCustomer, false);
 	}

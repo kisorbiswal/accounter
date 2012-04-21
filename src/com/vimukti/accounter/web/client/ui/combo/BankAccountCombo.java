@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class BankAccountCombo extends AccountCombo {
 
@@ -33,9 +32,8 @@ public class BankAccountCombo extends AccountCombo {
 
 	@Override
 	public void onAddNew() {
-		NewAccountAction action = ActionFactory.getNewBankAccountAction();
+		NewAccountAction action = new NewAccountAction();
 		action.setCallback(new ActionCallback<ClientAccount>() {
-
 			@Override
 			public void actionResult(ClientAccount result) {
 				addItemThenfireEvent(result);

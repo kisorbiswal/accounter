@@ -3,10 +3,10 @@ package com.vimukti.accounter.web.client.ui;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
 
 public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
@@ -135,7 +135,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 		removeFromParent();
 		super.saveSuccess(object);
 		if (!isUsersActivityList()) {
-			ActionFactory.getInvoiceBrandingAction().run(null, true);
+			new InvoiceBrandingAction().run(null, true);
 		} else {
 			if (getCallback() != null) {
 				getCallback().actionResult((ClientBrandingTheme) object);

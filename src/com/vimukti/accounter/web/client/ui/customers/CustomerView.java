@@ -58,7 +58,6 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -367,7 +366,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 	protected void clearFields() {
 
-		ActionFactory.getNewCustomerAction().run(null, false);
+		new NewCustomerAction().run(null, false);
 
 	}
 

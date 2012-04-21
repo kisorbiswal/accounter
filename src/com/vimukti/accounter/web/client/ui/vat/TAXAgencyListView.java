@@ -14,8 +14,8 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -30,7 +30,6 @@ public class TAXAgencyListView extends BaseListView<PayeeList> implements
 		super();
 		this.getElement().setId("TAXAgencyListView");
 	}
-	
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
@@ -47,7 +46,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> implements
 	public Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewTAXAgencyAction();
+			return new NewTAXAgencyAction();
 		else
 			return null;
 	}

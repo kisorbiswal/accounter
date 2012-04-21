@@ -8,8 +8,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
 
 public class WhoIOwePortlet extends Portlet {
 	private DashboardOweGrid grid;
@@ -60,7 +60,7 @@ public class WhoIOwePortlet extends Portlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getPayBillsAction().run();
+				new PayBillsAction().run();
 			}
 		});
 		linkPanel.add(payBillLink);

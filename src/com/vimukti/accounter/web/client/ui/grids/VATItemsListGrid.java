@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 /**
  * @author Murali.A
@@ -127,7 +127,7 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 		if (!Utility.isUserHavePermissions(AccounterCoreType.TAXITEM)) {
 			return;
 		}
-		ActionFactory.getNewVatItemAction().run(obj, false);
+		new NewVatItemAction().run(obj, false);
 	}
 
 	@Override

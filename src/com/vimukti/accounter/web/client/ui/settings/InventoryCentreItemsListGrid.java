@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -46,7 +45,7 @@ public class InventoryCentreItemsListGrid extends BaseListGrid<ClientItem> {
 				inventoryAssemblyAction.run((ClientInventoryAssembly) obj,
 						false);
 			} else {
-				NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+				NewItemAction itemAction = new NewItemAction(true);
 				itemAction.setType(obj.getType());
 				itemAction.run(obj, false);
 			}

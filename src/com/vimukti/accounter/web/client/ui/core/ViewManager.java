@@ -42,8 +42,11 @@ import com.vimukti.accounter.web.client.ui.TransactionMeterPanel;
 import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
+import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
+import com.vimukti.accounter.web.client.ui.search.SearchInputAction;
 import com.vimukti.accounter.web.client.ui.settings.InventoryCentreView;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 /**
  * 
@@ -654,7 +657,7 @@ public class ViewManager extends FlowPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewCustomerAction().run();
+				new NewCustomerAction().run();
 			}
 		});
 
@@ -667,7 +670,7 @@ public class ViewManager extends FlowPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewVendorAction().run();
+				new NewVendorAction().run();
 			}
 		});
 
@@ -694,8 +697,7 @@ public class ViewManager extends FlowPanel {
 			@Override
 			public void onClick(ClickEvent arg0) {
 				// ActionFactory.getSearchInputAction().run();
-				String historyToken = ActionFactory.getSearchInputAction()
-						.getHistoryToken();
+				String historyToken = new SearchInputAction().getHistoryToken();
 				History.newItem(historyToken, false);
 				Accounter.getMainFinanceWindow().historyChanged(historyToken);
 			}

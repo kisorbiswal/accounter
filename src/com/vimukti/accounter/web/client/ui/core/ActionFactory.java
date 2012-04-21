@@ -261,7 +261,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 import com.vimukti.accounter.web.client.ui.win8.AccounterMenuAction;
 
-public class ActionFactory {
+public class ActionFactory1 {
 
 	public static AccounterMessages messages = Global.get().messages();
 

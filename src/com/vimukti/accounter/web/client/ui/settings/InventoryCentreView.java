@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
@@ -753,7 +752,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return null;
 		else {
-			NewItemAction action = ActionFactory.getNewItemAction(true);
+			NewItemAction action = new NewItemAction(true);
 			action.setType(ClientItem.TYPE_INVENTORY_PART);
 			return action;
 		}
@@ -835,7 +834,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 					false);
 
 		} else {
-			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+			NewItemAction itemAction = new NewItemAction(true);
 			itemAction.setType(selectedItem.getType());
 			itemAction.setisItemEditable(true);
 			itemAction.run(selectedItem, false);

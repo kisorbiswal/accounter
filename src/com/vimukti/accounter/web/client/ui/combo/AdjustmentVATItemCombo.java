@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 /**
@@ -21,17 +20,17 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 * @param title
 	 */
 	public AdjustmentVATItemCombo(String title) {
-		super(title,"AdjustmentVATItemCombo");
+		super(title, "AdjustmentVATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public AdjustmentVATItemCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"AdjustmentVATItemCombo");
+		super(title, isAddNewRequired, 1, "AdjustmentVATItemCombo");
 		initCombo(getVATItmes());
 	}
 
 	public AdjustmentVATItemCombo(String title, ClientTAXAgency taxAgency) {
-		super(title,"AdjustmentVATItemCombo");
+		super(title, "AdjustmentVATItemCombo");
 		this.taxAgency = taxAgency;
 		initCombo(getVATItmes());
 
@@ -133,7 +132,7 @@ public class AdjustmentVATItemCombo extends CustomCombo<ClientTAXItem> {
 	 */
 	@Override
 	public void onAddNew() {
-		NewVatItemAction action = ActionFactory.getNewVatItemAction();
+		NewVatItemAction action = new NewVatItemAction();
 		action.setCallback(new ActionCallback<ClientTAXItem>() {
 
 			@Override

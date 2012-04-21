@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocationServerReport;
 
 public class ProfitAndLossByLocationReport extends
@@ -58,7 +57,7 @@ public class ProfitAndLossByLocationReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ActionFactory.getTransactionDetailByAccountAndCategoryAction());
+				new TransactionDetailByAccountAndCategoryAction());
 	}
 
 	public void OnClick(ProfitAndLossByLocation pAndLossByLocation,
@@ -83,7 +82,7 @@ public class ProfitAndLossByLocationReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				ActionFactory.getTransactionDetailByAccountAndCategoryAction());
+				new TransactionDetailByAccountAndCategoryAction());
 	}
 
 	private TrialBalance getTrailBalance(ProfitAndLossByLocation p) {

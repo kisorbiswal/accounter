@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -71,11 +70,9 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.active(),
-				messages.salesPerson(),
-				messages.address(), messages.city(),
-				messages.state(), messages.zipCode(),
-				messages.phone(), messages.fax(), " " };
+		return new String[] { messages.active(), messages.salesPerson(),
+				messages.address(), messages.city(), messages.state(),
+				messages.zipCode(), messages.phone(), messages.fax(), " " };
 
 	}
 
@@ -106,7 +103,7 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 	@Override
 	public void onDoubleClick(ClientSalesPerson obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewSalesperSonAction().run(obj, false);
+			new NewSalesperSonAction().run(obj, false);
 		}
 	}
 
@@ -260,5 +257,5 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 				"address-value", "city-value", "state-value", "zipcode-value",
 				"phone-value", "fax-value", "last-col-value" };
 	}
-	
+
 }

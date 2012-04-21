@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
@@ -62,15 +61,13 @@ public class TransactionDetailByAccountReport extends
 					if (countryPreferences instanceof UnitedKingdom
 							&& countryPreferences.isVatAvailable()) {
 						List<VATSummary> summaries = getVatSummaires(result);
-						ActionFactory.getVATSummaryReportAction().run(
-								summaries, false);
+						new VATSummaryReportAction().run(summaries, false);
 					} else {
 						List<ClientTAXReturnEntry> taxEntries = null;
 						List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 						taxEntries = result.getTaxReturnEntries();
 						details = getTaxItemDetails(taxEntries);
-						TaxItemDetailReportAction taxItemDetailReportAction = ActionFactory
-								.getTaxItemDetailReportAction();
+						TaxItemDetailReportAction taxItemDetailReportAction = new TaxItemDetailReportAction();
 						taxItemDetailReportAction.setFromReports(true);
 						taxItemDetailReportAction.run(details, true);
 					}

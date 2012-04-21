@@ -11,11 +11,11 @@ import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VATBoxGrid;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.VAT100Report;
+import com.vimukti.accounter.web.client.ui.reports.VAT100ReportAction;
 
 public class FileVATView extends AbstractFileTAXView {
 
@@ -209,7 +209,7 @@ public class FileVATView extends AbstractFileTAXView {
 				}
 			}
 		};
-		report.setAction(ActionFactory.getVAT100ReportAction());
+		report.setAction(new VAT100ReportAction());
 		report.init();
 		report.initData();
 		report.makeReportRequest(selectedTaxAgency.getID(),

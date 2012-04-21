@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class UploadStatementDialog extends BaseDialog implements
@@ -90,11 +90,11 @@ public class UploadStatementDialog extends BaseDialog implements
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.save());
-//		uploadSubmitButton.setWidth("80px");
+		// uploadSubmitButton.setWidth("80px");
 		// vpaPanel.add(uploadSubmitButton);
 
 		Button closeButton = new Button(messages.close());
-//		closeButton.setWidth("80px");
+		// closeButton.setWidth("80px");
 		buttonHlay = new StyledPanel("buttonHlay");
 		buttonHlay.add(uploadSubmitButton);
 		buttonHlay.add(closeButton);
@@ -139,8 +139,8 @@ public class UploadStatementDialog extends BaseDialog implements
 					int matched = map.get("matched");
 					int notMatched = map.get("notMatched");
 					if (notMatched != 0) {
-						ActionFactory.getStatementImportViewAction(data,
-								account.getID()).run();
+						new StatementImportViewAction(data, account.getID())
+								.run();
 						removeFromParent();
 					} else {
 						Accounter.showInformation(messages

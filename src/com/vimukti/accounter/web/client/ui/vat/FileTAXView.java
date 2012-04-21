@@ -12,9 +12,9 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public class FileTAXView extends AbstractFileTAXView {
@@ -79,7 +79,7 @@ public class FileTAXView extends AbstractFileTAXView {
 								.getID()));
 			}
 		};
-		report.setAction(ActionFactory.getTaxItemDetailReportAction());
+		report.setAction(new TaxItemDetailReportAction());
 		report.init();
 		report.initData();
 		report.print();

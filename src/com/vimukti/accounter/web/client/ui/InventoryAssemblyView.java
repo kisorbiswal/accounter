@@ -44,7 +44,6 @@ import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -181,7 +180,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 			@Override
 			public void onAddNew() {
-				NewAccountAction action = ActionFactory.getNewAccountAction();
+				NewAccountAction action = new NewAccountAction();
 				List<Integer> list = new ArrayList<Integer>();
 				list.add(ClientAccount.TYPE_INVENTORY_ASSET);
 				action.setAccountTypes(list);

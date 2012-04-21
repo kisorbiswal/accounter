@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.NewBrandCustomThemeAction;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.grids.columns.ClickImage;
@@ -248,7 +247,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 					return;
 				} else {
 					if (object.getObjectID() != 0) {
-						ActionFactory.getAuditHistory(object).run();
+						new AuditHistoryAction(object).run();
 					}
 				}
 			}
@@ -429,18 +428,15 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				public void onResultSuccess(ClientBrandingTheme result) {
 					if (result != null) {
 						if (result.isCustomFile()) {
-							NewBrandCustomThemeAction newBrandCustomThemeAction = ActionFactory
-									.getNewBrandCustomThemeAction();
+							NewBrandCustomThemeAction newBrandCustomThemeAction = new NewBrandCustomThemeAction();
 							newBrandCustomThemeAction
 									.setUsersActivityList(true);
 							newBrandCustomThemeAction
 									.setCallback(getCoreActionCallBack());
 							newBrandCustomThemeAction.run(result, true);
 						} else {
-							NewBrandThemeAction newBrandThemeAction = ActionFactory
-									.getNewBrandThemeAction();
-							ActionFactory.getNewBrandThemeAction().run(result,
-									false);
+							NewBrandThemeAction newBrandThemeAction = new NewBrandThemeAction();
+							new NewBrandThemeAction().run(result, false);
 							MainFinanceWindow.getViewManager().existingView
 									.onEdit();
 							MainFinanceWindow.getViewManager()

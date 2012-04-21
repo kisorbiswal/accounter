@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class DeleteThemeDialog extends BaseDialog {
@@ -41,7 +40,7 @@ public class DeleteThemeDialog extends BaseDialog {
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
 		super.deleteSuccess(result);
-		ActionFactory.getInvoiceBrandingAction().run(null, true);
+		new InvoiceBrandingAction().run(null, true);
 	}
 
 	@Override

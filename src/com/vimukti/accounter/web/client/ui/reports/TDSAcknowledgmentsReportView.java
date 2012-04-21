@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TDSAcknowledgmentsReport;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.TDSAcknowledgmentServerReportView;
 import com.vimukti.accounter.web.client.ui.vat.TDSFiledDetailsAction;
 
@@ -30,7 +29,7 @@ public class TDSAcknowledgmentsReportView extends
 
 	@Override
 	public void OnRecordClick(TDSAcknowledgmentsReport record) {
-		TDSFiledDetailsAction action = ActionFactory.getTDSFiledDetailsAction();
+		TDSFiledDetailsAction action = new TDSFiledDetailsAction();
 		action.setFormType(record.getFormType());
 		action.setAckNo(record.getAckNo());
 		action.setFinancialYearStart(record.getFinancialYearStart());

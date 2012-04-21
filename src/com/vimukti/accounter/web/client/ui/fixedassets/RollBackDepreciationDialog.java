@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
@@ -163,9 +163,8 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 			@Override
 			public void onResultSuccess(Boolean result) {
-				History.newItem(ActionFactory.getDepriciationAction()
-						.getHistoryToken());
-				ActionFactory.getDepriciationAction().run(null, false);
+				History.newItem(new DepreciationAction().getHistoryToken());
+				new DepreciationAction().run(null, false);
 			}
 
 		};

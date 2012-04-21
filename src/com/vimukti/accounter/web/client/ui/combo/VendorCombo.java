@@ -6,19 +6,19 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 public class VendorCombo extends CustomCombo<ClientVendor> {
 	private boolean isAddNew;
+
 	public VendorCombo(String title) {
-		super(title,"VendorCombo");
+		super(title, "VendorCombo");
 		initCombo(getCompany().getActiveVendors());
 	}
 
 	public VendorCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"VendorCombo");
+		super(title, isAddNewRequired, 1, "VendorCombo");
 		initCombo(getCompany().getActiveVendors());
 	}
 
@@ -38,15 +38,15 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	public void onAddNew() {
-		isAddNew= true;
-		NewVendorAction action = ActionFactory.getNewVendorAction();
+		isAddNew = true;
+		NewVendorAction action = new NewVendorAction();
 		action.setCallback(new ActionCallback<ClientVendor>() {
 
 			@Override
 			public void actionResult(ClientVendor result) {
 				if (result.getName() != null && result.isActive())
-					isAddNew= false;
-					addItemThenfireEvent(result);
+					isAddNew = false;
+				addItemThenfireEvent(result);
 
 			}
 		});
@@ -65,7 +65,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		if(isAddNew){
+		if (isAddNew) {
 			return;
 		}
 		final QuickAddDialog dialog = new QuickAddDialog(
@@ -100,7 +100,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	protected void onAddAllInfo(String text) {
-		NewVendorAction action = ActionFactory.getNewVendorAction(text);
+		NewVendorAction action = new NewVendorAction(text);
 		action.setCallback(new ActionCallback<ClientVendor>() {
 
 			@Override

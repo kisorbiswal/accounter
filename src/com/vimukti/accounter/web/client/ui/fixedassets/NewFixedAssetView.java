@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.combo.DepreciationMethodCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -142,19 +141,17 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					selectedOption = assetOptions.getValue().toString();
 					assetOptions.setValue("");
 					if (selectedOption.equalsIgnoreCase(messages.sell())) {
-						Action action = ActionFactory
-								.getSellingRegisteredItemAction();
+						Action action = new SellingRegisteredItemAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.dispose())) {
-						Action action = ActionFactory
-								.getDiposingRegisteredItemAction();
+						Action action = new DisposingRegisteredItemAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.showHistory())) {
-						Action action = ActionFactory.getHistoryListAction();
+						Action action = new HistoryListAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(messages

@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilityDetailServerReport;
 
 public class JobProfitabilityDetailReport extends
@@ -40,13 +39,11 @@ public class JobProfitabilityDetailReport extends
 
 		if (columnIndex == 1) {// calls cost method,
 			record.setCost(false);
-			UIUtils.runAction(record,
-					ActionFactory.getItemActualCostDetailReportAction());
+			UIUtils.runAction(record, new ItemActualCostDetailReportAction());
 
 		} else if (columnIndex == 2) {// calls revenue method
 			record.setCost(true);
-			UIUtils.runAction(record,
-					ActionFactory.getItemActualCostDetailReportAction());
+			UIUtils.runAction(record, new ItemActualCostDetailReportAction());
 		}
 
 	}

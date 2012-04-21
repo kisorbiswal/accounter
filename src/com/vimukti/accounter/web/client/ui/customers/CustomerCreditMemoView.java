@@ -34,7 +34,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
@@ -451,7 +451,8 @@ public class CustomerCreditMemoView extends
 			transaction.setTaxTotal(this.salesTax);
 		}
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -543,8 +544,9 @@ public class CustomerCreditMemoView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -926,7 +928,7 @@ public class CustomerCreditMemoView extends
 		if (themesList.size() > 1) {
 			// if there are more than one branding themes, then show branding
 			// theme combo box
-			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+			new BrandingThemeComboAction().run(transaction, false);
 		} else {
 			// if there is only one branding theme
 			ClientBrandingTheme brandingTheme = themesList.get(0);
@@ -1085,7 +1087,8 @@ public class CustomerCreditMemoView extends
 		if (discountField.getPercentage() != null) {
 			customerAccountTransactionTable.setDiscount(discountField
 					.getPercentage());
-			customerItemTransactionTable.setDiscount(discountField.getPercentage());
+			customerItemTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

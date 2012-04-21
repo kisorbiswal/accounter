@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VendorSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionsHistoryGrid;
@@ -71,7 +70,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 
 	@Override
 	public void onEdit() {
-		NewVendorAction newVendorAction = ActionFactory.getNewVendorAction();
+		NewVendorAction newVendorAction = new NewVendorAction();
 		newVendorAction.setisVendorViewEditable(true);
 		newVendorAction.run(selectedVendor, false);
 	}

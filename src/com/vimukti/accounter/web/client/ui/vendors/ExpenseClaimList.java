@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -55,7 +54,7 @@ public class ExpenseClaimList extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.EmployeeExpenseAction().run(null, false);
+				new EmployeeExpenseAction().run(null, false);
 			}
 		});
 		initGrid();
@@ -69,7 +68,7 @@ public class ExpenseClaimList extends BaseView {
 			public void onClick(ClickEvent event) {
 
 				isProcessingAdded = false;
-				setAction(ActionFactory.getExpenseClaimsAction(0));
+				setAction(new ExpenseClaimsAction(0));
 
 				List<BillsList> records = grid.getSelectedRecords();
 				if (records.size() > 0) {
@@ -89,7 +88,7 @@ public class ExpenseClaimList extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				isProcessingAdded = false;
-				setAction(ActionFactory.getExpenseClaimsAction(0));
+				setAction(new ExpenseClaimsAction(0));
 				List<BillsList> records = grid.getSelectedRecords();
 				if (records.size() > 0) {
 					updateSelectedRecords(records,
@@ -113,7 +112,7 @@ public class ExpenseClaimList extends BaseView {
 		grid.isEnable = false;
 		grid.init();
 		grid.setView(this);
-//		grid.setSize("100%", "100%");
+		// grid.setSize("100%", "100%");
 	}
 
 	protected void updateSelectedRecords(List<BillsList> records,
@@ -133,7 +132,7 @@ public class ExpenseClaimList extends BaseView {
 						public void onResultSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
 							updateTransactionItems(result);
-							setAction(ActionFactory.getExpenseClaimsAction(0));
+							setAction(new ExpenseClaimsAction(0));
 							saveOrUpdate(result);
 						}
 					});

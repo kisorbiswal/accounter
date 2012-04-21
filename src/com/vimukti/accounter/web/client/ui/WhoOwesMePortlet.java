@@ -8,7 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class WhoOwesMePortlet extends Portlet {
@@ -58,7 +58,7 @@ public class WhoOwesMePortlet extends Portlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getReceivePaymentAction().run();
+				new ReceivePaymentAction().run();
 			}
 		});
 		linkPanel.add(receivePaymentLink);

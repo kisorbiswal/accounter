@@ -10,7 +10,9 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
+import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
@@ -101,7 +103,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
 		if (col == 5) {
-			ActionFactory.getAccountRegisterAction().run(obj, false);
+			new AccountRegisterAction().run(obj, false);
 		}
 	}
 
@@ -114,10 +116,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return;
 		}
 		if (account.getType() == ClientAccount.TYPE_BANK) {
-			ActionFactory.getNewBankAccountAction().run(
-					(ClientBankAccount) account, false);
+			new NewBankAccountAction().run((ClientBankAccount) account, false);
 		} else {
-			ActionFactory.getNewAccountAction().run(account, false);
+			new NewAccountAction().run(account, false);
 		}
 
 	}
@@ -150,8 +151,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			}
 			if (index == 0 || index == 1) {
 				return 50;
-			}else if(index == 2){
-				return 348;				
+			} else if (index == 2) {
+				return 348;
 			} else if (index == 4)
 				return 150;
 			else if (index == 5)
@@ -169,8 +170,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			}
 			if (index == 0) {
 				return 50;
-			}else if(index == 2){
-				return 348;				
+			} else if (index == 2) {
+				return 348;
 			} else if (index == 3)
 				return 200;
 			else if (index == 4)
@@ -249,13 +250,11 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected String[] setHeaderStyle() {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] { "active", "no",
-					"name", "type", "balance",
+			return new String[] { "active", "no", "name", "type", "balance",
 					"register", "unknown" };
 		} else {
-			return new String[] { "active", "name",
-					"type", "balance", "register",
-					"unknown" };
+			return new String[] { "active", "name", "type", "balance",
+					"register", "unknown" };
 		}
 	}
 
@@ -263,13 +262,12 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected String[] setRowElementsStyle() {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
-			return new String[] { "activeValue", "noValue",
-					"nameValue", "typeValue", "balanceValue",
-					"registerValue", "unknownValue", };
-		} else {
-			return new String[] { "activeValue", "nameValue",
+			return new String[] { "activeValue", "noValue", "nameValue",
 					"typeValue", "balanceValue", "registerValue",
 					"unknownValue", };
+		} else {
+			return new String[] { "activeValue", "nameValue", "typeValue",
+					"balanceValue", "registerValue", "unknownValue", };
 		}
 	}
 }

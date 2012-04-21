@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
@@ -66,7 +65,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (getCompany().getPreferences().isInventoryEnabled()) {
 			if (index == 0)
 				return 40;
-			else if(index == 1)
+			else if (index == 1)
 				return 130;
 			else if (index == 2)
 				return 250;
@@ -100,7 +99,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		} else {
 			if (index == 0)
 				return 40;
-			else if(index == 1)
+			else if (index == 1)
 				return 130;
 			else if (index == 2)
 				return 250;
@@ -308,7 +307,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				inventoryAssemblyAction.run((ClientInventoryAssembly) obj,
 						false);
 			} else {
-				NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+				NewItemAction itemAction = new NewItemAction(true);
 				itemAction.setType(obj.getType());
 				itemAction.run(obj, false);
 			}

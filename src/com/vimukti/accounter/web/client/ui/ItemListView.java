@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
@@ -45,7 +44,7 @@ public class ItemListView extends BaseListView<ClientItem> implements
 
 	public static ItemListView getInstance() {
 		return new ItemListView();
-		
+
 	}
 
 	@Override
@@ -87,9 +86,9 @@ public class ItemListView extends BaseListView<ClientItem> implements
 		else {
 			NewItemAction action;
 			if (this.catageory.equals(Global.get().customer())) {
-				action = ActionFactory.getNewItemAction(true);
+				action = new NewItemAction(true);
 			} else {
-				action = ActionFactory.getNewItemAction(false);
+				action = new NewItemAction(false);
 			}
 			return action;
 		}

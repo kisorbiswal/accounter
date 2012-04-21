@@ -7,9 +7,9 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.combo.ReconciliationAccountCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -45,7 +45,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		this.reconciliationCallback = callback;
 		this.reconcilition = reconcilition;
 		this.getElement().setId("ReconciliationDialog");
-//		setWidth("400px");
+		// setWidth("400px");
 		createControls();
 		center();
 	}
@@ -59,8 +59,8 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 
 		reconcileAccountCombo.select(reconcilition.getAccount());
 
-		startDate = new DateField(messages.startDate(),"startDate");
-		endDate = new DateField(messages.endDate(),"endDate");
+		startDate = new DateField(messages.startDate(), "startDate");
+		endDate = new DateField(messages.endDate(), "endDate");
 		// set the month start date and end date
 		// Calendar calendar = Calendar.getInstance();
 		// ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
@@ -72,7 +72,8 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 
 		closingBalance = new AmountField(messages.ClosingBalance(), this,
 				getCompany().getCurrency(
-						reconcilition.getAccount().getCurrency()),"closingBalance") {
+						reconcilition.getAccount().getCurrency()),
+				"closingBalance") {
 			@Override
 			protected BlurHandler getBlurHandler() {
 				return new BlurHandler() {
@@ -110,9 +111,8 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		closingBalance.setAmount(reconcilition.getClosingBalance());
 
 		DynamicForm form = new DynamicForm("form");
-//		form.setWidth("100%");
-		form.add(reconcileAccountCombo, closingBalance, startDate,
-				endDate);
+		// form.setWidth("100%");
+		form.add(reconcileAccountCombo, closingBalance, startDate, endDate);
 
 		// DynamicForm datesForm = new DynamicForm();
 		// form.setWidth("100%");
@@ -125,7 +125,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 
 		mainpanel.add(form);
 		setBodyLayout(mainpanel);
-//		okbtn.setWidth("130px");
+		// okbtn.setWidth("130px");
 		okbtn.setText(messages.startReconciliation());
 
 	}
@@ -165,8 +165,7 @@ public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		if (reconciliationCallback != null) {
 			reconciliationCallback.execute(createReconciliation());
 		} else {
-			ActionFactory.getNewReconciliationAction().run(
-					createReconciliation(), false);
+			new NewReconcileAccountAction().run(createReconciliation(), false);
 		}
 		return true;
 	}

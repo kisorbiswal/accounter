@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.InvoiceListGrid;
@@ -57,11 +57,11 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (transactionType == 0
 					|| transactionType == ClientTransaction.TYPE_INVOICE) {
-				return ActionFactory.getNewInvoiceAction();
+				return new NewInvoiceAction();
 			} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-				return ActionFactory.getNewCreditsAndRefundsAction();
+				return new NewCreditsAndRefundsAction();
 			} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
-				return ActionFactory.getNewCashSaleAction();
+				return new NewCashSaleAction();
 			}
 		}
 		return null;
@@ -70,7 +70,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	@Override
 	public void exportToCsv() {
 		if (viewSelect.getSelectedValue().equals(messages.drafts())) {
-			showDialogBox(messages.ERROR(),messages.draftsTransactionsCannotBePrinted());
+			showDialogBox(messages.ERROR(),
+					messages.draftsTransactionsCannotBePrinted());
 		} else {
 
 			setViewId(checkViewType(getViewType()));
@@ -245,9 +246,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public void print() {
-		
+
 		if (viewSelect.getSelectedValue().equals(messages.drafts())) {
-			showDialogBox(messages.ERROR(),messages.draftsTransactionsCannotBePrinted());
+			showDialogBox(messages.ERROR(),
+					messages.draftsTransactionsCannotBePrinted());
 
 		} else {
 
@@ -281,10 +283,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 			String cashsalemsg = Global.get().messages()
 					.PrintIsNotProvidedForCashSale();
 			if (v.size() == 0) {// no reports are selected
-				showDialogBox(messages.selectReports(),emptymsg);
+				showDialogBox(messages.selectReports(), emptymsg);
 			} else if (v.size() > 1) {
 				// if one than one report type is selected
-				showDialogBox(messages.selectReports(),errorMessage);
+				showDialogBox(messages.selectReports(), errorMessage);
 			} else {
 				if (!isWriteCheck_cashsale) {
 
@@ -294,8 +296,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 						// if there are more than one branding themes, then show
 						// branding
 						// theme dialog box
-						ActionFactory.getBrandingThemeComboAction().run(
-								listOfInvoices);
+						new BrandingThemeComboAction().run(listOfInvoices);
 					} else {
 						// else print directly
 						brandingTheme = themesList.get(0);
@@ -304,7 +305,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 				} else {
 					// if other reports are selected cash sale or write check
-					showDialogBox(messages.selectReports(),cashsalemsg);
+					showDialogBox(messages.selectReports(), cashsalemsg);
 				}
 				// ActionFactory.getInvoiceListViewAction().run(listOfInvoices);
 			}
@@ -312,9 +313,9 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	}
 
-	public void showDialogBox(String title,String description) {
-		InvoicePrintDialog printDialog = new InvoicePrintDialog(
-				title, "", description);
+	public void showDialogBox(String title, String description) {
+		InvoicePrintDialog printDialog = new InvoicePrintDialog(title, "",
+				description);
 		printDialog.show();
 		printDialog.center();
 	}

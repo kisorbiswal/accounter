@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -88,7 +87,7 @@ public class WarehouseTransferListGrid extends
 		if (!Utility.isUserHavePermissions(AccounterCoreType.STOCK_TRANSFER)) {
 			return;
 		}
-		ActionFactory.getWareHouseTransferAction().run(obj, false);
+		new WareHouseTransferAction().run(obj, false);
 	}
 
 	@Override
@@ -118,8 +117,8 @@ public class WarehouseTransferListGrid extends
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "fromwarehouse", "towarehouse", "itemstatus",
-		"last-col" };
-}
+				"last-col" };
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {

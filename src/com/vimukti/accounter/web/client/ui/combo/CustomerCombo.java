@@ -6,23 +6,22 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 
 public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
-	
-private boolean isAddNew;
+	private boolean isAddNew;
+
 	public CustomerCombo(String title) {
-		super(title,"customerCombo");
+		super(title, "customerCombo");
 		super.setToolTip(messages.selectWhichWeHaveInOurCompanyOrAddNew(Global
 				.get().Customer()));
 		initCombo(getCompany().getCustomers());
 	}
 
 	public CustomerCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1,"customerCombo");
+		super(title, isAddNewRequire, 1, "customerCombo");
 		if (isAddNewRequire)
 			super.setToolTip(messages
 					.selectWhichWeHaveInOurCompanyOrAddNew(Global.get()
@@ -45,16 +44,16 @@ private boolean isAddNew;
 
 	@Override
 	public void onAddNew() {
-		
-		isAddNew= true;
-		NewCustomerAction action = ActionFactory.getNewCustomerAction();
+
+		isAddNew = true;
+		NewCustomerAction action = new NewCustomerAction();
 		action.setCallback(new ActionCallback<ClientCustomer>() {
 
 			@Override
 			public void actionResult(ClientCustomer result) {
 				if (result.getDisplayName() != null && result.isActive())
-					isAddNew= false;
-					addItemThenfireEvent(result);
+					isAddNew = false;
+				addItemThenfireEvent(result);
 			}
 		});
 
@@ -72,7 +71,7 @@ private boolean isAddNew;
 
 	@Override
 	protected void selectionFaildOnClose() {
-		if(isAddNew){
+		if (isAddNew) {
 			return;
 		}
 		final QuickAddDialog dialog = new QuickAddDialog(messages.NewCustomer());
@@ -87,7 +86,7 @@ private boolean isAddNew;
 			}
 		});
 		dialog.show();
-		
+
 	}
 
 	protected boolean isCustomerExists(String text) {
@@ -105,7 +104,7 @@ private boolean isAddNew;
 
 	@Override
 	protected void onAddAllInfo(String text) {
-		NewCustomerAction action = ActionFactory.getNewCustomerAction(text);
+		NewCustomerAction action = new NewCustomerAction(text);
 		action.setCallback(new ActionCallback<ClientCustomer>() {
 
 			@Override

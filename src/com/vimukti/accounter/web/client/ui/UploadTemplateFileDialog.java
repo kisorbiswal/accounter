@@ -14,8 +14,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
 
 @SuppressWarnings({ "deprecation" })
 public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
@@ -85,7 +85,6 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		detailsHtml7.addStyleName("bold_HTML");
 		detailsHtml8 = new HTML(messages.salesOrder());
 		detailsHtml8.addStyleName("bold_HTML");
-		
 
 		invoiceBtn = new FileUpload();
 		// final String fileID_1 = createID();
@@ -102,11 +101,11 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		cashSaleBtn = new FileUpload();
 		// final String fileID_3 = createID();
 		cashSaleBtn.setName(CASHSALE);
-		
-		purchaseOrderBtn= new FileUpload();
+
+		purchaseOrderBtn = new FileUpload();
 		purchaseOrderBtn.setName(PURCHASEORDER);
-		
-		salesOrderBtn= new FileUpload();
+
+		salesOrderBtn = new FileUpload();
 		salesOrderBtn.setName(SALESORDER);
 
 		uploadItems.add(invoiceBtn);
@@ -141,15 +140,15 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		StyledPanel cashPanel = new StyledPanel("cashPanel");
 		cashPanel.add(cashSaleBtn);
 		panel.add(cashPanel);
-		
+
 		panel.add(detailsHtml7);
-		
+
 		StyledPanel purchaseOrderPanel = new StyledPanel("purchaseOrderPanel");
 		purchaseOrderPanel.add(purchaseOrderBtn);
 		panel.add(purchaseOrderPanel);
-		
+
 		panel.add(detailsHtml8);
-		
+
 		StyledPanel salesOrderPanel = new StyledPanel("salesOrderPanel");
 		salesOrderPanel.add(salesOrderBtn);
 		panel.add(salesOrderPanel);
@@ -254,7 +253,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		String file_6 = uploadItems.get(5).getFilename() == null ? ""
 				: uploadItems.get(5).getFilename();
 		if (file_1.equals("") && file_2.equals("") && file_3.equals("")
-				&& file_4.equals("")&& file_5.equals("")&& file_6.equals("")) {
+				&& file_4.equals("") && file_5.equals("") && file_6.equals("")) {
 			Accounter.showInformation(messages.noFileSelected());
 			return;
 		}
@@ -314,7 +313,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	public void saveSuccess(IAccounterCore object) {
 		removeFromParent();
 		super.saveSuccess(object);
-		ActionFactory.getInvoiceBrandingAction().run(null, true);
+		new InvoiceBrandingAction().run(null, true);
 	}
 
 	public native static String createID()/*-{

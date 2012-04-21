@@ -42,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -182,7 +181,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void update(int index, Client1099Form object,
 							SafeHtml value) {
-						ActionFactory.getNewVendorAction().run(vendor, false);
+						new NewVendorAction().run(vendor, false);
 					}
 				});
 
@@ -201,8 +200,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void update(int index, Client1099Form object,
 							String value) {
-						MISC1099TransactionDetailAction action = ActionFactory
-								.getMisc1099TransactionDetailAction();
+						MISC1099TransactionDetailAction action = new MISC1099TransactionDetailAction();
 						action.setBoxNo(Client1099Form.TOTAL_1099_PAYMENTS);
 						action.setVendorId(object.getVendor().getID());
 						action.run();
@@ -224,8 +222,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void update(int index, Client1099Form object,
 							String value) {
-						MISC1099TransactionDetailAction action = ActionFactory
-								.getMisc1099TransactionDetailAction();
+						MISC1099TransactionDetailAction action = new MISC1099TransactionDetailAction();
 						action.setBoxNo(Client1099Form.TOATAL_ALL_PAYMENTS);
 						action.setVendorId(object.getVendor().getID());
 						action.run();
@@ -275,8 +272,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 					@Override
 					public void update(int index, Client1099Form object,
 							String value) {
-						MISC1099TransactionDetailAction action = ActionFactory
-								.getMisc1099TransactionDetailAction();
+						MISC1099TransactionDetailAction action = new MISC1099TransactionDetailAction();
 						action.setBoxNo(boxNum);
 						action.setVendorId(object.getVendor().getID());
 						action.run();

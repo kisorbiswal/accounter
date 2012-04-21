@@ -7,13 +7,13 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 
 public class WareHouseDropDownTable extends
 		AbstractDropDownTable<ClientWarehouse> {
 
 	public WareHouseDropDownTable() {
-		super(Accounter.getCompany().getWarehouses(),true);
+		super(Accounter.getCompany().getWarehouses(), true);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class WareHouseDropDownTable extends
 
 	@Override
 	protected void addNewItem(String text) {
-		Action<ClientWarehouse> action = ActionFactory.getWareHouseViewAction();
+		Action<ClientWarehouse> action = new WareHouseViewAction();
 		action.setCallback(new ActionCallback<ClientWarehouse>() {
 
 			@Override

@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
@@ -205,7 +204,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			ClientPayTAX clientPayTAX = new ClientPayTAX();
 			clientPayTAX.setTransactionPayTax(payTaxEntriesList);
 
-			ActionFactory.getpayTAXAction().run(clientPayTAX, false);
+			new PayTAXAction().run(clientPayTAX, false);
 		}
 	}
 

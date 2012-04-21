@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 
 public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
@@ -74,7 +73,7 @@ public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 		final ClientCompany company = Accounter.getCompany();
 		if (getCustomerId() != 0) {
 			ClientCustomer customer = company.getCustomer(getCustomerId());
-			NewJobAction action = ActionFactory.getNewJobAction(customer);
+			NewJobAction action = new NewJobAction(customer);
 			action.setCallback(new ActionCallback<ClientJob>() {
 
 				@Override

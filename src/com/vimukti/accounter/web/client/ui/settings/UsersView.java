@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -114,7 +113,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getGeneralSettingsAction().run(null, false);
+				new GeneralSettingsAction().run(null, false);
 			}
 		});
 		titleLabel = new Label(messages.users());
@@ -127,7 +126,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getInviteUserAction().run(null, false);
+				new InviteUserAction().run(null, false);
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
@@ -144,7 +143,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		}
 
 		mainLayPanel.add(getUsersPanel());
-//		mainLayPanel.setWidth("100%");
+		// mainLayPanel.setWidth("100%");
 
 		// saveAndCloseButton.setVisible(false);
 		// saveAndNewButton.setVisible(false);
@@ -197,9 +196,9 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void fitToSize(int height, int width) {
-//		this.setHeight(height + "");
-//		usersListGrid.setHeight(height + "");
-//		activityListGrid.setHeight(height + "");
+		// this.setHeight(height + "");
+		// usersListGrid.setHeight(height + "");
+		// activityListGrid.setHeight(height + "");
 	}
 
 	@Override

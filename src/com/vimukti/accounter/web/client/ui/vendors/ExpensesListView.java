@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
 
@@ -29,16 +28,15 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		this.transactionType = transactionType;
 	}
 
-
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (getViewType().equals(messages.cash())) {
-				return ActionFactory.CashExpenseAction();
+				return new CashExpenseAction();
 			} else if (getViewType().equals(messages.creditCard())) {
-				return ActionFactory.CreditCardExpenseAction();
+				return new CreditCardExpenseAction();
 			}
-			return ActionFactory.getRecordExpensesAction();
+			return new RecordExpensesAction();
 		} else {
 			return null;
 		}

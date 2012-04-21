@@ -46,7 +46,6 @@ import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -189,7 +188,7 @@ public class WriteChequeView extends
 	protected void reload() {
 		if (!saveAndClose)
 			try {
-				ActionFactory.getWriteChecksAction().run(null, true);
+				new WriteChecksAction().run(null, true);
 			} catch (Throwable e) {
 
 				// //UIUtils.logError("Failed to load Write Check View", e);

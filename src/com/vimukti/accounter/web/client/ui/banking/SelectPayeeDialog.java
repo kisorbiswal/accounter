@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -45,13 +44,13 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		// typeForm.setIsGroup(true);
 		// typeForm.setGroupTitle("Account Type");
 		typeForm.add(typeRadio);
-//		typeForm.setWidth("100%");
+		// typeForm.setWidth("100%");
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-//		setWidth("350px");
+		// setWidth("350px");
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		// okClick();
 		if (radio.equals(Global.get().Vendor())) {
 			// new VendorPaymentsAction("Not Issued").run();
-			NewVendorAction action = ActionFactory.getNewVendorAction();
+			NewVendorAction action = new NewVendorAction();
 			action.setCallback(new ActionCallback<ClientVendor>() {
 
 				@Override
@@ -82,7 +81,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 			action.run(null, true);
 
 		} else if (radio.equals(messages.customer())) {
-			NewCustomerAction action = ActionFactory.getNewCustomerAction();
+			NewCustomerAction action = new NewCustomerAction();
 			action.setCallback(new ActionCallback<ClientCustomer>() {
 
 				@Override

@@ -10,9 +10,9 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
+import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
 public abstract class AbstractFinaneReport<R> extends
@@ -110,7 +110,7 @@ public abstract class AbstractFinaneReport<R> extends
 	 */
 	@Override
 	public void onException(AccounterException caught) {
-		ActionFactory.getReportsHomeAction();
+		new ReportsHomeAction().run();
 	}
 
 	/**

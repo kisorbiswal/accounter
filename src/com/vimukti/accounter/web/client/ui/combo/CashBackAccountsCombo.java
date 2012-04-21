@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class CashBackAccountsCombo extends AccountCombo {
 
@@ -27,8 +26,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 			if (account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 					&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
-					&& !account.getName().equals(
-							messages.unDepositedFunds())) {
+					&& !account.getName().equals(messages.unDepositedFunds())) {
 				cashBackAccounts.add(account);
 			}
 		}
@@ -37,7 +35,7 @@ public class CashBackAccountsCombo extends AccountCombo {
 
 	@Override
 	public void onAddNew() {
-		NewAccountAction action = ActionFactory.getNewAccountAction();
+		NewAccountAction action = new NewAccountAction();
 		action.setCallback(new ActionCallback<ClientAccount>() {
 
 			@Override

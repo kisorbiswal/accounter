@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
+import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
@@ -50,9 +52,9 @@ public class PaymentDialog extends BaseDialog {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 			if (radio.equals(RECEIVE_PAYMENT)) {
-				ActionFactory.getReceivePaymentAction().run(null, false);
+				new ReceivePaymentAction().run(null, false);
 			} else if (radio.equals(CUSTOMER_PREPAYMENT)) {
-				ActionFactory.getNewCustomerPaymentAction().run(null, false);
+				new CustomerPaymentsAction().run(null, false);
 			}
 		}
 		removeFromParent();

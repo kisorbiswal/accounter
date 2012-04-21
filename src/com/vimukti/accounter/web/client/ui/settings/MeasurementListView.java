@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
@@ -17,7 +16,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement>
 	public MeasurementListView() {
 		this.getElement().setId("JobListView");
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
@@ -56,7 +55,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement>
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly()))
-			return ActionFactory.getAddMeasurementAction();
+			return new AddMeasurementAction();
 		else
 			return null;
 	}

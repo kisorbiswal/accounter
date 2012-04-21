@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 /**
@@ -20,7 +19,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	int type;
 
 	public TaxItemCombo(String title, int type) {
-		super(title, true, 1,"TaxItemCombo");
+		super(title, true, 1, "TaxItemCombo");
 		this.type = type;
 		initCombo(TaxItemsByType(getCompany().getActiveTaxItems(), this.type));
 	}
@@ -69,7 +68,8 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 		case 0:
 			return getDisplayName(object);
 		case 1:
-			return DataUtils.getAmountAsStringInPrimaryCurrency(object.getTaxRate()) + "%";
+			return DataUtils.getAmountAsStringInPrimaryCurrency(object
+					.getTaxRate()) + "%";
 		}
 		return null;
 	}
@@ -84,7 +84,7 @@ public class TaxItemCombo extends CustomCombo<ClientTAXItem> {
 	public void onAddNew() {
 		// if (getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
-		NewVatItemAction action = ActionFactory.getNewVatItemAction();
+		NewVatItemAction action = new NewVatItemAction();
 		action.setCallback(new ActionCallback<ClientTAXItem>() {
 
 			@Override

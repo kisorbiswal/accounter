@@ -9,11 +9,12 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.DepositsTransfersListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.vendors.DepositAction;
 
 public class DepositsTransfersListView extends
 		TransactionsListView<DepositsTransfersList> {
@@ -91,9 +92,9 @@ public class DepositsTransfersListView extends
 	protected Action getAddNewAction() {
 		if (transactionType == 0) {
 
-			return ActionFactory.getDepositAction();
+			return new DepositAction();
 		} else {
-			return ActionFactory.getMakeDepositAction();
+			return new MakeDepositAction();
 		}
 	}
 

@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -68,7 +68,7 @@ public class ConversionBalancesView extends BaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getGeneralSettingsAction().run(null, false);
+				new GeneralSettingsAction().run(null, false);
 			}
 		});
 
@@ -77,7 +77,7 @@ public class ConversionBalancesView extends BaseView {
 			@Override
 			public void onClick(ClickEvent event) {
 				try {
-					ActionFactory.getConversionDateAction().run(null, false);
+					new ConversionDateAction().run(null, false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

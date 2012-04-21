@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
@@ -83,12 +82,11 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 			return null;
 
 		else if (type == ClientItem.TYPE_INVENTORY_PART) {
-			NewItemAction action = ActionFactory.getNewItemAction(true);
+			NewItemAction action = new NewItemAction(true);
 			action.setType(type);
 			return action;
 		} else {
-			InventoryAssemblyAction action = ActionFactory
-					.getInventoryAssemblyAction();
+			InventoryAssemblyAction action = new InventoryAssemblyAction();
 			return action;
 		}
 	}

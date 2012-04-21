@@ -6,9 +6,9 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 import com.vimukti.accounter.web.client.ui.grids.JobListGrid;
 
 public class JobListView extends BaseListView<ClientJob> implements
@@ -17,7 +17,7 @@ public class JobListView extends BaseListView<ClientJob> implements
 	public JobListView() {
 		this.getElement().setId("JobListView");
 	}
-	
+
 	@Override
 	public void updateInGrid(ClientJob objectTobeModified) {
 		// TODO Auto-generated method stub
@@ -61,13 +61,13 @@ public class JobListView extends BaseListView<ClientJob> implements
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewJobAction(null);
+		return new NewJobAction(null);
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
 		if (Utility.isUserHavePermissions(AccounterCoreType.JOB)) {
-		return messages.addNew(messages.job());
+			return messages.addNew(messages.job());
 		}
 		return null;
 

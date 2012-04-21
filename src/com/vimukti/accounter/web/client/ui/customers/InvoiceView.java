@@ -52,10 +52,12 @@ import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.EmailThemeComboAction;
+import com.vimukti.accounter.web.client.ui.core.EmailViewAction;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
@@ -663,11 +665,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						// if there are more than one branding themes, then show
 						// branding
 						// theme dialog box
-						ActionFactory.getEmailThemeComboAction().run(
-								transaction, false);
+						new EmailThemeComboAction().run(transaction, false);
 					} else {
-						ActionFactory.getEmailViewAction().run(transaction,
-								themesList.get(0).getID(), false);
+						new EmailViewAction().run(transaction, themesList
+								.get(0).getID(), false);
 					}
 				}
 			});
@@ -1683,7 +1684,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (themesList.size() > 1) {
 			// if there are more than one branding themes, then show branding
 			// theme combo box
-			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+			new BrandingThemeComboAction().run(transaction, false);
 		} else {
 			// if there is only one branding theme
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);

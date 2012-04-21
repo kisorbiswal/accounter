@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
 /**
  * @author gwt
@@ -77,7 +77,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	@Override
 	public void onDoubleClick(ClientTAXCode obj) {
 		if (Utility.isUserHavePermissions(AccounterCoreType.TAX_CODE)) {
-			ActionFactory.getNewTAXCodeAction().run(obj, false);
+			new NewTAXCodeAction().run(obj, false);
 		}
 	}
 
@@ -162,8 +162,8 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "active", "code", "description", "taxable",
-		"col-last" };
-}
+				"col-last" };
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {

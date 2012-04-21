@@ -21,9 +21,10 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.vendors.BillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
 
 public class MoneyGoingPortlet extends GraphPointsPortlet {
 
@@ -49,7 +50,7 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void goToClicked() {
-		ActionFactory.getAccountRegisterAction().run(creditors, true);
+		new AccountRegisterAction().run(creditors, true);
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getEnterBillsAction().run(null, true);
+				new EnterBillsAction().run(null, true);
 			}
 		});
 
@@ -168,15 +169,13 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 			public void onClick(ClickEvent event) {
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				BillsAction billsAction = ActionFactory.getBillsAction();
+				BillsAction billsAction = new BillsAction();
 				ViewManager.getInstance().viewDataHistory.put(
 						billsAction.getHistoryToken(), null);
 				if (title.equals(messages.billsDue())) {
-					ActionFactory.getBillsAction().run(null, true,
-							messages.open());
+					new BillsAction().run(null, true, messages.open());
 				} else {
-					ActionFactory.getBillsAction().run(null, true,
-							messages.overDue());
+					new BillsAction().run(null, true, messages.overDue());
 				}
 			}
 		});

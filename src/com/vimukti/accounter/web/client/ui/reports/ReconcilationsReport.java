@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ReconcilationDetailByAccountAction;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationsServerReport;
 
 public class ReconcilationsReport extends AbstractReportView<Reconciliation> {
@@ -33,8 +33,8 @@ public class ReconcilationsReport extends AbstractReportView<Reconciliation> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (record.getAccountId() != 0) {
-			UIUtils.runAction(record, ActionFactory
-					.getReconcilationDetailByAccount(record.getAccountId()));
+			UIUtils.runAction(record, new ReconcilationDetailByAccountAction(
+					record.getAccountId()));
 		}
 	}
 

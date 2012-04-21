@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class TDSSectionCombo extends CustomCombo<ClientAccount> {
 
@@ -19,7 +18,7 @@ public class TDSSectionCombo extends CustomCombo<ClientAccount> {
 	}
 
 	public TDSSectionCombo(String title, boolean b) {
-		super(title, b, 3,"tdsSectionCombo");
+		super(title, b, 3, "tdsSectionCombo");
 		this.useAccountNumbers = Global.get().preferences()
 				.getUseAccountNumbers();
 	}
@@ -44,7 +43,7 @@ public class TDSSectionCombo extends CustomCombo<ClientAccount> {
 
 	@Override
 	public void onAddNew() {
-		NewAccountAction action = ActionFactory.getNewAccountAction();
+		NewAccountAction action = new NewAccountAction();
 		action.setCallback(new ActionCallback<ClientAccount>() {
 
 			@Override

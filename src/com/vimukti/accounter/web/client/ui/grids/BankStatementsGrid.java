@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.StatementReconcilationAction;
 
 /**
  * 
@@ -103,10 +103,8 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 			Accounter.showInformation(messages
 					.thisStatementIsAlreadyReconciled());
 		} else {
-			UIUtils.runAction(
-					null,
-					ActionFactory.getStatementReconcilationAction(
-							obj.getAccount(), obj));
+			UIUtils.runAction(null,
+					new StatementReconcilationAction(obj.getAccount(), obj));
 		}
 
 	}

@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -113,7 +112,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioForm.add(QuestionItem);
 		dateItemCombo = new SelectItem(messages.date(), "dateItemCombo");
 		dateForm = new DynamicForm("dateForm");
-//		dateForm.setWidth("50%");
+		// dateForm.setWidth("50%");
 		dateForm.add(dateItemCombo);
 		changeDateCombo(noDepOption);
 
@@ -123,7 +122,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		radioVlayout.add(dateForm);
 
 		notesArea = new TextAreaItem("", "notesArea");
-//		notesArea.setWidth(100);
+		// notesArea.setWidth(100);
 		notesArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()).replace(messages.comments(),
 				messages.notes()));
@@ -175,7 +174,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		salepriceText = new AmountField(messages.salepriceExcludingTax(), this,
 				getBaseCurrency(), "salepriceText");
 		salepriceText.setRequired(true);
-//		salepriceText.setWidth(100);
+		// salepriceText.setWidth(100);
 		DynamicForm detailForm = new DynamicForm("detailForm");
 		detailForm.add(datesold, accountCombo, salepriceText);
 		return detailForm;
@@ -481,7 +480,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// .constants().fixedAssetItemHasBeenSold());
 			saveAndClose = true;
 			super.saveSuccess(result);
-			History.newItem(ActionFactory.getSoldDisposedListAction()
+			History.newItem(new SoldDisposedFixedAssetsListAction()
 					.getHistoryToken());
 			// ActionFactory.getSoldDisposedListAction().run(null,
 			// false);

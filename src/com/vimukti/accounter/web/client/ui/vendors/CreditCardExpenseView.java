@@ -43,7 +43,6 @@ import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -121,7 +120,7 @@ public class CreditCardExpenseView extends
 
 			@Override
 			public void onAddNew() {
-				NewVendorAction action = ActionFactory.getNewVendorAction();
+				NewVendorAction action = new NewVendorAction();
 
 				action.setCallback(new ActionCallback<ClientVendor>() {
 
@@ -773,8 +772,9 @@ public class CreditCardExpenseView extends
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
-						this.discountField.setPercentage(getdiscount(transaction
-								.getTransactionItems()));
+						this.discountField
+								.setPercentage(getdiscount(transaction
+										.getTransactionItems()));
 					}
 				}
 			}
@@ -995,7 +995,8 @@ public class CreditCardExpenseView extends
 		}
 
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -1308,9 +1309,10 @@ public class CreditCardExpenseView extends
 	protected void updateDiscountValues() {
 
 		if (discountField.getPercentage() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
-			vendorAccountTransactionTable
-					.setDiscount(discountField.getPercentage());
+			vendorItemTransactionTable.setDiscount(discountField
+					.getPercentage());
+			vendorAccountTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

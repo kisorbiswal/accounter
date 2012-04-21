@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 
 public class JobCombo extends CustomCombo<ClientJob> {
@@ -12,7 +11,7 @@ public class JobCombo extends CustomCombo<ClientJob> {
 	private ClientCustomer customer;
 
 	public JobCombo(String title, boolean isNewRequired) {
-			super(title, isNewRequired, 1,"JobCombo");
+		super(title, isNewRequired, 1, "JobCombo");
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class JobCombo extends CustomCombo<ClientJob> {
 
 	@Override
 	public void onAddNew() {
-		NewJobAction action = ActionFactory.getNewJobAction(customer);
+		NewJobAction action = new NewJobAction(customer);
 		action.setCallback(new ActionCallback<ClientJob>() {
 
 			@Override

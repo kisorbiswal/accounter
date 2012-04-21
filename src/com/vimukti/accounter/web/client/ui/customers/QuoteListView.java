@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
@@ -30,17 +29,17 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (type == ClientEstimate.QUOTES) {
-				return ActionFactory.getNewQuoteAction(type);
+				return new NewQuoteAction(type);
 			} else if (type == ClientEstimate.SALES_ORDER) {
 				if (getPreferences().isSalesOrderEnabled()) {
-					return ActionFactory.getNewQuoteAction(type);
+					return new NewQuoteAction(type);
 				}
 				return null;
 			} else if (getPreferences().isDelayedchargesEnabled()) {
 				if (type == ClientEstimate.CHARGES) {
-					return ActionFactory.getNewQuoteAction(type);
+					return new NewQuoteAction(type);
 				} else if (type == ClientEstimate.CREDITS) {
-					return ActionFactory.getNewQuoteAction(type);
+					return new NewQuoteAction(type);
 				}
 			}
 		}

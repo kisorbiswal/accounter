@@ -20,7 +20,9 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
+import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
+import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 
 public class BankingPortlet extends GraphPointsPortlet {
 
@@ -29,15 +31,14 @@ public class BankingPortlet extends GraphPointsPortlet {
 	public BankingPortlet(ClientPortletConfiguration configuration) {
 		super(configuration, messages.banking(), messages.gotoBanking(), "75%");
 		this.getElement().addClassName("bank-account-portlet");
-//		setHeight("270px");
+		// setHeight("270px");
 		this.getElement().setId("BankingPortlet");
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void goToClicked() {
-		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run(
-				null, true);
+		new ChartOfAccountsAction(ClientAccount.TYPE_BANK).run(null, true);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getNewBankAccountAction().run(null, true);
+					new NewBankAccountAction().run(null, true);
 				}
 			});
 			Runnable runnable = new Runnable() {
@@ -105,8 +106,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						ActionFactory.getAccountRegisterAction().run(account,
-								true);
+						new AccountRegisterAction().run(account, true);
 					}
 				});
 				ClientCurrency currency = getCompany().getCurrency(
@@ -202,7 +202,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getNewBankAccountAction().run(null, true);
+					new NewBankAccountAction().run(null, true);
 				}
 			});
 		}

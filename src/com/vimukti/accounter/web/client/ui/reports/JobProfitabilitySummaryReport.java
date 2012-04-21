@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilitySummaryServerReport;
 
 public class JobProfitabilitySummaryReport extends
@@ -43,12 +42,10 @@ public class JobProfitabilitySummaryReport extends
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (columnIndex == 1) {// calls cost method,
 			record.setCost(true);
-			UIUtils.runAction(record,
-					ActionFactory.getJobActualCostDetailReportAction());
+			UIUtils.runAction(record, new JobActualDetailAction());
 		} else if (columnIndex == 2) {// calls revenue method
 			record.setCost(false);
-			UIUtils.runAction(record,
-					ActionFactory.getJobActualCostDetailReportAction());
+			UIUtils.runAction(record, new JobActualDetailAction());
 		}
 
 	}

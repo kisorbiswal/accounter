@@ -7,7 +7,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class PurchaseAccountsCombo extends GridAccountsCombo {
 
@@ -41,11 +40,9 @@ public class PurchaseAccountsCombo extends GridAccountsCombo {
 		return gridAccounts;
 	}
 
-
-
 	@Override
 	public void onAddNew() {
-		NewAccountAction action = ActionFactory.getNewAccountAction();
+		NewAccountAction action = new NewAccountAction();
 		action.setCallback(new ActionCallback<ClientAccount>() {
 
 			@Override

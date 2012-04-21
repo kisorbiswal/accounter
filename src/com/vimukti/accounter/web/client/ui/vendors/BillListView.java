@@ -13,7 +13,6 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
@@ -51,9 +50,9 @@ public class BillListView extends TransactionsListView<BillsList> implements
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
-				return ActionFactory.getNewCreditMemoAction();
+				return new NewCreditMemoAction();
 			}
-			return ActionFactory.getEnterBillsAction();
+			return new EnterBillsAction();
 		}
 		return null;
 	}

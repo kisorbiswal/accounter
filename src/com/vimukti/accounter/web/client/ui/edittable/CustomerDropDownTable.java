@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 
 public class CustomerDropDownTable extends
@@ -76,7 +75,7 @@ public class CustomerDropDownTable extends
 
 	@Override
 	protected void addNewItem(String text) {
-		NewCustomerAction action = ActionFactory.getNewCustomerAction();
+		NewCustomerAction action = new NewCustomerAction();
 		action.setCallback(new ActionCallback<ClientCustomer>() {
 
 			@Override

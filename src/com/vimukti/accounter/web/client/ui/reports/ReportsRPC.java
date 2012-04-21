@@ -63,10 +63,69 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
+import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
+import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
+import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
+import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
+import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
+import com.vimukti.accounter.web.client.ui.company.CheckPrintSettingAction;
+import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
+import com.vimukti.accounter.web.client.ui.company.CurrencyGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.ItemGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.LocationGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
+import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
+import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
+import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
+import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
+import com.vimukti.accounter.web.client.ui.company.PaymentTermListAction;
+import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
+import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
+import com.vimukti.accounter.web.client.ui.company.VendorGroupListAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
+import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
+import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
+import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
+import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
+import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
+import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
+import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
+import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
+import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
+import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
+import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
+import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentAction;
+import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
+import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
+import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
+import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
+import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
+import com.vimukti.accounter.web.client.ui.vat.PayTAXAction;
+import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsAction;
+import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.DepositAction;
+import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.IssuePaymentsAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewCashPurchaseAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewCreditMemoAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewItemReceiptAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
+import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
+import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 
 public class ReportsRPC {
 
@@ -93,13 +152,13 @@ public class ReportsRPC {
 
 	public static void getTaxAgency(long id) {
 		UIUtils.runAction(Accounter.getCompany().getTaxAgency(id),
-				ActionFactory.getNewTAXAgencyAction());
+				new NewTAXAgencyAction());
 
 	}
 
 	public static void getVendor(String name) {
 		UIUtils.runAction(Accounter.getCompany().getVendorByName(name),
-				ActionFactory.getNewVendorAction());
+				new NewVendorAction());
 	}
 
 	public static void openTransactionView(int transactionType,
@@ -111,265 +170,260 @@ public class ReportsRPC {
 		switch (transactionType) {
 
 		case ClientTransaction.TYPE_PAY_BILL:
-			initCallBack(new ClientPayBill(),
-					ActionFactory.getPayBillsAction(), transactionId);
+			initCallBack(new ClientPayBill(), new PayBillsAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			initCallBack(new ClientVendorPrePayment(),
-					ActionFactory.getNewVendorPaymentAction(), transactionId);
+					new VendorPaymentsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
-			initCallBack(new ClientTransferFund(),
-					ActionFactory.getMakeDepositAction(), transactionId);
-			break;
-		case ClientTransaction.TYPE_ENTER_BILL:
-			initCallBack(new ClientEnterBill(),
-					ActionFactory.getEnterBillsAction(), transactionId);
-			break;
-		case ClientTransaction.TYPE_CASH_PURCHASE:
-			initCallBack(new ClientCashPurchase(),
-					ActionFactory.getNewCashPurchaseAction(), transactionId);
-			break;
-		case ClientTransaction.TYPE_CASH_SALES:
-			initCallBack(new ClientCashSales(),
-					ActionFactory.getNewCashSaleAction(), transactionId);
-		case IAccounterCore.RECURING_TRANSACTION:
-			initCallBack(new ClientRecurringTransaction(),
-					ActionFactory.getRecurringTransactionDialogAction(),
+			initCallBack(new ClientTransferFund(), new MakeDepositAction(),
 					transactionId);
 			break;
+		case ClientTransaction.TYPE_ENTER_BILL:
+			initCallBack(new ClientEnterBill(), new EnterBillsAction(),
+					transactionId);
+			break;
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+			initCallBack(new ClientCashPurchase(), new NewCashPurchaseAction(),
+					transactionId);
+			break;
+		case ClientTransaction.TYPE_CASH_SALES:
+			initCallBack(new ClientCashSales(), new NewCashSaleAction(),
+					transactionId);
+		case IAccounterCore.RECURING_TRANSACTION:
+			initCallBack(new ClientRecurringTransaction(),
+					new RecurringTransactionDialogAction(), transactionId);
+			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
-			initCallBack(new ClientWriteCheck(),
-					ActionFactory.getWriteChecksAction(), transactionId);
+			initCallBack(new ClientWriteCheck(), new WriteChecksAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 			initCallBack(new ClientCustomerRefund(),
-					ActionFactory.getCustomerRefundAction(), transactionId);
+					new CustomerRefundAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
 			initCallBack(new ClientCustomerCreditMemo(),
-					ActionFactory.getNewCreditsAndRefundsAction(),
-					transactionId);
+					new NewCreditsAndRefundsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
 			initCallBack(new ClientReceivePayment(),
-					ActionFactory.getReceivePaymentAction(), transactionId);
+					new ReceivePaymentAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_INVOICE:
-			initCallBack(new ClientInvoice(),
-					ActionFactory.getNewInvoiceAction(), transactionId);
+			initCallBack(new ClientInvoice(), new NewInvoiceAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
 			initCallBack(new ClientCreditCardCharge(),
-					ActionFactory.getCreditCardChargeAction(), transactionId);
+					new CreditCardChargeAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
-			initCallBack(new ClientEstimate(),
-					ActionFactory.getNewQuoteAction(0), transactionId);
+			initCallBack(new ClientEstimate(), new NewQuoteAction(0),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
-			initCallBack(new ClientIssuePayment(),
-					ActionFactory.getIssuePaymentsAction(), transactionId);
+			initCallBack(new ClientIssuePayment(), new IssuePaymentsAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 			initCallBack(new ClientVendorCreditMemo(),
-					ActionFactory.getNewCreditMemoAction(), transactionId);
+					new NewCreditMemoAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_TAX:
 
-			initCallBack(new ClientPayTAX(), ActionFactory.getpayTAXAction(),
-					transactionId);
+			initCallBack(new ClientPayTAX(), new PayTAXAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
-			initCallBack(new ClientJournalEntry(),
-					ActionFactory.getNewJournalEntryAction(), transactionId);
+			initCallBack(new ClientJournalEntry(), new NewJournalEntryAction(),
+					transactionId);
 			break;
 
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
-			initCallBack(new ClientPurchaseOrder(),
-					ActionFactory.getPurchaseOrderAction(), transactionId);
+			initCallBack(new ClientPurchaseOrder(), new PurchaseOrderAction(),
+					transactionId);
 			break;
 
 		case ClientTransaction.TYPE_ITEM_RECEIPT:
-			initCallBack(new ClientItemReceipt(),
-					ActionFactory.getItemReceiptAction(), transactionId);
+			initCallBack(new ClientItemReceipt(), new NewItemReceiptAction(),
+					transactionId);
 			break;
 
 		case ClientTransaction.TYPE_CASH_EXPENSE:
-			initCallBack(new ClientCashPurchase(),
-					ActionFactory.CashExpenseAction(), transactionId);
+			initCallBack(new ClientCashPurchase(), new CashExpenseAction(),
+					transactionId);
 			break;
 
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			initCallBack(new ClientCreditCardCharge(),
-					ActionFactory.CreditCardExpenseAction(), transactionId);
+					new CreditCardExpenseAction(), transactionId);
 			break;
 
 		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
-			initCallBack(new ClientCashPurchase(),
-					ActionFactory.EmployeeExpenseAction(), transactionId);
+			initCallBack(new ClientCashPurchase(), new EmployeeExpenseAction(),
+					transactionId);
 			break;
 
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			initCallBack(new ClientCustomerPrePayment(),
-					ActionFactory.getNewCustomerPaymentAction(), transactionId);
+					new CustomerPaymentsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_RECEIVE_TAX:
-			initCallBack(new ClientReceiveVAT(),
-					ActionFactory.getreceiveVATAction(), transactionId);
+			initCallBack(new ClientReceiveVAT(), new ReceiveVATAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
-			initCallBack(new ClientTAXAdjustment(),
-					ActionFactory.getAdjustTaxAction(), transactionId);
+			initCallBack(new ClientTAXAdjustment(), new AdjustTAXAction(2),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_TDS_CHALLAN:
 			initCallBack(new ClientTDSChalanDetail(),
-					ActionFactory.getTDSChalanDetailsView(), transactionId);
+					new TDSChalanDetailsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			initCallBack(new ClientMakeDeposit(),
-					ActionFactory.getDepositAction(), transactionId);
+			initCallBack(new ClientMakeDeposit(), new DepositAction(),
+					transactionId);
 			break;
 
 		// These cases were included to open the views other than transactions.
 		case IAccounterCore.ACCOUNT:
-			initCallBack(new ClientAccount(),
-					ActionFactory.getNewAccountAction(), transactionId);
+			initCallBack(new ClientAccount(), new NewAccountAction(),
+					transactionId);
 			break;
 		case IAccounterCore.TAXGROUP:
 			initCallBack(new ClientTAXGroup(),
-					ActionFactory.getManageSalesTaxGroupsAction(),
-					transactionId);
+					new ManageSalesTaxGroupsAction(), transactionId);
 			break;
 		case IAccounterCore.TAXITEM:
-			initCallBack(new ClientTAXItem(),
-					ActionFactory.getNewVatItemAction(), transactionId);
+			initCallBack(new ClientTAXItem(), new NewVatItemAction(),
+					transactionId);
 			break;
 		case IAccounterCore.TAXAGENCY:
-			initCallBack(new ClientTAXAgency(),
-					ActionFactory.getNewTAXAgencyAction(), transactionId);
+			initCallBack(new ClientTAXAgency(), new NewTAXAgencyAction(),
+					transactionId);
 			break;
 		case IAccounterCore.CUSTOMER_GROUP:
 			initCallBack(new ClientCustomerGroup(),
-					ActionFactory.getCustomerGroupListAction(), transactionId);
+					new CustomerGroupListAction(), transactionId);
 			break;
 		case IAccounterCore.VENDOR_GROUP:
-			initCallBack(new ClientVendorGroup(),
-					ActionFactory.getVendorGroupListAction(), transactionId);
+			initCallBack(new ClientVendorGroup(), new VendorGroupListAction(),
+					transactionId);
 			break;
 		case IAccounterCore.PAYMENT_TERMS:
-			initCallBack(new ClientPaymentTerms(),
-					ActionFactory.getPaymentTermListAction(), transactionId);
+			initCallBack(new ClientPaymentTerms(), new PaymentTermListAction(),
+					transactionId);
 			break;
 		case IAccounterCore.SHIPPING_METHOD:
 			initCallBack(new ClientShippingMethod(),
-					ActionFactory.getShippingMethodListAction(), transactionId);
+					new ShippingMethodListAction(), transactionId);
 			break;
 		case IAccounterCore.SHIPPING_TERMS:
 			initCallBack(new ClientShippingTerms(),
-					ActionFactory.getShippingTermListAction(), transactionId);
+					new ShippingTermListAction(), transactionId);
 			break;
 		case IAccounterCore.ITEM_GROUP:
-			initCallBack(new ClientItemGroup(),
-					ActionFactory.getItemGroupListAction(), transactionId);
+			initCallBack(new ClientItemGroup(), new ItemGroupListAction(),
+					transactionId);
 			break;
 		case IAccounterCore.CREDIT_RATING:
 			initCallBack(new ClientCreditRating(),
-					ActionFactory.getCreditRatingListAction(), transactionId);
+					new CreditRatingListAction(), transactionId);
 			break;
 		case IAccounterCore.CURRENCY:
-			initCallBack(new ClientCurrency(),
-					ActionFactory.getCurrencyGroupListAction(), transactionId);
+			initCallBack(new ClientCurrency(), new CurrencyGroupListAction(),
+					transactionId);
 			break;
 		case IAccounterCore.ITEM:
-			initCallBack(new ClientItem(),
-					ActionFactory.getNewItemAction(true), transactionId);
+			initCallBack(new ClientItem(), new NewItemAction(true),
+					transactionId);
 			break;
 		case IAccounterCore.ASSEMBLY:
 			initCallBack(new ClientInventoryAssembly(),
-					ActionFactory.getInventoryAssemblyAction(), transactionId);
+					new InventoryAssemblyAction(), transactionId);
 			break;
 		case IAccounterCore.VENDOR:
-			initCallBack(new ClientVendor(),
-					ActionFactory.getNewVendorAction(), transactionId);
+			initCallBack(new ClientVendor(), new NewVendorAction(),
+					transactionId);
 			break;
 		case IAccounterCore.CUSTOMER:
-			initCallBack(new ClientCustomer(),
-					ActionFactory.getNewCustomerAction(), transactionId);
+			initCallBack(new ClientCustomer(), new NewCustomerAction(),
+					transactionId);
 			break;
 		case IAccounterCore.SALES_PERSON:
-			initCallBack(new ClientSalesPerson(),
-					ActionFactory.getNewSalesperSonAction(), transactionId);
+			initCallBack(new ClientSalesPerson(), new NewSalesperSonAction(),
+					transactionId);
 			break;
 		case IAccounterCore.TAXCODE:
-			initCallBack(new ClientTAXCode(),
-					ActionFactory.getNewTAXCodeAction(), transactionId);
+			initCallBack(new ClientTAXCode(), new NewTAXCodeAction(),
+					transactionId);
 			break;
 		case IAccounterCore.STOCK_ADJUSTMENT:
 			initCallBack(new ClientStockAdjustment(),
-					ActionFactory.getStockAdjustmentAction(), transactionId);
+					new StockAdjustmentAction(), transactionId);
 			break;
 		case IAccounterCore.WAREHOUSE:
-			initCallBack(new ClientWarehouse(),
-					ActionFactory.getWareHouseViewAction(), transactionId);
+			initCallBack(new ClientWarehouse(), new WareHouseViewAction(),
+					transactionId);
 			break;
 		case IAccounterCore.STOCK_TRANSFER:
 			initCallBack(new ClientStockTransfer(),
-					ActionFactory.getWareHouseTransferAction(), transactionId);
+					new WareHouseTransferAction(), transactionId);
 			break;
 		case IAccounterCore.MEASUREMENT:
-			initCallBack(new ClientMeasurement(),
-					ActionFactory.getAddMeasurementAction(), transactionId);
+			initCallBack(new ClientMeasurement(), new AddMeasurementAction(),
+					transactionId);
 			break;
 		case IAccounterCore.USER:
-			initCallBack(new ClientUser(), ActionFactory.getInviteUserAction(),
+			initCallBack(new ClientUser(), new InviteUserAction(),
 					transactionId);
 			break;
 		case IAccounterCore.BRANDING_THEME:
-			initCallBack(new ClientBrandingTheme(),
-					ActionFactory.getNewBrandThemeAction(), transactionId);
+			initCallBack(new ClientBrandingTheme(), new NewBrandThemeAction(),
+					transactionId);
 			break;
 		case IAccounterCore.LOCATION:
-			initCallBack(new ClientLocation(),
-					ActionFactory.getLocationGroupListAction(), transactionId);
+			initCallBack(new ClientLocation(), new LocationGroupListAction(),
+					transactionId);
 			break;
 		case IAccounterCore.ACCOUNTER_CLASS:
 			initCallBack(new ClientAccounterClass(),
-					ActionFactory.getAccounterClassGroupListAction(),
-					transactionId);
+					new AccounterClassListAction(), transactionId);
 			break;
 		case IAccounterCore.BANK_ACCOUNT:
-			initCallBack(new ClientBankAccount(),
-					ActionFactory.getNewBankAccountAction(), transactionId);
+			initCallBack(new ClientBankAccount(), new NewBankAccountAction(),
+					transactionId);
 			break;
 		case IAccounterCore.FIXED_ASSET:
-			initCallBack(new ClientFixedAsset(),
-					ActionFactory.getNewFixedAssetAction(), transactionId);
+			initCallBack(new ClientFixedAsset(), new NewFixedAssetAction(),
+					transactionId);
 			break;
 		case IAccounterCore.BUDGET:
-			initCallBack(new ClientBudget(),
-					ActionFactory.getNewBudgetAction(), transactionId);
+			initCallBack(new ClientBudget(), new NewBudgetAction(),
+					transactionId);
 			break;
 		case IAccounterCore.RECONCILIATION:
 			initCallBack(new ClientReconciliation(),
-					ActionFactory.getNewReconciliationAction(), transactionId);
+					new NewReconcileAccountAction(), transactionId);
 			break;
 		case IAccounterCore.TDSCHALANDETAIL:
 			initCallBack(new ClientTDSChalanDetail(),
-					ActionFactory.getTDSChalanDetailsView(), transactionId);
+					new TDSChalanDetailsAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
 			initCallBack(new ClientStockAdjustment(),
-					ActionFactory.getStockAdjustmentAction(), transactionId);
+					new StockAdjustmentAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
-			initCallBack(new ClientBuildAssembly(),
-					ActionFactory.getBuildAssemblyAction(), transactionId);
+			initCallBack(new ClientBuildAssembly(), new BuildAssemblyAction(),
+					transactionId);
 			break;
 		case IAccounterCore.CHECK_LAYOUT:
 			initCallBack(new ClientChequeLayout(),
-					ActionFactory.getCheckPrintSettingAction(), transactionId);
+					new CheckPrintSettingAction(), transactionId);
 			break;
 		}
 
@@ -382,57 +436,54 @@ public class ReportsRPC {
 		switch (transaction.getType()) {
 
 		case ClientTransaction.TYPE_TRANSFER_FUND:
-			ActionFactory.getMakeDepositAction().run(transaction, false);
+			new MakeDepositAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
-			ActionFactory.getEnterBillsAction().run(
-					(ClientEnterBill) transaction, false);
+			new EnterBillsAction().run((ClientEnterBill) transaction, false);
 			break;
 		case ClientTransaction.TYPE_CASH_PURCHASE:
-			ActionFactory.getNewCashPurchaseAction().run(transaction, false);
+			new NewCashPurchaseAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_CASH_SALES:
-			ActionFactory.getNewCashSaleAction().run(transaction, false);
+			new NewCashSaleAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
-			ActionFactory.getWriteChecksAction().run(transaction, false);
+			new WriteChecksAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
-			ActionFactory.getNewCreditsAndRefundsAction().run(transaction,
-					false);
+			new NewCreditsAndRefundsAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_INVOICE:
-			ActionFactory.getNewInvoiceAction().run(
-					(ClientInvoice) transaction, false);
+			new NewInvoiceAction().run((ClientInvoice) transaction, false);
 			break;
 		case ClientTransaction.TYPE_ESTIMATE:
-			ActionFactory.getNewQuoteAction(0).run(transaction, false);
+			new NewQuoteAction(0).run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
-			ActionFactory.getNewCreditMemoAction().run(transaction, false);
+			new NewCreditMemoAction().run(transaction, false);
 			break;
 
 		case ClientTransaction.TYPE_CASH_EXPENSE:
-			ActionFactory.CashExpenseAction().run(transaction, false);
+			new CashExpenseAction().run(transaction, false);
 			break;
 
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
-			ActionFactory.CreditCardExpenseAction().run(transaction, false);
+			new CreditCardExpenseAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
-			ActionFactory.getNewJournalEntryAction().run(transaction, false);
+			new NewJournalEntryAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
-			ActionFactory.getCustomerRefundAction().run(transaction, false);
+			new CustomerRefundAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			ActionFactory.getDepositAction().run(transaction, false);
+			new DepositAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
-			ActionFactory.getPurchaseOrderAction().run(transaction, false);
+			new PurchaseOrderAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
-			ActionFactory.getBuildAssemblyAction().run(transaction, false);
+			new BuildAssemblyAction().run(transaction, false);
 			break;
 		}
 	}

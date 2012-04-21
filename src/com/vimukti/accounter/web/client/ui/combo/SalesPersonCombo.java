@@ -3,18 +3,17 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 	public SalesPersonCombo(String title) {
-		super(title,"SalesPersonCombo");
+		super(title, "SalesPersonCombo");
 	}
 
 	public SalesPersonCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"SalesPersonCombo");
+		super(title, isAddNewRequired, 1, "SalesPersonCombo");
 
-	//	initCombo(getCompany().getActiveSalesPersons());
+		// initCombo(getCompany().getActiveSalesPersons());
 	}
 
 	@Override
@@ -32,12 +31,13 @@ public class SalesPersonCombo extends CustomCombo<ClientSalesPerson> {
 
 	@Override
 	public void onAddNew() {
-		NewSalesperSonAction action = ActionFactory.getNewSalesperSonAction();
+		NewSalesperSonAction action = new NewSalesperSonAction();
 		action.setCallback(new ActionCallback<ClientSalesPerson>() {
 
 			@Override
 			public void actionResult(ClientSalesPerson result) {
-				if (result.getFirstName() != null || result.getLastName()!=null)
+				if (result.getFirstName() != null
+						|| result.getLastName() != null)
 					addItemThenfireEvent(result);
 
 			}
