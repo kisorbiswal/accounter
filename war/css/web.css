@@ -7922,4 +7922,12 @@ table.no_records tr td {
 #ClassMergeDialog table,#LocationMergeDialog table{
 	width: 650px;
 }
+#EmailView .email_textarea{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
 /*Location merge dialog end*/
