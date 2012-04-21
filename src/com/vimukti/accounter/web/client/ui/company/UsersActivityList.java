@@ -25,6 +25,8 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -451,6 +453,58 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			Accounter.createGETService().getObjectById(
 					AccounterCoreType.BRANDINGTHEME, object.getObjectID(),
 					callback);
+		} else if (object.getObjType() == IAccounterCore.TDSDEDUCTORMASTER) {
+			AccounterAsyncCallback<ClientTDSDeductorMasters> callback = new AccounterAsyncCallback<ClientTDSDeductorMasters>() {
+
+				@Override
+				public void onException(AccounterException caught) {
+					Accounter.showMessage(Global.get().messages()
+							.sessionExpired());
+				}
+
+				@Override
+				public void onResultSuccess(ClientTDSDeductorMasters result) {
+					if (result != null) {
+						TdsDeductorMasterAction tdsDeductorMasterAction = new TdsDeductorMasterAction();
+						tdsDeductorMasterAction.run(result, false);
+						MainFinanceWindow.getViewManager().existingView
+								.onEdit();
+						MainFinanceWindow.getViewManager().removeEditButton();
+
+					}
+				}
+
+			};
+
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.TDSDEDUCTORMASTER, object.getObjectID(),
+					callback);
+		} else if (object.getObjType() == IAccounterCore.TDSRESPONSIBLEPERSON) {
+			AccounterAsyncCallback<ClientTDSResponsiblePerson> callback = new AccounterAsyncCallback<ClientTDSResponsiblePerson>() {
+
+				@Override
+				public void onException(AccounterException caught) {
+					Accounter.showMessage(Global.get().messages()
+							.sessionExpired());
+				}
+
+				@Override
+				public void onResultSuccess(ClientTDSResponsiblePerson result) {
+					if (result != null) {
+						TDSResponsiblePersonAction tDSResponsiblePersonAction = new TDSResponsiblePersonAction();
+						tDSResponsiblePersonAction.run(result, false);
+						MainFinanceWindow.getViewManager().existingView
+								.onEdit();
+						MainFinanceWindow.getViewManager().removeEditButton();
+
+					}
+				}
+
+			};
+
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.TDSRESPONSIBLEPERSON,
+					object.getObjectID(), callback);
 		} else {
 			ReportsRPC.openTransactionView(object.getObjType(),
 					object.getObjectID());
