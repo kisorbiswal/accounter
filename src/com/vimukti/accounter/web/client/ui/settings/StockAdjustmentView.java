@@ -147,6 +147,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			return;
 		}
 		wareHouse = selectItem;
+		table.wareHouseChanged();
 		table.refresh();
 	}
 

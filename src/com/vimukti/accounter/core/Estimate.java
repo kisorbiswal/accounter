@@ -363,7 +363,7 @@ public class Estimate extends Transaction {
 			// // "This Quote is already  Rejected,can't  Modify");
 			// }
 		}
-		if (goingToBeEdit) {
+		if (!goingToBeEdit) {
 			checkNullValues();
 		}
 		return true;
@@ -588,7 +588,7 @@ public class Estimate extends Transaction {
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

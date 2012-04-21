@@ -728,9 +728,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			}
 
 		};
-
-		this.rpcDoSerivce.canEdit(AccounterCoreType.TDSDEDUCTORMASTER,
-				data.getID(), editCallBack);
+		if (rpcDoSerivce != null) {
+			this.rpcDoSerivce.canEdit(AccounterCoreType.TDSDEDUCTORMASTER,
+					data.getID(), editCallBack);
+		}
 	}
 
 	protected void enableFormItems() {
