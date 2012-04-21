@@ -6091,9 +6091,7 @@
 				SELECT C.ID,
 				       C.TRADING_NAME
 				FROM   COMPANY C
-				       LEFT JOIN USERS U
-				         ON U.COMPANY_ID = C.ID
-				WHERE  U.ID IN ( :userIds )
+				WHERE  C.CREATED_BY IN ( :userIds )
 				       AND C.SECRET_KEY IS NULL
 				       AND C.IS_LOCKED=FALSE
 				ORDER  BY C.TRADING_NAME  
