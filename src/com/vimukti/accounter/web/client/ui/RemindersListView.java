@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,14 +42,14 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 
 	Button createButton, skipButton;
 
-	List<ClientReminder> reminders = new ArrayList<ClientReminder>();
+	ArrayList<ClientReminder> reminders = new ArrayList<ClientReminder>();
 	public String viewType;
 
 	public RemindersListView() {
 		super();
 		this.getElement().setId("RemindersListView");
 	}
-	
+
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
@@ -106,7 +105,7 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	}
 
 	protected void createOrSkipTransactions(boolean isCreate) {
-		List<ClientReminder> records = grid.getSelectedRecords();
+		ArrayList<ClientReminder> records = (ArrayList<ClientReminder>) grid.getSelectedRecords();
 		if (!records.isEmpty()) {
 			if (isCreate) {
 				for (ClientReminder reminder : records) {
@@ -215,7 +214,7 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	protected SelectCombo getSelectItem() {
 		viewSelect = new SelectCombo(messages.currentView());
 		initTypesMap();
-		List<String> listOfTypes = new ArrayList<String>(typesMap.keySet());
+		ArrayList<String> listOfTypes = new ArrayList<String>(typesMap.keySet());
 		viewSelect.initCombo(listOfTypes);
 		if (viewType != null && !viewType.equals(""))
 			viewSelect.setComboItem(viewType);

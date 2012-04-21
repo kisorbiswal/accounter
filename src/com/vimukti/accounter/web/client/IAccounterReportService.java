@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-
-import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -337,7 +336,7 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<UnRealisedLossOrGain> getUnRealisedExchangeLossesAndGains(
-			long enteredDate, Map<Long, Double> exchangeRates)
+			long enteredDate, HashMap<Long, Double> exchangeRates)
 			throws AccounterException;
 
 	ArrayList<CurrencyExchangeRate> getExchangeRatesOfDate(long date)

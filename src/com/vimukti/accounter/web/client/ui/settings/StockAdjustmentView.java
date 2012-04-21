@@ -1,12 +1,14 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
@@ -250,7 +252,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	private void getAssetValuesForItems() {
 
-		AccounterAsyncCallback<Map<Long, Double>> callback = new AccounterAsyncCallback<Map<Long, Double>>() {
+		AsyncCallback<HashMap<Long, Double>> callback = new AccounterAsyncCallback<HashMap<Long, Double>>() {
 
 			@Override
 			public void onException(AccounterException exception) {
@@ -259,7 +261,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			}
 
 			@Override
-			public void onResultSuccess(Map<Long, Double> result) {
+			public void onResultSuccess(HashMap<Long, Double> result) {
 				for (Entry<Long, Double> entry : result.entrySet()) {
 					ClientItem item = getCompany().getItem(entry.getKey());
 					item.setAssetValue(entry.getValue());

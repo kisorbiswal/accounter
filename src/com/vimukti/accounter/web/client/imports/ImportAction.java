@@ -1,7 +1,8 @@
 package com.vimukti.accounter.web.client.imports;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -10,20 +11,18 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ImportAction extends Action {
 
-	private Map<String, List<String>> columnData;
+	private HashMap<String, ArrayList<String>> columnData;
 	private int importType;
-	private List<ImportField> importerFields;
+	private ArrayList<ImportField> importerFields;
 	private String fileID;
 	private double noOfRows;
 
-	public ImportAction(List<ImportField> importerFields,
-			Map<String, List<String>> data, int type, String fileID,
+	public ImportAction(ArrayList<ImportField> importerFields,
+			HashMap<String, ArrayList<String>> data, int type, String fileID,
 			double noOfRows) {
 		this.columnData = data;
 		this.importType = type;
@@ -51,7 +50,7 @@ public class ImportAction extends Action {
 						importerFields, columnData, noOfRows);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ImportAction.this);
-				
+
 			}
 
 			public void onFailure(Throwable e) {
@@ -59,13 +58,13 @@ public class ImportAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		// });
 
 	}
 

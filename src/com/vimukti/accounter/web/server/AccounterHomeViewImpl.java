@@ -2313,15 +2313,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ImportField> getFieldsOf(int importerType)
+	public ArrayList<ImportField> getFieldsOf(int importerType)
 			throws AccounterException {
-		return getFinanceTool().getFieldsOfImporter(importerType);
+		return (ArrayList<ImportField>) getFinanceTool().getFieldsOfImporter(importerType);
 	}
 
 	@Override
-	public Map<Integer, Object> importData(String filePath, int importerType,
-			Map<String, String> importMap, String dateFormate)
-			throws AccounterException {
+	public HashMap<Integer, Object> importData(String filePath,
+			int importerType, HashMap<String, String> importMap,
+			String dateFormate) throws AccounterException {
 
 		return getFinanceTool().importData(getCompanyId(), getUserEmail(),
 				filePath, importerType, importMap, dateFormate);
@@ -2347,11 +2347,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientJob> getJobsByCustomer(long id) {
+	public ArrayList<ClientJob> getJobsByCustomer(long id) {
 		List<ClientJob> jobs = new ArrayList<ClientJob>();
 		Session currentSession = HibernateUtil.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<Job> list = currentSession.getNamedQuery("getJobsByCustomer")
+		ArrayList<Job> list = (ArrayList<Job>) currentSession.getNamedQuery("getJobsByCustomer")
 				.setParameter("customerId", id)
 				.setParameter("companyId", getCompanyId()).list();
 		try {
@@ -2360,7 +2360,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 						job, ClientJob.class);
 				jobs.add(clientJob);
 			}
-			return jobs;
+			return (ArrayList<ClientJob>) jobs;
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}

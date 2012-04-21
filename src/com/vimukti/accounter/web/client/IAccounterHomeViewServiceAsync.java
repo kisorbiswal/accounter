@@ -4,8 +4,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -565,14 +564,14 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
 
 	public void getFieldsOf(int importerType,
-			AsyncCallback<List<ImportField>> callback);
+			AsyncCallback<ArrayList<ImportField>> callback);
 
 	public void getJobsByCustomer(long id,
-			AsyncCallback<List<ClientJob>> asyncCallback);
+			AsyncCallback<ArrayList<ClientJob>> asyncCallback);
 
 	void importData(String filePath, int importerType,
-			Map<String, String> importMap, String dateFormate,
-			AsyncCallback<Map<Integer, Object>> callback);
+			HashMap<String, String> importMap, String dateFormate,
+			AsyncCallback<HashMap<Integer, Object>> callback);
 
 	public void getItemTransactionsList(long itemId, int transactionType,
 			int transactionStatus, ClientFinanceDate startDate,

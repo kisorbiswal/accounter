@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -398,7 +397,7 @@ public interface IAccounterReportServiceAsync {
 
 	public void getUnRealisedExchangeLossesAndGains(
 			long enteredDate,
-			Map<Long, Double> exchangeRates,
+			HashMap<Long, Double> exchangeRates,
 			AsyncCallback<ArrayList<UnRealisedLossOrGain>> unRealisedExchangeLossedAndGains);
 
 	void getExchangeRatesOfDate(long date,
