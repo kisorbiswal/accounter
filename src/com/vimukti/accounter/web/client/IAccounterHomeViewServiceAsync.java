@@ -61,8 +61,8 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ItemUnitPrice;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -334,7 +334,7 @@ public interface IAccounterHomeViewServiceAsync {
 	// AsyncCallback<ArrayList<ClientFileTAXEntry>> callBack);
 
 	public void getPayTAXEntries(
-			AsyncCallback<List<ClientTransactionPayTAX>> callBack);
+			AsyncCallback<ArrayList<ClientTransactionPayTAX>> callBack);
 
 	public void getPayeeList(int transactionCategory, boolean isActive,
 			int strat, int length,
@@ -433,13 +433,13 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ClientPortletPageConfiguration> asyncCallback);
 
 	public void getOwePayees(int oweType,
-			AsyncCallback<List<ClientPayee>> callback);
+			AsyncCallback<ArrayList<ClientPayee>> callback);
 
 	void getRecentTransactions(int limit,
-			AsyncCallback<List<RecentTransactionsList>> asyncCallback);
+			AsyncCallback<ArrayList<RecentTransactionsList>> asyncCallback);
 
 	public void getMessagesAndTasks(
-			AsyncCallback<List<ClientMessageOrTask>> callBack);
+			AsyncCallback<ArrayList<ClientMessageOrTask>> callBack);
 
 	public void getRemindersList(
 			AsyncCallback<PaginationList<ClientReminder>> callBack);
@@ -451,9 +451,10 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ClientEnterBill> asyncCallback);
 
 	void getFixedAssetList(int status,
-			AsyncCallback<List<ClientFixedAsset>> callback);
+			AsyncCallback<ArrayList<ClientFixedAsset>> callback);
 
-	void getAdvertisements(AsyncCallback<List<ClientAdvertisement>> callback);
+	void getAdvertisements(
+			AsyncCallback<ArrayList<ClientAdvertisement>> callback);
 
 	public void getTransactionToCreate(ClientRecurringTransaction obj,
 			long transactionDate, AsyncCallback<ClientTransaction> callBack);
@@ -496,7 +497,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
 	public void printCheques(long chequeLayoutId,
-			List<PrintCheque> printCheques, AsyncCallback<String> callback);
+			ArrayList<PrintCheque> printCheques, AsyncCallback<String> callback);
 
 	void getEtdsDetails(int formNo, int quater, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate, int startYear, int endYear,
@@ -603,5 +604,5 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Long> callback);
 
 	void getUnitPricesByPayee(boolean isCust, long payee, long item,
-			AsyncCallback<List<ItemUnitPrice>> callback);
+			AsyncCallback<ArrayList<ItemUnitPrice>> callback);
 }

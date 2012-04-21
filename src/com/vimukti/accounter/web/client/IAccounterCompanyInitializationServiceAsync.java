@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
@@ -18,10 +18,10 @@ public interface IAccounterCompanyInitializationServiceAsync {
 
 	void initalizeCompany(ClientCompanyPreferences preferences,
 			String password, String passwordHint,
-			List<TemplateAccount> accountsTemplates,
+			ArrayList<TemplateAccount> accountsTemplates,
 			AsyncCallback<Boolean> callback);
 
-	void getAccountsTemplate(AsyncCallback<List<AccountsTemplate>> callback);
+	void getAccountsTemplate(AsyncCallback<ArrayList<AccountsTemplate>> callback);
 
 	void getCountry(AsyncCallback<String> callback);
 

@@ -2052,15 +2052,15 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
+	public ArrayList<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
-		return getFinanceTool().getAllTransactionsOfAccount(id, startDate,
+		return (ArrayList<ClientReconciliationItem>) getFinanceTool().getAllTransactionsOfAccount(id, startDate,
 				endDate, getCompanyId());
 	}
 
 	@Override
-	public List<ClientReconciliation> getReconciliationsByBankAccountID(
+	public ArrayList<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountID) throws AccounterException {
 		return getFinanceTool().getReconciliationsByBankAccountID(accountID,
 				getCompanyId());
@@ -2074,9 +2074,9 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientTransactionLog> getTransactionHistory(long transactionId)
+	public ArrayList<ClientTransactionLog> getTransactionHistory(long transactionId)
 			throws AccounterException {
-		return getFinanceTool().getTransactionHistory(transactionId,
+		return (ArrayList<ClientTransactionLog>) getFinanceTool().getTransactionHistory(transactionId,
 				getCompanyId());
 	}
 
@@ -2088,9 +2088,9 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientTAXReturnEntry> getTAXReturnEntries(long agency,
+	public ArrayList<ClientTAXReturnEntry> getTAXReturnEntries(long agency,
 			long startDate, long endDate) throws AccounterException {
-		return getFinanceTool().getTaxManager().getTAXReturnEntries(
+		return (ArrayList<ClientTAXReturnEntry>) getFinanceTool().getTaxManager().getTAXReturnEntries(
 				getCompanyId(), agency, startDate, endDate);
 	}
 

@@ -75,7 +75,7 @@ public class TransactionUnitPriceListColumn extends
 			dropdown.reInitData();
 			return;
 		}
-		AccounterAsyncCallback<List<ItemUnitPrice>> callback = new AccounterAsyncCallback<List<ItemUnitPrice>>() {
+		AccounterAsyncCallback<ArrayList<ItemUnitPrice>> callback = new AccounterAsyncCallback<ArrayList<ItemUnitPrice>>() {
 
 			@Override
 			public void onException(AccounterException exception) {
@@ -84,7 +84,7 @@ public class TransactionUnitPriceListColumn extends
 			}
 
 			@Override
-			public void onResultSuccess(List<ItemUnitPrice> result) {
+			public void onResultSuccess(ArrayList<ItemUnitPrice> result) {
 				list = result;
 				ClientItem item = Accounter.getCompany().getItem(row.getItem());
 				ItemUnitPrice payeeUnitPrice = new ItemUnitPrice();

@@ -402,7 +402,7 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<UnRealisedLossOrGain>> unRealisedExchangeLossedAndGains);
 
 	void getExchangeRatesOfDate(long date,
-			AsyncCallback<List<CurrencyExchangeRate>> callback);
+			AsyncCallback<ArrayList<CurrencyExchangeRate>> callback);
 
 	public void getInventoryStockStatusByVendor(ClientFinanceDate start,
 			ClientFinanceDate end,
@@ -480,6 +480,6 @@ public interface IAccounterReportServiceAsync {
 
 	public void exportToFile(int exportType, int reportType, long startDate,
 			long endDate, ReportInput[] inputs,
-			AsyncCallback<List<String>> callback);
+			AsyncCallback<ArrayList<String>> callback);
 
 }

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,10 +23,10 @@ public class WhoIOwePortlet extends Portlet {
 	@Override
 	public void createBody() {
 
-		AsyncCallback<List<ClientPayee>> callback = new AsyncCallback<List<ClientPayee>>() {
+		AsyncCallback<ArrayList<ClientPayee>> callback = new AsyncCallback<ArrayList<ClientPayee>>() {
 
 			@Override
-			public void onSuccess(List<ClientPayee> result) {
+			public void onSuccess(ArrayList<ClientPayee> result) {
 				grid = new DashboardOweGrid();
 				grid.init();
 				if (result != null && !(result.isEmpty())) {

@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -403,13 +402,13 @@ public interface IAccounterGETServiceAsync {
 	 */
 	public void getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			AsyncCallback<List<ClientReconciliationItem>> asyncCallback);
+			AsyncCallback<ArrayList<ClientReconciliationItem>> asyncCallback);
 
 	/**
 	 * @param accountName
 	 */
 	public void getReconciliationsByBankAccountID(long accountName,
-			AsyncCallback<List<ClientReconciliation>> callback);
+			AsyncCallback<ArrayList<ClientReconciliation>> callback);
 
 	/**
 	 * @param id
@@ -419,12 +418,15 @@ public interface IAccounterGETServiceAsync {
 			AsyncCallback<Double> accounterAsyncCallback);
 
 	public void getTransactionHistory(long transactionId,
-			AsyncCallback<List<ClientTransactionLog>> callback);
+			AsyncCallback<ArrayList<ClientTransactionLog>> callback);
 
 	void getLastTAXReturnEndDate(long agencyId, AsyncCallback<Long> callback);
 
-	void getTAXReturnEntries(long agency, long startDate, long endDate,
-			AsyncCallback<List<ClientTAXReturnEntry>> accounterAsyncCallback);
+	void getTAXReturnEntries(
+			long agency,
+			long startDate,
+			long endDate,
+			AsyncCallback<ArrayList<ClientTAXReturnEntry>> accounterAsyncCallback);
 
 	public void getAllTAXReturns(
 			int start,
@@ -436,5 +438,5 @@ public interface IAccounterGETServiceAsync {
 			AsyncCallback<Map<Long, Double>> callback);
 
 	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
-	
+
 }

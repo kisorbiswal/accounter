@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -61,7 +60,7 @@ public interface IAccounterCRUDService extends RemoteService {
 	boolean deleteTransactionFromDb(IAccounterCore obj)
 			throws AccounterException;
 
-	boolean createOrSkipTransactions(List<ClientReminder> records,
+	boolean createOrSkipTransactions(ArrayList<ClientReminder> records,
 			boolean isCreate) throws AccounterException;
 
 	boolean doCreateIssuePaymentEffect(ClientIssuePayment obj)

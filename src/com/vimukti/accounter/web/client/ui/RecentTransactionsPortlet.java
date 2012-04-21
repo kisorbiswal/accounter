@@ -58,10 +58,11 @@ public class RecentTransactionsPortlet extends Portlet {
 	private void updateData() {
 		Accounter.createHomeService().getRecentTransactions(
 				getLimit(limitCombo.getSelectedIndex()),
-				new AsyncCallback<List<RecentTransactionsList>>() {
+				new AsyncCallback<ArrayList<RecentTransactionsList>>() {
 
 					@Override
-					public void onSuccess(List<RecentTransactionsList> result) {
+					public void onSuccess(
+							ArrayList<RecentTransactionsList> result) {
 						if (grid != null) {
 							body.remove(grid);
 						}
