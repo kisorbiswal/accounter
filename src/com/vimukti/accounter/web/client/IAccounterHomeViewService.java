@@ -296,7 +296,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// public ArrayList<ClientFileTAXEntry> getPaySalesTaxEntries(
 	// long transactionDate);
 
-	List<ClientTransactionPayTAX> getPayTAXEntries() throws AccounterException;
+	ArrayList<ClientTransactionPayTAX> getPayTAXEntries()
+			throws AccounterException;
 
 	public ArrayList<ClientReceiveVATEntries> getReceiveVATEntries()
 			throws AccounterException;
@@ -412,11 +413,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ClientPortletPageConfiguration getPortletPageConfiguration(String pageName);
 
-	List<ClientPayee> getOwePayees(int oweType);
+	ArrayList<ClientPayee> getOwePayees(int oweType);
 
-	List<RecentTransactionsList> getRecentTransactions(int limit);
+	ArrayList<RecentTransactionsList> getRecentTransactions(int limit);
 
-	List<ClientMessageOrTask> getMessagesAndTasks() throws AccounterException;
+	ArrayList<ClientMessageOrTask> getMessagesAndTasks()
+			throws AccounterException;
 
 	PaginationList<ClientReminder> getRemindersList() throws AccounterException;
 
@@ -430,10 +432,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ClientCashPurchase getCashPurchaseByEstimateId(long id)
 			throws AccounterException;
 
-	List<ClientFixedAsset> getFixedAssetList(int status)
+	ArrayList<ClientFixedAsset> getFixedAssetList(int status)
 			throws AccounterException;
 
-	List<ClientAdvertisement> getAdvertisements() throws AccounterException;
+	ArrayList<ClientAdvertisement> getAdvertisements()
+			throws AccounterException;
 
 	ClientTransaction getTransactionToCreate(ClientRecurringTransaction obj,
 			long transactionDate) throws AccounterException;
@@ -462,7 +465,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	public String printCheques(long chequeLayoutId,
-			List<PrintCheque> printCheques);
+			ArrayList<PrintCheque> printCheques);
 
 	ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
@@ -535,7 +538,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	void mergeLocation(ClientLocation clientFromLocation,
 			ClientLocation clientToLocation) throws AccounterException;
 
-	List<ItemUnitPrice> getUnitPricesByPayee(boolean isCust, long payee,
+	ArrayList<ItemUnitPrice> getUnitPricesByPayee(boolean isCust, long payee,
 			long item) throws AccounterException;
 
 }

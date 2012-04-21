@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,11 +53,11 @@ public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 				final int start = display.getVisibleRange().getStart();
 				Accounter.createGETService().getTransactionHistory(
 						transctionId,
-						new AsyncCallback<List<ClientTransactionLog>>() {
+						new AsyncCallback<ArrayList<ClientTransactionLog>>() {
 
 							@Override
 							public void onSuccess(
-									List<ClientTransactionLog> result) {
+									ArrayList<ClientTransactionLog> result) {
 								if (result == null || result.isEmpty()) {
 									return;
 								}

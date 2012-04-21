@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.server;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,7 +22,7 @@ import com.vimukti.accounter.web.client.core.TemplateAccount;
  */
 public class AccountsTemplateManager {
 
-	public List<AccountsTemplate> loadAccounts(Locale locale)
+	public ArrayList<AccountsTemplate> loadAccounts(Locale locale)
 			throws IOException {
 
 		XStream xStream = new XStream(new DomDriver());
@@ -47,7 +48,7 @@ public class AccountsTemplateManager {
 
 		Object object = xStream.fromXML(new FileInputStream(file));
 
-		return (List<AccountsTemplate>) object;
+		return (ArrayList<AccountsTemplate>) object;
 
 	}
 

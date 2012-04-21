@@ -1873,7 +1873,7 @@ public class UIUtils {
 			int reportType, ReportInput... inputs) {
 		Accounter.createReportService().exportToFile(generationType,
 				reportType, start, end, inputs,
-				new AccounterAsyncCallback<List<String>>() {
+				new AccounterAsyncCallback<ArrayList<String>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -1882,7 +1882,7 @@ public class UIUtils {
 					}
 
 					@Override
-					public void onResultSuccess(List<String> fileNames) {
+					public void onResultSuccess(ArrayList<String> fileNames) {
 						if (fileNames == null || fileNames.isEmpty()) {
 							return;
 						}

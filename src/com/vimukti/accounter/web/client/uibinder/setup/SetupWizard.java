@@ -45,7 +45,7 @@ public class SetupWizard extends FlowPanel {
 	private Label progressHeader;
 	private AsyncCallback<Boolean> callback;
 	private int currentViewIndex = START_PAGE;
-	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
+	private ArrayList<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private FlexTable progressTable;
 	private AccounterMessages messages = Global.get().messages();
 
@@ -230,7 +230,7 @@ public class SetupWizard extends FlowPanel {
 	 */
 	private void loadIndustriesDefaultAccounts() {
 		Accounter.createCompanyInitializationService().getAccountsTemplate(
-				new AccounterAsyncCallback<List<AccountsTemplate>>() {
+				new AccounterAsyncCallback<ArrayList<AccountsTemplate>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -239,7 +239,7 @@ public class SetupWizard extends FlowPanel {
 					}
 
 					@Override
-					public void onResultSuccess(List<AccountsTemplate> result) {
+					public void onResultSuccess(ArrayList<AccountsTemplate> result) {
 						setIndustryDefaultAccounts(result);
 					}
 
@@ -402,7 +402,7 @@ public class SetupWizard extends FlowPanel {
 	 * @param account
 	 * @param value
 	 */
-	public void setSelectedAccountsList(List<TemplateAccount> selectedAccounts) {
+	public void setSelectedAccountsList(ArrayList<TemplateAccount> selectedAccounts) {
 		this.selectedAccounts = selectedAccounts;
 	}
 

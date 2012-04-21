@@ -59,7 +59,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 	@UiField
 	Button selectAllButton;
 
-	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
+	private ArrayList<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private int selectedIndusty;
 
 	public SetupSelectAccountsPage(String firstName) {

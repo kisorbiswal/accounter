@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.translate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +28,7 @@ public interface TranslateServiceAsync {
 	public void setApprove(long localMessageId, boolean isApprove,
 			AsyncCallback<Boolean> callback);
 
-	public void getLanguages(AsyncCallback<List<ClientLanguage>> callback);
+	public void getLanguages(AsyncCallback<ArrayList<ClientLanguage>> callback);
 
 	public void getLocalLanguage(AsyncCallback<ClientLanguage> callback);
 
@@ -38,7 +39,7 @@ public interface TranslateServiceAsync {
 
 	public void canApprove(String lang, AsyncCallback<Boolean> callback);
 
-	public void updateMessgaeStats(List<String> byOrder,
+	public void updateMessgaeStats(ArrayList<String> byOrder,
 			Map<String, Integer> byCount, AsyncCallback<Boolean> callback);
 
 }

@@ -45,7 +45,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 	HTML accountsLabel, customizeAccounter;
 
 	private SetupWizard setupWizard;
-	private Map<Integer, List<TemplateAccount>> industriesWithAccounts = new HashMap<Integer, List<TemplateAccount>>();
+	private Map<Integer, ArrayList<TemplateAccount>> industriesWithAccounts = new HashMap<Integer, ArrayList<TemplateAccount>>();
 	private int selectedIndustry = -1;
 
 	interface SetupIndustrySelectionWithAccountsPageUiBinder extends
@@ -76,7 +76,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 					.getAllIndustiesWithAccounts();
 			for (AccountsTemplate template : allIndustiesWithAccounts.values()) {
 				int industyType = template.getType();
-				List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
+				ArrayList<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 				for (TemplateAccount account : template.getAccounts()) {
 					if (account.getDefaultValue()) {
 						selectedAccounts.add(account);

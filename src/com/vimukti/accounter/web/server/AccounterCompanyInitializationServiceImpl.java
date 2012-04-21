@@ -103,7 +103,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
-			String password, String passwordHint, List<TemplateAccount> accounts)
+			String password, String passwordHint, ArrayList<TemplateAccount> accounts)
 			throws AccounterException {
 		try {
 			Client client = getClient(getUserEmail());
@@ -407,7 +407,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 	}
 
 	@Override
-	public List<AccountsTemplate> getAccountsTemplate()
+	public ArrayList<AccountsTemplate> getAccountsTemplate()
 			throws AccounterException {
 		AccountsTemplateManager manager = new AccountsTemplateManager();
 		try {

@@ -237,7 +237,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 	private void getTransactions() {
 		rpcGetService.getAllTransactionsOfAccount(data.getAccount().getID(),
 				data.getStartDate(), data.getEndDate(),
-				new AccounterAsyncCallback<List<ClientReconciliationItem>>() {
+				new AccounterAsyncCallback<ArrayList<ClientReconciliationItem>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -247,9 +247,9 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void onResultSuccess(
-							List<ClientReconciliationItem> result) {
+							ArrayList<ClientReconciliationItem> result) {
 						if (result == null) {
-							result = Collections.emptyList();
+							result = new ArrayList<ClientReconciliationItem>();
 						}
 						grid.setVisibleRangeAndClearData(new Range(0, 50), true);
 						grid.setData(result);

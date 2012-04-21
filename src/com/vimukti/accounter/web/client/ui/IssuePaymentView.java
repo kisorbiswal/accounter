@@ -205,7 +205,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		}
 		List<ClientTransactionIssuePayment> selectedRecords = grid
 				.getSelectedRecords();
-		List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
+		ArrayList<PrintCheque> printCheques = new ArrayList<PrintCheque>();
 		for (ClientTransactionIssuePayment payment : selectedRecords) {
 			PrintCheque cheque = new PrintCheque();
 			cheque.setPayeeName(payment.getDisplayName());

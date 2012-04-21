@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +77,10 @@ public class SoldAndDisposedItemsListView extends
 
 		Accounter.createHomeService().getFixedAssetList(
 				ClientFixedAsset.STATUS_SOLD_OR_DISPOSED,
-				new AsyncCallback<List<ClientFixedAsset>>() {
+				new AsyncCallback<ArrayList<ClientFixedAsset>>() {
 
 					@Override
-					public void onSuccess(List<ClientFixedAsset> list) {
+					public void onSuccess(ArrayList<ClientFixedAsset> list) {
 						if (list.isEmpty()) {
 							grid.removeAllRecords();
 							grid.addEmptyMessage(messages.noRecordsToShow());

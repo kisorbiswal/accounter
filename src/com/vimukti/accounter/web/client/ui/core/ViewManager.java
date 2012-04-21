@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,11 +118,11 @@ public class ViewManager extends FlowPanel {
 
 	private void getAdvertisePanel(final StyledPanel rightPanel) {
 		Accounter.createHomeService().getAdvertisements(
-				new AsyncCallback<List<ClientAdvertisement>>() {
+				new AsyncCallback<ArrayList<ClientAdvertisement>>() {
 
 					@Override
 					public void onSuccess(
-							List<ClientAdvertisement> advertisements) {
+							ArrayList<ClientAdvertisement> advertisements) {
 
 						if ((advertisements != null)
 								&& !(advertisements.isEmpty())) {
