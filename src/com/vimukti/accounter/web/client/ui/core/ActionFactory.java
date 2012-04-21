@@ -261,7 +261,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 import com.vimukti.accounter.web.client.ui.win8.AccounterMenuAction;
 
-public class ActionFactory1 {
+public class ActionFactory {
 
 	public static AccounterMessages messages = Global.get().messages();
 
@@ -443,8 +443,6 @@ public class ActionFactory1 {
 	public static PrintChecksAction getPrintChecksAction() {
 		return new PrintChecksAction();
 	}
-
-	
 
 	public static PaymentsAction getPaymentsAction(int category) {
 		PaymentsAction action = new PaymentsAction(category);

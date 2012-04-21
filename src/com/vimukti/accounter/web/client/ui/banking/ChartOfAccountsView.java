@@ -52,7 +52,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			if (typeOfAccount == ClientAccount.TYPE_BANK) {
-				return new NewBankAccountAction();
+				return new NewAccountAction(ClientAccount.TYPE_BANK);
 			} else {
 				return new NewAccountAction();
 			}

@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.MergeCustomerAction;
-import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
@@ -578,8 +577,8 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(new VendorPaymentsAction().getHistoryToken(),
 				new VendorPaymentsAction());
 
-		actions.put(new NewBankAccountAction().getHistoryToken(),
-				new NewBankAccountAction());
+		actions.put(new NewAccountAction().getHistoryToken(),
+				new NewAccountAction(ClientAccount.TYPE_BANK));
 		actions.put(new WriteChecksAction().getHistoryToken(),
 				new WriteChecksAction());
 		// actions.put(ActionFactory.getBankStatementAction().getHistoryToken(),

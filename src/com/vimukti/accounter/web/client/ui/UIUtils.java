@@ -54,7 +54,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
-import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -2306,7 +2305,7 @@ public class UIUtils {
 			action = new AccounterClassListAction();
 			break;
 		case IAccounterCore.BANK_ACCOUNT:
-			action = new NewBankAccountAction();
+			action = new NewAccountAction(ClientAccount.TYPE_BANK);
 			break;
 		case IAccounterCore.FIXED_ASSET:
 			action = new NewFixedAssetAction();

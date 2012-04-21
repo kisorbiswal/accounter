@@ -68,7 +68,6 @@ import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
-import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
@@ -394,8 +393,8 @@ public class ReportsRPC {
 					new AccounterClassListAction(), transactionId);
 			break;
 		case IAccounterCore.BANK_ACCOUNT:
-			initCallBack(new ClientBankAccount(), new NewBankAccountAction(),
-					transactionId);
+			initCallBack(new ClientBankAccount(), new NewAccountAction(
+					ClientAccount.TYPE_BANK), transactionId);
 			break;
 		case IAccounterCore.FIXED_ASSET:
 			initCallBack(new ClientFixedAsset(), new NewFixedAssetAction(),
