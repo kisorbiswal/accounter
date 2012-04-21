@@ -7800,7 +7800,7 @@ table.no_records tr td {
 	box-orient: vertical;
 }
 #NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label{
-	width:220px;
+	width:220px !important;
 }
 .printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer{
 	overflow: hidden !important;
@@ -7901,6 +7901,7 @@ table.no_records tr td {
 	box-orient: vertical;
 	margin: 10px;
 }
+
 .percentageField .gwt-Label{
 	width: auto !important;
 	padding: 2px 5px 0 0;
