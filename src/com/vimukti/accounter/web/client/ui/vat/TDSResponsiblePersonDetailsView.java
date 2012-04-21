@@ -144,6 +144,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		email = new EmailField(messages.email());
 		email.setEnabled(!isInViewMode());
+		email.setRequired(true);
 
 		taxDynamicForm = new DynamicForm("taxDynamicForm");
 		taxDynamicForm.add(responsiblePersonName, designation, branchName,
