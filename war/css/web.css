@@ -6838,7 +6838,7 @@ textarea[disabled] {
 }
 
 #EmailView .mainPanel .horPanel {
-	width: 75%;
+	width: 80%;
 	display: -webkit-box;
 	display: box;
 	-webkit-box-orient: horizontal;
@@ -7929,5 +7929,8 @@ table.no_records tr td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+}
+#TDSResponsiblePersonDetailsView .formItem .gwt-Label{
+	width:245px;
 }
 /*Location merge dialog end*/
