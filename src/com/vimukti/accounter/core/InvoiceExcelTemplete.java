@@ -3,9 +3,9 @@ package com.vimukti.accounter.core;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import com.vimukti.accounter.utils.CSVWriter;
 
@@ -36,17 +36,17 @@ public class InvoiceExcelTemplete {
 
 		Address registeredAddress = company.getRegisteredAddress();
 
-		Vector<String> regisAddress = getAddress(registeredAddress, false);
-		Vector<String> billAddress = getAddress(billaddress, true);
-		Vector<String> shipAddress = getAddress(shipaddress, false);
+		ArrayList<String> regisAddress = getAddress(registeredAddress, false);
+		ArrayList<String> billAddress = getAddress(billaddress, true);
+		ArrayList<String> shipAddress = getAddress(shipaddress, false);
 
-		Vector<String> invoiceLabels = new Vector<String>();
+		ArrayList<String> invoiceLabels = new ArrayList<String>();
 		invoiceLabels.add("Invoice Number");
 		invoiceLabels.add("Invoice Date");
 		invoiceLabels.add("Order Number");
 		invoiceLabels.add("Customer Number");
 
-		Vector<String> invoiceValues = new Vector<String>();
+		ArrayList<String> invoiceValues = new ArrayList<String>();
 		invoiceValues.add(invoice.getNumber());
 		invoiceValues.add(invoice.getDate().toString());
 		invoiceValues.add(invoice.getOrderNum());
@@ -134,9 +134,9 @@ public class InvoiceExcelTemplete {
 			// third row
 			for (int i = 0; i < regisAddress.size(); i++) {
 
-				csvWriter.writeln(new String[] { "", regisAddress.elementAt(i),
-						"", "", invoiceLabels.elementAt(i),
-						invoiceValues.elementAt(i) });
+				csvWriter.writeln(new String[] { "", regisAddress.get(i),
+						"", "", invoiceLabels.get(i),
+						invoiceValues.get(i) });
 				// csvWriter.writeln();
 			}
 
@@ -150,8 +150,8 @@ public class InvoiceExcelTemplete {
 			// fifth row
 			for (int i = 0; i < billAddress.size(); i++) {
 
-				csvWriter.writeln(new String[] { billAddress.elementAt(i), "",
-						"", "", shipAddress.elementAt(i), "" });
+				csvWriter.writeln(new String[] { billAddress.get(i), "",
+						"", "", shipAddress.get(i), "" });
 
 			}
 
@@ -274,39 +274,39 @@ public class InvoiceExcelTemplete {
 	/**
 	 * this method is used to get billing address and shipping address
 	 */
-	public Vector<String> getAddress(Address address, boolean val) {
-		Vector<String> addressVector = new Vector<String>();
+	public ArrayList<String> getAddress(Address address, boolean val) {
+		ArrayList<String> addressVector = new ArrayList<String>();
 
 		if (val) {
 			// this is used only for billing and shipping address
 			String customerName = checkIsNull(invoice.getCustomer().getName());
 			if (customerName.length() > 0) {
-				addressVector.addElement(customerName);
+				addressVector.add(customerName);
 			}
 		}
 		String add1 = checkIsNull(address.getAddress1());
 		if (add1.length() > 0) {
-			addressVector.addElement(add1);
+			addressVector.add(add1);
 		}
 		String street = checkIsNull(address.getStreet());
 		if (street.length() > 0) {
-			addressVector.addElement(street);
+			addressVector.add(street);
 		}
 		String city = checkIsNull(address.getCity());
 		if (city.length() > 0) {
-			addressVector.addElement(city);
+			addressVector.add(city);
 		}
 		String state = checkIsNull(address.getStateOrProvinence());
 		if (state.length() > 0) {
-			addressVector.addElement(state);
+			addressVector.add(state);
 		}
 		String zip = checkIsNull(address.getZipOrPostalCode());
 		if (zip.length() > 0) {
-			addressVector.addElement(zip);
+			addressVector.add(zip);
 		}
 		String country = checkIsNull(address.getCountryOrRegion());
 		if (country.length() > 0) {
-			addressVector.addElement(country);
+			addressVector.add(country);
 		}
 
 		return addressVector;

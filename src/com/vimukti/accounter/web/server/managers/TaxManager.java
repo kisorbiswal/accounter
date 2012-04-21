@@ -567,7 +567,7 @@ public class TaxManager extends Manager {
 
 	public ArrayList<ReceiveVATEntries> getReceiveVATEntries(long companyId) {
 
-		List<ReceiveVATEntries> receiveVATEntries = new Vector<ReceiveVATEntries>();
+		ArrayList<ReceiveVATEntries> receiveVATEntries = new ArrayList<ReceiveVATEntries>();
 		Company company = getCompany(companyId);
 		Session session = HibernateUtil.getCurrentSession();
 

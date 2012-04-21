@@ -251,7 +251,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 		} else {
 
-			Vector<Integer> v = new Vector<Integer>();
+			ArrayList<Integer> v = new ArrayList<Integer>();
 
 			boolean isWriteCheck_cashsale = false;
 			for (InvoicesList invoice : listOfInvoices) {
