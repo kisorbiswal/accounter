@@ -51,6 +51,7 @@ public class WriteCheckPdfGeneration {
 					.getTransactionItems();
 
 			String symbol = writeCheck.getCurrency().getSymbol();
+			double totalTax = 0.0D;
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
 
@@ -74,6 +75,7 @@ public class WriteCheckPdfGeneration {
 					vatAmount = Utility.decimalConversation(
 							item.getVATfraction(), "");
 				}
+				totalTax = totalTax + item.getVATfraction();
 				String name = item.getAccount().getName();
 
 				String discount = Utility.decimalConversation(
@@ -99,8 +101,8 @@ public class WriteCheckPdfGeneration {
 			i.setNetAmount(subtotal);
 
 			i.setMemo(writeCheck.getMemo());
-			i.setChequeNumber(writeCheck.getCheckNumber());
-
+			i.setCheckNumber(writeCheck.getCheckNumber());
+			i.setTaxTotal(Utility.decimalConversation(totalTax, symbol));
 			i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("check", i);
@@ -117,20 +119,20 @@ public class WriteCheckPdfGeneration {
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
 
-		if (reg != null)
+		if (reg != null) {
 			regestrationAddress = ("Registered Address: " + reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-
+		} else {
+			regestrationAddress = (company.getTradingName() + " "
+					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
 		String phoneStr = forNullValue(company.getPreferences().getPhone());
 		if (phoneStr.trim().length() > 0) {
 			regestrationAddress = regestrationAddress
@@ -188,6 +190,7 @@ public class WriteCheckPdfGeneration {
 		private String memo;
 		private String registrationAddress;
 		private String checkNumber;
+		private String taxTotal;
 
 		public String getCurrency() {
 			return currency;
@@ -261,12 +264,20 @@ public class WriteCheckPdfGeneration {
 			this.date = date;
 		}
 
-		public String getChequeNumber() {
+		public String getCheckNumber() {
 			return checkNumber;
 		}
 
-		public void setChequeNumber(String checkNumber) {
+		public void setCheckNumber(String checkNumber) {
 			this.checkNumber = checkNumber;
+		}
+
+		public String getTaxTotal() {
+			return taxTotal;
+		}
+
+		public void setTaxTotal(String taxTotal) {
+			this.taxTotal = taxTotal;
 		}
 
 	}

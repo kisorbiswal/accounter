@@ -1,6 +1,6 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.Global;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
@@ -20,28 +20,26 @@ public class VendorPaymentPdfGeneration {
 		try {
 
 			DummyPayment template = new DummyPayment();
-			template.setTitle("Payment Receipt");
+			template.setTitle(Global.get().Vendor() + " Prepayment");
 			template.setName(vendorPayment.getVendor().getName());
-			// template.setPayFrom(prePayment.getAccount().getName());
-			Address regAdr = company.getRegisteredAddress();
-
-			String regAddress = forAddress(regAdr.getAddress1(), false)
-					+ forAddress(regAdr.getStreet(), false)
-					+ forAddress(regAdr.getCity(), false)
-					+ forAddress(regAdr.getStateOrProvinence(), false)
-					+ forAddress(regAdr.getZipOrPostalCode(), false)
-					+ forAddress(regAdr.getCountryOrRegion(), true);
-			template.setRegisteredAddress(regAddress);
+			template.setVendorNBillingAddress(getBillingAddress());
+			template.setRegisteredAddress(getRegisteredAddress());
 			template.setMemo(vendorPayment.getMemo());
 			template.setNumber(vendorPayment.getNumber());
-			template.setDate(vendorPayment.getDate().toString());
+			template.setDate(Utility.getDateInSelectedFormat(vendorPayment
+					.getDate()));
 			template.setPayMethod(vendorPayment.getPaymentMethod());
 			template.setCheckNo(vendorPayment.getCheckNumber());
 			template.setCurrency(vendorPayment.getVendor() != null ? vendorPayment
 					.getVendor().getCurrency().getFormalName()
 					: vendorPayment.getCurrency().getFormalName());
 			String symbol = vendorPayment.getCurrency().getSymbol();
-			template.setAmount(DataUtils.getAmountAsStringInCurrency(
+			template.setTdsTotal(Utility.decimalConversation(
+					vendorPayment.getTdsTotal(), symbol));
+			template.setVendorPayment(Utility.decimalConversation(
+					vendorPayment.getTotal() - vendorPayment.getTdsTotal(),
+					symbol));
+			template.setTotal(Utility.decimalConversation(
 					vendorPayment.getTotal(), symbol));
 			context.put("payment", template);
 
@@ -51,6 +49,91 @@ public class VendorPaymentPdfGeneration {
 
 		return context;
 
+	}
+
+	private String getRegisteredAddress() {
+		String regestrationAddress = "";
+		Address reg = company.getRegisteredAddress();
+
+		if (reg != null) {
+			regestrationAddress = (reg.getAddress1()
+					+ forUnusedAddress(reg.getStreet(), true)
+					+ forUnusedAddress(reg.getCity(), true)
+					+ forUnusedAddress(reg.getStateOrProvinence(), true)
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+		} else {
+			regestrationAddress = (company.getTradingName() + " "
+					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
+		String phoneStr = forNullValue(company.getPreferences().getPhone());
+		if (phoneStr.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+		}
+		String website = forNullValue(company.getPreferences().getWebSite());
+
+		if (website.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().webSite() + " : " + website;
+		}
+
+		return regestrationAddress;
+
+	}
+
+	private String getBillingAddress() {
+		String cname = "";
+		String phone = "";
+		boolean hasPhone = false;
+
+		Address bill = vendorPayment.getAddress();
+		String customerName = forUnusedAddress(vendorPayment.getVendor()
+				.getName(), false);
+		StringBuffer billAddress = new StringBuffer();
+		if (bill != null) {
+			billAddress = billAddress.append(forUnusedAddress(cname, false)
+					+ customerName
+					+ forUnusedAddress(bill.getAddress1(), false)
+					+ forUnusedAddress(bill.getStreet(), false)
+					+ forUnusedAddress(bill.getCity(), false)
+					+ forUnusedAddress(bill.getStateOrProvinence(), false)
+					+ forUnusedAddress(bill.getZipOrPostalCode(), false)
+					+ forUnusedAddress(bill.getCountryOrRegion(), false));
+			if (hasPhone) {
+				billAddress.append(forUnusedAddress("Phone : " + phone, false));
+			}
+
+			String billAddres = billAddress.toString();
+
+			if (billAddres.trim().length() > 0) {
+				return billAddres;
+			}
+		} else {
+			StringBuffer contact = new StringBuffer();
+			contact = contact.append(forUnusedAddress(cname, false)
+					+ customerName);
+			return contact.toString();
+		}
+		return "";
+	}
+
+	public String forUnusedAddress(String add, boolean isFooter) {
+		if (isFooter) {
+			if (add != null && !add.equals(""))
+				return ", " + add;
+		} else {
+			if (add != null && !add.equals(""))
+				return add + "\n";
+		}
+		return "";
+	}
+
+	public String forNullValue(String value) {
+		return value != null ? value : "";
 	}
 
 	public class DummyPayment {
@@ -63,7 +146,10 @@ public class VendorPaymentPdfGeneration {
 		private String payMethod;
 		private String checkNo;
 		private String currency;
-		private String amount;
+		private String vendorPayment;
+		private String vendorNBillingAddress;
+		private String tdsTotal;
+		private String total;
 
 		private String number;
 
@@ -97,14 +183,6 @@ public class VendorPaymentPdfGeneration {
 
 		public void setName(String name) {
 			this.name = name;
-		}
-
-		public String getAmount() {
-			return amount;
-		}
-
-		public void setAmount(String amount) {
-			this.amount = amount;
 		}
 
 		public String getMemo() {
@@ -145,6 +223,38 @@ public class VendorPaymentPdfGeneration {
 
 		public void setCheckNo(String checkNo) {
 			this.checkNo = checkNo;
+		}
+
+		public String getVendorNBillingAddress() {
+			return vendorNBillingAddress;
+		}
+
+		public void setVendorNBillingAddress(String vendorNBillingAddress) {
+			this.vendorNBillingAddress = vendorNBillingAddress;
+		}
+
+		public String getTdsTotal() {
+			return tdsTotal;
+		}
+
+		public void setTdsTotal(String tdsTotal) {
+			this.tdsTotal = tdsTotal;
+		}
+
+		public String getVendorPayment() {
+			return vendorPayment;
+		}
+
+		public void setVendorPayment(String vendorPayment) {
+			this.vendorPayment = vendorPayment;
+		}
+
+		public String getTotal() {
+			return total;
+		}
+
+		public void setTotal(String total) {
+			this.total = total;
 		}
 
 	}

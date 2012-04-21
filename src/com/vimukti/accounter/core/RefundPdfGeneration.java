@@ -19,35 +19,13 @@ public class RefundPdfGeneration {
 	public IContext assignValues(IContext context, IXDocReport report) {
 		try {
 			CustomerRefundTemplate template = new CustomerRefundTemplate();
+
 			template.setTitle(Global.get().Customer() + " Refund");
 			template.setPayTo(refund.getPayTo().getName());
 			template.setPayFrom(refund.getPayFrom().getName());
 			template.setNumber(refund.getNumber());
-
-			Address address = refund.getAddress();
-			String customerNAddress = "";
-			if (address != null) {
-				customerNAddress = forAddress(address.getAddress1(), false)
-						+ forAddress(address.getStreet(), false)
-						+ forAddress(address.getCity(), false)
-						+ forAddress(address.getStateOrProvinence(), false)
-						+ forAddress(address.getZipOrPostalCode(), false)
-						+ forAddress(address.getCountryOrRegion(), true);
-			} else {
-				customerNAddress = "";
-			}
-			template.setCustomerNAddress(refund.getPayTo().getName()
-					+ customerNAddress);
-
-			Address regAdr = company.getRegisteredAddress();
-			String regAddress = forAddress(regAdr.getAddress1(), false)
-					+ forAddress(regAdr.getStreet(), false)
-					+ forAddress(regAdr.getCity(), false)
-					+ forAddress(regAdr.getStateOrProvinence(), false)
-					+ forAddress(regAdr.getZipOrPostalCode(), false)
-					+ forAddress(regAdr.getCountryOrRegion(), true);
-
-			template.setRegisteredAddress(regAddress);
+			template.setCustomerNAddress(getAddress());
+			template.setRegisteredAddress(getRegisteredAddress());
 			template.setDate(refund.getDate().toString());
 			template.setPaymentMethod(refund.getPaymentMethod());
 			template.setChequeOrRefNo(refund.getCheckNumber());
@@ -66,6 +44,75 @@ public class RefundPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String getAddress() {
+		Address bill = refund.getAddress();
+		StringBuffer billAddress = new StringBuffer();
+		if (bill != null) {
+			billAddress = billAddress.append(forUnusedAddress(
+					bill.getAddress1(), false)
+					+ forUnusedAddress(bill.getStreet(), false)
+					+ forUnusedAddress(bill.getCity(), false)
+					+ forUnusedAddress(bill.getStateOrProvinence(), false)
+					+ forUnusedAddress(bill.getZipOrPostalCode(), false)
+					+ forUnusedAddress(bill.getCountryOrRegion(), false));
+			String billAddres = billAddress.toString();
+
+			if (billAddres.trim().length() > 0) {
+				return billAddres;
+			}
+		}
+		return "";
+	}
+
+	public String forUnusedAddress(String add, boolean isFooter) {
+		if (isFooter) {
+			if (add != null && !add.equals(""))
+				return ", " + add;
+		} else {
+			if (add != null && !add.equals(""))
+				return add + "\n";
+		}
+		return "";
+	}
+
+	public String forNullValue(String value) {
+		return value != null ? value : "";
+	}
+
+	private String getRegisteredAddress() {
+		String regestrationAddress = "";
+		Address reg = company.getRegisteredAddress();
+
+		if (reg != null) {
+			regestrationAddress = (reg.getAddress1()
+					+ forUnusedAddress(reg.getStreet(), true)
+					+ forUnusedAddress(reg.getCity(), true)
+					+ forUnusedAddress(reg.getStateOrProvinence(), true)
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+		} else {
+			regestrationAddress = (company.getTradingName() + " "
+					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
+		String phoneStr = forNullValue(company.getPreferences().getPhone());
+		if (phoneStr.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+		}
+		String website = forNullValue(company.getPreferences().getWebSite());
+
+		if (website.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().webSite() + " : " + website;
+		}
+
+		return regestrationAddress;
+
 	}
 
 	public class CustomerRefundTemplate {

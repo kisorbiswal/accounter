@@ -318,12 +318,11 @@ public class InvoicePdfGeneration {
 					}
 				}
 
-				String discountVal = Utility.decimalConversation(discount,
-						symbol);
-				i.setDiscount(discountVal);
+				String discountVal = Utility.decimalConversation(discount, "");
+				i.setDiscount(discountVal + "%");
 
 			} else {
-				i.setDiscount("");
+				i.setDiscount("0%");
 			}
 			// if (preferences.isClassTrackingEnabled()
 			// && (!preferences.isClassPerDetailLine() == false)) {

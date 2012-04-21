@@ -538,19 +538,16 @@ public class QuotePdfTemplate implements PrintTemplete {
 		switch (status) {
 		case ClientEstimate.STATUS_OPEN:
 			return messages.open();
-
 		case ClientEstimate.STATUS_ACCECPTED:
 			return messages.accepted();
-
 		case ClientEstimate.STATUS_CLOSE:
 			return messages.closed();
-
 		case ClientEstimate.STATUS_REJECTED:
 			return messages.rejected();
-
 		case ClientEstimate.STATUS_COMPLETED:
-			return messages.closed();
-
+			return messages.completed();
+		case ClientEstimate.STATUS_CANCELLED:
+			return messages.cancelled();
 		default:
 			break;
 		}
