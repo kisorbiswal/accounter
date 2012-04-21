@@ -35,9 +35,6 @@ public class VATItemDetailServerReport extends
 			return record.getMemo();
 		case 5:
 			return record.getAmount();
-		case 6:
-			return record.getSalesPrice();
-
 		}
 		return null;
 	}
@@ -46,15 +43,14 @@ public class VATItemDetailServerReport extends
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
 				COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public String[] getColunms() {
 		return new String[] { getMessages().type(), getMessages().date(),
 				getMessages().number(), getMessages().name(),
-				getMessages().memo(), getMessages().amount(),
-				getMessages().salesPrice() };
+				getMessages().memo(), getMessages().amount() };
 	}
 
 	@Override
@@ -82,7 +78,7 @@ public class VATItemDetailServerReport extends
 			return 100;
 		else if (index == 1)
 			return 85;
-		else if (index == 5 || index == 6)
+		else if (index == 5)
 			return 125;
 		return 210;
 	}
@@ -184,9 +180,6 @@ public class VATItemDetailServerReport extends
 			return obj1.getMemo().compareTo(obj2.getMemo());
 		case 5:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
-		case 6:
-			return UIUtils.compareDouble(obj1.getSalesPrice(),
-					obj2.getSalesPrice());
 		}
 		return 0;
 	}
@@ -206,8 +199,7 @@ public class VATItemDetailServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().type(), getMessages().date(),
 				getMessages().number(), getMessages().name(),
-				getMessages().memo(), getMessages().amount(),
-				getMessages().salesPrice() };
+				getMessages().memo(), getMessages().amount() };
 	}
 
 }
