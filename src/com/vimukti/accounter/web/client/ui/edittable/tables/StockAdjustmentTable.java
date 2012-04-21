@@ -28,6 +28,8 @@ public abstract class StockAdjustmentTable extends
 
 	protected ICurrencyProvider currencyProvider;
 
+	ItemsDropDownTable itemTable;
+
 	public StockAdjustmentTable(ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 	}
@@ -36,22 +38,22 @@ public abstract class StockAdjustmentTable extends
 
 	@Override
 	protected void initColumns() {
+		itemTable = new ItemsDropDownTable(
 
-		final ItemsDropDownTable itemTable = new ItemsDropDownTable(
-				new ListFilter<ClientItem>() {
+		new ListFilter<ClientItem>() {
 
-					@Override
-					public boolean filter(ClientItem e) {
-						if (e.getWarehouse() != getSelectedWareHouse().getID()) {
-							return false;
-						}
-						if (e.getType() == ClientItem.TYPE_INVENTORY_PART
-								|| e.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-							return true;
-						}
-						return false;
-					}
-				});
+			@Override
+			public boolean filter(ClientItem e) {
+				if ((e.getType() == ClientItem.TYPE_INVENTORY_PART || e
+						.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)
+						& (e.getWarehouse() == getSelectedWareHouse().getID())) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
+
 		itemTable.setItemType(ClientItem.TYPE_INVENTORY_PART);
 
 		ComboColumn<ClientTransactionItem, ClientItem> comboColumn = new ComboColumn<ClientTransactionItem, ClientItem>() {
@@ -379,6 +381,26 @@ public abstract class StockAdjustmentTable extends
 			}
 		}
 		return result;
+	}
+
+	public void wareHouseChanged() {
+		clear();
+		itemTable = new ItemsDropDownTable(
+
+		new ListFilter<ClientItem>() {
+
+			@Override
+			public boolean filter(ClientItem e) {
+				if ((e.getType() == ClientItem.TYPE_INVENTORY_PART || e
+						.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)
+						& (e.getWarehouse() == getSelectedWareHouse().getID())) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		});
+
 	}
 
 }
