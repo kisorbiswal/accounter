@@ -24,15 +24,15 @@ import com.vimukti.accounter.web.server.AccounterWindowsRPCBaseServiceImpl;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 
-public class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl implements
-		TranslateService {
+public abstract class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl
+		implements TranslateService {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String EMAIL_ID = "emailId";
-	private List<String> serverMatchList;
+	private ArrayList<String> serverMatchList;
 
 	// @Override
 	// public ArrayList<Status> getStatus() {
@@ -101,12 +101,13 @@ public class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl imp
 				searchTerm);
 	}
 
-	public List<ClientLanguage> getLanguages() {
-		return new FinanceTool().getLanguages();
+	public ArrayList<ClientLanguage> getLanguages() {
+		return (ArrayList<ClientLanguage>) new FinanceTool().getLanguages();
 	}
 
 	public ClientLanguage getLocalLanguage() {
-		List<ClientLanguage> languages = new FinanceTool().getLanguages();
+		ArrayList<ClientLanguage> languages = (ArrayList<ClientLanguage>) new FinanceTool()
+				.getLanguages();
 		for (ClientLanguage clientLanguage : languages) {
 			String language = "";
 			try {
@@ -130,7 +131,7 @@ public class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl imp
 			serverMatchList.add(serverMatcher.group());
 		}
 
-		List<String> userMatchList = new ArrayList<String>();
+		ArrayList<String> userMatchList = new ArrayList<String>();
 		Matcher userMatcher = regex.matcher(data);
 		while (userMatcher.find()) {
 			userMatchList.add(userMatcher.group());
@@ -163,13 +164,13 @@ public class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl imp
 	}
 
 	@Override
-	public boolean updateMessgaeStats(List<String> byOrder,
+	public boolean updateMessgaeStats(ArrayList<String> byOrder,
 			Map<String, Integer> byCount) throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			List<String> list = new ArrayList<String>(
+			ArrayList<String> list = new ArrayList<String>(
 					ServerSideMessages.usageByOrder);
 			for (String name : byOrder) {
 				if (!list.contains(name)) {
@@ -190,7 +191,7 @@ public class TranslateServiceImpl extends AccounterWindowsRPCBaseServiceImpl imp
 			e.printStackTrace();
 			transaction.rollback();
 			throw new AccounterException();
-		} 
+		}
 		return false;
 	}
 }

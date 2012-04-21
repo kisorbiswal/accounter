@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -340,7 +340,7 @@ public interface IAccounterReportService extends RemoteService {
 			long enteredDate, Map<Long, Double> exchangeRates)
 			throws AccounterException;
 
-	List<CurrencyExchangeRate> getExchangeRatesOfDate(long date)
+	ArrayList<CurrencyExchangeRate> getExchangeRatesOfDate(long date)
 			throws AccounterException;
 
 	ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByVendor(
@@ -400,7 +400,8 @@ public interface IAccounterReportService extends RemoteService {
 			int categoryType, long categoryId, long accountId,
 			ClientFinanceDate start, ClientFinanceDate end);
 
-	List<String> exportToFile(int exportType, int reportType, long startDate,
-			long endDate, ReportInput[] inputs) throws AccounterException;
+	ArrayList<String> exportToFile(int exportType, int reportType,
+			long startDate, long endDate, ReportInput[] inputs)
+			throws AccounterException;
 
 }

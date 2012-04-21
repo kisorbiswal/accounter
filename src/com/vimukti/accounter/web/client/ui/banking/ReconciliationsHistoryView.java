@@ -72,7 +72,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		this.selectedAccount = clientAccount;
 		rpcGetService.getReconciliationsByBankAccountID(
 				selectedAccount.getID(),
-				new AccounterAsyncCallback<List<ClientReconciliation>>() {
+				new AccounterAsyncCallback<ArrayList<ClientReconciliation>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -81,7 +81,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void onResultSuccess(
-							List<ClientReconciliation> result) {
+							ArrayList<ClientReconciliation> result) {
 						listOfReconcilation = result;
 						grid.setData(result);
 

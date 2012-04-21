@@ -1222,10 +1222,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientFixedAsset> getFixedAssetList(int status)
+	public ArrayList<ClientFixedAsset> getFixedAssetList(int status)
 			throws AccounterException {
-		List<ClientFixedAsset> list = new ArrayList<ClientFixedAsset>();
-		List<FixedAsset> list1 = null;
+		ArrayList<ClientFixedAsset> list = new ArrayList<ClientFixedAsset>();
+		ArrayList<FixedAsset> list1 = null;
 		try {
 
 			list1 = getFinanceTool().getFixedAssetManager().getFixedAssets(
@@ -1396,12 +1396,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientTransactionPayTAX> getPayTAXEntries()
+	public ArrayList<ClientTransactionPayTAX> getPayTAXEntries()
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool == null)
 			return null;
-		return tool.getTaxManager().getPayTAXEntries(getCompanyId());
+		return (ArrayList<ClientTransactionPayTAX>) tool.getTaxManager()
+				.getPayTAXEntries(getCompanyId());
 	}
 
 	@Override
@@ -1766,20 +1767,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientPayee> getOwePayees(int oweType) {
+	public ArrayList<ClientPayee> getOwePayees(int oweType) {
 		FinanceTool tool = new FinanceTool();
 		if (oweType == Portlet.TYPE_I_OWE) {
-			return tool.getDashboardManager().getWhoIOwe(getCompanyId());
+			return (ArrayList<ClientPayee>) tool.getDashboardManager()
+					.getWhoIOwe(getCompanyId());
 		} else if (oweType == Portlet.TYPE_OWE_TO_ME) {
-			return tool.getDashboardManager().getWhoOwesMe(getCompanyId());
+			return (ArrayList<ClientPayee>) tool.getDashboardManager()
+					.getWhoOwesMe(getCompanyId());
 		}
 		return null;
 	}
 
 	@Override
-	public List<RecentTransactionsList> getRecentTransactions(int limit) {
+	public ArrayList<RecentTransactionsList> getRecentTransactions(int limit) {
 		FinanceTool tool = new FinanceTool();
-		List<RecentTransactionsList> activities = tool
+		ArrayList<RecentTransactionsList> activities = tool
 				.getRecentTransactionsList(getCompanyId(), limit);
 		// CHECKING WHETHER THAT TRANSACTION DELETED OR NOT..
 		// for (int i = 0; i < activities.size(); i++) {
@@ -1798,7 +1801,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientMessageOrTask> getMessagesAndTasks()
+	public ArrayList<ClientMessageOrTask> getMessagesAndTasks()
 			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		return tool.getCompanyManager().getMessagesAndTasks(getCompanyId());
@@ -1841,10 +1844,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ClientAdvertisement> getAdvertisements()
+	public ArrayList<ClientAdvertisement> getAdvertisements()
 			throws AccounterException {
 		FinanceTool financeTool = new FinanceTool();
-		return financeTool.getAdvertisements();
+		return (ArrayList<ClientAdvertisement>) financeTool.getAdvertisements();
 	}
 
 	@Override
@@ -1996,7 +1999,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public String printCheques(long chequeLayoutId,
-			List<PrintCheque> printCheques) {
+			ArrayList<PrintCheque> printCheques) {
 		try {
 			Company company = (Company) HibernateUtil.getCurrentSession().get(
 					Company.class, getCompanyId());
@@ -2445,8 +2448,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<ItemUnitPrice> getUnitPricesByPayee(boolean isCust, long payee,
-			long item) throws AccounterException {
+	public ArrayList<ItemUnitPrice> getUnitPricesByPayee(boolean isCust,
+			long payee, long item) throws AccounterException {
 		return getFinanceTool().getCompanyManager().getUnitPricesByPayee(
 				getCompanyId(), isCust, payee, item);
 	}

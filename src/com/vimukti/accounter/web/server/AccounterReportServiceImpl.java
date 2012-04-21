@@ -3138,10 +3138,10 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<CurrencyExchangeRate> getExchangeRatesOfDate(long date)
+	public ArrayList<CurrencyExchangeRate> getExchangeRatesOfDate(long date)
 			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		List<CurrencyExchangeRate> rates = new ArrayList<CurrencyExchangeRate>();
+		ArrayList<CurrencyExchangeRate> rates = new ArrayList<CurrencyExchangeRate>();
 		Company company = tool.getCompany(getCompanyId());
 		for (Currency currency : company.getCurrencies()) {
 			if (currency.getID() == company.getPrimaryCurrency().getID()) {
@@ -3486,12 +3486,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<String> exportToFile(int exportType, int reportType,
+	public ArrayList<String> exportToFile(int exportType, int reportType,
 			long startDate, long endDate, ReportInput[] input)
 			throws AccounterException {
 		ExportManager manager = getFinanceTool().getExportManager();
 		List<ReportInput> list = Arrays.asList(input);
-		return manager.exportReportToFile(getCompanyId(), exportType,
-				reportType, startDate, endDate, list);
+		return (ArrayList<String>) manager.exportReportToFile(getCompanyId(),
+				exportType, reportType, startDate, endDate, list);
 	}
 }

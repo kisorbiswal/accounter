@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -57,10 +57,10 @@ public class MessagesAndTasksPortlet extends Portlet {
 	private void updateData() {
 		grid.removeAllRecords();
 		Accounter.createHomeService().getMessagesAndTasks(
-				new AsyncCallback<List<ClientMessageOrTask>>() {
+				new AsyncCallback<ArrayList<ClientMessageOrTask>>() {
 
 					@Override
-					public void onSuccess(List<ClientMessageOrTask> result) {
+					public void onSuccess(ArrayList<ClientMessageOrTask> result) {
 						if (result != null && !result.isEmpty()) {
 							for (ClientMessageOrTask clientMessageOrTask : result) {
 								long toUser = clientMessageOrTask.getToUser();

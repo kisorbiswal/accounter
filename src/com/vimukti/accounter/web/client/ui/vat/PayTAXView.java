@@ -500,7 +500,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private void fillGrid() {
 		// grid.addLoadingImagePanel();
 		rpcUtilService
-				.getPayTAXEntries(new AccounterAsyncCallback<List<ClientTransactionPayTAX>>() {
+				.getPayTAXEntries(new AccounterAsyncCallback<ArrayList<ClientTransactionPayTAX>>() {
 
 					@Override
 					public void onException(AccounterException caught) {
@@ -512,7 +512,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 					@Override
 					public void onResultSuccess(
-							List<ClientTransactionPayTAX> result) {
+							ArrayList<ClientTransactionPayTAX> result) {
 						if (result == null || result.isEmpty()) {
 							grid.addEmptyMessage(messages
 									.noFiledTaxEntriesToPay());

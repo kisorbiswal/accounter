@@ -978,9 +978,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 				tdsCombo.setComboItem(taxItem);
 			}
 
-			if (isTDSEnable()) {
-				tdsCombo.setVisible(true);
-			}
+			tdsCombo.setVisible(isTDSEnable());
 		}
 
 		initVendors();
@@ -1099,7 +1097,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		saveOrUpdate(transaction);
 
 	}
-
 
 	protected void clearGrid() {
 		grid.removeAllRecords();

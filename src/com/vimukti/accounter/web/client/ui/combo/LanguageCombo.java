@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -15,10 +16,10 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 	private void initComboData() {
 		Accounter.createTranslateService().getLanguages(
-				new AsyncCallback<List<ClientLanguage>>() {
+				new AsyncCallback<ArrayList<ClientLanguage>>() {
 
 					@Override
-					public void onSuccess(List<ClientLanguage> result) {
+					public void onSuccess(ArrayList<ClientLanguage> result) {
 						initCombo(result);
 						setLanguage(result);
 					}

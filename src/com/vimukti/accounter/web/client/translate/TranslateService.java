@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.translate;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public interface TranslateService extends RemoteService {
 
 	boolean setApprove(long localMessageId, boolean isApprove);
 
-	List<ClientLanguage> getLanguages();
+	ArrayList<ClientLanguage> getLanguages();
 
 	ClientLanguage getLocalLanguage();
 
@@ -34,6 +34,6 @@ public interface TranslateService extends RemoteService {
 
 	boolean canApprove(String lang);
 
-	boolean updateMessgaeStats(List<String> byOrder,
+	boolean updateMessgaeStats(ArrayList<String> byOrder,
 			Map<String, Integer> byCount) throws AccounterException;
 }
