@@ -371,4 +371,10 @@ public class TAXAgency extends Payee {
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

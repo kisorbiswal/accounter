@@ -103,4 +103,10 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 		this.linetotal = linetotal;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

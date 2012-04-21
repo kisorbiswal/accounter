@@ -660,4 +660,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		return getType() == TYPE_INVENTORY_PART
 				|| getType() == TYPE_INVENTORY_ASSEMBLY;
 	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		// TODO Auto-generated method stub
+
+	}
 }

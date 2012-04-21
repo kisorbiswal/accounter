@@ -6,8 +6,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class UserDetailsAction extends Action {
 
-	
-
 	public UserDetailsAction() {
 		super();
 	}

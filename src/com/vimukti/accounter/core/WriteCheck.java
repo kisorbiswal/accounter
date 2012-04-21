@@ -589,4 +589,10 @@ public class WriteCheck extends Transaction {
 		}
 		e.add(bankAccount, getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -350,4 +350,10 @@ public class VendorPrePayment extends Transaction {
 		}
 		e.add(getVendor(), -getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

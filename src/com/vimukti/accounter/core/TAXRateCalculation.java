@@ -321,4 +321,10 @@ public class TAXRateCalculation implements IAccounterServerCore {
 		this.taxAmount += trc.getTAXAmount();
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

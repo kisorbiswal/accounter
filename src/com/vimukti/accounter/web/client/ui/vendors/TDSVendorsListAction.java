@@ -6,15 +6,13 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TDSVendorsListAction extends Action {
 
 	private boolean isTDSView;
 
-	public TDSVendorsListAction( boolean isTDSView) {
+	public TDSVendorsListAction(boolean isTDSView) {
 		super();
 		this.isTDSView = isTDSView;
 	}
@@ -25,8 +23,8 @@ public class TDSVendorsListAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				MainFinanceWindow.getViewManager().showView(
-						new TDSVendorsListView(isTdsView), null, false,
+				TDSVendorsListView view = new TDSVendorsListView(isTdsView);
+				MainFinanceWindow.getViewManager().showView(view, null, false,
 						TDSVendorsListAction.this);
 			}
 
@@ -35,18 +33,18 @@ public class TDSVendorsListAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//
-//			}
-//
-//			public void onCreateFailed(Throwable t) {
-//				// //UIUtils.logError("Failed to Load Vendor list", t);
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// public void onCreateFailed(Throwable t) {
+		// // //UIUtils.logError("Failed to Load Vendor list", t);
+		// }
+		// });
 
 	}
 

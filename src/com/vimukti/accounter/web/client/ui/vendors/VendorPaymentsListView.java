@@ -27,17 +27,13 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList>
 	private int transactionType;
 	private int viewType;
 
-	private VendorPaymentsListView() {
+	public VendorPaymentsListView() {
 		super(messages.notIssued());
 	}
 
 	public VendorPaymentsListView(int transactionType) {
 		super(messages.notIssued());
 		this.transactionType = transactionType;
-	}
-
-	public static VendorPaymentsListView getInstance() {
-		return new VendorPaymentsListView();
 	}
 
 	@SuppressWarnings("rawtypes")

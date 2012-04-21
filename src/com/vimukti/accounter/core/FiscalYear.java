@@ -557,4 +557,10 @@ public class FiscalYear extends CreatableObject implements IAccounterServerCore 
 		w.put(messages.type(), messages.fiscalYear()).gap().gap();
 		w.put(messages.status(), this.status);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

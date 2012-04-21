@@ -259,4 +259,10 @@ public class AccountTransaction extends CreatableObject implements
 		this.updateAccount = updateAccount;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

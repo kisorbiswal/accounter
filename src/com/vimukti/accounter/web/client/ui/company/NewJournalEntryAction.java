@@ -8,9 +8,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewJournalEntryAction extends Action {
 
@@ -19,7 +17,7 @@ public class NewJournalEntryAction extends Action {
 		this.catagory = messages.company();
 	}
 
-	public NewJournalEntryAction( ClientJournalEntry journalEntry,
+	public NewJournalEntryAction(ClientJournalEntry journalEntry,
 			AccounterAsyncCallback<Object> callback) {
 		super();
 		this.catagory = messages.company();
@@ -34,11 +32,11 @@ public class NewJournalEntryAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				JournalEntryView view = JournalEntryView.getInstance();
+				JournalEntryView view = new JournalEntryView();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, NewJournalEntryAction.this);
-				
+
 			}
 
 			public void onFailure(Throwable e) {
@@ -46,15 +44,15 @@ public class NewJournalEntryAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	public ImageResource getBigImage() {

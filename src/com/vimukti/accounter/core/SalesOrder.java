@@ -796,6 +796,12 @@ public class SalesOrder extends Transaction {
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 // package com.vimukti.accounter.core;
 //

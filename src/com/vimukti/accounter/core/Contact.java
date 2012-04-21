@@ -198,4 +198,10 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 		w.put(messages.name(), this.name).gap();
 		w.put(messages.email(), this.email);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

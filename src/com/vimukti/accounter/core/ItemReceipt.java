@@ -746,4 +746,10 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		e.add(getVendor(), getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

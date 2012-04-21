@@ -334,4 +334,10 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 					-pt.getAmountToPay(), 1);
 		}
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

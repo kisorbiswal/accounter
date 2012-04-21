@@ -79,4 +79,10 @@ public class PortletPageConfiguration implements IAccounterServerCore {
 		w.put(messages.type(), messages.portletPageConfiguration()).gap();
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

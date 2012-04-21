@@ -712,4 +712,10 @@ public class PayBill extends Transaction {
 		}
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

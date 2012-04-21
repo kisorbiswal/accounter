@@ -144,4 +144,10 @@ public class WareHouseAllocation implements IAccounterServerCore, Lifecycle {
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

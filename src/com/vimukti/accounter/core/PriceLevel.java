@@ -148,4 +148,10 @@ public class PriceLevel extends CreatableObject implements
 
 		w.put(messages.name(), this.name);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

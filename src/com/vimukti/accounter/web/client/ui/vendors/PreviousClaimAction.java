@@ -6,8 +6,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PreviousClaimAction extends Action {
 
-	
-
 	public PreviousClaimAction() {
 		super();
 

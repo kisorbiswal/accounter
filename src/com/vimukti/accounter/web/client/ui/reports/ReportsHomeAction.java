@@ -26,12 +26,11 @@ public class ReportsHomeAction extends Action {
 	@Override
 	public void run() {
 		try {
-			MainFinanceWindow.getViewManager().showView(
-					new ReportSectionView(), null, isDependent,
-					ReportsHomeAction.this);
+			ReportSectionView view = new ReportSectionView();
+			MainFinanceWindow.getViewManager().showView(view, null,
+					isDependent, ReportsHomeAction.this);
 		} catch (Exception e) {
-			Accounter.showError(messages
-					.failedtToLoadReportsHome());
+			Accounter.showError(messages.failedtToLoadReportsHome());
 		}
 	}
 

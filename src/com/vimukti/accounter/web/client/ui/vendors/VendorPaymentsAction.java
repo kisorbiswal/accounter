@@ -6,9 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * @modified by Ravi kiran.G
@@ -29,7 +27,7 @@ public class VendorPaymentsAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				NewVendorPaymentView view = NewVendorPaymentView.getInstance();
+				NewVendorPaymentView view = new NewVendorPaymentView();
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -41,21 +39,21 @@ public class VendorPaymentsAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreateFailed(Throwable t) {
-//
-//				// //UIUtils.logError("Failed to load the VendorPayment..", t);
-//
-//			}
-//
-//			public void onCreated() {
-//
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreateFailed(Throwable t) {
+		//
+		// // //UIUtils.logError("Failed to load the VendorPayment..", t);
+		//
+		// }
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// });
 
 	}
 

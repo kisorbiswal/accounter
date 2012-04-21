@@ -409,4 +409,10 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 				this.purchaseTaxRate).gap();
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

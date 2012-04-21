@@ -68,7 +68,7 @@ public class NewVendorPaymentView extends
 	private double toBeSetVendorBalance;
 	protected ClientCurrency selectCurrency;
 
-	private NewVendorPaymentView() {
+	public NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_VENDOR_PAYMENT);
 		this.getElement().setId("NewVendorPaymentView");
 
@@ -680,12 +680,6 @@ public class NewVendorPaymentView extends
 			}
 		}
 		return result;
-	}
-
-	public static NewVendorPaymentView getInstance() {
-
-		return new NewVendorPaymentView();
-
 	}
 
 	@Override

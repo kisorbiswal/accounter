@@ -65,4 +65,10 @@ public class FixedAssetNote extends CreatableObject implements
 		this.fixedAsset = fixedAsset;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

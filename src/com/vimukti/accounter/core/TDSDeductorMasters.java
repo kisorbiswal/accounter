@@ -296,4 +296,10 @@ public class TDSDeductorMasters extends CreatableObject implements
 		this.taxOfficeAddress = taxOfficeAddress;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

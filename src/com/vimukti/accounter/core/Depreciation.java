@@ -665,4 +665,10 @@ public class Depreciation extends CreatableObject implements
 		w.put(messages.status(), this.status);
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

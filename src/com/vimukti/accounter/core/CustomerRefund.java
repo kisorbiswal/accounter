@@ -389,4 +389,10 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		e.add(getPayFrom(), getTotal());
 		e.add(getPayTo(), -getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

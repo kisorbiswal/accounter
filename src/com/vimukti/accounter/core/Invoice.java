@@ -1074,4 +1074,10 @@ public class Invoice extends Transaction implements Lifecycle {
 		e.add(getCustomer(), -getTotal());
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

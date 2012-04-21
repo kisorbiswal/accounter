@@ -350,4 +350,10 @@ public class BudgetItem implements IAccounterServerCore {
 				Double.toString(this.decemberAmount));
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

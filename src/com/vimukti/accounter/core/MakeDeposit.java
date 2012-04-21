@@ -353,4 +353,10 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		}
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -221,4 +221,10 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

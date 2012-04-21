@@ -1273,4 +1273,10 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		e.add(getVendor(), getTotal());
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

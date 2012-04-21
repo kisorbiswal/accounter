@@ -146,4 +146,10 @@ public class ReconciliationItem extends CreatableObject implements
 	public void setTransctionMemo(String transctionMemo) {
 		this.transctionMemo = transctionMemo;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -932,4 +932,10 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		e.add(getDepositIn(), -getTotal());
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

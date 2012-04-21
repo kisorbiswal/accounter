@@ -150,4 +150,10 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 	public void setReconciled(boolean isReconciled) {
 		this.isReconciled = isReconciled;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

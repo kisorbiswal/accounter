@@ -72,4 +72,10 @@ public class Language implements IAccounterServerCore {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

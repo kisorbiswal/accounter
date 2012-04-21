@@ -138,4 +138,10 @@ public class UserPermissions implements IAccounterServerCore {
 	public void setTypeOfSaveasDrafts(int typeOfSaveasDrafts) {
 		this.typeOfSaveasDrafts = typeOfSaveasDrafts;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

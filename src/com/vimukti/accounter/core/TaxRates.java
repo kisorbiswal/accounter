@@ -123,4 +123,10 @@ public class TaxRates implements IAccounterServerCore, Lifecycle {
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

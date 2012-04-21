@@ -29,4 +29,6 @@ public interface IAccounterServerCore extends Serializable, Cloneable,
 
 	void writeAudit(AuditWriter w) throws JSONException;
 
+	void selfValidate() throws AccounterException;
+
 }

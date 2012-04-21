@@ -308,4 +308,10 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 					vat.getAmountToReceive());
 		}
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

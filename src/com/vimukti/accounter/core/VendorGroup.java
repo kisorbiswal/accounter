@@ -165,4 +165,10 @@ public class VendorGroup extends CreatableObject implements
 		w.put(messages.type(), messages.group());
 		w.put(messages.item(), this.name);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -136,4 +136,10 @@ public class FinanceLogger implements IAccounterServerCore {
 		w.put(messages.type(), messages.financeLogger()).gap();
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

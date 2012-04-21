@@ -190,4 +190,10 @@ public class TAXItemGroup extends CreatableObject implements
 		w.put(messages.defaultWare(), this.isDefault);
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

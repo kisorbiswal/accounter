@@ -211,4 +211,10 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 		w.put(messages.type(), messages.payTaxEntries()).gap().gap();
 		w.put(messages.amount(), this.amount);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

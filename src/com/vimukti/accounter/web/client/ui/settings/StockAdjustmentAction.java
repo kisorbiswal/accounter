@@ -7,8 +7,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 
-	
-
 	public StockAdjustmentAction() {
 		super();
 		this.catagory = messages.inventory();
