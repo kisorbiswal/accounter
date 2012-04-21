@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -45,28 +46,35 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 
 	List<ClientReminder> reminders = new ArrayList<ClientReminder>();
 	public String viewType;
+	private int viewType1;
 
 	public RemindersListView() {
 		super();
 		this.getElement().setId("RemindersListView");
+		initTypesMap();
 	}
-	
+
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService().getRemindersList(this);
-		filterList(viewSelect.getSelectedValue());
+		// Accounter.createHomeService().getRemindersList(this);
+		// filterList(viewSelect.getSelectedValue());
 	}
 
 	@Override
 	public void onSuccess(PaginationList<ClientReminder> result) {
-		super.onSuccess(result);
-		if (result == null) {
-			result = new PaginationList<ClientReminder>();
+		grid.removeAllRecords();
+		if (result.isEmpty()) {
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
 		}
-		reminders = result;
-		filterList(viewSelect.getSelectedValue());
-		grid.setViewType(viewSelect.getSelectedValue());
+		grid.sort(10, false);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -191,6 +199,17 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	}
 
 	@Override
+	protected int getPageSize() {
+		return DEFAULT_PAGE_SIZE;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getRemindersList(start, length,
+				viewType1, this);
+	}
+
+	@Override
 	protected String getListViewHeading() {
 		return messages.remindersList();
 	}
@@ -214,7 +233,6 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	@Override
 	protected SelectCombo getSelectItem() {
 		viewSelect = new SelectCombo(messages.currentView());
-		initTypesMap();
 		List<String> listOfTypes = new ArrayList<String>(typesMap.keySet());
 		viewSelect.initCombo(listOfTypes);
 		if (viewType != null && !viewType.equals(""))
@@ -239,20 +257,30 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	}
 
 	protected void filterList(String selectedValue) {
-		grid.removeAllRecords();
 
-		if (!selectedValue.equalsIgnoreCase(ALL)) {
-			for (ClientReminder reminder : reminders) {
-				if (reminder.getRecurringTransaction().getTransaction()
-						.getType() == typesMap.get(selectedValue)) {
-					grid.addData(reminder);
-				}
-			}
-		} else {
-			grid.setRecords(reminders);
-		}
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
+		setViewType(selectedValue);
+		onPageChange(0, getPageSize());
+		// grid.removeAllRecords();
+		//
+		// if (!selectedValue.equalsIgnoreCase(ALL)) {
+		// for (ClientReminder reminder : reminders) {
+		// if (reminder.getRecurringTransaction().getTransaction()
+		// .getType() == typesMap.get(selectedValue)) {
+		// grid.addData(reminder);
+		// }
+		// }
+		// } else {
+		// grid.setRecords(reminders);
+		// }
+		// if (grid.getRecords().isEmpty()) {
+		// grid.addEmptyMessage(messages.noRecordsToShow());
+		// }
+	}
+
+	private void setViewType(String selectedValue) {
+		Integer view = typesMap.get(selectedValue);
+		if (view != null) {
+			viewType1 = view.intValue();
 		}
 	}
 
