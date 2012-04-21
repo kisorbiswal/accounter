@@ -27,6 +27,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 
 	public NewAccountAction(int accountType) {
 		this();
+		this.accountType = accountType;
 		if (accountType == ClientAccount.TYPE_BANK) {
 			catagory = messages.banking();
 		}
@@ -48,7 +49,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 
 			public void onSuccess() {
 				NewAccountView view = new NewAccountView();
-				if (accountType != 0) {
+				if (accountType == 0) {
 					view.setAccountTypes(getAccountTypes());
 				} else {
 					view.setAccountType(accountType);
