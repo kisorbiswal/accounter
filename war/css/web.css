@@ -1,7 +1,9 @@
 @-moz-document url-prefix(){ .editTable table td .gwt-TextBox {
 	width: 99%;
 }
-
+table.gridBody{
+	 table-layout: auto !important;
+}
 #customercreditmemoview .prodAndServiceHLay .boldtext {
 	text-align: right;
 	width: 350px;
@@ -7913,5 +7915,11 @@ table.no_records tr td {
 }
 #CheckPrintingSettingView .checkprintbox .allFields,#CheckPrintingSettingView .checkprintbox .chequeForm{
 	padding-left:10px;
+}
+#ClassMergeDialog .horizontalPanel .gwt-Label,#LocationMergeDialog .horizontalPanel .gwt-Label{
+	width:120px;
+}
+#ClassMergeDialog table,#LocationMergeDialog table{
+	width: 650px;
 }
 /*Location merge dialog end*/
