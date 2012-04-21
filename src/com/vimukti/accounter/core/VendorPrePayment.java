@@ -344,9 +344,8 @@ public class VendorPrePayment extends Transaction {
 	public void getEffects(ITransactionEffects e) {
 		double vendorPayment = getTotal() - getTdsTotal();
 		e.add(getPayFrom(), vendorPayment);
-		if (getCompany().getPreferences().isTDSEnabled()
-				&& this.getVendor().isTdsApplicable()) {
-			e.add(getTdsTaxItem(), vendorPayment);
+		if (!DecimalUtil.isEquals(tdsTotal, 0.00D)) {
+			e.add(getTdsTaxItem(), getTotal());
 		}
 		e.add(getVendor(), -getTotal());
 	}
