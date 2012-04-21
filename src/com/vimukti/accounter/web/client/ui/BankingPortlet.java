@@ -21,8 +21,8 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
-import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 
 public class BankingPortlet extends GraphPointsPortlet {
 
@@ -59,7 +59,8 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					new NewBankAccountAction().run(null, true);
+					new NewAccountAction(ClientAccount.TYPE_BANK).run(null,
+							true);
 				}
 			});
 			Runnable runnable = new Runnable() {
@@ -202,7 +203,8 @@ public class BankingPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					new NewBankAccountAction().run(null, true);
+					new NewAccountAction(ClientAccount.TYPE_BANK).run(null,
+							true);
 				}
 			});
 		}

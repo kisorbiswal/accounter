@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
-import com.vimukti.accounter.web.client.ui.banking.NewBankAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 
 public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
@@ -116,7 +115,8 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 			return;
 		}
 		if (account.getType() == ClientAccount.TYPE_BANK) {
-			new NewBankAccountAction().run((ClientBankAccount) account, false);
+			new NewAccountAction(ClientAccount.TYPE_BANK).run(
+					(ClientBankAccount) account, false);
 		} else {
 			new NewAccountAction().run(account, false);
 		}
