@@ -18,6 +18,8 @@ public class Section<R> {
 
 	ISectionHandler<R> handler;
 
+	private ReportGrid<R> reportGrid;
+
 	public Section(String title, String footer, int[] sumColums,
 			int colsLength, IFinanceReport<R> report) {
 		this.title = title;
@@ -34,13 +36,24 @@ public class Section<R> {
 		this.footers = footers;
 		this.financeReport = report;
 		data = new Object[colsLength];
-		if (!financeReport.isServerSide()) {
+		if (financeReport != null && !financeReport.isServerSide()) {
 			updateTitleandFooterValuesonClient();
 		} else {
 			updateTitleandFooterValuesonServer();
 		}
 		this.sumColumnsIndexes = sumColums;
-		this.handler = report.getSectionHanlder();
+		if (report != null) {
+			this.handler = report.getSectionHanlder();
+		}
+	}
+
+	public Section(String[] titles, String[] footers, int[] sumColums,
+			int colsLength, ReportGrid<R> report) {
+		this.titles = titles;
+		this.footers = footers;
+		this.reportGrid = report;
+		data = new Object[colsLength];
+		this.sumColumnsIndexes = sumColums;
 	}
 
 	private void updateTitleandFooterValuesonServer() {
@@ -65,8 +78,11 @@ public class Section<R> {
 			titles = new String[] { title };
 		}
 		if (isTitleEmpty())
-
-			financeReport.addRow(null, 0, titles, true, false, false);
+			if (financeReport != null) {
+				financeReport.addRow(null, 0, titles, true, false, false);
+			} else {
+				reportGrid.addRow(null, 0, titles, true, false, false);
+			}
 	}
 
 	public void update(Object[] values) {
@@ -102,10 +118,18 @@ public class Section<R> {
 			handler.OnSectionEnd(this);
 		}
 		if (ishowGridFooter)
-			financeReport.addFooter(data);
+			if (financeReport != null) {
+				financeReport.addFooter(data);
+			} else {
+				reportGrid.addFooter(data);
+			}
 
 		if (isaddFooter)
-			financeReport.addRow(null, 2, data, true, true, true);
+			if (financeReport != null) {
+				financeReport.addRow(null, 2, data, true, true, true);
+			} else {
+				reportGrid.addRow(null, 2, data, true, true, true);
+			}
 	}
 
 	private void updateFooterInData() {

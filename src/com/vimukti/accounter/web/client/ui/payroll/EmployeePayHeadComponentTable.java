@@ -17,7 +17,6 @@ public class EmployeePayHeadComponentTable extends
 		EditTable<ClientEmployeePayHeadComponent> {
 
 	private AmountColumn<ClientEmployeePayHeadComponent> rateColumn;
-	private TextEditColumn<ClientEmployeePayHeadComponent> leavesColumn;
 
 	public EmployeePayHeadComponentTable() {
 		super();
@@ -69,17 +68,6 @@ public class EmployeePayHeadComponentTable extends
 			protected String getValue(ClientEmployeePayHeadComponent row) {
 				ClientPayHead payHead = row.getPayHead();
 				if (payHead != null) {
-					// if (row.getRate() != 0) {
-					// rateColumn.setEnable(false);
-					// } else {
-					// rateColumn.setEnable(true);
-					// }
-					if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
-							|| payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
-						leavesColumn.setEnable(true);
-					} else {
-						leavesColumn.setEnable(false);
-					}
 					return payHead.getName();
 				}
 				return "";
@@ -122,31 +110,6 @@ public class EmployeePayHeadComponentTable extends
 			}
 		};
 		this.addColumn(rateColumn);
-
-		leavesColumn = new TextEditColumn<ClientEmployeePayHeadComponent>() {
-
-			@Override
-			protected String getValue(ClientEmployeePayHeadComponent row) {
-				return UIUtils.toStr(row.getNoOfLeaves());
-			}
-
-			@Override
-			protected void setValue(ClientEmployeePayHeadComponent row,
-					String value) {
-				row.setNoOfLeaves(UIUtils.toInt(value));
-			}
-
-			@Override
-			protected String getColumnName() {
-				return messages.noOfLeaves();
-			}
-
-			@Override
-			public int getWidth() {
-				return 50;
-			}
-		};
-		this.addColumn(leavesColumn);
 
 		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
 

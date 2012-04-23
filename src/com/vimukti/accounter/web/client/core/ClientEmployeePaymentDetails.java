@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
-import com.vimukti.accounter.core.Employee;
-
 public class ClientEmployeePaymentDetails implements IAccounterCore {
 
 	/**

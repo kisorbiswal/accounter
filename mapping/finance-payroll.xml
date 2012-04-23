@@ -440,17 +440,22 @@
 	<query name="getPayStructureItem.by.employee">
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
+		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.PayStructureItem PI
-		where PI.payStructure.employee.id = :id or
+		where (:type = 1
+		and PI.payStructure.employee.id = :id ) or
+		(:type = 2 and
 		PI.payStructure.employeeGroup.id =
-		:id
-		and PI.company = :company
-		order by PI.rate desc
+		:id)
+		and PI.payStructure.company = :company
+		order
+		by PI.rate desc
 	</query>
 	<query name="getAttendanceMItem.by.employee">
 		<query-param name="employee" type="Employee" />
 		<query-param name="attendanceType" type="AttendanceOrProductionType" />
 		from com.vimukti.accounter.core.AttendanceManagementItem ami
-		where ami.employee = :employee and ami.attendanceType =:attendanceType
+		where
+		ami.employee = :employee and ami.attendanceType =:attendanceType
 	</query>
 </hibernate-mapping>

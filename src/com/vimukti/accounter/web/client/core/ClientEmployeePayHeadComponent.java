@@ -11,7 +11,9 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	private double rate;
 
-	private int noOfLeaves;
+	private long id;
+
+	private ClientEmployee employee;
 
 	@Override
 	public int getVersion() {
@@ -27,32 +29,27 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return employee.getName();
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return employee.getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.EMPLOYEE_PAYHEAD_COMPONENT;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 	public ClientPayHead getPayHead() {
@@ -71,12 +68,7 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 		this.rate = rate;
 	}
 
-	public int getNoOfLeaves() {
-		return noOfLeaves;
+	public void setEmployee(ClientEmployee employee) {
+		this.employee = employee;
 	}
-
-	public void setNoOfLeaves(int noOfLeaves) {
-		this.noOfLeaves = noOfLeaves;
-	}
-
 }

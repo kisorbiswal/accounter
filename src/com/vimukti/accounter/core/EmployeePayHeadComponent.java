@@ -23,8 +23,6 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 
 	private double rate;
 
-	private int noOfLeaves;
-
 	private FinanceDate periodEndDate;
 
 	private FinanceDate periodStartDate;
@@ -67,14 +65,6 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 
 	public boolean isDeduction() {
 		return payHead.isDeduction();
-	}
-
-	public int getNoOfLeaves() {
-		return noOfLeaves;
-	}
-
-	public void setNoOfLeaves(int noOfLeaves) {
-		this.noOfLeaves = noOfLeaves;
 	}
 
 	@Override

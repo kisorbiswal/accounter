@@ -97,7 +97,9 @@ public class ReportGrid<R> extends CustomTable {
 			if (maxDepth < depth)
 				this.maxDepth = depth;
 			if (values.length > i && values[i] != null) {
-				if (reportView.getColumnstoHide().contains(i) && record != null) {
+				if (reportView != null
+						&& reportView.getColumnstoHide().contains(i)
+						&& record != null) {
 					addCell(rowCount, i, bold, "", depth, false);
 				} else if (columnTypes[i] == COLUMN_TYPE_AMOUNT) {
 					addCell(rowCount, i, bold, getValue(values[i]), depth,
@@ -304,7 +306,11 @@ public class ReportGrid<R> extends CustomTable {
 		// return 200;
 		// }
 		// return -1;
-		return reportView.getColumnWidth(index);
+		if (reportView != null) {
+			return reportView.getColumnWidth(index);
+		} else {
+			return 100;
+		}
 	}
 
 	@Override
