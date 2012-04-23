@@ -134,7 +134,7 @@ public class ComputionPayHead extends PayHead {
 		double value = 0.0;
 		for (ComputationSlab slab : getSlabs()) {
 			if (calculatedAmount >= slab.getFromAmount()
-					&& calculatedAmount <= slab.getToAmount()) {
+					|| calculatedAmount <= slab.getToAmount()) {
 				value = slab.getSlabType() == ComputationSlab.TYPE_PERCENTAGE ? (calculatedAmount * slab
 						.getValue()) / 100 : slab.getValue();
 			}
