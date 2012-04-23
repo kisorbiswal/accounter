@@ -7934,4 +7934,11 @@ table.no_records tr td {
 #TDSResponsiblePersonDetailsView .formItem .gwt-Label{
 	width:245px;
 }
+#NewVATItemView .new_vat_item .percentageField .gwt-Label {
+	width: 200px !important;
+	padding: 0;
+}
+#NewApplyCreditsDialog .group_dialogue_list{
+	width:600px;
+}
 /*Location merge dialog end*/
