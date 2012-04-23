@@ -54,8 +54,7 @@ public class ProductionPayHead extends PayHead {
 		double rate = payStructureItem.getRate();
 		double earningSalary = 0.0;
 		if (workingDays != 0) {
-			double perDayAmount = rate / workingDays;
-			earningSalary = perDayAmount * payStructureItem.getAttendance()[1];
+			earningSalary = rate * workingDays;
 		}
 		return earningSalary;
 	}

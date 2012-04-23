@@ -111,6 +111,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private long costOfGoodsSold;
 
+	private long salariesPayableAccount;
+
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
@@ -1849,46 +1851,49 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
-//			case EMPLOYEE_GROUP:
-//
-//				ClientEmployeeGroup employeeGroup = (ClientEmployeeGroup) accounterCoreObject;
-//
-//				Utility.updateClientList(employeeGroup, employeeGroups);
-//
-//				break;
-//
-//			case EMPLOYEE:
-//
-//				ClientEmployee employee = (ClientEmployee) accounterCoreObject;
-//
-//				Utility.updateClientList(employee, employees);
-//
-//				break;
-//
-//			case PAY_HEAD:
-//
-//				ClientPayHead payhead = (ClientPayHead) accounterCoreObject;
-//
-//				Utility.updateClientList(payhead, payheads);
-//
-//				break;
-//
-//			case EMPLOYEE_CATEGORY:
-//
-//				ClientEmployeeCategory employeeCategory = (ClientEmployeeCategory) accounterCoreObject;
-//
-//				Utility.updateClientList(employeeCategory, employeeCategories);
-//
-//				break;
-//
-//			case ATTENDANCE_PRODUCTION_TYPE:
-//
-//				ClientAttendanceOrProductionType attendanceProcutionType = (ClientAttendanceOrProductionType) accounterCoreObject;
-//
-//				Utility.updateClientList(attendanceProcutionType,
-//						attendanceProductionTypes);
-//
-//				break;
+			// case EMPLOYEE_GROUP:
+			//
+			// ClientEmployeeGroup employeeGroup = (ClientEmployeeGroup)
+			// accounterCoreObject;
+			//
+			// Utility.updateClientList(employeeGroup, employeeGroups);
+			//
+			// break;
+			//
+			// case EMPLOYEE:
+			//
+			// ClientEmployee employee = (ClientEmployee) accounterCoreObject;
+			//
+			// Utility.updateClientList(employee, employees);
+			//
+			// break;
+			//
+			// case PAY_HEAD:
+			//
+			// ClientPayHead payhead = (ClientPayHead) accounterCoreObject;
+			//
+			// Utility.updateClientList(payhead, payheads);
+			//
+			// break;
+			//
+			// case EMPLOYEE_CATEGORY:
+			//
+			// ClientEmployeeCategory employeeCategory =
+			// (ClientEmployeeCategory) accounterCoreObject;
+			//
+			// Utility.updateClientList(employeeCategory, employeeCategories);
+			//
+			// break;
+			//
+			// case ATTENDANCE_PRODUCTION_TYPE:
+			//
+			// ClientAttendanceOrProductionType attendanceProcutionType =
+			// (ClientAttendanceOrProductionType) accounterCoreObject;
+			//
+			// Utility.updateClientList(attendanceProcutionType,
+			// attendanceProductionTypes);
+			//
+			// break;
 
 			case PAYMENT_TERM:
 
@@ -2244,72 +2249,72 @@ public class ClientCompany implements IAccounterCore {
 			deleteUser(id);
 			break;
 
-//		case EMPLOYEE:
-//			deleteEmployee(id);
-//			break;
-//
-//		case EMPLOYEE_GROUP:
-//			deleteEmployeeGroup(id);
-//			break;
-//
-//		case PAY_HEAD:
-//			deletePayHead(id);
-//			break;
-//
-//		case EMPLOYEE_CATEGORY:
-//			deleteEmployeeCategory(id);
-//			break;
-//
-//		case ATTENDANCE_PRODUCTION_TYPE:
-//			deleteAttendanceProductionType(id);
-//			break;
+		// case EMPLOYEE:
+		// deleteEmployee(id);
+		// break;
+		//
+		// case EMPLOYEE_GROUP:
+		// deleteEmployeeGroup(id);
+		// break;
+		//
+		// case PAY_HEAD:
+		// deletePayHead(id);
+		// break;
+		//
+		// case EMPLOYEE_CATEGORY:
+		// deleteEmployeeCategory(id);
+		// break;
+		//
+		// case ATTENDANCE_PRODUCTION_TYPE:
+		// deleteAttendanceProductionType(id);
+		// break;
 		}
 	}
 
-//	private void deleteAttendanceProductionType(long id) {
-//		ClientAttendanceOrProductionType category = this
-//				.getAttendanceProductionType(id);
-//		if (category != null) {
-//			this.attendanceProductionTypes.remove(category);
-//			fireEvent(new CoreEvent<ClientAttendanceOrProductionType>(
-//					ChangeType.DELETE, category));
-//		}
-//	}
+	// private void deleteAttendanceProductionType(long id) {
+	// ClientAttendanceOrProductionType category = this
+	// .getAttendanceProductionType(id);
+	// if (category != null) {
+	// this.attendanceProductionTypes.remove(category);
+	// fireEvent(new CoreEvent<ClientAttendanceOrProductionType>(
+	// ChangeType.DELETE, category));
+	// }
+	// }
 
-//	private void deleteEmployeeCategory(long id) {
-//		ClientEmployeeCategory category = this.getEmployeeCategory(id);
-//		if (category != null) {
-//			this.employeeCategories.remove(category);
-//			fireEvent(new CoreEvent<ClientEmployeeCategory>(ChangeType.DELETE,
-//					category));
-//		}
-//	}
-//
-//	private void deletePayHead(long id) {
-//		ClientPayHead payhead = this.getPayHead(id);
-//		if (payhead != null) {
-//			this.payheads.remove(payhead);
-//			fireEvent(new CoreEvent<ClientPayHead>(ChangeType.DELETE, payhead));
-//		}
-//	}
+	// private void deleteEmployeeCategory(long id) {
+	// ClientEmployeeCategory category = this.getEmployeeCategory(id);
+	// if (category != null) {
+	// this.employeeCategories.remove(category);
+	// fireEvent(new CoreEvent<ClientEmployeeCategory>(ChangeType.DELETE,
+	// category));
+	// }
+	// }
+	//
+	// private void deletePayHead(long id) {
+	// ClientPayHead payhead = this.getPayHead(id);
+	// if (payhead != null) {
+	// this.payheads.remove(payhead);
+	// fireEvent(new CoreEvent<ClientPayHead>(ChangeType.DELETE, payhead));
+	// }
+	// }
 
-//	private void deleteEmployee(long id) {
-//		ClientEmployee clientEmployee = this.getEmployee(id);
-//		if (clientEmployee != null) {
-//			this.employees.remove(clientEmployee);
-//			fireEvent(new CoreEvent<ClientEmployee>(ChangeType.DELETE,
-//					clientEmployee));
-//		}
-//	}
-//
-//	private void deleteEmployeeGroup(long id) {
-//		ClientEmployeeGroup clientEmployee = this.getEmployeeGroup(id);
-//		if (clientEmployee != null) {
-//			this.employeeGroups.remove(clientEmployee);
-//			fireEvent(new CoreEvent<ClientEmployeeGroup>(ChangeType.DELETE,
-//					clientEmployee));
-//		}
-//	}
+	// private void deleteEmployee(long id) {
+	// ClientEmployee clientEmployee = this.getEmployee(id);
+	// if (clientEmployee != null) {
+	// this.employees.remove(clientEmployee);
+	// fireEvent(new CoreEvent<ClientEmployee>(ChangeType.DELETE,
+	// clientEmployee));
+	// }
+	// }
+	//
+	// private void deleteEmployeeGroup(long id) {
+	// ClientEmployeeGroup clientEmployee = this.getEmployeeGroup(id);
+	// if (clientEmployee != null) {
+	// this.employeeGroups.remove(clientEmployee);
+	// fireEvent(new CoreEvent<ClientEmployeeGroup>(ChangeType.DELETE,
+	// clientEmployee));
+	// }
+	// }
 
 	private void deleteJob(long id) {
 		ClientJob object = Utility.getObject(this.jobs, id);
@@ -3491,89 +3496,101 @@ public class ClientCompany implements IAccounterCore {
 		this.messagesAndTasks = messagesAndTasks;
 	}
 
-//	public ArrayList<ClientEmployee> getEmployees() {
-//		return employees;
-//	}
-//
-//	public void setEmployees(ArrayList<ClientEmployee> employees) {
-//		this.employees = employees;
-//	}
-//
-//	public ArrayList<ClientEmployeeGroup> getEmployeeGroups() {
-//		return employeeGroups;
-//	}
-//
-//	public void setEmployeeGroups(ArrayList<ClientEmployeeGroup> employeeGroups) {
-//		this.employeeGroups = employeeGroups;
-//	}
-//
-//	public ClientEmployeeGroup getEmployeeGroupByName(String employeeGroupName) {
-//		return Utility.getObjectByName(this.employeeGroups, employeeGroupName);
-//	}
-//
-//	public ClientEmployeeCategory getEmployeeCategoryByName(String name) {
-//		return Utility.getObjectByName(this.getEmployeeCategories(), name);
-//	}
-//
-//	public ClientEmployeeGroup getEmployeeGroup(long id) {
-//		return Utility.getObject(this.employeeGroups, id);
-//	}
-//
-//	public ClientEmployeeCategory getEmployeeCategory(long id) {
-//		return Utility.getObject(this.employeeCategories, id);
-//	}
-//
-//	private ClientAttendanceOrProductionType getAttendanceProductionType(long id) {
-//		return Utility.getObject(this.attendanceProductionTypes, id);
-//	}
-//
-//	public ClientPayHead getPayHead(long payHead) {
-//		return Utility.getObject(this.payheads, payHead);
-//	}
-//
-//	public void setPayHeads(List<ClientPayHead> payheads) {
-//		this.payheads = payheads;
-//	}
-//
-//	public List<ClientPayHead> getPayHeads() {
-//		return this.payheads;
-//	}
-//
-//	public ClientEmployee getEmployee(long id) {
-//		return Utility.getObject(this.employees, id);
-//	}
-//
-//	public List<ClientEmployeeCategory> getEmployeeCategories() {
-//		return this.employeeCategories;
-//	}
-//
-//	public void setEmployeeCategories(
-//			List<ClientEmployeeCategory> employeeCategories) {
-//		this.employeeCategories = employeeCategories;
-//	}
-//
-//	public List<ClientAttendanceOrProductionType> getAttendanceProductionTypes() {
-//		return this.attendanceProductionTypes;
-//	}
-//
-//	public void setAttendanceProductionTypes(
-//			List<ClientAttendanceOrProductionType> attendanceProductionTypes) {
-//		this.attendanceProductionTypes = attendanceProductionTypes;
-//	}
-//
-//	public ClientEmployee getEmployeeByName(String name) {
-//		return Utility.getObjectByName(this.employees, name);
-//	}
-//
-//	public ArrayList<ClientPayrollUnit> getPayrollUnits() {
-//		return payrollUnits;
-//	}
-//
-//	public void setPayrollUnits(ArrayList<ClientPayrollUnit> payrollUnits) {
-//		this.payrollUnits = payrollUnits;
-//	}
-//
-//	public ClientPayHead getPayHeadByName(String name) {
-//		return Utility.getObjectByName(this.payheads, name);
-//	}
+	public long getSalariesPayableAccount() {
+		return salariesPayableAccount;
+	}
+
+	public void setSalariesPayableAccount(long salariesPayableAccount) {
+		this.salariesPayableAccount = salariesPayableAccount;
+	}
+
+	// public ArrayList<ClientEmployee> getEmployees() {
+	// return employees;
+	// }
+	//
+	// public void setEmployees(ArrayList<ClientEmployee> employees) {
+	// this.employees = employees;
+	// }
+	//
+	// public ArrayList<ClientEmployeeGroup> getEmployeeGroups() {
+	// return employeeGroups;
+	// }
+	//
+	// public void setEmployeeGroups(ArrayList<ClientEmployeeGroup>
+	// employeeGroups) {
+	// this.employeeGroups = employeeGroups;
+	// }
+	//
+	// public ClientEmployeeGroup getEmployeeGroupByName(String
+	// employeeGroupName) {
+	// return Utility.getObjectByName(this.employeeGroups, employeeGroupName);
+	// }
+	//
+	// public ClientEmployeeCategory getEmployeeCategoryByName(String name) {
+	// return Utility.getObjectByName(this.getEmployeeCategories(), name);
+	// }
+	//
+	// public ClientEmployeeGroup getEmployeeGroup(long id) {
+	// return Utility.getObject(this.employeeGroups, id);
+	// }
+	//
+	// public ClientEmployeeCategory getEmployeeCategory(long id) {
+	// return Utility.getObject(this.employeeCategories, id);
+	// }
+	//
+	// private ClientAttendanceOrProductionType getAttendanceProductionType(long
+	// id) {
+	// return Utility.getObject(this.attendanceProductionTypes, id);
+	// }
+	//
+	// public ClientPayHead getPayHead(long payHead) {
+	// return Utility.getObject(this.payheads, payHead);
+	// }
+	//
+	// public void setPayHeads(List<ClientPayHead> payheads) {
+	// this.payheads = payheads;
+	// }
+	//
+	// public List<ClientPayHead> getPayHeads() {
+	// return this.payheads;
+	// }
+	//
+	// public ClientEmployee getEmployee(long id) {
+	// return Utility.getObject(this.employees, id);
+	// }
+	//
+	// public List<ClientEmployeeCategory> getEmployeeCategories() {
+	// return this.employeeCategories;
+	// }
+	//
+	// public void setEmployeeCategories(
+	// List<ClientEmployeeCategory> employeeCategories) {
+	// this.employeeCategories = employeeCategories;
+	// }
+	//
+	// public List<ClientAttendanceOrProductionType>
+	// getAttendanceProductionTypes() {
+	// return this.attendanceProductionTypes;
+	// }
+	//
+	// public void setAttendanceProductionTypes(
+	// List<ClientAttendanceOrProductionType> attendanceProductionTypes) {
+	// this.attendanceProductionTypes = attendanceProductionTypes;
+	// }
+	//
+	// public ClientEmployee getEmployeeByName(String name) {
+	// return Utility.getObjectByName(this.employees, name);
+	// }
+	//
+	// public ArrayList<ClientPayrollUnit> getPayrollUnits() {
+	// return payrollUnits;
+	// }
+	//
+	// public void setPayrollUnits(ArrayList<ClientPayrollUnit> payrollUnits) {
+	// this.payrollUnits = payrollUnits;
+	// }
+	//
+	// public ClientPayHead getPayHeadByName(String name) {
+	// return Utility.getObjectByName(this.payheads, name);
+	// }
 }

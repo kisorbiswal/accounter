@@ -385,7 +385,9 @@
 		<many-to-one name="costOfGoodsSold" class="Account"
 			column="COST_OF_GOODS_SOLD" cascade="delete">
 		</many-to-one>
-
+		<many-to-one name="salariesPayableAccount" class="Account"
+			column="SALARIES_PAYABLE_ACCOUNT" cascade="delete">
+		</many-to-one>
 		<many-to-one name="tdsDeductor" class="TDSDeductorMasters"
 			column="TDS_DEDUCTOR" cascade="delete">
 		</many-to-one>

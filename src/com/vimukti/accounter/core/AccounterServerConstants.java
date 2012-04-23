@@ -736,4 +736,5 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String QST_TAX_PAYABLE = "QST Tax Payable";
 	public static final String CONSUMPTION_TAX_PAYABLE = "Consumption Tax Payable";
 	public static final String TYPE_VENDOR_PAYMENT = "Vendor Prepayment";
+	public static final String SALARIES_PAYABLE = "Salaries Payable";
 }
