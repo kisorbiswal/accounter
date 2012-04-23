@@ -14,8 +14,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
+import com.vimukti.accounter.web.client.ui.fixedassets.HistoryListAction;
+import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 
 /**
@@ -127,7 +128,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			openNoteDialog(obj);
 			break;
 		default:
-			ActionFactory.getNewFixedAssetAction().run(obj, false);
+			new NewFixedAssetAction().run(obj, false);
 			break;
 		}
 	}
@@ -147,7 +148,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	}
 
 	private void openHistoryView(ClientFixedAsset obj) {
-		Action action = ActionFactory.getHistoryListAction();
+		Action action = new HistoryListAction();
 		action.catagory = messages.fixedAssetsPendingItemsList();
 		action.run(obj, true);
 	}

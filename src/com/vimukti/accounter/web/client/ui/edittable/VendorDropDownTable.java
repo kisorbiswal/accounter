@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
@@ -17,7 +16,7 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	private ListFilter<ClientVendor> filter;
 
 	public VendorDropDownTable(ListFilter<ClientVendor> filter) {
-		super(getVendors(filter),true);
+		super(getVendors(filter), true);
 		this.filter = filter;
 	}
 
@@ -34,8 +33,8 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 	@Override
 	protected ClientVendor getAddNewRow() {
 		ClientVendor clientVendor = new ClientVendor();
-		clientVendor.setName(messages
-		.comboDefaultAddNew(Global.get().Vendor()));
+		clientVendor
+				.setName(messages.comboDefaultAddNew(Global.get().Vendor()));
 		return clientVendor;
 	}
 
@@ -72,7 +71,7 @@ public class VendorDropDownTable extends AbstractDropDownTable<ClientVendor> {
 
 	@Override
 	protected void addNewItem(String text) {
-		NewVendorAction action = ActionFactory.getNewVendorAction();
+		NewVendorAction action = new NewVendorAction();
 		action.setCallback(new ActionCallback<ClientVendor>() {
 
 			@Override

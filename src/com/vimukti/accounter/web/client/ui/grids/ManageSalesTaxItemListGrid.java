@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
@@ -50,7 +50,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
 		if (Utility.isUserHavePermissions(AccounterCoreType.TAXITEM)) {
-			ActionFactory.getNewVatItemAction().run(obj, false);
+			new NewVatItemAction().run(obj, false);
 		}
 
 	}
@@ -145,8 +145,10 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 	}
 
 	@Override
-	protected String[] setHeaderStyle() {	return new String[] { "taxitem", "description", "taxrates",
-			"taxagency", "col-last" };}
+	protected String[] setHeaderStyle() {
+		return new String[] { "taxitem", "description", "taxrates",
+				"taxagency", "col-last" };
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {

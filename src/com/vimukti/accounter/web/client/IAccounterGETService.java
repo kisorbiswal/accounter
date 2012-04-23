@@ -4,7 +4,6 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -291,23 +290,23 @@ public interface IAccounterGETService extends RemoteService {
 	public ClientUser getUser(String userName, String password,
 			boolean isremeber, int offset);
 
-	List<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
+	ArrayList<ClientReconciliationItem> getAllTransactionsOfAccount(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
 
-	List<ClientReconciliation> getReconciliationsByBankAccountID(
+	ArrayList<ClientReconciliation> getReconciliationsByBankAccountID(
 			long accountName) throws AccounterException;
 
 	double getOpeningBalanceforReconciliation(long id)
 			throws AccounterException;
 
-	List<ClientTransactionLog> getTransactionHistory(long transactionId)
+	ArrayList<ClientTransactionLog> getTransactionHistory(long transactionId)
 			throws AccounterException;
 
 	long getLastTAXReturnEndDate(long agencyId) throws AccounterException;
 
-	List<ClientTAXReturnEntry> getTAXReturnEntries(long agency, long startDate,
-			long endDate) throws AccounterException;
+	ArrayList<ClientTAXReturnEntry> getTAXReturnEntries(long agency,
+			long startDate, long endDate) throws AccounterException;
 
 	PaginationList<ClientTAXReturn> getAllTAXReturns(int start, int lenght,
 			int viewType) throws AccounterException;
@@ -315,5 +314,5 @@ public interface IAccounterGETService extends RemoteService {
 	Map<Long, Double> getAssetValuesForInventories() throws AccounterException;
 
 	public int getClientCompaniesCount();
-	
+
 }

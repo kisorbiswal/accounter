@@ -17,7 +17,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class VendorListGrid extends BaseListGrid<PayeeList> {
@@ -38,8 +39,7 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = messages.active();
 				break;
 			case 1:
-				colArray[index] = messages.payeeName(
-						Global.get().Vendor());
+				colArray[index] = messages.payeeName(Global.get().Vendor());
 				break;
 			case 2:
 				colArray[index] = messages.currentMonth();
@@ -228,13 +228,13 @@ public class VendorListGrid extends BaseListGrid<PayeeList> {
 				public void onResultSuccess(ClientPayee result) {
 					if (result != null) {
 						if (result instanceof ClientVendor) {
-							ActionFactory.getNewVendorAction().run(
-									(ClientVendor) result, false);
+							new NewVendorAction().run((ClientVendor) result,
+									false);
 							// } else if (result instanceof ClientTaxAgency) {
 							// UIUtils.runAction(result, ActionFactory
 							// .getNewTaxAgencyAction());
 						} else if (result instanceof ClientTAXAgency) {
-							ActionFactory.getNewTAXAgencyAction().run(
+							new NewTAXAgencyAction().run(
 									(ClientTAXAgency) result, false);
 						}
 

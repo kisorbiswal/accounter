@@ -277,4 +277,10 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			w.put(messages.mobileNumber(), this.mobileNumber).gap();
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

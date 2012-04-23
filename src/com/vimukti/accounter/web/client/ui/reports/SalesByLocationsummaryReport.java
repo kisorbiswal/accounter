@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByLocationsummaryServerReport;
 
 public class SalesByLocationsummaryReport extends
@@ -40,8 +39,8 @@ public class SalesByLocationsummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ActionFactory
-				.getSalesByLocationDetailsAction(isLocation, isCustomer));
+		UIUtils.runAction(record, new SalesByLocationDetailsAction(isLocation,
+				isCustomer));
 
 	}
 

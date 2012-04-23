@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemSummaryServerReport;
 
 public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
@@ -22,7 +21,7 @@ public class VATItemSummaryReport extends AbstractReportView<VATItemSummary> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ActionFactory.getVaTItemDetailAction());
+		UIUtils.runAction(record, new VaTItemDetailAction());
 
 	}
 

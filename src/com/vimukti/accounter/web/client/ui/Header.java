@@ -27,7 +27,8 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.IMessageStats;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
+import com.vimukti.accounter.web.client.ui.company.UserDetailsAction;
 
 public class Header extends FlowPanel {
 
@@ -103,7 +104,7 @@ public class Header extends FlowPanel {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						ActionFactory.getUserDetailsAction().run(null, false);
+						new UserDetailsAction().run(null, false);
 					}
 				});
 			}
@@ -141,7 +142,7 @@ public class Header extends FlowPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getCompanyHomeAction().run(null, false);
+				new CompanyHomeAction().run(null, false);
 			}
 		});
 

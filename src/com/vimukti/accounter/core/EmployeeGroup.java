@@ -89,4 +89,10 @@ public class EmployeeGroup extends CreatableObject implements
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

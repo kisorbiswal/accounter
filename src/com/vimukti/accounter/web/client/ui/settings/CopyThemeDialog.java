@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
 public class CopyThemeDialog extends BaseDialog {
@@ -126,7 +125,7 @@ public class CopyThemeDialog extends BaseDialog {
 	public void saveSuccess(IAccounterCore object) {
 		removeFromParent();
 		super.saveSuccess(object);
-		ActionFactory.getInvoiceBrandingAction().run(null, true);
+		new InvoiceBrandingAction().run(null, true);
 	}
 
 	@Override

@@ -383,4 +383,10 @@ public class VendorCreditMemo extends Transaction {
 		}
 		e.add(getVendor(), -getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

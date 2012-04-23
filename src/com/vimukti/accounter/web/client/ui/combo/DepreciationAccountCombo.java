@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 /**
  * @author vimukti16
@@ -37,7 +36,7 @@ public class DepreciationAccountCombo extends AccountCombo {
 	}
 
 	public void onAddNew() {
-		NewAccountAction action = ActionFactory.getNewAccountAction();
+		NewAccountAction action = new NewAccountAction();
 		action.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.DEPRECIATION_COMBO));
 		action.setCallback(new ActionCallback<ClientAccount>() {

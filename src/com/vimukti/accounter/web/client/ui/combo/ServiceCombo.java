@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ServiceCombo extends CustomCombo<ClientItem> {
 	// Type For Checking Request is from Customer View Or Vendor View
@@ -13,13 +12,13 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 	// private final int TYPE_VENDOR = 2;
 
 	public ServiceCombo(String title, int type) {
-		super(title,"serviceCombo");
+		super(title, "serviceCombo");
 		this.type = type;
 		initCombo(getCompany().getServiceItems());
 	}
 
 	public ServiceCombo(String title, int type, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1,"serviceCombo");
+		super(title, isAddNewRequired, 1, "serviceCombo");
 		this.type = type;
 		initCombo(getCompany().getServiceItems());
 	}
@@ -41,9 +40,9 @@ public class ServiceCombo extends CustomCombo<ClientItem> {
 	public void onAddNew() {
 		NewItemAction action;
 		if (type == 1) {
-			action = ActionFactory.getNewItemAction(true);
+			action = new NewItemAction(true);
 		} else {
-			action = ActionFactory.getNewItemAction(false);
+			action = new NewItemAction(false);
 		}
 		action.setCallback(new ActionCallback<ClientItem>() {
 

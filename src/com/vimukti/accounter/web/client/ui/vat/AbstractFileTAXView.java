@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TAXAgencyCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -149,8 +148,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (selectedTaxAgency != null) {
-					AdjustTAXAction vatAdjustmentAction = ActionFactory
-							.getVatAdjustmentAction();
+					AdjustTAXAction vatAdjustmentAction = new AdjustTAXAction(1);
 					vatAdjustmentAction.setVatAgency(selectedTaxAgency);
 					vatAdjustmentAction.run(null, true);
 				}

@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
 
 public class ECSalesListReport extends AbstractReportView<ECSalesList> {
@@ -21,7 +20,7 @@ public class ECSalesListReport extends AbstractReportView<ECSalesList> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		ActionFactory.getECSalesListDetailAction().run(record, true);
+		new ECSalesListDetailAction().run(record, true);
 	}
 
 	@Override

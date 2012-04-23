@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 
 public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
@@ -94,8 +94,8 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 						public void onResultSuccess(
 								ClientJournalEntry journalEntry) {
 							if (journalEntry != null) {
-								ActionFactory.getNewJournalEntryAction().run(
-										journalEntry, true);
+								new NewJournalEntryAction().run(journalEntry,
+										true);
 							}
 
 						}
@@ -114,7 +114,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	protected int[] setColTypes() {
 		return null;
 	}
-	
+
 	@Override
 	protected int getCellWidth(int index) {
 		switch (index) {
@@ -130,7 +130,7 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 			return -1;
 		}
 	}
-	
+
 	@Override
 	protected void executeDelete(ClientFixedAssetHistory object) {
 		// NOTHING TO DO
@@ -143,12 +143,12 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "changes", "date", "user", "details" };
-		}
+	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "changes-value", "date-value", "user-value",
-		"details-value" };
-}
+				"details-value" };
+	}
 
 }

@@ -289,7 +289,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public boolean createOrSkipTransactions(List<ClientReminder> records,
+	public boolean createOrSkipTransactions(ArrayList<ClientReminder> records,
 			boolean isCreate) throws AccounterException {
 		FinanceTool tool = new FinanceTool();
 		return tool.createOrSkipTransactions(records, isCreate, getCompanyId());

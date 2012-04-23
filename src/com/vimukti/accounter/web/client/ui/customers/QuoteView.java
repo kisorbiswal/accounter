@@ -44,10 +44,12 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.BrandingThemeComboAction;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.EmailThemeComboAction;
+import com.vimukti.accounter.web.client.ui.core.EmailViewAction;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
@@ -757,7 +759,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			}
 		}
 		if (isTrackDiscounts()) {
-			if (discountField.getPercentage() != 0.0 && transactionItems != null) {
+			if (discountField.getPercentage() != 0.0
+					&& transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getPercentage());
 				}
@@ -1125,7 +1128,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	}
 
-
 	@Override
 	protected void onAddNew(String item) {
 		super.onAddNew(item);
@@ -1253,7 +1255,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (themesList.size() > 1) {
 			// if there are more than one branding themes, then show branding
 			// theme combo box
-			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+			new BrandingThemeComboAction().run(transaction, false);
 		} else {
 			// if there is only one branding theme
 
@@ -1463,11 +1465,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 						// if there are more than one branding themes, then show
 						// branding
 						// theme dialog box
-						ActionFactory.getEmailThemeComboAction().run(
-								transaction, false);
+						new EmailThemeComboAction().run(transaction, false);
 					} else {
-						ActionFactory.getEmailViewAction().run(transaction,
-								themesList.get(0).getID(), false);
+						new EmailViewAction().run(transaction, themesList
+								.get(0).getID(), false);
 					}
 				}
 			});

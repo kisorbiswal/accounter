@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ChalanDetailsListGrid;
@@ -31,9 +30,10 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	protected void createListForm(DynamicForm form) {
-		
+
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 
 	@Override
 	protected Action<ClientTDSChalanDetail> getAddNewAction() {
-		return ActionFactory.getTDSChalanDetailsView();
+		return new TDSChalanDetailsAction();
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
@@ -70,7 +69,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> implements
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly()))
-			return ActionFactory.getWareHouseViewAction();
+			return new WareHouseViewAction();
 		else
 			return null;
 	}

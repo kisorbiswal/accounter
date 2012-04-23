@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.ManageTAXCodeListGrid;
@@ -28,11 +27,11 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode>
 	public ManageTAXCodesListView() {
 		this.getElement().setId("ManageTAXCodesListView");
 	}
-	
+
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return ActionFactory.getNewTAXCodeAction();
+			return new NewTAXCodeAction();
 		} else {
 			return null;
 		}

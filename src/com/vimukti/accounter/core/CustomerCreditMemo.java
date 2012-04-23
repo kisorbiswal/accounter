@@ -511,4 +511,10 @@ public class CustomerCreditMemo extends Transaction implements
 		}
 		e.add(getCustomer(), getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

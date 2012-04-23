@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AccoutsPortlet;
 import com.vimukti.accounter.web.client.ui.CustomLabel;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -45,7 +45,7 @@ public class BankAccountsView extends BaseView<ClientAccount> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewBankAccountAction().run();
+				new NewAccountAction(ClientAccount.TYPE_BANK).run();
 
 			}
 		});

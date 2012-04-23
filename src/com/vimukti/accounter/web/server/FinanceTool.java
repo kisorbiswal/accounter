@@ -3679,7 +3679,7 @@ public class FinanceTool {
 	 * @param limit
 	 * @return List<RecentTransactionsList>
 	 */
-	public List<RecentTransactionsList> getRecentTransactionsList(
+	public ArrayList<RecentTransactionsList> getRecentTransactionsList(
 			long companyId, int limit) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
@@ -3688,7 +3688,7 @@ public class FinanceTool {
 					.setParameter("limit", limit).list();
 			Object[] object = null;
 			Iterator iterator = l.iterator();
-			List<RecentTransactionsList> activities = new ArrayList<RecentTransactionsList>();
+			ArrayList<RecentTransactionsList> activities = new ArrayList<RecentTransactionsList>();
 			while (iterator.hasNext()) {
 				RecentTransactionsList recentTransactionsList = new RecentTransactionsList();
 				object = (Object[]) iterator.next();

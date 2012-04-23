@@ -9,9 +9,15 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
+import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewCashPurchaseAction;
+import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 
 /**
  * 
@@ -27,7 +33,7 @@ public class ReconcileCreateDialog extends BaseDialog {
 		setText("Create");
 		this.getElement().setId("ReconcileCreateDialog");
 		createControls();
-//		setWidth("500px");
+		// setWidth("500px");
 		center();
 	}
 
@@ -66,12 +72,11 @@ public class ReconcileCreateDialog extends BaseDialog {
 	@SuppressWarnings("rawtypes")
 	private Map<String, Action> getReceivedTransactionNames() {
 		Map<String, Action> map = new HashMap<String, Action>();
-		map.put(messages.invoice(), ActionFactory.getNewInvoiceAction());
-		map.put(messages.cashSale(), ActionFactory.getNewCashSaleAction());
+		map.put(messages.invoice(), new NewInvoiceAction());
+		map.put(messages.cashSale(), new NewCashSaleAction());
 		map.put(messages.payeePrePayment(Global.get().customer()),
-				ActionFactory.getNewCustomerPaymentAction());
-		map.put(messages.receivePayment(),
-				ActionFactory.getReceivePaymentAction());
+				new CustomerPaymentsAction());
+		map.put(messages.receivePayment(), new ReceivePaymentAction());
 		return map;
 	}
 
@@ -83,16 +88,14 @@ public class ReconcileCreateDialog extends BaseDialog {
 	@SuppressWarnings("rawtypes")
 	private Map<String, Action> getSpentTransactionNames() {
 		Map<String, Action> map = new HashMap<String, Action>();
-		map.put(messages.enterBill(), ActionFactory.getEnterBillsAction());
-		map.put(messages.cashPurchase(),
-				ActionFactory.getNewCashPurchaseAction());
+		map.put(messages.enterBill(), new EnterBillsAction());
+		map.put(messages.cashPurchase(), new NewCashPurchaseAction());
 		map.put(messages.payeePrePayment(Global.get().Vendor()),
-				ActionFactory.getVendorPaymentsAction());
-		map.put(messages.cashExpense(), ActionFactory.CashExpenseAction());
-		map.put(messages.creditCardExpense(),
-				ActionFactory.CreditCardExpenseAction());
-		map.put(messages.writeCheck(), ActionFactory.getWriteChecksAction());
-		map.put(messages.payBill(), ActionFactory.getPayBillsAction());
+				new VendorPaymentsAction());
+		map.put(messages.cashExpense(), new CashExpenseAction());
+		map.put(messages.creditCardExpense(), new CreditCardExpenseAction());
+		map.put(messages.writeCheck(), new WriteChecksAction());
+		map.put(messages.payBill(), new PayBillsAction());
 		return map;
 	}
 

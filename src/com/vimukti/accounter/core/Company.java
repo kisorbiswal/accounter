@@ -1723,4 +1723,10 @@ public class Company implements IAccounterServerCore {
 		this.emailTemplates = emailTemplates;
 	}
 
+	@Override
+	public void selfValidate() throws AccounterException {
+		// TODO Auto-generated method stub
+
+	}
+
 }

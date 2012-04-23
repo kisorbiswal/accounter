@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -50,7 +49,7 @@ public class VendorListView extends BaseListView<PayeeList> implements
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getPrepare1099MISCAction().run(null, true);
+					new Prepare1099MISCAction().run(null, true);
 
 				}
 			});
@@ -74,7 +73,7 @@ public class VendorListView extends BaseListView<PayeeList> implements
 	public Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewVendorAction();
+			return new NewVendorAction();
 		else
 			return null;
 	}
@@ -263,6 +262,7 @@ public class VendorListView extends BaseListView<PayeeList> implements
 				ClientPayee.TYPE_VENDOR, isActive,
 				getExportCSVCallback(Global.get().vendors()));
 	}
+
 	@Override
 	protected boolean filterBeforeShow() {
 		return true;

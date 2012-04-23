@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.ui.company.options.PreferenceSettingsVie
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PreferencesAction extends Action {
-	
+
 	public int CATEGORY;
 	public static final int COMPANY = 1;
 	public static final int SETTINGS = 2;

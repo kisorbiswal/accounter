@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class WarehouseListAction extends Action<ClientWarehouse> {
 
-	
 	public WarehouseListAction() {
 		super();
 		this.catagory = messages.inventory();

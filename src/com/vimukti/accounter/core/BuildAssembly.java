@@ -190,4 +190,10 @@ public class BuildAssembly extends Transaction {
 			e.add(getInventoryAssembly().getAssestsAccount(), -purchaseValue, 1);
 		}
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
@@ -21,7 +20,7 @@ public class WarehouseTransferListView extends
 	public WarehouseTransferListView() {
 		this.getElement().setId("WarehouseTransferListView");
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
@@ -103,7 +102,7 @@ public class WarehouseTransferListView extends
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly()))
-			return ActionFactory.getWareHouseTransferAction();
+			return new WareHouseTransferAction();
 		else
 			return null;
 	}

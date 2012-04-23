@@ -74,4 +74,10 @@ public class PortletConfiguration extends CreatableObject implements
 		this.portletData = portletKey;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

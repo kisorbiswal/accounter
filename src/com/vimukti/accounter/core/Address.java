@@ -287,4 +287,10 @@ public class Address implements IAccounterServerCore {
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
 }

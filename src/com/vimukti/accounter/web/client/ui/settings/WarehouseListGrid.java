@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -112,8 +111,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		}
 		switch (col) {
 		case 3:
-			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null,
-					false);
+			new WareHouseItemsListAction(obj.getID()).run(null, false);
 			break;
 		case 4:
 			showWarnDialog(obj);

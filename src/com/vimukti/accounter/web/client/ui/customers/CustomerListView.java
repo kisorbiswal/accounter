@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -47,7 +46,7 @@ public class CustomerListView extends BaseListView<PayeeList> implements
 	protected Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewCustomerAction();
+			return new NewCustomerAction();
 		else
 			return null;
 	}
@@ -223,6 +222,7 @@ public class CustomerListView extends BaseListView<PayeeList> implements
 		viewSelect.setComboItem(messages.active());
 		return selectTypes;
 	}
+
 	@Override
 	protected boolean filterBeforeShow() {
 		return true;

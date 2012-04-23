@@ -6,9 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TAXAgencyListAction extends Action {
 
@@ -22,9 +20,8 @@ public class TAXAgencyListAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-
-				MainFinanceWindow.getViewManager().showView(
-						new TAXAgencyListView(), null, false,
+				TAXAgencyListView view = new TAXAgencyListView();
+				MainFinanceWindow.getViewManager().showView(view, null, false,
 						TAXAgencyListAction.this);
 
 			}
@@ -34,12 +31,12 @@ public class TAXAgencyListAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		// }
+		// });
 
 	}
 
@@ -64,8 +61,7 @@ public class TAXAgencyListAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.payeeList(messages
-				.taxAgencies());
+		return messages.payeeList(messages.taxAgencies());
 	}
 
 }

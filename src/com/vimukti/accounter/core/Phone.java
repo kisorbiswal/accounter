@@ -92,4 +92,10 @@ public class Phone implements IAccounterServerCore {
 		w.put(messages.no(), this.number);
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.columns.ImageActionColumn;
 
@@ -166,7 +165,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 	}
 
 	public void openReconciliation(ClientReconciliation reconciliation) {
-		ActionFactory.getNewReconciliationAction().run(reconciliation, false);
+		new NewReconcileAccountAction().run(reconciliation, false);
 	}
 
 	@Override

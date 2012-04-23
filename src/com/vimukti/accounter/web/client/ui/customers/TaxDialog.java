@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.SalesTaxGroupDialog;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -63,7 +62,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-//		setWidth("300px");
+		// setWidth("300px");
 
 	}
 
@@ -102,7 +101,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 
 			} else if (radio.equals(TAXITEM)) {
 				// try {
-				NewVatItemAction action = ActionFactory.getNewVatItemAction();
+				NewVatItemAction action = new NewVatItemAction();
 				action.setCallback(new ActionCallback<ClientTAXItem>() {
 
 					@Override

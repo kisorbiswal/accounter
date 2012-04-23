@@ -24,7 +24,8 @@ import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
+import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
 import com.vimukti.accounter.web.client.ui.customers.UploadStatementDialog;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
@@ -93,7 +94,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getAccountRegisterAction().run(account, true);
+					new AccountRegisterAction().run(account, true);
 				}
 			});
 			reconcilButton = new Button("Reconcile");
@@ -103,7 +104,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getBankStatementAction(account).run();
+					new BankStatementAction(account).run();
 
 				}
 			});
@@ -188,7 +189,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						ActionFactory.getBankStatementAction(account).run();
+						new BankStatementAction(account).run();
 					}
 				});
 				// get bank statements

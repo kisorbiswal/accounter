@@ -262,4 +262,10 @@ public class TransferFund extends Transaction implements Lifecycle {
 		e.add(getDepositFrom(), transferAmount);
 		e.add(getCashBackAccount(), getCashBackAmount());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -128,4 +128,10 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 
 		w.put(messages.type(), messages.nominalCodeRange()).gap();
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

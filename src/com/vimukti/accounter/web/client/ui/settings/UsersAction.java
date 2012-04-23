@@ -5,7 +5,6 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class UsersAction extends Action {
-	private UsersView view;
 
 	public UsersAction() {
 		super();
@@ -30,7 +29,7 @@ public class UsersAction extends Action {
 	@Override
 	public void run() {
 		try {
-			view = new UsersView();
+			UsersView view = new UsersView();
 			MainFinanceWindow.getViewManager().showView(view, data,
 					isDependent, UsersAction.this);
 		} catch (Exception e) {

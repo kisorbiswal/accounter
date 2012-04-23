@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 	private ListFilter<ClientItem> filter;
@@ -92,7 +91,7 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 	@Override
 	public void addNewItem(String text) {
 		NewItemAction action;
-		action = ActionFactory.getNewItemAction(isForCustomer());
+		action = new NewItemAction(isForCustomer());
 		action.setCallback(new ActionCallback<ClientItem>() {
 
 			@Override

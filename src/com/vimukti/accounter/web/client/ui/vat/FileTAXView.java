@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -12,9 +13,9 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public class FileTAXView extends AbstractFileTAXView {
@@ -42,7 +43,7 @@ public class FileTAXView extends AbstractFileTAXView {
 
 		rpcGetService.getTAXReturnEntries(selectedTaxAgency.getID(), fromDate
 				.getDate().getDate(), toDate.getDate().getDate(),
-				new AccounterAsyncCallback<List<ClientTAXReturnEntry>>() {
+				new AccounterAsyncCallback<ArrayList<ClientTAXReturnEntry>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -54,7 +55,7 @@ public class FileTAXView extends AbstractFileTAXView {
 
 					@Override
 					public void onResultSuccess(
-							List<ClientTAXReturnEntry> result) {
+							ArrayList<ClientTAXReturnEntry> result) {
 						grid.removeLoadingImage();
 						if (result != null && !result.isEmpty()) {
 							grid.setRecords(result);
@@ -79,7 +80,7 @@ public class FileTAXView extends AbstractFileTAXView {
 								.getID()));
 			}
 		};
-		report.setAction(ActionFactory.getTaxItemDetailReportAction());
+		report.setAction(new TaxItemDetailReportAction());
 		report.init();
 		report.initData();
 		report.print();

@@ -23,9 +23,10 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.customers.InvoicesAction;
+import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 
 public class MoneyComingPortlet extends GraphPointsPortlet {
 
@@ -51,7 +52,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 	@Override
 	public void goToClicked() {
-		ActionFactory.getAccountRegisterAction().run(debitors, true);
+		new AccountRegisterAction().run(debitors, true);
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewInvoiceAction().run(null, true);
+				new NewInvoiceAction().run(null, true);
 			}
 		});
 
@@ -137,7 +138,8 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 					@Override
 					public void run() {
 						GraphChart chart = new GraphChart();
-						chartPanel.add(chart.createAccountReceivableChart(result));
+						chartPanel.add(chart
+								.createAccountReceivableChart(result));
 						completeInitialization();
 					}
 				};
@@ -195,8 +197,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 				if (!title.equals(messages.invoicesDue())) {
 					invoicesType = messages.overDue();
 				}
-				InvoicesAction invoicesAction = ActionFactory
-						.getInvoicesAction(invoicesType);
+				InvoicesAction invoicesAction = new InvoicesAction(invoicesType);
 				ViewManager.getInstance().viewDataHistory.put(
 						invoicesAction.getHistoryToken(), null);
 				invoicesAction.run(null, true);

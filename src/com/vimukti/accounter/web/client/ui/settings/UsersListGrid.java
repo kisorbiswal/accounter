@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -143,7 +142,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			return;
 		}
 
-		ActionFactory.getInviteUserAction().run(obj, false);
+		new InviteUserAction().run(obj, false);
 	}
 
 	@Override

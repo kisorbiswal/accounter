@@ -50,6 +50,19 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 	}
 
 	@Override
+	public void headerCellClicked(int colIndex) {
+		if (colIndex == 0) {
+			CheckBox headerCheckBx = (CheckBox) header.getWidget(0, colIndex);
+			List<ClientReminder> records = getRecords();
+			for (int row = 0; row < records.size(); row++) {
+				CheckBox box = (CheckBox) body.getWidget(row, 0);
+				box.setValue(headerCheckBx.getValue());
+			}
+		}
+		super.headerCellClicked(colIndex);
+	}
+
+	@Override
 	protected Object getColumnValue(ClientReminder obj, int index) {
 		ClientTransaction transaction = obj.getRecurringTransaction()
 				.getTransaction();

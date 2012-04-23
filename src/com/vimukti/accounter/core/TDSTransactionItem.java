@@ -223,4 +223,10 @@ public class TDSTransactionItem implements IAccounterServerCore, Lifecycle {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

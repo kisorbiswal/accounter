@@ -215,4 +215,10 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 		arg0.delete(accountsReceivable);
 		return super.onDelete(arg0);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

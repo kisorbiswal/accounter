@@ -4,17 +4,17 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 
 public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
 	public WarehouseCombo(String title) {
-		super(title,"WarehouseCombo");
+		super(title, "WarehouseCombo");
 		initCombo(Accounter.getCompany().getWarehouses());
 	}
 
 	public WarehouseCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1,"WarehouseCombo");
+		super(title, isAddNewRequire, 1, "WarehouseCombo");
 		initCombo(Accounter.getCompany().getWarehouses());
 	}
 
@@ -33,7 +33,7 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
 	@Override
 	public void onAddNew() {
-		Action<ClientWarehouse> action = ActionFactory.getWareHouseViewAction();
+		Action<ClientWarehouse> action = new WareHouseViewAction();
 		action.setCallback(new ActionCallback<ClientWarehouse>() {
 
 			@Override

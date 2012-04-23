@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByVendorServerReport;
 
 public class InventoryStockStatusByVendorReport extends
@@ -30,8 +29,8 @@ public class InventoryStockStatusByVendorReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ActionFactory
-				.getInventoryValuationDetailsAction(record.getItemId()));
+		UIUtils.runAction(record,
+				new InventoryValuationDetailsAction(record.getItemId()));
 	}
 
 	@Override

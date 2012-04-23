@@ -75,4 +75,10 @@ public class Reminder extends CreatableObject implements IAccounterServerCore {
 		this.isValid = isValid;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

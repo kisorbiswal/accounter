@@ -359,4 +359,10 @@ public class TAXReturn extends Transaction {
 		e.add(getTaxAgency().getFiledLiabilityAccount(), totalTAXAmount);
 		e.add(getTaxAgency(), getTotal());
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

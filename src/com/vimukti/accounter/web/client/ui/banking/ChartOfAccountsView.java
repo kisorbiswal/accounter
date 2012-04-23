@@ -12,8 +12,8 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
@@ -48,14 +48,13 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 		Accounter.showError(errorString);
 	}
 
-
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			if (typeOfAccount == ClientAccount.TYPE_BANK) {
-				return ActionFactory.getNewBankAccountAction();
+				return new NewAccountAction(ClientAccount.TYPE_BANK);
 			} else {
-				return ActionFactory.getNewAccountAction();
+				return new NewAccountAction();
 			}
 		else
 			return null;

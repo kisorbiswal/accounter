@@ -376,6 +376,7 @@ public class AdjustTAXView extends
 		}
 
 		data.setTotal(amount.getAmount());
+		data.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		if (typeRadio.getValue() != null ? typeRadio.getValue().equals(
 				messages.increaseTAXLine()) : false)
 			data.setIncreaseVATLine(true);
@@ -477,9 +478,14 @@ public class AdjustTAXView extends
 			}
 			memo.setValue(data.getMemo());
 			if (currencyWidget != null) {
+
+				ClientAccount selectedValue = adjustAccountCombo
+						.getSelectedValue();
+				long currency2 = selectedValue.getCurrency();
+				ClientCurrency currency3 = getCompany().getCurrency(currency2);
+				currencyWidget.setSelectedCurrency(currency3);
 				setCurrency(transaction.getCurrency() != 0 ? getCurrency(transaction
 						.getCurrency()) : getCompany().getPrimaryCurrency());
-				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
 				currencyWidget.setEnabled(!isInViewMode());

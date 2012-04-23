@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.GridAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -440,7 +439,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	private void reload() {
 		try {
-			ActionFactory.getNewSalesperSonAction().run(null, true);
+			new NewSalesperSonAction().run(null, true);
 		} catch (Throwable e) {
 
 			e.printStackTrace();

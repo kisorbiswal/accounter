@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 
@@ -113,7 +112,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	@Override
 	public void onFailure(Throwable exception) {
 		if (exception instanceof AccounterException) {
-			ActionFactory.getReportsHomeAction();
+			new ReportsHomeAction().run();
 			grid.removeLoadingImage();
 			return;
 		}

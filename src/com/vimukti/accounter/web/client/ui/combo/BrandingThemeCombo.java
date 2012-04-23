@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 
@@ -13,12 +12,12 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 	private BrandingThemeComboDialog themeDialog;
 
 	public BrandingThemeCombo(String title) {
-		super(title,"brandingThemeCombo");
+		super(title, "brandingThemeCombo");
 		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
 	public BrandingThemeCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1,"brandingThemeCombo");
+		super(title, isAddNewRequire, 1, "brandingThemeCombo");
 		initCombo(Accounter.getCompany().getBrandingTheme());
 	}
 
@@ -52,7 +51,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 				themeDialog.hide();
 			}
 
-			NewBrandThemeAction action = ActionFactory.getNewBrandThemeAction();
+			NewBrandThemeAction action = new NewBrandThemeAction();
 			action.setCallback(new ActionCallback<ClientBrandingTheme>() {
 
 				@Override

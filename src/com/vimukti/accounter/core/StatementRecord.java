@@ -401,4 +401,10 @@ public class StatementRecord extends CreatableObject implements
 		this.bankFeesAdjustmentAcc = bankFeesAdjustmentAcc;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

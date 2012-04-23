@@ -11,8 +11,6 @@ public class WareHouseTransferAction extends Action<ClientStockTransfer> {
 		this.catagory = messages.inventory();
 	}
 
-	
-
 	@Override
 	public ImageResource getBigImage() {
 

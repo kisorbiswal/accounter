@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 
 public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
@@ -22,10 +21,9 @@ public class CashFlowStatementReport extends AbstractReportView<TrialBalance> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (record.getAccountId() != 0) {
-			UIUtils.runAction(record,
-					ActionFactory.getTransactionDetailByAccountAction());
+			UIUtils.runAction(record, new TransactionDetailByAccountAction());
 		} else {
-			UIUtils.runAction(record, ActionFactory.getProfitAndLossAction());
+			UIUtils.runAction(record, new ProfitAndLossAction());
 		}
 	}
 

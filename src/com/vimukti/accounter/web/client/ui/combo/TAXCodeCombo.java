@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
 public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
@@ -23,7 +22,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	}
 
 	public TAXCodeCombo(String title, boolean isAddNewRequired, boolean isSales) {
-		super(title, isAddNewRequired, 1,"tax_combo");
+		super(title, isAddNewRequired, 1, "tax_combo");
 		this.isSales = isSales;
 		initCombo(getTAXCodesForSalesOrPurchase(getCompany()
 				.getActiveTaxCodes()));
@@ -45,7 +44,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 	@Override
 	public void onAddNew() {
 		if (getCompany().getPreferences().isTrackTax()) {
-			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
+			NewTAXCodeAction action = new NewTAXCodeAction();
 			action.setCallback(new ActionCallback<ClientTAXCode>() {
 
 				@Override

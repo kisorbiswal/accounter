@@ -1663,14 +1663,14 @@ public class CompanyManager extends Manager {
 		return null;
 	}
 
-	public List<ClientMessageOrTask> getMessagesAndTasks(long companyId)
+	public ArrayList<ClientMessageOrTask> getMessagesAndTasks(long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<MessageOrTask> list = session.getNamedQuery("getMessagesAndTasks")
 				.setParameter("companyId", companyId).list();
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 
-		List<ClientMessageOrTask> result = new ArrayList<ClientMessageOrTask>();
+		ArrayList<ClientMessageOrTask> result = new ArrayList<ClientMessageOrTask>();
 
 		for (MessageOrTask mt : list) {
 			ClientMessageOrTask cmt = convertUtil.toClientObject(mt,
@@ -1893,7 +1893,7 @@ public class CompanyManager extends Manager {
 		return (Long) obj;
 	}
 
-	public List<ItemUnitPrice> getUnitPricesByPayee(Long companyId,
+	public ArrayList<ItemUnitPrice> getUnitPricesByPayee(Long companyId,
 			boolean isCust, long payee, long item) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<ItemUnitPrice> result = new ArrayList<ItemUnitPrice>();

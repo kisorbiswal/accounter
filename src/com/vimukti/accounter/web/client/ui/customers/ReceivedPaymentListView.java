@@ -10,8 +10,8 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.PaymentDialogAction;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -37,11 +37,11 @@ public class ReceivedPaymentListView extends
 	@Override
 	protected Action getAddNewAction() {
 		if (transactionType == ClientTransaction.TYPE_RECEIVE_PAYMENT) {
-			return ActionFactory.getReceivePaymentAction();
+			return new ReceivePaymentAction();
 		} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_PREPAYMENT) {
-			return ActionFactory.getNewCustomerPaymentAction();
+			return new CustomerPaymentsAction();
 		}
-		return ActionFactory.getPaymentDialogAction();
+		return new PaymentDialogAction();
 	}
 
 	@Override

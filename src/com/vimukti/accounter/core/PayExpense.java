@@ -140,4 +140,10 @@ public class PayExpense extends Transaction {
 		e.add(getPaidFrom(), getTotal());
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

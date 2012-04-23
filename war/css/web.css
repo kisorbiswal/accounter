@@ -6838,7 +6838,7 @@ textarea[disabled] {
 }
 
 #EmailView .mainPanel .horPanel {
-	width: 75%;
+	width: 80%;
 	display: -webkit-box;
 	display: box;
 	-webkit-box-orient: horizontal;
@@ -7800,7 +7800,7 @@ table.no_records tr td {
 	box-orient: vertical;
 }
 #NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label{
-	width:220px;
+	width:220px !important;
 }
 .printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer{
 	overflow: hidden !important;
@@ -7901,6 +7901,7 @@ table.no_records tr td {
 	box-orient: vertical;
 	margin: 10px;
 }
+
 .percentageField .gwt-Label{
 	width: auto !important;
 	padding: 2px 5px 0 0;
@@ -7929,5 +7930,8 @@ table.no_records tr td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+}
+#TDSResponsiblePersonDetailsView .formItem .gwt-Label{
+	width:245px;
 }
 /*Location merge dialog end*/

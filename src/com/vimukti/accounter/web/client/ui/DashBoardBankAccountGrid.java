@@ -2,7 +2,8 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class DashBoardBankAccountGrid extends ListGrid<ClientAccount> {
@@ -53,13 +54,13 @@ public class DashBoardBankAccountGrid extends ListGrid<ClientAccount> {
 
 	@Override
 	protected void onClick(ClientAccount obj, int row, int index) {
-		ActionFactory.getAccountRegisterAction().run(obj, false);
+		new AccountRegisterAction().run(obj, false);
 	}
 
 	@Override
 	public void onDoubleClick(ClientAccount obj) {
-		ActionFactory.getNewBankAccountAction().run((ClientBankAccount) obj,
-				false);
+		new NewAccountAction(ClientAccount.TYPE_BANK).run(
+				(ClientBankAccount) obj, false);
 	}
 
 	@Override

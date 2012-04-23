@@ -8,16 +8,35 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
+import com.vimukti.accounter.web.client.ui.reports.APAgingDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.BalanceSheetAction;
+import com.vimukti.accounter.web.client.ui.reports.CashFlowStatementAction;
+import com.vimukti.accounter.web.client.ui.reports.CustomerTransactionHistoryAction;
+import com.vimukti.accounter.web.client.ui.reports.EnterExchangeRatesAction;
+import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
+import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
+import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemDetailsAction;
+import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemSummaryAction;
+import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorDetailsAction;
+import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorSummaryAction;
+import com.vimukti.accounter.web.client.ui.reports.RealisedExchangeLossesAndGainsAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByCustomerDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByCustomerSummaryAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByItemDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.SalesByItemSummaryAction;
+import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAction;
+import com.vimukti.accounter.web.client.ui.reports.TrialBalanceAction;
+import com.vimukti.accounter.web.client.ui.reports.VendorTransactionHistoryAction;
 
 public class ReportSectionView extends BaseHomeView {
 
 	@Override
 	public void init() {
 		getLeftLayout().add(createControl());
-		//setSize("100%", "100%");
+		// setSize("100%", "100%");
 
 	}
 
@@ -63,7 +82,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getProfitAndLossAction());
+				UIUtils.runAction(acc, new ProfitAndLossAction());
 			}
 
 		});
@@ -75,7 +94,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getBalanceSheetAction());
+				UIUtils.runAction(acc, new BalanceSheetAction());
 			}
 
 		});
@@ -87,8 +106,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getCashFlowStatementAction());
+				UIUtils.runAction(acc, new CashFlowStatementAction());
 			}
 
 		});
@@ -100,7 +118,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getTrialBalanceAction());
+				UIUtils.runAction(acc, new TrialBalanceAction());
 			}
 
 		});
@@ -113,8 +131,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getTransactionDetailByAccountAction());
+				UIUtils.runAction(acc, new TransactionDetailByAccountAction());
 			}
 
 		});
@@ -127,7 +144,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				UIUtils.runAction(null,
-						ActionFactory.getRealisedExchangeLossesAndGainsAction());
+						new RealisedExchangeLossesAndGainsAction());
 			}
 
 		});
@@ -140,8 +157,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getEnterExchangeRatesAction());
+				UIUtils.runAction(acc, new EnterExchangeRatesAction());
 			}
 
 		});
@@ -157,8 +173,8 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for Sales type reports
 
 		DynamicForm salesForm = UIUtils.form(messages.sales());
-//		salesForm.setWidth("50%");
-//		salesForm.setHeight("40%");
+		// salesForm.setWidth("50%");
+		// salesForm.setHeight("40%");
 		// salesForm.setNumCols(1);
 
 		LinkItem salesByCustomerSummaryLink = new LinkItem();
@@ -169,8 +185,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByCustomerSummaryAction());
+				UIUtils.runAction(acc, new SalesByCustomerSummaryAction());
 			}
 
 		});
@@ -183,8 +198,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByCustomerDetailAction());
+				UIUtils.runAction(acc, new SalesByCustomerDetailAction());
 			}
 
 		});
@@ -196,8 +210,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByItemSummaryAction());
+				UIUtils.runAction(acc, new SalesByItemSummaryAction());
 			}
 
 		});
@@ -209,8 +222,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getSalesByItemDetailAction());
+				UIUtils.runAction(acc, new SalesByItemDetailAction());
 			}
 
 		});
@@ -223,8 +235,8 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for purchase type reports
 
 		DynamicForm purchaseForm = UIUtils.form(messages.purchase());
-//		purchaseForm.setWidth("50%");
-//		purchaseForm.setHeight("40%");
+		// purchaseForm.setWidth("50%");
+		// purchaseForm.setHeight("40%");
 		// purchaseForm.setNumCols(1);
 
 		LinkItem purchaseBySupplierSummaryLink = new LinkItem();
@@ -235,8 +247,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getPurchaseByVendorSummaryAction());
+				UIUtils.runAction(acc, new PurchaseByVendorSummaryAction());
 			}
 
 		});
@@ -249,8 +260,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getPurchaseByVendorDetailAction());
+				UIUtils.runAction(acc, new PurchaseByVendorDetailsAction());
 			}
 
 		});
@@ -263,8 +273,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getPurchaseByItemSummaryAction());
+				UIUtils.runAction(acc, new PurchaseByItemSummaryAction());
 			}
 
 		});
@@ -277,7 +286,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getPurchaseByItemAction());
+				UIUtils.runAction(acc, new PurchaseByItemDetailsAction());
 			}
 
 		});
@@ -291,9 +300,9 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for Other type reports
 
 		DynamicForm otherForm = UIUtils.form(messages.other());
-//		otherForm.setWidth("50%");
-//		otherForm.setHeight("40%");
-//		// otherForm.setNumCols(1);
+		// otherForm.setWidth("50%");
+		// otherForm.setHeight("40%");
+		// // otherForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(messages
@@ -303,8 +312,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getCustomerTransactionHistoryAction());
+				UIUtils.runAction(acc, new CustomerTransactionHistoryAction());
 			}
 
 		});
@@ -316,7 +324,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getArAgingDetailAction());
+				UIUtils.runAction(acc, new ARAgingDetailAction());
 			}
 
 		});
@@ -328,7 +336,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc, ActionFactory.getAorpAgingDetailAction());
+				UIUtils.runAction(acc, new APAgingDetailAction());
 			}
 
 		});
@@ -341,8 +349,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getVendorTransactionHistoryAction());
+				UIUtils.runAction(acc, new VendorTransactionHistoryAction());
 			}
 
 		});
@@ -355,8 +362,7 @@ public class ReportSectionView extends BaseHomeView {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getMostProfitableCustomersAction());
+				UIUtils.runAction(acc, new MostProfitableCustomersAction());
 			}
 
 		});

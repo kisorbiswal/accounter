@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentsReportAction;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class ReportSectionView extends BaseHomeView {
@@ -109,170 +109,157 @@ public class ReportSectionView extends BaseHomeView {
 
 		mainPanel = new StyledPanel("mainPanel");
 
-		companyAndFinancialMap.put(messages.profitAndLoss(), ActionFactory
-				.getProfitAndLossAction().getHistoryToken());
-		companyAndFinancialMap.put(messages.balanceSheet(), ActionFactory
-				.getBalanceSheetAction().getHistoryToken());
-		companyAndFinancialMap.put(messages.cashFlowStatement(), ActionFactory
-				.getCashFlowStatementAction().getHistoryToken());
+		companyAndFinancialMap.put(messages.profitAndLoss(),
+				new ProfitAndLossAction().getHistoryToken());
+		companyAndFinancialMap.put(messages.balanceSheet(),
+				new BalanceSheetAction().getHistoryToken());
+		companyAndFinancialMap.put(messages.cashFlowStatement(),
+				new CashFlowStatementAction().getHistoryToken());
 		companyAndFinancialMap.put(messages.transactionDetailsByAccount(),
-				ActionFactory.getTransactionDetailByAccountAction()
-						.getHistoryToken());
-		companyAndFinancialMap.put(messages.trialBalance(), ActionFactory
-				.getTrialBalanceAction().getHistoryToken());
+				new TransactionDetailByAccountAction().getHistoryToken());
+		companyAndFinancialMap.put(messages.trialBalance(),
+				new TrialBalanceAction().getHistoryToken());
 		if (Global.get().preferences().isEnableMultiCurrency()) {
 			companyAndFinancialMap.put(messages
-					.realisedExchangeLossesAndGains(), ActionFactory
-					.getRealisedExchangeLossesAndGainsAction()
-					.getHistoryToken());
-			companyAndFinancialMap.put(messages
-					.unRealisedExchangeLossesAndGains(), ActionFactory
-					.getEnterExchangeRatesAction().getHistoryToken());
+					.realisedExchangeLossesAndGains(),
+					new RealisedExchangeLossesAndGainsAction()
+							.getHistoryToken());
+			companyAndFinancialMap.put(
+					messages.unRealisedExchangeLossesAndGains(),
+					new EnterExchangeRatesAction().getHistoryToken());
 		}
 		companyAndFinancialMap.put(messages.generalLedgerReport(),
-				ActionFactory.getGlReportAction().getHistoryToken());
-		companyAndFinancialMap.put(messages.expenseReport(), ActionFactory
-				.getExpenseReportAction().getHistoryToken());
+				new GLReportAction().getHistoryToken());
+		companyAndFinancialMap.put(messages.expenseReport(),
+				new ExpenseReportAction().getHistoryToken());
 		if (hasExtraReportsPerm
 				&& hasPermission(Features.RECURRING_TRANSACTIONS)) {
 			companyAndFinancialMap.put(messages.automaticTransactions(),
-					ActionFactory.getAutomaticTransactionsAction()
-							.getHistoryToken());
+					new AutomaticTransactionsAction().getHistoryToken());
 		}
 		if (Global.get().preferences().isTrackTax()) {
 			companyAndFinancialMap.put(messages.salesTaxLiability(),
-					ActionFactory.getSalesTaxLiabilityAction()
-							.getHistoryToken());
+					new SalesTaxLiabilityAction().getHistoryToken());
 			companyAndFinancialMap.put(messages.transactionDetailByTaxItem(),
-					ActionFactory.getTransactionDetailByTaxItemAction()
-							.getHistoryToken());
+					new TransactionDetailByTaxItemAction().getHistoryToken());
 		}
 		companyAndFinancialMap.put(messages.reconciliationsReport(),
-				ActionFactory.getReconcilationsAction().getHistoryToken());
+				new ReconcilationsAction().getHistoryToken());
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
-			companyAndFinancialMap.put(messages.profitAndLossByLocation(Global
-					.get().Location()), ActionFactory
-					.getProfitAndLossByLocationAction(2).getHistoryToken());
+			companyAndFinancialMap.put(
+					messages.profitAndLossByLocation(Global.get().Location()),
+					new ProfitAndLossByLocationAction(2).getHistoryToken());
 		}
 		if (Global.get().preferences().isClassTrackingEnabled()) {
 			companyAndFinancialMap.put(messages.profitAndLossbyClass(),
-					ActionFactory.getProfitAndLossByLocationAction(1)
-							.getHistoryToken());
+					new ProfitAndLossByLocationAction(1).getHistoryToken());
 		}
 
 		salesMap.put(messages.salesByCustomerSummary(Global.get().customer()),
-				ActionFactory.getSalesByCustomerSummaryAction()
-						.getHistoryToken());
+				new SalesByCustomerSummaryAction().getHistoryToken());
 		salesMap.put(messages.salesByCustomerDetail(Global.get().customer()),
-				ActionFactory.getSalesByCustomerDetailAction()
-						.getHistoryToken());
+				new SalesByCustomerDetailAction().getHistoryToken());
 		salesMap.put(messages.salesByCustomerSummary(Global.get().customer()),
-				ActionFactory.getSalesByCustomerSummaryAction()
-						.getHistoryToken());
-		salesMap.put(messages.salesByItemSummary(), ActionFactory
-				.getSalesByItemSummaryAction().getHistoryToken());
-		salesMap.put(messages.salesByItemDetail(), ActionFactory
-				.getSalesByItemDetailAction().getHistoryToken());
+				new SalesByCustomerSummaryAction().getHistoryToken());
+		salesMap.put(messages.salesByItemSummary(),
+				new SalesByItemSummaryAction().getHistoryToken());
+		salesMap.put(messages.salesByItemDetail(),
+				new SalesByItemDetailAction().getHistoryToken());
 		if (Global.get().preferences().isSalesOrderEnabled()) {
 			salesMap.put(messages.salesOrderReport(),
 					HistoryTokens.SALESORDERREPORT);
 		}
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
 			salesMap.put(messages.getSalesByLocationDetails(Global.get()
-					.Location()), ActionFactory
-					.getSalesByLocationDetailsAction(true, true)
+					.Location()), new SalesByLocationDetailsAction(true, true)
 					.getHistoryToken());
 			salesMap.put(messages.salesByLocationSummary(Global.get()
-					.Location()), ActionFactory
-					.getSalesByLocationSummaryAction(true, true)
+					.Location()), new SalesByLocationSummaryAction(true, true)
 					.getHistoryToken());
 		}
 		if (Global.get().preferences().isClassTrackingEnabled()) {
-			salesMap.put(messages.salesByClassDetails(), ActionFactory
-					.getSalesByLocationDetailsAction(false, true)
-					.getHistoryToken());
-			salesMap.put(messages.salesByClassSummary(), ActionFactory
-					.getSalesByLocationSummaryAction(false, true)
-					.getHistoryToken());
+			salesMap.put(messages.salesByClassDetails(),
+					new SalesByLocationDetailsAction(false, true)
+							.getHistoryToken());
+			salesMap.put(messages.salesByClassSummary(),
+					new SalesByLocationSummaryAction(false, true)
+							.getHistoryToken());
 
 		}
 
 		// Form for purchase type reports
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
-			purchaseMap.put(messages.purchasesbyLocationDetail(Global.get().Location()), ActionFactory
-					.getPurchaseByVendorDetailAction()
-					.getHistoryToken());
+			purchaseMap
+					.put(messages.purchasesbyLocationDetail(Global.get()
+							.Location()), new PurchaseByVendorDetailsAction()
+							.getHistoryToken());
 			purchaseMap.put(messages.purchasesbyLocationSummary(Global.get()
-					.Location()), ActionFactory
-					.getPurchaseByVendorSummaryAction()
+					.Location()), new PurchaseByVendorSummaryAction()
 					.getHistoryToken());
 		}
 		purchaseMap.put(
 				messages.purchaseByVendorSummary(Global.get().vendor()),
-				ActionFactory.getPurchaseByVendorSummaryAction()
-						.getHistoryToken());
+				new PurchaseByVendorSummaryAction().getHistoryToken());
 		purchaseMap.put(messages.purchaseByVendorDetail(Global.get().vendor()),
-				ActionFactory.getPurchaseByVendorDetailAction()
-						.getHistoryToken());
-		purchaseMap.put(messages.purchaseByItemSummary(), ActionFactory
-				.getPurchaseByItemSummaryAction().getHistoryToken());
-		purchaseMap.put(messages.purchaseByItemDetail(), ActionFactory
-				.getPurchaseByItemAction().getHistoryToken());
+				new PurchaseByVendorDetailsAction().getHistoryToken());
+		purchaseMap.put(messages.purchaseByItemSummary(),
+				new PurchaseByItemSummaryAction().getHistoryToken());
+		purchaseMap.put(messages.purchaseByItemDetail(),
+				new PurchaseByItemDetailsAction().getHistoryToken());
 		if (Global.get().preferences().isPurchaseOrderEnabled()) {
 			purchaseMap.put(messages.purchaseOrderReport(),
 					HistoryTokens.PURCHASEORDERREPORT);
 		}
 
 		if (Global.get().preferences().isClassTrackingEnabled()) {
-			purchaseMap.put(messages.purchasesbyClassDetail(), ActionFactory
-					.getSalesByLocationDetailsAction(false, false)
-					.getHistoryToken());
-			purchaseMap.put(messages.purchasesbyClassSummary(), ActionFactory
-					.getSalesByLocationSummaryAction(false, false)
-					.getHistoryToken());
+			purchaseMap.put(messages.purchasesbyClassDetail(),
+					new SalesByLocationDetailsAction(false, false)
+							.getHistoryToken());
+			purchaseMap.put(messages.purchasesbyClassSummary(),
+					new SalesByLocationSummaryAction(false, false)
+							.getHistoryToken());
 
 		}
 		// Form for customer receivable type reports
 
-		customersAndRecievableMap.put(messages.arAgeing(), ActionFactory
-				.getArAgingDetailAction().getHistoryToken());
-		customersAndRecievableMap.put(messages.arAgeingSummary(), ActionFactory
-				.getArAgingSummaryReportAction().getHistoryToken());
+		customersAndRecievableMap.put(messages.arAgeing(),
+				new ARAgingDetailAction().getHistoryToken());
+		customersAndRecievableMap.put(messages.arAgeingSummary(),
+				new ARAgingSummaryReportAction().getHistoryToken());
 		if (hasExtraReportsPerm) {
-			customersAndRecievableMap.put(messages.payeeStatement(Global.get()
-					.Customers()), ActionFactory.getStatementReport(false, 0)
-					.getHistoryToken());
+			customersAndRecievableMap.put(
+					messages.payeeStatement(Global.get().Customers()),
+					new StatementReportAction(0, false).getHistoryToken());
 		}
-		customersAndRecievableMap.put(messages.payeeTransactionHistory(Global
-				.get().Customer()), ActionFactory
-				.getCustomerTransactionHistoryAction().getHistoryToken());
+		customersAndRecievableMap.put(
+				messages.payeeTransactionHistory(Global.get().Customer()),
+				new CustomerTransactionHistoryAction().getHistoryToken());
 
-		vendorAndPayableMap.put(messages.apAging(), ActionFactory
-				.getAorpAgingDetailAction().getHistoryToken());
-		vendorAndPayableMap.put(messages.apAgeingSummary(), ActionFactory
-				.getAorpAgingSummaryReportAction().getHistoryToken());
+		vendorAndPayableMap.put(messages.apAging(),
+				new APAgingDetailAction().getHistoryToken());
+		vendorAndPayableMap.put(messages.apAgeingSummary(),
+				new APAgingSummaryReportAction().getHistoryToken());
 		if (hasExtraReportsPerm) {
-			vendorAndPayableMap
-					.put(messages.payeeStatement(Global.get().Vendor()),
-							ActionFactory.getStatementReport(true, 0)
-									.getHistoryToken());
+			vendorAndPayableMap.put(
+					messages.payeeStatement(Global.get().Vendor()),
+					new StatementReportAction(0, true).getHistoryToken());
 		}
-		vendorAndPayableMap.put(messages.payeeTransactionHistory(Global.get()
-				.Vendor()), ActionFactory.getVendorTransactionHistoryAction()
-				.getHistoryToken());
+		vendorAndPayableMap.put(
+				messages.payeeTransactionHistory(Global.get().Vendor()),
+				new VendorTransactionHistoryAction().getHistoryToken());
 
-		budgetMap.put(messages.budgetOverview(), ActionFactory
-				.getBudgetOverView().getHistoryToken());
-		budgetMap.put(messages.budgetvsActuals(), ActionFactory
-				.getBudgetVsActionReport().getHistoryToken());
+		budgetMap.put(messages.budgetOverview(),
+				new BudgetOverviewReportAction().getHistoryToken());
+		budgetMap.put(messages.budgetvsActuals(),
+				new BudgetvsActualsAction().getHistoryToken());
 
-		fixedAssetMap.put(messages.depreciationReport(), ActionFactory
-				.getDepreciationSheduleAction().getHistoryToken());
+		fixedAssetMap.put(messages.depreciationReport(),
+				new DepreciationSheduleAction().getHistoryToken());
 
-		inventoryMap.put(messages.inventoryValutionSummary(), ActionFactory
-				.getInventoryValutionSummaryReportAction().getHistoryToken());
-		inventoryMap.put(messages.inventoryValuationDetails(), ActionFactory
-				.getInventoryValuationDetailsAction().getHistoryToken());
+		inventoryMap.put(messages.inventoryValutionSummary(),
+				new InventoryValutionSummaryReportAction().getHistoryToken());
+		inventoryMap.put(messages.inventoryValuationDetails(),
+				new InventoryValuationDetailsAction().getHistoryToken());
 		inventoryMap.put(messages.inventoryStockStatusByItem(),
 				HistoryTokens.INVENTORY_STOCK_STATUS_BY_ITEM_REPORT);
 		inventoryMap.put(messages.inventoryStockStatusByVendor(),
@@ -287,48 +274,48 @@ public class ReportSectionView extends BaseHomeView {
 		// resolved issue 3544
 		// bankingMap.put(messages.depositDetail(), ActionFactory
 		// .getBankDepositDetailReportAction().getHistoryToken());
-		bankingMap.put(messages.checkDetail(), ActionFactory
-				.getBankCheckDetailReportAction().getHistoryToken());
-		bankingMap.put(messages.missingchecks(), ActionFactory
-				.getMissingChecksReportAction().getHistoryToken());
-		bankingMap.put(messages.reconcilationDiscrepancyReport(), ActionFactory
-				.getReconciliationDiscrepancyReportAction().getHistoryToken());
-		bankingMap.put(messages.depositDetail(), ActionFactory
-				.getBankDepositDetailReportAction().getHistoryToken());
+		bankingMap.put(messages.checkDetail(),
+				new BankCheckDetailReportAction().getHistoryToken());
+		bankingMap.put(messages.missingchecks(),
+				new MissingChecksReportAction().getHistoryToken());
+		bankingMap.put(messages.reconcilationDiscrepancyReport(),
+				new ReconciliationDiscrepancyReportAction().getHistoryToken());
+		bankingMap.put(messages.depositDetail(),
+				new BankDepositDetailReportAction().getHistoryToken());
 
-		jobMap.put(messages.estimatesbyJob(), ActionFactory
-				.getEstimatesByJobAction().getHistoryToken());
-		jobMap.put(messages.unbilledCostsByJob(), ActionFactory
-				.getUnbilledCostsByJobAction().getHistoryToken());
-		jobMap.put(messages.jobProfitabilityDetail(), ActionFactory
-				.getJobProfitabilityDetailReportAction().getHistoryToken());
-		jobMap.put(messages.jobProfitabilitySummary(), ActionFactory
-				.getJobProfitabilitySummaryReportAction().getHistoryToken());
-		jobMap.put(messages.profitAndLossByJob(), ActionFactory
-				.getProfitAndLossByLocationAction(3).getHistoryToken());
+		jobMap.put(messages.estimatesbyJob(),
+				new EstimatesByJobAction().getHistoryToken());
+		jobMap.put(messages.unbilledCostsByJob(),
+				new UnbilledCostsByJobAction().getHistoryToken());
+		jobMap.put(messages.jobProfitabilityDetail(),
+				new JobProfitabilityDetailReportAction().getHistoryToken());
+		jobMap.put(messages.jobProfitabilitySummary(),
+				new JobProfitabilitySummaryReportAction().getHistoryToken());
+		jobMap.put(messages.profitAndLossByJob(),
+				new ProfitAndLossByLocationAction(3).getHistoryToken());
 		// TAX tab for uk country
-		ukTaxMap.put(messages.priorVATReturns(), ActionFactory
-				.getVATSummaryReportAction().getHistoryToken());
-		ukTaxMap.put(messages.vatDetail(), ActionFactory
-				.getVATDetailsReportAction().getHistoryToken());
-		ukTaxMap.put(messages.vat100(), ActionFactory.getVAT100ReportAction()
-				.getHistoryToken());
-		ukTaxMap.put(messages.ecSalesList(), ActionFactory
-				.getECSalesListAction().getHistoryToken());
-		ukTaxMap.put(messages.vatItemSummary(), ActionFactory
-				.getVATItemSummaryReportAction().getHistoryToken());
+		ukTaxMap.put(messages.priorVATReturns(),
+				new VATSummaryReportAction().getHistoryToken());
+		ukTaxMap.put(messages.vatDetail(),
+				new VATDetailsReportAction().getHistoryToken());
+		ukTaxMap.put(messages.vat100(),
+				new VAT100ReportAction().getHistoryToken());
+		ukTaxMap.put(messages.ecSalesList(),
+				new ECSalesListAction().getHistoryToken());
+		ukTaxMap.put(messages.vatItemSummary(),
+				new VATItemSummaryReportAction().getHistoryToken());
 
 		// TAX tab for all other countries
-		taxMap.put(messages.taxItemDetailReport(), ActionFactory
-				.getTaxItemDetailReportAction().getHistoryToken());
-		taxMap.put(messages.taxItemExceptionDetailReport(), ActionFactory
-				.getTaxItemExceptionDetailReportAction().getHistoryToken());
-		taxMap.put(messages.vatItemSummary(), ActionFactory
-				.getVATItemSummaryReportAction().getHistoryToken());
+		taxMap.put(messages.taxItemDetailReport(),
+				new TaxItemDetailReportAction().getHistoryToken());
+		taxMap.put(messages.taxItemExceptionDetailReport(),
+				new TAXItemExceptionDetailReport().getHistoryToken());
+		taxMap.put(messages.vatItemSummary(),
+				new VATItemSummaryReportAction().getHistoryToken());
 		if (Accounter.getCompany().getCountryPreferences() instanceof India) {
 			if (Accounter.getCompany().getPreferences().isTDSEnabled()) {
-				taxMap.put(messages.tdsAcknowledgmentsReport(), ActionFactory
-						.getTDSAcknowledgmentsReportAction().getHistoryToken());
+				taxMap.put(messages.tdsAcknowledgmentsReport(),
+						new TDSAcknowledgmentsReportAction().getHistoryToken());
 			}
 		}
 

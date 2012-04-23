@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 	}
 
 	protected void updateExchangeRates(ClientFinanceDate date) {
-		AccounterAsyncCallback<List<CurrencyExchangeRate>> callback = new AccounterAsyncCallback<List<CurrencyExchangeRate>>() {
+		AccounterAsyncCallback<ArrayList<CurrencyExchangeRate>> callback = new AccounterAsyncCallback<ArrayList<CurrencyExchangeRate>>() {
 
 			@Override
 			public void onException(AccounterException exception) {
@@ -60,7 +61,7 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 			}
 
 			@Override
-			public void onResultSuccess(List<CurrencyExchangeRate> result) {
+			public void onResultSuccess(ArrayList<CurrencyExchangeRate> result) {
 				if (table != null) {
 					if (result == null && result.isEmpty()) {
 						return;

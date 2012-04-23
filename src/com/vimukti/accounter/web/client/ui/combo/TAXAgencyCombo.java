@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
@@ -12,7 +11,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	}
 
 	public TAXAgencyCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1,"TAXAgencyCombo");
+		super(title, isAddNewRequire, 1, "TAXAgencyCombo");
 		initCombo(getCompany().getActiveTAXAgencies());
 	}
 
@@ -24,7 +23,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 
 	@Override
 	public void onAddNew() {
-		NewTAXAgencyAction action = ActionFactory.getNewTAXAgencyAction();
+		NewTAXAgencyAction action = new NewTAXAgencyAction();
 		action.setCallback(new ActionCallback<ClientTAXAgency>() {
 
 			@Override
@@ -47,7 +46,7 @@ public class TAXAgencyCombo extends CustomCombo<ClientTAXAgency> {
 	}
 
 	@Override
-	protected String getColumnData(ClientTAXAgency object,  int col) {
+	protected String getColumnData(ClientTAXAgency object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();

@@ -37,17 +37,18 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionJournalEntryTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 import com.vimukti.accounter.web.client.ui.widgets.AddButton;
 
 public class JournalEntryView extends
@@ -484,11 +485,6 @@ public class JournalEntryView extends
 
 	}
 
-	public static JournalEntryView getInstance() {
-
-		return new JournalEntryView();
-	}
-
 	@Override
 	public List<DynamicForm> getForms() {
 
@@ -647,11 +643,10 @@ public class JournalEntryView extends
 			public void onResultSuccess(ClientPayee result) {
 				if (result != null) {
 					if (result instanceof ClientCustomer) {
-						ActionFactory.getNewCustomerAction().run(
-								(ClientCustomer) result, false);
+						new NewCustomerAction().run((ClientCustomer) result,
+								false);
 					} else if (result instanceof ClientVendor) {
-						ActionFactory.getNewVendorAction().run(
-								(ClientVendor) result, false);
+						new NewVendorAction().run((ClientVendor) result, false);
 					}
 				}
 			}

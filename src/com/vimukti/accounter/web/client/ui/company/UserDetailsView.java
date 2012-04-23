@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class UserDetailsView extends AbstractBaseView<ClientUser> {
 	private StyledPanel mainPanel;
@@ -45,7 +44,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getChangePasswordAction().run(null, false);
+				new ChangePasswordAction().run(null, false);
 			}
 		});
 
@@ -82,7 +81,7 @@ public class UserDetailsView extends AbstractBaseView<ClientUser> {
 		mainPanel.add(changePasswordHtml);
 		mainPanel.add(changeProfileHtml);
 		mainPanel.add(deleteAccountHtml);
-//		mainPanel.setWidth("100%");
+		// mainPanel.setWidth("100%");
 		mainPanel.addStyleName("change_password_view");
 		add(mainPanel);
 	}

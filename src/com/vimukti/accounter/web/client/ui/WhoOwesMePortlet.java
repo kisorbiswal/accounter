@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class WhoOwesMePortlet extends Portlet {
@@ -22,10 +23,10 @@ public class WhoOwesMePortlet extends Portlet {
 	@Override
 	public void createBody() {
 
-		AsyncCallback<List<ClientPayee>> callback = new AsyncCallback<List<ClientPayee>>() {
+		AsyncCallback<ArrayList<ClientPayee>> callback = new AsyncCallback<ArrayList<ClientPayee>>() {
 
 			@Override
-			public void onSuccess(List<ClientPayee> result) {
+			public void onSuccess(ArrayList<ClientPayee> result) {
 				grid = new DashboardOweGrid();
 				grid.init();
 				if (result != null && !(result.isEmpty())) {
@@ -58,7 +59,7 @@ public class WhoOwesMePortlet extends Portlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getReceivePaymentAction().run();
+				new ReceivePaymentAction().run();
 			}
 		});
 		linkPanel.add(receivePaymentLink);

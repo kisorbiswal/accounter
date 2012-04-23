@@ -12,9 +12,23 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
+import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
+import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
+import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
+import com.vimukti.accounter.web.client.ui.company.CustomersAction;
+import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
+import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
+import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
+import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.ui.vendors.BillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
+import com.vimukti.accounter.web.client.ui.vendors.VendorsAction;
 
 public class QuickLinksPortlet extends Portlet {
 
@@ -32,57 +46,52 @@ public class QuickLinksPortlet extends Portlet {
 		FlexTable linksTable = new FlexTable();
 		linksTable.addStyleName("quick-links-table");
 		// initializing links...
-		quickLinksMap.put(messages.newInvoice(), ActionFactory
-				.getNewInvoiceAction().getHistoryToken());
+		quickLinksMap.put(messages.newInvoice(),
+				new NewInvoiceAction().getHistoryToken());
 		quickLinksMap.put(messages.expenses(),
-				ActionFactory.getExpensesAction("").getHistoryToken());
+				new ExpensesAction("").getHistoryToken());
 		quickLinksMap.put(messages.payees(Global.get().Customers()),
-				ActionFactory.getCustomersAction().getHistoryToken());
-		quickLinksMap.put(messages.banking(), ActionFactory
-				.getChartOfAccountsAction(ClientAccount.TYPE_BANK)
-				.getHistoryToken());
-		quickLinksMap.put(messages.reports(), ActionFactory
-				.getReportsHomeAction().getHistoryToken());
-		quickLinksMap.put(messages.bills(), ActionFactory.getBillsAction()
-				.getHistoryToken());
-		quickLinksMap.put(messages.cashExpense(), ActionFactory
-				.CashExpenseAction().getHistoryToken());
-		quickLinksMap.put(messages.chartOfAccounts(), ActionFactory
-				.getChartOfAccountsAction().getHistoryToken());
-		quickLinksMap.put(messages.creditCardExpense(), ActionFactory
-				.CreditCardExpenseAction().getHistoryToken());
-		quickLinksMap.put(messages.newQuote(),
-				ActionFactory.getNewQuoteAction(ClientEstimate.QUOTES)
-						.getHistoryToken());
+				new CustomersAction().getHistoryToken());
+		quickLinksMap.put(messages.banking(), new ChartOfAccountsAction(
+				ClientAccount.TYPE_BANK).getHistoryToken());
+		quickLinksMap.put(messages.reports(),
+				new ReportsHomeAction().getHistoryToken());
+		quickLinksMap
+				.put(messages.bills(), new BillsAction().getHistoryToken());
+		quickLinksMap.put(messages.cashExpense(),
+				new CashExpenseAction().getHistoryToken());
+		quickLinksMap.put(messages.chartOfAccounts(),
+				new ChartOfAccountsAction().getHistoryToken());
+		quickLinksMap.put(messages.creditCardExpense(),
+				new CreditCardExpenseAction().getHistoryToken());
+		quickLinksMap.put(messages.newQuote(), new NewQuoteAction(
+				ClientEstimate.QUOTES).getHistoryToken());
 		if (Accounter.getCompany().getPreferences().isDelayedchargesEnabled()) {
-			quickLinksMap.put(messages.newCharge(), ActionFactory
-					.getNewQuoteAction(ClientEstimate.CHARGES)
-					.getHistoryToken());
-			quickLinksMap.put(messages.newCredit(), ActionFactory
-					.getNewQuoteAction(ClientEstimate.CREDITS)
-					.getHistoryToken());
+			quickLinksMap.put(messages.newCharge(), new NewQuoteAction(
+					ClientEstimate.CHARGES).getHistoryToken());
+			quickLinksMap.put(messages.newCredit(), new NewQuoteAction(
+					ClientEstimate.CREDITS).getHistoryToken());
 		}
 		if (Accounter.getCompany().getPreferences().isSalesOrderEnabled()) {
-			quickLinksMap.put(messages.newSalesOrder(), ActionFactory
-					.getNewQuoteAction(ClientEstimate.SALES_ORDER)
-					.getHistoryToken());
+			quickLinksMap.put(messages.newSalesOrder(), new NewQuoteAction(
+					ClientEstimate.SALES_ORDER).getHistoryToken());
 		}
 		if (Accounter.getUser().getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
-			quickLinksMap.put(messages.newJournalEntry(), ActionFactory
-					.getNewJournalEntryAction().getHistoryToken());
+			quickLinksMap.put(messages.newJournalEntry(),
+					new NewJournalEntryAction().getHistoryToken());
 		}
 
-		quickLinksMap.put(messages.receivePayment(), ActionFactory
-				.getReceivePaymentAction().getHistoryToken());
-		quickLinksMap.put(messages.Reconcile(), ActionFactory
-				.getReconciliationsListAction().getHistoryToken());
-		quickLinksMap.put(messages.payees(Global.get().Vendor()), ActionFactory
-				.getVendorsAction().getHistoryToken());
-		quickLinksMap.put(messages.writeCheck(), ActionFactory
-				.getWriteChecksAction().getHistoryToken());
+		quickLinksMap.put(messages.receivePayment(),
+				new ReceivePaymentAction().getHistoryToken());
+		quickLinksMap.put(messages.Reconcile(),
+				new ReconciliationsListAction().getHistoryToken());
+		quickLinksMap.put(messages.payees(Global.get().Vendor()),
+				new VendorsAction().getHistoryToken());
+		quickLinksMap.put(messages.writeCheck(),
+				new WriteChecksAction().getHistoryToken());
 		if (Accounter.getCompany().getPreferences().isKeepTrackofBills()) {
-			quickLinksMap.put(messages.enterBill(), ActionFactory
-					.getEnterBillsAction().getHistoryToken());
+			quickLinksMap.put(messages.enterBill(),
+					new EnterBillsAction().getHistoryToken());
 		}
 
 		// adding to flex table...

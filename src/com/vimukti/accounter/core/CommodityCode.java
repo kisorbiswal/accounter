@@ -58,4 +58,10 @@ public class CommodityCode implements IAccounterServerCore {
 
 		w.put(messages.name(), this.name);
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

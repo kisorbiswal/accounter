@@ -303,4 +303,10 @@ public class TDSChalanDetail extends Transaction implements
 		e.add(getPayFrom(), getTotal());
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

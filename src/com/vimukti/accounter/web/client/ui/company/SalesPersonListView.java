@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
@@ -46,7 +45,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> implements
 	protected Action getAddNewAction() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewSalesperSonAction();
+			return new NewSalesperSonAction();
 		else
 			return null;
 	}

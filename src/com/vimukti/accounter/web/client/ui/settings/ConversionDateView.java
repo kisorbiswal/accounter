@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
@@ -141,7 +140,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null, false);
+				new ConversionBalancesAction().run(null, false);
 			}
 		});
 
@@ -154,7 +153,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 						yearCombo.getSelectedValue())
 						+ getYear(monthCombo.getSelectedValue(),
 								yearCombo.getSelectedValue());
-				ActionFactory.getConversionBalancesAction().run(null, false
+				new ConversionBalancesAction().run(null, false
 				/*
 				 * ,endindDate, getYear(monthCombo.getSelectedValue(), yearCombo
 				 * .getSelectedValue())
@@ -166,7 +165,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null, false);
+				new ConversionBalancesAction().run(null, false);
 			}
 		});
 		headerPanel.add(superTitleHtml);

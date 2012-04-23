@@ -1,10 +1,11 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
+import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 
 /**
  * 
@@ -60,11 +61,11 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 			String paymentType;
 			paymentType = messages.payeePayment(Global.get().Vendor());
 			if (radio.equals(paymentType)) {
-				ActionFactory.getNewVendorPaymentAction().run(null, false);
+				new VendorPaymentsAction().run(null, false);
 			} else if (radio.equals(messages.customerRefund(Global.get()
 					.Customer()))) {
 
-				ActionFactory.getCustomerRefundAction().run(null, false);
+				new CustomerRefundAction().run(null, false);
 			}
 		}
 		return true;

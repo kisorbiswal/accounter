@@ -92,4 +92,10 @@ public class Admin implements IAccounterServerCore, INamedObject {
 		w.put(messages.email(), this.emailID);
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

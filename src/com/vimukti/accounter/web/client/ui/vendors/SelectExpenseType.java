@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -59,14 +59,14 @@ public class SelectExpenseType extends BaseDialog {
 		typeForm.add(typeRadio);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
-//		mainVLay.setSize("100%", "100%");
+		// mainVLay.setSize("100%", "100%");
 		mainVLay.add(typeForm);
 
 		// okbtn.setWidth("60px");
 		// cancelBtn.setWidth("60px");
 
 		setBodyLayout(mainVLay);
-//		setWidth("300px");
+		// setWidth("300px");
 
 	}
 
@@ -91,13 +91,13 @@ public class SelectExpenseType extends BaseDialog {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 			if (radio.equals(EMPLOYEE)) {
-				ActionFactory.EmployeeExpenseAction().run(null, false);
+				new EmployeeExpenseAction().run(null, false);
 			} else if (radio.equals(CHECK)) {
-				ActionFactory.getWriteChecksAction().run(null, false);
+				new WriteChecksAction().run(null, false);
 			} else if (radio.equals(CREDIT_CARD)) {
-				ActionFactory.CreditCardExpenseAction().run(null, false);
+				new CreditCardExpenseAction().run(null, false);
 			} else if (radio.equals(CASH)) {
-				ActionFactory.CashExpenseAction().run(null, false);
+				new CashExpenseAction().run(null, false);
 			} else {
 				Accounter.showError(messages.pleaseSelectExpenseType());
 			}

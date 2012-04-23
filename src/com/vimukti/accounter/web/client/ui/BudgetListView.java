@@ -13,8 +13,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BudgetListGrid;
@@ -53,7 +53,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewBudgetAction().run(budgetData, false);
+				new NewBudgetAction().run(budgetData, false);
 			}
 		});
 		form.add(getSelectItem());
@@ -84,7 +84,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected Action getAddNewAction() {
-		ActionFactory.getNewBudgetAction().run(listOfBudgets);
+		new NewBudgetAction().run(listOfBudgets);
 		return null;
 	}
 

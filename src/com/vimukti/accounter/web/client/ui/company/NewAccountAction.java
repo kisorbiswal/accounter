@@ -10,9 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.NewAccountView;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class NewAccountAction extends Action<ClientAccount> {
 
@@ -20,9 +18,19 @@ public class NewAccountAction extends Action<ClientAccount> {
 	// private AbstractBaseView<?> baseView;
 	private String accountName;
 
+	private int accountType;
+
 	public NewAccountAction() {
 		super();
 		this.catagory = messages.company();
+	}
+
+	public NewAccountAction(int accountType) {
+		this();
+		this.accountType = accountType;
+		if (accountType == ClientAccount.TYPE_BANK) {
+			catagory = messages.banking();
+		}
 	}
 
 	// public void setBaseCanvas(AbstractBaseView<?> baseView) {
@@ -41,7 +49,11 @@ public class NewAccountAction extends Action<ClientAccount> {
 
 			public void onSuccess() {
 				NewAccountView view = new NewAccountView();
-				view.setAccountTypes(getAccountTypes());
+				if (accountType == 0) {
+					view.setAccountTypes(getAccountTypes());
+				} else {
+					view.setAccountType(accountType);
+				}
 				view.setAccountName(accountName);
 
 				MainFinanceWindow.getViewManager().showView(view, data,
@@ -82,12 +94,20 @@ public class NewAccountAction extends Action<ClientAccount> {
 
 	@Override
 	public String getHistoryToken() {
-		return "newAccount";
+		if (accountType == ClientAccount.TYPE_BANK) {
+			return "newBankAccount";
+		} else {
+			return "newAccount";
+		}
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "new-account";
+		if (accountType == ClientAccount.TYPE_BANK) {
+			return "new-bank-account";
+		} else {
+			return "new-account";
+		}
 	}
 
 	public void setAccountName(String text) {

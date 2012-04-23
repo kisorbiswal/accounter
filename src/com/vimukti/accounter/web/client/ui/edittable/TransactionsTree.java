@@ -34,8 +34,13 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
+import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
+import com.vimukti.accounter.web.client.ui.vendors.DepositAction;
+import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
+import com.vimukti.accounter.web.client.ui.vendors.NewCashPurchaseAction;
+import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 
 public abstract class TransactionsTree<T> extends SimplePanel {
 	Tree tree;
@@ -221,8 +226,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
 				if (transaction instanceof ClientPurchaseOrder) {
-					UIUtils.runAction(transaction,
-							ActionFactory.getPurchaseOrderAction());
+					UIUtils.runAction(transaction, new PurchaseOrderAction());
 					return;
 				}
 				ClientEstimate estimate = (ClientEstimate) transaction;
@@ -231,8 +235,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				} else if (estimate.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
 					openDepositView(estimate);
 				} else {
-					UIUtils.runAction(transaction, ActionFactory
-							.getNewQuoteAction(estimate.getEstimateType()));
+					UIUtils.runAction(transaction,
+							new NewQuoteAction(estimate.getEstimateType()));
 				}
 			}
 		});
@@ -256,8 +260,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 					@Override
 					public void onSuccess(ClientMakeDeposit result) {
-						UIUtils.runAction(result,
-								ActionFactory.getDepositAction());
+						UIUtils.runAction(result, new DepositAction());
 					}
 				});
 	}
@@ -274,8 +277,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 						@Override
 						public void onSuccess(ClientEnterBill result) {
-							UIUtils.runAction(result,
-									ActionFactory.getEnterBillsAction());
+							UIUtils.runAction(result, new EnterBillsAction());
 						}
 					});
 
@@ -289,8 +291,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 						@Override
 						public void onSuccess(ClientWriteCheck result) {
-							UIUtils.runAction(result,
-									ActionFactory.getWriteChecksAction());
+							UIUtils.runAction(result, new WriteChecksAction());
 						}
 					});
 		} else if (estimate.getRefferingTransactionType() == Transaction.TYPE_CASH_PURCHASE) {
@@ -304,7 +305,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 						@Override
 						public void onSuccess(ClientCashPurchase result) {
 							UIUtils.runAction(result,
-									ActionFactory.getNewCashPurchaseAction());
+									new NewCashPurchaseAction());
 						}
 					});
 		}

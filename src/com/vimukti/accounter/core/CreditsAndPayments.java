@@ -518,4 +518,10 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 		w.put(messages.memo(), this.memo);
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

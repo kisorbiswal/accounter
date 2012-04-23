@@ -4,7 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 
 public class BankAccountsPortlet extends Portlet {
 	private DashBoardBankAccountGrid grid;
@@ -17,7 +17,7 @@ public class BankAccountsPortlet extends Portlet {
 
 	@Override
 	public void goToClicked() {
-		ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK).run();
+		new ChartOfAccountsAction(ClientAccount.TYPE_BANK).run();
 	}
 
 	@Override

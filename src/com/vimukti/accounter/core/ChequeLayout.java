@@ -267,4 +267,10 @@ public class ChequeLayout extends CreatableObject implements
 		return IAccounterCore.CHECK_LAYOUT;
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

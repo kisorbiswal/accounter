@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.customers.ReconcileCreateDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReconcileItemsListDialog;
 
@@ -59,8 +59,7 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 			} else {
 				amount = statementRecord.getReceivedAmount();
 			}
-			ActionFactory.getMakeDepositAction(bankAccount, amount,
-					statementRecord).run();
+			new MakeDepositAction(bankAccount, amount, statementRecord).run();
 		} else if (value.equals(FIND_MATCH)) {
 			String title = null;
 			if (statementRecord.getSpentAmount() > 0) {

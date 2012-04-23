@@ -16,11 +16,13 @@ import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemExceptionDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.VATSummaryReportAction;
+import com.vimukti.accounter.web.client.ui.reports.VatExceptionDetailReportAction;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 /**
@@ -166,8 +168,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 							.getPeriodEndDate()));
 				}
 
-				ActionFactory.getVATExceptionDetailsReportAction().run(
-						vatDetails, obj.getID(), true);
+				new VatExceptionDetailReportAction().run(vatDetails,
+						obj.getID(), true);
 			} else {
 
 				List<ClientTAXReturnEntry> taxEntries = null;
@@ -177,8 +179,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				details = getExceptionDetailData(taxEntries,
 						clientTAXReturn.getPeriodStartDate());
 
-				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = ActionFactory
-						.getTaxItemExceptionDetailReportAction();
+				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = new TAXItemExceptionDetailReport();
 				taxItemExceptionDetailReportAction
 						.setTaxReturn(clientTAXReturn);
 				for (TAXItemDetail detail : details) {
@@ -196,14 +197,13 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 			if (countryPreferences instanceof UnitedKingdom
 					&& countryPreferences.isVatAvailable()) {
 				List<VATSummary> summaries = getSummaires(obj);
-				ActionFactory.getVATSummaryReportAction().run(summaries, false);
+				new VATSummaryReportAction().run(summaries, false);
 			} else {
 				List<ClientTAXReturnEntry> taxEntries = null;
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				taxEntries = obj.getTaxReturnEntries();
 				details = getData(taxEntries);
-				ActionFactory.getTaxItemDetailReportAction().run(details,
-						obj.getID(), true);
+				new TaxItemDetailReportAction().run(details, obj.getID(), true);
 
 			}
 		}

@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
+import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -43,7 +43,6 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		this.checkType = checkType;
 	}
 
-
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().canDoInvoiceTransactions()) {
@@ -52,7 +51,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		if (checkType == 0 || checkType == TYPE_ALL) {
 			new SelectPaymentTypeDialog().show();
 		} else {
-			return ActionFactory.getWriteChecksAction();
+			return new WriteChecksAction();
 		}
 		return null;
 	}

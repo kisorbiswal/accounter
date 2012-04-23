@@ -20,10 +20,11 @@ import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
+import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
 
 public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	private PortletToolBar toolBar;
@@ -53,7 +54,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void goToClicked() {
-		ActionFactory.getExpensesAction(null).run(null, true);
+		new ExpensesAction(null).run(null, true);
 	}
 
 	@Override
@@ -84,8 +85,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					expenseList.setStartDate(toolBar.getStartDate());
 					expenseList.setEndDate(toolBar.getEndDate());
 					expenseList.setDateRange(toolBar.getSelectedDateRange());
-					UIUtils.runAction(expenseList,
-							ActionFactory.getExpenseReportAction());
+					UIUtils.runAction(expenseList, new ExpenseReportAction());
 				}
 			});
 
@@ -99,8 +99,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					expenseList.setDateRange(toolBar.getSelectedDateRange());
 					expenseList
 							.setTransactionType(ClientTransaction.TYPE_CASH_EXPENSE);
-					UIUtils.runAction(expenseList,
-							ActionFactory.getExpenseReportAction());
+					UIUtils.runAction(expenseList, new ExpenseReportAction());
 				}
 			});
 
@@ -117,8 +116,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					expenseList.setDateRange(toolBar.getSelectedDateRange());
 					expenseList
 							.setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-					UIUtils.runAction(expenseList,
-							ActionFactory.getExpenseReportAction());
+					UIUtils.runAction(expenseList, new ExpenseReportAction());
 
 				}
 			});

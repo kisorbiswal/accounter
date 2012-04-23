@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.BrandingThemeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.EmailViewAction;
 
 public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	private BrandingThemeCombo brandingThemeTypeCombo;
@@ -42,8 +42,7 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	@Override
 	protected boolean onOK() {
 		if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-			brandingThemeTypeCombo.setSelected(messages
-					.standardTheme());
+			brandingThemeTypeCombo.setSelected(messages.standardTheme());
 		}
 		showEmailView();
 		return true;
@@ -51,8 +50,8 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 
 	private void showEmailView() {
 
-		ActionFactory.getEmailViewAction().run(clientTransaction,
-				brandingTheme.getID(), false);
+		new EmailViewAction().run(clientTransaction, brandingTheme.getID(),
+				false);
 	}
 
 	@Override

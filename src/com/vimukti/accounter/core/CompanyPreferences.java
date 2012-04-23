@@ -1625,4 +1625,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public void setDigitGroupingFormat(String digitGroupingFormat) {
 		this.digitGroupingFormat = digitGroupingFormat;
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

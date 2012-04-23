@@ -955,7 +955,7 @@ public class AccounterMenuView extends BaseView {
 		}
 		if (canDoManageAccounts) {
 			W8MenuItem payTax = new W8MenuItem(messages.payTax(), "",
-					HistoryTokens.PAYSALESTAX);
+					HistoryTokens.PAYTAX);
 			menuForm.add(payTax);
 		}
 		if (canDoInvoiceAndBillTransactions) {

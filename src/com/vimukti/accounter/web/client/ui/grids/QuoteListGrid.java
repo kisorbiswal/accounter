@@ -18,8 +18,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
@@ -190,8 +190,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
 		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
-			ActionFactory.getNewQuoteAction(obj.getEstimateType()).run(obj,
-					false);
+			new NewQuoteAction(obj.getEstimateType()).run(obj, false);
 		}
 	}
 

@@ -157,4 +157,10 @@ public class ShippingTerms extends CreatableObject implements
 		w.put(messages.description(), this.description);
 
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

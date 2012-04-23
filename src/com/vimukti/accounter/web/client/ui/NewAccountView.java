@@ -41,8 +41,8 @@ import com.vimukti.accounter.web.client.ui.combo.DropDownCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -1034,7 +1034,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// if (isNewBankAccount)
 		// ActionFactory.getNewBankAccountAction().run(null, true);
 		// else
-		ActionFactory.getNewAccountAction().run(null, true);
+		new NewAccountAction().run(null, true);
 	}
 
 	@Override

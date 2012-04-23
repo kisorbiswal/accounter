@@ -79,4 +79,10 @@ public class Unit extends CreatableObject implements IAccounterServerCore,
 
 	}
 
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

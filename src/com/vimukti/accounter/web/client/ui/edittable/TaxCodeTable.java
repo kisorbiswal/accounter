@@ -9,7 +9,6 @@ import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 
 public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
@@ -18,11 +17,11 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	private boolean isSales;
 
 	public TaxCodeTable() {
-		super(Accounter.getCompany().getTaxCodes(),true);
+		super(Accounter.getCompany().getTaxCodes(), true);
 	}
 
 	public TaxCodeTable(ListFilter<ClientTAXCode> filter, boolean isSales) {
-		super(getTaxCodes(filter),true);
+		super(getTaxCodes(filter), true);
 		this.isSales = isSales;
 		this.filter = filter;
 	}
@@ -132,7 +131,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	@Override
 	protected void addNewItem(String text) {
 		if (Accounter.getCompany().getPreferences().isTrackTax()) {
-			NewTAXCodeAction action = ActionFactory.getNewTAXCodeAction();
+			NewTAXCodeAction action = new NewTAXCodeAction();
 			action.setCallback(new ActionCallback<ClientTAXCode>() {
 
 				@Override

@@ -2,8 +2,9 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
 
 public class DashboardOweGrid extends ListGrid<ClientPayee> {
 
@@ -86,11 +87,10 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 	private void onClickOnObj(ClientPayee obj) {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (obj instanceof ClientTAXAgency) {
-				ActionFactory.getNewTAXAgencyAction().run(
-						(ClientTAXAgency) obj, false);
+				new NewTAXAgencyAction().run((ClientTAXAgency) obj, false);
 				return;
 			}
-			ActionFactory.getStatementReport(obj.isVendor(), obj.getID()).run();
+			new StatementReportAction(obj.getID(), obj.isVendor()).run();
 		}
 	}
 

@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class GeneralSettingsView extends AbstractBaseView {
 	StyledPanel mainPanel;
@@ -80,7 +79,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		// invoiceBrandingHTML.setStyleName("invoice-branding-html");
 		invoiceCommentHtml = new HTML(messages.invoiceComment());
 		userHtml = new HTML(messages.user());
-//		userHtml.setWidth("50px");
+		// userHtml.setWidth("50px");
 		userHtml.setStyleName("user-html");
 		userCommentHtml = new HTML(messages.usersComment());
 		companySettingsHtml = new HTML(messages.companySettingsTitle());
@@ -99,14 +98,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null, false);
+				new ConversionBalancesAction().run(null, false);
 			}
 		});
 		conversationImage.setVisible(false);
 		conversionHTML.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getConversionBalancesAction().run(null, false);
+				new ConversionBalancesAction().run(null, false);
 			}
 		});
 		conversionHTML.addMouseOverHandler(new MouseOverHandler() {
@@ -137,14 +136,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getInvoiceBrandingAction().run(null, false);
+				new InvoiceBrandingAction().run(null, false);
 			}
 		});
 		invoiceBrandingHTML.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getInvoiceBrandingAction().run(null, false);
+				new InvoiceBrandingAction().run(null, false);
 				invoiceBrandingHTML.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 
@@ -179,14 +178,14 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getUsersAction().run(null, false);
+				new UsersAction().run(null, false);
 			}
 		});
 		userHtml.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getUsersAction().run(null, false);
+				new UsersAction().run(null, false);
 				userHtml.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 			}
@@ -217,8 +216,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getPreferencesAction(PreferencesAction.COMPANY)
-						.run(null, false);
+				new PreferencesAction(PreferencesAction.COMPANY).run(null,
+						false);
 
 			}
 		});
@@ -226,8 +225,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getPreferencesAction(PreferencesAction.SETTINGS)
-						.run(null, false);
+				new PreferencesAction(PreferencesAction.SETTINGS).run(null,
+						false);
 				companySettingsHtml.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 

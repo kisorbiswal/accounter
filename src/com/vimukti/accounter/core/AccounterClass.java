@@ -77,4 +77,12 @@ public class AccounterClass extends CreatableObject implements
 		ChangeTracker.put(accounterCore);
 		return super.onDelete(arg0);
 	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		if (className == null || className.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().accounterClass());
+		}
+	}
 }

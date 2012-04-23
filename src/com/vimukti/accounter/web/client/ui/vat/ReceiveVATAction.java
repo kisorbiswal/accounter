@@ -6,9 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
  * 
@@ -51,9 +49,9 @@ public class ReceiveVATAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				MainFinanceWindow.getViewManager().showView(
-						new ReceiveVATView(), data, isDependent,
-						ReceiveVATAction.this);
+				ReceiveVATView view = new ReceiveVATView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ReceiveVATAction.this);
 			}
 
 			public void onFailure(Throwable e) {
@@ -61,15 +59,15 @@ public class ReceiveVATAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				
-//
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		//
+		//
+		// }
+		//
+		// });
 	}
 
 	// @Override

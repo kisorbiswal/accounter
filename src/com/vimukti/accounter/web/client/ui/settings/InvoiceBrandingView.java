@@ -31,7 +31,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.UploadTemplateFileDialog;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.NewBrandCustomThemeAction;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
@@ -97,7 +97,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getGeneralSettingsAction().run(null, false);
+				new GeneralSettingsAction().run(null, false);
 			}
 		});
 		generalSettingsHTML.setVisible(false);
@@ -115,7 +115,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 
-				ActionFactory.getNewBrandThemeAction().run(null, false);
+				new NewBrandThemeAction().run(null, false);
 			}
 		});
 
@@ -124,7 +124,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getAutomaticSequenceAction().run(null, false);
+				new AutomaticSequenceAction().run(null, false);
 
 			}
 		});
@@ -186,10 +186,9 @@ public class InvoiceBrandingView<T> extends
 	 */
 	private IMenu getBrandingMenu() {
 		IMenu themesMenuBar = createMenu();
-		themesMenuBar.addMenuItem(ActionFactory.getNewBrandThemeAction());
+		themesMenuBar.addMenuItem(new NewBrandThemeAction());
 		if (Accounter.hasPermission(Features.BRANDING_THEME)) {
-			themesMenuBar.addMenuItem(ActionFactory
-					.getNewBrandCustomThemeAction());
+			themesMenuBar.addMenuItem(new NewBrandCustomThemeAction());
 		}
 		return themesMenuBar;
 	}
@@ -230,7 +229,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 
-				ActionFactory.getNewBrandCustomThemeAction().run(theme, true);
+				new NewBrandCustomThemeAction().run(theme, true);
 			}
 		});
 
@@ -239,7 +238,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getCopyThemeAction().run(theme, false);
+				new CopyThemeAction().run(theme, false);
 			}
 		});
 
@@ -248,7 +247,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getDeleteThemeAction().run(theme, false);
+				new DeleteThemeAction().run(theme, false);
 			}
 		});
 
@@ -399,7 +398,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getNewBrandThemeAction().run(theme, false);
+				new NewBrandThemeAction().run(theme, false);
 				MainFinanceWindow.getViewManager().existingView.onEdit();
 				MainFinanceWindow.getViewManager().removeEditButton();
 			}
@@ -410,7 +409,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getCopyThemeAction().run(theme, false);
+				new CopyThemeAction().run(theme, false);
 			}
 		});
 
@@ -419,7 +418,7 @@ public class InvoiceBrandingView<T> extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getDeleteThemeAction().run(theme, false);
+				new DeleteThemeAction().run(theme, false);
 			}
 		});
 

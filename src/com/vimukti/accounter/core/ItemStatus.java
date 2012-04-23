@@ -96,4 +96,10 @@ public class ItemStatus implements IAccounterServerCore {
 
 		w.put(messages.type(), messages.itemStatus()).gap();
 	}
+
+	@Override
+	public void selfValidate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

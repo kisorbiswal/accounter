@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
@@ -27,7 +26,7 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList>
 	private int transactionType;
 	private int viewType;
 
-	private VendorPaymentsListView() {
+	public VendorPaymentsListView() {
 		super(messages.notIssued());
 	}
 
@@ -36,14 +35,10 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList>
 		this.transactionType = transactionType;
 	}
 
-	public static VendorPaymentsListView getInstance() {
-		return new VendorPaymentsListView();
-	}
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getPayBillsAction();
+		return new PayBillsAction();
 	}
 
 	@Override

@@ -3,6 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.RegisteredItemsListGrid;
@@ -34,7 +34,7 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset>
 	 */
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewFixedAssetAction();
+		return new NewFixedAssetAction();
 	}
 
 	/*
@@ -68,17 +68,18 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset>
 		// getCompany().getFixedAssets()));
 		if (viewSelect != null) {
 			viewSelect.setEnabled(false);
-		};
+		}
+		;
 	}
 
 	private void getRegistredFixedAssetsList() {
 
 		Accounter.createHomeService().getFixedAssetList(
 				ClientFixedAsset.STATUS_REGISTERED,
-				new AsyncCallback<List<ClientFixedAsset>>() {
+				new AsyncCallback<ArrayList<ClientFixedAsset>>() {
 
 					@Override
-					public void onSuccess(List<ClientFixedAsset> list) {
+					public void onSuccess(ArrayList<ClientFixedAsset> list) {
 						if (list.isEmpty()) {
 							grid.removeAllRecords();
 							grid.addEmptyMessage(messages.noRecordsToShow());

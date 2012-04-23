@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
@@ -222,8 +222,7 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 				@Override
 				public void onResultSuccess(ClientTAXAgency result) {
 					if (result != null) {
-						ActionFactory.getNewTAXAgencyAction()
-								.run(result, false);
+						new NewTAXAgencyAction().run(result, false);
 					}
 				}
 
