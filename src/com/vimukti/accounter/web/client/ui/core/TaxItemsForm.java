@@ -177,7 +177,8 @@ public class TaxItemsForm extends DynamicForm {
 									DataUtils.getAmountAsStrings(taxRate),
 									amount));
 					amountLabel.setAmount(taxAmount);
-
+					amountLabel.setCurrency(currency == null ? Accounter
+							.getCompany().getPrimaryCurrency() : currency);
 					items[i] = amountLabel;
 					i++;
 				}
