@@ -194,8 +194,11 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	public void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
-		startDate = getCompany().getTransactionStartDate();
-		endDate = getCompany().getTransactionEndDate();
+		/** If company don't have any transactions.. **/
+		startDate = getCompany().getTransactionStartDate() == null ? date
+				: getCompany().getTransactionStartDate();
+		endDate = getCompany().getTransactionEndDate() == null ? date
+				: getCompany().getTransactionEndDate();
 		// getLastandOpenedFiscalYearEndDate();
 		if (dateRange.equals(messages.thisWeek())) {
 			startDate = getWeekStartDate();
