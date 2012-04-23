@@ -6561,6 +6561,16 @@
 		DELETE FROM budget
 		WHERE  company_id = cid;
 
+		DELETE FROM cash_purchase_orders
+		USING  TRANSACTION 
+		WHERE  cash_purchase_orders.cash_purchase_id=TRANSACTION.id
+			   and TRANSACTION.company_id = cid;
+		
+		DELETE FROM cash_purchase_estimates
+		USING  TRANSACTION 
+		WHERE  cash_purchase_estimates.cash_purchase_id=TRANSACTION.id
+			   and TRANSACTION.company_id = cid;
+			   
 		DELETE FROM cash_purchase
 		USING  TRANSACTION
 		WHERE  cash_purchase.id = TRANSACTION.id
@@ -6841,7 +6851,12 @@
 		WHERE  transaction_deposit_item.make_deposit_id = make_deposit.id
 			   AND TRANSACTION.id = make_deposit.id
 			   AND TRANSACTION.company_id = cid;
-
+		
+		DELETE FROM deposit_estimates
+		USING  TRANSACTION 
+		WHERE  deposit_estimates.deposit_id=TRANSACTION.id
+			   and TRANSACTION.company_id = cid;
+		
 		DELETE FROM make_deposit
 		USING  TRANSACTION
 		WHERE  make_deposit.id = TRANSACTION.id
@@ -6915,6 +6930,22 @@
 		USING  TRANSACTION
 		WHERE  receive_vat.id = TRANSACTION.id
 			   AND TRANSACTION.company_id = cid;
+			   
+		DELETE FROM tdsdeductormasters
+		WHERE  company_id = cid;
+		
+		DELETE FROM tdsresponsibleperson
+		WHERE  company_id = cid;  
+		
+		DELETE FROM tdstransactionitem
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid; 
+		       
+		DELETE FROM tds_chalan_detail
+		USING  TRANSACTION
+		WHERE  tds_chalan_detail.id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid;  
 
 		DELETE FROM unit
 		WHERE  company_id = cid;
@@ -6941,6 +6972,11 @@
 
 		DELETE FROM warehouse
 		WHERE  company_id = cid;
+		
+		DELETE FROM write_checks_estimates
+		USING  TRANSACTION 
+		WHERE  write_checks_estimates.write_checks_id=TRANSACTION.id
+			   and TRANSACTION.company_id = cid;
 
 		DELETE FROM write_checks
 		USING  TRANSACTION
@@ -6999,22 +7035,8 @@
 		DELETE FROM email_account
 		WHERE  company_id = cid;  
 		
-		DELETE FROM tdsdeductormasters
+		DELETE from email_template
 		WHERE  company_id = cid;
-		
-		DELETE FROM tdsresponsibleperson
-		WHERE  company_id = cid;  
-		
-		DELETE FROM tdstransactionitem
-		USING  TRANSACTION
-		WHERE  transaction_id = TRANSACTION.id
-		       AND TRANSACTION.company_id = cid; 
-		       
-		DELETE FROM tds_chalan_detail
-		USING  TRANSACTION
-		WHERE  tds_chalan_detail.id = TRANSACTION.id
-
-		       AND TRANSACTION.company_id = cid;  
 		       
 		DELETE FROM company
 		WHERE  id = cid;  
