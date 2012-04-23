@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.translate;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -35,5 +35,5 @@ public interface TranslateService extends RemoteService {
 	boolean canApprove(String lang);
 
 	boolean updateMessgaeStats(ArrayList<String> byOrder,
-			Map<String, Integer> byCount) throws AccounterException;
+			HashMap<String, Integer> byCount) throws AccounterException;
 }

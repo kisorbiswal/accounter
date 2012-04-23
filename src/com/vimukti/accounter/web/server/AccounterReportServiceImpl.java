@@ -3161,7 +3161,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<UnRealisedLossOrGain> getUnRealisedExchangeLossesAndGains(
-			long enterdDate, Map<Long, Double> exchangeRates)
+			long enterdDate, HashMap<Long, Double> exchangeRates)
 			throws AccounterException {
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(
 				new ClientFinanceDate(), new ClientFinanceDate(),

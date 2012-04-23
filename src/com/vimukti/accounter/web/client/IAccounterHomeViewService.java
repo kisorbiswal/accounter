@@ -1,8 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -420,7 +419,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientMessageOrTask> getMessagesAndTasks()
 			throws AccounterException;
 
-	PaginationList<ClientReminder> getRemindersList() throws AccounterException;
+	PaginationList<ClientReminder> getRemindersList(int start,int length,int viewType) throws AccounterException;
 
 	ExpensePortletData getAccountsAndValues(long startDate, long endDate);
 
@@ -508,13 +507,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public int getClientCompaniesCount();
 
-	Map<Integer, Object> importData(String filePath, int importerType,
-			Map<String, String> importMap, String dateFormate)
+	HashMap<Integer, Object> importData(String filePath, int importerType,
+			HashMap<String, String> importMap, String dateFormate)
 			throws AccounterException;
 
-	List<ImportField> getFieldsOf(int importerType) throws AccounterException;
+	ArrayList<ImportField> getFieldsOf(int importerType)
+			throws AccounterException;
 
-	List<ClientJob> getJobsByCustomer(long id);
+	ArrayList<ClientJob> getJobsByCustomer(long id);
 
 	PaginationList<TransactionHistory> getItemTransactionsList(long itemId,
 			int transactionType, int transactionStatus,

@@ -4724,7 +4724,7 @@ public class FinanceTool {
 
 	}
 
-	public Map<Integer, Object> importData(long companyId, String userEmail,
+	public HashMap<Integer, Object> importData(long companyId, String userEmail,
 			String filePath, int importerType, Map<String, String> importMap,
 			String dateFormate) throws AccounterException {
 		Map<Integer, Object> exceptions = new HashMap<Integer, Object>();
@@ -4778,7 +4778,7 @@ public class FinanceTool {
 			e.printStackTrace();
 			throw new AccounterException(e.getMessage());
 		}
-		return exceptions;
+		return (HashMap<Integer, Object>) exceptions;
 	}
 
 	private Importer<? extends IAccounterCore> getImporterByType(

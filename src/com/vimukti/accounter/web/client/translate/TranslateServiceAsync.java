@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.translate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,6 @@ public interface TranslateServiceAsync {
 	public void canApprove(String lang, AsyncCallback<Boolean> callback);
 
 	public void updateMessgaeStats(ArrayList<String> byOrder,
-			Map<String, Integer> byCount, AsyncCallback<Boolean> callback);
+			HashMap<String, Integer> byCount, AsyncCallback<Boolean> callback);
 
 }

@@ -4,6 +4,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -435,7 +436,7 @@ public interface IAccounterGETServiceAsync {
 			AsyncCallback<PaginationList<ClientTAXReturn>> accounterAsyncCallback);
 
 	public void getAssetValuesForInventories(
-			AsyncCallback<Map<Long, Double>> callback);
+			AsyncCallback<HashMap<Long, Double>> callback);
 
 	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
 

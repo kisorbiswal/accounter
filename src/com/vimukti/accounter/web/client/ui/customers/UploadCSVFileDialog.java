@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,7 +36,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 	HashMap<String, Integer> csvFileTypeListMap = new HashMap<String, Integer>();
 	private ArrayList<String> list = new ArrayList<String>();
 	private SelectCombo typeCombo;
-	private Map<Integer, String> allSupportedImporters;
+	private HashMap<Integer, String> allSupportedImporters;
 
 	@Override
 	protected boolean onOK() {
@@ -135,28 +133,31 @@ public class UploadCSVFileDialog extends BaseDialog {
 							.isNumber();
 					final double recordCount = noOfRows.doubleValue();
 
-					final Map<String, List<String>> data = parseJsonArray(object);
+					final HashMap<String, ArrayList<String>> data = parseJsonArray(object);
 
-					Accounter.createHomeService().getFieldsOf(getType(),
-							new AccounterAsyncCallback<List<ImportField>>() {
+					Accounter
+							.createHomeService()
+							.getFieldsOf(
+									getType(),
+									new AccounterAsyncCallback<ArrayList<ImportField>>() {
 
-								@Override
-								public void onException(
-										AccounterException exception) {
-									// TODO Auto-generated method stub
+										@Override
+										public void onException(
+												AccounterException exception) {
+											// TODO Auto-generated method stub
 
-								}
+										}
 
-								@Override
-								public void onResultSuccess(
-										List<ImportField> result) {
-									ImportAction action = new ImportAction(
-											result, data, getType(), fileID,
-											recordCount);
-									action.run();
-									close();
-								}
-							});
+										@Override
+										public void onResultSuccess(
+												ArrayList<ImportField> result) {
+											ImportAction action = new ImportAction(
+													result, data, getType(),
+													fileID, recordCount);
+											action.run();
+											close();
+										}
+									});
 
 				} else {
 					Accounter.showInformation(messages
@@ -179,8 +180,9 @@ public class UploadCSVFileDialog extends BaseDialog {
 		return ImporterType.getTypeByName(typeCombo.getSelectedValue());
 	}
 
-	private List<String> getCSVFileList() {
-		allSupportedImporters = ImporterType.getAllSupportedImporters();
+	private ArrayList<String> getCSVFileList() {
+		allSupportedImporters = (HashMap<Integer, String>) ImporterType
+				.getAllSupportedImporters();
 		Collection<String> keySet = allSupportedImporters.values();
 		list.addAll(keySet);
 		return list;
@@ -192,13 +194,14 @@ public class UploadCSVFileDialog extends BaseDialog {
 	 * @param object
 	 * @return
 	 */
-	protected Map<String, List<String>> parseJsonArray(JSONObject object) {
+	protected HashMap<String, ArrayList<String>> parseJsonArray(
+			JSONObject object) {
 		JSONValue first20Records = object.get("first20Records");
 		JSONObject jObject = first20Records.isObject();
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 		for (String columnName : jObject.keySet()) {
 			JSONArray array = jObject.get(columnName).isArray();
-			List<String> list = new ArrayList<String>();
+			ArrayList<String> list = new ArrayList<String>();
 			for (int x = 0; x < array.size(); x++) {
 				list.add(toString(array.get(x)));
 			}

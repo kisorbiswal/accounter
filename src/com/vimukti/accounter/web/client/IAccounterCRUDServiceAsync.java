@@ -58,7 +58,7 @@ public interface IAccounterCRUDServiceAsync {
 	void deleteTransactionFromDb(IAccounterCore obj,
 			AsyncCallback<Boolean> transactionCallBack);
 
-	void createOrSkipTransactions(List<ClientReminder> records,
+	void createOrSkipTransactions(ArrayList<ClientReminder> records,
 			boolean isCreate, AsyncCallback<Boolean> transactionCallBack);
 
 	void doCreateIssuePaymentEffect(ClientIssuePayment obj,

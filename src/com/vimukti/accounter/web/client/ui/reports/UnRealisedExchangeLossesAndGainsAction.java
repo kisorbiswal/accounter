@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
@@ -34,7 +35,7 @@ public class UnRealisedExchangeLossesAndGainsAction extends
 
 			public void onSuccess() {
 				UnRealisedExchangeLossesAndGainsReport report = new UnRealisedExchangeLossesAndGainsReport();
-				report.setExchangeRates(data);
+				report.setExchangeRates((HashMap<Long, Double>) data);
 				report.setEnteredDate(enteredDate);
 				MainFinanceWindow.getViewManager().showView(report, null,
 						isDependent,
