@@ -16,8 +16,8 @@ import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyInfoPreferenceCommand extends
 		AbstractCompanyPreferencesCommand {

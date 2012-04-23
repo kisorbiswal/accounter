@@ -44,7 +44,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.AddButton;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.Countries;
 
 public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
@@ -361,8 +361,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxTypeCombo = createTaxTypeSelectCombo();
 
 		vatReturnCombo = new SelectCombo(messages.taxReturn());
-		if (getCompany().getCountry().equals(
-				CountryPreferenceFactory.UNITED_KINGDOM)) {
+		if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)) {
 			vatReturnCombo.setRequired(true);
 		}
 		vatReturnCombo.setEnabled(!isInViewMode());
@@ -421,8 +420,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		Label contacts = new Label(messages.contacts());
 		initListGrid();
 		if (getPreferences().isTrackPaidTax()) {
-			if (getCompany().getCountry().equals(
-					CountryPreferenceFactory.UNITED_KINGDOM)) {
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)) {
 				accInfoForm.add(statusCheck, paymentTermsCombo, taxTypeCombo,
 						vatReturnCombo, liabilitySalesAccountCombo,
 						liabilityPurchaseAccountCombo, tAXFilingFrequency);
@@ -432,8 +430,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 						liabilityPurchaseAccountCombo, tAXFilingFrequency);
 			}
 		} else {
-			if (getCompany().getCountry().equals(
-					CountryPreferenceFactory.UNITED_KINGDOM)) {
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)) {
 				accInfoForm.add(statusCheck, paymentTermsCombo, taxTypeCombo,
 						vatReturnCombo, liabilitySalesAccountCombo);
 			} else {
@@ -976,8 +973,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			} else {
 				vatReturnCombo.initCombo(vatReturns);
 			}
-			if (getCompany().getCountry().equals(
-					CountryPreferenceFactory.UNITED_KINGDOM)) {
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)) {
 				vatReturnCombo.setRequired(true);
 			}
 			vatReturnCombo.setVisible(true);

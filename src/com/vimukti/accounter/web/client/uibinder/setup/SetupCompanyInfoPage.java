@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -26,14 +27,14 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 /**
  * @author Administrator
@@ -220,39 +221,56 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		if (selectedCountry < 0) {
 			return;
 		}
-		String countryName = country.getItemText(selectedCountry);
+		final String countryName = country.getItemText(selectedCountry);
 		setCountry(countryName);
-		final ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
-		if (countryPreferences != null) {
-			if (countryPreferences.getStates() != null) {
-				setStates(countryPreferences.getStates());
-			} else {
-				setStates(new String[] { "" });
-			}
-			List<ClientCurrency> currenciesList = CoreUtils
-					.getCurrencies(new ArrayList<ClientCurrency>());
-			for (int i = 0; i < currenciesList.size(); i++) {
-				if (countryPreferences.getPreferredCurrency().trim()
-						.equals(currenciesList.get(i).getFormalName())) {
-					preferences.setPrimaryCurrency(currenciesList.get(i));
-				}
-			}
-			List<String> monthNames = CoreUtils.getMonthNames();
-			stateChanged(countryPreferences);
-			preferences.setFiscalYearFirstMonth(monthNames
-					.indexOf(countryPreferences
-							.getDefaultFiscalYearStartingMonth()));
-			stateListBox.addChangeHandler(new ChangeHandler() {
 
-				@Override
-				public void onChange(ChangeEvent event) {
-					stateChanged(countryPreferences);
-				}
-			});
+		Accounter.createCompanyInitializationService().getCountryPreferences(
+				countryName, new AsyncCallback<CountryPreferences>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(CountryPreferences result) {
+						if (result != null) {
+							update(result);
+						} else {
+							System.err.println(countryName);
+						}
+					}
+				});
+
+	}
+
+	protected void update(final CountryPreferences countryPreferences) {
+		if (countryPreferences.getStates() != null) {
+			setStates(countryPreferences.getStates());
 		} else {
-			System.err.println(countryName);
+			setStates(new String[] { "" });
 		}
+		List<ClientCurrency> currenciesList = CoreUtils
+				.getCurrencies(new ArrayList<ClientCurrency>());
+		for (int i = 0; i < currenciesList.size(); i++) {
+			if (countryPreferences.getPreferredCurrency().trim()
+					.equals(currenciesList.get(i).getFormalName())) {
+				preferences.setPrimaryCurrency(currenciesList.get(i));
+			}
+		}
+		List<String> monthNames = CoreUtils.getMonthNames();
+		stateChanged(countryPreferences);
+		preferences
+				.setFiscalYearFirstMonth(monthNames.indexOf(countryPreferences
+						.getDefaultFiscalYearStartingMonth()));
+		stateListBox.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				stateChanged(countryPreferences);
+			}
+		});
 	}
 
 	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
@@ -273,7 +291,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		companyFieldsPanel.add(form);
 	}
 
-	private void stateChanged(ICountryPreferences countryPreferences) {
+	private void stateChanged(CountryPreferences countryPreferences) {
 		int selectedIndex = stateListBox.getSelectedIndex();
 		if (selectedIndex < 0) {
 			return;

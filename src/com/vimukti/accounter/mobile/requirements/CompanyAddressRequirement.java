@@ -9,8 +9,8 @@ import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.commands.CountryRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyAddressRequirement extends MultiRequirement<ClientAddress> {
 

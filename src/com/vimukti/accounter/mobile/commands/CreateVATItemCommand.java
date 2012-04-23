@@ -20,7 +20,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 
 public class CreateVATItemCommand extends AbstractCommand {
 

@@ -7,9 +7,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
@@ -17,8 +17,8 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.client.util.Countries;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 
 public class AccounterMenuView extends BaseView {
 
@@ -64,7 +64,7 @@ public class AccounterMenuView extends BaseView {
 
 	private boolean isTaxTracking;
 
-	private ICountryPreferences company;
+	private CountryPreferences company;
 
 	private boolean isInventoryEnabled;
 
@@ -92,7 +92,7 @@ public class AccounterMenuView extends BaseView {
 	@Override
 	public void init() {
 		super.init();
-		ICountryPreferences countryPreferences = Accounter.getCompany()
+		CountryPreferences countryPreferences = Accounter.getCompany()
 				.getCountryPreferences();
 		setPreferencesandPermissions(preferences, Accounter.getUser(),
 				countryPreferences, Accounter.getFeatures());
@@ -100,7 +100,7 @@ public class AccounterMenuView extends BaseView {
 
 	public void setPreferencesandPermissions(
 			ClientCompanyPreferences preferences, ClientUser clientUser,
-			ICountryPreferences countryPreferences, Set<String> features) {
+			CountryPreferences countryPreferences, Set<String> features) {
 
 		this.features = features;
 
@@ -582,7 +582,7 @@ public class AccounterMenuView extends BaseView {
 			menuForm.add(taxHistory);
 		}
 
-		if (company instanceof India) {
+		if (getCompany().getCountry().equals(Countries.INDIA)) {
 			if (tdsEnabled) {
 				menuForm.add(getDeductorMasterMenu(messages.deducatorMaster()));
 
@@ -601,7 +601,7 @@ public class AccounterMenuView extends BaseView {
 				.taxAgencies()), "", HistoryTokens.TAXAGENCYLIST);
 		menuForm.add(payeeList);
 
-		if (company instanceof India) {
+		if (getCompany().getCountry().equals(Countries.INDIA)) {
 			if (tdsEnabled) {
 				W8MenuItem chalan = new W8MenuItem("Chalan Details List", "",
 						HistoryTokens.CHALANDETAILSLIST);

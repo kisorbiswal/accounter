@@ -48,8 +48,8 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CreateCustomerCommand extends AbstractCommand {
 

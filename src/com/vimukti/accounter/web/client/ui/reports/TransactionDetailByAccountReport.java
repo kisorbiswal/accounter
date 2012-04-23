@@ -11,16 +11,16 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.StringReportInput;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.client.util.Countries;
 
 public class TransactionDetailByAccountReport extends
 		AbstractReportView<TransactionDetailByAccount> {
@@ -56,9 +56,10 @@ public class TransactionDetailByAccountReport extends
 
 			public void onResultSuccess(ClientTAXReturn result) {
 				if (result != null) {
-					ICountryPreferences countryPreferences = Accounter
+					CountryPreferences countryPreferences = Accounter
 							.getCompany().getCountryPreferences();
-					if (countryPreferences instanceof UnitedKingdom
+					if (Accounter.getCompany().getCountry()
+							.equals(Countries.UNITED_KINGDOM)
 							&& countryPreferences.isVatAvailable()) {
 						List<VATSummary> summaries = getVatSummaires(result);
 						new VATSummaryReportAction().run(summaries, false);

@@ -1,7 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 
 public class CompanyInitializedFactory {
 

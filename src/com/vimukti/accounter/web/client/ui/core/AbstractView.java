@@ -3,9 +3,10 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public abstract class AbstractView<T> extends FlowPanel {
 
@@ -116,7 +117,7 @@ public abstract class AbstractView<T> extends FlowPanel {
 		return Accounter.getCompany().getPreferences();
 	}
 
-	public ICountryPreferences getCountryPreferences() {
+	public CountryPreferences getCountryPreferences() {
 		return Accounter.getCompany().getCountryPreferences();
 	}
 

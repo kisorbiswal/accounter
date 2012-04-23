@@ -32,10 +32,10 @@ import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.AccounterCompanyInitializationServiceImpl;
 import com.vimukti.accounter.web.server.AccountsTemplateManager;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public abstract class AbstractCompanyCommad extends AbstractCommand {
 	protected static final String CUSTOMER_TERMINOLOGY = "customerterm";

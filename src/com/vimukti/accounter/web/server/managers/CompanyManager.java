@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ItemUnitPrice;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -67,6 +68,8 @@ import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyManager extends Manager {
 
@@ -692,6 +695,10 @@ public class CompanyManager extends Manager {
 
 		clientCompany.setUnits(units);
 		clientCompany.setConfigured(company.isConfigured());
+
+		clientCompany.setCountryPreferences(getCountryPreferences(company
+				.getRegisteredAddress().getCountryOrRegion(), company
+				.getRegisteredAddress().getStateOrProvinence()));
 
 		return clientCompany;
 	}
@@ -1924,5 +1931,46 @@ public class CompanyManager extends Manager {
 		}
 
 		return result;
+	}
+
+	public CountryPreferences getCountryPreferences(String countryName,
+			String state) {
+		ICountryPreferences iCountryPreferences = CountryPreferenceFactory
+				.get(countryName);
+
+		if (iCountryPreferences == null) {
+			return null;
+		}
+
+		CountryPreferences countryPreferences = new CountryPreferences();
+		countryPreferences.setCompanyFields(iCountryPreferences
+				.getCompanyFields());
+		countryPreferences.setCustomerFields(iCountryPreferences
+				.getCustomerFields());
+		countryPreferences.setPreferredCurrency(iCountryPreferences
+				.getPreferredCurrency());
+		countryPreferences.setSalesTaxAvailable(iCountryPreferences
+				.isSalesTaxAvailable());
+		countryPreferences.setServiceTaxAvailable(iCountryPreferences
+				.isServiceTaxAvailable());
+		countryPreferences.setStates(iCountryPreferences.getStates());
+		countryPreferences
+				.setTDSAvailable(iCountryPreferences.isTDSAvailable());
+		countryPreferences
+				.setVatAvailable(iCountryPreferences.isVatAvailable());
+		countryPreferences.setVendorFields(iCountryPreferences
+				.getVendorFields());
+		countryPreferences
+				.setDefaultFiscalYearStartingMonth(iCountryPreferences
+						.getDefaultFiscalYearStartingMonth());
+
+		if (state == null || state.isEmpty()) {
+			state = iCountryPreferences.getStates()[0];
+		}
+
+		countryPreferences.setDefaultTimeZone(iCountryPreferences
+				.getDefaultTimeZone(state));
+
+		return countryPreferences;
 	}
 }

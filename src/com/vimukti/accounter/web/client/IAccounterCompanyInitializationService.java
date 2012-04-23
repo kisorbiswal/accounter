@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -30,5 +31,7 @@ public interface IAccounterCompanyInitializationService extends RemoteService {
 	public String getCountry();
 
 	boolean isCompanyNameExists(String companyName) throws AccounterException;
+
+	CountryPreferences getCountryPreferences(String countryName);
 
 }

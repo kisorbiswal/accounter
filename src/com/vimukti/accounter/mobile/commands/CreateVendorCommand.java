@@ -43,9 +43,9 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CreateVendorCommand extends AbstractCommand {
 

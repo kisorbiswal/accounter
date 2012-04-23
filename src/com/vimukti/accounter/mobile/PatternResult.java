@@ -13,9 +13,9 @@ import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.store.Output;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.countries.UnitedKingdom;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 /**
  * @author Prasanna Kumar G

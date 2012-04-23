@@ -12,9 +12,9 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.countries.NewZealand;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.countries.NewZealand;
 
 /**
  * A VATItem is a sub class of VATItemGroup. It consists of VATagency, VAT

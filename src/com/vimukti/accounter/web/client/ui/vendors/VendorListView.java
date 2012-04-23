@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.Countries;
 
 /**
  * 
@@ -41,8 +41,7 @@ public class VendorListView extends BaseListView<PayeeList> implements
 
 	@Override
 	protected void createListForm(DynamicForm form) {
-		if (getCompany().getCountry().equals(
-				CountryPreferenceFactory.UNITED_STATES)) {
+		if (getCompany().getCountry().equals(Countries.UNITED_STATES)) {
 			prepare1099MiscForms = new Button(messages.prepare1099MiscForms());
 			prepare1099MiscForms.addClickHandler(new ClickHandler() {
 

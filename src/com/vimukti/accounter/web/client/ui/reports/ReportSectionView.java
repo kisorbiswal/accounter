@@ -10,9 +10,8 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.Features;
-import com.vimukti.accounter.web.client.countries.India;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
@@ -20,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentsReportAction;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.client.util.Countries;
 
 public class ReportSectionView extends BaseHomeView {
 
@@ -312,7 +311,7 @@ public class ReportSectionView extends BaseHomeView {
 				new TAXItemExceptionDetailReport().getHistoryToken());
 		taxMap.put(messages.vatItemSummary(),
 				new VATItemSummaryReportAction().getHistoryToken());
-		if (Accounter.getCompany().getCountryPreferences() instanceof India) {
+		if (Accounter.getCompany().getCountry().equals(Countries.INDIA)) {
 			if (Accounter.getCompany().getPreferences().isTDSEnabled()) {
 				taxMap.put(messages.tdsAcknowledgmentsReport(),
 						new TDSAcknowledgmentsReportAction().getHistoryToken());
@@ -337,10 +336,11 @@ public class ReportSectionView extends BaseHomeView {
 		addLinksToPanel(purchaseMap, purchasePanel);
 		addLinksToPanel(fixedAssetMap, fixedAssetPanel);
 
-		ICountryPreferences company = Accounter.getCompany()
+		CountryPreferences company = Accounter.getCompany()
 				.getCountryPreferences();
 		if (Global.get().preferences().isTrackTax()) {
-			if (company instanceof UnitedKingdom) {
+			if (Accounter.getCompany().getCountry()
+					.equals(Countries.UNITED_KINGDOM)) {
 				mainTaxPanel.add(ukTaxPanel);
 			} else {
 				mainTaxPanel.add(taxPanel);
