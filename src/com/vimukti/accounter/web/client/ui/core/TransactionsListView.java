@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public abstract class TransactionsListView<T> extends BaseListView<T> {
 	protected ClientFinanceDate startDate;
@@ -87,22 +88,26 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
-		fromItem.addClickHandler(new ClickHandler() {
+		fromItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onDateValueChange(ClientFinanceDate date) {
 				dateRangeSelector.addComboItem(messages.custom());
-				dateRangeSelector.setComboItem(messages.custom());
+				dateRangeSelector.setSelected(messages.custom());
 				updateButton.setEnabled(true);
+				setDateRange(messages.custom());
+				setStartDate(fromItem.getValue());
 			}
 		});
-		toItem.addClickHandler(new ClickHandler() {
+		toItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onDateValueChange(ClientFinanceDate date) {
 				dateRangeSelector.addComboItem(messages.custom());
-				dateRangeSelector.setComboItem(messages.custom());
+				dateRangeSelector.setSelected(messages.custom());
 				updateButton.setEnabled(true);
+				setDateRange(messages.custom());
+				setEndDate(toItem.getValue());
 			}
 		});
 		updateButton = new Button(messages.update());
