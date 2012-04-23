@@ -13,6 +13,8 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 	private long id;
 	private long currBal;
 
+	private int version;
+
 	public ClientEmployee getEmployee() {
 		return employee;
 	}
@@ -40,26 +42,22 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
+		this.version = version;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Attendance Management Item";
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
@@ -83,6 +81,10 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 
 	public void setCurrBal(long currBal) {
 		this.currBal = currBal;
+	}
+
+	public boolean isAllowed() {
+		return (employee != null && value != 0 && attendanceType != null);
 	}
 
 }

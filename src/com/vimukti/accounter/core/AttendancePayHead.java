@@ -124,26 +124,33 @@ public class AttendancePayHead extends PayHead {
 	}
 
 	@Override
-	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
-		double rate = payHeadComponent.getRate();
+		double rate = payStructureItem.getRate();
 		double deductableSalary = rate;
-		double perDayAmount = rate / getWorkingDays(payHeadComponent);
-		deductableSalary = perDayAmount * payHeadComponent.getNoOfLeaves();
+		long workingDays = getWorkingDays(payStructureItem);
+		if (workingDays == 0) {
+			deductableSalary = 0;
+		} else {
+			double perDayAmount = rate / workingDays;
+			deductableSalary = perDayAmount
+					* (this.leaveWithPay != null ? payStructureItem
+							.getAttendance()[0] : payStructureItem
+							.getAttendance()[1]);
+			deductableSalary = rate - deductableSalary;
+		}
 		return deductableSalary;
 	}
 
-	private long getWorkingDays(
-			EmployeePayHeadComponent employeePayHeadComponent) {
+	private long getWorkingDays(PayStructureItem payStructureItem) {
 		long workingDays = 0;
 
 		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD) {
 			Calendar calendar1 = Calendar.getInstance();
-			calendar1.setTime(employeePayHeadComponent.getStartDate()
-					.getAsDateObject());
+			calendar1
+					.setTime(payStructureItem.getStartDate().getAsDateObject());
 			Calendar calendar2 = Calendar.getInstance();
-			calendar2.setTime(employeePayHeadComponent.getEndDate()
-					.getAsDateObject());
+			calendar2.setTime(payStructureItem.getEndDate().getAsDateObject());
 			long diff = calendar2.getTimeInMillis()
 					- calendar1.getTimeInMillis();
 			long diffDays = diff / (24 * 60 * 60 * 1000);
@@ -155,7 +162,7 @@ public class AttendancePayHead extends PayHead {
 		}
 
 		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED_CALANDAR) {
-			PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(employeePayHeadComponent);
+			PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(payStructureItem);
 			workingDays = companyHolidays.getWorkingDays()
 					- companyHolidays.getHoliDays();
 		}

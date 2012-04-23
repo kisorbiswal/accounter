@@ -69,10 +69,6 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 		return payHead.isDeduction();
 	}
 
-	public double calculatePayment(double deductions, double earnings) {
-		return payHead.calculatePayment(this, deductions, earnings);
-	}
-
 	public int getNoOfLeaves() {
 		return noOfLeaves;
 	}

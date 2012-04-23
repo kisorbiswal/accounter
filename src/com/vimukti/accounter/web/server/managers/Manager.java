@@ -43,6 +43,9 @@ import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructure;
+import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -229,6 +232,35 @@ public class Manager {
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,
 						Util.getClientEqualentClass(serverClass));
 			}
+			if (t instanceof ClientPayStructure) {
+				ClientPayStructure clientPayStructure = (ClientPayStructure) t;
+				List<ClientPayStructureItem> items = clientPayStructure
+						.getItems();
+				for (ClientPayStructureItem item : items) {
+					ClientPayHead payHead = item.getPayHead();
+					ClientPayHead clientPayHead = payHead;
+					if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+						clientPayHead = new ClientConvertUtil().toClientObject(
+								payHead, ClientAttendancePayHead.class);
+					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+						clientPayHead = new ClientConvertUtil().toClientObject(
+								payHead, ClientComputionPayHead.class);
+					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
+						clientPayHead = new ClientConvertUtil().toClientObject(
+								payHead, ClientFlatRatePayHead.class);
+					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
+						clientPayHead = new ClientConvertUtil().toClientObject(
+								payHead, ClientProductionPayHead.class);
+					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
+						clientPayHead = new ClientConvertUtil().toClientObject(
+								payHead, ClientUserDefinedPayHead.class);
+					}
+					item.setPayHead(clientPayHead);
+				}
+				clientPayStructure.setItems(items);
+				t = (T) clientPayStructure;
+			}
+
 			Company company = getCompany(companyId);
 			Query query2 = session
 					.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");

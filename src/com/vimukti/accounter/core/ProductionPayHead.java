@@ -37,14 +37,17 @@ public class ProductionPayHead extends PayHead {
 	}
 
 	@Override
-	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
-		PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(payHeadComponent);
+		PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(payStructureItem);
 		long workingDays = companyHolidays.getWorkingDays()
 				- companyHolidays.getHoliDays();
-		double rate = payHeadComponent.getRate();
-		double perDayAmount = rate / workingDays;
-		double earningSalary = perDayAmount * payHeadComponent.getNoOfLeaves();
+		double rate = payStructureItem.getRate();
+		double earningSalary = 0.0;
+		if (workingDays != 0) {
+			double perDayAmount = rate / workingDays;
+			earningSalary = perDayAmount * payStructureItem.getAttendance()[1];
+		}
 		return earningSalary;
 	}
 

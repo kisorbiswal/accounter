@@ -210,11 +210,11 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 		ValidationResult result = new ValidationResult();
 		List<ClientComputationSlab> rows = getAllRows();
 		for (ClientComputationSlab slab : rows) {
-			if (slab.getToAmount() <= slab.getFromAmount()) {
-				result.addError(slab,
-						"To amount should not be lessthan or equal to from amount");
-				return result;
-			}
+			// if (slab.getToAmount() <= slab.getFromAmount()) {
+			// result.addError(slab,
+			// "To amount should not be lessthan or equal to from amount");
+			// return result;
+			// }
 		}
 		return null;
 	}

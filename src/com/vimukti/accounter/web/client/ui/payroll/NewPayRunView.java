@@ -3,7 +3,10 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
@@ -19,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -27,6 +31,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	private DateField fromDate, toDate;
 	private EmployeesAndGroupsCombo empsAndGroups;
 	private EmployeePayHeadComponentTable grid;
+	protected ClientPayStructureDestination selectedItem;
 
 	public NewPayRunView() {
 		this.getElement().setId("NewPayRunView");
@@ -38,6 +43,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		createControls();
 		setSize("100%", "100%");
 	}
+
+	Button button;
 
 	private void createControls() {
 		Label lab1 = new Label(messages.payrun());
@@ -51,18 +58,55 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 					@Override
 					public void selectedComboBoxItem(
 							ClientPayStructureDestination selectItem) {
-						selectionChanged(selectItem);
+						NewPayRunView.this.selectedItem = selectItem;
+						selectionChanged();
 					}
 				});
 		empsAndGroups.setEnabled(!isInViewMode());
 
+		button = new Button(messages.update());
+
 		fromDate = new DateField(messages.fromDate(), "fromDate");
-		fromDate.setEnteredDate(new ClientFinanceDate());
-		fromDate.setEnabled(!isInViewMode());
+
+		ClientFinanceDate date = new ClientFinanceDate();
+		ClientFinanceDate startDate = new ClientFinanceDate(date.getYear(),
+				date.getMonth(), 1);
+
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(new ClientFinanceDate().getDateAsObject());
+		endCal.set(Calendar.DAY_OF_MONTH,
+				endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		ClientFinanceDate endDate = new ClientFinanceDate(endCal.getTime());
+
+		fromDate.setEnteredDate(startDate);
+		fromDate.setEnabled(false);
+		fromDate.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				button.setEnabled(NewPayRunView.this.selectedItem != null);
+			}
+		});
 
 		toDate = new DateField(messages.toDate(), "toDate");
-		toDate.setEnteredDate(new ClientFinanceDate());
-		toDate.setEnabled(!isInViewMode());
+		toDate.setEnteredDate(endDate);
+		toDate.setEnabled(false);
+		toDate.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				button.setEnabled(NewPayRunView.this.selectedItem != null);
+			}
+		});
+
+		button.setEnabled(false);
+		button.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				selectionChanged();
+			}
+		});
 
 		grid = new EmployeePayHeadComponentTable();
 		grid.setEnabled(!isInViewMode());
@@ -72,6 +116,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		mainVLay.add(empsAndGroups);
 		mainVLay.add(fromDate);
 		mainVLay.add(toDate);
+		mainVLay.add(button);
 		mainVLay.add(grid);
 
 		this.add(mainVLay);
@@ -127,7 +172,10 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		data.setPayEmployee(details);
 	}
 
-	protected void selectionChanged(ClientPayStructureDestination selectItem) {
+	protected void selectionChanged() {
+		grid.clear();
+		fromDate.setEnabled(true);
+		toDate.setEnabled(true);
 		AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback = new AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>>() {
 
 			@Override
@@ -144,9 +192,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 			}
 
 		};
-
 		Accounter.createPayrollService().getEmployeePayHeadComponents(
-				selectItem, callback);
+				selectedItem, fromDate.getDate(), toDate.getDate(), callback);
 
 	}
 

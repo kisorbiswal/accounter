@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
@@ -28,7 +29,9 @@ public interface IAccounterPayrollService extends RemoteService {
 			int length) throws AccounterException;
 
 	ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
-			ClientPayStructureDestination selectItem) throws AccounterException;
+			ClientPayStructureDestination selectItem,
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException;
 
 	PaginationList<ClientPayStructure> getPayStructures(int start, int length)
 			throws AccounterException;
@@ -45,5 +48,6 @@ public interface IAccounterPayrollService extends RemoteService {
 	List<ClientEmployeeCategory> getEmployeeCategories()
 			throws AccounterException;
 
-	long getEmployeeAttendanceCurrentBal(long employee, long attendanceType) throws AccounterException;
+	long getEmployeeAttendanceCurrentBal(long employee, long attendanceType)
+			throws AccounterException;
 }

@@ -3,12 +3,14 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.web.client.IAccounterPayrollService;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
@@ -50,9 +52,56 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 
 	@Override
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
-			ClientPayStructureDestination selectItem) throws AccounterException {
+			ClientPayStructureDestination selectItem,
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getPayrollManager()
-				.getEmployeePayHeadComponents(selectItem, getCompanyId());
+				.getEmployeePayHeadComponents(dates[0], dates[1], selectItem,
+						getCompanyId());
+	}
+
+	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(
+			long companyId) {
+		List<ClientFinanceDate> transactionDates = new ArrayList<ClientFinanceDate>();
+		try {
+
+			ClientFinanceDate[] dates = getFinanceTool().getManager()
+					.getMinimumAndMaximumTransactionDate(getCompanyId());
+			transactionDates.add(dates[0]);
+			transactionDates.add(dates[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientFinanceDate>(transactionDates);
+	}
+
+	private FinanceDate[] getMinimumAndMaximumDates(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
+
+		// if ((startDate.equals("") || startDate == null)
+		// || (endDate.equals("") || endDate == null)) {
+
+		List<ClientFinanceDate> dates = getMinimumAndMaximumTransactionDate(companyId);
+		ClientFinanceDate startDate1 = dates.get(0) == null ? new ClientFinanceDate()
+				: dates.get(0);
+		ClientFinanceDate endDate2 = dates.get(1) == null ? new ClientFinanceDate()
+				: dates.get(1);
+
+		FinanceDate transtartDate;
+		if (startDate == null || startDate.isEmpty())
+			transtartDate = new FinanceDate(startDate1);
+		else
+			transtartDate = new FinanceDate(startDate.getDate());
+		FinanceDate tranendDate;
+		if (endDate == null || endDate.isEmpty())
+			tranendDate = new FinanceDate(endDate2);
+		else
+			tranendDate = new FinanceDate(endDate.getDate());
+
+		return new FinanceDate[] { transtartDate, tranendDate };
 	}
 
 	@Override

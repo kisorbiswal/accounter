@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientAttendanceManagement implements IAccounterCore {
@@ -9,48 +10,45 @@ public class ClientAttendanceManagement implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<ClientAttendanceManagementItem> items;
+	private List<ClientAttendanceManagementItem> items = new ArrayList<ClientAttendanceManagementItem>();
+
+	long id;
+
+	int version;
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
+		this.version = version;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Attendance Management";
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.ATTENDANCE_MANAGEMENT;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 	public List<ClientAttendanceManagementItem> getItems() {

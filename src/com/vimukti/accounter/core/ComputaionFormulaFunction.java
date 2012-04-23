@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
+
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -98,9 +100,26 @@ public class ComputaionFormulaFunction implements IAccounterServerCore {
 
 	}
 
-	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
-		return payHead.calculatePayment(payHeadComponent, deductions, earnings);
+		List<PayStructureItem> items = payStructureItem.getPayStructure()
+				.getItems();
+		PayStructureItem payHeadStructureItem = null;
+		for (PayStructureItem structureItem : items) {
+			if (structureItem.getPayHead().getID() == this.payHead.getID()) {
+				payHeadStructureItem = structureItem;
+				break;
+			}
+		}
+		if (payHeadStructureItem != null) {
+			payHeadStructureItem.setStartDate(payStructureItem.getStartDate());
+			payHeadStructureItem.setEndDate(payStructureItem.getEndDate());
+			payHeadStructureItem
+					.setAttendance(payStructureItem.getAttendance());
+			return payHead.calculatePayment(payHeadStructureItem, deductions,
+					earnings);
+		}
+		return 0.0;
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AttendanceManagementItem;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.EmployeeCategory;
 import com.vimukti.accounter.core.EmployeeGroup;
+import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
@@ -33,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
-import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
@@ -118,6 +119,7 @@ public class PayrollManager extends Manager {
 	}
 
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
+			FinanceDate startDate, FinanceDate endDate,
 			ClientPayStructureDestination selectItem, Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
@@ -129,10 +131,36 @@ public class PayrollManager extends Manager {
 		if (list == null) {
 			return null;
 		}
+
+		double earnings = 0.0;
+		double deductions = 0.0;
+
 		ArrayList<ClientEmployeePayHeadComponent> clientEmployeePayHeadComponents = new ArrayList<ClientEmployeePayHeadComponent>();
 		for (PayStructureItem payStructureItem : list) {
 			int type = payStructureItem.getPayHead().getCalculationType();
 			PayHead payHead = payStructureItem.getPayHead();
+
+			long[] attendance = { 0, 0, 0 };
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Query managementItems = currentSession.getNamedQuery(
+					"getEmployeeAttendanceManagementItems").setParameter(
+					"employee",
+					payStructureItem.getPayStructure().getEmployee());
+			List<AttendanceManagementItem> items = managementItems.list();
+			if (items != null && items.size() > 0) {
+				for (AttendanceManagementItem attendanceManagementItem : items) {
+					if (attendanceManagementItem.getAttendanceType().getType() == AttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
+						attendance[0] += attendanceManagementItem.getNumber();
+					} else if (attendanceManagementItem.getAttendanceType()
+							.getType() == AttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY) {
+						attendance[1] += attendanceManagementItem.getNumber();
+					} else if (attendanceManagementItem.getAttendanceType()
+							.getType() == AttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR) {
+						attendance[2] += attendanceManagementItem.getNumber();
+					}
+				}
+			}
+
 			ClientPayHead clientPayHead = null;
 			if (type == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
@@ -152,7 +180,18 @@ public class PayrollManager extends Manager {
 			}
 			ClientEmployeePayHeadComponent component = new ClientEmployeePayHeadComponent();
 			component.setPayHead(clientPayHead);
-			component.setRate(payStructureItem.getRate());
+			payStructureItem.setStartDate(startDate);
+			payStructureItem.setEndDate(endDate);
+			payStructureItem.setAttendance(attendance);
+			double calculatedAmount = payHead.calculatePayment(
+					payStructureItem, deductions, earnings);
+			if (payHead.isEarning()) {
+				earnings += calculatedAmount;
+			} else {
+				deductions += calculatedAmount;
+			}
+
+			component.setRate(calculatedAmount);
 			clientEmployeePayHeadComponents.add(component);
 		}
 		return clientEmployeePayHeadComponents;

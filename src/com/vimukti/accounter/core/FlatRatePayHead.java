@@ -36,8 +36,8 @@ public class FlatRatePayHead extends PayHead {
 	}
 
 	@Override
-	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
-		return payHeadComponent.getRate();
+		return payStructureItem.getRate();
 	}
 }

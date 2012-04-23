@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
@@ -161,4 +164,15 @@ public class AttendanceManagementTable extends
 		return false;
 	}
 
+	@Override
+	public List<ClientAttendanceManagementItem> getAllRows() {
+		List<ClientAttendanceManagementItem> selected = new ArrayList<ClientAttendanceManagementItem>();
+		List<ClientAttendanceManagementItem> allRows = super.getAllRows();
+		for (ClientAttendanceManagementItem clientAttendanceManagementItem : allRows) {
+			if (clientAttendanceManagementItem.isAllowed()) {
+				selected.add(clientAttendanceManagementItem);
+			}
+		}
+		return selected;
+	}
 }

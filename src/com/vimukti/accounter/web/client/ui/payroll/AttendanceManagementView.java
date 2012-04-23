@@ -106,4 +106,14 @@ public class AttendanceManagementView extends
 
 	}
 
+	@Override
+	public void saveAndUpdateView() {
+		updateData();
+		saveOrUpdate(getData());
+	}
+
+	private void updateData() {
+		data.setItems(table.getAllRows());
+	}
+
 }

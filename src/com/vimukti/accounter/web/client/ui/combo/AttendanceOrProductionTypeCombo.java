@@ -32,10 +32,10 @@ public class AttendanceOrProductionTypeCombo extends
 					@Override
 					public boolean filter(ClientAttendanceOrProductionType e) {
 						if (type == 100) {
-							return e.getPeriodType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY
-									|| e.getPeriodType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY;
+							return e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY
+									|| e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY;
 						}
-						return e.getPeriodType() == type;
+						return e.getType() == type;
 					}
 				}, result);
 		if (type == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
@@ -95,11 +95,11 @@ public class AttendanceOrProductionTypeCombo extends
 			@Override
 			public void actionResult(ClientAttendanceOrProductionType result) {
 				if (type == 100
-						&& !(result.getPeriodType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY || result
-								.getPeriodType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY)) {
+						&& !(result.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY || result
+								.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY)) {
 					return;
 				}
-				if (type != result.getPeriodType()) {
+				if (type != result.getType()) {
 					return;
 				}
 				list.add(result);

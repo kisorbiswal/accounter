@@ -94,5 +94,4 @@ public class PayStructure extends CreatableObject implements
 	public void setEmployeeGroup(EmployeeGroup employeeGroup) {
 		this.employeeGroup = employeeGroup;
 	}
-
 }

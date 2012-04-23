@@ -76,54 +76,15 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	 * Run the Payment of this Employee
 	 */
 	public void runPayment() {
-		double earnings = getEarnings();
-		double deductions = getDeductions();
-	}
-
-	double deduction = 0.00D;
-
-	private double getDeductions() {
 		for (EmployeePayHeadComponent component : payHeadComponents) {
-			component.setStartEndDates(payRun.getPayPeriodStartDate(),
-					payRun.getPayPeriodEndDate());
 			component.setEmployeePaymentDetails(this);
+			double rate = component.getRate();
 			if (component.isDeduction()) {
-				double calculatePayment = component
-						.calculatePayment(payRun.getDeductionAmount(),
-								payRun.getEarningsAmount());
-				deduction += calculatePayment;
-				payRun.addDeductions(calculatePayment);
+				payRun.addDeductions(rate);
+			} else if (component.isEarning()) {
+				payRun.addEarnings(rate);
 			}
-
 		}
-		return deduction;
-	}
-
-	double earnings = 0.00D;
-
-	private double getEarnings() {
-		for (EmployeePayHeadComponent component : payHeadComponents) {
-			if (component.isEarning()) {
-				component.setEmployeePaymentDetails(this);
-				component.setStartEndDates(payRun.getPayPeriodStartDate(),
-						payRun.getPayPeriodEndDate());
-				double calculatePayment = component
-						.calculatePayment(payRun.getDeductionAmount(),
-								payRun.getEarningsAmount());
-				earnings += calculatePayment;
-				payRun.addEarnings(calculatePayment);
-			}
-
-		}
-		return earnings;
-	}
-
-	public double getErningAmount() {
-		return earnings;
-	}
-
-	public double getDeductionAmount() {
-		return deduction;
 	}
 
 	@Override

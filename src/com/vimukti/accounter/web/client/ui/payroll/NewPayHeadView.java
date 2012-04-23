@@ -546,6 +546,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		setMode(EditMode.EDIT);
 
 		nameItem.setEnabled(!isInViewMode());
+		computationTypeCombo.setEnabled(!isInViewMode());
+		slabTable.setEnabled(!isInViewMode());
 	}
 
 	@Override

@@ -440,10 +440,11 @@
 	<query name="getPayStructureItem.by.employee">
 		<query-param name="company" type="Company" />
 		<query-param name="id" type="long" />
-		from com.vimukti.accounter.core.PayStructureItem PI where
-		PI.payStructure.employee.id = :id or
+		from com.vimukti.accounter.core.PayStructureItem PI
+		where PI.payStructure.employee.id = :id or
 		PI.payStructure.employeeGroup.id =
 		:id
 		and PI.company = :company
+		order by PI.rate desc
 	</query>
 </hibernate-mapping>

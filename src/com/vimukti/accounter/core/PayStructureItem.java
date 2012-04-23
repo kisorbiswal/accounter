@@ -24,6 +24,12 @@ public class PayStructureItem extends CreatableObject implements
 
 	private PayStructure payStructure;
 
+	private FinanceDate endDate;
+
+	private FinanceDate startDate;
+
+	private long[] attendance;
+
 	/**
 	 * @return the payHead
 	 */
@@ -82,4 +88,27 @@ public class PayStructureItem extends CreatableObject implements
 
 	}
 
+	public void setEndDate(FinanceDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public FinanceDate getEndDate() {
+		return endDate;
+	}
+
+	public void setStartDate(FinanceDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public FinanceDate getStartDate() {
+		return startDate;
+	}
+
+	public void setAttendance(long[] attendance) {
+		this.attendance = attendance;
+	}
+
+	public long[] getAttendance() {
+		return attendance;
+	}
 }

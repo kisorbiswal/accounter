@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
@@ -28,6 +29,7 @@ public interface IAccounterPayrollServiceAsync {
 
 	public void getEmployeePayHeadComponents(
 			ClientPayStructureDestination selectItem,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback);
 
 	public void getPayStructures(int start, int length,
@@ -45,7 +47,7 @@ public interface IAccounterPayrollServiceAsync {
 	public void getEmployeeCategories(
 			AsyncCallback<List<ClientEmployeeCategory>> asyncCallback);
 
-	public void getEmployeeAttendanceCurrentBal(long employee, long attendanceType,
-			AsyncCallback<Long> asyncCallback);
+	public void getEmployeeAttendanceCurrentBal(long employee,
+			long attendanceType, AsyncCallback<Long> asyncCallback);
 
 }

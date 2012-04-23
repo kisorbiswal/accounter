@@ -96,9 +96,9 @@ public class NewClientAttendanceOrProductionDialog extends
 
 	private void createorUpdateObject() {
 		selectedAttendanceOrProductionType.setName(name.getValue());
-		selectedAttendanceOrProductionType.setPeriodType(leaveType
-				.getSelectedIndex() + 1);
-		selectedAttendanceOrProductionType.setType(daysTypeCombo
+		selectedAttendanceOrProductionType
+				.setType(leaveType.getSelectedIndex() + 1);
+		selectedAttendanceOrProductionType.setPeriodType(daysTypeCombo
 				.getSelectedIndex() + 1);
 		ClientPayrollUnit selectedValue = payrollUnitCombo.getSelectedValue();
 		if (selectedValue != null) {

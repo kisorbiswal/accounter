@@ -277,16 +277,16 @@ public abstract class PayHead extends CreatableObject implements
 				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
 	}
 
-	public double calculatePayment(EmployeePayHeadComponent payHeadComponent,
+	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
 		return 0;
 	}
 
 	public PayRollDetails getCompanyHolidaysWithGivenPeriod(
-			EmployeePayHeadComponent employeePayHeadComponent) {
+			PayStructureItem payStructureItem) {
 		PayRollDetails payRollDetails = PayRollCalendarDetails
-				.getPayRollDetaisl(employeePayHeadComponent.getStartDate(),
-						employeePayHeadComponent.getEndDate());
+				.getPayRollDetaisl(payStructureItem.getStartDate(),
+						payStructureItem.getEndDate());
 		return payRollDetails;
 	}
 }
