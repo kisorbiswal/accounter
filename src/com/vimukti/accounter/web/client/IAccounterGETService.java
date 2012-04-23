@@ -4,7 +4,7 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -311,7 +311,8 @@ public interface IAccounterGETService extends RemoteService {
 	PaginationList<ClientTAXReturn> getAllTAXReturns(int start, int lenght,
 			int viewType) throws AccounterException;
 
-	Map<Long, Double> getAssetValuesForInventories() throws AccounterException;
+	HashMap<Long, Double> getAssetValuesForInventories()
+			throws AccounterException;
 
 	public int getClientCompaniesCount();
 

@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.imports;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -33,16 +33,16 @@ public class ImportView extends AbstractBaseView {
 	/**
 	 * Contains Map<Column,AllValues>
 	 */
-	private Map<String, List<String>> importData = new HashMap<String, List<String>>();
+	private HashMap<String, ArrayList<String>> importData = new HashMap<String, ArrayList<String>>();
 	private int importType;
 	/**
 	 * All Fields of the CurrentImporter
 	 */
-	private Map<String, ImportField> fields = new HashMap<String, ImportField>();
+	private HashMap<String, ImportField> fields = new HashMap<String, ImportField>();
 
 	private FlexTable mappingTable, previewTable, mainTable;
 	// contains accounter names and fields..
-	private Map<String, ImportField> listBoxMap;
+	private HashMap<String, ImportField> listBoxMap;
 
 	private int currentLine = 0;
 	private String fileID;
@@ -55,8 +55,8 @@ public class ImportView extends AbstractBaseView {
 	private int size;
 
 	public ImportView(int importType, String fileID,
-			List<ImportField> importerFields, Map<String, List<String>> data,
-			double recordCount) {
+			ArrayList<ImportField> importerFields,
+			HashMap<String, ArrayList<String>> data, double recordCount) {
 		this.importType = importType;
 		this.importData = data;
 		this.fileID = fileID;
@@ -198,7 +198,7 @@ public class ImportView extends AbstractBaseView {
 	}
 
 	private void updateColumnValues() {
-		Map<String, String> nextLine = getCurrentLine();
+		HashMap<String, String> nextLine = (HashMap<String, String>) getCurrentLine();
 		int row = 1;
 		if (!nextLine.isEmpty()) {
 			for (Entry<String, String> entry : nextLine.entrySet()) {
@@ -228,7 +228,7 @@ public class ImportView extends AbstractBaseView {
 		mappingTable.setWidget(0, 1, valueHeader);
 		mappingTable.setWidget(0, 2, accounterNameHeader);
 		int objectIndex = 0;
-		Map<String, String> map = getCurrentLine();
+		HashMap<String, String> map = (HashMap<String, String>) getCurrentLine();
 		for (final Entry<String, String> entry : map.entrySet()) {
 			Label columnName = new Label(entry.getKey());
 			Label columnValue = new Label(entry.getValue());
@@ -424,7 +424,7 @@ public class ImportView extends AbstractBaseView {
 
 	private void refreshPreviewGUI() {
 		int row = 0;
-		Map<String, String> currentLine = getCurrentLine();
+		HashMap<String, String> currentLine = (HashMap<String, String>) getCurrentLine();
 		for (ImportField field : fields.values()) {
 			Label fieldNameLabel = new Label(field.getDesplayName());
 			String string = currentLine.get(field.getColumnName());
@@ -437,9 +437,9 @@ public class ImportView extends AbstractBaseView {
 
 	}
 
-	private Map<String, String> getCurrentLine() {
-		Map<String, String> map = new HashMap<String, String>();
-		for (Entry<String, List<String>> entrySet : importData.entrySet()) {
+	private HashMap<String, String> getCurrentLine() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (Entry<String, ArrayList<String>> entrySet : importData.entrySet()) {
 			String key = entrySet.getKey();
 			List<String> value = entrySet.getValue();
 			map.put(key, value.size() > currentLine ? value.get(currentLine)
@@ -451,10 +451,10 @@ public class ImportView extends AbstractBaseView {
 	@Override
 	public void saveAndUpdateView() {
 		if (!listBoxMap.isEmpty()) {
-			Map<String, String> importMap = updateImport();
+			HashMap<String, String> importMap = (HashMap<String, String>) updateImport();
 			Accounter.createHomeService().importData(this.fileID, importType,
 					importMap, this.selectedDateFormate,
-					new AccounterAsyncCallback<Map<Integer, Object>>() {
+					new AccounterAsyncCallback<HashMap<Integer, Object>>() {
 
 						@Override
 						public void onException(AccounterException exception) {
@@ -472,7 +472,7 @@ public class ImportView extends AbstractBaseView {
 
 						@Override
 						public void onResultSuccess(
-								final Map<Integer, Object> result) {
+								final HashMap<Integer, Object> result) {
 							size = result.size();
 							ImporterDialog dialog = new ImporterDialog(messages
 									.importerInformation(), result) {
@@ -492,8 +492,8 @@ public class ImportView extends AbstractBaseView {
 		}
 	}
 
-	private Map<String, String> updateImport() {
-		Map<String, String> map = new HashMap<String, String>();
+	private HashMap<String, String> updateImport() {
+		HashMap<String, String> map = new HashMap<String, String>();
 		for (ImportField field : fields.values()) {
 			map.put(field.getName(), field.getColumnName());
 		}

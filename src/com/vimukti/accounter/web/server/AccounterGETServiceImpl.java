@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -2102,9 +2103,9 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public Map<Long, Double> getAssetValuesForInventories()
+	public HashMap<Long, Double> getAssetValuesForInventories()
 			throws AccounterException {
-		Map<Long, Double> map = getFinanceTool().getInventoryManager()
+		HashMap<Long, Double> map = (HashMap<Long, Double>) getFinanceTool().getInventoryManager()
 				.getAssetValuesOfAllInventory(getCompanyId());
 		return map;
 	}

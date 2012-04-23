@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.UnRealisedExchangeLosse
 public class UnRealisedExchangeLossesAndGainsReport extends
 		AbstractReportView<UnRealisedLossOrGain> {
 
-	private Map<Long, Double> exchangeRates = new HashMap<Long, Double>();
+	private HashMap<Long, Double> exchangeRates = new HashMap<Long, Double>();
 	private ClientFinanceDate enteredDate = new ClientFinanceDate();
 
 	public UnRealisedExchangeLossesAndGainsReport() {
@@ -49,7 +49,7 @@ public class UnRealisedExchangeLossesAndGainsReport extends
 
 	}
 
-	public void setExchangeRates(Map<Long, Double> exchangeRates) {
+	public void setExchangeRates(HashMap<Long, Double> exchangeRates) {
 		this.exchangeRates = exchangeRates;
 	}
 
