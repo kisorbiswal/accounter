@@ -289,4 +289,8 @@ public abstract class ListProcessor extends ApiProcessor {
 		}
 		return newDate;
 	}
+
+	public Company getCompany() {
+		return null;
+	}
 }
