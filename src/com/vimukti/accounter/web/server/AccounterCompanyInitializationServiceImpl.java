@@ -43,9 +43,11 @@ import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.server.managers.CompanyManager;
 
 /**
  * @author Prasanna Kumar G
@@ -438,5 +440,10 @@ public class AccounterCompanyInitializationServiceImpl extends
 				.setParameter("clientEmail", email)
 				.setParameter("companyName", companyName).uniqueResult();
 		return clientId != null;
+	}
+
+	@Override
+	public CountryPreferences getCountryPreferences(String countryName) {
+		return new CompanyManager().getCountryPreferences(countryName, "");
 	}
 }

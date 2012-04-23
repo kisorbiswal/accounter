@@ -10,9 +10,9 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
@@ -23,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.reports.TAXItemExceptionDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VatExceptionDetailReportAction;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.client.util.Countries;
 
 /**
  * 
@@ -155,9 +155,9 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	protected void onDoubleClick(ClientTAXReturn obj, int row, int col) {
 		if (col == 6) {
 
-			ICountryPreferences countryPreferences = Accounter.getCompany()
+			CountryPreferences countryPreferences = Accounter.getCompany()
 					.getCountryPreferences();
-			if (countryPreferences instanceof UnitedKingdom
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)
 					&& countryPreferences.isVatAvailable()) {
 				List<VATDetail> vatDetails = new ArrayList<VATDetail>();
 				vatDetails = getVATDetailsByBoxes(obj);
@@ -192,9 +192,9 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 						true);
 			}
 		} else {
-			ICountryPreferences countryPreferences = Accounter.getCompany()
+			CountryPreferences countryPreferences = Accounter.getCompany()
 					.getCountryPreferences();
-			if (countryPreferences instanceof UnitedKingdom
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)
 					&& countryPreferences.isVatAvailable()) {
 				List<VATSummary> summaries = getSummaires(obj);
 				new VATSummaryReportAction().run(summaries, false);

@@ -22,11 +22,12 @@ import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Menu;
 import com.vimukti.accounter.web.client.ui.MenuBar;
 import com.vimukti.accounter.web.client.ui.MenuItem;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class MacMenuServlet extends BaseServlet {
 
@@ -115,10 +116,29 @@ public class MacMenuServlet extends BaseServlet {
 
 	private void createMenu(XMLElement mainElement,
 			ClientCompanyPreferences preferences, ClientUser clientUser,
-			ICountryPreferences countryPreferences, Set<String> feature)
+			ICountryPreferences iCountryPreferences, Set<String> feature)
 			throws IOException {
 
 		MenuBar menuBar = new MenuBar();
+
+		CountryPreferences countryPreferences = new CountryPreferences();
+		countryPreferences.setCompanyFields(iCountryPreferences
+				.getCompanyFields());
+		countryPreferences.setCustomerFields(iCountryPreferences
+				.getCustomerFields());
+		countryPreferences.setPreferredCurrency(iCountryPreferences
+				.getPreferredCurrency());
+		countryPreferences.setSalesTaxAvailable(iCountryPreferences
+				.isSalesTaxAvailable());
+		countryPreferences.setServiceTaxAvailable(iCountryPreferences
+				.isServiceTaxAvailable());
+		countryPreferences.setStates(iCountryPreferences.getStates());
+		countryPreferences
+				.setTDSAvailable(iCountryPreferences.isTDSAvailable());
+		countryPreferences
+				.setVatAvailable(iCountryPreferences.isVatAvailable());
+		countryPreferences.setVendorFields(iCountryPreferences
+				.getVendorFields());
 
 		menuBar.setPreferencesandPermissions(preferences, clientUser,
 				countryPreferences, feature);

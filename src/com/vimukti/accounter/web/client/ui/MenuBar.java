@@ -7,13 +7,12 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.Features;
-import com.vimukti.accounter.web.client.countries.India;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.client.util.Countries;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 
 public class MenuBar {
 
@@ -63,7 +62,7 @@ public class MenuBar {
 
 	private boolean isTaxTracking;
 
-	private ICountryPreferences company;
+	private CountryPreferences company;
 
 	private boolean isInventoryEnabled;
 
@@ -276,7 +275,7 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-		if (company instanceof India) {
+		if (countryOrRegion.equals(Countries.INDIA)) {
 			if (tdsEnabled) {
 				vatmenu.addMenuItem(getDeductorMasterMenu(messages
 						.deducatorMaster()));
@@ -288,7 +287,7 @@ public class MenuBar {
 		vatmenu.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenu.addMenuItem(messages.payeeList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
-		if (company instanceof India) {
+		if (countryOrRegion.equals(Countries.INDIA)) {
 			if (tdsEnabled) {
 				vatmenu.addMenuItem("Chalan Details List",
 						HistoryTokens.CHALANDETAILSLIST);
@@ -502,7 +501,7 @@ public class MenuBar {
 
 		Menu vatReportMenuBar = new Menu(string);
 
-		if (company instanceof UnitedKingdom) {
+		if (countryOrRegion.equals(Countries.UNITED_KINGDOM)) {
 
 			vatReportMenuBar.addMenuItem(messages.priorVATReturns(),
 					HistoryTokens.PRIORVATRETURN);
@@ -527,7 +526,7 @@ public class MenuBar {
 		vatReportMenuBar.addMenuItem(messages.vatItemSummary(),
 				HistoryTokens.VATITEMSUMMARY);
 
-		if (company instanceof India) {
+		if (countryOrRegion.equals(Countries.INDIA)) {
 			if (tdsEnabled) {
 				vatReportMenuBar.addMenuItem(
 						messages.tdsAcknowledgmentsReport(),
@@ -1165,7 +1164,7 @@ public class MenuBar {
 
 	public void setPreferencesandPermissions(
 			ClientCompanyPreferences preferences, ClientUser clientUser,
-			ICountryPreferences countryPreferences, Set<String> features) {
+			CountryPreferences countryPreferences, Set<String> features) {
 
 		this.isAdmin = clientUser.isAdmin();
 

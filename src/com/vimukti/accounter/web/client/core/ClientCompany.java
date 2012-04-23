@@ -19,8 +19,6 @@ import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.util.ChangeType;
 import com.vimukti.accounter.web.client.util.CoreEvent;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class ClientCompany implements IAccounterCore {
 
@@ -492,7 +490,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>();
 
-	private ICountryPreferences countryPreferences;
+	private CountryPreferences countryPreferences;
 
 	// private List<ClientTaxItem> taxItems;
 
@@ -3105,13 +3103,13 @@ public class ClientCompany implements IAccounterCore {
 		return 0;
 	}
 
-	public ICountryPreferences getCountryPreferences() {
-		if (countryPreferences == null) {
-			countryPreferences = CountryPreferenceFactory
-					.get(this.getCountry());
-		}
+	public CountryPreferences getCountryPreferences() {
 		return countryPreferences;
 
+	}
+
+	public void setCountryPreferences(CountryPreferences countryPreferences) {
+		this.countryPreferences = countryPreferences;
 	}
 
 	public String getCountry() {

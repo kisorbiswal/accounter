@@ -27,7 +27,8 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.Countries;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 
 /**
  * 
@@ -139,8 +140,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		form1.add(vatItemNameText, descriptionText, vatRateTextPerT,
 				vatAgencyCombo);
 		if (getCountryPreferences().isVatAvailable()
-				&& getCompany().getCountry().equals(
-						CountryPreferenceFactory.UNITED_KINGDOM)) {
+				&& getCompany().getCountry().equals(Countries.UNITED_KINGDOM)) {
 			form1.add(vatReturnBoxCombo);
 		}
 		form1.add(statusCheck);

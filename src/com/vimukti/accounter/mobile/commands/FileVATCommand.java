@@ -23,10 +23,10 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
-import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtil;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.countries.UnitedKingdom;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class FileVATCommand extends AbstractTransactionCommand {
 

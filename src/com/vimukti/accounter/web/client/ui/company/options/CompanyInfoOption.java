@@ -15,6 +15,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -22,15 +23,16 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
-import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyInfoOption extends AbstractPreferenceOption {
 
@@ -140,6 +142,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	ListBox fiscalStartsList;
 	private List<String> monthsList;
 	String[] monthNames;
+	protected CountryPreferences countryPreferences;
 
 	private static CompanyInfoOptionUiBinder uiBinder = GWT
 			.create(CompanyInfoOptionUiBinder.class);
@@ -320,8 +323,66 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			return;
 		}
 		String countryName = rCountryCombo.getItemText(selectedCountry);
-		final ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
+		Accounter.createCompanyInitializationService().getCountryPreferences(
+				countryName, new AsyncCallback<CountryPreferences>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(CountryPreferences result) {
+						countryPreferences = result;
+						updateRCountry();
+					}
+				});
+
+	}
+
+	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
+
+	private void addFields(Map<String, String> fields) {
+		itemsField.clear();
+		DynamicForm form = new DynamicForm("form");
+		for (String key : fields.keySet()) {
+			String value = fields.get(key);
+			TextItem item = new TextItem(key, "item");
+			item.setValue(value);
+			item.setTitle(key);
+			form.add(item);
+			itemsField.put(key, item);
+		}
+		mainPanel.add(form);
+		form.addStyleName("company_fields");
+	}
+
+	private void tCountryChanged() {
+		int selectedCountry = tCountryCombo.getSelectedIndex();
+		if (selectedCountry < 0) {
+			return;
+		}
+		String countryName = tCountryCombo.getItemText(selectedCountry);
+		Accounter.createCompanyInitializationService().getCountryPreferences(
+				countryName, new AsyncCallback<CountryPreferences>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(CountryPreferences result) {
+						countryPreferences = result;
+						updateTCountry();
+					}
+				});
+
+	}
+
+	protected void updateRCountry() {
 		Map<String, String> fields = new HashMap<String, String>();
 		for (String fieldName : countryPreferences.getCompanyFields()) {
 			fields.put(fieldName, "");
@@ -345,31 +406,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		}
 	}
 
-	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
-
-	private void addFields(Map<String, String> fields) {
-		itemsField.clear();
-		DynamicForm form = new DynamicForm("form");
-		for (String key : fields.keySet()) {
-			String value = fields.get(key);
-			TextItem item = new TextItem(key,"item");
-			item.setValue(value);
-			item.setTitle(key);
-			form.add(item);
-			itemsField.put(key, item);
-		}
-		mainPanel.add(form);
-		form.addStyleName("company_fields");
-	}
-
-	private void tCountryChanged() {
-		int selectedCountry = tCountryCombo.getSelectedIndex();
-		if (selectedCountry < 0) {
-			return;
-		}
-		String countryName = tCountryCombo.getItemText(selectedCountry);
-		final ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
+	protected void updateTCountry() {
 		String[] states = countryPreferences.getStates();
 		if (countryPreferences.getStates() != null) {
 			states = countryPreferences.getStates();
@@ -411,10 +448,10 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tAddress.setAddress1(tAddress1TextBox.getValue());
 		tAddress.setStreet(tAddress2TextBox.getValue());
 		tAddress.setCity(tCityTextBox.getValue());
-	//	if (tStateCombo.getSelectedIndex() > 0) {
-			tAddress.setStateOrProvinence(tStateCombo.getItemText(tStateCombo
-					.getSelectedIndex()));
-	//	}
+		// if (tStateCombo.getSelectedIndex() > 0) {
+		tAddress.setStateOrProvinence(tStateCombo.getItemText(tStateCombo
+				.getSelectedIndex()));
+		// }
 		tAddress.setZipOrPostalCode(tPostalCodeTextBox.getValue());
 		if (tCountryCombo.getSelectedIndex() > 0) {
 			tAddress.setCountryOrRegion(tCountryCombo.getItemText(tCountryCombo

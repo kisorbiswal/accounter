@@ -77,7 +77,7 @@ import com.vimukti.accounter.web.client.ui.widgets.AddButton;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
-import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.Countries;
 
 /**
  * 
@@ -459,8 +459,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			if (getCountryPreferences().isSalesTaxAvailable()) {
 				accInfoForm.add(taxID);
 			}
-			if (getCompany().getCountry().equals(
-					CountryPreferenceFactory.UNITED_STATES)) {
+			if (getCompany().getCountry().equals(Countries.UNITED_STATES)) {
 				accInfoForm.add(track1099MISC);
 			}
 		}
