@@ -105,7 +105,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		}
 	}
 
-	public void addAttachments(List<ClientAttachment> attachments) {
+	public void addAttachments(ArrayList<ClientAttachment> attachments) {
 		transactionAttachmentPanel.addAttachments(attachments);
 	}
 

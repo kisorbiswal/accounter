@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 
 public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		IAccounterList<T>, AsyncCallback<PaginationList<T>>,
-		ISavableView<Map<String, Object>> {
+		ISavableView<HashMap<String, Object>> {
 	protected BaseListGrid grid;
 	protected static AccounterMessages messages = Global.get().messages();
 	protected int start;
@@ -411,13 +412,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	// }
 
 	@Override
-	public void restoreView(Map<String, Object> viewDate) {
+	public void restoreView(HashMap<String, Object> viewDate) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
+	public HashMap<String, Object> saveView() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.core.ISavableView;
 
 public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
-		IPrintableView, ISavableView<Map<String, Object>> {
+		IPrintableView, ISavableView<HashMap<String, Object>> {
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
@@ -846,12 +847,12 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
+	public HashMap<String, Object> saveView() {
 		return null;
 	}
 

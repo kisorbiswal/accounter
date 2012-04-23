@@ -93,7 +93,7 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 		if (map == null || map.isEmpty()) {
 			isDatesArranged = false;
 			return;
@@ -108,8 +108,8 @@ public class VATDetailReportView extends AbstractReportView<VATDetail> {
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		String selectedDateRange = toolbar.getSelectedDateRange();
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();

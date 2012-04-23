@@ -456,8 +456,8 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		if (viewSelect != null) {
 			map.put("currentView", viewSelect.getValue().toString());
 		}
@@ -469,7 +469,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 		if (map == null || map.isEmpty()) {
 			return;
 		}

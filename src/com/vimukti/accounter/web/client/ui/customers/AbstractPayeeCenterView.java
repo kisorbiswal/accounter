@@ -1,8 +1,8 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -15,11 +15,11 @@ import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 
 public abstract class AbstractPayeeCenterView<T> extends AbstractBaseView<T>
-		implements ISavableView<Map<String, Object>>, IPrintableView,
+		implements ISavableView<HashMap<String, Object>>, IPrintableView,
 		IEditableView {
 	public static final int DEFAULT_PAGE_SIZE = 25;
 	protected SelectCombo dateRangeSelector;
-	private List<String> dateRangeList;
+	private ArrayList<String> dateRangeList;
 	private ClientFinanceDate startDate, endDate;
 
 	protected void transactionDateRangeSelector() {

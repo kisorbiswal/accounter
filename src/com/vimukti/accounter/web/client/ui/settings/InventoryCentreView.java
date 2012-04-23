@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
@@ -40,10 +39,10 @@ import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class InventoryCentreView<T> extends AbstractBaseView<T> implements
-		ISavableView<Map<String, Object>>, IEditableView {
+		ISavableView<HashMap<String, Object>>, IEditableView {
 
 	private ClientItem selectedItem;
-	private List<ClientItem> listOfItems;
+	private ArrayList<ClientItem> listOfItems;
 	protected ArrayList<ClientFinanceDate> startEndDates;
 	private ArrayList<TransactionHistory> records;
 
@@ -53,7 +52,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			trasactionViewTypeSelect, dateRangeSelector;
 	private StyledPanel transactionGridpanel;
 	private ItemTransactionsHistoryGrid transactionHistoryGrid;
-	private Map<Integer, String> transactiontypebyStatusMap;
+	private HashMap<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveItems = true;
 	private ClientFinanceDate startDate, endDate;
 
@@ -170,7 +169,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		if (activeInActiveSelect == null) {
 			activeInActiveSelect = new SelectCombo(messages.show());
 
-			List<String> activetypeList = new ArrayList<String>();
+			ArrayList<String> activetypeList = new ArrayList<String>();
 			activetypeList.add(messages.active());
 			activetypeList.add(messages.inActive());
 			activeInActiveSelect.initCombo(activetypeList);
@@ -231,7 +230,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		if (trasactionViewSelect == null) {
 			trasactionViewSelect = new SelectCombo(messages.currentView());
 
-			List<String> transactionTypeList = new ArrayList<String>();
+			ArrayList<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
 			for (String type : transactionTypes) {
 				if (type.equalsIgnoreCase(messages.Charges())
@@ -412,7 +411,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	protected void transactionDateRangeSelector() {
 		dateRangeSelector = new SelectCombo(messages.date());
 
-		List<String> dateRangeList = new ArrayList<String>();
+		ArrayList<String> dateRangeList = new ArrayList<String>();
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
 				messages.lastMonth(), messages.thisFinancialYear(),
@@ -759,8 +758,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
 		map.put("currentView", trasactionViewSelect.getSelectedValue());
 		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());
@@ -772,7 +771,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 
 		if (map == null || map.isEmpty()) {
 			return;

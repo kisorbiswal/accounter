@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
@@ -50,7 +48,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	private static final int TYPE_EXPENSE = 18;
 
 	private ClientVendor selectedVendor;
-	private List<PayeeList> listOfVendors;
+	private ArrayList<PayeeList> listOfVendors;
 	protected ArrayList<ClientFinanceDate> startEndDates;
 	private ArrayList<TransactionHistory> records;
 
@@ -60,7 +58,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 			trasactionViewTypeSelect;
 	private StyledPanel transactionGridpanel;
 	private VendorTransactionsHistoryGrid vendHistoryGrid;
-	private Map<Integer, String> transactiontypebyStatusMap;
+	private HashMap<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 	private StyledPanel deleteButtonPanel;
 
@@ -185,7 +183,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		if (activeInActiveSelect == null) {
 			activeInActiveSelect = new SelectCombo(messages.show());
 
-			List<String> activetypeList = new ArrayList<String>();
+			ArrayList<String> activetypeList = new ArrayList<String>();
 			activetypeList.add(messages.active());
 			activetypeList.add(messages.inActive());
 			activeInActiveSelect.initCombo(activetypeList);
@@ -227,7 +225,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		if (trasactionViewSelect == null) {
 			trasactionViewSelect = new SelectCombo(messages.currentView());
 
-			List<String> transactionTypeList = new ArrayList<String>();
+			ArrayList<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
 			transactionTypeList.add(messages.cashPurchases());
 			if (getPreferences().isKeepTrackofBills()) {
@@ -357,7 +355,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 					messages.draftTransaction(messages.purchaseOrders()));
 
 		}
-		List<String> typeList = new ArrayList<String>(
+		ArrayList<String> typeList = new ArrayList<String>(
 				transactiontypebyStatusMap.values());
 		Collections.sort(typeList, new Comparator<String>() {
 
@@ -577,8 +575,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
 		map.put("currentView", trasactionViewSelect.getSelectedValue());
 		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());
@@ -591,7 +589,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 		if (map == null || map.isEmpty()) {
 			return;
 		}

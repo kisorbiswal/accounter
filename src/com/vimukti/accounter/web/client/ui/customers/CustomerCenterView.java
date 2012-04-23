@@ -543,7 +543,7 @@ public class CustomerCenterView<T> extends
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 		if (map == null || map.isEmpty()) {
 			return;
 		}
@@ -587,8 +587,8 @@ public class CustomerCenterView<T> extends
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
 		map.put("currentView", trasactionViewSelect.getSelectedValue());
 		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());

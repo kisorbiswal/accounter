@@ -80,8 +80,8 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		String selectedValue = viewSelect.getSelectedValue();
 		if (selectedValue.equalsIgnoreCase(messages.active())) {
 			isActive = true;
@@ -94,7 +94,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> viewDate) {
+	public void restoreView(HashMap<String, Object> viewDate) {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}

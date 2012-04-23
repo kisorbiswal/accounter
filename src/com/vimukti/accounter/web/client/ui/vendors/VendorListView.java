@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -158,8 +157,8 @@ public class VendorListView extends BaseListView<PayeeList> implements
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		String selectedValue = viewSelect.getSelectedValue();
 		if (selectedValue.equalsIgnoreCase(messages.active())) {
 			isActive = true;
@@ -177,7 +176,7 @@ public class VendorListView extends BaseListView<PayeeList> implements
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> viewDate) {
+	public void restoreView(HashMap<String, Object> viewDate) {
 
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;

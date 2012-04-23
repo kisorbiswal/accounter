@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -32,7 +31,7 @@ import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
-		IPrintableView, ISavableView<Map<String, Object>> {
+		IPrintableView, ISavableView<HashMap<String, Object>> {
 
 	public TransactionsListView<T> baseListView;
 	private final StyledPanel mainPanel;
@@ -80,8 +79,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		initGridData(getMessages().invoices(), false);
 	}
 
-	private List<String> getBankCenterItems() {
-		List<String> bankItems = new ArrayList<String>();
+	private ArrayList<String> getBankCenterItems() {
+		ArrayList<String> bankItems = new ArrayList<String>();
 		bankItems.add(getMessages().payments());
 		bankItems.add(getMessages().deposits());
 		bankItems.add(getMessages().transferFunds());
@@ -203,8 +202,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		baseListView.removeStyleName("abstract_base_view");
 	}
 
-	private List<String> getVendorCenterItems() {
-		List<String> vendorItems = new ArrayList<String>();
+	private ArrayList<String> getVendorCenterItems() {
+		ArrayList<String> vendorItems = new ArrayList<String>();
 		vendorItems.add(getMessages().billCredits());
 		vendorItems.add(getMessages().billPayments());
 		if (getPreferences().isKeepTrackofBills()) {
@@ -223,8 +222,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		return messages;
 	}
 
-	private List<String> getCustomerCenterItems() {
-		List<String> customerItems = new ArrayList<String>();
+	private ArrayList<String> getCustomerCenterItems() {
+		ArrayList<String> customerItems = new ArrayList<String>();
 		if (Accounter.getUser().canSeeInvoiceTransactions()) {
 			customerItems.add(getMessages().invoices());
 			customerItems.add(getMessages().customerchecks());
@@ -253,8 +252,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		return customerItems;
 	}
 
-	private List<String> getOtherCenterItems() {
-		List<String> otherItems = new ArrayList<String>();
+	private ArrayList<String> getOtherCenterItems() {
+		ArrayList<String> otherItems = new ArrayList<String>();
 		// otherItems.add(getMessages().deposits());
 		if (getCompany().getPreferences().isInventoryEnabled()) {
 			otherItems.add(getMessages().inventoryAdjustments());
@@ -311,8 +310,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("currentView", baseListView.getViewType());
 		map.put("dateRange", baseListView.getDateRange());
 		map.put("startDate", baseListView.getStartDate());
@@ -323,7 +322,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 		if (map == null || map.isEmpty()) {
 			return;
 		}

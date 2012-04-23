@@ -91,8 +91,8 @@ public class CustomerRefundListView extends
 	}
 
 	@Override
-	public Map<String, Object> saveView() {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public HashMap<String, Object> saveView() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("currentView", viewSelect.getValue().toString());
 		map.put("dateRange", dateRangeSelector.getValue().toString());
 		map.put("startDate", startDate);
@@ -102,7 +102,7 @@ public class CustomerRefundListView extends
 	}
 
 	@Override
-	public void restoreView(Map<String, Object> map) {
+	public void restoreView(HashMap<String, Object> map) {
 		if (map == null || map.isEmpty()) {
 			return;
 		}
