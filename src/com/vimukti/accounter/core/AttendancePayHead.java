@@ -2,6 +2,10 @@ package com.vimukti.accounter.core;
 
 import java.util.Calendar;
 
+import org.hibernate.Session;
+
+import com.vimukti.accounter.utils.HibernateUtil;
+
 /**
  * On Attendance type of Calculation Type is based on the attendance data where
  * the component will get pro-rated based on the actual days the Employee is
@@ -162,9 +166,14 @@ public class AttendancePayHead extends PayHead {
 		}
 
 		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED_CALANDAR) {
-			PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(payStructureItem);
-			workingDays = companyHolidays.getWorkingDays()
-					- companyHolidays.getHoliDays();
+			Session currentSession = HibernateUtil.getCurrentSession();
+			AttendanceManagementItem item = (AttendanceManagementItem) currentSession
+					.getNamedQuery("getAttendanceMItem.by.employee")
+					.setParameter("employee",
+							payStructureItem.getPayStructure().getEmployee())
+					.setParameter("attendanceType",
+							this.getUserDefinedCalendar()).uniqueResult();
+			workingDays = item == null ? 0 : item.getNumber();
 		}
 
 		return workingDays;

@@ -1,5 +1,9 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.Session;
+
+import com.vimukti.accounter.utils.HibernateUtil;
+
 /**
  * On Production Calculation Type is used to calculate the pay value based on
  * the Production/Work down. The production data can be entered in Attendance
@@ -39,9 +43,14 @@ public class ProductionPayHead extends PayHead {
 	@Override
 	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
-		PayRollDetails companyHolidays = getCompanyHolidaysWithGivenPeriod(payStructureItem);
-		long workingDays = companyHolidays.getWorkingDays()
-				- companyHolidays.getHoliDays();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		AttendanceManagementItem item = (AttendanceManagementItem) currentSession
+				.getNamedQuery("getAttendanceMItem.by.employee")
+				.setParameter("employee",
+						payStructureItem.getPayStructure().getEmployee())
+				.setParameter("attendanceType", this.getProductionType())
+				.uniqueResult();
+		long workingDays = item == null ? 0 : item.getNumber();
 		double rate = payStructureItem.getRate();
 		double earningSalary = 0.0;
 		if (workingDays != 0) {

@@ -447,4 +447,10 @@
 		and PI.company = :company
 		order by PI.rate desc
 	</query>
+	<query name="getAttendanceMItem.by.employee">
+		<query-param name="employee" type="Employee" />
+		<query-param name="attendanceType" type="AttendanceOrProductionType" />
+		from com.vimukti.accounter.core.AttendanceManagementItem ami
+		where ami.employee = :employee and ami.attendanceType =:attendanceType
+	</query>
 </hibernate-mapping>

@@ -281,12 +281,4 @@ public abstract class PayHead extends CreatableObject implements
 			double deductions, double earnings) {
 		return 0;
 	}
-
-	public PayRollDetails getCompanyHolidaysWithGivenPeriod(
-			PayStructureItem payStructureItem) {
-		PayRollDetails payRollDetails = PayRollCalendarDetails
-				.getPayRollDetaisl(payStructureItem.getStartDate(),
-						payStructureItem.getEndDate());
-		return payRollDetails;
-	}
 }
