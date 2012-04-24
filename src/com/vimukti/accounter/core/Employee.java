@@ -7,7 +7,6 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -482,15 +481,19 @@ public class Employee extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
+		if (!goingToBeEdit) {
+			Session session = HibernateUtil.getCurrentSession();
 
-		Employee employee = (Employee) clientObject;
-		Query query = session.getNamedQuery("getEmployee.by.Name")
-				.setParameter("name", employee.name)
-				.setEntity("company", employee.getCompany());
-		List list = query.list();
-		if (list != null && list.size() > 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
+			Employee employee = (Employee) clientObject;
+			Query query = session.getNamedQuery("getEmployee.by.Name")
+					.setParameter("name", employee.name)
+					.setParameter("id", employee.getID())
+					.setEntity("company", employee.getCompany());
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
 		}
 		return true;
 	}
@@ -524,5 +527,10 @@ public class Employee extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE);
 		ChangeTracker.put(accounterCore);
 		return super.onDelete(arg0);
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		return super.onSave(session);
 	}
 }

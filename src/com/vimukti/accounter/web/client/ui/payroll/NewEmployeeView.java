@@ -357,7 +357,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setDesignation(designationItem.getValue());
 		data.setEmail(emailItem.getValue());
 		data.setContactDetail(new ClientContact());
-		// data.setGroup(employeeGroupCombo.getSelectedValue().getID());
+		data.setGroup(employeeGroupCombo.getSelectedValue().getID());
 		data.setLocation(locationItem.getValue());
 		data.setNumber(employeeIdItem.getValue());
 		data.setPassportExpiryDate(passportExpiryDateItem.getValue().getDate());

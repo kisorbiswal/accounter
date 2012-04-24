@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -8,16 +9,14 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class PayRun extends CreatableObject implements IAccounterServerCore {
+public class PayRun extends Transaction {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Account payableAccount;
-
-	private Set<EmployeePaymentDetails> payEmployee;
+	private Set<EmployeePaymentDetails> payEmployee = new HashSet<EmployeePaymentDetails>();
 
 	private FinanceDate payPeriodStartDate;
 
@@ -28,21 +27,8 @@ public class PayRun extends CreatableObject implements IAccounterServerCore {
 	private double earningsAmount = 0.0;
 
 	public PayRun() {
-	}
-
-	/**
-	 * @return the payableAccount
-	 */
-	public Account getPayableAccount() {
-		return payableAccount;
-	}
-
-	/**
-	 * @param payableAccount
-	 *            the payableAccount to set
-	 */
-	public void setPayableAccount(Account payableAccount) {
-		this.payableAccount = payableAccount;
+		super();
+		setType(Transaction.TYPE_PAY_RUN);
 	}
 
 	/**
@@ -97,19 +83,23 @@ public class PayRun extends CreatableObject implements IAccounterServerCore {
 			detail.setPayRun(this);
 			detail.runPayment();
 		}
+
+		double totalAmount = earningsAmount - deductionAmount;
+		setTotal(totalAmount);
+		Account salariesPayableAccount = getCompany()
+				.getSalariesPayableAccount();
+		salariesPayableAccount.updateCurrentBalance(this, totalAmount, 1);
 		return super.onSave(session);
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -127,5 +117,44 @@ public class PayRun extends CreatableObject implements IAccounterServerCore {
 
 	public double getEarningsAmount() {
 		return earningsAmount;
+	}
+
+	@Override
+	public boolean isPositiveTransaction() {
+		return true;
+	}
+
+	@Override
+	public boolean isDebitTransaction() {
+		return false;
+	}
+
+	@Override
+	public Account getEffectingAccount() {
+		return null;
+	}
+
+	@Override
+	public Payee getPayee() {
+		return null;
+	}
+
+	@Override
+	public int getTransactionCategory() {
+		return Transaction.CATEGORY_EMPLOYEE;
+	}
+
+	@Override
+	public String toString() {
+		return AccounterServerConstants.TYPE_PAY_RUN;
+	}
+
+	@Override
+	public Payee getInvolvedPayee() {
+		return null;
+	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
 	}
 }

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -24,7 +25,7 @@ public class EmployeePaymentDetails extends CreatableObject implements
 
 	private Employee employee;
 
-	private Set<EmployeePayHeadComponent> payHeadComponents;
+	private Set<EmployeePayHeadComponent> payHeadComponents = new HashSet<EmployeePayHeadComponent>();
 
 	/**
 	 * @return the payHeadComponents
@@ -77,12 +78,14 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	 */
 	public void runPayment() {
 		for (EmployeePayHeadComponent component : payHeadComponents) {
-			component.setEmployeePaymentDetails(this);
 			double rate = component.getRate();
+			Account account = component.getPayHead().getAccount();
 			if (component.isDeduction()) {
 				payRun.addDeductions(rate);
+				account.updateTotalBalance(rate, 1);
 			} else if (component.isEarning()) {
 				payRun.addEarnings(rate);
+				account.updateTotalBalance(-rate, 1);
 			}
 		}
 	}

@@ -13,7 +13,7 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	private long id;
 
-	private ClientEmployee employee;
+	private String employee;
 
 	@Override
 	public int getVersion() {
@@ -29,12 +29,12 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return employee.getName();
+		return employee;
 	}
 
 	@Override
 	public String getDisplayName() {
-		return employee.getName();
+		return employee;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 		this.rate = rate;
 	}
 
-	public void setEmployee(ClientEmployee employee) {
+	public void setEmployee(String employee) {
 		this.employee = employee;
 	}
 }

@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
-public class ClientPayRun implements IAccounterCore {
+public class ClientPayRun extends ClientTransaction {
 
 	/**
 	 * 
@@ -16,8 +16,6 @@ public class ClientPayRun implements IAccounterCore {
 	private long payPeriodStartDate;
 
 	private long payPeriodEndDate;
-
-	private long id;
 
 	/**
 	 * @return the payableAccount
@@ -80,27 +78,13 @@ public class ClientPayRun implements IAccounterCore {
 	}
 
 	@Override
-	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Utility.getTransactionName(getType());
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
@@ -117,5 +101,4 @@ public class ClientPayRun implements IAccounterCore {
 	public long getID() {
 		return this.id;
 	}
-
 }

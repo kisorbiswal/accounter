@@ -452,7 +452,7 @@ public class ClientInvoice extends ClientTransaction {
 
 	@Override
 	public String getDisplayName() {
-		return this.getDisplayName();
+		return this.getName();
 	}
 
 	@Override

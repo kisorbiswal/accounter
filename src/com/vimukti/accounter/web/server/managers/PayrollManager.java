@@ -118,20 +118,30 @@ public class PayrollManager extends Manager {
 		return clientPayrollUnits;
 	}
 
-	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
+	public ArrayList<ClientEmployeePayHeadComponent> getEmployeeGroupPayHeadComponents(
 			FinanceDate startDate, FinanceDate endDate,
 			ClientPayStructureDestination selectItem, Long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		int type = 0;
-		if (selectItem instanceof ClientEmployee) {
-			type = 1;
-		} else {
-			type = 2;
+		List<Employee> employees = session.getNamedQuery("getEmployeesByGroup")
+				.setParameter("groupId", selectItem.getID()).list();
+		ClientEmployeeGroup clientEmployeeGroup = (ClientEmployeeGroup) selectItem;
+		ArrayList<ClientEmployeePayHeadComponent> groupComponents = new ArrayList<ClientEmployeePayHeadComponent>();
+		for (Employee employee : employees) {
+			ArrayList<ClientEmployeePayHeadComponent> employeePayHeadComponents = getEmployeePayHeadComponents(
+					startDate, endDate, employee, companyId);
+			groupComponents.addAll(employeePayHeadComponents);
 		}
+		return new ArrayList<ClientEmployeePayHeadComponent>(groupComponents);
+	}
+
+	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
+			FinanceDate startDate, FinanceDate endDate, Employee selectItem,
+			Long companyId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPayStructureItem.by.employee")
-				.setParameter("id", selectItem.getID())
-				.setParameter("type", type)
+				.setParameter("employee", selectItem)
+				.setParameter("group", selectItem.getGroup())
 				.setParameter("company", getCompany(companyId));
 		List<PayStructureItem> list = query.list();
 
@@ -142,32 +152,32 @@ public class PayrollManager extends Manager {
 		double earnings = 0.0;
 		double deductions = 0.0;
 
+		long[] attendance = { 0, 0, 0 };
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Query managementItems = currentSession.getNamedQuery(
+				"getEmployeeAttendanceManagementItems").setParameter(
+				"employee", selectItem.getID());
+
+		List<AttendanceManagementItem> items = managementItems.list();
+		if (items != null && items.size() > 0) {
+			for (AttendanceManagementItem attendanceManagementItem : items) {
+				if (attendanceManagementItem.getAttendanceType().getType() == AttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
+					attendance[0] += attendanceManagementItem.getNumber();
+				} else if (attendanceManagementItem.getAttendanceType()
+						.getType() == AttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY) {
+					attendance[1] += attendanceManagementItem.getNumber();
+				} else if (attendanceManagementItem.getAttendanceType()
+						.getType() == AttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR) {
+					attendance[2] += attendanceManagementItem.getNumber();
+				}
+			}
+		}
+
 		ArrayList<ClientEmployeePayHeadComponent> clientEmployeePayHeadComponents = new ArrayList<ClientEmployeePayHeadComponent>();
+
 		for (PayStructureItem payStructureItem : list) {
 			int calcType = payStructureItem.getPayHead().getCalculationType();
 			PayHead payHead = payStructureItem.getPayHead();
-			Employee employee = payStructureItem.getPayStructure()
-					.getEmployee();
-
-			long[] attendance = { 0, 0, 0 };
-			Session currentSession = HibernateUtil.getCurrentSession();
-			Query managementItems = currentSession.getNamedQuery(
-					"getEmployeeAttendanceManagementItems").setParameter(
-					"employee", employee);
-			List<AttendanceManagementItem> items = managementItems.list();
-			if (items != null && items.size() > 0) {
-				for (AttendanceManagementItem attendanceManagementItem : items) {
-					if (attendanceManagementItem.getAttendanceType().getType() == AttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
-						attendance[0] += attendanceManagementItem.getNumber();
-					} else if (attendanceManagementItem.getAttendanceType()
-							.getType() == AttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY) {
-						attendance[1] += attendanceManagementItem.getNumber();
-					} else if (attendanceManagementItem.getAttendanceType()
-							.getType() == AttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR) {
-						attendance[2] += attendanceManagementItem.getNumber();
-					}
-				}
-			}
 
 			ClientPayHead clientPayHead = null;
 			if (calcType == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
@@ -186,8 +196,7 @@ public class PayrollManager extends Manager {
 				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
 						ClientUserDefinedPayHead.class);
 			}
-			ClientEmployee clientEmployee = new ClientConvertUtil()
-					.toClientObject(employee, ClientEmployee.class);
+
 			ClientEmployeePayHeadComponent component = new ClientEmployeePayHeadComponent();
 			component.setPayHead(clientPayHead);
 			payStructureItem.setStartDate(startDate);
@@ -202,7 +211,7 @@ public class PayrollManager extends Manager {
 			}
 
 			component.setRate(calculatedAmount);
-			component.setEmployee(clientEmployee);
+			component.setEmployee(selectItem.getName());
 			clientEmployeePayHeadComponents.add(component);
 		}
 		return clientEmployeePayHeadComponents;
@@ -260,9 +269,12 @@ public class PayrollManager extends Manager {
 		}
 		ArrayList<ClientEmployeeGroup> clientGroups = new ArrayList<ClientEmployeeGroup>();
 		for (EmployeeGroup group : groups) {
-			ClientEmployeeGroup clientGroup;
-			clientGroup = new ClientConvertUtil().toClientObject(group,
-					ClientEmployeeGroup.class);
+			List<Employee> employees = session
+					.getNamedQuery("getEmployeesByGroup")
+					.setParameter("groupId", group.getID()).list();
+			group.setEmployees(employees);
+			ClientEmployeeGroup clientGroup = new ClientConvertUtil()
+					.toClientObject(group, ClientEmployeeGroup.class);
 			clientGroups.add(clientGroup);
 		}
 		return clientGroups;

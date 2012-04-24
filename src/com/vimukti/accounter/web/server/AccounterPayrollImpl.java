@@ -3,7 +3,11 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterPayrollService;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
@@ -57,9 +61,17 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 			throws AccounterException {
 		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
 				getCompanyId());
-		return getFinanceTool().getPayrollManager()
-				.getEmployeePayHeadComponents(dates[0], dates[1], selectItem,
-						getCompanyId());
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Employee employee = null;
+		if (selectItem instanceof ClientEmployee) {
+			employee = (Employee) currentSession.get(Employee.class,
+					selectItem.getID());
+		}
+		return selectItem instanceof ClientEmployee ? getFinanceTool()
+				.getPayrollManager().getEmployeePayHeadComponents(dates[0],
+						dates[1], employee, getCompanyId()) : getFinanceTool()
+				.getPayrollManager().getEmployeeGroupPayHeadComponents(
+						dates[0], dates[1], selectItem, getCompanyId());
 	}
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(

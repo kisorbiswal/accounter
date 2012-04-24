@@ -207,9 +207,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 				ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
 				employeePaymentDetails.setEmployee(employee.getID());
 				employeePaymentDetails.setPayHeadComponents(allRows);
-
 				details.add(employeePaymentDetails);
-
 			}
 		}
 		data.setPayEmployee(details);

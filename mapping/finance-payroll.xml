@@ -84,7 +84,7 @@
 		<many-to-one name="payStructure" column="PAY_STRUCTURE"
 			class="PayStructure" />
 		<list name="employees">
-			<key column="EMPLOYEE_GROUP" />
+			<key column="EMPLOYEE_GROUP_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="Employee" />
 		</list>
@@ -301,25 +301,6 @@
 		</set>
 	</class>
 
-	<class name="PayRun" table="PAY_RUN">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
-		<many-to-one name="payableAccount" column="PAYABLE_ACCOUNT"
-			class="Account">
-		</many-to-one>
-		<property name="payPeriodStartDate" column="PAY_PERIOD_STARTDATE"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<property name="payPeriodEndDate" column="PAY_PERIOD_ENDDATE"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<set name="payEmployee" inverse="true" cascade="save-update,delete">
-			<key column="EMPLOYEE_PAYMENT_ID" />
-			<one-to-many class="EmployeePaymentDetails" />
-		</set>
-	</class>
-
 	<class name="AttendanceManagement" table="ATTENDANCE_MANAGEMENT">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -424,9 +405,10 @@
 	<query name="getEmployee.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />
+		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.Employee E where
 		E.company=:company and
-		E.name=:name
+		E.name=:name and E.id != :id
 	</query>
 
 	<query name="getPayhead.by.Name">
@@ -441,17 +423,12 @@
 
 	<query name="getPayStructureItem.by.employee">
 		<query-param name="company" type="Company" />
-		<query-param name="id" type="long" />
-		<query-param name="type" type="int" />
+		<query-param name="employee" type="Employee" />
+		<query-param name="group" type="EmployeeGroup" />
 		from com.vimukti.accounter.core.PayStructureItem PI
-		where (:type = 1
-		and PI.payStructure.employee.id = :id ) or
-		(:type = 2 and
-		PI.payStructure.employeeGroup.id =
-		:id)
-		and PI.payStructure.company =
-		:company
-		order
+		where (PI.payStructure.employee = :employee or
+		PI.payStructure.employeeGroup = :group)
+		and PI.payStructure.company = :company
 		by PI.rate desc
 	</query>
 	<query name="getAttendanceMItem.by.employee">
@@ -460,5 +437,10 @@
 		from com.vimukti.accounter.core.AttendanceManagementItem ami
 		where
 		ami.employee = :employee and ami.attendanceType =:attendanceType
+	</query>
+	<query name="getEmployeesByGroup">
+		<query-param name="groupId" type="long"></query-param>
+			from com.vimukti.accounter.core.Employee e where 
+			e.group.id=:groupId
 	</query>
 </hibernate-mapping>
