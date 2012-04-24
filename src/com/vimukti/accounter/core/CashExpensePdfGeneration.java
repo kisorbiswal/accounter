@@ -26,6 +26,7 @@ public class CashExpensePdfGeneration {
 
 			DummyExpense i = new DummyExpense();
 			i.setTitle("Cash Expense");
+			i.setVendorNBillingAddress(getBillingAddress());
 			i.setVendorName(cashPurchase.getVendor().getName());
 			Address billAddress = cashPurchase.getVendorAddress();
 			if (billAddress != null) {
@@ -39,7 +40,6 @@ public class CashExpensePdfGeneration {
 						.getZipOrPostalCode()));
 				i.billTo.setCountryOrRegion(forNullValue(billAddress
 						.getCountryOrRegion()));
-
 			}
 			i.setNumber(cashPurchase.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(cashPurchase.getDate()));
@@ -67,12 +67,9 @@ public class CashExpensePdfGeneration {
 			String symbol = cashPurchase.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
-
 				TransactionItem item = (TransactionItem) iterator.next();
-
 				String description = forNullValue(item.getDescription());
 				description = description.replaceAll("\n", "<br/>");
-
 				String qty = "";
 				if (item.getQuantity() != null) {
 					qty = String.valueOf(item.getQuantity().getValue());
@@ -81,7 +78,6 @@ public class CashExpensePdfGeneration {
 						item.getUnitPrice(), "");
 				String totalPrice = Utility.decimalConversation(
 						item.getLineTotal(), "");
-
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
@@ -90,7 +86,6 @@ public class CashExpensePdfGeneration {
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: "Others";
-
 				String discount = Utility.decimalConversation(
 						item.getDiscount(), "");
 
@@ -103,18 +98,14 @@ public class CashExpensePdfGeneration {
 				itemList.add(new ItemList(name, description, qty, unitPrice,
 						discount, totalPrice, vatRate, vatAmount));
 			}
-
 			String total = Utility.decimalConversation(cashPurchase.getTotal(),
 					symbol);
-
 			i.setTotal(total);
-
 			String subtotal = Utility.decimalConversation(
 					cashPurchase.getNetAmount(), symbol);
 			i.setNetAmount(subtotal);
-
 			i.setMemo(cashPurchase.getMemo());
-
+			i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -129,8 +120,6 @@ public class CashExpensePdfGeneration {
 				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
 						.getZipOrPostalCode()));
 			}
-			// i.setRegistrationAddress(getRegistrationAddress());
-
 			context.put("expense", i);
 			context.put("item", itemList);
 
@@ -146,7 +135,7 @@ public class CashExpensePdfGeneration {
 		Address reg = company.getRegisteredAddress();
 
 		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
+			regestrationAddress = (reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
@@ -252,6 +241,7 @@ public class CashExpensePdfGeneration {
 	public class DummyExpense {
 
 		private String title;
+		private String vendorNBillingAddress;
 		private String vendorName;
 		private String number;
 		private String date;
@@ -259,7 +249,7 @@ public class CashExpensePdfGeneration {
 		private String total;
 		private String netAmount;
 		private String memo;
-		// private String registrationAddress;
+		private String registrationAddress;
 		private Address billTo;
 		private Address regAddress;
 
@@ -303,21 +293,21 @@ public class CashExpensePdfGeneration {
 			this.title = title;
 		}
 
-		// public String getRegistrationAddress() {
-		// return registrationAddress;
-		// }
-		//
-		// public void setRegistrationAddress(String registrationAddress) {
-		// this.registrationAddress = registrationAddress;
-		// }
-		//
-		// public String getVendorNBillingAddress() {
-		// return vendorNBillingAddress;
-		// }
-		//
-		// public void setVendorNBillingAddress(String vendorNBillingAddress) {
-		// this.vendorNBillingAddress = vendorNBillingAddress;
-		// }
+		public String getRegistrationAddress() {
+			return registrationAddress;
+		}
+
+		public void setRegistrationAddress(String registrationAddress) {
+			this.registrationAddress = registrationAddress;
+		}
+
+		public String getVendorNBillingAddress() {
+			return vendorNBillingAddress;
+		}
+
+		public void setVendorNBillingAddress(String vendorNBillingAddress) {
+			this.vendorNBillingAddress = vendorNBillingAddress;
+		}
 
 		public String getNumber() {
 			return number;

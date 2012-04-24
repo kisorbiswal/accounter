@@ -25,6 +25,7 @@ public class ReceivePaymentPdfGeneration {
 			ReceivePaymentTemplate receivePaymentTmplt = new ReceivePaymentTemplate();
 
 			receivePaymentTmplt.setTitle("Receive Payment");
+			receivePaymentTmplt.setNumber(receive.getNumber());
 			receivePaymentTmplt.setChequeOrRefNo(receive.getCheckNumber());
 			receivePaymentTmplt.setDateReceived(receive.getDate().toString());
 			String currencySymbol = receive.getCurrency().getSymbol();
@@ -34,9 +35,10 @@ public class ReceivePaymentPdfGeneration {
 			receivePaymentTmplt.setPaymentMethod(receive.getPaymentMethod());
 			receivePaymentTmplt
 					.setReceivedFrom(receive.getCustomer().getName());
-
+			receivePaymentTmplt.setCurrency(receive.getCurrency()
+					.getFormalName());
 			Address regAdr = company.getRegisteredAddress();
-
+			receivePaymentTmplt.setMemo(receive.getMemo());
 			String regAddress = forAddress(regAdr.getAddress1(), false)
 					+ forAddress(regAdr.getStreet(), false)
 					+ forAddress(regAdr.getCity(), false)
@@ -126,9 +128,12 @@ public class ReceivePaymentPdfGeneration {
 	}
 
 	public class ReceivePaymentTemplate {
+
 		private String title;
 
 		private String registeredAddress;
+
+		private String number;
 
 		private String receivedFrom;
 
@@ -139,6 +144,10 @@ public class ReceivePaymentPdfGeneration {
 		private String payAmount;
 
 		private String chequeOrRefNo;
+
+		private String memo;
+
+		private String currency;
 
 		public String getTitle() {
 			return title;
@@ -194,6 +203,30 @@ public class ReceivePaymentPdfGeneration {
 
 		public void setChequeOrRefNo(String chequeOrRefNo) {
 			this.chequeOrRefNo = chequeOrRefNo;
+		}
+
+		public String getNumber() {
+			return number;
+		}
+
+		public void setNumber(String number) {
+			this.number = number;
+		}
+
+		public String getMemo() {
+			return memo;
+		}
+
+		public void setMemo(String memo) {
+			this.memo = memo;
+		}
+
+		public String getCurrency() {
+			return currency;
+		}
+
+		public void setCurrency(String currency) {
+			this.currency = currency;
 		}
 	}
 

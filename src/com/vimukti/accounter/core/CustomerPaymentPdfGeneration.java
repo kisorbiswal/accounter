@@ -23,28 +23,8 @@ public class CustomerPaymentPdfGeneration {
 			template.setTitle(Global.get().Customer() + " Prepayment");
 			template.setName(prePayment.getCustomer().getName());
 			template.setNumber(prePayment.getNumber());
-			Address address = prePayment.getAddress();
-			String customerNAddress = "";
-			if (address != null) {
-				customerNAddress = forAddress(address.getAddress1(), false)
-						+ forAddress(address.getStreet(), false)
-						+ forAddress(address.getCity(), false)
-						+ forAddress(address.getStateOrProvinence(), false)
-						+ forAddress(address.getZipOrPostalCode(), false)
-						+ forAddress(address.getCountryOrRegion(), true);
-			} else {
-				customerNAddress = "";
-			}
-			template.setCustomerNAddress(prePayment.getCustomer().getName()
-					+ customerNAddress);
-			Address regAdr = company.getRegisteredAddress();
-			String regAddress = forAddress(regAdr.getAddress1(), false)
-					+ forAddress(regAdr.getStreet(), false)
-					+ forAddress(regAdr.getCity(), false)
-					+ forAddress(regAdr.getStateOrProvinence(), false)
-					+ forAddress(regAdr.getZipOrPostalCode(), false)
-					+ forAddress(regAdr.getCountryOrRegion(), true);
-			template.setRegisteredAddress(regAddress);
+			template.setCustomerNAddress(getAddress());
+			template.setRegisteredAddress(getRegistrationAddress());
 			template.setDate(prePayment.getDate().toString());
 			template.setPayMethod(prePayment.getPaymentMethod());
 			template.setCheckNo(prePayment.getCheckNumber());
@@ -61,6 +41,93 @@ public class CustomerPaymentPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String getRegistrationAddress() {
+		String regestrationAddress = "";
+		Address reg = company.getRegisteredAddress();
+
+		if (reg != null) {
+			regestrationAddress = (reg.getAddress1()
+					+ forUnusedAddress(reg.getStreet(), true)
+					+ forUnusedAddress(reg.getCity(), true)
+					+ forUnusedAddress(reg.getStateOrProvinence(), true)
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+		} else {
+			regestrationAddress = (company.getTradingName() + " , "
+					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
+		String phoneStr = forNullValue(company.getPreferences().getPhone());
+		if (phoneStr.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+		}
+		String website = forNullValue(company.getPreferences().getWebSite());
+
+		if (website.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().webSite() + " : " + website;
+		}
+
+		return regestrationAddress;
+
+	}
+
+	private String getAddress() {
+		// To get the selected contact name form Invoice
+		String phone = "";
+		boolean hasPhone = false;
+
+		Address bill = prePayment.getAddress();
+		String customerName = forUnusedAddress(prePayment.getCustomer()
+				.getName(), false);
+		StringBuffer billAddress = new StringBuffer();
+		if (bill != null) {
+			billAddress = billAddress.append(forUnusedAddress(
+					bill.getAddress1(), false)
+					+ forUnusedAddress(bill.getStreet(), false)
+					+ forUnusedAddress(bill.getCity(), false)
+					+ forUnusedAddress(bill.getStateOrProvinence(), false)
+					+ forUnusedAddress(bill.getZipOrPostalCode(), false)
+					+ forUnusedAddress(bill.getCountryOrRegion(), false));
+			if (hasPhone) {
+				billAddress.append(forUnusedAddress("Phone : " + phone, false));
+			}
+			String billAddres = billAddress.toString();
+			if (billAddres.trim().length() > 0) {
+				return billAddres;
+			}
+		} else {
+			return customerName;
+		}
+		return "";
+	}
+
+	public String forUnusedAddress(String add, boolean isFooter) {
+		if (isFooter) {
+			if (add != null && !add.equals(""))
+				return ", " + add;
+		} else {
+			if (add != null && !add.equals(""))
+				return add + "\n";
+		}
+		return "";
+	}
+
+	public String forNullValue(String value) {
+		return value != null ? value : "";
+	}
+
+	public String forZeroAmounts(String amount) {
+		String[] amt = amount.replace(".", "-").split("-");
+		if (amt[0].equals("0")) {
+			return "";
+		}
+		return amount;
 	}
 
 	public class DummyPayment {
