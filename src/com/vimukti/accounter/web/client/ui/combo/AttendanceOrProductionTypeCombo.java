@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -17,6 +18,7 @@ public class AttendanceOrProductionTypeCombo extends
 
 	private int type;
 	protected ArrayList<ClientAttendanceOrProductionType> list;
+	private long selectedId;
 
 	public AttendanceOrProductionTypeCombo(int type, String title,
 			String styleName) {
@@ -38,11 +40,6 @@ public class AttendanceOrProductionTypeCombo extends
 						return e.getType() == type;
 					}
 				}, result);
-		if (type == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
-			ClientAttendanceOrProductionType clientAttendanceOrProductionType = new ClientAttendanceOrProductionType();
-			clientAttendanceOrProductionType.setName("Not Applicable");
-			list.add(0, clientAttendanceOrProductionType);
-		}
 		initCombo(list);
 	}
 
@@ -63,8 +60,24 @@ public class AttendanceOrProductionTypeCombo extends
 									ArrayList<ClientAttendanceOrProductionType> result) {
 								list = result;
 								initCombo(result);
+								if (selectedId != 0) {
+									setComboItem();
+								}
 							}
 						});
+	}
+
+	public void setSelectedId(long selectedId) {
+		this.selectedId = selectedId;
+	}
+
+	protected void setComboItem() {
+		List<ClientAttendanceOrProductionType> comboItems2 = getComboItems();
+		for (ClientAttendanceOrProductionType item : comboItems2) {
+			if (selectedId == item.getID()) {
+				setComboItem(item);
+			}
+		}
 	}
 
 	@Override

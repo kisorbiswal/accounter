@@ -6490,4 +6490,6 @@ public interface AccounterMessages extends Messages {
 
 	public String attendanceManagement();
 
+	public String attendanceType();
+
 }

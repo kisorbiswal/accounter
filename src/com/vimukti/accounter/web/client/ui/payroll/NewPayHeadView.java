@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.PayheadCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -68,17 +69,22 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			messages.onEarningTotal(), messages.onSubTotal(),
 			messages.onSpecifiedFormula() };
 
+	String[] attendanceTypes = { messages.leaveWithPay(),
+			messages.leaveWithoutPay(), messages.payhead(),
+			messages.onEarningTotal(), messages.onSubTotal(), messages.rate() };
+
 	List<String> typeList = new ArrayList<String>();
 	List<String> calTypeList = new ArrayList<String>();
 	List<String> calPeriodList = new ArrayList<String>();
 	List<String> roundingList = new ArrayList<String>();
 	private List<String> perDayCalcList = new ArrayList<String>();
 	private List<String> computationTypeList = new ArrayList<String>();
+	private List<String> attendanceTypeList = new ArrayList<String>();
 	private AttendanceOrProductionTypeCombo productionTypeCombo;
 	private AttendanceOrProductionTypeCombo leaveWithPayCombo;
 	private AttendanceOrProductionTypeCombo leaveWithoutPayCombo;
 	private SelectCombo perdayCalculationCombo;
-	private SelectCombo computationTypeCombo;
+	private SelectCombo computationTypeCombo, attendanceTypeCombo;
 	private ComputationSlabTable slabTable;
 	private DynamicForm formulaForm, computationForm, calculationForm,
 			attendanceForm, flatrateForm, productionForm;
@@ -94,6 +100,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	private ComputationFormulaDialog dialog;
 	private AttendanceOrProductionTypeCombo userDefinedCalendarCombo;
 	private DynamicForm userDefinedCalendarForm;
+	private DynamicForm attendanceTypeForm;
+	private PayheadCombo payheadCombo;
 
 	public NewPayHeadView() {
 		this.getElement().setId("NewPayHeadView");
@@ -140,30 +148,24 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		calculationTypeChanged(calType);
 		if (calType.equals(messages.attendance())) {
 			ClientAttendancePayHead attendance = (ClientAttendancePayHead) data;
-			if (attendance.getLeaveWithPay() != 0) {
-				List<ClientAttendanceOrProductionType> comboItems = leaveWithPayCombo
-						.getComboItems();
-				for (ClientAttendanceOrProductionType clientAttendanceOrProductionType : comboItems) {
-					if (attendance.getLeaveWithPay() == clientAttendanceOrProductionType
-							.getID()) {
-						leaveWithPayCombo
-								.setComboItem(clientAttendanceOrProductionType);
-						break;
-					}
-				}
+			String attendanceType = ClientAttendancePayHead
+					.getAttendanceType(attendance.getAttendanceType());
+			attendanceTypeCombo.setComboItem(attendanceType);
+			attendanceTypeChanged(attendanceType);
+
+			if (attendance.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY) {
+				leaveWithPayCombo.setSelectedId(attendance.getLeaveWithPay());
 			}
-			if (attendance.getLeaveWithoutPay() != 0) {
-				List<ClientAttendanceOrProductionType> comboItems = leaveWithoutPayCombo
-						.getComboItems();
-				for (ClientAttendanceOrProductionType clientAttendanceOrProductionType : comboItems) {
-					if (attendance.getLeaveWithoutPay() == clientAttendanceOrProductionType
-							.getID()) {
-						leaveWithoutPayCombo
-								.setComboItem(clientAttendanceOrProductionType);
-						break;
-					}
-				}
+
+			if (attendance.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
+				leaveWithoutPayCombo.setSelectedId(attendance
+						.getLeaveWithoutPay());
 			}
+
+			if (attendance.getAttendanceType() == ClientAttendancePayHead.PAY_HEAD) {
+				payheadCombo.setSelectedId(attendance.getPayhead());
+			}
+
 			calculationPeriodCombo.setComboItem(getCalculationPeriod(attendance
 					.getCalculationPeriod()));
 			perdayCalculationCombo
@@ -267,6 +269,10 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			computationTypeList.add(computationTypes[i]);
 		}
 
+		for (int i = 0; i < attendanceTypes.length; i++) {
+			attendanceTypeList.add(attendanceTypes[i]);
+		}
+
 		nameItem = new TextItem(messages.name(), "nameItem");
 		nameItem.setRequired(true);
 		nameItem.setEnabled(!isInViewMode());
@@ -325,31 +331,34 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		calculationPeriodCombo.setEnabled(!isInViewMode());
 		calculationPeriodCombo.setRequired(true);
 
+		attendanceTypeCombo = new SelectCombo(messages.attendanceType());
+		attendanceTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						attendanceTypeChanged(selectItem);
+					}
+				});
+		attendanceTypeCombo.initCombo(attendanceTypeList);
+		attendanceTypeCombo.setEnabled(!isInViewMode());
+		attendanceTypeCombo.setRequired(true);
+
+		payheadCombo = new PayheadCombo(messages.payhead());
+		payheadCombo.setEnabled(!isInViewMode());
+		payheadCombo.setRequired(true);
+
 		leaveWithPayCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY,
 				messages.leaveWithPay(), "leaveWithPayCombo");
-		leaveWithPayCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAttendanceOrProductionType>() {
-
-					@Override
-					public void selectedComboBoxItem(
-							ClientAttendanceOrProductionType selectItem) {
-						if (selectItem.getName().equals("Not Applicable")) {
-							leaveWithoutPayCombo.setEnabled(true);
-							leaveWithoutPayCombo.setRequired(true);
-						} else {
-							leaveWithoutPayCombo.setEnabled(false);
-							leaveWithoutPayCombo.setRequired(false);
-						}
-					}
-				});
 		leaveWithPayCombo.setEnabled(!isInViewMode());
 		leaveWithPayCombo.setRequired(true);
 
 		leaveWithoutPayCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY,
 				messages.leaveWithoutPay(), "leaveWithoutPayCombo");
-		leaveWithoutPayCombo.setEnabled(false);
+		leaveWithoutPayCombo.setEnabled(!isInViewMode());
+		leaveWithoutPayCombo.setRequired(true);
 
 		perdayCalculationCombo = new SelectCombo(
 				messages.perDayCalculationBasis(), false);
@@ -420,6 +429,20 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		setSize("100%", "100%");
 	}
 
+	protected void attendanceTypeChanged(String selectItem) {
+		if (selectItem == null) {
+			return;
+		}
+		attendanceTypeForm.clear();
+		if (selectItem.equals(messages.leaveWithPay())) {
+			attendanceTypeForm.add(leaveWithPayCombo);
+		} else if (selectItem.equals(messages.leaveWithoutPay())) {
+			attendanceTypeForm.add(leaveWithoutPayCombo);
+		} else if (selectItem.equals(messages.payhead())) {
+			attendanceTypeForm.add(payheadCombo);
+		}
+	}
+
 	protected void perDayCalculationChanged(String selectItem) {
 		userDefinedCalendarForm.clear();
 		if (selectItem.equals(messages.userDefinedCalendar())) {
@@ -473,10 +496,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			attendanceLeftForm = new DynamicForm("attendanceLeftForm");
 			attendanceRightForm = new DynamicForm("attendanceRightForm");
 			userDefinedCalendarForm = new DynamicForm("userDefinedCalendarForm");
+			attendanceTypeForm = new DynamicForm("attendanceTypeForm");
 
-			attendanceLeftForm.add(leaveWithPayCombo, calculationPeriodCombo);
-			attendanceRightForm.add(leaveWithoutPayCombo,
-					perdayCalculationCombo);
+			attendanceLeftForm.add(attendanceTypeCombo);
+			attendanceLeftForm.add(attendanceTypeForm);
+			attendanceLeftForm.add(calculationPeriodCombo);
+			attendanceRightForm.add(perdayCalculationCombo);
 			attendanceRightForm.add(userDefinedCalendarForm);
 
 			attendanceForm.add(attendanceLeftForm);
@@ -548,6 +573,22 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		nameItem.setEnabled(!isInViewMode());
 		computationTypeCombo.setEnabled(!isInViewMode());
 		slabTable.setEnabled(!isInViewMode());
+		productionTypeCombo.setEnabled(!isInViewMode());
+		leaveWithPayCombo.setEnabled(!isInViewMode());
+		itemTableButton.setEnabled(!isInViewMode());
+		userDefinedCalendarCombo.setEnabled(!isInViewMode());
+		payheadCombo.setEnabled(!isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
+		slabTable.setEnabled(!isInViewMode());
+		computationTypeCombo.setEnabled(!isInViewMode());
+		attendanceTypeCombo.setEnabled(!isInViewMode());
+		perdayCalculationCombo.setEnabled(!isInViewMode());
+		leaveWithoutPayCombo.setEnabled(!isInViewMode());
+		calculationTypeCombo.setEnabled(!isInViewMode());
+		typeCombo.setEnabled(!isInViewMode());
+		calculationPeriodCombo.setEnabled(!isInViewMode());
+		payslipNameItem.setEnabled(!isInViewMode());
+		roundingMethodCombo.setEnabled(!isInViewMode());
 	}
 
 	@Override
@@ -596,13 +637,18 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		}
 		if (selectedValue.equals(messages.attendance())) {
 			ClientAttendancePayHead payhead = new ClientAttendancePayHead();
-			if (leaveWithoutPayCombo.getSelectedValue() != null) {
-				payhead.setLeaveWithoutPay(leaveWithoutPayCombo
-						.getSelectedValue().getID());
-			}
-			if (leaveWithPayCombo.getSelectedValue() != null) {
+			payhead.setAttendanceType(attendanceTypeCombo.getSelectedIndex() + 1);
+			String attendanceType = ClientAttendancePayHead
+					.getAttendanceType(payhead.getAttendanceType());
+
+			if (attendanceType.equals(messages.leaveWithPay())) {
 				payhead.setLeaveWithPay(leaveWithPayCombo.getSelectedValue()
 						.getID());
+			} else if (attendanceType.equals(messages.leaveWithoutPay())) {
+				payhead.setLeaveWithoutPay(leaveWithoutPayCombo
+						.getSelectedValue().getID());
+			} else if (attendanceType.equals(messages.payhead())) {
+				payhead.setPayhead(payheadCombo.getSelectedValue().getID());
 			}
 			payhead.setID(data.getID());
 			payhead.setCalculationPeriod(calculationPeriodCombo

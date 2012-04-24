@@ -180,6 +180,8 @@
 
 		<joined-subclass name="AttendancePayHead" table="ATTENDANCE_PAYHEAD">
 			<key column="ID" />
+			<property name="attendanceType" column="ATTENDANCE_TYPE" />
+			<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
 			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 			<property name="perDayCalculationBasis" column="PER_DAY_CALCULATION_BASIS" />
 			<many-to-one name="leaveWithPay" column="LEAVE_WITH_PAY"
@@ -447,7 +449,8 @@
 		(:type = 2 and
 		PI.payStructure.employeeGroup.id =
 		:id)
-		and PI.payStructure.company = :company
+		and PI.payStructure.company =
+		:company
 		order
 		by PI.rate desc
 	</query>

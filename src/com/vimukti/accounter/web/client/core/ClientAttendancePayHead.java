@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientAttendancePayHead extends ClientPayHead {
 
 	/**
@@ -30,6 +33,17 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	 * days for every Calculation Period.
 	 */
 	public static final int PER_DAY_CALCULATION_USER_DEFINED_CALANDAR = 3;
+
+	public static final int LEAVE_WITH_PAY = 1;
+	public static final int LEAVE_WITHOUT_PAY = 2;
+	public static final int ATTENDANCE_ON_PAYHEAD = 3;
+	public static final int ATTENDANCE_ON_EARNING_TOTAL = 4;
+	public static final int ATTENDANCE_ON_SUBTOTAL = 5;
+	public static final int ATTENDANCE_ON_RATE = 6;
+
+	private int attendanceType;
+
+	private long payHead;
 
 	private int calculationPeriod;
 
@@ -92,5 +106,48 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	public void setUserDefinedCalendar(
 			ClientAttendanceOrProductionType userDefinedCalendar) {
 		this.userDefinedCalendar = userDefinedCalendar;
+	}
+
+	public int getAttendanceType() {
+		return attendanceType;
+	}
+
+	public void setAttendanceType(int attendanceType) {
+		this.attendanceType = attendanceType;
+	}
+
+	public long getPayhead() {
+		return payHead;
+	}
+
+	public void setPayhead(long payHead) {
+		this.payHead = payHead;
+	}
+
+	public static String getAttendanceType(int attendanceType) {
+		AccounterMessages messages = Accounter.getMessages();
+		switch (attendanceType) {
+		case LEAVE_WITH_PAY:
+			return messages.leaveWithPay();
+
+		case LEAVE_WITHOUT_PAY:
+			return messages.leaveWithoutPay();
+
+		case ATTENDANCE_ON_PAYHEAD:
+			return messages.payhead();
+
+		case ATTENDANCE_ON_EARNING_TOTAL:
+			return messages.onEarningTotal();
+
+		case ATTENDANCE_ON_SUBTOTAL:
+			return messages.onSubTotal();
+
+		case ATTENDANCE_ON_RATE:
+			return messages.rate();
+
+		default:
+			break;
+		}
+		return null;
 	}
 }

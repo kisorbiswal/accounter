@@ -46,6 +46,17 @@ public class AttendancePayHead extends PayHead {
 	 */
 	public static final int PER_DAY_CALCULATION_USER_DEFINED_CALANDAR = 3;
 
+	public static final int LEAVE_WITH_PAY = 1;
+	public static final int LEAVE_WITHOUT_PAY = 2;
+	public static final int ATTENDANCE_ON_PAYHEAD = 3;
+	public static final int ATTENDANCE_ON_EARNING_TOTAL = 4;
+	public static final int ATTENDANCE_ON_SUBTOTAL = 5;
+	public static final int ATTENDANCE_ON_RATE = 6;
+
+	private int attendanceType;
+
+	private PayHead payHead;
+
 	private int calculationPeriod;
 
 	private int perDayCalculationBasis;
@@ -186,5 +197,21 @@ public class AttendancePayHead extends PayHead {
 	public void setUserDefinedCalendar(
 			AttendanceOrProductionType userDefinedCalendar) {
 		this.userDefinedCalendar = userDefinedCalendar;
+	}
+
+	public int getAttendanceType() {
+		return attendanceType;
+	}
+
+	public void setAttendanceType(int attendanceType) {
+		this.attendanceType = attendanceType;
+	}
+
+	public PayHead getPayhead() {
+		return payHead;
+	}
+
+	public void setPayhead(PayHead payHead) {
+		this.payHead = payHead;
 	}
 }
