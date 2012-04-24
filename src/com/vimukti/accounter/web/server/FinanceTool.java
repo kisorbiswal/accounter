@@ -51,6 +51,8 @@ import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.Attachment;
+import com.vimukti.accounter.core.AttendanceManagement;
+import com.vimukti.accounter.core.AttendanceManagementItem;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
@@ -141,6 +143,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -4768,4 +4771,5 @@ public class FinanceTool {
 			e.printStackTrace();
 		}
 	}
+
 }

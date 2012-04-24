@@ -301,18 +301,12 @@
 		</set>
 	</class>
 
-	<class name="AttendanceManagement" table="ATTENDANCE_MANAGEMENT">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
-		<list name="items" cascade="save-update,delete">
-			<key column="ATTENDANCE_MANAGEMENT" />
-			<list-index column="IDX" />
-			<one-to-many class="AttendanceManagementItem" />
-		</list>
-	</class>
+	<!-- <class name="AttendanceManagement" table="ATTENDANCE_MANAGEMENT"> <id 
+		name="id" column="ID"> <generator class="identity" /> </id> <many-to-one 
+		name="company" column="COMPANY_ID" class="Company"> </many-to-one> <list 
+		name="items" cascade="save-update,delete"> <key column="ATTENDANCE_MANAGEMENT" 
+		/> <list-index column="IDX" /> <one-to-many class="AttendanceManagementItem" 
+		/> </list> </class> -->
 
 	<class name="AttendanceManagementItem" table="ATTENDANCE_MANAGEMENT_ITEM">
 		<id name="id" column="ID">
@@ -337,8 +331,9 @@
 		<![CDATA[
 			SELECT SUM(I.VALUE) AS VAL FROM
 					ATTENDANCE_MANAGEMENT_ITEM I
+					LEFT JOIN EMPLOYEE E ON E.ID = I.EMPLOYEE
 					
-					WHERE I.COMPANY_ID = :company
+					WHERE E.COMPANY_ID = :company
 						  AND I.EMPLOYEE = :employee
 						  AND I.ATTENDANCE_TYPE = :attendanceType
 		]]>
@@ -426,11 +421,14 @@
 		<query-param name="employee" type="Employee" />
 		<query-param name="group" type="EmployeeGroup" />
 		from com.vimukti.accounter.core.PayStructureItem PI
-		where (PI.payStructure.employee = :employee or
-		PI.payStructure.employeeGroup = :group)
+		where
+		(PI.payStructure.employee = :employee or
+		PI.payStructure.employeeGroup
+		= :group)
 		and PI.payStructure.company = :company
 		order by PI.rate desc
 	</query>
+
 	<query name="getAttendanceMItem.by.employee">
 		<query-param name="employee" type="Employee" />
 		<query-param name="attendanceType" type="AttendanceOrProductionType" />
@@ -438,9 +436,11 @@
 		where
 		ami.employee = :employee and ami.attendanceType =:attendanceType
 	</query>
+
 	<query name="getEmployeesByGroup">
 		<query-param name="groupId" type="long"></query-param>
-			from com.vimukti.accounter.core.Employee e where 
-			e.group.id=:groupId
+		from com.vimukti.accounter.core.Employee e where
+		e.group.id=:groupId
 	</query>
+
 </hibernate-mapping>

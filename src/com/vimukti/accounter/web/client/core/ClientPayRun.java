@@ -17,6 +17,8 @@ public class ClientPayRun extends ClientTransaction {
 
 	private long payPeriodEndDate;
 
+	private List<ClientAttendanceManagementItem> attendanceItems;
+
 	/**
 	 * @return the payableAccount
 	 */
@@ -100,5 +102,13 @@ public class ClientPayRun extends ClientTransaction {
 	@Override
 	public long getID() {
 		return this.id;
+	}
+
+	public void setAttendanceItems(List<ClientAttendanceManagementItem> allRows) {
+		this.attendanceItems = allRows;
+	}
+
+	public List<ClientAttendanceManagementItem> getAttendanceItems() {
+		return this.attendanceItems;
 	}
 }

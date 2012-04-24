@@ -9,6 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
@@ -21,6 +23,8 @@ import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
@@ -43,6 +47,9 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	private ScrollPanel tableLayout;
 	protected int sectionDepth = 0;
 
+	private AttendanceManagementTable table;
+	private AddNewButton itemTableButton;
+
 	private final List<Section<ClientEmployeePayHeadComponent>> sections = new ArrayList<Section<ClientEmployeePayHeadComponent>>();
 
 	public NewPayRunView() {
@@ -59,7 +66,9 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	Button button;
 	private ReportGrid reportGrid;
 	private ArrayList<ClientEmployeePayHeadComponent> records;
-	private int row;
+	private StyledPanel attendanceLay;
+	private DynamicForm attendanceForm;
+	private Button okButton;
 
 	private void createControls() {
 		Label lab1 = new Label(messages.payrun());
@@ -123,6 +132,37 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 			}
 		});
 
+		table = new AttendanceManagementTable();
+		table.setEnabled(!isInViewMode());
+
+		itemTableButton = new AddNewButton();
+		itemTableButton.setEnabled(!isInViewMode());
+		itemTableButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				addItem();
+			}
+		});
+
+		okButton = new Button(messages.ok());
+		okButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showPayRunTable();
+			}
+		});
+
+		attendanceLay = new StyledPanel("mainVLay");
+		attendanceLay.add(lab1);
+		attendanceLay.add(table);
+		attendanceLay.add(itemTableButton);
+		attendanceLay.add(okButton);
+
+		attendanceForm = new DynamicForm("attendanceForm");
+		attendanceForm.add(attendanceLay);
+
 		this.tableLayout = new ScrollPanel() {
 			@Override
 			protected void onLoad() {
@@ -134,11 +174,9 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 		reportGrid = new ReportGrid<ClientEmployeePayHeadComponent>(
 				getColumns(), true);
-		// reportGrid.setReportView(this);
 		reportGrid.setColumnTypes(getColumnTypes());
 		reportGrid.init();
 		reportGrid.addEmptyMessage(messages.noRecordsToShow());
-		tableLayout.add(reportGrid);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
@@ -146,9 +184,94 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		mainVLay.add(fromDate);
 		mainVLay.add(toDate);
 		mainVLay.add(button);
+		mainVLay.add(attendanceForm);
 		mainVLay.add(tableLayout);
 
 		this.add(mainVLay);
+	}
+
+	protected void showPayRunTable() {
+		ValidationResult result = validateAttendance();
+		if (result.haveErrors()) {
+			for (Error error : result.getErrors()) {
+				addError(error.getSource(), error.getMessage());
+				lastErrorSourcesFromValidation.add(error.getSource());
+			}
+			return;
+		}
+
+		reportGrid.removeAllRows();
+		attendanceForm.clear();
+		tableLayout.add(reportGrid);
+
+		data.setAttendanceItems(table.getAllRows());
+
+		AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback = new AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				return;
+			}
+
+			@Override
+			public void onSuccess(
+					ArrayList<ClientEmployeePayHeadComponent> result) {
+				if (result == null)
+					onFailure(new Exception());
+
+				try {
+					NewPayRunView.this.records = result;
+					if (result != null && result.size() > 0) {
+						reportGrid.removeAllRows();
+						refreshMakeDetailLayout();
+						setFromAndToDate(result);
+						initRecords(result);
+					} else {
+						reportGrid.removeAllRows();
+
+						if (result != null && result.size() == 1)
+							setFromAndToDate(result);
+
+						reportGrid.addEmptyMessage(messages.noRecordsToShow());
+					}
+
+					showRecords();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		};
+		Accounter.createPayrollService().getEmployeePayHeadComponents(
+				table.getAllRows(), selectedItem, fromDate.getDate(),
+				toDate.getDate(), callback);
+	}
+
+	private ValidationResult validateAttendance() {
+		for (Object errorSource : lastErrorSourcesFromValidation) {
+			clearError(errorSource);
+		}
+		lastErrorSourcesFromValidation.clear();
+
+		ValidationResult validationResult = new ValidationResult();
+
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+		if (selectedValue == null) {
+			validationResult.addError(empsAndGroups,
+					messages.pleaseSelect(messages.employeeOrGroup()));
+		}
+
+		if (table.getAllRows().isEmpty()) {
+			validationResult.addError(table, "don't have attendance items");
+		}
+
+		return validationResult;
+	}
+
+	protected void addItem() {
+		ClientAttendanceManagementItem transactionItem = new ClientAttendanceManagementItem();
+		table.add(transactionItem);
 	}
 
 	private int[] getColumnTypes() {
@@ -219,47 +342,15 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	}
 
 	protected void selectionChanged() {
-		reportGrid.removeAllRows();
+
 		fromDate.setEnabled(true);
 		toDate.setEnabled(true);
-		AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback = new AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				return;
-			}
-
-			@Override
-			public void onSuccess(
-					ArrayList<ClientEmployeePayHeadComponent> result) {
-				if (result == null)
-					onFailure(new Exception());
-
-				try {
-					NewPayRunView.this.records = result;
-					if (result != null && result.size() > 0) {
-						reportGrid.removeAllRows();
-						refreshMakeDetailLayout();
-						setFromAndToDate(result);
-						initRecords(result);
-					} else {
-						reportGrid.removeAllRows();
-
-						if (result != null && result.size() == 1)
-							setFromAndToDate(result);
-
-						reportGrid.addEmptyMessage(messages.noRecordsToShow());
-					}
-
-					showRecords();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-		};
-		Accounter.createPayrollService().getEmployeePayHeadComponents(
-				selectedItem, fromDate.getDate(), toDate.getDate(), callback);
+		tableLayout.clear();
+		attendanceForm.clear();
+		table.clear();
+		table.addEmptyRecords();
+		attendanceForm.add(attendanceLay);
 
 	}
 
@@ -278,9 +369,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	}
 
 	protected void initRecords(ArrayList<ClientEmployeePayHeadComponent> records) {
-		initGrid();
 		reportGrid.removeAllRows();
-		row = -1;
 		this.records = records;
 
 		for (ClientEmployeePayHeadComponent record : records) {
@@ -362,7 +451,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	}
 
 	private String sectionName = "";
-	private Object columns;
 
 	private void processRecord(ClientEmployeePayHeadComponent record) {
 		if (sectionDepth == 0) {
@@ -406,12 +494,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void initGrid() {
-		this.columns = getColumns();
-
-		// this.reportGrid.setReportView(this);
 	}
 
 	protected void setFromAndToDate(

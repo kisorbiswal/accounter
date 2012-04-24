@@ -9,6 +9,8 @@ import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterPayrollService;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
@@ -56,6 +58,7 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 
 	@Override
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
+			List<ClientAttendanceManagementItem> list,
 			ClientPayStructureDestination selectItem,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
@@ -158,4 +161,5 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 				.getEmployeeAttendanceCurrentBal(employee, attendanceType,
 						getCompanyId());
 	}
+
 }

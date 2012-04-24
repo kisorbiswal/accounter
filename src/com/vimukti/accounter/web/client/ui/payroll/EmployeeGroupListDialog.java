@@ -40,6 +40,7 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 					@Override
 					public void onSuccess(ArrayList<ClientEmployeeGroup> result) {
 						list = result;
+						initGrid(list);
 					}
 
 					@Override
@@ -167,12 +168,21 @@ public class EmployeeGroupListDialog extends GroupDialog<ClientEmployeeGroup> {
 	private void editCustomerGroups() {
 		employeeGroup.setName(inputDlg.getTextValueByIndex(0));
 		saveOrUpdate(employeeGroup);
+		for (ClientEmployeeGroup group : list) {
+			if (group.getID() == employeeGroup.getID()) {
+				int index = list.indexOf(group);
+				list.remove(group);
+				list.add(index, employeeGroup);
+				break;
+			}
+		}
 	}
 
 	private void createCustomerGroups() {
 		ClientEmployeeGroup group = new ClientEmployeeGroup();
 		group.setName(inputDlg.getTextItems().get(0).getValue().toString());
 		saveOrUpdate(group);
+		list.add(group);
 	}
 
 	@Override

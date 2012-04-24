@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
@@ -28,6 +30,7 @@ public interface IAccounterPayrollServiceAsync {
 			AsyncCallback<PaginationList<ClientPayrollUnit>> callBack);
 
 	public void getEmployeePayHeadComponents(
+			List<ClientAttendanceManagementItem> list,
 			ClientPayStructureDestination selectItem,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback);

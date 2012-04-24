@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
@@ -29,6 +31,7 @@ public interface IAccounterPayrollService extends RemoteService {
 			int length) throws AccounterException;
 
 	ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
+			List<ClientAttendanceManagementItem> list,
 			ClientPayStructureDestination selectItem,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException;
@@ -50,4 +53,5 @@ public interface IAccounterPayrollService extends RemoteService {
 
 	long getEmployeeAttendanceCurrentBal(long employee, long attendanceType)
 			throws AccounterException;
+
 }

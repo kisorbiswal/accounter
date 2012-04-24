@@ -26,6 +26,7 @@ public class NewEmployeeGroupAction extends Action<ClientEmployeeGroup> {
 			public void onCreated() {
 				NewEmployeeGroupDialog dialog = new NewEmployeeGroupDialog(
 						messages.newEmployeeGroup());
+				dialog.setCallback(getCallback());
 				dialog.show();
 				dialog.center();
 			}

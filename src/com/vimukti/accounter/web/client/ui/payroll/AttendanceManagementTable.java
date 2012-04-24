@@ -24,7 +24,7 @@ public class AttendanceManagementTable extends
 		addEmptyRecords();
 	}
 
-	private void addEmptyRecords() {
+	public void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
 			addEmptyRowAtLast();
 		}

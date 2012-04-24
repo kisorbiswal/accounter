@@ -1139,7 +1139,8 @@
 		</joined-subclass>
 		<joined-subclass name="PayRun" table="PAY_RUN">
 			<key column="ID" />
-			<many-to-one name="company" column="COMPANY_ID" class="Company" not-null="true">
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true">
 			</many-to-one>
 			<property name="payPeriodStartDate" column="PAY_PERIOD_STARTDATE"
 				type="com.vimukti.accounter.core.LongUseType" />
@@ -1149,6 +1150,11 @@
 				<key column="EMPLOYEE_PAYMENT_ID" />
 				<one-to-many class="EmployeePaymentDetails" />
 			</set>
+			<list name="attendanceItems" cascade="save-update,delete">
+				<key column="ATTENDANCE_MANAGEMENT" />
+				<list-index column="IDX" />
+				<one-to-many class="AttendanceManagementItem" />
+			</list>
 		</joined-subclass>
 	</class>
 

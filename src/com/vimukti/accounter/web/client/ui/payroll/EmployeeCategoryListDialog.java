@@ -47,6 +47,7 @@ public class EmployeeCategoryListDialog extends
 					@Override
 					public void onSuccess(List<ClientEmployeeCategory> result) {
 						list = result;
+						initGrid(list);
 					}
 				});
 	}
@@ -147,11 +148,20 @@ public class EmployeeCategoryListDialog extends
 				.toString());
 
 		saveOrUpdate(employeeCategory);
+		list.add(employeeCategory);
 	}
 
 	private void editCustomerGroups() {
 		employeeCategory.setName(inputDlg.getTextValueByIndex(0));
 		saveOrUpdate(employeeCategory);
+		for (ClientEmployeeCategory category : list) {
+			if (category.getID() == employeeCategory.getID()) {
+				int index = list.indexOf(category);
+				list.remove(category);
+				list.add(index, employeeCategory);
+				break;
+			}
+		}
 	}
 
 	@Override
