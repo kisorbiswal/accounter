@@ -68,32 +68,33 @@ public class TDSResponsiblePersonDetailsView extends
 		titleLabel.removeStyleName("gwt-Label");
 		titleLabel.addStyleName("label-title");
 		responsiblePersonName = new TextItem(messages.name(),
-				"responsiblePersonName");
+				"responsiblePersonName", 75);
 		responsiblePersonName.setRequired(true);
 		responsiblePersonName.setEnabled(!isInViewMode());
 
-		designation = new TextItem(messages.designation(), "designation");
+		designation = new TextItem(messages.designation(), "designation", 20);
 		designation.setRequired(true);
 		designation.setEnabled(!isInViewMode());
 
-		branchName = new TextItem(messages.branchOrdivison(), "branchName");
+		branchName = new TextItem(messages.branchOrdivison(), "branchName", 75);
 		branchName.setEnabled(!isInViewMode());
 
-		flatNo = new TextItem(messages.flatNo(), "flatNo");
+		flatNo = new TextItem(messages.flatNo(), "flatNo", 25);
 
 		flatNo.setRequired(true);
 		flatNo.setEnabled(!isInViewMode());
 
-		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName");
+		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName",
+				25);
 		buildingName.setEnabled(!isInViewMode());
 
-		streetName = new TextItem(messages.streetOrRoadName(), "streetName");
+		streetName = new TextItem(messages.streetOrRoadName(), "streetName", 25);
 		streetName.setEnabled(!isInViewMode());
 
-		areaName = new TextItem(messages.area(), "areaName");
+		areaName = new TextItem(messages.area(), "areaName", 25);
 		areaName.setEnabled(!isInViewMode());
 
-		cityName = new TextItem(messages.cityOrTown(), "cityName");
+		cityName = new TextItem(messages.cityOrTown(), "cityName", 25);
 		cityName.setRequired(true);
 		cityName.setEnabled(!isInViewMode());
 
@@ -111,7 +112,7 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		pinNumber = new IntegerField(this, messages.postalCode());
+		pinNumber = new IntegerField(this, messages.postalCode(), 6);
 		pinNumber.setRequired(true);
 		pinNumber.setEnabled(!isInViewMode());
 
@@ -129,20 +130,20 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		stdNumber = new IntegerField(this, messages.STDCode());
+		stdNumber = new IntegerField(this, messages.STDCode(), 5);
 		stdNumber.setEnabled(!isInViewMode());
 
-		telephoneNumber = new IntegerField(this, messages.telephoneNo());
+		telephoneNumber = new IntegerField(this, messages.telephoneNo(), 10);
 		telephoneNumber.setEnabled(!isInViewMode());
 
-		mobileNumber = new IntegerField(this, messages.mobileNumber());
+		mobileNumber = new IntegerField(this, messages.mobileNumber(), 10);
 		mobileNumber.setRequired(true);
 		mobileNumber.setEnabled(!isInViewMode());
 
 		faxNumber = new IntegerField(this, messages.faxNumber());
 		faxNumber.setEnabled(!isInViewMode());
 
-		email = new EmailField(messages.email());
+		email = new EmailField(messages.email(), 75);
 		email.setEnabled(!isInViewMode());
 		email.setRequired(true);
 

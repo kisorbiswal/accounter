@@ -264,7 +264,8 @@ public class TDSChalanDetailsView extends
 					}
 				});
 
-		chalanSerialNumber = new IntegerField(this, messages.challanSerialNo());
+		chalanSerialNumber = new IntegerField(this, messages.challanSerialNo(),
+				9);
 		chalanSerialNumber.setRequired(true);
 		chalanSerialNumber.setEnabled(!isInViewMode());
 
@@ -292,7 +293,7 @@ public class TDSChalanDetailsView extends
 		toDateField.setEnteredDate(dates[1]);
 		toDateField.setEnabled(false);
 
-		checkNumber = new IntegerField(this, messages.chequeOrRefNo());
+		checkNumber = new IntegerField(this, messages.chequeOrRefNo(), 15);
 		checkNumber.setEnabled(!isInViewMode());
 
 		tdsDepositedBY = new SelectCombo(messages.tdsDepositedByBookEntry());
@@ -322,7 +323,7 @@ public class TDSChalanDetailsView extends
 		dateItem2.setTitle(messages.dateOnTaxPaid());
 		dateItem2.setEnabled(!isInViewMode());
 
-		bankBsrCode = new TextItem(messages.bankBSRCode(), "bankBsrCode");
+		bankBsrCode = new TextItem(messages.bankBSRCode(), "bankBsrCode", 7);
 		bankBsrCode.setEnabled(!isInViewMode());
 		bankBsrCode.setRequired(true);
 

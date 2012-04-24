@@ -12,9 +12,10 @@ public class IntegerField extends TextItem {
 	private WidgetWithErrors errorsWidget;
 
 	public IntegerField(WidgetWithErrors errorsWidget, final String name) {
-		super(name,"integerField");
+		super(name, "integerField");
 		this.errorsWidget = errorsWidget;
-		//((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
+		// ((TextBox)
+		// getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
 		addBlurHandler(getBlurHandler());
 
 		// setKeyPressHandler(new KeyPressListener() {
@@ -26,6 +27,13 @@ public class IntegerField extends TextItem {
 		// }
 		// }
 		// });
+	}
+
+	public IntegerField(WidgetWithErrors errorsWidget, final String name,
+			int maxLength) {
+		super(name, "integerField", maxLength);
+		this.errorsWidget = errorsWidget;
+		addBlurHandler(getBlurHandler());
 	}
 
 	@Override

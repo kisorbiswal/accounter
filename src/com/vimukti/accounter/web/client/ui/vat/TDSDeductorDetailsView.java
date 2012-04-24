@@ -90,27 +90,28 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		Label titleLabel = new Label(messages.deducatorMastersDetails());
 		titleLabel.removeStyleName("gwt-Label");
 		titleLabel.addStyleName("label-title");
-		deductorName = new TextItem(messages.name(), "deductorName");
+		deductorName = new TextItem(messages.name(), "deductorName", 75);
 		deductorName.setRequired(true);
 		deductorName.setEnabled(!isInViewMode());
 
-		branchName = new TextItem(messages.branchOrdivison(), "branchName");
+		branchName = new TextItem(messages.branchOrdivison(), "branchName", 75);
 		branchName.setEnabled(!isInViewMode());
 
-		flatNo = new TextItem(messages.flatNo(), "flatNo");
+		flatNo = new TextItem(messages.flatNo(), "flatNo", 25);
 		flatNo.setRequired(true);
 		flatNo.setEnabled(!isInViewMode());
 
-		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName");
+		buildingName = new TextItem(messages.nameOfPremisis(), "buildingName",
+				25);
 		buildingName.setEnabled(!isInViewMode());
 
-		streetName = new TextItem(messages.streetOrRoadName(), "streetName");
+		streetName = new TextItem(messages.streetOrRoadName(), "streetName", 25);
 		streetName.setEnabled(!isInViewMode());
 
-		areaName = new TextItem(messages.area(), "areaName");
+		areaName = new TextItem(messages.area(), "areaName", 25);
 		areaName.setEnabled(!isInViewMode());
 
-		cityName = new TextItem(messages.cityOrTown(), "cityName");
+		cityName = new TextItem(messages.cityOrTown(), "cityName", 25);
 		cityName.setEnabled(!isInViewMode());
 
 		stateCombo = new SelectCombo(messages.state());
@@ -126,7 +127,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		pinNumber = new IntegerField(this, messages.postalCode());
+		pinNumber = new IntegerField(this, messages.postalCode(), 6);
 		pinNumber.setEnabled(!isInViewMode());
 		pinNumber.setRequired(true);
 
@@ -147,20 +148,20 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 						}
 					}
 				});
-		stdNumber = new TextItem(messages.STDCode(), "stdNumber");
+		stdNumber = new TextItem(messages.STDCode(), "stdNumber", 5);
 		stdNumber.setEnabled(!isInViewMode());
 
-		telephoneNumber = new IntegerField(this, messages.telephoneNo());
+		telephoneNumber = new IntegerField(this, messages.telephoneNo(), 10);
 		telephoneNumber.setEnabled(!isInViewMode());
 
 		faxNumber = new IntegerField(this, messages.faxNumber());
 		faxNumber.setEnabled(!isInViewMode());
 
-		panNumber = new TextItem(messages.panNumber(), "panNumber");
+		panNumber = new TextItem(messages.panNumber(), "panNumber", 10);
 		panNumber.setEnabled(!isInViewMode());
 		panNumber.setRequired(true);
 
-		tanNumber = new TextItem(messages.tanNumber(), "tanNumber");
+		tanNumber = new TextItem(messages.tanNumber(), "tanNumber", 10);
 		tanNumber.setEnabled(!isInViewMode());
 		tanNumber.setRequired(true);
 
@@ -181,7 +182,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 						.taxOfficeAddress(), taxOfficeAddresses);
 			}
 		});
-		email = new EmailField(messages.email());
+		email = new EmailField(messages.email(), 75);
 		email.setRequired(true);
 		// email.setHelpInformation(true);
 		email.setEnabled(!isInViewMode());
@@ -254,17 +255,17 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		paoCode = new TextItem(messages.PAOCode(), "paoCode");
+		paoCode = new TextItem(messages.PAOCode(), "paoCode", 20);
 		paoCode.setEnabled(!isInViewMode());
 
-		paoRegistration = new IntegerField(this, messages.PAORegistration());
+		paoRegistration = new IntegerField(this, messages.PAORegistration(), 7);
 		paoRegistration.setEnabled(!isInViewMode());
 
-		ddoCode = new TextItem(messages.ddoCode(), "telephoneNumber");
+		ddoCode = new TextItem(messages.ddoCode(), "telephoneNumber", 20);
 		ddoCode.setEnabled(!isInViewMode());
 
 		ddoRegistration = new TextItem(messages.ddoRegistrationNumber(),
-				"ddoRegistration");
+				"ddoRegistration", 10);
 		ddoRegistration.setEnabled(!isInViewMode());
 
 		ministryCombo = new SelectCombo(messages.ministry());
@@ -288,7 +289,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				});
 
 		ministryNameOtehr = new TextItem(messages.ministryName(),
-				"ministryNameOtehr");
+				"ministryNameOtehr", 150);
 		ministryNameOtehr.setEnabled(true);
 		ministryNameOtehr.setRequired(false);
 

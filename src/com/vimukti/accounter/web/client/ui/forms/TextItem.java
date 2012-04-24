@@ -27,6 +27,11 @@ public class TextItem extends FormItem<String> {
 		this.add(textBox);
 	}
 
+	public TextItem(String title, String styleName, int maxLength) {
+		this(title, styleName);
+		this.textBox.setMaxLength(maxLength);
+	}
+
 	public static void setPlaceholder(String text, TextBox box) {
 		box.getElement().setAttribute("placeholder", text);
 	}
@@ -35,6 +40,7 @@ public class TextItem extends FormItem<String> {
 	public void setTitle(String string) {
 		super.setTitle(string);
 	}
+
 	@Override
 	public String getValue() {
 		if (textBox.getText() == null)

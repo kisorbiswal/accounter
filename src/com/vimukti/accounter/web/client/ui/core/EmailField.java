@@ -10,7 +10,11 @@ public class EmailField extends TextItem {
 	private String text;
 
 	public EmailField(final String name) {
-		super(name,"emailField");
+		super(name, "emailField");
+	}
+
+	public EmailField(final String name, int maxLength) {
+		super(name, "emailField", maxLength);
 	}
 
 	private BlurHandler getBlurHandler() {
