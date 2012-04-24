@@ -88,7 +88,7 @@ public class PayRun extends Transaction {
 		setTotal(totalAmount);
 		Account salariesPayableAccount = getCompany()
 				.getSalariesPayableAccount();
-		salariesPayableAccount.updateCurrentBalance(this, totalAmount, 1);
+		salariesPayableAccount.updateTotalBalance(totalAmount, 1);
 		return super.onSave(session);
 	}
 

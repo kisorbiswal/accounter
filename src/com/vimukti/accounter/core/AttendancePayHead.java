@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.hibernate.Session;
 
@@ -143,16 +144,45 @@ public class AttendancePayHead extends PayHead {
 			double deductions, double earnings) {
 		double rate = payStructureItem.getRate();
 		double deductableSalary = rate;
-		long workingDays = getWorkingDays(payStructureItem);
-		if (workingDays == 0) {
-			deductableSalary = 0;
+		if (attendanceType == ATTENDANCE_ON_RATE) {
+			deductableSalary = rate;
+		} else if (attendanceType == ATTENDANCE_ON_EARNING_TOTAL) {
+			deductableSalary = earnings;
+		} else if (attendanceType == ATTENDANCE_ON_SUBTOTAL) {
+			deductableSalary = (rate + earnings) - deductions;
+		} else if (attendanceType == ATTENDANCE_ON_PAYHEAD) {
+			List<PayStructureItem> items = payStructureItem.getPayStructure()
+					.getItems();
+			PayStructureItem payHeadStructureItem = null;
+			for (PayStructureItem structureItem : items) {
+				if (structureItem.getPayHead().getID() == this.payHead.getID()) {
+					payHeadStructureItem = structureItem;
+					break;
+				}
+			}
+			if (payHeadStructureItem != null) {
+				payHeadStructureItem.setStartDate(payStructureItem
+						.getStartDate());
+				payHeadStructureItem.setEndDate(payStructureItem.getEndDate());
+				payHeadStructureItem.setAttendance(payStructureItem
+						.getAttendance());
+				deductableSalary = payHead.calculatePayment(
+						payHeadStructureItem, deductions, earnings);
+			} else {
+				deductableSalary = 0.0;
+			}
 		} else {
-			double perDayAmount = rate / workingDays;
-			deductableSalary = perDayAmount
-					* (this.leaveWithPay != null ? payStructureItem
-							.getAttendance()[0] : payStructureItem
-							.getAttendance()[1]);
-			deductableSalary = rate - deductableSalary;
+			long workingDays = getWorkingDays(payStructureItem);
+			if (workingDays == 0) {
+				deductableSalary = 0;
+			} else {
+				double perDayAmount = rate / workingDays;
+				deductableSalary = perDayAmount
+						* (this.leaveWithPay != null ? payStructureItem
+								.getAttendance()[0] : payStructureItem
+								.getAttendance()[1]);
+				deductableSalary = rate - deductableSalary;
+			}
 		}
 		return deductableSalary;
 	}

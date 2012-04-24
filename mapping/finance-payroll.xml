@@ -429,7 +429,7 @@
 		where (PI.payStructure.employee = :employee or
 		PI.payStructure.employeeGroup = :group)
 		and PI.payStructure.company = :company
-		by PI.rate desc
+		order by PI.rate desc
 	</query>
 	<query name="getAttendanceMItem.by.employee">
 		<query-param name="employee" type="Employee" />

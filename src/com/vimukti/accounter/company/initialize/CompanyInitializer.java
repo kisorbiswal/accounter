@@ -425,7 +425,8 @@ public abstract class CompanyInitializer {
 
 		company.setExchangeLossOrGainAccount(exchangeLossOrGainAccount);
 
-		Account salariesPayableAccount = createAccount(Account.TYPE_LIABILITY,
+		Account salariesPayableAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
 				AccounterServerConstants.SALARIES_PAYABLE,
 				Account.SUBBASETYPE_CURRENT_LIABILITY);
 

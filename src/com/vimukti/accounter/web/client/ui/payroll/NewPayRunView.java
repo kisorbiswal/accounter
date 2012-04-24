@@ -39,7 +39,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 	private DateField fromDate, toDate;
 	private EmployeesAndGroupsCombo empsAndGroups;
-	private EmployeePayHeadComponentTable grid;
 	protected ClientPayStructureDestination selectedItem;
 	private ScrollPanel tableLayout;
 	protected int sectionDepth = 0;
@@ -133,16 +132,13 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		};
 		this.tableLayout.addStyleName("tableLayout");
 
-		reportGrid = reportGrid = new ReportGrid<ClientEmployeePayHeadComponent>(
+		reportGrid = new ReportGrid<ClientEmployeePayHeadComponent>(
 				getColumns(), true);
 		// reportGrid.setReportView(this);
 		reportGrid.setColumnTypes(getColumnTypes());
 		reportGrid.init();
 		reportGrid.addEmptyMessage(messages.noRecordsToShow());
 		tableLayout.add(reportGrid);
-
-		grid = new EmployeePayHeadComponentTable();
-		grid.setEnabled(!isInViewMode());
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
@@ -188,33 +184,41 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	private void updateData() {
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
-
+		data.setTransactionDate(new ClientFinanceDate().getDate());
 		List<ClientEmployeePaymentDetails> details = new ArrayList<ClientEmployeePaymentDetails>();
-
-		List<ClientEmployeePayHeadComponent> allRows = grid.getAllRows();
 
 		ClientPayStructureDestination selectedValue = empsAndGroups
 				.getSelectedValue();
 		if (selectedValue instanceof ClientEmployee) {
 			ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
 			employeePaymentDetails.setEmployee(selectedValue.getID());
-			employeePaymentDetails.setPayHeadComponents(allRows);
-
+			employeePaymentDetails.setPayHeadComponents(records);
 			details.add(employeePaymentDetails);
 		} else {
 			ClientEmployeeGroup group = (ClientEmployeeGroup) selectedValue;
 			for (ClientEmployee employee : group.getEmployees()) {
 				ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
 				employeePaymentDetails.setEmployee(employee.getID());
-				employeePaymentDetails.setPayHeadComponents(allRows);
+				ArrayList<ClientEmployeePayHeadComponent> empRecords = getFilteredRecords(employee);
+				employeePaymentDetails.setPayHeadComponents(empRecords);
 				details.add(employeePaymentDetails);
 			}
 		}
 		data.setPayEmployee(details);
 	}
 
+	private ArrayList<ClientEmployeePayHeadComponent> getFilteredRecords(
+			ClientEmployee employee) {
+		ArrayList<ClientEmployeePayHeadComponent> empRecords = new ArrayList<ClientEmployeePayHeadComponent>();
+		for (ClientEmployeePayHeadComponent record : records) {
+			if (record.getName().equals(employee.getName())) {
+				empRecords.add(record);
+			}
+		}
+		return empRecords;
+	}
+
 	protected void selectionChanged() {
-		grid.clear();
 		reportGrid.removeAllRows();
 		fromDate.setEnabled(true);
 		toDate.setEnabled(true);
@@ -232,6 +236,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 					onFailure(new Exception());
 
 				try {
+					NewPayRunView.this.records = result;
 					if (result != null && result.size() > 0) {
 						reportGrid.removeAllRows();
 						refreshMakeDetailLayout();
