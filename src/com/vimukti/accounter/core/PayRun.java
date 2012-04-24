@@ -83,6 +83,7 @@ public class PayRun extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		// Running Payment of Each Employee
+		setType(Transaction.TYPE_PAY_RUN);
 		for (EmployeePaymentDetails detail : payEmployee) {
 			detail.setPayRun(this);
 			detail.runPayment();

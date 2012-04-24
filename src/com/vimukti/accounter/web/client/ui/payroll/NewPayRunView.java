@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
@@ -293,6 +294,32 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 			setData(new ClientPayRun());
 		} else {
 			initViewData(getData());
+		}
+
+		if (data.getID() == 0) {
+			AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
+
+				@Override
+				public void onException(AccounterException caught) {
+					Accounter
+							.showError(messages.failedToGetTransactionNumber());
+
+				}
+
+				@Override
+				public void onResultSuccess(String result) {
+					if (result == null) {
+						onException(null);
+					}
+
+					// transactionNumber.setValue(String.valueOf(result));
+					data.setNumber(result);
+				}
+
+			};
+
+			this.rpcUtilService.getNextTransactionNumber(data.getType(),
+					transactionNumberCallback);
 		}
 		super.initData();
 	}

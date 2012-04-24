@@ -20,6 +20,11 @@ public class ClientPayRun extends ClientTransaction {
 
 	private List<ClientAttendanceManagementItem> attendanceItems = new ArrayList<ClientAttendanceManagementItem>();
 
+	public ClientPayRun() {
+		super();
+		setType(TYPE_PAY_RUN);
+	}
+
 	/**
 	 * @return the payableAccount
 	 */
