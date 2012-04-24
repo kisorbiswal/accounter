@@ -145,7 +145,7 @@ public class BaseServlet extends HttpServlet {
 
 	private boolean isDeletedCompany(Long companyID) {
 		if (companyID == null) {
-			return true;
+			return false;
 		}
 		Session session = HibernateUtil.getCurrentSession();
 		Object res = session.getNamedQuery("isCompanyDeleted")
