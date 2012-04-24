@@ -321,7 +321,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		productionTypeCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_PRODUCTION,
-				messages.productionType(), "productionTypeCombo");
+				messages.productionType(), "productionTypeCombo") {
+			@Override
+			public void itemAdded(ClientAttendanceOrProductionType obj) {
+				NewPayHeadView.this.attendanceItemAdded(obj);
+			}
+		};
 		productionTypeCombo.setRequired(true);
 		productionTypeCombo.setEnabled(!isInViewMode());
 
@@ -350,13 +355,25 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		leaveWithPayCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY,
-				messages.leaveWithPay(), "leaveWithPayCombo");
+				messages.leaveWithPay(), "leaveWithPayCombo") {
+			@Override
+			public void itemAdded(ClientAttendanceOrProductionType obj) {
+				NewPayHeadView.this.attendanceItemAdded(obj);
+			}
+		};
+
 		leaveWithPayCombo.setEnabled(!isInViewMode());
 		leaveWithPayCombo.setRequired(true);
 
 		leaveWithoutPayCombo = new AttendanceOrProductionTypeCombo(
 				ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY,
-				messages.leaveWithoutPay(), "leaveWithoutPayCombo");
+				messages.leaveWithoutPay(), "leaveWithoutPayCombo") {
+			@Override
+			public void itemAdded(ClientAttendanceOrProductionType obj) {
+				NewPayHeadView.this.attendanceItemAdded(obj);
+			}
+		};
+
 		leaveWithoutPayCombo.setEnabled(!isInViewMode());
 		leaveWithoutPayCombo.setRequired(true);
 
@@ -427,6 +444,20 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		this.add(panel);
 
 		setSize("100%", "100%");
+	}
+
+	protected void attendanceItemAdded(ClientAttendanceOrProductionType obj) {
+		if (obj.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
+			leaveWithPayCombo.addItem(obj);
+		}
+
+		if (obj.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY) {
+			leaveWithoutPayCombo.addItem(obj);
+		}
+
+		if (obj.getType() == ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
+			productionTypeCombo.addItem(obj);
+		}
 	}
 
 	protected void attendanceTypeChanged(String selectItem) {

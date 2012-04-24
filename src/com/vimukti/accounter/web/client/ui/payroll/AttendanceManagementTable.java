@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
@@ -16,8 +15,6 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public class AttendanceManagementTable extends
 		EditTable<ClientAttendanceManagementItem> {
-
-	private TextEditColumn<ClientAttendanceManagementItem> curBalColumn;
 
 	public AttendanceManagementTable() {
 		super();
@@ -38,41 +35,43 @@ public class AttendanceManagementTable extends
 
 	@Override
 	protected void initColumns() {
-		this.addColumn(new EmployeeColumn());
+		this.addColumn(new EmployeeColumn() {
+			@Override
+			protected void setValue(ClientAttendanceManagementItem row,
+					ClientEmployee newValue) {
+				super.setValue(row, newValue);
+				row.setAttendanceType(null);
+				row.setNumber(0);
+				update(row);
+			}
+
+			@Override
+			public int getWidth() {
+				return 200;
+			}
+		});
 
 		this.addColumn(new AttendanceProductionTypeColumn() {
 			@Override
 			protected void setValue(ClientAttendanceManagementItem row,
 					ClientAttendanceOrProductionType newValue) {
-				super.setValue(row, newValue);
-				updateRow(row);
+				if (newValue != null
+						&& AttendanceManagementTable.this
+								.isExistsWithSameEmployee(row, newValue)) {
+					super.setValue(row, null);
+					Accounter
+							.showError("The selected Attendance/Production item already existed in another item with same employee."
+									+ "Please change the employee or remove previous attendance management item");
+				} else {
+					super.setValue(row, newValue);
+				}
+			}
+
+			@Override
+			public int getWidth() {
+				return 200;
 			}
 		});
-
-		curBalColumn = new TextEditColumn<ClientAttendanceManagementItem>() {
-
-			@Override
-			protected String getValue(ClientAttendanceManagementItem row) {
-				return UIUtils.toStr(row.getCurrBal());
-			}
-
-			@Override
-			protected void setValue(ClientAttendanceManagementItem row,
-					String value) {
-				row.setCurrBal(UIUtils.toLong(value));
-			}
-
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return messages.currentBalance();
-			}
-		};
-		this.addColumn(curBalColumn);
 
 		this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
 
@@ -84,9 +83,7 @@ public class AttendanceManagementTable extends
 			@Override
 			protected void setValue(ClientAttendanceManagementItem row,
 					String value) {
-				row.setCurrBal(row.getCurrBal() - row.getNumber());
 				row.setNumber(UIUtils.toInt(value));
-				row.setCurrBal(row.getCurrBal() + row.getNumber());
 				update(row);
 			}
 
@@ -97,7 +94,7 @@ public class AttendanceManagementTable extends
 
 			@Override
 			public int getWidth() {
-				return 50;
+				return 80;
 			}
 		});
 
@@ -133,30 +130,19 @@ public class AttendanceManagementTable extends
 		this.addColumn(new DeleteColumn<ClientAttendanceManagementItem>());
 	}
 
-	protected void updateRow(final ClientAttendanceManagementItem row) {
-		ClientEmployee employee = row.getEmployee();
-		ClientAttendanceOrProductionType attendanceType = row
-				.getAttendanceType();
-		if (employee == null || attendanceType == null) {
-			return;
+	protected boolean isExistsWithSameEmployee(
+			ClientAttendanceManagementItem row,
+			ClientAttendanceOrProductionType newValue) {
+		if (row.getEmployee() != null) {
+			List<ClientAttendanceManagementItem> allRows = getAllRows();
+			for (ClientAttendanceManagementItem item : allRows) {
+				if (item.getEmployee().getID() == row.getEmployee().getID()
+						&& newValue.getID() == item.getAttendanceType().getID()) {
+					return true;
+				}
+			}
 		}
-		Accounter.createPayrollService().getEmployeeAttendanceCurrentBal(
-				employee.getID(), attendanceType.getID(),
-				new AsyncCallback<Long>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onSuccess(Long result) {
-						row.setCurrBal(result);
-						update(row);
-					}
-				});
-
+		return false;
 	}
 
 	@Override

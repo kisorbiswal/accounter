@@ -51,7 +51,8 @@ public class AttendanceProdTypeDropDownTable extends
 	@Override
 	protected ClientAttendanceOrProductionType getAddNewRow() {
 		ClientAttendanceOrProductionType employee = new ClientAttendanceOrProductionType();
-		employee.setName(messages.comboDefaultAddNew(messages.employee()));
+		employee.setName(messages.comboDefaultAddNew(messages
+				.attendanceOrProductionType()));
 		return employee;
 	}
 

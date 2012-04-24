@@ -11,7 +11,6 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 	private ClientAttendanceOrProductionType attendanceType;
 	private long value;
 	private long id;
-	private long currBal;
 
 	private int version;
 
@@ -75,16 +74,8 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 		return this.id;
 	}
 
-	public long getCurrBal() {
-		return currBal;
-	}
-
-	public void setCurrBal(long currBal) {
-		this.currBal = currBal;
-	}
-
 	public boolean isAllowed() {
-		return (employee != null && value != 0 && attendanceType != null);
+		return (employee != null && attendanceType != null);
 	}
 
 }

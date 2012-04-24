@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
-import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -112,15 +111,21 @@ public class AttendanceOrProductionTypeCombo extends
 								.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY)) {
 					return;
 				}
-				if (type != result.getType()) {
-					return;
+				if (type == result.getType()) {
+					list.add(result);
+					addItemThenfireEvent(result);
 				}
-				list.add(result);
-				addItemThenfireEvent(result);
+
+				itemAdded(result);
 			}
 		});
 
 		action.run(null, true);
+	}
+
+	protected void itemAdded(ClientAttendanceOrProductionType obj) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
