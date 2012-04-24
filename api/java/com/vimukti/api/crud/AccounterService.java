@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.api.core.ApiCallback;
 import com.vimukti.api.core.ApiRequest;
 
@@ -16,6 +15,29 @@ public class AccounterService extends RequestService {
 	public AccounterService(int serializationType, String apiKey,
 			String secretKey, String autherizedTocken, long companyId) {
 		super(serializationType, apiKey, secretKey, autherizedTocken, companyId);
+	}
+
+	public void createUserSecret(String companyPassword,
+			ApiCallback<Boolean> callback) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("type", "usersecret");
+		map.put("password", companyPassword);
+		ApiRequest<Boolean> request = new ApiRequest<Boolean>(
+				buildQueryString(map), getPath(RequestUtil.REQUEST_OPERATIONS),
+				RequestUtil.METHOD_GET, callback);
+		addRequest(request);
+	}
+
+	public void encryptCompany(String newCompanyPassword, String passwordHint,
+			ApiCallback<Boolean> callback) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("type", "encryptcompany");
+		map.put("password", newCompanyPassword);
+		map.put("hint", passwordHint == null ? "" : passwordHint);
+		ApiRequest<Boolean> request = new ApiRequest<Boolean>(
+				buildQueryString(map), getPath(RequestUtil.REQUEST_OPERATIONS),
+				RequestUtil.METHOD_GET, callback);
+		addRequest(request);
 	}
 
 	public void create(IAccounterCore createdObject, ApiCallback<Long> callback) {
@@ -66,8 +88,7 @@ public class AccounterService extends RequestService {
 		addRequest(request);
 	}
 
-	public <T extends IAccounterCore> void get(AccounterCoreType type, long id,
-			ApiCallback<T> callback) {
+	public <T> void get(AccounterCoreType type, long id, ApiCallback<T> callback) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("type", type.getServerClassSimpleName());
 		map.put("id", Long.toString(id));
@@ -77,8 +98,8 @@ public class AccounterService extends RequestService {
 		addRequest(request);
 	}
 
-	public <T extends IAccounterCore> void get(AccounterCoreType type,
-			String name, ApiCallback<T> callback) {
+	public <T> void get(AccounterCoreType type, String name,
+			ApiCallback<T> callback) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("type", type.getServerClassSimpleName());
 		map.put("name", name);
@@ -88,27 +109,26 @@ public class AccounterService extends RequestService {
 		addRequest(request);
 	}
 
-	public <T extends IAccounterCore> void getList(AccounterCoreType type,
+	public <T> void getList(AccounterCoreType type,
 			ApiCallback<List<T>> callback) {
 		getList(type, AccounterViewType.OPEN, AccounterDateRangeType.ALL,
 				callback);
 	}
 
-	public <T extends IAccounterCore> void getList(AccounterCoreType type,
-			AccounterViewType viewType, AccounterDateRangeType dateType,
-			ApiCallback<List<T>> callback) {
+	public <T> void getList(AccounterCoreType type, AccounterViewType viewType,
+			AccounterDateRangeType dateType, ApiCallback<List<T>> callback) {
 		getList(type, viewType, dateType, 0, 10, callback);
 	}
 
-	public <T extends IAccounterCore> void getList(AccounterCoreType type,
-			int startIndex, int length, ApiCallback<List<T>> callback) {
+	public <T> void getList(AccounterCoreType type, int startIndex, int length,
+			ApiCallback<List<T>> callback) {
 		getList(type, AccounterViewType.OPEN, AccounterDateRangeType.ALL,
 				startIndex, length, callback);
 	}
 
-	public <T extends IAccounterCore> void getList(AccounterCoreType type,
-			AccounterViewType viewType, AccounterDateRangeType dateType,
-			int startIndex, int length, ApiCallback<List<T>> callback) {
+	public <T> void getList(AccounterCoreType type, AccounterViewType viewType,
+			AccounterDateRangeType dateType, int startIndex, int length,
+			ApiCallback<List<T>> callback) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("type", type.getServerClassSimpleName());
 		map.put("viewType", viewType.getValue());
@@ -122,33 +142,30 @@ public class AccounterService extends RequestService {
 		addRequest(request);
 	}
 
-	public <T extends BaseReport> void getReports(
-			AccounterReportType reportType, ApiCallback<List<T>> callback) {
+	public <T> void getReports(AccounterReportType reportType,
+			ApiCallback<List<T>> callback) {
 		getReports(reportType, AccounterDateRangeType.THIS_MONTH, callback);
 	}
 
-	public <T extends BaseReport> void getReports(
-			AccounterReportType reportType, AccounterDateRangeType dateType,
-			ApiCallback<List<T>> callback) {
+	public <T> void getReports(AccounterReportType reportType,
+			AccounterDateRangeType dateType, ApiCallback<List<T>> callback) {
 		getReports(reportType, dateType, 0, 10, callback);
 	}
 
-	public <T extends BaseReport> void getReports(
-			AccounterReportType reportType, int startIndex, int length,
-			ApiCallback<List<T>> callback) {
+	public <T> void getReports(AccounterReportType reportType, int startIndex,
+			int length, ApiCallback<List<T>> callback) {
 		getReports(reportType, AccounterDateRangeType.THIS_MONTH, startIndex,
 				length, callback);
 	}
 
-	public <T extends BaseReport> void getReports(
-			AccounterReportType reportType, Date startDate, Date endDate,
-			ApiCallback<List<T>> callback) {
+	public <T> void getReports(AccounterReportType reportType, Date startDate,
+			Date endDate, ApiCallback<List<T>> callback) {
 		getReports(reportType, startDate, endDate, 0, 10, callback);
 	}
 
-	public <T extends BaseReport> void getReports(
-			AccounterReportType reportType, AccounterDateRangeType dateType,
-			int startIndex, int length, ApiCallback<List<T>> callback) {
+	public <T> void getReports(AccounterReportType reportType,
+			AccounterDateRangeType dateType, int startIndex, int length,
+			ApiCallback<List<T>> callback) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("type", reportType.getValue());
 		map.put("dateRange", dateType.getValue());
@@ -160,9 +177,9 @@ public class AccounterService extends RequestService {
 		addRequest(request);
 	}
 
-	public <T extends BaseReport> void getReports(
-			AccounterReportType reportType, Date startDate, Date endDate,
-			int startIndex, int length, ApiCallback<List<T>> callback) {
+	public <T> void getReports(AccounterReportType reportType, Date startDate,
+			Date endDate, int startIndex, int length,
+			ApiCallback<List<T>> callback) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("type", reportType.getValue());
 		map.put("StartDate", RequestUtil.getDateString(startDate));
@@ -171,6 +188,16 @@ public class AccounterService extends RequestService {
 		map.put("length", Integer.toString(length));
 		ApiRequest<List<T>> request = new ApiRequest<List<T>>(
 				buildQueryString(map), getPath(RequestUtil.REQUEST_LISTS),
+				RequestUtil.METHOD_GET, callback);
+		addRequest(request);
+	}
+
+	public void getAvailableReportsList(
+			ApiCallback<Map<String, List<String>>> callback) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("type", "reportslist");
+		ApiRequest<Map<String, List<String>>> request = new ApiRequest<Map<String, List<String>>>(
+				buildQueryString(map), getPath(RequestUtil.REQUEST_OPERATIONS),
 				RequestUtil.METHOD_GET, callback);
 		addRequest(request);
 	}

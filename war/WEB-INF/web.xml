@@ -106,6 +106,17 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Api Operations</servlet-name>
+		<servlet-class>com.vimukti.accounter.developer.api.ApiOperationsServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Api Operations</servlet-name>
+		<url-pattern>/company/api/xml/operations</url-pattern>
+		<url-pattern>/company/api/json/operations</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>Reports Api</servlet-name>
 		<servlet-class>com.vimukti.accounter.developer.api.ReportsApiServlet
 		</servlet-class>

@@ -14,7 +14,7 @@ public class MostProfitableCustomersProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service.getAgedCreditors(
-				clientFinanceStartDate, clientFinanceEndDate);
+				startDate, endDate);
 
 		sendResult(result);
 	}

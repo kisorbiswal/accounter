@@ -14,7 +14,7 @@ public class PurchasesbyItemSummaryProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service.getPurchasesByItemSummary(
-				clientFinanceStartDate, clientFinanceEndDate);
+				startDate, endDate);
 
 		sendResult(result);
 	}

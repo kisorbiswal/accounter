@@ -16,7 +16,7 @@ public class ReversechargelistProcessor extends ReportProcessor {
 		String payeeName = (String) req.getAttribute("Name");
 		List<? extends BaseReport> result = service
 				.getReverseChargeListDetailReport(payeeName,
-						clientFinanceStartDate, clientFinanceEndDate);
+						startDate, endDate);
 
 		sendResult(result);
 	}

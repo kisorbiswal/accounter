@@ -14,7 +14,7 @@ public class DepositDetailProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service.getDepositDetail(
-				clientFinanceStartDate, clientFinanceEndDate);
+				startDate, endDate);
 
 		sendResult(result);
 	}

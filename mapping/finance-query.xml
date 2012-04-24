@@ -6134,6 +6134,43 @@
 
 	</sql-query>
 
+	<sql-query name="get.ApiCompany.details">
+		<query-param name="userIds" type="long" />
+
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="TRADING_NAME" type="string" />
+		<return-scalar column="TRADING_COUNTRY" type="string" />
+		<return-scalar column="IS_ENCRYPTED" type="boolean" />
+		
+		<![CDATA[
+				SELECT B.COMPANY_ID        AS COMPANY_ID,
+				       B.TRADING_NAME      TRADING_NAME,
+				       B.TRADING_COUNTRY TRADING_COUNTRY,
+				       (B.SECRET_KEY IS NOT NULL) AS IS_ENCRYPTED
+				FROM   (SELECT C.ID                AS COMPANY_ID,
+				               C.TRADING_NAME      TRADING_NAME,
+				               C.TRADING_COUNTRY TRADING_COUNTRY,
+				               Max(A.TIME_STAMP)   A_DATE,
+				               C.SECRET_KEY SECRET_KEY
+				        FROM   COMPANY C
+				               LEFT JOIN ACTIVITY A
+				                 ON A.COMPANY_ID = C.ID
+				               LEFT JOIN USERS U
+				                 ON U.COMPANY_ID = C.ID
+				        WHERE  U.ID IN :userIds
+				        GROUP  BY C.ID,
+				                  C.TRADING_NAME,
+				                  C.TRADING_COUNTRY
+				        ORDER  BY A_DATE DESC) AS B
+				GROUP  BY COMPANY_ID,
+				          TRADING_NAME,
+				          TRADING_COUNTRY,
+				          B.SECRET_KEY
+				ORDER  BY Max(A_DATE) DESC  
+				]]>
+
+	</sql-query>
+
 	<sql-query name="get.all.reconciliations.group.by.account.id">
 		<query-param name="company_Id" type="long" />
 

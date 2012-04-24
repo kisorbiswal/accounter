@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.api.core.ApiCallback;
+import com.vimukti.api.core.ApiCompany;
 import com.vimukti.api.core.ApiRequest;
 import com.vimukti.api.core.ClientDetails;
 import com.vimukti.api.process.RequestPeocesser;
@@ -37,8 +38,8 @@ public class Accounter {
 		return service;
 	}
 
-	public Set<String> companiesList() {
-		return clientDetails.getCompanies().keySet();
+	public Set<ApiCompany> companiesList() {
+		return clientDetails.getCompanies();
 	}
 
 	public static void login(final int serializationType, final String apiKey,
@@ -47,7 +48,6 @@ public class Accounter {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("ApiKey", apiKey);
 		params.put("Expire", RequestUtil.getDateString(new Date()));
-		params.put("type", "companies");
 		params.put("password", password);
 		String queryString = RequestUtil.makeQueryString(params);
 		ApiRequest<ClientDetails> request = new ApiRequest<ClientDetails>(
@@ -72,7 +72,11 @@ public class Accounter {
 
 	}
 
-	// Encription
+	public Set<String> getNonEncryptedCompanies() {
+		return null;
+	}
 
-	// Subscription
+	public Set<String> getEncryptedCompanies() {
+		return null;
+	}
 }

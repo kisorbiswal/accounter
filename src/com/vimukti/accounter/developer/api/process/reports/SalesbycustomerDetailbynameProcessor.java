@@ -16,7 +16,7 @@ public class SalesbycustomerDetailbynameProcessor extends ReportProcessor {
 		String customerName = (String) req.getAttribute("Name");
 		List<? extends BaseReport> result = service
 				.getSalesByCustomerDetailReport(customerName,
-						clientFinanceStartDate, clientFinanceEndDate);
+						startDate, endDate);
 
 		sendResult(result);
 	}

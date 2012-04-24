@@ -14,7 +14,7 @@ public class TrailBalanceProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service.getTrialBalance(
-				clientFinanceStartDate, clientFinanceEndDate);
+				startDate, endDate);
 
 		sendResult(result);
 	}

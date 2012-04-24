@@ -14,8 +14,8 @@ public class SalesbyCustomerdetailProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service
-				.getSalesByCustomerDetailReport(clientFinanceStartDate,
-						clientFinanceEndDate);
+				.getSalesByCustomerDetailReport(startDate,
+						endDate);
 
 		sendResult(result);
 	}

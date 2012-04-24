@@ -22,6 +22,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
 import com.google.gwt.user.client.rpc.SerializationException;
@@ -30,6 +32,7 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter;
 import com.google.gwt.user.server.rpc.SerializationPolicy;
 import com.google.gwt.user.server.rpc.SerializationPolicyLoader;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * Base on com.google.gwt.user.client.rpc.impl.RemoteServiceProxy
@@ -84,8 +87,9 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 				serializationPolicy = SerializationPolicyLoader.loadFromStream(
 						is, null);
 			} catch (Exception e) {
-				throw new InvocationException("Error while loading serialization policy"
-						+ serializationPolicyName, e);
+				throw new InvocationException(
+						"Error while loading serialization policy"
+								+ serializationPolicyName, e);
 			} finally {
 				if (is != null) {
 					try {
@@ -142,13 +146,35 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 			writer.flush();
 			writer.close();
 		} catch (IOException e) {
-			throw new InvocationException("IOException while sending RPC request", e);
+			throw new InvocationException(
+					"IOException while sending RPC request", e);
 		}
 
 		// Receive and process response
 		try {
 			connectionManager.handleResponseHeaders(connection);
 			statusCode = connection.getResponseCode();
+			if (statusCode != HttpServletResponse.SC_OK) {
+				switch (statusCode) {
+				case HttpServletResponse.SC_NOT_FOUND:
+					throw new AccounterException(
+							"Company not found. company Id is wrong.");
+				case HttpServletResponse.SC_UNAUTHORIZED:
+					throw new AccounterException(
+							"Your company is encrypted but user secret is not found. Please create user secret.");
+				case HttpServletResponse.SC_NOT_ACCEPTABLE:
+					throw new AccounterException(
+							"Company is locked. Try after some time.");
+				case HttpServletResponse.SC_BAD_REQUEST:
+					throw new AccounterException(
+							"User is not found. Wrong email Id.");
+				case HttpServletResponse.SC_INTERNAL_SERVER_ERROR:
+					throw new AccounterException(
+							"Could Not Complete the Request!");
+				default:
+					break;
+				}
+			}
 			is = connection.getInputStream();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			byte[] buffer = new byte[1024];
@@ -174,12 +200,15 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 						encodedResponse).readObject();
 				throw throwable;
 			} else {
-				throw new InvocationException("Unknown response" + encodedResponse);
+				throw new InvocationException("Unknown response"
+						+ encodedResponse);
 			}
 		} catch (IOException e) {
-			throw new InvocationException("IOException while receiving RPC response", e);
+			throw new InvocationException(
+					"IOException while receiving RPC response", e);
 		} catch (SerializationException e) {
-			throw new InvocationException("Error while deserialization response", e);
+			throw new InvocationException(
+					"Error while deserialization response", e);
 		} finally {
 			if (is != null) {
 				try {

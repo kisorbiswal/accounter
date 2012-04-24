@@ -1,15 +1,11 @@
 package com.vimukti.accounter.developer.api.process.lists;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 
-public class SalesOrdersProcessor extends ListProcessor {
-
+public class SalesOrdersProcessor extends EstimatesListProcessor {
 	@Override
-	public void process(HttpServletRequest req, HttpServletResponse resp)
-			throws Exception {
-		// TODO Auto-generated method stub
-
+	protected int getType() {
+		return ClientEstimate.SALES_ORDER;
 	}
 
 }

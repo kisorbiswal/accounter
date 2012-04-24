@@ -57,7 +57,7 @@ public class ApiFilter implements Filter {
 		try {
 			Date expire = format.parse(req.getParameter("Expire"));
 			// TODO
-		} catch (ParseException e1) {
+		} catch (Exception e1) {
 			sendFail(req, resp, "Wrong expire date formate");
 			return;
 		}

@@ -15,7 +15,7 @@ public class ExpenseReportsProcesser extends ReportProcessor {
 		init(req, resp);
 		int status = (Integer) req.getAttribute("Status");
 		List<? extends BaseReport> result = service.getExpenseReportByType(
-				status, clientFinanceStartDate, clientFinanceEndDate);
+				status, startDate, endDate);
 
 		sendResult(result);
 	}

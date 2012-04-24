@@ -16,7 +16,7 @@ public class PayeeStatementsProcessor extends ReportProcessor {
 		boolean isVendor = (Boolean) req.getAttribute("IsVendor");
 		int id = (Integer) req.getAttribute("Id");
 		List<? extends BaseReport> result = service.getStatements(isVendor, id,
-				0, clientFinanceStartDate, clientFinanceEndDate);
+				0, startDate, endDate);
 
 		sendResult(result);
 	}

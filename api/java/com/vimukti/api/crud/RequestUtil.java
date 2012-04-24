@@ -20,6 +20,7 @@ public class RequestUtil {
 	public static final int REQUEST_LISTS = 2;
 	public static final int REQUEST_REPORTS = 3;
 	public static final int REQUEST_LOGIN = 4;
+	public static final int REQUEST_OPERATIONS = 5;
 
 	public static final int METHOD_GET = 1;
 	public static final int METHOD_PUT = 2;
@@ -43,6 +44,7 @@ public class RequestUtil {
 		paths.put(REQUEST_LISTS, "/lists");
 		paths.put(REQUEST_REPORTS, "/reports");
 		paths.put(REQUEST_LOGIN, "/login");
+		paths.put(REQUEST_OPERATIONS, "/operations");
 	}
 
 	public static String getPath(int type, int serializationType) {

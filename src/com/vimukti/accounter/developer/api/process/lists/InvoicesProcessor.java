@@ -16,10 +16,13 @@ public class InvoicesProcessor extends ListProcessor {
 
 		int viewType = getViewType();
 		List<?> resultList = service.getInvoiceList(from.getDate(),
-				to.getDate(), ClientTransaction.TYPE_INVOICE, viewType, start,
-				length);
+				to.getDate(), getType(), viewType, start, length);
 
 		sendResult(resultList);
+	}
+
+	private int getType() {
+		return ClientTransaction.TYPE_INVOICE;
 	}
 
 	private int getViewType() {

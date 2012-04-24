@@ -1,12 +1,12 @@
 package com.vimukti.accounter.developer.api.process.lists;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.developer.api.process.ApiProcessor;
+import com.vimukti.accounter.developer.api.core.ApiProcessor;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -17,17 +17,26 @@ import com.vimukti.accounter.web.server.managers.CompanyManager;
 public abstract class ListProcessor extends ApiProcessor {
 	protected int start;
 	protected int length;
-	protected boolean isActive;
+	protected Boolean isActive;
 	protected IAccounterHomeViewService service;
 	protected ClientFinanceDate from;
 	protected ClientFinanceDate to;
 	protected String viewName;
+	protected long companyId;
 
+	/**
+	 * Reads active,start and length parameters
+	 * 
+	 * @param req
+	 * @param resp
+	 * @throws Exception
+	 */
 	protected void initObjectsList(HttpServletRequest req,
 			HttpServletResponse resp) throws Exception {
+		init(req, resp);
 		try {
 			String actPar = req.getParameter("active");
-			isActive = actPar == null ? false : Boolean.parseBoolean(actPar);
+			isActive = actPar == null ? null : Boolean.parseBoolean(actPar);
 			String startPar = req.getParameter("start");
 			start = startPar == null ? 0 : Integer.parseInt(startPar);
 			String lengthPar = req.getParameter("length");
@@ -37,14 +46,24 @@ public abstract class ListProcessor extends ApiProcessor {
 			return;
 		}
 
-		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
-				IAccounterHomeViewService.class);
 	}
 
-	protected void initTransactionList(HttpServletRequest req,
-			HttpServletResponse resp) throws Exception {
+	private void init(HttpServletRequest req, HttpServletResponse resp) {
 		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
 				IAccounterHomeViewService.class);
+		companyId = Long.parseLong(req.getParameter("CompanyId"));
+	}
+
+	/**
+	 * Reads viewType, dateType, from, to, start and length
+	 * 
+	 * @param req
+	 * @param resp
+	 * @throws Exception
+	 */
+	protected void initTransactionList(HttpServletRequest req,
+			HttpServletResponse resp) throws Exception {
+		init(req, resp);
 
 		String dateType = null;
 		viewName = req.getParameter("viewType");
@@ -69,10 +88,9 @@ public abstract class ListProcessor extends ApiProcessor {
 				return;
 			}
 		} else {
-			long companyId = Long.parseLong(req.getParameter("CompanyId"));
-			ClientFinanceDate[] dates = dateRangeChanged(companyId, dateType);
+			ClientFinanceDate[] dates = dateRangeChanged(dateType);
 			if (dates == null) {
-				sendResult(new ArrayList());
+				sendFail("Unable get the date ranges.");
 				return;
 			}
 			from = dates[0];
@@ -90,14 +108,13 @@ public abstract class ListProcessor extends ApiProcessor {
 		}
 	}
 
-	private ClientFinanceDate[] dateRangeChanged(long companyId,
-			String dateRange) {
+	private ClientFinanceDate[] dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
 		ClientFinanceDate startDate = getStartDate(companyId);
 		if (startDate == null) {
 			return null;
 		}
-		ClientFinanceDate currentFiscalYearStartDate = getCurrentFiscalYearStartDate(companyId);
+		ClientFinanceDate currentFiscalYearStartDate = getCurrentFiscalYearStartDate();
 		ClientFinanceDate currentFiscalYearEndDate = getCurrentFiscalYearEndDate(startDate);
 		ClientFinanceDate endDate = currentFiscalYearEndDate;
 
@@ -185,7 +202,7 @@ public abstract class ListProcessor extends ApiProcessor {
 		return null;
 	}
 
-	private ClientFinanceDate getCurrentFiscalYearStartDate(long companyId) {
+	private ClientFinanceDate getCurrentFiscalYearStartDate() {
 		Calendar cal = Calendar.getInstance();
 		ClientFinanceDate startDate = new ClientFinanceDate();
 		cal.setTime(startDate.getDateAsObject());
@@ -291,6 +308,8 @@ public abstract class ListProcessor extends ApiProcessor {
 	}
 
 	public Company getCompany() {
-		return null;
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = (Company) session.get(Company.class, companyId);
+		return company;
 	}
 }

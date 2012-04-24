@@ -15,7 +15,7 @@ public class EcsaleslistDetailsProcessor extends ReportProcessor {
 		init(req, resp);
 		String payeeName = (String) req.getAttribute("Name");
 		List<? extends BaseReport> result = service.getECSalesListDetailReport(
-				payeeName, clientFinanceStartDate, clientFinanceEndDate);
+				payeeName, startDate, endDate);
 
 		sendResult(result);
 	}

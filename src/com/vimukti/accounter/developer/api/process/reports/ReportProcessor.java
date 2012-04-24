@@ -3,13 +3,13 @@ package com.vimukti.accounter.developer.api.process.reports;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.vimukti.accounter.developer.api.process.ApiProcessor;
+import com.vimukti.accounter.developer.api.core.ApiProcessor;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public abstract class ReportProcessor extends ApiProcessor {
-	protected ClientFinanceDate clientFinanceEndDate;
-	protected ClientFinanceDate clientFinanceStartDate;
+	protected ClientFinanceDate startDate;
+	protected ClientFinanceDate endDate;
 	protected IAccounterReportService service;
 
 	protected void init(HttpServletRequest req, HttpServletResponse resp) {
@@ -20,10 +20,10 @@ public abstract class ReportProcessor extends ApiProcessor {
 		}
 		service = getS2sSyncProxy(req, "/do/accounter/report/rpc/service",
 				IAccounterReportService.class);
-		clientFinanceStartDate = getClientFinanceDate(req
+		startDate = getClientFinanceDate(req
 				.getParameter("StartDate"));
-		clientFinanceEndDate = getClientFinanceDate(req.getParameter("EndDate"));
-		if (clientFinanceEndDate == null || clientFinanceStartDate == null) {
+		endDate = getClientFinanceDate(req.getParameter("EndDate"));
+		if (endDate == null || startDate == null) {
 			sendFail("Wrong date formate");
 			return;
 		}

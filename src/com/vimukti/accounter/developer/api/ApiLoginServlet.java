@@ -1,11 +1,6 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +12,6 @@ import org.hibernate.Session;
 import com.google.gdata.util.common.util.Base64;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.EU;
-import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -56,35 +50,50 @@ public class ApiLoginServlet extends ApiBaseServlet {
 			sendFail(req, resp, "Unable to encrypt your password");
 		}
 
-		Map<String, Long> companyIds = getCompanyList(client.getUsers());
+		// Set<ApiCompany> companyIds = getCompanyList(client.getUsers());
 		ApiResult result = new ApiResult();
 		// ClientDetails details = new ClientDetails(encode, companyIds);
+		//
+		// ClientSubscription subscription = client.getClientSubscription();
+		// details.setCreatedDate(subscription.getCreatedDate());
+		// details.setDurationType(subscription.getDurationType());
+		// details.setExpiredDate(subscription.getExpiredDate());
+		// details.setFeatures(subscription.getSubscription().getFeatures());
+		// details.setGracePeriodDate(subscription.getGracePeriodDate());
+		// details.setLastModified(subscription.getLastModified());
+		// details.setMembers(subscription.getMembers());
+		// details.setPremiumType(subscription.getPremiumType());
+		// details.setType(subscription.getSubscription().getType());
+		//
 		// result.setResult(details);
 		result.setStatus(ApiResult.SUCCESS);
 		sendData(req, resp, result);
 	}
 
-	private Map<String, Long> getCompanyList(Set<User> users) {
-		Map<String, Long> companyIds = new HashMap<String, Long>();
-		List<Long> userIds = new ArrayList<Long>();
-		for (User user : users) {
-			if (!user.isDeleted()) {
-				userIds.add(user.getID());
-			}
-		}
-		List<Object[]> objects = new ArrayList<Object[]>();
-		if (!userIds.isEmpty()) {
-			Session session = HibernateUtil.getCurrentSession();
-			objects = session
-					.getNamedQuery(
-							"get.CompanyId.Tradingname.and.Country.of.user")
-					.setParameterList("userIds", userIds).list();
-			for (Object[] obj : objects) {
-				companyIds.put((String) obj[1], (Long) obj[0]);
-			}
-		}
-		return companyIds;
-	}
+	// private Set<ApiCompany> getCompanyList(Set<User> users) {
+	// Set<ApiCompany> companies = new HashSet<ApiCompany>();
+	// List<Long> userIds = new ArrayList<Long>();
+	// for (User user : users) {
+	// if (!user.isDeleted()) {
+	// userIds.add(user.getID());
+	// }
+	// }
+	// List<Object[]> objects = new ArrayList<Object[]>();
+	// if (!userIds.isEmpty()) {
+	// Session session = HibernateUtil.getCurrentSession();
+	// objects = session.getNamedQuery("get.ApiCompany.details")
+	// .setParameterList("userIds", userIds).list();
+	// for (Object[] obj : objects) {
+	// ApiCompany company = new ApiCompany();
+	// company.setId((Long) obj[0]);
+	// company.setName((String) obj[1]);
+	// company.setCountryName((String) obj[2]);
+	// company.setEncrypted((Boolean) obj[3]);
+	// companies.add(company);
+	// }
+	// }
+	// return companies;
+	// }
 
 	private Client getClient(String emailId, String password) {
 		Session session = HibernateUtil.getCurrentSession();

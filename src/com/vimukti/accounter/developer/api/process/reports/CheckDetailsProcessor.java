@@ -15,7 +15,7 @@ public class CheckDetailsProcessor extends ReportProcessor {
 		init(req, resp);
 		Long paymentmethod = (Long) req.getAttribute("PaymentMethod");
 		List<? extends BaseReport> result = service.getCheckDetailReport(
-				paymentmethod, clientFinanceStartDate, clientFinanceEndDate);
+				paymentmethod, startDate, endDate);
 
 		sendResult(result);
 	}

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.google.gdata.util.common.util.Base64DecoderException;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
@@ -138,13 +137,5 @@ public class EncryptCompaniesServlet extends BaseServlet {
 			}
 		}
 		resp.sendRedirect(LOGIN_URL);
-	}
-
-	private Company getCompany(String companyName) {
-		Session session = HibernateUtil.getCurrentSession();
-		Object uniqueResult = session
-				.getNamedQuery("get.company.by.tradingname")
-				.setParameter("tradingName", companyName).uniqueResult();
-		return (Company) uniqueResult;
 	}
 }

@@ -15,7 +15,7 @@ public class SalesByCustomerSummaryProcessor extends ReportProcessor {
 		init(req, resp);
 
 		List<? extends BaseReport> result = service.getSalesByCustomerSummary(
-				clientFinanceStartDate, clientFinanceEndDate);
+				startDate, endDate);
 
 		sendResult(result);
 	}

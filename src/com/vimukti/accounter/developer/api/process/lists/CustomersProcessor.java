@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class CustomersProcessor extends ListProcessor {
 
@@ -17,13 +16,8 @@ public class CustomersProcessor extends ListProcessor {
 		initObjectsList(req, resp);
 
 		List<? extends IAccounterCore> resultList = null;
-		try {
-			resultList = service.getPayeeList(ClientPayee.TYPE_CUSTOMER,
-					isActive, start, length);
-		} catch (AccounterException e) {
-			sendFail(e.getMessage());
-			return;
-		}
+		resultList = service.getPayeeList(ClientPayee.TYPE_CUSTOMER, isActive,
+				start, length);
 		sendResult(resultList);
 	}
 

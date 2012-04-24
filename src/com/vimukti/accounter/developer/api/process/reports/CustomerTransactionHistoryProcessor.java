@@ -14,8 +14,8 @@ public class CustomerTransactionHistoryProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service
-				.getCustomerTransactionHistory(clientFinanceStartDate,
-						clientFinanceEndDate);
+				.getCustomerTransactionHistory(startDate,
+						endDate);
 
 		sendResult(result);
 	}

@@ -10,19 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gdata.util.common.util.Base64;
 import com.vimukti.accounter.core.Developer;
+import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.developer.api.core.ApiProcessor;
 import com.vimukti.accounter.developer.api.core.ApiResult;
-import com.vimukti.accounter.developer.api.process.ApiProcessor;
-import com.vimukti.accounter.developer.api.process.CompanyidsProcessor;
 import com.vimukti.accounter.developer.api.process.CreateProcessor;
+import com.vimukti.accounter.developer.api.process.CreateUserSecretProcessor;
 import com.vimukti.accounter.developer.api.process.DeleteProcessor;
+import com.vimukti.accounter.developer.api.process.EncryptCompanyProcessor;
 import com.vimukti.accounter.developer.api.process.ReadProcessor;
+import com.vimukti.accounter.developer.api.process.ReportsListProcessor;
 import com.vimukti.accounter.developer.api.process.UpdateProcessor;
 import com.vimukti.accounter.developer.api.process.lists.CustomersProcessor;
 import com.vimukti.accounter.developer.api.process.lists.InvoicesProcessor;
+import com.vimukti.accounter.developer.api.process.lists.ItemsProcessor;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -37,6 +44,12 @@ public class ApiBaseServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
+
+		// Operations
+		processors.put("usersecret", new CreateUserSecretProcessor());
+		processors.put("encryptcompany", new EncryptCompanyProcessor());
+		processors.put("reportslist", new ReportsListProcessor());
+
 		// CRUD
 		processors.put("create", new CreateProcessor());
 		processors.put("read", new ReadProcessor());
@@ -44,11 +57,10 @@ public class ApiBaseServlet extends HttpServlet {
 		processors.put("delete", new DeleteProcessor());
 
 		// Lists
-		processors.put("customers", new CustomersProcessor());
+		processors.put("Customer", new CustomersProcessor());
+		processors.put("Invoice", new InvoicesProcessor());
+		processors.put("Item", new ItemsProcessor());
 
-		processors.put("invoices", new InvoicesProcessor());
-
-		processors.put("companies", new CompanyidsProcessor());
 		// Reports
 		processors.put("salesbycustomersummary", null);
 		super.init();
@@ -66,11 +78,20 @@ public class ApiBaseServlet extends HttpServlet {
 
 			String authentication = req.getParameter("authentication");
 			if (authentication == null || !isAuthenticated(authentication)) {
-				sendFail(req, resp, "authentication fail");
+				sendFail(req, resp,
+						"authentication fail. 'authentication' is not present");
 				return;
+			}
+			User user = getUser((String) req.getAttribute("emailId"),
+					(Long) req.getAttribute("companyId"));
+			byte[] d2 = Base64.decode(authentication);
+			if (user != null && user.getSecretKey() != null) {
+				EU.createCipher(user.getSecretKey(), d2,
+						req.getParameter("ApiKey"));
 			}
 			processor.process(req, resp);
 			sendData(req, resp, processor.getResult());
+			EU.removeCipher();
 		} catch (AccounterException e) {
 			String msg = AccounterExceptions.getErrorString(e.getErrorCode());
 			if (msg == null) {
@@ -87,8 +108,21 @@ public class ApiBaseServlet extends HttpServlet {
 		}
 	}
 
+	public static User getUser(String emailId, Long serverCompanyID) {
+		if (serverCompanyID == null) {
+			return null;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session
+				.getNamedQuery("getUser.by.mailId.and.companyId");
+		namedQuery.setParameter("emailId", emailId).setParameter("companyId",
+				serverCompanyID);
+		User user = (User) namedQuery.uniqueResult();
+		return user;
+	}
+
 	private boolean isAuthenticated(String authentication) {
-		
+
 		return true;
 	}
 

@@ -2,12 +2,15 @@ package com.vimukti.accounter.developer.api.process.lists;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ItemsProcessor extends ListProcessor {
 
@@ -15,32 +18,58 @@ public class ItemsProcessor extends ListProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		initObjectsList(req, resp);
-		String itemType = req.getParameter("itemType");
-		int type = 0;
-		try {
-			type = Integer.parseInt(itemType);
-		} catch (Exception e) {
-			sendFail("Item type is wrong formate");
-			return;
-		}
+		String itemType = req.getParameter("itemType");// Items(0),InventoryAssemblyItems(1),InventoryItem(2),VensorItems(3),CustomerItems(4)
 
+		int type = 0;
+		if (itemType != null) {
+			try {
+				type = Integer.parseInt(itemType);
+			} catch (Exception e) {
+				sendFail("Item type is wrong formate");
+				return;
+			}
+		}
+		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		List<ClientItem> resultList = new ArrayList<ClientItem>();
-		List<ClientItem> itemsList = new ArrayList<ClientItem>();
-		
-		itemsList = getPurchaseItems();
-		for (ClientItem clientItem : itemsList) {
-			if (isActive) {
-				if (clientItem.isActive() == true)
-					resultList.add(clientItem);
-			} else if (clientItem.isActive() == false) {
-				resultList.add(clientItem);
+		Set<Item> items = getCompany().getItems();
+		for (Item item : items) {
+			if (isActive != null && isActive != item.isActive()) {
+				continue;
+			}
+			boolean canAdd = false;
+			switch (type) {
+			case 0:// All
+				canAdd = true;
+				break;
+			case 1:// InventoryAssemblyItems
+				if (item.getType() == Item.TYPE_INVENTORY_ASSEMBLY) {
+					canAdd = true;
+				}
+				break;
+			case 2:// InventoryItem
+				if (item.getType() == Item.TYPE_INVENTORY_PART) {
+					canAdd = true;
+				}
+				break;
+			case 3:// VensorItems
+				if (item.isIBuyThisItem()) {
+					canAdd = true;
+				}
+				break;
+
+			case 4:// CustomerItems
+				if (item.isISellThisItem()) {
+					canAdd = true;
+				}
+				break;
+			default:
+				throw new AccounterException("Wrong itemType");
+			}
+			if (canAdd) {
+				resultList.add(convertUtil.toClientObject(item,
+						ClientItem.class));
 			}
 		}
 		sendResult(resultList);
 	}
-
-	private List<ClientItem> getPurchaseItems() {
-		return null;
-	}
-
 }

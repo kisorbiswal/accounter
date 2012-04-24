@@ -14,8 +14,8 @@ public class TransactiondetailbyTaxitemProcessor extends ReportProcessor {
 			throws Exception {
 		init(req, resp);
 		List<? extends BaseReport> result = service
-				.getTransactionDetailByTaxItem(clientFinanceStartDate,
-						clientFinanceEndDate);
+				.getTransactionDetailByTaxItem(startDate,
+						endDate);
 
 		sendResult(result);
 	}
