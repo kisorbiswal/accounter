@@ -10,7 +10,6 @@ import com.google.gwt.user.client.rpc.InvocationException;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
-import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
@@ -27,8 +26,8 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.AttendanceOrProductionTypeCombo;
+import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayheadCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -90,7 +89,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			attendanceForm, flatrateForm, productionForm;
 
 	private List<ClientComputaionFormulaFunction> formulas = new ArrayList<ClientComputaionFormulaFunction>();
-	private AccountCombo accountCombo;
+	private DepreciationAccountCombo accountCombo;
 
 	private AddNewButton itemTableButton;
 	private LabelItem formula;
@@ -295,13 +294,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		roundingMethodCombo.initCombo(roundingList);
 		roundingMethodCombo.setEnabled(!isInViewMode());
 
-		accountCombo = new AccountCombo(messages.expenseAccount()) {
-
-			@Override
-			protected List<ClientAccount> getAccounts() {
-				return getCompany().getActiveAccounts();
-			}
-		};
+		accountCombo = new DepreciationAccountCombo(messages.expenseAccount());
 		accountCombo.setEnabled(!isInViewMode());
 		accountCombo.setRequired(true);
 

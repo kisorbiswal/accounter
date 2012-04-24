@@ -445,6 +445,9 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 			return ClientPayHead.getPayHeadType(payHead.getType());
 		case 4:
 			payHead = record.getPayHead();
+			return ClientPayHead.getCalculationType(payHead.getType());
+		case 5:
+			payHead = record.getPayHead();
 			if (payHead != null
 					&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 				ClientComputionPayHead payhead = (ClientComputionPayHead) payHead;
@@ -476,30 +479,31 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	}
 
 	private void updateTotals(Object[] values) {
-		// TODO Auto-generated method stub
-
+		for (Section<ClientEmployeePayHeadComponent> sec : this.sections) {
+			sec.update(values);
+		}
 	}
 
 	private String sectionName = "";
 
 	private void processRecord(ClientEmployeePayHeadComponent record) {
 		if (sectionDepth == 0) {
-			// First time
-			this.sectionName = record.getName();
-			addSection(new String[] { sectionName }, new String[] {},
-					new int[] {});
-
+			addSection(new String[] { "" }, new String[] { messages.total() },
+					new int[] { 1 });
 		} else if (sectionDepth == 1) {
-			// No need to do anything, just allow adding this record
+			this.sectionName = record.getName();
+			addSection(new String[] { sectionName },
+					new String[] { messages.reportTotal(sectionName) },
+					new int[] { 1 });
+		} else if (sectionDepth == 2) {
 			if (!sectionName.equals(record.getName())) {
 				endSection();
-				// endSection();
 			} else {
 				return;
 			}
 		}
-		// Go on recursive calling if we reached this place
 		processRecord(record);
+
 	}
 
 	public void addSection(String[] sectionTitles, String[] footerTitles,

@@ -68,9 +68,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected void setValue(ClientPayStructureItem row,
 					ClientPayHead newValue) {
-				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE
-						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
+
+				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 					rateColumn.setEnable(false);
+				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
+					if (ph.getAttendanceType() != ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
+						rateColumn.setEnable(false);
+					} else {
+						rateColumn.setEnable(true);
+					}
 				} else {
 					rateColumn.setEnable(true);
 				}

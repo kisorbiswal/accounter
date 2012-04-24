@@ -406,6 +406,15 @@
 		E.name=:name and E.id != :id
 	</query>
 
+	<query name="getEmployeeGroup.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.EmployeeGroup E where
+		E.company=:company and
+		E.name=:name and E.id != :id
+	</query>
+
 	<query name="getPayhead.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />

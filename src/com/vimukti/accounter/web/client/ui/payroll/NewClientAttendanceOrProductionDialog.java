@@ -42,18 +42,25 @@ public class NewClientAttendanceOrProductionDialog extends
 		form = new DynamicForm("newClientAttendanceForm");
 		name = new TextItem(messages.name(), "attendanceName");
 		name.setRequired(true);
+
 		StyledPanel layout = new StyledPanel("layout");
 		form.add(name);
+
 		leaveType = new SelectCombo(messages.attendanceOrProductionType());
 		leaveType.initCombo(getAttendanceTypeLIst());
+		leaveType.setRequired(true);
 		form.add(leaveType);
+
 		daysTypeCombo = new SelectCombo(messages.type());
 		daysTypeCombo.initCombo(getDaysTypeList());
+		daysTypeCombo.setRequired(true);
 		form.add(daysTypeCombo);
+
 		payrollUnitCombo = new PayRollUnitCombo(messages.payrollUnitList(),
 				"payrollUnitsListCombo",
 				selectedAttendanceOrProductionType.getUnit());
 		form.add(payrollUnitCombo);
+
 		layout.add(form);
 		setBodyLayout(layout);
 		if (this.selectedAttendanceOrProductionType.getID() != 0) {
