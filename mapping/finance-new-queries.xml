@@ -305,9 +305,7 @@
 
 	<sql-query name="isCompanyLocked">
 		<query-param name="companyId" type="long" />
-
 		<return-scalar column="IS_LOCKED" type="boolean" />
-		
 		<![CDATA[
 				SELECT IS_LOCKED
 				FROM   COMPANY
@@ -315,6 +313,19 @@
 				]]>
 
 	</sql-query>
+	
+	<sql-query name="isCompanyDeleted">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="IS_DELETED" type="boolean" />
+		<![CDATA[
+				SELECT IS_DELETED
+				FROM   COMPANY
+				WHERE  ID = :companyId  
+				]]>
+	</sql-query>
+
+	
+	
 
 	<sql-query name="isCompanyExists">
 		<query-param name="companyId" type="long" />

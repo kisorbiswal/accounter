@@ -116,6 +116,12 @@ public class BaseServlet extends HttpServlet {
 						"/main/companylocked?companyId=" + companyID);
 				return;
 			}
+			if (isDeletedCompany(companyID)) {
+				request.getSession().removeAttribute(COMPANY_ID);
+				redirectExternal(request, response, LOGIN_URL);
+				return;
+			}
+
 			EU.removeCipher();
 			byte[] d2 = getD2(request);
 			if (emailId != null && d2 != null && companyID != null) {
@@ -135,6 +141,19 @@ public class BaseServlet extends HttpServlet {
 		} finally {
 			session.close();
 		}
+	}
+
+	private boolean isDeletedCompany(Long companyID) {
+		if (companyID == null) {
+			return true;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Object res = session.getNamedQuery("isCompanyDeleted")
+				.setLong("companyId", companyID).uniqueResult();
+		if (res == null) {
+			return false;
+		}
+		return (Boolean) res;
 	}
 
 	public boolean islockedCompany(Long companyID) {

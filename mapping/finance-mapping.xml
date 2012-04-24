@@ -222,6 +222,7 @@
 		<property name="contactSupport" column="CONTACT_SUPPORT"></property>
 		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
 		<property name="isLocked" column="IS_LOCKED"></property>
+		<property name="isDeleted" column="IS_DELETED"></property>
 
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>

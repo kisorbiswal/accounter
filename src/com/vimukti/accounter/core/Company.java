@@ -121,6 +121,8 @@ public class Company implements IAccounterServerCore {
 
 	private String invoiceEmailBody;
 
+	private boolean isDeleted;
+
 	/**
 	 * Book Keeping
 	 */
@@ -1727,6 +1729,21 @@ public class Company implements IAccounterServerCore {
 	public void selfValidate() throws AccounterException {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return the isDeleted
+	 */
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	/**
+	 * @param isDeleted
+	 *            the isDeleted to set
+	 */
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

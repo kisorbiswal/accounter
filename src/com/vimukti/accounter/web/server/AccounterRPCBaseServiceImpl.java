@@ -156,6 +156,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		if (company == null || company.isLocked()) {
 			return false;
 		}
+
+		if (company.isDeleted()) {
+			return false;
+		}
+
 		user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
 			return false;

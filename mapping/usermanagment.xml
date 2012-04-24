@@ -51,6 +51,13 @@
 		from com.vimukti.accounter.core.User u where u.client.emailId=:emailID
 		and u.company=:company
 	</query>
+	
+	<query name="user.by.emailid.companyId">
+		<query-param name="companyId" type="long" />
+		<query-param name="emailID" type="String" />
+		from com.vimukti.accounter.core.User u where u.client.emailId=:emailID
+		and u.company.id=:companyId
+	</query>
 
 	<!-- full user count -->
 	<sql-query name="active_userscount">

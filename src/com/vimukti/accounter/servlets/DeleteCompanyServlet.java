@@ -46,6 +46,25 @@ public class DeleteCompanyServlet extends BaseServlet {
 			return;
 		}
 
+		String companyId = req.getParameter(COMPANY_ID);
+		if (companyId == null || companyId.isEmpty()
+				|| Long.getLong(companyId) == null) {
+			redirectExternal(req, resp, LOGIN_URL);
+			return;
+		}
+
+		Session hibernateSession = HibernateUtil.getCurrentSession();
+
+		Query query = hibernateSession
+				.getNamedQuery("user.by.emailid.companyId")
+				.setParameter("emailID", emailID)
+				.setParameter("companyId", Long.parseLong(companyId));
+		User user = (User) query.uniqueResult();
+		if (user == null) {
+			redirectExternal(req, resp, LOGIN_URL);
+			return;
+		}
+
 		String parameter = req.getParameter("isCancel");
 
 		if (parameter != null && parameter.equalsIgnoreCase("true")) {
@@ -53,7 +72,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 			redirectExternal(req, resp, COMPANIES_URL);
 			return;
 		}
-		String companyId = req.getParameter(COMPANY_ID);
+
 		setOptions(req, companyId, emailID);
 		dispatch(req, resp, deleteCompanyView);
 	}
@@ -109,11 +128,11 @@ public class DeleteCompanyServlet extends BaseServlet {
 	 */
 	private void deleteComapny(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		final String email = (String) req.getSession().getAttribute(EMAIL_ID);
+		String email = (String) req.getSession().getAttribute(EMAIL_ID);
 		Client client = getClient(email);
 		String message = "";
 
-		final String companyID = String.valueOf(req.getSession().getAttribute(
+		String companyID = String.valueOf(req.getSession().getAttribute(
 				COMPANY_ID));
 		String delete = req.getParameter("delete");
 		String password = req.getParameter("userPassword");
@@ -145,92 +164,122 @@ public class DeleteCompanyServlet extends BaseServlet {
 			return;
 		}
 
-		final boolean deleteAllUsers = delete.equals("deleteAllUsers");
-		final HttpSession httpSession = req.getSession();
+		boolean deleteAllUsers = delete.equals("deleteAllUsers");
+		HttpSession httpSession = req.getSession();
+		deleteCompany(httpSession, deleteAllUsers);
+
+		if (message.isEmpty()) {
+			message = "Success";
+		}
+		redirectExternal(req, resp, COMPANY_STATUS_URL);
+	}
+
+	private void deleteCompany(HttpSession httpSession, boolean isDeleteAllUsers) {
+		String companyID = String.valueOf(httpSession.getAttribute(COMPANY_ID));
+		String email = (String) httpSession.getAttribute(EMAIL_ID);
+		Client client = getClient(email);
+		Session hibernateSession = HibernateUtil.getCurrentSession();
+		Company company = (Company) hibernateSession.get(Company.class,
+				Long.parseLong(companyID));
+
+		httpSession.setAttribute(COMPANY_DELETION_STATUS, COMPANY_DELETING);
+
+		if (company == null || company.isDeleted()) {
+			httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
+			httpSession.setAttribute("DeletionFailureMessage",
+					"Company has been deleted.");
+		} else {
+
+			boolean canDeleteFromSingle = true, canDeleteFromAll = true;
+
+			User user = (User) hibernateSession
+					.getNamedQuery("user.by.emailid")
+					.setParameter("emailID", email)
+					.setParameter("company", company).uniqueResult();
+
+			Query query = hibernateSession.getNamedQuery("get.Admin.Users")
+					.setParameter("company", company);
+			List<User> adminUsers = query.list();
+			if (adminUsers.size() < 2) {
+				for (User u : adminUsers) {
+					if (u.getID() == user.getID()) {
+						canDeleteFromSingle = false;
+						break;
+					}
+				}
+			}
+
+			if (user != null && !user.isAdmin()) {
+				canDeleteFromAll = false;
+			}
+
+			Company serverCompany = null;
+			for (User usr : client.getUsers()) {
+				if (usr.getCompany().getID() == company.getID()) {
+					serverCompany = usr.getCompany();
+				}
+			}
+
+			if (serverCompany == null) {
+				httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
+				httpSession.setAttribute("DeletionFailureMessage",
+						"Company Doesnot Exist");
+			} else if (!canDeleteFromSingle && !canDeleteFromAll) {
+				httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
+				httpSession.setAttribute("DeletionFailureMessage",
+						"You Don't have Permissions to Delete this Company");
+			} else {
+
+				Transaction beginTransaction = hibernateSession
+						.beginTransaction();
+				try {
+					company.setTradingName(company.getTradingName()
+							+ "- DELETED");
+					company.setDeleted(true);
+					hibernateSession.saveOrUpdate(company);
+					beginTransaction.commit();
+					httpSession
+							.setAttribute(COMPANY_DELETION_STATUS, "Success");
+				} catch (Exception e) {
+					httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
+					httpSession.setAttribute("DeletionFailureMessage",
+							"Internal Error Occured");
+				}
+
+				Thread deleteCompanyThread = getDeleteCompanyThread(
+						httpSession, serverCompany, user, isDeleteAllUsers,
+						canDeleteFromAll, canDeleteFromSingle);
+				deleteCompanyThread.start();
+			}
+		}
+	}
+
+	private Thread getDeleteCompanyThread(final HttpSession httpSession,
+			final Company company, final User user,
+			final boolean isDeleteAllUsers, final boolean canDeleteFromAll,
+			final boolean canDeleteFromSingle) {
 
 		final Locale locale = ServerLocal.get();
 
-		new Thread(new Runnable() {
+		Thread thread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
+				log("Deleting Company.");
 				ServerLocal.set(locale);
-				httpSession.setAttribute(COMPANY_DELETION_STATUS,
-						COMPANY_DELETING);
+				AccounterThreadLocal.set(user);
 				Session session = HibernateUtil.openSession();
-				Transaction transaction = null;
+				Transaction transaction = session.beginTransaction();
 				try {
-					boolean canDeleteFromSingle = true, canDeleteFromAll = true;
-
-					Company company = (Company) session.get(Company.class,
-							Long.parseLong(companyID));
-					User user = (User) session.getNamedQuery("user.by.emailid")
-							.setParameter("emailID", email)
-							.setParameter("company", company).uniqueResult();
-
-					Query query = session.getNamedQuery("get.Admin.Users")
-							.setParameter("company", company);
-					List<User> adminUsers = query.list();
-					if (adminUsers.size() < 2) {
-						for (User u : adminUsers) {
-							if (u.getID() == user.getID()) {
-								canDeleteFromSingle = false;
-								break;
-							}
-						}
-					}
-
-					if (user != null && !user.isAdmin()) {
-						canDeleteFromAll = false;
-					}
-					AccounterThreadLocal.set(user);
-
-					transaction = session.beginTransaction();
-
-					Client client = getClient(email);
-					Company serverCompany = null;
-					if (companyID == null) {
-						httpSession.setAttribute(COMPANY_DELETION_STATUS,
-								"Fail");
-						httpSession.setAttribute("DeletionFailureMessage",
-								"Internal Error.");
-						return;
-					}
-					for (User usr : client.getUsers()) {
-						if (usr.getCompany().getID() == Long
-								.parseLong(companyID)) {
-							serverCompany = usr.getCompany();
-						}
-					}
-
-					if (serverCompany == null) {
-						httpSession.setAttribute(COMPANY_DELETION_STATUS,
-								"Fail");
-						httpSession.setAttribute("DeletionFailureMessage",
-								"Company Doesnot Exist");
-						return;
-					}
-
-					// boolean isAdmin = s2sService.isAdmin(
-					// Long.parseLong(companyID), email);
-
-					if (!canDeleteFromSingle && !canDeleteFromAll) {
-						httpSession.setAttribute(COMPANY_DELETION_STATUS,
-								"Fail");
-						httpSession
-								.setAttribute("DeletionFailureMessage",
-										"You Don't have Permissions to Delete this Company");
-						return;
-					}
 
 					if (canDeleteFromAll
-							&& (deleteAllUsers || serverCompany
+							&& (isDeleteAllUsers || company
 									.getNonDeletedUsers().size() == 1)) {
 
 						CallableStatement call = session.connection()
 								.prepareCall("{ ? = call delete_company(?) }");
 						call.registerOutParameter(1, Types.BOOLEAN);
-						call.setLong(2, serverCompany.getId());
+						call.setLong(2, company.getId());
 						call.execute();
 						boolean isDeleted = call.getBoolean(1);
 						if (!isDeleted) {
@@ -248,29 +297,20 @@ public class DeleteCompanyServlet extends BaseServlet {
 						session.save(activity);
 					}
 					transaction.commit();
-					httpSession
-							.setAttribute(COMPANY_DELETION_STATUS, "Success");
+					log("Company Deleted Successfully.");
 				} catch (Exception e) {
 					e.printStackTrace();
 					if (transaction != null) {
 						transaction.rollback();
 					}
-					httpSession.setAttribute(COMPANY_DELETION_STATUS, "Fail");
-					httpSession.setAttribute("DeletionFailureMessage",
-							"Internal Error Occured");
 				} finally {
-					httpSession.removeAttribute(COMPANY_ID);
 					session.close();
 				}
 			}
-		}).start();
+		});
 
-		if (message.isEmpty()) {
-			message = "Success";
-		}
-		redirectExternal(req, resp, COMPANY_STATUS_URL);
-		// req.setAttribute("message", message);
-		// dispatch(req, resp, deleteCompanyView);
+		return thread;
+
 	}
 
 	@Override
