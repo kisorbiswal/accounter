@@ -86,9 +86,22 @@ public class PayRun extends Transaction {
 
 		double totalAmount = earningsAmount - deductionAmount;
 		setTotal(totalAmount);
+		for (EmployeePaymentDetails detail : payEmployee) {
+			for (EmployeePayHeadComponent component : detail
+					.getPayHeadComponents()) {
+				double rate = component.getRate();
+				Account account = component.getPayHead().getAccount();
+				if (component.isDeduction()) {
+					account.updateCurrentBalance(this, rate, 1);
+				} else if (component.isEarning()) {
+					account.updateCurrentBalance(this, -rate, 1);
+				}
+			}
+		}
+
 		Account salariesPayableAccount = getCompany()
 				.getSalariesPayableAccount();
-		salariesPayableAccount.updateTotalBalance(totalAmount, 1);
+		salariesPayableAccount.updateCurrentBalance(this, totalAmount, 1);
 		return super.onSave(session);
 	}
 

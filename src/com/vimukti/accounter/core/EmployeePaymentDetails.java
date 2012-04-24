@@ -79,13 +79,10 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	public void runPayment() {
 		for (EmployeePayHeadComponent component : payHeadComponents) {
 			double rate = component.getRate();
-			Account account = component.getPayHead().getAccount();
 			if (component.isDeduction()) {
 				payRun.addDeductions(rate);
-				account.updateTotalBalance(rate, 1);
 			} else if (component.isEarning()) {
 				payRun.addEarnings(rate);
-				account.updateTotalBalance(-rate, 1);
 			}
 		}
 	}
