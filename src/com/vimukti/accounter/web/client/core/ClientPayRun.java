@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientPayRun extends ClientTransaction {
@@ -17,7 +18,7 @@ public class ClientPayRun extends ClientTransaction {
 
 	private long payPeriodEndDate;
 
-	private List<ClientAttendanceManagementItem> attendanceItems;
+	private List<ClientAttendanceManagementItem> attendanceItems = new ArrayList<ClientAttendanceManagementItem>();
 
 	/**
 	 * @return the payableAccount

@@ -9,7 +9,6 @@ import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterPayrollService;
-import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
@@ -58,7 +57,7 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 
 	@Override
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
-			List<ClientAttendanceManagementItem> list,
+			List<ClientAttendanceManagementItem> attendanceItems,
 			ClientPayStructureDestination selectItem,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
 			throws AccounterException {
@@ -72,9 +71,10 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 		}
 		return selectItem instanceof ClientEmployee ? getFinanceTool()
 				.getPayrollManager().getEmployeePayHeadComponents(dates[0],
-						dates[1], employee, getCompanyId()) : getFinanceTool()
-				.getPayrollManager().getEmployeeGroupPayHeadComponents(
-						dates[0], dates[1], selectItem, getCompanyId());
+						dates[1], employee, getCompanyId(), attendanceItems)
+				: getFinanceTool().getPayrollManager()
+						.getEmployeeGroupPayHeadComponents(dates[0], dates[1],
+								selectItem, getCompanyId(), attendanceItems);
 	}
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(

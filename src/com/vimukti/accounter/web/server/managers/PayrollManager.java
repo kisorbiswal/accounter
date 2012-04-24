@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.AttendanceManagementItem;
 import com.vimukti.accounter.core.AttendanceOrProductionType;
 import com.vimukti.accounter.core.AttendancePayHead;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -24,6 +23,7 @@ import com.vimukti.accounter.core.PayrollUnit;
 import com.vimukti.accounter.core.ProductionPayHead;
 import com.vimukti.accounter.core.UserDefinedPayHead;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
@@ -118,26 +118,41 @@ public class PayrollManager extends Manager {
 		return clientPayrollUnits;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeeGroupPayHeadComponents(
 			FinanceDate startDate, FinanceDate endDate,
-			ClientPayStructureDestination selectItem, Long companyId)
+			ClientPayStructureDestination selectItem, Long companyId,
+			List<ClientAttendanceManagementItem> attendanceItems)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<Employee> employees = session.getNamedQuery("getEmployeesByGroup")
 				.setParameter("groupId", selectItem.getID()).list();
-		ClientEmployeeGroup clientEmployeeGroup = (ClientEmployeeGroup) selectItem;
 		ArrayList<ClientEmployeePayHeadComponent> groupComponents = new ArrayList<ClientEmployeePayHeadComponent>();
 		for (Employee employee : employees) {
 			ArrayList<ClientEmployeePayHeadComponent> employeePayHeadComponents = getEmployeePayHeadComponents(
-					startDate, endDate, employee, companyId);
+					startDate, endDate, employee, companyId,
+					getEmployeeAttendanceItems(employee, attendanceItems));
 			groupComponents.addAll(employeePayHeadComponents);
 		}
 		return new ArrayList<ClientEmployeePayHeadComponent>(groupComponents);
 	}
 
+	private List<ClientAttendanceManagementItem> getEmployeeAttendanceItems(
+			Employee employee,
+			List<ClientAttendanceManagementItem> attendanceItems) {
+		List<ClientAttendanceManagementItem> empItems = new ArrayList<ClientAttendanceManagementItem>();
+		for (ClientAttendanceManagementItem item : attendanceItems) {
+			if (item.getEmployee().getID() == employee.getID()) {
+				empItems.add(item);
+			}
+		}
+		return empItems;
+	}
+
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			FinanceDate startDate, FinanceDate endDate, Employee selectItem,
-			Long companyId) throws AccounterException {
+			Long companyId, List<ClientAttendanceManagementItem> attendanceItems)
+			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPayStructureItem.by.employee")
 				.setParameter("employee", selectItem)
@@ -153,14 +168,9 @@ public class PayrollManager extends Manager {
 		double deductions = 0.0;
 
 		long[] attendance = { 0, 0, 0 };
-		Session currentSession = HibernateUtil.getCurrentSession();
-		Query managementItems = currentSession.getNamedQuery(
-				"getEmployeeAttendanceManagementItems").setParameter(
-				"employee", selectItem.getID());
 
-		List<AttendanceManagementItem> items = managementItems.list();
-		if (items != null && items.size() > 0) {
-			for (AttendanceManagementItem attendanceManagementItem : items) {
+		if (attendanceItems != null && attendanceItems.size() > 0) {
+			for (ClientAttendanceManagementItem attendanceManagementItem : attendanceItems) {
 				if (attendanceManagementItem.getAttendanceType().getType() == AttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
 					attendance[0] += attendanceManagementItem.getNumber();
 				} else if (attendanceManagementItem.getAttendanceType()

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,6 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayRun extends Transaction {
@@ -28,7 +28,7 @@ public class PayRun extends Transaction {
 
 	private double earningsAmount = 0.0;
 
-	private List<AttendanceManagementItem> attendanceItems;
+	private List<AttendanceManagementItem> attendanceItems = new ArrayList<AttendanceManagementItem>();
 
 	public PayRun() {
 		super();

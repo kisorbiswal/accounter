@@ -42,7 +42,9 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 		ClientEmployeeGroup group = new ClientEmployeeGroup();
 		group.setName(nameItem.getValue());
 		saveOrUpdate(group);
-		getCallback().actionResult(group);
+		if (getCallback() != null) {
+			getCallback().actionResult(group);
+		}
 	}
 
 	@Override

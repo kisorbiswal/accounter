@@ -150,6 +150,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				saveAndCloseButton.setVisible(true);
+				saveAndNewButton.setVisible(true);
 				showPayRunTable();
 			}
 		});
@@ -186,7 +188,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		mainVLay.add(button);
 		mainVLay.add(attendanceForm);
 		mainVLay.add(tableLayout);
-
+		saveAndCloseButton.setVisible(false);
+		saveAndNewButton.setVisible(false);
 		this.add(mainVLay);
 	}
 
