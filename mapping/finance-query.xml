@@ -9333,7 +9333,6 @@
 				       END           AS TRANSACTION_ACCOUNT,
 				       CASE
 				         WHEN T.T_TYPE = 2 THEN CP.DELIVERY_DATE
-				         WHEN T.T_TYPE = 27 THEN CCC.DELIVERY_DATE
 				         WHEN T.T_TYPE = 6 THEN EB.DUE_DATE
 				         WHEN T.T_TYPE = 11 THEN PB.BILL_DUE_ONORBEFORE
 				         ELSE NULL
@@ -9561,7 +9560,7 @@
 				       T.MEMO            AS TRANSACTION_MEMO,
 				       T.ID              AS TRANSACTION_ID,
 				       T.T_TYPE          AS TRANSACTION_TYPE,
-				       CCC.DELIVERY_DATE AS DUE_DATE,
+				       NULL              AS DUE_DATE,
 				       T.NUMBER          AS TRANSACTION_NUMBER,
 				       CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
 				       THEN T.TOTAL * T.CURRENCY_FACTOR 
@@ -9631,7 +9630,7 @@
 				       T.MEMO                 AS TRANSACTION_MEMO,
 				       T.ID                   AS TRANSACTION_ID,
 				       T.T_TYPE               AS TRANSACTION_TYPE,
-				       CCC.DELIVERY_DATE      AS DUE_DATE,
+				       NULL                   AS DUE_DATE,
 				       T.NUMBER               AS TRANSACTION_NUMBER,
 				        CASE WHEN P1.CURRENCY = CM.PRIMARY_CURRENCY
 				        THEN T.TOTAL * T.CURRENCY_FACTOR 
