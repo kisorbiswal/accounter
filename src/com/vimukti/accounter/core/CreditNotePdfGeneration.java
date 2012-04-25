@@ -81,7 +81,6 @@ public class CreditNotePdfGeneration {
 				i.billTo.setZipOrPostalCode("");
 				i.billTo.setCountryOrRegion("");
 			}
-
 			i.setCreditNoteNumber(memo.getNumber());
 			i.setCreditNoteDate(Utility.getDateInSelectedFormat(memo.getDate()));
 
@@ -216,14 +215,14 @@ public class CreditNotePdfGeneration {
 		Address reg = company.getRegisteredAddress();
 
 		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
+			regestrationAddress = (reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-		regestrationAddress = (company.getTradingName() + " "
+		regestrationAddress = (company.getTradingName() + "\n "
 				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
 				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
 				+ company.getRegistrationNumber()
@@ -319,16 +318,6 @@ public class CreditNotePdfGeneration {
 
 	public String forNullValue(String value) {
 		return value != null ? value : "";
-	}
-
-	private String getLogoAlignment() {
-		String logoAlignment = null;
-		if (brandingTheme.getLogoAlignmentType() == 1) {
-			logoAlignment = "left";
-		} else {
-			logoAlignment = "right";
-		}
-		return logoAlignment;
 	}
 
 	public String forZeroAmounts(String amount) {
@@ -446,10 +435,6 @@ public class CreditNotePdfGeneration {
 			this.title = title;
 		}
 
-		public void setBillTo(Address billTo) {
-			this.billTo = billTo;
-		}
-
 		public Address getRegAddress() {
 			return regAddress;
 		}
@@ -480,6 +465,14 @@ public class CreditNotePdfGeneration {
 
 		public void setRegistrationAddress(String registrationAddress) {
 			this.registrationAddress = registrationAddress;
+		}
+
+		public Address getBillTo() {
+			return billTo;
+		}
+
+		public void setBillTo(Address billTo) {
+			this.billTo = billTo;
 		}
 
 	}

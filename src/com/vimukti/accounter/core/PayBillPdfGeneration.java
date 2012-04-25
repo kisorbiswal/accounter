@@ -22,16 +22,9 @@ public class PayBillPdfGeneration {
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
-			PaybillTemplete receivePaymentTmplt = new PaybillTemplete();
+			PaybillTemplete paybillTemp = new PaybillTemplete();
 
-			receivePaymentTmplt.setTitle("Pay Bill");
-			receivePaymentTmplt.setCheckNo(payBill.getCheckNumber());
-			receivePaymentTmplt.setDate(payBill.getDate().toString());
-			String currencySymbol = payBill.getCurrency().getSymbol();
-			receivePaymentTmplt.setTotal(DataUtils.getAmountAsStringInCurrency(
-					payBill.getTotal(), currencySymbol));
-			receivePaymentTmplt.setPaymentMethod(payBill.getPaymentMethod());
-
+			paybillTemp.setTitle("Pay Bill");
 			Address regAdr = company.getRegisteredAddress();
 
 			String regAddress = forAddress(regAdr.getAddress1(), false)
@@ -40,13 +33,21 @@ public class PayBillPdfGeneration {
 					+ forAddress(regAdr.getStateOrProvinence(), false)
 					+ forAddress(regAdr.getZipOrPostalCode(), false)
 					+ forAddress(regAdr.getCountryOrRegion(), true);
-
-			receivePaymentTmplt.setRegisteredAddress(regAddress);
-
+			paybillTemp.setRegisteredAddress(regAddress);
+			paybillTemp.setNumber(payBill.getNumber());
+			paybillTemp.setDate(payBill.getDate().toString());
+			paybillTemp.setCurrency(payBill.getCurrency().getFormalName());
+			paybillTemp.setCheckNo(payBill.getCheckNumber());
+			String currencySymbol = payBill.getCurrency().getSymbol();
+			paybillTemp.setTotal(DataUtils.getAmountAsStringInCurrency(
+					payBill.getTotal(), currencySymbol));
+			paybillTemp.setPaymentMethod(payBill.getPaymentMethod());
+			paybillTemp.setMemo(payBill.getMemo());
 			FieldsMetadata headersMetaData = new FieldsMetadata();
-			headersMetaData.addFieldAsList("invoice.invoiceDate");
-			headersMetaData.addFieldAsList("invoice.invoiceNumber");
-			headersMetaData.addFieldAsList("invoice.amountApplied");
+			headersMetaData.addFieldAsList("payments.date");
+			headersMetaData.addFieldAsList("payments.number");
+			headersMetaData.addFieldAsList("payments.amountPaid");
+			headersMetaData.addFieldAsList("payments.name");
 			report.setFieldsMetadata(headersMetaData);
 			List<TransactionPayBill> transactionPayBills = payBill
 					.getTransactionPayBill();
@@ -55,30 +56,29 @@ public class PayBillPdfGeneration {
 				UsedTempletes usedTempletes = new UsedTempletes();
 				if (bill.getEnterBill() != null) {
 					usedTempletes.setNumber(bill.getEnterBill().getNumber());
-					usedTempletes.setDate(bill.getEnterBill().getDate()
-							.toString());
-					usedTempletes.setAmountApplied(DataUtils
-							.getAmountAsStringInCurrency(bill.getEnterBill()
-									.getPayments(), currencySymbol));
+					usedTempletes.setDate(Utility.getDateInSelectedFormat(bill
+							.getEnterBill().getDate()));
+					usedTempletes.setAmountPaid(Utility.decimalConversation(
+							bill.getEnterBill().getPayments(), currencySymbol));
 					usedTempletes.setName(bill.getEnterBill().getVendor()
 							.getName());
 				}
 				if (bill.getJournalEntry() != null) {
 					usedTempletes.setNumber(bill.getJournalEntry().getNumber());
-					usedTempletes.setDate(bill.getJournalEntry().getDate()
-							.toString());
-					usedTempletes.setAmountApplied(DataUtils
-							.getAmountAsStrings(bill.getJournalEntry()
-									.getTotal()
-									- bill.getJournalEntry().getBalanceDue()));
+					usedTempletes.setDate(Utility.getDateInSelectedFormat(bill
+							.getJournalEntry().getDate()));
+					usedTempletes.setAmountPaid(Utility.decimalConversation(
+							bill.getJournalEntry().getTotal()
+									- bill.getJournalEntry().getBalanceDue(),
+							currencySymbol));
 					usedTempletes.setName("");
 				}
 
 				templetes.add(usedTempletes);
 			}
 
-			context.put("bill", receivePaymentTmplt);
-			context.put("invoice", templetes);
+			context.put("bill", paybillTemp);
+			context.put("payments", templetes);
 			return context;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,9 +107,10 @@ public class PayBillPdfGeneration {
 		private String date;
 		private String currency;
 		private String paymentMethod;
-		private String amountApplied;
 		private String checkNo;
 		private String total;
+		private String number;
+		private String memo;
 
 		public String getTitle() {
 			return title;
@@ -151,14 +152,6 @@ public class PayBillPdfGeneration {
 			this.date = date;
 		}
 
-		public String getAmountApplied() {
-			return amountApplied;
-		}
-
-		public void setAmountApplied(String amountApplied) {
-			this.amountApplied = amountApplied;
-		}
-
 		public String getCheckNo() {
 			return checkNo;
 		}
@@ -174,16 +167,33 @@ public class PayBillPdfGeneration {
 		public void setTotal(String total) {
 			this.total = total;
 		}
+
+		public String getNumber() {
+			return number;
+		}
+
+		public void setNumber(String number) {
+			this.number = number;
+		}
+
+		public String getMemo() {
+			return memo;
+		}
+
+		public void setMemo(String memo) {
+			this.memo = memo;
+		}
 	}
 
 	public class UsedTempletes {
+
 		private String date;
 
 		private String number;
 
 		private String name;
 
-		private String amountApplied;
+		private String amountPaid;
 
 		public String getDate() {
 			return date;
@@ -201,20 +211,20 @@ public class PayBillPdfGeneration {
 			this.number = number;
 		}
 
-		public String getAmountApplied() {
-			return amountApplied;
-		}
-
-		public void setAmountApplied(String amountApplied) {
-			this.amountApplied = amountApplied;
-		}
-
 		public String getName() {
 			return name;
 		}
 
 		public void setName(String name) {
 			this.name = name;
+		}
+
+		public String getAmountPaid() {
+			return amountPaid;
+		}
+
+		public void setAmountPaid(String amountPaid) {
+			this.amountPaid = amountPaid;
 		}
 	}
 
