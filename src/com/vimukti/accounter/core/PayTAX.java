@@ -258,33 +258,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
-	}
-
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(payFrom, Global.get().messages().payFrom());
-		if (taxAgency == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().taxAgency());
-		}
-		checkPaymentMethodNull();
-		if (transactionPayTAX.isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL);
-		}
-		for (TransactionPayTAX tax : transactionPayTAX) {
-			if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
-				throw new AccounterException(
-						AccounterException.ERROR_AMOUNT_TO_PAY_ZERO);
-			}
-
-		}
-
 	}
 
 	@Override
@@ -336,8 +310,25 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		if (taxAgency == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxAgency());
+		}
+		checkPaymentMethodNull();
+		if (transactionPayTAX.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL);
+		}
+		for (TransactionPayTAX tax : transactionPayTAX) {
+			if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
+				throw new AccounterException(
+						AccounterException.ERROR_AMOUNT_TO_PAY_ZERO);
+			}
+
+		}
 		
 	}
 }

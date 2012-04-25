@@ -250,19 +250,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingVendorNull(vendor, Global.get().Vendor());
-		if (this.purchaseOrders.isEmpty()) {
-			checkTransactionItemsNull();
-		} else if (!(this.purchaseOrders.isEmpty())
-				&& !(this.transactionItems.isEmpty())) {
-			checkTransactionItemsNull();
-		}
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -1274,9 +1261,16 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingVendorNull(vendor, Global.get().Vendor());
+		if (this.purchaseOrders.isEmpty()) {
+			checkTransactionItemsNull();
+		} else if (!(this.purchaseOrders.isEmpty())
+				&& !(this.transactionItems.isEmpty())) {
+			checkTransactionItemsNull();
+		}
+		checkNetAmountNegative();
 	}
 
 }

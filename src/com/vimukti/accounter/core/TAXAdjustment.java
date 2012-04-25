@@ -204,28 +204,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
-	}
-
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		if (taxAgency == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().taxAgency());
-		}
-
-		if (taxItem == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().taxItem());
-		}
-
-		checkAccountNull(adjustmentAccount, Global.get().messages()
-				.adjustmentAccount());
-		checkAmountForNegativeOr0();
 	}
 
 	private void checkAmountForNegativeOr0() throws AccounterException {
@@ -310,9 +289,21 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		if (taxAgency == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxAgency());
+		}
+
+		if (taxItem == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxItem());
+		}
+
+		checkAccountNull(adjustmentAccount, Global.get().messages()
+				.adjustmentAccount());
+		checkAmountForNegativeOr0();
 	}
 
 }

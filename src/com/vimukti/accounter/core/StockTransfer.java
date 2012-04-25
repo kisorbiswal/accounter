@@ -156,8 +156,18 @@ public class StockTransfer extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (fromWarehouse == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().fromWarehouse());
+		}
+		if (toWarehouse == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().toWarehouse());
+		}
+		if (stockTransferItems == null || stockTransferItems.size() != 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().stockTransferItem());
+		}
 	}
 }

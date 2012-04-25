@@ -215,61 +215,6 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
-	@SuppressWarnings("unused")
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(depositTo, Global.get().messages().depositTo());
-
-		if (transactionDepositItems.isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_MAKE_DEPOSIT_NULL);
-		}
-
-		if (!transactionDepositItems.isEmpty()) {
-			for (TransactionDepositItem item : transactionDepositItems) {
-				Account fromAcc = item.getAccount();
-				if (fromAcc.getID() == depositTo.getID()) {
-					throw new AccounterException(
-							AccounterException.ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF);
-				}
-
-				if (fromAcc == null) {
-					throw new AccounterException(
-							AccounterException.ERROR_PLEASE_ENTER, Global.get()
-									.messages().depositFrom());
-
-				}
-
-				Payee payee = item.getReceivedFrom();
-				if (depositTo.getCurrency().getID() != fromAcc.getCurrency()
-						.getID()
-						|| (payee != null && depositTo.getCurrency().getID() != payee
-								.getCurrency().getID())) {
-					throw new AccounterException(
-							AccounterException.ERROR_CURRENCY_MUST_BE_SAME);
-				}
-
-				if (item.getTotal() != null) {
-					if (item.getTotal() <= 0) {
-						throw new AccounterException(
-								AccounterException.ERROR_AMOUNT_ZERO, Global
-										.get().messages().amount());
-					}
-				} else {
-					throw new AccounterException(
-							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
-									.messages().amount());
-				}
-			}
-
-		}
-		validateTransactionDepositItems();
-
-		checkNetAmountNegative();
-
-	}
-
 	public void validateTransactionDepositItems() throws AccounterException {
 		for (TransactionDepositItem transactionItem : transactionDepositItems) {
 			if (transactionItem.getAccount() == null) {
@@ -354,9 +299,58 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(depositTo, Global.get().messages().depositTo());
+
+		if (transactionDepositItems.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_MAKE_DEPOSIT_NULL);
+		}
+
+		if (!transactionDepositItems.isEmpty()) {
+			for (TransactionDepositItem item : transactionDepositItems) {
+				item.selfValidate();
+				Account fromAcc = item.getAccount();
+				if (fromAcc.getID() == depositTo.getID()) {
+					throw new AccounterException(
+							AccounterException.ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF);
+				}
+
+				if (fromAcc == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PLEASE_ENTER, Global.get()
+									.messages().depositFrom());
+
+				}
+
+				Payee payee = item.getReceivedFrom();
+				if (depositTo.getCurrency().getID() != fromAcc.getCurrency()
+						.getID()
+						|| (payee != null && depositTo.getCurrency().getID() != payee
+								.getCurrency().getID())) {
+					throw new AccounterException(
+							AccounterException.ERROR_CURRENCY_MUST_BE_SAME);
+				}
+
+				if (item.getTotal() != null) {
+					if (item.getTotal() <= 0) {
+						throw new AccounterException(
+								AccounterException.ERROR_AMOUNT_ZERO, Global
+										.get().messages().amount());
+					}
+				} else {
+					throw new AccounterException(
+							AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+									.messages().amount());
+				}
+			}
+
+		}
+		validateTransactionDepositItems();
+
+		checkNetAmountNegative();
+
 	}
 
 }

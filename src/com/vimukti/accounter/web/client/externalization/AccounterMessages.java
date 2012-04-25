@@ -6345,4 +6345,8 @@ public interface AccounterMessages extends Messages {
 	public String newInventoryItem();
 
 	public String newPayeeItem(String name);
+	
+	public String pleaseSelectActive(String obj);
+
+	public String purchaseItem();
 }

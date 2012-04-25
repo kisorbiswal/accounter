@@ -99,19 +99,6 @@ public class BuildAssembly extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		if (inventoryAssembly == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().assemblyItem());
-		}
-		if (quantityToBuild <= 0) {
-			throw new AccounterException(
-					AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE, Global
-							.get().messages().quantityToBuild());
-		}
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
@@ -192,8 +179,18 @@ public class BuildAssembly extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		if (inventoryAssembly == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().assemblyItem());
+		} else if (!inventoryAssembly.isActive) {
+			throw new AccounterException(AccounterException.ERROR_ACTIVE_ITEM);
+		}
+		if (quantityToBuild <= 0) {
+			throw new AccounterException(
+					AccounterException.ERROR_QUANTITY_ZERO_OR_NEGATIVE, Global
+							.get().messages().quantityToBuild());
+		}
 	}
 }

@@ -310,6 +310,19 @@ public class AccounterExceptions {
 					.cannotVoidTransactionBecausePOused(exception.getMessage());
 		case AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT:
 			return accounterMessages.youcantDeleteSystemAccount();
+			
+		case AccounterException.ERROR_ACTIVE_CUSTOMER:
+			return accounterMessages.pleaseSelectActive(accounterMessages.Account());
+			
+		case AccounterException.ERROR_ACTIVE_VENDOR:
+			return accounterMessages.pleaseSelectActive(Global.get().Vendor());
+			
+		case AccounterException.ERROR_ACTIVE_ITEM:
+			return accounterMessages.pleaseSelectActive(accounterMessages.item());
+			
+		case AccounterException.ERROR_ACTIVE_ACCOUNT:
+			return accounterMessages.pleaseSelectActive(Global.get().Customer());
+			
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

@@ -469,21 +469,6 @@ public class CashPurchase extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(payFrom, Global.get().messages().payFrom());
-		checkPaymentMethodNull();
-		if (this.purchaseOrders.isEmpty()) {
-			checkTransactionItemsNull();
-		}
-
-		if (!(this.transactionItems.isEmpty())) {
-			checkTransactionItemsNull();
-		}
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -878,8 +863,18 @@ public class CashPurchase extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		checkPaymentMethodNull();
+		if (this.purchaseOrders.isEmpty()) {
+			checkTransactionItemsNull();
+		}
+
+		if (!(this.transactionItems.isEmpty())) {
+			checkTransactionItemsNull();
+		}
+		checkNetAmountNegative();
 		
 	}
 }

@@ -43,21 +43,7 @@ public class StockAdjustment extends Transaction implements INamedObject {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
-	}
-
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		if (wareHouse == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().wareHouse());
-		}
-		checkAccountNull(adjustmentAccount, Global.get().messages()
-				.adjustmentAccount());
-
 	}
 
 	public Warehouse getWareHouse() {
@@ -209,8 +195,13 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (wareHouse == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().wareHouse());
+		}
+		checkAccountNull(adjustmentAccount, Global.get().messages()
+				.adjustmentAccount());
+
 	}
 }

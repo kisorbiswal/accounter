@@ -4,6 +4,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -251,8 +252,36 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
+	public void selfValidate() throws AccounterException {
+		if (responsibleName == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().name());
+		}
+		if (designation == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().designation());
+		}
+		
+		if (flatNo == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().flatNo());
+		}
+		if (city == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().cityOrTown());
+		}
+		if (pinCode == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().postalCode());
+		}
+		if (mobileNumber == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().mobileNumber());
+		}
+		if (returnType == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().retutnType());
+		}
 		
 	}
 

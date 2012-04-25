@@ -404,14 +404,6 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingCustomerNull(customer, Global.get().customer());
-		checkTransactionItemsNull();
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		Transaction transaction = (Transaction) clientObject;
@@ -513,8 +505,11 @@ public class CustomerCreditMemo extends Transaction implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingCustomerNull(customer, Global.get().customer());
+		checkTransactionItemsNull();
+		checkNetAmountNegative();
+			
 	}
 }

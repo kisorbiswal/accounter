@@ -369,15 +369,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		return null;
 	}
 
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		checkingCustomerNull(customer, Global.get().messages().receivedFrom());
-		checkPaymentMethodNull();
-		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		checkPaymentItems();
-		checkingTotalPaymentCantExceedAmountReceived();
-	}
-
 	private void checkingTotalPaymentCantExceedAmountReceived()
 			throws AccounterException {
 		if (!isValidRecivePaymentAmount(total, getTransactionTot())) {
@@ -694,8 +685,11 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		checkingCustomerNull(customer, Global.get().messages().receivedFrom());
+		checkPaymentMethodNull();
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		checkPaymentItems();
+		checkingTotalPaymentCantExceedAmountReceived();
 	}
 }

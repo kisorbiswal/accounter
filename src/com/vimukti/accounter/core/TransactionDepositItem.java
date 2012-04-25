@@ -202,7 +202,6 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		checkNullValues();
 		if (this.isOnSaveProccessed())
 			return true;
 
@@ -212,12 +211,6 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 		return false;
-	}
-
-	private void checkNullValues() {
-		if (this.total == null) {
-			this.setTotal(new Double(0));
-		}
 	}
 
 	@Override
@@ -263,9 +256,14 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.total == null) {
+			this.setTotal(new Double(0));
+		}
+		if(account==null){
+				throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+						Global.get().messages().account());
+		}
 	}
 
 }

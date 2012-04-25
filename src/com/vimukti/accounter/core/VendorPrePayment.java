@@ -51,14 +51,6 @@ public class VendorPrePayment extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		checkingVendorNull(vendor, Global.get().messages().payTo());
-		checkAccountNull(payFrom, Global.get().messages().payFrom());
-		checkPaymentMethodNull();
-
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -351,8 +343,9 @@ public class VendorPrePayment extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		checkingVendorNull(vendor, Global.get().messages().payTo());
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		checkPaymentMethodNull();
 	}
 }

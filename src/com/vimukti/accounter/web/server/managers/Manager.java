@@ -64,7 +64,10 @@ public class Manager {
 		IAccounterServerCore serverObject = new ServerConvertUtil()
 				.toServerObject(null, clientObject,
 						HibernateUtil.getCurrentSession());
-
+		if (!(clonedObject instanceof Transaction)
+				|| !(((Transaction) clonedObject).getSaveStatus() == Transaction.STATUS_DRAFT)) {
+			clonedObject.selfValidate();
+		}
 		return serverObject.canEdit(clonedObject, false);
 
 	}

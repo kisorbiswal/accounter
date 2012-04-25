@@ -356,19 +356,6 @@ public class PayBill extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		checkingVendorNull(vendor, Global.get().messages().payFrom());
-
-		checkPaymentMethodNull();
-
-		if (transactionPayBill.isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_PAYBILLS_NULL, Global
-							.get().messages().transactionPaybills());
-		}
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -714,8 +701,15 @@ public class PayBill extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		checkingVendorNull(vendor, Global.get().messages().payFrom());
+
+		checkPaymentMethodNull();
+
+		if (transactionPayBill.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_PAYBILLS_NULL, Global
+							.get().messages().transactionPaybills());
+		}
 	}
 }

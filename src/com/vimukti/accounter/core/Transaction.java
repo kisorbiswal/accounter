@@ -725,17 +725,10 @@ public abstract class Transaction extends CreatableObject implements
 		return false;
 	}
 
-	protected void checkNullValues() throws AccounterException {
-		checkTransactionDateNull();
-		if (!isTemplate()) {
-			checkNumber();
-		}
-	}
-
 	protected void checkTransactionItemsNull() throws AccounterException {
 		if (!transactionItems.isEmpty()) {
 			for (TransactionItem item : transactionItems) {
-				item.checkNullValues();
+				item.selfValidate();
 			}
 		} else {
 			throw new AccounterException(
@@ -1156,9 +1149,6 @@ public abstract class Transaction extends CreatableObject implements
 		}
 
 		// checkForReconciliation(transaction);
-		if (saveStatus != STATUS_DRAFT && !goingToBeEdit) {
-			checkNullValues();
-		}
 		// if (isVoid() /* && !getReconciliationItems().isEmpty() */) {
 		// throw new AccounterException(
 		// AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
@@ -1342,8 +1332,13 @@ public abstract class Transaction extends CreatableObject implements
 		if (customer == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					message);
+		} else {
+			if (!customer.isActive) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACTIVE_CUSTOMER);
+			}
 		}
-	}
+	} 
 
 	protected void chekingTaxCodeNull(TAXCode taxCode)
 			throws AccounterException {
@@ -1357,7 +1352,11 @@ public abstract class Transaction extends CreatableObject implements
 		if (account == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					message);
-
+		} else {
+			if (!account.isActive) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACTIVE_ACCOUNT);
+			}
 		}
 	}
 
@@ -1393,6 +1392,11 @@ public abstract class Transaction extends CreatableObject implements
 		if (vendor == null) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					message);
+		} else {
+			if (!vendor.isActive) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACTIVE_VENDOR);
+			}
 		}
 	}
 
@@ -1549,5 +1553,13 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	public void setItemUpdates(Set<ItemUpdate> itemUpdates) {
 		this.itemUpdates = itemUpdates;
+	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		checkTransactionDateNull();
+		if (!isTemplate()) {
+			checkNumber();
+		}
 	}
 }

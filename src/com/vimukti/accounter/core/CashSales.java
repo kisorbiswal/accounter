@@ -788,21 +788,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkPaymentMethodNull();
-		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		if (this.getSalesOrders().isEmpty()) {
-			checkTransactionItemsNull();
-		}
-
-		if (!(this.transactionItems.isEmpty())) {
-			checkTransactionItemsNull();
-		}
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -933,9 +918,19 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkPaymentMethodNull();
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		if (this.getSalesOrders().isEmpty()) {
+			checkTransactionItemsNull();
+		}
+
+		if (!(this.transactionItems.isEmpty())) {
+			checkTransactionItemsNull();
+		}
+		checkNetAmountNegative();
+
 	}
 
 }

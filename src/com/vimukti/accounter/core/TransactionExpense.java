@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TransactionExpense implements IAccounterServerCore, Lifecycle {
@@ -249,8 +250,26 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
+	public void selfValidate() throws AccounterException {
+		if (this.item == null && this.account == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().transactionItem());
+		} else {
+			if (!item.isActive) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACTIVE_ITEM, Global
+								.get()
+								.messages()
+								.pleaseSelectActive(
+										Global.get().messages().item()));
+			}
+		}
+		boolean isEnableTax = Global.get().preferences().isTrackTax();
+		if (getExpense().getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+			isEnableTax = isEnableTax
+					&& Global.get().preferences().isTrackPaidTax();
+		}
+
 		
 	}
 
