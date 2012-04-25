@@ -18,12 +18,9 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<many-to-one name="payStructure" column="PAY_STRUCTURE"
-			class="PayStructure" />
 		<property name="name" column="NAME" />
 		<property name="number" column="NUMBER" />
 		<many-to-one name="group" column="EMPLOYEE_GROUP" class="EmployeeGroup" />
-		<many-to-one name="category" column="CATEGORY" class="EmployeeCategory" />
 		<property name="dateofJoining" column="DATE_OF_JOINING"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="gender" column="GENDER" />
@@ -81,14 +78,6 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="name" column="NAME" />
-		<many-to-one name="payStructure" column="PAY_STRUCTURE"
-			class="PayStructure" />
-		<list name="employees">
-			<key column="EMPLOYEE_GROUP_ID"></key>
-			<list-index column="IDX" />
-			<one-to-many class="Employee" />
-		</list>
-
 	</class>
 
 	<class name="PayrollUnit" table="PAY_ROLL_UNIT">
@@ -257,7 +246,7 @@
 	</class>
 
 
-	<class name="EmployeeCategory" table="EMPLOYEE_CATEGORY">
+	<!-- <class name="EmployeeCategory" table="EMPLOYEE_CATEGORY">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -272,7 +261,7 @@
 			not-null="true" />
 
 		<property name="name" column="NAME" />
-	</class>
+	</class> -->
 
 	<class name="EmployeePayHeadComponent" table="EMPLOYEE_PAYHEAD_COMPONENT">
 		<id name="id" column="ID">
@@ -391,12 +380,12 @@
 		eg.company=:company
 	</query>
 
-	<query name="list.EmployeeCategories">
+<!-- 	<query name="list.EmployeeCategories">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.EmployeeCategory ec where
 		ec.company=:company
 	</query>
-
+ -->
 	<query name="getEmployee.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />

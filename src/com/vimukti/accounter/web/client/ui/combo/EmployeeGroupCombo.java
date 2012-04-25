@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
@@ -12,25 +11,43 @@ import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeGroupAction;
 
 public class EmployeeGroupCombo extends CustomCombo<ClientEmployeeGroup> {
 
+	private long group;
+	protected boolean isItemsAdded;
+
 	public EmployeeGroupCombo(String title, boolean isEmp) {
 		super(title, true, 1, "employeegroupcombo");
 		getEmployeeGroups();
 	}
 
 	private void getEmployeeGroups() {
-		Accounter.createPayrollService().getEmployeeGroups(new AsyncCallback<ArrayList<ClientEmployeeGroup>>() {
+		EmployeeGroupCombo.this.isItemsAdded = false;
+		Accounter.createPayrollService().getEmployeeGroups(
+				new AsyncCallback<ArrayList<ClientEmployeeGroup>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
 
-			@Override
-			public void onSuccess(ArrayList<ClientEmployeeGroup> result) {
-				initCombo(result);
+					}
+
+					@Override
+					public void onSuccess(ArrayList<ClientEmployeeGroup> result) {
+						initCombo(result);
+						EmployeeGroupCombo.this.isItemsAdded = true;
+						selectRow();
+					}
+				});
+	}
+
+	protected void selectRow() {
+		if (this.group != 0) {
+			for (ClientEmployeeGroup eGroup : getComboItems()) {
+				if (eGroup.getID() == group) {
+					setComboItem(eGroup);
+					break;
+				}
 			}
-		});
+		}
 	}
 
 	@Override
@@ -67,5 +84,12 @@ public class EmployeeGroupCombo extends CustomCombo<ClientEmployeeGroup> {
 			return object.getName();
 		}
 		return null;
+	}
+
+	public void setGroupValue(long group) {
+		this.group = group;
+		if (isItemsAdded) {
+			selectRow();
+		}
 	}
 }

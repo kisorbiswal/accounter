@@ -129,11 +129,9 @@ import com.vimukti.accounter.web.client.ui.fixedassets.RegisteredItemsListAction
 import com.vimukti.accounter.web.client.ui.fixedassets.SellingRegisteredItemAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SoldDisposedFixedAssetsListAction;
 import com.vimukti.accounter.web.client.ui.payroll.AttendanceManagementAction;
-import com.vimukti.accounter.web.client.ui.payroll.EmployeeCategoryListAction;
 import com.vimukti.accounter.web.client.ui.payroll.EmployeeGroupListAction;
 import com.vimukti.accounter.web.client.ui.payroll.EmployeeListAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeCategoryAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeGroupAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayHeadAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayRunAction;
@@ -1587,16 +1585,8 @@ public class ActionFactory {
 		return new NewPayrollUnitAction();
 	}
 
-	public static NewEmployeeCategoryAction getNewEmployeeCategoryAction() {
-		return new NewEmployeeCategoryAction();
-	}
-
 	public static EmployeeListAction getEmployeeListAction() {
 		return new EmployeeListAction();
-	}
-
-	public static EmployeeCategoryListAction getEmployeeCategoryListAction() {
-		return new EmployeeCategoryListAction();
 	}
 
 	public static PayheadListAction getPayheadListAction() {

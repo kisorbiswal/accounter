@@ -44,11 +44,6 @@ public class Employee extends CreatableObject implements
 	private EmployeeGroup group;
 
 	/**
-	 * Category of the Employee
-	 */
-	private EmployeeCategory category;
-
-	/**
 	 * Date of Joining of the Employee
 	 */
 	private FinanceDate dateofJoining;
@@ -176,21 +171,6 @@ public class Employee extends CreatableObject implements
 	 */
 	public void setGroup(EmployeeGroup group) {
 		this.group = group;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public EmployeeCategory getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(EmployeeCategory category) {
-		this.category = category;
 	}
 
 	/**

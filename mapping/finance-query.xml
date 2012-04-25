@@ -2128,7 +2128,7 @@
 
 	</sql-query>
 
-	<sql-query name="canDeleteEmployeeCategory">
+	<!-- <sql-query name="canDeleteEmployeeCategory">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 
@@ -2144,7 +2144,7 @@
 				LIMIT  1 
 				]]>
 
-	</sql-query>
+	</sql-query> -->
 
 	<sql-query name="canDeletePayHead">
 		<query-param name="inputId" type="long" />
@@ -11964,6 +11964,25 @@
 											LEFT JOIN TRANSACTION T ON T.ID = PRICES.ID
 											ORDER BY PRICES.TRANSACTION_DATE DESC ,PRICES.ID DESC ,PRICES.UNIT_PRICE DESC LIMIT 5
 		]]>
+	</sql-query>
+	<sql-query name=" canDeleteEmployee">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="PAY_STRUCTURE" type ="long" />
+		<return-scalar column="EPC_ID" type ="long" />	
+		<return-scalar column="AMI_ID" type ="long" />		
+			SELECT PS.ID  AS PAY_STRUCTURE, 
+			       EPC.ID AS EPD_ID, 
+			       AMI.ID AS AMI_ID 
+			FROM   EMPLOYEE E 
+			       LEFT OUTER JOIN PAY_STRUCTURE PS 
+			         ON PS.EMPLOYEE = E.ID 
+			       LEFT OUTER JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC 
+			         ON EPC.EMPLOYEE = E.ID 
+			       LEFT OUTER JOIN ATTENDANCE_MANAGEMENT_ITEM AMI 
+			         ON AMI.EMPLOYEE = E.ID 
+			WHERE  E.ID = :inputId 
+			       AND E.COMPANY_ID = :companyId 	
 	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

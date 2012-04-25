@@ -48,7 +48,6 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 			countryOfIssueItem, emplVisaNumberItem;
 	private DateItem dateOfBirthItem, dateOfHire, passportExpiryDateItem,
 			emplVisaNumberDateItem;
-	private SelectCombo employeeCategoryCombo;
 	private StyledPanel mainPanel;
 	private StyledPanel firstPanel, secondPanel;
 	private EmployeeGroupCombo employeeGroupCombo;
@@ -83,7 +82,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	private void initViewData(ClientEmployee data) {
 		nameItem.setValue(data.getName());
 		dateOfBirthItem.setValue(new ClientFinanceDate(data.getDateOfBirth()));
-		genderSelect.setValue(genderTypes[data.getGender()]);
+		if (data.getGender() != -1) {
+			genderSelect.setComboItem(genderTypes[data.getGender()]);
+		}
 		contactNumberItem.setValue(data.getContactNumber());
 		emailItem.setValue(data.getEmail());
 
@@ -125,8 +126,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		employeeIdItem.setValue(data.getNumber());
 		dateOfHire.setValue(new ClientFinanceDate(data.getDateofJoining()));
-		employeeGroupCombo.setValue(data.getGroup());
-		employeeCategoryCombo.setValue(data.getCategory());
+		employeeGroupCombo.setGroupValue(data.getGroup());
 		designationItem.setValue(data.getDesignation());
 		locationItem.setValue(data.getLocation());
 		bankAccountNumberItem.setValue(data.getBankAccountNumber());
@@ -254,16 +254,13 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		employeeGroupCombo = new EmployeeGroupCombo(messages.employeeGroup(),
 				true);
 		employeeGroupCombo.setEnabled(!isInViewMode());
-		employeeCategoryCombo = new SelectCombo(messages.employeeCategory());
-		employeeCategoryCombo.setEnabled(!isInViewMode());
 		designationItem = new TextItem(messages.designation(),
 				"designationItem");
 		designationItem.setEnabled(!isInViewMode());
 		locationItem = new TextItem(messages.workingLocation(), "locationItem");
 		locationItem.setEnabled(!isInViewMode());
 		empDetailsInfoForm.add(employeeIdItem, dateOfHire, panItem,
-				employeeGroupCombo, employeeCategoryCombo, designationItem,
-				locationItem);
+				employeeGroupCombo, designationItem, locationItem);
 		employeeDetailsInfo.setContentWidget(empDetailsInfoForm);
 		return employeeDetailsInfo;
 	}
@@ -348,7 +345,6 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setBankName(bankNameItem.getValue());
 		data.setBranch(bankBranchItem.getValue());
 
-		data.setCategory(employeeCategoryCombo.getSelectedIndex());
 		data.setCountryOfIssue(countryOfIssueItem.getValue());
 
 		data.setDateOfBirth(dateOfBirthItem.getValue().getDate());
@@ -366,7 +362,18 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setPassportNumber(passportNumberItem.getValue());
 		data.setVisaNumber(emplVisaNumberItem.getValue());
 		data.setVisaExpiryDate(emplVisaNumberDateItem.getValue().getDate());
-
+		int genderType = -1;
+		String selectedValue = genderSelect.getSelectedValue();
+		if (selectedValue != null) {
+			if (selectedValue.equals(messages.unspecified())) {
+				genderType = 0;
+			} else if (selectedValue.equals(messages.male())) {
+				genderType = 1;
+			} else if (selectedValue.equals(messages.female())) {
+				genderType = 2;
+			}
+		}
+		data.setGender(genderType);
 	}
 
 	@Override
@@ -426,7 +433,6 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		dateOfHire.setEnabled(!isInViewMode());
 		passportExpiryDateItem.setEnabled(!isInViewMode());
 		emplVisaNumberDateItem.setEnabled(!isInViewMode());
-		employeeCategoryCombo.setEnabled(!isInViewMode());
 		employeeGroupCombo.setEnabled(!isInViewMode());
 		genderSelect.setEnabled(!isInViewMode());
 		addrArea.setEnabled(!isInViewMode());

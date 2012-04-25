@@ -22,11 +22,6 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	private long group;
 
 	/**
-	 * Category of the Employee
-	 */
-	private long category;
-
-	/**
 	 * Date of Joining of the Employee
 	 */
 	private long dateofJoining;
@@ -154,21 +149,6 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	 */
 	public void setGroup(long group) {
 		this.group = group;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public long getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(long category) {
-		this.category = category;
 	}
 
 	/**

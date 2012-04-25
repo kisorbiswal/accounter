@@ -906,19 +906,11 @@ public class MainFinanceWindow extends FlowPanel {
 				ActionFactory.getNewEmployeeGroupAction().getHistoryToken(),
 				ActionFactory.getNewEmployeeGroupAction());
 
-		actions.put(ActionFactory.getNewEmployeeCategoryAction()
-				.getHistoryToken(), ActionFactory
-				.getNewEmployeeCategoryAction());
-
 		actions.put(ActionFactory.getNewPayrollUnitAction().getHistoryToken(),
 				ActionFactory.getNewPayrollUnitAction());
 
 		actions.put(ActionFactory.getEmployeeListAction().getHistoryToken(),
 				ActionFactory.getEmployeeListAction());
-
-		actions.put(ActionFactory.getEmployeeCategoryListAction()
-				.getHistoryToken(), ActionFactory
-				.getEmployeeCategoryListAction());
 
 		actions.put(ActionFactory.getPayheadListAction().getHistoryToken(),
 				ActionFactory.getPayheadListAction());

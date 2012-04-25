@@ -19,6 +19,8 @@ public class AttendanceOrProductionTypeCombo extends
 	protected ArrayList<ClientAttendanceOrProductionType> list;
 	private long selectedId;
 
+	private boolean isItemsAdded;
+
 	public AttendanceOrProductionTypeCombo(int type, String title,
 			String styleName) {
 		super(title, true, 1, styleName);
@@ -43,6 +45,7 @@ public class AttendanceOrProductionTypeCombo extends
 	}
 
 	private void getAttendanceProductionTypes() {
+		isItemsAdded = false;
 		Accounter
 				.createPayrollService()
 				.getAttendanceProductionTypes(
@@ -59,22 +62,26 @@ public class AttendanceOrProductionTypeCombo extends
 									ArrayList<ClientAttendanceOrProductionType> result) {
 								list = result;
 								initCombo(result);
-								if (selectedId != 0) {
-									setComboItem();
-								}
+								isItemsAdded = true;
+								setComboItem();
 							}
 						});
 	}
 
 	public void setSelectedId(long selectedId) {
 		this.selectedId = selectedId;
+		if (isItemsAdded) {
+			setComboItem();
+		}
 	}
 
 	protected void setComboItem() {
-		List<ClientAttendanceOrProductionType> comboItems2 = getComboItems();
-		for (ClientAttendanceOrProductionType item : comboItems2) {
-			if (selectedId == item.getID()) {
-				setComboItem(item);
+		if (selectedId != 0) {
+			List<ClientAttendanceOrProductionType> comboItems2 = getComboItems();
+			for (ClientAttendanceOrProductionType item : comboItems2) {
+				if (selectedId == item.getID()) {
+					setComboItem(item);
+				}
 			}
 		}
 	}

@@ -12,7 +12,6 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ComputionPayHead;
 import com.vimukti.accounter.core.Employee;
-import com.vimukti.accounter.core.EmployeeCategory;
 import com.vimukti.accounter.core.EmployeeGroup;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FlatRatePayHead;
@@ -28,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
@@ -299,26 +297,6 @@ public class PayrollManager extends Manager {
 		arrayList.addAll(employeeGroups);
 
 		return arrayList;
-	}
-
-	public List<ClientEmployeeCategory> getEmployeeCategories(Long companyId)
-			throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery("list.EmployeeCategories")
-				.setEntity("company", company);
-		List<EmployeeCategory> categories = query.list();
-		if (categories == null) {
-			return null;
-		}
-		ArrayList<ClientEmployeeCategory> clientCategories = new ArrayList<ClientEmployeeCategory>();
-		for (EmployeeCategory category : categories) {
-			ClientEmployeeCategory clientCategory;
-			clientCategory = new ClientConvertUtil().toClientObject(category,
-					ClientEmployeeCategory.class);
-			clientCategories.add(clientCategory);
-		}
-		return clientCategories;
 	}
 
 	public long getEmployeeAttendanceCurrentBal(long employee,

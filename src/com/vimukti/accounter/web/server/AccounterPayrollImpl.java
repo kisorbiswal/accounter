@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.IAccounterPayrollService;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -144,13 +143,6 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	public List<ClientPayStructureDestination> getEmployeesAndGroups()
 			throws AccounterException {
 		return getFinanceTool().getPayrollManager().getEmployeesAndGroups(
-				getCompanyId());
-	}
-
-	@Override
-	public List<ClientEmployeeCategory> getEmployeeCategories()
-			throws AccounterException {
-		return getFinanceTool().getPayrollManager().getEmployeeCategories(
 				getCompanyId());
 	}
 

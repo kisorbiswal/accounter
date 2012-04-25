@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.vimukti.accounter.web.client.core.ClientAttendanceManagement;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.core.ClientEmployeeCategory;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -46,9 +44,6 @@ public interface IAccounterPayrollService extends RemoteService {
 			throws AccounterException;
 
 	List<ClientPayStructureDestination> getEmployeesAndGroups()
-			throws AccounterException;
-
-	List<ClientEmployeeCategory> getEmployeeCategories()
 			throws AccounterException;
 
 	long getEmployeeAttendanceCurrentBal(long employee, long attendanceType)
