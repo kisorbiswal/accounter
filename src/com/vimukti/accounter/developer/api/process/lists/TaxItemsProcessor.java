@@ -16,6 +16,8 @@ public class TaxItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		isActive = readBoolean(req, "active");
+
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientTAXItem> list = new ArrayList<ClientTAXItem>();
 		Set<TAXItem> items = getCompany().getTaxItems();

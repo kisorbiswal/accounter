@@ -77,7 +77,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				try {
 					Long serverCompanyID = (Long) request.getSession()
 							.getAttribute(COMPANY_ID);
-					if (CheckUserExistanceAndsetAccounterThreadLocal(request)) {
+					int errorCode = checkUserExistanceAndsetAccounterThreadLocal(request);
+					if (errorCode == HttpServletResponse.SC_OK) {
 						super.service(request, response);
 						try {
 							getFinanceTool().putChangesInCometStream(
@@ -86,14 +87,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 							log.error("Failed to get FinanceTool", e);
 						}
 					} else {
-						response.sendError(HttpServletResponse.SC_FORBIDDEN,
+						response.sendError(errorCode,
 								"Could Not Complete the Request!");
 					}
 				} finally {
 					session.close();
 				}
 			} else {
-				response.sendError(HttpServletResponse.SC_FORBIDDEN,
+				response.sendError(
+						HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"Could Not Complete the Request!");
 			}
 		} catch (Exception e) {
@@ -124,15 +126,17 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	 * @param request
 	 * @throws AccounterException
 	 */
-	private boolean CheckUserExistanceAndsetAccounterThreadLocal(
+	private int checkUserExistanceAndsetAccounterThreadLocal(
 			HttpServletRequest request) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Long serverCompanyID = (Long) request.getSession().getAttribute(
 				COMPANY_ID);
 
 		if (!isCompanyExists(serverCompanyID)) {
-			return false;
+			return HttpServletResponse.SC_NOT_FOUND;// Company not found
+													// serverCompanyId is wrong.
 		}
+
 		EU.removeCipher();
 		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
@@ -146,31 +150,33 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		}
 		if (getCompanySecretFromDB(serverCompanyID) != null) {
 			if (!EU.hasChiper()) {
-				return false;
+				return HttpServletResponse.SC_UNAUTHORIZED;// User secret is
+															// null.
 			}
 		}
 		if (islockedCompany(serverCompanyID)) {
-			return false;
+			return HttpServletResponse.SC_NOT_ACCEPTABLE;// Company locked try
+															// after some time.
 		}
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null || company.isLocked()) {
-			return false;
+			return HttpServletResponse.SC_NOT_ACCEPTABLE;
 		}
 
 		if (company.isDeleted()) {
-			return false;
+			return HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 		}
 
 		user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
-			return false;
+			return HttpServletResponse.SC_BAD_REQUEST;// User email is wrong.
 		}
 		AccounterThreadLocal.set(user);
 		ClientCompanyPreferences preferences = getFinanceTool()
 				.getCompanyManager().getClientCompanyPreferences(company);
 		CompanyPreferenceThreadLocal.set(preferences);
 
-		return true;
+		return HttpServletResponse.SC_OK;
 	}
 
 	private String getS2Id(HttpServletRequest request) {

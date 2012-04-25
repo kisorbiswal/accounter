@@ -13,6 +13,7 @@ public class RemindersProcessor extends ListProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		initObjectsList(req, resp);
+		viewName = readString(req, "view_type", "all");
 		List<?> resultList = service.getRemindersList(start, length,
 				getViewType());
 		sendResult(resultList);

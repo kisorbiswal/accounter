@@ -10,17 +10,7 @@ public class UserActivitiesProcessor extends ListProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		initTransactionList(req, resp);
-		String customise = req.getParameter("customise");
-		int value = 0;
-		if (customise == null) {
-			value = 0;
-		} else {
-			try {
-				value = Integer.parseInt(customise);
-			} catch (Exception e) {
-				sendFail("Wrong customise value");
-			}
-		}
+		int value = readInt(req, "customise", 0);
 
 		List<?> resultList = service.getUsersActivityLog(from, to, start,
 				length, value);

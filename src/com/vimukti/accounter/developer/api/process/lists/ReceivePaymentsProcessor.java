@@ -15,15 +15,7 @@ public class ReceivePaymentsProcessor extends ListProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		initTransactionList(req, resp);
-		String string = req.getParameter("paymentType");
-		int type = 0;
-		if (string != null) {
-			try {
-				type = Integer.parseInt(string);
-			} catch (Exception e) {
-				sendFail("Wrong paymentType");
-			}
-		}
+		int type = readInt(req, "payment_type", 0);
 		List<?> resultList = service.getReceivePaymentsList(from.getDate(),
 				to.getDate(), type, start, length, getViewType());
 		sendResult(resultList);

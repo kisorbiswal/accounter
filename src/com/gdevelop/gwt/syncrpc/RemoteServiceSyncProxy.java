@@ -168,6 +168,8 @@ public class RemoteServiceSyncProxy implements SerializationStreamFactory {
 				case HttpServletResponse.SC_BAD_REQUEST:
 					throw new AccounterException(
 							"User is not found. Wrong email Id.");
+				case HttpServletResponse.SC_SERVICE_UNAVAILABLE:
+					throw new AccounterException("Your company is deleted");
 				case HttpServletResponse.SC_INTERNAL_SERVER_ERROR:
 					throw new AccounterException(
 							"Could Not Complete the Request!");
