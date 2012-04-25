@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -41,6 +42,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -1369,7 +1371,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 			if (itemType == 0) {
 				if (isSalesType && isPurchaseType) {
-					allItems = getItems(items, viewType);
+					allItems = items;
 				} else if (isPurchaseType) {
 					allItems = getPurchaseItems(items, viewType);
 				} else if (isSalesType) {
@@ -1508,16 +1510,9 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	private List<Item> getSalesItems(List<Item> allItems, String viewType) {
 		List<Item> items = new ArrayList<Item>();
 		for (Item item : allItems) {
-			if (item.getType() == Item.TYPE_SERVICE)
-				if (viewType.equalsIgnoreCase(messages.active())) {
-					if (item.isActive() == true) {
-						items.add(item);
-					}
-				} else {
-					if (item.isActive() == false) {
-						items.add(item);
-					}
-				}
+			if (item.isISellThisItem()) {
+				items.add(item);
+			}
 		}
 		return items;
 
@@ -1530,41 +1525,11 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	 * @return
 	 */
 	private List<Item> getPurchaseItems(List<Item> allItems, String viewType) {
+
 		List<Item> items = new ArrayList<Item>();
 		for (Item item : allItems) {
-			if (item.getType() == Item.TYPE_NON_INVENTORY_PART)
-				if (viewType.equalsIgnoreCase(messages.active())) {
-					if (item.isActive() == true) {
-						items.add(item);
-					}
-				} else {
-					if (item.isActive() == false) {
-						items.add(item);
-					}
-				}
-		}
-		return items;
-
-	}
-
-	/**
-	 * filter the active or in active.
-	 * 
-	 * @param set
-	 * @param viewType
-	 * @return
-	 */
-	private List<Item> getItems(List<Item> allItems, String viewType) {
-		List<Item> items = new ArrayList<Item>();
-		for (Item item : allItems) {
-			if (viewType.equalsIgnoreCase(messages.active())) {
-				if (item.isActive() == true) {
-					items.add(item);
-				}
-			} else {
-				if (item.isActive() == false) {
-					items.add(item);
-				}
+			if (item.isIBuyThisItem()) {
+				items.add(item);
 			}
 		}
 		return items;
