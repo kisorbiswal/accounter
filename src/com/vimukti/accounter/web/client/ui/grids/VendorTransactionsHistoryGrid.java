@@ -119,10 +119,7 @@ public abstract class VendorTransactionsHistoryGrid extends
 				@Override
 				public void onResultSuccess(ClientPayBill result) {
 					if (result != null) {
-						int type = result.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
-								: ClientTransaction.TYPE_VENDOR_PAYMENT;
-
-						ReportsRPC.openTransactionView(type,
+						ReportsRPC.openTransactionView(result.getType(),
 								obj.getTransactionId());
 					}
 				}
