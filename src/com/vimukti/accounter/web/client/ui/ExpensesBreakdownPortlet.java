@@ -68,6 +68,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
 				History.newItem(HistoryTokens.RECORDEXPENSES, true);
 			}
 		});
@@ -153,10 +154,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		}
 		StyledPanel topPanel = new StyledPanel("topPanel");
 		if (Accounter.getUser().canDoInvoiceTransactions()
-				|| Accounter.getUser().getPermissions()
-						.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES
-				|| Accounter.getUser().getPermissions()
-						.getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
+				|| Accounter.getUser().getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
 			topPanel.add(addExpenseBtn);
 		}
 		vPanel.add(fTable);
