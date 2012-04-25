@@ -114,7 +114,7 @@ public class PayRun extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		if (goingToBeEdit) {
-			return false;
+			throw new AccounterException("You can not edit/void pay roll");
 		}
 		return true;
 	}

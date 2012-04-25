@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
@@ -23,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
@@ -32,15 +34,15 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.reports.ReportGrid;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
-public class NewPayRunView extends BaseView<ClientPayRun> {
+public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	private DateField fromDate, toDate;
 	private EmployeesAndGroupsCombo empsAndGroups;
@@ -54,24 +56,25 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	private final List<Section<ClientEmployeePayHeadComponent>> sections = new ArrayList<Section<ClientEmployeePayHeadComponent>>();
 
 	public NewPayRunView() {
+		super(ClientTransaction.TYPE_PAY_RUN);
 		this.getElement().setId("NewPayRunView");
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		createControls();
 		setSize("100%", "100%");
 	}
 
 	Button button;
-	private ReportGrid reportGrid;
+	private ReportGrid<ClientEmployeePayHeadComponent> reportGrid;
 	private ArrayList<ClientEmployeePayHeadComponent> records;
 	private StyledPanel attendanceLay;
 	private DynamicForm attendanceForm;
 	private Button nextButton;
 
-	private void createControls() {
+	@Override
+	protected void createControls() {
 		Label lab1 = new Label(messages.payrun());
 		lab1.setStyleName("label-title");
 
@@ -152,9 +155,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				saveAndCloseButton.setVisible(true);
-				saveAndNewButton.setVisible(true);
-				getButtonBar().setVisible(true);
 				showPayRunTable();
 			}
 		});
@@ -168,13 +168,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		attendanceForm = new DynamicForm("attendanceForm");
 		attendanceForm.add(attendanceLay);
 
-		this.tableLayout = new ScrollPanel() {
-			@Override
-			protected void onLoad() {
-				super.onLoad();
-				// grid.setHeight("450px");
-			}
-		};
+		this.tableLayout = new ScrollPanel();
 		this.tableLayout.addStyleName("tableLayout");
 
 		reportGrid = new ReportGrid<ClientEmployeePayHeadComponent>(
@@ -206,6 +200,14 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 				lastErrorSourcesFromValidation.add(error.getSource());
 			}
 			return;
+		}
+
+		if (saveAndCloseButton != null) {
+			saveAndCloseButton.setVisible(isSaveButtonAllowed());
+		}
+
+		if (saveAndNewButton != null) {
+			saveAndNewButton.setVisible(isSaveButtonAllowed());
 		}
 
 		reportGrid.removeAllRows();
@@ -315,8 +317,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 					if (result == null) {
 						onException(null);
 					}
-
-					// transactionNumber.setValue(String.valueOf(result));
 					data.setNumber(result);
 				}
 
@@ -536,25 +536,19 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 	protected void setFromAndToDate(
 			ArrayList<ClientEmployeePayHeadComponent> result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	protected void refreshMakeDetailLayout() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -564,7 +558,6 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -586,5 +579,29 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	@Override
 	public boolean canEdit() {
 		return false;
+	}
+
+	@Override
+	protected void initTransactionViewData() {
+	}
+
+	@Override
+	public void updateNonEditableItems() {
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 	}
 }

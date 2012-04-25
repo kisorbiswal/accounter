@@ -11984,7 +11984,14 @@
 			WHERE  E.ID = :inputId 
 			       AND E.COMPANY_ID = :companyId 	
 	</sql-query>
-
+	<sql-query name="canDeletePayRun">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="PR_ID" type ="long" />
+			SELECT PR.ID AS PR_ID 
+			FROM PAY_RUN PR
+			WHERE PR.ID=:inputId AND PR.COMPANY_ID =:companyId
+	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

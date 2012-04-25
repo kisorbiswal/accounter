@@ -1225,7 +1225,8 @@ public class UIUtils {
 
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			return AccounterCoreType.BUILD_ASSEMBLY;
-
+		case ClientTransaction.TYPE_PAY_RUN:
+			return AccounterCoreType.PAY_RUN;
 		}
 		return null;
 
