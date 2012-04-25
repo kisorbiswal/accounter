@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.developer.api.ApiCompany;
+import com.vimukti.accounter.developer.api.ClientDetails;
 import com.vimukti.api.core.ApiCallback;
-import com.vimukti.api.core.ApiCompany;
 import com.vimukti.api.core.ApiRequest;
-import com.vimukti.api.core.ClientDetails;
 import com.vimukti.api.process.RequestPeocesser;
 
 public class Accounter {

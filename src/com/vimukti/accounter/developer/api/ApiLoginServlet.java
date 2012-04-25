@@ -22,8 +22,6 @@ import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
-import com.vimukti.api.core.ApiCompany;
-import com.vimukti.api.core.ClientDetails;
 
 public class ApiLoginServlet extends ApiBaseServlet {
 

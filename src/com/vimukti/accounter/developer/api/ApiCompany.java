@@ -1,4 +1,4 @@
-package com.vimukti.api.core;
+package com.vimukti.accounter.developer.api;
 
 public class ApiCompany {
 	private long id;

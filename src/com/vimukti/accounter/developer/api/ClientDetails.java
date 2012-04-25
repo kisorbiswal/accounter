@@ -1,4 +1,4 @@
-package com.vimukti.api.core;
+package com.vimukti.accounter.developer.api;
 
 import java.util.Date;
 import java.util.Set;
