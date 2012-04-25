@@ -154,4 +154,12 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 						getCompanyId());
 	}
 
+	@Override
+	public ArrayList<ClientEmployee> getEmployeesByGroup(
+			ClientPayStructureDestination employeeGroup)
+			throws AccounterException {
+		return getFinanceTool().getPayrollManager().getEmployeesByGroup(
+				employeeGroup, getCompanyId());
+	}
+
 }

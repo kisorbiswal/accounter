@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -20,6 +21,38 @@ public class EmployeeDropDownTable extends
 	public EmployeeDropDownTable(boolean isAddNewRequired) {
 		super(list, isAddNewRequired);
 		initList();
+	}
+
+	public EmployeeDropDownTable(ClientPayStructureDestination employee) {
+		super(list, false);
+		initList(employee);
+	}
+
+	public void initList(ClientPayStructureDestination employeeGroup) {
+		if (employeeGroup == null) {
+			return;
+		}
+		list.clear();
+		if (employeeGroup instanceof ClientEmployee) {
+			list.add((ClientEmployee) employeeGroup);
+			reInitData();
+			return;
+		}
+		Accounter.createPayrollService().getEmployeesByGroup(employeeGroup,
+				new AsyncCallback<ArrayList<ClientEmployee>>() {
+
+					@Override
+					public void onSuccess(ArrayList<ClientEmployee> result) {
+						list = result;
+						reInitData();
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	private void initList() {

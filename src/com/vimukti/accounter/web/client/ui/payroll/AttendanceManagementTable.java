@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -15,6 +16,8 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public class AttendanceManagementTable extends
 		EditTable<ClientAttendanceManagementItem> {
+
+	private EmployeeColumn employeeColumn;
 
 	public AttendanceManagementTable() {
 		super();
@@ -35,7 +38,7 @@ public class AttendanceManagementTable extends
 
 	@Override
 	protected void initColumns() {
-		this.addColumn(new EmployeeColumn() {
+		employeeColumn = new EmployeeColumn() {
 			@Override
 			protected void setValue(ClientAttendanceManagementItem row,
 					ClientEmployee newValue) {
@@ -49,7 +52,9 @@ public class AttendanceManagementTable extends
 			public int getWidth() {
 				return 200;
 			}
-		});
+		};
+
+		this.addColumn(employeeColumn);
 
 		this.addColumn(new AttendanceProductionTypeColumn() {
 			@Override
@@ -160,5 +165,9 @@ public class AttendanceManagementTable extends
 			}
 		}
 		return selected;
+	}
+
+	public void updateList(ClientPayStructureDestination group) {
+		employeeColumn.updateList(group);
 	}
 }

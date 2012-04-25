@@ -312,4 +312,19 @@ public class PayrollManager extends Manager {
 		}
 		return (Long) result;
 	}
+
+	public ArrayList<ClientEmployee> getEmployeesByGroup(
+			ClientPayStructureDestination group, Long companyId)
+			throws AccounterException {
+		ArrayList<ClientEmployee> list = new ArrayList<ClientEmployee>();
+		Session session = HibernateUtil.getCurrentSession();
+		List<Employee> employees = session.getNamedQuery("getEmployeesByGroup")
+				.setParameter("groupId", group.getID()).list();
+		for (Employee employee : employees) {
+			ClientEmployee clientEmployee = new ClientConvertUtil()
+					.toClientObject(employee, ClientEmployee.class);
+			list.add(clientEmployee);
+		}
+		return list;
+	}
 }

@@ -69,7 +69,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	private ArrayList<ClientEmployeePayHeadComponent> records;
 	private StyledPanel attendanceLay;
 	private DynamicForm attendanceForm;
-	private Button okButton;
+	private Button nextButton;
 
 	private void createControls() {
 		Label lab1 = new Label(messages.payrun());
@@ -84,6 +84,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 					public void selectedComboBoxItem(
 							ClientPayStructureDestination selectItem) {
 						NewPayRunView.this.selectedItem = selectItem;
+						table.updateList(selectItem);
 						selectionChanged();
 					}
 				});
@@ -146,13 +147,14 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 			}
 		});
 
-		okButton = new Button(messages.ok());
-		okButton.addClickHandler(new ClickHandler() {
+		nextButton = new Button(messages.next());
+		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				saveAndCloseButton.setVisible(true);
 				saveAndNewButton.setVisible(true);
+				getButtonBar().setVisible(true);
 				showPayRunTable();
 			}
 		});
@@ -161,7 +163,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		attendanceLay.add(lab1);
 		attendanceLay.add(table);
 		attendanceLay.add(itemTableButton);
-		attendanceLay.add(okButton);
+		attendanceLay.add(nextButton);
 
 		attendanceForm = new DynamicForm("attendanceForm");
 		attendanceForm.add(attendanceLay);
@@ -180,6 +182,8 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		reportGrid.setColumnTypes(getColumnTypes());
 		reportGrid.init();
 		reportGrid.addEmptyMessage(messages.noRecordsToShow());
+
+		getButtonBar().setVisible(false);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
@@ -372,7 +376,7 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 	}
 
 	protected void selectionChanged() {
-
+		getButtonBar().setVisible(false);
 		fromDate.setEnabled(true);
 		toDate.setEnabled(true);
 
