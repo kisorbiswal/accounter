@@ -577,7 +577,8 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(new VendorPaymentsAction().getHistoryToken(),
 				new VendorPaymentsAction());
 
-		actions.put(new NewAccountAction().getHistoryToken(),
+		actions.put(
+				new NewAccountAction(ClientAccount.TYPE_BANK).getHistoryToken(),
 				new NewAccountAction(ClientAccount.TYPE_BANK));
 		actions.put(new WriteChecksAction().getHistoryToken(),
 				new WriteChecksAction());
