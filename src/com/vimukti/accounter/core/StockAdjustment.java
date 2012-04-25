@@ -196,6 +196,7 @@ public class StockAdjustment extends Transaction implements INamedObject {
 
 	@Override
 	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 		if (wareHouse == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().wareHouse());

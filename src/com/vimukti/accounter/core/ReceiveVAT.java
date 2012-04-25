@@ -277,6 +277,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		checkPaymentMethodNull();
 		if (transactionReceiveVAT.isEmpty()) {

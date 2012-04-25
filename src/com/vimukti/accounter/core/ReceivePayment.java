@@ -686,6 +686,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 		checkingCustomerNull(customer, Global.get().messages().receivedFrom());
 		checkPaymentMethodNull();
 		checkAccountNull(depositIn, Global.get().messages().depositIn());

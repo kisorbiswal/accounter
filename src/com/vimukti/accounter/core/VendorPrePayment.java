@@ -344,6 +344,7 @@ public class VendorPrePayment extends Transaction {
 
 	@Override
 	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 		checkingVendorNull(vendor, Global.get().messages().payTo());
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		checkPaymentMethodNull();

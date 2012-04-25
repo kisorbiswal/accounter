@@ -797,9 +797,11 @@ public class SalesOrder extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingCustomerNull(customer, Global.get().customer());
+		checkTransactionItemsNull();
+		checkNetAmountNegative();
 	}
 
 }

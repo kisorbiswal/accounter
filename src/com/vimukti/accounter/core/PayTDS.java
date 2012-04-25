@@ -4,6 +4,7 @@ import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class PayTDS extends Transaction implements IAccounterServerCore,
@@ -79,8 +80,7 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 	}
 }

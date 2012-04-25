@@ -185,7 +185,8 @@ public class BuildAssembly extends Transaction {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().assemblyItem());
 		} else if (!inventoryAssembly.isActive) {
-			throw new AccounterException(AccounterException.ERROR_ACTIVE_ITEM);
+			throw new AccounterException(AccounterException.ERROR_ACTIVE_ITEM,
+					Global.get().messages().assemblyItem());
 		}
 		if (quantityToBuild <= 0) {
 			throw new AccounterException(

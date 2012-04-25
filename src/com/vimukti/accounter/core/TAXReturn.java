@@ -348,6 +348,7 @@ public class TAXReturn extends Transaction {
 
 	@Override
 	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 		if (taxAgency == null) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().taxAgency());
