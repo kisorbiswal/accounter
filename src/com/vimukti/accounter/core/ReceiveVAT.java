@@ -245,40 +245,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		checkPaymentMethodNull();
-		if (transactionReceiveVAT.isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_RECEIVE_VAT);
-		}
-		for (TransactionReceiveVAT receiveVat : transactionReceiveVAT) {
-
-			int status = DecimalUtil.compare(receiveVat.getAmountToReceive(),
-					0.00);
-			if (status <= 0) {
-				throw new AccounterException(
-						AccounterException.ERROR_AMOUNT_ZERO, Global.get()
-								.messages().received()
-								+ Global.get().messages().amount());
-
-			}
-		}
-		Account bankAccount = depositIn;
-		// check if the currency of accounts is valid or not
-		if (bankAccount != null) {
-			Currency bankCurrency = getCurrency();
-			if (bankCurrency.getID() != Global.get().preferences()
-					.getPrimaryCurrency().getID()
-					&& bankCurrency.getID() != getCurrency().getID()) {
-				throw new AccounterException(
-						AccounterException.ERROR_SELECT_PROPER_BANK_ACCOUNT);
-			}
-		}
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -310,8 +276,36 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		checkPaymentMethodNull();
+		if (transactionReceiveVAT.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_RECEIVE_VAT);
+		}
+		for (TransactionReceiveVAT receiveVat : transactionReceiveVAT) {
+
+			int status = DecimalUtil.compare(receiveVat.getAmountToReceive(),
+					0.00);
+			if (status <= 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+								.messages().received()
+								+ Global.get().messages().amount());
+
+			}
+		}
+		Account bankAccount = depositIn;
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			Currency bankCurrency = getCurrency();
+			if (bankCurrency.getID() != Global.get().preferences()
+					.getPrimaryCurrency().getID()
+					&& bankCurrency.getID() != getCurrency().getID()) {
+				throw new AccounterException(
+						AccounterException.ERROR_SELECT_PROPER_BANK_ACCOUNT);
+			}
+		}
+
 	}
 }

@@ -147,39 +147,6 @@ public class JournalEntry extends Transaction {
 		return false;
 	}
 
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		// Checking transaction items empty
-		if (getTransactionItems() == null || getTransactionItems().isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_RECORDS_TO_SAVE, Global.get()
-							.messages().journalEntry());
-		}
-		// checking for Amounts zero or negative
-		List<TransactionItem> entrylist = this.getTransactionItems();
-		for (TransactionItem entry : entrylist) {
-			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
-				throw new AccounterException(
-						AccounterException.ERROR_AMOUNT_ZERO, Global.get()
-								.messages().amount());
-			}
-		}
-
-		// Checking Accounts same
-
-		for (TransactionItem entry : entrylist) {
-			long accountId = entry.getAccount().getID();
-			for (TransactionItem entry2 : entrylist) {
-				long accountId2 = entry2.getAccount().getID();
-				if (!entry.equals(entry2) && accountId == accountId2) {
-					throw new AccounterException(
-							AccounterException.ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES);
-				}
-			}
-		}
-		checkCreditsAndDebits();
-	}
 
 	private void checkCreditsAndDebits() throws AccounterException {
 		double creditTotal = 0, debitTotal = 0;
@@ -267,9 +234,6 @@ public class JournalEntry extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
 	}
 
@@ -338,8 +302,36 @@ public class JournalEntry extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		// Checking transaction items empty
+		if (getTransactionItems() == null || getTransactionItems().isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_NO_RECORDS_TO_SAVE, Global.get()
+							.messages().journalEntry());
+		}
+		// checking for Amounts zero or negative
+		List<TransactionItem> entrylist = this.getTransactionItems();
+		for (TransactionItem entry : entrylist) {
+			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_AMOUNT_ZERO, Global.get()
+								.messages().amount());
+			}
+		}
+
+		// Checking Accounts same
+
+		for (TransactionItem entry : entrylist) {
+			long accountId = entry.getAccount().getID();
+			for (TransactionItem entry2 : entrylist) {
+				long accountId2 = entry2.getAccount().getID();
+				if (!entry.equals(entry2) && accountId == accountId2) {
+					throw new AccounterException(
+							AccounterException.ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES);
+				}
+			}
+		}
+		checkCreditsAndDebits();
 	}
 }

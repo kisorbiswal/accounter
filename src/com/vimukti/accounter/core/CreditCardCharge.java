@@ -339,14 +339,6 @@ public class CreditCardCharge extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(payFrom, Global.get().messages().payFrom());
-		checkTransactionItemsNull();
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		for (TransactionItem tItem : getTransactionItems()) {
 			double amount = tItem.isAmountIncludeTAX() ? tItem.getLineTotal()
@@ -383,8 +375,12 @@ public class CreditCardCharge extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		checkTransactionItemsNull();
+		checkNetAmountNegative();
+	
 		
 	}
 

@@ -239,6 +239,16 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_DELETING_SYSTEM_ACCOUNT = 94;
 
+	public static final int ERROR_ACTIVE_CUSTOMER = 95;
+	
+	public static final int ERROR_ACTIVE_VENDOR = 96;
+	
+	public static final int ERROR_ACTIVE_ACCOUNT = 97;
+	
+	public static final int ERROR_ACTIVE_ITEM = 98;
+
+	public static final int ERROR_DATA_WRONG=99;
+
 	protected int errorCode;
 
 	// private long id;

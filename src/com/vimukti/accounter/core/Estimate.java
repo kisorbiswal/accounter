@@ -363,9 +363,6 @@ public class Estimate extends Transaction {
 			// // "This Quote is already  Rejected,can't  Modify");
 			// }
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
 	}
 
@@ -388,14 +385,6 @@ public class Estimate extends Transaction {
 		}
 		super.onSave(session);
 		return false;
-	}
-
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingCustomerNull(customer, Global.get().customer());
-		checkTransactionItemsNull();
-		checkNetAmountNegative();
 	}
 
 	private void updateTotals() throws AccounterException {
@@ -586,9 +575,11 @@ public class Estimate extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingCustomerNull(customer, Global.get().customer());
+		checkTransactionItemsNull();
+		checkNetAmountNegative();
 	}
 
 }

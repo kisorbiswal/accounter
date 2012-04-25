@@ -301,18 +301,6 @@ public class WriteCheck extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(bankAccount, Global.get().messages().bankAccount());
-
-		if (inFavourOf == null || inFavourOf.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().inFavourOf());
-		}
-		checkTransactionItemsNull();
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -591,8 +579,14 @@ public class WriteCheck extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(bankAccount, Global.get().messages().bankAccount());
+
+		if (inFavourOf == null || inFavourOf.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().inFavourOf());
+		}
+		checkTransactionItemsNull();
 	}
 }

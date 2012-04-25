@@ -263,9 +263,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		TAXCode taxCode = (TAXCode) clientObject;
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
@@ -279,32 +276,6 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 			// "A VATCode already exists with this name");
 		}
 		return true;
-	}
-
-	private void checkNullValues() throws AccounterException {
-		if (getName() == null || getName().trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
-					Global.get().messages().taxCode());
-		}
-		if (isTaxable()) {
-			if (Global.get().preferences().isTrackPaidTax()) {
-				if (getTAXItemGrpForSales() == null
-						&& getTAXItemGrpForPurchases() == null) {
-					throw new AccounterException(
-							AccounterException.ERROR_PLEASE_SELECT, Global
-									.get().messages().salesOrPurchaseItem());
-				} else if (getTAXItemGrpForSales() != null) {
-					validateTaxItem(getTAXItemGrpForSales(), true);
-				} else {
-					validateTaxItem(getTAXItemGrpForPurchases(), false);
-				}
-			} else if (getTAXItemGrpForSales() == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_PLEASE_SELECT, Global.get()
-								.messages().salesItem());
-			}
-		}
-
 	}
 
 	private void validateTaxItem(TAXItemGroup taxItemGrpForSales2,
@@ -411,8 +382,29 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (getName() == null || getName().trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().taxCode());
+		}
+		if (isTaxable()) {
+			if (Global.get().preferences().isTrackPaidTax()) {
+				if (getTAXItemGrpForSales() == null
+						&& getTAXItemGrpForPurchases() == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PLEASE_SELECT, Global
+									.get().messages().salesOrPurchaseItem());
+				} else if (getTAXItemGrpForSales() != null) {
+					validateTaxItem(getTAXItemGrpForSales(), true);
+				} else {
+					validateTaxItem(getTAXItemGrpForPurchases(), false);
+				}
+			} else if (getTAXItemGrpForSales() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_SELECT, Global.get()
+								.messages().salesItem());
+			}
+		}
+
 	}
 }

@@ -475,20 +475,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 	}
 
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingCustomerNull(customer, Global.get().customer());
-		// If estimates empty then
-
-		if (this.getEstimates() == null || this.getEstimates().isEmpty()) {
-			checkTransactionItemsNull();
-		} else if (!(this.transactionItems.isEmpty())) {
-			checkTransactionItemsNull();
-		}
-		checkNetAmountNegative();
-	}
-
 	private void doCreateEffect(Session session) {
 		// super.onSave(session);
 		this.balanceDue = this.total;
@@ -1075,9 +1061,17 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingCustomerNull(customer, Global.get().customer());
+		// If estimates empty then
+
+		if (this.getEstimates() == null || this.getEstimates().isEmpty()) {
+			checkTransactionItemsNull();
+		} else if (!(this.transactionItems.isEmpty())) {
+			checkTransactionItemsNull();
+		}
+		checkNetAmountNegative();
 	}
 
 }

@@ -100,14 +100,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(depositFrom, Global.get().messages().transferFrom());
-		checkAccountNull(depositIn, Global.get().messages().transferTo());
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -264,8 +256,10 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(depositFrom, Global.get().messages().transferFrom());
+		checkAccountNull(depositIn, Global.get().messages().transferTo());
+		checkNetAmountNegative();
 	}
 }

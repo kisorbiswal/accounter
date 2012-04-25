@@ -180,15 +180,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 		return false;
 	}
 
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingCustomerNull(payTo, Global.get().messages().payTo());
-		checkAccountNull(payFrom, Global.get().messages().payFrom());
-		checkPaymentMethodNull();
-		checkingCustomerRefundTo0();
-	}
-
 	private void checkingCustomerRefundTo0() throws AccounterException {
 		if (getTotal() <= 0) {
 			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
@@ -391,8 +382,11 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingCustomerNull(payTo, Global.get().messages().payTo());
+		checkAccountNull(payFrom, Global.get().messages().payFrom());
+		checkPaymentMethodNull();
+		checkingCustomerRefundTo0();
 	}
 }

@@ -394,65 +394,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	private void checkNullValuesAndThrowException() throws AccounterException {
-		if (this.item == null && this.account == null) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().transactionItem());
-		}
-		boolean isEnableTax = Global.get().preferences().isTrackTax();
-		if (getTransaction().getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-			isEnableTax = isEnableTax
-					&& Global.get().preferences().isTrackPaidTax();
-		}
-
-		if (isEnableTax && isTaxable && taxCode == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().taxCode());
-		}
-
-		if (isBillable()) {
-			if (getCustomer() == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE);
-			}
-			switch (getType()) {
-			case TransactionItem.TYPE_ITEM:
-				if (getItem() != null) {
-					if (!item.isIBuyThisItem || !item.isISellThisItem) {
-
-						throw new AccounterException(
-								AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE);
-					}
-				}
-			}
-		}
-	}
-
-	public void checkNullValues() throws AccounterException {
-		checkNullValuesAndThrowException();
-		if (this.unitPrice == null) {
-			this.setUnitPrice(new Double(0));
-		}
-		if (this.discount == null) {
-			this.setDiscount(new Double(0));
-		}
-		if (this.lineTotal == null) {
-			this.setLineTotal(new Double(0));
-		}
-		if (this.usedamt == null) {
-			this.setInvoiced(new Double(0));
-		}
-		if (this.backOrder == null) {
-			this.setBackOrder(new Double(0));
-		}
-		if (this.VATfraction == null) {
-			this.setVATfraction(new Double(0));
-		}
-		if (this.updateAmount == null) {
-			this.setUpdateAmount(new Double(0));
-		}
-	}
-
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
@@ -564,9 +505,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
 	}
 
@@ -999,8 +937,87 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.item == null && this.account == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().transactionItem());
+		} else if (this.item != null) {
+			if (!item.isActive) {
+				throw new AccounterException(
+						AccounterException.ERROR_ACTIVE_ITEM, Global
+								.get()
+								.messages()
+								.pleaseSelectActive(
+										Global.get().messages().item()));
+			} else {
+				if (transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR
+						&& (!item.isIBuyThisItem())) {
+					throw new AccounterException(
+							AccounterException.ERROR_DATA_WRONG, Global
+									.get()
+									.messages()
+									.pleaseSelect(
+											Global.get().messages()
+													.purchaseItem()));
+				} else if (transaction.getTransactionCategory() == Transaction.CATEGORY_CUSTOMER
+						&& (!item.isISellThisItem())) {
+					throw new AccounterException(
+							AccounterException.ERROR_DATA_WRONG,
+							Global.get()
+									.messages()
+									.pleaseSelect(
+											Global.get().messages().salesItem()));
+				}
+			}
+		}
+		boolean isEnableTax = Global.get().preferences().isTrackTax();
+		if (getTransaction().getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
+			isEnableTax = isEnableTax
+					&& Global.get().preferences().isTrackPaidTax();
+		}
+
+		if (isEnableTax && isTaxable && taxCode == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().taxCode());
+		}
+
+		if (isBillable()) {
+			if (getCustomer() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE);
+			}
+			switch (getType()) {
+			case TransactionItem.TYPE_ITEM:
+				if (getItem() != null) {
+					if (!item.isIBuyThisItem || !item.isISellThisItem) {
+
+						throw new AccounterException(
+								AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE);
+					}
+				}
+			}
+		}
+
+		if (this.unitPrice == null) {
+			this.setUnitPrice(new Double(0));
+		}
+		if (this.discount == null) {
+			this.setDiscount(new Double(0));
+		}
+		if (this.lineTotal == null) {
+			this.setLineTotal(new Double(0));
+		}
+		if (this.usedamt == null) {
+			this.setInvoiced(new Double(0));
+		}
+		if (this.backOrder == null) {
+			this.setBackOrder(new Double(0));
+		}
+		if (this.VATfraction == null) {
+			this.setVATfraction(new Double(0));
+		}
+		if (this.updateAmount == null) {
+			this.setUpdateAmount(new Double(0));
+		}
 	}
 }

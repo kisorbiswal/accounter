@@ -128,14 +128,6 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingVendorNull(vendor, Global.get().Vendor());
-		checkTransactionItemsNull();
-		checkNetAmountNegative();
-	}
-
-	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
 			return false;
@@ -385,8 +377,10 @@ public class VendorCreditMemo extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingVendorNull(vendor, Global.get().Vendor());
+		checkTransactionItemsNull();
+		checkNetAmountNegative();
 	}
 }

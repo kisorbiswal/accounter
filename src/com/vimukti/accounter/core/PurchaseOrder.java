@@ -466,14 +466,6 @@ public class PurchaseOrder extends Transaction {
 		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkingVendorNull(vendor, Global.get().Vendor());
-		checkTransactionItemsNull();
-		checkNetAmountNegative();
-	}
-
 	/**
 	 * @return the usedBill
 	 */
@@ -585,8 +577,9 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkingVendorNull(vendor, Global.get().Vendor());
+		checkTransactionItemsNull();
+		checkNetAmountNegative();}
 }

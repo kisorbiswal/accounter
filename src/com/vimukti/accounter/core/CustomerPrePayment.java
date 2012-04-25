@@ -132,17 +132,6 @@ public class CustomerPrePayment extends Transaction {
 		return false;
 	}
 
-	@Override
-	public void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		checkingCustomerNull(customer, Global.get().customer());
-		checkAccountNull(depositIn, Global.get().messages().depositIn());
-		checkEnteredBalance();
-		checkPaymentMethodNull();
-
-	}
-
 	private void checkEnteredBalance() throws AccounterException {
 		if (this.getTotal() <= 0) {
 			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
@@ -311,9 +300,13 @@ public class CustomerPrePayment extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		checkingCustomerNull(customer, Global.get().customer());
+		checkAccountNull(depositIn, Global.get().messages().depositIn());
+		checkEnteredBalance();
+		checkPaymentMethodNull();
 	}
 
 }

@@ -329,20 +329,6 @@ public class TAXReturn extends Transaction {
 	}
 
 	@Override
-	protected void checkNullValues() throws AccounterException {
-		if (taxAgency == null) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().taxAgency());
-		}
-
-		if (taxReturnEntries == null || taxReturnEntries.isEmpty()) {
-			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
-							.get().messages().transactionItem());
-		}
-	}
-
-	@Override
 	public void getEffects(ITransactionEffects e) {
 		double salesTaxTotal = 0, purchaseTaxTotal = 0, totalTAXAmount;
 		for (TAXReturnEntry entry : getTaxReturnEntries()) {
@@ -361,8 +347,16 @@ public class TAXReturn extends Transaction {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (taxAgency == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().taxAgency());
+		}
+
+		if (taxReturnEntries == null || taxReturnEntries.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
+							.get().messages().transactionItem());
+		}
 	}
 }

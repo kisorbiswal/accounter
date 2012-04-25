@@ -94,9 +94,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkForNullValues();
-		}
 
 		Query query = session
 				.getNamedQuery("getWarehouse")
@@ -120,19 +117,6 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			}
 		}
 		return true;
-	}
-
-	private void checkForNullValues() throws AccounterException {
-		if (warehouseCode == null || warehouseCode.trim().length() == 0) {
-			throw new AccounterException(
-					AccounterException.ERROR_WAREHOUSE_CODE_NULL, Global.get()
-							.messages().warehouseCode());
-		}
-
-		if (name == null || name.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().wareHouse());
-		}
 	}
 
 	public void setContact(Contact contact) {
@@ -279,8 +263,16 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (warehouseCode == null || warehouseCode.trim().length() == 0) {
+			throw new AccounterException(
+					AccounterException.ERROR_WAREHOUSE_CODE_NULL, Global.get()
+							.messages().warehouseCode());
+		}
+
+		if (name == null || name.trim().length() == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().wareHouse());
+		}
 	}
 }
