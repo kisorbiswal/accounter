@@ -113,10 +113,17 @@ public class PayRun extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (goingToBeEdit) {
-			throw new AccounterException("You can not edit/void pay roll");
+
+		if (this.getSaveStatus() == STATUS_VOID) {
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
 		}
+
 		return true;
+	}
+
+	@Override
+	public void onEdit(Transaction clonedObject) {
+		super.onEdit(clonedObject);
 	}
 
 	@Override

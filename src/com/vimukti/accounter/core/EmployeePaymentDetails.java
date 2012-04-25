@@ -78,6 +78,7 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	 */
 	public void runPayment() {
 		for (EmployeePayHeadComponent component : payHeadComponents) {
+			component.setEmpPaymentDetails(this);
 			double rate = component.getRate();
 			if (component.isDeduction()) {
 				payRun.addDeductions(rate);
@@ -98,10 +99,5 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
-	}
-
-	public double getBasicSalary() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

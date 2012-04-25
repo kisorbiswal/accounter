@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
@@ -3491,5 +3492,24 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<ReportInput> list = Arrays.asList(input);
 		return manager.exportReportToFile(getCompanyId(), exportType,
 				reportType, startDate, endDate, list);
+	}
+
+	@Override
+	public ArrayList<PayHeadSummary> getPayHeadSummaryReport(long payHeadId,
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		ArrayList<PayHeadSummary> payHeadSummaryList = new ArrayList<PayHeadSummary>();
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+		payHeadSummaryList = getFinanceTool().getPayrollManager()
+				.getPayHeadSummaryReport(payHeadId, dates[0], dates[1],
+						getCompanyId());
+		if (payHeadSummaryList != null) {
+			PayHeadSummary obj = new PayHeadSummary();
+			payHeadSummaryList
+					.add((PayHeadSummary) setStartEndDates(obj, dates));
+		}
+
+		return payHeadSummaryList;
 	}
 }

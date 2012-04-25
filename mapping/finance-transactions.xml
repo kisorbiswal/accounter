@@ -1146,11 +1146,11 @@
 				type="com.vimukti.accounter.core.LongUseType" />
 			<property name="payPeriodEndDate" column="PAY_PERIOD_ENDDATE"
 				type="com.vimukti.accounter.core.LongUseType" />
-			<set name="payEmployee" inverse="true" cascade="save-update,delete">
-				<key column="EMPLOYEE_PAYMENT_ID" />
+			<set name="payEmployee" inverse="true" cascade="save-update,delete-orphan">
+				<key column="PAY_RUN_ID" />
 				<one-to-many class="EmployeePaymentDetails" />
 			</set>
-			<list name="attendanceItems" cascade="save-update,delete">
+			<list name="attendanceItems" cascade="save-update,delete-orphan">
 				<key column="ATTENDANCE_MANAGEMENT" />
 				<list-index column="IDX" />
 				<one-to-many class="AttendanceManagementItem" />

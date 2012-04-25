@@ -271,21 +271,24 @@
 		</many-to-one>
 		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead">
 		</many-to-one>
+		<many-to-one name="empPaymentDetails" class="EmployeePaymentDetails"
+			column="EMPLOYEE_PAYMENT_DETAILS_ID">
+		</many-to-one>
 		<property name="rate" column="RATE" />
 	</class>
 
-	<class name="EmployeePaymentDetails" table="EMPLOYEE_PAYHEAD_COMPONENT">
+	<class name="EmployeePaymentDetails" table="EMPLOYEE_PAYMENT_DETAILS">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-		<many-to-one name="payRun" column="PAY_RUN" class="PayRun">
+		<many-to-one name="payRun" column="PAY_RUN_ID" class="PayRun">
 		</many-to-one>
 		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
 		</many-to-one>
-		<set name="payHeadComponents" inverse="true" cascade="save-update,delete">
-			<key column="PAYHEAD_COMPONENT_ID" />
+		<set name="payHeadComponents" inverse="true" cascade="save-update,delete-orphan">
+			<key column="EMPLOYEE_PAYMENT_DETAILS_ID" />
 			<one-to-many class="EmployeePayHeadComponent" />
 		</set>
 	</class>

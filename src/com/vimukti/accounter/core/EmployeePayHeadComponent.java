@@ -27,6 +27,8 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 
 	private FinanceDate periodStartDate;
 
+	private EmployeePaymentDetails empPaymentDetails;
+
 	/**
 	 * @return the payHead
 	 */
@@ -89,5 +91,13 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 			FinanceDate payPeriodEndDate) {
 		this.periodStartDate = payPeriodStartDate;
 		this.periodEndDate = payPeriodEndDate;
+	}
+
+	public EmployeePaymentDetails getEmpPaymentDetails() {
+		return empPaymentDetails;
+	}
+
+	public void setEmpPaymentDetails(EmployeePaymentDetails empPaymentDetails) {
+		this.empPaymentDetails = empPaymentDetails;
 	}
 }

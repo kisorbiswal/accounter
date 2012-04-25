@@ -15,6 +15,8 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	private String employee;
 
+	private long empPaymentDetails;
+
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -70,5 +72,13 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	public void setEmployee(String employee) {
 		this.employee = employee;
+	}
+
+	public long getEmpPaymentDetails() {
+		return empPaymentDetails;
+	}
+
+	public void setEmpPaymentDetails(long empPaymentDetails) {
+		this.empPaymentDetails = empPaymentDetails;
 	}
 }

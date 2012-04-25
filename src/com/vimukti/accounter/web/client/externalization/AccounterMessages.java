@@ -6492,4 +6492,6 @@ public interface AccounterMessages extends Messages {
 
 	public String attendanceType();
 
+	public String payHeadSummaryReport();
+
 }

@@ -37,6 +37,7 @@ import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
@@ -402,5 +403,9 @@ public interface IAccounterReportService extends RemoteService {
 
 	List<String> exportToFile(int exportType, int reportType, long startDate,
 			long endDate, ReportInput[] inputs) throws AccounterException;
+
+	ArrayList<PayHeadSummary> getPayHeadSummaryReport(long payHeadId,
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 }

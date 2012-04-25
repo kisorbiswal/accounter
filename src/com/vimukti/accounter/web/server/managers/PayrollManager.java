@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayrollManager extends Manager {
@@ -326,5 +328,32 @@ public class PayrollManager extends Manager {
 			list.add(clientEmployee);
 		}
 		return list;
+	}
+
+	public ArrayList<PayHeadSummary> getPayHeadSummaryReport(long payHeadId,
+			FinanceDate startDate, FinanceDate endDate, long companyId)
+			throws AccounterException {
+		ArrayList<PayHeadSummary> payHeadSummaryList = new ArrayList<PayHeadSummary>();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Query query = currentSession
+				.getNamedQuery("getPayHeadSummaryReportList")
+				.setParameter("payHeadId", payHeadId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("companyId", companyId);
+		List list = query.list();
+
+		Iterator iterator = list.iterator();
+		while ((iterator).hasNext()) {
+			Object[] object = (Object[]) iterator.next();
+			PayHeadSummary headSummary = new PayHeadSummary();
+			headSummary.setEmployeeId((Long) object[0]);
+			headSummary.setEmployeeName((String) object[1]);
+			headSummary.setPayHead((Long) object[2]);
+			headSummary.setPayHeadName((String) object[3]);
+			headSummary.setPayHeadAmount((Double) object[4]);
+			payHeadSummaryList.add(headSummary);
+		}
+		return payHeadSummaryList;
 	}
 }
