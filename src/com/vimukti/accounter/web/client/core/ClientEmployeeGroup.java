@@ -13,8 +13,6 @@ public class ClientEmployeeGroup implements ClientPayStructureDestination {
 
 	private List<ClientEmployee> employees;
 
-	private long payStructure;
-
 	private long id;
 
 	/**
@@ -45,21 +43,6 @@ public class ClientEmployeeGroup implements ClientPayStructureDestination {
 	 */
 	public void setEmployees(List<ClientEmployee> employees) {
 		this.employees = employees;
-	}
-
-	/**
-	 * @return the payStructure
-	 */
-	public long getPayStructure() {
-		return payStructure;
-	}
-
-	/**
-	 * @param payStructure
-	 *            the payStructure to set
-	 */
-	public void setPayStructure(long payStructure) {
-		this.payStructure = payStructure;
 	}
 
 	@Override

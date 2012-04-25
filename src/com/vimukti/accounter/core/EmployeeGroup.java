@@ -37,8 +37,6 @@ public class EmployeeGroup extends CreatableObject implements
 
 	private List<Employee> employees;
 
-	private PayStructure payStructure;
-
 	/**
 	 * @return the name
 	 */
@@ -67,21 +65,6 @@ public class EmployeeGroup extends CreatableObject implements
 	 */
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
-	}
-
-	/**
-	 * @return the payStructure
-	 */
-	public PayStructure getPayStructure() {
-		return payStructure;
-	}
-
-	/**
-	 * @param payStructure
-	 *            the payStructure to set
-	 */
-	public void setPayStructure(PayStructure payStructure) {
-		this.payStructure = payStructure;
 	}
 
 	@Override
