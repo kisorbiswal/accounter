@@ -573,4 +573,18 @@ public class NewPayRunView extends BaseView<ClientPayRun> {
 		empsAndGroups.setFocus();
 	}
 
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	public boolean canEdit() {
+		return false;
+	}
 }

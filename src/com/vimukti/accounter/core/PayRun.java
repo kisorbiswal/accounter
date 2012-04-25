@@ -113,6 +113,9 @@ public class PayRun extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
+		if (goingToBeEdit) {
+			return false;
+		}
 		return true;
 	}
 
