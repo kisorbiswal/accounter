@@ -13,7 +13,7 @@ public class Vat100ReportProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		Long taxAgency = (Long) req.getAttribute("TaxAgency");
+		Long taxAgency = readLong(req, "tax_agency");
 		List<? extends BaseReport> result = service.getVAT100Report(taxAgency,
 				startDate, endDate);
 

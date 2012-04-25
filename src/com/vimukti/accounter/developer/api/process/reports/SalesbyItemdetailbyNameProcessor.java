@@ -13,7 +13,7 @@ public class SalesbyItemdetailbyNameProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String itemName = (String) req.getAttribute("Name");
+		String itemName = readString(req, "item_name");
 		List<? extends BaseReport> result = service.getAgedCreditors(itemName,
 				startDate, endDate);
 

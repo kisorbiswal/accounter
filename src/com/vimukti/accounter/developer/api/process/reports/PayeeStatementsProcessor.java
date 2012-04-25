@@ -13,7 +13,10 @@ public class PayeeStatementsProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		boolean isVendor = (Boolean) req.getAttribute("IsVendor");
+		Boolean isVendor = readBoolean(req, "is_vendor");
+		if (isVendor == null) {
+			isVendor = false;
+		}
 		int id = (Integer) req.getAttribute("Id");
 		List<? extends BaseReport> result = service.getStatements(isVendor, id,
 				0, startDate, endDate);

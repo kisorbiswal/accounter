@@ -17,6 +17,8 @@ public class ItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
+		
 		isActive = readBoolean(req, "active");
 
 		int type = readInt(req, "item_type", 0);

@@ -13,10 +13,9 @@ public class TransactiondetailbyAccountnameProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String accountName = (String) req.getAttribute("Name");
+		String accountName = readString(req, "account_name");
 		List<? extends BaseReport> result = service
-				.getTransactionDetailByAccount(accountName,
-						startDate, endDate);
+				.getTransactionDetailByAccount(accountName, startDate, endDate);
 
 		sendResult(result);
 	}

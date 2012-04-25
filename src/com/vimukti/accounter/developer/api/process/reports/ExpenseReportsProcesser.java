@@ -13,7 +13,7 @@ public class ExpenseReportsProcesser extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		int status = (Integer) req.getAttribute("Status");
+		int status = readInt(req, "status");
 		List<? extends BaseReport> result = service.getExpenseReportByType(
 				status, startDate, endDate);
 

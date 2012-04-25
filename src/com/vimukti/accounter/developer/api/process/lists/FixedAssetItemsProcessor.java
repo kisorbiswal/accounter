@@ -12,15 +12,8 @@ public class FixedAssetItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		String string = req.getParameter("item_type");
-		int type = 0;
-		if (string != null) {
-			try {
-				type = Integer.parseInt(string);
-			} catch (Exception e) {
-				sendFail("Wrong paymentType");
-			}
-		}
+		init(req, resp);
+		int type = readInt(req, "item_type");
 		ArrayList<ClientFixedAsset> list = service.getFixedAssetList(type);
 		sendResult(list);
 	}

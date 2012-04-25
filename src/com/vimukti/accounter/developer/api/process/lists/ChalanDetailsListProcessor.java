@@ -10,6 +10,7 @@ public class ChalanDetailsListProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
 		List<?> resultList = service.getTDSChalanDetailsList();
 		sendResult(resultList);
 	}

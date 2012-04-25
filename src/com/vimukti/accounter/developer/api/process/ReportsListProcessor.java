@@ -15,7 +15,6 @@ public class ReportsListProcessor extends ApiProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		Map<String, List<String>> reportsList = new HashMap<String, List<String>>();
-		
 		sendResult(reportsList);
 	}
 }

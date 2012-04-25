@@ -13,7 +13,7 @@ public class PurchasesbyVendordetailbyNameProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String vendorName = (String) req.getAttribute("Name");
+		String vendorName = readString(req, "vendor_name");
 		List<? extends BaseReport> result = service.getPurchasesByVendorDetail(
 				vendorName, startDate, endDate);
 

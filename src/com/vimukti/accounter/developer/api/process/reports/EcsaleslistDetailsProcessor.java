@@ -13,7 +13,7 @@ public class EcsaleslistDetailsProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String payeeName = (String) req.getAttribute("Name");
+		String payeeName = readString(req, "name");
 		List<? extends BaseReport> result = service.getECSalesListDetailReport(
 				payeeName, startDate, endDate);
 

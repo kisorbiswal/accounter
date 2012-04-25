@@ -16,6 +16,7 @@ public class ItemGroupsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientItemGroup> list = new ArrayList<ClientItemGroup>();
 		Set<ItemGroup> groups = getCompany().getItemGroups();
