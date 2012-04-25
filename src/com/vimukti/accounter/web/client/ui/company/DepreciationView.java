@@ -378,6 +378,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
 			super.saveSuccess(result);
+			new DepreciationAction().run(null, true);
 
 		} else {
 			saveFailed(new AccounterException());
@@ -553,4 +554,5 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		buttonBar.add(updateButton);
 		super.createButtons(buttonBar);
 	}
+
 }
