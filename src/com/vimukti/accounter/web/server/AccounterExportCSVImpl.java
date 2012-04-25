@@ -2252,7 +2252,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			accountRegisterList = getFinanceTool().getAccountRegister(
 					financeDates[0], financeDates[1], accountId,
 					getCompanyId(), start, length);
-
+			accountRegisterList.remove(0);
 			ICSVExportRunner<AccountRegister> icsvExportRunner = new ICSVExportRunner<AccountRegister>() {
 				double balance = 0;
 				double totalBalance = 0;
