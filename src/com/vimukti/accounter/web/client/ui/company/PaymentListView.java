@@ -43,28 +43,33 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		this.checkType = checkType;
 	}
 
+
 	@Override
 	protected Action getAddNewAction() {
-		if (!Accounter.getUser().canDoInvoiceTransactions()) {
-			return null;
-		}
-		if (checkType == 0 || checkType == TYPE_ALL) {
+		if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
+				.canDoInvoiceTransactions())
+				&& !(checkType == 0 || checkType == TYPE_ALL)) {
+			return new WriteChecksAction();
+		} else if ((checkType == 0 || checkType == TYPE_ALL)
+				&& Accounter.getUser().canDoInvoiceTransactions()) {
 			new SelectPaymentTypeDialog().show();
 		} else {
-			return new WriteChecksAction();
+			return null;
 		}
 		return null;
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (!Accounter.getUser().canDoInvoiceTransactions()) {
-			return null;
-		}
-		if (checkType == 0 || checkType == TYPE_ALL) {
+		if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
+				.canDoInvoiceTransactions())
+				&& !(checkType == 0 || checkType == TYPE_ALL)) {
+			return messages.writeCheck();
+		} else if ((checkType == 0 || checkType == TYPE_ALL)
+				&& Accounter.getUser().canDoInvoiceTransactions()) {
 			return messages.addaNewPayment();
 		} else {
-			return messages.writeCheck();
+			return null;
 		}
 	}
 
