@@ -175,6 +175,8 @@ public class MenuBar {
 		// HistoryTokens.EMPLOYEECATEGORYLIST);
 		listMenuBar.addMenuItem(messages.payheadList(),
 				HistoryTokens.PAYHEADLIST);
+		listMenuBar.addMenuItem(messages.attendanceOrProductionTypeList(),
+				HistoryTokens.ATTENDANCE_PRODUCTION_TYPE_LIST);
 		listMenuBar.addMenuItem(messages.payrollUnitList(),
 				HistoryTokens.PAYROLLUNITLIST);
 		listMenuBar.addMenuItem(messages.payStructureList(),
@@ -420,7 +422,17 @@ public class MenuBar {
 		if (isJobTrackingEnabled) {
 			reportMenuBar.addMenuItem(getJobReportMenu(messages.job()));
 		}
+
+		reportMenuBar.addMenuItem(getPayrollReportMenu(messages.payroll()));
+
 		return reportMenuBar;
+	}
+
+	private MenuItem getPayrollReportMenu(String payroll) {
+		Menu payrollBar = new Menu(payroll);
+		payrollBar.addMenuItem(messages.paySlipSummary(),
+				HistoryTokens.PAYSLIP_SUMMARY);
+		return payrollBar;
 	}
 
 	/**

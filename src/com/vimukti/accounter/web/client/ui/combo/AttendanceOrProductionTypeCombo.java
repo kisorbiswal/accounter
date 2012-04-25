@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -49,7 +50,9 @@ public class AttendanceOrProductionTypeCombo extends
 		Accounter
 				.createPayrollService()
 				.getAttendanceProductionTypes(
-						new AsyncCallback<ArrayList<ClientAttendanceOrProductionType>>() {
+						0,
+						0,
+						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -59,7 +62,7 @@ public class AttendanceOrProductionTypeCombo extends
 
 							@Override
 							public void onSuccess(
-									ArrayList<ClientAttendanceOrProductionType> result) {
+									PaginationList<ClientAttendanceOrProductionType> result) {
 								list = result;
 								initCombo(result);
 								isItemsAdded = true;

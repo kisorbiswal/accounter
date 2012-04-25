@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.user.client.Window;
-import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -13,11 +13,44 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
-public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
+public class AttendanceOrProductionTypeListView extends
+		BaseListView<ClientAttendanceOrProductionType> {
 
-	public PayrollUnitListView() {
-		this.getElement().setId("PayrollUnitListView");
+	public AttendanceOrProductionTypeListView() {
+		this.getElement().setId("AttendanceOrProductionTypeListView");
 		isViewSelectRequired = false;
+	}
+
+	@Override
+	public void updateInGrid(ClientAttendanceOrProductionType objectTobeModified) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void initGrid() {
+		grid = new AttendanceOrProductionTypeListGrid(false);
+		grid.init();
+	}
+
+	@Override
+	protected String getListViewHeading() {
+		return messages.attendanceOrProductionTypeList();
+	}
+
+	@Override
+	protected Action getAddNewAction() {
+		return ActionFactory.getNewAttendanceProductionTypeAction();
+	}
+
+	@Override
+	protected String getAddNewLabelString() {
+		return messages.addNew(messages.attendanceOrProductionType());
+	}
+
+	@Override
+	protected String getViewTitle() {
+		return messages.attendanceOrProductionTypeList();
 	}
 
 	@Override
@@ -29,26 +62,6 @@ public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
 
-	}
-
-	@Override
-	protected String getListViewHeading() {
-		return messages.payrollUnitList();
-	}
-
-	@Override
-	protected Action<ClientPayrollUnit> getAddNewAction() {
-		return ActionFactory.getNewPayrollUnitAction();
-	}
-
-	@Override
-	protected String getAddNewLabelString() {
-		return messages.addaNew(messages.payrollUnit());
-	}
-
-	@Override
-	protected String getViewTitle() {
-		return messages.payrollUnitList();
 	}
 
 	@Override
@@ -95,12 +108,13 @@ public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		Accounter.createPayrollService().getPayrollUnitsList(start, length,
-				this);
+		Accounter.createPayrollService().getAttendanceProductionTypes(start,
+				length, this);
 	}
 
 	@Override
-	public void onSuccess(PaginationList<ClientPayrollUnit> result) {
+	public void onSuccess(
+			PaginationList<ClientAttendanceOrProductionType> result) {
 		grid.removeAllRecords();
 		if (result.isEmpty()) {
 			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
@@ -115,36 +129,4 @@ public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 				result.getTotalCount());
 	}
 
-	@Override
-	public void fitToSize(int height, int width) {
-		super.fitToSize(height, width);
-
-	}
-
-	@Override
-	public void onEdit() {
-
-	}
-
-	@Override
-	public void print() {
-
-	}
-
-	@Override
-	public void printPreview() {
-
-	}
-
-	@Override
-	protected void initGrid() {
-		grid = new PayrollUnitListGrid(false);
-		grid.init();
-	}
-
-	@Override
-	public void updateInGrid(ClientPayrollUnit objectTobeModified) {
-		// TODO Auto-generated method stub
-
-	}
 }

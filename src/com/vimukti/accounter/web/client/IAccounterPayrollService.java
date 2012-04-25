@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface IAccounterPayrollService extends RemoteService {
@@ -37,8 +38,8 @@ public interface IAccounterPayrollService extends RemoteService {
 	PaginationList<ClientPayStructure> getPayStructures(int start, int length)
 			throws AccounterException;
 
-	ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes()
-			throws AccounterException;
+	PaginationList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
+			int start, int length) throws AccounterException;
 
 	ArrayList<ClientEmployeeGroup> getEmployeeGroups()
 			throws AccounterException;
@@ -50,6 +51,10 @@ public interface IAccounterPayrollService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<ClientEmployee> getEmployeesByGroup(
-			ClientPayStructureDestination employeeGroup) throws AccounterException;
+			ClientPayStructureDestination employeeGroup)
+			throws AccounterException;
+
+	ArrayList<PaySlipSummary> getPaySlipSummary(ClientFinanceDate start,
+			ClientFinanceDate clientFinanceDate) throws AccounterException;
 
 }

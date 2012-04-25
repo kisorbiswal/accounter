@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -27,7 +28,7 @@ public class NewClientAttendanceOrProductionDialog extends
 	private SelectCombo leaveType;
 	private LabelItem daysType;
 	private PayRollUnitCombo payrollUnitCombo;
-	private List<String> attendanceOrProductionType, daysTypeList;
+	private List<String> attendanceOrProductionType;
 	private DynamicForm periodForm;
 
 	public NewClientAttendanceOrProductionDialog(String text,
@@ -79,10 +80,17 @@ public class NewClientAttendanceOrProductionDialog extends
 		setBodyLayout(layout);
 		if (this.selectedAttendanceOrProductionType.getID() != 0) {
 			name.setValue(selectedAttendanceOrProductionType.getName());
-			leaveType.setValue(attendanceOrProductionType
-					.get(selectedAttendanceOrProductionType.getPeriodType()));
-			daysType.setValue(daysTypeList
-					.get(selectedAttendanceOrProductionType.getType()));
+			leaveType.setSelected(ClientAttendanceOrProductionType
+					.getTypeName(selectedAttendanceOrProductionType.getType()));
+			selectionChanged(leaveType.getSelectedValue());
+			leaveType.setEnabled(false);
+			if (selectedAttendanceOrProductionType.getType() != ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
+				daysType.setValue(ClientPayHead
+						.getCalculationPeriod(selectedAttendanceOrProductionType
+								.getPeriodType()));
+			} else {
+				payrollUnitCombo.setEnabled(false);
+			}
 		}
 	}
 
@@ -100,14 +108,6 @@ public class NewClientAttendanceOrProductionDialog extends
 		ValidationResult result = form.validate();
 		result.add(periodForm.validate());
 		return result;
-	}
-
-	private List<String> getDaysTypeList() {
-		daysTypeList = new ArrayList<String>();
-		daysTypeList.add(messages.days());
-		daysTypeList.add(messages.weeks());
-		daysTypeList.add(messages.months());
-		return daysTypeList;
 	}
 
 	private List<String> getAttendanceTypeLIst() {
@@ -149,7 +149,10 @@ public class NewClientAttendanceOrProductionDialog extends
 			@Override
 			public void onResultSuccess(Long result) {
 				selectedAttendanceOrProductionType.setID(result);
-				getCallback().actionResult(selectedAttendanceOrProductionType);
+				ActionCallback<ClientAttendanceOrProductionType> callback = getCallback();
+				if (callback != null) {
+					callback.actionResult(selectedAttendanceOrProductionType);
+				}
 			}
 		};
 		Accounter.createCRUDService().create(

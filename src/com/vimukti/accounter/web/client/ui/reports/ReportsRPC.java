@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -389,6 +390,11 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_PAY_RUN:
 			initCallBack(new ClientPayRun(), ActionFactory.getPayRunAction(),
+					transactionId);
+
+		case IAccounterCore.ATTENDANCE_PRODUCTION_TYPE:
+			initCallBack(new ClientAttendanceOrProductionType(),
+					ActionFactory.getNewAttendanceProductionTypeAction(),
 					transactionId);
 			break;
 		}

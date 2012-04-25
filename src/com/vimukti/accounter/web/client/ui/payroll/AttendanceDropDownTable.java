@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
@@ -23,11 +24,13 @@ public class AttendanceDropDownTable extends
 		Accounter
 				.createPayrollService()
 				.getAttendanceProductionTypes(
-						new AsyncCallback<ArrayList<ClientAttendanceOrProductionType>>() {
+						0,
+						0,
+						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
 
 							@Override
 							public void onSuccess(
-									ArrayList<ClientAttendanceOrProductionType> result) {
+									PaginationList<ClientAttendanceOrProductionType> result) {
 								list = result;
 								reInitData();
 							}

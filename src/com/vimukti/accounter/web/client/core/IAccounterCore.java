@@ -64,6 +64,7 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int PAYROLL_UNIT = 92;
 	public static final int PAY_HEAD = 93;
 	public static final int PAY_STRUCTURE = 94;
+	public static final int ATTENDANCE_PRODUCTION_TYPE = 95;
 
 	String getName();
 

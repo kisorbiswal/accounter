@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 
 public interface IAccounterPayrollServiceAsync {
 
@@ -37,7 +38,9 @@ public interface IAccounterPayrollServiceAsync {
 			AsyncCallback<PaginationList<ClientPayStructure>> callback);
 
 	public void getAttendanceProductionTypes(
-			AsyncCallback<ArrayList<ClientAttendanceOrProductionType>> asyncCallback);
+			int start,
+			int length,
+			AsyncCallback<PaginationList<ClientAttendanceOrProductionType>> asyncCallback);
 
 	public void getEmployeeGroups(
 			AsyncCallback<ArrayList<ClientEmployeeGroup>> asyncCallback);
@@ -50,5 +53,9 @@ public interface IAccounterPayrollServiceAsync {
 
 	void getEmployeesByGroup(ClientPayStructureDestination employeeGroup,
 			AsyncCallback<ArrayList<ClientEmployee>> asyncCallback);
+
+	public void getPaySlipSummary(ClientFinanceDate start,
+			ClientFinanceDate clientFinanceDate,
+			AsyncCallback<ArrayList<PaySlipSummary>> asyncCallback);
 
 }

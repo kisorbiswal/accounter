@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
@@ -126,10 +127,10 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	}
 
 	@Override
-	public ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes()
-			throws AccounterException {
+	public PaginationList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
+			int start, int length) throws AccounterException {
 		return getFinanceTool().getPayrollManager()
-				.getAttendanceProductionTypes(getCompanyId());
+				.getAttendanceProductionTypes(start, length, getCompanyId());
 	}
 
 	@Override
@@ -160,6 +161,13 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 			throws AccounterException {
 		return getFinanceTool().getPayrollManager().getEmployeesByGroup(
 				employeeGroup, getCompanyId());
+	}
+
+	@Override
+	public ArrayList<PaySlipSummary> getPaySlipSummary(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException {
+		return getFinanceTool().getPayrollManager().getPaySlipSummary(start,
+				end, getCompanyId());
 	}
 
 }

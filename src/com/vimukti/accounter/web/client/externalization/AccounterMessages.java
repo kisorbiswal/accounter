@@ -6494,4 +6494,8 @@ public interface AccounterMessages extends Messages {
 
 	public String payHeadSummaryReport();
 
+	public String attendanceOrProductionTypeList();
+
+	public String paySlipSummary();
+
 }

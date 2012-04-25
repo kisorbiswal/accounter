@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
@@ -39,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
+import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayrollManager extends Manager {
@@ -247,9 +249,10 @@ public class PayrollManager extends Manager {
 		return clientPayStructures;
 	}
 
-	public ArrayList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
-			Long companyId) throws AccounterException {
+	public PaginationList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
+			int start, int length, Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+		int total = 0;
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("list.AttendanceProductionType")
 				.setEntity("company", company);
@@ -257,14 +260,22 @@ public class PayrollManager extends Manager {
 		if (types == null) {
 			return null;
 		}
-		ArrayList<ClientAttendanceOrProductionType> clientTypes = new ArrayList<ClientAttendanceOrProductionType>();
+		if (length == -1) {
+			types = query.list();
+		} else {
+			total = query.list().size();
+			types = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		PaginationList<ClientAttendanceOrProductionType> list = new PaginationList<ClientAttendanceOrProductionType>();
 		for (AttendanceOrProductionType type : types) {
 			ClientAttendanceOrProductionType clientType;
 			clientType = new ClientConvertUtil().toClientObject(type,
 					ClientAttendanceOrProductionType.class);
-			clientTypes.add(clientType);
+			list.add(clientType);
 		}
-		return clientTypes;
+		list.setTotalCount(total);
+		list.setStart(start);
+		return list;
 	}
 
 	public ArrayList<ClientEmployeeGroup> getEmployeeGroups(Long companyId)
@@ -355,5 +366,38 @@ public class PayrollManager extends Manager {
 			payHeadSummaryList.add(headSummary);
 		}
 		return payHeadSummaryList;
+	}
+
+	public ArrayList<PaySlipSummary> getPaySlipSummary(ClientFinanceDate start,
+			ClientFinanceDate end, Long companyId) {
+		ArrayList<PaySlipSummary> result = new ArrayList<PaySlipSummary>();
+
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getPaySlipSummary")
+				.setParameter("companyId", companyId)
+				.setParameter("start", start.getDate())
+				.setParameter("end", end.getDate());
+
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			Object[] type = iterator.next();
+			PaySlipSummary summary = new PaySlipSummary();
+
+			summary.setName((String) type[0]);
+			summary.setNumber((String) type[1]);
+			summary.setAccountNo((String) type[2]);
+			summary.setBankName((String) type[3]);
+			summary.setBranch((String) type[4]);
+			Object object = type[5];
+			if (object != null) {
+				summary.setAmount((Double) type[5]);
+			}
+			summary.setEmail((String) type[6]);
+
+			result.add(summary);
+		}
+		return result;
 	}
 }

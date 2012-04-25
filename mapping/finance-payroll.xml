@@ -444,4 +444,33 @@
 		e.group.id=:groupId
 	</query>
 
+	<sql-query name="getPaySlipSummary">
+		<query-param name="companyId" type="long" />
+		<query-param name="start" type="long" />
+		<query-param name="end" type="long" />
+
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="NUMBER" type="string" />
+		<return-scalar column="ACCOUNT_NUMBER" type="string" />
+		<return-scalar column="BANK_NAME" type="string" />
+		<return-scalar column="BRANCH" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="EMAIL" type="string" />
+		<![CDATA[
+			SELECT 	E.NAME AS NAME,
+					E.NUMBER AS NUMBER,
+					E.BANK_ACCOUNT_NUMBER AS ACCOUNT_NUMBER,
+					E.BANK_NAME AS BANK_NAME,
+					E.BANK_BRANCH AS BRANCH,
+					T.TOTAL AS AMOUNT,
+					E.EMAIL AS EMAIL
+					FROM EMPLOYEE E 
+						LEFT JOIN EMPLOYEE_PAYMENT_DETAILS PD ON PD.EMPLOYEE = E.ID
+						LEFT JOIN PAY_RUN P ON P.ID = PD.PAY_RUN
+						LEFT JOIN TRANSACTION T ON T.ID = P.ID
+				
+						WHERE E.COMPANY_ID = :companyId
+								AND T.T_DATE BETWEEN :start AND :end
+		]]>
+	</sql-query>
 </hibernate-mapping>

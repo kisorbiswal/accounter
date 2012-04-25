@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientAttendanceOrProductionType implements IAccounterCore {
 
 	/**
@@ -92,5 +95,25 @@ public class ClientAttendanceOrProductionType implements IAccounterCore {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	public static String getTypeName(int type) {
+		AccounterMessages messages = Accounter.getMessages();
+		switch (type) {
+		case TYPE_LEAVE_WITH_PAY:
+			return messages.leaveWithPay();
+
+		case TYPE_LEAVE_WITHOUT_PAY:
+			return messages.leaveWithoutPay();
+
+		case TYPE_PRODUCTION:
+			return messages.productionType();
+
+		case TYPE_USER_DEFINED_CALENDAR:
+			return messages.userDefinedCalendar();
+
+		default:
+			return null;
+		}
 	}
 }

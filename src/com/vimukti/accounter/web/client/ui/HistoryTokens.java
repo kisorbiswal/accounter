@@ -423,6 +423,10 @@ public class HistoryTokens {
 
 	public static final String ATTENDANCE_MANAGEMENT = "attendanceManagement";
 
+	public static final String ATTENDANCE_PRODUCTION_TYPE_LIST = "attendanceProductionTypeList";
+
+	public static final String PAYSLIP_SUMMARY = "payslipSummaryReport";
+
 	public HistoryTokens() {
 
 	}

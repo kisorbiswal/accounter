@@ -17,6 +17,7 @@ public class EmployeeListView extends BaseListView<ClientEmployee> {
 
 	public EmployeeListView() {
 		this.getElement().setId("EmployeeListView");
+		isViewSelectRequired = false;
 	}
 
 	@Override

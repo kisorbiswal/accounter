@@ -71,7 +71,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	private ArrayList<ClientEmployeePayHeadComponent> records;
 	private StyledPanel attendanceLay;
 	private DynamicForm attendanceForm;
-	private Button nextButton;
+	private Button nextButton, backButton;
+	private DynamicForm tableForm;
 
 	@Override
 	protected void createControls() {
@@ -177,6 +178,19 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		reportGrid.init();
 		reportGrid.addEmptyMessage(messages.noRecordsToShow());
 
+		backButton = new Button(messages.back());
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				selectionChanged();
+			}
+		});
+
+		tableLayout.add(reportGrid);
+
+		tableForm = new DynamicForm("tableForm");
+
 		getButtonBar().setVisible(false);
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
@@ -186,7 +200,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		mainVLay.add(toDate);
 		mainVLay.add(button);
 		mainVLay.add(attendanceForm);
-		mainVLay.add(tableLayout);
+		mainVLay.add(tableForm);
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(false);
 		this.add(mainVLay);
@@ -212,7 +226,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 		reportGrid.removeAllRows();
 		attendanceForm.clear();
-		tableLayout.add(reportGrid);
+		tableForm.add(tableLayout);
+		tableForm.add(backButton);
 
 		data.setAttendanceItems(table.getAllRows());
 
@@ -270,10 +285,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		if (selectedValue == null) {
 			validationResult.addError(empsAndGroups,
 					messages.pleaseSelect(messages.employeeOrGroup()));
-		}
-
-		if (table.getAllRows().isEmpty()) {
-			validationResult.addError(table, "don't have attendance items");
 		}
 
 		return validationResult;
@@ -380,7 +391,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		fromDate.setEnabled(true);
 		toDate.setEnabled(true);
 
-		tableLayout.clear();
+		tableForm.clear();
 		attendanceForm.clear();
 		table.clear();
 		table.addEmptyRecords();
