@@ -73,10 +73,12 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 					rateColumn.setEnable(false);
 				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
-					if (ph.getAttendanceType() != ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
-						rateColumn.setEnable(false);
-					} else {
+					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE
+							|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY
+							|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
 						rateColumn.setEnable(true);
+					} else {
+						rateColumn.setEnable(false);
 					}
 				} else {
 					rateColumn.setEnable(true);

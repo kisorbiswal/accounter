@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -46,7 +47,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 			bankNameItem, bankAccountNumberItem, bankBranchItem, locationItem,
 			contactNumberItem, emailItem, passportNumberItem,
 			countryOfIssueItem, emplVisaNumberItem;
-	private DateItem dateOfBirthItem, dateOfHire, passportExpiryDateItem,
+	private DateField dateOfBirthItem, dateOfHire, passportExpiryDateItem,
 			emplVisaNumberDateItem;
 	private StyledPanel mainPanel;
 	private StyledPanel firstPanel, secondPanel;
@@ -209,8 +210,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		passportNumberItem = new TextItem(messages.passportNumber(),
 				"passportNumberItem");
 		passportNumberItem.setEnabled(!isInViewMode());
-		passportExpiryDateItem = new DateItem(messages.passportExpiryDate(),
+		passportExpiryDateItem = new DateField(messages.passportExpiryDate(),
 				"passportExpiryDateItem");
+		passportExpiryDateItem.setEnteredDate(new ClientFinanceDate());
 		passportExpiryDateItem.setEnabled(!isInViewMode());
 		countryOfIssueItem = new TextItem(messages.countryOfIssue(),
 				"countryOfIssueItem");
@@ -218,8 +220,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		emplVisaNumberItem = new TextItem(messages.visaNumber(),
 				"emplVisaNumberItem");
 		emplVisaNumberItem.setEnabled(!isInViewMode());
-		emplVisaNumberDateItem = new DateItem(messages.visaExpiryDate(),
+		emplVisaNumberDateItem = new DateField(messages.visaExpiryDate(),
 				"emplVisaNumberDateItem");
+		emplVisaNumberDateItem.setEnteredDate(new ClientFinanceDate());
 		emplVisaNumberDateItem.setEnabled(!isInViewMode());
 		empOtherDetailsInfoForm = new DynamicForm("empOtherDetailsInfoForm");
 
@@ -247,7 +250,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		employeeIdItem = new TextItem(messages.employeeID(), "employeeIdItem");
 		employeeIdItem.setEnabled(!isInViewMode());
-		dateOfHire = new DateItem(messages.dateofHire(), "dateOfHire");
+		dateOfHire = new DateField(messages.dateofHire(), "dateOfHire");
+		dateOfHire.setEnteredDate(new ClientFinanceDate());
 		dateOfHire.setEnabled(!isInViewMode());
 		panItem = new TextItem(messages.panOrEinNumber(), "panItem");
 		panItem.setEnabled(!isInViewMode());
@@ -277,8 +281,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		nameItem.setRequired(true);
 		nameItem.setEnabled(!isInViewMode());
 
-		dateOfBirthItem = new DateItem(messages.dateofBirth(),
+		dateOfBirthItem = new DateField(messages.dateofBirth(),
 				"dateOfBirthItem");
+		dateOfBirthItem.setEnteredDate(new ClientFinanceDate());
 		dateOfBirthItem.setEnabled(!isInViewMode());
 
 		genderSelect = new SelectCombo(messages.gender());
