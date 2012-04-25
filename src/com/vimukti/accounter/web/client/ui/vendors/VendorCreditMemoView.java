@@ -726,7 +726,7 @@ public class VendorCreditMemoView extends
 
 			@Override
 			public void onException(AccounterException caught) {
-				int errorCode = ((AccounterException) caught).getErrorCode();
+				int errorCode = caught.getErrorCode();
 				Accounter.showError(AccounterExceptions
 						.getErrorString(errorCode));
 			}

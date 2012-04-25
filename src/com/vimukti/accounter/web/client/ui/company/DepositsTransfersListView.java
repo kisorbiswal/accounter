@@ -90,8 +90,10 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected Action getAddNewAction() {
+		if (!Accounter.getUser().canDoBanking()) {
+			return null;
+		}
 		if (transactionType == 0) {
-
 			return new DepositAction();
 		} else {
 			return new MakeDepositAction();
@@ -100,14 +102,14 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (Utility.isUserHavePermissions(ClientTransaction.TYPE_MAKE_DEPOSIT)) {
-			if (transactionType == 0) {
-				return messages.makeDeposit();
-			} else {
-				return messages.transferFund();
-			}
+		if (!Accounter.getUser().canDoBanking()) {
+			return null;
 		}
-		return null;
+		if (transactionType == 0) {
+			return messages.makeDeposit();
+		} else {
+			return messages.transferFund();
+		}
 	}
 
 	@Override
