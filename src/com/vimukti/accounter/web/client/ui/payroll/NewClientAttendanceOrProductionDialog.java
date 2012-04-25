@@ -5,14 +5,17 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class NewClientAttendanceOrProductionDialog extends
@@ -22,9 +25,10 @@ public class NewClientAttendanceOrProductionDialog extends
 	private TextItem name;
 	private ClientAttendanceOrProductionType selectedAttendanceOrProductionType;
 	private SelectCombo leaveType;
-	private SelectCombo daysTypeCombo;
+	private LabelItem daysType;
 	private PayRollUnitCombo payrollUnitCombo;
 	private List<String> attendanceOrProductionType, daysTypeList;
+	private DynamicForm periodForm;
 
 	public NewClientAttendanceOrProductionDialog(String text,
 			ClientAttendanceOrProductionType clientAttendanceOrProductionType) {
@@ -47,19 +51,29 @@ public class NewClientAttendanceOrProductionDialog extends
 		form.add(name);
 
 		leaveType = new SelectCombo(messages.attendanceOrProductionType());
+		leaveType
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						selectionChanged(selectItem);
+					}
+				});
 		leaveType.initCombo(getAttendanceTypeLIst());
 		leaveType.setRequired(true);
 		form.add(leaveType);
 
-		daysTypeCombo = new SelectCombo(messages.type());
-		daysTypeCombo.initCombo(getDaysTypeList());
-		daysTypeCombo.setRequired(true);
-		form.add(daysTypeCombo);
+		periodForm = new DynamicForm("periodForm");
 
-		payrollUnitCombo = new PayRollUnitCombo(messages.payrollUnitList(),
+		daysType = new LabelItem(messages.period(), "daysTypeCombo");
+		daysType.setValue(messages.days());
+
+		payrollUnitCombo = new PayRollUnitCombo(messages.payrollUnit(),
 				"payrollUnitsListCombo",
 				selectedAttendanceOrProductionType.getUnit());
-		form.add(payrollUnitCombo);
+		payrollUnitCombo.setRequired(true);
+
+		form.add(periodForm);
 
 		layout.add(form);
 		setBodyLayout(layout);
@@ -67,14 +81,24 @@ public class NewClientAttendanceOrProductionDialog extends
 			name.setValue(selectedAttendanceOrProductionType.getName());
 			leaveType.setValue(attendanceOrProductionType
 					.get(selectedAttendanceOrProductionType.getPeriodType()));
-			daysTypeCombo.setValue(daysTypeList
+			daysType.setValue(daysTypeList
 					.get(selectedAttendanceOrProductionType.getType()));
+		}
+	}
+
+	protected void selectionChanged(String selectItem) {
+		periodForm.clear();
+		if (selectItem.equals(messages.productionType())) {
+			periodForm.add(payrollUnitCombo);
+		} else {
+			periodForm.add(daysType);
 		}
 	}
 
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+		result.add(periodForm.validate());
 		return result;
 	}
 
@@ -105,11 +129,16 @@ public class NewClientAttendanceOrProductionDialog extends
 		selectedAttendanceOrProductionType.setName(name.getValue());
 		selectedAttendanceOrProductionType
 				.setType(leaveType.getSelectedIndex() + 1);
-		selectedAttendanceOrProductionType.setPeriodType(daysTypeCombo
-				.getSelectedIndex() + 1);
-		ClientPayrollUnit selectedValue = payrollUnitCombo.getSelectedValue();
-		if (selectedValue != null) {
-			selectedAttendanceOrProductionType.setUnit(selectedValue.getID());
+		if (selectedAttendanceOrProductionType.getType() != ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
+			selectedAttendanceOrProductionType
+					.setPeriodType(ClientPayHead.CALCULATION_PERIOD_DAYS);
+		} else {
+			ClientPayrollUnit selectedValue = payrollUnitCombo
+					.getSelectedValue();
+			if (selectedValue != null) {
+				selectedAttendanceOrProductionType.setUnit(selectedValue
+						.getID());
+			}
 		}
 		AccounterAsyncCallback<Long> callback = new AccounterAsyncCallback<Long>() {
 
