@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -46,7 +47,10 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 		unit.setFormalname(formalNameItem.getValue());
 		unit.setNoofDecimalPlaces(Integer.valueOf(noOfDecimalsItem.getValue()));
 		saveOrUpdate(unit);
-		getCallback().actionResult(unit);
+		ActionCallback<ClientPayrollUnit> callback = getCallback();
+		if (callback != null) {
+			callback.actionResult(unit);
+		}
 	}
 
 	@Override
@@ -76,4 +80,8 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 		}
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
