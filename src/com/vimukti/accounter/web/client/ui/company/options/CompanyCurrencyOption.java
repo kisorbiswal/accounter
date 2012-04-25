@@ -72,6 +72,11 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
+		 boolean hasPermission = Accounter.hasPermission(Features.MULTI_CURRENCY);
+		 isEnableMultiCurrencyCheckBox.setVisible(hasPermission);
+				     if (hasPermission) {
+				      currencyCommentLabel.setText(messages.changingCurrencyComment());
+				      }
 		isEnableMultiCurrencyCheckBox.setVisible(Accounter.hasPermission(Features.MULTI_CURRENCY));
 		currencyCommentLabel.setText(messages.changingCurrencyComment());
 		isEnableMultiCurrencyCheckBox.setText(messages.isMultiCurrencyEnable());
