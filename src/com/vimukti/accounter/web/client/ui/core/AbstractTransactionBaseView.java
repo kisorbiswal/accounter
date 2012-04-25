@@ -689,10 +689,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected boolean canAddDraftButton() {
 		ClientUserPermissions permissions = getCompany().getLoggedInUser()
 				.getPermissions();
-		return (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
-				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
-				&& canRecur() ? (transaction == null ? true : transaction
-				.getID() == 0)
+		return Utility.isUserHavePermissions(transactionType) && canRecur() ? (transaction == null ? true
+				: transaction.getID() == 0)
 				: (!canRecur() && transaction != null && transaction.isDraft());
 	}
 

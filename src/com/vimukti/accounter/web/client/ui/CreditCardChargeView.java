@@ -1204,9 +1204,10 @@ public class CreditCardChargeView extends
 
 	protected void updateDiscountValues() {
 		if (discountField.getPercentage() != null) {
-			vendorItemTransactionTable.setDiscount(discountField.getPercentage());
-			vendorAccountTransactionTable
-					.setDiscount(discountField.getPercentage());
+			vendorItemTransactionTable.setDiscount(discountField
+					.getPercentage());
+			vendorAccountTransactionTable.setDiscount(discountField
+					.getPercentage());
 		} else {
 			discountField.setPercentage(0d);
 		}

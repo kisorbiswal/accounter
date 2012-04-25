@@ -474,7 +474,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.PayBill pst where pst.company=:company
 		and pst.payFrom.id =:accountId and pst.checkNumber=:tobePrinted and
-		pst.saveStatus!=204 and pst.status
+		pst.saveStatus not in (204,201) and pst.status
 		=:status
 	</query>
 
@@ -486,7 +486,7 @@
 		from com.vimukti.accounter.core.VendorPrePayment pst where
 		pst.company=:company
 		and pst.payFrom.id =:accountId and
-		pst.saveStatus!=204 and pst.status
+		pst.saveStatus not in (204,201) and pst.status
 		=:status and
 		pst.checkNumber=:tobePrinted
 	</query>
@@ -512,7 +512,7 @@
 		pst.company=:company and
 		pst.payFrom.id =:accountId and
 		pst.checkNumber=:tobePrinted and
-		pst.saveStatus!=204
+		pst.saveStatus not in (204,201)
 		and pst.status
 		=:status
 	</query>
@@ -526,7 +526,7 @@
 		pst.company=:company and pst.payFrom.id
 		=:accountId and
 		pst.checkNumber=:tobePrinted and
-		pst.saveStatus!=204 and pst.status
+		pst.saveStatus not in (204,201) and pst.status
 		=:status
 	</query>
 
@@ -969,7 +969,7 @@
 		<query-param name="tobePrinted" type="encryptedstring" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.bankAccount.id=:id and wc.saveStatus!=204 and wc.status=:status and
+		wc.bankAccount.id=:id and wc.saveStatus not in (204,201) and wc.status=:status and
 		wc.checkNumber=:tobePrinted and
 		wc.company=:company
 	</query>
@@ -999,7 +999,7 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
 		where cr.payFrom.id
-		=:id and cr.saveStatus!=204 and cr.status=:status and
+		=:id and cr.saveStatus not in (204,201) and cr.status=:status and
 		cr.checkNumber=:tobePrinted and
 		cr.company=:company
 	</query>
@@ -1012,7 +1012,7 @@
 		from com.vimukti.accounter.core.PayTAX pst where
 		pst.payFrom.id =
 		:id
-		and pst.saveStatus!=204 and pst.status =:status and
+		and pst.saveStatus not in (204,201) and pst.status =:status and
 		pst.checkNumber=:tobePrinted and
 		pst.company=:company
 	</query>

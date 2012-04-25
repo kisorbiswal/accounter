@@ -88,6 +88,8 @@ public class MenuBar {
 
 	private boolean isAdmin;
 
+	private boolean isFinancialAdvisor;
+
 	private boolean canSaveDrafts;
 
 	private Set<String> features;
@@ -215,12 +217,18 @@ public class MenuBar {
 			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS,
 					"U");
 		}
-		settingsMenuBar.addMenuItem(messages.invoiceBranding(),
-				HistoryTokens.INVOICEBRANDING, "i");
 		settingsMenuBar.addMenuItem(messages.translation(),
 				HistoryTokens.TRANSLATION, "T");
-		settingsMenuBar.addMenuItem(messages.chequePrintSetting(),
-				HistoryTokens.CHECK_PRINT_SETTING);
+
+		if ((isAdmin || isFinancialAdvisor)
+				&& hasPermission(Features.BRANDING_THEME)) {
+			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
+					HistoryTokens.INVOICEBRANDING, "i");
+		}
+		if (isAdmin || isFinancialAdvisor) {
+			settingsMenuBar.addMenuItem(messages.chequePrintSetting(),
+					HistoryTokens.CHECK_PRINT_SETTING);
+		}
 
 		settingsMenuBar.addMenuItem(messages.deletecompany(),
 				HistoryTokens.DELETE_COMPANY);
@@ -1168,6 +1176,8 @@ public class MenuBar {
 
 		this.isAdmin = clientUser.isAdmin();
 
+		this.isFinancialAdvisor = isAdvisor(clientUser);
+
 		this.features = features;
 
 		this.canDoInvoiceAndBillTransactions = canDoInvoiceTransactions(clientUser);
@@ -1246,6 +1256,13 @@ public class MenuBar {
 		this.canSaveDrafts = canSaveDrafts(clientUser);
 
 		getMenuBar();
+	}
+
+	private boolean isAdvisor(ClientUser clientUser) {
+		if (clientUser.getUserRole().equals(RolePermissions.FINANCIAL_ADVISER))
+			return true;
+		else
+			return false;
 	}
 
 	public boolean hasPermission(String feature) {

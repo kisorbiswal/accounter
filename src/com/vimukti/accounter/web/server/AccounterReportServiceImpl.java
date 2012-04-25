@@ -48,6 +48,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.IncomeByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
@@ -3493,5 +3494,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		List<ReportInput> list = Arrays.asList(input);
 		return (ArrayList<String>) manager.exportReportToFile(getCompanyId(),
 				exportType, reportType, startDate, endDate, list);
+	}
+
+	@Override
+	public ArrayList<IncomeByCustomerDetail> getIncomeByCustomerDetail(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

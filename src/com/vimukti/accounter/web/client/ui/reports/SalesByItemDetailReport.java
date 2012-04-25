@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.StringReportInput;
@@ -103,11 +102,15 @@ public class SalesByItemDetailReport extends
 					obj2.getUnitPrice());
 
 		case 6:
-			return UIUtils
-					.compareDouble(obj1.getDiscount(), obj2.getDiscount());
-
+			if (getPreferences().isTrackDiscounts()) {
+				return UIUtils.compareDouble(obj1.getDiscount(),
+						obj2.getDiscount());
+			} else {
+				return UIUtils
+						.compareDouble(obj1.getAmount(), obj2.getAmount());
+			}
 		case 7:
-			UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
+			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
 		}
 		return 0;

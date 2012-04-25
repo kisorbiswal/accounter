@@ -37,7 +37,11 @@ public class PurchaseByItemDetailServerReport extends
 		case 5:
 			return record.getUnitPrice();
 		case 6:
-			return record.getDiscount();
+			if (getPreferences().isTrackDiscounts()) {
+				return record.getDiscount();
+			} else {
+				return record.getAmount();
+			}
 		case 7:
 			return record.getAmount();
 		}
@@ -51,17 +55,31 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_PERCENTAGE, COLUMN_TYPE_AMOUNT };
+		if (getPreferences().isTrackDiscounts()) {
+			return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
+					COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
+					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_PERCENTAGE,
+					COLUMN_TYPE_AMOUNT };
+		} else {
+			return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
+					COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
+					COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+		}
 	}
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getMessages().item(), getMessages().date(),
-				getMessages().type(), getMessages().noDot(),
-				getMessages().quantity(), getMessages().unitPrice(),
-				getMessages().discount(), getMessages().amount() };
+		if (getPreferences().isTrackDiscounts()) {
+			return new String[] { getMessages().item(), getMessages().date(),
+					getMessages().type(), getMessages().noDot(),
+					getMessages().quantity(), getMessages().unitPrice(),
+					getMessages().discount(), getMessages().amount() };
+		} else {
+			return new String[] { getMessages().item(), getMessages().date(),
+					getMessages().type(), getMessages().noDot(),
+					getMessages().quantity(), getMessages().unitPrice(),
+					getMessages().amount() };
+		}
 	}
 
 	@Override
@@ -119,8 +137,14 @@ public class PurchaseByItemDetailServerReport extends
 		// } else
 		if (sectionDepth == 0) {
 			this.sectionName = record.getItemName();
-			addSection(new String[] { sectionName }, new String[] { "", "", "",
-					"", "", "", getMessages().total() }, new int[] { 7 });
+			if (getPreferences().isTrackDiscounts()) {
+				addSection(new String[] { sectionName }, new String[] { "", "",
+						"", "", "", "", getMessages().total() },
+						new int[] { 7 });
+			} else {
+				addSection(new String[] { sectionName }, new String[] { "", "",
+						"", "", getMessages().total() }, new int[] { 6 });
+			}
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getItemName())) {
@@ -226,9 +250,12 @@ public class PurchaseByItemDetailServerReport extends
 					obj2.getUnitPrice());
 
 		case 6:
-			return UIUtils
-					.compareDouble(obj1.getDiscount(), obj2.getDiscount());
-
+			if (getPreferences().isTrackDiscounts()) {
+				return UIUtils.compareDouble(obj1.getDiscount(),
+						obj2.getDiscount());
+			} else {
+				UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
+			}
 		case 7:
 			UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
@@ -245,10 +272,17 @@ public class PurchaseByItemDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().item(), getMessages().date(),
-				getMessages().type(), getMessages().noDot(),
-				getMessages().quantity(), getMessages().unitPrice(),
-				getMessages().discount(), getMessages().amount() };
+		if (getPreferences().isTrackDiscounts()) {
+			return new String[] { getMessages().item(), getMessages().date(),
+					getMessages().type(), getMessages().noDot(),
+					getMessages().quantity(), getMessages().unitPrice(),
+					getMessages().discount(), getMessages().amount() };
+		} else {
+			return new String[] { getMessages().item(), getMessages().date(),
+					getMessages().type(), getMessages().noDot(),
+					getMessages().quantity(), getMessages().unitPrice(),
+					getMessages().amount() };
+		}
 	}
 
 }

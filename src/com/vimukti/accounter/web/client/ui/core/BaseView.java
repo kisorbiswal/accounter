@@ -249,7 +249,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				// this.buttonBar.setCellHorizontalAlignment(deleteButton,
 				// ALIGN_LEFT);
 			}
-			if (canVoid() && voidButton != null) {
+			if (isSaveButtonAllowed() && canVoid() && voidButton != null) {
 				buttonBar.insert(voidButton, 0);
 				// this.buttonBar.setCellHorizontalAlignment(voidButton,
 				// ALIGN_LEFT);

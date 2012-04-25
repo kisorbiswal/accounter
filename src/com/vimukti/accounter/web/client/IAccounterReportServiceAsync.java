@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.IncomeByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
@@ -480,5 +481,9 @@ public interface IAccounterReportServiceAsync {
 	public void exportToFile(int exportType, int reportType, long startDate,
 			long endDate, ReportInput[] inputs,
 			AsyncCallback<ArrayList<String>> callback);
+
+	public void getIncomeByCustomerDetail(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<IncomeByCustomerDetail>> callback);
 
 }
