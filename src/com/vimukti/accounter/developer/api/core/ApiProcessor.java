@@ -19,6 +19,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public abstract class ApiProcessor {
 	public static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
@@ -102,5 +103,94 @@ public abstract class ApiProcessor {
 	protected void sendFail(String errorMessage) {
 		result.setStatus(ApiResult.FAIL);
 		result.setResult(errorMessage);
+	}
+
+	protected int readInt(HttpServletRequest req, String name, int def)
+			throws AccounterException {
+		int type = def;
+		String itemType = req.getParameter(name);
+		if (itemType != null) {
+			try {
+				type = Integer.parseInt(itemType);
+			} catch (Exception e) {
+				throw new AccounterException(name + " is wrong formate");
+			}
+		}
+		return type;
+	}
+
+	protected int readInt(HttpServletRequest req, String name)
+			throws AccounterException {
+		int type = 0;
+		String itemType = req.getParameter(name);
+		if (itemType == null) {
+			throw new AccounterException(name + " is not present");
+		}
+		try {
+			type = Integer.parseInt(itemType);
+		} catch (Exception e) {
+			throw new AccounterException(name + " is wrong formate");
+		}
+		return type;
+	}
+
+	protected String readString(HttpServletRequest req, String name, String def) {
+		String itemType = req.getParameter(name);
+		if (itemType == null) {
+			itemType = def;
+		}
+		return itemType;
+	}
+
+	protected String readString(HttpServletRequest req, String name)
+			throws AccounterException {
+		String itemType = req.getParameter(name);
+		if (itemType == null) {
+			throw new AccounterException(name + " is not present");
+		}
+		return itemType;
+	}
+
+	protected long readLong(HttpServletRequest req, String name, long def)
+			throws AccounterException {
+		long type = def;
+		String itemType = req.getParameter(name);
+		if (itemType != null) {
+			try {
+				type = Long.parseLong(itemType);
+			} catch (Exception e) {
+				throw new AccounterException(name + " is wrong formate");
+			}
+		}
+		return type;
+	}
+
+	protected long readLong(HttpServletRequest req, String name)
+			throws AccounterException {
+		long type = 0;
+		String itemType = req.getParameter(name);
+		if (itemType == null) {
+			throw new AccounterException(name + " is not present");
+		}
+		try {
+			type = Long.parseLong(itemType);
+		} catch (Exception e) {
+			throw new AccounterException(name + " is wrong formate");
+		}
+		return type;
+	}
+
+	protected Boolean readBoolean(HttpServletRequest req, String name)
+			throws AccounterException {
+		Boolean type = null;
+		String itemType = req.getParameter(name);
+		if (itemType != null) {
+			try {
+				type = Boolean.parseBoolean(itemType);
+			} catch (Exception e) {
+				throw new AccounterException(name + " is wrong formate");
+			}
+		}
+		return type;
 	}
 }

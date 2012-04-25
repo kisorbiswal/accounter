@@ -16,8 +16,6 @@ public class JobsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		initObjectsList(req, resp);
-
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		List<ClientJob> resultList = new ArrayList<ClientJob>();
 		Set<Job> jobs = getCompany().getJobs();

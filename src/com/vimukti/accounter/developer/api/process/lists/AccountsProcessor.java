@@ -12,20 +12,9 @@ public class AccountsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		initTransactionList(req, resp);
+		initObjectsList(req, resp);
 
-		String accountType = req.getParameter("accountType");
-		int type = 0;
-		if (accountType == null) {
-			type = 0;
-		} else {
-			try {
-				type = Integer.parseInt(accountType);
-			} catch (Exception e) {
-				sendFail("Wrong accountType");
-			}
-		}
-
+		int type = readInt(req, "account_type", 0);
 		List<? extends IAccounterCore> resultList = service.getAccounts(type,
 				isActive, start, length);
 

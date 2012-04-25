@@ -17,18 +17,12 @@ public class ItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		initObjectsList(req, resp);
-		String itemType = req.getParameter("itemType");// Items(0),InventoryAssemblyItems(1),InventoryItem(2),VensorItems(3),CustomerItems(4)
+		isActive = readBoolean(req, "active");
 
-		int type = 0;
-		if (itemType != null) {
-			try {
-				type = Integer.parseInt(itemType);
-			} catch (Exception e) {
-				sendFail("Item type is wrong formate");
-				return;
-			}
-		}
+		int type = readInt(req, "item_type", 0);
+
+		// Items(0),InventoryAssemblyItems(1),InventoryItem(2),VensorItems(3),CustomerItems(4)
+
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		List<ClientItem> resultList = new ArrayList<ClientItem>();
 		Set<Item> items = getCompany().getItems();

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class WarehouseTransferProcessor extends ListProcessor {
+public class WarehouseTransfersProcessor extends ListProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)

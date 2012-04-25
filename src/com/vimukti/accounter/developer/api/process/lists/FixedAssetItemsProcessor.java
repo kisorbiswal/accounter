@@ -12,7 +12,7 @@ public class FixedAssetItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		String string = req.getParameter("itemType");
+		String string = req.getParameter("item_type");
 		int type = 0;
 		if (string != null) {
 			try {
