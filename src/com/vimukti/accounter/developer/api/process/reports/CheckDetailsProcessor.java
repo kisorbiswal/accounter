@@ -13,7 +13,7 @@ public class CheckDetailsProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		Long paymentmethod = (Long) req.getAttribute("PaymentMethod");
+		Long paymentmethod = readLong(req,"payment_method");
 		List<? extends BaseReport> result = service.getCheckDetailReport(
 				paymentmethod, startDate, endDate);
 

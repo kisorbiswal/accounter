@@ -13,19 +13,17 @@ public abstract class ReportProcessor extends ApiProcessor {
 	protected IAccounterReportService service;
 
 	protected void init(HttpServletRequest req, HttpServletResponse resp) {
-		String methodName = req.getParameter("reporttype");
-		if (methodName == null) {
-			sendFail("reporttype should be present");
-			return;
-		}
-		service = getS2sSyncProxy(req, "/do/accounter/report/rpc/service",
-				IAccounterReportService.class);
-		startDate = getClientFinanceDate(req
-				.getParameter("StartDate"));
-		endDate = getClientFinanceDate(req.getParameter("EndDate"));
+		initService(req);
+		startDate = getClientFinanceDate(req.getParameter("start_date"));
+		endDate = getClientFinanceDate(req.getParameter("end_date"));
 		if (endDate == null || startDate == null) {
 			sendFail("Wrong date formate");
 			return;
 		}
+	}
+
+	protected void initService(HttpServletRequest req) {
+		service = getS2sSyncProxy(req, "/do/accounter/report/rpc/service",
+				IAccounterReportService.class);
 	}
 }

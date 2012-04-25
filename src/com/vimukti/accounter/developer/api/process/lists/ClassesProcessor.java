@@ -16,6 +16,7 @@ public class ClassesProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientAccounterClass> list = new ArrayList<ClientAccounterClass>();
 		Set<AccounterClass> groups = getCompany().getAccounterClasses();

@@ -13,7 +13,7 @@ public class PriorreturnVatSummaryProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		Long taxAgency = (Long) req.getAttribute("TaxAgency");
+		long taxAgency = readLong(req, "tax_agency");
 		List<? extends BaseReport> result = service.getPriorReturnVATSummary(
 				taxAgency, endDate);
 

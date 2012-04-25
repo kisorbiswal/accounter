@@ -13,10 +13,10 @@ public class SalesbycustomerDetailbynameProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String customerName = (String) req.getAttribute("Name");
+		String customerName = readString(req, "customer_name");
 		List<? extends BaseReport> result = service
-				.getSalesByCustomerDetailReport(customerName,
-						startDate, endDate);
+				.getSalesByCustomerDetailReport(customerName, startDate,
+						endDate);
 
 		sendResult(result);
 	}

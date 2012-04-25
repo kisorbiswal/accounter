@@ -12,7 +12,7 @@ public class MeasurementsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-
+		init(req, resp);
 		List<? extends IAccounterCore> resultList = null;
 		resultList = service.getAllUnits();
 		sendResult(resultList);

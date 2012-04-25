@@ -16,6 +16,7 @@ public class VendorGroupsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientVendorGroup> list = new ArrayList<ClientVendorGroup>();
 		Set<VendorGroup> groups = getCompany().getVendorGroups();

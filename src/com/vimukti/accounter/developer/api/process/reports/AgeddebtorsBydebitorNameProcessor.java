@@ -13,8 +13,8 @@ public class AgeddebtorsBydebitorNameProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String Name = (String) req.getAttribute("Name");
-		List<? extends BaseReport> result = service.getAgedCreditors(Name,
+		String name = readString(req, "name");
+		List<? extends BaseReport> result = service.getAgedCreditors(name,
 				startDate, endDate);
 
 		sendResult(result);

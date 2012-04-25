@@ -13,10 +13,9 @@ public class TransactionDetailbyTaxitemnameProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String taxItemName = (String) req.getAttribute("Name");
+		String taxItemName = readString(req, "tax_item_name");
 		List<? extends BaseReport> result = service
-				.getTransactionDetailByTaxItem(taxItemName,
-						startDate, endDate);
+				.getTransactionDetailByTaxItem(taxItemName, startDate, endDate);
 
 		sendResult(result);
 	}

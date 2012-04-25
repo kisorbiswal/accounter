@@ -13,7 +13,7 @@ public class VatItemDetailsProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String vatItemName = (String) req.getAttribute("Name");
+		String vatItemName = readString(req, "vat_item_name");
 		List<? extends BaseReport> result = service.getVATItemDetailReport(
 				vatItemName, startDate, endDate);
 

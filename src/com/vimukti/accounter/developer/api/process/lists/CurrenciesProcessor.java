@@ -16,6 +16,7 @@ public class CurrenciesProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientCurrency> list = new ArrayList<ClientCurrency>();
 		Set<Currency> groups = getCompany().getCurrencies();

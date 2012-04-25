@@ -13,9 +13,28 @@ public class SalesordeListProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		List<? extends BaseReport> result = service.getSalesOrderReport(-1,
-				startDate, endDate);
+		String order = readString(req, "order_type", "all");
+
+		List<? extends BaseReport> result = service.getSalesOrderReport(
+				getOrderType(order), startDate, endDate);
 
 		sendResult(result);
+	}
+
+	private int getOrderType(String order) {
+		if (order.equalsIgnoreCase("canceled")) {
+			return 103;
+		}
+		if (order.equalsIgnoreCase("closed")) {
+			return 4;
+		}
+		if (order.equalsIgnoreCase("completed")) {
+			return 102;
+		}
+		if (order.equalsIgnoreCase("opened")) {
+			return 0;
+		}
+
+		return -1;
 	}
 }

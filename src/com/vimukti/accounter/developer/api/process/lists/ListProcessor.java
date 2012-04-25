@@ -41,13 +41,11 @@ public abstract class ListProcessor extends ApiProcessor {
 			sendFail("Wrong start parameter should not be -ve)");
 		}
 
-		length = readInt(req, "length", 0);
-		if (length < 0) {
-			sendFail("Wrong length parameter should not be -ve)");
-		}
+		length = readInt(req, "length", -1);
+		sendFail("Wrong length parameter should not be -ve)");
 	}
 
-	private void init(HttpServletRequest req, HttpServletResponse resp) {
+	protected void init(HttpServletRequest req, HttpServletResponse resp) {
 		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
 				IAccounterHomeViewService.class);
 		companyId = Long.parseLong(req.getParameter("CompanyId"));
@@ -93,10 +91,8 @@ public abstract class ListProcessor extends ApiProcessor {
 			sendFail("Wrong start parameter should not be -ve)");
 		}
 
-		length = readInt(req, "length", 0);
-		if (length < 0) {
-			sendFail("Wrong length parameter should not be -ve)");
-		}
+		length = readInt(req, "length", -1);
+		sendFail("Wrong length parameter should not be -ve)");
 	}
 
 	private ClientFinanceDate[] dateRangeChanged(String dateRange) {

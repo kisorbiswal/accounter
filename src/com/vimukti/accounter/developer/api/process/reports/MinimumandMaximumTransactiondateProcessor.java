@@ -12,7 +12,7 @@ public class MinimumandMaximumTransactiondateProcessor extends ReportProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
+		initService(req);
 		List<ClientFinanceDate> result = service
 				.getMinimumAndMaximumTransactionDate();
 

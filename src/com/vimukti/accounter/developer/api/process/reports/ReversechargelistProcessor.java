@@ -13,7 +13,7 @@ public class ReversechargelistProcessor extends ReportProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		init(req, resp);
-		String payeeName = (String) req.getAttribute("Name");
+		String payeeName = readString(req, "payee_name");
 		List<? extends BaseReport> result = service
 				.getReverseChargeListDetailReport(payeeName,
 						startDate, endDate);

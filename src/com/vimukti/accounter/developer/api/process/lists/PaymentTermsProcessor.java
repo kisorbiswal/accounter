@@ -16,6 +16,7 @@ public class PaymentTermsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientPaymentTerms> list = new ArrayList<ClientPaymentTerms>();
 		Set<PaymentTerms> groups = getCompany().getPaymentTerms();
