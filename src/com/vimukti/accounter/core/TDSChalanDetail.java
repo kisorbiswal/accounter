@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TDSChalanDetail extends Transaction implements
@@ -304,9 +305,37 @@ public class TDSChalanDetail extends Transaction implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (chalanSerialNumber == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().challanSerialNo());
+		}
+		if (paymentSection == null || paymentSection.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().natureOfPayment());
+		}
+		if (bankBsrCode == null || bankBsrCode.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().bankBSRCode());
+		}
+		if (payFrom == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().payFrom());
+		}
+		if (chalanPeriod == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().challanPeriod());
+		}
+		if (formType == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().formType());
+		}
+
+		if (tdsTransactionItems == null || tdsTransactionItems.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
+							.get().messages().transaction());
+		}
 	}
 
 }

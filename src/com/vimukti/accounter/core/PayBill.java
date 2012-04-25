@@ -702,6 +702,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 		checkingVendorNull(vendor, Global.get().messages().payFrom());
 
 		checkPaymentMethodNull();

@@ -254,7 +254,7 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 		if (this.item == null && this.account == null) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().transactionItem());
-		} else {
+		} else if (this.item == null) {
 			if (!item.isActive) {
 				throw new AccounterException(
 						AccounterException.ERROR_ACTIVE_ITEM, Global
@@ -264,13 +264,7 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 										Global.get().messages().item()));
 			}
 		}
-		boolean isEnableTax = Global.get().preferences().isTrackTax();
-		if (getExpense().getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-			isEnableTax = isEnableTax
-					&& Global.get().preferences().isTrackPaidTax();
-		}
 
-		
 	}
 
 }
