@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.Set;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -25,17 +27,7 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return false;
-	}
-
-	private void checkNullValues() throws AccounterException {
-		if (className == null || className.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().accounterClass());
-		}
 	}
 
 	public String getclassName() {
@@ -83,6 +75,15 @@ public class AccounterClass extends CreatableObject implements
 		if (className == null || className.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().accounterClass());
+		}
+		Set<AccounterClass> accounterClasses = getCompany()
+				.getAccounterClasses();
+		for (AccounterClass accounterClass : accounterClasses) {
+			if (accounterClass.getName().equalsIgnoreCase(getName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().accounterClass());
+			}
 		}
 	}
 }

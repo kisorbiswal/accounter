@@ -219,8 +219,19 @@ public class Reconciliation extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.account == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().account());
+		}
+		if (!this.account.getIsActive()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					"Reconsole account should be active");
+		}
+		if (this.account.getCurrentBalance() <= 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					"Reconsole account balance should be greater than zero");
+		}
+
 	}
 }

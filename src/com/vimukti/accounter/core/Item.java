@@ -488,17 +488,19 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		return adjustment;
 	}
 
-	private void checkAccountsNull(Item old) throws AccounterException {
+	private void checkAccountsNull() throws AccounterException {
 		if (isIBuyThisItem && expenseAccount == null) {
-			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL,
+					Global.get().messages().expenseAccount());
 		}
-		if (isISellThisItem && old.getIncomeAccount() != null
-				&& incomeAccount == null) {
-			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+		if (isISellThisItem && incomeAccount == null) {
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL,
+					Global.get().messages().incomeAccount());
 		}
 		if ((getType() == TYPE_INVENTORY_PART || getType() == TYPE_INVENTORY_ASSEMBLY)
 				&& getAssestsAccount() == null) {
-			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL,
+					Global.get().messages().assetsAccount());
 		}
 	}
 
@@ -524,7 +526,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-
 		if (!UserUtils.canDoThis(Item.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
@@ -542,10 +543,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 						AccounterException.ERROR_NAME_CONFLICT);
 				// "An Item already exists with this Name");
 			}
-		}
-		if (!goingToBeEdit) {
-			checkNameNull();
-			checkAccountsNull((Item) clientObject);
 		}
 		return true;
 
@@ -663,7 +660,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void selfValidate() throws AccounterException {
-		// TODO Auto-generated method stub
-
+		checkNameNull();
+		checkAccountsNull();
 	}
+
 }

@@ -77,25 +77,8 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
-		return true;
-	}
 
-	private void checkNullValues() throws AccounterException {
-		if (financialYear == null || financialYear.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().budgetFinancialYear());
-		}
-		if (budgetName == null || budgetName.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().budget());
-		}
-		if (budgetItems.size() == 0) {
-			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
-					Global.get().messages().amount());
-		}
+		return true;
 	}
 
 	public List<BudgetItem> getBudgetItems() {
@@ -144,9 +127,19 @@ public class Budget extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-
+	public void selfValidate() throws AccounterException {
+		if (financialYear == null || financialYear.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().budgetFinancialYear());
+		}
+		if (budgetName == null || budgetName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().budget());
+		}
+		if (budgetItems.size() == 0) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					Global.get().messages().amount());
+		}
 	}
 
 }

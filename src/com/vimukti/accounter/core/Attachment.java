@@ -65,17 +65,7 @@ public class Attachment extends CreatableObject implements IAccounterServerCore 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
-	}
-
-	private void checkNullValues() throws AccounterException {
-		if (name == null || name.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().attachments());
-		}
 	}
 
 	@Override
@@ -93,8 +83,10 @@ public class Attachment extends CreatableObject implements IAccounterServerCore 
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-
+	public void selfValidate() throws AccounterException {
+		if (name == null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().attachments());
+		}
 	}
 }

@@ -326,9 +326,7 @@ public class Vendor extends Payee {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
+
 		Vendor vendor = (Vendor) clientObject;
 		FlushMode flushMode = session.getFlushMode();
 
@@ -352,20 +350,6 @@ public class Vendor extends Payee {
 			session.setFlushMode(flushMode);
 		}
 		return true;
-	}
-
-	@Override
-	protected void checkNullValues() throws AccounterException {
-		super.checkNullValues();
-		if (Global.get().preferences().isTDSEnabled()) {
-			if (isTdsApplicable()) {
-				if (getTAXItem() == null) {
-					throw new AccounterException(
-							AccounterException.ERROR_PLEASE_SELECT, Global
-									.get().messages().tds());
-				}
-			}
-		}
 	}
 
 	@Override
@@ -410,8 +394,16 @@ public class Vendor extends Payee {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+		if (Global.get().preferences().isTDSEnabled()) {
+			if (isTdsApplicable()) {
+				if (getTAXItem() == null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PLEASE_SELECT, Global
+									.get().messages().tds());
+				}
+			}
+		}
 	}
 }

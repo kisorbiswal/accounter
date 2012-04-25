@@ -91,12 +91,6 @@ public class ShippingTerms extends CreatableObject implements
 		return false;
 	}
 
-	private void checkNameConflictsOrNull() throws AccounterException {
-		if (name.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
-		}
-	}
-
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
@@ -132,9 +126,7 @@ public class ShippingTerms extends CreatableObject implements
 				// "ShippingTerms already exists with this name");
 			}
 		}
-		if (!goingToBeEdit) {
-			checkNameConflictsOrNull();
-		}
+
 		return true;
 	}
 
@@ -159,8 +151,10 @@ public class ShippingTerms extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (name != null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().shippingTerm());
+		}
 	}
 }

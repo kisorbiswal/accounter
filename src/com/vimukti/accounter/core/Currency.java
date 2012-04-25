@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.Set;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -93,25 +95,7 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return true;
-	}
-
-	private void checkNullValues() throws AccounterException {
-		if (name == null || name.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().currency());
-		}
-		if (formalName == null || formalName.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().currencyFormalName());
-		}
-		if (symbol == null || symbol.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					Global.get().messages().currencySymbol());
-		}
 	}
 
 	@Override
@@ -217,8 +201,38 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (name == null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().currency());
+		}
+		if (formalName == null || formalName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().currencyFormalName());
+		}
+		if (symbol == null || symbol.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					Global.get().messages().currencySymbol());
+		}
+
+		Set<Currency> currencies = getCompany().getCurrencies();
+		for (Currency currency : currencies) {
+			if (currency.getName().equalsIgnoreCase(getName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().currency());
+			}
+			if (currency.getFormalName().equalsIgnoreCase(getFormalName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().currencyFormalName());
+			}
+			if (currency.getSymbol().equalsIgnoreCase(getSymbol())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().currencySymbol());
+			}
+		}
+
 	}
 }

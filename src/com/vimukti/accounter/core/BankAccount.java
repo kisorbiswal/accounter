@@ -83,4 +83,21 @@ public class BankAccount extends Account {
 				.setParameter("account", this).executeUpdate();
 		return super.onDelete(session);
 	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
+
+		if (type == Account.TYPE_BANK) {
+			if (bankAccountType <= 0) {
+				throw new AccounterException("Bank type should not be null");
+			}
+			if (Integer.parseInt(getNumber()) < 1100
+					&& Integer.parseInt(getNumber()) > 1179) {
+				throw new AccounterException(
+						"Bank accounter number should in between 1100 and 1179");
+			}
+		}
+
+	}
 }

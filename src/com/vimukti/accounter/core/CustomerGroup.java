@@ -74,21 +74,9 @@ public class CustomerGroup extends CreatableObject implements
 	public boolean onSave(Session arg0) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		try {
-			checkNameConflictsOrNull();
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
 		return false;
-	}
-
-	private void checkNameConflictsOrNull() throws AccounterException {
-		if (this.name == null || this.name.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().customer() + Global.get().messages().group());
-		}
 	}
 
 	@Override
@@ -148,8 +136,10 @@ public class CustomerGroup extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().customer() + Global.get().messages().group());
+		}
 	}
 }

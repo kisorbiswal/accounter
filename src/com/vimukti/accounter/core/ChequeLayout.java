@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -268,9 +269,12 @@ public class ChequeLayout extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.account == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().account());
+		}
+
 	}
 
 }

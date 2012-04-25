@@ -94,9 +94,23 @@ public class EmailAccount extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.emailId == null || this.emailId.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().email());
+		}
+		if (this.password == null || this.password.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().password());
+		}
+		if (this.smtpMailServer == null || this.smtpMailServer.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().smtpMailServer());
+		}
+		if (this.portNumber == 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().portNumber());
+		}
 	}
 
 }

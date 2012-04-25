@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -303,12 +304,6 @@ public class SalesPerson extends CreatableObject implements
 		return false;
 	}
 
-	private void checkNameConflictsOrNull() throws AccounterException {
-		if (firstName.trim().length() == 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL);
-		}
-	}
-
 	@Override
 	public boolean onUpdate(Session arg0) throws CallbackException {
 		if (OnUpdateThreadLocal.get()) {
@@ -326,9 +321,7 @@ public class SalesPerson extends CreatableObject implements
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNameConflictsOrNull();
-		}
+
 		return true;
 	}
 
@@ -393,9 +386,20 @@ public class SalesPerson extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void selfValidate() throws AccounterException {
+		if (firstName != null || firstName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().salesPerson());
+		}
 
+		Set<SalesPerson> salesPersons = getCompany().getSalesPersons();
+		for (SalesPerson salesPerson : salesPersons) {
+			if (salesPerson.getFirstName().equalsIgnoreCase(getFirstName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().name());
+			}
+		}
+
+	}
 }

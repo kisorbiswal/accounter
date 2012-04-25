@@ -459,9 +459,6 @@ public class Customer extends Payee implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 
 		Customer customer = (Customer) clientObject;
 		// if (this.name.equals(customer.name)
@@ -613,9 +610,8 @@ public class Customer extends Payee implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 	}
 
 }

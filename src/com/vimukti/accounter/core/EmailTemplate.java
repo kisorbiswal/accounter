@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -11,8 +12,10 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -120,9 +123,24 @@ public class EmailTemplate extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.emailTemplateName == null
+				|| this.emailTemplateName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().emailSentToYou());
+		}
+
+		Set<ClientEmailTemplate> emailTemplates = getCompany()
+				.getEmailTemplates();
+		for (ClientEmailTemplate clientEmailTemplate : emailTemplates) {
+			if (clientEmailTemplate.getName().equalsIgnoreCase(
+					getEmailTemplateName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_NULL, Global.get()
+								.messages().email()
+								+ " " + Global.get().messages().Template());
+			}
+		}
 	}
 
 }

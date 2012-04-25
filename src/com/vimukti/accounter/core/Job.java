@@ -1,7 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.util.Set;
+
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -130,9 +133,30 @@ public class Job extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+
+		if (this.jobName == null || this.jobName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().jobName());
+		}
+		if (this.jobStatus == null || this.jobStatus.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().jobStatus());
+		}
+		if (this.customer == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().customer());
+		}
+
+		Set<Job> jobs = getCompany().getJobs();
+		for (Job job : jobs) {
+			if (job.getName().equalsIgnoreCase(getJobName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().jobName());
+			}
+		}
+
 	}
 
 }

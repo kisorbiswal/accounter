@@ -290,21 +290,7 @@ public class BudgetItem implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 		return false;
-	}
-
-	private void checkNullValues() throws AccounterException {
-		if (accountName == null || accountName.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					accounterMessages.Account());
-		}
-		if (totalAmount <= 0) {
-			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
-					accounterMessages.budgetitem());
-		}
 	}
 
 	public Company getCompany() {
@@ -351,9 +337,15 @@ public class BudgetItem implements IAccounterServerCore {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-
+	public void selfValidate() throws AccounterException {
+		if (accountName == null || accountName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					accounterMessages.Account());
+		}
+		if (totalAmount <= 0) {
+			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO,
+					accounterMessages.budgetitem());
+		}
 	}
 
 }

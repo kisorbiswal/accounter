@@ -384,5 +384,11 @@
 	<query name="getallMaintanaceInfoUsers">
 		from com.vimukti.accounter.core.MaintananceInfoUser m
 	</query>	
+	<query name="getPriceLevel.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="string" />
+		from com.vimukti.accounter.core.PriceLevel pl where pl.name =:name and
+		pl.company=:company
+	</query>	
 	
 </hibernate-mapping>

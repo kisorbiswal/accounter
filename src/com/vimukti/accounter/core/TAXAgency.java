@@ -198,9 +198,6 @@ public class TAXAgency extends Payee {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
 
 		TAXAgency taxAgency = (TAXAgency) clientObject;
 		Query query = session
@@ -218,49 +215,6 @@ public class TAXAgency extends Payee {
 			}
 		}
 		return true;
-	}
-
-	public void checkNullValues() throws AccounterException {
-		ClientCompanyPreferences preferences = Global.get().preferences();
-		super.checkNullValues();
-		cheeckPaymentTermNull();
-		if (getTaxType() == 0) {
-			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
-					Global.get().messages().taxType());
-		}
-
-		switch (getTaxType()) {
-		case TAXAgency.TAX_TYPE_SALESTAX:
-			if (getSalesLiabilityAccount() == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_PLEASE_ENTER, Global.get()
-								.messages().salesLiabilityAccount());
-			}
-			break;
-		case TAXAgency.TAX_TYPE_VAT:
-		case TAXAgency.TAX_TYPE_SERVICETAX:
-			if (getSalesLiabilityAccount() == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_PLEASE_ENTER, Global.get()
-								.messages().salesLiabilityAccount());
-			}
-			if (preferences.isTrackPaidTax()
-					&& getPurchaseLiabilityAccount() == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_PLEASE_ENTER, Global.get()
-								.messages().purchaseLiabilityAccount());
-			}
-			break;
-		default:
-			if (getSalesLiabilityAccount() == null
-					&& (preferences.isTrackPaidTax() && getPurchaseLiabilityAccount() == null)) {
-				throw new AccounterException(
-						AccounterException.ERROR_PLEASE_ENTER, Global.get()
-								.messages().salesOrPurchaseLiabilityAcc());
-			}
-		}
-		// Validations for duplicate contacts.
-		checkDuplcateContacts();
 	}
 
 	private void cheeckPaymentTermNull() throws AccounterException {
@@ -372,9 +326,47 @@ public class TAXAgency extends Payee {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		ClientCompanyPreferences preferences = Global.get().preferences();
+		super.selfValidate();
+		cheeckPaymentTermNull();
+		if (getTaxType() == 0) {
+			throw new AccounterException(AccounterException.ERROR_PLEASE_ENTER,
+					Global.get().messages().taxType());
+		}
+
+		switch (getTaxType()) {
+		case TAXAgency.TAX_TYPE_SALESTAX:
+			if (getSalesLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().salesLiabilityAccount());
+			}
+			break;
+		case TAXAgency.TAX_TYPE_VAT:
+		case TAXAgency.TAX_TYPE_SERVICETAX:
+			if (getSalesLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().salesLiabilityAccount());
+			}
+			if (preferences.isTrackPaidTax()
+					&& getPurchaseLiabilityAccount() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().purchaseLiabilityAccount());
+			}
+			break;
+		default:
+			if (getSalesLiabilityAccount() == null
+					&& (preferences.isTrackPaidTax() && getPurchaseLiabilityAccount() == null)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PLEASE_ENTER, Global.get()
+								.messages().salesOrPurchaseLiabilityAcc());
+			}
+		}
+		// Validations for duplicate contacts.
+		checkDuplcateContacts();
 	}
 
 }

@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -113,19 +115,20 @@ public class PriceLevel extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// Session session = HibernateUtil.getCurrentSession();
-		// PriceLevel priceLevel = (PriceLevel) clientObject;
-		// Query query = session.getNamedQuery("getPriceLevel.by.Name")
-		// .setParameter(0, priceLevel.name);
-		// List list = query.list();
-		// if (list != null && list.size() > 0) {
-		// PriceLevel newPriceLevel = (PriceLevel) list.get(0);
-		// if (priceLevel.id != newPriceLevel.id) {
-		// throw new AccounterException(
-		// AccounterException.ERROR_NAME_CONFLICT);
-		// // "PriceLevel already exists with this name");
-		// }
-		// }
+		Session session = HibernateUtil.getCurrentSession();
+		PriceLevel priceLevel = (PriceLevel) clientObject;
+		PriceLevel pleLevel = (PriceLevel) session
+				.getNamedQuery("getPriceLevel.by.Name")
+				.setParameter("name", priceLevel.name,
+						EncryptedStringType.INSTANCE)
+				.setEntity("company", priceLevel.getCompany()).uniqueResult();
+		if (priceLevel != null) {
+			if (priceLevel.getID() != pleLevel.getID()) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+				// "A ShippingMethod already exists with this name");
+			}
+		}
 
 		return true;
 	}
@@ -150,8 +153,11 @@ public class PriceLevel extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (name != null || name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().priceLevel());
+		}
+
 	}
 }

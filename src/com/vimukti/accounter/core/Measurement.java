@@ -215,8 +215,26 @@ public class Measurement extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().name());
+		}
+
+		if (this.units.size() <= 0) {
+			throw new AccounterException(
+					"Measurment should have atleast one unit");
+		}
+
+		Set<Measurement> measurements = getCompany().getMeasurements();
+		for (Measurement measurement : measurements) {
+			if (measurement.getName().equalsIgnoreCase(getName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().name());
+
+			}
+		}
+
 	}
 }

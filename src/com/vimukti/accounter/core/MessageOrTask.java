@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -128,9 +129,12 @@ public class MessageOrTask extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.content == null || this.content.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().message());
+		}
+
 	}
 
 }

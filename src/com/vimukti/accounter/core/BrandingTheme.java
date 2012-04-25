@@ -549,9 +549,7 @@ public class BrandingTheme extends CreatableObject implements
 				}
 			}
 		}
-		if (!goingToBeEdit) {
-			checkNameConflictsOrNull();
-		}
+
 		return true;
 	}
 
@@ -581,13 +579,6 @@ public class BrandingTheme extends CreatableObject implements
 		cashSaleTitle = "CASH SALE";
 
 		return false;
-	}
-
-	private void checkNameConflictsOrNull() throws AccounterException {
-		if (themeName == null || themeName.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					Global.get().messages().brandingTheme());
-		}
 	}
 
 	@Override
@@ -739,9 +730,11 @@ public class BrandingTheme extends CreatableObject implements
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-
+	public void selfValidate() throws AccounterException {
+		if (themeName == null || themeName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().brandingTheme());
+		}
 	}
 
 }

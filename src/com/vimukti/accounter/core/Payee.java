@@ -590,13 +590,6 @@ public abstract class Payee extends CreatableObject implements
 		return false;
 	}
 
-	protected void checkNullValues() throws AccounterException {
-		if (this.name == null || this.name.trim().isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					getPayeeName());
-		}
-	}
-
 	protected String getPayeeName() {
 		return null;
 	}
@@ -636,6 +629,25 @@ public abstract class Payee extends CreatableObject implements
 	 */
 	public void setPayeeFields(Map<String, String> payeeFields) {
 		this.payeeFields = payeeFields;
+	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		checkDuplcateContacts();
+		if (this.name == null || this.name.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					getPayeeName());
+		}
+
+		Set<Payee> payees = getCompany().getPayees();
+		for (Payee payee : payees) {
+			if (payee.getName().equalsIgnoreCase(getPayeeName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST,
+						getPayeeName());
+			}
+		}
+
 	}
 
 }

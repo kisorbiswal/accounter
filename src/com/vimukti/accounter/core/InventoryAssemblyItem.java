@@ -2,9 +2,11 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class InventoryAssemblyItem implements IAccounterServerCore {
+public class InventoryAssemblyItem extends CreatableObject implements
+		IAccounterServerCore {
 
 	/**
 	 * 
@@ -104,9 +106,16 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.inventoryItem == null) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().inventoryItem());
+		}
+		if (this.quantity == null || this.quantity.getValue() <= 0) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().quantity());
+		}
+
 	}
 
 }

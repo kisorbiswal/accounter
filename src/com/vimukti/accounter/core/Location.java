@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.util.Set;
+
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -126,9 +128,20 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-		
+	public void selfValidate() throws AccounterException {
+		if (this.locationName == null || this.locationName.trim().isEmpty()) {
+			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
+					Global.get().messages().name());
+		}
+
+		Set<Location> locations = getCompany().getLocations();
+		for (Location location : locations) {
+			if (location.getName().equalsIgnoreCase(getLocationName())) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
+								.get().messages().name());
+			}
+		}
 	}
 
 }

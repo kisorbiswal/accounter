@@ -1250,9 +1250,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		if (!goingToBeEdit) {
-			checkNullValues();
-		}
+
 		Session session = HibernateUtil.getCurrentSession();
 		Account account = (Account) clientObject;
 		// Query query = session.createQuery(
