@@ -120,29 +120,29 @@ public class EnterBillPdfGeneration {
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
 
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
+		if (reg != null) {
+			regestrationAddress = ("Registered Address :- " + reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
+					reg.getCountryOrRegion(), true));
+		} else {
+			regestrationAddress = (company.getTradingName() + "\n" + ((company
+					.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
 		String phoneStr = forNullValue(company.getPreferences().getPhone());
 		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+			regestrationAddress = regestrationAddress + ", "
+					+ Global.get().messages().phone() + " : " + phoneStr;
 		}
 		String website = forNullValue(company.getPreferences().getWebSite());
 
 		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
+			regestrationAddress = regestrationAddress + ", "
 					+ Global.get().messages().webSite() + " : " + website;
 		}
 
@@ -177,7 +177,7 @@ public class EnterBillPdfGeneration {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return ", " + add;
+				return add + ", ";
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "\n";

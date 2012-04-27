@@ -26,12 +26,12 @@ public class CCExpensePdfGeneration {
 		try {
 
 			DummyExpense i = new DummyExpense();
-			i.setTitle("Credit Card Expense");
+			i.setTitle(Global.get().messages().creditCardExpense());
 			i.setVendorNBillingAddress(getBillingAddress());
 			i.setNumber(creditCardCharge.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(creditCardCharge
 					.getDate()));
-
+			i.setPayFrom(creditCardCharge.getPayFrom().getName());
 			Currency currency = creditCardCharge.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
@@ -51,7 +51,6 @@ public class CCExpensePdfGeneration {
 			List<ItemList> itemList = new ArrayList<ItemList>();
 			List<TransactionItem> transactionItems = creditCardCharge
 					.getTransactionItems();
-
 			String symbol = creditCardCharge.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -94,15 +93,11 @@ public class CCExpensePdfGeneration {
 
 			String total = Utility.decimalConversation(
 					creditCardCharge.getTotal(), symbol);
-
 			i.setTotal(total);
-
 			String subtotal = Utility.decimalConversation(
 					creditCardCharge.getNetAmount(), symbol);
 			i.setNetAmount(subtotal);
-
 			i.setMemo(creditCardCharge.getMemo());
-
 			i.setRegistrationAddress(getRegistrationAddress());
 
 			context.put("expense", i);
@@ -117,35 +112,34 @@ public class CCExpensePdfGeneration {
 	private String getRegistrationAddress() {
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
-			regestrationAddress = ("Registered Address: " + reg.getAddress1()
+		if (reg != null) {
+			regestrationAddress = (reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
+					reg.getCountryOrRegion(), true));
+		} else {
+			regestrationAddress = (company.getTradingName() + "\n " + ((company
+					.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
 
 		String phoneStr = forNullValue(company.getPreferences().getPhone());
 		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+			regestrationAddress = regestrationAddress + "\n"
+					+ Global.get().messages().phone() + " : " + phoneStr;
 		}
+
 		String website = forNullValue(company.getPreferences().getWebSite());
-
 		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
+			regestrationAddress = regestrationAddress + "\n"
+					+ Global.get().messages().webSite() + " : " + website
+					+ " .";
 		}
-
 		return regestrationAddress;
-
 	}
 
 	private String getBillingAddress() {
@@ -167,8 +161,9 @@ public class CCExpensePdfGeneration {
 
 		// setting billing address
 		Address bill = creditCardCharge.getVendorAddress();
-		String customerName = forUnusedAddress(creditCardCharge.getVendor()
-				.getName(), false);
+		String customerName = forUnusedAddress(
+				creditCardCharge.getVendor() != null ? creditCardCharge
+						.getVendor().getName() : "", false);
 		StringBuffer billAddress = new StringBuffer();
 		if (bill != null) {
 			billAddress = billAddress.append(forUnusedAddress(cname, false)
@@ -202,7 +197,7 @@ public class CCExpensePdfGeneration {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return ", " + add;
+				return add + ", ";
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "\n";
@@ -233,6 +228,7 @@ public class CCExpensePdfGeneration {
 		private String netAmount;
 		private String memo;
 		private String registrationAddress;
+		private String payFrom;
 
 		public String getCurrency() {
 			return currency;
@@ -304,6 +300,14 @@ public class CCExpensePdfGeneration {
 
 		public void setDate(String date) {
 			this.date = date;
+		}
+
+		public String getPayFrom() {
+			return payFrom;
+		}
+
+		public void setPayFrom(String payFrom) {
+			this.payFrom = payFrom;
 		}
 
 	}

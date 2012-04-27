@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
@@ -24,17 +25,11 @@ public class PayBillPdfGeneration {
 		try {
 			PaybillTemplete paybillTemp = new PaybillTemplete();
 
-			paybillTemp.setTitle("Pay Bill");
-			Address regAdr = company.getRegisteredAddress();
-
-			String regAddress = forAddress(regAdr.getAddress1(), false)
-					+ forAddress(regAdr.getStreet(), false)
-					+ forAddress(regAdr.getCity(), false)
-					+ forAddress(regAdr.getStateOrProvinence(), false)
-					+ forAddress(regAdr.getZipOrPostalCode(), false)
-					+ forAddress(regAdr.getCountryOrRegion(), true);
-			paybillTemp.setRegisteredAddress(regAddress);
+			paybillTemp.setTitle(Global.get().messages().payBill());
+			paybillTemp.setName(payBill.getVendor().getName());
+			paybillTemp.setRegisteredAddress(getRegistrationAddress());
 			paybillTemp.setNumber(payBill.getNumber());
+			paybillTemp.setAccountName(payBill.getPayFrom().getName());
 			paybillTemp.setDate(payBill.getDate().toString());
 			paybillTemp.setCurrency(payBill.getCurrency().getFormalName());
 			paybillTemp.setCheckNo(payBill.getCheckNumber());
@@ -60,18 +55,14 @@ public class PayBillPdfGeneration {
 							.getEnterBill().getDate()));
 					usedTempletes.setAmountPaid(Utility.decimalConversation(
 							bill.getEnterBill().getPayments(), currencySymbol));
-					usedTempletes.setName(bill.getEnterBill().getVendor()
-							.getName());
 				}
 				if (bill.getJournalEntry() != null) {
-					usedTempletes.setNumber(bill.getJournalEntry().getNumber());
-					usedTempletes.setDate(Utility.getDateInSelectedFormat(bill
-							.getJournalEntry().getDate()));
+					JournalEntry entry = bill.getJournalEntry();
+					usedTempletes.setNumber(entry.getNumber());
+					usedTempletes.setDate(Utility.getDateInSelectedFormat(entry
+							.getDate()));
 					usedTempletes.setAmountPaid(Utility.decimalConversation(
-							bill.getJournalEntry().getTotal()
-									- bill.getJournalEntry().getBalanceDue(),
-							currencySymbol));
-					usedTempletes.setName("");
+							-entry.getTotal(), currencySymbol));
 				}
 
 				templetes.add(usedTempletes);
@@ -86,18 +77,53 @@ public class PayBillPdfGeneration {
 		return null;
 	}
 
-	private String forAddress(String address, boolean isFooter) {
-		if (address == null) {
-			return "";
-		}
-		if (address.trim().length() == 0) {
-			return "";
-		}
-		if (isFooter) {
-			return address + "." + "\n";
+	private String getRegistrationAddress() {
+		String regestrationAddress = "";
+		Address reg = company.getRegisteredAddress();
+
+		if (reg != null) {
+			regestrationAddress = (reg.getAddress1()
+					+ forUnusedAddress(reg.getStreet(), true)
+					+ forUnusedAddress(reg.getCity(), true)
+					+ forUnusedAddress(reg.getStateOrProvinence(), true)
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
+					reg.getCountryOrRegion(), true));
 		} else {
-			return address + "," + "\n";
+			regestrationAddress = (company.getTradingName() + "\n " + ((company
+					.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
 		}
+		String phoneStr = forNullValue(company.getPreferences().getPhone());
+		if (phoneStr.trim().length() > 0) {
+			regestrationAddress = regestrationAddress + ",\n"
+					+ Global.get().messages().phone() + " : " + phoneStr + "\n";
+		}
+		String website = forNullValue(company.getPreferences().getWebSite());
+
+		if (website.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().webSite() + " : " + website;
+		}
+
+		return regestrationAddress;
+
+	}
+
+	public String forNullValue(String value) {
+		return value != null ? value : "";
+	}
+
+	public String forUnusedAddress(String add, boolean isFooter) {
+		if (isFooter) {
+			if (add != null && !add.equals(""))
+				return add + ",";
+		} else {
+			if (add != null && !add.equals(""))
+				return add + "\n";
+		}
+		return "";
 	}
 
 	public class PaybillTemplete {
@@ -111,6 +137,8 @@ public class PayBillPdfGeneration {
 		private String total;
 		private String number;
 		private String memo;
+		private String name;
+		private String accountName;
 
 		public String getTitle() {
 			return title;
@@ -183,6 +211,22 @@ public class PayBillPdfGeneration {
 		public void setMemo(String memo) {
 			this.memo = memo;
 		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getAccountName() {
+			return accountName;
+		}
+
+		public void setAccountName(String accountName) {
+			this.accountName = accountName;
+		}
 	}
 
 	public class UsedTempletes {
@@ -190,8 +234,6 @@ public class PayBillPdfGeneration {
 		private String date;
 
 		private String number;
-
-		private String name;
 
 		private String amountPaid;
 
@@ -209,14 +251,6 @@ public class PayBillPdfGeneration {
 
 		public void setNumber(String number) {
 			this.number = number;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
 		}
 
 		public String getAmountPaid() {

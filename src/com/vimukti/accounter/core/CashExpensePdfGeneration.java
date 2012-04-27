@@ -25,25 +25,13 @@ public class CashExpensePdfGeneration {
 		try {
 
 			DummyExpense i = new DummyExpense();
-			i.setTitle("Cash Expense");
+			i.setTitle(Global.get().messages().cashExpense());
 			i.setVendorNBillingAddress(getBillingAddress());
 			i.setVendorName(cashPurchase.getVendor().getName());
-			Address billAddress = cashPurchase.getVendorAddress();
-			if (billAddress != null) {
-				i.setBillTo(billAddress);
-				i.billTo.setAddress1(forNullValue(billAddress.getAddress1()));
-				i.billTo.setStreet(forNullValue(billAddress.getStreet()));
-				i.billTo.setCity(forNullValue(billAddress.getCity()));
-				i.billTo.setStateOrProvinence(forNullValue(billAddress
-						.getStateOrProvinence()));
-				i.billTo.setZipOrPostalCode(forNullValue(billAddress
-						.getZipOrPostalCode()));
-				i.billTo.setCountryOrRegion(forNullValue(billAddress
-						.getCountryOrRegion()));
-			}
 			i.setNumber(cashPurchase.getNumber());
 			i.setDate(Utility.getDateInSelectedFormat(cashPurchase.getDate()));
-
+			i.setPayFrom(cashPurchase.getPayFrom().getName());
+			i.setPaymentMethod(cashPurchase.getPaymentMethod());
 			Currency currency = cashPurchase.getCurrency();
 			if (currency != null)
 				if (currency.getFormalName().trim().length() > 0) {
@@ -63,7 +51,6 @@ public class CashExpensePdfGeneration {
 			List<ItemList> itemList = new ArrayList<ItemList>();
 			List<TransactionItem> transactionItems = cashPurchase
 					.getTransactionItems();
-
 			String symbol = cashPurchase.getCurrency().getSymbol();
 			for (Iterator iterator = transactionItems.iterator(); iterator
 					.hasNext();) {
@@ -106,23 +93,9 @@ public class CashExpensePdfGeneration {
 			i.setNetAmount(subtotal);
 			i.setMemo(cashPurchase.getMemo());
 			i.setRegistrationAddress(getRegistrationAddress());
-			Address regAddress1 = company.getRegisteredAddress();
-			if (regAddress1 != null) {
-				i.setRegAddress(regAddress1);
-				i.regAddress
-						.setAddress1(forNullValue(regAddress1.getAddress1()));
-				i.regAddress.setStreet(forNullValue(regAddress1.getStreet()));
-				i.regAddress.setCity(forNullValue(regAddress1.getCity()));
-				i.regAddress.setStateOrProvinence(forNullValue(regAddress1
-						.getStateOrProvinence()));
-				i.regAddress.setCountryOrRegion(forNullValue(regAddress1
-						.getCountryOrRegion()));
-				i.regAddress.setZipOrPostalCode(forNullValue(regAddress1
-						.getZipOrPostalCode()));
-			}
+
 			context.put("expense", i);
 			context.put("item", itemList);
-
 			return context;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,31 +106,31 @@ public class CashExpensePdfGeneration {
 	private String getRegistrationAddress() {
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
-
-		if (reg != null)
+		if (reg != null) {
 			regestrationAddress = (reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
-
-		regestrationAddress = (company.getTradingName() + " "
-				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
-				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
-				+ company.getRegistrationNumber()
-				: ""));
-
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
+					reg.getCountryOrRegion(), true));
+		} else {
+			regestrationAddress = (company.getTradingName() + "\n " + ((company
+					.getRegistrationNumber() != null && !company
+					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
+					+ company.getRegistrationNumber()
+					: ""));
+		}
 		String phoneStr = forNullValue(company.getPreferences().getPhone());
 		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+			regestrationAddress = regestrationAddress + ",\n"
+					+ Global.get().messages().phone() + " : " + phoneStr;
 		}
 		String website = forNullValue(company.getPreferences().getWebSite());
 
 		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
+			regestrationAddress = regestrationAddress + ",\n"
+					+ Global.get().messages().webSite() + " : " + website
+					+ " .";
 		}
 
 		return regestrationAddress;
@@ -218,7 +191,7 @@ public class CashExpensePdfGeneration {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return ", " + add;
+				return add + ", ";
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "\n";
@@ -250,8 +223,8 @@ public class CashExpensePdfGeneration {
 		private String netAmount;
 		private String memo;
 		private String registrationAddress;
-		private Address billTo;
-		private Address regAddress;
+		private String paymentMethod;
+		private String payFrom;
 
 		public String getCurrency() {
 			return currency;
@@ -325,28 +298,28 @@ public class CashExpensePdfGeneration {
 			this.date = date;
 		}
 
-		public Address getBillTo() {
-			return billTo;
-		}
-
-		public void setBillTo(Address billTo) {
-			this.billTo = billTo;
-		}
-
-		public Address getRegAddress() {
-			return regAddress;
-		}
-
-		public void setRegAddress(Address regAddress) {
-			this.regAddress = regAddress;
-		}
-
 		public String getVendorName() {
 			return vendorName;
 		}
 
 		public void setVendorName(String vendorName) {
 			this.vendorName = vendorName;
+		}
+
+		public String getPaymentMethod() {
+			return paymentMethod;
+		}
+
+		public void setPaymentMethod(String paymentMethod) {
+			this.paymentMethod = paymentMethod;
+		}
+
+		public String getPayFrom() {
+			return payFrom;
+		}
+
+		public void setPayFrom(String payFrom) {
+			this.payFrom = payFrom;
 		}
 
 	}

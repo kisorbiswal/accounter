@@ -23,7 +23,7 @@ public class VendorPaymentPdfGeneration {
 			template.setTitle(Global.get().Vendor() + " Prepayment");
 			template.setName(vendorPayment.getVendor().getName());
 			template.setVendorNBillingAddress(getBillingAddress());
-			template.setRegisteredAddress(getRegisteredAddress());
+			template.setRegisteredAddress(getRegistrationAddress());
 			template.setMemo(vendorPayment.getMemo());
 			template.setNumber(vendorPayment.getNumber());
 			template.setDate(Utility.getDateInSelectedFormat(vendorPayment
@@ -51,34 +51,35 @@ public class VendorPaymentPdfGeneration {
 
 	}
 
-	private String getRegisteredAddress() {
+	private String getRegistrationAddress() {
 		String regestrationAddress = "";
 		Address reg = company.getRegisteredAddress();
 
 		if (reg != null) {
-			regestrationAddress = (reg.getAddress1()
+			regestrationAddress = ("Registered Address: " + reg.getAddress1()
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
+					reg.getCountryOrRegion(), true));
 		} else {
-			regestrationAddress = (company.getTradingName() + " "
-					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
+			regestrationAddress = (company.getTradingName() + "\n " + ((company
+					.getRegistrationNumber() != null && !company
 					.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
 					+ company.getRegistrationNumber()
 					: ""));
 		}
 		String phoneStr = forNullValue(company.getPreferences().getPhone());
 		if (phoneStr.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+			regestrationAddress = regestrationAddress + ",\n"
+					+ Global.get().messages().phone() + " : " + phoneStr;
 		}
 		String website = forNullValue(company.getPreferences().getWebSite());
 
 		if (website.trim().length() > 0) {
-			regestrationAddress = regestrationAddress
-					+ Global.get().messages().webSite() + " : " + website;
+			regestrationAddress = regestrationAddress + ",\n"
+					+ Global.get().messages().webSite() + " : " + website
+					+ " .";
 		}
 
 		return regestrationAddress;
@@ -124,7 +125,7 @@ public class VendorPaymentPdfGeneration {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return ", " + add;
+				return add + ", ";
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "\n";
