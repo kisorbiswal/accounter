@@ -711,8 +711,7 @@ public class MenuBar {
 
 		vendorMenuBar.addSeparatorItem();
 
-		if (canDoInvoiceAndBillTransactions || canDoBanking
-				|| canDoManageAccounts) {
+		if (canDoInvoiceAndBillTransactions || canDoBanking) {
 			vendorMenuBar.addMenuItem(getNewVendorMenu(messages.new1()));
 			vendorMenuBar.addSeparatorItem();
 		}
@@ -830,8 +829,7 @@ public class MenuBar {
 
 		customerMenuBar.addSeparatorItem();
 
-		if (canDoInvoiceAndBillTransactions || canDoBanking
-				|| canDoManageAccounts) {
+		if (canDoInvoiceAndBillTransactions || canDoBanking) {
 			customerMenuBar.addMenuItem(getNewCustomerMenu(messages.new1()));
 			customerMenuBar.addSeparatorItem();
 		}
