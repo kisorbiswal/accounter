@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
@@ -125,7 +126,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
 
 		setValuesToRecord(record, entry);
-		grid.addData(record);
+		// grid.addData(record);
 
 	}
 
@@ -288,13 +289,13 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	protected ValidationResult validate() {
 		ValidationResult result = payForm.validate();
-		if (grid.getRecords().isEmpty()) {
-			result.addError(grid, messages
-					.noTransactionIsAvailableToIssuePayments());
+		if (grid.getAllRows().isEmpty()) {
+			result.addError(grid,
+					messages.noTransactionIsAvailableToIssuePayments());
 		} else {
-			if (grid.getSelectedRecords().size() == 0)
-				result.addError(grid, messages
-						.pleaseSelectAnyOneOfTheTransactions());
+			if (grid.getAllRows().size() == 0)
+				result.addError(grid,
+						messages.pleaseSelectAnyOneOfTheTransactions());
 		}
 		// result.add(grid.validateGrid());
 		return result;
@@ -390,8 +391,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	 */
 	protected void changeGridData(ClientAccount selectedPayFromAccount2) {
 		if (selectedPayFromAccount2 != null) {
-			grid.removeAllRecords();
-			grid.addLoadingImagePanel();
+			grid.clear();
 			rpcUtilService
 					.getChecks(
 							selectedPayFromAccount2.getID(),
@@ -418,12 +418,11 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 										return;
 									}
 									if (result.size() > 0) {
-										grid.removeAllRecords();
-										for (IssuePaymentTransactionsList entry : result) {
-											addRecord(entry);
-										}
+										grid.clear();
+										addTransactiontoGrid(result);
 									} else
-										grid.addEmptyMessage(messages.noRecordsToShow());
+										grid.addEmptyMessage(messages
+												.noRecordsToShow());
 
 								}
 
@@ -432,16 +431,77 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	}
 
+	private void addTransactiontoGrid(
+			ArrayList<IssuePaymentTransactionsList> result) {
+		List<ClientTransactionIssuePayment> records = new ArrayList<ClientTransactionIssuePayment>();
+		for (IssuePaymentTransactionsList entry : result) {
+			ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
+			if (entry.getDate() != null)
+				record.setDate(entry.getDate().getDate());
+			if (entry.getNumber() != null)
+				record.setNumber(entry.getNumber());
+			record.setName(entry.getName() != null ? entry.getName() : "");
+			record.setMemo(entry.getMemo() != null ? entry.getMemo() : "");
+			if (entry.getAmount() != null)
+				record.setAmount(entry.getAmount());
+			if (entry.getPaymentMethod() != null)
+				record.setPaymentMethod(entry.getPaymentMethod());
+			record.setRecordType(entry.getType());
+
+			switch (entry.getType()) {
+			case ClientTransaction.TYPE_WRITE_CHECK:
+				record.setWriteCheck(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+				break;
+			case ClientTransaction.TYPE_CASH_PURCHASE:
+			case ClientTransaction.TYPE_CASH_EXPENSE:
+			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+				record.setCashPurchase(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+				record.setCustomerRefund(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+				break;
+			case ClientTransaction.TYPE_PAY_TAX:
+				record.setPaySalesTax(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+				break;
+			case ClientTransaction.TYPE_PAY_BILL:
+				record.setPayBill(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+				break;
+			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+				record.setCreditCardCharge(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+				break;
+			case ClientTransaction.TYPE_RECEIVE_TAX:
+				record.setReceiveVAT(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+				record.setCustomerPrepayment(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				break;
+
+			}
+			records.add(record);
+			// record.setID(entry.getTransactionId());
+		}
+		grid.setAllRows(records);
+	}
+
 	protected void removeGridData() {
-		grid.removeAllRecords();
+		grid.clear();
 		// totalAmount = 0D;
 	}
 
 	private void initListGrid() {
 		gridLayout = new StyledPanel("gridLayout");
-		grid = new TransactionIssuePaymentGrid();
-		grid.isEnable = false;
-		grid.init();
+		grid = new TransactionIssuePaymentGrid(null);
+		// grid.isEnable = false;
+		// grid.init();
 		// grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
 		// .constants().total(), DataUtils
@@ -467,7 +527,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		if (!selectedpaymentMethod.isEmpty()) {
 			checkNoText = new TextItem(messages.startingChequeNo(),
 					"checkNoText");
-//			checkNoText.setWidth(100);
+			// checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);
 			// if (selectedPayFromAccount != null)
 			// setStartingCheckNumber(selectedPayFromAccount);
@@ -486,7 +546,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 		ClientTransactionIssuePayment entry;
 
-		for (ClientTransactionIssuePayment record : grid.getSelectedRecords()) {
+		for (ClientTransactionIssuePayment record : grid.getAllRows()) {
 			entry = new ClientTransactionIssuePayment();
 			if (record.getDate() != 0)
 				entry.setDate(record.getDate());
