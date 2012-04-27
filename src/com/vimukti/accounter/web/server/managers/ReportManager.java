@@ -3873,8 +3873,11 @@ public class ReportManager extends Manager {
 				.getNamedQuery("getBankCheckDetails")
 				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.setParameter("paymentMethod", "Cheque",
+				.setParameter("paymentMethodCheque",
+						Global.get().messages().cheque(),
+						EncryptedStringType.INSTANCE)
+				.setParameter("paymentMethodCheck",
+						Global.get().messages().check(),
 						EncryptedStringType.INSTANCE).list();
 
 		Iterator iterator = result.iterator();
