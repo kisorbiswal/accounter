@@ -3,8 +3,6 @@ package com.vimukti.accounter.developer.api.process.lists;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
-
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.developer.api.core.ApiProcessor;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -24,6 +22,13 @@ public abstract class ListProcessor extends ApiProcessor {
 	protected String viewName;
 	protected long companyId;
 
+	@Override
+	public void beforeProcess(HttpServletRequest req, HttpServletResponse resp) {
+		super.beforeProcess(req, resp);
+		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
+				IAccounterHomeViewService.class);
+	}
+
 	/**
 	 * Reads active,start and length parameters
 	 * 
@@ -33,7 +38,6 @@ public abstract class ListProcessor extends ApiProcessor {
 	 */
 	protected void initObjectsList(HttpServletRequest req,
 			HttpServletResponse resp) throws Exception {
-		init(req, resp);
 		isActive = readBoolean(req, "active");
 
 		start = readInt(req, "start", 0);
@@ -45,12 +49,6 @@ public abstract class ListProcessor extends ApiProcessor {
 		sendFail("Wrong length parameter should not be -ve)");
 	}
 
-	protected void init(HttpServletRequest req, HttpServletResponse resp) {
-		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
-				IAccounterHomeViewService.class);
-		companyId = Long.parseLong(req.getParameter("CompanyId"));
-	}
-
 	/**
 	 * Reads viewType, dateType, from, to, start and length
 	 * 
@@ -60,7 +58,6 @@ public abstract class ListProcessor extends ApiProcessor {
 	 */
 	protected void initTransactionList(HttpServletRequest req,
 			HttpServletResponse resp) throws Exception {
-		init(req, resp);
 		viewName = readString(req, "view_type", "all");
 
 		String dateType = readString(req, "date_type", "all");
@@ -292,11 +289,5 @@ public abstract class ListProcessor extends ApiProcessor {
 			newDate.setDay(date.getDay());
 		}
 		return newDate;
-	}
-
-	public Company getCompany() {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = (Company) session.get(Company.class, companyId);
-		return company;
 	}
 }

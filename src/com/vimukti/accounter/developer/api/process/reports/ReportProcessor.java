@@ -13,7 +13,6 @@ public abstract class ReportProcessor extends ApiProcessor {
 	protected IAccounterReportService service;
 
 	protected void init(HttpServletRequest req, HttpServletResponse resp) {
-		initService(req);
 		startDate = getClientFinanceDate(req.getParameter("start_date"));
 		endDate = getClientFinanceDate(req.getParameter("end_date"));
 		if (endDate == null || startDate == null) {
@@ -22,7 +21,9 @@ public abstract class ReportProcessor extends ApiProcessor {
 		}
 	}
 
-	protected void initService(HttpServletRequest req) {
+	@Override
+	public void beforeProcess(HttpServletRequest req, HttpServletResponse resp) {
+		super.beforeProcess(req, resp);
 		service = getS2sSyncProxy(req, "/do/accounter/report/rpc/service",
 				IAccounterReportService.class);
 	}

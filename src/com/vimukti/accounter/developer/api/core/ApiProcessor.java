@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import com.gdevelop.gwt.syncrpc.CookieManager;
 import com.gdevelop.gwt.syncrpc.SessionManager;
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -25,6 +27,12 @@ public abstract class ApiProcessor {
 	public static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
 	private SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
 	private ApiResult result = new ApiResult();
+	public long companyId;
+	private Company company;
+
+	public void beforeProcess(HttpServletRequest req, HttpServletResponse resp) {
+		companyId = Long.parseLong(req.getParameter("CompanyId"));
+	}
 
 	public abstract void process(HttpServletRequest req,
 			HttpServletResponse resp) throws Exception;
@@ -74,6 +82,23 @@ public abstract class ApiProcessor {
 		namedQuery.setParameter("emailId", emailId);
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
+	}
+
+	public Company getCompany() {
+		if (company != null) {
+			return company;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		company = (Company) session.get(Company.class, companyId);
+		return company;
+	}
+
+	protected void checkPermission(String feature) throws AccounterException {
+		Set<String> features = getCompany().getFeatures();
+		if (!features.contains(feature)) {
+			throw new AccounterException(
+					AccounterException.ERROR_PERMISSION_DENIED);
+		}
 	}
 
 	protected ClientFinanceDate getClientFinanceDate(String string) {

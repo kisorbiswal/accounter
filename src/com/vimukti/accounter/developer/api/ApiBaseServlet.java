@@ -89,13 +89,18 @@ public class ApiBaseServlet extends HttpServlet {
 				EU.createCipher(user.getSecretKey(), d2,
 						req.getParameter("ApiKey"));
 			}
+			processor.beforeProcess(req,resp);
 			processor.process(req, resp);
 			sendData(req, resp, processor.getResult());
 			EU.removeCipher();
 		} catch (AccounterException e) {
 			String msg = AccounterExceptions.getErrorString(e.getErrorCode());
 			if (msg == null) {
-				msg = e.getMessage();
+				msg = "";
+			}
+			String m = e.getMessage();
+			if (m != null) {
+				msg += ", " + m;
 			}
 			sendFail(req, resp, msg);
 		} catch (Exception e) {

@@ -14,6 +14,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -1064,14 +1065,40 @@ public class Invoice extends Transaction implements Lifecycle {
 	public void selfValidate() throws AccounterException {
 		super.selfValidate();
 		checkingCustomerNull(customer, Global.get().customer());
-		// If estimates empty then
-
 		if (this.getEstimates() == null || this.getEstimates().isEmpty()) {
 			checkTransactionItemsNull();
 		} else if (!(this.transactionItems.isEmpty())) {
 			checkTransactionItemsNull();
 		}
 		checkNetAmountNegative();
+		if (getID() == 0) {
+			Set<String> features = getCompany().getFeatures();
+			boolean salesOrder = features.contains(Features.SALSE_ORDER);
+			boolean creditsCharges = features
+					.contains(Features.CREDITS_CHARGES);
+			boolean billableExcepence = features
+					.contains(Features.BILLABLE_EXPENSE);
+
+			for (Estimate e : estimates) {
+				int type = e.getType();
+				if (!salesOrder && type == Estimate.SALES_ORDER) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED,
+							"You can't use salese order");
+				}
+				if (!creditsCharges
+						&& (type == Estimate.CREDITS || type == Estimate.CHARGES)) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED,
+							"You can't use credits and charges");
+				}
+				if (!billableExcepence && type == Estimate.BILLABLEEXAPENSES) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED,
+							"You can't use billable exapences");
+				}
+			}
+		}
 	}
 
 }

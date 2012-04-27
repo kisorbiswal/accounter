@@ -8,15 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-public class PurchasesbyItemDetailProcessor extends ReportProcessor {
+public class MissingchecksProcessor extends ReportProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		checkPermission(Features.EXTRA_REPORTS);
 		init(req, resp);
-		List<? extends BaseReport> result = service.getPurchasesByItemDetail(
-				startDate, endDate);
+
+		Long accountId = readLong(req, "account_id");
+		List<? extends BaseReport> result = service.getMissingCheckDetils(
+				accountId, startDate, endDate);
 
 		sendResult(result);
 	}

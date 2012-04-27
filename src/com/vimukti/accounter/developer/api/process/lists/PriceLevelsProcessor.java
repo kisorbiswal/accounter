@@ -16,7 +16,6 @@ public class PriceLevelsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientPriceLevel> list = new ArrayList<ClientPriceLevel>();
 		Set<PriceLevel> groups = getCompany().getPriceLevels();

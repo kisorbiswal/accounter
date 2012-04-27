@@ -16,7 +16,6 @@ public class ShippingTermsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientShippingTerms> list = new ArrayList<ClientShippingTerms>();
 		Set<ShippingTerms> groups = getCompany().getShippingTerms();

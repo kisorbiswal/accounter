@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class ItemsProcessor extends ListProcessor {
@@ -17,8 +18,6 @@ public class ItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
-		
 		isActive = readBoolean(req, "active");
 
 		int type = readInt(req, "item_type", 0);
@@ -38,11 +37,13 @@ public class ItemsProcessor extends ListProcessor {
 				canAdd = true;
 				break;
 			case 1:// InventoryAssemblyItems
+				checkPermission(Features.INVENTORY);
 				if (item.getType() == Item.TYPE_INVENTORY_ASSEMBLY) {
 					canAdd = true;
 				}
 				break;
 			case 2:// InventoryItem
+				checkPermission(Features.INVENTORY);
 				if (item.getType() == Item.TYPE_INVENTORY_PART) {
 					canAdd = true;
 				}

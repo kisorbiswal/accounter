@@ -21,6 +21,7 @@ public class EncryptCompanyProcessor extends ApiProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
+		checkPermission(Features.ENCRYPTION);
 		String password = req.getParameter("password");
 		String hint = req.getParameter("hint");
 		if (password == null || password.isEmpty()) {

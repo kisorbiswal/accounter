@@ -16,7 +16,6 @@ public class ShippingMethodsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientShippingMethod> list = new ArrayList<ClientShippingMethod>();
 		Set<ShippingMethod> groups = getCompany().getShippingMethods();

@@ -10,7 +10,6 @@ public class WarehouseItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		long warehouseNo = readLong(req, "warehouse");
 		List<?> resultList = service.getItemStatuses(warehouseNo);
 		sendResult(resultList);

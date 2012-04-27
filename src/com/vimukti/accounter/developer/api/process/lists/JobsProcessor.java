@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.web.client.core.ClientJob;
+import com.vimukti.accounter.web.client.core.Features;
 
 public class JobsProcessor extends ListProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
+		checkPermission(Features.JOB_COSTING);
 		ClientConvertUtil convertUtil = new ClientConvertUtil();
 		List<ClientJob> resultList = new ArrayList<ClientJob>();
 		Set<Job> jobs = getCompany().getJobs();

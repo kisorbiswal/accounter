@@ -55,6 +55,7 @@ import com.vimukti.accounter.core.Attachment;
 import com.vimukti.accounter.core.BankAccount;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.BudgetItem;
 import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSalePdfGeneration;
@@ -70,11 +71,13 @@ import com.vimukti.accounter.core.CustomField;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.Depreciation;
 import com.vimukti.accounter.core.EmailTemplate;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.IRASCompanyInfo;
 import com.vimukti.accounter.core.IRASGeneralLedgerLineInfo;
@@ -86,9 +89,11 @@ import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.MessageOrTask;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ObjectConvertUtil;
@@ -125,11 +130,13 @@ import com.vimukti.accounter.core.TransactionDepositItem;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransferFund;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorPrePayment;
+import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -262,21 +269,6 @@ public class FinanceTool {
 						"Operation Data Found Null...." + createContext);
 			}
 
-			if (data instanceof ClientTransaction) {
-				Set<String> features = company.getCreatedBy().getClient()
-						.getClientSubscription().getSubscription()
-						.getFeatures();
-				if (!features.contains(Features.TRANSACTIONS)) {
-					int count = getCompanyManager().getTransactionsCount(
-							company.getId());
-					if (count >= company.getTransactionsLimit()) {
-						throw new AccounterException(
-								AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS);
-					}
-				}
-
-			}
-
 			Class<IAccounterServerCore> serverClass = ObjectConvertUtil
 					.getServerEqivalentClass(data.getClass());
 			IAccounterServerCore serverObject;
@@ -305,7 +297,7 @@ public class FinanceTool {
 			// .setLastModifiedDate(currentTime);
 			// }
 			getManager().canEdit(serverObject, data);
-
+			checkFeatures(serverObject);
 			isTransactionNumberExist(data, company);
 			session.save(serverObject);
 
@@ -364,6 +356,113 @@ public class FinanceTool {
 				log.error(e.getMessage(), e);
 				throw new AccounterException(AccounterException.ERROR_INTERNAL,
 						e.getMessage());
+			}
+		}
+	}
+
+	private void checkFeatures(IAccounterServerCore data)
+			throws AccounterException {
+		User user = AccounterThreadLocal.get();
+		Company company = user.getCompany();
+		user = company.getCreatedBy();
+		Set<String> features = user.getClient().getClientSubscription()
+				.getSubscription().getFeatures();
+
+		if (data instanceof Transaction) {
+			Transaction transaction = (Transaction) data;
+			if (!features.contains(Features.TRANSACTIONS)) {
+				int count = getCompanyManager().getTransactionsCount(
+						company.getId());
+				if (count >= company.getTransactionsLimit()) {
+					throw new AccounterException(
+							AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS);
+				}
+			}
+
+			if (!features.contains(Features.DRAFTS)) {
+				if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED);
+				}
+			}
+
+			if (!features.contains(Features.MULTI_CURRENCY)) {
+				if (!transaction.getCurrency().getFormalName()
+						.equals(company.getPrimaryCurrency().getFormalName())) {
+					throw new AccounterException(
+							AccounterException.ERROR_CANT_EDIT_MULTI_CURRENCY_TRANSACTION);
+				}
+			}
+
+		} else if (data instanceof Estimate) {
+			Estimate estimate = (Estimate) data;
+			int type = estimate.getType();
+			if (type == Estimate.SALES_ORDER
+					&& !features.contains(Features.SALSE_ORDER)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+
+			if (type == Estimate.BILLABLEEXAPENSES
+					&& !features.contains(Features.BILLABLE_EXPENSE)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+
+			if ((type == Estimate.CREDITS || type == Estimate.CHARGES)
+					&& !features.contains(Features.CREDITS_CHARGES)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof PurchaseOrder) {
+			if (!features.contains(Features.PURCHASE_ORDER)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof Job) {
+			if (!features.contains(Features.JOB_COSTING)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof Location) {
+			if (!features.contains(Features.LOCATION)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof AccounterClass) {
+			if (!features.contains(Features.CLASS)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof FixedAsset || data instanceof Depreciation) {
+			if (!features.contains(Features.FIXED_ASSET)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof Item) {
+			Item item = (Item) data;
+			if ((item.getType() == Item.TYPE_INVENTORY_ASSEMBLY || item
+					.getType() == Item.TYPE_INVENTORY_PART)
+					&& !features.contains(Features.INVENTORY)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof StockAdjustment
+				|| data instanceof Measurement || data instanceof Unit
+				|| data instanceof Warehouse || data instanceof BuildAssembly) {
+			if (!features.contains(Features.INVENTORY)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof Budget || data instanceof BudgetItem) {
+			if (!features.contains(Features.BUDGET)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
+			}
+		} else if (data instanceof RecurringTransaction) {
+			if (!features.contains(Features.RECURRING_TRANSACTIONS)) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED);
 			}
 		}
 	}
@@ -4724,9 +4823,10 @@ public class FinanceTool {
 
 	}
 
-	public HashMap<Integer, Object> importData(long companyId, String userEmail,
-			String filePath, int importerType, Map<String, String> importMap,
-			String dateFormate) throws AccounterException {
+	public HashMap<Integer, Object> importData(long companyId,
+			String userEmail, String filePath, int importerType,
+			Map<String, String> importMap, String dateFormate)
+			throws AccounterException {
 		Map<Integer, Object> exceptions = new HashMap<Integer, Object>();
 		try {
 			Importer<? extends IAccounterCore> importer = getImporterByType(

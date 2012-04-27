@@ -1338,7 +1338,7 @@ public abstract class Transaction extends CreatableObject implements
 						AccounterException.ERROR_ACTIVE_CUSTOMER);
 			}
 		}
-	} 
+	}
 
 	protected void chekingTaxCodeNull(TAXCode taxCode)
 			throws AccounterException {
@@ -1560,6 +1560,67 @@ public abstract class Transaction extends CreatableObject implements
 		checkTransactionDateNull();
 		if (!isTemplate()) {
 			checkNumber();
+		}
+		if (getID() != 0) {
+			return;
+		}
+
+		Set<String> features = getCompany().getFeatures();
+		if (!features.contains(Features.JOB_COSTING)) {
+			if (getJob() != null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED,
+						"You can't use Job costing");
+			}
+			for (TransactionItem item : transactionItems) {
+				if (item.getJob() != null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED,
+							"You can't use Job costing");
+				}
+			}
+		}
+
+		if (!features.contains(Features.LOCATION)) {
+			if (getLocation() != null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED,
+						"You can't use Location");
+			}
+		}
+
+		if (!features.contains(Features.CLASS)) {
+			if (getAccounterClass() != null) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED,
+						"You can't use Class");
+			}
+			for (TransactionItem item : transactionItems) {
+				if (item.getAccounterClass() != null) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED,
+							"You can't use Class");
+				}
+			}
+		}
+
+		if (!features.contains(Features.ATTACHMENTS)) {
+			if (!attachments.isEmpty()) {
+				throw new AccounterException(
+						AccounterException.ERROR_PERMISSION_DENIED,
+						"You can't add Attchments");
+			}
+		}
+
+		if (!features.contains(Features.INVENTORY)) {
+			for (TransactionItem item : transactionItems) {
+				if (item.getType() == Item.TYPE_INVENTORY_ASSEMBLY
+						|| item.getType() == Item.TYPE_INVENTORY_PART) {
+					throw new AccounterException(
+							AccounterException.ERROR_PERMISSION_DENIED,
+							"You can't use Class");
+				}
+			}
 		}
 	}
 }
