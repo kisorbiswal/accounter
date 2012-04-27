@@ -203,8 +203,10 @@ import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListAction;
 import com.vimukti.accounter.web.client.ui.vendors.RecordExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
+import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
+import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 
 /**
  * 
@@ -935,6 +937,12 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(new TDSChalanDetailsAction().getHistoryToken(),
 				new TDSChalanDetailsAction());
+		
+		actions.put(new VendorPaymentsListAction().getHistoryToken(),
+				new VendorPaymentsListAction());
+
+		actions.put(new VendorsListAction().getHistoryToken(),
+				new VendorsListAction());
 
 		actions.put(new ChalanListViewAction().getHistoryToken(),
 				new ChalanListViewAction());
