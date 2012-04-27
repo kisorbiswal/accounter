@@ -77,7 +77,8 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		Anchor cashExpLabel = new Anchor(messages.cashExpenses());
 		Anchor ccExpLabel = new Anchor(messages.creditCardExpenses());
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		if (Accounter.getUser().getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES) {
+		if (Accounter.getUser().getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES
+				|| Accounter.getUser().getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES) {
 			allExpLabel.addClickHandler(new ClickHandler() {
 
 				@Override
