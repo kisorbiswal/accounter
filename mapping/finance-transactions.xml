@@ -1142,6 +1142,10 @@
 			<many-to-one name="company" column="COMPANY_ID" class="Company"
 				not-null="true">
 			</many-to-one>
+			<many-to-one name="employee" column="EMPLOYEE" class="Employee">
+			</many-to-one>
+			<many-to-one name="employeeGroup" column="EMPLOYEE_GROUP" class="EmployeeGroup">
+			</many-to-one>
 			<property name="payPeriodStartDate" column="PAY_PERIOD_STARTDATE"
 				type="com.vimukti.accounter.core.LongUseType" />
 			<property name="payPeriodEndDate" column="PAY_PERIOD_ENDDATE"

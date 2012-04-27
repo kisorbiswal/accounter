@@ -12,7 +12,11 @@ public class PayHeadDetails extends BaseReport implements IsSerializable,
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private long employee;
+	private String employee;
+
+	private String payHead;
+
+	private int payHeadType;
 
 	private long periodEndDate;
 
@@ -20,11 +24,13 @@ public class PayHeadDetails extends BaseReport implements IsSerializable,
 
 	private double amount;
 
-	public long getEmployee() {
+	private Long transactionId;
+
+	public String getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(long employee) {
+	public void setEmployee(String employee) {
 		this.employee = employee;
 	}
 
@@ -50,5 +56,29 @@ public class PayHeadDetails extends BaseReport implements IsSerializable,
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public String getPayHead() {
+		return payHead;
+	}
+
+	public void setPayHead(String payHead) {
+		this.payHead = payHead;
+	}
+
+	public int getPayHeadType() {
+		return payHeadType;
+	}
+
+	public void setPayHeadType(int payHeadType) {
+		this.payHeadType = payHeadType;
+	}
+
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = transactionId;
+	}
+
+	public Long getTransactionId() {
+		return transactionId;
 	}
 }

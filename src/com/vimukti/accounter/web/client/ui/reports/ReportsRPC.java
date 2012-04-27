@@ -391,7 +391,7 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_PAY_RUN:
 			initCallBack(new ClientPayRun(), ActionFactory.getPayRunAction(),
 					transactionId);
-
+			break;
 		case IAccounterCore.ATTENDANCE_PRODUCTION_TYPE:
 			initCallBack(new ClientAttendanceOrProductionType(),
 					ActionFactory.getNewAttendanceProductionTypeAction(),

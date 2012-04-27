@@ -134,14 +134,6 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company" />
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			not-null="true" />
 		<many-to-one name="payStructure" column="PAY_STRUCTURE"
 			class="PayStructure" />
 		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
@@ -154,7 +146,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		<many-to-one name="company" column="COMPANY_ID" class="Company" not-null="true">
 		</many-to-one>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -169,7 +161,7 @@
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
 		<property name="calculationType" column="CALCULATION_TYPE" />
 		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY" />
-		<many-to-one name="account" column="ACCOUNT" class="Account" />
+		<many-to-one name="account" column="ACCOUNT" class="Account" not-null="true"/>
 
 		<joined-subclass name="AttendancePayHead" table="ATTENDANCE_PAYHEAD">
 			<key column="ID" />
@@ -263,10 +255,9 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
 		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead">
 		</many-to-one>
+		<property name="version" column="VERSION"></property>
 		<many-to-one name="empPaymentDetails" class="EmployeePaymentDetails"
 			column="EMPLOYEE_PAYMENT_DETAILS_ID">
 		</many-to-one>
@@ -277,8 +268,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
+		<property name="version" column="VERSION"></property>
 		<many-to-one name="payRun" column="PAY_RUN_ID" class="PayRun">
 		</many-to-one>
 		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
@@ -526,5 +516,37 @@
 						
 						ORDER BY E.ID
 		]]>
+	</sql-query>
+	
+	<sql-query name="getPayrunsList">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="type" type="int" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="IS_VOIDED" type="boolean" />
+			<![CDATA[
+			SELECT 	CASE WHEN PR.EMPLOYEE IS NULL THEN 
+					EG.NAME ELSE E.NAME END AS NAME,
+					T.ID AS TRANSACTION_ID,
+					T.NUMBER AS TRANSACTION_NUMBER,
+					T.T_DATE AS TRANSACTION_DATE,
+					T.TOTAL AS TOTAL,
+					CASE WHEN T.SAVE_STATUS =204 THEN TRUE ELSE FALSE 
+					END AS IS_VOIDED
+					FROM PAY_RUN PR 
+						LEFT OUTER JOIN TRANSACTION T ON T.ID = PR.ID
+						LEFT OUTER JOIN EMPLOYEE E ON E.ID=PR.EMPLOYEE
+						LEFT OUTER JOIN EMPLOYEE_GROUP EG
+					ON EG.ID=PR.EMPLOYEE_GROUP
+					WHERE T.COMPANY_ID =:companyId AND (PR.PAY_PERIOD_ENDDATE
+				BETWEEN :startDate AND :endDate OR PAY_PERIOD_STARTDATE 
+				BETWEEN :startDate AND :endDate) AND (CASE WHEN :type=1000 THEN TRUE ELSE T.SAVE_STATUS =204 END)
+				GROUP BY T.ID,PR.EMPLOYEE,PR.EMPLOYEE_GROUP,E.NAME,EG.NAME
+			]]>
 	</sql-query>
 </hibernate-mapping>

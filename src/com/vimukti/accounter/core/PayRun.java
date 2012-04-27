@@ -30,6 +30,10 @@ public class PayRun extends Transaction {
 
 	private List<AttendanceManagementItem> attendanceItems = new ArrayList<AttendanceManagementItem>();
 
+	private Employee employee;
+
+	private EmployeeGroup employeeGroup;
+
 	public PayRun() {
 		super();
 		setType(Transaction.TYPE_PAY_RUN);
@@ -84,14 +88,49 @@ public class PayRun extends Transaction {
 	public boolean onSave(Session session) throws CallbackException {
 		// Running Payment of Each Employee
 		setType(Transaction.TYPE_PAY_RUN);
-		for (EmployeePaymentDetails detail : payEmployee) {
+		doPayRunCreateEffect();
+		return super.onSave(session);
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		PayRun payRun = (PayRun) clientObject;
+		if (payRun.getSaveStatus() == STATUS_VOID) {
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
+		}
+
+		if (payRun.getSaveStatus() == STATUS_DRAFT
+				|| payRun.getSaveStatus() == STATUS_TEMPLATE) {
+			throw new AccounterException(
+					AccounterException.ERROR_CANT_CREATE_PAYRUN_DRAFT_OR_TEMPLATE);
+		}
+
+		return true;
+	}
+
+	@Override
+	public void onEdit(Transaction clonedObject) {
+		PayRun payRun = (PayRun) clonedObject;
+
+		doPayRunDeleteEffect(payRun);
+
+		if (!this.isVoid() && !payRun.isVoid()) {
+			doPayRunCreateEffect();
+		}
+
+		super.onEdit(clonedObject);
+	}
+
+	private void doPayRunCreateEffect() {
+		for (EmployeePaymentDetails detail : this.getPayEmployee()) {
 			detail.setPayRun(this);
 			detail.runPayment();
 		}
 
 		double totalAmount = earningsAmount - deductionAmount;
 		setTotal(totalAmount);
-		for (EmployeePaymentDetails detail : payEmployee) {
+		for (EmployeePaymentDetails detail : this.getPayEmployee()) {
 			for (EmployeePayHeadComponent component : detail
 					.getPayHeadComponents()) {
 				double rate = component.getRate();
@@ -107,23 +146,6 @@ public class PayRun extends Transaction {
 		Account salariesPayableAccount = getCompany()
 				.getSalariesPayableAccount();
 		salariesPayableAccount.updateCurrentBalance(this, totalAmount, 1);
-		return super.onSave(session);
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject,
-			boolean goingToBeEdit) throws AccounterException {
-
-		if (this.getSaveStatus() == STATUS_VOID) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
-		}
-
-		return true;
-	}
-
-	@Override
-	public void onEdit(Transaction clonedObject) {
-		super.onEdit(clonedObject);
 	}
 
 	@Override
@@ -193,5 +215,48 @@ public class PayRun extends Transaction {
 	public void setAttendanceItems(
 			List<AttendanceManagementItem> attendanceItems) {
 		this.attendanceItems = attendanceItems;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public EmployeeGroup getEmployeeGroup() {
+		return employeeGroup;
+	}
+
+	public void setEmployeeGroup(EmployeeGroup employeeGroup) {
+		this.employeeGroup = employeeGroup;
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		doPayRunDeleteEffect(this);
+		this.payEmployee.clear();
+		return super.onDelete(session);
+	}
+
+	private void doPayRunDeleteEffect(PayRun payRun) {
+		for (EmployeePaymentDetails detail : payRun.getPayEmployee()) {
+			for (EmployeePayHeadComponent component : detail
+					.getPayHeadComponents()) {
+				double rate = component.getRate();
+				Account account = component.getPayHead().getAccount();
+				if (component.isDeduction()) {
+					account.updateCurrentBalance(payRun, -rate, 1);
+				} else if (component.isEarning()) {
+					account.updateCurrentBalance(payRun, rate, 1);
+				}
+			}
+		}
+
+		Account salariesPayableAccount = getCompany()
+				.getSalariesPayableAccount();
+		salariesPayableAccount.updateCurrentBalance(payRun, -payRun.getTotal(),
+				1);
 	}
 }

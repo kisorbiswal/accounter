@@ -7,6 +7,10 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public ClientEmployeePayHeadComponent() {
+
+	}
+
 	private ClientPayHead payHead;
 
 	private double rate;
@@ -17,16 +21,16 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	private long empPaymentDetails;
 
+	private int version;
+
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
+		this.version = version;
 	}
 
 	@Override

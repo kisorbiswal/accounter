@@ -1,8 +1,5 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -13,18 +10,24 @@ import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
 
 public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
+	private long employeeId;
+	private boolean isItemsAdded;
+
 	public EmployeeCombo(String title) {
 		this(title, false);
 		getEmployees();
 	}
 
 	private void getEmployees() {
+		isItemsAdded = false;
 		Accounter.createPayrollService().getEmployees(0, 0,
 				new AsyncCallback<PaginationList<ClientEmployee>>() {
 
 					@Override
 					public void onSuccess(PaginationList<ClientEmployee> result) {
 						initCombo(result);
+						EmployeeCombo.this.isItemsAdded = true;
+						setSelectedItem();
 					}
 
 					@Override
@@ -73,6 +76,24 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 		});
 
 		action.run(null, true);
+	}
+
+	public void setSelectedEmployee(long employeeId) {
+		this.employeeId = employeeId;
+		if (isItemsAdded) {
+			setSelectedItem();
+		}
+	}
+
+	private void setSelectedItem() {
+		if (this.employeeId != 0) {
+			for (ClientEmployee emp : getComboItems()) {
+				if (emp.getID() == employeeId) {
+					setComboItem(emp);
+					break;
+				}
+			}
+		}
 	}
 
 }

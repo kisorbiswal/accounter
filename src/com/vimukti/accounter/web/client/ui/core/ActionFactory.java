@@ -172,6 +172,7 @@ import com.vimukti.accounter.web.client.ui.reports.JobProfitabilitySummaryReport
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MissingChecksReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
+import com.vimukti.accounter.web.client.ui.reports.PayHeadDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemDetailsAction;
@@ -1619,6 +1620,10 @@ public class ActionFactory {
 
 	public static AttendanceManagementAction getAttendanceManagementAction() {
 		return new AttendanceManagementAction();
+	}
+
+	public static PayHeadDetailReportAction getPayHeadDetailReportAction() {
+		return new PayHeadDetailReportAction();
 	}
 
 }

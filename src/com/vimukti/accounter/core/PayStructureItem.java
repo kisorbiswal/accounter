@@ -4,8 +4,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class PayStructureItem extends CreatableObject implements
-		IAccounterServerCore {
+public class PayStructureItem implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -31,6 +30,10 @@ public class PayStructureItem extends CreatableObject implements
 	private long[] attendance;
 
 	private FinanceDate effectiveFrom;
+
+	private long id;
+
+	private int version;
 
 	/**
 	 * @return the payHead
@@ -80,13 +83,11 @@ public class PayStructureItem extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -129,4 +130,18 @@ public class PayStructureItem extends CreatableObject implements
 		this.effectiveFrom = effectiveFrom;
 	}
 
+	@Override
+	public int getVersion() {
+		return this.version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
 }

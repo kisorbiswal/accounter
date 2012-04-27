@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +41,13 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
+import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
+import com.vimukti.accounter.web.client.core.ClientEmployeePaymentDetails;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
@@ -259,6 +263,47 @@ public class Manager {
 				}
 				clientPayStructure.setItems(items);
 				t = (T) clientPayStructure;
+			}
+
+			if (t instanceof ClientPayRun) {
+				ClientPayRun payrun = (ClientPayRun) t;
+				Set<ClientEmployeePaymentDetails> details = new HashSet<ClientEmployeePaymentDetails>();
+				for (ClientEmployeePaymentDetails item : payrun
+						.getPayEmployee()) {
+					Set<ClientEmployeePayHeadComponent> headComponents = new HashSet<ClientEmployeePayHeadComponent>();
+					for (ClientEmployeePayHeadComponent ephc : item
+							.getPayHeadComponents()) {
+						ClientPayHead payHead = ephc.getPayHead();
+						ClientPayHead clientPayHead = payHead;
+						if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+							clientPayHead = new ClientConvertUtil()
+									.toClientObject(payHead,
+											ClientAttendancePayHead.class);
+						} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+							clientPayHead = new ClientConvertUtil()
+									.toClientObject(payHead,
+											ClientComputionPayHead.class);
+						} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
+							clientPayHead = new ClientConvertUtil()
+									.toClientObject(payHead,
+											ClientFlatRatePayHead.class);
+						} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
+							clientPayHead = new ClientConvertUtil()
+									.toClientObject(payHead,
+											ClientProductionPayHead.class);
+						} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
+							clientPayHead = new ClientConvertUtil()
+									.toClientObject(payHead,
+											ClientUserDefinedPayHead.class);
+						}
+						ephc.setPayHead(clientPayHead);
+						headComponents.add(ephc);
+					}
+					item.setPayHeadComponents(headComponents);
+					details.add(item);
+				}
+				payrun.setPayEmployee(details);
+				t = (T) payrun;
 			}
 
 			Company company = getCompany(companyId);

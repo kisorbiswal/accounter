@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.PayHeadSummaryServerReport;
 
 public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
@@ -28,6 +30,7 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
+		UIUtils.runAction(record, ActionFactory.getPayHeadDetailReportAction());
 	}
 
 	@Override
@@ -38,8 +41,6 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-
+		makeReportRequest(0, start, end);
 	}
-
 }

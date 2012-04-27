@@ -6502,4 +6502,9 @@ public interface AccounterMessages extends Messages {
 
 	public String paySheet();
 
+	public String payHeadDetailReport();
+
+	public String cannotCreatePayRunAsDraftOrTemplate();
+
+	public String payRuns();
 }

@@ -39,12 +39,14 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
+import com.vimukti.accounter.web.client.core.reports.PayHeadDetails;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
-import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayrollManager extends Manager {
@@ -466,5 +468,72 @@ public class PayrollManager extends Manager {
 			}
 		}
 		return new ArrayList<PaySheet>(queryResult);
+	}
+
+	public ArrayList<PayHeadDetails> getpayHeadDetailsList(long employeeId,
+			long payHeadId, FinanceDate startDate, FinanceDate endDate,
+			Long companyId) throws AccounterException {
+		ArrayList<PayHeadDetails> payHeadDetails = new ArrayList<PayHeadDetails>();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Query query = currentSession.getNamedQuery("getpayHeadDetailsList")
+				.setParameter("payHeadId", payHeadId)
+				.setParameter("employee", employeeId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("companyId", companyId);
+		List list = query.list();
+
+		Iterator iterator = list.iterator();
+		while ((iterator).hasNext()) {
+			Object[] object = (Object[]) iterator.next();
+			PayHeadDetails payHeadDetail = new PayHeadDetails();
+			payHeadDetail.setAmount((Double) object[0]);
+			payHeadDetail.setEmployee((String) object[1]);
+			payHeadDetail.setPayHead((String) object[2]);
+			payHeadDetail.setPayHeadType((Integer) object[3]);
+			payHeadDetail.setTransactionNumber((String) object[4]);
+			payHeadDetail.setPeriodEndDate((Long) object[5]);
+			payHeadDetail.setTransactionId((Long) object[6]);
+			payHeadDetails.add(payHeadDetail);
+		}
+		return payHeadDetails;
+	}
+
+	public PaginationList<PaymentsList> getPayRunsList(Long companyId,
+			long startDate, long endDate, int type, int start, int length) {
+		PaginationList<PaymentsList> payrunsList = new PaginationList<PaymentsList>();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Query query = currentSession.getNamedQuery("getPayrunsList")
+				.setParameter("companyId", companyId)
+				.setParameter("type", type)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
+		List list = query.list();
+		int total = 0;
+		if (length == -1) {
+			list = query.list();
+		} else {
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		if (list != null && !list.isEmpty()) {
+			Iterator iterator = list.iterator();
+			while (iterator.hasNext()) {
+				Object[] object = (Object[]) iterator.next();
+				PaymentsList paymentsList = new PaymentsList();
+				paymentsList.setName((String) object[0]);
+				paymentsList.setTransactionId((Long) object[1]);
+				paymentsList.setPaymentNumber((String) object[2]);
+				paymentsList.setPaymentDate(new ClientFinanceDate(
+						(Long) object[3]));
+				paymentsList.setAmountPaid((Double) object[4]);
+				paymentsList.setVoided((Boolean) object[5]);
+				paymentsList.setType(ClientTransaction.TYPE_PAY_RUN);
+				payrunsList.add(paymentsList);
+			}
+		}
+		payrunsList.setTotalCount(total);
+		payrunsList.setStart(start);
+		return payrunsList;
 	}
 }

@@ -434,6 +434,10 @@ public class MenuBar {
 				HistoryTokens.PAYSLIP_SUMMARY);
 		payrollBar.addMenuItem(messages.paySheet(),
 				HistoryTokens.PAYSHEET_REPORT);
+		payrollBar.addMenuItem(messages.payHeadSummaryReport(),
+				HistoryTokens.PAY_HEAD_SUMMMARY_REPORT);
+		payrollBar.addMenuItem(messages.payHeadDetailReport(),
+				HistoryTokens.PAY_HEAD_DETAIL_REPORT);
 		return payrollBar;
 	}
 

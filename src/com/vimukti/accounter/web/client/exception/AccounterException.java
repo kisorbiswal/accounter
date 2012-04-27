@@ -239,6 +239,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_DELETING_SYSTEM_ACCOUNT = 94;
 
+	public static final int ERROR_CANT_CREATE_PAYRUN_DRAFT_OR_TEMPLATE = 95;
+
 	protected int errorCode;
 
 	// private long id;

@@ -32,6 +32,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	public static final int TYPE_CUSTOMER_CHECKS = 1;
 	public static final int TYPE_VENDOR_CHECKS = 2;
 	public static final int TYPE_WRITE_CHECKS = 3;
+
+	public static final int TYPE_PAY_RUNS = 4;
 	private int type = 0;
 
 	public PaymentListView() {
@@ -39,7 +41,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	}
 
 	public PaymentListView(int checkType) {
-		super(messages.notIssued());
+		super(checkType == PaymentListView.TYPE_PAY_RUNS ? messages.all()
+				: messages.notIssued());
 		this.checkType = checkType;
 	}
 
@@ -67,6 +70,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		}
 		if (checkType == 0 || checkType == TYPE_ALL) {
 			return messages.addaNewPayment();
+		} else if (checkType == TYPE_PAY_RUNS) {
+			return messages.addaNew(messages.payrun());
 		} else {
 			return messages.writeCheck();
 		}
@@ -80,6 +85,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 			return messages.payeeChecks(Global.get().Customer());
 		} else if (checkType == TYPE_WRITE_CHECKS) {
 			return messages.otherChecks();
+		} else if (checkType == TYPE_PAY_RUNS) {
+			return messages.payRuns();
 		} else {
 			return messages.payeeChecks(Global.get().Vendor());
 		}
@@ -118,11 +125,13 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	@Override
 	protected java.util.List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages.notIssued());
-		listOfTypes.add(messages.issued());
-		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
-		listOfTypes.add(messages.drafts());
+		if (checkType != TYPE_PAY_RUNS) {
+			listOfTypes.add(messages.notIssued());
+			listOfTypes.add(messages.issued());
+			listOfTypes.add(messages.drafts());
+		}
+		listOfTypes.add(messages.voided());
 		return listOfTypes;
 	}
 
@@ -191,6 +200,9 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
 
+		} else if (checkType == TYPE_PAY_RUNS) {
+			Accounter.createHomeService().getPayRunsList(getStartDate(),
+					getEndDate(), start, length, type, this);
 		} else {
 			Accounter.createHomeService().getPayeeChecks(2,
 					getStartDate().getDate(), getEndDate().getDate(), start,

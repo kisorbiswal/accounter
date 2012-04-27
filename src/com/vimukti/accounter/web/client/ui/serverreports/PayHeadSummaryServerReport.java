@@ -63,7 +63,7 @@ public class PayHeadSummaryServerReport extends
 		case 0:
 			return record.getEmployeeName();
 		case 1:
-			record.getPayHeadAmount();
+			return record.getPayHeadAmount();
 		}
 		return null;
 	}

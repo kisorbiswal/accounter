@@ -7,8 +7,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class EmployeePaymentDetails extends CreatableObject implements
-		IAccounterServerCore {
+public class EmployeePaymentDetails implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -26,6 +25,10 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	private Employee employee;
 
 	private Set<EmployeePayHeadComponent> payHeadComponents = new HashSet<EmployeePayHeadComponent>();
+
+	private int version;
+
+	private long id;
 
 	/**
 	 * @return the payHeadComponents
@@ -91,13 +94,29 @@ public class EmployeePaymentDetails extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public int getVersion() {
+		return this.version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

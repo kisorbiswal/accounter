@@ -2447,4 +2447,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				getCompanyId(), isCust, payee, item);
 	}
 
+	@Override
+	public PaginationList<PaymentsList> getPayRunsList(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length, int type) throws AccounterException {
+		PaginationList<PaymentsList> payruns = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+					getCompanyId());
+			payruns = getFinanceTool().getPayrollManager().getPayRunsList(
+					getCompanyId(), dates[0].getDate(), dates[1].getDate(),
+					type, start, length);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payruns;
+	}
+
 }

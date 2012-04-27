@@ -29,6 +29,8 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
 import com.vimukti.accounter.web.client.ui.payroll.AttendanceProductionTypeListAction;
+import com.vimukti.accounter.web.client.ui.reports.PayHeadDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.PayHeadSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.PaySheetReportAction;
 import com.vimukti.accounter.web.client.ui.reports.PaySlipSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
@@ -950,6 +952,11 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(new PaySheetReportAction().getHistoryToken(),
 				new PaySheetReportAction());
+		actions.put(new PayHeadSummaryReportAction().getHistoryToken(),
+				new PayHeadSummaryReportAction());
+
+		actions.put(new PayHeadDetailReportAction().getHistoryToken(),
+				new PayHeadDetailReportAction());
 
 	}
 

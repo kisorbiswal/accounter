@@ -28,7 +28,7 @@ public class AttendanceProdTypeDropDownTable extends
 				.createPayrollService()
 				.getAttendanceProductionTypes(
 						0,
-						0,
+						-1,
 						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
 
 							@Override

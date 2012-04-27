@@ -11988,9 +11988,14 @@
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 		<return-scalar column="PR_ID" type ="long" />
-			SELECT PR.ID AS PR_ID 
-			FROM PAY_RUN PR
-			WHERE PR.ID=:inputId AND PR.COMPANY_ID =:companyId
+			SELECT PR.ID AS PR_ID
+				FROM   PAY_RUN PR
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = PR.ID
+				WHERE  PR.ID IS NULL
+				       AND PR.ID = :inputId
+				       AND T.COMPANY_ID = :companyId
+				LIMIT  1  
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

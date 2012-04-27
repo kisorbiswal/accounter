@@ -429,6 +429,10 @@ public class HistoryTokens {
 
 	public static final String PAYSHEET_REPORT = "paysheetReport";
 
+	public static final String PAY_HEAD_SUMMMARY_REPORT = "payHeadSummaryReport";
+
+	public static final String PAY_HEAD_DETAIL_REPORT = "payHeadDetailReport";
+
 	public HistoryTokens() {
 
 	}

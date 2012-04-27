@@ -61,8 +61,8 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ItemUnitPrice;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -601,4 +601,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getUnitPricesByPayee(boolean isCust, long payee, long item,
 			AsyncCallback<List<ItemUnitPrice>> callback);
+
+	public void getPayRunsList(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int start, int length, int type,
+			AsyncCallback<PaginationList<PaymentsList>> callBack);
 }

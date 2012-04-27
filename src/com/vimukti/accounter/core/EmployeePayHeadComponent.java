@@ -8,8 +8,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class EmployeePayHeadComponent extends CreatableObject implements
-		IAccounterServerCore {
+public class EmployeePayHeadComponent implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -18,6 +17,8 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 
 	public EmployeePayHeadComponent() {
 	}
+
+	private long id;
 
 	private PayHead payHead;
 
@@ -28,6 +29,8 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 	private FinanceDate periodStartDate;
 
 	private EmployeePaymentDetails empPaymentDetails;
+
+	private int version;
 
 	/**
 	 * @return the payHead
@@ -70,13 +73,11 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
 	}
 
 	public FinanceDate getStartDate() {
@@ -99,5 +100,24 @@ public class EmployeePayHeadComponent extends CreatableObject implements
 
 	public void setEmpPaymentDetails(EmployeePaymentDetails empPaymentDetails) {
 		this.empPaymentDetails = empPaymentDetails;
+	}
+
+	@Override
+	public int getVersion() {
+		return this.version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

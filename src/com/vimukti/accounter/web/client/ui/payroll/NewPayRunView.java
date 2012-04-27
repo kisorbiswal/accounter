@@ -1,15 +1,19 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
@@ -29,6 +33,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -38,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.reports.ReportGrid;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -46,7 +52,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	private DateField fromDate, toDate;
 	private EmployeesAndGroupsCombo empsAndGroups;
-	protected ClientPayStructureDestination selectedItem;
 	private ScrollPanel tableLayout;
 	protected int sectionDepth = 0;
 
@@ -68,7 +73,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	Button button;
 	private ReportGrid<ClientEmployeePayHeadComponent> reportGrid;
-	private ArrayList<ClientEmployeePayHeadComponent> records;
+	private List<ClientEmployeePayHeadComponent> records = new ArrayList<ClientEmployeePayHeadComponent>();
 	private StyledPanel attendanceLay;
 	private DynamicForm attendanceForm;
 	private Button nextButton, backButton;
@@ -104,7 +109,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 					@Override
 					public void selectedComboBoxItem(
 							ClientPayStructureDestination selectItem) {
-						NewPayRunView.this.selectedItem = selectItem;
 						table.updateList(selectItem);
 						selectionChanged();
 					}
@@ -131,7 +135,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				button.setEnabled(NewPayRunView.this.selectedItem != null);
+				button.setEnabled(NewPayRunView.this.empsAndGroups
+						.getSelectedValue() != null);
 			}
 		});
 
@@ -142,7 +147,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				button.setEnabled(NewPayRunView.this.selectedItem != null);
+				button.setEnabled(NewPayRunView.this.empsAndGroups
+						.getSelectedValue() != null);
 			}
 		});
 
@@ -152,6 +158,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			@Override
 			public void onClick(ClickEvent event) {
 				selectionChanged();
+				showPayRunTable();
 			}
 		});
 
@@ -222,7 +229,44 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		this.add(mainVLay);
 	}
 
+	protected void itemSelected() {
+		Set<ClientEmployeePaymentDetails> payEmployee = data.getPayEmployee();
+		boolean isEmployee = data.getEmployee() == 0 ? false : true;
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+		ArrayList<ClientEmployeePayHeadComponent> records = new ArrayList<ClientEmployeePayHeadComponent>();
+		if (selectedValue != null) {
+			for (ClientEmployeePaymentDetails clientEmployeePaymentDetails : payEmployee) {
+				Set<ClientEmployeePayHeadComponent> payHeadComponents = clientEmployeePaymentDetails
+						.getPayHeadComponents();
+				for (ClientEmployeePayHeadComponent comp : payHeadComponents) {
+					if (isEmployee) {
+						comp.setEmployee(selectedValue.getName());
+					} else {
+						ClientEmployeeGroup group = (ClientEmployeeGroup) selectedValue;
+						for (ClientEmployee employee : group.getEmployees()) {
+							if (employee.getID() == clientEmployeePaymentDetails
+									.getEmployee()) {
+								comp.setEmployee(employee.getName());
+							}
+						}
+					}
+				}
+				records.addAll(payHeadComponents);
+			}
+		}
+		initRecords(records);
+	}
+
 	protected void showPayRunTable() {
+		if (isInViewMode()) {
+			reportGrid.removeAllRows();
+			attendanceForm.clear();
+			tableForm.add(tableLayout);
+			tableForm.add(backButton);
+			itemSelected();
+			return;
+		}
 		ValidationResult result = validateAttendance();
 		if (result.haveErrors()) {
 			for (Error error : result.getErrors()) {
@@ -232,6 +276,20 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			return;
 		}
 
+		data.setAttendanceItems(table.getAllRows());
+
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+		if (selectedValue == null) {
+			return;
+		}
+
+		if (selectedValue instanceof ClientEmployee) {
+			data.setEmployee(selectedValue.getID());
+		} else {
+			data.setEmployeeGroup(selectedValue.getID());
+		}
+
 		if (saveAndCloseButton != null) {
 			saveAndCloseButton.setVisible(isSaveButtonAllowed());
 		}
@@ -239,6 +297,10 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		if (saveAndNewButton != null) {
 			saveAndNewButton.setVisible(isSaveButtonAllowed());
 		}
+		button.setEnabled(isInViewMode());
+
+		fromDate.setEnabled(!isInViewMode());
+		toDate.setEnabled(!isInViewMode());
 
 		reportGrid.removeAllRows();
 		attendanceForm.clear();
@@ -284,7 +346,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 		};
 		Accounter.createPayrollService().getEmployeePayHeadComponents(
-				table.getAllRows(), selectedItem, fromDate.getDate(),
+				table.getAllRows(), selectedValue, fromDate.getDate(),
 				toDate.getDate(), callback);
 	}
 
@@ -352,11 +414,22 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			this.rpcUtilService.getNextTransactionNumber(data.getType(),
 					transactionNumberCallback);
 		}
+
 		super.initData();
 	}
 
-	private void initViewData(ClientPayRun data) {
+	@Override
+	protected void updateTransaction() {
+	}
 
+	private void initViewData(ClientPayRun data) {
+		long payPeriodEndDate = data.getPayPeriodEndDate();
+		long payPeriodStartDate = data.getPayPeriodStartDate();
+		fromDate.setDateWithNoEvent(new ClientFinanceDate(payPeriodStartDate));
+		toDate.setDateWithNoEvent(new ClientFinanceDate(payPeriodEndDate));
+		empsAndGroups.setEmpGroup(data.getEmployee() == 0 ? data
+				.getEmployeeGroup() : data.getEmployee());
+		table.setAllRows(data.getAttendanceItems());
 	}
 
 	@Override
@@ -369,21 +442,26 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
 		data.setTransactionDate(new ClientFinanceDate().getDate());
-		List<ClientEmployeePaymentDetails> details = new ArrayList<ClientEmployeePaymentDetails>();
+		Set<ClientEmployeePaymentDetails> details = new HashSet<ClientEmployeePaymentDetails>();
 
 		ClientPayStructureDestination selectedValue = empsAndGroups
 				.getSelectedValue();
+
 		if (selectedValue instanceof ClientEmployee) {
 			ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
 			employeePaymentDetails.setEmployee(selectedValue.getID());
-			employeePaymentDetails.setPayHeadComponents(records);
+			employeePaymentDetails
+					.setPayHeadComponents(new HashSet<ClientEmployeePayHeadComponent>(
+							records));
 			details.add(employeePaymentDetails);
+			data.setEmployee(selectedValue.getID());
 		} else {
 			ClientEmployeeGroup group = (ClientEmployeeGroup) selectedValue;
+			data.setEmployeeGroup(selectedValue.getID());
 			for (ClientEmployee employee : group.getEmployees()) {
 				ClientEmployeePaymentDetails employeePaymentDetails = new ClientEmployeePaymentDetails();
 				employeePaymentDetails.setEmployee(employee.getID());
-				ArrayList<ClientEmployeePayHeadComponent> empRecords = getFilteredRecords(employee);
+				Set<ClientEmployeePayHeadComponent> empRecords = getFilteredRecords(employee);
 				employeePaymentDetails.setPayHeadComponents(empRecords);
 				details.add(employeePaymentDetails);
 			}
@@ -391,9 +469,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		data.setPayEmployee(details);
 	}
 
-	private ArrayList<ClientEmployeePayHeadComponent> getFilteredRecords(
+	private Set<ClientEmployeePayHeadComponent> getFilteredRecords(
 			ClientEmployee employee) {
-		ArrayList<ClientEmployeePayHeadComponent> empRecords = new ArrayList<ClientEmployeePayHeadComponent>();
+		Set<ClientEmployeePayHeadComponent> empRecords = new HashSet<ClientEmployeePayHeadComponent>();
 		for (ClientEmployeePayHeadComponent record : records) {
 			if (record.getName().equals(employee.getName())) {
 				empRecords.add(record);
@@ -403,15 +481,30 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	}
 
 	protected void selectionChanged() {
-		fromDate.setEnabled(true);
-		toDate.setEnabled(true);
-
 		tableForm.clear();
+		fromDate.setEnabled(false);
+		toDate.setEnabled(false);
+		button.setEnabled(false);
+		saveAndCloseButton.setVisible(false);
+		saveAndNewButton.setVisible(false);
 		attendanceForm.clear();
+		tableForm.clear();
 		table.clear();
-		table.addEmptyRecords();
-		attendanceForm.add(attendanceLay);
+		boolean isEmployee = data.getEmployee() == 0 ? false : true;
 
+		ClientPayStructureDestination selectedValue = empsAndGroups
+				.getSelectedValue();
+
+		if ((selectedValue instanceof ClientEmployee && isEmployee && data
+				.getEmployee() == selectedValue.getID())
+				|| (selectedValue instanceof ClientEmployeeGroup && !isEmployee && data
+						.getEmployeeGroup() == selectedValue.getID())) {
+			table.setAllRows(data.getAttendanceItems());
+		} else {
+			table.addEmptyRecords();
+		}
+
+		attendanceForm.add(attendanceLay);
 	}
 
 	protected void showRecords() {
@@ -593,21 +686,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	}
 
 	@Override
-	protected boolean canDelete() {
-		return false;
-	}
-
-	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
-	public boolean canEdit() {
-		return false;
-	}
-
-	@Override
 	protected void initTransactionViewData() {
 	}
 
@@ -629,5 +707,58 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+	}
+
+	@Override
+	public void onEdit() {
+
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(messages.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+
+				}
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+				.getType());
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+
+		empsAndGroups.setEnabled(!isInViewMode());
+		table.setEnabled(!isInViewMode());
+		int widgetCount = tableForm.getWidgetCount();
+		if (widgetCount != 0) {
+			showPayRunTable();
+		}
+	}
+
+	@Override
+	protected boolean canAddDraftButton() {
+		return false;
+	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
 	}
 }

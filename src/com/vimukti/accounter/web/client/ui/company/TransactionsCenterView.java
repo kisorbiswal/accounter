@@ -192,6 +192,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			baseListView = (TransactionsListView<T>) new PurchaseOrderListView();
 		} else if (itemName.equalsIgnoreCase(getMessages().taxAdjustment())) {
 			baseListView = (TransactionsListView<T>) new TaxAdjustmentsListView();
+		} else if (itemName.equalsIgnoreCase(getMessages().payRuns())) {
+			baseListView = (TransactionsListView<T>) new PaymentListView(
+					PaymentListView.TYPE_PAY_RUNS);
 		}
 
 		mainPanel.add(baseListView);
@@ -264,6 +267,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 				&& getPreferences().isTrackTax()) {
 			otherItems.add(getMessages().taxAdjustment());
 		}
+
+		otherItems.add(getMessages().payRuns());
 		// otherItems.add(getMessages().transferFunds());
 		return otherItems;
 	}

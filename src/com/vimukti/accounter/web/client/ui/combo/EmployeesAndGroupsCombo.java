@@ -9,12 +9,16 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 public class EmployeesAndGroupsCombo extends
 		CustomCombo<ClientPayStructureDestination> {
 
+	private long empGroup;
+	private boolean isItemsAdded;
+
 	public EmployeesAndGroupsCombo(String title, String styleName) {
 		super(title, false, 1, styleName);
 		initList();
 	}
 
 	private void initList() {
+		isItemsAdded = false;
 		Accounter.createPayrollService().getEmployeesAndGroups(
 				new AsyncCallback<List<ClientPayStructureDestination>>() {
 
@@ -27,7 +31,9 @@ public class EmployeesAndGroupsCombo extends
 					@Override
 					public void onSuccess(
 							List<ClientPayStructureDestination> result) {
+						EmployeesAndGroupsCombo.this.isItemsAdded = true;
 						initCombo(result);
+						selectCombo();
 					}
 				});
 	}
@@ -55,6 +61,24 @@ public class EmployeesAndGroupsCombo extends
 	public void onAddNew() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setEmpGroup(long employeeorEGroup) {
+		this.empGroup = employeeorEGroup;
+		if (this.isItemsAdded) {
+			selectCombo();
+		}
+	}
+
+	private void selectCombo() {
+		if (this.empGroup != 0) {
+			for (ClientPayStructureDestination item : getComboItems()) {
+				if (item.getID() == empGroup) {
+					setComboItem(item);
+					break;
+				}
+			}
+		}
 	}
 
 }

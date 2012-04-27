@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ClientPayRun extends ClientTransaction {
 
@@ -10,13 +12,15 @@ public class ClientPayRun extends ClientTransaction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private long payableAccount;
-
-	private List<ClientEmployeePaymentDetails> payEmployee;
+	private Set<ClientEmployeePaymentDetails> payEmployee = new HashSet<ClientEmployeePaymentDetails>();
 
 	private long payPeriodStartDate;
 
 	private long payPeriodEndDate;
+
+	private long employee;
+
+	private long employeeGroup;
 
 	private List<ClientAttendanceManagementItem> attendanceItems = new ArrayList<ClientAttendanceManagementItem>();
 
@@ -26,24 +30,9 @@ public class ClientPayRun extends ClientTransaction {
 	}
 
 	/**
-	 * @return the payableAccount
-	 */
-	public long getPayableAccount() {
-		return payableAccount;
-	}
-
-	/**
-	 * @param payableAccount
-	 *            the payableAccount to set
-	 */
-	public void setPayableAccount(long payableAccount) {
-		this.payableAccount = payableAccount;
-	}
-
-	/**
 	 * @return the payEmployee
 	 */
-	public List<ClientEmployeePaymentDetails> getPayEmployee() {
+	public Set<ClientEmployeePaymentDetails> getPayEmployee() {
 		return payEmployee;
 	}
 
@@ -51,7 +40,7 @@ public class ClientPayRun extends ClientTransaction {
 	 * @param payEmployee
 	 *            the payEmployee to set
 	 */
-	public void setPayEmployee(List<ClientEmployeePaymentDetails> payEmployee) {
+	public void setPayEmployee(Set<ClientEmployeePaymentDetails> payEmployee) {
 		this.payEmployee = payEmployee;
 	}
 
@@ -116,5 +105,21 @@ public class ClientPayRun extends ClientTransaction {
 
 	public List<ClientAttendanceManagementItem> getAttendanceItems() {
 		return this.attendanceItems;
+	}
+
+	public long getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(long employee) {
+		this.employee = employee;
+	}
+
+	public long getEmployeeGroup() {
+		return employeeGroup;
+	}
+
+	public void setEmployeeGroup(long employeeGroup) {
+		this.employeeGroup = employeeGroup;
 	}
 }

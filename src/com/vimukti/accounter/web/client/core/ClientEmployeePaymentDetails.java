@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ClientEmployeePaymentDetails implements IAccounterCore {
 
@@ -9,16 +10,23 @@ public class ClientEmployeePaymentDetails implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public ClientEmployeePaymentDetails() {
+	}
+
 	private long payRun;
 
 	private long employee;
 
-	private List<ClientEmployeePayHeadComponent> payHeadComponents;
+	private Set<ClientEmployeePayHeadComponent> payHeadComponents = new HashSet<ClientEmployeePayHeadComponent>();
+
+	private long id;
+
+	private int version;
 
 	/**
 	 * @return the payHeadComponents
 	 */
-	public List<ClientEmployeePayHeadComponent> getPayHeadComponents() {
+	public Set<ClientEmployeePayHeadComponent> getPayHeadComponents() {
 		return payHeadComponents;
 	}
 
@@ -27,7 +35,7 @@ public class ClientEmployeePaymentDetails implements IAccounterCore {
 	 *            the payHeadComponents to set
 	 */
 	public void setPayHeadComponents(
-			List<ClientEmployeePayHeadComponent> payHeadComponents) {
+			Set<ClientEmployeePayHeadComponent> payHeadComponents) {
 		this.payHeadComponents = payHeadComponents;
 	}
 
@@ -48,44 +56,37 @@ public class ClientEmployeePaymentDetails implements IAccounterCore {
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
+		this.version = version;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Employee Payment Details";
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterCoreType.EMPLOYEE_PAYMENT_DETAILS;
 	}
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id;
 	}
 
 	public long getEmployee() {

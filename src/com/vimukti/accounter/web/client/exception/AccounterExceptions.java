@@ -205,6 +205,8 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_PURCHASE_ORDERS_USED:
 			return accounterMessages.cannotVoidTransactionBecausePOused("");
+		case AccounterException.ERROR_CANT_CREATE_PAYRUN_DRAFT_OR_TEMPLATE:
+			return accounterMessages.cannotCreatePayRunAsDraftOrTemplate();
 		default:
 			return null;
 		}
