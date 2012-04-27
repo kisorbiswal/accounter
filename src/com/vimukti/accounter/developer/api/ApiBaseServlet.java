@@ -27,6 +27,8 @@ import com.vimukti.accounter.developer.api.process.EncryptCompanyProcessor;
 import com.vimukti.accounter.developer.api.process.ReadProcessor;
 import com.vimukti.accounter.developer.api.process.ReportsListProcessor;
 import com.vimukti.accounter.developer.api.process.UpdateProcessor;
+import com.vimukti.accounter.developer.api.process.lists.AccountsProcessor;
+import com.vimukti.accounter.developer.api.process.lists.CurrenciesProcessor;
 import com.vimukti.accounter.developer.api.process.lists.CustomersProcessor;
 import com.vimukti.accounter.developer.api.process.lists.InvoicesProcessor;
 import com.vimukti.accounter.developer.api.process.lists.ItemsProcessor;
@@ -58,8 +60,10 @@ public class ApiBaseServlet extends HttpServlet {
 
 		// Lists
 		processors.put("Customer", new CustomersProcessor());
+		processors.put("Account", new AccountsProcessor());
 		processors.put("Invoice", new InvoicesProcessor());
 		processors.put("Item", new ItemsProcessor());
+		processors.put("Currency", new CurrenciesProcessor());
 
 		// Reports
 		processors.put("salesbycustomersummary", null);
@@ -89,7 +93,7 @@ public class ApiBaseServlet extends HttpServlet {
 				EU.createCipher(user.getSecretKey(), d2,
 						req.getParameter("ApiKey"));
 			}
-			processor.beforeProcess(req,resp);
+			processor.beforeProcess(req, resp);
 			processor.process(req, resp);
 			sendData(req, resp, processor.getResult());
 			EU.removeCipher();
@@ -100,7 +104,10 @@ public class ApiBaseServlet extends HttpServlet {
 			}
 			String m = e.getMessage();
 			if (m != null) {
-				msg += ", " + m;
+				if (!msg.isEmpty()) {
+					msg += ", ";
+				}
+				msg += m;
 			}
 			sendFail(req, resp, msg);
 		} catch (Exception e) {

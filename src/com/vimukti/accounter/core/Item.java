@@ -505,7 +505,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	}
 
 	private void checkNameNull() throws AccounterException {
-		if (name.trim().length() == 0) {
+		if (name == null || name.trim().length() == 0) {
 			throw new AccounterException(
 					AccounterException.ERROR_ITEM_NAME_NULL);
 		}

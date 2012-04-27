@@ -1064,6 +1064,21 @@ public class Invoice extends Transaction implements Lifecycle {
 	@Override
 	public void selfValidate() throws AccounterException {
 		super.selfValidate();
+		if (dueDate == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"Due date");
+		}
+
+		if (deliverydate == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"delivery date");
+		}
+
+		if (discountDate == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"Discount date");
+		}
+
 		checkingCustomerNull(customer, Global.get().customer());
 		if (this.getEstimates() == null || this.getEstimates().isEmpty()) {
 			checkTransactionItemsNull();

@@ -1557,10 +1557,21 @@ public abstract class Transaction extends CreatableObject implements
 
 	@Override
 	public void selfValidate() throws AccounterException {
+
+		setTransactionItems(getTransactionItems());
 		checkTransactionDateNull();
 		if (!isTemplate()) {
 			checkNumber();
 		}
+		if (saveStatus == 0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"Save status");
+		}
+		if (getCurrency() == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"Currency");
+		}
+
 		if (getID() != 0) {
 			return;
 		}

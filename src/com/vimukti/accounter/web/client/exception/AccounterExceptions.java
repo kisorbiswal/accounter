@@ -205,6 +205,59 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_PURCHASE_ORDERS_USED:
 			return accounterMessages.cannotVoidTransactionBecausePOused("");
+
+		case AccounterException.ERROR_MAKE_DEPOSIT_NULL:
+			return accounterMessages.pleaseEnterAccAndAmount();
+
+		case AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL:
+			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
+
+		case AccounterException.ERROR_TRANSACTION_RECEIVE_VAT:
+			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
+		case AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS:
+			return accounterMessages.cantCreateMoreTransactions().replaceAll(
+					"\n", "<br/>");
+
+		case AccounterException.ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES:
+			return accounterMessages
+					.shouldntSelectSameAccountInMultipleEntries();
+
+		case AccounterException.ERROR_NO_TRANSACTIONS_TO_FILE:
+			return accounterMessages.thereIsNoTrasationsToFile();
+
+		case AccounterException.ERROR_AMOUNT_TO_PAY_ZERO:
+			return accounterMessages.pleaseEnterAmountToPay();
+
+		case AccounterException.ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF:
+			return accounterMessages
+					.dipositAccountAndTransferAccountShouldBeDiff();
+
+		case AccounterException.ERROR_CURRENCY_MUST_BE_SAME:
+			return accounterMessages.mustBeSameCurrency();
+
+		case AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE:
+			return accounterMessages.mustSelectCustomerForBillable();
+
+		case AccounterException.ERROR_YOU_CANNOT_BUILD_WITH_OUT_COMPONENTS:
+			return accounterMessages.youCannotBuildWithoutComponents();
+
+		case AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE:
+			return accounterMessages.onlySellableItemsCanBeMarkedAsBillable();
+
+		case AccounterException.ERROR_ACTIVE_CUSTOMER:
+			return accounterMessages.pleaseSelectActive(accounterMessages
+					.Account());
+
+		case AccounterException.ERROR_ACTIVE_VENDOR:
+			return accounterMessages.pleaseSelectActive(Global.get().Vendor());
+
+		case AccounterException.ERROR_ACTIVE_ITEM:
+			return accounterMessages.pleaseSelectActive(accounterMessages
+					.item());
+
+		case AccounterException.ERROR_ACTIVE_ACCOUNT:
+			return accounterMessages
+					.pleaseSelectActive(Global.get().Customer());
 		default:
 			return null;
 		}
@@ -240,15 +293,6 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_DISCOUNT_GREATER_THAN_100:
 			return exception.getMessage();
 
-		case AccounterException.ERROR_MAKE_DEPOSIT_NULL:
-			return accounterMessages.pleaseEnterAccAndAmount();
-
-		case AccounterException.ERROR_TRANSACTION_PAY_TAX_NULL:
-			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
-
-		case AccounterException.ERROR_TRANSACTION_RECEIVE_VAT:
-			return accounterMessages.youdonthaveanyfiledVATentriestoselect();
-
 		case AccounterException.ERROR_AMOUNT_ZERO:
 			return accounterMessages.shouldNotbeZero(exception.getMessage());
 
@@ -256,26 +300,12 @@ public class AccounterExceptions {
 			return accounterMessages.shouldNotBeZeroOrNegative(exception
 					.getMessage());
 
-		case AccounterException.ERROR_CANT_CREATE_MORE_TRANSACTIONS:
-			return accounterMessages.cantCreateMoreTransactions().replaceAll(
-					"\n", "<br/>");
-
 		case AccounterException.ERROR_NO_RECORDS_TO_SAVE:
 			return accounterMessages.thereisNoRecordsTosave(exception
 					.getMessage());
 
 		case AccounterException.ERROR_PLEASE_ENTER:
 			return accounterMessages.pleaseEnter(exception.getMessage());
-
-		case AccounterException.ERROR_SHOULD_NOT_SELECT_SAME_ACCOUNT_MULTIPLE_TIMES:
-			return accounterMessages
-					.shouldntSelectSameAccountInMultipleEntries();
-
-		case AccounterException.ERROR_NO_TRANSACTIONS_TO_FILE:
-			return accounterMessages.thereIsNoTrasationsToFile();
-
-		case AccounterException.ERROR_AMOUNT_TO_PAY_ZERO:
-			return accounterMessages.pleaseEnterAmountToPay();
 
 		case AccounterException.ERROR_DUPLICATE_CONTACTS:
 			return accounterMessages.youHaveEnteredDuplcate(exception
@@ -289,40 +319,13 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_PERCENTAGE_LESSTHAN_0:
 			return accounterMessages.cantenternegnumber();
 
-		case AccounterException.ERROR_DEPOSIT_AND_TRANSFER_SHOULD_DIFF:
-			return accounterMessages
-					.dipositAccountAndTransferAccountShouldBeDiff();
-
-		case AccounterException.ERROR_CURRENCY_MUST_BE_SAME:
-			return accounterMessages.mustBeSameCurrency();
-
-		case AccounterException.ERROR_MUST_SELECT_CUSTOMER_FOR_BILLABLE:
-			return accounterMessages.mustSelectCustomerForBillable();
-
-		case AccounterException.ERROR_YOU_CANNOT_BUILD_WITH_OUT_COMPONENTS:
-			return accounterMessages.youCannotBuildWithoutComponents();
-
-		case AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE:
-			return accounterMessages.onlySellableItemsCanBeMarkedAsBillable();
-
 		case AccounterException.ERROR_PURCHASE_ORDERS_USED:
 			return accounterMessages
 					.cannotVoidTransactionBecausePOused(exception.getMessage());
+
 		case AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT:
 			return accounterMessages.youcantDeleteSystemAccount();
-			
-		case AccounterException.ERROR_ACTIVE_CUSTOMER:
-			return accounterMessages.pleaseSelectActive(accounterMessages.Account());
-			
-		case AccounterException.ERROR_ACTIVE_VENDOR:
-			return accounterMessages.pleaseSelectActive(Global.get().Vendor());
-			
-		case AccounterException.ERROR_ACTIVE_ITEM:
-			return accounterMessages.pleaseSelectActive(accounterMessages.item());
-			
-		case AccounterException.ERROR_ACTIVE_ACCOUNT:
-			return accounterMessages.pleaseSelectActive(Global.get().Customer());
-			
+
 		default:
 			return getErrorString(exception.getErrorCode());
 		}

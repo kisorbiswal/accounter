@@ -970,6 +970,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 			}
 		}
+		if (item != null) {
+			setType(TYPE_ITEM);
+		}
+		if (account != null) {
+			setType(TYPE_ACCOUNT);
+		}
+
 		boolean isEnableTax = Global.get().preferences().isTrackTax();
 		if (getTransaction().getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
 			isEnableTax = isEnableTax
@@ -996,6 +1003,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					}
 				}
 			}
+		}
+		if (this.quantity == null) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"Quantity");
+		}
+		if (quantity.getValue() == 0.0) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
+					"Quantity value");
 		}
 
 		if (this.unitPrice == null) {
