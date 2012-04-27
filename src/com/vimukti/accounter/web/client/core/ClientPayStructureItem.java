@@ -21,6 +21,8 @@ public class ClientPayStructureItem implements IAccounterCore {
 
 	private long id;
 
+	private long effectiveFrom;
+
 	/**
 	 * @return the payHead
 	 */
@@ -113,4 +115,18 @@ public class ClientPayStructureItem implements IAccounterCore {
 		return false;
 	}
 
+	/**
+	 * @return the effectiveFrom
+	 */
+	public long getEffectiveFrom() {
+		return effectiveFrom;
+	}
+
+	/**
+	 * @param effectiveFrom
+	 *            the effectiveFrom to set
+	 */
+	public void setEffectiveFrom(long effectiveFrom) {
+		this.effectiveFrom = effectiveFrom;
+	}
 }

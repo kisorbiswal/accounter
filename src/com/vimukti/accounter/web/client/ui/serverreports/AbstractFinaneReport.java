@@ -25,7 +25,7 @@ public abstract class AbstractFinaneReport<R> extends
 	protected int sectionDepth = 0;
 	private String[] columns;
 	protected int row = -1;
-	protected List<R> records;
+	protected List<R> records = new ArrayList<R>();
 
 	protected ISectionHandler<R> handler;
 

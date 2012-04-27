@@ -21,7 +21,11 @@
 		<property name="name" column="NAME" />
 		<property name="number" column="NUMBER" />
 		<many-to-one name="group" column="EMPLOYEE_GROUP" class="EmployeeGroup" />
+		<property name="designation" column="DESIGNATION" />
 		<property name="dateofJoining" column="DATE_OF_JOINING"
+			type="com.vimukti.accounter.core.LongUseType" />
+		<property name="location" column="LOCATION" />
+		<property name="dateOfBirth" column="DATE_OF_BIRTH"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="gender" column="GENDER" />
 		<property name="contactNumber" column="CONTACT_NUMBER" />
@@ -118,8 +122,6 @@
 		<many-to-one name="employeeGroup" column="EMPLOYEE_GROUP"
 			class="EmployeeGroup">
 		</many-to-one>
-		<property name="effectiveFrom" column="EFFECTIVE_FROM"
-			type="com.vimukti.accounter.core.LongUseType" />
 		<list name="items" cascade="save-update,delete">
 			<key column="PAY_STRUCTURE" />
 			<list-index column="IDX" />
@@ -144,6 +146,8 @@
 			class="PayStructure" />
 		<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
 		<property name="rate" column="RATE" />
+		<property name="effectiveFrom" column="EFFECTIVE_FROM"
+			type="com.vimukti.accounter.core.LongUseType" />
 	</class>
 
 	<class name="PayHead" table="PAY_HEAD">
@@ -246,22 +250,14 @@
 	</class>
 
 
-	<!-- <class name="EmployeeCategory" table="EMPLOYEE_CATEGORY">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			not-null="true" />
-
-		<property name="name" column="NAME" />
-	</class> -->
+	<!-- <class name="EmployeeCategory" table="EMPLOYEE_CATEGORY"> <id name="id" 
+		column="ID"> <generator class="identity" /> </id> <many-to-one name="company" 
+		column="COMPANY_ID" class="Company"> </many-to-one> <many-to-one name="createdBy" 
+		column="CREATED_BY" class="User" not-null="true"></many-to-one> <many-to-one 
+		name="lastModifier" column="LAST_MODIFIER" class="User" not-null="true"></many-to-one> 
+		<property name="createdDate" column="CREATED_DATE" not-null="true" /> <property 
+		name="lastModifiedDate" column="LAST_MODIFIED_DATE" not-null="true" /> <property 
+		name="name" column="NAME" /> </class> -->
 
 	<class name="EmployeePayHeadComponent" table="EMPLOYEE_PAYHEAD_COMPONENT">
 		<id name="id" column="ID">
@@ -383,12 +379,9 @@
 		eg.company=:company
 	</query>
 
-<!-- 	<query name="list.EmployeeCategories">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.EmployeeCategory ec where
-		ec.company=:company
-	</query>
- -->
+	<!-- <query name="list.EmployeeCategories"> <query-param name="company" 
+		type="Company" /> from com.vimukti.accounter.core.EmployeeCategory ec where 
+		ec.company=:company </query> -->
 	<query name="getEmployee.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />
@@ -417,16 +410,29 @@
 		PH.name=:name and PH.id !=:id
 	</query>
 
+	<query name="getAttendanceType.by.Name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.AttendanceOrProductionType A where
+		A.company=:company and
+		A.name=:name and A.id != :id
+	</query>
+
 	<query name="getPayStructureItem.by.employee">
 		<query-param name="company" type="Company" />
 		<query-param name="employee" type="Employee" />
 		<query-param name="group" type="EmployeeGroup" />
+		<query-param name="start" type="EmployeeGroup" />
+		<query-param name="end" type="EmployeeGroup" />
 		from com.vimukti.accounter.core.PayStructureItem PI
 		where
 		(PI.payStructure.employee = :employee or
 		PI.payStructure.employeeGroup
 		= :group)
 		and PI.payStructure.company = :company
+		and PI.effectiveFrom
+		between :start and :end
 		order by PI.rate desc
 	</query>
 
@@ -462,15 +468,63 @@
 					E.BANK_ACCOUNT_NUMBER AS ACCOUNT_NUMBER,
 					E.BANK_NAME AS BANK_NAME,
 					E.BANK_BRANCH AS BRANCH,
-					T.TOTAL AS AMOUNT,
+					SUM(PC.RATE) AS AMOUNT,
 					E.EMAIL AS EMAIL
 					FROM EMPLOYEE E 
 						LEFT JOIN EMPLOYEE_PAYMENT_DETAILS PD ON PD.EMPLOYEE = E.ID
-						LEFT JOIN PAY_RUN P ON P.ID = PD.PAY_RUN
-						LEFT JOIN TRANSACTION T ON T.ID = P.ID
+						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT PC ON PC.EMPLOYEE_PAYMENT_DETAILS_ID = PD.ID
+						LEFT JOIN TRANSACTION T ON T.ID = PD.PAY_RUN_ID
 				
 						WHERE E.COMPANY_ID = :companyId
 								AND T.T_DATE BETWEEN :start AND :end
+								
+						GROUP BY E.ID		
+		]]>
+	</sql-query>
+
+	<sql-query name="getPaySheet">
+		<query-param name="companyId" type="long" />
+		<query-param name="start" type="long" />
+		<query-param name="end" type="long" />
+
+		<return-scalar column="EMPLOYEE_ID" type="long" />
+		<return-scalar column="EMPLOYEE_NAME" type="string" />
+		<return-scalar column="PAYHEAD_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<![CDATA[
+			SELECT  E.ID AS EMPLOYEE_ID,
+					E.NAME AS EMPLOYEE_NAME,
+					PH.ID AS PAYHEAD_ID,
+										
+							(SELECT SUM(AT.RATE)
+								 FROM   EMPLOYEE_PAYMENT_DETAILS PD
+									LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT AT
+									  ON PD.ID =AT.EMPLOYEE_PAYMENT_DETAILS_ID
+									LEFT JOIN TRANSACTION T ON T.ID = PD.PAY_RUN_ID
+									
+									LEFT OUTER JOIN PAY_HEAD P
+									  ON P.ID = AT.PAY_HEAD
+									      
+								 WHERE  T.T_DATE BETWEEN 20120101 AND 20120430
+									AND PD.EMPLOYEE = E.ID
+									AND PH.ID = P.ID
+									AND E.COMPANY_ID = :companyId)
+									AS AMOUNT,
+					EPC.ID AS TRANSACTION_ID
+					
+					FROM EMPLOYEE_PAYMENT_DETAILS EPD
+						LEFT JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE
+						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
+						LEFT JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
+						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
+				
+						WHERE T.COMPANY_ID = :companyId AND
+							  T.T_DATE BETWEEN :start AND :end
+				
+						GROUP BY E.ID,PH.ID,EPC.ID	
+						
+						ORDER BY E.ID
 		]]>
 	</sql-query>
 </hibernate-mapping>

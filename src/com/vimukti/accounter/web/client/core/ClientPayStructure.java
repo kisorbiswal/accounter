@@ -13,26 +13,9 @@ public class ClientPayStructure implements IAccounterCore {
 
 	private ClientEmployeeGroup employeeGroup;
 
-	private long effectiveFrom;
-
 	private List<ClientPayStructureItem> items;
 
 	private long id;
-
-	/**
-	 * @return the effectiveFrom
-	 */
-	public long getEffectiveFrom() {
-		return effectiveFrom;
-	}
-
-	/**
-	 * @param effectiveFrom
-	 *            the effectiveFrom to set
-	 */
-	public void setEffectiveFrom(long effectiveFrom) {
-		this.effectiveFrom = effectiveFrom;
-	}
 
 	/**
 	 * @return the items

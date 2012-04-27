@@ -427,6 +427,8 @@ public class HistoryTokens {
 
 	public static final String PAYSLIP_SUMMARY = "payslipSummaryReport";
 
+	public static final String PAYSHEET_REPORT = "paysheetReport";
+
 	public HistoryTokens() {
 
 	}

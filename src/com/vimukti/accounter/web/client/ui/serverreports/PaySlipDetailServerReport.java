@@ -21,8 +21,7 @@ public class PaySlipDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return messages.payslipDetail();
 	}
 
 	@Override

@@ -74,7 +74,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	private FlowPanel detailPanel;
 	protected IFinanceReport<R> serverReport = null;
 
-	ReportGrid<R> grid;
+	public ReportGrid<R> grid;
 	private final String emptyMsg;
 
 	public interface ReportGridRowHandler {

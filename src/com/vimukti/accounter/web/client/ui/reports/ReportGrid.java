@@ -450,4 +450,8 @@ public class ReportGrid<R> extends CustomTable {
 	// this.cellFormatter.setHorizontalAlignment(0, 0,
 	// HasHorizontalAlignment.ALIGN_CENTER);
 	// }
+
+	public void setColumns(String[] columns) {
+		this.columns = columns;
+	}
 }

@@ -30,6 +30,8 @@ public class PayStructureItem extends CreatableObject implements
 
 	private long[] attendance;
 
+	private FinanceDate effectiveFrom;
+
 	/**
 	 * @return the payHead
 	 */
@@ -111,4 +113,20 @@ public class PayStructureItem extends CreatableObject implements
 	public long[] getAttendance() {
 		return attendance;
 	}
+
+	/**
+	 * @return the effectiveFrom
+	 */
+	public FinanceDate getEffectiveFrom() {
+		return effectiveFrom;
+	}
+
+	/**
+	 * @param effectiveFrom
+	 *            the effectiveFrom to set
+	 */
+	public void setEffectiveFrom(FinanceDate effectiveFrom) {
+		this.effectiveFrom = effectiveFrom;
+	}
+
 }

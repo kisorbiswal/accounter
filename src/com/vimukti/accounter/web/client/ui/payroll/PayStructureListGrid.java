@@ -60,7 +60,7 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 			return obj.getEmployee() != null ? obj.getEmployee() : obj
 					.getEmployeeGroup();
 		case 1:
-			return obj.getEffectiveFrom();
+//			return obj.geteffectivefrom();
 		case 2:
 			return Accounter.getFinanceImages().delete();
 		default:

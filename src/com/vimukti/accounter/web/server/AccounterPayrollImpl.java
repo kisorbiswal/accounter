@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -167,6 +168,13 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	public ArrayList<PaySlipSummary> getPaySlipSummary(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException {
 		return getFinanceTool().getPayrollManager().getPaySlipSummary(start,
+				end, getCompanyId());
+	}
+
+	@Override
+	public ArrayList<PaySheet> getPaySheet(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException {
+		return getFinanceTool().getPayrollManager().getPaySheet(start,
 				end, getCompanyId());
 	}
 

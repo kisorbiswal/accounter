@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -94,6 +95,15 @@ public class NewClientAttendanceOrProductionDialog extends
 		}
 	}
 
+	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		AccounterException accounterException = exception;
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
+		Accounter.showError(errorString);
+	}
+
 	protected void selectionChanged(String selectItem) {
 		periodForm.clear();
 		if (selectItem.equals(messages.productionType())) {
@@ -144,6 +154,10 @@ public class NewClientAttendanceOrProductionDialog extends
 
 			@Override
 			public void onException(AccounterException exception) {
+				AccounterException accounterException = exception;
+				String errorString = AccounterExceptions
+						.getErrorString(accounterException);
+				Accounter.showError(errorString);
 			}
 
 			@Override

@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -40,7 +42,9 @@ import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
+import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
+import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayrollManager extends Manager {
@@ -159,7 +163,8 @@ public class PayrollManager extends Manager {
 		Query query = session.getNamedQuery("getPayStructureItem.by.employee")
 				.setParameter("employee", selectItem)
 				.setParameter("group", selectItem.getGroup())
-				.setParameter("company", getCompany(companyId));
+				.setParameter("company", getCompany(companyId))
+				.setParameter("start", startDate).setParameter("end", endDate);
 		List<PayStructureItem> list = query.list();
 
 		if (list == null) {
@@ -399,5 +404,67 @@ public class PayrollManager extends Manager {
 			result.add(summary);
 		}
 		return result;
+	}
+
+	public ArrayList<PaySheet> getPaySheet(ClientFinanceDate start,
+			ClientFinanceDate end, Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		Map<Long, Long> inneequeryMap = new HashMap<Long, Long>();
+		List l;
+		List inerlist = null;
+
+		l = session.getNamedQuery("getPaySheet")
+				.setParameter("companyId", companyId)
+				.setParameter("start", start.getDate())
+				.setParameter("end", end.getDate()).list();
+
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		List<PaySheet> queryResult = new ArrayList<PaySheet>();
+		long previousEmployeeID = 0;
+		while (iterator.hasNext()) {
+			object = (Object[]) iterator.next();
+			long employeeId = ((Long) object[0]).longValue();
+			if (previousEmployeeID == 0 || previousEmployeeID != employeeId) {
+				previousEmployeeID = employeeId;
+				PaySheet record = new PaySheet();
+				record.setEmployeeId(employeeId == 0 ? 0 : employeeId);
+				record.setEmployee(object[1] == null ? null
+						: (String) object[1]);
+				long transactionID = (object[4] == null ? 0
+						: ((Long) object[4]).longValue());
+				long location;
+				if (object[2] == null) {
+					location = inneequeryMap.get(transactionID);
+				} else {
+					location = object[2] == null ? 0 : ((Long) object[2])
+							.longValue();
+				}
+
+				double amount = object[3] == null ? 0 : (Double) object[3];
+				record.getMap().put(location, amount);
+
+				queryResult.add(record);
+			} else {
+				PaySheet record = queryResult.get(queryResult.size() - 1);
+				long transactionID = (object[4] == null ? 0
+						: ((Long) object[4]).longValue());
+				long location;
+
+				if (object[4] == null) {
+					location = inneequeryMap.get(transactionID);
+				} else {
+					location = object[2] == null ? 0 : ((Long) object[2])
+							.longValue();
+				}
+				double amount = object[3] == null ? 0 : (Double) object[3];
+
+				record.getMap().get(location);
+				record.getMap().put(location, amount);
+				record.setEmployeeId(location);
+			}
+		}
+		return new ArrayList<PaySheet>(queryResult);
 	}
 }

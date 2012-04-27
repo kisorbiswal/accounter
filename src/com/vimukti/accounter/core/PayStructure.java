@@ -28,28 +28,11 @@ public class PayStructure extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private FinanceDate effectiveFrom;
-
 	private Employee employee;
 
 	private EmployeeGroup employeeGroup;
 
 	private List<PayStructureItem> items;
-
-	/**
-	 * @return the effectiveFrom
-	 */
-	public FinanceDate getEffectiveFrom() {
-		return effectiveFrom;
-	}
-
-	/**
-	 * @param effectiveFrom
-	 *            the effectiveFrom to set
-	 */
-	public void setEffectiveFrom(FinanceDate effectiveFrom) {
-		this.effectiveFrom = effectiveFrom;
-	}
 
 	/**
 	 * @return the items

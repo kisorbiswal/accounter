@@ -46,15 +46,19 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected ClientFinanceDate getValue(ClientPayStructureItem row) {
-				// TODO Auto-generated method stub
-				return null;
+				long effectiveFrom = row.getEffectiveFrom();
+				ClientFinanceDate date = new ClientFinanceDate(effectiveFrom);
+				if (effectiveFrom == 0) {
+					date = new ClientFinanceDate();
+					setValue(row, date);
+				}
+				return date;
 			}
 
 			@Override
 			protected void setValue(ClientPayStructureItem row,
 					ClientFinanceDate value) {
-				// TODO Auto-generated method stub
-
+				row.setEffectiveFrom(value.getDate());
 			}
 
 			@Override

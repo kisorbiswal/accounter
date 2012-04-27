@@ -1,7 +1,12 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class AttendanceOrProductionType extends CreatableObject implements
@@ -93,8 +98,21 @@ public class AttendanceOrProductionType extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		if (!goingToBeEdit) {
+			Session session = HibernateUtil.getCurrentSession();
+
+			AttendanceOrProductionType attendanceType = (AttendanceOrProductionType) clientObject;
+			Query query = session.getNamedQuery("getAttendanceType.by.Name")
+					.setParameter("name", attendanceType.name)
+					.setParameter("id", attendanceType.getID())
+					.setEntity("company", attendanceType.getCompany());
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
+		}
+		return true;
 	}
 
 	@Override

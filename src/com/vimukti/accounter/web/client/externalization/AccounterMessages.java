@@ -6498,4 +6498,8 @@ public interface AccounterMessages extends Messages {
 
 	public String paySlipSummary();
 
+	public String payslipDetail();
+
+	public String paySheet();
+
 }

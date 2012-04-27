@@ -79,6 +79,23 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		Label lab1 = new Label(messages.payrun());
 		lab1.setStyleName("label-title");
 
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
+
+		transactionDateItem = createTransactionDateItem();
+		transactionNumber = createTransactionNumberItem();
+
+		dateNoForm.setStyleName("datenumber-panel");
+		if (!isTemplate) {
+			dateNoForm.add(transactionDateItem, transactionNumber);
+		}
+
+		// ---date--
+		StyledPanel datepanel = new StyledPanel("datepanel");
+		datepanel.add(dateNoForm);
+
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
+		labeldateNoLayout.add(datepanel);
+
 		empsAndGroups = new EmployeesAndGroupsCombo(messages.employeeOrGroup(),
 				"empsAndGroups");
 		empsAndGroups
@@ -191,10 +208,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 		tableForm = new DynamicForm("tableForm");
 
-		getButtonBar().setVisible(false);
-
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
+		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(empsAndGroups);
 		mainVLay.add(fromDate);
 		mainVLay.add(toDate);
@@ -387,7 +403,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	}
 
 	protected void selectionChanged() {
-		getButtonBar().setVisible(false);
 		fromDate.setEnabled(true);
 		toDate.setEnabled(true);
 
