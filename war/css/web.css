@@ -126,6 +126,9 @@ table.gridBody{
 	#VendorView .detailsTab .vatform{
 	    padding-bottom:1px;
 	}
+	#salespersonview .addrsForm{
+	   padding-bottom:1px;
+	}
 }
 
 body {
@@ -516,7 +519,7 @@ input[type="text"] {
 	border: 1px solid #AAA;
 }
 
-.button_bar .image-button,.viewholder .image-button {
+.button_bar .image-button,.viewholder .image-button,#ItemGroupDialog .addNewButton {
 	background-repeat: no-repeat;
 	border-radius: 5px;
 	background-color: #29646C;
@@ -7939,6 +7942,20 @@ table.no_records tr td {
 	padding: 0;
 }
 #NewApplyCreditsDialog .group_dialogue_list{
+	width:600px;
+}
+#ItemGroupDialog .bodyLayout .dform{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#ItemGroupDialog .bodyLayout table{
+	width:100%;
+}
+#ItemGroupDialog .group_dialogue_list{
 	width:600px;
 }
 /*Location merge dialog end*/
