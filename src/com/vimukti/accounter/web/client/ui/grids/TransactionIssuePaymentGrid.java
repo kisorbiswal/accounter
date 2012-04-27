@@ -1,222 +1,255 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.IssuePaymentView;
-import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
+import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
+import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
+import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class TransactionIssuePaymentGrid extends
-		AbstractTransactionGrid<ClientTransactionIssuePayment> {
+		EditTable<ClientTransactionIssuePayment> {
+	private final ICurrencyProvider currencyProvider;
+	private final List<Integer> selectedValues = new ArrayList<Integer>();
 
-	private double total = 0.0;
-	private IssuePaymentView issuePaymentView;
-
-	public TransactionIssuePaymentGrid() {
-		super(true, true);
+	public TransactionIssuePaymentGrid(ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 	}
 
 	@Override
-	protected String[] getColumns() {
-		return new String[] { messages.date(), messages.number(),
-				messages.type(), messages.name(), messages.memo(),
-				messages.amount() };
-	}
+	protected void initColumns() {
+		this.addColumn(new CheckboxEditColumn<ClientTransactionIssuePayment>() {
 
-	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
-		return ((CheckBox) getWidget(indexOf(transactionList), 0)).getValue();
-	}
+			@Override
+			protected void onChangeValue(boolean value,
+					ClientTransactionIssuePayment row) {
+				onSelectionChanged(row, value);
+			}
 
-	@Override
-	public ValidationResult validateGrid() {
-		ValidationResult result = new ValidationResult();
-		if (this.getRecords().isEmpty() || isEmptyGrid()) {
-			result.addError(this, messages.blankTransaction());
-		}
-		return result;
-	}
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientTransactionIssuePayment> context) {
+				super.render(widget, context);
+				if (isInViewMode()) {
+					((CheckBox) widget).setValue(true);
+				}
+			}
+		});
+		TextEditColumn<ClientTransactionIssuePayment> dateCoulmn = new TextEditColumn<ClientTransactionIssuePayment>() {
 
-	public boolean isEmptyGrid() {
-		for (ClientTransactionIssuePayment bill : getRecords()) {
-			if (isSelected(bill)) {
+			@Override
+			protected void setValue(ClientTransactionIssuePayment row,
+					String value) {
+			}
+
+			@Override
+			protected String getValue(ClientTransactionIssuePayment row) {
+				return DateUtills.getDateAsString(new ClientFinanceDate(row
+						.getDate()).getDateAsObject());
+			}
+
+			@Override
+			public int getWidth() {
+				return 75;
+			}
+
+			@Override
+			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.dueDate();
+			}
+		};
+		this.addColumn(dateCoulmn);
+		TextEditColumn<ClientTransactionIssuePayment> number = new TextEditColumn<ClientTransactionIssuePayment>() {
+
+			@Override
+			protected String getValue(ClientTransactionIssuePayment row) {
+				return row.getNumber();
+			}
+
+			@Override
+			protected void setValue(ClientTransactionIssuePayment row,
+					String value) {
+				// No Need
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 75;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.number();
+			}
+		};
+		this.addColumn(number);
+		TextEditColumn<ClientTransactionIssuePayment> transactionType = new TextEditColumn<ClientTransactionIssuePayment>() {
+
+			@Override
+			protected String getValue(ClientTransactionIssuePayment row) {
+				return Utility.getTransactionName(row.getRecordType());
+			}
+
+			@Override
+			protected void setValue(ClientTransactionIssuePayment row,
+					String value) {
+				// No Need
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 75;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.type();
+			}
+		};
+		this.addColumn(transactionType);
+		TextEditColumn<ClientTransactionIssuePayment> name = new TextEditColumn<ClientTransactionIssuePayment>() {
+
+			@Override
+			protected String getValue(ClientTransactionIssuePayment row) {
+				return row.getName();
+			}
+
+			@Override
+			protected void setValue(ClientTransactionIssuePayment row,
+					String value) {
+				// No Need
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 75;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.name();
+			}
+		};
+		this.addColumn(name);
+		TextEditColumn<ClientTransactionIssuePayment> memo = new TextEditColumn<ClientTransactionIssuePayment>() {
+
+			@Override
+			protected String getValue(ClientTransactionIssuePayment row) {
+				return row.getMemo();
+			}
+
+			@Override
+			protected void setValue(ClientTransactionIssuePayment row,
+					String value) {
+				// No Need
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
+			@Override
+			public int getWidth() {
+				return 75;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.memo();
+			}
+		};
+		this.addColumn(memo);
+		this.addColumn(new AmountColumn<ClientTransactionIssuePayment>(
+				currencyProvider, false) {
+
+			@Override
+			public int getWidth() {
+				return 75;
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return getColumnNameWithCurrency(messages.originalAmount());
+			}
+
+			@Override
+			protected Double getAmount(ClientTransactionIssuePayment row) {
+				return row.getAmount();
+			}
+
+			@Override
+			protected void setAmount(ClientTransactionIssuePayment row,
+					Double value) {
+
+			}
+		});
+	}
+
+	/***
+	 * select the checkbox
+	 * 
+	 * @param obj
+	 * @param isChecked
+	 */
+	private void onSelectionChanged(ClientTransactionIssuePayment obj,
+			boolean isChecked) {
+		int row = indexOf(obj);
+		if (isChecked && !selectedValues.contains(row)) {
+			selectedValues.add(row);
+		} else {
+			selectedValues.remove((Integer) row);
 		}
-		return true;
+		super.checkColumn(row, 0, isChecked);
+	}
+
+	/**
+	 * get the index of selected row
+	 * 
+	 * @param selectedObject
+	 * @return
+	 */
+	public int indexOf(ClientTransactionIssuePayment selectedObject) {
+		return getAllRows().indexOf(selectedObject);
 	}
 
 	@Override
-	protected Object getColumnValue(ClientTransactionIssuePayment issuepayment,
-			int index) {
-		switch (index) {
-		case 0:
-			return issuepayment.getDate() != 0 ? UIUtils
-					.getDateByCompanyType(new ClientFinanceDate(issuepayment
-							.getDate())) : null;
-		case 1:
-			return issuepayment.getNumber();
-		case 2:
-			return Utility.getTransactionName(issuepayment.getRecordType());
-		case 3:
-			return issuepayment.getName();
-		case 4:
-			return issuepayment.getMemo();
-		case 5:
-			return DataUtils.amountAsStringWithCurrency(
-					issuepayment.getAmount(), issuepayment.getCurrency());
-		default:
-			return null;
-		}
-	}
-
-	public void setIssuePaymentView(IssuePaymentView issuePaymentView) {
-		this.issuePaymentView = issuePaymentView;
-	}
-
-	@Override
-	public void onDoubleClick(ClientTransactionIssuePayment obj) {
-		// not required for this class
-
-	}
-
-	@Override
-	public <E> CustomCombo<E> getCustomCombo(ClientTransactionIssuePayment obj,
-			int colIndex) {
-		// not required for this class
-		return null;
-	}
-
-	@Override
-	protected int getColumnType(int index) {
-		switch (index) {
-		case 0:
-			return ListGrid.COLUMN_TYPE_DATE;
-		default:
-			return ListGrid.COLUMN_TYPE_TEXT;
-		}
-
-	}
-
-	@Override
-	protected boolean isEditable(ClientTransactionIssuePayment obj, int row,
-			int index) {
+	protected boolean isInViewMode() {
 		return false;
-	}
-
-	@Override
-	protected int getCellWidth(int index) {
-		switch (index) {
-		case 0:
-			return 85;
-		case 1:
-			return 60;
-		case 2:
-			return 100;
-		case 3:
-			return 120;
-		case 4:
-			return 200;
-		case 5:
-			return 100;
-		default:
-			return -1;
-		}
-
-	}
-
-	@Override
-	protected void onSelectionChanged(ClientTransactionIssuePayment obj,
-			int row, boolean isChecked) {
-		if (isChecked) {
-			total += obj.getAmount();
-			issuePaymentView.totalAmount = total;
-			// updateFooterValues(amountAsString(total), 4);
-		} else {
-			total -= obj.getAmount();
-			issuePaymentView.totalAmount = total;
-			// updateFooterValues(amountAsString(total), 4);
-		}
-		super.onSelectionChanged(obj, row, isChecked);
-	}
-
-	@Override
-	public void onHeaderCheckBoxClick(boolean isChecked) {
-		total = 0;
-		if (isChecked) {
-			for (ClientTransactionIssuePayment rec : getRecords())
-				total += rec.getAmount();
-			issuePaymentView.totalAmount = total;
-		} else {
-			total = 0;
-			issuePaymentView.totalAmount = total;
-		}
-		// updateFooterValues(amountAsString(total), 4);
-		super.onHeaderCheckBoxClick(isChecked);
-	}
-
-	@Override
-	public List<ClientTransactionItem> getallTransactionItems(
-			ClientTransaction object) {
-		// not required
-		return null;
-	}
-
-	@Override
-	public void setTaxCode(long taxCode) {
-		// not required for this class
-
-	}
-
-	@Override
-	protected String getHeaderStyle(int index) {
-		switch (index) {
-		case 0:
-			return "selectBox";
-		case 1:
-			return "date";
-		case 2:
-			return "number";
-		case 3:
-			return "type";
-		case 4:
-			return "name";
-		case 5:
-			return "memo";
-		case 6:
-			return "amount";
-		default:
-			return "";
-		}
-	}
-
-	@Override
-	protected String getRowElementsStyle(int index) {
-		switch (index) {
-		case 0:
-			return "selectBox-value";
-		case 1:
-			return "date-value";
-		case 2:
-			return "number-value";
-		case 3:
-			return "type-value";
-		case 4:
-			return "name-value";
-		case 5:
-			return "memo-value";
-		case 6:
-			return "amount-value";
-		default:
-			return "";
-		}
 	}
 
 }
