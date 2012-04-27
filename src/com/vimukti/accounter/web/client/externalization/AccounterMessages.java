@@ -6507,4 +6507,11 @@ public interface AccounterMessages extends Messages {
 	public String cannotCreatePayRunAsDraftOrTemplate();
 
 	public String payRuns();
+
+	public String attendanceDetails();
+
+	public String earnings();
+
+	public String deductions();
+
 }

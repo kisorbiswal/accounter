@@ -16,13 +16,15 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 	private String name;
 	private boolean isEarning;
 	private int periodType;
-	private double amount;
+	private Double amount;
+
+	private int type;
 
 	public long getPayheadId() {
 		return payheadId;
 	}
 
-	public void setPayheadId(long payheadId) {
+	public void setId(long payheadId) {
 		this.payheadId = payheadId;
 	}
 
@@ -50,12 +52,20 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 		this.periodType = periodType;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+
+	public int getType() {
+		return this.type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }

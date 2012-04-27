@@ -432,6 +432,8 @@ public class MenuBar {
 		Menu payrollBar = new Menu(payroll);
 		payrollBar.addMenuItem(messages.paySlipSummary(),
 				HistoryTokens.PAYSLIP_SUMMARY);
+		payrollBar.addMenuItem(messages.payslipDetail(),
+				HistoryTokens.PAYSLIP_DETAIL_REPORT);
 		payrollBar.addMenuItem(messages.paySheet(),
 				HistoryTokens.PAYSHEET_REPORT);
 		payrollBar.addMenuItem(messages.payHeadSummaryReport(),

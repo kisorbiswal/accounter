@@ -84,7 +84,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 
 	private StyledPanel mainLayout;
 	private StyledPanel printableLayout;
-	private ScrollPanel tableLayout;
+	protected ScrollPanel tableLayout;
 
 	private HTML reportTypeTitle;
 
@@ -395,7 +395,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		// makeReportRequest(toolbar.getStartDate(), toolbar.getEndDate());
 	}
 
-	private void createReportTable() {
+	protected void createReportTable() {
 		try {
 			this.grid = new ReportGrid<R>(getColunms(),
 					this.serverReport.isIshowGridFooter()) {

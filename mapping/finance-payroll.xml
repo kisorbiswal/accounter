@@ -146,7 +146,8 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company" not-null="true">
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
 		</many-to-one>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -161,7 +162,8 @@
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
 		<property name="calculationType" column="CALCULATION_TYPE" />
 		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY" />
-		<many-to-one name="account" column="ACCOUNT" class="Account" not-null="true"/>
+		<many-to-one name="account" column="ACCOUNT" class="Account"
+			not-null="true" />
 
 		<joined-subclass name="AttendancePayHead" table="ATTENDANCE_PAYHEAD">
 			<key column="ID" />
@@ -517,7 +519,7 @@
 						ORDER BY E.ID
 		]]>
 	</sql-query>
-	
+
 	<sql-query name="getPayrunsList">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
@@ -548,5 +550,71 @@
 				BETWEEN :startDate AND :endDate) AND (CASE WHEN :type=1000 THEN TRUE ELSE T.SAVE_STATUS =204 END)
 				GROUP BY T.ID,PR.EMPLOYEE,PR.EMPLOYEE_GROUP,E.NAME,EG.NAME
 			]]>
+	</sql-query>
+
+	<sql-query name="getPayHeadDetials">
+		<query-param name="companyId" type="long" />
+		<query-param name="employeeId" type="long" />
+		<query-param name="start" type="long" />
+		<query-param name="end" type="long" />
+
+		<return-scalar column="PAY_HEAD_ID" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="TYPE" type="int" />
+		<![CDATA[
+			SELECT 	PH.ID AS PAY_HEAD_ID,
+					PH.NAME AS NAME,
+					SUM(EPC.RATE) AS AMOUNT,
+					CASE WHEN PH.TYPE IN(1,6,7,8) 
+						THEN 2
+						ELSE 3 END AS TYPE
+				
+					FROM EMPLOYEE_PAYMENT_DETAILS EPD
+						LEFT JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE
+						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
+						LEFT JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
+						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
+						
+					WHERE 	E.ID = :employeeId AND 
+							E.COMPANY_ID = :companyId AND
+							T.T_DATE BETWEEN :start AND :end
+				
+					GROUP BY PH.ID	
+		]]>
+	</sql-query>
+
+	<sql-query name="getAttendanceDetials">
+		<query-param name="companyId" type="long" />
+		<query-param name="employeeId" type="long" />
+		<query-param name="start" type="long" />
+		<query-param name="end" type="long" />
+
+		<return-scalar column="ATTENDANCE_ID" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="PERIOD" type="int" />
+		<return-scalar column="TYPE" type="int" />
+		<![CDATA[
+			SELECT 	AMI.ID AS ATTENDANCE_ID,
+					APT.NAME AS NAME,
+					AMI.VALUE AS AMOUNT,
+					APT.PERIOD_TYPE AS PERIOD,
+					1 AS TYPE
+				
+					FROM EMPLOYEE_PAYMENT_DETAILS EPD
+						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
+						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
+						LEFT JOIN ATTENDANCE_MANAGEMENT_ITEM AMI ON AMI.ATTENDANCE_MANAGEMENT = T.ID
+						LEFT JOIN EMPLOYEE E ON E.ID = AMI.EMPLOYEE
+						LEFT JOIN ATTENDANCE_OR_PRODUCTION_TPE APT ON APT.ID = AMI.ATTENDANCE_TYPE
+						
+					WHERE 	E.ID = :employeeId AND 
+						E.COMPANY_ID = :companyId AND
+						AMI.ID IS NOT NULL AND
+						T.T_DATE BETWEEN :start AND :end
+				
+					GROUP BY AMI.ID,APT.ID
+		]]>
 	</sql-query>
 </hibernate-mapping>

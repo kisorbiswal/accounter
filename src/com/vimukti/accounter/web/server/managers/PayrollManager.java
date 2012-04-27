@@ -46,6 +46,7 @@ import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.reports.PayHeadDetails;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
+import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -535,5 +536,57 @@ public class PayrollManager extends Manager {
 		payrunsList.setTotalCount(total);
 		payrunsList.setStart(start);
 		return payrunsList;
+	}
+
+	public ArrayList<PaySlipDetail> getPaySlipDetail(long employeeId,
+			ClientFinanceDate start, ClientFinanceDate end, Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query attQuery = session.getNamedQuery("getAttendanceDetials")
+				.setParameter("companyId", companyId)
+				.setParameter("employeeId", employeeId)
+				.setParameter("start", start.getDate())
+				.setParameter("end", end.getDate());
+
+		List list = attQuery.list();
+
+		Iterator iterator = list.iterator();
+		ArrayList<PaySlipDetail> queryResult = new ArrayList<PaySlipDetail>();
+
+		while (iterator.hasNext()) {
+			PaySlipDetail paySlipDetail = new PaySlipDetail();
+			Object[] object = (Object[]) iterator.next();
+
+			paySlipDetail.setId((Long) object[0]);
+			paySlipDetail.setName((String) object[1]);
+			paySlipDetail.setAmount((Double) object[2]);
+			paySlipDetail.setPeriodType((Integer) object[3]);
+			paySlipDetail.setType((Integer) object[4]);
+			queryResult.add(paySlipDetail);
+		}
+
+		Query payheadQuery = session.getNamedQuery("getPayHeadDetials")
+				.setParameter("companyId", companyId)
+				.setParameter("employeeId", employeeId)
+				.setParameter("start", start.getDate())
+				.setParameter("end", end.getDate());
+
+		list = payheadQuery.list();
+
+		iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			PaySlipDetail paySlipDetail = new PaySlipDetail();
+			Object[] object = (Object[]) iterator.next();
+
+			paySlipDetail.setId((Long) object[0]);
+			paySlipDetail.setName((String) object[1]);
+			paySlipDetail.setAmount((Double) object[2]);
+			paySlipDetail.setType((Integer) object[3]);
+
+			queryResult.add(paySlipDetail);
+		}
+
+		return queryResult;
 	}
 }

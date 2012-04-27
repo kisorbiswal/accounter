@@ -7,16 +7,16 @@ import com.vimukti.accounter.web.client.ui.reports.PaySlipDetailReport;
 public class PaySlipDetailServerReport extends
 		AbstractFinaneReport<PaySlipDetail> {
 
+	private int type;
+
 	public PaySlipDetailServerReport(PaySlipDetailReport paySlipDetailReport) {
 		this.reportView = paySlipDetailReport;
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().name(), getMessages().number(),
-				getMessages().accountNumber(), getMessages().bankName(),
-				getMessages().branchOrdivison(), getMessages().amount(),
-				getMessages().email() };
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -26,38 +26,80 @@ public class PaySlipDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { messages.name(), messages.earnings(),
+				messages.deductions(), messages.value() };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
 	}
 
 	@Override
 	public void processRecord(PaySlipDetail record) {
-		// TODO Auto-generated method stub
+		if (sectionDepth == 0) {
+			this.type = record.getType();
+			String typeName = getItemTypeName(type);
+			addSection(new String[] { typeName },
+					type != 1 ? new String[] { getMessages().total() }
+							: new String[] {},
+					type != 1 ? type == 2 ? new int[] { 1 } : new int[] { 2 }
+							: new int[] {});
+		} else if (sectionDepth == 1) {
+			// No need to do anything, just allow adding this record
+			if (this.type != record.getType()) {
+				endSection();
+			} else {
+				return;
+			}
+		}
+		// Go on recursive calling if we reached this place
+		processRecord(record);
+	}
 
+	private String getItemTypeName(int type) {
+		if (type == 1) {
+			return messages.attendance();
+		} else if (type == 2) {
+			return messages.earnings();
+		} else {
+			return messages.deductions();
+		}
 	}
 
 	@Override
 	public Object getColumnData(PaySlipDetail record, int columnIndex) {
-		// TODO Auto-generated method stub
+		switch (columnIndex) {
+		case 0:
+			return record.getName();
+		case 1:
+			return record.getType() == 2 ? getAmountAsString(record) : null;
+
+		case 2:
+			return record.getType() == 3 ? getAmountAsString(record) : null;
+
+		case 3:
+			return record.getType() == 1 ? getAmountAsString(record) : null;
+
+		default:
+			break;
+		}
 		return null;
+	}
+
+	protected String getAmountAsString(PaySlipDetail detail) {
+		return String.valueOf(detail.getAmount());
 	}
 
 	@Override
 	public ClientFinanceDate getStartDate(PaySlipDetail obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return obj.getStartDate();
 	}
 
 	@Override
 	public ClientFinanceDate getEndDate(PaySlipDetail obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return obj.getEndDate();
 	}
 
 	@Override

@@ -1,18 +1,33 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PaySlipDetailServerReport;
 
 public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 
 	public PaySlipDetailReport() {
-		this.serverReport = new PaySlipDetailServerReport(this);
+		this.serverReport = new PaySlipDetailServerReport(this) {
+			@Override
+			protected String getAmountAsString(PaySlipDetail detail) {
+				if (detail.getType() == 1) {
+					return detail.getAmount()
+							+ ClientPayHead.getCalculationPeriod(detail
+									.getPeriodType());
+				} else {
+					return DataUtils.getAmountAsStringInPrimaryCurrency(detail
+							.getAmount());
+				}
+			}
+		};
 	}
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		// Accounter.createPayrollService().getPaySlipDetail(start, end, this);
+		Accounter.createPayrollService().getPaySlipDetail(1, start, end, this);
 	}
 
 	@Override
