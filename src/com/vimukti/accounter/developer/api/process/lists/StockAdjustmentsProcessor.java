@@ -12,7 +12,6 @@ public class StockAdjustmentsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		ArrayList<StockAdjustmentList> resultList = service
 				.getStockAdjustments();
 		sendResult(resultList);

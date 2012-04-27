@@ -16,7 +16,6 @@ public class TaxItemsProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		isActive = readBoolean(req, "active");
 
 		ClientConvertUtil util = new ClientConvertUtil();

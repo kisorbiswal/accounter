@@ -1746,4 +1746,8 @@ public class Company implements IAccounterServerCore {
 		this.isDeleted = isDeleted;
 	}
 
+	public Set<String> getFeatures() {
+		return getCreatedBy().getClient().getClientSubscription()
+				.getSubscription().getFeatures();
+	}
 }

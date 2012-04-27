@@ -5,19 +5,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-public class PurchasesbyItemDetailProcessor extends ReportProcessor {
+public class TaxItemExceptionDetailProcessor extends ReportProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		checkPermission(Features.EXTRA_REPORTS);
 		init(req, resp);
-		List<? extends BaseReport> result = service.getPurchasesByItemDetail(
-				startDate, endDate);
 
+		Long taxAgency = readLong(req, "tax_agency");
+		List<? extends BaseReport> result = service
+				.getTAXItemExceptionDetailReport(taxAgency,
+						startDate.getDate(), endDate.getDate());
 		sendResult(result);
 	}
 }

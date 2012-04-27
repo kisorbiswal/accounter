@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
-public class PurchasesbyItemDetailProcessor extends ReportProcessor {
+public class AutomaticTransactionsProcessor extends ReportProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		checkPermission(Features.EXTRA_REPORTS);
+		checkPermission(Features.RECURRING_TRANSACTIONS);
 		init(req, resp);
-		List<? extends BaseReport> result = service.getPurchasesByItemDetail(
+		List<? extends BaseReport> result = service.getAutomaticTransactions(
 				startDate, endDate);
-
 		sendResult(result);
 	}
+
 }

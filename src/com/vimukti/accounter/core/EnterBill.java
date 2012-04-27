@@ -12,6 +12,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -1264,11 +1265,22 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public void selfValidate() throws AccounterException {
 		super.selfValidate();
 		checkingVendorNull(vendor, Global.get().Vendor());
+
+		if (getID() == 0
+				&& !purchaseOrders.isEmpty()
+				&& !getCompany().getFeatures()
+						.contains(Features.PURCHASE_ORDER)) {
+			throw new AccounterException(
+					AccounterException.ERROR_PERMISSION_DENIED,
+					"You can't use purchase order");
+		}
+
 		if (this.purchaseOrders.isEmpty()) {
 			checkTransactionItemsNull();
-		} else if (!(this.purchaseOrders.isEmpty())
-				&& !(this.transactionItems.isEmpty())) {
+		} else if (!(this.transactionItems.isEmpty())) {
 			checkTransactionItemsNull();
+		} else {
+
 		}
 		checkNetAmountNegative();
 	}

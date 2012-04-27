@@ -16,7 +16,6 @@ public class TaxCodesProcessor extends ListProcessor {
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
 		isActive = readBoolean(req, "active");
 
 		List<ClientTAXCode> codes = new ArrayList<ClientTAXCode>();

@@ -54,8 +54,21 @@ public class UserManager extends Manager {
 						"Operation Data Found Null...." + data);
 			}
 			User user = new User((ClientUser) data);
+			user.selfValidate();
 			String email = ((ClientUser) data).getEmail();
 			Company company = getCompany(context.getCompanyId());
+			ClientSubscription subscription = company.getCreatedBy()
+					.getClient().getClientSubscription();
+			if (subscription.getPremiumType() != ClientSubscription.UNLIMITED_USERS) {
+				if (!email.equals("support@accounterlive.com")) {
+					Set<String> members = subscription.getMembers();
+					if (!members.contains(email)) {
+						throw new AccounterException(
+								AccounterException.ERROR_PERMISSION_DENIED,
+								"You can't invite more users");
+					}
+				}
+			}
 			User userByUserEmail = getUserByUserEmail(email, company);
 			if (userByUserEmail != null) {
 				if (userByUserEmail.isDeleted()) {
@@ -67,7 +80,6 @@ public class UserManager extends Manager {
 					user = userByUserEmail;
 				}
 			} else {
-
 				company.addUser(user);
 			}
 			String userID = context.getUserEmail();

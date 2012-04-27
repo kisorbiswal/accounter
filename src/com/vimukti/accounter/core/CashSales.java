@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -924,6 +926,31 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		checkAccountNull(depositIn, Global.get().messages().depositIn());
 		if (this.getSalesOrders().isEmpty()) {
 			checkTransactionItemsNull();
+		} else {
+			if (getID() == 0) {
+				Set<String> features = getCompany().getFeatures();
+				boolean salesOrder = features.contains(Features.SALSE_ORDER);
+				if (!this.getSalesOrders().isEmpty()) {
+					if (!salesOrder) {
+						throw new AccounterException(
+								AccounterException.ERROR_PERMISSION_DENIED,
+								"You can't use salese order");
+					}
+				}
+
+				boolean creditsCharges = features
+						.contains(Features.CREDITS_CHARGES);
+				if (this.creditsAndPayments != null && creditsCharges) {
+					if (!salesOrder) {
+						throw new AccounterException(
+								AccounterException.ERROR_PERMISSION_DENIED,
+								"You can't use credits and charges");
+					}
+				}
+				boolean billableExcepence = features
+						.contains(Features.BILLABLE_EXPENSE);
+				
+			}
 		}
 
 		if (!(this.transactionItems.isEmpty())) {
@@ -932,5 +959,4 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		checkNetAmountNegative();
 
 	}
-
 }

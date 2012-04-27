@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.Features;
 
 public class ClassesProcessor extends ListProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
-		init(req, resp);
+		checkPermission(Features.CLASS);
 		ClientConvertUtil util = new ClientConvertUtil();
 		List<ClientAccounterClass> list = new ArrayList<ClientAccounterClass>();
 		Set<AccounterClass> groups = getCompany().getAccounterClasses();
