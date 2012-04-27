@@ -174,7 +174,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 			return;
 		}
 		List<ClientTransactionIssuePayment> selectedRecords = grid
-				.getSelectedRecords();
+				.getSelectedRecords(0);
 		List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
 		for (ClientTransactionIssuePayment payment : selectedRecords) {
 			PrintCheque cheque = new PrintCheque();
@@ -204,7 +204,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 			return;
 		}
 		List<ClientTransactionIssuePayment> selectedRecords = grid
-				.getSelectedRecords();
+				.getSelectedRecords(0);
 		ArrayList<PrintCheque> printCheques = new ArrayList<PrintCheque>();
 		for (ClientTransactionIssuePayment payment : selectedRecords) {
 			PrintCheque cheque = new PrintCheque();
@@ -238,11 +238,11 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	protected ValidationResult validateView() {
 		ValidationResult result = FormItem.validate(accountCombo);
-		if (grid.getRecords().isEmpty()) {
+		if (grid.getAllRows().isEmpty()) {
 			result.addError(grid,
 					messages.noTransactionIsAvailableToIssuePayments());
 		} else {
-			if (grid.getSelectedRecords().size() == 0)
+			if (grid.getSelectedRecords(0).size() == 0)
 				result.addError(grid,
 						messages.pleaseSelectAnyOneOfTheTransactions());
 		}
@@ -254,7 +254,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
 
 		setValuesToRecord(record, entry);
-		grid.addData(record);
+		// grid.addData(record);
 
 	}
 
@@ -405,11 +405,11 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = payForm.validate();
-		if (grid.getRecords().isEmpty()) {
+		if (grid.getAllRows().isEmpty()) {
 			result.addError(grid,
 					messages.noTransactionIsAvailableToIssuePayments());
 		} else {
-			if (grid.getSelectedRecords().size() == 0)
+			if (grid.getSelectedRecords(0).size() == 0)
 				result.addError(grid,
 						messages.pleaseSelectAnyOneOfTheTransactions());
 		}
@@ -437,7 +437,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		// Accounter.showError(AccounterErrorType.FAILEDREQUEST);
 
 		// public void onSuccess(String result) {
-		// if (result == null) {
+		// if (result == null) {p
 		// onFailure(null);
 		// return;
 		// }
@@ -495,8 +495,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 					: (checkNoText.getValue().toString());
 			issuePayment.setCheckNumber(chkNo);
 		}
-		issuePayment
-				.setTransactionIssuePayment(getTransactionIssuePayments(issuePayment));
+		issuePayment.setTransactionIssuePayment(grid.getSelectedRecords(0));
 
 		return issuePayment;
 	}
@@ -507,8 +506,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	 */
 	protected void changeGridData(ClientAccount selectedPayFromAccount2) {
 		if (selectedPayFromAccount2 != null) {
-			grid.removeAllRecords();
-			grid.addLoadingImagePanel();
+			// grid.removeAllRecords();
+			// grid.addLoadingImagePanel();
 			rpcUtilService
 					.getChecks(
 							selectedPayFromAccount2.getID(),
@@ -533,10 +532,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 										return;
 									}
 									if (result.size() > 0) {
-										grid.removeAllRecords();
-										for (IssuePaymentTransactionsList entry : result) {
-											addRecord(entry);
-										}
+										grid.clear();
+										addTransactiontoGrid(result);
 									} else
 										grid.addEmptyMessage(messages
 												.noRecordsToShow());
@@ -549,16 +546,82 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	protected void removeGridData() {
-		grid.removeAllRecords();
+		grid.clear();
 		// totalAmount = 0D;
+	}
+
+	private void addTransactiontoGrid(
+			ArrayList<IssuePaymentTransactionsList> result) {
+		List<ClientTransactionIssuePayment> records = new ArrayList<ClientTransactionIssuePayment>();
+		for (IssuePaymentTransactionsList entry : result) {
+			ClientTransactionIssuePayment record = new ClientTransactionIssuePayment();
+
+			if (entry.getDate() != null)
+				record.setDate(entry.getDate().getDate());
+			if (entry.getNumber() != null)
+				record.setNumber(entry.getNumber());
+			record.setName(entry.getName() != null ? entry.getName() : "");
+			record.setMemo(entry.getMemo() != null ? entry.getMemo() : "");
+			if (entry.getAmount() != null)
+				record.setAmount(entry.getAmount());
+			if (entry.getPaymentMethod() != null)
+				record.setPaymentMethod(entry.getPaymentMethod());
+			record.setRecordType(entry.getType());
+			record.setCurrency(entry.getCurrency());
+			switch (entry.getType()) {
+			case ClientTransaction.TYPE_WRITE_CHECK:
+				record.setWriteCheck(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_WRITE_CHECK);
+				break;
+			case ClientTransaction.TYPE_CASH_PURCHASE:
+			case ClientTransaction.TYPE_CASH_EXPENSE:
+			case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+				record.setCashPurchase(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CASH_PURCHASE);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+				record.setCustomerRefund(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+				break;
+			case ClientTransaction.TYPE_PAY_TAX:
+				record.setPaySalesTax(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_PAY_TAX);
+				break;
+			case ClientTransaction.TYPE_PAY_BILL:
+				record.setPayBill(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_PAY_BILL);
+				break;
+			case ClientTransaction.TYPE_VENDOR_PAYMENT:
+				record.setPayBill(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_VENDOR_PAYMENT);
+				break;
+			case ClientTransaction.TYPE_CREDIT_CARD_CHARGE:
+			case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+				record.setCreditCardCharge(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CREDIT_CARD_CHARGE);
+				break;
+			case ClientTransaction.TYPE_RECEIVE_TAX:
+				record.setReceiveVAT(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_RECEIVE_TAX);
+				break;
+			case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+				record.setCustomerPrepayment(entry.getTransactionId());
+				record.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
+				break;
+			}
+			// record.setID(entry.getTransactionId());
+			records.add(record);
+		}
+		grid.setAllRows(records);
 	}
 
 	private void initListGrid() {
 		gridLayout = new StyledPanel("gridLayout");
-		grid = new TransactionIssuePaymentGrid();
-		grid.isEnable = false;
-		grid.init();
-		grid.setIssuePaymentView(this);
+		grid = new TransactionIssuePaymentGrid(null);
+
+		// grid.isEnable = false;
+		// grid.init();
+		// grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
 		// .constants().total(), DataUtils
 		// .getAmountAsString(0.00));
@@ -584,7 +647,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 		ClientTransactionIssuePayment entry;
 
-		for (ClientTransactionIssuePayment record : grid.getSelectedRecords()) {
+		for (ClientTransactionIssuePayment record : grid.getSelectedRecords(0)) {
 			entry = new ClientTransactionIssuePayment();
 			if (record.getDate() != 0)
 				entry.setDate(record.getDate());
@@ -641,7 +704,6 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 				entry.setCustomerPrepayment(record.getCustomerPrepayment());
 				entry.setRecordType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 				break;
-
 			}
 			entry.setTransaction(issuePayment);
 			transactionIssuePaymentsList.add(entry);

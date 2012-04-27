@@ -11299,7 +11299,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="paymentMethod" type="encryptedstring" />
+		<query-param name="paymentMethodCheque" type="encryptedstring" />
+		<query-param name="paymentMethodCheck" type="encryptedstring" />
 
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
@@ -11363,7 +11364,7 @@
 				             OR P.ID = CPP.CUSTOMER_ID
 				             OR P.ID = RP.CUSTOMER_ID
 				WHERE  T.COMPANY_ID = :companyId
-				       AND T.PAYMENT_METHOD = :paymentMethod
+				       AND T.PAYMENT_METHOD = :paymentMethodCheque OR T.PAYMENT_METHOD =:paymentMethodCheck
 				       AND T.SAVE_STATUS NOT IN (201,202,204)
 				       AND (  T.T_DATE BETWEEN :startDate AND :endDate);  
 				]]>

@@ -1380,7 +1380,7 @@ public class CashSalesView extends
 		shippingMethodsCombo.setEnabled(!isInViewMode());
 
 		shipToAddress.businessSelect.setEnabled(!isInViewMode());
-
+		classListCombo.setEnabled(!isInViewMode());
 		deliveryDate.setEnabled(!isInViewMode());
 		memoTextAreaItem.setEnabled(!isInViewMode());
 		customerAccountTransactionTable.setEnabled(!isInViewMode());
