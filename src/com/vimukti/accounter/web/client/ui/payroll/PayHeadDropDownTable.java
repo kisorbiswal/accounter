@@ -22,7 +22,7 @@ public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 	}
 
 	private void initList() {
-		Accounter.createPayrollService().getPayheads(0, 0,
+		Accounter.createPayrollService().getPayheads(0, -1,
 				new AsyncCallback<PaginationList<ClientPayHead>>() {
 
 					@Override

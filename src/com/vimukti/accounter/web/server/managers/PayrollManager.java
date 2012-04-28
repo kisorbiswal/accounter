@@ -87,7 +87,7 @@ public class PayrollManager extends Manager {
 				"company", company);
 		List<PayHead> employees = query.list();
 		int total = query.list().size();
-		if (length != -1) {
+		if (length != -1 && length != 0) {
 			employees = query.setFirstResult(start).setMaxResults(length)
 					.list();
 		}
@@ -340,7 +340,8 @@ public class PayrollManager extends Manager {
 	public List<ClientPayStructureDestination> getEmployeesAndGroups(
 			Long companyId) throws AccounterException {
 		ArrayList<ClientPayStructureDestination> arrayList = new ArrayList<ClientPayStructureDestination>();
-		PaginationList<ClientEmployee> employees = getEmployees(0, 0, companyId);
+		PaginationList<ClientEmployee> employees = getEmployees(0, -1,
+				companyId);
 		arrayList.addAll(employees);
 		ArrayList<ClientEmployeeGroup> employeeGroups = getEmployeeGroups(companyId);
 		arrayList.addAll(employeeGroups);

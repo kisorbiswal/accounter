@@ -103,4 +103,7 @@ public interface IAccounterExportCSVServiceAsync {
 			ClientFinanceDate endDate, long id, int start, int length,
 			AsyncCallback<String> exportCSVCallback);
 
+	public void getPayRunExportCsv(long startDate, long endDate, int type,
+			AsyncCallback<String> exportCSVCallback);
+
 }

@@ -432,6 +432,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	}
 
 	private void updateData() {
+		super.updateTransaction();
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
 		data.setTransactionDate(new ClientFinanceDate().getDate());

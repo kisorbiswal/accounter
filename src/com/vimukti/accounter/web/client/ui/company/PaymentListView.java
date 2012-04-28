@@ -234,6 +234,10 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 			Accounter.createExportCSVService().getPayeeChecksExportCsv(0,
 					getStartDate().getDate(), getEndDate().getDate(), type,
 					getExportCSVCallback(getListViewHeading()));
+		} else if (checkType == TYPE_PAY_RUNS) {
+			Accounter.createExportCSVService().getPayRunExportCsv(
+					getStartDate().getDate(), getEndDate().getDate(), type,
+					getExportCSVCallback(getListViewHeading()));
 		} else {
 			Accounter.createExportCSVService().getPayeeChecksExportCsv(2,
 					getStartDate().getDate(), getEndDate().getDate(), type,
