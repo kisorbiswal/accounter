@@ -2,6 +2,13 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+
 /**
  * The salary components constituting Pay Structures are called Pay Heads. A Pay
  * Head may be an earning, which is paid to an employee, or a deduction, which
@@ -11,7 +18,7 @@ import java.util.List;
  * @author Prasanna Kumar G
  * 
  */
-public class PayHead extends CreatableObject {
+public abstract class PayHead extends CreatableObject {
 
 	public static final int TYPE_EARNINGS_FOR_EMPLOYEES = 1;
 	public static final int TYPE_DEDUCTIONS_FOR_EMPLOYEES = 2;
@@ -19,9 +26,8 @@ public class PayHead extends CreatableObject {
 	public static final int TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS = 4;
 	public static final int TYPE_EMPLOYEES_OTHER_CHARGES = 5;
 	public static final int TYPE_BONUS = 6;
-	public static final int TYPE_GRATUITY = 7;
-	public static final int TYPE_LOANS_AND_ADVANCES = 8;
-	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 9;
+	public static final int TYPE_LOANS_AND_ADVANCES = 7;
+	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 8;
 
 	public static final int CALCULATION_TYPE_ON_ATTENDANCE = 1;
 	public static final int CALCULATION_TYPE_AS_COMPUTED_VALUE = 2;
@@ -29,9 +35,10 @@ public class PayHead extends CreatableObject {
 	public static final int CALCULATION_TYPE_ON_PRODUCTION = 4;
 	public static final int CALCULATION_TYPE_AS_USER_DEFINED = 5;
 
-	public static final int CALCULATION_TYPE_DAYS = 1;
-	public static final int CALCULATION_TYPE_WEEKS = 2;
-	public static final int CALCULATION_TYPE_MONTHS = 3;
+	public static final int CALCULATION_PERIOD_DAYS = 1;
+	public static final int CALCULATION_PERIOD_FOR_NIGHTS = 2;
+	public static final int CALCULATION_PERIOD_WEEKS = 3;
+	public static final int CALCULATION_PERIOD_MONTHS = 4;
 
 	public static final int ROUNDING_METHOD_DOWNWORD = 1;
 	public static final int ROUNDING_METHOD_NORMAL = 2;
@@ -39,15 +46,11 @@ public class PayHead extends CreatableObject {
 
 	private String name;
 
-	private String alias;
-
 	private int type;
 
 	private String nameToAppearInPaySlip;
 
 	private int calculationType;
-
-	private int calculationPeriod;
 
 	private int roundingMethod;
 
@@ -56,6 +59,15 @@ public class PayHead extends CreatableObject {
 	private List<PayHeadField> companyFields;
 
 	private List<PayHeadField> employeeFields;
+
+	/**
+	 * Expense Account of this PayHead
+	 */
+	private Account account;
+
+	public PayHead(int calculationType) {
+		this.calculationType = calculationType;
+	}
 
 	/**
 	 * @return the companyFields
@@ -133,21 +145,6 @@ public class PayHead extends CreatableObject {
 	}
 
 	/**
-	 * @return the calculationPeriod
-	 */
-	public int getCalculationPeriod() {
-		return calculationPeriod;
-	}
-
-	/**
-	 * @param calculationPeriod
-	 *            the calculationPeriod to set
-	 */
-	public void setCalculationPeriod(int calculationPeriod) {
-		this.calculationPeriod = calculationPeriod;
-	}
-
-	/**
 	 * @return the roundingMethod
 	 */
 	public int getRoundingMethod() {
@@ -193,18 +190,27 @@ public class PayHead extends CreatableObject {
 	}
 
 	/**
-	 * @return the alias
+	 * @return the account
 	 */
-	public String getAlias() {
-		return alias;
+	public Account getAccount() {
+		return account;
 	}
 
 	/**
-	 * @param alias
-	 *            the alias to set
+	 * @param account
+	 *            the account to set
 	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.PAY_HEAD);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
+	}
 }

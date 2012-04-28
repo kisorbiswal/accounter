@@ -1,0 +1,83 @@
+package com.vimukti.accounter.core;
+
+public class AttendanceOrProductionType extends CreatableObject {
+
+	public static final int TYPE_LEAVE_WITH_PAY = 1;
+	public static final int TYPE_LEAVE_WITHOUT_PAY = 2;
+	public static final int TYPE_PRODUCTION = 3;
+	public static final int TYPE_USER_DEFINED_CALENDAR = 4;
+
+	private int type;
+
+	/**
+	 * Name of the AttendanceOrProductionType
+	 */
+	private String name;
+
+	/** Will use for Type Production */
+	private PayrollUnit unit;
+
+	/** Use for all AttendanceOrProductionType except Production */
+	private int periodType;
+
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
+	}
+
+	/**
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the unit
+	 */
+	public PayrollUnit getUnit() {
+		return unit;
+	}
+
+	/**
+	 * @param unit
+	 *            the unit to set
+	 */
+	public void setUnit(PayrollUnit unit) {
+		this.unit = unit;
+	}
+
+	/**
+	 * @return the periodType
+	 */
+	public int getPeriodType() {
+		return periodType;
+	}
+
+	/**
+	 * @param periodType
+	 *            the periodType to set
+	 */
+	public void setPeriodType(int periodType) {
+		this.periodType = periodType;
+	}
+
+}

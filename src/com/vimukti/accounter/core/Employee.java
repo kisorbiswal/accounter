@@ -1,7 +1,15 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -10,7 +18,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class Employee extends CreatableObject implements IAccounterServerCore {
+public class Employee extends CreatableObject implements
+		PayStructureDestination {
 
 	/**
 	 * 
@@ -130,9 +139,11 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * Contact Details
 	 */
-	private Contact contactDetail;
+	private Contact contact;
 
 	private PayStructure payStructure;
+
+	private Set<CustomFieldValue> customFieldValues = new HashSet<CustomFieldValue>();
 
 	/**
 	 * @return the name
@@ -438,7 +449,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 * @return the contactDetail
 	 */
 	public Contact getContactDetail() {
-		return contactDetail;
+		return contact;
 	}
 
 	/**
@@ -446,7 +457,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 *            the contactDetail to set
 	 */
 	public void setContactDetail(Contact contactDetail) {
-		this.contactDetail = contactDetail;
+		this.contact = contactDetail;
 	}
 
 	/**
@@ -480,6 +491,31 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	/**
+	 * @return the customeFields
+	 */
+	public Set<CustomFieldValue> getCustomeFields() {
+		return customFieldValues;
+	}
+
+	/**
+	 * @param customeFields
+	 *            the customeFields to set
+	 */
+	public void setCustomeFields(HashSet<CustomFieldValue> customFieldValues) {
+		this.customFieldValues = customFieldValues;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
 	}
 }

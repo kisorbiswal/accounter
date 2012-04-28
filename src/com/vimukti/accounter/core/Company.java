@@ -13,6 +13,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEmailTemplate;
@@ -324,6 +325,16 @@ public class Company implements IAccounterServerCore {
 	private Set<EmailAccount> emailAccounts = new HashSet<EmailAccount>();
 
 	private Set<ClientEmailTemplate> emailTemplates = new HashSet<ClientEmailTemplate>();
+
+	private Set<Employee> employees = new HashSet<Employee>();
+
+	private Set<EmployeeGroup> employeeGroups = new HashSet<EmployeeGroup>();
+
+	private Set<PayHead> payheads = new HashSet<PayHead>();
+
+	private Set<EmployeeCategory> employeeCategories = new HashSet<EmployeeCategory>();
+
+	private Set<ClientAttendanceOrProductionType> attendanceProductionTypes = new HashSet<ClientAttendanceOrProductionType>();
 
 	String bankAccountNo;
 
@@ -914,6 +925,16 @@ public class Company implements IAccounterServerCore {
 		cmp.emailAccounts = this.getEmailAccounts();
 
 		cmp.emailTemplates = this.getEmailTemplates();
+
+		cmp.employees = this.getEmployees();
+
+		cmp.employeeGroups = this.getEmployeeGroups();
+
+		cmp.payheads = this.getPayheads();
+
+		cmp.employeeCategories = this.getEmployeeCategories();
+
+		cmp.attendanceProductionTypes = this.getAttendanceProductionTypes();
 
 		return cmp;
 	}
@@ -1749,5 +1770,46 @@ public class Company implements IAccounterServerCore {
 	public Set<String> getFeatures() {
 		return getCreatedBy().getClient().getClientSubscription()
 				.getSubscription().getFeatures();
+	}
+
+	public Set<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(Set<Employee> employees) {
+		this.employees = employees;
+	}
+
+	public Set<EmployeeGroup> getEmployeeGroups() {
+		return employeeGroups;
+	}
+
+	public void setEmployeeGroups(Set<EmployeeGroup> employeeGroups) {
+		this.employeeGroups = employeeGroups;
+	}
+
+	public Set<PayHead> getPayheads() {
+		return payheads;
+	}
+
+	public void setPayheads(Set<PayHead> payheads) {
+		this.payheads = payheads;
+	}
+
+	public Set<EmployeeCategory> getEmployeeCategories() {
+		return employeeCategories;
+	}
+
+	public void setEmployeeCategories(Set<EmployeeCategory> employeeCategories) {
+		this.employeeCategories = employeeCategories;
+	}
+
+	public Set<ClientAttendanceOrProductionType> getAttendanceProductionTypes() {
+		return attendanceProductionTypes;
+	}
+
+	public void setAttendanceProductionTypes(
+			Set<ClientAttendanceOrProductionType> attendanceProductionTypes) {
+		this.attendanceProductionTypes = attendanceProductionTypes;
 	}
 }

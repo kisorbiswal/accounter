@@ -260,7 +260,21 @@ public enum AccounterCoreType implements IsSerializable {
 
 	JOB("ClientJob", "Job"),
 
-	EMAIL_TEMPLATE("ClientEmailTemplate", "EmailTemplate");
+	EMAIL_TEMPLATE("ClientEmailTemplate", "EmailTemplate"),
+
+	EMPLOYEE_CATEGORY("ClientEmployeeCategory", "EmployeeCategory"),
+
+	EMPLOYEE_GROUP("ClientEmployeeGroup", "EmployeeGroup"),
+
+	PAY_HEAD("ClientPayHead", "PayHead"),
+
+	PAYROLL_UNIT("ClientPayrollUnit", "PayrollUnit"),
+
+	ATTENDANCE_PRODUCTION_TYPE("ClientAttendanceOrProductionType",
+			"AttendanceOrProductionType"),
+
+	COMPUTATION_FORMULA_FUNCTION("ClientComputationFormulaFunction",
+			"ComputaionFormulaFunction");
 
 	private String clientName;
 	private String serverName;

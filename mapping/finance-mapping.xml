@@ -671,7 +671,31 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="EmailTemplate" />
 		</set>
-		
+
+		<set name="employees" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="Employee" />
+		</set>
+
+		<set name="employeeGroups" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="EmployeeGroup" />
+		</set>
+
+		<set name="payheads" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="PayHead" />
+		</set>
+
+		<set name="employeeCategories" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="EmployeeCategory" />
+		</set>
+
+		<set name="attendanceProductionTypes" inverse="true" cascade="save-update,delete">
+			<key column="COMPANY_ID" />
+			<one-to-many class="AttendanceOrProductionType" />
+		</set>
 	</class>
 
 	<class name="NominalCodeRange" table="NOMINAL_CODE_RANGE">
@@ -1964,8 +1988,7 @@
 		<property name="createdDate" column="CREATED_ON" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
 			not-null="true" />
-		 <property name="toUser" column="TO_USER_ID"
-			  />
+		<property name="toUser" column="TO_USER_ID" />
 	</class>
 
 	<!-- budget item class -->
