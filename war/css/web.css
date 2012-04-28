@@ -7491,6 +7491,7 @@ table.no_records tr td{
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex:1;
+	width:50%;
 }
 #NewPayHeadView .panel .form .rightForm{
 	display: -moz-box;
@@ -7522,6 +7523,7 @@ table.no_records tr td{
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex:1;
+	width:50%;
 }
 #NewPayHeadView .calculationForm .attendanceRightForm{
 	display: -moz-box;
@@ -7560,4 +7562,15 @@ table.no_records tr td{
 }
 #PayheadListView .hlay .form{
 	float: right;
+}
+#NewPayRunView .empsAndGroups{
+	clear: both;
+}
+#NewPayRunView .mainVLay .gwt-Button{
+	display: block;
+	margin:10px;
+}
+#NewPayRunView .mainVLay .mainVLay button{
+	margin:7px;
+	display: inline;
 }
