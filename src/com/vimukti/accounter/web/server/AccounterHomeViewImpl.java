@@ -1819,10 +1819,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<ClientReminder> getRemindersList(int start, int length, int viewType)
-			throws AccounterException {
+	public PaginationList<ClientReminder> getRemindersList(int start,
+			int length, int viewType) throws AccounterException {
 		FinanceTool tool = new FinanceTool();
-		//FIXME must use start,length,viewType
+		// FIXME must use start,length,viewType
 		return tool.getCompanyManager().getRemindersList(getCompanyId());
 	}
 
@@ -2316,7 +2316,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<ImportField> getFieldsOf(int importerType)
 			throws AccounterException {
-		return (ArrayList<ImportField>) getFinanceTool().getFieldsOfImporter(importerType);
+		return (ArrayList<ImportField>) getFinanceTool().getFieldsOfImporter(
+				importerType);
 	}
 
 	@Override
@@ -2352,7 +2353,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientJob> jobs = new ArrayList<ClientJob>();
 		Session currentSession = HibernateUtil.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		ArrayList<Job> list = (ArrayList<Job>) currentSession.getNamedQuery("getJobsByCustomer")
+		ArrayList<Job> list = (ArrayList<Job>) currentSession
+				.getNamedQuery("getJobsByCustomer")
 				.setParameter("customerId", id)
 				.setParameter("companyId", getCompanyId()).list();
 		try {
@@ -2454,4 +2456,23 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return getFinanceTool().getCompanyManager().getUnitPricesByPayee(
 				getCompanyId(), isCust, payee, item);
 	}
+
+	@Override
+	public PaginationList<PaymentsList> getPayRunsList(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length, int type) throws AccounterException {
+		PaginationList<PaymentsList> payruns = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+					getCompanyId());
+			payruns = getFinanceTool().getPayrollManager().getPayRunsList(
+					getCompanyId(), dates[0].getDate(), dates[1].getDate(),
+					type, start, length);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payruns;
+	}
+
 }

@@ -2,8 +2,15 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -19,7 +26,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class EmployeeGroup extends CreatableObject implements
-		IAccounterServerCore {
+		PayStructureDestination {
 
 	/**
 	 * 
@@ -29,8 +36,6 @@ public class EmployeeGroup extends CreatableObject implements
 	private String name;
 
 	private List<Employee> employees;
-
-	private PayStructure payStructure;
 
 	/**
 	 * @return the name
@@ -62,26 +67,24 @@ public class EmployeeGroup extends CreatableObject implements
 		this.employees = employees;
 	}
 
-	/**
-	 * @return the payStructure
-	 */
-	public PayStructure getPayStructure() {
-		return payStructure;
-	}
-
-	/**
-	 * @param payStructure
-	 *            the payStructure to set
-	 */
-	public void setPayStructure(PayStructure payStructure) {
-		this.payStructure = payStructure;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		if (!goingToBeEdit) {
+			Session session = HibernateUtil.getCurrentSession();
+
+			EmployeeGroup employeeGroup = (EmployeeGroup) clientObject;
+			Query query = session.getNamedQuery("getEmployeeGroup.by.Name")
+					.setParameter("name", employeeGroup.name)
+					.setParameter("id", employeeGroup.getID())
+					.setEntity("company", employeeGroup.getCompany());
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -93,6 +96,14 @@ public class EmployeeGroup extends CreatableObject implements
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+	}
+
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE_GROUP);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
 	}
 }

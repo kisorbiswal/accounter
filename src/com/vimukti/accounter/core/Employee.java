@@ -1,7 +1,18 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.AccounterCommand;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -10,7 +21,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class Employee extends CreatableObject implements IAccounterServerCore {
+public class Employee extends CreatableObject implements
+		PayStructureDestination {
 
 	/**
 	 * 
@@ -30,11 +42,6 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 * Employee belongs to Group
 	 */
 	private EmployeeGroup group;
-
-	/**
-	 * Category of the Employee
-	 */
-	private EmployeeCategory category;
 
 	/**
 	 * Date of Joining of the Employee
@@ -130,9 +137,11 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	/**
 	 * Contact Details
 	 */
-	private Contact contactDetail;
+	private Contact contact;
 
 	private PayStructure payStructure;
+
+	private Set<CustomFieldValue> customFieldValues = new HashSet<CustomFieldValue>();
 
 	/**
 	 * @return the name
@@ -162,21 +171,6 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 */
 	public void setGroup(EmployeeGroup group) {
 		this.group = group;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public EmployeeCategory getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(EmployeeCategory category) {
-		this.category = category;
 	}
 
 	/**
@@ -438,7 +432,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 * @return the contactDetail
 	 */
 	public Contact getContactDetail() {
-		return contactDetail;
+		return contact;
 	}
 
 	/**
@@ -446,7 +440,7 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	 *            the contactDetail to set
 	 */
 	public void setContactDetail(Contact contactDetail) {
-		this.contactDetail = contactDetail;
+		this.contact = contactDetail;
 	}
 
 	/**
@@ -467,8 +461,21 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		if (!goingToBeEdit) {
+			Session session = HibernateUtil.getCurrentSession();
+
+			Employee employee = (Employee) clientObject;
+			Query query = session.getNamedQuery("getEmployee.by.Name")
+					.setParameter("name", employee.name)
+					.setParameter("id", employee.getID())
+					.setEntity("company", employee.getCompany());
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				throw new AccounterException(
+						AccounterException.ERROR_NAME_CONFLICT);
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -480,6 +487,31 @@ public class Employee extends CreatableObject implements IAccounterServerCore {
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
 	}
+
+	/**
+	 * @return the customeFields
+	 */
+	public Set<CustomFieldValue> getCustomeFields() {
+		return customFieldValues;
+	}
+
+	/**
+	 * @param customeFields
+	 *            the customeFields to set
+	 */
+	public void setCustomeFields(HashSet<CustomFieldValue> customFieldValues) {
+		this.customFieldValues = customFieldValues;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		AccounterCommand accounterCore = new AccounterCommand();
+		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
+		accounterCore.setID(getID());
+		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE);
+		ChangeTracker.put(accounterCore);
+		return super.onDelete(arg0);
+	}
+
 }

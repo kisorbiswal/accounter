@@ -58,6 +58,8 @@ import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
+import com.vimukti.accounter.web.client.core.reports.PayHeadDetails;
+import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
@@ -3501,5 +3503,58 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ArrayList<PayHeadSummary> getPayHeadSummaryReport(long payHeadId,
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+		return getPayHeadSummaryReportDetais(payHeadId, dates[0], dates[1],
+				getCompanyId());
+
+	}
+
+	public ArrayList<PayHeadSummary> getPayHeadSummaryReportDetais(
+			long payHeadId, FinanceDate startDate, FinanceDate endDate,
+			Long companyId) throws AccounterException {
+		ArrayList<PayHeadSummary> payHeadSummaryList = new ArrayList<PayHeadSummary>();
+		payHeadSummaryList = getFinanceTool().getPayrollManager()
+				.getPayHeadSummaryReport(payHeadId, startDate, endDate,
+						companyId);
+		if (payHeadSummaryList != null) {
+			PayHeadSummary obj = new PayHeadSummary();
+			payHeadSummaryList.add((PayHeadSummary) setStartEndDates(obj,
+					new FinanceDate[] { startDate, endDate }));
+		}
+
+		return payHeadSummaryList;
+	}
+
+	@Override
+	public ArrayList<PayHeadDetails> getPayHeadDetailReportList(
+			long employeeId, long payHeadId, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(fromDate, toDate,
+				getCompanyId());
+		return getPayHeadDetailReportList(employeeId, payHeadId, dates[0],
+				dates[1], getCompanyId());
+	}
+
+	public ArrayList<PayHeadDetails> getPayHeadDetailReportList(
+			long employeeId, long payHeadId, FinanceDate startDate,
+			FinanceDate endDate, Long companyId) throws AccounterException {
+		ArrayList<PayHeadDetails> payHeadDetailsList = new ArrayList<PayHeadDetails>();
+		payHeadDetailsList = getFinanceTool().getPayrollManager()
+				.getpayHeadDetailsList(employeeId, payHeadId, startDate,
+						endDate, companyId);
+		if (payHeadDetailsList != null) {
+			PayHeadDetails obj = new PayHeadDetails();
+			payHeadDetailsList.add((PayHeadDetails) setStartEndDates(obj,
+					new FinanceDate[] { startDate, endDate }));
+		}
+		return payHeadDetailsList;
 	}
 }

@@ -4580,6 +4580,77 @@
 			        WHERE  TI.TRANS_ITEM_ACCOUNTER_CLASS != 0  
 		]]>
 	</sql-query>
+	<sql-query name="getPayHeadSummaryReportList">
+		<query-param name="companyId" type="long"></query-param>
+		<query-param name="startDate" type="long"></query-param>
+		<query-param name="endDate" type="long"></query-param>
+		<query-param name="payHeadId" type="long"></query-param>
+		<return-scalar column="EMPLOYEE_ID" type="long"></return-scalar>
+		<return-scalar column="EMPLOYEE_NAME" type="string"></return-scalar>
+		<return-scalar column="PAYHEAD_ID" type="long"></return-scalar>
+		<return-scalar column="PAY_HEAD_NAME" type="string"></return-scalar>
+		<return-scalar column="PAY_HEAD_AMOUNT" type="double"></return-scalar>
+		<![CDATA[
+				SELECT E.ID AS EMPLOYEE_ID,
+				E.NAME AS EMPLOYEE_NAME,
+				PH.ID AS PAYHEAD_ID,
+				PH.NAME AS PAY_HEAD_NAME,
+				SUM(EPC.RATE) AS PAY_HEAD_AMOUNT
+				FROM EMPLOYEE_PAYMENT_DETAILS EPD
+				LEFT OUTER JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON
+				EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
+				LEFT OUTER JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE	
+				LEFT OUTER JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
+				LEFT OUTER JOIN PAY_RUN PR ON PR.ID = EPD.PAY_RUN_ID
+				LEFT OUTER JOIN TRANSACTION T ON T.ID = PR.ID
+				WHERE PR.COMPANY_ID=:companyId AND (PR.PAY_PERIOD_ENDDATE
+				BETWEEN :startDate AND :endDate OR PAY_PERIOD_STARTDATE 
+				BETWEEN :startDate AND :endDate) AND CASE WHEN :payHeadId =0
+				THEN TRUE ELSE PH.ID =:payHeadId END AND T.SAVE_STATUS NOT IN
+				(204,201,202)
+				GROUP BY PH.ID,E.ID
+		]]>
+		
+	</sql-query>
+	<sql-query name="getpayHeadDetailsList">
+		<query-param name="companyId" type="long"></query-param>
+		<query-param name="startDate" type="long"></query-param>
+		<query-param name="endDate" type="long"></query-param>
+		<query-param name="payHeadId" type="long"></query-param>
+		<query-param name="employee" type="long"></query-param>
+		<return-scalar column="PAY_HEAD_AMOUNT" type="double"></return-scalar>
+		<return-scalar column="EMPLOYEE_NAME" type="string"></return-scalar>
+		<return-scalar column="PAY_HEAD_NAME" type="string"></return-scalar>
+		<return-scalar column="PAY_HEAD_TYPE" type="int"></return-scalar>
+		<return-scalar column="NUMBER" type="encryptedstring"></return-scalar>
+		<return-scalar column="TRANSACTION_DATE" type="long"></return-scalar>
+		<return-scalar column="TRANSACTION_ID" type="long"></return-scalar>
+		<![CDATA[
+				SELECT E.NAME AS EMPLOYEE_NAME,
+					PH.NAME AS PAY_HEAD_NAME,
+					PH.TYPE AS PAY_HEAD_TYPE,
+					T.NUMBER AS NUMBER,
+					T.ID AS TRANSACTION_ID,
+					PR.PAY_PERIOD_ENDDATE AS TRANSACTION_DATE,
+					EPC.RATE AS PAY_HEAD_AMOUNT
+				FROM EMPLOYEE_PAYMENT_DETAILS EPD
+					LEFT OUTER JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON
+				EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
+					LEFT OUTER JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE	
+					LEFT OUTER JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
+					LEFT OUTER JOIN PAY_RUN PR ON PR.ID = EPD.PAY_RUN_ID
+					LEFT OUTER JOIN TRANSACTION T ON T.ID=PR.ID
+					WHERE PR.COMPANY_ID=:companyId AND (PR.PAY_PERIOD_ENDDATE
+				BETWEEN :startDate AND :endDate OR PAY_PERIOD_STARTDATE 
+				BETWEEN :startDate AND :endDate) AND CASE WHEN :payHeadId =0
+				THEN TRUE ELSE PH.ID =:payHeadId END
+				AND CASE WHEN :employee =0
+				THEN TRUE ELSE E.ID =:employee END
+				AND T.SAVE_STATUS NOT IN
+				(204,201,202)
+				GROUP BY PH.ID,E.NAME,EPC.RATE,T.ID,PR.ID
+		]]>
+	</sql-query>
 	<!-- <sql-query name="getClosedSalesOrders"> <query-param name="companyId" 
 		type="long" /> <query-param name="startDate" type="long" /> <query-param 
 		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 

@@ -22,7 +22,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 	public DateItem toItem;
 
 	private SelectCombo reportBasisItemCombo;
-	private SelectCombo dateRangeItemCombo;
+	protected SelectCombo dateRangeItemCombo;
 
 	private List<String> reportBasisItemList, dateRangeItemList;
 
@@ -37,6 +37,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		this.reportview = reportView;
 		createControls();
 	}
+
+	LabelItem report;
 
 	protected void createControls() {
 
@@ -75,8 +77,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 				// FinanceApplication.constants().previousCalenderYear(),
 				messages.custom() };
 
-		LabelItem report = new LabelItem(messages.reportBasisAccrual(),
-				"report");
+		report = new LabelItem(messages.reportBasisAccrual(), "report");
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle("Report Basis");
 		// reportBasisItem.setValueMap(reportBasisArray);
@@ -188,14 +189,18 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// if (UIUtils.isMSIEBrowser()) {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
+		addFormItems();
+		add(updateButton);
+		// this.setCellVerticalAlignment(updateButton,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
+	}
+
+	protected void addFormItems() {
 		if (getItem() != null) {
 			addItems(getItem(), dateRangeItemCombo, fromItem, toItem);
 		} else {
 			addItems(report, dateRangeItemCombo, fromItem, toItem);
 		}
-		add(updateButton);
-		// this.setCellVerticalAlignment(updateButton,
-		// HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	protected FormItem<?> getItem() {

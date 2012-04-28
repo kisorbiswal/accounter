@@ -260,7 +260,42 @@ public enum AccounterCoreType implements IsSerializable {
 
 	JOB("ClientJob", "Job"),
 
-	EMAIL_TEMPLATE("ClientEmailTemplate", "EmailTemplate");
+	EMAIL_TEMPLATE("ClientEmailTemplate", "EmailTemplate"), EMPLOYEE_CATEGORY(
+			"ClientEmployeeCategory", "EmployeeCategory"),
+
+	EMPLOYEE_GROUP("ClientEmployeeGroup", "EmployeeGroup"),
+
+	PAY_HEAD("ClientPayHead", "PayHead"),
+
+	PAYROLL_UNIT("ClientPayrollUnit", "PayrollUnit"),
+
+	ATTENDANCE_PRODUCTION_TYPE("ClientAttendanceOrProductionType",
+			"AttendanceOrProductionType"),
+
+	COMPUTATION_FORMULA_FUNCTION("ClientComputaionFormulaFunction",
+			"ComputaionFormulaFunction"),
+
+	ATTENDANCE_PAY_HEAD("ClientAttendancePayHead", "AttendancePayHead"),
+
+	COMPUTATION_PAY_HEAD("ClientComputionPayHead", "ComputionPayHead"),
+
+	FLATRATE_PAY_HEAD("ClientFlatRatePayHead", "FlatRatePayHead"),
+
+	PRODUCTION_PAY_HEAD("ClientProductionPayHead", "ProductionPayHead"),
+
+	USERDEFINED_PAY_HEAD("ClientUserDefinedPayHead", "UserDefinedPayHead"),
+
+	COMPUTATION_SLAB("ClientComputationSlab", "ComputationSlab"),
+
+	PAY_STRUCTURE("ClientPayStructure", "PayStructure"),
+
+	PAY_RUN("ClientPayRun", "PayRun"),
+
+	ATTENDANCE_MANAGEMENT("ClientAttendanceManagement", "AttendanceManagement"),
+
+	EMPLOYEE_PAYHEAD_COMPONENT("ClientEmployeePayHeadComponent",
+			"EmployeePayHeadComponent"), EMPLOYEE_PAYMENT_DETAILS(
+			"ClientEmployeePaymentDetails", "EmployeePaymentDetails");
 
 	private String clientName;
 	private String serverName;

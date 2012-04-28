@@ -2,6 +2,9 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * Salary Details is used to define the Pay Structure for an Employee or an
@@ -17,30 +20,19 @@ import java.util.List;
  * @author Prasanna Kumar G
  * 
  */
-public class PayStructure extends CreatableObject {
+public class PayStructure extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Employee employee;
 
 	private EmployeeGroup employeeGroup;
 
-	private FinanceDate effectiveFrom;
-
 	private List<PayStructureItem> items;
-
-	/**
-	 * @return the effectiveFrom
-	 */
-	public FinanceDate getEffectiveFrom() {
-		return effectiveFrom;
-	}
-
-	/**
-	 * @param effectiveFrom
-	 *            the effectiveFrom to set
-	 */
-	public void setEffectiveFrom(FinanceDate effectiveFrom) {
-		this.effectiveFrom = effectiveFrom;
-	}
 
 	/**
 	 * @return the items
@@ -57,34 +49,38 @@ public class PayStructure extends CreatableObject {
 		this.items = items;
 	}
 
-	/**
-	 * @return the employeeGroup
-	 */
-	public EmployeeGroup getEmployeeGroup() {
-		return employeeGroup;
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
-	/**
-	 * @param employeeGroup
-	 *            the employeeGroup to set
-	 */
-	public void setEmployeeGroup(EmployeeGroup employeeGroup) {
-		this.employeeGroup = employeeGroup;
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 
-	/**
-	 * @return the employee
-	 */
 	public Employee getEmployee() {
 		return employee;
 	}
 
-	/**
-	 * @param employee
-	 *            the employee to set
-	 */
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
 
+	public EmployeeGroup getEmployeeGroup() {
+		return employeeGroup;
+	}
+
+	public void setEmployeeGroup(EmployeeGroup employeeGroup) {
+		this.employeeGroup = employeeGroup;
+	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		// TODO Auto-generated method stub
+
+	}
 }

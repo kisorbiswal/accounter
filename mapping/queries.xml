@@ -2342,4 +2342,9 @@
 		where
 		cl.account=:account
 	</query>
+	<query name="getEmployeeAttendanceManagementItems">
+		<query-param name="employee" type="long" />
+			from com.vimukti.accounter.core.AttendanceManagementItem item 
+			where item.employee.id =:employee
+	</query>
 </hibernate-mapping>

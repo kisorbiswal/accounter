@@ -541,4 +541,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ItemUnitPrice> getUnitPricesByPayee(boolean isCust, long payee,
 			long item) throws AccounterException;
 
+	PaginationList<PaymentsList> getPayRunsList(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int start, int length, int type)
+			throws AccounterException;
+
 }

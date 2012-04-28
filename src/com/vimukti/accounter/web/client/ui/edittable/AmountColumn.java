@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 public abstract class AmountColumn<T> extends TextEditColumn<T> {
 
 	ICurrencyProvider currencyProvider;
+	private boolean isEnable = true;
 
 	public AmountColumn(ICurrencyProvider currencyProvider,
 			boolean updateFromGUI) {
@@ -74,5 +75,17 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 				.getFormalName();
 
 		return messages.nameWithCurrency(name, formalName);
+	}
+
+	public void setEnable(T row, boolean b) {
+		this.isEnable = b;
+		if (!isEnable) {
+			setAmount(row, 0D);
+		}
+	}
+
+	@Override
+	protected boolean isEnable() {
+		return isEnable;
 	}
 }

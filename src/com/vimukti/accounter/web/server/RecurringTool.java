@@ -264,7 +264,9 @@ public class RecurringTool extends Thread {
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			token = "creditCardExpense";
 			break;
-
+		case ClientTransaction.TYPE_PAY_RUN:
+			token = HistoryTokens.NEW_PAYRUN;
+			break;
 		}
 		return token;
 	}

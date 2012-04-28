@@ -84,6 +84,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_STOCK_ADJUSTMENT = 36;
 	public static final int TYPE_BUILD_ASSEMBLY = 37;
 	public static final int TYPE_SALES_ORDER = 38;
+	public static final int TYPE_PAY_RUN = 39;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
@@ -113,6 +114,9 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
 	public static final int VIEW_DRAFT = 4;
+
+	public static final int CATEGORY_EMPLOYEE = 4;
+
 	private Job job;
 	int type;
 	FinanceDate transactionDate;

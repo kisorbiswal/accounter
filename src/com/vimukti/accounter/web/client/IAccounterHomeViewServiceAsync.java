@@ -604,4 +604,8 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getUnitPricesByPayee(boolean isCust, long payee, long item,
 			AsyncCallback<ArrayList<ItemUnitPrice>> callback);
+
+	public void getPayRunsList(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int start, int length, int type,
+			AsyncCallback<PaginationList<PaymentsList>> callBack);
 }

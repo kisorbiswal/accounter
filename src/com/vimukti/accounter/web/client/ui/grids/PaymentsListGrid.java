@@ -1,16 +1,15 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.company.PaymentListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -28,6 +27,12 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int[] setColTypes() {
+		if (type == PaymentListView.TYPE_PAY_RUNS) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE };
+		}
 		if (type == 0) {
 			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
@@ -51,6 +56,9 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected Object getColumnValue(PaymentsList obj, int col) {
+		if (type == PaymentListView.TYPE_PAY_RUNS) {
+			return getPayRunColumnValue(obj, col);
+		}
 		switch (col) {
 		case 0:
 			return obj.getPaymentDate() != null ? UIUtils
@@ -110,8 +118,34 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return null;
 	}
 
+	private Object getPayRunColumnValue(PaymentsList obj, int col) {
+		switch (col) {
+		case 0:
+			return UIUtils.getDateByCompanyType(obj.getPaymentDate());
+		case 1:
+			return obj.getPaymentNumber();
+		case 2:
+			return obj.getName();
+		case 3:
+			return obj.getAmountPaid();
+		case 4:
+			if (!obj.isVoided())
+				return Accounter.getFinanceImages().notvoid();
+			else
+				return Accounter.getFinanceImages().voided();
+		}
+		return null;
+	}
+
 	@Override
 	protected int getCellWidth(int index) {
+		if (type == PaymentListView.TYPE_PAY_RUNS) {
+			if (index == 4 || index == 1) {
+				return 60;
+			} else {
+				return 100;
+			}
+		}
 		if (index == 9)
 			return 45;
 		else if (index == 0) {
@@ -146,6 +180,10 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
+		if (type == PaymentListView.TYPE_PAY_RUNS) {
+			return new String[] { messages.date(), messages.number(),
+					messages.name(), messages.total(), messages.voided() };
+		}
 		if (type == 0) {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),
@@ -248,31 +286,6 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	protected void voidTransaction(final PaymentsList obj) {
 		voidTransaction(UIUtils.getAccounterCoreType(obj.getType()),
 				obj.getTransactionId());
-	}
-
-	protected void deleteTransaction(final PaymentsList obj) {
-		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-
-			}
-
-			@Override
-			public void onResultSuccess(Boolean result) {
-				if (result) {
-					if (!viewType.equalsIgnoreCase(messages.all()))
-						deleteRecord(obj);
-					obj.setStatus(ClientTransaction.STATUS_DELETED);
-					obj.setVoided(true);
-					updateData(obj);
-
-				}
-
-			}
-		};
-		AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
-		rpcDoSerivce.deleteTransaction(type, obj.getTransactionId(), callback);
 	}
 
 	@Override
@@ -411,6 +424,9 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] setHeaderStyle() {
+		if (type == PaymentListView.TYPE_PAY_RUNS) {
+			return new String[] { "paydate", "payno", "name", "total", "voided" };
+		}
 		if (type == 0) {
 			return new String[] { "paydate", "payno", "status", "issuedate",
 					"name", "type", "paymethod", "checkno", "amountpaid",
@@ -423,6 +439,10 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] setRowElementsStyle() {
+		if (type == PaymentListView.TYPE_PAY_RUNS) {
+			return new String[] { "paydate-value", "payno-value", "name-value",
+					"total-value", "voided-value" };
+		}
 		if (type == 0) {
 			return new String[] { "paydate-value", "payno-value",
 					"status-value", "issuedate-value", "name-value",

@@ -106,4 +106,7 @@ public interface IAccounterExportCSVServiceAsync {
 	public void getTaxAdjustmentsList(int viewId, long startDate, long endDate,
 			int start, int length, AsyncCallback<String> exportCSVCallback);
 
+	public void getPayRunExportCsv(long startDate, long endDate, int type,
+			AsyncCallback<String> exportCSVCallback);
+
 }

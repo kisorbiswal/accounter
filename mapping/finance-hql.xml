@@ -390,5 +390,5 @@
 		from com.vimukti.accounter.core.PriceLevel pl where pl.name =:name and
 		pl.company=:company
 	</query>	
-	
+
 </hibernate-mapping>

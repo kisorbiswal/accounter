@@ -109,6 +109,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private long costOfGoodsSold;
 
+	private long salariesPayableAccount;
+
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
@@ -223,6 +225,8 @@ public class ClientCompany implements IAccounterCore {
 	private int version;
 
 	private long cashDiscountAccount;
+
+	// private ArrayList<ClientPayrollUnit> payrollUnits;
 
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
@@ -491,6 +495,13 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>();
 
 	private CountryPreferences countryPreferences;
+
+	// private List<ClientPayHead> payheads;
+	//
+	// private List<ClientEmployeeCategory> employeeCategories;
+	//
+	// private List<ClientAttendanceOrProductionType> attendanceProductionTypes
+	// = new ArrayList<ClientAttendanceOrProductionType>();
 
 	// private List<ClientTaxItem> taxItems;
 
@@ -1841,6 +1852,50 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
+			// case EMPLOYEE_GROUP:
+			//
+			// ClientEmployeeGroup employeeGroup = (ClientEmployeeGroup)
+			// accounterCoreObject;
+			//
+			// Utility.updateClientList(employeeGroup, employeeGroups);
+			//
+			// break;
+			//
+			// case EMPLOYEE:
+			//
+			// ClientEmployee employee = (ClientEmployee) accounterCoreObject;
+			//
+			// Utility.updateClientList(employee, employees);
+			//
+			// break;
+			//
+			// case PAY_HEAD:
+			//
+			// ClientPayHead payhead = (ClientPayHead) accounterCoreObject;
+			//
+			// Utility.updateClientList(payhead, payheads);
+			//
+			// break;
+			//
+			// case EMPLOYEE_CATEGORY:
+			//
+			// ClientEmployeeCategory employeeCategory =
+			// (ClientEmployeeCategory) accounterCoreObject;
+			//
+			// Utility.updateClientList(employeeCategory, employeeCategories);
+			//
+			// break;
+			//
+			// case ATTENDANCE_PRODUCTION_TYPE:
+			//
+			// ClientAttendanceOrProductionType attendanceProcutionType =
+			// (ClientAttendanceOrProductionType) accounterCoreObject;
+			//
+			// Utility.updateClientList(attendanceProcutionType,
+			// attendanceProductionTypes);
+			//
+			// break;
+
 			case PAYMENT_TERM:
 
 				ClientPaymentTerms paymentsTerms = (ClientPaymentTerms) accounterCoreObject;
@@ -2199,6 +2254,26 @@ public class ClientCompany implements IAccounterCore {
 		case USER:
 			deleteUser(id);
 			break;
+
+		// case EMPLOYEE:
+		// deleteEmployee(id);
+		// break;
+		//
+		// case EMPLOYEE_GROUP:
+		// deleteEmployeeGroup(id);
+		// break;
+		//
+		// case PAY_HEAD:
+		// deletePayHead(id);
+		// break;
+		//
+		// case EMPLOYEE_CATEGORY:
+		// deleteEmployeeCategory(id);
+		// break;
+		//
+		// case ATTENDANCE_PRODUCTION_TYPE:
+		// deleteAttendanceProductionType(id);
+		// break;
 		}
 	}
 
@@ -3402,5 +3477,13 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setEmailTemplates(List<ClientEmailTemplate> emailTemplates) {
 		this.emailTemplates = emailTemplates;
+	}
+
+	public long getSalariesPayableAccount() {
+		return salariesPayableAccount;
+	}
+
+	public void setSalariesPayableAccount(long salariesPayableAccount) {
+		this.salariesPayableAccount = salariesPayableAccount;
 	}
 }
