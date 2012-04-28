@@ -77,8 +77,11 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		return messages.nameWithCurrency(name, formalName);
 	}
 
-	public void setEnable(boolean b) {
+	public void setEnable(T row, boolean b) {
 		this.isEnable = b;
+		if (!isEnable) {
+			setAmount(row, 0D);
+		}
 	}
 
 	@Override

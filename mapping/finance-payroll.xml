@@ -455,6 +455,7 @@
 		<return-scalar column="BRANCH" type="string" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="EMAIL" type="string" />
+		<return-scalar column="EMPLOYEE_ID" type="long" />
 		<![CDATA[
 			SELECT 	E.NAME AS NAME,
 					E.NUMBER AS NUMBER,
@@ -462,7 +463,8 @@
 					E.BANK_NAME AS BANK_NAME,
 					E.BANK_BRANCH AS BRANCH,
 					SUM(PC.RATE) AS AMOUNT,
-					E.EMAIL AS EMAIL
+					E.EMAIL AS EMAIL,
+					E.ID AS EMPLOYEE_ID
 					FROM EMPLOYEE E 
 						LEFT JOIN EMPLOYEE_PAYMENT_DETAILS PD ON PD.EMPLOYEE = E.ID
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT PC ON PC.EMPLOYEE_PAYMENT_DETAILS_ID = PD.ID
@@ -485,6 +487,7 @@
 		<return-scalar column="PAYHEAD_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="PAYHEAD_ID" type="long" />
 		<![CDATA[
 			SELECT  E.ID AS EMPLOYEE_ID,
 					E.NAME AS EMPLOYEE_NAME,
@@ -504,7 +507,8 @@
 									AND PH.ID = P.ID
 									AND E.COMPANY_ID = :companyId)
 									AS AMOUNT,
-					EPC.ID AS TRANSACTION_ID
+					EPC.ID AS TRANSACTION_ID,
+					PH.ID AS PAYHEAD_ID
 					
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
 						LEFT JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE
@@ -581,7 +585,7 @@
 							E.COMPANY_ID = :companyId AND
 							T.T_DATE BETWEEN :start AND :end
 				
-					GROUP BY PH.ID	
+					GROUP BY PH.ID,E.ID
 		]]>
 	</sql-query>
 
@@ -596,12 +600,14 @@
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="PERIOD" type="int" />
 		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="EMPLOYEE_ID" type="long" />
 		<![CDATA[
 			SELECT 	AMI.ID AS ATTENDANCE_ID,
 					APT.NAME AS NAME,
 					AMI.VALUE AS AMOUNT,
 					APT.PERIOD_TYPE AS PERIOD,
-					1 AS TYPE
+					1 AS TYPE,
+					E.ID AS EMPLOYEE_ID
 				
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
@@ -611,11 +617,11 @@
 						LEFT JOIN ATTENDANCE_OR_PRODUCTION_TPE APT ON APT.ID = AMI.ATTENDANCE_TYPE
 						
 					WHERE 	E.ID = :employeeId AND 
-						E.COMPANY_ID = :companyId AND
-						AMI.ID IS NOT NULL AND
-						T.T_DATE BETWEEN :start AND :end
+							E.COMPANY_ID = :companyId AND
+							AMI.ID IS NOT NULL AND
+							T.T_DATE BETWEEN :start AND :end
 				
-					GROUP BY AMI.ID,APT.ID
+					GROUP BY AMI.ID,APT.ID,E.ID
 		]]>
 	</sql-query>
 </hibernate-mapping>

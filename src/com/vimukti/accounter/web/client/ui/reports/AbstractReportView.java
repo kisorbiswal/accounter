@@ -45,6 +45,9 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
+	public final static int REPORT_TYPE_PAYSHEET = 205;
+	public final static int REPORT_TYPE_PAYSLIP_DETAIL = 204;
+	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 203;
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
 	public static final int TOOLBAR_TYPE_PRIOR_VATRETURN = 3;
@@ -57,6 +60,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_TAXAGENCY = 13;
 	public static final int TOOLBAR_TYPE_PAY_HEAD = 12;
 	public static final int TOOLBAR_TYPE_PAY_HEAD_EMPLOYEE = 11;
+	public static final int TOOLBAR_TYPE_EMPLOYEE = 17;
 	public static final int TOP_MARGIN = 305;
 	public static final int TOOLBAR_TYPE_VENDOR = 14;
 	public static final int TOOLBAR_TYPE_ACCOUNT = 15;
@@ -499,6 +503,9 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 			case TOOLBAR_TYPE_PAY_HEAD_EMPLOYEE:
 				toolbar = new PayHeadEmployeeToolBar(this);
+				break;
+			case TOOLBAR_TYPE_EMPLOYEE:
+				toolbar = new EmployeeReportToolbar(this);
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();

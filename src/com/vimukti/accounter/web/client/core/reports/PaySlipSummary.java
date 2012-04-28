@@ -12,6 +12,7 @@ public class PaySlipSummary extends BaseReport implements IsSerializable,
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long employeeId;
 	private String name;
 	private String number;
 	private String accountNo;
@@ -74,6 +75,14 @@ public class PaySlipSummary extends BaseReport implements IsSerializable,
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
 	}
 
 }

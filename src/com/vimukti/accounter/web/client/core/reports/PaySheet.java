@@ -12,6 +12,7 @@ public class PaySheet extends BaseReport implements IsSerializable,
 	private String employee;
 	private long employeeId;
 	private Map<Long, Double> map = new HashMap<Long, Double>();
+	private long payheadId;
 
 	/**
 	 * 
@@ -40,6 +41,14 @@ public class PaySheet extends BaseReport implements IsSerializable,
 
 	public void setMap(Map<Long, Double> map) {
 		this.map = map;
+	}
+
+	public long getPayheadId() {
+		return this.payheadId;
+	}
+
+	public void setPayheadId(long payheadId) {
+		this.payheadId = payheadId;
 	}
 
 }

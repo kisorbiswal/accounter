@@ -11,6 +11,11 @@ public class PaySlipSummaryServerReport extends
 		this.reportView = paySlipSummaryReport;
 	}
 
+	public PaySlipSummaryServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().name(), getMessages().number(),

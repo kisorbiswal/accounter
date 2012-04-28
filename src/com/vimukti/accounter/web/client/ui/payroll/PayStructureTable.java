@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
@@ -74,18 +75,18 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 					ClientPayHead newValue) {
 
 				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
-					rateColumn.setEnable(false);
+					rateColumn.setEnable(row, false);
 				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
 					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE
 							|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY
 							|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
-						rateColumn.setEnable(true);
+						rateColumn.setEnable(row, true);
 					} else {
-						rateColumn.setEnable(false);
+						rateColumn.setEnable(row, false);
 					}
 				} else {
-					rateColumn.setEnable(true);
+					rateColumn.setEnable(row, true);
 				}
 				row.setPayHead(newValue);
 				update(row);
@@ -280,6 +281,61 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			}
 		}
 		return rows;
+	}
+
+	public ValidationResult validate(ValidationResult validationResult) {
+		List<ClientPayStructureItem> allRows = super.getAllRows();
+		for (ClientPayStructureItem item : allRows) {
+			if ((item.getPayHead() != null && isRateRequired(item.getPayHead()) && item
+					.getRate() == 0)) {
+				validationResult.addError(this,
+						messages.pleaseEnter(messages.rate()));
+				return validationResult;
+			}
+		}
+		for (int i = 0; i < allRows.size(); i++) {
+			if (i + 1 < allRows.size()) {
+				ClientPayStructureItem item1 = allRows.get(i + 1);
+				if (isExists(item1.getPayHead(), i + 1)) {
+					validationResult.addError(this,
+							messages.duplicatePayheadsExist());
+					return validationResult;
+				}
+
+			}
+		}
+		return validationResult;
+	}
+
+	private boolean isRateRequired(ClientPayHead payhead) {
+		if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+			return false;
+		} else if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+			ClientAttendancePayHead ph = (ClientAttendancePayHead) payhead;
+			if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE
+					|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY
+					|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	private boolean isExists(ClientPayHead payhead, int i) {
+		for (int j = 0; j < getAllRows().size(); j++) {
+			if (i == j) {
+				continue;
+			}
+			ClientPayStructureItem item = getAllRows().get(j);
+
+			if (item.getPayHead() != null && item.getPayHead().equals(payhead)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

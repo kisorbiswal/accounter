@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
-import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -30,9 +29,9 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 	@Override
 	public void initData() {
 		if (data != null) {
-			PaySlipDetail headSummary = (PaySlipDetail) data;
+			PayHeadSummary headSummary = (PayHeadSummary) data;
 			PayHeadReportToolBar payHeadEmployeeToolBar = (PayHeadReportToolBar) this.toolbar;
-			payHeadEmployeeToolBar.setPayHead(headSummary.getPayheadId());
+			payHeadEmployeeToolBar.setPayHead(headSummary.getPayHead());
 		}
 		super.initData();
 	}
@@ -63,7 +62,7 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		PayHeadReportToolBar payHeadEmployeeToolBar = (PayHeadReportToolBar) this.toolbar;
 		long payHeadId = payHeadEmployeeToolBar.getSelectedPayHead() == null ? data == null ? 0
-				: ((PaySlipDetail) data).getPayheadId()
+				: ((PayHeadSummary) data).getPayHead()
 				: payHeadEmployeeToolBar.getSelectedPayHead().getID();
 		Accounter.createReportService().getPayHeadSummaryReport(payHeadId,
 				start, end, this);

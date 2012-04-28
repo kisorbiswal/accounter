@@ -173,6 +173,10 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_PURCHASEBYLOCATIONDETAIL = 199;
 	public final static int REPORT_TYPE_PURCHASEBYCLASSDETAIL = 200;
 
+	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 203;
+	private static final int REPORT_TYPE_PAYSLIP_DETAIL = 204;
+	private static final int REPORT_TYPE_PAYSHEET = 205;
+
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -2242,6 +2246,12 @@ public class ReportsGenerator {
 			return "TDS Acknowledgement Report";
 		case REPORT_TYPE_AUTOMATIC_TRANSACTIONS:
 			return "Automatic Transactions";
+		case REPORT_TYPE_PAYSLIP_SUMMARY:
+			return "Payslip Summary";
+		case REPORT_TYPE_PAYSLIP_DETAIL:
+			return "Payslip Detail";
+		case REPORT_TYPE_PAYSHEET:
+			return "Paysheet";
 
 		default:
 			break;
