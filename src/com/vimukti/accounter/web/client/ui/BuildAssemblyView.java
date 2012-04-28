@@ -435,7 +435,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	protected boolean canDelete() {
-		return false;
+		return true;
 	}
 
 	@Override

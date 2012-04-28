@@ -54,13 +54,6 @@ public class BuildAssembly extends Transaction {
 		}
 		this.total = total;
 
-		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
-		quantityToBuild.setValue(this.quantityToBuild);
-
-		inventoryAssembly.setOnhandQuantity(inventoryAssembly.getOnhandQty()
-				.add(quantityToBuild));
-
-		session.update(inventoryAssembly);
 		ChangeTracker.put(inventoryAssembly);
 		return super.onSave(session);
 	}
@@ -171,10 +164,6 @@ public class BuildAssembly extends Transaction {
 			Item item = tItem.getItem();
 			e.add(item, tItem.getQuantity().reverse(),
 					tItem.getUnitPriceInBaseCurrency(), tItem.getWareHouse());
-			double purchaseValue = tItem.getQuantity().calculatePrice(
-					tItem.getUnitPriceInBaseCurrency());
-			e.add(item.getExpenseAccount(), purchaseValue, 1);
-			e.add(getInventoryAssembly().getAssestsAccount(), -purchaseValue, 1);
 		}
 	}
 
