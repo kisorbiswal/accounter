@@ -1071,7 +1071,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		if (deliverydate == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					"delivery date");
+					"Delivery date");
 		}
 
 		if (discountDate == null) {
