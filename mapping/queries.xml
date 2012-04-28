@@ -2342,9 +2342,4 @@
 		where
 		cl.account=:account
 	</query>
-
-	<query name="list.PayrollUnit">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PayrollUnit p where p.company=:company
-	</query>
 </hibernate-mapping>

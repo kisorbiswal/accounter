@@ -1,8 +1,5 @@
 package com.vimukti.accounter.core;
 
-import org.json.JSONException;
-
-import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * A Payroll Unit is similar to Unit of Measure used in the Inventory module. In
@@ -13,13 +10,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class PayrollUnit extends CreatableObject implements
-		IAccounterServerCore {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class PayrollUnit extends CreatableObject {
 
 	/**
 	 * Symbol of the Payroll Unit
@@ -80,24 +71,5 @@ public class PayrollUnit extends CreatableObject implements
 	 */
 	public void setNoofDecimalPlaces(int noofDecimalPlaces) {
 		this.noofDecimalPlaces = noofDecimalPlaces;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject,
-			boolean goingToBeEdit) throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void selfValidate() throws AccounterException {
-		// TODO Auto-generated method stub
-
 	}
 }

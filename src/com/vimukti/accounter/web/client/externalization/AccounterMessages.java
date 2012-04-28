@@ -460,7 +460,7 @@ public interface AccounterMessages extends Messages {
 	public String balances();
 
 	public String balanceSheet();
-
+	
 	public String balanceWithCurrencyName(String currency);
 
 	public String bank();
@@ -3086,7 +3086,7 @@ public interface AccounterMessages extends Messages {
 	public String openFiscalYear();
 
 	public String openingBalance();
-
+	
 	public String openingBalanceWithCurrencyName(String currency);
 
 	public String openingBalances();
@@ -4891,7 +4891,7 @@ public interface AccounterMessages extends Messages {
 	public String unassignedAmount();
 
 	public String unassignedAmountWithCurrencyName(String currency);
-
+	
 	public String unavailabel();
 
 	public String unCategorisedTaxAmountsDetail();
@@ -6345,212 +6345,8 @@ public interface AccounterMessages extends Messages {
 	public String newInventoryItem();
 
 	public String newPayeeItem(String name);
-
+	
 	public String pleaseSelectActive(String obj);
 
 	public String purchaseItem();
-
-	public String newEmployeeGroup();
-
-	public String payrollUnitList();
-
-	public String payrollUnit();
-
-	public String noOfDecimalPlaces();
-
-	public String payhead();
-
-	public String formalName();
-
-	public String symbol();
-
-	public String paySlipName();
-
-	public String roundingMethod();
-
-	public String calculationPeriod();
-
-	public String addaNewEmployee();
-
-	public String addaNewEmployeeCategory();
-
-	public String employeeCategoryName();
-
-	public String payheadList();
-
-	public String employeeCategoryList();
-
-	public String employeeGroupList();
-
-	public String newPayrollUnit();
-
-	public String newEmployeeCategory();
-
-	public String employeeName();
-
-	public String middleName();
-
-	public String newEmployee();
-
-	public String payroll();
-
-	public String genderType();
-
-	public String employeeID();
-
-	public String dateOfJoining();
-
-	public String employeeGroup();
-
-	public String panOrEinNumber();
-
-	public String employeeBasicInfo();
-
-	public String employeeCategory();
-
-	public String employeeDetailsInfo();
-
-	public String workingLocation();
-
-	public String countryOfIssue();
-
-	public String passportNumber();
-
-	public String passportExpiryDate();
-
-	public String visaNumber();
-
-	public String payrollLists();
-
-	public String employeeList();
-
-	public String newPayHead();
-
-	public String visaExpiryDate();
-
-	public String alias();
-
-	public String calculationType();
-
-	public String affectNetSalary();
-
-	public String payStructure();
-
-	public String payHeadType();
-
-	public String payrun();
-
-	public String computedOn();
-
-	public String employeeOrGroup();
-
-	public String attendanceOrProductionType();
-
-	public String productionType();
-
-	public String leaveWithPay();
-
-	public String leaveWithoutPay();
-
-	public String perDayCalculationBasis();
-
-	public String compute();
-
-	public String effectiveFrom();
-
-	public String fromAmount();
-
-	public String amountUpto();
-
-	public String slabType();
-
-	public String valueBasis();
-
-	public String functionType();
-
-	public String userDefindCalendar();
-
-	public String specifiedFormula();
-
-	public String attendance();
-
-	public String asComputedValue();
-
-	public String flatRate();
-
-	public String production();
-
-	public String asUserDefined();
-
-	public String earningsForEmployees();
-
-	public String deductionsForEmployees();
-
-	public String employeesStatutoryDeductions();
-
-	public String employeesStatutoryContributions();
-
-	public String employeesOtherCharges();
-
-	public String bonus();
-
-	public String loansAndAdvances();
-
-	public String reimbursmentsToEmployees();
-
-	public String downward();
-
-	public String normal();
-
-	public String upward();
-
-	public String asPerCalendarPeriod();
-
-	public String days30();
-
-	public String userDefinedCalendar();
-
-	public String onDeductionTotal();
-
-	public String onEarningTotal();
-
-	public String onSubTotal();
-
-	public String onSpecifiedFormula();
-
-	public String payStructureList();
-
-	public String computationFormula();
-
-	public String noOfLeaves();
-
-	public String attendanceManagement();
-
-	public String attendanceType();
-
-	public String payHeadSummaryReport();
-
-	public String attendanceOrProductionTypeList();
-
-	public String paySlipSummary();
-
-	public String payslipDetail();
-
-	public String paySheet();
-
-	public String payHeadDetailReport();
-
-	public String cannotCreatePayRunAsDraftOrTemplate();
-
-	public String payRuns();
-
-	public String attendanceDetails();
-
-	public String earnings();
-
-	public String deductions();
-
-	public String alreadyExistedInAnotherItemWithSameEmployee();
-
-	public String duplicatePayheadsExist();
 }

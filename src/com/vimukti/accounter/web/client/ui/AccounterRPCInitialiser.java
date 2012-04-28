@@ -12,8 +12,6 @@ import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterPayrollService;
-import com.vimukti.accounter.web.client.IAccounterPayrollServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeService;
@@ -89,13 +87,5 @@ public class AccounterRPCInitialiser {
 		((ServiceDefTarget) windowsService)
 				.setServiceEntryPoint(Accounter.WINDOW_RPC_SERVICE_ENTRY_POINT);
 		return windowsService;
-	}
-
-	public IAccounterPayrollServiceAsync createPayrollService() {
-		IAccounterPayrollServiceAsync payrollService = (IAccounterPayrollServiceAsync) GWT
-				.create(IAccounterPayrollService.class);
-		((ServiceDefTarget) payrollService)
-				.setServiceEntryPoint(Accounter.PAYROLL_ENTRY_POINT);
-		return payrollService;
 	}
 }
