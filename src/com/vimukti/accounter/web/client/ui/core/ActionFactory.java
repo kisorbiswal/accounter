@@ -114,6 +114,7 @@ import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
 import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.ItemActualCostDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.JobActualDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
@@ -1076,5 +1077,9 @@ public class ActionFactory {
 
 	public static NewAttendanceProductionTypeAction getNewAttendanceProductionTypeAction() {
 		return new NewAttendanceProductionTypeAction();
+	}
+
+	public static InventoryDetailsAction getInventoryDetailsAction() {
+		return new InventoryDetailsAction();
 	}
 }
