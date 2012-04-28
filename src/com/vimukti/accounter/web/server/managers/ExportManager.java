@@ -37,6 +37,9 @@ import com.vimukti.accounter.core.reports.generators.MissingChecksRG;
 import com.vimukti.accounter.core.reports.generators.MostProfitableCustomerRG;
 import com.vimukti.accounter.core.reports.generators.PayHeadDetailRG;
 import com.vimukti.accounter.core.reports.generators.PayHeadSummaryRG;
+import com.vimukti.accounter.core.reports.generators.PaySheetRG;
+import com.vimukti.accounter.core.reports.generators.PaySlipDetailRG;
+import com.vimukti.accounter.core.reports.generators.PaySlipSummaryRG;
 import com.vimukti.accounter.core.reports.generators.PriorVATReturnsRG;
 import com.vimukti.accounter.core.reports.generators.ProfitAndLossByClassOrLocationorJobRG;
 import com.vimukti.accounter.core.reports.generators.ProfitAndLossRG;
@@ -313,6 +316,12 @@ public class ExportManager extends Manager {
 		reportTypeGenerator.put(
 				IReportGenerator.REPORT_TYPE_PURCHASEBYCLASSDETAIL,
 				SalesOrPurchasesByClassOrLocationDetailRG.class);
+		reportTypeGenerator.put(IReportGenerator.REPORT_TYPE_PAYSLIP_SUMMARY,
+				PaySlipSummaryRG.class);
+		reportTypeGenerator.put(IReportGenerator.REPORT_TYPE_PAYSLIP_DETAIL,
+				PaySlipDetailRG.class);
+		reportTypeGenerator.put(IReportGenerator.REPORT_TYPE_PAYSHEET,
+				PaySheetRG.class);
 	}
 
 	public ExportManager(FinanceTool financeTool) {

@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
@@ -168,23 +169,59 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	@Override
 	public ArrayList<PaySlipSummary> getPaySlipSummary(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException {
-		return getFinanceTool().getPayrollManager().getPaySlipSummary(start,
-				end, getCompanyId());
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+
+		ArrayList<PaySlipSummary> paySlipSummary = getFinanceTool()
+				.getPayrollManager().getPaySlipSummary(dates[0], dates[1],
+						getCompanyId());
+
+		PaySlipSummary obj = new PaySlipSummary();
+		if (paySlipSummary != null)
+			paySlipSummary.add((PaySlipSummary) setStartEndDates(obj, dates));
+
+		return paySlipSummary;
 	}
 
 	@Override
 	public ArrayList<PaySheet> getPaySheet(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException {
-		return getFinanceTool().getPayrollManager().getPaySheet(start, end,
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
 				getCompanyId());
+
+		ArrayList<PaySheet> paySheet = getFinanceTool().getPayrollManager()
+				.getPaySheet(dates[0], dates[1], getCompanyId());
+
+		PaySheet obj = new PaySheet();
+		if (paySheet != null)
+			paySheet.add((PaySheet) setStartEndDates(obj, dates));
+
+		return paySheet;
 	}
 
 	@Override
 	public ArrayList<PaySlipDetail> getPaySlipDetail(long employeeId,
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getPayrollManager().getPaySlipDetail(
-				employeeId, start, end, getCompanyId());
+
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+
+		ArrayList<PaySlipDetail> paySlipDetail = getFinanceTool()
+				.getPayrollManager().getPaySlipDetail(employeeId, dates[0],
+						dates[1], getCompanyId());
+
+		PaySlipDetail obj = new PaySlipDetail();
+		if (paySlipDetail != null)
+			paySlipDetail.add((PaySlipDetail) setStartEndDates(obj, dates));
+
+		return paySlipDetail;
 	}
 
+	private BaseReport setStartEndDates(BaseReport obj,
+			FinanceDate[] financeDates) {
+		obj.setStartDate(financeDates[0].toClientFinanceDate());
+		obj.setEndDate(financeDates[1].toClientFinanceDate());
+		return obj;
+	}
 }

@@ -17,6 +17,7 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 	private boolean isEarning;
 	private int periodType;
 	private Double amount;
+	private long employeeId;
 
 	private int type;
 
@@ -66,6 +67,14 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
 	}
 
 }

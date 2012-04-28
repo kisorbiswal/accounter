@@ -1,8 +1,11 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.StringReportInput;
+import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.PaySheetServerReport;
 
 public class PaySheetReport extends AbstractReportView<PaySheet> {
@@ -23,14 +26,22 @@ public class PaySheetReport extends AbstractReportView<PaySheet> {
 
 	@Override
 	public void OnRecordClick(PaySheet record) {
-		// TODO Auto-generated method stub
-
+		PayHeadSummary payHeadSummary = new PayHeadSummary();
+		payHeadSummary.setEmployeeId(record.getEmployeeId());
+		payHeadSummary.setPayHead(record.getPayheadId());
+		payHeadSummary.setStartDate(toolbar.getStartDate());
+		payHeadSummary.setEndDate(toolbar.getEndDate());
+		payHeadSummary.setDateRange(toolbar.getSelectedDateRange());
+		UIUtils.runAction(payHeadSummary, new PayHeadSummaryReportAction());
 	}
 
 	@Override
 	public void export(int generationType) {
-		// TODO Auto-generated method stub
-
+		String accountName = data != null ? ((PaySheet) data).getEmployee()
+				: null;
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), REPORT_TYPE_PAYSHEET, new StringReportInput(
+				accountName));
 	}
 
 }

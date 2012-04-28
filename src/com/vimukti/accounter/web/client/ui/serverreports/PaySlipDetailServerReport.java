@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
-import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.reports.PaySlipDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.Section;
 
@@ -15,6 +14,11 @@ public class PaySlipDetailServerReport extends
 
 	public PaySlipDetailServerReport(PaySlipDetailReport paySlipDetailReport) {
 		this.reportView = paySlipDetailReport;
+	}
+
+	public PaySlipDetailServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
 	}
 
 	@Override

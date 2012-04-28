@@ -46,6 +46,10 @@ public class PaySheetServerReport extends AbstractFinaneReport<PaySheet> {
 				});
 	}
 
+	public PaySheetServerReport(long startDate, long endDate, int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		String[] headers = new String[noColumns];

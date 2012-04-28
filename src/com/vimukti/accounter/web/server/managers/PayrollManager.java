@@ -407,15 +407,15 @@ public class PayrollManager extends Manager {
 		return payHeadSummaryList;
 	}
 
-	public ArrayList<PaySlipSummary> getPaySlipSummary(ClientFinanceDate start,
-			ClientFinanceDate end, Long companyId) {
+	public ArrayList<PaySlipSummary> getPaySlipSummary(FinanceDate dates,
+			FinanceDate dates2, Long companyId) {
 		ArrayList<PaySlipSummary> result = new ArrayList<PaySlipSummary>();
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPaySlipSummary")
 				.setParameter("companyId", companyId)
-				.setParameter("start", start.getDate())
-				.setParameter("end", end.getDate());
+				.setParameter("start", dates.getDate())
+				.setParameter("end", dates2.getDate());
 
 		List<Object[]> list = query.list();
 		Iterator<Object[]> iterator = list.iterator();
@@ -434,14 +434,15 @@ public class PayrollManager extends Manager {
 				summary.setAmount((Double) type[5]);
 			}
 			summary.setEmail((String) type[6]);
+			summary.setEmployeeId((Long) type[7]);
 
 			result.add(summary);
 		}
 		return result;
 	}
 
-	public ArrayList<PaySheet> getPaySheet(ClientFinanceDate start,
-			ClientFinanceDate end, Long companyId) {
+	public ArrayList<PaySheet> getPaySheet(FinanceDate dates,
+			FinanceDate dates2, Long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Map<Long, Long> inneequeryMap = new HashMap<Long, Long>();
@@ -450,8 +451,8 @@ public class PayrollManager extends Manager {
 
 		l = session.getNamedQuery("getPaySheet")
 				.setParameter("companyId", companyId)
-				.setParameter("start", start.getDate())
-				.setParameter("end", end.getDate()).list();
+				.setParameter("start", dates.getDate())
+				.setParameter("end", dates2.getDate()).list();
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -466,6 +467,7 @@ public class PayrollManager extends Manager {
 				record.setEmployeeId(employeeId == 0 ? 0 : employeeId);
 				record.setEmployee(object[1] == null ? null
 						: (String) object[1]);
+				record.setPayheadId((Long) object[5]);
 				long transactionID = (object[4] == null ? 0
 						: ((Long) object[4]).longValue());
 				long location;
@@ -497,6 +499,7 @@ public class PayrollManager extends Manager {
 				record.getMap().get(location);
 				record.getMap().put(location, amount);
 				record.setEmployeeId(location);
+				record.setPayheadId((Long) object[5]);
 			}
 		}
 		return new ArrayList<PaySheet>(queryResult);
@@ -577,7 +580,7 @@ public class PayrollManager extends Manager {
 	}
 
 	public ArrayList<PaySlipDetail> getPaySlipDetail(long employeeId,
-			ClientFinanceDate start, ClientFinanceDate end, Long companyId) {
+			FinanceDate start, FinanceDate end, Long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query attQuery = session.getNamedQuery("getAttendanceDetials")
@@ -600,6 +603,7 @@ public class PayrollManager extends Manager {
 			paySlipDetail.setAmount((Double) object[2]);
 			paySlipDetail.setPeriodType((Integer) object[3]);
 			paySlipDetail.setType((Integer) object[4]);
+			paySlipDetail.setEmployeeId((Long) object[5]);
 			queryResult.add(paySlipDetail);
 		}
 

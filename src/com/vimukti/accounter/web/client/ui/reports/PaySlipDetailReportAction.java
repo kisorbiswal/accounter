@@ -13,6 +13,9 @@ public class PaySlipDetailReportAction extends Action<PaySlipDetail> {
 
 	protected PaySlipDetailReport report;
 
+	public PaySlipDetailReportAction() {
+	}
+
 	@Override
 	public String getText() {
 		return messages.payslipDetail();
