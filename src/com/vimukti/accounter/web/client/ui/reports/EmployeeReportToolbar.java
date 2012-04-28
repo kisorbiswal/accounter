@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import java.util.List;
-
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeCombo;
@@ -18,15 +16,7 @@ public class EmployeeReportToolbar extends DateRangeReportToolbar {
 
 	@Override
 	protected void createControls() {
-		employeeCombo = new EmployeeCombo(messages.employee()) {
-			@Override
-			public void initCombo(List<ClientEmployee> list) {
-				ClientEmployee clientEmployee = new ClientEmployee();
-				clientEmployee.setName(messages.all());
-				list.add(clientEmployee);
-				super.initCombo(list);
-			}
-		};
+		employeeCombo = new EmployeeCombo(messages.employee());
 		employeeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmployee>() {
 

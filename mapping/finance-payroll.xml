@@ -617,9 +617,9 @@
 						LEFT JOIN ATTENDANCE_OR_PRODUCTION_TPE APT ON APT.ID = AMI.ATTENDANCE_TYPE
 						
 					WHERE 	E.ID = :employeeId AND 
-						E.COMPANY_ID = :companyId AND
-						AMI.ID IS NOT NULL AND
-						T.T_DATE BETWEEN :start AND :end
+							E.COMPANY_ID = :companyId AND
+							AMI.ID IS NOT NULL AND
+							T.T_DATE BETWEEN :start AND :end
 				
 					GROUP BY AMI.ID,APT.ID,E.ID
 		]]>

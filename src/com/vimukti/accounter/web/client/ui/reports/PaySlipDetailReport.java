@@ -11,8 +11,6 @@ import com.vimukti.accounter.web.client.ui.serverreports.PaySlipDetailServerRepo
 
 public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 
-	private long employeeId;
-
 	public PaySlipDetailReport() {
 		this.serverReport = new PaySlipDetailServerReport(this) {
 			@Override
@@ -39,7 +37,6 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 			PaySlipDetail headSummary = (PaySlipDetail) data;
 			EmployeeReportToolbar employeeToolBar = (EmployeeReportToolbar) this.toolbar;
 			employeeToolBar.setEmployee(headSummary.getEmployeeId());
-			this.employeeId = headSummary.getEmployeeId();
 		}
 		super.initData();
 	}
