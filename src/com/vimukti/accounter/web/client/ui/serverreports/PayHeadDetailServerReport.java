@@ -14,6 +14,11 @@ public class PayHeadDetailServerReport extends
 		this.reportView = reportView;
 	}
 
+	public PayHeadDetailServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.date(), messages.number(),
@@ -103,6 +108,13 @@ public class PayHeadDetailServerReport extends
 	@Override
 	public void makeReportRequest(long start, long end) {
 
+	}
+
+	@Override
+	public void resetVariables() {
+		payHeadSectionName = "";
+		sectionDepth = 0;
+		super.resetVariables();
 	}
 
 }

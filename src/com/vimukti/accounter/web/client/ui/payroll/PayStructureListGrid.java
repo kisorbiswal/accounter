@@ -19,19 +19,17 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { messages.employee(), messages.effectiveFrom(),
-				messages.delete() };
+		return new String[] { "employee", "delete" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { messages.employee(), messages.effectiveFrom(),
-				messages.delete() };
+		return new String[] { "employee-value", "delete-value" };
 	}
 
 	@Override
@@ -57,11 +55,9 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 	protected Object getColumnValue(ClientPayStructure obj, int index) {
 		switch (index) {
 		case 0:
-			return obj.getEmployee() != null ? obj.getEmployee() : obj
-					.getEmployeeGroup();
+			return obj.getEmployee() != null ? obj.getEmployee().getName()
+					: obj.getEmployeeGroup().getName();
 		case 1:
-//			return obj.geteffectivefrom();
-		case 2:
 			return Accounter.getFinanceImages().delete();
 		default:
 			break;
@@ -72,7 +68,7 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 	@Override
 	protected void onClick(ClientPayStructure obj, int row, int col) {
 		switch (col) {
-		case 2:
+		case 1:
 			showWarnDialog(obj);
 			break;
 		default:
@@ -88,8 +84,7 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.employee(), messages.effectiveFrom(),
-				messages.delete() };
+		return new String[] { messages.employeeOrGroup(), messages.delete() };
 	}
 
 }

@@ -35,6 +35,8 @@ import com.vimukti.accounter.core.reports.generators.JobProfitabilitySummaryRG;
 import com.vimukti.accounter.core.reports.generators.MISC1099TransactionDetailRG;
 import com.vimukti.accounter.core.reports.generators.MissingChecksRG;
 import com.vimukti.accounter.core.reports.generators.MostProfitableCustomerRG;
+import com.vimukti.accounter.core.reports.generators.PayHeadDetailRG;
+import com.vimukti.accounter.core.reports.generators.PayHeadSummaryRG;
 import com.vimukti.accounter.core.reports.generators.PriorVATReturnsRG;
 import com.vimukti.accounter.core.reports.generators.ProfitAndLossByClassOrLocationorJobRG;
 import com.vimukti.accounter.core.reports.generators.ProfitAndLossRG;
@@ -99,6 +101,15 @@ public class ExportManager extends Manager {
 		reportTypeGenerator.put(
 				IReportGenerator.REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT,
 				TranxDetailByAccountOrGeneralLedgerRG.class);
+
+		reportTypeGenerator.put(
+				IReportGenerator.REPORT_TYPE_PAY_HEAD_SUMMARY_REPORT,
+				PayHeadSummaryRG.class);
+
+		reportTypeGenerator.put(
+				IReportGenerator.REPORT_TYPE_PAY_HEAD_DETAIL_REPORT,
+				PayHeadDetailRG.class);
+
 		reportTypeGenerator.put(IReportGenerator.REPORT_TYPE_EXPENSE,
 				ExpenseRG.class);
 		reportTypeGenerator.put(IReportGenerator.REPORT_TYPE_AR_AGEINGSUMMARY,

@@ -24,7 +24,7 @@ public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 	}
 
 	private void getPayrollUnits() {
-		Accounter.createPayrollService().getPayrollUnitsList(0, 0,
+		Accounter.createPayrollService().getPayrollUnitsList(0, -1,
 				new AsyncCallback<PaginationList<ClientPayrollUnit>>() {
 
 					@Override

@@ -44,6 +44,7 @@ public class EmployeeGroupCombo extends CustomCombo<ClientEmployeeGroup> {
 			for (ClientEmployeeGroup eGroup : getComboItems()) {
 				if (eGroup.getID() == group) {
 					setComboItem(eGroup);
+					this.group = 0;
 					break;
 				}
 			}

@@ -40,6 +40,8 @@ import com.vimukti.accounter.web.client.ui.core.ISavableView;
 public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
 		IPrintableView, ISavableView<Map<String, Object>> {
+	public final static int REPORT_TYPE_PAY_HEAD_SUMMARY = 201;
+	public final static int REPORT_TYPE_PAY_HEAD_DETAIL_REPORT = 202;
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;

@@ -411,7 +411,10 @@ public abstract class AbstractReportGenerator implements IReportGenerator {
 			return "TDS Acknowledgement Report";
 		case REPORT_TYPE_AUTOMATIC_TRANSACTIONS:
 			return "Automatic Transactions";
-
+		case REPORT_TYPE_PAY_HEAD_SUMMARY_REPORT:
+			return "Pay Head Summart Report";
+		case REPORT_TYPE_PAY_HEAD_DETAIL_REPORT:
+			return "Pay Head Detail Report";
 		default:
 			break;
 		}

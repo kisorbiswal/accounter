@@ -31,8 +31,8 @@ public class EmployeesAndGroupsCombo extends
 					@Override
 					public void onSuccess(
 							List<ClientPayStructureDestination> result) {
-						EmployeesAndGroupsCombo.this.isItemsAdded = true;
 						initCombo(result);
+						EmployeesAndGroupsCombo.this.isItemsAdded = true;
 						selectCombo();
 					}
 				});
@@ -75,6 +75,7 @@ public class EmployeesAndGroupsCombo extends
 			for (ClientPayStructureDestination item : getComboItems()) {
 				if (item.getID() == empGroup) {
 					setComboItem(item);
+					this.empGroup = 0;
 					break;
 				}
 			}

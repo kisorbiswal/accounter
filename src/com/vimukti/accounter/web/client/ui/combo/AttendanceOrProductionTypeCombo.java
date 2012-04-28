@@ -20,7 +20,7 @@ public class AttendanceOrProductionTypeCombo extends
 	protected ArrayList<ClientAttendanceOrProductionType> list;
 	private long selectedId;
 
-	private boolean isItemsAdded;
+	private boolean isItemsAdded = false;
 
 	public AttendanceOrProductionTypeCombo(int type, String title,
 			String styleName) {
@@ -51,7 +51,7 @@ public class AttendanceOrProductionTypeCombo extends
 				.createPayrollService()
 				.getAttendanceProductionTypes(
 						0,
-						0,
+						-1,
 						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
 
 							@Override
@@ -84,6 +84,8 @@ public class AttendanceOrProductionTypeCombo extends
 			for (ClientAttendanceOrProductionType item : comboItems2) {
 				if (selectedId == item.getID()) {
 					setComboItem(item);
+					selectedId = 0;
+					break;
 				}
 			}
 		}

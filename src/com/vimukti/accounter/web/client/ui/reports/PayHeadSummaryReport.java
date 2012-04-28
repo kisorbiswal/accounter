@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -45,8 +47,16 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 
 	@Override
 	public void export(int generationType) {
-		// TODO Auto-generated method stub
+		PayHeadReportToolBar payHeadEmployeeToolBar = (PayHeadReportToolBar) this.toolbar;
+		ClientPayHead selectedPayHead = payHeadEmployeeToolBar
+				.getSelectedPayHead();
+		UIUtils.generateReport(generationType, startDate.getDate(), endDate
+				.getDate(), getReportType(), new NumberReportInput(
+				selectedPayHead == null ? 0 : selectedPayHead.getID()));
+	}
 
+	private int getReportType() {
+		return REPORT_TYPE_PAY_HEAD_SUMMARY;
 	}
 
 	@Override

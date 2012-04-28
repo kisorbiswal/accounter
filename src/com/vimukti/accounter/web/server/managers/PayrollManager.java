@@ -62,6 +62,11 @@ public class PayrollManager extends Manager {
 		if (employees == null) {
 			return null;
 		}
+		int total = query.list().size();
+		if (lenght != -1) {
+			employees = query.setFirstResult(start).setMaxResults(lenght)
+					.list();
+		}
 		PaginationList<ClientEmployee> clientEmployees = new PaginationList<ClientEmployee>();
 		for (Employee employee : employees) {
 			ClientEmployee clientEmployee;
@@ -69,6 +74,8 @@ public class PayrollManager extends Manager {
 					ClientEmployee.class);
 			clientEmployees.add(clientEmployee);
 		}
+		clientEmployees.setStart(start);
+		clientEmployees.setTotalCount(total);
 		return clientEmployees;
 	}
 
@@ -79,6 +86,11 @@ public class PayrollManager extends Manager {
 		Query query = session.getNamedQuery("list.Payhead").setEntity(
 				"company", company);
 		List<PayHead> employees = query.list();
+		int total = query.list().size();
+		if (length != -1) {
+			employees = query.setFirstResult(start).setMaxResults(length)
+					.list();
+		}
 		PaginationList<ClientPayHead> clientPayHeads = new PaginationList<ClientPayHead>();
 		if (employees != null) {
 			for (PayHead payHead : employees) {
@@ -104,6 +116,8 @@ public class PayrollManager extends Manager {
 				}
 			}
 		}
+		clientPayHeads.setTotalCount(total);
+		clientPayHeads.setStart(start);
 		return clientPayHeads;
 	}
 
@@ -117,6 +131,13 @@ public class PayrollManager extends Manager {
 		if (units == null) {
 			return null;
 		}
+
+		int total = query.list().size();
+
+		if (length != -1) {
+			units = query.setFirstResult(start).setMaxResults(length).list();
+		}
+
 		PaginationList<ClientPayrollUnit> clientPayrollUnits = new PaginationList<ClientPayrollUnit>();
 		for (PayrollUnit unit : units) {
 			ClientPayrollUnit clientPayrollUnit;
@@ -124,6 +145,8 @@ public class PayrollManager extends Manager {
 					ClientPayrollUnit.class);
 			clientPayrollUnits.add(clientPayrollUnit);
 		}
+		clientPayrollUnits.setTotalCount(total);
+		clientPayrollUnits.setStart(start);
 		return clientPayrollUnits;
 	}
 
@@ -247,6 +270,9 @@ public class PayrollManager extends Manager {
 		if (paystructures == null) {
 			return null;
 		}
+		int total = query.list().size();
+		paystructures = query.setFirstResult(start).setMaxResults(length)
+				.list();
 		PaginationList<ClientPayStructure> clientPayStructures = new PaginationList<ClientPayStructure>();
 		for (PayStructure payStructure : paystructures) {
 			ClientPayStructure clientPayStructure;
@@ -254,6 +280,8 @@ public class PayrollManager extends Manager {
 					payStructure, ClientPayStructure.class);
 			clientPayStructures.add(clientPayStructure);
 		}
+		clientPayStructures.setStart(start);
+		clientPayStructures.setTotalCount(total);
 		return clientPayStructures;
 	}
 
@@ -366,11 +394,14 @@ public class PayrollManager extends Manager {
 		while ((iterator).hasNext()) {
 			Object[] object = (Object[]) iterator.next();
 			PayHeadSummary headSummary = new PayHeadSummary();
-			headSummary.setEmployeeId((Long) object[0]);
-			headSummary.setEmployeeName((String) object[1]);
-			headSummary.setPayHead((Long) object[2]);
-			headSummary.setPayHeadName((String) object[3]);
-			headSummary.setPayHeadAmount((Double) object[4]);
+			headSummary.setEmployeeId(object[0] == null ? 0 : (Long) object[0]);
+			headSummary.setEmployeeName(object[1] == null ? ""
+					: (String) object[1]);
+			headSummary.setPayHead(object[2] == null ? 0 : (Long) object[2]);
+			headSummary.setPayHeadName(object[3] == null ? ""
+					: (String) object[3]);
+			headSummary.setPayHeadAmount(object[4] == null ? 0
+					: (Double) object[4]);
 			payHeadSummaryList.add(headSummary);
 		}
 		return payHeadSummaryList;
@@ -488,13 +519,20 @@ public class PayrollManager extends Manager {
 		while ((iterator).hasNext()) {
 			Object[] object = (Object[]) iterator.next();
 			PayHeadDetails payHeadDetail = new PayHeadDetails();
-			payHeadDetail.setAmount((Double) object[0]);
-			payHeadDetail.setEmployee((String) object[1]);
-			payHeadDetail.setPayHead((String) object[2]);
-			payHeadDetail.setPayHeadType((Integer) object[3]);
-			payHeadDetail.setTransactionNumber((String) object[4]);
-			payHeadDetail.setPeriodEndDate((Long) object[5]);
-			payHeadDetail.setTransactionId((Long) object[6]);
+			payHeadDetail.setAmount(object[0] == null ? 0.0
+					: (Double) object[0]);
+			payHeadDetail.setEmployee(object[1] == null ? ""
+					: (String) object[1]);
+			payHeadDetail.setPayHead(object[2] == null ? ""
+					: (String) object[2]);
+			payHeadDetail.setPayHeadType(object[3] == null ? 0
+					: (Integer) object[3]);
+			payHeadDetail.setTransactionNumber(object[4] == null ? ""
+					: (String) object[4]);
+			payHeadDetail.setPeriodEndDate(object[5] == null ? 0
+					: (Long) object[5]);
+			payHeadDetail.setTransactionId(object[6] == null ? 0
+					: (Long) object[6]);
 			payHeadDetails.add(payHeadDetail);
 		}
 		return payHeadDetails;

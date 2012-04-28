@@ -159,6 +159,7 @@
 
 		<property name="name" column="NAME" not-null="true" />
 		<property name="type" column="TYPE" />
+		<property name="roundingMethod" column="ROUNDING_METHOD" />
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
 		<property name="calculationType" column="CALCULATION_TYPE" />
 		<property name="isAffectNetSalary" column="IS_AFFECT_NET_SALARY" />

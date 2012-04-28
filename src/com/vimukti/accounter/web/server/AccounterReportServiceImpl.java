@@ -3499,16 +3499,25 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<PayHeadSummary> getPayHeadSummaryReport(long payHeadId,
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		ArrayList<PayHeadSummary> payHeadSummaryList = new ArrayList<PayHeadSummary>();
+
 		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
 				getCompanyId());
+		return getPayHeadSummaryReportDetais(payHeadId, dates[0], dates[1],
+				getCompanyId());
+
+	}
+
+	public ArrayList<PayHeadSummary> getPayHeadSummaryReportDetais(
+			long payHeadId, FinanceDate startDate, FinanceDate endDate,
+			Long companyId) throws AccounterException {
+		ArrayList<PayHeadSummary> payHeadSummaryList = new ArrayList<PayHeadSummary>();
 		payHeadSummaryList = getFinanceTool().getPayrollManager()
-				.getPayHeadSummaryReport(payHeadId, dates[0], dates[1],
-						getCompanyId());
+				.getPayHeadSummaryReport(payHeadId, startDate, endDate,
+						companyId);
 		if (payHeadSummaryList != null) {
 			PayHeadSummary obj = new PayHeadSummary();
-			payHeadSummaryList
-					.add((PayHeadSummary) setStartEndDates(obj, dates));
+			payHeadSummaryList.add((PayHeadSummary) setStartEndDates(obj,
+					new FinanceDate[] { startDate, endDate }));
 		}
 
 		return payHeadSummaryList;
@@ -3518,16 +3527,23 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<PayHeadDetails> getPayHeadDetailReportList(
 			long employeeId, long payHeadId, ClientFinanceDate fromDate,
 			ClientFinanceDate toDate) throws AccounterException {
-		ArrayList<PayHeadDetails> payHeadDetailsList = new ArrayList<PayHeadDetails>();
 		FinanceDate[] dates = getMinimumAndMaximumDates(fromDate, toDate,
 				getCompanyId());
+		return getPayHeadDetailReportList(employeeId, payHeadId, dates[0],
+				dates[1], getCompanyId());
+	}
+
+	public ArrayList<PayHeadDetails> getPayHeadDetailReportList(
+			long employeeId, long payHeadId, FinanceDate startDate,
+			FinanceDate endDate, Long companyId) throws AccounterException {
+		ArrayList<PayHeadDetails> payHeadDetailsList = new ArrayList<PayHeadDetails>();
 		payHeadDetailsList = getFinanceTool().getPayrollManager()
-				.getpayHeadDetailsList(employeeId, payHeadId, dates[0],
-						dates[1], getCompanyId());
+				.getpayHeadDetailsList(employeeId, payHeadId, startDate,
+						endDate, companyId);
 		if (payHeadDetailsList != null) {
 			PayHeadDetails obj = new PayHeadDetails();
-			payHeadDetailsList
-					.add((PayHeadDetails) setStartEndDates(obj, dates));
+			payHeadDetailsList.add((PayHeadDetails) setStartEndDates(obj,
+					new FinanceDate[] { startDate, endDate }));
 		}
 		return payHeadDetailsList;
 	}
