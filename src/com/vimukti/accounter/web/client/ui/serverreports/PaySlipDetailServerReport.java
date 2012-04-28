@@ -1,8 +1,12 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.reports.PaySlipDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.Section;
 
 public class PaySlipDetailServerReport extends
 		AbstractFinaneReport<PaySlipDetail> {
@@ -34,6 +38,56 @@ public class PaySlipDetailServerReport extends
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
+	}
+
+	@Override
+	public void initRecords(List<PaySlipDetail> records) {
+		initGrid();
+		removeAllRows();
+		row = -1;
+		this.records = records;
+
+		for (PaySlipDetail record : records) {
+			processRecord(record);
+			Object[] values = new Object[this.getColunms().length];
+			Object[] updatedValues = new Object[this.getColunms().length];
+			for (int x = 0; x < this.getColunms().length; x++) {
+				values[x] = getColumnData(record, x);
+				updatedValues[x] = getColumnData(record, x);
+				if (x == 1 || x == 2) {
+					updatedValues[x] = record.getAmount();
+				}
+			}
+			updateTotals(updatedValues);
+			addRow(record, 2, values, false, false, false);
+		}
+		endAllSections();
+		sections.clear();
+		endStatus();
+		showRecords();
+	}
+
+	@Override
+	public void endSection() {
+		try {
+			this.sectionDepth--;
+			if (sectionDepth >= 0 && !sections.isEmpty()) {
+				Section<PaySlipDetail> s = sections.remove(sectionDepth);
+				Object[] data = s.data;
+				if (data[1] != null) {
+					Double value = (Double) data[1];
+					data[1] = getAmountAsString(null, value);
+				}
+				if (data[2] != null) {
+					Double value = (Double) data[2];
+					data[2] = getAmountAsString(null, value);
+				}
+				s.endSection();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -74,13 +128,16 @@ public class PaySlipDetailServerReport extends
 		case 0:
 			return record.getName();
 		case 1:
-			return record.getType() == 2 ? getAmountAsString(record) : null;
+			return record.getType() == 2 ? getAmountAsString(record,
+					record.getAmount()) : null;
 
 		case 2:
-			return record.getType() == 3 ? getAmountAsString(record) : null;
+			return record.getType() == 3 ? getAmountAsString(record,
+					record.getAmount()) : null;
 
 		case 3:
-			return record.getType() == 1 ? getAmountAsString(record) : null;
+			return record.getType() == 1 ? getAmountAsString(record,
+					record.getAmount()) : null;
 
 		default:
 			break;
@@ -88,8 +145,8 @@ public class PaySlipDetailServerReport extends
 		return null;
 	}
 
-	protected String getAmountAsString(PaySlipDetail detail) {
-		return String.valueOf(detail.getAmount());
+	protected String getAmountAsString(PaySlipDetail detail, double amount) {
+		return String.valueOf(amount);
 	}
 
 	@Override
@@ -107,5 +164,4 @@ public class PaySlipDetailServerReport extends
 		// TODO Auto-generated method stub
 
 	}
-
 }

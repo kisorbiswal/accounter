@@ -38,7 +38,7 @@ public abstract class AbstractFinaneReport<R> extends
 
 	ReportGridTemplate<R> grid;
 
-	private final List<Section<R>> sections = new ArrayList<Section<R>>();
+	protected final List<Section<R>> sections = new ArrayList<Section<R>>();
 
 	protected boolean isShowTotal = true;
 	private boolean ishowGridFooter = true;
@@ -222,7 +222,7 @@ public abstract class AbstractFinaneReport<R> extends
 		}
 	}
 
-	private void endStatus() {
+	protected void endStatus() {
 	}
 
 	@Override

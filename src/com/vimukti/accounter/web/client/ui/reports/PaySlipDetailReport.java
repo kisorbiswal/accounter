@@ -12,7 +12,11 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 	public PaySlipDetailReport() {
 		this.serverReport = new PaySlipDetailServerReport(this) {
 			@Override
-			protected String getAmountAsString(PaySlipDetail detail) {
+			protected String getAmountAsString(PaySlipDetail detail,
+					double amount) {
+				if(detail == null){
+					return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
+				}
 				if (detail.getType() == 1) {
 					return detail.getAmount()
 							+ ClientPayHead.getCalculationPeriod(detail
