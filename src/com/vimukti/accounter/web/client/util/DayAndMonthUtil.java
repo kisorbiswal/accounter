@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.util;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gwt.i18n.client.DateTimeFormatInfo;
 import com.vimukti.accounter.web.client.Global;
@@ -44,7 +43,7 @@ public class DayAndMonthUtil {
 	private String nov;
 	private String dec;
 
-	public static Map<Integer, String> monthNames = new HashMap<Integer, String>();
+	public static HashMap<Integer, String> monthNames = new HashMap<Integer, String>();
 
 	static {
 		monthNames.put(1, DayAndMonthUtil.jan());
