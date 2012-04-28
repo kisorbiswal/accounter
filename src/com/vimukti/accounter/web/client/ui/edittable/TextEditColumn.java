@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 public abstract class TextEditColumn<T> extends EditColumn<T> {
 
 	private boolean updateFromGUI = false;
+	private boolean isEnable = true;
 
 	public TextEditColumn(boolean updateFromGUI) {
 		this.updateFromGUI = updateFromGUI;
@@ -40,7 +41,7 @@ public abstract class TextEditColumn<T> extends EditColumn<T> {
 	}
 
 	protected boolean isEnable() {
-		return true;
+		return isEnable;
 	}
 
 	protected abstract String getValue(T row);
@@ -77,4 +78,9 @@ public abstract class TextEditColumn<T> extends EditColumn<T> {
 	public int getWidth() {
 		return -1;
 	}
+
+	public void setEnable(boolean b) {
+		this.isEnable = b;
+	}
+
 }

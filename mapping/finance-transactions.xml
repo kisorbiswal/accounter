@@ -1150,6 +1150,29 @@
 				not-null="true" />
 
 		</joined-subclass>
+		<joined-subclass name="PayRun" table="PAY_RUN">
+			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true">
+			</many-to-one>
+			<many-to-one name="employee" column="EMPLOYEE" class="Employee">
+			</many-to-one>
+			<many-to-one name="employeeGroup" column="EMPLOYEE_GROUP" class="EmployeeGroup">
+			</many-to-one>
+			<property name="payPeriodStartDate" column="PAY_PERIOD_STARTDATE"
+				type="com.vimukti.accounter.core.LongUseType" />
+			<property name="payPeriodEndDate" column="PAY_PERIOD_ENDDATE"
+				type="com.vimukti.accounter.core.LongUseType" />
+			<set name="payEmployee" inverse="true" cascade="save-update,delete-orphan">
+				<key column="PAY_RUN_ID" />
+				<one-to-many class="EmployeePaymentDetails" />
+			</set>
+			<list name="attendanceItems" cascade="save-update,delete-orphan">
+				<key column="ATTENDANCE_MANAGEMENT" />
+				<list-index column="IDX" />
+				<one-to-many class="AttendanceManagementItem" />
+			</list>
+		</joined-subclass>
 	</class>
 
 	<class name="Attachment" table="ATTACHMENTS">

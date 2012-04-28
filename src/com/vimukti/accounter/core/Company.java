@@ -351,6 +351,8 @@ public class Company implements IAccounterServerCore {
 
 	private String passwordHInt;
 
+	private Account salariesPayableAccount;
+
 	public Account getRetainedEarningsAccount() {
 		return retainedEarningsAccount;
 	}
@@ -1750,4 +1752,13 @@ public class Company implements IAccounterServerCore {
 		return getCreatedBy().getClient().getClientSubscription()
 				.getSubscription().getFeatures();
 	}
+
+	public void setSalariesPaybleAccount(Account salariesPayableAccount) {
+		this.salariesPayableAccount = salariesPayableAccount;
+	}
+
+	public Account getSalariesPayableAccount() {
+		return salariesPayableAccount;
+	}
+
 }

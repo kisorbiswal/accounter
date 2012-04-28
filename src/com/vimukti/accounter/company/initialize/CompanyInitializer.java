@@ -424,6 +424,14 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		company.setExchangeLossOrGainAccount(exchangeLossOrGainAccount);
+
+		Account salariesPayableAccount = createAccount(
+				Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.SALARIES_PAYABLE,
+				Account.SUBBASETYPE_CURRENT_LIABILITY);
+
+		company.setSalariesPaybleAccount(salariesPayableAccount);
+
 		//
 		// createAccount(Account.TYPE_COST_OF_GOODS_SOLD,
 		// AccounterServerConstants.IMPORT_DUTY,

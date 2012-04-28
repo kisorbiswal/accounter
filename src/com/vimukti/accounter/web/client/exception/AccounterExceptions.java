@@ -258,6 +258,10 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_ACTIVE_ACCOUNT:
 			return accounterMessages
 					.pleaseSelectActive(Global.get().Customer());
+		case AccounterException.ERROR_CANT_CREATE_PAYRUN_DRAFT_OR_TEMPLATE:
+			return accounterMessages.cannotCreatePayRunAsDraftOrTemplate();
+		case AccounterException.ERROR_EMPLOYEE_NULL:
+			return accounterMessages.pleaseSelect(accounterMessages.employee());
 		default:
 			return null;
 		}

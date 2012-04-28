@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.company.UsersActivityListAction;
 import com.vimukti.accounter.web.client.ui.company.VendorCenterAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ManageSalesTaxItemsAction;
 import com.vimukti.accounter.web.client.ui.core.TransactionsCenterAction;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -76,6 +77,7 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.PendingItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.RegisteredItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SoldDisposedFixedAssetsListAction;
+import com.vimukti.accounter.web.client.ui.payroll.AttendanceProductionTypeListAction;
 import com.vimukti.accounter.web.client.ui.reports.BankingReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
@@ -86,6 +88,11 @@ import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.JobReportsAction;
+import com.vimukti.accounter.web.client.ui.reports.PayHeadDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.PayHeadSummaryReportAction;
+import com.vimukti.accounter.web.client.ui.reports.PaySheetReportAction;
+import com.vimukti.accounter.web.client.ui.reports.PaySlipDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.PaySlipSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.PayablesAndReceivablesReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
@@ -845,7 +852,7 @@ public class MainFinanceWindow extends FlowPanel {
 
 		actions.put(new TDSChalanDetailsAction().getHistoryToken(),
 				new TDSChalanDetailsAction());
-		
+
 		actions.put(new VendorPaymentsListAction().getHistoryToken(),
 				new VendorPaymentsListAction());
 
@@ -917,6 +924,70 @@ public class MainFinanceWindow extends FlowPanel {
 				BankingReportsAction.depositDetail());
 		actions.put(BankingReportsAction.checkDetail().getHistoryToken(),
 				BankingReportsAction.checkDetail());
+
+		actions.put(ActionFactory.getNewEmployeeAction().getHistoryToken(),
+				ActionFactory.getNewEmployeeAction());
+
+		actions.put(ActionFactory.getNewPayHeadAction().getHistoryToken(),
+				ActionFactory.getNewPayHeadAction());
+
+		actions.put(
+				ActionFactory.getNewEmployeeGroupAction().getHistoryToken(),
+				ActionFactory.getNewEmployeeGroupAction());
+
+		actions.put(ActionFactory.getNewPayrollUnitAction().getHistoryToken(),
+				ActionFactory.getNewPayrollUnitAction());
+
+		actions.put(ActionFactory.getEmployeeListAction().getHistoryToken(),
+				ActionFactory.getEmployeeListAction());
+
+		actions.put(ActionFactory.getPayheadListAction().getHistoryToken(),
+				ActionFactory.getPayheadListAction());
+
+		actions.put(ActionFactory.getPayrollUnitListAction().getHistoryToken(),
+				ActionFactory.getPayrollUnitListAction());
+
+		actions.put(ActionFactory.getEmployeeGroupListAction()
+				.getHistoryToken(), ActionFactory.getEmployeeGroupListAction());
+
+		actions.put(ActionFactory.getPayStructureAction().getHistoryToken(),
+				ActionFactory.getPayStructureAction());
+
+		actions.put(ActionFactory.getPayRunAction().getHistoryToken(),
+				ActionFactory.getPayRunAction());
+
+		actions.put(
+				ActionFactory.getPayStructureListAction().getHistoryToken(),
+				ActionFactory.getPayStructureListAction());
+
+		actions.put(ActionFactory.getNewAttendanceProductionTypeAction()
+				.getHistoryToken(), ActionFactory
+				.getNewAttendanceProductionTypeAction());
+
+		actions.put(ActionFactory.getAttendanceManagementAction()
+				.getHistoryToken(), ActionFactory
+				.getAttendanceManagementAction());
+
+		actions.put(new AttendanceProductionTypeListAction().getHistoryToken(),
+				new AttendanceProductionTypeListAction());
+
+		actions.put(new PaySlipSummaryReportAction().getHistoryToken(),
+				new PaySlipSummaryReportAction());
+
+		actions.put(new PaySlipDetailReportAction().getHistoryToken(),
+				new PaySlipDetailReportAction());
+
+		actions.put(new PaySheetReportAction().getHistoryToken(),
+				new PaySheetReportAction());
+
+		actions.put(new PayHeadSummaryReportAction().getHistoryToken(),
+				new PayHeadSummaryReportAction());
+
+		actions.put(new PayHeadDetailReportAction().getHistoryToken(),
+				new PayHeadDetailReportAction());
+
+		actions.put(new PayHeadSummaryReportAction().getHistoryToken(),
+				new PayHeadSummaryReportAction());
 
 	}
 

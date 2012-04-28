@@ -137,6 +137,9 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			transactionName = messages.buildAssembly();
 			break;
+		case ClientTransaction.TYPE_PAY_RUN:
+			transactionName = messages.payrun();
+			break;
 		}
 		return transactionName;
 	}
@@ -198,6 +201,7 @@ public class Utility implements IsSerializable, Serializable {
 			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+		case ClientTransaction.TYPE_PAY_RUN:
 			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
 			break;
 		case IAccounterCore.ACCOUNT:

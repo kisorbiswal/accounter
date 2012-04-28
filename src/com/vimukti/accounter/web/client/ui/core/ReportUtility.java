@@ -114,6 +114,9 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			transactionName = messages.buildAssembly();
 			break;
+		case ClientTransaction.TYPE_PAY_RUN:
+			transactionName = messages.payrun();
+			break;
 		}
 		return transactionName;
 	}

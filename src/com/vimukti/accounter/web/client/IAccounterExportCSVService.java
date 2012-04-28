@@ -90,4 +90,6 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getTaxAdjustmentsList(int viewId, long startDate, long endDate,
 			int start, int length);
 
+	String getPayRunExportCsv(long startDate, long endDate, int type);
+
 }

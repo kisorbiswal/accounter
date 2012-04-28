@@ -1,67 +1,57 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientUserInfo;
-import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
 
-public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
+public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
-	public List<ClientUserInfo> users = new ArrayList<ClientUserInfo>();
-	private boolean isAdmin;
+	private long employeeId;
+	private boolean isItemsAdded;
 
 	public EmployeeCombo(String title) {
 		this(title, false);
-		if (!Accounter.getUser().isAdminUser()) {
-			isAdmin = false;
-		}else{
-			isAdmin = true;
-		}
+		getEmployees();
 	}
 
-	public EmployeeCombo(String title, boolean b) {
-		super(title, b, 1,"EmployeeCombo");
-		Accounter.createHomeService().getAllUsers(
-				new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
+	private void getEmployees() {
+		isItemsAdded = false;
+		Accounter.createPayrollService().getEmployees(0, -1,
+				new AsyncCallback<PaginationList<ClientEmployee>>() {
+
 					@Override
-					public void onResultSuccess(ArrayList<ClientUserInfo> result) {
-						users = result;
-						if (isAdmin) {
-							initCombo(users);
-						} else {
-							for (ClientUserInfo user : users) {
-								if (user.getID() == Accounter.getUser().getID()) {
-									List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
-									tempUsers.add(user);
-									initCombo(tempUsers);
-									break;
-								}
-							}
-						}
+					public void onSuccess(PaginationList<ClientEmployee> result) {
+						initCombo(result);
+						EmployeeCombo.this.isItemsAdded = true;
+						setSelectedItem();
 					}
 
 					@Override
-					public void onException(AccounterException caught) {
-						Accounter.showError(messages
-								.failedtoloadEmployeeslist());
+					public void onFailure(Throwable caught) {
+
 					}
 				});
 	}
 
+	public EmployeeCombo(String title, boolean b) {
+		super(title, b, 1, "employeecombo");
+		getEmployees();
+	}
+
 	@Override
-	protected String getDisplayName(ClientUserInfo object) {
+	protected String getDisplayName(ClientEmployee object) {
 		if (object != null)
-			return object.getDisplayName() != null ? object.getDisplayName()
-					: "";
+			return object.getName() != null ? object.getName() : "";
 		else
 			return "";
 	}
 
 	@Override
-	protected String getColumnData(ClientUserInfo object,  int col) {
+	protected String getColumnData(ClientEmployee object, int col) {
 		switch (col) {
 		case 0:
 			return object.getName();
@@ -71,26 +61,36 @@ public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		// TODO Auto-generated method stub
-		return null;
+		return messages.employee();
 	}
 
 	@Override
 	public void onAddNew() {
-		// TODO Auto-generated method stub
+		NewEmployeeAction action = ActionFactory.getNewEmployeeAction();
+		action.setCallback(new ActionCallback<ClientEmployee>() {
 
+			@Override
+			public void actionResult(ClientEmployee result) {
+				addItemThenfireEvent(result);
+			}
+		});
+
+		action.run(null, true);
 	}
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-		if (isAdmin) {
-			initCombo(users);
-		} else {
-			for (ClientUserInfo user : users) {
-				if (user.getID() == Accounter.getUser().getID()) {
-					List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
-					tempUsers.add(user);
-					initCombo(tempUsers);
+	public void setSelectedEmployee(long employeeId) {
+		this.employeeId = employeeId;
+		if (isItemsAdded) {
+			setSelectedItem();
+		}
+	}
+
+	private void setSelectedItem() {
+		if (this.employeeId != 0) {
+			for (ClientEmployee emp : getComboItems()) {
+				if (emp.getID() == employeeId) {
+					setComboItem(emp);
+					employeeId = 0;
 					break;
 				}
 			}

@@ -1,6 +1,15 @@
 package com.vimukti.accounter.core;
 
-public class PayStructureItem extends CreatableObject {
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
+
+public class PayStructureItem implements IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * PayHead of this PayStructure Item
@@ -13,6 +22,18 @@ public class PayStructureItem extends CreatableObject {
 	private double rate;
 
 	private PayStructure payStructure;
+
+	private FinanceDate endDate;
+
+	private FinanceDate startDate;
+
+	private long[] attendance;
+
+	private FinanceDate effectiveFrom;
+
+	private long id;
+
+	private int version;
 
 	/**
 	 * @return the payHead
@@ -59,4 +80,74 @@ public class PayStructureItem extends CreatableObject {
 		this.payStructure = payStructure;
 	}
 
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject,
+			boolean goingToBeEdit) throws AccounterException {
+		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+
+	}
+
+	public void setEndDate(FinanceDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public FinanceDate getEndDate() {
+		return endDate;
+	}
+
+	public void setStartDate(FinanceDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public FinanceDate getStartDate() {
+		return startDate;
+	}
+
+	public void setAttendance(long[] attendance) {
+		this.attendance = attendance;
+	}
+
+	public long[] getAttendance() {
+		return attendance;
+	}
+
+	/**
+	 * @return the effectiveFrom
+	 */
+	public FinanceDate getEffectiveFrom() {
+		return effectiveFrom;
+	}
+
+	/**
+	 * @param effectiveFrom
+	 *            the effectiveFrom to set
+	 */
+	public void setEffectiveFrom(FinanceDate effectiveFrom) {
+		this.effectiveFrom = effectiveFrom;
+	}
+
+	@Override
+	public int getVersion() {
+		return this.version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
+
+	@Override
+	public void selfValidate() throws AccounterException {
+		// TODO Auto-generated method stub
+
+	}
 }

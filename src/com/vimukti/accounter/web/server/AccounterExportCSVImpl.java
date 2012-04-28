@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -42,7 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
-import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -2364,6 +2362,49 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
 
+	public String getPayRunExportCsv(long fromDate, long toDate, int type) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
+			final Company company = getFinanceTool().getCompany(getCompanyId());
+			PaginationList<PaymentsList> payeeChecks = getFinanceTool()
+					.getPayrollManager()
+					.getPayRunsList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), type, 0, -1);
+			ICSVExportRunner<PaymentsList> icsvExportRunner = new ICSVExportRunner<PaymentsList>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.date(), messages.number(),
+							messages.name(), messages.total() };
+				}
+
+				@Override
+				public String getColumnValue(PaymentsList obj, int index) {
+					switch (index) {
+					case 0:
+						return Utility.getDateInSelectedFormat(new FinanceDate(
+								obj.getPaymentDate()));
+					case 1:
+						return obj.getPaymentNumber();
+					case 2:
+						return obj.getName();
+					case 3:
+						return amountAsStringWithCurrency(obj.getAmountPaid(),
+								company.getPrimaryCurrency());
+					}
+					return null;
+				}
+			};
+			CSVExporter<PaymentsList> csvExporter = new CSVExporter<PaymentsList>(
+					icsvExportRunner);
+			return csvExporter.export(payeeChecks);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -107,6 +107,12 @@ public interface IReportGenerator {
 	public final static int REPORT_TYPE_PURCHASEBYLOCATIONDETAIL = 199;
 	public final static int REPORT_TYPE_PURCHASEBYCLASSDETAIL = 200;
 	public final static int REPORT_TYPE_INVENTORY_DETAILS = 202;
+	public final static int REPORT_TYPE_PAY_HEAD_SUMMARY_REPORT = 203;
+	public final static int REPORT_TYPE_PAY_HEAD_DETAIL_REPORT = 204;
+
+	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 205;
+	public final static int REPORT_TYPE_PAYSLIP_DETAIL = 206;
+	public final static int REPORT_TYPE_PAYSHEET = 207;
 
 	/**
 	 * Generates the Template for Report

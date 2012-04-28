@@ -390,6 +390,48 @@ public class HistoryTokens {
 	public static final String MESSAGE_OR_TASK = "messageOrTask";
 	public static final String INVENTORY_DETAILS = "InventoryDetails";
 
+	public static final String NEWEMPLOYEE = "newEmployee";
+
+	public static final String EMPLOYEELIST = "employeeList";
+
+	public static final String NEWPAYHEAD = "newPayHead";
+
+	public static final String NEWEMPLOYEEGROUP = "newEmployeeGroup";
+
+	public static final String NEWPAYROLLUNIT = "newPayrollUnit";
+
+	public static final String NEWEMPLOYEECATEGORY = "newEmployeeCategory";
+
+	public static final String EMPLOYEEGROUPLIST = "employeeGroupList";
+
+	public static final String EMPLOYEECATEGORYLIST = "employeeCategoryList";
+
+	public static final String PAYHEADLIST = "payheadList";
+
+	public static final String PAYROLLUNITLIST = "payrollUnitList";
+
+	public static final String NEW_PAYSTRUCTURE = "newPayStructure";
+
+	public static final String NEW_PAYRUN = "newPayRun";
+
+	public static final String PAY_STRUCTURE_LIST = "payStructureList";
+
+	public static final String ATTENDANCE_PRODUCTION_TYPE = "AttendanceProductionType";
+
+	public static final String ATTENDANCE_MANAGEMENT = "attendanceManagement";
+
+	public static final String ATTENDANCE_PRODUCTION_TYPE_LIST = "attendanceProductionTypeList";
+
+	public static final String PAYSLIP_SUMMARY = "payslipSummaryReport";
+
+	public static final String PAYSHEET_REPORT = "paysheetReport";
+
+	public static final String PAY_HEAD_SUMMMARY_REPORT = "payHeadSummaryReport";
+
+	public static final String PAY_HEAD_DETAIL_REPORT = "payHeadDetailReport";
+
+	public static final String PAYSLIP_DETAIL_REPORT = "payslipDetailReport";
+
 	public HistoryTokens() {
 
 	}

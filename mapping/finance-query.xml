@@ -1880,7 +1880,7 @@
 			:accountId IN (C.CASH_DISCOUNT_ACCOUNT,C.ACCOUNTS_RECEIVABLE_ID,C.ACCOUNTS_ROUND_ID,C.ACCOUNTS_PAYABLE_ID
 			,C.OPENING_BALANCES_ID,C.RETAINED_EARNINGS_ID,C.OTHER_CASH_INCOME_ID,C.OTHER_CASH_EXPENSE_ID
 			,C.CASH_DISCOUNTS_GIVEN,C.CASH_DISCOUNTS_TAKEN,C.TAX_LIABILITY_ACCOUNT_ID,C.VAT_FILED_LIABILITY_ACCOUNT_ID
-			,C.PENDING_ITEM_RECEIPTS_ACCOUNT_ID,C.EXCHANGE_LOSS_OR_GAIN_ACCOUNT,C.COST_OF_GOODS_SOLD)) 
+			,C.PENDING_ITEM_RECEIPTS_ACCOUNT_ID,C.EXCHANGE_LOSS_OR_GAIN_ACCOUNT,C.COST_OF_GOODS_SOLD,C.SALARIES_PAYABLE_ACCOUNT)) 
 			THEN TRUE ELSE FALSE END AS IS_EXISTS FROM COMPANY C 
 			WHERE C.ID=:companyId
 		]]>
@@ -2105,6 +2105,179 @@
 				         ON VG.ID = V.VENDOR_GROUP_ID
 				WHERE  VG.ID = :inputId
 				       AND VG.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteEmployeeGroup">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="EMPLOYEE_ID" type="long" />
+
+		<![CDATA[
+				SELECT E.ID AS EMPLOYEE_ID
+				FROM   EMPLOYEE_GROUP EG
+				       LEFT OUTER JOIN EMPLOYEE E
+				         ON EG.ID = E.EMPLOYEE_GROUP
+				WHERE  EG.ID = :inputId
+				       AND EG.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<!-- <sql-query name="canDeleteEmployeeCategory">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT EC.ID AS ID
+				FROM   EMPLOYEE_CATEGORY EC
+				       
+				WHERE  EC.ID IS NULL
+				       AND EC.ID = :inputId
+				       AND EC.COMPANY_ID = :companyId
+				LIMIT  1 
+				]]>
+
+	</sql-query> -->
+
+	<sql-query name="canDeletePayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PSI.ID AS ID
+				FROM   PAY_HEAD PH
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = PH.ID
+				       
+				WHERE  PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeletePayStructure">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PS.ID AS ID
+				FROM   PAY_STRUCTURE PS
+				       
+				WHERE  PS.ID IS NULL
+				       AND PS.ID = :inputId
+				       AND PS.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteComputionPayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PSI.ID AS ID
+				FROM   COMPUTATION_PAY_HEAD CPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = CPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = CPH.ID
+				       
+				WHERE  PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteAttendancePayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PSI.ID AS ID
+				FROM   ATTENDANCE_PAYHEAD APH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = APH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = APH.ID
+				       
+				WHERE  PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteFlatRatePayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PSI.ID AS ID
+				FROM   FLAT_RATE_PAY_HEAD FPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = FPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = FPH.ID
+				       
+				WHERE  PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteProductionPayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PSI.ID AS ID
+				FROM   PRODUCTION_PAY_HEAD PPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = PPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = PPH.ID
+				       
+				WHERE  PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
+
+	<sql-query name="canDeleteUserDefinedPayHead">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="ID" type="long" />
+
+		<![CDATA[
+				SELECT PSI.ID AS ID
+				FROM   USER_DEFINED_PAY_HEAD UPH
+						LEFT JOIN PAY_HEAD PH ON PH.ID = UPH.ID
+						LEFT JOIN PAY_STRUCTURE_ITEM PSI
+							ON PSI.PAY_HEAD = UPH.ID
+				       
+				WHERE  PH.ID = :inputId
+				       AND PH.COMPANY_ID = :companyId
 				LIMIT  1  
 				]]>
 
@@ -11917,7 +12090,38 @@
 											ORDER BY PRICES.TRANSACTION_DATE DESC ,PRICES.ID DESC ,PRICES.UNIT_PRICE DESC LIMIT 5
 		]]>
 	</sql-query>
-
+	<sql-query name=" canDeleteEmployee">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="PAY_STRUCTURE" type ="long" />
+		<return-scalar column="EPC_ID" type ="long" />	
+		<return-scalar column="AMI_ID" type ="long" />		
+			SELECT PS.ID  AS PAY_STRUCTURE, 
+			       EPC.ID AS EPD_ID, 
+			       AMI.ID AS AMI_ID 
+			FROM   EMPLOYEE E 
+			       LEFT OUTER JOIN PAY_STRUCTURE PS 
+			         ON PS.EMPLOYEE = E.ID 
+			       LEFT OUTER JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC 
+			         ON EPC.EMPLOYEE = E.ID 
+			       LEFT OUTER JOIN ATTENDANCE_MANAGEMENT_ITEM AMI 
+			         ON AMI.EMPLOYEE = E.ID 
+			WHERE  E.ID = :inputId 
+			       AND E.COMPANY_ID = :companyId 	
+	</sql-query>
+	<sql-query name="canDeletePayRun">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="PR_ID" type ="long" />
+			SELECT PR.ID AS PR_ID
+				FROM   PAY_RUN PR
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = PR.ID
+				WHERE  PR.ID IS NULL
+				       AND PR.ID = :inputId
+				       AND T.COMPANY_ID = :companyId
+				LIMIT  1  
+	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

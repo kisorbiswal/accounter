@@ -1,0 +1,42 @@
+package com.vimukti.accounter.web.client.ui.payroll;
+
+import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
+import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
+
+public class AttendanceProductionTypeColumn
+		extends
+		ComboColumn<ClientAttendanceManagementItem, ClientAttendanceOrProductionType> {
+
+	private AttendanceProdTypeDropDownTable dropdown = new AttendanceProdTypeDropDownTable(
+			true);
+
+	@Override
+	protected ClientAttendanceOrProductionType getValue(
+			ClientAttendanceManagementItem row) {
+		return row.getAttendanceType();
+	}
+
+	@Override
+	protected void setValue(ClientAttendanceManagementItem row,
+			ClientAttendanceOrProductionType newValue) {
+		row.setAttendanceType(newValue);
+	}
+
+	@Override
+	public AbstractDropDownTable<ClientAttendanceOrProductionType> getDisplayTable(
+			ClientAttendanceManagementItem row) {
+		return dropdown;
+	}
+
+	@Override
+	public int getWidth() {
+		return 150;
+	}
+
+	@Override
+	protected String getColumnName() {
+		return messages.attendanceOrProductionType();
+	}
+}
