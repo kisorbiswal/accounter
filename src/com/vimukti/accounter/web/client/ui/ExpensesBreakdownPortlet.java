@@ -20,8 +20,8 @@ import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.reports.CompanyAndFinancialReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
-import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
@@ -87,7 +87,8 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					expenseList.setStartDate(toolBar.getStartDate());
 					expenseList.setEndDate(toolBar.getEndDate());
 					expenseList.setDateRange(toolBar.getSelectedDateRange());
-					UIUtils.runAction(expenseList, new ExpenseReportAction());
+					UIUtils.runAction(expenseList,
+							CompanyAndFinancialReportsAction.expense());
 				}
 			});
 
@@ -101,7 +102,8 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					expenseList.setDateRange(toolBar.getSelectedDateRange());
 					expenseList
 							.setTransactionType(ClientTransaction.TYPE_CASH_EXPENSE);
-					UIUtils.runAction(expenseList, new ExpenseReportAction());
+					UIUtils.runAction(expenseList,
+							CompanyAndFinancialReportsAction.expense());
 				}
 			});
 
@@ -118,7 +120,8 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 					expenseList.setDateRange(toolBar.getSelectedDateRange());
 					expenseList
 							.setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-					UIUtils.runAction(expenseList, new ExpenseReportAction());
+					UIUtils.runAction(expenseList,
+							CompanyAndFinancialReportsAction.expense());
 
 				}
 			});

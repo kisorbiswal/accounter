@@ -164,7 +164,7 @@ public class RecurringTool extends Thread {
 					session.saveOrUpdate(recurringTransaction);
 				}
 			} catch (Exception e) {
-				log.error("Exception While Creating Recurring", e);
+				log.error("Unable to Create Recurring Transaction for : "+recurringTransaction.getID(), e);
 			}
 		}
 

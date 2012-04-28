@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;

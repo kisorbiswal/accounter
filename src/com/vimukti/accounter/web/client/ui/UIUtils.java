@@ -58,23 +58,17 @@ import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
-import com.vimukti.accounter.web.client.ui.company.CurrencyGroupListAction;
-import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
-import com.vimukti.accounter.web.client.ui.company.ItemGroupListAction;
-import com.vimukti.accounter.web.client.ui.company.LocationGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
+import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
-import com.vimukti.accounter.web.client.ui.company.PaymentTermListAction;
-import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
-import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
-import com.vimukti.accounter.web.client.ui.company.VendorGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
@@ -90,12 +84,8 @@ import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
 import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
-import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentAction;
-import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
-import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
@@ -2239,34 +2229,34 @@ public class UIUtils {
 			action = new NewTAXAgencyAction();
 			break;
 		case IAccounterCore.CUSTOMER_GROUP:
-			action = new CustomerGroupListAction();
+			action = ManageSupportListAction.customerGroups();
 			break;
 		case IAccounterCore.VENDOR_GROUP:
-			action = new VendorGroupListAction();
+			action = ManageSupportListAction.vendorGroups();
 			break;
 		case IAccounterCore.PAYMENT_TERMS:
-			action = new PaymentTermListAction();
+			action = ManageSupportListAction.paymentTerms();
 			break;
 		case IAccounterCore.SHIPPING_METHOD:
-			action = new ShippingMethodListAction();
+			action = ManageSupportListAction.shippingMethods();
 			break;
 		case IAccounterCore.SHIPPING_TERMS:
-			action = new ShippingTermListAction();
+			action = ManageSupportListAction.shippingTerms();
 			break;
 		case IAccounterCore.ITEM_GROUP:
-			action = new ItemGroupListAction();
+			action = ManageSupportListAction.itemGroups();
 			break;
 		case IAccounterCore.CREDIT_RATING:
 			action = new CreditRatingListAction();
 			break;
 		case IAccounterCore.CURRENCY:
-			action = new CurrencyGroupListAction();
+			action = ManageSupportListAction.currencyGroups();
 			break;
 		case IAccounterCore.ITEM:
 			action = new NewItemAction(true);
 			break;
 		case IAccounterCore.ASSEMBLY:
-			action = new InventoryAssemblyAction();
+			action = InventoryActions.newAssembly();
 			break;
 		case IAccounterCore.VENDOR:
 			action = new NewVendorAction();
@@ -2281,16 +2271,16 @@ public class UIUtils {
 			action = new NewTAXCodeAction();
 			break;
 		case IAccounterCore.STOCK_ADJUSTMENT:
-			action = new StockAdjustmentAction();
+			action = InventoryActions.stockAdjustment();
 			break;
 		case IAccounterCore.WAREHOUSE:
-			action = new WareHouseViewAction();
+			action = WarehouseActions.newWarehouse();
 			break;
 		case IAccounterCore.STOCK_TRANSFER:
-			action = new WareHouseTransferAction();
+			action = WarehouseActions.warehouseTransfer();
 			break;
 		case IAccounterCore.MEASUREMENT:
-			action = new AddMeasurementAction();
+			action = InventoryActions.measurement();
 			break;
 		case IAccounterCore.USER:
 			action = new InviteUserAction();
@@ -2299,10 +2289,10 @@ public class UIUtils {
 			action = new NewBrandThemeAction();
 			break;
 		case IAccounterCore.LOCATION:
-			action = new LocationGroupListAction();
+			action = ManageSupportListAction.locations();
 			break;
 		case IAccounterCore.ACCOUNTER_CLASS:
-			action = new AccounterClassListAction();
+			action = ManageSupportListAction.classes();
 			break;
 		case IAccounterCore.BANK_ACCOUNT:
 			action = new NewAccountAction(ClientAccount.TYPE_BANK);
@@ -2320,10 +2310,10 @@ public class UIUtils {
 			action = new TDSChalanDetailsAction();
 			break;
 		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
-			action = new StockAdjustmentAction();
+			action = InventoryActions.stockAdjustment();
 			break;
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
-			action = new BuildAssemblyAction();
+			action = InventoryActions.buildAssembly();
 			break;
 		}
 		return action;

@@ -5,8 +5,6 @@ package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;

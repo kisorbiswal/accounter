@@ -2,11 +2,11 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
@@ -68,7 +68,7 @@ public class StockAdjustmentsListView extends
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly()))
-			return new StockAdjustmentAction();
+			return InventoryActions.stockAdjustment();
 		else
 			return null;
 	}

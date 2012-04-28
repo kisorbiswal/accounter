@@ -31,8 +31,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
-import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyInfoOption extends AbstractPreferenceOption {
 

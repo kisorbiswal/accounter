@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -111,7 +112,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		}
 		switch (col) {
 		case 3:
-			new WareHouseItemsListAction(obj.getID()).run(null, false);
+			WarehouseActions.warehouseItemsList(obj.getID()).run(null, false);
 			break;
 		case 4:
 			showWarnDialog(obj);
@@ -127,8 +128,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 		if (!isCanOpenTransactionView(0, IAccounterCore.WAREHOUSE)) {
 			return;
 		}
-		WareHouseViewAction action = new WareHouseViewAction();
-		action.run(obj, false);
+		WarehouseActions.newWarehouse().run(obj, false);
 	}
 
 	private boolean isUserHavePermissions(ClientWarehouse obj) {

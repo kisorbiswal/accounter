@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
@@ -23,9 +22,11 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		if (record.getAccountId() != 0) {
-			UIUtils.runAction(record, new TransactionDetailByAccountAction());
+			UIUtils.runAction(record, CompanyAndFinancialReportsAction
+					.transactionDetailByAccount());
 		} else {
-			UIUtils.runAction(record, new TransactionDetailByAccountAction());
+			UIUtils.runAction(record, CompanyAndFinancialReportsAction
+					.transactionDetailByAccount());
 		}
 
 	}

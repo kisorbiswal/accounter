@@ -2,9 +2,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 
 public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
@@ -33,7 +33,7 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 
 	@Override
 	public void onAddNew() {
-		Action<ClientWarehouse> action = new WareHouseViewAction();
+		Action<ClientWarehouse> action = WarehouseActions.newWarehouse();
 		action.setCallback(new ActionCallback<ClientWarehouse>() {
 
 			@Override

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -111,8 +112,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setItemText(itemname);
 				action.run();
 			} else if (radio.equals(messages.inventoryAssembly())) {
-				InventoryAssemblyAction action = new InventoryAssemblyAction(
-						forCustomer);
+				InventoryActions action = InventoryActions.newAssembly();
 				action.setDependent(isDependent);
 				action.setItemText(itemname);
 				action.run();

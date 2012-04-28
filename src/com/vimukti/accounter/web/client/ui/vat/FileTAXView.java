@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -15,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.TAXReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public class FileTAXView extends AbstractFileTAXView {
@@ -80,7 +79,7 @@ public class FileTAXView extends AbstractFileTAXView {
 								.getID()));
 			}
 		};
-		report.setAction(new TaxItemDetailReportAction());
+		report.setAction(TAXReportsAction.taxItemDetail());
 		report.init();
 		report.initData();
 		report.print();

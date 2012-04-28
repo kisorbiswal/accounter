@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -87,7 +88,7 @@ public class WarehouseTransferListGrid extends
 		if (!Utility.isUserHavePermissions(AccounterCoreType.STOCK_TRANSFER)) {
 			return;
 		}
-		new WareHouseTransferAction().run(obj, false);
+		WarehouseActions.warehouseTransfer().run(obj, false);
 	}
 
 	@Override

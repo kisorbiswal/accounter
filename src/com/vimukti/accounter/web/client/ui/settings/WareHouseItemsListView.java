@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;

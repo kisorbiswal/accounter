@@ -18,7 +18,8 @@ public class APAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, new APAgingDetailAction());
+		UIUtils.runAction(record,
+				PayablesAndReceivablesReportsAction.apAgingDetail());
 
 	}
 

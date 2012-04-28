@@ -3,7 +3,7 @@
  */
 package com.vimukti.accounter.web.client.ui.banking;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -159,7 +159,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 	public void setData(List<ClientReconciliation> data) {
 		if (data == null) {
-			data = Collections.emptyList();
+			data = new ArrayList<ClientReconciliation>();
 		}
 		this.dataprovider.setList(data);
 	}

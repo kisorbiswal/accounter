@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
@@ -150,8 +151,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	@Override
 	public void onDoubleClick(ClientMeasurement obj) {
 		if (Utility.isUserHavePermissions(IAccounterCore.MEASUREMENT)) {
-			AddMeasurementAction action = new AddMeasurementAction();
-			action.run(obj, false);
+			InventoryActions.measurement().run(obj, false);
 		}
 	}
 

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -21,7 +20,7 @@ public class PurchaseByItemSummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, new PurchaseByItemDetailsAction());
+		UIUtils.runAction(record, PurchaseReportsAction.itemDetail());
 	}
 
 	@Override

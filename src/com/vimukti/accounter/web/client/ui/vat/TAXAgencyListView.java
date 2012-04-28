@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientPayee;

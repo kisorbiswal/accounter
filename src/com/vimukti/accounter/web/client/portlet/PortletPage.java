@@ -2,12 +2,6 @@ package com.vimukti.accounter.web.client.portlet;
 
 import java.util.ArrayList;
 
-import com.allen_sauer.gwt.dnd.client.DragController;
-import com.allen_sauer.gwt.dnd.client.DragEndEvent;
-import com.allen_sauer.gwt.dnd.client.DragHandler;
-import com.allen_sauer.gwt.dnd.client.DragStartEvent;
-import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.allen_sauer.gwt.dnd.client.VetoDragException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -17,14 +11,18 @@ import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Portlet;
 
-public class PortletPage extends AbsolutePanel implements DragHandler {
+public class PortletPage extends AbsolutePanel {
 
 	public static final String DASHBOARD = "dashboard";
 
 	private String name;
 	public ClientPortletPageConfiguration config;
 	private PortletColumn[] columns;
-	private PickupDragController dragController;
+
+	public PortletColumn[] getColumns() {
+		return columns;
+	}
+
 	public boolean haveToRefresh = true;
 
 	public PortletPage(String pageName) {
@@ -52,9 +50,6 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.addStyleName("portletPagePanel");
 		this.add(panel);
-		dragController = new PickupDragController(this, false);
-		dragController.setBehaviorMultipleSelection(false);
-		dragController.addDragHandler(this);
 		// create columns
 		columns = new PortletColumn[config.getColumnsCount()];
 		for (int x = 0; x < config.getColumnsCount(); x++) {
@@ -62,8 +57,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 			panel.add(columns[x]);
 			columns[x].getElement().getParentElement()
 					.addClassName("portlet_column_parent");
-			dragController.registerDropController(columns[x]
-					.getDropController());
+
 		}
 		// create the portlets in them
 		for (ClientPortletConfiguration pc : config.getPortletConfigurations()) {
@@ -77,7 +71,6 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		if (portlet != null) {
 			portlet.setPortletPage(this);
 			columns[pc.column].addPortlet(portlet);
-			dragController.makeDraggable(portlet, portlet.getHeader());
 		}
 	}
 
@@ -92,8 +85,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		return PortletFactory.get().createPortlet(pc, this);
 	}
 
-	@Override
-	public void onDragEnd(DragEndEvent event) {
+	public void onDragEnd() {
 		updateConfiguration();
 		haveToRefresh = false;
 		updatePortletPage();
@@ -131,25 +123,6 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		}
 		config.setPortletsConfiguration(configs);
 		config.setPageName(name);
-	}
-
-	@Override
-	public void onDragStart(DragStartEvent event) {
-
-	}
-
-	@Override
-	public void onPreviewDragEnd(DragEndEvent event) throws VetoDragException {
-	}
-
-	@Override
-	public void onPreviewDragStart(DragStartEvent event)
-			throws VetoDragException {
-
-	}
-
-	public DragController getDragController() {
-		return dragController;
 	}
 
 	public void refreshWidgets() {

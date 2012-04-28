@@ -4,7 +4,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
+import com.vimukti.accounter.web.client.ui.reports.PayablesAndReceivablesReportsAction;
 
 public class DashboardOweGrid extends ListGrid<ClientPayee> {
 
@@ -90,7 +90,8 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 				new NewTAXAgencyAction().run((ClientTAXAgency) obj, false);
 				return;
 			}
-			new StatementReportAction(obj.getID(), obj.isVendor()).run();
+			PayablesAndReceivablesReportsAction.statementReport(obj.getID(),
+					obj.isVendor()).run();
 		}
 	}
 

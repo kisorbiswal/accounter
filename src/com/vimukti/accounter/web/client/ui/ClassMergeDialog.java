@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;

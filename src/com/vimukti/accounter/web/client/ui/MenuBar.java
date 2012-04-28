@@ -692,7 +692,6 @@ public class MenuBar {
 		// HistoryTokens.BANKSTATEMENTS);
 		bankingMenuBar.addSeparatorItem();
 
-		bankingMenuBar.addMenuItem(messages.payments(), HistoryTokens.PAYMENTS);
 		bankingMenuBar.addMenuItem(messages.bankAccounts(),
 				HistoryTokens.BANKACCOUNTS);
 		// bankingMenuBar.addMenuItem(getBankingListMenu(messages.bankingList()));
@@ -765,12 +764,6 @@ public class MenuBar {
 					messages.payeePayments(Global.get().Vendor()),
 					HistoryTokens.VENDORPAYMENTS);
 		}
-		if (isPurchaseOrderEnabled && canSeeInvoiceTransactions) {
-			vendorMenuBar.addMenuItem(messages.purchaseOrderList(),
-					HistoryTokens.PURCHASEORDERLIST);
-		}
-		// vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
-		// .get().Vendor())));
 
 		return vendorMenuBar;
 	}
@@ -860,39 +853,14 @@ public class MenuBar {
 			customerMenuBar.addMenuItem(messages.invoices(),
 					HistoryTokens.INVOICES);
 
-			if (isDoyouwantEstimates) {
-				customerMenuBar.addMenuItem(messages.quotes(),
-						HistoryTokens.QUOTES);
-			}
 			customerMenuBar.addMenuItem(
 					messages.payees(Global.get().Customers()) + " "
 							+ messages.items(), HistoryTokens.CUSTOMERITEMS);
-
-			if (isDelayedchargesEnabled) {
-				customerMenuBar.addMenuItem(messages.Charges(),
-						HistoryTokens.CHARGES);
-				customerMenuBar.addMenuItem(messages.credits(),
-						HistoryTokens.CREDITS);
-			}
-
-			if (isSalesOrderEnabled) {
-				customerMenuBar.addMenuItem(messages.salesOrders(),
-						HistoryTokens.SALESORDERLIST);
-			}
 		}
 		if (isJobTrackingEnabled && hasPermission(Features.JOB_COSTING)) {
 			customerMenuBar.addMenuItem(messages.jobList(),
 					HistoryTokens.JOBSLIST);
 		}
-		if (canSeeBanking) {
-			customerMenuBar.addMenuItem(messages.receivedPayments(),
-					HistoryTokens.RECEIVEPAYMENTS);
-			customerMenuBar.addMenuItem(
-					messages.customerRefunds(Global.get().Customer()),
-					HistoryTokens.CUSTOMERREFUNDS);
-		}
-		// customerMenuBar.addMenuItem(getCustomerListMenu(messages
-		// .payeeLists(Global.get().Customer())));
 
 		return customerMenuBar;
 	}
@@ -1055,10 +1023,6 @@ public class MenuBar {
 			companyListMenuBar.addMenuItem(
 					messages.payeeList(messages.Accounts()),
 					HistoryTokens.ACCOUNTSLIST);
-		}
-		if (canSeeBanking) {
-			companyListMenuBar.addMenuItem(messages.journalEntries(),
-					HistoryTokens.JOURNALENTRIES);
 		}
 
 		if (canSeeInvoiceTransactions) {

@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
@@ -55,7 +55,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement>
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly()))
-			return new AddMeasurementAction();
+			return InventoryActions.measurement();
 		else
 			return null;
 	}

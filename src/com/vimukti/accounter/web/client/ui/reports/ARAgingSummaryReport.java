@@ -17,7 +17,8 @@ public class ARAgingSummaryReport extends AbstractReportView<DummyDebitor> {
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, new ARAgingDetailAction());
+		UIUtils.runAction(record,
+				PayablesAndReceivablesReportsAction.arAgingDetail());
 
 	}
 

@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.CellTable;
@@ -106,7 +106,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 
 	public void setData(List<ClientTDSInfo> data) {
 		if (data == null) {
-			data = Collections.emptyList();
+			data = new ArrayList<ClientTDSInfo>();
 		}
 
 		this.dataprovider.setList(data);

@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -141,7 +142,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 				@Override
 				public void onResultSuccess(ClientStockAdjustment result) {
 					if (result != null) {
-						new StockAdjustmentAction().run(result, false);
+						InventoryActions.stockAdjustment().run(result, false);
 					}
 				}
 

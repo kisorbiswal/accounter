@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -712,7 +711,7 @@ public class CustomerRefundView extends
 
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
-		return Collections.emptyList();
+		return new ArrayList<ClientTransactionItem>();
 	}
 
 	@Override

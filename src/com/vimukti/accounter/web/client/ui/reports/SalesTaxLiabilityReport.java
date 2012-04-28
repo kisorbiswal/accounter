@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
@@ -21,7 +20,7 @@ public class SalesTaxLiabilityReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, new TransactionDetailByTaxItemAction());
+		UIUtils.runAction(record, TAXReportsAction.transactionDetailByTaxItem());
 	}
 
 	@Override

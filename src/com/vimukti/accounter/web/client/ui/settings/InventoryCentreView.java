@@ -27,11 +27,11 @@ import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.IEditableView;
@@ -827,7 +827,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	@Override
 	public void onEdit() {
 		if (selectedItem.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-			InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
+			InventoryActions inventoryAssemblyAction = InventoryActions
+					.newAssembly();
 			inventoryAssemblyAction.setisItemEditable(true);
 			inventoryAssemblyAction.run((ClientInventoryAssembly) selectedItem,
 					false);

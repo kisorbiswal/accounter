@@ -77,7 +77,8 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		UnRealisedExchangeLossesAndGainsAction action = new UnRealisedExchangeLossesAndGainsAction();
+		CompanyAndFinancialReportsAction action = CompanyAndFinancialReportsAction
+				.unRelealisedLossAndGrains();
 		List<CurrencyExchangeRate> allExchangeRates = table.getAllRows();
 		Map<Long, Double> map = new HashMap<Long, Double>();
 		for (CurrencyExchangeRate rate : allExchangeRates) {

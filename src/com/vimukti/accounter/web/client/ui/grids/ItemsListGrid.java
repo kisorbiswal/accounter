@@ -10,9 +10,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
@@ -303,9 +303,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	public void onDoubleClick(ClientItem obj) {
 		if (isCanOpenTransactionView(0, IAccounterCore.ITEM)) {
 			if (obj.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-				InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
-				inventoryAssemblyAction.run((ClientInventoryAssembly) obj,
-						false);
+				InventoryActions.newAssembly().run(
+						(ClientInventoryAssembly) obj, false);
 			} else {
 				NewItemAction itemAction = new NewItemAction(true);
 				itemAction.setType(obj.getType());

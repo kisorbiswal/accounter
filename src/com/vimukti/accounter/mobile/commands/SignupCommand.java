@@ -1,9 +1,5 @@
 package com.vimukti.accounter.mobile.commands;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +14,6 @@ import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.AccounterChatServer;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;

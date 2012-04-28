@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;
@@ -173,7 +172,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				"Canadian 	Dollar", "Cape Verdean 	Escudo",
 				"Cayman Islands 	Dollar", "Chilean 	Peso", "Chinese 	Yuan",
 				"Colombian 	Peso", "Comorian 	Franc", "Congolese 	Franc",
-				"Congolese 	Franc", "Costa Rican 	Colón", "Croatian 	Kuna",
+				"Congolese 	Franc", "Costa Rican 	Colï¿½n", "Croatian 	Kuna",
 				"Cuban Convertible 	Peso", "Czech 	Koruna",
 				"Djiboutian 	Franc", "Dominican 	Peso", "Dominican 	Peso",
 				"Egyptian 	Pound", "Eritrean 	Nakfa", "Estonian 	Kroon",
@@ -181,7 +180,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				"Gambian 	alasi", "Georgian	 Lari", "Ghanaian 	Cedi",
 				"Gibraltar 	Pound", "Guatemalan 	Quetzal", "Guinean 	Franc",
 				"Guyanese 	Dollar", "Haitian 	Gourde", "Honduran 	Lempira",
-				"Hong Kong 	Dollar", "Hungarian 	Forint", "Icelandic 	Króna",
+				"Hong Kong 	Dollar", "Hungarian 	Forint", "Icelandic 	Krï¿½na",
 				"Indian	Rupee", "Indonesian 	Rupiah", "Iranian 	Rial",
 				"Iraqi 	Dinar", "Israeli 	New Sheqel", "Jamaican 	Dollar",
 				"Japanese 	Yen", "Jordanian 	Dinar", "Kazakhstani 	Tenge",
@@ -195,13 +194,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				"Mongolian	 Tugrik", "Moroccan 	Dirham", "Mozambican	Metical",
 				"Namibian 	Dollar", "Nepalese 	Rupee",
 				"Netherlands Antillean 	Guilder", "New Zealand 	Dollar",
-				"Nicaraguan 	Córdoba", "Nigerian	 Naira", "Norwegian 	Krone",
+				"Nicaraguan 	Cï¿½rdoba", "Nigerian	 Naira", "Norwegian 	Krone",
 				"Omani 	Rial", "Pakistani 	Rupee", "Panamanian 	Balboa",
-				"Papua New Guinean 	Kina", "Paraguayan 	Guaraní",
+				"Papua New Guinean 	Kina", "Paraguayan 	Guaranï¿½",
 				"Peruvian Nuevo 	Sol", "Philippine 	Peso", "Qatari 	Riyal",
 				"Romanian 	Leu", "Russian 	Ruble", "Rwandan 	Franc",
 				"Saint Helenian 	Pound", "Samoan 	Tala",
-				"São Tomé and Príncipe 	Dobra", "Saudi 	Riyal",
+				"Sï¿½o Tomï¿½ and Prï¿½ncipe 	Dobra", "Saudi 	Riyal",
 				"Serbian 	Dinar", "Seychellois 	Rupee",
 				"Sierra Leonean 	Leone", "Singapore 	Dollar", "Slovak 	Koruna",
 				"Solomon Islands 	Dollar", "Somali  	Shilling",
@@ -214,7 +213,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				"Ugandan 	Shilling", "Ukrainian 	Hryvnia",
 				"United Arab Emirates 	Dirham", "Uruguayan 	Peso",
 				"Uzbekistani 	Som", "Vanuatu 	Vatu",
-				"Venezuelan Bolívar 	Fuertes", "Vietnamese 	Dong",
+				"Venezuelan Bolï¿½var 	Fuertes", "Vietnamese 	Dong",
 				"Yemeni 	Rial", "Zambian 	Kwacha", "Zimbabwean 	Dollar" };
 		for (int i = 0; i < currencyCodes.length; i++) {
 			ClientCurrency clientCurrency = new ClientCurrency();
@@ -737,28 +736,28 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 				},
 				// AFGHANISTAN
-				{ "Badah_šan", "Badgis", "Baglan", "Balh_", "Bamiyan", "Farah",
+				{ "Badah_ï¿½an", "Badgis", "Baglan", "Balh_", "Bamiyan", "Farah",
 						"Faryab", "Gawr", "Gazni", "H_awst", "Herat",
 						"Hilmand", "Jawzjan", "Kabul", "Kandahar", "Kapisa",
 						"Kunarha", "Kunduz", "Lagman", "Lawgar",
 						"Maydan-Wardak", "Nangarhar", "Nimruz", "Nuristan",
 						"Paktika", "Paktiya", "Parwan", "Samangan",
 						"Sar-e Pul", "Tah_ar", "Uruzgan", "Zabul" },// ALBANIA
-				{ "Berat", "Bulqizë", "Delvinë", "Devoll", "Dibrë", "Durrës",
-						"Elbasan", "Fier", "Gjirokastër", "Gramsh", "Has",
-						"Kavajë", "Kolonjë", "Korçë", "Krujë", "Kuçovë",
-						"Kukës", "Kurbin", "Lezhë", "Librazhd", "Lushnjë",
-						"Mallakastër", "Malsi e Madhe", "Mat", "Mirditë",
-						"Peqin", "Përmet", "Pogradec", "Pukë", "Sarandë",
-						"Shkodër", "Skrapar", "Tepelenë", "Tirana", "Tropojë",
-						"Vlorë" },
+				{ "Berat", "Bulqizï¿½", "Delvinï¿½", "Devoll", "Dibrï¿½", "Durrï¿½s",
+						"Elbasan", "Fier", "Gjirokastï¿½r", "Gramsh", "Has",
+						"Kavajï¿½", "Kolonjï¿½", "Korï¿½ï¿½", "Krujï¿½", "Kuï¿½ovï¿½",
+						"Kukï¿½s", "Kurbin", "Lezhï¿½", "Librazhd", "Lushnjï¿½",
+						"Mallakastï¿½r", "Malsi e Madhe", "Mat", "Mirditï¿½",
+						"Peqin", "Pï¿½rmet", "Pogradec", "Pukï¿½", "Sarandï¿½",
+						"Shkodï¿½r", "Skrapar", "Tepelenï¿½", "Tirana", "Tropojï¿½",
+						"Vlorï¿½" },
 				// ALGERIA
 				{ "Adrar", "al-Agwat", "al-Bayad", "al-Buirah", "Algier",
 						"al-Jilfah", "al-Masilah", "al-Midyah", "al-Wad",
-						"an-Na'amah", "Annabah", "aš-Šalif", "at-Tarif",
-						"'Ayn ad-Dafla", "'Ayn Timušanat", "Baššar", "Batnah",
+						"an-Na'amah", "Annabah", "aï¿½-ï¿½alif", "at-Tarif",
+						"'Ayn ad-Dafla", "'Ayn Timuï¿½anat", "Baï¿½ï¿½ar", "Batnah",
 						"Bijayah", "Biskrah", "Blidah", "Bumardas",
-						"Burj Bu Arririj", "Galizan", "Gardayah", "H_anšalah",
+						"Burj Bu Arririj", "Galizan", "Gardayah", "H_anï¿½alah",
 						"Ilizi", "Jijili", "Milah", "Mu'askar", "Mustaganam",
 						"Qalmah", "Qusantinah", "Sa'idah", "Sakikdah", "Satif",
 						"Sidi bal'abbas", "Suq Ahras", "Tamanrasat", "Tibazah",
@@ -770,13 +769,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// ANDORRA
 				{ "Andorra la Vella", "Canillo", "Encamp",
 						"Escaldes-Engordany", "La Massana", "Ordino",
-						"Sant Julià de Lòria" }
+						"Sant Juliï¿½ de Lï¿½ria" }
 				// ANGOLA
 				,
-				{ "Bengo", "Benguela", "Bié", "Cabinda", "Cuando-Cubango",
+				{ "Bengo", "Benguela", "Biï¿½", "Cabinda", "Cuando-Cubango",
 						"Cuanza-Norte", "Cuanza-Sul", "Cunene", "Huambo",
-						"Huíla", "Luanda", "Lunda Norte", "Lunda Sul",
-						"Malanje", "Moxico", "Namibe", "Uíge", "Zaire" }
+						"Huï¿½la", "Luanda", "Lunda Norte", "Lunda Sul",
+						"Malanje", "Moxico", "Namibe", "Uï¿½ge", "Zaire" }
 				// ANGUILLA
 				,
 				{ "" }
@@ -789,12 +788,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Saint Paul", "Saint Peter", "Saint Philip" }
 				// ARGENTINA
 				,
-				{ "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Córdoba",
-						"Corrientes", "Distrito Federal", "Entre Ríos",
+				{ "Buenos Aires", "Catamarca", "Chaco", "Chubut", "Cï¿½rdoba",
+						"Corrientes", "Distrito Federal", "Entre Rï¿½os",
 						"Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza",
-						"Misiones", "Neuquén", "Río Negro", "Salta",
-						"San Juan", "San Luis", "Santa Cruz", "Santa Fé",
-						"Santiago del Estero", "Tierra del Fuego", "Tucumán" }
+						"Misiones", "Neuquï¿½n", "Rï¿½o Negro", "Salta",
+						"San Juan", "San Luis", "Santa Cruz", "Santa Fï¿½",
+						"Santiago del Estero", "Tierra del Fuego", "Tucumï¿½n" }
 				// ARMENIA
 				,
 				{ "Aragatsotn", "Ararat", "Armavir", "Gegharkunik", "Kotayk",
@@ -805,8 +804,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "" }
 				// AUSTRIA
 				,
-				{ "Burgenland", "Kärnten", "Niederösterreich",
-						"Oberösterreich", "Salzburg", "Steiermark", "Tirol",
+				{ "Burgenland", "Kï¿½rnten", "Niederï¿½sterreich",
+						"Oberï¿½sterreich", "Salzburg", "Steiermark", "Tirol",
 						"Vorarlberg", "Wien" }
 				// AUSTRALIA
 				,
@@ -816,8 +815,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// AZERBAIJAN
 				,
 				{ "Abseron", "Aran", "Baki", "Dagliq Sirvan", "G?nc?-Qazax",
-						"K?lb?c?r-Laçin", "L?nk?ran", "Naxçivan",
-						"Quba-Xaçmaz", "S?ki-Zaqatala", "Yuxari Qarabag" }
+						"K?lb?c?r-Laï¿½in", "L?nk?ran", "Naxï¿½ivan",
+						"Quba-Xaï¿½maz", "S?ki-Zaqatala", "Yuxari Qarabag" }
 				// BAHAMAS, THE
 				,
 				{ "Abaco", "Acklins Island", "Andros", "Berry Islands",
@@ -828,7 +827,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// BAHRAIN
 				,
 				{ "al-Garbiyah", "al-H?idd", "al-Muh?arraq", "al-Wusta",
-						"ar-Rifa'a", "aš-Šamaliyah", "'Isa", "Jidh?afs",
+						"ar-Rifa'a", "aï¿½-ï¿½amaliyah", "'Isa", "Jidh?afs",
 						"Madinat H?amad", "Manama", "Sitrah" }
 				// BANGLADESH
 				,
@@ -862,8 +861,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Saint Philip", "Saint Thomas" }
 				// BELGIUM
 				,
-				{ "Antwerpen", "Brabant Wallon", "Brüssel", "Flämisch Brabant",
-						"Hennegau", "Limburg", "Lüttich", "Luxemburg", "Namur",
+				{ "Antwerpen", "Brabant Wallon", "Brï¿½ssel", "Flï¿½misch Brabant",
+						"Hennegau", "Limburg", "Lï¿½ttich", "Luxemburg", "Namur",
 						"Ost-Flandern", "West-Flandern" }
 				// BELIZE
 				,
@@ -872,7 +871,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// BENIN
 				,
 				{ "Alibori", "Atacora", "Atlantique", "Borgou", "Collines",
-						"Couffo", "Donga", "Littoral", "Mono", "Ouémé",
+						"Couffo", "Donga", "Littoral", "Mono", "Ouï¿½mï¿½",
 						"Plateau", "Zou" }
 				// BERMUDA
 				,
@@ -904,13 +903,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{}
 				// BRAZIL
 				,
-				{ "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará",
-						"Distrito Federal", "Espírito Santo", "Goiás",
-						"Maranhão", "Mato Grosso", "Mato Grosso do Sul",
-						"Minas Gerais", "Pará", "Paraíba", "Paraná",
-						"Pernambuco", "Piauí", "Rio de Janeiro",
-						"Rio Grande do Norte", "Rio Grande do Sul", "Rondônia",
-						"Roraima", "Santa Catarina", "São Paulo", "Sergipe",
+				{ "Acre", "Alagoas", "Amapï¿½", "Amazonas", "Bahia", "Cearï¿½",
+						"Distrito Federal", "Espï¿½rito Santo", "Goiï¿½s",
+						"Maranhï¿½o", "Mato Grosso", "Mato Grosso do Sul",
+						"Minas Gerais", "Parï¿½", "Paraï¿½ba", "Paranï¿½",
+						"Pernambuco", "Piauï¿½", "Rio de Janeiro",
+						"Rio Grande do Norte", "Rio Grande do Sul", "Rondï¿½nia",
+						"Roraima", "Santa Catarina", "Sï¿½o Paulo", "Sergipe",
 						"Tocantins" }
 				// BRITISH INDIAN OCEAN TERRITORY
 				,
@@ -921,24 +920,24 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// BULGARIA
 				,
 				{ "Blagoevgrad", "Burgas", "Dobric", "Gabrovo", "Haskovo",
-						"Jambol", "Kardžali", "Kjustendil", "Lovec", "Montana",
-						"Pazardžik", "Pernik", "Pleven", "Plovdiv", "Razgrad",
+						"Jambol", "Kardï¿½ali", "Kjustendil", "Lovec", "Montana",
+						"Pazardï¿½ik", "Pernik", "Pleven", "Plovdiv", "Razgrad",
 						"Ruse", "Silistra", "Sliven", "Smoljan", "Sofija grad",
-						"Sofijska oblast", "Stara Zagora", "Šumen",
-						"Targovište", "Varna", "Veliko Tarnovo", "Vidin",
+						"Sofijska oblast", "Stara Zagora", "ï¿½umen",
+						"Targoviï¿½te", "Varna", "Veliko Tarnovo", "Vidin",
 						"Vraca" }
 				// BURKINA FASO
 				,
-				{ "Balé", "Bam", "Banwa", "Bazéga", "Bougouriba", "Boulgou",
-						"Boulkiemdé", "Comoé", "Ganzourgou", "Gnagna",
-						"Gourma", "Houet", "Ioba", "Kadiogo", "Kénédougou",
-						"Komandjoari", "Kompienga", "Kossi", "Koulpélogo",
-						"Kouritenga", "Kourwéogo", "Léraba", "Loroum",
+				{ "Balï¿½", "Bam", "Banwa", "Bazï¿½ga", "Bougouriba", "Boulgou",
+						"Boulkiemdï¿½", "Comoï¿½", "Ganzourgou", "Gnagna",
+						"Gourma", "Houet", "Ioba", "Kadiogo", "Kï¿½nï¿½dougou",
+						"Komandjoari", "Kompienga", "Kossi", "Koulpï¿½logo",
+						"Kouritenga", "Kourwï¿½ogo", "Lï¿½raba", "Loroum",
 						"Mouhoun", "Nahouri", "Namentenga", "Nayala",
-						"Noumbiel", "Oubritenga", "Oudalan", "Passoré", "Poni",
-						"Sanguié", "Sanmatenga", "Séno", "Sissili", "Soum",
+						"Noumbiel", "Oubritenga", "Oudalan", "Passorï¿½", "Poni",
+						"Sanguiï¿½", "Sanmatenga", "Sï¿½no", "Sissili", "Soum",
 						"Sourou", "Tapoa", "Tuy", "Yagha", "Yatenga", "Ziro",
-						"Zondoma", "Zoundwéogo" }
+						"Zondoma", "Zoundwï¿½ogo" }
 				// BURUNDI
 				,
 				{ "Bubanza", "Bujumbura", "Bururi", "Cankuzo", "Cibitoke",
@@ -946,51 +945,51 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Muramvya", "Muyinga", "Ngozi", "Rutana", "Ruyigi" }
 				// CAMBODIA
 				,
-				{ "Banteay Mean Chey", "Bat Dâmbâng", "Kâmpóng Cham",
-						"Kâmpóng Chhnang", "Kâmpóng Spoeu", "Kâmpóng Thum",
-						"Kâmpôt", "Kândal", "Kaôh Kông", "Krâchéh",
+				{ "Banteay Mean Chey", "Bat Dï¿½mbï¿½ng", "Kï¿½mpï¿½ng Cham",
+						"Kï¿½mpï¿½ng Chhnang", "Kï¿½mpï¿½ng Spoeu", "Kï¿½mpï¿½ng Thum",
+						"Kï¿½mpï¿½t", "Kï¿½ndal", "Kaï¿½h Kï¿½ng", "Krï¿½chï¿½h",
 						"Krong Kaeb", "Krong Pailin", "Krong Preah Sihanouk",
-						"Môndôl Kiri", "Otdar Mean Chey", "Phnum Pénh",
-						"Pousat", "Preah Vihéar", "Prey Veaeng",
-						"Rôtanak Kiri", "Siem Reab", "Stueng Traeng",
+						"Mï¿½ndï¿½l Kiri", "Otdar Mean Chey", "Phnum Pï¿½nh",
+						"Pousat", "Preah Vihï¿½ar", "Prey Veaeng",
+						"Rï¿½tanak Kiri", "Siem Reab", "Stueng Traeng",
 						"Svay Rieng", "Takaev" }
 				// CAMEROON
 				,
 				{ "Adamaoua", "Centre", "Est", "Littoral", "Nord",
-						"Nord Extrème", "Nordouest", "Ouest", "Sud", "Sudouest" }
+						"Nord Extrï¿½me", "Nordouest", "Ouest", "Sud", "Sudouest" }
 				// CANADA
 				,
 				{ "Alberta", "British Columbia", "Manitoba", "New Brunswick",
 						"Newfoundland and Labrador", "Northwest Territories",
 						"Nova Scotia", "Nunavut", "Ontario",
-						"Prince Edward Island", "Québec", "Saskatchewan",
+						"Prince Edward Island", "Quï¿½bec", "Saskatchewan",
 						"Yukon" }
 				// CAPE VERDE
 				,
-				{ "Boavista", "Brava", "Fogo", "Maio", "Sal", "Santo Antão",
-						"São Nicolau", "São Tiago", "São Vicente" }
+				{ "Boavista", "Brava", "Fogo", "Maio", "Sal", "Santo Antï¿½o",
+						"Sï¿½o Nicolau", "Sï¿½o Tiago", "Sï¿½o Vicente" }
 				// CAYMAN ISLANDS
 				,
 				{ "Grand Cayman" }
 				// CENTRAL AFRICAN REPUBLIC
 				,
 				{ "Bamingui-Bangoran", "Bangui", "Basse-Kotto", "Haute-Kotto",
-						"Haut-Mbomou", "Kémo", "Lobaye", "Mambéré-Kadéï",
-						"Mbomou", "Nana-Gribizi", "Nana-Mambéré",
-						"Ombella Mpoko", "Ouaka", "Ouham", "Ouham-Pendé",
-						"Sangha-Mbaéré", "Vakaga" }
+						"Haut-Mbomou", "Kï¿½mo", "Lobaye", "Mambï¿½rï¿½-Kadï¿½ï¿½",
+						"Mbomou", "Nana-Gribizi", "Nana-Mambï¿½rï¿½",
+						"Ombella Mpoko", "Ouaka", "Ouham", "Ouham-Pendï¿½",
+						"Sangha-Mbaï¿½rï¿½", "Vakaga" }
 				// CHAD
 				,
 				{ "Batha", "Biltine", "Bourkou-Ennedi-Tibesti",
-						"Chari-Baguirmi", "Guéra", "Kanem", "Lac",
-						"Logone Occidental", "Logone Oriental", "Mayo-Kébbi",
-						"Moyen-Chari", "Ouaddaï", "Salamat", "Tandjilé" }
+						"Chari-Baguirmi", "Guï¿½ra", "Kanem", "Lac",
+						"Logone Occidental", "Logone Oriental", "Mayo-Kï¿½bbi",
+						"Moyen-Chari", "Ouaddaï¿½", "Salamat", "Tandjilï¿½" }
 				// CHILE
 				,
-				{ "Aisén", "Antofagasta", "Araucanía", "Atacama", "Bío Bío",
+				{ "Aisï¿½n", "Antofagasta", "Araucanï¿½a", "Atacama", "Bï¿½o Bï¿½o",
 						"Coquimbo", "Libertador General Bernardo O'Higgins",
 						"Los Lagos", "Magellanes", "Maule", "Metropolitana",
-						"Tarapacá", "Valparaíso" }
+						"Tarapacï¿½", "Valparaï¿½so" }
 				// CHINA
 				,
 				{ "Anhui", "Aomen", "Beijing", "Chongqing", "Fujian", "Gansu",
@@ -1008,26 +1007,26 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Home Island", "West Island" }
 				// COLOMBIA
 				,
-				{ "Amazonas", "Antioquia", "Arauca", "Atlántico", "Bogotá",
-						"Bolívar", "Boyacá", "Caldas", "Caquetá", "Casanare",
-						"Cauca", "César", "Chocó", "Córdoba", "Cundinamarca",
-						"Guainía", "Guaviare", "Huila", "La Guajira",
-						"Magdalena", "Meta", "Nariño", "Norte de Santander",
-						"Putumayo", "Quindió", "Risaralda",
-						"San Andrés y Providencia", "Santander", "Sucre",
-						"Tolima", "Valle del Cauca", "Vaupés", "Vichada" }
+				{ "Amazonas", "Antioquia", "Arauca", "Atlï¿½ntico", "Bogotï¿½",
+						"Bolï¿½var", "Boyacï¿½", "Caldas", "Caquetï¿½", "Casanare",
+						"Cauca", "Cï¿½sar", "Chocï¿½", "Cï¿½rdoba", "Cundinamarca",
+						"Guainï¿½a", "Guaviare", "Huila", "La Guajira",
+						"Magdalena", "Meta", "Nariï¿½o", "Norte de Santander",
+						"Putumayo", "Quindiï¿½", "Risaralda",
+						"San Andrï¿½s y Providencia", "Santander", "Sucre",
+						"Tolima", "Valle del Cauca", "Vaupï¿½s", "Vichada" }
 				// COMOROS
 				,
 				{ "Mwali", "Ndzouani", "Ngazidja" }
 				// CONGO, DEMOCRATIC REPUBLIC OF THE
 				,
-				{ "Bandundu", "Bas-Congo", "Équateur", "Haut-Congo",
+				{ "Bandundu", "Bas-Congo", "ï¿½quateur", "Haut-Congo",
 						"Kasai-Occidental", "Kasai-Oriental", "Katanga",
 						"Kinshasa", "Maniema", "Nord-Kivu", "Sud-Kivu" }
 				// CONGO, REPUBLIC OF THE
 				,
 				{ "Bouenza", "Brazzaville", "Cuvette", "Cuvette-Ouest",
-						"Kouilou", "Lékoumou", "Likouala", "Niari", "Plateaux",
+						"Kouilou", "Lï¿½koumou", "Likouala", "Niari", "Plateaux",
 						"Pool", "Sangha" }
 				// COOK ISLANDS
 				,
@@ -1036,40 +1035,40 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Rarotonga", "Tongareva" }
 				// COSTA RICA
 				,
-				{ "Alajuela", "Cartago", "Guanacaste", "Heredia", "Limón",
-						"Puntarenas", "San José" }
+				{ "Alajuela", "Cartago", "Guanacaste", "Heredia", "Limï¿½n",
+						"Puntarenas", "San Josï¿½" }
 				// COTE D'IVOIRE
 				,
-				{ "Abidjan", "Bouaké", "Daloa", "Korhogo", "Yamoussoukro" }
+				{ "Abidjan", "Bouakï¿½", "Daloa", "Korhogo", "Yamoussoukro" }
 				// CROATIA
 				,
 				{ "Bjelovar-Bilogora", "Dubrovnik-Neretva", "Grad Zagreb",
-						"Istra", "Karlovac", "Koprivnica-Križevci",
+						"Istra", "Karlovac", "Koprivnica-Kriï¿½evci",
 						"Krapina-Zagorje", "Lika-Senj", "Medimurje",
-						"Osijek-Baranja", "Požega-Slavonija",
-						"Primorje-Gorski Kotar", "Šibenik-Knin",
+						"Osijek-Baranja", "Poï¿½ega-Slavonija",
+						"Primorje-Gorski Kotar", "ï¿½ibenik-Knin",
 						"Sisak-Moslavina", "Slavonski Brod-Posavina",
-						"Split-Dalmacija", "Varaždin", "Virovitica-Podravina",
+						"Split-Dalmacija", "Varaï¿½din", "Virovitica-Podravina",
 						"Vukovar-Srijem", "Zadar", "Zagreb" }
 				// CUBA
 				,
-				{ "Camagüey", "Ciego de Ávila", "Cienfuegos",
-						"Ciudad de la Habana", "Granma", "Guantánamo",
-						"Holguín", "Isla de la Juventud", "La Habana",
-						"Las Tunas", "Matanzas", "Pinar del Río",
-						"Sancti Spíritus", "Santiago de Cuba", "Villa Clara" }
+				{ "Camagï¿½ey", "Ciego de ï¿½vila", "Cienfuegos",
+						"Ciudad de la Habana", "Granma", "Guantï¿½namo",
+						"Holguï¿½n", "Isla de la Juventud", "La Habana",
+						"Las Tunas", "Matanzas", "Pinar del Rï¿½o",
+						"Sancti Spï¿½ritus", "Santiago de Cuba", "Villa Clara" }
 				// CYPRUS
 				,
 				{ "Government controlled area", "Turkish controlled area" }
 				// CZECH REPUBLIC
 				,
-				{ "Jihoceský", "Jihomoravský", "Karlovarský",
-						"Královéhradecký", "Liberecký", "Moravskoslezský",
-						"Olomoucký", "Pardubický", "Plzenský", "Prag",
-						"Stredoceský", "Ústecký", "Vysocina", "Zlínský" }
+				{ "Jihoceskï¿½", "Jihomoravskï¿½", "Karlovarskï¿½",
+						"Krï¿½lovï¿½hradeckï¿½", "Libereckï¿½", "Moravskoslezskï¿½",
+						"Olomouckï¿½", "Pardubickï¿½", "Plzenskï¿½", "Prag",
+						"Stredoceskï¿½", "ï¿½steckï¿½", "Vysocina", "Zlï¿½nskï¿½" }
 				// DENMARK
 				,
-				{ "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland",
+				{ "Hovedstaden", "Midtjylland", "Nordjylland", "Sjï¿½lland",
 						"Syddanmark" }
 				// DJIBOUTI
 				,
@@ -1081,51 +1080,51 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Saint Patrick", "Saint Paul", "Saint Peter" }
 				// DOMINICAN REPUBLIC
 				,
-				{ "Azua", "Baoruco", "Barahona", "Dajabón", "Duarte",
-						"Elías Piña", "El Seibo", "Espaillat", "Hato Mayor",
+				{ "Azua", "Baoruco", "Barahona", "Dajabï¿½n", "Duarte",
+						"Elï¿½as Piï¿½a", "El Seibo", "Espaillat", "Hato Mayor",
 						"Independencia", "La Altagracia", "La Romana",
-						"La Vega", "María Trinidad Sánchez", "Monseñor Nouel",
+						"La Vega", "Marï¿½a Trinidad Sï¿½nchez", "Monseï¿½or Nouel",
 						"Monte Cristi", "Monte Plata", "Pedernales", "Peravia",
-						"Puerto Plata", "Salcedo", "Samaná", "Sánchez Ramírez",
-						"San Cristóbal", "San José de Ocoa", "San Juan",
-						"San Pedro de Macorís", "Santiago",
-						"Santiago Rodríguez", "Santo Domingo", "Valverde" }
+						"Puerto Plata", "Salcedo", "Samanï¿½", "Sï¿½nchez Ramï¿½rez",
+						"San Cristï¿½bal", "San Josï¿½ de Ocoa", "San Juan",
+						"San Pedro de Macorï¿½s", "Santiago",
+						"Santiago Rodrï¿½guez", "Santo Domingo", "Valverde" }
 				// ECUADOR
 				,
-				{ "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo",
-						"Cotopaxi", "El Oro", "Esmeraldas", "Galápagos",
-						"Guayas", "Imbabura", "Loja", "Los Ríos", "Manabí",
+				{ "Azuay", "Bolï¿½var", "Caï¿½ar", "Carchi", "Chimborazo",
+						"Cotopaxi", "El Oro", "Esmeraldas", "Galï¿½pagos",
+						"Guayas", "Imbabura", "Loja", "Los Rï¿½os", "Manabï¿½",
 						"Morona Santiago", "Napo", "Orellana", "Pastaza",
-						"Pichincha", "Sucumbíos", "Tungurahua",
+						"Pichincha", "Sucumbï¿½os", "Tungurahua",
 						"Zamora Chinchipe" }
 				// EGYPT
 				,
 				{ "ad-Daqahliyah", "al-Bah?r-al-Ah?mar", "al-Buh?ayrah",
 						"Alexandria", "al-Fayyum", "al-Garbiyah",
 						"al-Ismailiyah", "al-Minufiyah", "al-Minya",
-						"al-Qalyubiyah", "al-Wadi al-Jadid", "aš-Šarqiyah",
+						"al-Qalyubiyah", "al-Wadi al-Jadid", "aï¿½-ï¿½arqiyah",
 						"Assiut", "Assuan", "as-Suways", "Bani Suwayf",
-						"Bur Sa'id", "Dumyat", "Giseh", "Kafr-aš-Šayh_",
-						"Kairo", "Luxor", "Matruh", "Qina", "Šamal Sina",
+						"Bur Sa'id", "Dumyat", "Giseh", "Kafr-aï¿½-ï¿½ayh_",
+						"Kairo", "Luxor", "Matruh", "Qina", "ï¿½amal Sina",
 						"Sawhaj", "South Sinai" }
 				// EL SALVADOR
 				,
-				{ "Ahuachapán", "Cabañas", "Chalatenango", "Cuscatlán",
-						"La Libertad", "La Paz", "La Unión", "Morazán",
+				{ "Ahuachapï¿½n", "Cabaï¿½as", "Chalatenango", "Cuscatlï¿½n",
+						"La Libertad", "La Paz", "La Uniï¿½n", "Morazï¿½n",
 						"San Miguel", "San Salvador", "Santa Ana",
-						"San Vicente", "Sonsonate", "Usulután" }
+						"San Vicente", "Sonsonate", "Usulutï¿½n" }
 				// EQUATORIAL GUINEA
 				,
-				{ "Annobón", "Bioko Norte", "Bioko Sur", "Centro Sur",
-						"Kié-Ntem", "Litoral", "Wele-Nzas" }
+				{ "Annobï¿½n", "Bioko Norte", "Bioko Sur", "Centro Sur",
+						"Kiï¿½-Ntem", "Litoral", "Wele-Nzas" }
 				// ERITREA
 				,
 				{ "Anseba", "Debub", "Debub-Keih-Bahri", "Gash-Barka",
 						"Maekel", "Semien-Keih-Bahri" }
 				// ESTONIA
 				,
-				{ "Harju", "Hiiu", "Ida-Viru", "Järva", "Jogeva", "Lääne",
-						"Lääne-Viru", "Pärnu", "Polva", "Rapla", "Saare",
+				{ "Harju", "Hiiu", "Ida-Viru", "Jï¿½rva", "Jogeva", "Lï¿½ï¿½ne",
+						"Lï¿½ï¿½ne-Viru", "Pï¿½rnu", "Polva", "Rapla", "Saare",
 						"Tartu", "Valga", "Viljandi", "Voru" }
 				// ETHIOPIA
 				,
@@ -1137,44 +1136,44 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Falkland Islands", "South Georgia" }
 				// FAROE ISLANDS
 				,
-				{ "Klaksvík", "Norðara Eysturoy", "Norðoy", "Sandoy",
-						"Streymoy", "Suðuroy", "Syðra Eysturoy", "Tórshavn",
-						"Vága" }
+				{ "Klaksvï¿½k", "Norï¿½ara Eysturoy", "Norï¿½oy", "Sandoy",
+						"Streymoy", "Suï¿½uroy", "Syï¿½ra Eysturoy", "Tï¿½rshavn",
+						"Vï¿½ga" }
 				// FIJI
 				,
 				{ "Central", "Eastern", "Northern", "Western" }
 				// FINLAND
 				,
-				{ "Ahvenanmaa", "Etelä-Karjala", "Etelä-Pohjanmaa",
-						"Etelä-Savo", "Itä-Uusimaa", "Kainuu", "Kanta-Häme",
+				{ "Ahvenanmaa", "Etelï¿½-Karjala", "Etelï¿½-Pohjanmaa",
+						"Etelï¿½-Savo", "Itï¿½-Uusimaa", "Kainuu", "Kanta-Hï¿½me",
 						"Keski-Pohjanmaa", "Keski-Suomi", "Kymenlaakso",
-						"Lappland", "Päijät-Häme", "Pirkanmaa", "Pohjanmaa",
+						"Lappland", "Pï¿½ijï¿½t-Hï¿½me", "Pirkanmaa", "Pohjanmaa",
 						"Pohjois-Karjala", "Pohjois-Pohjanmaa", "Pohjois-Savo",
 						"Satakunta", "Uusimaa", "Varsinais-Suomi" }
 				// FRANCE
 				,
 				{ "Alsace", "Aquitaine", "Auvergne", "Basse-Normandie",
 						"Bourgogne", "Bretagne", "Centre", "Champagne-Ardenne",
-						"Corse", "Franche-Comté", "Haute-Normandie",
-						"Île-de-France", "Languedoc-Roussillon", "Limousin",
-						"Lorraine", "Midi-Pyrénées", "Nord-Pas-de-Calais",
+						"Corse", "Franche-Comtï¿½", "Haute-Normandie",
+						"ï¿½le-de-France", "Languedoc-Roussillon", "Limousin",
+						"Lorraine", "Midi-Pyrï¿½nï¿½es", "Nord-Pas-de-Calais",
 						"Pays-de-la-Loire", "Picardie", "Poitou-Charentes",
-						"Provence-Alpes-Côte-d'Azur", "Rhône-Alpes" }
+						"Provence-Alpes-Cï¿½te-d'Azur", "Rhï¿½ne-Alpes" }
 				// FRENCH GUIANA
 				,
 				{ "Cayenne", "Saint-Laurent-du-Maroni" }
 				// FRENCH POLYNESIA
 				,
-				{ "Îles du Vent", "Îles sous le Vent", "Marquises",
+				{ "ï¿½les du Vent", "ï¿½les sous le Vent", "Marquises",
 						"Tuamotu-Gambier", "Tubuai" }
 				// FRENCH SOUTHERN AND ANTARCTIC LANDS
 				,
 				{ "Amsterdam", "Crozet Islands", "Kerguelen" }
 				// GABON
 				,
-				{ "Estuaire", "Haut-Ogooué", "Moyen-Ogooué", "Ngounié",
-						"Nyanga", "Ogooué-Ivindo", "Ogooué-Lolo",
-						"Ogooué-Maritime", "Woleu-Ntem" }
+				{ "Estuaire", "Haut-Ogoouï¿½", "Moyen-Ogoouï¿½", "Ngouniï¿½",
+						"Nyanga", "Ogoouï¿½-Ivindo", "Ogoouï¿½-Lolo",
+						"Ogoouï¿½-Maritime", "Woleu-Ntem" }
 				// GAMBIA, THE
 				,
 				{ "Banjul", "Basse", "Brikama", "Janjanbureh", "Kanifing",
@@ -1188,12 +1187,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Shida Kartli", "Tiflis" }
 				// GERMANY
 				,
-				{ "Baden-Württemberg", "Bayern", "Berlin", "Brandenburg",
+				{ "Baden-Wï¿½rttemberg", "Bayern", "Berlin", "Brandenburg",
 						"Bremen", "Hamburg", "Hessen",
 						"Mecklenburg-Vorpommern", "Niedersachsen",
 						"Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland",
 						"Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein",
-						"Thüringen" }
+						"Thï¿½ringen" }
 				// GHANA
 				,
 				{ "Ashanti", "Brong-Ahafo", "Central", "Eastern",
@@ -1204,7 +1203,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "" }
 				// GREECE
 				,
-				{ "Attikí", "Kentriki Ellada", "Nisia Aigaiou Kriti",
+				{ "Attikï¿½", "Kentriki Ellada", "Nisia Aigaiou Kriti",
 						"Voria Ellada" }
 				// GREENLAND
 				,
@@ -1224,13 +1223,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				}
 				// GUADELOUPE
 				,
-				{ "Basse-Terre", "Grande-Terre", "Îles des Saintes",
-						"La Désirade", "Marie-Galante", "Saint Barthélemy",
+				{ "Basse-Terre", "Grande-Terre", "ï¿½les des Saintes",
+						"La Dï¿½sirade", "Marie-Galante", "Saint Barthï¿½lemy",
 						"Saint Martin" }
 				// GUAM
 				,
 				{ "Agana Heights", "Agat", "Barrigada", "Chalan-Pago-Ordot",
-						"Dededo", "Hagatña", "Inarajan", "Mangilao", "Merizo",
+						"Dededo", "Hagatï¿½a", "Inarajan", "Mangilao", "Merizo",
 						"Mongmong-Toto-Maite", "Santa Rita", "Sinajana",
 						"Talofofo", "Tamuning", "Yigo", "Yona" }
 				// GUATEMALA
@@ -1238,16 +1237,16 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Alta Verapaz", "Baja Verapaz", "Chimaltenango",
 						"Chiquimula", "El Progreso", "Escuintla", "Guatemala",
 						"Huehuetenango", "Izabal", "Jalapa", "Jutiapa",
-						"Petén", "Quezaltenango", "Quiché", "Retalhuleu",
-						"Sacatepéquez", "San Marcos", "Santa Rosa", "Sololá",
-						"Suchitepéquez", "Totonicapán", "Zacapa" }
+						"Petï¿½n", "Quezaltenango", "Quichï¿½", "Retalhuleu",
+						"Sacatepï¿½quez", "San Marcos", "Santa Rosa", "Sololï¿½",
+						"Suchitepï¿½quez", "Totonicapï¿½n", "Zacapa" }
 				// GUINEA
 				,
-				{ "Basse Guinée", "Conakry", "Guinée Forestière",
-						"Haute Guinée", "Moyenne Guinée" }
+				{ "Basse Guinï¿½e", "Conakry", "Guinï¿½e Forestiï¿½re",
+						"Haute Guinï¿½e", "Moyenne Guinï¿½e" }
 				// GUINEA-BISSAU
 				,
-				{ "Bafatá", "Biombo", "Bissau", "Bolama", "Cacheu", "Gabú",
+				{ "Bafatï¿½", "Biombo", "Bissau", "Bolama", "Cacheu", "Gabï¿½",
 						"Oio", "Quinara", "Tombali" }
 				// GUYANA
 				,
@@ -1268,27 +1267,27 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{}
 				// HONDURAS
 				,
-				{ "Atlántida", "Choluteca", "Colón", "Comayagua", "Copán",
-						"Cortés", "Distrito Central", "El Paraíso",
-						"Francisco Morazán", "Gracias a Dios", "Intibucá",
-						"Islas de la Bahía", "La Paz", "Lempira", "Ocotepeque",
-						"Olancho", "Santa Bárbara", "Valle", "Yoro" }
+				{ "Atlï¿½ntida", "Choluteca", "Colï¿½n", "Comayagua", "Copï¿½n",
+						"Cortï¿½s", "Distrito Central", "El Paraï¿½so",
+						"Francisco Morazï¿½n", "Gracias a Dios", "Intibucï¿½",
+						"Islas de la Bahï¿½a", "La Paz", "Lempira", "Ocotepeque",
+						"Olancho", "Santa Bï¿½rbara", "Valle", "Yoro" }
 				// HONG KONG
 				,
 				{ "Hongkong", "Kowloon and New Kowl" }
 				// HUNGARY
 				,
-				{ "Bács-Kiskun", "Baranya", "Békés", "Borsod-Abaúj-Zemplén",
-						"Budapest", "Csongrád", "Fejér", "Gyor-Moson-Sopron",
-						"Hajdú-Bihar", "Heves", "Jász-Nagykun-Szolnok",
-						"Komárom-Esztergom", "Nógrád", "Pest", "Somogy",
-						"Szabolcs-Szatmár-Bereg", "Tolna", "Vas", "Veszprém",
+				{ "Bï¿½cs-Kiskun", "Baranya", "Bï¿½kï¿½s", "Borsod-Abaï¿½j-Zemplï¿½n",
+						"Budapest", "Csongrï¿½d", "Fejï¿½r", "Gyor-Moson-Sopron",
+						"Hajdï¿½-Bihar", "Heves", "Jï¿½sz-Nagykun-Szolnok",
+						"Komï¿½rom-Esztergom", "Nï¿½grï¿½d", "Pest", "Somogy",
+						"Szabolcs-Szatmï¿½r-Bereg", "Tolna", "Vas", "Veszprï¿½m",
 						"Zala" }
 				// ICELAND
 				,
-				{ "Austurland", "Höfuðborgarsvæði", "Norðurland eystra",
-						"Norðurland vestra", "Suðurland", "Suðurnes",
-						"Vestfirðir", "Vesturland" }
+				{ "Austurland", "Hï¿½fuï¿½borgarsvï¿½ï¿½i", "Norï¿½urland eystra",
+						"Norï¿½urland vestra", "Suï¿½urland", "Suï¿½urnes",
+						"Vestfirï¿½ir", "Vesturland" }
 				// INDIA
 				,
 				{ "Andaman and Nicobar Islands", "Andhra Pradesh",
@@ -1328,7 +1327,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				,
 				{ "al-Anbar", "al-Basrah", "al-Mut_anna", "al-Qadisiyah",
 						"an-Najaf", "as-Sulaymaniyah", "at-Ta'mim", "Babil",
-						"Bagdad", "Dahuk", "Ði Qar", "Diyala", "Irbil",
+						"Bagdad", "Dahuk", "ï¿½i Qar", "Diyala", "Irbil",
 						"Karbala", "Maysan", "Ninawa", "Salah?-ad-Din", "Wasit" }
 				// IRELAND
 				,
@@ -1362,7 +1361,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Saint Thomas", "Trelawney", "Westmoreland" }
 				// JAN MAYEN
 				,
-				{ "Länsimaa " }
+				{ "Lï¿½nsimaa " }
 				// JAPAN
 				,
 				{ "Aichi", "Akita", "Aomori", "Chiba", "Ehime", "Fukui",
@@ -1378,14 +1377,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// JORDAN
 				,
 				{ "'Ajlun", "al-'Aqabah", "al-Balqa'", "al-Karak", "al-Mafraq",
-						"'Amman", "at-Tafilah", "az-Zarqa'", "Irbid", "Jaraš",
+						"'Amman", "at-Tafilah", "az-Zarqa'", "Irbid", "Jaraï¿½",
 						"Ma'an", "Madaba" }
 				// KAZAKHSTAN
 				,
-				{ "Akmechet", "Almaty", "Aqmola", "Aqtöbe", "Atyrau",
-						"Batis Kazakstan", "Mankistau", "Ontüstik Kazakstan",
+				{ "Akmechet", "Almaty", "Aqmola", "Aqtï¿½be", "Atyrau",
+						"Batis Kazakstan", "Mankistau", "Ontï¿½stik Kazakstan",
 						"Pavlodar", "Qaragandy", "Qostanay", "Sigis Kazakstan",
-						"Soltüstik Kazakstan", "Taraz" }
+						"Soltï¿½stik Kazakstan", "Taraz" }
 				// KENYA
 				,
 				{ "Central", "Coast", "Eastern", "Nairobi", "North Eastern",
@@ -1417,7 +1416,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Hawalli", "Mubarak al-Kabir" }
 				// KYRGYZSTAN
 				,
-				{ "Batken", "Biskek", "Celalabad", "Çuy", "Issik-Göl", "Narin",
+				{ "Batken", "Biskek", "Celalabad", "ï¿½uy", "Issik-Gï¿½l", "Narin",
 						"Os", "Talas" }
 				// LAOS
 				,
@@ -1432,13 +1431,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Daugavpils", "Daugavpils pilseta", "Dobeles",
 						"Gulbenes", "Jekabspils", "Jelgava", "Jelgavas",
 						"Jurmala pilseta", "Kraslavas", "Kuldigas", "Liepaja",
-						"Liepajas", "Limbažu", "Ludzas", "Madonas", "Ogres",
+						"Liepajas", "Limbaï¿½u", "Ludzas", "Madonas", "Ogres",
 						"Preilu", "Rezekne", "Rezeknes", "Riga", "Rigas",
 						"Saldus", "Talsu", "Tukuma", "Valkas", "Valmieras",
 						"Ventspils", "Ventspils pilseta" }
 				// LEBANON
 				,
-				{ "al-Biqa'a", "al-Janub", "an-Nabatiyah", "aš-Šamal",
+				{ "al-Biqa'a", "al-Janub", "an-Nabatiyah", "aï¿½-ï¿½amal",
 						"Jabal Lubnan" }
 				// LESOTHO
 				,
@@ -1460,7 +1459,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Gat", "Marzuq", "Misratah", "Mizdah", "Nalut",
 						"Sabha", "Sabratah wa Surman", "Surt", "Tarabulus",
 						"Tarhunah wa Masallatah", "Wadi al-H?ayat",
-						"Wadi aš-Šati", "Yafran wa Jadu" }
+						"Wadi aï¿½-ï¿½ati", "Yafran wa Jadu" }
 				// LIECHTENSTEIN
 				,
 				{ "Balzers", "Eschen", "Gamprin", "Mauren", "Planken",
@@ -1468,7 +1467,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Triesenberg", "Vaduz", }
 				// LITHUANIA
 				,
-				{ "Kaunas", "Klaipeda", "Panevezys", "Šiauliai", "Vilna" }
+				{ "Kaunas", "Klaipeda", "Panevezys", "ï¿½iauliai", "Vilna" }
 				// LUXEMBOURG
 				,
 				{ "Capellen", "Clervaux", "Diekirch", "Echternach",
@@ -1482,8 +1481,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Berovo", "Bitola", "Brod", "Debar", "Delcevo",
 						"Demir Hisar", "Gevgelija", "Gostivar", "Kavadarci",
 						"Kicevo", "Kocani", "Kratovo", "Kriva Palanka",
-						"Kruševo", "Kumanovo", "Negotino", "Ohrid", "Prilep",
-						"Probištip", "Radoviš", "Resen", "Skopje", "Štip",
+						"Kruï¿½evo", "Kumanovo", "Negotino", "Ohrid", "Prilep",
+						"Probiï¿½tip", "Radoviï¿½", "Resen", "Skopje", "ï¿½tip",
 						"Struga", "Strumica", "Sveti Nikole", "Tetovo",
 						"Valandovo", "Veles", "Vinica" }
 				// MADAGASCAR
@@ -1509,13 +1508,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				,
 				{ "Alif Alif", "Alif Dhaal", "Baa", "Dhaal", "Faaf",
 						"Gaaf Alif", "Gaaf Dhaal", "Ghaviyani", "Haa Alif",
-						"Haa Dhaal", "Kaaf", "Laam", "Lhaviyani", "Malé",
+						"Haa Dhaal", "Kaaf", "Laam", "Lhaviyani", "Malï¿½",
 						"Miim", "Nuun", "Raa", "Shaviyani", "Siin", "Thaa",
 						"Vaav" }
 				// MALI
 				,
 				{ "Bamako", "Gao", "Kayes", "Kidal", "Koulikoro", "Mopti",
-						"Ségou", "Sikasso", "Tombouctou" }
+						"Sï¿½gou", "Sikasso", "Tombouctou" }
 				// MALTA
 				,
 				{ "Gozo and Comino", "Northern", "Northern Harbour",
@@ -1529,12 +1528,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Wotho", "Wotje" }
 				// MARTINIQUE
 				,
-				{ "Fort-de-France", "La Trinité", "Le Marin", "Saint-Pierre" }
+				{ "Fort-de-France", "La Trinitï¿½", "Le Marin", "Saint-Pierre" }
 				// MAURITANIA
 				,
-				{ "Adrar", "Assaba", "Brakna", "Ðah_lat Nawadibu",
-						"Guidimagha", "Gurgul", "Hud-al-Garbi", "Hud-aš-Šarqi",
-						"Inširi", "Nawakšut", "Takant", "Tiris Zammur",
+				{ "Adrar", "Assaba", "Brakna", "ï¿½ah_lat Nawadibu",
+						"Guidimagha", "Gurgul", "Hud-al-Garbi", "Hud-aï¿½-ï¿½arqi",
+						"Inï¿½iri", "Nawakï¿½ut", "Takant", "Tiris Zammur",
 						"Trarza" }
 				// MAURITIUS
 				,
@@ -1549,11 +1548,11 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Aguascalientes", "Baja California", "Baja California Sur",
 						"Campeche", "Chiapas", "Chihuahua", "Coahuila",
 						"Colima", "Distrito Federal", "Durango", "Guanajuato",
-						"Guerrero", "Hidalgo", "Jalisco", "México",
-						"Michoacán", "Morelos", "Nayarit", "Nuevo León",
-						"Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
-						"San Luis Potosí", "Sinaloa", "Sonora", "Tabasco",
-						"Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán",
+						"Guerrero", "Hidalgo", "Jalisco", "Mï¿½xico",
+						"Michoacï¿½n", "Morelos", "Nayarit", "Nuevo Leï¿½n",
+						"Oaxaca", "Puebla", "Querï¿½taro", "Quintana Roo",
+						"San Luis Potosï¿½", "Sinaloa", "Sonora", "Tabasco",
+						"Tamaulipas", "Tlaxcala", "Veracruz", "Yucatï¿½n",
 						"Zacatecas" }
 				// MICRONESIA, FEDERATED STATES OF
 				,
@@ -1565,8 +1564,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Chisinau", "Cimislia", "Criuleni", "Donduseni",
 						"Drochia", "Dubasari municipiu", "Edinet", "Falesti",
 						"Floresti", "Gagauzia", "Glodeni", "Grigoriopol",
-						"Hîncesti", "Ialoveni", "Leova", "Nisporeni", "Ocnita",
-						"Orhei", "Rezina", "Rîbnita", "Rîscani", "Sîngerei",
+						"Hï¿½ncesti", "Ialoveni", "Leova", "Nisporeni", "Ocnita",
+						"Orhei", "Rezina", "Rï¿½bnita", "Rï¿½scani", "Sï¿½ngerei",
 						"Slobozia", "Soldanesti", "Soroca", "Stefan Voda",
 						"Straseni", "Taraclia", "Telenesti", "Tighina",
 						"Tiraspol", "Ungheni" }
@@ -1575,11 +1574,11 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Fontvieille", "La Condamine", "Monaco-Ville", "Monte Carlo" }
 				// MONGOLIA
 				,
-				{ "Arhangaj", "Bajanhongor", "Bajan-Ölgij", "Bulgan",
+				{ "Arhangaj", "Bajanhongor", "Bajan-ï¿½lgij", "Bulgan",
 						"Darhan-Uul", "Dornod", "Dornogovi", "Dundgovi",
-						"Govi-Altaj", "Govisumber", "Hèntij", "Hovd",
-						"Hövsgöl", "Ömnögovi", "Orhon", "Övörhangaj",
-						"Sèlèngè", "Sühbaatar", "Töv", "Ulaanbaatar", "Uvs",
+						"Govi-Altaj", "Govisumber", "Hï¿½ntij", "Hovd",
+						"Hï¿½vsgï¿½l", "ï¿½mnï¿½govi", "Orhon", "ï¿½vï¿½rhangaj",
+						"Sï¿½lï¿½ngï¿½", "Sï¿½hbaatar", "Tï¿½v", "Ulaanbaatar", "Uvs",
 						"Zavhan" }
 				// MONTSERRAT
 				,
@@ -1587,10 +1586,10 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// MOROCCO
 				,
 				{ "Casablanca", "Chaouia-Ouardigha", "Doukkala-Abda",
-						"Fès-Boulemane", "Gharb-Chrarda-Béni Hssen", "Guelmim",
+						"Fï¿½s-Boulemane", "Gharb-Chrarda-Bï¿½ni Hssen", "Guelmim",
 						"Marrakech-Tensift-Al Haouz", "Meknes-Tafilalet",
-						"Oriental", "Rabat-Salé-Zammour-Zaer",
-						"Souss Massa-Draâ", "Tadla-Azilal", "Tangier-Tétouan",
+						"Oriental", "Rabat-Salï¿½-Zammour-Zaer",
+						"Souss Massa-Draï¿½", "Tadla-Azilal", "Tangier-Tï¿½touan",
 						"Taza-Al Hoceima-Taounate" }
 				// MOZAMBIQUE
 				,
@@ -1625,11 +1624,11 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Zuid-Holland" }
 				// NETHERLANDS ANTILLES
 				,
-				{ "Bonaire", "Curaçao", "Saba", "Sint Eustatius",
+				{ "Bonaire", "Curaï¿½ao", "Saba", "Sint Eustatius",
 						"Sint Maarten" }
 				// NEW CALEDONIA
 				,
-				{ "Îles", "Nord", "Sud" }
+				{ "ï¿½les", "Nord", "Sud" }
 				// NEW ZEALAND
 				,
 				{ "Auckland", "Bay of Plenty", "Canterbury", "Gisborne",
@@ -1638,13 +1637,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Taranaki", "Tasman", "Waikato", "Wellington",
 						"West Coast" },
 				// NICARAGUA
-				{ "Atlántico Norte", "Atlántico Sur", "Boaco", "Carazo",
-						"Chinandega", "Chontales", "Estelí", "Granada",
-						"Jinotega", "León", "Madriz", "Managua", "Masaya",
-						"Matagalpa", "Nueva Segovia", "Río San Juan", "Rivas" },
+				{ "Atlï¿½ntico Norte", "Atlï¿½ntico Sur", "Boaco", "Carazo",
+						"Chinandega", "Chontales", "Estelï¿½", "Granada",
+						"Jinotega", "Leï¿½n", "Madriz", "Managua", "Masaya",
+						"Matagalpa", "Nueva Segovia", "Rï¿½o San Juan", "Rivas" },
 				// NIGER
 				{ "Agadez", "Diffa", "Dosso", "Maradi", "Niamey", "Tahoua",
-						"Tillabéry", "Zinder" },
+						"Tillabï¿½ry", "Zinder" },
 				// NIGERIA
 				{ "Abia", "Abuja Federal Capital Territory", "Adamawa",
 						"Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue",
@@ -1662,12 +1661,12 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Northern Islands", "Rota", "Saipan", "Tinian" },
 				// NORWAY
 				{ "Akershus", "Aust-Agder", "Buskerud", "Finnmark", "Hedmark",
-						"Hordaland", "Møre og Romsdal", "Nordland",
-						"Nord-Trøndelag", "Oppland", "Oslo", "Østfold",
-						"Rogaland", "Sogn og Fjordane", "Sør-Trøndelag",
+						"Hordaland", "Mï¿½re og Romsdal", "Nordland",
+						"Nord-Trï¿½ndelag", "Oppland", "Oslo", "ï¿½stfold",
+						"Rogaland", "Sogn og Fjordane", "Sï¿½r-Trï¿½ndelag",
 						"Telemark", "Troms", "Vest-Agder", "Vestfold" },
 				// OMAN
-				{ "ad-Dah_iliyah", "al-Batinah", "aš-Šarqiyah", "az?-Z?ahirah",
+				{ "ad-Dah_iliyah", "al-Batinah", "aï¿½-ï¿½arqiyah", "az?-Z?ahirah",
 						"Maskat", "Musandam", "Z?ufar" },
 				// PAKISTAN
 				{ "Azad Kashmir", "Baluchistan", "Federal Capital Area",
@@ -1680,10 +1679,10 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Ngaremlengui", "Ngatpang", "Ngchesar", "Ngerchelong",
 						"Ngiwal", "Peleliu", "Sonsorol" },
 				// PANAMA
-				{ "Bocas del Toro", "Chiriquí", "Coclé", "Colón", "Darién",
-						"Emberá", "Herrera", "Kuna de Madungandí",
-						"Kuna de Wargandí", "Kuna Yala", "Los Santos",
-						"Ngöbe Buglé", "Panamá", "Veraguas" }
+				{ "Bocas del Toro", "Chiriquï¿½", "Coclï¿½", "Colï¿½n", "Dariï¿½n",
+						"Emberï¿½", "Herrera", "Kuna de Madungandï¿½",
+						"Kuna de Wargandï¿½", "Kuna Yala", "Los Santos",
+						"Ngï¿½be Buglï¿½", "Panamï¿½", "Veraguas" }
 				// PAPUA NEW GUINEA
 				,
 				{ "Eastern Highlands", "East New Britain", "East Sepik",
@@ -1694,18 +1693,18 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"West New Britain" },
 				// PARAGUAY
 
-				{ "Alto Paraguay", "Alto Paraná", "Amambay", "Asunción",
-						"Boquerón", "Caaguazú", "Caazapá", "Canendiyú",
-						"Central", "Concepción", "Cordillera", "Guairá",
-						"Itapúa", "Misiones", "Ñeembucú", "Paraguarí",
+				{ "Alto Paraguay", "Alto Paranï¿½", "Amambay", "Asunciï¿½n",
+						"Boquerï¿½n", "Caaguazï¿½", "Caazapï¿½", "Canendiyï¿½",
+						"Central", "Concepciï¿½n", "Cordillera", "Guairï¿½",
+						"Itapï¿½a", "Misiones", "ï¿½eembucï¿½", "Paraguarï¿½",
 						"Presidente Hayes", "San Pedro" },
 				// PERU
 
-				{ "Amazonas", "Ancash", "Apurímac", "Arequipa", "Ayacucho",
+				{ "Amazonas", "Ancash", "Apurï¿½mac", "Arequipa", "Ayacucho",
 						"Cajamarca", "Callao", "Cusco", "Huancavelica",
-						"Huánuco", "Ica", "Junín", "La Libertad", "Lambayeque",
+						"Huï¿½nuco", "Ica", "Junï¿½n", "La Libertad", "Lambayeque",
 						"Lima Provincias", "Loreto", "Madre de Dios",
-						"Moquegua", "Pasco", "Piura", "Puno", "San Martín",
+						"Moquegua", "Pasco", "Piura", "Puno", "San Martï¿½n",
 						"Tacna", "Tumbes", "Ucayali" },
 				// PHILIPPINES
 
@@ -1717,43 +1716,43 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Western Mindanao", "Western Visayas" },
 
 				// POLAND
-				{ "Dolnoslaskie", "Kujawsko-Pomorskie", "Lódzkie", "Lubelskie",
+				{ "Dolnoslaskie", "Kujawsko-Pomorskie", "Lï¿½dzkie", "Lubelskie",
 						"Lubuskie", "Malopolskie", "Mazowieckie", "Opolskie",
 						"Podkarpackie", "Podlaskie", "Pomorskie", "Slaskie",
 						"Swietokrzyskie", "Warminsko-Mazurskie",
 						"Wielkopolskie", "Zachodnio-Pomorskie" },
 				// PORTUGAL
 
-				{ "Açores", "Alentejo", "Algarve", "Centro",
+				{ "Aï¿½ores", "Alentejo", "Algarve", "Centro",
 						"Lisboa e Vale do Tejo", "Madeira", "Norte" },
 				// PUERTO RICO
 
-				{ "Arecibo", "Bayamón", "Carolina", "Guayama", "Humacao",
-						"Mayagüez-Aguadilla", "Ponce", "San Juan" },
+				{ "Arecibo", "Bayamï¿½n", "Carolina", "Guayama", "Humacao",
+						"Mayagï¿½ez-Aguadilla", "Ponce", "San Juan" },
 				// QATAR
 
 				{ "al-Guwayriyah", "al-H_awr", "al-Jumayliyah", "al-Wakrah",
-						"ar-Rayyan", "aš-Šamal", "Doha", "Jariyan al-Batnah",
+						"ar-Rayyan", "aï¿½-ï¿½amal", "Doha", "Jariyan al-Batnah",
 						"Musay'id", "Umm Salal" },
 				// REUNION
-				{ "Saint-Benoît", "Saint-Denis", "Saint-Paul", "Saint-Pierre" },
+				{ "Saint-Benoï¿½t", "Saint-Denis", "Saint-Paul", "Saint-Pierre" },
 				// ROMANIA
 				{ "Alba", "Arad", "Arges", "Bacau", "Bihor", "Bistrita-Nasaud",
 						"Botosani", "Braila", "Brasov", "Bukarest", "Buzau",
 						"Calarasi", "Caras-Severin", "Cluj", "Constanta",
-						"Covasna", "Dâmbovita", "Dolj", "Galati", "Giurgiu",
+						"Covasna", "Dï¿½mbovita", "Dolj", "Galati", "Giurgiu",
 						"Gorj", "Harghita", "Hunedoara", "Ialomita", "Iasi",
 						"Ilfov", "Maramures", "Mehedinti", "Mures", "Neamt",
 						"Olt", "Prahova", "Salaj", "Satu Mare", "Sibiu",
-						"Suceava", "Teleorman", "Timis", "Tulcea", "Vâlcea",
+						"Suceava", "Teleorman", "Timis", "Tulcea", "Vï¿½lcea",
 						"Vaslui", "Vrancea" },
 				// RUSSIA
 				{ "Adygeja", "Aga", "Alanija", "Altaj", "Amur", "Arhangelsk",
-						"Astrahan", "Baškortostan", "Belgorod", "Brjansk",
+						"Astrahan", "Baï¿½kortostan", "Belgorod", "Brjansk",
 						"Burjatija", "Cecenija", "Celjabinsk", "Cita",
-						"Cukotka", "Cuvašija", "Dagestan", "Evenkija",
+						"Cukotka", "Cuvaï¿½ija", "Dagestan", "Evenkija",
 						"Gorno-Altaj", "Habarovsk", "Hakasija",
-						"Hanty-Mansija", "Ingušetija", "Irkutsk", "Ivanovo",
+						"Hanty-Mansija", "Inguï¿½etija", "Irkutsk", "Ivanovo",
 						"Jamalo-Nenets", "Jaroslavl", "Jevrej",
 						"Kabardino-Balkarija", "Kaliningrad", "Kalmykija",
 						"Kaluga", "Kamcatka", "Karacaj-Cerkessija", "Karelija",
@@ -1762,14 +1761,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Kurgan", "Kursk", "Leningrad", "Lipeck", "Magadan",
 						"Marij El", "Mordovija", "Moskau",
 						"Moskovskaja Oblast", "Murmansk", "Nenets",
-						"Nižnij Novgorod", "Novgorod", "Novosibirsk", "Omsk",
+						"Niï¿½nij Novgorod", "Novgorod", "Novosibirsk", "Omsk",
 						"Orenburg", "Orjol", "Penza", "Perm", "Primorje",
 						"Pskov", "Rjazan", "Rostov", "Saha", "Sahalin",
 						"Samara", "Sankt Petersburg", "Saratov", "Smolensk",
 						"Stavropol", "Sverdlovsk", "Tajmyr", "Tambov",
 						"Tatarstan", "Tjumen", "Tomsk", "Tula", "Tver", "Tyva",
 						"Udmurtija", "Uljanovsk", "Ust-Orda", "Vladimir",
-						"Volgograd", "Vologda", "Voronež" },
+						"Volgograd", "Vologda", "Voroneï¿½" },
 
 				// RWANDA
 				{ "Butare", "Byumba", "Cyangugu", "Gikongoro", "Gisenyi",
@@ -1788,7 +1787,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// SAINT LUCIA
 				{ "Anse-la-Raye", "Canaries", "Castries", "Choiseul",
 						"Dennery", "Gros Inlet", "Laborie", "Micoud",
-						"Soufrière", "Vieux Fort" },
+						"Soufriï¿½re", "Vieux Fort" },
 				// SAINT PIERRE AND MIQUELON
 				{ "Miquelon-Langlade", "Saint-Pierre" },
 				// SAINT VINCENT AND THE GRENADINES
@@ -1801,30 +1800,30 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 						"Faetano", "Fiorentino", "Montegiardino", "San Marino",
 						"Serravalle" },
 				// SAO TOME AND PRINCIPE
-				{ "Água Grande", "Cantagalo", "Caué", "Lemba", "Lobata",
-						"Mé-Zochi", "Pagué" },
+				{ "ï¿½gua Grande", "Cantagalo", "Cauï¿½", "Lemba", "Lobata",
+						"Mï¿½-Zochi", "Paguï¿½" },
 				// SAUDI ARABIA
-				{ "al-Bah?ah", "al-H?udud-aš-Šamaliyah", "al-Jawf",
-						"al-Madinah", "al-Qasim", "'Asir", "aš-Šarqiyah",
+				{ "al-Bah?ah", "al-H?udud-aï¿½-ï¿½amaliyah", "al-Jawf",
+						"al-Madinah", "al-Qasim", "'Asir", "aï¿½-ï¿½arqiyah",
 						"H?a'il", "Jizan", "Makkah", "Najran", "Riad", "Tabuk" },
 				// SENEGAL
 				{ "Dakar", "Diourbel", "Fatick", "Kaolack", "Kolda", "Louga",
-						"Matam", "Saint-Louis", "Tambacounda", "Thiès",
+						"Matam", "Saint-Louis", "Tambacounda", "Thiï¿½s",
 						"Ziguinchor" },
 				// SERBIA AND MONTENEGRO
 				{ "Central Serbia", "Vojvodina" },
 				// SEYCHELLES
-				{ "Mahé" },
+				{ "Mahï¿½" },
 				// SIERRA LEONE
 				{ "Eastern", "Northern", "Southern", "Western" },
 				// SINGAPORE
 				{ " " },
 				// SLOVAKIA
-				{ "Banskobystrický", "Bratislavský", "Košický", "Nitrianský",
-						"Prešovský", "Trencianský", "Trnavský", "Žilinský" },
+				{ "Banskobystrickï¿½", "Bratislavskï¿½", "Koï¿½ickï¿½", "Nitrianskï¿½",
+						"Preï¿½ovskï¿½", "Trencianskï¿½", "Trnavskï¿½", "ï¿½ilinskï¿½" },
 				// SLOVENIA
-				{ "Gorenjska", "Goriška", "Jugovžodna Slovenija", "Koroška",
-						"Notranjsko-kraška", "Obalno-kraška",
+				{ "Gorenjska", "Goriï¿½ka", "Jugovï¿½odna Slovenija", "Koroï¿½ka",
+						"Notranjsko-kraï¿½ka", "Obalno-kraï¿½ka",
 						"Osrednjeslovenska", "Podravska", "Pomurska",
 						"Savinjska", "Spodnjeposavska", "Zasavska" },
 				// SOLOMON ISLANDS
@@ -1847,7 +1846,7 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Andalusien", "Aragonien", "Asturien", "Balearen",
 						"Baskenland", "Ceuta", "Extremadura", "Galizien",
 						"Kanaren", "Kantabrien", "Kastilien-La Mancha",
-						"Kastilien-León", "Katalonien", "La Rioja", "Madrid",
+						"Kastilien-Leï¿½n", "Katalonien", "La Rioja", "Madrid",
 						"Melilla", "Murcia", "Navarra", "Valencia" },
 				// SRI LANKA
 
@@ -1862,13 +1861,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 
 				{ "A'ali-an-Nil", "al-Bah?r-al-Ah?mar", "al-Buh?ayrat",
 						"al-Jazirah", "al-Qad?arif", "al-Wah?dah",
-						"an-Nil-al-Abyad?", "an-Nil-al-Azraq", "aš-Šamaliyah",
+						"an-Nil-al-Abyad?", "an-Nil-al-Azraq", "aï¿½-ï¿½amaliyah",
 						"Bah?r-al-Jabal", "Garb-al-Istiwa'iyah",
 						"Garb Bah?r-al-Gazal", "Garb Darfur", "Garb Kurdufan",
 						"Janub Darfur", "Janub Kurdufan", "Junqali", "Kassala",
-						"Khartum", "Nahr-an-Nil", "Šamal Bah?r-al-Gazal",
-						"Šamal Darfur", "Šamal Kurdufan",
-						"Šarq-al-Istiwa'iyah", "Sinnar", "Warab" },
+						"Khartum", "Nahr-an-Nil", "ï¿½amal Bah?r-al-Gazal",
+						"ï¿½amal Darfur", "ï¿½amal Kurdufan",
+						"ï¿½arq-al-Istiwa'iyah", "Sinnar", "Warab" },
 				// SURINAME
 				{ "Brokopondo", "Commewijne", "Coronie", "Marowijne",
 						"Nickerie", "Para", "Paramaribo", "Saramacca", "Wanica" },
@@ -1877,20 +1876,20 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// SWAZILAND
 				{ "Hhohho", "Lubombo", "Manzini", "Shiselweni" },
 				// SWEDEN
-				{ "Blekinge", "Dalarna", "Gävleborg", "Gotland", "Halland",
-						"Jämtland", "Jönköping", "Kalmar", "Kronoberg",
-						"Norrbotten", "Örebro", "Östergötland", "Skåne",
-						"Södermanland", "Stockholm", "Uppsala", "Värmland",
-						"Västerbotten", "Västernorrland", "Västmanland",
-						"Västra Götaland" },
+				{ "Blekinge", "Dalarna", "Gï¿½vleborg", "Gotland", "Halland",
+						"Jï¿½mtland", "Jï¿½nkï¿½ping", "Kalmar", "Kronoberg",
+						"Norrbotten", "ï¿½rebro", "ï¿½stergï¿½tland", "Skï¿½ne",
+						"Sï¿½dermanland", "Stockholm", "Uppsala", "Vï¿½rmland",
+						"Vï¿½sterbotten", "Vï¿½sternorrland", "Vï¿½stmanland",
+						"Vï¿½stra Gï¿½taland" },
 				// SWITZERLAND
 				{ "Aargau", "Appenzell-Ausser Rhoden",
 						"Appenzell Inner-Rhoden", "Basel-Landschaft",
 						"Basel-Stadt", "Bern", "Freiburg", "Genf", "Glarus",
-						"Graubünden", "Jura", "Luzern", "Neuenburg",
+						"Graubï¿½nden", "Jura", "Luzern", "Neuenburg",
 						"Nidwalden", "Obwalden", "Sankt Gallen",
 						"Schaffhausen", "Schwyz", "Solothurn", "Tessin",
-						"Thurgau", "Uri", "Waadt", "Wallis", "Zug", "Zürich" },
+						"Thurgau", "Uri", "Waadt", "Wallis", "Zug", "Zï¿½rich" },
 
 				// SYRIA
 				{ "al-H?asakah", "al-Ladiqiyah", "al-Qunaytirah", "ar-Raqqah",
@@ -1934,8 +1933,8 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				// TRINIDAD AND TOBAGO
 				,
 				{ "Arima", "Chaguanas", "Couva-Tabaquite-Talparo",
-						"Diego Martín", "Mayaro-Río Claro", "Peñal Débé",
-						"Point Fortín", "Port of Spain", "Princes Town",
+						"Diego Martï¿½n", "Mayaro-Rï¿½o Claro", "Peï¿½al Dï¿½bï¿½",
+						"Point Fortï¿½n", "Port of Spain", "Princes Town",
 						"San Fernando", "Sangre Grande",
 						"San Juan-Laventville", "Siparia", "Tobago",
 						"Tunapuna-Piarco" }
@@ -1952,15 +1951,15 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Adana", "Adiyaman", "Afyonkarahisar", "Agri", "Aksaray",
 						"Amasya", "Ankara", "Antalya", "Ardahan", "Artvin",
 						"Aydin", "Balikesir", "Bartin", "Batman", "Bayburt",
-						"Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur",
-						"Bursa", "Çanakkale", "Çankiri", "Çorum", "Denizli",
-						"Diyarbakir", "Düzce", "Edirne", "Elazig", "Erzincan",
+						"Bilecik", "Bingï¿½l", "Bitlis", "Bolu", "Burdur",
+						"Bursa", "ï¿½anakkale", "ï¿½ankiri", "ï¿½orum", "Denizli",
+						"Diyarbakir", "Dï¿½zce", "Edirne", "Elazig", "Erzincan",
 						"Erzurum", "Eskisehir", "Gaziantep", "Giresun",
-						"Gümüshane", "Hakkari", "Hatay", "Igdir", "Isparta",
-						"Istanbul", "Izmir", "Kahramanmaras", "Karabük",
+						"Gï¿½mï¿½shane", "Hakkari", "Hatay", "Igdir", "Isparta",
+						"Istanbul", "Izmir", "Kahramanmaras", "Karabï¿½k",
 						"Karaman", "Kars", "Kastamonu", "Kayseri", "Kilis",
 						"Kirikkale", "Kirklareli", "Kirsehir", "Kocaeli",
-						"Konya", "Kütahya", "Malatya", "Manisa", "Mardin",
+						"Konya", "Kï¿½tahya", "Malatya", "Manisa", "Mardin",
 						"Mersin", "Mugla", "Mus", "Nevsehir", "Nigde", "Ordu",
 						"Osmaniye", "Rize", "Sakarya", "Samsun", "Sanliurfa",
 						"Siirt", "Sinop", "Sirnak", "Sivas", "Tekirdag",
@@ -1986,14 +1985,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Central", "Eastern", "Northern", "Western" }
 				// UNITED ARAB EMIRATES
 				,
-				{ "Abu Dhabi", "'Ajman", "al-Fujayrah", "aš-Šariqah", "Dubai",
+				{ "Abu Dhabi", "'Ajman", "al-Fujayrah", "aï¿½-ï¿½ariqah", "Dubai",
 						"Ra's al-H_aymah", "Umm al-Qaywayn" }
 				// URUGUAY
 				,
 				{ "Artigas", "Canelones", "Cerro Largo", "Colonia", "Durazno",
 						"Flores", "Florida", "Lavalleja", "Maldonado",
-						"Montevideo", "Paysandú", "Río Negro", "Rivera",
-						"Rocha", "Salto", "San José", "Soriano", "Tacuarembó",
+						"Montevideo", "Paysandï¿½", "Rï¿½o Negro", "Rivera",
+						"Rocha", "Salto", "San Josï¿½", "Soriano", "Tacuarembï¿½",
 						"Treinta y Tres" }
 				// UZBEKISTAN
 				,
@@ -2005,17 +2004,17 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Malampa", "Penama", "Sanma", "Shefa", "Tafea", "Torba" }
 				// VENEZUELA
 				,
-				{ "Amazonas", "Anzoátegui", "Apure", "Aragua", "Barinas",
-						"Bolívar", "Carabobo", "Cojedes", "Delta Amacuro",
-						"Distrito Capital", "Falcón", "Guárico", "Lara",
-						"Mérida", "Miranda", "Monagas", "Nueva Esparta",
-						"Portuguesa", "Sucre", "Táchira", "Trujillo", "Vargas",
+				{ "Amazonas", "Anzoï¿½tegui", "Apure", "Aragua", "Barinas",
+						"Bolï¿½var", "Carabobo", "Cojedes", "Delta Amacuro",
+						"Distrito Capital", "Falcï¿½n", "Guï¿½rico", "Lara",
+						"Mï¿½rida", "Miranda", "Monagas", "Nueva Esparta",
+						"Portuguesa", "Sucre", "Tï¿½chira", "Trujillo", "Vargas",
 						"Yaracuy", "Zulia" }
 				// VIETNAM
 				,
-				{ "B?c Trung B?", "Ð?ng b?ng sông C?u Long",
-						"Ð?ng b?ng sông H?ng", "Ðông B?c B?", "Ðông Nam B?",
-						"Duyên h?i Nam Trung B?", "Tây B?c B?", "Tây Nguyên" }
+				{ "B?c Trung B?", "ï¿½?ng b?ng sï¿½ng C?u Long",
+						"ï¿½?ng b?ng sï¿½ng H?ng", "ï¿½ï¿½ng B?c B?", "ï¿½ï¿½ng Nam B?",
+						"Duyï¿½n h?i Nam Trung B?", "Tï¿½y B?c B?", "Tï¿½y Nguyï¿½n" }
 				// VIRGIN ISLANDS
 				,
 				{ "Saint Croix", "Saint John", "Saint Thomas" }
@@ -2024,13 +2023,13 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 				{ "Alo", "Hahake", "Hihifo", "Mua", "Sigave" }
 				// WESTERN SAHARA
 				,
-				{ "al-'Ayun", "as-Samarah", "Bu Jaydur", "Wad-ad-Ðahab" }
+				{ "al-'Ayun", "as-Samarah", "Bu Jaydur", "Wad-ad-ï¿½ahab" }
 				// YEMEN
 				,
 				{ "Abyan", "ad-Dali'", "Aden", "al-Bayda", "al-H?udaydah",
 						"al-Jawf", "al-Mahrah", "al-Mahwit",
-						"Amanah al-'Asmah", "Amran", "Ðamar", "Hadramaut",
-						"Hajjah", "Ibb", "Lahij", "Ma'rib", "Raymah", "Šabwah",
+						"Amanah al-'Asmah", "Amran", "ï¿½amar", "Hadramaut",
+						"Hajjah", "Ibb", "Lahij", "Ma'rib", "Raymah", "ï¿½abwah",
 						"Sa'dah", "San'a", "Ta'izz" }
 				// ZAMBIA
 				,

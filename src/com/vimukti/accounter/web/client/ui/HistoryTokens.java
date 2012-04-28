@@ -132,7 +132,7 @@ public class HistoryTokens {
 
 	public static final String TAXITEMEXCEPTIONDETAILS = "taxItemExceptionDetails";
 
-	public static final String VATITEMSUMMARY = "vatItemSummary";
+	public static final String VATITEMSUMMARY = "taxItemSummary";
 
 	public static final String SALESBYCUSTOMERSUMMARY = "salesByCustomerSummary";
 

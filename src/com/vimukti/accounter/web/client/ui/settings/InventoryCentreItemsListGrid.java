@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -41,9 +41,8 @@ public class InventoryCentreItemsListGrid extends BaseListGrid<ClientItem> {
 	public void onDoubleClick(ClientItem obj) {
 		if (Utility.isUserHavePermissions(obj.getObjectType())) {
 			if (obj.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-				InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
-				inventoryAssemblyAction.run((ClientInventoryAssembly) obj,
-						false);
+				InventoryActions.newAssembly().run(
+						(ClientInventoryAssembly) obj, false);
 			} else {
 				NewItemAction itemAction = new NewItemAction(true);
 				itemAction.setType(obj.getType());

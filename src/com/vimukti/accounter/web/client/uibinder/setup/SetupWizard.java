@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -380,7 +379,7 @@ public class SetupWizard extends FlowPanel {
 		if (accounts != null) {
 			return accounts;
 		}
-		return Collections.emptyList();
+		return new ArrayList<TemplateAccount>();
 	}
 
 	public Map<Integer, AccountsTemplate> getAllIndustiesWithAccounts() {

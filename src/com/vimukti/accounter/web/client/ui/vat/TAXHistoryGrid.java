@@ -19,8 +19,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
-import com.vimukti.accounter.web.client.ui.reports.TAXItemExceptionDetailReport;
-import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.TAXReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.VATSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VatExceptionDetailReportAction;
 import com.vimukti.accounter.web.client.util.Countries;
@@ -179,7 +178,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				details = getExceptionDetailData(taxEntries,
 						clientTAXReturn.getPeriodStartDate());
 
-				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = new TAXItemExceptionDetailReport();
+				TAXReportsAction taxItemExceptionDetailReportAction = TAXReportsAction
+						.taxItemException();
 				taxItemExceptionDetailReportAction
 						.setTaxReturn(clientTAXReturn);
 				for (TAXItemDetail detail : details) {
@@ -203,7 +203,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				taxEntries = obj.getTaxReturnEntries();
 				details = getData(taxEntries);
-				new TaxItemDetailReportAction().run(details, obj.getID(), true);
+				TAXReportsAction.taxItemDetail()
+						.run(details, obj.getID(), true);
 
 			}
 		}

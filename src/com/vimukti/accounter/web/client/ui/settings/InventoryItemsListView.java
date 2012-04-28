@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -11,8 +10,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
@@ -86,8 +85,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> implements
 			action.setType(type);
 			return action;
 		} else {
-			InventoryAssemblyAction action = new InventoryAssemblyAction();
-			return action;
+			return InventoryActions.newAssembly();
 		}
 	}
 

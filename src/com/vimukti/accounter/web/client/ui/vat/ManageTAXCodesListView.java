@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.PaginationList;

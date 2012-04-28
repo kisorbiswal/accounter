@@ -6,7 +6,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.customers.AddMessageOrTaskDialog;
 
 public class AddNewAdminuserAction extends Action {
 

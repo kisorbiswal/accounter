@@ -29,7 +29,7 @@ public class InventoryValutionSummaryReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				new InventoryValuationDetailsAction(record.getId()));
+				InventoryReportsAction.valuationDetails(record.getId()));
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class InventoryStockStatusByVendorReport extends
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record,
-				new InventoryValuationDetailsAction(record.getItemId()));
+				InventoryReportsAction.valuationDetails(record.getItemId()));
 	}
 
 	@Override

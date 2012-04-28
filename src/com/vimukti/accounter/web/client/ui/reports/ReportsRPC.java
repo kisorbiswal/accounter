@@ -63,31 +63,23 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.banking.CreditCardChargeAction;
 import com.vimukti.accounter.web.client.ui.banking.MakeDepositAction;
 import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
-import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
 import com.vimukti.accounter.web.client.ui.company.CheckPrintSettingAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
-import com.vimukti.accounter.web.client.ui.company.CurrencyGroupListAction;
-import com.vimukti.accounter.web.client.ui.company.CustomerGroupListAction;
-import com.vimukti.accounter.web.client.ui.company.ItemGroupListAction;
-import com.vimukti.accounter.web.client.ui.company.LocationGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.ManageSalesTaxGroupsAction;
+import com.vimukti.accounter.web.client.ui.company.ManageSupportListAction;
 import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewBudgetAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.NewJournalEntryAction;
 import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
-import com.vimukti.accounter.web.client.ui.company.PaymentTermListAction;
-import com.vimukti.accounter.web.client.ui.company.ShippingMethodListAction;
-import com.vimukti.accounter.web.client.ui.company.ShippingTermListAction;
-import com.vimukti.accounter.web.client.ui.company.VendorGroupListAction;
+import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
@@ -99,13 +91,9 @@ import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
-import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentAction;
-import com.vimukti.accounter.web.client.ui.settings.WareHouseTransferAction;
-import com.vimukti.accounter.web.client.ui.settings.WareHouseViewAction;
 import com.vimukti.accounter.web.client.ui.vat.AdjustTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.NewTAXCodeAction;
 import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
@@ -306,35 +294,35 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.CUSTOMER_GROUP:
 			initCallBack(new ClientCustomerGroup(),
-					new CustomerGroupListAction(), transactionId);
+					ManageSupportListAction.customerGroups(), transactionId);
 			break;
 		case IAccounterCore.VENDOR_GROUP:
-			initCallBack(new ClientVendorGroup(), new VendorGroupListAction(),
-					transactionId);
+			initCallBack(new ClientVendorGroup(),
+					ManageSupportListAction.vendorGroups(), transactionId);
 			break;
 		case IAccounterCore.PAYMENT_TERMS:
-			initCallBack(new ClientPaymentTerms(), new PaymentTermListAction(),
-					transactionId);
+			initCallBack(new ClientPaymentTerms(),
+					ManageSupportListAction.paymentTerms(), transactionId);
 			break;
 		case IAccounterCore.SHIPPING_METHOD:
 			initCallBack(new ClientShippingMethod(),
-					new ShippingMethodListAction(), transactionId);
+					ManageSupportListAction.shippingMethods(), transactionId);
 			break;
 		case IAccounterCore.SHIPPING_TERMS:
 			initCallBack(new ClientShippingTerms(),
-					new ShippingTermListAction(), transactionId);
+					ManageSupportListAction.shippingTerms(), transactionId);
 			break;
 		case IAccounterCore.ITEM_GROUP:
-			initCallBack(new ClientItemGroup(), new ItemGroupListAction(),
-					transactionId);
+			initCallBack(new ClientItemGroup(),
+					ManageSupportListAction.itemGroups(), transactionId);
 			break;
 		case IAccounterCore.CREDIT_RATING:
 			initCallBack(new ClientCreditRating(),
 					new CreditRatingListAction(), transactionId);
 			break;
 		case IAccounterCore.CURRENCY:
-			initCallBack(new ClientCurrency(), new CurrencyGroupListAction(),
-					transactionId);
+			initCallBack(new ClientCurrency(),
+					ManageSupportListAction.currencyGroups(), transactionId);
 			break;
 		case IAccounterCore.ITEM:
 			initCallBack(new ClientItem(), new NewItemAction(true),
@@ -342,7 +330,7 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.ASSEMBLY:
 			initCallBack(new ClientInventoryAssembly(),
-					new InventoryAssemblyAction(), transactionId);
+					InventoryActions.newAssembly(), transactionId);
 			break;
 		case IAccounterCore.VENDOR:
 			initCallBack(new ClientVendor(), new NewVendorAction(),
@@ -362,19 +350,19 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.STOCK_ADJUSTMENT:
 			initCallBack(new ClientStockAdjustment(),
-					new StockAdjustmentAction(), transactionId);
+					InventoryActions.stockAdjustment(), transactionId);
 			break;
 		case IAccounterCore.WAREHOUSE:
-			initCallBack(new ClientWarehouse(), new WareHouseViewAction(),
-					transactionId);
+			initCallBack(new ClientWarehouse(),
+					WarehouseActions.newWarehouse(), transactionId);
 			break;
 		case IAccounterCore.STOCK_TRANSFER:
 			initCallBack(new ClientStockTransfer(),
-					new WareHouseTransferAction(), transactionId);
+					WarehouseActions.warehouseTransfer(), transactionId);
 			break;
 		case IAccounterCore.MEASUREMENT:
-			initCallBack(new ClientMeasurement(), new AddMeasurementAction(),
-					transactionId);
+			initCallBack(new ClientMeasurement(),
+					InventoryActions.measurement(), transactionId);
 			break;
 		case IAccounterCore.USER:
 			initCallBack(new ClientUser(), new InviteUserAction(),
@@ -385,12 +373,12 @@ public class ReportsRPC {
 					transactionId);
 			break;
 		case IAccounterCore.LOCATION:
-			initCallBack(new ClientLocation(), new LocationGroupListAction(),
-					transactionId);
+			initCallBack(new ClientLocation(),
+					ManageSupportListAction.locations(), transactionId);
 			break;
 		case IAccounterCore.ACCOUNTER_CLASS:
 			initCallBack(new ClientAccounterClass(),
-					new AccounterClassListAction(), transactionId);
+					ManageSupportListAction.classes(), transactionId);
 			break;
 		case IAccounterCore.BANK_ACCOUNT:
 			initCallBack(new ClientBankAccount(), new NewAccountAction(
@@ -414,11 +402,11 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
 			initCallBack(new ClientStockAdjustment(),
-					new StockAdjustmentAction(), transactionId);
+					InventoryActions.stockAdjustment(), transactionId);
 			break;
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
-			initCallBack(new ClientBuildAssembly(), new BuildAssemblyAction(),
-					transactionId);
+			initCallBack(new ClientBuildAssembly(),
+					InventoryActions.buildAssembly(), transactionId);
 			break;
 		case IAccounterCore.CHECK_LAYOUT:
 			initCallBack(new ClientChequeLayout(),
@@ -482,7 +470,7 @@ public class ReportsRPC {
 			new PurchaseOrderAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
-			new BuildAssemblyAction().run(transaction, false);
+			InventoryActions.buildAssembly().run(transaction, false);
 			break;
 		}
 	}

@@ -36,7 +36,7 @@ public class MostProfitableCustomerReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, new SalesByCustomerDetailAction());
+		UIUtils.runAction(record, SalesReportsAction.customerDetail());
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -68,7 +67,8 @@ public class TransactionDetailByAccountReport extends
 						List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 						taxEntries = result.getTaxReturnEntries();
 						details = getTaxItemDetails(taxEntries);
-						TaxItemDetailReportAction taxItemDetailReportAction = new TaxItemDetailReportAction();
+						TAXReportsAction taxItemDetailReportAction = TAXReportsAction
+								.taxItemDetail();
 						taxItemDetailReportAction.setFromReports(true);
 						taxItemDetailReportAction.run(details, true);
 					}
