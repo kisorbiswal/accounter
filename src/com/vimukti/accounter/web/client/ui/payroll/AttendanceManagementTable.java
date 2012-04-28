@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -169,5 +170,32 @@ public class AttendanceManagementTable extends
 
 	public void updateList(ClientPayStructureDestination group) {
 		employeeColumn.updateList(group);
+	}
+
+	public ValidationResult validate(ValidationResult validationResult) {
+		List<ClientAttendanceManagementItem> allRows = super.getAllRows();
+		for (ClientAttendanceManagementItem clientAttendanceManagementItem : allRows) {
+			if ((clientAttendanceManagementItem.getEmployee() == null && clientAttendanceManagementItem
+					.getAttendanceType() != null)
+					|| (clientAttendanceManagementItem.getEmployee() != null && clientAttendanceManagementItem
+							.getAttendanceType() == null)) {
+				validationResult.addError(this,
+						messages.pleaseEnterValidDetails());
+				return validationResult;
+			}
+		}
+		for (int i = 0; i < allRows.size(); i++) {
+			ClientAttendanceManagementItem item = allRows.get(i);
+			if (i + 1 < allRows.size()) {
+				ClientAttendanceManagementItem item1 = allRows.get(i + 1);
+				if (isExistsWithSameEmployee(item, item1.getAttendanceType())) {
+					validationResult.addError(this, messages
+							.alreadyExistedInAnotherItemWithSameEmployee());
+					return validationResult;
+				}
+
+			}
+		}
+		return validationResult;
 	}
 }

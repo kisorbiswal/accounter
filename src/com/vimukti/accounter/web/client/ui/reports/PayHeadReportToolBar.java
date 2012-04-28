@@ -49,10 +49,7 @@ public class PayHeadReportToolBar extends DateRangeReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		ClientPayHead selectedValue = payheadCombo.getSelectedValue();
-		reportview.makeReportRequest(
-				selectedValue != null ? selectedValue.getID() : 0,
-				fromItem.getDate(), toItem.getDate());
+		reportview.makeReportRequest(fromItem.getDate(), toItem.getDate());
 	}
 
 	@Override

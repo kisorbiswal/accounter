@@ -6514,4 +6514,5 @@ public interface AccounterMessages extends Messages {
 
 	public String deductions();
 
+	public String alreadyExistedInAnotherItemWithSameEmployee();
 }

@@ -12,7 +12,6 @@ import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
@@ -258,6 +257,21 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		initRecords(records);
 	}
 
+	@Override
+	public ValidationResult validate() {
+		ValidationResult validate = super.validate();
+		validate = table.validate(validate);
+		if (data.getPayEmployee() == null || data.getPayEmployee().isEmpty()) {
+			validate.addError(reportGrid, messages.noRecordsSelected());
+		}
+		return validate;
+	}
+
+	@Override
+	protected boolean needTransactionItems() {
+		return false;
+	}
+
 	protected void showPayRunTable() {
 		if (isInViewMode()) {
 			reportGrid.removeAllRows();
@@ -391,35 +405,14 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			initViewData(getData());
 		}
 
-		if (data.getID() == 0) {
-			AccounterAsyncCallback<String> transactionNumberCallback = new AccounterAsyncCallback<String>() {
-
-				@Override
-				public void onException(AccounterException caught) {
-					Accounter
-							.showError(messages.failedToGetTransactionNumber());
-
-				}
-
-				@Override
-				public void onResultSuccess(String result) {
-					if (result == null) {
-						onException(null);
-					}
-					data.setNumber(result);
-				}
-
-			};
-
-			this.rpcUtilService.getNextTransactionNumber(data.getType(),
-					transactionNumberCallback);
-		}
+		initTransactionNumber();
 
 		super.initData();
 	}
 
 	@Override
 	protected void updateTransaction() {
+		updateData();
 	}
 
 	private void initViewData(ClientPayRun data) {
@@ -453,7 +446,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			employeePaymentDetails
 					.setPayHeadComponents(new HashSet<ClientEmployeePayHeadComponent>(
 							records));
-			details.add(employeePaymentDetails);
+			if (!records.isEmpty()) {
+				details.add(employeePaymentDetails);
+			}
 			data.setEmployee(selectedValue.getID());
 		} else {
 			ClientEmployeeGroup group = (ClientEmployeeGroup) selectedValue;
@@ -463,7 +458,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 				employeePaymentDetails.setEmployee(employee.getID());
 				Set<ClientEmployeePayHeadComponent> empRecords = getFilteredRecords(employee);
 				employeePaymentDetails.setPayHeadComponents(empRecords);
-				details.add(employeePaymentDetails);
+				if (!empRecords.isEmpty()) {
+					details.add(employeePaymentDetails);
+				}
 			}
 		}
 		data.setPayEmployee(details);
@@ -750,6 +747,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		if (widgetCount != 0) {
 			showPayRunTable();
 		}
+
+		transactionNumber.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
 	}
 
 	@Override

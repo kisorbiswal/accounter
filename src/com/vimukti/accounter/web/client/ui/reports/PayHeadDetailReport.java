@@ -15,24 +15,26 @@ public class PayHeadDetailReport extends AbstractReportView<PayHeadDetails> {
 
 	@Override
 	public void initData() {
-		super.initData();
 		if (data != null) {
 			PayHeadSummary headSummary = (PayHeadSummary) data;
 			PayHeadEmployeeToolBar payHeadEmployeeToolBar = (PayHeadEmployeeToolBar) this.toolbar;
 			payHeadEmployeeToolBar.setEmployee(headSummary.getEmployeeId());
 			payHeadEmployeeToolBar.setPayHead(headSummary.getPayHead());
 		}
+		super.initData();
 	}
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		PayHeadEmployeeToolBar payHeadEmployeeToolBar = (PayHeadEmployeeToolBar) this.toolbar;
-		Accounter.createReportService().getPayHeadDetailReportList(
-				payHeadEmployeeToolBar.getEmployee() == null ? 0
-						: payHeadEmployeeToolBar.getEmployee().getID(),
-				payHeadEmployeeToolBar.getSelectedPayHead() == null ? 0
-						: payHeadEmployeeToolBar.getSelectedPayHead().getID(),
-				start, end, this);
+		long employeeId = payHeadEmployeeToolBar.getEmployee() == null ? data == null ? 0
+				: ((PayHeadSummary) data).getEmployeeId()
+				: payHeadEmployeeToolBar.getEmployee().getID();
+		long payHeadId = payHeadEmployeeToolBar.getSelectedPayHead() == null ? data == null ? 0
+				: ((PayHeadSummary) data).getPayHead()
+				: payHeadEmployeeToolBar.getSelectedPayHead().getID();
+		Accounter.createReportService().getPayHeadDetailReportList(employeeId,
+				payHeadId, start, end, this);
 	}
 
 	@Override

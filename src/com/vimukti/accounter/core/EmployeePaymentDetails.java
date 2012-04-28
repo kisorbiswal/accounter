@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class EmployeePaymentDetails implements IAccounterServerCore {
@@ -94,6 +95,18 @@ public class EmployeePaymentDetails implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
+		EmployeePaymentDetails details = (EmployeePaymentDetails) clientObject;
+		if (details.getEmployee() == null) {
+			throw new AccounterException(AccounterException.ERROR_EMPLOYEE_NULL);
+		}
+
+		if (details.getPayHeadComponents() == null
+				|| details.getPayHeadComponents().isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
+							.get().messages().transactionItem());
+		}
+
 		return true;
 	}
 

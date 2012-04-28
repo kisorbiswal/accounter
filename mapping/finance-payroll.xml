@@ -415,8 +415,8 @@
 		<query-param name="company" type="Company" />
 		<query-param name="employee" type="Employee" />
 		<query-param name="group" type="EmployeeGroup" />
-		<query-param name="start" type="EmployeeGroup" />
-		<query-param name="end" type="EmployeeGroup" />
+		<query-param name="start" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="end" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.PayStructureItem PI
 		where
 		(PI.payStructure.employee = :employee or

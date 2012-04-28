@@ -9,6 +9,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayRun extends Transaction {
@@ -105,7 +106,18 @@ public class PayRun extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_CANT_CREATE_PAYRUN_DRAFT_OR_TEMPLATE);
 		}
+		if (!goingToBeEdit) {
+			if (payRun.getPayEmployee() == null
+					|| payRun.getPayEmployee().isEmpty()) {
+				throw new AccounterException(
+						AccounterException.ERROR_TRANSACTION_ITEM_NULL, Global
+								.get().messages().transactionItem());
+			}
 
+			for (EmployeePaymentDetails detail : payRun.getPayEmployee()) {
+				detail.canEdit(detail, goingToBeEdit);
+			}
+		}
 		return true;
 	}
 
