@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.serverreports.BudgetOverviewServerReport;
 
 public class BudgetOverviewReport extends AbstractReportView<ClientBudgetList> {
 

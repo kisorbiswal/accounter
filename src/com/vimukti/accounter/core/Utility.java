@@ -1370,8 +1370,7 @@ public class Utility {
 		return dates;
 	}
 
-	private static FinanceDate getCurrentFiscalYearStartDate(Company company) {
-
+	public static FinanceDate getCurrentFiscalYearStartDate(Company company) {
 		Calendar cal = Calendar.getInstance();
 		FinanceDate startDate = new FinanceDate();
 		cal.setTime(startDate.getAsDateObject());

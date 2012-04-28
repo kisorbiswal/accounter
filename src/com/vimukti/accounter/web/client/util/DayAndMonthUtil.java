@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.i18n.client.DateTimeFormatInfo;
 import com.vimukti.accounter.web.client.Global;
 
@@ -40,6 +43,23 @@ public class DayAndMonthUtil {
 	private String oct;
 	private String nov;
 	private String dec;
+
+	public static Map<Integer, String> monthNames = new HashMap<Integer, String>();
+
+	static {
+		monthNames.put(1, DayAndMonthUtil.jan());
+		monthNames.put(2, DayAndMonthUtil.feb());
+		monthNames.put(3, DayAndMonthUtil.mar());
+		monthNames.put(4, DayAndMonthUtil.apr());
+		monthNames.put(5, DayAndMonthUtil.mayS());
+		monthNames.put(6, DayAndMonthUtil.jun());
+		monthNames.put(7, DayAndMonthUtil.jul());
+		monthNames.put(8, DayAndMonthUtil.aug());
+		monthNames.put(9, DayAndMonthUtil.sep());
+		monthNames.put(10, DayAndMonthUtil.oct());
+		monthNames.put(11, DayAndMonthUtil.nov());
+		monthNames.put(12, DayAndMonthUtil.dec());
+	}
 
 	public DayAndMonthUtil(DateTimeFormatInfo a) {
 		this.a = a;

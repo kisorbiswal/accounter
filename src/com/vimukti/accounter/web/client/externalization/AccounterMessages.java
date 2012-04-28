@@ -6553,4 +6553,11 @@ public interface AccounterMessages extends Messages {
 	public String alreadyExistedInAnotherItemWithSameEmployee();
 
 	public String duplicatePayheadsExist();
+
+	public String isSubItemOf();
+
+	public String parentItem();
+
+	public String youCannotMakeAnItemAItemOfIteSelf();
+
 }
