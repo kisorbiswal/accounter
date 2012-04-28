@@ -84,6 +84,7 @@ import com.vimukti.accounter.web.client.ui.reports.ClassAndLocationReportsAction
 import com.vimukti.accounter.web.client.ui.reports.CompanyAndFinancialReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.JobReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.PayablesAndReceivablesReportsAction;
@@ -607,7 +608,8 @@ public class MainFinanceWindow extends FlowPanel {
 				new VATDetailsReportAction());
 		actions.put(new VAT100ReportAction().getHistoryToken(),
 				new VAT100ReportAction());
-
+		actions.put(new InventoryDetailsAction().getHistoryToken(),
+				new InventoryDetailsAction());
 		actions.put(
 				new VATUncategorisedAmountsReportAction().getHistoryToken(),
 				new VATUncategorisedAmountsReportAction());

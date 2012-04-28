@@ -411,7 +411,8 @@ public abstract class AbstractReportGenerator implements IReportGenerator {
 			return "TDS Acknowledgement Report";
 		case REPORT_TYPE_AUTOMATIC_TRANSACTIONS:
 			return "Automatic Transactions";
-
+		case REPORT_TYPE_INVENTORY_DETAILS:
+			return "Inventory Details Report";
 		default:
 			break;
 		}

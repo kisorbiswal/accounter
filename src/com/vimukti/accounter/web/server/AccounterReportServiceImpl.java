@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.IncomeByCustomerDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryDetails;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
@@ -3501,5 +3502,26 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ArrayList<InventoryDetails> getInventoryDetails(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+
+		ArrayList<InventoryDetails> inventoryDetails = new ArrayList<InventoryDetails>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			inventoryDetails = getFinanceTool().getReportManager()
+					.getInventoryDetails(financeDates[0], financeDates[1],
+							getCompanyId().longValue());
+			InventoryDetails obj = new InventoryDetails();
+			if (inventoryDetails != null)
+				inventoryDetails.add((InventoryDetails) setStartEndDates(obj,
+						financeDates));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return inventoryDetails;
 	}
 }

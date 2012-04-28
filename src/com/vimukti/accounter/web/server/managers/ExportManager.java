@@ -24,6 +24,7 @@ import com.vimukti.accounter.core.reports.generators.ECSalesListReportGenerator;
 import com.vimukti.accounter.core.reports.generators.EstimatesByJobRG;
 import com.vimukti.accounter.core.reports.generators.ExpenseRG;
 import com.vimukti.accounter.core.reports.generators.IReportGenerator;
+import com.vimukti.accounter.core.reports.generators.InventoryDetailsRG;
 import com.vimukti.accounter.core.reports.generators.InventoryStockStatusByItemRG;
 import com.vimukti.accounter.core.reports.generators.InventoryStockStatusByVendorRG;
 import com.vimukti.accounter.core.reports.generators.InventoryValutionDetailRG;
@@ -302,6 +303,8 @@ public class ExportManager extends Manager {
 		reportTypeGenerator.put(
 				IReportGenerator.REPORT_TYPE_PURCHASEBYCLASSDETAIL,
 				SalesOrPurchasesByClassOrLocationDetailRG.class);
+		reportTypeGenerator.put(IReportGenerator.REPORT_TYPE_INVENTORY_DETAILS,
+				InventoryDetailsRG.class);
 	}
 
 	public ExportManager(FinanceTool financeTool) {

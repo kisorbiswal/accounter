@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.IncomeByCustomerDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryDetails;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
@@ -406,5 +407,8 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<IncomeByCustomerDetail> getIncomeByCustomerDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	ArrayList<InventoryDetails> getInventoryDetails(ClientFinanceDate start,
+			ClientFinanceDate end);
 
 }

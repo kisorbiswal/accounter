@@ -55,6 +55,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.InventoryDetails;
 import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
@@ -4166,8 +4167,60 @@ public class ReportManager extends Manager {
 		}
 		return list;
 	}
+
 	// public ArrayList<JobProfitability> getJobProfitabilityReport(
 	// Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
 	// return null;
 	// }
+
+	public ArrayList<InventoryDetails> getInventoryDetails(
+			FinanceDate startDate, FinanceDate endDate, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<InventoryDetails> list = new ArrayList<InventoryDetails>();
+		List result = session.getNamedQuery("getInventoryDetails")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
+		Iterator iterator = result.iterator();
+		long previousItemID = 0;
+		while (iterator.hasNext()) {
+			Object[] object = (Object[]) iterator.next();
+			long itemID = ((Long) object[0]).longValue();
+			if (previousItemID == 0 || previousItemID != itemID) {
+				previousItemID = itemID;
+				InventoryDetails record = new InventoryDetails();
+				record.setId(itemID);
+				record.setOnHandqty((Double) (object[1] != null ? object[1] : 0));
+				record.setItemName((String) (object[2] != null ? object[2] : ""));
+				boolean type = ((Boolean) object[6]).booleanValue();
+				if (type) {
+					record.setQtyOut((Double) (object[4] != null ? object[4]
+							: 0));
+					record.setPricesold((Double) (object[5] != null ? object[5]
+							: 0));
+				} else {
+					record.setQtyIn((Double) (object[4] != null ? object[4] : 0));
+					record.setCost((Double) (object[5] != null ? object[5] : 0));
+
+				}
+				record.setCostValuation((Double) (object[3] != null ? object[3]
+						: 0));
+				list.add(record);
+			} else {
+				InventoryDetails record = list.get(list.size() - 1);
+				boolean type = ((Boolean) object[6]).booleanValue();
+				if (type) {
+					record.setQtyOut((Double) (object[4] != null ? object[4]
+							: 0));
+					record.setPricesold((Double) (object[5] != null ? object[5]
+							: 0));
+				} else {
+					record.setQtyIn((Double) (object[4] != null ? object[4] : 0));
+					record.setCost((Double) (object[5] != null ? object[5] : 0));
+
+				}
+			}
+		}
+		return list;
+	}
 }

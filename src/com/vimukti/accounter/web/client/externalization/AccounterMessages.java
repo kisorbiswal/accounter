@@ -6553,4 +6553,16 @@ public interface AccounterMessages extends Messages {
 	public String alreadyExistedInAnotherItemWithSameEmployee();
 
 	public String duplicatePayheadsExist();
+
+	public String subclassof();
+
+	public String qtyIn();
+
+	public String qtyOut();
+
+	public String priceSold();
+
+	public String costvaluation();
+
+	public String inventoryDetails();
 }
