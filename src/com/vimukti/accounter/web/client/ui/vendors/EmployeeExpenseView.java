@@ -119,24 +119,27 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		employee = new EmployeeCombo(messages.employee());
 		employee.getMainWidget();
 		employee.setRequired(true);
-		// employee.addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<ClientUserInfo>() {
-		//
-		// @Override
-		// public void selectedComboBoxItem(ClientUserInfo selectItem) {
-		//
-		// }
-		// });
+		employee.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientUserInfo>() {
+
+			@Override
+			public void selectedComboBoxItem(ClientUserInfo selectItem) {
+
+			}
+		});
 		if (!Accounter.getUser().isAdminUser()) {
 			// employee.setValue(Accounter.getUser().getName());
-			// employee.setAdmin(false);
+			employee.setAdmin(false);
 		}
 
-		String listString[] = new String[] { messages.cash(),
+		String listString[] = new String[] {
+				messages.cash(),
 				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check()),
-				messages.creditCard(), messages.directDebit(),
-				messages.masterCard(), messages.onlineBanking(),
-				messages.standingOrder(), messages.switchMaestro() };
+				messages.creditCard(),
+				messages.directDebit(),
+				messages.masterCard(),
+				messages.onlineBanking(),
+				messages.standingOrder(),
+				messages.switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -149,25 +152,25 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		vendorForm.add(employee);
 		termsForm.add(paymentMethodCombo, payFromCombo, checkNo);
-		// termsForm.getCellFormatter().setWidth(0, 0, "203px");
+//		termsForm.getCellFormatter().setWidth(0, 0, "203px");
 
 		StyledPanel verticalPanel = (StyledPanel) vendorForm.getParent();
 		vendorForm.removeFromParent();
-		// vendorForm.setWidth("100%");
+//		vendorForm.setWidth("100%");
 		verticalPanel.add(vendorForm);
 
 		StyledPanel vPanel = (StyledPanel) termsForm.getParent();
 		termsForm.removeFromParent();
-		// termsForm.setWidth("100%");
+//		termsForm.setWidth("100%");
 		vPanel.add(termsForm);
 
 		if (isInViewMode()) {
 			ClientCashPurchase cashPurchase = (ClientCashPurchase) transaction;
-			// employee.setComboItem(getCompany().getUserById(
-			// cashPurchase.getEmployee()));
+			employee.setComboItem(getCompany().getUserById(
+					cashPurchase.getEmployee()));
 			employee.setEnabled(false);
 			if (Accounter.getUser().isAdmin()) {
-				// employee.setAdmin(true);
+				employee.setAdmin(true);
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(cashPurchase
 					.getDeliveryDate()));
@@ -199,8 +202,10 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// }
 		if (Accounter.getUser().canApproveExpences())
 			if (!payFromCombo.validate()) {
-				result.addError(payFromCombo,
-						messages.pleaseEnter(payFromCombo.getTitle()));
+				result.addError(
+						payFromCombo,
+						messages.pleaseEnter(
+								payFromCombo.getTitle()));
 			}
 		// if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
 		// .getEnteredDate(), this.transactionDate)) {
@@ -235,7 +240,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				if (result) {
 					ClientCashPurchase purchase = (ClientCashPurchase) transaction;
 					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
-						Accounter.showError(messages.expenseisApproved());
+						Accounter.showError(messages
+								.expenseisApproved());
 					} else
 						enableFormItems();
 				}
@@ -253,7 +259,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		super.enableFormItems();
 		employee.setEnabled(isInViewMode());
 		if (Accounter.getUser().isAdmin()) {
-			// employee.setAdmin(true);
+			employee.setAdmin(true);
 		}
 	}
 
@@ -270,8 +276,8 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		approveButton = new ImageButton(messages.approve(), Accounter
-				.getFinanceImages().approve());
+		approveButton = new ImageButton(messages.approve(),
+				Accounter.getFinanceImages().approve());
 		approveButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -280,8 +286,9 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 		});
 
-		submitForApprove = new ImageButton(messages.submitForApproval(),
-				Accounter.getFinanceImages().submitForApproval());
+		submitForApprove = new ImageButton(messages
+				.submitForApproval(), Accounter.getFinanceImages()
+				.submitForApproval());
 		submitForApprove.addClickHandler(new ClickHandler() {
 
 			@Override

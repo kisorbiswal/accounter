@@ -997,15 +997,4 @@
 	</servlet-mapping>
 
 
-	<servlet>
-		<servlet-name>iAccounterPayrollImpl
-		</servlet-name>
-		<servlet-class>
-			com.vimukti.accounter.web.server.AccounterPayrollImpl
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>iAccounterPayrollImpl </servlet-name>
-		<url-pattern>/do/accounter/payroll/rpc/service </url-pattern>
-	</servlet-mapping>
 </web-app>

@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+
 /**
  * Salary Details is used to define the Pay Structure for an Employee or an
  * Employee Group. To speed up the entry of individual Employee's Pay Structure
@@ -17,6 +18,10 @@ import java.util.List;
  * 
  */
 public class PayStructure extends CreatableObject {
+
+	private Employee employee;
+
+	private EmployeeGroup employeeGroup;
 
 	private FinanceDate effectiveFrom;
 
@@ -50,6 +55,36 @@ public class PayStructure extends CreatableObject {
 	 */
 	public void setItems(List<PayStructureItem> items) {
 		this.items = items;
+	}
+
+	/**
+	 * @return the employeeGroup
+	 */
+	public EmployeeGroup getEmployeeGroup() {
+		return employeeGroup;
+	}
+
+	/**
+	 * @param employeeGroup
+	 *            the employeeGroup to set
+	 */
+	public void setEmployeeGroup(EmployeeGroup employeeGroup) {
+		this.employeeGroup = employeeGroup;
+	}
+
+	/**
+	 * @return the employee
+	 */
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	/**
+	 * @param employee
+	 *            the employee to set
+	 */
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 }

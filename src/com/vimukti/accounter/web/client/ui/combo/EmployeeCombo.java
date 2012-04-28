@@ -3,37 +3,65 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class EmployeeCombo extends CustomCombo<ClientEmployee> {
+public class EmployeeCombo extends CustomCombo<ClientUserInfo> {
+
+	public List<ClientUserInfo> users = new ArrayList<ClientUserInfo>();
+	private boolean isAdmin;
 
 	public EmployeeCombo(String title) {
 		this(title, false);
-		List<ClientEmployee> employees = new ArrayList<ClientEmployee>(
-				getCompany().getEmployees());
-		initCombo(employees);
+		if (!Accounter.getUser().isAdminUser()) {
+			isAdmin = false;
+		}else{
+			isAdmin = true;
+		}
 	}
 
 	public EmployeeCombo(String title, boolean b) {
-		super(title, b, 1, "employeecombo");
-		List<ClientEmployee> employees = new ArrayList<ClientEmployee>(
-				getCompany().getEmployees());
-		initCombo(employees);
+		super(title, b, 1,"EmployeeCombo");
+		Accounter.createHomeService().getAllUsers(
+				new AccounterAsyncCallback<ArrayList<ClientUserInfo>>() {
+					@Override
+					public void onResultSuccess(ArrayList<ClientUserInfo> result) {
+						users = result;
+						if (isAdmin) {
+							initCombo(users);
+						} else {
+							for (ClientUserInfo user : users) {
+								if (user.getID() == Accounter.getUser().getID()) {
+									List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
+									tempUsers.add(user);
+									initCombo(tempUsers);
+									break;
+								}
+							}
+						}
+					}
+
+					@Override
+					public void onException(AccounterException caught) {
+						Accounter.showError(messages
+								.failedtoloadEmployeeslist());
+					}
+				});
 	}
 
 	@Override
-	protected String getDisplayName(ClientEmployee object) {
+	protected String getDisplayName(ClientUserInfo object) {
 		if (object != null)
-			return object.getName() != null ? object.getName() : "";
+			return object.getDisplayName() != null ? object.getDisplayName()
+					: "";
 		else
 			return "";
 	}
 
 	@Override
-	protected String getColumnData(ClientEmployee object, int col) {
+	protected String getColumnData(ClientUserInfo object,  int col) {
 		switch (col) {
 		case 0:
 			return object.getName();
@@ -43,21 +71,30 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return messages.employee();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void onAddNew() {
-		NewEmployeeAction action = ActionFactory.getNewEmployeeAction();
-		action.setCallback(new ActionCallback<ClientEmployee>() {
+		// TODO Auto-generated method stub
 
-			@Override
-			public void actionResult(ClientEmployee result) {
-				addItemThenfireEvent(result);
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+		if (isAdmin) {
+			initCombo(users);
+		} else {
+			for (ClientUserInfo user : users) {
+				if (user.getID() == Accounter.getUser().getID()) {
+					List<ClientUserInfo> tempUsers = new ArrayList<ClientUserInfo>();
+					tempUsers.add(user);
+					initCombo(tempUsers);
+					break;
+				}
 			}
-		});
-
-		action.run(null, true);
+		}
 	}
 
 }

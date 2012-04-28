@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -36,7 +35,6 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
-import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
@@ -83,7 +81,6 @@ import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
@@ -403,10 +400,6 @@ public class ReportsRPC {
 			initCallBack(new ClientTDSChalanDetail(),
 					new TDSChalanDetailsAction(), transactionId);
 			break;
-		case IAccounterCore.EMPLOYEE:
-			initCallBack(new ClientEmployee(),
-					ActionFactory.getNewEmployeeAction(), transactionId);
-			break;
 		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
 			initCallBack(new ClientStockAdjustment(),
 					InventoryActions.stockAdjustment(), transactionId);
@@ -418,10 +411,6 @@ public class ReportsRPC {
 		case IAccounterCore.CHECK_LAYOUT:
 			initCallBack(new ClientChequeLayout(),
 					new CheckPrintSettingAction(), transactionId);
-			break;
-		case IAccounterCore.PAYROLL_UNIT:
-			initCallBack(new ClientPayrollUnit(),
-					ActionFactory.getNewPayrollUnitAction(), transactionId);
 			break;
 		}
 
