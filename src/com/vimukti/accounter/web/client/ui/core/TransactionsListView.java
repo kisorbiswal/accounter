@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -48,6 +49,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		this.getElement().setId("TransactionsListView");
 		this.startDate = Accounter.getStartDate();
 		this.endDate = getCompany().getCurrentFiscalYearEndDate();
+
 		this.setViewType(viewType);
 		this.setDateRange(messages.all());
 	}
@@ -134,7 +136,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	protected SelectCombo getSelectItem() {
 		viewSelect = new SelectCombo(messages.currentView());
 		// listOfTypes.add(DRAFT);
-		viewSelect.initCombo(getViewSelectTypes());
+		List<String> viewSelectTypes = getViewSelectTypes();
+		if (!Accounter.hasPermission(Features.DRAFTS)) {
+			if (viewSelectTypes != null && !viewSelectTypes.isEmpty()) {
+				viewSelectTypes.remove(messages.drafts());
+			}
+		}
+		viewSelect.initCombo(viewSelectTypes);
 
 		// if (UIUtils.isMSIEBrowser())
 		// viewSelect.setWidth("105px");

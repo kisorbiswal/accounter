@@ -323,6 +323,7 @@ public class ReportSectionView extends BaseHomeView {
 				.taxItemException().getHistoryToken());
 		taxMap.put(messages.vatItemSummary(), TAXReportsAction.taxItemSummary()
 				.getHistoryToken());
+
 		if (Accounter.getCompany().getCountry().equals(Countries.INDIA)) {
 			if (Accounter.getCompany().getPreferences().isTDSEnabled()) {
 				taxMap.put(messages.tdsAcknowledgmentsReport(),

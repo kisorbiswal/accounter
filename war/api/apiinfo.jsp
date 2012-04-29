@@ -4,11 +4,24 @@
 <html>
   <head>
   <title>Api Info</title>
+  <link rel="stylesheet" href="../css/ss.css" type="text/css"></link>
   </head>  
   <body>
-  	<table>  
-  	<tr><td>Api Key:</td><td>${apiKey}</td></tr>
-  	<tr><td>Secret Key:</td><td>${secretKey}</td></tr>
+  <div id="accounterlogofield" class="new_logo_field">
+<a class="accounterLogoimage" href="/site/home"></a>
+</div>
+  <div id="commanContainer">
+  <div id="company-locked" class="form-box">
+  	<table align="center">
+  	<th>Developer Details</th>
   	</table>
-  </body>
-</html>
+  	<table align="center">
+  	<tr><td>Api Key</td><td>:</td><td>${apiKey}</tr>
+  	<tr><td>Secret Key</td><td>:</td><td>${secretKey}</tr>
+  	<tr><td>Application Name</td><td>:</td><td>${applicationName}</tr>
+  	<tr><td>Developer Email Id</td><td>:</td><td>${developerEmailId}</tr>
+  	</table>
+  	</div>
+  	</div>
+  	</body>
+  	</html>

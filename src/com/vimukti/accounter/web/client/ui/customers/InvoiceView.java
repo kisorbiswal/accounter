@@ -647,11 +647,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		if (isInViewMode()
+		if (getCompany().isPaid()
+				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
-
 			emailButton.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -662,7 +662,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							.getCompany().getBrandingTheme();
 
 					if (themesList.size() > 1) {
-						// if there are more than one branding themes, then show
+						// if there are more than one branding themes, then
+						// show
 						// branding
 						// theme dialog box
 						new EmailThemeComboAction().run(transaction, false);
@@ -1181,7 +1182,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void paymentTermsSelected(ClientPaymentTerms paymentTerm) {
-		if(paymentTerm!=null){
+		if (paymentTerm != null) {
 			this.paymentTerm = paymentTerm;
 		}
 		if (this.paymentTerm != null && payTermsSelect != null) {

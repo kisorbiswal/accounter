@@ -59,13 +59,15 @@ public class RegistrationServlet extends BaseServlet {
 			e.printStackTrace();
 			req.setAttribute("error", "Session has expired");
 			req.getRequestDispatcher("/site/error.jsp").forward(req, resp);
-		} 
+		}
 	}
 
 	private void sendApiInfoPage(Developer developer, HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("apiKey", developer.getApiKey());
 		req.setAttribute("secretKey", developer.getSecretKey());
+		req.setAttribute("applicationName", developer.getApplicationName());
+		req.setAttribute("developerEmailId", developer.getDeveloperEmailId());
 		req.getRequestDispatcher("/api/apiinfo.jsp").forward(req, resp);
 	}
 
@@ -151,6 +153,6 @@ public class RegistrationServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} 
+		}
 	}
 }
