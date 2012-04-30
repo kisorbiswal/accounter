@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -22,8 +26,34 @@ public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 
 	@Override
 	protected void executeDelete(ClientPayrollUnit object) {
-		// TODO Auto-generated method stub
+		AccounterAsyncCallback<ClientPayrollUnit> callback = new AccounterAsyncCallback<ClientPayrollUnit>() {
 
+			public void onException(AccounterException caught) {
+			}
+
+			public void onResultSuccess(ClientPayrollUnit result) {
+				if (result != null) {
+					deleteObject(result);
+
+				}
+			}
+
+		};
+		Accounter.createGETService().getObjectById(
+				AccounterCoreType.PAY_ROLL_UNIT, object.getID(), callback);
+	}
+
+	@Override
+	protected void onClick(ClientPayrollUnit obj, int row, int col) {
+
+		switch (col) {
+		case 3:
+			showWarnDialog(obj);
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -46,7 +76,8 @@ public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 
 	@Override
 	public void onDoubleClick(ClientPayrollUnit obj) {
-		ReportsRPC.openTransactionView(IAccounterCore.PAYROLL_UNIT, obj.getID());
+		ReportsRPC
+				.openTransactionView(IAccounterCore.PAYROLL_UNIT, obj.getID());
 	}
 
 	@Override
