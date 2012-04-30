@@ -60,7 +60,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	public void init() {
 		super.init();
 		createControls();
-//		setSize("100%", "");
+		// setSize("100%", "");
 
 	}
 
@@ -469,14 +469,14 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		vatCodeTxt.setEnabled(isInViewMode());
-		description.setDisabled(isInViewMode());
-		isActive.setEnabled(isInViewMode());
-		// taxableGroupRadio.setDisabled(isInViewMode());
-		// if (vat.isTaxable()) {
-		// vatItemComboForPurchases.setDisabled(isInViewMode());
-		// vatItemComboForSales.setDisabled(isInViewMode());
-		// }
+		vatCodeTxt.setEnabled(!isInViewMode());
+		description.setEnabled(!isInViewMode());
+		isActive.setEnabled(!isInViewMode());
+		taxableGroupRadio.setEnabled(!isInViewMode());
+		if (vat.isTaxable()) {
+			vatItemComboForPurchases.setEnabled(!isInViewMode());
+			vatItemComboForSales.setEnabled(!isInViewMode());
+		}
 		super.onEdit();
 
 	}
