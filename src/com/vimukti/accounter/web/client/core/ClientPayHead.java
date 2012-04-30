@@ -286,4 +286,18 @@ public class ClientPayHead implements IAccounterCore {
 			return null;
 		}
 	}
+
+	public boolean isEarning() {
+		return getType() == TYPE_EARNINGS_FOR_EMPLOYEES
+				|| getType() == TYPE_REIMBURSEMENTS_TO_EMPLOYEES
+				|| getType() == TYPE_BONUS
+				|| getType() == TYPE_LOANS_AND_ADVANCES;
+	}
+
+	public boolean isDeduction() {
+		return getType() == TYPE_DEDUCTIONS_FOR_EMPLOYEES
+				|| getType() == TYPE_EMPLOYEES_OTHER_CHARGES
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_CONTRIBUTIONS
+				|| getType() == TYPE_EMPLOYEES_STATUTORY_DEDUCTIONS;
+	}
 }

@@ -34,12 +34,10 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	 */
 	public static final int PER_DAY_CALCULATION_USER_DEFINED_CALANDAR = 3;
 
-	public static final int LEAVE_WITH_PAY = 1;
-	public static final int LEAVE_WITHOUT_PAY = 2;
-	public static final int ATTENDANCE_ON_PAYHEAD = 3;
-	public static final int ATTENDANCE_ON_EARNING_TOTAL = 4;
-	public static final int ATTENDANCE_ON_SUBTOTAL = 5;
-	public static final int ATTENDANCE_ON_RATE = 6;
+	public static final int ATTENDANCE_ON_PAYHEAD = 1;
+	public static final int ATTENDANCE_ON_EARNING_TOTAL = 2;
+	public static final int ATTENDANCE_ON_SUBTOTAL = 3;
+	public static final int ATTENDANCE_ON_RATE = 4;
 
 	private int attendanceType;
 
@@ -48,19 +46,6 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	private int calculationPeriod;
 
 	private int perDayCalculationBasis;
-
-	private long leaveWithPay;
-
-	/**
-	 * Will be used if leaveWithPay does not Exist
-	 */
-	private long leaveWithoutPay;
-
-	/**
-	 * Will be used if perDayCalculationBasis is
-	 * PER_DAY_CALCULATION_USER_DEFINED_CALANDAR
-	 */
-	private ClientAttendanceOrProductionType userDefinedCalendar;
 
 	public int getCalculationPeriod() {
 		return calculationPeriod;
@@ -78,34 +63,9 @@ public class ClientAttendancePayHead extends ClientPayHead {
 		this.perDayCalculationBasis = perDayCalculationBasis;
 	}
 
-	public long getLeaveWithPay() {
-		return leaveWithPay;
-	}
-
-	public void setLeaveWithPay(long leaveWithPay) {
-		this.leaveWithPay = leaveWithPay;
-	}
-
-	public long getLeaveWithoutPay() {
-		return leaveWithoutPay;
-	}
-
-	public void setLeaveWithoutPay(long leaveWithoutPay) {
-		this.leaveWithoutPay = leaveWithoutPay;
-	}
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.ATTENDANCE_PAY_HEAD;
-	}
-
-	public ClientAttendanceOrProductionType getUserDefinedCalendar() {
-		return userDefinedCalendar;
-	}
-
-	public void setUserDefinedCalendar(
-			ClientAttendanceOrProductionType userDefinedCalendar) {
-		this.userDefinedCalendar = userDefinedCalendar;
 	}
 
 	public int getAttendanceType() {
@@ -127,12 +87,6 @@ public class ClientAttendancePayHead extends ClientPayHead {
 	public static String getAttendanceType(int attendanceType) {
 		AccounterMessages messages = Accounter.getMessages();
 		switch (attendanceType) {
-		case LEAVE_WITH_PAY:
-			return messages.leaveWithPay();
-
-		case LEAVE_WITHOUT_PAY:
-			return messages.leaveWithoutPay();
-
 		case ATTENDANCE_ON_PAYHEAD:
 			return messages.payhead();
 

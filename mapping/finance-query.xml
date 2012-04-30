@@ -2222,6 +2222,27 @@
 				]]>
 
 	</sql-query>
+	
+	<sql-query name="canDeleteAttendanceOrProductionType">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="AMT_ID" type="long" />
+		<return-scalar column="FF_ID" type="long" />
+
+		<![CDATA[
+				SELECT AMT.ID AS AMT_ID,
+					   FF.PAY_HEAD AS FF_ID
+				FROM   ATTENDANCE_OR_PRODUCTION_TPE APH
+						LEFT JOIN ATTENDANCE_MANAGEMENT_ITEM AMT 
+						ON AMT.ATTENDANCE_TYPE = APH.ID
+						LEFT OUTER JOIN FORMULA_FUNCTION FF
+						ON FF.ATTENDANCE_TYPE = AMT.ID
+				WHERE  APH.ID = :inputId
+				       AND APH.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
 
 	<sql-query name="canDeleteFlatRatePayHead">
 		<query-param name="inputId" type="long" />

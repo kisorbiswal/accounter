@@ -172,12 +172,6 @@
 			<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
 			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 			<property name="perDayCalculationBasis" column="PER_DAY_CALCULATION_BASIS" />
-			<many-to-one name="leaveWithPay" column="LEAVE_WITH_PAY"
-				class="AttendanceOrProductionType" />
-			<many-to-one name="leaveWithoutPay" column="LEAVE_WITHOUT_PAY"
-				class="AttendanceOrProductionType" />
-			<many-to-one name="userDefinedCalendar" column="USER_DEFINED_CALENDAR"
-				class="AttendanceOrProductionType" />
 		</joined-subclass>
 
 		<joined-subclass name="ComputionPayHead" table="COMPUTATION_PAY_HEAD">

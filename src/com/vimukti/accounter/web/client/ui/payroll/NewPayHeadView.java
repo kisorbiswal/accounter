@@ -17,8 +17,6 @@ import com.vimukti.accounter.web.client.core.ClientComputationSlab;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
-import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -53,8 +51,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			messages.loansAndAdvances(), messages.reimbursmentsToEmployees() };
 
 	String[] calType = { messages.attendance(), messages.asComputedValue(),
-			messages.flatRate(), messages.production(),
-			messages.asUserDefined() };
+			messages.flatRate() };
 
 	String[] calPeriod = { messages.days(), messages.weeks(), messages.months() };
 
@@ -68,8 +65,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			messages.onEarningTotal(), messages.onSubTotal(),
 			messages.onSpecifiedFormula() };
 
-	String[] attendanceTypes = { messages.leaveWithPay(),
-			messages.leaveWithoutPay(), messages.payhead(),
+	String[] attendanceTypes = { messages.otherPayhead(),
 			messages.onEarningTotal(), messages.onSubTotal(), messages.rate() };
 
 	List<String> typeList = new ArrayList<String>();
@@ -79,14 +75,11 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	private List<String> perDayCalcList = new ArrayList<String>();
 	private List<String> computationTypeList = new ArrayList<String>();
 	private List<String> attendanceTypeList = new ArrayList<String>();
-	private AttendanceOrProductionTypeCombo productionTypeCombo;
-	private AttendanceOrProductionTypeCombo leaveWithPayCombo;
-	private AttendanceOrProductionTypeCombo leaveWithoutPayCombo;
 	private SelectCombo perdayCalculationCombo;
 	private SelectCombo computationTypeCombo, attendanceTypeCombo;
 	private ComputationSlabTable slabTable;
 	private DynamicForm formulaForm, computationForm, calculationForm,
-			attendanceForm, flatrateForm, productionForm;
+			attendanceForm, flatrateForm;
 
 	private List<ClientComputaionFormulaFunction> formulas = new ArrayList<ClientComputaionFormulaFunction>();
 	private DepreciationAccountCombo accountCombo;
@@ -117,6 +110,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	public void initData() {
 		if (getData() == null) {
 			setData(new ClientPayHead());
+			calculationPeriodCombo.setComboItem(messages.months());
 		} else {
 			initViewData(getData());
 		}
@@ -152,15 +146,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			attendanceTypeCombo.setComboItem(attendanceType);
 			attendanceTypeChanged(attendanceType);
 
-			if (attendance.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY) {
-				leaveWithPayCombo.setSelectedId(attendance.getLeaveWithPay());
-			}
-
-			if (attendance.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
-				leaveWithoutPayCombo.setSelectedId(attendance
-						.getLeaveWithoutPay());
-			}
-
 			if (attendance.getAttendanceType() == ClientAttendancePayHead.PAY_HEAD) {
 				payheadCombo.setSelectedId(attendance.getPayhead());
 			}
@@ -191,20 +176,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 			calculationPeriodCombo.setComboItem(getCalculationPeriod(flatrate
 					.getCalculationPeriod()));
-
-		} else if (calType.equals(messages.production())) {
-			ClientProductionPayHead production = (ClientProductionPayHead) data;
-			List<ClientAttendanceOrProductionType> comboItems = productionTypeCombo
-					.getComboItems();
-			for (ClientAttendanceOrProductionType clientAttendanceOrProductionType : comboItems) {
-				if (production.getProductionType() == clientAttendanceOrProductionType
-						.getID()) {
-					productionTypeCombo
-							.setComboItem(clientAttendanceOrProductionType);
-				}
-			}
-
-		} else if (calType.equals(messages.asUserDefined())) {
 
 		}
 	}
@@ -312,24 +283,13 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		calculationTypeCombo.setRequired(true);
 		calculationTypeCombo.setEnabled(!isInViewMode());
 
-		productionTypeCombo = new AttendanceOrProductionTypeCombo(
-				ClientAttendanceOrProductionType.TYPE_PRODUCTION,
-				messages.productionType(), "productionTypeCombo") {
-			@Override
-			public void itemAdded(ClientAttendanceOrProductionType obj) {
-				NewPayHeadView.this.attendanceItemAdded(obj);
-			}
-		};
-		productionTypeCombo.setRequired(true);
-		productionTypeCombo.setEnabled(!isInViewMode());
-
 		calculationPeriodCombo = new SelectCombo(messages.calculationPeriod(),
 				false);
 		calculationPeriodCombo.initCombo(calPeriodList);
 		calculationPeriodCombo.setEnabled(!isInViewMode());
 		calculationPeriodCombo.setRequired(true);
 
-		attendanceTypeCombo = new SelectCombo(messages.attendanceType());
+		attendanceTypeCombo = new SelectCombo(messages.deductionOn());
 		attendanceTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -343,32 +303,9 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		attendanceTypeCombo.setRequired(true);
 
 		payheadCombo = new PayheadCombo(messages.payhead());
+
 		payheadCombo.setEnabled(!isInViewMode());
 		payheadCombo.setRequired(true);
-
-		leaveWithPayCombo = new AttendanceOrProductionTypeCombo(
-				ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY,
-				messages.leaveWithPay(), "leaveWithPayCombo") {
-			@Override
-			public void itemAdded(ClientAttendanceOrProductionType obj) {
-				NewPayHeadView.this.attendanceItemAdded(obj);
-			}
-		};
-
-		leaveWithPayCombo.setEnabled(!isInViewMode());
-		leaveWithPayCombo.setRequired(true);
-
-		leaveWithoutPayCombo = new AttendanceOrProductionTypeCombo(
-				ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY,
-				messages.leaveWithoutPay(), "leaveWithoutPayCombo") {
-			@Override
-			public void itemAdded(ClientAttendanceOrProductionType obj) {
-				NewPayHeadView.this.attendanceItemAdded(obj);
-			}
-		};
-
-		leaveWithoutPayCombo.setEnabled(!isInViewMode());
-		leaveWithoutPayCombo.setRequired(true);
 
 		perdayCalculationCombo = new SelectCombo(
 				messages.perDayCalculationBasis(), false);
@@ -425,7 +362,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 		leftForm.add(nameItem, typeCombo, affectNetSalarytem,
 				calculationTypeCombo);
-		rightForm.add(payslipNameItem, roundingMethodCombo, accountCombo);
+		rightForm.add(payslipNameItem, accountCombo);
 
 		mainform.add(leftForm);
 		mainform.add(rightForm);
@@ -439,30 +376,12 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		setSize("100%", "100%");
 	}
 
-	protected void attendanceItemAdded(ClientAttendanceOrProductionType obj) {
-		if (obj.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
-			leaveWithPayCombo.addItem(obj);
-		}
-
-		if (obj.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY) {
-			leaveWithoutPayCombo.addItem(obj);
-		}
-
-		if (obj.getType() == ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
-			productionTypeCombo.addItem(obj);
-		}
-	}
-
 	protected void attendanceTypeChanged(String selectItem) {
 		if (selectItem == null) {
 			return;
 		}
 		attendanceTypeForm.clear();
-		if (selectItem.equals(messages.leaveWithPay())) {
-			attendanceTypeForm.add(leaveWithPayCombo);
-		} else if (selectItem.equals(messages.leaveWithoutPay())) {
-			attendanceTypeForm.add(leaveWithoutPayCombo);
-		} else if (selectItem.equals(messages.payhead())) {
+		if (selectItem.equals(messages.otherPayhead())) {
 			attendanceTypeForm.add(payheadCombo);
 		}
 	}
@@ -524,7 +443,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 
 			attendanceLeftForm.add(attendanceTypeCombo);
 			attendanceLeftForm.add(attendanceTypeForm);
-			attendanceLeftForm.add(calculationPeriodCombo);
+			// attendanceLeftForm.add(calculationPeriodCombo);
 			attendanceRightForm.add(perdayCalculationCombo);
 			attendanceRightForm.add(userDefinedCalendarForm);
 
@@ -549,13 +468,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			flatrateForm = new DynamicForm("flaterateForm");
 			flatrateForm.add(calculationPeriodCombo);
 			calculationForm.add(flatrateForm);
-
-		} else if (selectItem.equals(messages.production())) {
-			productionForm = new DynamicForm("productionForm");
-			productionForm.add(productionTypeCombo);
-			calculationForm.add(productionForm);
-
-		} else if (selectItem.equals(messages.asUserDefined())) {
 
 		}
 	}
@@ -597,8 +509,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		nameItem.setEnabled(!isInViewMode());
 		computationTypeCombo.setEnabled(!isInViewMode());
 		slabTable.setEnabled(!isInViewMode());
-		productionTypeCombo.setEnabled(!isInViewMode());
-		leaveWithPayCombo.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		userDefinedCalendarCombo.setEnabled(!isInViewMode());
 		payheadCombo.setEnabled(!isInViewMode());
@@ -607,7 +517,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		computationTypeCombo.setEnabled(!isInViewMode());
 		attendanceTypeCombo.setEnabled(!isInViewMode());
 		perdayCalculationCombo.setEnabled(!isInViewMode());
-		leaveWithoutPayCombo.setEnabled(!isInViewMode());
 		calculationTypeCombo.setEnabled(!isInViewMode());
 		typeCombo.setEnabled(!isInViewMode());
 		calculationPeriodCombo.setEnabled(!isInViewMode());
@@ -646,9 +555,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		} else if (selectedValue.equals(messages.flatRate())) {
 			result.add(flatrateForm.validate());
 
-		} else if (selectedValue.equals(messages.production())) {
-			result.add(productionForm.validate());
-
 		}
 		return result;
 	}
@@ -665,13 +571,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			String attendanceType = ClientAttendancePayHead
 					.getAttendanceType(payhead.getAttendanceType());
 
-			if (attendanceType.equals(messages.leaveWithPay())) {
-				payhead.setLeaveWithPay(leaveWithPayCombo.getSelectedValue()
-						.getID());
-			} else if (attendanceType.equals(messages.leaveWithoutPay())) {
-				payhead.setLeaveWithoutPay(leaveWithoutPayCombo
-						.getSelectedValue().getID());
-			} else if (attendanceType.equals(messages.payhead())) {
+			if (attendanceType.equals(messages.otherPayhead())) {
 				payhead.setPayhead(payheadCombo.getSelectedValue().getID());
 			}
 			payhead.setID(data.getID());
@@ -696,18 +596,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			payHead.setID(data.getID());
 			payHead.setCalculationPeriod(calculationPeriodCombo
 					.getSelectedIndex() + 1);
-			data = payHead;
-
-		} else if (selectedValue.equals(messages.production())) {
-			ClientProductionPayHead payHead = new ClientProductionPayHead();
-			payHead.setProductionType(productionTypeCombo.getSelectedValue()
-					.getID());
-			payHead.setID(data.getID());
-			data = payHead;
-
-		} else if (selectedValue.equals(messages.asUserDefined())) {
-			ClientUserDefinedPayHead payHead = new ClientUserDefinedPayHead();
-			payHead.setID(data.getID());
 			data = payHead;
 
 		}

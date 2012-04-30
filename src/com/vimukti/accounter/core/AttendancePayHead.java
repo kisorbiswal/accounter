@@ -3,9 +3,6 @@ package com.vimukti.accounter.core;
 import java.util.Calendar;
 import java.util.List;
 
-import org.hibernate.Session;
-
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -48,12 +45,10 @@ public class AttendancePayHead extends PayHead {
 	 */
 	public static final int PER_DAY_CALCULATION_USER_DEFINED_CALANDAR = 3;
 
-	public static final int LEAVE_WITH_PAY = 1;
-	public static final int LEAVE_WITHOUT_PAY = 2;
-	public static final int ATTENDANCE_ON_PAYHEAD = 3;
-	public static final int ATTENDANCE_ON_EARNING_TOTAL = 4;
-	public static final int ATTENDANCE_ON_SUBTOTAL = 5;
-	public static final int ATTENDANCE_ON_RATE = 6;
+	public static final int ATTENDANCE_ON_PAYHEAD = 1;
+	public static final int ATTENDANCE_ON_EARNING_TOTAL = 2;
+	public static final int ATTENDANCE_ON_SUBTOTAL = 3;
+	public static final int ATTENDANCE_ON_RATE = 4;
 
 	private int attendanceType;
 
@@ -62,19 +57,6 @@ public class AttendancePayHead extends PayHead {
 	private int calculationPeriod;
 
 	private int perDayCalculationBasis;
-
-	private AttendanceOrProductionType leaveWithPay;
-
-	/**
-	 * Will be used if leaveWithPay does not Exist
-	 */
-	private AttendanceOrProductionType leaveWithoutPay;
-
-	/**
-	 * Will be used if perDayCalculationBasis is
-	 * PER_DAY_CALCULATION_USER_DEFINED_CALANDAR
-	 */
-	private AttendanceOrProductionType userDefinedCalendar;
 
 	public AttendancePayHead() {
 		super(CALCULATION_TYPE_ON_ATTENDANCE);
@@ -110,36 +92,6 @@ public class AttendancePayHead extends PayHead {
 		this.perDayCalculationBasis = perDayCalculationBasis;
 	}
 
-	/**
-	 * @return the leaveWithPay
-	 */
-	public AttendanceOrProductionType getLeaveWithPay() {
-		return leaveWithPay;
-	}
-
-	/**
-	 * @param leaveWithPay
-	 *            the leaveWithPay to set
-	 */
-	public void setLeaveWithPay(AttendanceOrProductionType leaveWithPay) {
-		this.leaveWithPay = leaveWithPay;
-	}
-
-	/**
-	 * @return the leaveWithoutPay
-	 */
-	public AttendanceOrProductionType getLeaveWithoutPay() {
-		return leaveWithoutPay;
-	}
-
-	/**
-	 * @param leaveWithoutPay
-	 *            the leaveWithoutPay to set
-	 */
-	public void setLeaveWithoutPay(AttendanceOrProductionType leaveWithoutPay) {
-		this.leaveWithoutPay = leaveWithoutPay;
-	}
-
 	@Override
 	public double calculatePayment(PayStructureItem payStructureItem,
 			double deductions, double earnings) {
@@ -167,24 +119,21 @@ public class AttendancePayHead extends PayHead {
 				payHeadStructureItem.setEndDate(payStructureItem.getEndDate());
 				payHeadStructureItem.setAttendance(payStructureItem
 						.getAttendance());
-				deductableSalary = payHead.calculatePayment(
-						payHeadStructureItem, deductions, earnings);
+				deductableSalary = payHeadStructureItem.getRate();
+				long workingDays = getWorkingDays(payStructureItem);
+				if (workingDays == 0) {
+					deductableSalary = 0;
+				} else {
+					double perDayAmount = deductableSalary / workingDays;
+					deductableSalary = perDayAmount
+							* (isEarning() ? payStructureItem.getAttendance()[2]
+									: payStructureItem.getAttendance()[1]);
+				}
 			} else {
 				deductableSalary = 0.0;
 			}
-		} else {
-			long workingDays = getWorkingDays(payStructureItem);
-			if (workingDays == 0) {
-				deductableSalary = 0;
-			} else {
-				double perDayAmount = rate / workingDays;
-				deductableSalary = perDayAmount
-						* (this.leaveWithPay != null ? payStructureItem
-								.getAttendance()[0] : payStructureItem
-								.getAttendance()[1]);
-				deductableSalary = rate - deductableSalary;
-			}
 		}
+
 		return deductableSalary;
 	}
 
@@ -208,26 +157,10 @@ public class AttendancePayHead extends PayHead {
 		}
 
 		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED_CALANDAR) {
-			Session currentSession = HibernateUtil.getCurrentSession();
-			AttendanceManagementItem item = (AttendanceManagementItem) currentSession
-					.getNamedQuery("getAttendanceMItem.by.employee")
-					.setParameter("employee",
-							payStructureItem.getPayStructure().getEmployee())
-					.setParameter("attendanceType",
-							this.getUserDefinedCalendar()).uniqueResult();
-			workingDays = item == null ? 0 : item.getNumber();
+			workingDays = payStructureItem.getAttendance()[2];
 		}
 
 		return workingDays;
-	}
-
-	public AttendanceOrProductionType getUserDefinedCalendar() {
-		return userDefinedCalendar;
-	}
-
-	public void setUserDefinedCalendar(
-			AttendanceOrProductionType userDefinedCalendar) {
-		this.userDefinedCalendar = userDefinedCalendar;
 	}
 
 	public int getAttendanceType() {

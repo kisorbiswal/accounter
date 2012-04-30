@@ -78,10 +78,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 					rateColumn.setEnable(row, false);
 				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
-					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE
-							|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY
-							|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
-						rateColumn.setEnable(row, true);
+					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
+						rateColumn.setEnable(true);
 					} else {
 						rateColumn.setEnable(row, false);
 					}
@@ -312,9 +310,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			return false;
 		} else if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 			ClientAttendancePayHead ph = (ClientAttendancePayHead) payhead;
-			if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE
-					|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITH_PAY
-					|| ph.getAttendanceType() == ClientAttendancePayHead.LEAVE_WITHOUT_PAY) {
+			if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
 				return true;
 			} else {
 				return false;

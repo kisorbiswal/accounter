@@ -6572,4 +6572,8 @@ public interface AccounterMessages extends Messages {
 
 	public String youCannotMakeAnItemAItemOfIteSelf();
 
+	public String otherPayhead();
+
+	public String deductionOn();
+
 }
