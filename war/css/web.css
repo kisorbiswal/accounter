@@ -1071,7 +1071,7 @@ div.label-title {
 	display: -moz-box;
 	padding-top: 2px;
 	padding-left: 10px;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 }
@@ -8128,5 +8128,10 @@ table.no_records tr td {
     vertical-align: middle;
     margin-bottom: 2px;
 }
-
+.group-toolbar .grouped-buttons #closeButton {
+	padding:0 1px;
+}
+.group-toolbar .grouped-buttons #closeButton img{
+	padding-bottom: 2px;
+}
 /*Location merge dialog end*/
