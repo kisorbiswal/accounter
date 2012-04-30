@@ -526,10 +526,16 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		for (ClientEmployeePayHeadComponent record : records) {
 			processRecord(record);
 			Object[] values = new Object[this.getColumns().length];
+			Object[] updatedValues = new Object[this.getColumns().length];
 			for (int x = 0; x < this.getColumns().length; x++) {
 				values[x] = getColumnData(record, x);
+				updatedValues[x] = getColumnData(record, x);
+				if (x == 1) {
+					updatedValues[x] = record.getPayHead().isEarning() ? record
+							.getRate() : -record.getRate();
+				}
 			}
-			updateTotals(values);
+			updateTotals(updatedValues);
 			addRow(record, 2, values, false, false, false);
 		}
 		endAllSections();
