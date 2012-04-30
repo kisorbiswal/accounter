@@ -525,9 +525,9 @@ input[type="text"] {
 	border-radius: 5px;
 	background-color: #29646C;
 	color: white;
-	padding: 0 5px 4px;
+	padding: 0 5px;
 	border: 1px solid #002E36;
-	height: 25px;
+	height: 27px;
 	background-position: 5px center;
 }
 
@@ -730,7 +730,7 @@ input[type="text"] {
 	width: 50px;
 }
 
-.label-title {
+div.label-title {
 	font-size: 20px;
 	font-weight: bold;
 	clear: both;
@@ -947,14 +947,6 @@ input[type="text"] {
 	margin-top: 5px;
 }
 
-#addNewButton {
-	padding: 3px 5px 5px 27px;
-}
-
-#exportButton {
-	padding: 3px 5px 5px 27px;
-}
-
 #addNewButton,#exportButton,#closeButton,#searchButton,#configButton,#printButton,#addVendorButton,#editButton,#addCustomerButton,#next,#previous
 	{
 	background-repeat: no-repeat;
@@ -965,6 +957,7 @@ input[type="text"] {
 	background-color: #E4E4E4;
 	height: 25px;
 	border: 1px solid #A0A0A0;
+	padding: 1px 0;
 }
 
 #next {
@@ -974,25 +967,6 @@ input[type="text"] {
 	border-radius: 0 5px 5px 0px;
 }
 
-#addCustomerButton {
-	padding-left: 25px;
-	padding-right: 5px;
-}
-
-#editButton,#previous {
-	padding-left: 25px;
-	padding-right: 5px;
-}
-
-#addVendorButton {
-	padding-left: 25px;
-	padding-right: 5px;
-}
-
-
-#printButton {
-	padding: 0 5px 2px 25px;
-}
 
 #previousButton:hover {
 	background-color: #5F5F5F;
@@ -8148,5 +8122,11 @@ table.no_records tr td {
 }
 
 /* end of the payroll*/
+
+.image-button img{
+	margin-right: 5px;
+    vertical-align: middle;
+    margin-bottom: 2px;
+}
 
 /*Location merge dialog end*/
