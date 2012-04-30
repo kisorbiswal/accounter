@@ -52,15 +52,13 @@
   <link rel="stylesheet" href="../css/ss.css" type="text/css"></link>
   </head>
   
- <body>
+
+ <div id="commanContainer" class="api_registration">
+  <body>
 <div id="accounterlogofield" class="new_logo_field">
 <a class="accounterLogoimage" href="/site/home"></a>
 </div>
- <div id="commanContainer" class="signup-total-form ">
- <div class="simple-get-started">
-<h4 align="center">Application Information:</h4>
-<ul>
-</div>
+
 <c:if test="${errormessage!=null}">
 	<div id="login_error" class="common-box">
 		<span>${errormessage}</span>
@@ -68,7 +66,11 @@
   </c:if>
    <c:if test="${successmessage==null}">
   <form id="accounterForm" name="accounterForm" method="post" action="/apiregistration">
+  
   <div class="accounterform">
+   <div class="simple-get-started">
+<h4 align="center">Application Information:</h4>
+</div>
   <div class="check_label" style="clear:both">
 
 
