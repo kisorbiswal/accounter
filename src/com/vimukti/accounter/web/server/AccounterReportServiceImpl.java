@@ -2535,44 +2535,45 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 					for (ClientBudgetItem item : budgetItems) {
 
 						if (item.getTotalAmount() > 0.0) {
+							HashMap<String, Double> monthsAndAmountMap = new HashMap<String, Double>();
 							ClientBudgetList e = new ClientBudgetList();
 							e.setAccount(item.getAccount());
 							e.setAccountName(item.getAccount().getName());
 							e.setJanuaryAmount(item.getJanuaryAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.jan(),
+							monthsAndAmountMap.put(DayAndMonthUtil.jan(),
 									item.getJanuaryAmount());
 							e.setFebrauaryAmount(item.getFebruaryAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.feb(),
+							monthsAndAmountMap.put(DayAndMonthUtil.feb(),
 									item.getFebruaryAmount());
 							e.setMarchAmount(item.getMarchAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.mar(),
+							monthsAndAmountMap.put(DayAndMonthUtil.mar(),
 									item.getMarchAmount());
 							e.setAprilAmount(item.getAprilAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.apr(),
+							monthsAndAmountMap.put(DayAndMonthUtil.apr(),
 									item.getAprilAmount());
 							e.setMayAmount(item.getMayAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.mayS(),
+							monthsAndAmountMap.put(DayAndMonthUtil.mayS(),
 									item.getMayAmount());
 							e.setJuneAmount(item.getJuneAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.jun(),
+							monthsAndAmountMap.put(DayAndMonthUtil.jun(),
 									item.getJuneAmount());
 							e.setJulyAmount(item.getJulyAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.jul(),
+							monthsAndAmountMap.put(DayAndMonthUtil.jul(),
 									item.getJulyAmount());
 							e.setAugustAmount(item.getAugustAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.aug(),
+							monthsAndAmountMap.put(DayAndMonthUtil.aug(),
 									item.getAugustAmount());
 							e.setSeptemberAmount(item.getSpetemberAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.sep(),
+							monthsAndAmountMap.put(DayAndMonthUtil.sep(),
 									item.getSpetemberAmount());
 							e.setOctoberAmount(item.getOctoberAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.oct(),
+							monthsAndAmountMap.put(DayAndMonthUtil.oct(),
 									item.getOctoberAmount());
 							e.setNovemberAmount(item.getNovemberAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.nov(),
+							monthsAndAmountMap.put(DayAndMonthUtil.nov(),
 									item.getNovemberAmount());
 							e.setDecemberAmount(item.getDecemberAmount());
-							e.getMonthNamesMap().put(DayAndMonthUtil.dec(),
+							monthsAndAmountMap.put(DayAndMonthUtil.dec(),
 									item.getDecemberAmount());
 							e.setTotalAmount(item.getTotalAmount());
 							e.setTransactionId(budget.getID());

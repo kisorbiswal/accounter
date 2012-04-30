@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.core.reports;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -27,8 +26,8 @@ public class ClientBudgetList extends BaseReport implements IsSerializable,
 
 	ClientAccount account;
 
-	private Map<Integer, Double> amountMap = new HashMap<Integer, Double>();
-	private Map<String, Double> monthNamesMap = new HashMap<String, Double>();
+	private HashMap<Integer, Double> amountMap = new HashMap<Integer, Double>();
+	private HashMap<String, Double> monthNamesMap = new HashMap<String, Double>();
 
 	double januaryAmount = 0.0D;
 	double febrauaryAmount = 0.0D;
@@ -203,19 +202,19 @@ public class ClientBudgetList extends BaseReport implements IsSerializable,
 		}
 	}
 
-	public Map<String, Double> getMonthNamesMap() {
+	public HashMap<String, Double> getMonthNamesMap() {
 		return monthNamesMap;
 	}
 
-	public void setMonthNamesMap(Map<String, Double> monthNamesMap) {
+	public void setMonthNamesMap(HashMap<String, Double> monthNamesMap) {
 		this.monthNamesMap = monthNamesMap;
 	}
 
-	public Map<Integer, Double> getAmountMap() {
+	public HashMap<Integer, Double> getAmountMap() {
 		return amountMap;
 	}
 
-	public void setAmountMap(Map<Integer, Double> amountMap) {
+	public void setAmountMap(HashMap<Integer, Double> amountMap) {
 		this.amountMap = amountMap;
 	}
 

@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -147,9 +146,7 @@ public class BudgetOverviewServerReport extends
 
 	@Override
 	public String[] getColunms() {
-
-		ClientFinanceDate fiscalYearStartDate = Accounter.getCompany()
-				.getCurrentFiscalYearStartDate();
+		ClientFinanceDate fiscalYearStartDate = getCurrentFiscalYearStartDate();
 		int firstMonthOfFiscalYear = fiscalYearStartDate.getMonth();
 		prepareDynamicHeaderNames(firstMonthOfFiscalYear);
 		String arr[] = new String[preparedList.size()];
@@ -429,7 +426,6 @@ public class BudgetOverviewServerReport extends
 		novexpense = 0.0D;
 		decexpense = 0.0D;
 		totalexpense = 0.0D;
-
 	}
 
 	@Override
@@ -483,6 +479,9 @@ public class BudgetOverviewServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
+		ClientFinanceDate fiscalYearStartDate = getCurrentFiscalYearStartDate();
+		int firstMonthOfFiscalYear = fiscalYearStartDate.getMonth();
+		prepareDynamicHeaderNames(firstMonthOfFiscalYear);
 		String arr[] = new String[preparedList.size()];
 		preparedList.toArray(arr);
 		return arr;
@@ -514,6 +513,7 @@ public class BudgetOverviewServerReport extends
 	}
 
 	private void prepareDynamicHeaderNames(int firstMonthOfFiscalYear) {
+		preparedList.clear();
 		preparedList.add(messages.name());
 		for (int jj = 1; jj <= 12; jj++) {
 			if (firstMonthOfFiscalYear > 12) {
