@@ -12143,6 +12143,21 @@
 				       AND T.COMPANY_ID = :companyId
 				LIMIT  1  
 	</sql-query>
+	 
+	<sql-query name="canDeletePayRollUnit">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="APT_ID" type ="long" />
+			SELECT APT.ID AS APT_ID
+                 FROM   pay_roll_unit PH
+                     LEFT OUTER JOIN ATTENDANCE_OR_PRODUCTION_TPE APT
+                 ON APT.unit=PH.ID
+                 WHERE  PH.ID = :inputId
+                  AND PH.COMPANY_ID = :companyId
+                LIMIT  1
+	</sql-query>
+	
+	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

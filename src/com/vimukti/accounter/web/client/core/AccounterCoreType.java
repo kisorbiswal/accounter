@@ -295,7 +295,8 @@ public enum AccounterCoreType implements IsSerializable {
 
 	EMPLOYEE_PAYHEAD_COMPONENT("ClientEmployeePayHeadComponent",
 			"EmployeePayHeadComponent"), EMPLOYEE_PAYMENT_DETAILS(
-			"ClientEmployeePaymentDetails", "EmployeePaymentDetails");
+			"ClientEmployeePaymentDetails", "EmployeePaymentDetails"), PAY_ROLL_UNIT(
+			"ClientPayrollUnit", "PayrollUnit");
 
 	private String clientName;
 	private String serverName;
