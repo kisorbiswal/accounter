@@ -4617,7 +4617,7 @@
 					          TRANSACTION_TYPE IN ( 1,4,8,37 )
 					ORDER  BY I.Id  
 		]]>
-
+	</sql-query>
 	<sql-query name="getPayHeadSummaryReportList">
 		<query-param name="companyId" type="long"></query-param>
 		<query-param name="startDate" type="long"></query-param>
