@@ -519,7 +519,7 @@ input[type="text"] {
 	border: 1px solid #AAA;
 }
 
-.button_bar .image-button,.viewholder .image-button,#ItemGroupDialog .addNewButton {
+.button_bar .image-button,.viewholder .image-button,#ItemGroupDialog .addNewButton,#ComputationFormulaDialog .image-button {
 	background-repeat: no-repeat;
 	border-radius: 5px;
 	background-color: #29646C;
@@ -7958,4 +7958,193 @@ table.no_records tr td {
 #ItemGroupDialog .group_dialogue_list{
 	width:600px;
 }
+
+/* payroll views and list views css*/
+#PayrollUnitListView .hlay .form{
+	float:right;
+}
+#EmployeeListView .hlayTop .form{
+	float:right;
+}
+#EmployeeGroupListDialog .bodyLayout1 .gridHeaderParent{
+	width:250px;
+}
+#EmployeeGroupListDialog .bodyLayout1{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+    -moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#EmployeeCategoryListDialog .bodyLayout1 .gridHeaderParent{
+	width:250px;
+}
+#EmployeeCategoryListDialog .bodyLayout1{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+    -moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+}
+#NewPayrollUnitDialog .bodyLayout .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin: 10px;
+}
+#NewEmployeeView .firstPanel{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	-moz-box-flex: 1;
+	width:100%;
+}
+#NewEmployeeView .firstPanel fieldset:first-child {
+    margin: 10px 20px 10px 0;
+    width: 454px;
+}
+#NewEmployeeView .firstPanel fieldset:last-child {
+    margin: 10px 0;
+    width: 454px;
+}
+#NewEmployeeView .firstPanel .basicInfoForm, #NewEmployeeView .firstPanel .empDetailsInfoForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin:10px;
+}
+#NewEmployeeView .secondPanel .empOtherDetailsInfoForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	margin:10px 0px 10px 10px;
+	width:100%;
+}
+#NewEmployeeView .secondPanel .empOtherDetailsInfoForm .empOtherDetailsLeftForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-flex:1;
+	width:50%;
+}
+#NewPayHeadView .panel .form{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	width: 100%;
+}
+#NewPayHeadView .panel .form .leftForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-flex:1;
+	width:50%;
+}
+#NewPayHeadView .panel .form .rightForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	width: 50%;
+	-moz-box-flex:1;
+}
+#NewPayHeadView .panel .form .readioGropuitem .panel span{
+	margin-right:15px;
+}
+#NewClientAttendanceOrProductionDialog .newClientAttendanceForm {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin:10px;
+}
+#NewPayHeadView .calculationForm .attendanceLeftForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	-moz-box-flex:1;
+	width:50%;
+}
+#NewPayHeadView .calculationForm .attendanceRightForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;                
+	width: 50%;
+	-moz-box-flex:1;
+}
+#NewPayHeadView .calculationForm .attendanceForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	width: 100%;
+}
+#NewPayHeadView .compuPeriodAndTypeForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+	box-orient: horizontal;
+	width: 100%;
+}
+#NewPayHeadView .compuPeriodAndTypeForm .formItem{
+	-moz-box-flex: 1;
+    width: 50%;
+}
+#ComputationFormulaDialog .bodyLayout{
+	margin:10px;
+}
+#PayheadListView .hlay .form{
+	float: right;
+}
+#NewPayRunView .empsAndGroups{
+	clear: both;
+}
+#NewPayRunView .mainVLay .gwt-Button{
+	display: block;
+	margin:10px;
+}
+#NewPayRunView .mainVLay .mainVLay button{
+	margin:7px;
+	display: inline;
+}
+
+/* end of the payroll*/
+
 /*Location merge dialog end*/
