@@ -30,7 +30,7 @@
 	<set-property name="user.agent" value="gecko1_8" /> 
 	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
 		value="true" />
-	<!-- <set-property name="ClientBundle.enableInlining" value="false" /> -->
+	<set-property name="ClientBundle.enableInlining" value="false" /> 
 	<define-property name="tablet.user.agent" values="ie10, android, ipad, not_tablet" />
 	<property-provider name="tablet.user.agent"><![CDATA[
   {
