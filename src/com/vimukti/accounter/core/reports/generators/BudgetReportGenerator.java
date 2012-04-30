@@ -1,7 +1,7 @@
 package com.vimukti.accounter.core.reports.generators;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReportGridTemplate;
 
 public class BudgetReportGenerator extends AbstractReportGenerator {

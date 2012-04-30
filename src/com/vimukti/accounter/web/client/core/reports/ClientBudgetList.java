@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client.core.reports;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class ClientBudgetList extends BaseReport implements IsSerializable,
 		Serializable {
@@ -23,6 +26,9 @@ public class ClientBudgetList extends BaseReport implements IsSerializable,
 	private long transactionId;
 
 	ClientAccount account;
+
+	private Map<Integer, Double> amountMap = new HashMap<Integer, Double>();
+	private Map<String, Double> monthNamesMap = new HashMap<String, Double>();
 
 	double januaryAmount = 0.0D;
 	double febrauaryAmount = 0.0D;
@@ -180,6 +186,37 @@ public class ClientBudgetList extends BaseReport implements IsSerializable,
 
 	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
+	}
+
+	public void preparMonthNamesList(int firstMonthOfFiscalYear) {
+		firstMonthOfFiscalYear++;
+		for (int jj = 1; jj <= 12; jj++) {
+			if (firstMonthOfFiscalYear > 12) {
+				firstMonthOfFiscalYear = 1;
+			}
+			String monthName = DayAndMonthUtil.monthNames
+					.get(firstMonthOfFiscalYear);
+			if (monthName != null && !(monthName.isEmpty())) {
+				amountMap.put(jj, monthNamesMap.get(monthName));
+			}
+			firstMonthOfFiscalYear++;
+		}
+	}
+
+	public Map<String, Double> getMonthNamesMap() {
+		return monthNamesMap;
+	}
+
+	public void setMonthNamesMap(Map<String, Double> monthNamesMap) {
+		this.monthNamesMap = monthNamesMap;
+	}
+
+	public Map<Integer, Double> getAmountMap() {
+		return amountMap;
+	}
+
+	public void setAmountMap(Map<Integer, Double> amountMap) {
+		this.amountMap = amountMap;
 	}
 
 }

@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
@@ -89,6 +90,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.server.managers.ExportManager;
 
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
@@ -2537,25 +2539,52 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 							e.setAccount(item.getAccount());
 							e.setAccountName(item.getAccount().getName());
 							e.setJanuaryAmount(item.getJanuaryAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.jan(),
+									item.getJanuaryAmount());
 							e.setFebrauaryAmount(item.getFebruaryAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.feb(),
+									item.getFebruaryAmount());
 							e.setMarchAmount(item.getMarchAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.mar(),
+									item.getMarchAmount());
 							e.setAprilAmount(item.getAprilAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.apr(),
+									item.getAprilAmount());
 							e.setMayAmount(item.getMayAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.mayS(),
+									item.getMayAmount());
 							e.setJuneAmount(item.getJuneAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.jun(),
+									item.getJuneAmount());
 							e.setJulyAmount(item.getJulyAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.jul(),
+									item.getJulyAmount());
 							e.setAugustAmount(item.getAugustAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.aug(),
+									item.getAugustAmount());
 							e.setSeptemberAmount(item.getSpetemberAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.sep(),
+									item.getSpetemberAmount());
 							e.setOctoberAmount(item.getOctoberAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.oct(),
+									item.getOctoberAmount());
 							e.setNovemberAmount(item.getNovemberAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.nov(),
+									item.getNovemberAmount());
 							e.setDecemberAmount(item.getDecemberAmount());
+							e.getMonthNamesMap().put(DayAndMonthUtil.dec(),
+									item.getDecemberAmount());
 							e.setTotalAmount(item.getTotalAmount());
 							e.setTransactionId(budget.getID());
+							e.preparMonthNamesList(Utility
+									.getCurrentFiscalYearStartDate(
+											new FinanceTool()
+													.getCompany(companyId))
+									.getMonth());
 							budgetList.add(e);
 						}
-
 					}
 				}
-
 			}
 
 		} catch (Exception e) {
