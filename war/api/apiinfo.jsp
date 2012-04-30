@@ -7,10 +7,11 @@
   <link rel="stylesheet" href="../css/ss.css" type="text/css"></link>
   </head>  
   <body>
+  
+  <div id="commanContainer">
   <div id="accounterlogofield" class="new_logo_field">
 <a class="accounterLogoimage" href="/site/home"></a>
 </div>
-  <div id="commanContainer">
   <div id="company-locked" class="form-box">
   	<table align="center">
   	<th>Developer Details</th>

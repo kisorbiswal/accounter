@@ -1398,3 +1398,13 @@ color: #28757D;
 	text-align: left;
 	margin-bottom: 15px;
 }
+.api_registration{
+	 width: 500px !important;
+	  margin: 30px auto !important;
+}
+#company-locked table{
+	width:100%;
+}
+#company-locked table td{
+	padding:5px;
+}
