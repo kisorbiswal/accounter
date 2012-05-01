@@ -49,7 +49,7 @@ public class InventoryQuantityColumn extends
 				data.append(String.valueOf(quantity.getValue()));
 				if (getPreferences().isUnitsEnabled()) {
 					ClientUnit unit = Accounter.getCompany().getUnitById(
-							row.getQuantity().getUnit());
+							quantity.getUnit());
 					data.append(" ");
 					if (unit != null) {
 						data.append(unit.getType());
@@ -193,6 +193,16 @@ public class InventoryQuantityColumn extends
 			ClientQuantity quantity) {
 		if (quantity != null) {
 			row.setQuantity(quantity);
+			ClientCompany company = Accounter.getCompany();
+			ClientUnit unitById = company.getUnitById(row.getQuantity()
+					.getUnit());
+			if (unitById != null) {
+				ClientQuantity convertToDefaultUnit = row.getQuantity()
+						.convertToDefaultUnit(unitById);
+				row.setUnitPrice((row.getPurchaseCost() * convertToDefaultUnit
+						.getValue()) / quantity.getValue());
+			}
+
 			double lt = quantity.getValue() * row.getUnitPrice();
 			row.setLineTotal(lt);
 			getTable().update(row);
