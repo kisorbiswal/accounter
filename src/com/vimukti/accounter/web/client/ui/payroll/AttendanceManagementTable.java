@@ -37,6 +37,31 @@ public class AttendanceManagementTable extends
 
 	@Override
 	protected void initColumns() {
+		Accounter
+				.createPayrollService()
+				.getAttendanceProductionTypes(
+						0,
+						-1,
+						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
+
+							@Override
+							public void onSuccess(
+									PaginationList<ClientAttendanceOrProductionType> result) {
+								AttendanceManagementTable.this
+										.createAttendanceOrProductionTypeColumns(result);
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+
+							}
+						});
+
+	}
+
+	protected void createAttendanceOrProductionTypeColumns(
+			PaginationList<ClientAttendanceOrProductionType> result) {
+
 		employeeColumn = new EmployeeColumn() {
 
 			@Override
@@ -77,30 +102,6 @@ public class AttendanceManagementTable extends
 			}
 		});
 
-		Accounter
-				.createPayrollService()
-				.getAttendanceProductionTypes(
-						0,
-						-1,
-						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
-
-							@Override
-							public void onSuccess(
-									PaginationList<ClientAttendanceOrProductionType> result) {
-								AttendanceManagementTable.this
-										.createAttendanceOrProductionTypeColumns(result);
-							}
-
-							@Override
-							public void onFailure(Throwable caught) {
-
-							}
-						});
-
-	}
-
-	protected void createAttendanceOrProductionTypeColumns(
-			PaginationList<ClientAttendanceOrProductionType> result) {
 		for (final ClientAttendanceOrProductionType clientAttendanceOrProductionType : result) {
 			final ClientAttendanceOrProductionItem item = new ClientAttendanceOrProductionItem();
 			item.setAttendanceOrProductionType(clientAttendanceOrProductionType);

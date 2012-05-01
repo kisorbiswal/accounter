@@ -498,7 +498,7 @@ public class PayrollManager extends Manager {
 				}
 				double amount = object[3] == null ? 0 : (Double) object[3];
 
-				record.getMap().get(location);
+				Double double1 = record.getMap().get(location);
 				record.getMap().put(location, amount);
 				record.setEmployeeId(location);
 				record.setPayheadId((Long) object[5]);
@@ -603,7 +603,8 @@ public class PayrollManager extends Manager {
 			paySlipDetail.setId((Long) object[0]);
 			paySlipDetail.setName((String) object[1]);
 			paySlipDetail.setAmount((Double) object[2]);
-			paySlipDetail.setPeriodType((Integer) object[3]);
+			paySlipDetail.setPeriodType(object[3] == null ? 0
+					: (Integer) object[3]);
 			paySlipDetail.setType((Integer) object[4]);
 			paySlipDetail.setEmployeeId((Long) object[5]);
 			queryResult.add(paySlipDetail);

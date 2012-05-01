@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
@@ -56,7 +55,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	protected int sectionDepth = 0;
 
 	private AttendanceManagementTable table;
-	private AddNewButton itemTableButton;
 
 	IntegerField noOfWorkingDays;
 
@@ -92,7 +90,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		transactionNumber = createTransactionNumberItem();
 
 		noOfWorkingDays = new IntegerField(this, messages.noOfWorkingDays());
-
+		noOfWorkingDays.setEnabled(!isInViewMode());
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new ClientFinanceDate().getDateAsObject());
 		int actualMaximum = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -176,16 +174,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		table = new AttendanceManagementTable();
 		table.setEnabled(!isInViewMode());
 
-		itemTableButton = new AddNewButton();
-		itemTableButton.setEnabled(!isInViewMode());
-		itemTableButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				addItem();
-			}
-		});
-
 		nextButton = new Button(messages.next());
 		nextButton.addClickHandler(new ClickHandler() {
 
@@ -198,7 +186,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		attendanceLay = new StyledPanel("mainVLay");
 		attendanceLay.add(lab1);
 		attendanceLay.add(table);
-		attendanceLay.add(itemTableButton);
 		attendanceLay.add(nextButton);
 
 		attendanceForm = new DynamicForm("attendanceForm");
@@ -767,7 +754,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		if (widgetCount != 0) {
 			showPayRunTable();
 		}
-
+		noOfWorkingDays.setEnabled(!isInViewMode());
 		transactionNumber.setEnabled(!isInViewMode());
 		transactionDateItem.setEnabled(!isInViewMode());
 	}

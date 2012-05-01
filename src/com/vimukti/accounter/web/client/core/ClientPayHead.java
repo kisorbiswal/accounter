@@ -283,7 +283,7 @@ public class ClientPayHead implements IAccounterCore {
 			return messages.months();
 
 		default:
-			return null;
+			return "";
 		}
 	}
 

@@ -133,15 +133,15 @@ public class PaySlipDetailServerReport extends
 			return record.getName();
 		case 1:
 			return record.getType() == 2 ? getAmountAsString(record,
-					record.getAmount()) : null;
+					record.getAmount()) : 0;
 
 		case 2:
 			return record.getType() == 3 ? getAmountAsString(record,
-					record.getAmount()) : null;
+					record.getAmount()) : 0;
 
 		case 3:
 			return record.getType() == 1 ? getAmountAsString(record,
-					record.getAmount()) : null;
+					record.getAmount() == null ? 0.0 : record.getAmount()) : 0;
 
 		default:
 			break;
