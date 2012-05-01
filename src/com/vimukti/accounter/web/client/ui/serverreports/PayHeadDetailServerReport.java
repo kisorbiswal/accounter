@@ -56,7 +56,7 @@ public class PayHeadDetailServerReport extends
 				return;
 			}
 		}
-
+		processRecord(record);
 	}
 
 	@Override
