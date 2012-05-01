@@ -1,11 +1,13 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class AttendanceManagementItem extends CreatableObject implements
-		IAccounterServerCore {
+public class AttendanceManagementItem implements IAccounterServerCore {
 
 	/**
 	 * 
@@ -13,8 +15,14 @@ public class AttendanceManagementItem extends CreatableObject implements
 	private static final long serialVersionUID = 1L;
 
 	private Employee employee;
-	private AttendanceOrProductionType attendanceType;
-	private long value;
+
+	private List<AttendanceOrProductionItem> attendanceOrProductionItems = new ArrayList<AttendanceOrProductionItem>();
+
+	private double abscentDays;
+
+	private int version;
+
+	private long id;
 
 	public Employee getEmployee() {
 		return employee;
@@ -22,22 +30,6 @@ public class AttendanceManagementItem extends CreatableObject implements
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
-	}
-
-	public AttendanceOrProductionType getAttendanceType() {
-		return attendanceType;
-	}
-
-	public void setAttendanceType(AttendanceOrProductionType attendanceType) {
-		this.attendanceType = attendanceType;
-	}
-
-	public long getNumber() {
-		return value;
-	}
-
-	public void setNumber(long number) {
-		this.value = number;
 	}
 
 	@Override
@@ -59,4 +51,39 @@ public class AttendanceManagementItem extends CreatableObject implements
 
 	}
 
+	public double getAbscentDays() {
+		return abscentDays;
+	}
+
+	public void setAbscentDays(double abscentDays) {
+		this.abscentDays = abscentDays;
+	}
+
+	public List<AttendanceOrProductionItem> getAttendanceOrProductionItems() {
+		return attendanceOrProductionItems;
+	}
+
+	public void setAttendanceOrProductionItems(
+			List<AttendanceOrProductionItem> attendanceOrProductionItems) {
+		this.attendanceOrProductionItems = attendanceOrProductionItems;
+	}
+
+	@Override
+	public int getVersion() {
+		return this.version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 }

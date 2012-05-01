@@ -21,6 +21,7 @@ public class AttendanceOrProductionTypeCombo extends
 	private long selectedId;
 
 	private boolean isItemsAdded = false;
+	private long productType;
 
 	public AttendanceOrProductionTypeCombo(int type, String title,
 			String styleName) {
@@ -35,10 +36,6 @@ public class AttendanceOrProductionTypeCombo extends
 
 					@Override
 					public boolean filter(ClientAttendanceOrProductionType e) {
-						if (type == 100) {
-							return e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY
-									|| e.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY;
-						}
 						return e.getType() == type;
 					}
 				}, result);
@@ -118,11 +115,6 @@ public class AttendanceOrProductionTypeCombo extends
 
 			@Override
 			public void actionResult(ClientAttendanceOrProductionType result) {
-				if (type == 100
-						&& !(result.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITH_PAY || result
-								.getType() == ClientAttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY)) {
-					return;
-				}
 				if (type == result.getType()) {
 					list.add(result);
 					addItemThenfireEvent(result);
@@ -132,12 +124,13 @@ public class AttendanceOrProductionTypeCombo extends
 			}
 		});
 
-		action.run(null, true);
+		ClientAttendanceOrProductionType clientAttendanceOrProductionType = new ClientAttendanceOrProductionType();
+		clientAttendanceOrProductionType.setType(type);
+		action.run(clientAttendanceOrProductionType, true);
 	}
 
 	protected void itemAdded(ClientAttendanceOrProductionType obj) {
 		// TODO Auto-generated method stub
 
 	}
-
 }

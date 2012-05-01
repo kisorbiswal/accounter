@@ -79,12 +79,17 @@ public class NewClientAttendanceOrProductionDialog extends
 
 		layout.add(form);
 		setBodyLayout(layout);
+		String typeName = ClientAttendanceOrProductionType
+				.getTypeName(selectedAttendanceOrProductionType.getType());
+
+		if (typeName != null) {
+			leaveType.setSelected(typeName);
+			selectionChanged(typeName);
+		}
+
 		if (this.selectedAttendanceOrProductionType.getID() != 0) {
-			name.setValue(selectedAttendanceOrProductionType.getName());
-			leaveType.setSelected(ClientAttendanceOrProductionType
-					.getTypeName(selectedAttendanceOrProductionType.getType()));
-			selectionChanged(leaveType.getSelectedValue());
 			leaveType.setEnabled(false);
+			name.setValue(selectedAttendanceOrProductionType.getName());
 			if (selectedAttendanceOrProductionType.getType() != ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
 				daysType.setValue(ClientPayHead
 						.getCalculationPeriod(selectedAttendanceOrProductionType
@@ -122,8 +127,8 @@ public class NewClientAttendanceOrProductionDialog extends
 
 	private List<String> getAttendanceTypeLIst() {
 		attendanceOrProductionType = new ArrayList<String>();
-		attendanceOrProductionType.add(messages.leaveWithPay());
-		attendanceOrProductionType.add(messages.leaveWithoutPay());
+		// attendanceOrProductionType.add(messages.leaveWithPay());
+		// attendanceOrProductionType.add(messages.leaveWithoutPay());
 		attendanceOrProductionType.add(messages.productionType());
 		attendanceOrProductionType.add(messages.userDefindCalendar());
 		return attendanceOrProductionType;

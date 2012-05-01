@@ -62,8 +62,8 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			List<ClientAttendanceManagementItem> attendanceItems,
 			ClientPayStructureDestination selectItem,
-			ClientFinanceDate startDate, ClientFinanceDate endDate)
-			throws AccounterException {
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			Long noOfWorkingDays) throws AccounterException {
 		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
 				getCompanyId());
 		Session currentSession = HibernateUtil.getCurrentSession();
@@ -74,10 +74,11 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 		}
 		return selectItem instanceof ClientEmployee ? getFinanceTool()
 				.getPayrollManager().getEmployeePayHeadComponents(dates[0],
-						dates[1], employee, getCompanyId(), attendanceItems)
-				: getFinanceTool().getPayrollManager()
-						.getEmployeeGroupPayHeadComponents(dates[0], dates[1],
-								selectItem, getCompanyId(), attendanceItems);
+						dates[1], employee, getCompanyId(), attendanceItems,
+						noOfWorkingDays) : getFinanceTool().getPayrollManager()
+				.getEmployeeGroupPayHeadComponents(dates[0], dates[1],
+						selectItem, getCompanyId(), attendanceItems,
+						noOfWorkingDays);
 	}
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate(

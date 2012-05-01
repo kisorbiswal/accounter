@@ -23,7 +23,6 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.InventoryAssembly;
-import com.vimukti.accounter.core.ProductionPayHead;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -50,7 +49,6 @@ import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
-import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -228,9 +226,6 @@ public class Manager {
 			} else if (serverObject instanceof AttendancePayHead) {
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,
 						ClientAttendancePayHead.class);
-			} else if (serverObject instanceof ProductionPayHead) {
-				t = (T) new ClientConvertUtil().toClientObject(serverObject,
-						ClientProductionPayHead.class);
 			} else if (serverObject instanceof UserDefinedPayHead) {
 				t = (T) new ClientConvertUtil().toClientObject(serverObject,
 						ClientUserDefinedPayHead.class);
@@ -247,7 +242,8 @@ public class Manager {
 				for (ClientPayStructureItem item : items) {
 					ClientPayHead payHead = item.getPayHead();
 					ClientPayHead clientPayHead = payHead;
-					if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+					if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
+							|| payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
 						clientPayHead = new ClientConvertUtil().toClientObject(
 								payHead, ClientAttendancePayHead.class);
 					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
@@ -256,9 +252,6 @@ public class Manager {
 					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
 						clientPayHead = new ClientConvertUtil().toClientObject(
 								payHead, ClientFlatRatePayHead.class);
-					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
-						clientPayHead = new ClientConvertUtil().toClientObject(
-								payHead, ClientProductionPayHead.class);
 					} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
 						clientPayHead = new ClientConvertUtil().toClientObject(
 								payHead, ClientUserDefinedPayHead.class);
@@ -291,10 +284,6 @@ public class Manager {
 							clientPayHead = new ClientConvertUtil()
 									.toClientObject(payHead,
 											ClientFlatRatePayHead.class);
-						} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
-							clientPayHead = new ClientConvertUtil()
-									.toClientObject(payHead,
-											ClientProductionPayHead.class);
 						} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
 							clientPayHead = new ClientConvertUtil()
 									.toClientObject(payHead,

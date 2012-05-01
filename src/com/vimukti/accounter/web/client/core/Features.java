@@ -140,4 +140,5 @@ public class Features {
 	public static final String TRANSACTION_NAVIGATION = "transaction navigation";
 	public static final String HOSTORICAL_UNITPRICES = "historical unitprices";
 
+	public static final String PAY_ROLL = "pay roll";
 }

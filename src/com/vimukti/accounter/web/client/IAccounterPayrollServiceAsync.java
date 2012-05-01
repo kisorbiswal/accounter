@@ -34,6 +34,7 @@ public interface IAccounterPayrollServiceAsync {
 			List<ClientAttendanceManagementItem> list,
 			ClientPayStructureDestination selectItem,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			Long noOfWorkingDays,
 			AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback);
 
 	public void getPayStructures(int start, int length,

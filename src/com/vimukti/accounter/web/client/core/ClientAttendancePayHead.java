@@ -47,6 +47,8 @@ public class ClientAttendancePayHead extends ClientPayHead {
 
 	private int perDayCalculationBasis;
 
+	private long productionType;
+
 	public int getCalculationPeriod() {
 		return calculationPeriod;
 	}
@@ -88,7 +90,7 @@ public class ClientAttendancePayHead extends ClientPayHead {
 		AccounterMessages messages = Accounter.getMessages();
 		switch (attendanceType) {
 		case ATTENDANCE_ON_PAYHEAD:
-			return messages.payhead();
+			return messages.otherPayhead();
 
 		case ATTENDANCE_ON_EARNING_TOTAL:
 			return messages.onEarningTotal();
@@ -103,5 +105,13 @@ public class ClientAttendancePayHead extends ClientPayHead {
 			break;
 		}
 		return null;
+	}
+
+	public void setProductionType(long productionType) {
+		this.productionType = productionType;
+	}
+
+	public long getProductionType() {
+		return productionType;
 	}
 }

@@ -17,10 +17,10 @@ public class AttendanceOrProductionType extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final int TYPE_LEAVE_WITH_PAY = 1;
-	public static final int TYPE_LEAVE_WITHOUT_PAY = 2;
-	public static final int TYPE_PRODUCTION = 3;
-	public static final int TYPE_USER_DEFINED_CALENDAR = 4;
+	public static final int TYPE_LEAVE_WITH_PAY = 4;
+	public static final int TYPE_LEAVE_WITHOUT_PAY = 3;
+	public static final int TYPE_PRODUCTION = 1;
+	public static final int TYPE_USER_DEFINED_CALENDAR = 2;
 
 	private int type;
 

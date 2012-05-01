@@ -106,7 +106,7 @@ public class ComputaionFormulaFunction implements IAccounterServerCore {
 				.getItems();
 		PayStructureItem payHeadStructureItem = null;
 		for (PayStructureItem structureItem : items) {
-			if (structureItem.getPayHead().getID() == this.payHead.getID()) {
+			if (structureItem.getPayHead().getID() == this.getPayHead().getID()) {
 				payHeadStructureItem = structureItem;
 				break;
 			}

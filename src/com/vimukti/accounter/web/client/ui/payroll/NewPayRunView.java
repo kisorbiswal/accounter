@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterDOM;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.reports.ReportGrid;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -56,6 +57,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	private AttendanceManagementTable table;
 	private AddNewButton itemTableButton;
+
+	IntegerField noOfWorkingDays;
 
 	private final List<Section<ClientEmployeePayHeadComponent>> sections = new ArrayList<Section<ClientEmployeePayHeadComponent>>();
 
@@ -88,7 +91,16 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
+		noOfWorkingDays = new IntegerField(this, messages.noOfWorkingDays());
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new ClientFinanceDate().getDateAsObject());
+		int actualMaximum = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		noOfWorkingDays.setValue("" + actualMaximum);
+
 		dateNoForm.setStyleName("datenumber-panel");
+		dateNoForm.add(noOfWorkingDays);
+
 		if (!isTemplate) {
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
@@ -260,7 +272,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult validate = super.validate();
-		validate = table.validate(validate);
 		if (data.getPayEmployee() == null || data.getPayEmployee().isEmpty()) {
 			validate.addError(reportGrid, messages.noRecordsSelected());
 		}
@@ -361,7 +372,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		};
 		Accounter.createPayrollService().getEmployeePayHeadComponents(
 				table.getAllRows(), selectedValue, fromDate.getDate(),
-				toDate.getDate(), callback);
+				toDate.getDate(), noOfWorkingDays.getNumber(), callback);
 	}
 
 	private ValidationResult validateAttendance() {
@@ -423,6 +434,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		empsAndGroups.setEmpGroup(data.getEmployee() == 0 ? data
 				.getEmployeeGroup() : data.getEmployee());
 		table.setAllRows(data.getAttendanceItems());
+		noOfWorkingDays.setValue(data.getNoOfWorkingDays());
 	}
 
 	@Override
@@ -433,6 +445,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	private void updateData() {
 		super.updateTransaction();
+		data.setNoOfWorkingDays(noOfWorkingDays.getValue());
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
 		data.setTransactionDate(new ClientFinanceDate().getDate());
@@ -464,6 +477,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 				}
 			}
 		}
+		data.setCurrency(getCompany().getPrimaryCurrency().getID());
+		data.setCurrencyFactor(1.0);
 		data.setPayEmployee(details);
 	}
 
@@ -499,7 +514,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 						.getEmployeeGroup() == selectedValue.getID())) {
 			table.setAllRows(data.getAttendanceItems());
 		} else {
-			table.addEmptyRecords();
+			table.setSelectedEmployeeOrGroup(selectedValue);
+			// table.addEmptyRecords();
 		}
 
 		attendanceForm.add(attendanceLay);
@@ -561,9 +577,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 				type = payhead.getCalculationPeriod();
 			} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
 				ClientFlatRatePayHead payhead = ((ClientFlatRatePayHead) payHead);
-				type = payhead.getCalculationPeriod();
-			} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
-				ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
 				type = payhead.getCalculationPeriod();
 			}
 			return ClientPayHead.getCalculationPeriod(type);

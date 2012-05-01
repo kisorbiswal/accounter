@@ -34,8 +34,8 @@ public interface IAccounterPayrollService extends RemoteService {
 	ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			List<ClientAttendanceManagementItem> list,
 			ClientPayStructureDestination selectItem,
-			ClientFinanceDate startDate, ClientFinanceDate endDate)
-			throws AccounterException;
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			Long noOfWorkingDays) throws AccounterException;
 
 	PaginationList<ClientPayStructure> getPayStructures(int start, int length)
 			throws AccounterException;
@@ -62,7 +62,8 @@ public interface IAccounterPayrollService extends RemoteService {
 	ArrayList<PaySheet> getPaySheet(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException;
 
-	ArrayList<PaySlipDetail> getPaySlipDetail(long employeeId,ClientFinanceDate start,
-			ClientFinanceDate end) throws AccounterException;
+	ArrayList<PaySlipDetail> getPaySlipDetail(long employeeId,
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 }

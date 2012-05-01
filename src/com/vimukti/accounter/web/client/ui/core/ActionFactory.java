@@ -97,7 +97,6 @@ import com.vimukti.accounter.web.client.ui.fixedassets.PendingItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.RegisteredItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SellingRegisteredItemAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SoldDisposedFixedAssetsListAction;
-import com.vimukti.accounter.web.client.ui.payroll.AttendanceManagementAction;
 import com.vimukti.accounter.web.client.ui.payroll.EmployeeGroupListAction;
 import com.vimukti.accounter.web.client.ui.payroll.EmployeeListAction;
 import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
@@ -1078,10 +1077,6 @@ public class ActionFactory {
 
 	public static PayStructureListAction getPayStructureListAction() {
 		return new PayStructureListAction();
-	}
-
-	public static AttendanceManagementAction getAttendanceManagementAction() {
-		return new AttendanceManagementAction();
 	}
 
 	public static PayHeadDetailReportAction getPayHeadDetailReportAction() {

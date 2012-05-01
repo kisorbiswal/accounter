@@ -129,9 +129,6 @@ public class EmployeePayHeadComponentTable extends
 				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
 					ClientFlatRatePayHead payhead = ((ClientFlatRatePayHead) payHead);
 					type = payhead.getCalculationPeriod();
-				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
-					ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
-					type = payhead.getCalculationPeriod();
 				}
 				return ClientPayHead.getCalculationPeriod(type);
 			}

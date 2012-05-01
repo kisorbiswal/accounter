@@ -76,7 +76,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 				if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 					rateColumn.setEnable(row, false);
-				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+				} else if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
+						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
 					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
 					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
 						rateColumn.setEnable(true);
@@ -127,9 +128,6 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 					type = payhead.getCalculationPeriod();
 				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
 					ClientFlatRatePayHead payhead = ((ClientFlatRatePayHead) payHead);
-					type = payhead.getCalculationPeriod();
-				} else if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
-					ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
 					type = payhead.getCalculationPeriod();
 				}
 				return ClientPayHead.getCalculationPeriod(type);
@@ -308,7 +306,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 	private boolean isRateRequired(ClientPayHead payhead) {
 		if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 			return false;
-		} else if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+		} else if (payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
+				|| payhead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
 			ClientAttendancePayHead ph = (ClientAttendancePayHead) payhead;
 			if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
 				return true;

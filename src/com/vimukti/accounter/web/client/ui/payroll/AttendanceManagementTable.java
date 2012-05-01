@@ -1,14 +1,13 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
-import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
@@ -22,7 +21,6 @@ public class AttendanceManagementTable extends
 
 	public AttendanceManagementTable() {
 		super();
-		addEmptyRecords();
 	}
 
 	public void addEmptyRecords() {
@@ -40,62 +38,37 @@ public class AttendanceManagementTable extends
 	@Override
 	protected void initColumns() {
 		employeeColumn = new EmployeeColumn() {
-			@Override
-			protected void setValue(ClientAttendanceManagementItem row,
-					ClientEmployee newValue) {
-				super.setValue(row, newValue);
-				row.setAttendanceType(null);
-				row.setNumber(0);
-				update(row);
-			}
 
 			@Override
 			public int getWidth() {
-				return 200;
+				return 100;
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
 			}
 		};
 
 		this.addColumn(employeeColumn);
 
-		this.addColumn(new AttendanceProductionTypeColumn() {
-			@Override
-			protected void setValue(ClientAttendanceManagementItem row,
-					ClientAttendanceOrProductionType newValue) {
-				if (newValue != null
-						&& AttendanceManagementTable.this
-								.isExistsWithSameEmployee(row, newValue)) {
-					super.setValue(row, null);
-					Accounter
-							.showError("The selected Attendance/Production item already existed in another item with same employee."
-									+ "Please change the employee or remove previous attendance management item");
-				} else {
-					super.setValue(row, newValue);
-				}
-			}
-
-			@Override
-			public int getWidth() {
-				return 200;
-			}
-		});
-
 		this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
 
 			@Override
 			protected String getValue(ClientAttendanceManagementItem row) {
-				return UIUtils.toStr(row.getNumber());
+				return UIUtils.toStr(row.getAbscentDays());
 			}
 
 			@Override
 			protected void setValue(ClientAttendanceManagementItem row,
 					String value) {
-				row.setNumber(UIUtils.toInt(value));
+				row.setAbscentDays(UIUtils.toDbl(value));
 				update(row);
 			}
 
 			@Override
 			protected String getColumnName() {
-				return messages.value();
+				return messages.abscent();
 			}
 
 			@Override
@@ -104,51 +77,63 @@ public class AttendanceManagementTable extends
 			}
 		});
 
-		this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
+		Accounter
+				.createPayrollService()
+				.getAttendanceProductionTypes(
+						0,
+						-1,
+						new AsyncCallback<PaginationList<ClientAttendanceOrProductionType>>() {
 
-			@Override
-			protected String getValue(ClientAttendanceManagementItem row) {
-				ClientAttendanceOrProductionType attendanceType = row
-						.getAttendanceType();
-				if (attendanceType != null) {
-					return ClientPayHead.getCalculationPeriod(attendanceType
-							.getPeriodType());
-				}
-				return null;
-			}
+							@Override
+							public void onSuccess(
+									PaginationList<ClientAttendanceOrProductionType> result) {
+								AttendanceManagementTable.this
+										.createAttendanceOrProductionTypeColumns(result);
+							}
 
-			@Override
-			protected void setValue(ClientAttendanceManagementItem row,
-					String value) {
-			}
+							@Override
+							public void onFailure(Throwable caught) {
 
-			@Override
-			protected boolean isEnable() {
-				return false;
-			}
+							}
+						});
 
-			@Override
-			protected String getColumnName() {
-				return messages.unit();
-			}
-		});
-
-		this.addColumn(new DeleteColumn<ClientAttendanceManagementItem>());
 	}
 
-	protected boolean isExistsWithSameEmployee(
-			ClientAttendanceManagementItem row,
-			ClientAttendanceOrProductionType newValue) {
-		if (row.getEmployee() != null) {
-			List<ClientAttendanceManagementItem> allRows = getAllRows();
-			for (ClientAttendanceManagementItem item : allRows) {
-				if (item.getEmployee().getID() == row.getEmployee().getID()
-						&& newValue.getID() == item.getAttendanceType().getID()) {
-					return true;
+	protected void createAttendanceOrProductionTypeColumns(
+			PaginationList<ClientAttendanceOrProductionType> result) {
+		for (final ClientAttendanceOrProductionType clientAttendanceOrProductionType : result) {
+			final ClientAttendanceOrProductionItem item = new ClientAttendanceOrProductionItem();
+			item.setAttendanceOrProductionType(clientAttendanceOrProductionType);
+			item.setValue(UIUtils.toDbl(0));
+			this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
+
+				@Override
+				protected String getValue(ClientAttendanceManagementItem row) {
+					return UIUtils.toStr(item.getValue());
 				}
-			}
+
+				@Override
+				protected void setValue(ClientAttendanceManagementItem row,
+						String value) {
+					item.setValue(UIUtils.toDbl(value));
+					row.getAttendanceOrProductionItems().remove(item);
+					row.getAttendanceOrProductionItems().add(item);
+					update(row);
+				}
+
+				@Override
+				protected String getColumnName() {
+					return clientAttendanceOrProductionType.getName();
+				}
+
+				@Override
+				public int getWidth() {
+					return 80;
+				}
+			});
 		}
-		return false;
+
+		this.addColumn(new DeleteColumn<ClientAttendanceManagementItem>());
 	}
 
 	@Override
@@ -156,46 +141,24 @@ public class AttendanceManagementTable extends
 		return false;
 	}
 
-	@Override
-	public List<ClientAttendanceManagementItem> getAllRows() {
-		List<ClientAttendanceManagementItem> selected = new ArrayList<ClientAttendanceManagementItem>();
-		List<ClientAttendanceManagementItem> allRows = super.getAllRows();
-		for (ClientAttendanceManagementItem clientAttendanceManagementItem : allRows) {
-			if (clientAttendanceManagementItem.isAllowed()) {
-				selected.add(clientAttendanceManagementItem);
-			}
-		}
-		return selected;
-	}
-
 	public void updateList(ClientPayStructureDestination group) {
 		employeeColumn.updateList(group);
 	}
 
-	public ValidationResult validate(ValidationResult validationResult) {
-		List<ClientAttendanceManagementItem> allRows = super.getAllRows();
-		for (ClientAttendanceManagementItem clientAttendanceManagementItem : allRows) {
-			if ((clientAttendanceManagementItem.getEmployee() == null && clientAttendanceManagementItem
-					.getAttendanceType() != null)
-					|| (clientAttendanceManagementItem.getEmployee() != null && clientAttendanceManagementItem
-							.getAttendanceType() == null)) {
-				validationResult.addError(this,
-						messages.pleaseEnterValidDetails());
-				return validationResult;
+	public void setSelectedEmployeeOrGroup(
+			ClientPayStructureDestination selectedValue) {
+		clear();
+		if (selectedValue instanceof ClientEmployee) {
+			ClientAttendanceManagementItem item = new ClientAttendanceManagementItem();
+			item.setEmployee((ClientEmployee) selectedValue);
+			add(item);
+		} else {
+			ClientEmployeeGroup clientEmployeeGroup = (ClientEmployeeGroup) selectedValue;
+			for (ClientEmployee employee : clientEmployeeGroup.getEmployees()) {
+				ClientAttendanceManagementItem item = new ClientAttendanceManagementItem();
+				item.setEmployee(employee);
+				add(item);
 			}
 		}
-		for (int i = 0; i < allRows.size(); i++) {
-			ClientAttendanceManagementItem item = allRows.get(i);
-			if (i + 1 < allRows.size()) {
-				ClientAttendanceManagementItem item1 = allRows.get(i + 1);
-				if (isExistsWithSameEmployee(item, item1.getAttendanceType())) {
-					validationResult.addError(this, messages
-							.alreadyExistedInAnotherItemWithSameEmployee());
-					return validationResult;
-				}
-
-			}
-		}
-		return validationResult;
 	}
 }

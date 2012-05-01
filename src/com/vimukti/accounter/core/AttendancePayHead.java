@@ -58,9 +58,7 @@ public class AttendancePayHead extends PayHead {
 
 	private int perDayCalculationBasis;
 
-	public AttendancePayHead() {
-		super(CALCULATION_TYPE_ON_ATTENDANCE);
-	}
+	private AttendanceOrProductionType productionType;
 
 	/**
 	 * @return the calculationPeriod
@@ -97,8 +95,16 @@ public class AttendancePayHead extends PayHead {
 			double deductions, double earnings) {
 		double rate = payStructureItem.getRate();
 		double deductableSalary = rate;
+		double workingDays = getWorkingDays(payStructureItem);
 		if (attendanceType == ATTENDANCE_ON_RATE) {
-			deductableSalary = rate;
+			if (workingDays == 0) {
+				deductableSalary = 0;
+			} else {
+				deductableSalary = (rate / workingDays)
+						* (getCalculationType() == CALCULATION_TYPE_ON_PRODUCTION ? payStructureItem
+								.getAttendance()[2] : payStructureItem
+								.getAttendance()[0]);
+			}
 		} else if (attendanceType == ATTENDANCE_ON_EARNING_TOTAL) {
 			deductableSalary = earnings;
 		} else if (attendanceType == ATTENDANCE_ON_SUBTOTAL) {
@@ -108,7 +114,9 @@ public class AttendancePayHead extends PayHead {
 					.getItems();
 			PayStructureItem payHeadStructureItem = null;
 			for (PayStructureItem structureItem : items) {
-				if (structureItem.getPayHead().getID() == this.payHead.getID()) {
+				if (structureItem.getPayHead() != null
+						&& structureItem.getPayHead().getID() == this.payHead
+								.getID()) {
 					payHeadStructureItem = structureItem;
 					break;
 				}
@@ -120,7 +128,6 @@ public class AttendancePayHead extends PayHead {
 				payHeadStructureItem.setAttendance(payStructureItem
 						.getAttendance());
 				deductableSalary = payHeadStructureItem.getRate();
-				long workingDays = getWorkingDays(payStructureItem);
 				if (workingDays == 0) {
 					deductableSalary = 0;
 				} else {
@@ -137,8 +144,8 @@ public class AttendancePayHead extends PayHead {
 		return deductableSalary;
 	}
 
-	private long getWorkingDays(PayStructureItem payStructureItem) {
-		long workingDays = 0;
+	private double getWorkingDays(PayStructureItem payStructureItem) {
+		double workingDays = 0;
 
 		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD) {
 			Calendar calendar1 = Calendar.getInstance();
@@ -157,7 +164,7 @@ public class AttendancePayHead extends PayHead {
 		}
 
 		if (getPerDayCalculationBasis() == PER_DAY_CALCULATION_USER_DEFINED_CALANDAR) {
-			workingDays = payStructureItem.getAttendance()[2];
+			workingDays = payStructureItem.getAttendance()[0];
 		}
 
 		return workingDays;
@@ -183,5 +190,13 @@ public class AttendancePayHead extends PayHead {
 	public void selfValidate() throws AccounterException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public AttendanceOrProductionType getProductionType() {
+		return productionType;
+	}
+
+	public void setProductionType(AttendanceOrProductionType productionType) {
+		this.productionType = productionType;
 	}
 }

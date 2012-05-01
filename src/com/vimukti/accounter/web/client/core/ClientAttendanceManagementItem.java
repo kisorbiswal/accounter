@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClientAttendanceManagementItem implements IAccounterCore {
 
 	/**
@@ -8,11 +11,14 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 	private static final long serialVersionUID = 1L;
 
 	private ClientEmployee employee;
-	private ClientAttendanceOrProductionType attendanceType;
-	private long value;
+
+	private List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = new ArrayList<ClientAttendanceOrProductionItem>();
+
 	private long id;
 
 	private int version;
+
+	private double abscentDays;
 
 	public ClientEmployee getEmployee() {
 		return employee;
@@ -20,23 +26,6 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 
 	public void setEmployee(ClientEmployee employee) {
 		this.employee = employee;
-	}
-
-	public ClientAttendanceOrProductionType getAttendanceType() {
-		return attendanceType;
-	}
-
-	public void setAttendanceType(
-			ClientAttendanceOrProductionType attendanceType) {
-		this.attendanceType = attendanceType;
-	}
-
-	public long getNumber() {
-		return value;
-	}
-
-	public void setNumber(long number) {
-		this.value = number;
 	}
 
 	@Override
@@ -74,8 +63,20 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 		return this.id;
 	}
 
-	public boolean isAllowed() {
-		return (employee != null && attendanceType != null);
+	public void setAbscentDays(double abscentDays) {
+		this.abscentDays = abscentDays;
 	}
 
+	public double getAbscentDays() {
+		return abscentDays;
+	}
+
+	public List<ClientAttendanceOrProductionItem> getAttendanceOrProductionItems() {
+		return attendanceOrProductionItems;
+	}
+
+	public void setAttendanceOrProductionItems(
+			List<ClientAttendanceOrProductionItem> attendanceOrProductionItems) {
+		this.attendanceOrProductionItems = attendanceOrProductionItems;
+	}
 }

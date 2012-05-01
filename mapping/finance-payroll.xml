@@ -156,7 +156,6 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-
 		<property name="name" column="NAME" not-null="true" />
 		<property name="type" column="TYPE" />
 		<property name="roundingMethod" column="ROUNDING_METHOD" />
@@ -172,6 +171,8 @@
 			<many-to-one name="payHead" column="PAY_HEAD" class="PayHead" />
 			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 			<property name="perDayCalculationBasis" column="PER_DAY_CALCULATION_BASIS" />
+			<many-to-one name="productionType" column="PRODUCTION_TYPE"
+				class="AttendanceOrProductionType" />
 		</joined-subclass>
 
 		<joined-subclass name="ComputionPayHead" table="COMPUTATION_PAY_HEAD">
@@ -207,11 +208,11 @@
 			<property name="calculationPeriod" column="CALCULATION_PERIOD" />
 		</joined-subclass>
 
-		<joined-subclass name="ProductionPayHead" table="PRODUCTION_PAY_HEAD">
+		<!-- <joined-subclass name="ProductionPayHead" table="PRODUCTION_PAY_HEAD">
 			<key column="ID" />
 			<many-to-one name="productionType" column="PRODUCTION_TYPE"
 				class="AttendanceOrProductionType" />
-		</joined-subclass>
+		</joined-subclass> -->
 
 		<joined-subclass name="UserDefinedPayHead" table="USER_DEFINED_PAY_HEAD">
 			<key column="ID" />
@@ -287,14 +288,19 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
 		<many-to-one name="employee" column="EMPLOYEE" class="Employee">
 		</many-to-one>
-		<many-to-one name="attendanceType" column="ATTENDANCE_TYPE"
-			class="AttendanceOrProductionType">
-		</many-to-one>
-		<property name="value" column="VALUE" />
+		<list name="attendanceOrProductionItems" table="ATTENDANCE_OR_PRODUCTION_ITEMS" cascade="save-update,delete-orphan">
+				<key column="ATTENDANCE_MANAGEMENT_ITEM_ID" not-null="true" />
+				<list-index column="ATTENDANCE_OR_PRODUCTION_ITEMS_INDEX" />
+				<composite-element class="AttendanceOrProductionItem">
+					<many-to-one name="attendanceOrProductionType" column="ATTENDANCE_TYPE"
+						class="AttendanceOrProductionType">
+					</many-to-one>
+					<property name="value" column="VALUE" />
+				</composite-element>
+		 </list>
+		<property name="abscentDays" column="ABSCENT_DAYS" />
 	</class>
 
 	<sql-query name="EmployeeAttendanceCurrentBal">
@@ -307,10 +313,11 @@
 			SELECT SUM(I.VALUE) AS VAL FROM
 					ATTENDANCE_MANAGEMENT_ITEM I
 					LEFT JOIN EMPLOYEE E ON E.ID = I.EMPLOYEE
-					
+					LEFT JOIN ATTENDANCE_OR_PRODUCTION_ITEMS API 
+					ON API.ATTENDANCE_MANAGEMENT_ITEM_ID = I.ID
 					WHERE E.COMPANY_ID = :company
 						  AND I.EMPLOYEE = :employee
-						  AND I.ATTENDANCE_TYPE = :attendanceType
+						  AND API.ATTENDANCE_TYPE = :attendanceType
 		]]>
 	</sql-query>
 
@@ -421,14 +428,6 @@
 		and PI.effectiveFrom
 		between :start and :end
 		order by PI.rate desc
-	</query>
-
-	<query name="getAttendanceMItem.by.employee">
-		<query-param name="employee" type="Employee" />
-		<query-param name="attendanceType" type="AttendanceOrProductionType" />
-		from com.vimukti.accounter.core.AttendanceManagementItem ami
-		where
-		ami.employee = :employee and ami.attendanceType =:attendanceType
 	</query>
 
 	<query name="getEmployeesByGroup">
@@ -607,8 +606,9 @@
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
 						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
 						LEFT JOIN ATTENDANCE_MANAGEMENT_ITEM AMI ON AMI.ATTENDANCE_MANAGEMENT = T.ID
+						LEFT JOIN ATTENDANCE_OR_PRODUCTION_ITEMS API ON API.ATTENDANCE_MANAGEMENT_ITEM_ID = AMI.ID
 						LEFT JOIN EMPLOYEE E ON E.ID = AMI.EMPLOYEE
-						LEFT JOIN ATTENDANCE_OR_PRODUCTION_TPE APT ON APT.ID = AMI.ATTENDANCE_TYPE
+						LEFT JOIN ATTENDANCE_OR_PRODUCTION_TPE APT ON APT.ID = API.ATTENDANCE_TYPE
 						
 					WHERE 	E.ID = :employeeId AND 
 							E.COMPANY_ID = :companyId AND

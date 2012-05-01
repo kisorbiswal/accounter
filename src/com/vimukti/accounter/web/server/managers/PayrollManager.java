@@ -22,10 +22,10 @@ import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayStructureItem;
 import com.vimukti.accounter.core.PayrollUnit;
-import com.vimukti.accounter.core.ProductionPayHead;
 import com.vimukti.accounter.core.UserDefinedPayHead;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
-import com.vimukti.accounter.web.client.core.ClientProductionPayHead;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -104,9 +103,6 @@ public class PayrollManager extends Manager {
 				} else if (payHead instanceof FlatRatePayHead) {
 					clientPayHead = new ClientConvertUtil().toClientObject(
 							payHead, ClientFlatRatePayHead.class);
-				} else if (payHead instanceof ProductionPayHead) {
-					clientPayHead = new ClientConvertUtil().toClientObject(
-							payHead, ClientProductionPayHead.class);
 				} else if (payHead instanceof UserDefinedPayHead) {
 					clientPayHead = new ClientConvertUtil().toClientObject(
 							payHead, ClientUserDefinedPayHead.class);
@@ -154,8 +150,8 @@ public class PayrollManager extends Manager {
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeeGroupPayHeadComponents(
 			FinanceDate startDate, FinanceDate endDate,
 			ClientPayStructureDestination selectItem, Long companyId,
-			List<ClientAttendanceManagementItem> attendanceItems)
-			throws AccounterException {
+			List<ClientAttendanceManagementItem> attendanceItems,
+			Long noOfWorkingDays) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<Employee> employees = session.getNamedQuery("getEmployeesByGroup")
 				.setParameter("groupId", selectItem.getID()).list();
@@ -163,7 +159,8 @@ public class PayrollManager extends Manager {
 		for (Employee employee : employees) {
 			ArrayList<ClientEmployeePayHeadComponent> employeePayHeadComponents = getEmployeePayHeadComponents(
 					startDate, endDate, employee, companyId,
-					getEmployeeAttendanceItems(employee, attendanceItems));
+					getEmployeeAttendanceItems(employee, attendanceItems),
+					noOfWorkingDays);
 			groupComponents.addAll(employeePayHeadComponents);
 		}
 		return new ArrayList<ClientEmployeePayHeadComponent>(groupComponents);
@@ -183,8 +180,9 @@ public class PayrollManager extends Manager {
 
 	public ArrayList<ClientEmployeePayHeadComponent> getEmployeePayHeadComponents(
 			FinanceDate startDate, FinanceDate endDate, Employee selectItem,
-			Long companyId, List<ClientAttendanceManagementItem> attendanceItems)
-			throws AccounterException {
+			Long companyId,
+			List<ClientAttendanceManagementItem> attendanceItems,
+			Long noOfWorkingDays) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getPayStructureItem.by.employee")
 				.setParameter("employee", selectItem)
@@ -200,21 +198,22 @@ public class PayrollManager extends Manager {
 		double earnings = 0.0;
 		double deductions = 0.0;
 
-		long[] attendance = { 0, 0, 0 };
+		double[] attendance = { 0, 0, 0 };
 
 		if (attendanceItems != null && attendanceItems.size() > 0) {
 			for (ClientAttendanceManagementItem attendanceManagementItem : attendanceItems) {
-				if (attendanceManagementItem.getAttendanceType().getType() == AttendanceOrProductionType.TYPE_LEAVE_WITH_PAY) {
-					attendance[0] += attendanceManagementItem.getNumber();
-				} else if (attendanceManagementItem.getAttendanceType()
-						.getType() == AttendanceOrProductionType.TYPE_LEAVE_WITHOUT_PAY) {
-					attendance[1] += attendanceManagementItem.getNumber();
-				} else if (attendanceManagementItem.getAttendanceType()
-						.getType() == AttendanceOrProductionType.TYPE_USER_DEFINED_CALENDAR) {
-					attendance[2] += attendanceManagementItem.getNumber();
+				attendance[1] += attendanceManagementItem.getAbscentDays();
+				for (ClientAttendanceOrProductionItem item : attendanceManagementItem
+						.getAttendanceOrProductionItems()) {
+					if (item.getAttendanceOrProductionType().getType() == AttendanceOrProductionType.TYPE_PRODUCTION) {
+						attendance[2] += item.getValue();
+					}
 				}
+
 			}
 		}
+
+		attendance[0] = noOfWorkingDays - attendance[1];
 
 		ArrayList<ClientEmployeePayHeadComponent> clientEmployeePayHeadComponents = new ArrayList<ClientEmployeePayHeadComponent>();
 
@@ -223,7 +222,8 @@ public class PayrollManager extends Manager {
 			PayHead payHead = payStructureItem.getPayHead();
 
 			ClientPayHead clientPayHead = null;
-			if (calcType == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
+			if (calcType == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
+					|| calcType == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
 				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
 						ClientAttendancePayHead.class);
 			} else if (calcType == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
@@ -232,9 +232,6 @@ public class PayrollManager extends Manager {
 			} else if (calcType == ClientPayHead.CALCULATION_TYPE_FLAT_RATE) {
 				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
 						ClientFlatRatePayHead.class);
-			} else if (calcType == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
-				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
-						ClientProductionPayHead.class);
 			} else if (calcType == ClientPayHead.CALCULATION_TYPE_AS_USER_DEFINED) {
 				clientPayHead = new ClientConvertUtil().toClientObject(payHead,
 						ClientUserDefinedPayHead.class);
@@ -245,15 +242,18 @@ public class PayrollManager extends Manager {
 			payStructureItem.setStartDate(startDate);
 			payStructureItem.setEndDate(endDate);
 			payStructureItem.setAttendance(attendance);
-			double calculatedAmount = payHead.calculatePayment(
-					payStructureItem, deductions, earnings);
-			if (payHead.isEarning()) {
-				earnings += calculatedAmount;
-			} else {
-				deductions += calculatedAmount;
+			if (payHead.isAffectNetSalary()) {
+				double calculatedAmount = payHead.calculatePayment(
+						payStructureItem, deductions, earnings);
+
+				if (payHead.isEarning()) {
+					earnings += calculatedAmount;
+				} else {
+					deductions += calculatedAmount;
+				}
+				component.setRate(calculatedAmount);
 			}
 
-			component.setRate(calculatedAmount);
 			component.setEmployee(selectItem.getName());
 			clientEmployeePayHeadComponents.add(component);
 		}

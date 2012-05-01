@@ -129,8 +129,9 @@ public class MenuBar {
 		}
 
 		// this.addMenu(getFixedAssetsMenu(messages.fixedAssets()));
-		this.addMenu(getPayrollMenu(messages.payroll()));
-
+		if (hasPermission(Features.PAY_ROLL)) {
+			this.addMenu(getPayrollMenu(messages.payroll()));
+		}
 		if (canViewReports) {
 			this.addMenu(getReportMenu(messages.reports()));
 		}
@@ -428,7 +429,9 @@ public class MenuBar {
 			reportMenuBar.addMenuItem(getJobReportMenu(messages.job()));
 		}
 
-		reportMenuBar.addMenuItem(getPayrollReportMenu(messages.payroll()));
+		if (hasPermission(Features.PAY_ROLL)) {
+			reportMenuBar.addMenuItem(getPayrollReportMenu(messages.payroll()));
+		}
 
 		return reportMenuBar;
 	}

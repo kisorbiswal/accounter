@@ -1172,6 +1172,7 @@
 				<list-index column="IDX" />
 				<one-to-many class="AttendanceManagementItem" />
 			</list>
+			<property name="noOfWorkingDays" column="NOOF_WORKING_DAYS" not-null="true" />
 		</joined-subclass>
 	</class>
 

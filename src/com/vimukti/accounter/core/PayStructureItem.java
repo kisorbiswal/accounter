@@ -27,7 +27,7 @@ public class PayStructureItem implements IAccounterServerCore {
 
 	private FinanceDate startDate;
 
-	private long[] attendance;
+	private double[] attendance;
 
 	private FinanceDate effectiveFrom;
 
@@ -107,11 +107,11 @@ public class PayStructureItem implements IAccounterServerCore {
 		return startDate;
 	}
 
-	public void setAttendance(long[] attendance) {
+	public void setAttendance(double[] attendance) {
 		this.attendance = attendance;
 	}
 
-	public long[] getAttendance() {
+	public double[] getAttendance() {
 		return attendance;
 	}
 

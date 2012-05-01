@@ -6576,4 +6576,8 @@ public interface AccounterMessages extends Messages {
 
 	public String deductionOn();
 
+	public String abscent();
+
+	public String noOfWorkingDays();
+
 }

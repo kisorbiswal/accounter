@@ -35,6 +35,8 @@ public class PayRun extends Transaction {
 
 	private EmployeeGroup employeeGroup;
 
+	private String noOfWorkingDays;
+
 	public PayRun() {
 		super();
 		setType(Transaction.TYPE_PAY_RUN);
@@ -262,5 +264,13 @@ public class PayRun extends Transaction {
 	public void getEffects(ITransactionEffects e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setNoOfWorkingDays(String noOfWorkingDays) {
+		this.noOfWorkingDays = noOfWorkingDays;
+	}
+
+	public String getNoOfWorkingDays() {
+		return noOfWorkingDays;
 	}
 }

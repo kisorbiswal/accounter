@@ -15,13 +15,12 @@ public class AttendanceProductionTypeColumn
 	@Override
 	protected ClientAttendanceOrProductionType getValue(
 			ClientAttendanceManagementItem row) {
-		return row.getAttendanceType();
+		return null;// row.getAttendanceType();
 	}
 
 	@Override
 	protected void setValue(ClientAttendanceManagementItem row,
 			ClientAttendanceOrProductionType newValue) {
-		row.setAttendanceType(newValue);
 	}
 
 	@Override
