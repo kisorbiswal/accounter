@@ -302,8 +302,9 @@ public class ItemView extends BaseView<ClientItem> {
 		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		quantityUnitsLabel = new Label();
-		quantityUnitsLabel.setText(getCompany().getMeasurement(
-				getCompany().getDefaultMeasurement()).getDisplayName());
+		quantityUnitsLabel.setText(getCompany()
+				.getMeasurement(getCompany().getDefaultMeasurement())
+				.getDefaultUnit().getType());
 		onHandQuantity.add(quantityUnitsLabel);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
@@ -600,7 +601,7 @@ public class ItemView extends BaseView<ClientItem> {
 						public void selectedComboBoxItem(
 								ClientMeasurement selectItem) {
 							quantityUnitsLabel.setText(selectItem
-									.getDisplayName());
+									.getDefaultUnit().getType());
 
 						}
 					});
