@@ -222,8 +222,9 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		quantityUnitsLabel = new Label();
-		quantityUnitsLabel.setText(getCompany().getMeasurement(
-				getCompany().getDefaultMeasurement()).getDisplayName());
+		quantityUnitsLabel.setText(getCompany()
+				.getMeasurement(getCompany().getDefaultMeasurement())
+				.getDefaultUnit().getType());
 		onHandQuantity.add(quantityUnitsLabel);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
@@ -480,7 +481,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 					@Override
 					public void selectedComboBoxItem(
 							ClientMeasurement selectItem) {
-						quantityUnitsLabel.setText(selectItem.getDisplayName());
+						quantityUnitsLabel.setText(selectItem.getDefaultUnit()
+								.getType());
 
 					}
 				});
