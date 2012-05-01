@@ -112,6 +112,10 @@ public class Employee extends CreatableObject implements
 	 */
 	private String passportNumber;
 
+	/***
+	 * pan number
+	 */
+	private String panNumber;
 	/**
 	 * Country which is Issuing Passport
 	 */
@@ -131,6 +135,8 @@ public class Employee extends CreatableObject implements
 	 * Expiry Date of the Visa
 	 */
 	private FinanceDate visaExpiryDate;
+
+	private boolean isActive;
 
 	/** Contact Details */
 
@@ -512,6 +518,22 @@ public class Employee extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE);
 		ChangeTracker.put(accounterCore);
 		return super.onDelete(arg0);
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
 	}
 
 }

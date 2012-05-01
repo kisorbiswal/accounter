@@ -30,7 +30,7 @@
 		<property name="gender" column="GENDER" />
 		<property name="contactNumber" column="CONTACT_NUMBER" />
 		<property name="email" column="EMAIL" />
-		<property name="bankName" column="BANK_NAME" />
+		<property name="bankName" column="BANK_NAME" />  
 		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER" />
 		<property name="branch" column="BANK_BRANCH" />
 		<property name="passportNumber" column="PASSPORT_NUMBER" />
@@ -38,6 +38,8 @@
 		<property name="passportExpiryDate" column="PASSPORT_EXPIRY_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<property name="visaNumber" column="VISA_NUMBER" />
+		<property name="isActive" column="IS_ACTIVE" />
+		<property name="panNumber" column="PAN_NUMBER" />
 		<property name="visaExpiryDate" column="VISA_EXPIRY_DATE"
 			type="com.vimukti.accounter.core.LongUseType" />
 		<set name="customFieldValues" inverse="true" cascade="save-update,delete">
@@ -324,8 +326,9 @@
 
 	<query name="list.All.Employees">
 		<query-param name="company" type="Company" />
+		<query-param name="isActive" type="boolean" />
 		from com.vimukti.accounter.core.Employee e where
-		e.company=:company
+		e.company=:company and e.isActive =:isActive
 		order by e.id
 	</query>
 

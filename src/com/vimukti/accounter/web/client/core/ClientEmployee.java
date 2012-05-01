@@ -54,6 +54,10 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	 */
 	private int gender;
 
+	/***
+	 * pan number
+	 */
+	private String panNumber;
 	/**
 	 * Address of the Employee
 	 */
@@ -120,6 +124,8 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	private long payStructure;
 
 	private long id;
+
+	private boolean isActive;
 
 	/**
 	 * @return the name
@@ -471,5 +477,21 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
 	}
 }

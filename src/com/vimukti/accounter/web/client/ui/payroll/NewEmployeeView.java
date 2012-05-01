@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -57,6 +58,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	private SelectCombo genderSelect;
 	private TextAreaItem addrArea;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
+	private CheckboxItem activeOrInactive;
 
 	public NewEmployeeView() {
 		this.getElement().setId("NewEmployeeView");
@@ -87,6 +89,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		}
 		contactNumberItem.setValue(data.getContactNumber());
 		emailItem.setValue(data.getEmail());
+		activeOrInactive.setValue(data.isActive());
+		panItem.setValue(data.getPanNumber());
 
 		Set<ClientAddress> addresses = new HashSet<ClientAddress>();
 		addresses.add(data.getAddress());
@@ -293,6 +297,11 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		}
 		genderSelect.initCombo(listOfgenders);
 
+		activeOrInactive = new CheckboxItem(messages.active(),
+				"activeOrInactive");
+		activeOrInactive.setValue(true);
+		activeOrInactive.setEnabled(!isInViewMode());
+
 		contactNumberItem = new TextItem(messages.contactNumber(),
 				"contactNumberItem");
 		contactNumberItem.setEnabled(!isInViewMode());
@@ -320,7 +329,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		});
 
 		basicInfoForm.add(nameItem, dateOfBirthItem, genderSelect,
-				contactNumberItem, emailItem, addrArea);
+				activeOrInactive, contactNumberItem, emailItem, addrArea);
 
 		employeeBasicInfo.setContentWidget(basicInfoForm);
 		return employeeBasicInfo;
@@ -348,7 +357,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setBankAccountNumber(bankAccountNumberItem.getValue());
 		data.setBankName(bankNameItem.getValue());
 		data.setBranch(bankBranchItem.getValue());
-
+		data.setActive(activeOrInactive.getValue());
+		data.setContactNumber(contactNumberItem.getValue());
+		data.setPanNumber(panItem.getValue());
 		data.setCountryOfIssue(countryOfIssueItem.getValue());
 
 		data.setDateOfBirth(dateOfBirthItem.getValue().getDate());
@@ -440,6 +451,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		employeeGroupCombo.setEnabled(!isInViewMode());
 		genderSelect.setEnabled(!isInViewMode());
 		addrArea.setEnabled(!isInViewMode());
+		activeOrInactive.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
