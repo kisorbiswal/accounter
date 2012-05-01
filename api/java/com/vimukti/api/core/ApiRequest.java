@@ -1,11 +1,16 @@
 package com.vimukti.api.core;
 
+import java.io.File;
+
+import org.apache.commons.httpclient.methods.RequestEntity;
+
 public class ApiRequest<T> {
 
 	public static final int METHOD_GET = 1;
 	public static final int METHOD_PUT = 2;
 	public static final int METHOD_DELETE = 3;
 	public static final int METHOD_POST = 4;
+	public static final int HTTP_POST = 5;
 
 	private String xml;
 	private String queryString;
@@ -14,6 +19,7 @@ public class ApiRequest<T> {
 	private String secretKey;
 	private int serializationType;
 	private ApiCallback<T> callback;
+	private File file;
 
 	public ApiRequest(String xml, String queryString, String path, int method,
 			ApiCallback<T> callback) {
@@ -83,5 +89,13 @@ public class ApiRequest<T> {
 
 	public void setSerializationType(int serializationType) {
 		this.serializationType = serializationType;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 }

@@ -1,5 +1,6 @@
 package com.vimukti.api.process;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -15,10 +16,14 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.methods.FileRequestEntity;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.mortbay.util.UrlEncoded;
 
@@ -118,7 +123,16 @@ public class RequestPeocesser extends Thread {
 			break;
 		case ApiRequest.METHOD_POST:
 			PostMethod postMethod = new PostMethod(path);
-			postMethod.setRequestBody(getInputStream(request.getXml()));
+			File f = request.getFile();
+			if (f != null) {
+				StringRequestEntity entity = new StringRequestEntity(
+						request.getXml());
+				postMethod.setRequestEntity(new FileRequestEntity(f,
+						"multipart/form-data;boundary=7d41e5b3904fc"));
+				postMethod.addRequestHeader("Content-length", "" + f.length());
+			} else {
+				postMethod.setRequestBody(getInputStream(request.getXml()));
+			}
 			method = postMethod;
 			break;
 		case ApiRequest.METHOD_PUT:

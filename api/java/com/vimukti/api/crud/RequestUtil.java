@@ -21,6 +21,7 @@ public class RequestUtil {
 	public static final int REQUEST_REPORTS = 3;
 	public static final int REQUEST_LOGIN = 4;
 	public static final int REQUEST_OPERATIONS = 5;
+	public static final int REQUEST_UPLOAD_FILE = 6;
 
 	public static final int METHOD_GET = 1;
 	public static final int METHOD_PUT = 2;
