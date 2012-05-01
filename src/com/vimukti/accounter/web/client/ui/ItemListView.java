@@ -120,19 +120,22 @@ public class ItemListView extends BaseListView<ClientItem> implements
 	protected void initGrid() {
 		grid = new ItemsListGrid(false);
 		grid.init();
-
 		// isPurchaseType = !isSalesType;
 		createFilteredItemsObj();
 		filterList(true);
 	}
 
 	private void createFilteredItemsObj() {
+		ArrayList<ClientItem> items = new ArrayList<ClientItem>();
 		if (isSalesType && isPurchaseType) {
 			listOfItems = getCompany().getAllItems();
 		} else if (isPurchaseType)
 			listOfItems = getCompany().getPurchaseItems();
 		else if (isSalesType)
 			listOfItems = getCompany().getSalesItems();
+
+		UIUtils.getFilteredListByDepth(items, listOfItems, 0, 0);
+		listOfItems = items;
 	}
 
 	@Override

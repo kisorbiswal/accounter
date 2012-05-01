@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -49,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.ReportInput;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -1913,6 +1916,20 @@ public class UIUtils {
 
 	}
 
+	public static ArrayList<ClientItem> filterItems(
+			List<ClientItem> listOfItems, final boolean iSellThis,
+			final boolean iBuyThis) {
+		return Utility.filteredList(new ListFilter<ClientItem>() {
+
+			@Override
+			public boolean filter(ClientItem e) {
+				return (iSellThis && iBuyThis) ? (e.isISellThisItem && e.isIBuyThisItem)
+						: iSellThis ? e.isISellThisItem
+								: iBuyThis ? e.isIBuyThisItem : false;
+			}
+		}, listOfItems);
+	}
+
 	public static native void changeCursorStyle(String style)/*-{
 		document.body.style.cursor = style;
 	}-*/;
@@ -2348,6 +2365,47 @@ public class UIUtils {
 			}
 		}
 		return string;
+	}
+
+	public static <T extends IAccounterCore> ArrayList<T> getFilteredListByDepth(
+			ArrayList<T> classes, ArrayList<T> initParentComboItems, int depth,
+			long parent) {
+		ArrayList<T> childs = getChild(initParentComboItems, parent);
+		for (T ch : childs) {
+			if (ch instanceof ClientItem) {
+				((ClientItem) ch).setDepth(depth);
+				classes.add(ch);
+				getFilteredListByDepth(classes, initParentComboItems,
+						depth + 1, ((ClientItem) ch).getID());
+			}
+		}
+
+		return classes;
+	}
+
+	/**
+	 * 
+	 * @param accounterClasses
+	 * @param parent
+	 * @return
+	 */
+	private static <T extends IAccounterCore> ArrayList<T> getChild(
+			ArrayList<T> accounterClasses, long p) {
+		ArrayList<T> childs = new ArrayList<T>();
+		for (T c : accounterClasses) {
+			if (c instanceof ClientItem) {
+				if (((ClientItem) c).getParentItem() == p) {
+					childs.add(c);
+				}
+			}
+
+		}
+		return childs;
+	}
+
+	public static void updateChildsPath(Item it) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

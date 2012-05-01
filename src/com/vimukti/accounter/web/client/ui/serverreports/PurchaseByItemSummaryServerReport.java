@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -8,6 +11,14 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class PurchaseByItemSummaryServerReport extends
 		AbstractFinaneReport<SalesByCustomerDetail> {
+	private List<String> list = new ArrayList<String>();
+	private List<String> parents = new ArrayList<String>();
+	private List<String> last = new ArrayList<String>();
+	private int depth;
+	private boolean haveSubs;
+	private boolean isEmptySectionEnabled = false;
+	private String sectionName = " ";
+	private boolean isHavingSubItems = true;
 
 	public PurchaseByItemSummaryServerReport(
 			IFinanceReport<SalesByCustomerDetail> reportView) {
@@ -42,8 +53,7 @@ public class PurchaseByItemSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getMessages().item(),
-				getMessages().quantity(),
+		return new String[] { getMessages().item(), getMessages().quantity(),
 				getMessages().amount() };
 	}
 
@@ -66,14 +76,112 @@ public class PurchaseByItemSummaryServerReport extends
 
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
-		if (sectionDepth == 0) {
-			addSection(new String[] { "", "" }, new String[] { "",
-					getMessages().total() }, new int[] { 2 });
-		} else if (sectionDepth == 1) {
+		parents = record.getParents();
+
+		if (parents.size() == 1 && list.isEmpty()) {
+			isHavingSubItems = false;
+			if (sectionDepth == 0) {
+				addSection(new String[] { "", "" }, new String[] { "",
+						getMessages().total() }, new int[] { 2 });
+			} else if (sectionDepth == 1) {
+				return;
+			}
+			// Go on recursive calling if we reached this place
+			processRecord(record);
+		} else {
+			if (!isHavingSubItems) {
+				endSection();
+				isHavingSubItems = true;
+			}
+			if (!isEmptySectionEnabled) {
+				addSection(new String[] {},
+						new String[] { " ", messages.total() }, new int[] { 2 });
+				isEmptySectionEnabled = true;
+			}
+			// close all extra
+			for (int x = list.size(); x > parents.size(); x--) {
+				last.remove(x - 1);
+				list.remove(x - 1);
+				endSection();
+				depth--;
+				if (depth > list.size()) {
+					endSection();
+					depth--;
+					haveSubs = true;
+				} else {
+					haveSubs = true;
+				}
+			}
+
+			int rest = list.size();
+
+			for (int x = list.size() - 1; x >= 0; x--) {
+				if (!list.get(x).equals(parents.get(x))) {
+					last.remove(x);
+					list.remove(x);
+					endSection();
+					depth--;
+					rest--;
+					if (depth > list.size()) {
+						endSection();
+						depth--;
+					} else {
+						haveSubs = true;
+					}
+				}
+			}
+
+			String name = null;
+
+			for (int x = rest; x < parents.size(); x++) {
+				name = parents.get(x);
+				last.add(name);
+				list.add(name);
+				addSection(new String[] { name },
+						new String[] { "", messages.reportTotal(name) },
+						new int[] { 2 }, record.getItemsDepthMap().get(name)
+								.intValue());
+				// startSection(name,depth);
+				depth++;
+				haveSubs = false;
+			}
+			if (haveSubs) {
+
+				name = getLast(); // get last one and + Other
+				addSection(new String[] { name }, new String[] {},
+						new int[] {}, record.getDepth() + 1);
+				// startSection(name, depth);
+				depth++;
+				haveSubs = false;
+			}
+
 			return;
 		}
-		// Go on recursive calling if we reached this place
-		processRecord(record);
+
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "", "" }, new String[] { "",
+		// getMessages().total() }, new int[] { 2 });
+		// } else if (sectionDepth == 1) {
+		// return;
+		// }
+		// // Go on recursive calling if we reached this place
+		// processRecord(record);
+	}
+
+	private String getLast() {
+		return (sectionName = last.get(last.size() - 1)) + "-"
+				+ messages.other();
+	}
+
+	@Override
+	public void resetVariables() {
+		list.clear();
+		last.clear();
+		parents.clear();
+		depth = 0;
+		isEmptySectionEnabled = false;
+		isHavingSubItems = true;
+		super.resetVariables();
 	}
 
 	public void print() {
@@ -159,9 +267,8 @@ public class PurchaseByItemSummaryServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().item(),
-				getMessages().quantity(),
+		return new String[] { getMessages().item(), getMessages().quantity(),
 				getMessages().amount() };
 	}
-	
+
 }

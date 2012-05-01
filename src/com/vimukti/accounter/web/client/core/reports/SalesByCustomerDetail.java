@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.core.reports;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -57,6 +59,14 @@ public class SalesByCustomerDetail extends BaseReport implements
 	double discount = 0D;
 
 	String soOrQuoteNumber;
+
+	private long parentItemId;
+
+	private List<String> list;
+
+	private Map<String, Integer> itemDepthMap;
+
+	private int depth;
 
 	public String getName() {
 		return name;
@@ -296,4 +306,35 @@ public class SalesByCustomerDetail extends BaseReport implements
 
 	}
 
+	public long getParentItemId() {
+		return parentItemId;
+	}
+
+	public void setParentItemId(long l) {
+		this.parentItemId = l;
+	}
+
+	public List<String> getParents() {
+		return list;
+	}
+
+	public void setParents(List<String> list) {
+		this.list = list;
+	}
+
+	public Map<String, Integer> getItemsDepthMap() {
+		return itemDepthMap;
+	}
+
+	public void setItemsDepthMap(Map<String, Integer> itemDepthMap) {
+		this.itemDepthMap = itemDepthMap;
+	}
+
+	public void setDepth(int l) {
+		depth = l;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
 }

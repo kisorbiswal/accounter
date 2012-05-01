@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.ItemGroupCombo;
 import com.vimukti.accounter.web.client.ui.combo.MeasurementCombo;
 import com.vimukti.accounter.web.client.ui.combo.PurchaseItemCombo;
@@ -67,7 +68,8 @@ public class ItemView extends BaseView<ClientItem> {
 	private IntegerField weightText, reorderPoint, onHandQuantity;
 	private AmountField avarageCost;
 	private TextAreaItem salesDescArea, purchaseDescArea;
-	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck;
+	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck,
+			parentItemCheck;
 
 	private ItemGroupCombo itemGroupCombo, commodityCode;
 	private VendorCombo prefVendorCombo;
@@ -102,6 +104,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private DateField asOfDate;
 	private DynamicForm inventoryInfoForm;
 	private Label quantityUnitsLabel;
+	private ItemCombo itemCombo;
 
 	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
@@ -150,6 +153,21 @@ public class ItemView extends BaseView<ClientItem> {
 		Label lab1 = new Label(messages.newProduct());
 		lab1.setStyleName("label-title");
 
+		parentItemCheck = new CheckboxItem(messages.isSubItemOf(),
+				"parentItemCheck");
+		parentItemCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				itemCombo.setEnabled(event.getValue());
+			}
+
+		});
+
+		itemCombo = new ItemCombo(" ", type, true, true,
+				isGeneratedFromCustomer);
+		itemCombo.setEnabled(false);
+
 		StyledPanel hPanel = new StyledPanel("hPanel");
 		hPanel.add(lab1);
 		if (this.type == TYPE_SERVICE) {
@@ -195,6 +213,7 @@ public class ItemView extends BaseView<ClientItem> {
 		} else {
 			lab1.setText(messages.inventoryItem());
 		}
+		itemForm.add(parentItemCheck, itemCombo);
 		salesDescArea = new TextAreaItem(messages.salesDescription(),
 				"salesDescArea");
 		// salesDescArea.setWidth(100);
@@ -457,6 +476,7 @@ public class ItemView extends BaseView<ClientItem> {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				disableSalesFormItems(!event.getValue());
+				changeSubItemsCombo(event.getValue(), ibuyCheck.getValue());
 			}
 
 		});
@@ -470,7 +490,7 @@ public class ItemView extends BaseView<ClientItem> {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				disablePurchaseFormItems(!event.getValue());
-
+				changeSubItemsCombo(isellCheck.getValue(), event.getValue());
 			}
 
 		});
@@ -624,6 +644,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 	}
 
+	protected void changeSubItemsCombo(Boolean iSellThis, Boolean iBuyThis) {
+		itemCombo.changeComboItems(iSellThis.booleanValue(),
+				iBuyThis.booleanValue());
+	}
+
 	private void getItemStatus() {
 
 		Accounter.createHomeService().getItemStatuses(data.getWarehouse(),
@@ -720,10 +745,21 @@ public class ItemView extends BaseView<ClientItem> {
 
 		data.setActive(getBooleanValue(activeCheck));
 		data.setType(type);
-		if (nameText.getValue() != null)
+		if (nameText.getValue() != null) {
 			data.setName(nameText.getValue().toString());
-		if (selectItemGroup != null)
+		}
+		if (parentItemCheck != null) {
+			data.setSubItemOf(parentItemCheck.getValue());
+			if (parentItemCheck.getValue() && itemCombo != null
+					&& itemCombo.getSelectedValue() != null) {
+				data.setParentItem((itemCombo.getSelectedValue()).getID());
+			} else {
+				data.setParentItem(0);
+			}
+		}
+		if (selectItemGroup != null) {
 			data.setItemGroup(selectItemGroup.getID());
+		}
 		data.setStandardCost(stdCostText.getAmount());
 
 		data.setUPCorSKU(skuText.getValue());
@@ -893,6 +929,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 			nameText.setValue(data.getName());
 			name = data.getName();
+			parentItemCheck.setValue(data.isSubItemOf());
+			ClientItem item = getCompany().getItem(data.getParentItem());
+			if (item != null) {
+				itemCombo.setComboItem(item);
+			}
 			stdCostText.setAmount(data.getStandardCost());
 
 			weightText.setValue(String.valueOf(data.getWeight()));
@@ -1141,6 +1182,37 @@ public class ItemView extends BaseView<ClientItem> {
 			result.add(inventoryInfoForm.validate());
 		}
 
+		// an item should not be a parent to it self.
+
+		if (parentItemCheck.isChecked() && itemCombo.getSelectedValue() != null) {
+			ClientItem selectedValue = itemCombo.getSelectedValue();
+			if (nameText != null) {
+				if (nameText.getValue().equalsIgnoreCase(
+						selectedValue.getName())) {
+					result.addError(itemCombo,
+							messages.youCannotMakeAnItemAItemOfIteSelf());
+				}
+			}
+
+			if (data != null && data.getID() != 0) {
+				// Checking for sub items.
+				ClientItem parentItem = null;
+				long parentItemId = selectedValue.getParentItem();
+				while (parentItemId > 0) {
+					parentItem = getCompany().getItem(parentItemId);
+					if (data.getID() == parentItem.getParentItem()) {
+						result.addError(itemCombo,
+								messages.youCannotMakeAnItemAItemOfIteSelf());
+						break;
+					} else {
+						parentItemId = parentItem.getParentItem();
+					}
+
+				}
+
+			}
+		}
+
 		return result;
 	}
 
@@ -1204,6 +1276,8 @@ public class ItemView extends BaseView<ClientItem> {
 		isellCheck.setEnabled(!isInViewMode());
 		ibuyCheck.setEnabled(!isInViewMode());
 		itemTaxCheck.setEnabled(!isInViewMode());
+		parentItemCheck.setEnabled(!isInViewMode());
+		itemCombo.setEnabled(!isInViewMode());
 		if (ibuyCheck.getValue()) {
 			purchaseDescArea.setEnabled(!isInViewMode());
 			expAccCombo.setEnabled(!isInViewMode());

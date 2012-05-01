@@ -7625,36 +7625,68 @@ table.no_records tr td {
 	box-orient: horizontal;
 }
 
-#AccounterClassListDialog .depth1 {
+#AccounterClassListDialog .depth1,#itemCombo .depth1
+	{
 	padding-left: 10% !important;
 }
 
-#AccounterClassListDialog .depth2 {
+#AccounterClassListDialog .depth2,#ItemsListGrid .depth2,#itemCombo .depth2
+	{
 	padding-left: 20% !important;
 }
 
-#AccounterClassListDialog .depth3 {
+#AccounterClassListDialog .depth3,#ItemsListGrid .depth3,#itemCombo .depth3
+	{
 	padding-left: 30% !important;
 }
 
-#AccounterClassListDialog .depth4 {
+#AccounterClassListDialog .depth4,#ItemsListGrid .depth4,Combo .depth4
+	{
 	padding-left: 40% !important;
 }
 
-#AccounterClassListDialog .depth5 {
+#AccounterClassListDialog .depth5,#ItemsListGrid .depth5,#itemCombo .depth5
+	{
 	padding-left: 50% !important;
 }
 
-#AccounterClassListDialog .depth6 {
+#AccounterClassListDialog .depth6,#ItemsListGrid .depth6,#itemCombo .depth6
+	{
 	padding-left: 60% !important;
 }
 
-#AccounterClassListDialog .depth7 {
+#AccounterClassListDialog .depth7,#ItemsListGrid .depth7,#itemCombo .depth7
+	{
 	padding-left: 70% !important;
 }
 
-#AccounterClassListDialog .depth8 {
+#AccounterClassListDialog .depth8,#ItemsListGrid .depth8,#itemCombo .depth8
+	{
 	padding-left: 80% !important;
+}
+#ItemsDropDownTable .depth1,#ItemsListGrid .depth1{
+	padding-left: 5px !important;
+}
+#ItemsDropDownTable .depth2,#ItemsListGrid .depth2{
+	padding-left: 10px !important;
+}
+#ItemsDropDownTable .depth3,#ItemsListGrid .depth3{
+	padding-left: 15px !important;
+}
+#ItemsDropDownTable .depth4,#ItemsListGrid .depth4{
+	padding-left: 20px !important;
+}
+#ItemsDropDownTable .depth5,#ItemsListGrid .depth5{
+	padding-left: 25px !important;
+}
+#ItemsDropDownTable .depth6,#ItemsListGrid .depth6{
+	padding-left: 30px !important;
+}
+#ItemsDropDownTable .depth7,#ItemsListGrid .depth7{
+	padding-left: 35px !important;
+}
+#ItemsDropDownTable .depth8,#ItemsListGrid .depth8{
+	padding-left: 40px !important;
 }
 
 #StatementTransactionsReconcileView .transactionStyles .rightBorder {

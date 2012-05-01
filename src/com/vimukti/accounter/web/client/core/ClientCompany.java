@@ -228,6 +228,16 @@ public class ClientCompany implements IAccounterCore {
 
 	// private ArrayList<ClientPayrollUnit> payrollUnits;
 
+	private int itemCount;
+
+	public int getItemCount() {
+		return itemCount;
+	}
+
+	public void setItemCount(int itemCount) {
+		this.itemCount = itemCount;
+	}
+
 	public void setTaxItemGroups(ArrayList<ClientTAXItemGroup> taxItemGroups) {
 		this.taxItemGroups = taxItemGroups;
 	}
@@ -648,6 +658,28 @@ public class ClientCompany implements IAccounterCore {
 		//
 		// }
 		// return productitems);
+	}
+
+	public ArrayList<ClientItem> getInventoryItems() {
+
+		return Utility.filteredList(new ListFilter<ClientItem>() {
+
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.getType() == ClientItem.TYPE_INVENTORY_PART;
+			}
+		}, this.getActiveItems());
+	}
+
+	public ArrayList<ClientItem> getInventoryAssemblyItems() {
+
+		return Utility.filteredList(new ListFilter<ClientItem>() {
+
+			@Override
+			public boolean filter(ClientItem e) {
+				return e.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY;
+			}
+		}, this.getActiveItems());
 	}
 
 	public ArrayList<ClientItem> getPurchaseItems() {

@@ -330,12 +330,13 @@ public class PurchaseManager extends Manager {
 
 		List l = query.list();
 
-		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
-				l));
+		return createPurchasesByItemDetail(
+				new ArrayList<SalesByCustomerDetail>(l), companyId);
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createPurchasesByItemDetail(List l) {
+	private ArrayList<SalesByCustomerDetail> createPurchasesByItemDetail(
+			List l, long companyId) {
 		Object[] object = null;
 		Iterator iterator = l.iterator();
 		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
@@ -371,6 +372,14 @@ public class PurchaseManager extends Manager {
 			salesByCustomerDetail.setTransactionId(((Long) object[12])
 					.longValue());
 			salesByCustomerDetail.setDiscount((Double) object[13]);
+			salesByCustomerDetail
+					.setParentItemId(object[15] != null ? ((Long) object[15])
+							.longValue() : 0);
+			salesByCustomerDetail
+					.setDepth(object[16] != null ? ((Integer) object[16])
+							.intValue() : 0);
+			salesByCustomerDetail.setParents(getSalesByCustomerRecordParents(
+					salesByCustomerDetail, companyId));
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
@@ -401,6 +410,12 @@ public class PurchaseManager extends Manager {
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[2] == null ? 0
 					: ((Double) object[2]).doubleValue());
+			salesByCustomerDetail.setParentItemId(object[3] == null ? 0
+					: ((Long) object[3]).longValue());
+			salesByCustomerDetail.setDepth(object[4] == null ? 0
+					: ((Integer) object[4]).intValue());
+			salesByCustomerDetail.setParents(getSalesByCustomerRecordParents(
+					salesByCustomerDetail, companyId));
 
 			queryResult.add(salesByCustomerDetail);
 		}
@@ -422,8 +437,8 @@ public class PurchaseManager extends Manager {
 				.setParameter("endDate", endDate.getDate());
 
 		List l = query.list();
-		return createPurchasesByItemDetail(new ArrayList<SalesByCustomerDetail>(
-				l));
+		return createPurchasesByItemDetail(
+				new ArrayList<SalesByCustomerDetail>(l), companyId);
 
 	}
 }

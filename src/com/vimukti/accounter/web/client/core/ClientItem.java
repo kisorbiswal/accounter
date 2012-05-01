@@ -73,6 +73,14 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 
 	private Double assetValue;
 
+	private long parentItem;
+
+	private boolean isSubItemOf;
+
+	private int depth;
+
+	private String path;
+
 	public ClientItem() {
 	}
 
@@ -523,6 +531,38 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	public boolean isInventory() {
 		return getType() == TYPE_INVENTORY_PART
 				|| getType() == TYPE_INVENTORY_ASSEMBLY;
+	}
+
+	public long getParentItem() {
+		return parentItem;
+	}
+
+	public void setParentItem(long parentItem) {
+		this.parentItem = parentItem;
+	}
+
+	public boolean isSubItemOf() {
+		return isSubItemOf;
+	}
+
+	public void setSubItemOf(boolean isSubItemOf) {
+		this.isSubItemOf = isSubItemOf;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int parentItemsCount) {
+		this.depth = parentItemsCount;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }
