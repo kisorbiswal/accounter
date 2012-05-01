@@ -21,7 +21,7 @@ public class ChalanListViewAction extends Action {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			public void onSuccess() {
-				ChalanDetailsListView view = new ChalanDetailsListView();
+				ChalanDetailsListView view = new ChalanDetailsListView(false);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ChalanListViewAction.this);
 				

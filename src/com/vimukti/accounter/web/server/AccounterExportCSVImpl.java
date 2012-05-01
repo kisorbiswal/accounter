@@ -29,14 +29,18 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterExportCSVService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -2406,5 +2410,226 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public String getFileTaxesExportCsv(long startDate, long endDate, int type) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			final Company company = getFinanceTool().getCompany(getCompanyId());
+			PaginationList<ClientTAXReturn> taxReturns = getFinanceTool()
+					.getTaxManager()
+					.getTaxReturns(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), 0, -1, type);
+			ICSVExportRunner<ClientTAXReturn> icsvExportRunner = new ICSVExportRunner<ClientTAXReturn>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.taxAgency(),
+							messages.periodStartDate(),
+							messages.periodEndDate(), messages.taxFiledDate(),
+							messages.taxAmount(), messages.totalPaymentMade() };
+				}
+
+				@Override
+				public String getColumnValue(ClientTAXReturn obj, int index) {
+					switch (index) {
+					case 0:
+						TAXAgency taxAgency = (TAXAgency) HibernateUtil
+								.getCurrentSession().get(TAXAgency.class,
+										obj.getTaxAgency());
+						return taxAgency != null ? taxAgency.getName() : "";
+					case 1:
+						return new ClientFinanceDate(obj.getPeriodStartDate())
+								.toString();
+					case 2:
+						return new ClientFinanceDate(obj.getPeriodEndDate())
+								.toString();
+					case 3:
+						return new ClientFinanceDate(obj.getTransactionDate())
+								.toString();
+					case 4:
+						return amountAsStringWithCurrency(
+								obj.getTotalTAXAmount(),
+								company.getPrimaryCurrency());
+					case 5:
+						return amountAsStringWithCurrency(
+								(obj.getTotalTAXAmount() - obj.getBalance()),
+								company.getPrimaryCurrency());
+					default:
+						break;
+					}
+					return null;
+				}
+			};
+			CSVExporter<ClientTAXReturn> csvExporter = new CSVExporter<ClientTAXReturn>(
+					icsvExportRunner);
+			return csvExporter.export(taxReturns);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	@Override
+	public String getTaxRefundsExportCsv(long startDate, long endDate,
+			int viewId) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			final Company company = getFinanceTool().getCompany(getCompanyId());
+			PaginationList<ClientReceiveVAT> taxRefunds = getFinanceTool()
+					.getTaxManager().getTaxRefunds(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), 0, -1,
+							viewId);
+			ICSVExportRunner<ClientReceiveVAT> icsvExportRunner = new ICSVExportRunner<ClientReceiveVAT>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.taxAgency(),
+							messages.paymentMethod(), messages.checkNumber(),
+							messages.transactionDate(), messages.amountPaid() };
+				}
+
+				@Override
+				public String getColumnValue(ClientReceiveVAT obj, int index) {
+					switch (index) {
+					case 0:
+						TAXAgency taxAgency = (TAXAgency) HibernateUtil
+								.getCurrentSession().get(TAXAgency.class,
+										obj.getVatAgency());
+						return taxAgency != null ? taxAgency.getName() : "";
+					case 1:
+						return obj.getPaymentMethod();
+					case 2:
+						return obj.getCheckNumber();
+					case 3:
+						return new ClientFinanceDate(obj.getTransactionDate())
+								.toString();
+					case 4:
+						return amountAsStringWithCurrency(obj.getTotal(),
+								company.getPrimaryCurrency());
+					default:
+						break;
+					}
+					return null;
+				}
+			};
+			CSVExporter<ClientReceiveVAT> csvExporter = new CSVExporter<ClientReceiveVAT>(
+					icsvExportRunner);
+			return csvExporter.export(taxRefunds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	@Override
+	public String getPayTaxesExportCsv(long startDate, long endDate, int viewId) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			final Company company = getFinanceTool().getCompany(getCompanyId());
+			PaginationList<ClientPayTAX> payTaxes = getFinanceTool()
+					.getTaxManager().getPayTaxList(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), 0, -1,
+							viewId);
+			ICSVExportRunner<ClientPayTAX> icsvExportRunner = new ICSVExportRunner<ClientPayTAX>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.taxAgency(),
+							messages.paymentMethod(), messages.checkNumber(),
+							messages.transactionDate(), messages.amountPaid() };
+				}
+
+				@Override
+				public String getColumnValue(ClientPayTAX obj, int index) {
+					switch (index) {
+					case 0:
+						TAXAgency taxAgency = (TAXAgency) HibernateUtil
+								.getCurrentSession().get(TAXAgency.class,
+										obj.getTaxAgency());
+						return taxAgency != null ? taxAgency.getName() : "";
+					case 1:
+						return obj.getPaymentMethod();
+					case 2:
+						return obj.getCheckNumber();
+					case 3:
+						return new ClientFinanceDate(obj.getTransactionDate())
+								.toString();
+					case 4:
+						return amountAsStringWithCurrency(obj.getTotal(),
+								company.getPrimaryCurrency());
+					default:
+						break;
+					}
+					return null;
+				}
+			};
+			CSVExporter<ClientPayTAX> csvExporter = new CSVExporter<ClientPayTAX>(
+					icsvExportRunner);
+			return csvExporter.export(payTaxes);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	@Override
+	public String getBuildAssembliesExportCsv(long startDate, long endDate,
+			int viewId) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			PaginationList<ClientBuildAssembly> buildAssemblies = getFinanceTool()
+					.getInventoryManager().getBuildAssembly(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), 0, -1,
+							viewId);
+			ICSVExportRunner<ClientBuildAssembly> icsvExportRunner = new ICSVExportRunner<ClientBuildAssembly>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.assemblyItem(),
+							messages.description(), messages.buildQuantity(),
+							messages.quantityOnHand(), messages.reorderPoint() };
+				}
+
+				@Override
+				public String getColumnValue(ClientBuildAssembly obj, int index) {
+					Item item = (Item) HibernateUtil.getCurrentSession().get(
+							Item.class, obj.getInventoryAssembly());
+					switch (index) {
+					case 0:
+						return item.getName();
+					case 1:
+						return obj.getMemo() == null ? "" : obj.getMemo();
+					case 2:
+						return obj.getQuantityToBuild().toString() == null ? ""
+								: obj.getQuantityToBuild().toString();
+					case 3:
+						return item != null ? String.valueOf(item
+								.getOnhandQty()) : "";
+					case 4:
+						return item != null ? String.valueOf(item
+								.getReorderPoint()) : "";
+					default:
+						break;
+					}
+					return null;
+				}
+			};
+			CSVExporter<ClientBuildAssembly> csvExporter = new CSVExporter<ClientBuildAssembly>(
+					icsvExportRunner);
+			return csvExporter.export(buildAssemblies);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

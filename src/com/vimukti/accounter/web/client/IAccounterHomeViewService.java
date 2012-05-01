@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -30,10 +31,12 @@ import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
+import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -419,7 +422,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientMessageOrTask> getMessagesAndTasks()
 			throws AccounterException;
 
-	PaginationList<ClientReminder> getRemindersList(int start,int length,int viewType) throws AccounterException;
+	PaginationList<ClientReminder> getRemindersList(int start, int length,
+			int viewType) throws AccounterException;
 
 	ExpensePortletData getAccountsAndValues(long startDate, long endDate);
 
@@ -544,5 +548,17 @@ public interface IAccounterHomeViewService extends RemoteService {
 	PaginationList<PaymentsList> getPayRunsList(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int start, int length, int type)
 			throws AccounterException;
+
+	PaginationList<ClientTAXReturn> getTaxReturnList(long startDate,
+			long endDate, int start, int length, int viewId);
+
+	PaginationList<ClientBuildAssembly> getBuildAssembliesList(long startDate,
+			long endDate, int start, int length, int viewId);
+
+	PaginationList<ClientPayTAX> getPayTaxList(long startDate, long endDate,
+			int start, int length, int viewId);
+
+	PaginationList<ClientReceiveVAT> getTaxRefundsList(long startDate,
+			long endDate, int start, int length, int viewId);
 
 }

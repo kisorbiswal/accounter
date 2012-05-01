@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -22,12 +23,15 @@ import com.vimukti.accounter.web.client.ui.customers.CustomerRefundListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
 import com.vimukti.accounter.web.client.ui.customers.ReceivedPaymentListView;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentsListView;
+import com.vimukti.accounter.web.client.ui.vat.ChalanDetailsListView;
 import com.vimukti.accounter.web.client.ui.vat.TaxAdjustmentsListView;
 import com.vimukti.accounter.web.client.ui.vendors.BillListView;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesListView;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
+import com.vimukti.accounter.web.client.util.Countries;
 
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView, ISavableView<HashMap<String, Object>> {
@@ -73,9 +77,42 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		listPanel.addMenuPanel(Global.get().Vendors(), getVendorCenterItems());
 		listPanel.addMenuPanel(messages.banking(), getBankCenterItems());
 		listPanel.addMenuPanel(messages.others(), getOtherCenterItems());
+		if (Accounter.getUser().canSeeInvoiceTransactions()
+				&& getPreferences().isTrackTax()) {
+
+			listPanel.addMenuPanel(messages.tax(), getTaxCenterItems());
+		}
+		if (Accounter.getUser().getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
+				&& getPreferences().isInventoryEnabled()) {
+			listPanel.addMenuPanel(messages.inventory(),
+					getInventoryCenterList());
+		}
+
 		baseListView = (TransactionsListView<T>) new InvoiceListView();
 
 		initGridData(getMessages().invoices(), false);
+	}
+
+	private List<String> getInventoryCenterList() {
+		ArrayList<String> inventoryItems = new ArrayList<String>();
+		inventoryItems.add(getMessages().buildAssembly());
+		inventoryItems.add(getMessages().inventoryAdjustments());
+		return inventoryItems;
+	}
+
+	private List<String> getTaxCenterItems() {
+		ArrayList<String> taxItems = new ArrayList<String>();
+		taxItems.add(getMessages().taxAdjustment());
+		taxItems.add(getMessages().fileTAX());
+		taxItems.add(getMessages().payTax());
+		taxItems.add(getMessages().tAXRefund());
+		if (getPreferences().getTradingAddress().getCountryOrRegion()
+				.equals(Countries.INDIA)) {
+			if (getPreferences().isTDSEnabled()) {
+				taxItems.add(getMessages().challanDetails());
+			}
+		}
+		return taxItems;
 	}
 
 	private ArrayList<String> getBankCenterItems() {
@@ -193,6 +230,17 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		} else if (itemName.equalsIgnoreCase(getMessages().payRuns())) {
 			baseListView = (TransactionsListView<T>) new PaymentListView(
 					PaymentListView.TYPE_PAY_RUNS);
+		} else if (itemName.equalsIgnoreCase(getMessages().fileTAX())) {
+			baseListView = (TransactionsListView<T>) new FileTAXListView();
+		} else if (itemName.equalsIgnoreCase(getMessages().payTax())) {
+			baseListView = (TransactionsListView<T>) new PayTaxListView();
+		} else if (itemName.equalsIgnoreCase(getMessages().tAXRefund())) {
+			baseListView = (TransactionsListView<T>) new TaxRefundListView();
+		} else if (itemName.equalsIgnoreCase(getMessages().challanDetails())) {
+			baseListView = (TransactionsListView<T>) new ChalanDetailsListView(
+					true);
+		} else if (itemName.equalsIgnoreCase(getMessages().buildAssembly())) {
+			baseListView = (TransactionsListView<T>) new BuildAssembliesView();
 		}
 
 		mainPanel.add(baseListView);
@@ -257,9 +305,6 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	private ArrayList<String> getOtherCenterItems() {
 		ArrayList<String> otherItems = new ArrayList<String>();
 		// otherItems.add(getMessages().deposits());
-		if (getCompany().getPreferences().isInventoryEnabled()) {
-			otherItems.add(getMessages().inventoryAdjustments());
-		}
 		otherItems.add(getMessages().journalEntries());
 		otherItems.add(getMessages().otherChecks());
 		if (Accounter.getUser().canSeeInvoiceTransactions()
@@ -268,6 +313,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		}
 
 		otherItems.add(getMessages().payRuns());
+
 		// otherItems.add(getMessages().transferFunds());
 		return otherItems;
 	}

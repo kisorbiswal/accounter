@@ -92,4 +92,12 @@ public interface IAccounterExportCSVService extends RemoteService {
 
 	String getPayRunExportCsv(long startDate, long endDate, int type);
 
+	String getFileTaxesExportCsv(long startDate, long endDate, int type);
+
+	String getTaxRefundsExportCsv(long startDate, long endDate, int viewId);
+
+	String getPayTaxesExportCsv(long startDate, long endDate, int viewId);
+
+	String getBuildAssembliesExportCsv(long startDate, long endDate, int viewId);
+
 }

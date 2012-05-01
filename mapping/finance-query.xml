@@ -12151,6 +12151,104 @@
 			
 			]]>
 	</sql-query>
+
+	<sql-query name="list.file.tax">
+		<query-param name="companyId" type="long" />
+		<query-param name="startdate" type="long" />
+		<query-param name="enddate" type="long" />
+		<query-param name="viewId" type="int" />
+
+		<return-scalar column="TR_ID" type="long" />
+		
+		<![CDATA[
+				SELECT TR.ID AS TR_ID
+				FROM   TAX_RETURN TR
+				       LEFT OUTER JOIN TRANSACTION T
+				         ON T.ID = TR.ID
+				WHERE  T.T_TYPE = 20
+				       AND T.COMPANY_ID = :companyId
+				       AND ( CASE
+				               WHEN 1 = :viewId THEN T.SAVE_STATUS = 0
+				               WHEN 5 = :viewId THEN T.SAVE_STATUS = 203
+				               WHEN 3 = :viewId THEN T.SAVE_STATUS = 204
+				               WHEN 0 = :viewId THEN TRUE
+				               ELSE TRUE
+				             END )
+				       AND T.T_DATE BETWEEN :startdate AND :enddate  
+		]]>
+	</sql-query>
+	<sql-query name="list.pay.tax">
+		<query-param name="companyId" type="long" />
+		<query-param name="startdate" type="long" />
+		<query-param name="enddate" type="long" />
+
+		<return-scalar column="TR_ID" type="long" />
+		
+		<![CDATA[
+				SELECT TR.ID AS TR_ID
+				FROM   PAY_TAX TR
+				       LEFT OUTER JOIN TRANSACTION T
+				         ON T.ID = TR.ID
+				WHERE  T.T_TYPE = 17
+				       AND T.COMPANY_ID = :companyId
+				       AND ( CASE
+				               WHEN 1 = :viewId THEN T.SAVE_STATUS = 203
+				               WHEN 3 = :viewId THEN T.SAVE_STATUS = 204
+				               WHEN 0 = :viewId THEN TRUE
+				               ELSE TRUE
+				             END )
+				       AND T.T_DATE BETWEEN :startdate AND :enddate  
+		]]>
+	</sql-query>
+	<sql-query name="list.receive.tax">
+		<query-param name="companyId" type="long" />
+		<query-param name="startdate" type="long" />
+		<query-param name="enddate" type="long" />
+		<query-param name="viewId" type="int" />
+
+		<return-scalar column="TR_ID" type="long" />
+		
+		<![CDATA[
+				SELECT TR.ID AS TR_ID
+				FROM   RECEIVE_VAT TR
+				       LEFT OUTER JOIN TRANSACTION T
+				         ON T.ID = TR.ID
+				WHERE  T.T_TYPE = 31
+				       AND T.COMPANY_ID = :companyId
+				       AND ( CASE
+				               WHEN 1 = :viewId THEN T.SAVE_STATUS = 203
+				               WHEN 3 = :viewId THEN T.SAVE_STATUS = 204
+				               WHEN 0 = :viewId THEN TRUE
+				               ELSE TRUE
+				             END )
+				       AND T.T_DATE BETWEEN :startdate AND :enddate  		
+		]]>
+	</sql-query>
+
+	<sql-query name="list.buildAssemblies">
+		<query-param name="companyId" type="long" />
+		<query-param name="startdate" type="long" />
+		<query-param name="enddate" type="long" />
+		<query-param name="viewId" type="int" />
+
+		<return-scalar column="BA_ID" type="long" />
+		
+		<![CDATA[
+				SELECT BA.ID AS BA_ID
+				FROM BUILD_ASSEMBLY BA
+				       LEFT OUTER JOIN TRANSACTION T
+				         ON T.ID = BA.ID
+				WHERE  T.T_TYPE = 37
+				       AND T.COMPANY_ID = :companyId
+				       AND ( CASE
+				               WHEN 1 = :viewId THEN T.SAVE_STATUS = 203
+				               WHEN 3 = :viewId THEN T.SAVE_STATUS = 204
+				               WHEN 0 = :viewId THEN TRUE
+				               ELSE TRUE
+				             END )
+				       AND T.T_DATE BETWEEN :startdate AND :enddate  
+		]]>
+	</sql-query>
 	 
 	<sql-query name="canDeletePayrollUnit">
 		<query-param name="inputId" type="long" />
