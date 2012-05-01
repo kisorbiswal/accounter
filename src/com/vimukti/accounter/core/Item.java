@@ -448,6 +448,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return;
 		}
 		if (!onHandQty.isEmpty() && !DecimalUtil.isEquals(itemTotalValue, 0)) {
+			averageCost = purchasePrice;
 			Session session = HibernateUtil.getCurrentSession();
 			StockAdjustment adjustment = createStockAdjustment();
 			session.save(adjustment);

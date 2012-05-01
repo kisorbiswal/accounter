@@ -77,15 +77,14 @@ public class InventoryItemNameColumn extends
 			}
 
 			row.setUnitPrice(unitPrice);
+			row.setPurchaseCost(unitPrice);
 		}
 		row.setInventoryItem(newValue.getID());
 		onValueChange(row);
 		row.setDescription(getDiscription(newValue));
-		if (row.getQuantity() == null) {
-			ClientQuantity quantity = new ClientQuantity();
-			quantity.setValue(1.0);
-			row.setQuantity(quantity);
-		}
+		ClientQuantity quantity = new ClientQuantity();
+		quantity.setValue(1.0);
+		row.setQuantity(quantity);
 		getTable().update(row);
 	}
 

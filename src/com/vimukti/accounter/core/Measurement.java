@@ -228,7 +228,8 @@ public class Measurement extends CreatableObject implements
 
 		Set<Measurement> measurements = getCompany().getMeasurements();
 		for (Measurement measurement : measurements) {
-			if (measurement.getName().equalsIgnoreCase(getName())) {
+			if (measurement.getID() != getID()
+					&& measurement.getName().equalsIgnoreCase(getName())) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().name());

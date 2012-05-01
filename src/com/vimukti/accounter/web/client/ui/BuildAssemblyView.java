@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -260,13 +261,15 @@ public class BuildAssemblyView extends
 	private Double calculateNumberOfBuilds(
 			List<ClientInventoryAssemblyItem> assemblyItems) {
 		Double buildNumber = null;
-		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
+		for (ClientInventoryAssemblyItem inventoryAssemblyItem : assemblyItems) {
 			ClientItem item = getCompany().getItem(
-					clientInventoryAssemblyItem.getInventoryItem());
+					inventoryAssemblyItem.getInventoryItem());
 			if (item.isInventory()) {
 				double onhandQuantity = item.getOnhandQty().getValue();
-				double value = clientInventoryAssemblyItem.getQuantity()
-						.getValue();
+				ClientUnit unitById = getCompany().getUnitById(
+						inventoryAssemblyItem.getQuantity().getUnit());
+				double value = inventoryAssemblyItem.getQuantity()
+						.convertToDefaultUnit(unitById).getValue();
 				double temp = (int) (onhandQuantity / value);
 				if (buildNumber == null) {
 					buildNumber = temp;

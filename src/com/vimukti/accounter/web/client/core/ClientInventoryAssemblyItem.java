@@ -22,6 +22,8 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 
 	private double linetotal;
 
+	private double purchaseCost;
+
 	@Override
 	public int getVersion() {
 		return version;
@@ -124,6 +126,21 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @return the purchaseCost
+	 */
+	public double getPurchaseCost() {
+		return purchaseCost;
+	}
+
+	/**
+	 * @param purchaseCost
+	 *            the purchaseCost to set
+	 */
+	public void setPurchaseCost(double purchaseCost) {
+		this.purchaseCost = purchaseCost;
 	}
 
 }
