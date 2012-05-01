@@ -101,6 +101,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private AccountCombo assetsAccount;
 	private DateField asOfDate;
 	private DynamicForm inventoryInfoForm;
+	private Label quantityUnitsLabel;
 
 	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
@@ -300,6 +301,10 @@ public class ItemView extends BaseView<ClientItem> {
 		// onHandQuantity.setWidth(100);
 		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
+		quantityUnitsLabel = new Label();
+		quantityUnitsLabel.setText(getCompany().getMeasurement(
+				getCompany().getDefaultMeasurement()).getDisplayName());
+		onHandQuantity.add(quantityUnitsLabel);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -587,6 +592,18 @@ public class ItemView extends BaseView<ClientItem> {
 			// purchzVPanel.setCellHorizontalAlignment(stockPanel_1,
 			// ALIGN_LEFT);
 			StyledPanel stockPanel_2 = getStockPanel_2();
+
+			measurement
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientMeasurement>() {
+
+						@Override
+						public void selectedComboBoxItem(
+								ClientMeasurement selectItem) {
+							quantityUnitsLabel.setText(selectItem
+									.getDisplayName());
+
+						}
+					});
 			if (getPreferences().isUnitsEnabled()) {
 				purchzVPanel.add(stockPanel_2);
 				// purchzVPanel.setCellHorizontalAlignment(stockPanel_2,

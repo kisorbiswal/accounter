@@ -97,6 +97,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	private DateField asOfDate;
 	private AddNewButton itemTableButton;
 	private AmountLabel totalLabel;
+	private Label quantityUnitsLabel;
 
 	public InventoryAssemblyView() {
 		super();
@@ -220,6 +221,10 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		// onHandQuantity.setWidth(100);
 		onHandQuantity.setEnabled(!isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
+		quantityUnitsLabel = new Label();
+		quantityUnitsLabel.setText(getCompany().getMeasurement(
+				getCompany().getDefaultMeasurement()).getDisplayName());
+		onHandQuantity.add(quantityUnitsLabel);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -469,6 +474,16 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		StyledPanel stockPanel_1 = getStockPanel_1();
 		purchzVPanel.add(stockPanel_1);
 		StyledPanel stockPanel_2 = getStockPanel_2();
+		measurement
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientMeasurement>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientMeasurement selectItem) {
+						quantityUnitsLabel.setText(selectItem.getDisplayName());
+
+					}
+				});
 		if (getPreferences().isUnitsEnabled()) {
 			purchzVPanel.add(stockPanel_2);
 		}
