@@ -481,9 +481,11 @@ public class AdjustTAXView extends
 
 				ClientAccount selectedValue = adjustAccountCombo
 						.getSelectedValue();
-				long currency2 = selectedValue.getCurrency();
-				ClientCurrency currency3 = getCompany().getCurrency(currency2);
-				currencyWidget.setSelectedCurrency(currency3);
+				if (selectedValue != null) {
+					ClientCurrency currency = getCompany().getCurrency(
+							selectedValue.getCurrency());
+					currencyWidget.setSelectedCurrency(currency);
+				}
 				setCurrency(transaction.getCurrency() != 0 ? getCurrency(transaction
 						.getCurrency()) : getCompany().getPrimaryCurrency());
 				currencyWidget.setCurrencyFactor(transaction
