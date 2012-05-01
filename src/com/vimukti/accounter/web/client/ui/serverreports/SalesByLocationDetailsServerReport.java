@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -15,6 +18,11 @@ public class SalesByLocationDetailsServerReport extends
 	private String currentsectionName = "";
 	private boolean isLocation;
 	private boolean isCustomer;
+	private List<String> parents = new ArrayList<String>();
+	private List<String> list = new ArrayList<String>();
+	private List<String> last = new ArrayList<String>();
+	private boolean haveSubs = false;
+	private int depth;
 
 	public SalesByLocationDetailsServerReport(
 			IFinanceReport<SalesByLocationDetails> reportView,
@@ -96,24 +104,71 @@ public class SalesByLocationDetailsServerReport extends
 
 	@Override
 	public void processRecord(SalesByLocationDetails record) {
-		if (sectionDepth == 0) {
-			this.sectionName = getRecordSectionName(record);
-			addSection(new String[] { sectionName }, new String[] { "" },
-					new int[] { 6 });
-		} else if (sectionDepth == 1) {
-			// No need to do anything, just allow adding this record
-			if (!sectionName.equals(getRecordSectionName(record))) {
+
+		parents = record.getParents();
+
+		// close all extra
+		for (int x = list.size(); x > parents.size(); x--) {
+			last.remove(x - 1);
+			list.remove(x - 1);
+			endSection();
+			depth--;
+			if (depth > list.size()) {
 				endSection();
+				depth--;
+				haveSubs = true;
 			} else {
-				return;
+				haveSubs = true;
 			}
-		} else if (sectionDepth == 2) {
-			addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-					messages.total() }, new int[] { 6 });
 		}
 
-		// Go on recursive calling if we reached this place
-		processRecord(record);
+		int rest = list.size();
+
+		for (int x = list.size() - 1; x >= 0; x--) {
+			if (!list.get(x).equals(parents.get(x))) {
+				last.remove(x);
+				list.remove(x);
+				endSection();
+				depth--;
+				rest--;
+				if (depth > list.size()) {
+					endSection();
+					depth--;
+				} else {
+					haveSubs = true;
+				}
+			}
+		}
+
+		String name;
+
+		for (int x = rest; x < parents.size(); x++) {
+			name = parents.get(x);
+			last.add(name);
+			list.add(name);
+			addSection(new String[] { name },
+					new String[] { "", "", messages.reportTotal(name) },
+					new int[] { 6 }, record.getDepthsByName().get(name));
+			// startSection(name,depth);
+			depth++;
+			haveSubs = false;
+		}
+		if (haveSubs) {
+
+			name = getLast(); // get last one and + Other
+			addSection(new String[] { name },
+					new String[] { "", "", messages.reportTotal(name) },
+					new int[] { 6 }, record.getDepth());
+			// startSection(name, depth);
+			depth++;
+			haveSubs = false;
+		}
+
+		return;
+	}
+
+	private String getLast() {
+		return last.get(last.size() - 1) + "-" + messages.other();
 	}
 
 	private String getRecordSectionName(SalesByLocationDetails record) {
@@ -177,6 +232,9 @@ public class SalesByLocationDetailsServerReport extends
 		this.sectionDepth = 0;
 		this.sectionName = "";
 		this.currentsectionName = "";
+		list.clear();
+		last.clear();
+		parents.clear();
 	}
 
 	@Override

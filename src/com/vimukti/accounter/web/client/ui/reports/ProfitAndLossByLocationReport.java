@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
@@ -16,6 +19,7 @@ public class ProfitAndLossByLocationReport extends
 		AbstractReportView<ProfitAndLossByLocation> {
 
 	private int category_type;
+	ArrayList<String> reportHeaders = new ArrayList<String>();
 
 	public ProfitAndLossByLocationReport(int category_type) {
 		this.category_type = category_type;
@@ -29,13 +33,52 @@ public class ProfitAndLossByLocationReport extends
 					.getCompany().getLocations();
 			numcolumns = ProfitAndLossByLocationServerReport.locations.size() + 2;
 		} else {
-			ProfitAndLossByLocationServerReport.classes = Accounter
-					.getCompany().getAccounterClasses();
+			ProfitAndLossByLocationServerReport.classes = getHeaderTitles();
 			numcolumns = ProfitAndLossByLocationServerReport.classes.size() + 2;
 		}
 		ProfitAndLossByLocationServerReport.noColumns = numcolumns;
 		this.serverReport = new ProfitAndLossByLocationServerReport(this,
 				category_type);
+	}
+
+	private ArrayList<String> getHeaderTitles() {
+		ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>(
+				Accounter.getCompany().getAccounterClasses());
+
+		// sort by depth
+		Collections.sort(accounterClasses,
+				new Comparator<ClientAccounterClass>() {
+					@Override
+					public int compare(ClientAccounterClass o1,
+							ClientAccounterClass o2) {
+						int res = o1.getPath().compareTo(o2.getPath());
+						return true ? (-1 * res) : (res);
+					}
+				});
+		long previousparentID = 0;
+		int count = 0;
+
+		for (ClientAccounterClass clientAccounterClass : accounterClasses) {
+			String className = clientAccounterClass.getClassName();
+			if (previousparentID != clientAccounterClass.getParent()
+					&& previousparentID != 0) {
+				String concat = className.concat("-Other");
+				clientAccounterClass.setModifiedName(concat);
+				reportHeaders.add(concat);
+				reportHeaders.add(messages.total() + "(" + className + ")");
+				previousparentID = 0;
+			} else if (accounterClasses.size() - 1 == count) {
+				String concat = className.concat("-Other");
+				clientAccounterClass.setModifiedName(concat);
+				reportHeaders.add(concat);
+				reportHeaders.add(messages.total() + "(" + className + ")");
+			} else {
+				reportHeaders.add(clientAccounterClass.getClassName());
+				previousparentID = clientAccounterClass.getParent();
+			}
+			count++;
+		}
+		return reportHeaders;
 	}
 
 	@Override
@@ -72,11 +115,8 @@ public class ProfitAndLossByLocationReport extends
 					.get(cellIndex - 1);
 			record.setCategoryId(clientLocation.getID());
 		} else {
-			ClientAccounterClass clientAccounterClass = ProfitAndLossByLocationServerReport.classes
-					.get(cellIndex - 1);
-			record.setCategoryId(clientAccounterClass.getID());
+			record.setCategoryId(pAndLossByLocation.getCategoryId());
 		}
-
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());

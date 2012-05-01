@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientLocation;
+import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByClass;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
@@ -39,7 +42,7 @@ public class ProfitAndLossByLocationServerReport extends
 	public static int noColumns;
 
 	public static ArrayList<ClientLocation> locations = null;
-	public static ArrayList<ClientAccounterClass> classes = null;
+	public static ArrayList<String> classes = null;
 	public static ArrayList<ClientJob> jobs = null;
 
 	public ProfitAndLossByLocationServerReport(long startDate, long endDate,
@@ -52,7 +55,7 @@ public class ProfitAndLossByLocationServerReport extends
 			this.noColumns = clientCompany.getLocations().size() + 2;
 			this.locations = clientCompany.getLocations();
 		} else {
-			this.classes = clientCompany.getAccounterClasses();
+			// this.classes = clientCompany.getAccounterClasses();
 			this.noColumns = clientCompany.getAccounterClasses().size() + 2;
 		}
 	}
@@ -72,12 +75,53 @@ public class ProfitAndLossByLocationServerReport extends
 			this.jobs = company.getJobs();
 			this.noColumns = jobs.size() + 2;
 		} else if (category_type == CLASS) {
-			this.classes = company.getAccounterClasses();
+			this.classes = getHeaderTitles(company.getAccounterClasses());
 			this.noColumns = classes.size() + 2;
 		} else if (category_type == LOCATION) {
 			this.locations = company.getLocations();
 			this.noColumns = locations.size() + 2;
 		}
+	}
+
+	private ArrayList<String> getHeaderTitles(
+			ArrayList<ClientAccounterClass> classes) {
+		ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>(
+				classes);
+		ArrayList<String> reportHeaders = new ArrayList<String>();
+		// sort by depth
+		Collections.sort(accounterClasses,
+				new Comparator<ClientAccounterClass>() {
+					@Override
+					public int compare(ClientAccounterClass o1,
+							ClientAccounterClass o2) {
+						int res = o1.getPath().compareTo(o2.getPath());
+						return true ? (-1 * res) : (res);
+					}
+				});
+		long previousparentID = 0;
+		int count = 0;
+
+		for (ClientAccounterClass clientAccounterClass : accounterClasses) {
+			String className = clientAccounterClass.getClassName();
+			if (previousparentID != clientAccounterClass.getParent()
+					&& previousparentID != 0) {
+				String concat = className.concat("-Other");
+				clientAccounterClass.setModifiedName(concat);
+				reportHeaders.add(concat);
+				reportHeaders.add(messages.total() + "(" + className + ")");
+				previousparentID = 0;
+			} else if (accounterClasses.size() - 1 == count) {
+				String concat = className.concat("-Other");
+				clientAccounterClass.setModifiedName(concat);
+				reportHeaders.add(concat);
+				reportHeaders.add(messages.total() + "(" + className + ")");
+			} else {
+				reportHeaders.add(clientAccounterClass.getClassName());
+				previousparentID = clientAccounterClass.getParent();
+			}
+			count++;
+		}
+		return reportHeaders;
 	}
 
 	@Override
@@ -90,7 +134,7 @@ public class ProfitAndLossByLocationServerReport extends
 			}
 		} else if (category_type == CLASS) {
 			for (int i = 0; i < classes.size(); i++) {
-				headers[i + 1] = classes.get(i).getClassName();
+				headers[i + 1] = classes.get(i);
 			}
 		} else {
 			for (int i = 0; i < locations.size(); i++) {
@@ -124,7 +168,7 @@ public class ProfitAndLossByLocationServerReport extends
 			}
 		} else if (category_type == CLASS) {
 			for (int i = 0; i < classes.size(); i++) {
-				headers[i + 1] = classes.get(i).getClassName();
+				headers[i + 1] = classes.get(i);
 			}
 		} else {
 			for (int i = 0; i < locations.size(); i++) {
@@ -168,6 +212,9 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
+		if (index == 0) {
+			return 180;
+		}
 		return -1;
 	}
 
@@ -266,7 +313,7 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public Object getColumnData(ProfitAndLossByLocation record, int columnIndex) {
-
+		Double value = 0.0;
 		if (columnIndex == 0) {
 			rowTotal = 0;
 			return record.getAccountNumber() + "-" + record.getAccountName();
@@ -277,18 +324,32 @@ public class ProfitAndLossByLocationServerReport extends
 			if (category_type == JOB) {
 				location_id = jobs.get(columnIndex - 1).getID();
 			} else if (category_type == CLASS) {
-				location_id = classes.get(columnIndex - 1).getID();
+				value = getcolumnvalue(record, columnIndex);
+				// location_id = classes.get(columnIndex - 1).getID();
 			} else {
 				location_id = locations.get(columnIndex - 1).getID();
 			}
 
-			Map<Long, Double> map = record.getMap();
-			Double value = map.get(location_id);
+			if (!(category_type == CLASS)) {
+				Map<Long, Double> map = record.getMap();
+				value = map.get(location_id);
+			}
 			if (value != null) {
-				rowTotal += value;
+				rowTotal = value;
 			}
 			return value;
 		}
+	}
+
+	private Double getcolumnvalue(ProfitAndLossByLocation record,
+			int columnIndex) {
+		for (ProfitAndLossByClass profitAndLossByClass : record.getRecords()) {
+			if (profitAndLossByClass.getIndex() == columnIndex) {
+				return profitAndLossByClass.getTotal();
+			}
+		}
+		return null;
+
 	}
 
 	@Override

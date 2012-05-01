@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.Set;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -13,11 +11,18 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class AccounterClass extends CreatableObject implements
 		IAccounterServerCore, INamedObject {
 
 	private String className;
+
+	private AccounterClass parent;
+
+	private int parentCount;
+
+	private String path;
 
 	/**
 	 * 
@@ -25,9 +30,21 @@ public class AccounterClass extends CreatableObject implements
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	public boolean onUpdate(Session session) throws CallbackException {
+		this.parentCount = getparents();
+		return super.onUpdate(session);
+	}
+
+	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		return false;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		this.parentCount = getparents();
+		return super.onSave(session);
 	}
 
 	public String getclassName() {
@@ -56,7 +73,6 @@ public class AccounterClass extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-
 		w.put(messages.name(), this.className);
 	}
 
@@ -76,14 +92,48 @@ public class AccounterClass extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().accounterClass());
 		}
-		Set<AccounterClass> accounterClasses = getCompany()
-				.getAccounterClasses();
-		for (AccounterClass accounterClass : accounterClasses) {
-			if (accounterClass.getName().equalsIgnoreCase(getName())) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
-								.get().messages().accounterClass());
-			}
-		}
 	}
+
+	public AccounterClass getParent() {
+		return parent;
+	}
+
+	public void setParent(AccounterClass parent) {
+		this.parent = parent;
+	}
+
+	public int getParentCount() {
+		return parentCount;
+	}
+
+	public void setParentCount(int parentCount) {
+		this.parentCount = parentCount;
+	}
+
+	/**
+	 * get the parent count of this object
+	 * 
+	 * @return parent count
+	 */
+	private int getparents() {
+		int count = 0;
+		AccounterClass parentClass = this;
+		while (parentClass.getParent() != null
+				&& parentClass.getParent().getID() != 0) {
+			count += 1;
+			parentClass = (AccounterClass) new FinanceTool().getManager()
+					.getServerObjectForid(AccounterCoreType.ACCOUNTER_CLASS,
+							parentClass.getParent().getID());
+		}
+		return count;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 }

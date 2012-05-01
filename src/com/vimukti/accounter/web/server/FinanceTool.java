@@ -1770,9 +1770,11 @@ public class FinanceTool {
 				.executeUpdate();
 		session.getNamedQuery("noOfTRansactionPerCompanyCountTrigger")
 				.executeUpdate();
-		session.getNamedQuery("premiumCompaniesCountTrigger").executeUpdate();
+		session.getNamedQuery("clientUpdateTrigger").executeUpdate();
+		session.getNamedQuery("userInsertTrigger").executeUpdate();
 		session.getNamedQuery("transactionsUpdateCountTrigger").executeUpdate();
-
+		session.getNamedQuery("updateAccounterClassPathTrigger")
+				.executeUpdate();
 		transaction.commit();
 	}
 

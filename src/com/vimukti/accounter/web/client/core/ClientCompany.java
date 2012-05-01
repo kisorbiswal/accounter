@@ -3168,6 +3168,50 @@ public class ClientCompany implements IAccounterCore {
 		return this.accounterClasses;
 	}
 
+	public ArrayList<ClientAccounterClass> getaccounterClassesWithChilds() {
+		ArrayList<ClientAccounterClass> accounterClasses = this.accounterClasses;
+		ArrayList<ClientAccounterClass> classes = new ArrayList<ClientAccounterClass>();
+		// dividing child's and add
+		addChilds(classes, accounterClasses, 0, 0);
+		return classes;
+	}
+
+	/**
+	 * 
+	 * @param classes
+	 * @param accounterClasses
+	 * @param depth
+	 * @param parent
+	 */
+	private void addChilds(ArrayList<ClientAccounterClass> classes,
+			ArrayList<ClientAccounterClass> accounterClasses, int depth,
+			long parent) {
+		ArrayList<ClientAccounterClass> childs = getChild(accounterClasses,
+				parent);
+		for (ClientAccounterClass ch : childs) {
+			ch.setDepth(depth);
+			classes.add(ch);
+			addChilds(classes, accounterClasses, depth + 1, ch.getID());
+		}
+	}
+
+	/**
+	 * 
+	 * @param accounterClasses
+	 * @param parent
+	 * @return
+	 */
+	private ArrayList<ClientAccounterClass> getChild(
+			ArrayList<ClientAccounterClass> accounterClasses, long p) {
+		ArrayList<ClientAccounterClass> childs = new ArrayList<ClientAccounterClass>();
+		for (ClientAccounterClass c : accounterClasses) {
+			if (c.getParent() == p) {
+				childs.add(c);
+			}
+		}
+		return childs;
+	}
+
 	public long getDefaultTaxCode() {
 		List<ClientTAXCode> taxCodes = getActiveTaxCodes();
 		for (ClientTAXCode taxCode : taxCodes) {

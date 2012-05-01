@@ -23,6 +23,7 @@ public class SalesByLocationDetailsReport extends
 				isLocation, isCustomer);
 		this.isLocation = isLocation;
 		this.isCustomer = isCustomer;
+		this.getElement().setId("SalesByLocationDetailsReport");
 	}
 
 	@Override

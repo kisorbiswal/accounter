@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -21,7 +22,37 @@ public class ClassTable extends AbstractDropDownTable<ClientAccounterClass> {
 	}
 
 	private static List<ClientAccounterClass> getClasses() {
-		return Accounter.getCompany().getAccounterClasses();
+		ArrayList<ClientAccounterClass> accounterClasses = Accounter
+				.getCompany().getaccounterClassesWithChilds();
+		return accounterClasses;
+	}
+
+	private String getDisplayValueForCombo(ClientAccounterClass obj) {
+		if (obj == null) {
+			return "";
+		}
+		StringBuffer buffer = new StringBuffer();
+		ClientAccounterClass parentClass = obj;
+		while (parentClass.getParent() != 0) {
+			buffer.append(parentClass.getClassName());
+			parentClass = Accounter.getCompany().getAccounterClass(
+					parentClass.getParent());
+			buffer.append(":");
+		}
+		buffer.append(parentClass.getClassName());
+		buffer = getReverseBuffer(buffer.toString());
+		return buffer.toString();
+	}
+
+	private StringBuffer getReverseBuffer(String actvalString) {
+		String[] split = actvalString.split(":");
+		StringBuffer buffer = new StringBuffer();
+		for (int i = split.length - 1; i > 0; --i) {
+			buffer.append(split[i]);
+			buffer.append(':');
+		}
+		buffer.append(split[0]);
+		return buffer;
 	}
 
 	@Override
@@ -63,17 +94,36 @@ public class ClassTable extends AbstractDropDownTable<ClientAccounterClass> {
 		if (name.equals(messages.comboDefaultAddNew("Class"))) {
 			return result.toString();
 		}
-		return name;
+		return getspaces(code);
+	}
+
+	/**
+	 * 
+	 * @param object
+	 *            ClientAccounterClass
+	 * @return {@link String}
+	 */
+	private String getspaces(ClientAccounterClass object) {
+		StringBuffer buffer = new StringBuffer();
+		if (object.getDepth() != 0) {
+			for (int i = 0; i < object.getDepth(); i++) {
+				buffer.append("     ");
+			}
+		}
+		buffer.append(object.getClassName());
+		return buffer.toString();
 	}
 
 	@Override
 	protected boolean filter(ClientAccounterClass t, String string) {
-		return getDisplayName(t).toLowerCase().startsWith(string);
+		String[] split = string.split(":");
+		return getDisplayName(t).trim().toLowerCase()
+				.startsWith(split[split.length - 1]);
 	}
 
 	@Override
 	protected String getDisplayValue(ClientAccounterClass value) {
-		return getDisplayName(value);
+		return getDisplayValueForCombo(value);
 	}
 
 	@Override

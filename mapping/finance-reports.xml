@@ -2642,6 +2642,9 @@
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTIONID" type="long" />
+		<return-scalar column="PAENT_ID" type="long" />
+		<return-scalar column="CLASS_ID" type="long" />
+		<return-scalar column="PARENT_COUNT" type="int" />
 		
 		<![CDATA[
 				SELECT T.T_DATE                          AS TRANSACTIONDATE,
@@ -2651,7 +2654,10 @@
 				       I.NAME                            AS ITEMNAME,
 				       TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
 				       AC.CLASS_NAME                     AS CLASSNAME,
-				       T.ID                              AS TRANSACTIONID
+				       T.ID                              AS TRANSACTIONID,
+				       AC.PARENT_ID                      AS PAENT_ID,
+				       AC.ID                             AS CLASS_ID,
+				       AC.PARENT_COUNT                   AS PARENT_COUNT
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON TI.TRANSACTION_ID = T.ID
@@ -2663,8 +2669,9 @@
 				         ON AC.ID = TI.TRANS_ITEM_ACCOUNTER_CLASS
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
+				       AND AC.ID IS NOT NULL 
 				       AND T.T_TYPE IN ( 8, 1 )
-				ORDER  BY AC.CLASS_NAME  
+				ORDER  BY AC.PATH DESC  
 				]]>
 
 	</sql-query>
@@ -2676,10 +2683,16 @@
 
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="CLASS_ID" type="long" />
+		<return-scalar column="PARENT_COUNT" type="int" />
 		
 		<![CDATA[
 				SELECT SUM(TI.LINE_TOTAL * T.CURRENCY_FACTOR) AS ITEMTOTAL,
-				       AC.CLASS_NAME                          AS CLASSNAME
+				       AC.CLASS_NAME                          AS CLASSNAME,
+				       AC.PARENT_ID                           AS PARENT_ID,
+				       AC.ID                                  AS CLASS_ID,
+				       AC.PARENT_COUNT                        AS PARENT_COUNT
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON TI.TRANSACTION_ID = T.ID
@@ -2692,8 +2705,9 @@
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.T_TYPE IN ( 8, 1 )
-				GROUP  BY AC.CLASS_NAME
-				ORDER  BY AC.CLASS_NAME  
+				       AND AC.ID IS NOT NULL
+				GROUP  BY AC.CLASS_NAME,AC.PARENT_ID,AC.ID
+				ORDER  BY AC.PATH DESC   
 				]]>
 
 	</sql-query>
@@ -2713,6 +2727,8 @@
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTIONID" type="long" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="PARENT_COUNT" type="int" />
 
 		<![CDATA[
 				SELECT T.T_DATE      AS TRANSACTIONDATE,
@@ -2722,7 +2738,9 @@
 				       I.NAME        AS ITEMNAME,
 				       TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
 				       AC.CLASS_NAME AS CLASSNAME,
-				       T.ID          AS TRANSACTIONID
+				       T.ID          AS TRANSACTIONID,
+				       AC.PARENT_ID AS PARENT_ID,
+				        AC.PARENT_COUNT  AS PARENT_COUNT
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON TI.TRANSACTION_ID = T.ID
@@ -2739,7 +2757,7 @@
 				             WHEN :locationORClassName IS NULL THEN AC.CLASS_NAME IS NULL
 				             ELSE AC.CLASS_NAME = :locationORClassName
 				           END
-				ORDER  BY AC.CLASS_NAME  
+				ORDER  BY AC.PATH  
 				]]>
 
 	</sql-query>
@@ -2756,37 +2774,41 @@
 		<return-scalar column="CLASSID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="PARENT" type="long" />
 		
 		<![CDATA[
-					SELECT A.ID           AS ACCOUNT_ID,
-					       A.NAME         AS ACCOUNT_NAME,
-					       A.A_NUMBER     AS ACCOUNT_NUMBER,
-					       A.A_TYPE       AS ACCOUNT_TYPE,
-					       AC .ID         AS CLASSID,
-					       SUM(AT.AMOUNT) AS AMOUNT,
-			                       T.ID AS TRANSACTION_ID
-					FROM   ACCOUNT_TRANSACTION AT
-					       LEFT OUTER JOIN ACCOUNT A
-						 ON A.ID = AT.ACCOUNT_ID
-					       LEFT OUTER JOIN TRANSACTION T
-						 ON T.ID = AT.TRANSACTION_ID
-					       LEFT OUTER JOIN ACCOUNTER_CLASS AC
-						 ON AC.ID = T.TRANSACTION_ACCOUNTER_CLASS
-					WHERE  T.COMPANY_ID = :companyId
-				               AND T.T_DATE BETWEEN :startDate AND :endDate	
-					       AND A.A_TYPE IN ( 14, 15, 16, 17, 18 )
-					       AND A.BASE_TYPE != 0
-					       AND ( T.TRANSACTION_ACCOUNTER_CLASS != 0
-						      OR T.ID IN (SELECT TI.TRANSACTION_ID
-								  FROM   TRANSACTION_ITEM TI
-								  WHERE  TI.TRANS_ITEM_ACCOUNTER_CLASS != 0) )
-					GROUP  BY CLASSID,
-						  A.ID,T.ID 
-					ORDER  BY A.BASE_TYPE,
-						  A.SUB_BASE_TYPE,
-						  A.GROUP_TYPE,
-						  A.A_TYPE,
-						  A.ID  
+	                    SELECT A.ID           AS ACCOUNT_ID,
+						       A.NAME         AS ACCOUNT_NAME,
+						       A.A_NUMBER     AS ACCOUNT_NUMBER,
+						       A.A_TYPE       AS ACCOUNT_TYPE,
+						       AC .ID         AS CLASSID,
+						       SUM(AT.AMOUNT) AS AMOUNT,
+						       T.ID           AS TRANSACTION_ID,
+						       AC.PARENT_ID   AS PARENT
+						FROM   ACCOUNT_TRANSACTION AT
+						       LEFT OUTER JOIN ACCOUNT A
+						         ON A.ID = AT.ACCOUNT_ID
+						       LEFT OUTER JOIN TRANSACTION T
+						         ON T.ID = AT.TRANSACTION_ID
+						       LEFT OUTER JOIN TRANSACTION_ITEM TI
+						         ON TI.TRANSACTION_ID = T.ID
+						       LEFT OUTER JOIN ACCOUNTER_CLASS AC
+						         ON AC.ID = TI.TRANS_ITEM_ACCOUNTER_CLASS
+						WHERE  T.COMPANY_ID = :companyId
+						       AND AC.ID IS NOT NULL
+						       AND T.T_DATE BETWEEN :startDate AND :endDate
+						       AND A.A_TYPE IN ( 14, 15, 16, 17, 18 )
+						       AND A.BASE_TYPE != 0
+						GROUP  BY CLASSID,
+						          A.ID,
+						          T.ID
+						ORDER  BY 
+						          A.BASE_TYPE,
+						          A.SUB_BASE_TYPE,
+						          A.GROUP_TYPE,
+						          A.A_TYPE,
+						          A.ID,
+						          AC.PATH DESC    
 				]]>
 
 	</sql-query>
@@ -4401,15 +4423,21 @@
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTIONID" type="long" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="CLASS_ID" type="long" />
+		<return-scalar column="PARENT_COUNT" type="int" />
 		<![CDATA[
-				SELECT T.T_DATE      AS TRANSACTIONDATE,
+				SELECT     T.T_DATE      AS TRANSACTIONDATE,
 					       T.T_TYPE      AS TRANSACTIONTYPE,
 					       T.NUMBER      AS TRANSACTIONNUMBER,
 					       A.NAME        AS ACCOUNTNAME,
 					       I.NAME        AS ITEMNAME,
 					       TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
 					       AC.CLASS_NAME AS CLASSNAME,
-					       T.ID          AS TRANSACTIONID
+					       T.ID          AS TRANSACTIONID,
+					       AC.PARENT_ID  AS PARENT_ID,
+				           AC.ID         AS CLASS_ID,
+				          AC.PARENT_COUNT AS PARENT_COUNT
 					FROM   TRANSACTION T
 					       LEFT OUTER JOIN TRANSACTION_ITEM TI
 					         ON TI.TRANSACTION_ID = T.ID
@@ -4423,7 +4451,7 @@
 					       AND T.COMPANY_ID = :companyId
 					       AND T.T_DATE BETWEEN :startDate AND :endDate
 					       AND AC.CLASS_NAME IS NOT NULL
-					ORDER  BY AC.CLASS_NAME  
+					ORDER  BY AC.PATH DESC  
 			]]>
 	</sql-query>
 	<sql-query name="getPurchaseByLocationSummary">
@@ -4503,10 +4531,16 @@
 
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="CLASS_ID" type="long" />
+		<return-scalar column="PARENT_COUNT" type="int" />
 		
 		<![CDATA[
 				SELECT SUM(TI.LINE_TOTAL * T.CURRENCY_FACTOR) AS ITEMTOTAL,
-				       AC.CLASS_NAME                          AS CLASSNAME
+				       AC.CLASS_NAME                          AS CLASSNAME,
+				       AC.PARENT_ID                           AS PARENT_ID,
+				       AC.ID                                  AS CLASS_ID,
+				        AC.PARENT_COUNT                    AS PARENT_COUNT
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON TI.TRANSACTION_ID = T.ID
@@ -4519,8 +4553,9 @@
 				WHERE  T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :startDate AND :endDate
 				       AND T.T_TYPE IN (2,6,14 )
-				GROUP  BY AC.CLASS_NAME
-				ORDER  BY AC.CLASS_NAME  
+				       AND AC.ID IS NOT NULL
+				GROUP  BY AC.CLASS_NAME,AC.PARENT_ID,AC.ID
+				ORDER  BY AC.PATH  
 				]]>
 
 	</sql-query>
@@ -4539,6 +4574,8 @@
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTIONID" type="long" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="PARENT_COUNT" type="int" />
 
 		<![CDATA[
 				SELECT T.T_DATE      AS TRANSACTIONDATE,
@@ -4548,7 +4585,9 @@
 				       I.NAME        AS ITEMNAME,
 				       TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
 				       AC.CLASS_NAME AS CLASSNAME,
-				       T.ID          AS TRANSACTIONID
+				       T.ID          AS TRANSACTIONID,
+				       AC.PARENT_ID  AS PARENT_ID,
+				       AC.PARENT_COUNT  AS PARENT_COUNT
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON TI.TRANSACTION_ID = T.ID
@@ -4565,7 +4604,7 @@
 				             WHEN :locationORClassName IS NULL THEN AC.CLASS_NAME IS NULL
 				             ELSE AC.CLASS_NAME = :locationORClassName
 				           END
-				ORDER  BY AC.CLASS_NAME  
+				ORDER  BY AC.PATH 
 				]]>
 
 	</sql-query>
@@ -4580,7 +4619,7 @@
 			        WHERE  TI.TRANS_ITEM_ACCOUNTER_CLASS != 0  
 		]]>
 	</sql-query>
-	
+
 	<sql-query name="getInventoryDetails">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
@@ -4648,7 +4687,7 @@
 				(204,201,202)
 				GROUP BY PH.ID,E.ID
 		]]>
-		
+
 	</sql-query>
 	<sql-query name="getpayHeadDetailsList">
 		<query-param name="companyId" type="long"></query-param>

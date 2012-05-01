@@ -673,7 +673,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	private void setRelatedComboItem(final String value) {
 		if (!value.toString().isEmpty()) {
-			List<T> combos = getComboitemsByName(value);
+			List<T> combos;
+			if (this instanceof ClassListCombo) {
+				String[] split = value.split(":");
+				combos = getComboitemsByName(split[split.length - 1]);
+			} else {
+				combos = getComboitemsByName(value);
+			}
 			if (!combos.isEmpty()) {
 				int index = comboItems.indexOf(combos.get(0));
 				if (isAddNewRequire) {

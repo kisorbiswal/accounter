@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Element;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
@@ -97,7 +99,9 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 
 	@Override
 	protected List<ClientAccounterClass> getRecords() {
-		return getCompany().getAccounterClasses();
+		ArrayList<ClientAccounterClass> accounterClasses = getCompany()
+				.getaccounterClassesWithChilds();
+		return accounterClasses;
 	}
 
 	@Override
@@ -111,15 +115,28 @@ public class AccounterClassListDialog extends GroupDialog<ClientAccounterClass> 
 		switch (index) {
 		case 0:
 			if (accounterClass != null) {
-				return accounterClass.getClassName();
+				return getspaces(accounterClass);
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param accounterClass
+	 * @return
+	 */
+	private String getspaces(ClientAccounterClass accounterClass) {
+		Element element = listGridView.cellFormatter.getElement(
+				listGridView.getCurrentRow(), listGridView.getCurrentColumn());
+		int depth = accounterClass.getDepth();
+		// for adding space
+		element.addClassName("depth" + depth);
+		return accounterClass.getClassName();
+	}
+
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 

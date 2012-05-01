@@ -1,9 +1,13 @@
-@-moz-document url-prefix(){ .editTable table td .gwt-TextBox {
+@
+-moz-document url-prefix           (){ .editTable table td .gwt-TextBox
+	{
 	width: 99%;
 }
-table.gridBody{
-	 table-layout: auto !important;
+
+table.gridBody {
+	table-layout: auto !important;
 }
+
 #customercreditmemoview .prodAndServiceHLay .boldtext {
 	text-align: right;
 	width: 350px;
@@ -80,13 +84,17 @@ table.gridBody{
 	-moz-box-flex: 0;
 	width: 465px;
 }
-#ShippingTermListDialog .bodyLayout1 .gridHeader,#ShippingTermListDialog .bodyLayout1 .gridBody{
+
+#ShippingTermListDialog .bodyLayout1 .gridHeader,#ShippingTermListDialog .bodyLayout1 .gridBody
+	{
 	table-layout: auto !important
 }
 
-#ShippingMethodListDialog .bodyLayout1 .gridHeader,#ShippingMethodListDialog .bodyLayout1 .gridBody{
+#ShippingMethodListDialog .bodyLayout1 .gridHeader,#ShippingMethodListDialog .bodyLayout1 .gridBody
+	{
 	table-layout: auto !important
 }
+
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#VendorView .accInfoForm {
@@ -120,15 +128,15 @@ table.gridBody{
 		padding: 2px !important;
 	}
 	/* this is for manage custom button that is attached to top one in chrome */
-	#VendorView .detailsTab .vendorGrpForm{
-	    padding-bottom:1px;
+	#VendorView .detailsTab .vendorGrpForm {
+		padding-bottom: 1px;
 	}
 	/* this is for manage custom button that is attached to top one in chrome */
-	#VendorView .detailsTab .vatform{
-	    padding-bottom:1px;
+	#VendorView .detailsTab .vatform {
+		padding-bottom: 1px;
 	}
-	#salespersonview .addrsForm{
-	   padding-bottom:1px;
+	#salespersonview .addrsForm {
+		padding-bottom: 1px;
 	}
 }
 
@@ -484,7 +492,6 @@ html,body {
 	width: 50%;
 	-moz-box-flex: 1;
 }*/
-
 .formItem {
 	display: -webkit-box;
 	display: -moz-box;
@@ -2063,11 +2070,12 @@ table.no_records .norecord-empty-message td {
 	word-wrap: break-word;
 }
 
-#CustomerCenterView .panel .label{
+#CustomerCenterView .panel .label {
 	width: 200px;
 	word-wrap: break-word;
 }
-#vendorCenterView .hp .label{
+
+#vendorCenterView .hp .label {
 	width: 200px;
 	word-wrap: break-word;
 }
@@ -2990,9 +2998,10 @@ table.no_records .norecord-empty-message td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-	width:100%;
+	width: 100%;
 }
-#newAccountView .topHLay .leftLayout .currencyTextBox{
+
+#newAccountView .topHLay .leftLayout .currencyTextBox {
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;
@@ -3000,6 +3009,7 @@ table.no_records .norecord-empty-message td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
+
 #newAccountView .topHLay .frameTitle {
 	display: -webkit-box;
 	display: -moz-box;
@@ -3008,7 +3018,7 @@ table.no_records .norecord-empty-message td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	-moz-box-flex: 1;
-	width:50%;
+	width: 50%;
 }
 
 #newAccountView .balanceForm {
@@ -3090,7 +3100,7 @@ table.no_records .norecord-empty-message td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	width: 50%;
-	-moz-box-flex:1;
+	-moz-box-flex: 1;
 }
 
 #CustomerView .generalTab .topHLay .rightVLay {
@@ -4042,16 +4052,16 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 
 #TDSResponsiblePersonDetailsView .horizontalPanel .taxDynamicForm {
 	-moz-box-flex: 1;
-    -moz-box-orient: vertical;
-    display: -moz-box;
-    width: 50%;
+	-moz-box-orient: vertical;
+	display: -moz-box;
+	width: 50%;
 }
 
 #TDSResponsiblePersonDetailsView .horizontalPanel .otherDynamicForm {
 	-moz-box-flex: 2;
-    -moz-box-orient: vertical;
-    display: -moz-box;
-    width: 50%;
+	-moz-box-orient: vertical;
+	display: -moz-box;
+	width: 50%;
 }
 
 #SelectChallanTypeDialog .mainVLay .RadioGroupItem {
@@ -4635,7 +4645,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	overflow: scroll;
 	padding: 10px;
 	width: 890px;
-	border:1px solid #ccc;
+	border: 1px solid #ccc;
 }
 
 #CheckPrintingSettingView .chequeBackground {
@@ -6183,7 +6193,7 @@ form#contactForm .submit {
 	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
-	width:100%;
+	width: 100%;
 }
 
 #ItemMergeDialog .horizontalPanel .form {
@@ -6213,8 +6223,40 @@ form#contactForm .submit {
 	margin-bottom: 10px;
 }
 
-.gridBody .depth .depth2 {
+.Report .gridBody .depth1 {
 	padding-left: 2%;
+}
+
+.gridBody .depth2 {
+	padding-left: 3%;
+}
+
+.Report .gridBody .depth3 {
+	padding-left: 4%;
+}
+
+.Report .gridBody .depth4 {
+	padding-left: 5%;
+}
+
+.Report .gridBody .depth5 {
+	padding-left: 6%;
+}
+
+.Report .gridBody .depth6 {
+	padding-left: 7%;
+}
+
+.Report .gridBody .depth7 {
+	padding-left: 8%;
+}
+
+.Report .gridBody .depth8 {
+	padding-left: 9%;
+}
+
+.Report .gridBody .depth9 {
+	padding-left: 10%;
 }
 
 .budget_overview .gridBody .depth2 {
@@ -7336,8 +7378,8 @@ textarea[disabled] {
 }
 
 .Transactions_center #TransactionsListView .gridHeader,.Transactions_center #TransactionsListView .gridBody
-	{
-	/*table-layout: fixed;*/
+	{ /*table-layout: fixed;*/
+	
 }
 
 #paytaxview .gridHeader,#paytaxview .gridBody {
@@ -7718,12 +7760,6 @@ table.no_records tr td {
 }
 
 #CreateClassDialog .verticalPanel .trackClassForm {
-    width: 100%;
-}
-#salespersonview .topHLay{
-	width: 100%;
-}
-#salespersonview .topHLay .leftVLay{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7731,30 +7767,50 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	margin: 10px;
-	width:50%;
-	-moz-box-flex:1;
+}
+
+#salespersonview .topHLay {
+	width: 100%;
+}
+
+#salespersonview .topHLay .leftVLay {
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	margin: 10px;
+	width: 50%;
+	-moz-box-flex: 1;
 }
 
 #CreateClassDialog .verticalPanel .trackClassForm .formItem .gwt-Label {
 	width: auto;
 }
-#CustomerMergeDialog .horizontalPanel .gwt-Label{
-	width:120px;
+
+#CustomerMergeDialog .horizontalPanel .gwt-Label {
+	width: 120px;
 }
-#VendorMergeDialog .horizontalPanel .gwt-Label{
-	width:120px;
+
+#VendorMergeDialog .horizontalPanel .gwt-Label {
+	width: 120px;
 }
-#ItemMergeDialog .horizontalPanel .gwt-Label{
-	width:120px;
+
+#ItemMergeDialog .horizontalPanel .gwt-Label {
+	width: 120px;
 }
-#SalesTaxGroupDialog .horizontalPanel .buttonsLayout{
+
+#SalesTaxGroupDialog .horizontalPanel .buttonsLayout {
 	margin-top: 10px;
 }
-#SalesTaxGroupDialog .horizontalPanel .buttonsLayout button{
-	width:70px;
+
+#SalesTaxGroupDialog .horizontalPanel .buttonsLayout button {
+	width: 70px;
 	margin: 0 5px;
 }
-#salespersonview .topHLay .rightVLay{
+
+#salespersonview .topHLay .rightVLay {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7762,7 +7818,9 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#salespersonview .topHLay .leftVLay .frameTitle,#salespersonview .topHLay .leftVLay .phone-fax-formatter{
+
+#salespersonview .topHLay .leftVLay .frameTitle,#salespersonview .topHLay .leftVLay .phone-fax-formatter
+	{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7770,7 +7828,9 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#salespersonview .topHLay .rightVLay .emailForm,#salespersonview .topHLay .rightVLay .salesPersonInfoForm{
+
+#salespersonview .topHLay .rightVLay .emailForm,#salespersonview .topHLay .rightVLay .salesPersonInfoForm
+	{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7778,31 +7838,47 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label{
-	width:220px !important;
+
+#NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label
+	{
+	width: 220px !important;
+	#
+	NewFixedAssetView
+	.formItem
+	.gwt-Label,#NewFixedAssetView
+	.descriptionVPanel
+	.gwt-Label
+	{
+	width
+	:
+	220px;
 }
-.printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer{
+
+.printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer
+	{
 	overflow: hidden !important;
 }
-#NewCustomThemeDialog .layout .formItems{
+
+#NewCustomThemeDialog .layout .formItems {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-	margin:10px;
+	margin: 10px;
 }
-.listgrid .gridBodyContainer{
+
+.listgrid .gridBodyContainer {
 	overflow-x: hidden !important;
 }
 /*edit table headers align to center */
 .editheader td {
-    text-align: center;
+	text-align: center;
 }
 
 /* Location merge dialog should align properly */
-#LocationMergeDialog .horizontalPanel{
+#LocationMergeDialog .horizontalPanel {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7810,9 +7886,10 @@ table.no_records tr td {
 	-webkit-box-orient: horizontal;
 	box-orient: horizontal;
 	margin: 10px 0;
-    width: 100%;
+	width: 100%;
 }
-#LocationMergeDialog .horizontalPanel .layout .form{
+
+#LocationMergeDialog .horizontalPanel .layout .form {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7820,11 +7897,13 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#LocationMergeDialog .horizontalPanel .layout{
-	width:50%;
-	-moz-box-flex:1;
+
+#LocationMergeDialog .horizontalPanel .layout {
+	width: 50%;
+	-moz-box-flex: 1;
 }
-#LocationMergeDialog .horizontalPanel .layout1 .form1{
+
+#LocationMergeDialog .horizontalPanel .layout1 .form1 {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7832,11 +7911,13 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#CashExpenseView .topHLay .leftVLay{
+
+#CashExpenseView .topHLay .leftVLay {
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 }
-#CashExpenseView .topHLay .rightVLay{
+
+#CashExpenseView .topHLay .rightVLay {
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 }
@@ -7871,7 +7952,8 @@ table.no_records tr td {
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 }
-#InputDialog .layout .form{
+
+#InputDialog .layout .form {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7881,10 +7963,11 @@ table.no_records tr td {
 	margin: 10px;
 }
 
-.percentageField .gwt-Label{
+.percentageField .gwt-Label {
 	width: auto !important;
 	padding: 2px 5px 0 0;
 }
+
 .transactionTotalForm {
 	display: -moz-box;
 	display: -webkit-box;
@@ -7893,16 +7976,22 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#CheckPrintingSettingView .checkprintbox .allFields,#CheckPrintingSettingView .checkprintbox .chequeForm{
-	padding-left:10px;
+
+#CheckPrintingSettingView .checkprintbox .allFields,#CheckPrintingSettingView .checkprintbox .chequeForm
+	{
+	padding-left: 10px;
 }
-#ClassMergeDialog .horizontalPanel .gwt-Label,#LocationMergeDialog .horizontalPanel .gwt-Label{
-	width:120px;
+
+#ClassMergeDialog .horizontalPanel .gwt-Label,#LocationMergeDialog .horizontalPanel .gwt-Label
+	{
+	width: 120px;
 }
-#ClassMergeDialog table,#LocationMergeDialog table{
+
+#ClassMergeDialog table,#LocationMergeDialog table {
 	width: 650px;
 }
-#EmailView .email_textarea{
+
+#EmailView .email_textarea {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7910,17 +7999,21 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#TDSResponsiblePersonDetailsView .formItem .gwt-Label{
-	width:245px;
+
+#TDSResponsiblePersonDetailsView .formItem .gwt-Label {
+	width: 245px;
 }
+
 #NewVATItemView .new_vat_item .percentageField .gwt-Label {
 	width: 200px !important;
 	padding: 0;
 }
-#NewApplyCreditsDialog .group_dialogue_list{
-	width:600px;
+
+#NewApplyCreditsDialog .group_dialogue_list {
+	width: 600px;
 }
-#ItemGroupDialog .bodyLayout .dform{
+
+#ItemGroupDialog .bodyLayout .dform {
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7928,11 +8021,13 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 }
-#ItemGroupDialog .bodyLayout table{
-	width:100%;
+
+#ItemGroupDialog .bodyLayout table {
+	width: 100%;
 }
-#ItemGroupDialog .group_dialogue_list{
-	width:600px;
+
+#ItemGroupDialog .group_dialogue_list {
+	width: 600px;
 }
 
 /* payroll views and list views css*/

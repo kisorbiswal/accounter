@@ -1,14 +1,17 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Customer;
@@ -325,10 +328,66 @@ public class SalesManager extends Manager {
 				salDetails
 						.setLocationName(object[1] != null ? ((String) object[1])
 								: null);
+				if (!isLocation) {
+					salDetails
+							.setParentId(object[2] != null ? ((Long) object[2])
+									.longValue() : 0);
+					salDetails
+							.setClassId(object[3] != null ? ((Long) object[3])
+									.longValue() : 0);
+					salDetails
+							.setDepth(object[4] != null ? ((Integer) object[4])
+									.intValue() : 0);
+					Map<String, Integer> map = new HashMap<String, Integer>();
+					salDetails
+							.setParents(getSalesByLocationSummaryRecordParents(
+									salDetails, companyId, map));
+					salDetails.setDepthsByName(map);
+				}
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
 		return salesByLocationDetailList;
+	}
+
+	/**
+	 * 
+	 * @param salesByLocationDetails
+	 * @param CompanyId
+	 * @param map
+	 * @return
+	 */
+	private List<String> getSalesByLocationSummaryRecordParents(
+			SalesByLocationSummary salesByLocationDetails, long CompanyId,
+			Map<String, Integer> map) {
+		List<String> list = new ArrayList<String>();
+		list.add(salesByLocationDetails.getLocationName());
+		map.put(salesByLocationDetails.getLocationName(),
+				salesByLocationDetails.getDepth());
+		if (salesByLocationDetails.getParentId() != 0) {
+			long parentId = salesByLocationDetails.getParentId();
+			while (parentId > 0) {
+				AccounterClass parentItem = null;
+				for (AccounterClass item : getCompany(CompanyId)
+						.getAccounterClasses()) {
+					if (item.getID() == parentId) {
+						parentItem = item;
+						list.add(item.getName());
+						map.put(item.getName(), item.getParentCount());
+					}
+				}
+				if (parentItem.getParent() != null) {
+					parentId = parentItem.getParent().getID();
+				} else {
+					parentId = 0l;
+				}
+			}
+		}
+		ArrayList<String> list2 = new ArrayList<String>();
+		for (int ii = (list.size() - 1); ii >= 0; ii--) {
+			list2.add(list.get(ii));
+		}
+		return list2;
 	}
 
 	public ArrayList<SalesByLocationDetails> getSalesByLocationDetailForLocation(
@@ -430,6 +489,20 @@ public class SalesManager extends Manager {
 				salDetails
 						.setTransactionid(object[7] != null ? ((Long) object[7])
 								.longValue() : 0);
+
+				if (!isLocation) {
+					salDetails.setParent(object[8] != null ? ((Long) object[8])
+							.longValue() : 0);
+					salDetails
+							.setDepth(object[9] != null ? ((Integer) object[9])
+									.intValue() : 0);
+
+					Map<String, Integer> map = new HashMap<String, Integer>();
+					salDetails
+							.setParents(getsalesByLocationDetailRecordParents(
+									salDetails, companyId, map));
+					salDetails.setDepthsByName(map);
+				}
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
@@ -517,10 +590,66 @@ public class SalesManager extends Manager {
 				salDetails
 						.setTransactionid(object[7] != null ? ((Long) object[7])
 								.longValue() : 0);
+				if (!isLocation) {
+					salDetails.setParent(object[8] != null ? ((Long) object[8])
+							.longValue() : 0);
+					salDetails
+							.setClassId(object[9] != null ? ((Long) object[9])
+									.longValue() : 0);
+					salDetails
+							.setDepth(object[10] != null ? ((Integer) object[10])
+									: 0);
+					Map<String, Integer> map = new HashMap<String, Integer>();
+					salDetails
+							.setParents(getsalesByLocationDetailRecordParents(
+									salDetails, companyId, map));
+					salDetails.setDepthsByName(map);
+
+				}
 				salesByLocationDetailList.add(salDetails);
 			}
 		}
 		return salesByLocationDetailList;
+	}
+
+	/**
+	 * 
+	 * @param salesByLocationDetails
+	 * @param CompanyId
+	 * @param map
+	 * @return
+	 */
+	private List<String> getsalesByLocationDetailRecordParents(
+			SalesByLocationDetails salesByLocationDetails, long CompanyId,
+			Map<String, Integer> map) {
+		List<String> list = new ArrayList<String>();
+		list.add(salesByLocationDetails.getLocationName());
+		map.put(salesByLocationDetails.getLocationName(),
+				salesByLocationDetails.getDepth());
+		if (salesByLocationDetails.getParent() != 0) {
+			long parentId = salesByLocationDetails.getParent();
+			while (parentId > 0) {
+				AccounterClass parentItem = null;
+				for (AccounterClass item : getCompany(CompanyId)
+						.getAccounterClasses()) {
+					if (item.getID() == parentId) {
+						parentItem = item;
+						list.add(item.getName());
+						map.put(item.getName(), item.getParentCount());
+					}
+				}
+				if (parentItem.getParent() != null) {
+					parentId = parentItem.getParent().getID();
+				} else {
+					parentId = 0l;
+				}
+			}
+		}
+		ArrayList<String> list2 = new ArrayList<String>();
+		for (int ii = (list.size() - 1); ii >= 0; ii--) {
+			list2.add(list.get(ii));
+		}
+		return list2;
 	}
 
 	public ArrayList<Item> getSalesReportItems(FinanceDate startDate,
@@ -529,7 +658,6 @@ public class SalesManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getSalesReportItems")
 				.setParameter("companyId", companyId)
-
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 

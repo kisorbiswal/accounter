@@ -147,27 +147,66 @@
 				CREATE TRIGGER noOfTransactionPerCompanyCount AFTER INSERT ON TRANSACTION FOR each ROW EXECUTE PROCEDURE noOfTransactionPerCompanyCount();
 			]]>
 	</sql-query>
-	<sql-query name="premiumCompaniesCountTrigger">
+
+	<sql-query name="userInsertTrigger">
 	<![CDATA[
-				DROP TRIGGER  IF EXISTS  premiumCompaniesCount ON USERS; 
-				CREATE OR REPLACE FUNCTION premiumCompaniesCount() RETURNS trigger AS $premiumCompaniesCount$
+				DROP TRIGGER  IF EXISTS  userInsert ON USERS; 
+				CREATE OR REPLACE FUNCTION userInsert() RETURNS trigger AS $userInsert$
 				DECLARE
-					  companyId    bigint;
-					  companyType  integer;
 					  clientid      bigint;
-					  
 				BEGIN
-				companyId=NEW.COMPANY_ID;
 				clientid=NEW.CLIENT_ID;
-				companyType=(SELECT TYPE FROM SUBSCRIPTION WHERE ID=(SELECT SUBSCRIPTION_ID FROM  CLIENT_SUBSCRIPTION WHERE ID= (SELECT CLIENT_SUBSCRIPTION FROM CLIENT WHERE ID=(SELECT CLIENT_ID FROM USERS WHERE ID=(SELECT CREATED_BY FROM COMPANY WHERE ID=companyId)))));
-				IF(companyType=3) THEN 
-						 UPDATE CLIENT SET PREMIUM_COMPANIES=PREMIUM_COMPANIES +1  WHERE id = clientid;
-					     RETURN NEW;
-				END IF;
-				 RETURN NULL;
+				UPDATE CLIENT CL SET PREMIUM_COMPANIES= (SELECT COUNT(*) FROM COMPANY C LEFT JOIN USERS U ON U.ID=C.CREATED_BY LEFT JOIN CLIENT CL2 ON CL2.ID=U.CLIENT_ID LEFT JOIN CLIENT_SUBSCRIPTION CS ON CL2.CLIENT_SUBSCRIPTION=CS.ID LEFT JOIN SUBSCRIPTION S ON S.ID=CS.SUBSCRIPTION_ID WHERE S.TYPE=3 AND C.ID IN (SELECT COMPANY_ID FROM USERS U2 WHERE U2.CLIENT_ID=CL.ID AND U2.IS_DELETED=FALSE))WHERE CL.ID=clientid;
+				 RETURN NEW;
 				END;
-				$premiumCompaniesCount$ LANGUAGE plpgsql;
-				CREATE TRIGGER premiumCompaniesCount AFTER INSERT ON USERS FOR each ROW EXECUTE PROCEDURE premiumCompaniesCount();
+				$userInsert$ LANGUAGE plpgsql;
+				CREATE TRIGGER userInsert AFTER INSERT  ON USERS FOR each ROW EXECUTE PROCEDURE userInsert();
+			]]>
+	</sql-query>
+
+	<sql-query name="clientUpdateTrigger">
+	<![CDATA[
+				DROP TRIGGER  IF EXISTS  clientUpdate ON CLIENT; 
+				CREATE OR REPLACE FUNCTION clientUpdate() RETURNS trigger AS $clientUpdate$
+				DECLARE
+					  clientid      bigint;
+				BEGIN
+				clientid=NEW.ID;
+				NEW.PREMIUM_COMPANIES= (SELECT COUNT(*) FROM COMPANY C LEFT JOIN USERS U ON U.ID=C.CREATED_BY LEFT JOIN CLIENT CL2 ON CL2.ID=U.CLIENT_ID LEFT JOIN CLIENT_SUBSCRIPTION CS ON CL2.CLIENT_SUBSCRIPTION=CS.ID LEFT JOIN SUBSCRIPTION S ON S.ID=CS.SUBSCRIPTION_ID WHERE S.TYPE=3 AND C.ID IN (SELECT COMPANY_ID FROM USERS U2 WHERE U2.CLIENT_ID=clientid AND U2.IS_DELETED=FALSE));
+				 RETURN NEW;
+				END;
+				$clientUpdate$ LANGUAGE plpgsql;
+				CREATE TRIGGER clientUpdate AFTER UPDATE ON CLIENT FOR each ROW EXECUTE PROCEDURE clientUpdate();
+			]]>
+	</sql-query>
+	<sql-query name="updateAccounterClassPathTrigger">
+	<![CDATA[
+				DROP TRIGGER  IF EXISTS  updatePathCount ON ACCOUNTER_CLASS; 
+				CREATE OR REPLACE FUNCTION updatePathCount() RETURNS trigger AS $updatePathCount$
+				DECLARE
+						companyId bigint;
+						path integer;
+						parentcount integer;
+						count integer;
+						pathName text;  
+				BEGIN
+				 		companyId=NEW.COMPANY_ID;
+				IF( NEW.PARENT_ID  IS NULL) THEN
+						 path = (SELECT CLASS_COUNT FROM COMPANY WHERE ID=companyId);
+						 New.PATH=path+1;
+						 UPDATE COMPANY SET CLASS_COUNT =path+1 ;
+                      RETURN NEW;
+                ELSE 
+	                 pathName=(SELECT AC.PATH FROM ACCOUNTER_CLASS AC WHERE AC.ID=NEW.PARENT_ID); 
+                     count=(SELECT count(*) FROM ACCOUNTER_CLASS AC WHERE AC.PARENT_ID=NEW.PARENT_ID);
+                     count=count+1;
+	                 NEW.PATH=(pathName || '.' || (SELECT CAST(count as text)));
+	                 RETURN NEW;
+                END IF;
+                   RETURN NULL;
+				END;
+				$updatePathCount$ LANGUAGE plpgsql;
+				CREATE TRIGGER updatePathCount BEFORE INSERT ON ACCOUNTER_CLASS FOR each ROW EXECUTE PROCEDURE updatePathCount();
 			]]>
 	</sql-query>
 </hibernate-mapping>

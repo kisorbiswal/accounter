@@ -352,6 +352,7 @@ public class Company implements IAccounterServerCore {
 	private String passwordHInt;
 
 	private Account salariesPayableAccount;
+	private int classCount;
 
 	public Account getRetainedEarningsAccount() {
 		return retainedEarningsAccount;
@@ -1759,6 +1760,14 @@ public class Company implements IAccounterServerCore {
 
 	public Account getSalariesPayableAccount() {
 		return salariesPayableAccount;
+	}
+
+	public int getClassCount() {
+		return classCount;
+	}
+
+	public void setClassCount(int classCount) {
+		this.classCount = classCount;
 	}
 
 }

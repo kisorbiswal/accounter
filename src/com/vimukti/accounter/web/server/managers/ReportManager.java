@@ -18,6 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterClass;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Box;
 import com.vimukti.accounter.core.Budget;
@@ -36,6 +37,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -60,6 +62,7 @@ import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
+import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByClass;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
@@ -348,28 +351,12 @@ public class ReportManager extends Manager {
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
 		} else if (categoryType == 1) {
-			inerlist = session.getNamedQuery("getclassIDByTransactionItem")
-					.list();
-
-			l = session.getNamedQuery("getProfitAndLossByClass")
-					.setParameter("companyId", companyId)
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate()).list();
+			return getProfitAndLossByClass(companyId, startDate, endDate);
 		} else {
 			l = session.getNamedQuery("getProfitAndLossByJob")
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
-		}
-		if (categoryType == 1) {
-			Object[] object = null;
-			Iterator iterator = inerlist.iterator();
-			while (iterator.hasNext()) {
-				object = (Object[]) iterator.next();
-				long transactionId = ((Long) object[0]).longValue();
-				long classId = ((Long) object[1]).longValue();
-				inneequeryMap.put(transactionId, classId);
-			}
 		}
 		Object[] object = null;
 		Iterator iterator = l.iterator();
@@ -388,41 +375,21 @@ public class ReportManager extends Manager {
 						: (String) object[2]);
 				record.setAccountType(object[3] == null ? 0
 						: ((Integer) object[3]).intValue());
-				long transactionID = (object[6] == null ? 0
-						: ((Long) object[6]).longValue());
 				long location;
-				if (object[4] == null) {
-					location = inneequeryMap.get(transactionID);
-				} else {
-					location = object[4] == null ? 0 : ((Long) object[4])
-							.longValue();
-				}
+				location = object[4] == null ? 0 : ((Long) object[4])
+						.longValue();
 
 				double amount = object[5] == null ? 0 : (Double) object[5];
+
 				record.getMap().put(location, amount);
 
 				queryResult.add(record);
 			} else {
 				ProfitAndLossByLocation record = queryResult.get(queryResult
 						.size() - 1);
-				long transactionID = (object[6] == null ? 0
-						: ((Long) object[6]).longValue());
-				long location;
-
-				if (object[4] == null) {
-					location = inneequeryMap.get(transactionID);
-				} else {
-					location = object[4] == null ? 0 : ((Long) object[4])
-							.longValue();
-				}
+				long location = object[4] == null ? 0 : ((Long) object[4])
+						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
-
-				if (categoryType == 1) {
-					if (record.getMap().containsKey(location)) {
-						Double previousAmount = record.getMap().get(location);
-						amount += previousAmount;
-					}
-				}
 				/* + record.getMap().get(location) */;
 				record.getMap().get(location);
 				record.getMap().put(location, amount);
@@ -431,6 +398,222 @@ public class ReportManager extends Manager {
 		}
 
 		return new ArrayList<ProfitAndLossByLocation>(queryResult);
+	}
+
+	/**
+	 * 
+	 * @param companyId
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByClass(
+			long companyId, FinanceDate startDate, FinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		List l = session.getNamedQuery("getProfitAndLossByClass")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
+
+		Company company = getCompany(companyId);
+		Map<Long, Integer> map = new HashMap<Long, Integer>();
+		Map<String, Integer> map1 = new HashMap<String, Integer>();
+		int index = 1;
+		ArrayList<AccounterClass> accounterClasses = new ArrayList<AccounterClass>(
+				company.getAccounterClasses());
+		Collections.sort(accounterClasses, new Comparator<AccounterClass>() {
+			@Override
+			public int compare(AccounterClass o1, AccounterClass o2) {
+				int res = o1.getPath().compareTo(o2.getPath());
+				return true ? (-1 * res) : (res);
+			}
+		});
+
+		long previousparentID = 0;
+		for (AccounterClass clientAccounterClass : accounterClasses) {
+			String className = clientAccounterClass.getclassName();
+			if (previousparentID != 0
+					&& clientAccounterClass.getParent() != null
+					&& previousparentID != clientAccounterClass.getParent()
+							.getID()) {
+				map.put(clientAccounterClass.getID(), index);
+				index++;
+				map1.put(className, index);
+			} else {
+				map.put(clientAccounterClass.getID(), index);
+				if (clientAccounterClass.getParent() == null) {
+					index++;
+					map1.put(className, index);
+				}
+			}
+			previousparentID = clientAccounterClass.getParent() == null ? 0
+					: clientAccounterClass.getParent().getID();
+			index++;
+		}
+
+		long previousAccountID = 0;
+		double totalAmount = 0.0;
+		long previousRecordParent = 0;
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		List<ProfitAndLossByLocation> queryResult = new ArrayList<ProfitAndLossByLocation>();
+		while (iterator.hasNext()) {
+			object = (Object[]) iterator.next();
+			long accountId = ((Long) object[0]).longValue();
+			if (previousAccountID == 0 || previousAccountID != accountId) {
+				totalAmount = 0.0;
+				previousAccountID = accountId;
+				ProfitAndLossByLocation record = new ProfitAndLossByLocation();
+
+				long presentClassID = object[4] == null ? 0
+						: ((Long) object[4]).longValue();
+				long presentRecordParent = object[7] == null ? 0
+						: ((Long) object[7]).longValue();
+				double amount = object[5] == null ? 0 : (Double) object[5];
+				if (previousRecordParent == 0) {
+					previousRecordParent = presentRecordParent;
+					totalAmount += object[5] == null ? 0 : (Double) object[5];
+				} else {
+					if (previousRecordParent == presentRecordParent) {
+						totalAmount += object[5] == null ? 0
+								: (Double) object[5];
+					} else if (previousRecordParent == presentClassID) {
+						totalAmount += object[5] == null ? 0
+								: (Double) object[5];
+					} else {
+						totalAmount += object[5] == null ? 0
+								: (Double) object[5];
+						ProfitAndLossByClass profitAndLossByClass = new ProfitAndLossByClass();
+						profitAndLossByClass.setTotal(totalAmount);
+						profitAndLossByClass.setClassId(previousRecordParent);
+						AccounterClass previousAccounterClass = (AccounterClass) getServerObjectForid(
+								AccounterCoreType.ACCOUNTER_CLASS,
+								previousRecordParent);
+						profitAndLossByClass.setTotal(true);
+						if (map1.containsKey(previousAccounterClass
+								.getclassName())) {
+							profitAndLossByClass
+									.setIndex(map1.get(previousAccounterClass
+											.getclassName()));
+						} else {
+							profitAndLossByClass.setIndex(map
+									.get(previousRecordParent));
+						}
+						record.getRecords().add(profitAndLossByClass);
+						previousRecordParent = presentRecordParent;
+					}
+				}
+				record.setAccountId(accountId == 0 ? 0 : accountId);
+				record.setAccountName(object[1] == null ? null
+						: (String) object[1]);
+				record.setAccountNumber(object[2] == null ? null
+						: (String) object[2]);
+				record.setAccountType(object[3] == null ? 0
+						: ((Integer) object[3]).intValue());
+
+				ProfitAndLossByClass profitAndLossByClass = new ProfitAndLossByClass();
+				profitAndLossByClass.setTotal(amount);
+				profitAndLossByClass.setClassId(presentClassID);
+				profitAndLossByClass.setTotal(false);
+				profitAndLossByClass.setIndex(map.get(presentClassID));
+				record.getRecords().add(profitAndLossByClass);
+				AccounterClass previousAccounterClass = (AccounterClass) getServerObjectForid(
+						AccounterCoreType.ACCOUNTER_CLASS, presentClassID);
+				if (map1.containsKey(previousAccounterClass.getclassName())) {
+					ProfitAndLossByClass totalprofitAndLossByClass = new ProfitAndLossByClass();
+					totalprofitAndLossByClass.setTotal(totalAmount);
+					totalprofitAndLossByClass.setClassId(previousRecordParent);
+					totalprofitAndLossByClass.setTotal(true);
+					totalprofitAndLossByClass.setIndex(map1
+							.get(previousAccounterClass.getclassName()));
+					record.getRecords().add(totalprofitAndLossByClass);
+				}
+
+				queryResult.add(record);
+			} else {
+				ProfitAndLossByLocation record = queryResult.get(queryResult
+						.size() - 1);
+				long presentClassID = object[4] == null ? 0
+						: ((Long) object[4]).longValue();
+				long presentRecordParent = object[7] == null ? 0
+						: ((Long) object[7]).longValue();
+				if (previousRecordParent == 0) {
+					previousRecordParent = presentRecordParent;
+					totalAmount += object[5] == null ? 0 : (Double) object[5];
+				} else {
+					if (previousRecordParent == presentRecordParent) {
+						totalAmount += object[5] == null ? 0
+								: (Double) object[5];
+					} else if (previousRecordParent == presentClassID) {
+						totalAmount += object[5] == null ? 0
+								: (Double) object[5];
+					} else {
+						totalAmount += object[5] == null ? 0
+								: (Double) object[5];
+
+						ProfitAndLossByClass profitAndLossByClass = new ProfitAndLossByClass();
+						profitAndLossByClass.setTotal(totalAmount);
+						profitAndLossByClass.setClassId(previousRecordParent);
+						AccounterClass previousAccounterClass = (AccounterClass) getServerObjectForid(
+								AccounterCoreType.ACCOUNTER_CLASS,
+								previousRecordParent);
+						profitAndLossByClass.setTotal(true);
+						if (map1.containsKey(previousAccounterClass
+								.getclassName())) {
+							profitAndLossByClass
+									.setIndex(map1.get(previousAccounterClass
+											.getclassName()));
+						} else {
+							profitAndLossByClass.setIndex(map
+									.get(previousRecordParent));
+						}
+						record.getRecords().add(profitAndLossByClass);
+						previousRecordParent = presentRecordParent;
+					}
+				}
+				double amount = object[5] == null ? 0 : (Double) object[5];
+				List<ProfitAndLossByClass> records = getrecords(record,
+						presentClassID);
+				if (!records.isEmpty()) {
+					for (ProfitAndLossByClass profitAndLossByClass : records) {
+						double total = profitAndLossByClass.getTotal();
+						profitAndLossByClass.setTotal(amount + total);
+					}
+				} else {
+					ProfitAndLossByClass profitAndLossByClass1 = new ProfitAndLossByClass();
+					profitAndLossByClass1.setTotal(amount);
+					profitAndLossByClass1.setClassId(presentClassID);
+					profitAndLossByClass1.setTotal(false);
+					profitAndLossByClass1.setIndex(map.get(presentClassID));
+					record.getRecords().add(profitAndLossByClass1);
+					AccounterClass previousAccounterClass = (AccounterClass) getServerObjectForid(
+							AccounterCoreType.ACCOUNTER_CLASS, presentClassID);
+					if (map1.containsKey(previousAccounterClass.getclassName())) {
+						ProfitAndLossByClass profitAndLossByClass = new ProfitAndLossByClass();
+						profitAndLossByClass.setTotal(totalAmount);
+						profitAndLossByClass.setClassId(previousRecordParent);
+						profitAndLossByClass.setTotal(true);
+						profitAndLossByClass.setIndex(map1
+								.get(previousAccounterClass.getclassName()));
+						record.getRecords().add(profitAndLossByClass);
+					}
+				}
+				record.setCategoryId(presentClassID);
+			}
+			// totalAmount = 0.0;
+		}
+
+		return new ArrayList<ProfitAndLossByLocation>(queryResult);
+	}
+
+	private List<ProfitAndLossByClass> getrecords(
+			ProfitAndLossByLocation record, long presentClassID) {
+		List<ProfitAndLossByClass> lossByClasses = new ArrayList<ProfitAndLossByClass>();
+		for (ProfitAndLossByClass profitAndLossByClass : record.getRecords())
+			if (profitAndLossByClass.getClassId() == presentClassID) {
+				lossByClasses.add(profitAndLossByClass);
+			}
+		return lossByClasses;
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(

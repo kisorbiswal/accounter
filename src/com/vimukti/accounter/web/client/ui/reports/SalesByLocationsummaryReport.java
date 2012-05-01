@@ -17,9 +17,9 @@ public class SalesByLocationsummaryReport extends
 	public SalesByLocationsummaryReport(boolean isLocation, boolean isCustomer) {
 		this.isLocation = isLocation;
 		this.isCustomer = isCustomer;
-
 		this.serverReport = new SalesByLocationsummaryServerReport(this,
 				isLocation, isCustomer);
+		this.getElement().setId("SalesByLocationsummaryReport");
 	}
 
 	@Override

@@ -13,6 +13,16 @@ public class ClientAccounterClass implements IAccounterCore {
 
 	private int version;
 
+	private long parent;
+
+	private int depth;
+
+	private int parentCount;
+
+	private String path;
+
+	private String modifiedName;
+
 	@Override
 	public String getName() {
 		return getClassName();
@@ -68,5 +78,45 @@ public class ClientAccounterClass implements IAccounterCore {
 		ClientAccounterClass accounterClass = (ClientAccounterClass) obj;
 		return accounterClass.getID() == this.getID()
 				&& accounterClass.getClassName().equals(this.className);
+	}
+
+	public long getParent() {
+		return parent;
+	}
+
+	public void setParent(long parent) {
+		this.parent = parent;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	public int getParentCount() {
+		return parentCount;
+	}
+
+	public void setParentCount(int parentCount) {
+		this.parentCount = parentCount;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getModifiedName() {
+		return modifiedName;
+	}
+
+	public void setModifiedName(String modifiedName) {
+		this.modifiedName = modifiedName;
 	}
 }

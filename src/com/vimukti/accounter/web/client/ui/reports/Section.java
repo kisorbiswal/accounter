@@ -70,7 +70,10 @@ public class Section<R> {
 	}
 
 	public void startSection() {
+		startSection(0);
+	}
 
+	public void startSection(int depth) {
 		if (handler != null) {
 			handler.OnSectionAdd(this);
 		}
@@ -79,10 +82,11 @@ public class Section<R> {
 		}
 		if (isTitleEmpty())
 			if (financeReport != null) {
-				financeReport.addRow(null, 0, titles, true, false, false);
+				financeReport.addRow(null, depth, titles, true, false, false);
 			} else {
-				reportGrid.addRow(null, 0, titles, true, false, false);
+				reportGrid.addRow(null, depth, titles, true, false, false);
 			}
+
 	}
 
 	public void update(Object[] values) {

@@ -1,37 +1,49 @@
 package com.vimukti.accounter.web.client.core.reports;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
 public class SalesByLocationDetails extends BaseReport implements
 		IsSerializable, Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	ClientFinanceDate dateOfCreation;
-	
+
 	private int type;
-	
+
 	private String number;
-	
+
 	private String prouductOrService;
-	
+
 	private String memoOrDescription;
-	
+
 	private long qty;
-	
+
 	private long rate;
-	
+
 	private double amount;
-	
+
 	private double balance;
-	
+
 	private String account;
-	
+
 	private long transactionid;
-	
+
+	private long parent;
+
+	private long classId;
+
+	private List<String> parents;
+
+	private int depth;
+
+	private Map<String, Integer> depthsByName;
+
 	public long getTransactionid() {
 		return transactionid;
 	}
@@ -49,7 +61,7 @@ public class SalesByLocationDetails extends BaseReport implements
 	}
 
 	private long date;
-	
+
 	public long getDate() {
 		return date;
 	}
@@ -59,7 +71,7 @@ public class SalesByLocationDetails extends BaseReport implements
 	}
 
 	private String locationName;
-	
+
 	public String getLocationName() {
 		return locationName;
 	}
@@ -143,5 +155,45 @@ public class SalesByLocationDetails extends BaseReport implements
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public long getParent() {
+		return parent;
+	}
+
+	public void setParent(long parent) {
+		this.parent = parent;
+	}
+
+	public long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(long classId) {
+		this.classId = classId;
+	}
+
+	public List<String> getParents() {
+		return parents;
+	}
+
+	public void setParents(List<String> parents) {
+		this.parents = parents;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	public Map<String, Integer> getDepthsByName() {
+		return depthsByName;
+	}
+
+	public void setDepthsByName(Map<String, Integer> depthsByName) {
+		this.depthsByName = depthsByName;
+	}
+
 }

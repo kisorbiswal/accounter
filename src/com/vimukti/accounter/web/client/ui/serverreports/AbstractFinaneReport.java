@@ -253,9 +253,14 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public void addSection(String[] sectionTitles, String[] footerTitles,
 			int[] sumColumns) {
+		addSection(sectionTitles, footerTitles, sumColumns, 0);
+	}
+
+	public void addSection(String[] sectionTitles, String[] footerTitles,
+			int[] sumColumns, int depth) {
 		Section<R> s = new Section<R>(sectionTitles, footerTitles, sumColumns,
 				columns.length, this);
-		s.startSection();
+		s.startSection(depth);
 		sections.add(s);
 		sectionDepth++;
 	}

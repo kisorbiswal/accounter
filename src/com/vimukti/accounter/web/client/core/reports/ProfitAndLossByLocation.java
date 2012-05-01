@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.core.reports;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -17,6 +19,7 @@ public class ProfitAndLossByLocation extends BaseReport implements
 	private String accountNumber;
 	private Map<Long, Double> map = new HashMap<Long, Double>();
 	private long categoryId;
+	private List<ProfitAndLossByClass> records = new ArrayList<ProfitAndLossByClass>();
 
 	public long getAccountId() {
 		return accountId;
@@ -72,5 +75,13 @@ public class ProfitAndLossByLocation extends BaseReport implements
 
 	public void setCategoryId(long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public List<ProfitAndLossByClass> getRecords() {
+		return records;
+	}
+
+	public void setRecords(List<ProfitAndLossByClass> records) {
+		this.records = records;
 	}
 }
