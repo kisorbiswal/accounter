@@ -10,9 +10,15 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
-	public ChalanDetailsListGrid() {
+	private boolean fromTransactionCenter;
+
+	public ChalanDetailsListGrid(boolean fromTransactionCenter) {
 		super(false, true);
 		this.getElement().setId("ChalanDetailsListGrid");
+		this.fromTransactionCenter = fromTransactionCenter;
+		if (fromTransactionCenter) {
+			this.setWidth("745px");
+		}
 	}
 
 	public void initWithItems(List<ClientTDSChalanDetail> allItems) {
@@ -116,18 +122,32 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected int getCellWidth(int index) {
+
 		if (index == 0)
 			return 105;
-		if (index == 1)
-			return 173;
+		if (index == 1) {
+			if (fromTransactionCenter) {
+				return 100;
+			} else {
+				return 173;
+			}
+		}
 		if (index == 2)
 			return 128;
 		if (index == 3)
 			return 138;
-		if (index == 4)
+		if (index == 4) {
+			if (fromTransactionCenter) {
+				return 120;
+			}
 			return 170;
-		if (index == 5)
+		}
+		if (index == 5) {
+			if (fromTransactionCenter) {
+				return 100;
+			}
 			return 163;
+		}
 		if (index == 6) {
 			return 15;
 		}

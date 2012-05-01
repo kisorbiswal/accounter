@@ -9,6 +9,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CustomerRefund;
@@ -18,6 +19,7 @@ import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.StockTransfer;
+import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
@@ -25,12 +27,14 @@ import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -883,5 +887,58 @@ public class InventoryManager extends Manager {
 		}
 
 		return queryResult;
+	}
+
+	public PaginationList<ClientBuildAssembly> getBuildAssembly(long companyId,
+			long startDate, long endDate, int start, int length, int viewId) {
+		int total = 0;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			List<Object[]> list = null;
+			list = session.getNamedQuery("list.buildAssemblies")
+					.setParameter("companyId", companyId)
+					.setParameter("startdate", startDate)
+					.setParameter("enddate", endDate)
+					.setParameter("viewId", viewId).list();
+			PaginationList<ClientBuildAssembly> paginationList = new PaginationList<ClientBuildAssembly>();
+			Iterator i = list.iterator();
+			while ((i).hasNext()) {
+				Object object = i.next();
+				if (object == null) {
+					continue;
+				}
+				long buildAssemblyId = (Long) object;
+				BuildAssembly buildAssembly = (BuildAssembly) session.get(
+						BuildAssembly.class, buildAssemblyId);
+				ClientBuildAssembly clientBuildAssembly;
+				try {
+					clientBuildAssembly = new ClientConvertUtil()
+							.toClientObject(buildAssembly,
+									ClientBuildAssembly.class);
+					paginationList.add(clientBuildAssembly);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+
+			}
+			total = paginationList.size();
+			PaginationList<ClientBuildAssembly> result = new PaginationList<ClientBuildAssembly>();
+			if (length < 0) {
+				result.addAll(paginationList);
+			} else {
+				int toIndex = start + length;
+				if (toIndex > paginationList.size()) {
+					toIndex = paginationList.size();
+				}
+				result.addAll(paginationList.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new PaginationList<ClientBuildAssembly>();
+
 	}
 }

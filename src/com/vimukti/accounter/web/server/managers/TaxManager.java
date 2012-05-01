@@ -19,8 +19,10 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -37,6 +39,8 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
@@ -1353,6 +1357,159 @@ public class TaxManager extends Manager {
 			e.printStackTrace();
 		}
 		return new PaginationList<ClientTAXAdjustment>();
+
+	}
+
+	public PaginationList<ClientTAXReturn> getTaxReturns(long companyId,
+			long startDate, long endDate, int start, int length, int viewId) {
+		int total = 0;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			List<Object[]> list = session.getNamedQuery("list.file.tax")
+					.setParameter("companyId", companyId)
+					.setParameter("startdate", startDate)
+					.setParameter("enddate", endDate)
+					.setParameter("viewId", viewId).list();
+			PaginationList<ClientTAXReturn> paginationList = new PaginationList<ClientTAXReturn>();
+			Iterator i = list.iterator();
+			while ((i).hasNext()) {
+				Object object = i.next();
+				if (object == null) {
+					continue;
+				}
+				long taxId = (Long) object;
+				TAXReturn taxReturn = (TAXReturn) session.get(TAXReturn.class,
+						taxId);
+				ClientTAXReturn clientTAXReturn;
+				try {
+					clientTAXReturn = new ClientConvertUtil().toClientObject(
+							taxReturn, ClientTAXReturn.class);
+					paginationList.add(clientTAXReturn);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+
+			}
+			total = paginationList.size();
+			PaginationList<ClientTAXReturn> result = new PaginationList<ClientTAXReturn>();
+			if (length < 0) {
+				result.addAll(paginationList);
+			} else {
+				int toIndex = start + length;
+				if (toIndex > paginationList.size()) {
+					toIndex = paginationList.size();
+				}
+				result.addAll(paginationList.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new PaginationList<ClientTAXReturn>();
+
+	}
+
+	public PaginationList<ClientReceiveVAT> getTaxRefunds(long companyId,
+			long startDate, long endDate, int start, int length, int viewId) {
+		int total = 0;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			List<Object[]> list = session.getNamedQuery("list.receive.tax")
+					.setParameter("companyId", companyId)
+					.setParameter("startdate", startDate)
+					.setParameter("enddate", endDate)
+					.setParameter("viewId", viewId).list();
+			PaginationList<ClientReceiveVAT> paginationList = new PaginationList<ClientReceiveVAT>();
+			Iterator i = list.iterator();
+			while ((i).hasNext()) {
+				Object object = i.next();
+				if (object == null) {
+					continue;
+				}
+				long taxId = (Long) object;
+				ReceiveVAT receiveVAT = (ReceiveVAT) session.get(
+						ReceiveVAT.class, taxId);
+				ClientReceiveVAT clientReceiveVAT;
+				try {
+					clientReceiveVAT = new ClientConvertUtil().toClientObject(
+							receiveVAT, ClientReceiveVAT.class);
+					paginationList.add(clientReceiveVAT);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+
+			}
+			total = paginationList.size();
+			PaginationList<ClientReceiveVAT> result = new PaginationList<ClientReceiveVAT>();
+			if (length < 0) {
+				result.addAll(paginationList);
+			} else {
+				int toIndex = start + length;
+				if (toIndex > paginationList.size()) {
+					toIndex = paginationList.size();
+				}
+				result.addAll(paginationList.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new PaginationList<ClientReceiveVAT>();
+
+	}
+
+	public PaginationList<ClientPayTAX> getPayTaxList(long companyId,
+			long startDate, long endDate, int start, int length, int viewId) {
+		int total = 0;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			List<Object[]> list = session.getNamedQuery("list.pay.tax")
+					.setParameter("companyId", companyId)
+					.setParameter("startdate", startDate)
+					.setParameter("enddate", endDate)
+					.setParameter("viewId", viewId).list();
+
+			PaginationList<ClientPayTAX> paginationList = new PaginationList<ClientPayTAX>();
+			Iterator i = list.iterator();
+			while ((i).hasNext()) {
+				Object object = i.next();
+				if (object == null) {
+					continue;
+				}
+				long taxId = (Long) object;
+				PayTAX payTAX = (PayTAX) session.get(PayTAX.class, taxId);
+				ClientPayTAX clientPayTAX;
+				try {
+					clientPayTAX = new ClientConvertUtil().toClientObject(
+							payTAX, ClientPayTAX.class);
+					paginationList.add(clientPayTAX);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+
+			}
+			total = paginationList.size();
+			PaginationList<ClientPayTAX> result = new PaginationList<ClientPayTAX>();
+			if (length < 0) {
+				result.addAll(paginationList);
+			} else {
+				int toIndex = start + length;
+				if (toIndex > paginationList.size()) {
+					toIndex = paginationList.size();
+				}
+				result.addAll(paginationList.subList(start, toIndex));
+			}
+			result.setTotalCount(total);
+			result.setStart(start);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new PaginationList<ClientPayTAX>();
 
 	}
 }

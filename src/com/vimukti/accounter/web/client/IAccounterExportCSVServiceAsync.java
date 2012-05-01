@@ -109,4 +109,16 @@ public interface IAccounterExportCSVServiceAsync {
 	public void getPayRunExportCsv(long startDate, long endDate, int type,
 			AsyncCallback<String> exportCSVCallback);
 
+	public void getFileTaxesExportCsv(long startDate, long endDate, int type,
+			AsyncCallback<String> exportCSVCallback);
+
+	public void getTaxRefundsExportCsv(long startDate, long endDate,
+			int viewId, AsyncCallback<String> exportCSVCallback);
+
+	public void getPayTaxesExportCsv(long startDate, long endDate, int viewId,
+			AsyncCallback<String> exportCSVCallback);
+
+	public void getBuildAssembliesExportCsv(long startDate, long endDate,
+			int viewId, AsyncCallback<String> exportCSVCallback);
+
 }

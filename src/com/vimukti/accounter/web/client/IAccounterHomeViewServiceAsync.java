@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -33,10 +34,12 @@ import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
+import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -608,4 +611,20 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPayRunsList(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int start, int length, int type,
 			AsyncCallback<PaginationList<PaymentsList>> callBack);
+
+	void getTaxReturnList(long startDate, long endDate, int start, int length,
+			int viewId, AsyncCallback<PaginationList<ClientTAXReturn>> callback);
+
+	void getBuildAssembliesList(long startDate, long endDate, int start,
+			int length, int viewId,
+			AsyncCallback<PaginationList<ClientBuildAssembly>> callback);
+
+	public void getPayTaxList(long startDate, long endDate, int start,
+			int length, int viewId,
+			AsyncCallback<PaginationList<ClientPayTAX>> callback);
+
+	public void getTaxRefundsList(long startDate, long endDate, int start,
+			int length, int viewId,
+			AsyncCallback<PaginationList<ClientReceiveVAT>> callback);
+
 }

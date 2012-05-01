@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -69,10 +70,12 @@ import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
+import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
+import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -2475,4 +2478,74 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return payruns;
 	}
 
+	public PaginationList<ClientTAXReturn> getTaxReturnList(long startDate,
+			long endDate, int start, int length, int viewId) {
+		PaginationList<ClientTAXReturn> taxReturns = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			taxReturns = getFinanceTool().getTaxManager().getTaxReturns(
+					getCompanyId(), dates[0].getDate(), dates[1].getDate(),
+					start, length, viewId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return taxReturns;
+	}
+
+	@Override
+	public PaginationList<ClientBuildAssembly> getBuildAssembliesList(
+			long startDate, long endDate, int start, int viewId, int length) {
+		PaginationList<ClientBuildAssembly> buildAssemblies = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			buildAssemblies = getFinanceTool().getInventoryManager()
+					.getBuildAssembly(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), start, viewId, length);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return buildAssemblies;
+	}
+
+	@Override
+	public PaginationList<ClientPayTAX> getPayTaxList(long startDate,
+			long endDate, int viewId, int start, int length) {
+		PaginationList<ClientPayTAX> payTAXs = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			payTAXs = getFinanceTool().getTaxManager().getPayTaxList(
+					getCompanyId(), dates[0].getDate(), dates[1].getDate(),
+					start, length, viewId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return payTAXs;
+	}
+
+	@Override
+	public PaginationList<ClientReceiveVAT> getTaxRefundsList(long startDate,
+			long endDate, int start, int length, int viewId) {
+		PaginationList<ClientReceiveVAT> receiveVATs = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			receiveVATs = getFinanceTool().getTaxManager().getTaxRefunds(
+					getCompanyId(), dates[0].getDate(), dates[1].getDate(),
+					start, length, viewId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return receiveVATs;
+	}
 }

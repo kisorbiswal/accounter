@@ -8,16 +8,19 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ChalanDetailsListGrid;
 
-public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
+public class ChalanDetailsListView extends
+		TransactionsListView<ClientTDSChalanDetail> {
 
 	private ArrayList<ClientTDSChalanDetail> listOfCHalans;
+	private boolean fromTransactionCenter;
 
-	public ChalanDetailsListView() {
+	public ChalanDetailsListView(boolean fromTransactionCenter) {
 		this.getElement().setId("ChalanDetailsListView");
+		this.fromTransactionCenter = fromTransactionCenter;
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 
 	@Override
 	protected void initGrid() {
-		grid = new ChalanDetailsListGrid();
+		grid = new ChalanDetailsListGrid(fromTransactionCenter);
 		grid.init();
 	}
 

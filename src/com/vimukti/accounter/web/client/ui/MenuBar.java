@@ -345,7 +345,7 @@ public class MenuBar {
 				HistoryTokens.TAXAGENCYLIST);
 		if (countryOrRegion.equals(Countries.INDIA)) {
 			if (tdsEnabled) {
-				vatmenu.addMenuItem("Chalan Details List",
+				vatmenu.addMenuItem(messages.challanDetails(),
 						HistoryTokens.CHALANDETAILSLIST);
 			}
 		}

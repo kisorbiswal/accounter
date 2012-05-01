@@ -1337,7 +1337,7 @@ public abstract class Transaction extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					message);
 		} else {
-			if (!customer.isActive) {
+			if (!customer.isActive()) {
 				throw new AccounterException(
 						AccounterException.ERROR_ACTIVE_CUSTOMER);
 			}
@@ -1357,7 +1357,7 @@ public abstract class Transaction extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					message);
 		} else {
-			if (!account.isActive) {
+			if (!account.getIsActive()) {
 				throw new AccounterException(
 						AccounterException.ERROR_ACTIVE_ACCOUNT);
 			}
@@ -1397,7 +1397,7 @@ public abstract class Transaction extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					message);
 		} else {
-			if (!vendor.isActive) {
+			if (!vendor.isActive()) {
 				throw new AccounterException(
 						AccounterException.ERROR_ACTIVE_VENDOR);
 			}

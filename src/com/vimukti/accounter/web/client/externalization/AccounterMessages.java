@@ -6580,4 +6580,13 @@ public interface AccounterMessages extends Messages {
 
 	public String noOfWorkingDays();
 
+	public String buildQuantity();
+
+	public String buildAssemblies();
+
+	public String fileTAXList();
+
+	public String payTAXList();
+
+	public String TaxRefundList();
 }
