@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
-public class TaxAgenciesPeocessor extends ListProcessor {
+public class TaxAgenciesProcessor extends ListProcessor {
 
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
