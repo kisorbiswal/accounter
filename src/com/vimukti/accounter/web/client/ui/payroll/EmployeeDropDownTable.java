@@ -56,7 +56,7 @@ public class EmployeeDropDownTable extends
 	}
 
 	private void initList() {
-		Accounter.createPayrollService().getEmployees(0, 0,
+		Accounter.createPayrollService().getEmployees(true, 0, 0,
 				new AsyncCallback<PaginationList<ClientEmployee>>() {
 
 					@Override

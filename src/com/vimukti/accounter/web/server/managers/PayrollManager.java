@@ -51,12 +51,13 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class PayrollManager extends Manager {
 
-	public PaginationList<ClientEmployee> getEmployees(int start, int lenght,
-			Long companyId) throws AccounterException {
+	public PaginationList<ClientEmployee> getEmployees(boolean isActive,
+			int start, int lenght, Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery("list.All.Employees").setEntity(
-				"company", company);
+		Query query = session.getNamedQuery("list.All.Employees")
+				.setParameter("isActive", isActive)
+				.setEntity("company", company);
 		List<Employee> employees = query.list();
 		if (employees == null) {
 			return null;
@@ -340,7 +341,7 @@ public class PayrollManager extends Manager {
 	public List<ClientPayStructureDestination> getEmployeesAndGroups(
 			Long companyId) throws AccounterException {
 		ArrayList<ClientPayStructureDestination> arrayList = new ArrayList<ClientPayStructureDestination>();
-		PaginationList<ClientEmployee> employees = getEmployees(0, -1,
+		PaginationList<ClientEmployee> employees = getEmployees(true, 0, -1,
 				companyId);
 		arrayList.addAll(employees);
 		ArrayList<ClientEmployeeGroup> employeeGroups = getEmployeeGroups(companyId);

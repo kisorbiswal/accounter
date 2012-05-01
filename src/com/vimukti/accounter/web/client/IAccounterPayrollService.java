@@ -22,8 +22,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public interface IAccounterPayrollService extends RemoteService {
 
-	public PaginationList<ClientEmployee> getEmployees(int start, int lenght)
-			throws AccounterException;
+	public PaginationList<ClientEmployee> getEmployees(boolean isActive,
+			int start, int lenght) throws AccounterException;
 
 	public PaginationList<ClientPayHead> getPayheads(int start, int length)
 			throws AccounterException;

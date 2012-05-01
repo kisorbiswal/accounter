@@ -20,7 +20,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 	private void getEmployees() {
 		isItemsAdded = false;
-		Accounter.createPayrollService().getEmployees(0, -1,
+		Accounter.createPayrollService().getEmployees(true, 0, -1,
 				new AsyncCallback<PaginationList<ClientEmployee>>() {
 
 					@Override

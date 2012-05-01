@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 
 public interface IAccounterPayrollServiceAsync {
 
-	public void getEmployees(int start, int length,
+	public void getEmployees(boolean isActive, int start, int length,
 			AsyncCallback<PaginationList<ClientEmployee>> callBack);
 
 	public void getPayheads(int start, int length,

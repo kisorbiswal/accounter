@@ -46,6 +46,23 @@ public class EmployeeListGrid extends BaseListGrid<ClientEmployee> {
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 120;
+		case 2:
+			return 170;
+		case 3:
+			return 170;
+		case 4:
+			return 50;
+		default:
+			return -1;
+		}
+
+	}
+
+	@Override
 	public void onDoubleClick(ClientEmployee emp) {
 		ReportsRPC.openTransactionView(IAccounterCore.EMPLOYEE, emp.getID());
 	}

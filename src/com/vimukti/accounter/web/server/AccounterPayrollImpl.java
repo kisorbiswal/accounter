@@ -35,10 +35,10 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public PaginationList<ClientEmployee> getEmployees(int start, int lenght)
-			throws AccounterException {
+	public PaginationList<ClientEmployee> getEmployees(boolean isActive,
+			int start, int lenght) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
-		return tool.getPayrollManager().getEmployees(start, lenght,
+		return tool.getPayrollManager().getEmployees(isActive, start, lenght,
 				getCompanyId());
 	}
 

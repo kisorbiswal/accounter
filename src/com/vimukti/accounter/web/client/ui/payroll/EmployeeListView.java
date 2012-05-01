@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
@@ -14,9 +16,11 @@ import com.vimukti.accounter.web.client.ui.core.BaseListView;
 
 public class EmployeeListView extends BaseListView<ClientEmployee> {
 
+	private PaginationList<ClientEmployee> listOfemployees;
+
 	public EmployeeListView() {
 		this.getElement().setId("EmployeeListView");
-		isViewSelectRequired = false;
+		isViewSelectRequired = true;
 	}
 
 	@Override
@@ -35,12 +39,14 @@ public class EmployeeListView extends BaseListView<ClientEmployee> {
 
 	@Override
 	protected void filterList(boolean isActive) {
+		this.isActive = isActive;
 		onPageChange(0, getPageSize());
 	}
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		Accounter.createPayrollService().getEmployees(start, length, this);
+		Accounter.createPayrollService().getEmployees(isActive, start, length,
+				this);
 	}
 
 	@Override
@@ -52,6 +58,7 @@ public class EmployeeListView extends BaseListView<ClientEmployee> {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}
+		listOfemployees = result;
 		grid.sort(10, false);
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);
@@ -127,6 +134,20 @@ public class EmployeeListView extends BaseListView<ClientEmployee> {
 	public void updateInGrid(ClientEmployee objectTobeModified) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean filterBeforeShow() {
+		return true;
+	}
+
+	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> selectTypes = new ArrayList<String>();
+		selectTypes.add(messages.active());
+		selectTypes.add(messages.inActive());
+		viewSelect.setComboItem(messages.active());
+		return selectTypes;
 	}
 
 }
