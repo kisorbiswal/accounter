@@ -490,4 +490,12 @@ public class BaseServlet extends HttpServlet {
 			}
 		}
 	}
+
+	protected Long getLong(String value) {
+		try {
+			return Long.parseLong(value);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 }

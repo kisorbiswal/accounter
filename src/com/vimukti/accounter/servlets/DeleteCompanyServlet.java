@@ -48,7 +48,7 @@ public class DeleteCompanyServlet extends BaseServlet {
 
 		String companyId = req.getParameter(COMPANY_ID);
 		if (companyId == null || companyId.isEmpty()
-				|| Long.getLong(companyId) == null) {
+				|| getLong(companyId) == null) {
 			redirectExternal(req, resp, LOGIN_URL);
 			return;
 		}
