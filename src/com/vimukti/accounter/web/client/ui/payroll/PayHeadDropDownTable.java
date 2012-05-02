@@ -75,12 +75,12 @@ public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
 	@Override
 	protected void addNewItem(String text) {
-		NewPayHeadAction action;
-		action = ActionFactory.getNewPayHeadAction();
+		NewPayHeadAction action = ActionFactory.getNewPayHeadAction();
 		action.setCallback(new ActionCallback<ClientPayHead>() {
 
 			@Override
 			public void actionResult(ClientPayHead result) {
+				list.add(result);
 				selectRow(result);
 
 			}
