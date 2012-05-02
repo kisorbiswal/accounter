@@ -314,9 +314,10 @@ public class ReceiveVATView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setEnabled(true);
-				checkNoText.setEnabled(true);
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())
+					|| paymentMethod.equalsIgnoreCase(messages.check())) {
+				printCheck.setEnabled(!isInViewMode());
+				checkNoText.setEnabled(!isInViewMode());
 			} else {
 				// paymentMethodCombo.setComboItem(paymentMethod);
 				printCheck.setEnabled(false);
@@ -457,13 +458,7 @@ public class ReceiveVATView extends
 		endingBalanceText.setAmount(transaction.getEndingBalance());
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 
-		if (transaction.getPaymentMethod().equals(messages.check())) {
-			printCheck.setEnabled(!isInViewMode());
-			checkNoText.setEnabled(!isInViewMode());
-		} else {
-			printCheck.setEnabled(false);
-			checkNoText.setEnabled(false);
-		}
+		paymentMethodSelected(transaction.getPaymentMethod());
 
 		if (transaction.getCheckNumber() != null) {
 			if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
@@ -691,11 +686,14 @@ public class ReceiveVATView extends
 		}
 		transaction.setDepositIn(accountId);
 		transaction.setPaymentMethod(paymentMethod);
-		if (checkNoText.getValue() != null
-				&& !checkNoText.getValue().equals("")) {
+		if ((paymentMethod.equalsIgnoreCase(messages.cheque()) || paymentMethod
+				.equalsIgnoreCase(messages.check()))
+				&& checkNoText.getValue() != null
+				&& !checkNoText.getValue().trim().isEmpty()) {
 			transaction.setCheckNumber(getCheckValue());
-		} else
+		} else {
 			transaction.setCheckNumber("");
+		}
 
 		// transaction.setIsToBePrinted(isChecked);
 

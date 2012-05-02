@@ -5,9 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -47,32 +45,14 @@ public class PayTaxListGrid extends BaseListGrid<ClientPayTAX> {
 
 	@Override
 	protected void executeDelete(final ClientPayTAX object) {
-		Accounter.showWarning(messages.doyouwanttoDeleteObj(messages.payTax()),
-				AccounterType.WARNING, new ErrorDialogHandler() {
-
-					@Override
-					public boolean onYesClick() {
-						PayTaxListGrid.this.deleteRecord(object);
-						Accounter.deleteObject(PayTaxListGrid.this, object);
-						return true;
-					}
-
-					@Override
-					public boolean onNoClick() {
-						return true;
-					}
-
-					@Override
-					public boolean onCancelClick() {
-						return false;
-					}
-				});
+		Accounter.deleteObject(this, object);
 	}
 
 	@Override
 	protected void onClick(ClientPayTAX obj, int row, int col) {
-		ReportsRPC.openTransactionView(ClientTransaction.TYPE_PAY_TAX,
-				obj.getID());
+		if (col == 5) {
+			showWarnDialog(obj);
+		}
 	}
 
 	@Override
@@ -99,8 +79,8 @@ public class PayTaxListGrid extends BaseListGrid<ClientPayTAX> {
 
 	@Override
 	public void onDoubleClick(ClientPayTAX obj) {
-		// TODO Auto-generated method stub
-
+		ReportsRPC.openTransactionView(ClientTransaction.TYPE_PAY_TAX,
+				obj.getID());
 	}
 
 	@Override

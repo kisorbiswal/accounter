@@ -614,11 +614,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		transaction.setPaymentMethod(paymentMethod);
 
-		if (checkNoText.getValue() != null
-				&& !checkNoText.getValue().equals("")) {
+		if ((paymentMethod.equalsIgnoreCase(messages.cheque()) || paymentMethod
+				.equalsIgnoreCase(messages.check()))
+				&& checkNoText.getValue() != null
+				&& !checkNoText.getValue().trim().isEmpty()) {
 			transaction.setCheckNumber(getCheckValue());
-		} else
+		} else {
 			transaction.setCheckNumber("");
+		}
 
 		// transaction.setIsToBePrinted(isChecked);
 		if (isTrackClass() && classListCombo.getSelectedValue() != null) {

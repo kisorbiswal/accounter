@@ -1,10 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -26,34 +23,18 @@ public class AttendanceOrProductionTypeListGrid extends
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { messages.name(), messages.type(),
-				messages.period(), messages.delete() };
+		return new String[] { "name-value", "type-value", "period-value",
+				"delete-value" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { messages.name(), messages.type(),
-				messages.period(), messages.delete() };
+		return new String[] { "name", "type", "period", "delete" };
 	}
 
 	@Override
 	protected void executeDelete(final ClientAttendanceOrProductionType object) {
-		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-
-			}
-
-			@Override
-			public void onResultSuccess(Boolean result) {
-				if (result) {
-					deleteRecord(object);
-				}
-			}
-		};
-		rpcDoSerivce.delete(AccounterCoreType.ATTENDANCE_PRODUCTION_TYPE,
-				object.getID(), callback);
+		Accounter.deleteObject(this, object);
 	}
 
 	@Override
