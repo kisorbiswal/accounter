@@ -169,11 +169,10 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public void selfValidate() throws AccounterException {
-		super.selfValidate();
 		if (inventoryAssembly == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().assemblyItem());
-		} else if (!inventoryAssembly.isActive) {
+		} else if (!inventoryAssembly.isActive()) {
 			throw new AccounterException(AccounterException.ERROR_ACTIVE_ITEM,
 					Global.get().messages().assemblyItem());
 		}

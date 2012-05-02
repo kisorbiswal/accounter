@@ -255,7 +255,7 @@ public class TransactionExpense implements IAccounterServerCore, Lifecycle {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().transactionItem());
 		} else if (this.item == null) {
-			if (!item.isActive) {
+			if (!item.isActive()) {
 				throw new AccounterException(
 						AccounterException.ERROR_ACTIVE_ITEM, Global
 								.get()
