@@ -498,7 +498,7 @@ public class CustomerRefundView extends
 			if (isTrackClass())
 				classListCombo.setComboItem(getCompany().getAccounterClass(
 						transaction.getAccounterClass()));
-			memoTextAreaItem.setEnabled(!true);
+			memoTextAreaItem.setEnabled(!isInViewMode());
 			memoTextAreaItem.setValue(transaction.getMemo());
 
 			if (getPreferences().isJobTrackingEnabled()) {
