@@ -1,5 +1,9 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.NumberReportInput;
@@ -88,4 +92,117 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 				new NumberReportInput(employeeId));
 	}
 
+	@Override
+	protected void makeDetailLayout(FlowPanel detailPanel) {
+		EmployeeReportToolbar employeeToolBar = (EmployeeReportToolbar) this.toolbar;
+		ClientEmployee selectedEmployee = employeeToolBar.getSelectedEmployee();
+		if (selectedEmployee != null && selectedEmployee.getID() != 0) {
+			FlowPanel leftPanel = new FlowPanel();
+			FlowPanel rightPanel = new FlowPanel();
+			leftPanel.add(new Label(messages.name() + " : "
+					+ selectedEmployee.getName()));
+
+			if (selectedEmployee.getGender() > 0) {
+				leftPanel.add(new Label(messages.gender() + " : "
+						+ getGenderString(selectedEmployee.getGender())));
+			}
+
+			if (selectedEmployee.getContactNumber() != null
+					&& !selectedEmployee.getContactNumber().isEmpty()) {
+				leftPanel.add(new Label(messages.contactNumber() + " : "
+						+ selectedEmployee.getContactNumber()));
+			}
+
+			if (selectedEmployee.getEmail() != null) {
+				leftPanel.add(new Label(messages.email() + " : "
+						+ selectedEmployee.getEmail()));
+			}
+			ClientAddress address = selectedEmployee.getAddress();
+			if (address != null) {
+				leftPanel.add(new Label(messages.address() + " : "
+						+ getAddressAsString(address)));
+			}
+
+			if (selectedEmployee.getPanNumber() != null
+					&& !selectedEmployee.getPanNumber().trim().isEmpty()) {
+				rightPanel.add(new Label(messages.panOrEinNumber() + " : "
+						+ selectedEmployee.getPanNumber()));
+			}
+
+			if (selectedEmployee.getBankAccountNumber() != null
+					&& !selectedEmployee.getBankAccountNumber().trim()
+							.isEmpty()) {
+				rightPanel.add(new Label(messages.bankAccountNumber() + " : "
+						+ selectedEmployee.getBankAccountNumber()));
+			}
+
+			if (selectedEmployee.getBankName() != null
+					&& !selectedEmployee.getBankName().trim().isEmpty()) {
+				rightPanel.add(new Label(messages.bankName() + " : "
+						+ selectedEmployee.getBankName()));
+			}
+
+			if (selectedEmployee.getPassportNumber() != null
+					&& !selectedEmployee.getPassportNumber().trim().isEmpty()) {
+				rightPanel.add(new Label(messages.passportNumber() + " : "
+						+ selectedEmployee.getPassportNumber()));
+			}
+
+			if (selectedEmployee.getCountryOfIssue() != null
+					&& !selectedEmployee.getCountryOfIssue().trim().isEmpty()) {
+				rightPanel.add(new Label(messages.countryOfIssue() + " : "
+						+ selectedEmployee.getCountryOfIssue()));
+			}
+
+			if (selectedEmployee.getVisaNumber() != null
+					&& !selectedEmployee.getVisaNumber().trim().isEmpty()) {
+				rightPanel.add(new Label(messages.visaNumber() + " : "
+						+ selectedEmployee.getVisaNumber()));
+			}
+
+			leftPanel.addStyleName("left_employee_details_panel");
+			rightPanel.addStyleName("right_employee_details_panel");
+			detailPanel.add(leftPanel);
+			detailPanel.add(rightPanel);
+			detailPanel.addStyleName("employee_details_panel");
+		}
+	}
+
+	private String getGenderString(int gender) {
+		switch (gender) {
+		case 1:
+			return messages.unspecified();
+		case 2:
+			return messages.male();
+		case 3:
+			return messages.female();
+		default:
+			break;
+		}
+		return "";
+	}
+
+	private String getAddressAsString(ClientAddress clientAddress) {
+		final StringBuffer information = new StringBuffer();
+		String address1 = clientAddress.getAddress1();
+		if (address1 != null && !address1.equals(""))
+			information.append(address1);
+		String street = clientAddress.getStreet();
+		if (street != null && !street.equals(""))
+			information.append(", ").append(street);
+		String city = clientAddress.getCity();
+		if (city != null && !city.equals(""))
+			information.append(", ").append(city);
+		String state = clientAddress.getStateOrProvinence();
+		if (state != null && !state.equals(""))
+			information.append(", ").append(state);
+		String zip = clientAddress.getZipOrPostalCode();
+		if (zip != null && !zip.equals(""))
+			information.append(", ").append(zip);
+		String country = clientAddress.getCountryOrRegion();
+		if (country != null && !country.equals(""))
+			information.append(", ").append(country);
+
+		return information.toString();
+	}
 }
