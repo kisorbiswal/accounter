@@ -78,6 +78,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	private DynamicForm attendanceForm;
 	private Button nextButton, backButton;
 	private DynamicForm tableForm;
+	private DynamicForm dateForm;
 
 	@Override
 	protected void createControls() {
@@ -160,7 +161,12 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 						.getSelectedValue() != null);
 			}
 		});
+		dateForm = new DynamicForm("dateForm");
 
+		dateForm.add(empsAndGroups);
+		dateForm.add(fromDate);
+		dateForm.add(toDate);
+		
 		button.setEnabled(false);
 		button.addClickHandler(new ClickHandler() {
 
@@ -216,9 +222,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.add(empsAndGroups);
-		mainVLay.add(fromDate);
-		mainVLay.add(toDate);
+		mainVLay.add(dateForm);
 		mainVLay.add(button);
 		mainVLay.add(attendanceForm);
 		mainVLay.add(tableForm);

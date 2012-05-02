@@ -774,10 +774,23 @@ div.label-title {
 	margin: 10px 0px;
 	-moz-box-flex: 1;
 }
-
+#itemView .salesVPanel .inventoryInfoForm{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
+}
 #itemView .topPanel2 .salesVPanel {
 	width: 50%;
 	-moz-box-flex: 1;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #itemView .topPanel2 .purchzVPanel {
@@ -7261,6 +7274,7 @@ textarea[disabled] {
 #itemView .service-item-group .item-form-view {
 	display: -moz-box;
 	-moz-box-orient: vertical;
+	margin-right:25px;
 }
 
 .title_voided_label {
@@ -8258,5 +8272,17 @@ table.no_records tr td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical; 
+}
+#itemView .salesVPanel .integerField .gwt-Label:last-child{
+	width:auto;
+}
+#NewPayRunView .dateForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical; 
+	clear:both;
 }
 /*Location merge dialog end*/
