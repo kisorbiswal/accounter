@@ -13,6 +13,7 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 
 	public PayHeadSummaryReport() {
 		this.serverReport = new PayHeadSummaryServerReport(this);
+		this.getElement().setId("PayHeadSummaryReport");
 	}
 
 	@Override

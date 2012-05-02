@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PaySlipDetailServerRepo
 public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 
 	public PaySlipDetailReport() {
+        this.getElement().setId("PaySlipDetailReport");
 		this.serverReport = new PaySlipDetailServerReport(this) {
 			@Override
 			protected String getAmountAsString(PaySlipDetail detail,

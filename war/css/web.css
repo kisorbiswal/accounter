@@ -93,10 +93,6 @@ table.gridBody {
 	{
 	table-layout: auto !important
 }
-.editTable table{
-	table-layout: auto !important
-}
-
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	#VendorView .accInfoForm {
@@ -8286,5 +8282,19 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical; 
 	clear:both;
+}
+#ComputationFormulaDialog .group_dialogue_list{
+	 width: 450px;
+}
+#NewPayRunView .datenumber-panel .integerField .gwt-Label{
+	padding-right: 10px;
+    width: auto;
+}
+#PaySlipDetailReport .report-toolbar input[type=text],#PayHeadSummaryReport .report-toolbar input[type=text]
+{
+	width:140px;
+}
+#PayHeadDetailReport .report-toolbar input[type=text]{
+	width:100px;
 }
 /*Location merge dialog end*/

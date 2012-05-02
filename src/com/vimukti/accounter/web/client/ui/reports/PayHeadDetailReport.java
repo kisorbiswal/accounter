@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PayHeadDetailServerRepo
 public class PayHeadDetailReport extends AbstractReportView<PayHeadDetails> {
 
 	public PayHeadDetailReport() {
+		this.getElement().setId("PayHeadDetailReport");
 		this.serverReport = new PayHeadDetailServerReport(this);
 	}
 
