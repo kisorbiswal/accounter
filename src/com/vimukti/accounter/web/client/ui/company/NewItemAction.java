@@ -45,6 +45,12 @@ public class NewItemAction extends Action<ClientItem> {
 		// this.baseView = baseView;
 	}
 
+	public NewItemAction(boolean isGeneratedFromCustomer, int type2) {
+		this();
+		this.type = type2;
+		this.forCustomer = isGeneratedFromCustomer;
+	}
+
 	@Override
 	public void run() {
 		runAsync(data, isDependent);
@@ -124,7 +130,6 @@ public class NewItemAction extends Action<ClientItem> {
 
 				}
 
-				
 			}
 
 			public void onFailure(Throwable e) {
@@ -132,14 +137,14 @@ public class NewItemAction extends Action<ClientItem> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	public ImageResource getBigImage() {

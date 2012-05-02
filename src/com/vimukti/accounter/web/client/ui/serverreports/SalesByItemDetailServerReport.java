@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -10,6 +13,11 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class SalesByItemDetailServerReport extends
 		AbstractFinaneReport<SalesByCustomerDetail> {
 	private String sectionName = "";
+	private List<String> list = new ArrayList<String>();
+	private List<String> parents = new ArrayList<String>();
+	private List<String> last = new ArrayList<String>();
+	private int depth;
+	private boolean haveSubs;
 
 	public SalesByItemDetailServerReport(
 			IFinanceReport<SalesByCustomerDetail> reportView) {
@@ -106,7 +114,8 @@ public class SalesByItemDetailServerReport extends
 			if (getPreferences().isTrackDiscounts()) {
 				return 120;
 			}
-
+		case 0:
+			return 200;
 		default:
 			return -1;
 		}
@@ -123,7 +132,7 @@ public class SalesByItemDetailServerReport extends
 		// if (this.financeTool == null)
 		// return;
 		// resetVariables();
-		// try {
+		// try {o
 		// if (navigateObjectName == null) {
 		//
 		// onSuccess(this.financeTool.getSalesByItemDetail(start, end));
@@ -137,30 +146,103 @@ public class SalesByItemDetailServerReport extends
 
 	@Override
 	public void processRecord(SalesByCustomerDetail record) {
-		// if (sectionDepth == 0) {
-		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
-		// "", "", getMessages().total() }, new int[] { 7 });
-		// } else
-		if (sectionDepth == 0) {
-			this.sectionName = record.getItemName();
-			if (getPreferences().isTrackDiscounts()) {
-				addSection(new String[] { sectionName }, new String[] { "", "",
-						"", "", "", "", getMessages().total() },
-						new int[] { 7 });
-			} else {
-				addSection(new String[] { sectionName }, new String[] { "", "",
-						"", "", getMessages().total() }, new int[] { 6 });
-			}
-		} else if (sectionDepth == 1) {
-			// No need to do anything, just allow adding this record
-			if (!sectionName.equals(record.getItemName())) {
+
+		parents = record.getParents();
+
+		// close all extra
+		for (int x = list.size(); x > parents.size(); x--) {
+			last.remove(x - 1);
+			list.remove(x - 1);
+			endSection();
+			depth--;
+			if (depth > list.size()) {
 				endSection();
+				depth--;
+				haveSubs = true;
 			} else {
-				return;
+				haveSubs = true;
 			}
 		}
-		// Go on recursive calling if we reached this place
-		processRecord(record);
+
+		int rest = list.size();
+
+		for (int x = list.size() - 1; x >= 0; x--) {
+			if (!list.get(x).equals(parents.get(x))) {
+				last.remove(x);
+				list.remove(x);
+				endSection();
+				depth--;
+				rest--;
+				if (depth > list.size()) {
+					endSection();
+					depth--;
+				} else {
+					haveSubs = true;
+				}
+			}
+		}
+
+		String name = null;
+
+		for (int x = rest; x < parents.size(); x++) {
+			name = parents.get(x);
+			last.add(name);
+			list.add(name);
+			if (getPreferences().isTrackDiscounts()) {
+				addSection(new String[] { name }, new String[] { "", "",
+						messages.reportTotal(name) }, new int[] { 7 }, record
+						.getItemsDepthMap().get(name).intValue());
+			} else {
+				addSection(new String[] { name }, new String[] { "", "",
+						messages.reportTotal(name) }, new int[] { 6 }, record
+						.getItemsDepthMap().get(name).intValue());
+			}
+
+			// startSection(name,depth);
+			depth++;
+			haveSubs = false;
+		}
+		if (haveSubs) {
+
+			name = getLast(); // get last one and + Other
+			if (getPreferences().isTrackDiscounts()) {
+				addSection(new String[] { name }, new String[] { "", "",
+						messages.reportTotal(name) }, new int[] { 7 },
+						record.getDepth() + 1);
+			} else {
+				addSection(new String[] { name }, new String[] { "", "",
+						messages.reportTotal(name) }, new int[] { 6 },
+						record.getDepth() + 1);
+			}
+			// startSection(name, depth);
+			depth++;
+			haveSubs = false;
+		}
+
+		return;
+		//
+		// // if (sectionDepth == 0) {
+		// // addSection(new String[] { "", "" }, new String[] { "", "", "", "",
+		// // "", "", getMessages().total() }, new int[] { 7 });
+		// // } else
+		// if (sectionDepth == 0) {
+		// this.sectionName = record.getItemName();
+		// addSection(new String[] { sectionName }, new String[] { "", "", "",
+		// "", "", "", getMessages().total() }, new int[] { 7 });
+		// } else if (sectionDepth == 1) {
+		// // No need to do anything, just allow adding this record
+		// if (!sectionName.equals(record.getItemName())) {
+		// endSection();
+		// } else {
+		// return;
+		// }
+		// }
+		// // Go on recursive calling if we reached this place
+		// processRecord(record);
+	}
+
+	private String getLast() {
+		return last.get(last.size() - 1) + "-" + messages.other();
 	}
 
 	public void print() {
@@ -274,6 +356,10 @@ public class SalesByItemDetailServerReport extends
 	public void resetVariables() {
 		sectionDepth = 0;
 		sectionName = "";
+		list.clear();
+		last.clear();
+		parents.clear();
+		depth = 0;
 		super.resetVariables();
 	}
 

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.InventoryAssembly;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -55,6 +57,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -114,6 +117,39 @@ public class Manager {
 
 		return null;
 
+	}
+
+	protected List<String> getSalesByCustomerRecordParents(
+			SalesByCustomerDetail salesByCustomerDetail, long CompanyId) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		List<String> list = new ArrayList<String>();
+		list.add(salesByCustomerDetail.getItemName());
+		map.put(salesByCustomerDetail.getItemName(),
+				salesByCustomerDetail.getDepth());
+		if (salesByCustomerDetail.getParentItemId() != 0) {
+			long parentId = salesByCustomerDetail.getParentItemId();
+			while (parentId > 0) {
+				Item parentItem = null;
+				for (Item item : getCompany(CompanyId).getItems()) {
+					if (item.getID() == parentId) {
+						parentItem = item;
+						list.add(item.getName());
+						map.put(item.getName(), item.getDepth());
+					}
+				}
+				if (parentItem != null && parentItem.getParentItem() != null) {
+					parentId = parentItem.getParentItem().getID();
+				} else {
+					parentId = 0l;
+				}
+			}
+		}
+		salesByCustomerDetail.setItemsDepthMap(map);
+		ArrayList<String> list2 = new ArrayList<String>();
+		for (int ii = (list.size() - 1); ii >= 0; ii--) {
+			list2.add(list.get(ii));
+		}
+		return list2;
 	}
 
 	public ArrayList<OpenAndClosedOrders> prepareQueryResult(List l) {

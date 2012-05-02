@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
@@ -139,6 +140,23 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	private String getspaces(ClientItem obj) {
+		// Element element = this.getCellByWidget(view.getGrid().getWidget(1))
+		// .getElement();
+		// Element element = view.getGrid().cellFormatter.getElement(view
+		// .getGrid().getCurrentRow(), view.getGrid().getCurrentColumn());
+		int depth = obj.getDepth();
+		// // for adding space
+		// element.addClassName("depth" + depth);
+		cellFormatter.addStyleName(currentRow, currentCol, "depth" + depth);
+		return obj.getName();
+	}
+
 	private Object getInventoryItemColumnValue(ClientItem obj, int col) {
 		if ((ItemListView.isPurchaseType && ItemListView.isSalesType)
 				&& (col == 7)) {
@@ -148,7 +166,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			case 0:
 				return obj.isActive();
 			case 1:
-				return obj.getName() != null ? obj.getName() : "";
+				return obj.getName() != null ? getspaces(obj) : "";
 			case 2:
 				if (!ItemListView.isPurchaseType) {
 					return obj.getSalesDescription() != null ? obj
@@ -219,7 +237,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			case 0:
 				return obj.isActive();
 			case 1:
-				return obj.getName() != null ? obj.getName() : "";
+				return obj.getName() != null ? getspaces(obj) : "";
 			case 2:
 				if (!ItemListView.isPurchaseType) {
 					return obj.getSalesDescription() != null ? obj

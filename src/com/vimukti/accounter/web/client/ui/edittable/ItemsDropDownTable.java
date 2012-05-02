@@ -3,7 +3,11 @@ package com.vimukti.accounter.web.client.ui.edittable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.cellview.client.Column;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -22,33 +26,76 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 	public ItemsDropDownTable(ListFilter<ClientItem> filter) {
 		super(getItems(filter), true);
 		this.filter = filter;
+		this.getElement().setId("ItemsDropDownTable");
 	}
 
 	private static List<ClientItem> getItems(ListFilter<ClientItem> filter) {
 		ArrayList<ClientItem> filteredList = Utility.filteredList(filter,
 				Accounter.getCompany().getActiveItems());
-		return filteredList;
+		ArrayList<ClientItem> classes = new ArrayList<ClientItem>();
+		// dividing child's and add
+		addChilds(classes, filteredList, 0, 0);
+		return classes;
+	}
+
+	/**
+	 * 
+	 * @param classes
+	 * @param accounterClasses
+	 * @param depth
+	 * @param parent
+	 */
+	private static void addChilds(ArrayList<ClientItem> classes,
+			ArrayList<ClientItem> accounterClasses, int depth, long parent) {
+		ArrayList<ClientItem> childs = getChild(accounterClasses, parent);
+		for (ClientItem ch : childs) {
+			ch.setDepth(depth);
+			classes.add(ch);
+			addChilds(classes, accounterClasses, depth + 1, ch.getID());
+		}
+	}
+
+	/**
+	 * 
+	 * @param accounterClasses
+	 * @param parent
+	 * @return
+	 */
+	private static ArrayList<ClientItem> getChild(
+			List<ClientItem> accounterClasses, long p) {
+		ArrayList<ClientItem> childs = new ArrayList<ClientItem>();
+		for (ClientItem c : accounterClasses) {
+			if (c.getParentItem() == p) {
+				childs.add(c);
+			}
+		}
+		return childs;
 	}
 
 	@Override
 	public void initColumns() {
-		TextColumn<ClientItem> textColumn = new TextColumn<ClientItem>() {
+		Column<ClientItem, SafeHtml> itemColumn = new Column<ClientItem, SafeHtml>(
+				new SafeHtmlCell()) {
 
 			@Override
-			public String getValue(ClientItem object) {
-
+			public SafeHtml getValue(ClientItem object) {
+				String name = null;
 				if ((transactionType == ClientTransaction.TYPE_PURCHASE_ORDER
 						|| transactionType == ClientTransaction.TYPE_CASH_PURCHASE || transactionType == ClientTransaction.TYPE_ENTER_BILL)
 						&& object.getVendorItemNumber() != null
 						&& !object.getVendorItemNumber().isEmpty()) {
-					return object.getDisplayName() + "("
+					name = object.getDisplayName() + "("
 							+ object.getVendorItemNumber() + ")";
 				} else {
-					return object.getDisplayName();
+					name = object.getDisplayName();
 				}
+				SafeHtmlBuilder builder = new SafeHtmlBuilder();
+				builder.append(SafeHtmlUtils.fromSafeConstant("<div class="
+						+ "depth" + object.getDepth() + ">" + name + "</div>"));
+				return builder.toSafeHtml();
 			}
 		};
-		this.addColumn(textColumn);
+		this.addColumn(itemColumn);
 	}
 
 	@Override
@@ -65,9 +112,43 @@ public class ItemsDropDownTable extends AbstractDropDownTable<ClientItem> {
 			return object.getDisplayName() + "(" + object.getVendorItemNumber()
 					+ ")";
 		} else {
-			return object.getDisplayName();
+			return setSelectedItem(object);
 		}
 
+	}
+
+	protected String setSelectedItem(ClientItem object) {
+		if (object == null) {
+			return " ";
+		}
+		StringBuffer buffer = new StringBuffer();
+		ClientItem parentClass = object;
+		while (parentClass.getParentItem() != 0) {
+			buffer.append(parentClass.getName());
+			parentClass = Accounter.getCompany().getItem(
+					parentClass.getParentItem());
+			buffer.append(":");
+		}
+		buffer.append(parentClass.getName());
+		buffer = getReverseBuffer(buffer.toString());
+		return buffer.toString();
+	}
+
+	/**
+	 * get the reverse of StringBuffer
+	 * 
+	 * @param actvalString
+	 * @return {@link StringBuffer} Reverse
+	 */
+	private StringBuffer getReverseBuffer(String actvalString) {
+		String[] split = actvalString.split(":");
+		StringBuffer buffer = new StringBuffer();
+		for (int i = split.length - 1; i > 0; --i) {
+			buffer.append(split[i]);
+			buffer.append(':');
+		}
+		buffer.append(split[0]);
+		return buffer;
 	}
 
 	@Override

@@ -292,9 +292,10 @@
 		<return-scalar column="REFERENCE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="UNIT" type="long" />
-
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="DEPTH" type="int" />
 		<![CDATA[
-				SELECT ITEM_TYPE,
+		SELECT ITEM_TYPE,
 				       ITEM_NAME,
 				       TYPE,
 				       DATE,
@@ -313,14 +314,15 @@
 				       MEMO,
 				       REFERENCE,
 				       TRANSACTION_ID,
-				       UNIT
+				       UNIT,
+				       PARENT_ID,
+				       DEPTH
 				FROM   SALES_PURCHASES_VIEW
 				WHERE  CUSTOMER_ID IS NOT NULL
-				       AND COMPANY_ID = :companyId
+				       AND COMPANY_ID =  :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY ITEM_NAME,
-				          DATE  
+				ORDER  BY PATH DESC
 				]]>
 
 	</sql-query>
@@ -349,7 +351,9 @@
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="REFERENCE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
-
+		<return-scalar column="DEPTH" type="int" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="ITEMDEPTH" type="int" />
 		<![CDATA[
 				SELECT ITEM_TYPE,
 				       ITEM_NAME,
@@ -369,15 +373,17 @@
 				       PAYMENT_TERMS,
 				       MEMO,
 				       REFERENCE,
-				       TRANSACTION_ID
+				       TRANSACTION_ID,
+				       DEPTH,
+				       PARENT_ID,
+				       DEPTH AS ITEMDEPTH
 				FROM   SALES_PURCHASES_VIEW
 				WHERE  CUSTOMER_ID IS NOT NULL
 				       AND COMPANY_ID = :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME = :itemName
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY ITEM_TYPE,
-				          ITEM_NAME  
+				ORDER  BY PATH DESC
 				]]>
 
 	</sql-query>
@@ -391,19 +397,23 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="PARENTID" type="long" />
+		<return-scalar column="DEPTH" type="int" />
 
 		<![CDATA[
 				SELECT ITEM_NAME     AS NAME,
 				       SUM(QUANTITY) AS QUANTITY,
-				       SUM(AMOUNT)   AS AMOUNT
+				       SUM(AMOUNT)   AS AMOUNT,
+				       PARENT_ID     AS PARENTID,
+				       DEPTH
 				FROM   SALES_PURCHASES_VIEW
 				WHERE  CUSTOMER_ID IS NOT NULL
 				       AND COMPANY_ID = :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				GROUP  BY ITEM_NAME
-				ORDER  BY ITEM_NAME  
+				GROUP  BY ITEM_NAME,PARENT_ID,PATH,DEPTH
+				ORDER  BY PATH DESC
 				]]>
 
 	</sql-query>
@@ -543,6 +553,8 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="DISCOUNT" type="double" />
 		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="DEPTH" type="int" />
 
 		<![CDATA[
 				SELECT ITEM_TYPE,
@@ -559,14 +571,15 @@
 				       REFERENCE,
 				       TRANSACTION_ID,
 				       DISCOUNT,
-				       UNIT
+				       UNIT,
+				       PARENT_ID,
+				       DEPTH
 				FROM   SALES_PURCHASES_VIEW
 				WHERE  VENDOR_ID IS NOT NULL
 				       AND COMPANY_ID = :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY ITEM_NAME,
-				          DATE  
+				ORDER  BY PATH DESC
 				]]>
 
 	</sql-query>
@@ -591,7 +604,9 @@
 		<return-scalar column="REFERENCE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="DISCOUNT" type="double" />
-
+		<return-scalar column="DEPTH" type="double" />
+		<return-scalar column="PARENT_ID" type="long" />
+		<return-scalar column="ITEMDEPTH" type="int" />
 		<![CDATA[
 				SELECT ITEM_TYPE,
 				       ITEM_NAME,
@@ -606,15 +621,17 @@
 				       SHIPMENT_OR_DELIVERY_DATE,
 				       REFERENCE,
 				       TRANSACTION_ID,
-				       DISCOUNT
+				       DISCOUNT,
+				       DEPTH,
+				       PARENT_ID,
+				       DEPTH AS ITEMDEPTH
 				FROM   SALES_PURCHASES_VIEW
 				WHERE  VENDOR_ID IS NOT NULL
 				       AND COMPANY_ID = :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME = :itemName
 				       AND DATE BETWEEN :startDate AND :endDate
-				ORDER  BY ITEM_TYPE,
-				          ITEM_NAME  
+				ORDER  BY PATH DESC
 				]]>
 
 	</sql-query>
@@ -628,19 +645,22 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="AMOUNT" type="double" />
-
+		<return-scalar column="PARENTID" type="long" />
+		<return-scalar column="DEPTH" type="int" />
 		<![CDATA[
 				SELECT ITEM_NAME,
 				       SUM(QUANTITY) AS QUANTITY,
-				       SUM(AMOUNT)   AS AMOUNT
+				       SUM(AMOUNT)   AS AMOUNT,
+				       PARENT_ID     AS PARENTID,
+				       DEPTH
 				FROM   SALES_PURCHASES_VIEW
 				WHERE  VENDOR_ID IS NOT NULL
 				       AND COMPANY_ID = :companyId
 				       AND ITEM_TYPE IS NOT NULL
 				       AND ITEM_NAME IS NOT NULL
 				       AND DATE BETWEEN :startDate AND :endDate
-				GROUP  BY ITEM_NAME
-				ORDER  BY ITEM_NAME  
+				GROUP  BY ITEM_NAME,PARENT_ID,PATH,DEPTH
+				ORDER  BY PATH  DESC
 				]]>
 
 	</sql-query>

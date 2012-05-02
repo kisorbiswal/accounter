@@ -40,7 +40,8 @@ public class SalesManager extends Manager {
 				.setParameter("endDate", endDate.getDate());
 		List l = query.list();
 
-		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l),
+				companyId);
 
 	}
 
@@ -183,7 +184,8 @@ public class SalesManager extends Manager {
 
 	}
 
-	private ArrayList<SalesByCustomerDetail> createSalesByItemDetail(List l) {
+	private ArrayList<SalesByCustomerDetail> createSalesByItemDetail(List l,
+			long companyId) {
 		Object[] object = null;
 		Iterator iterator = l.iterator();
 		List<SalesByCustomerDetail> queryResult = new ArrayList<SalesByCustomerDetail>();
@@ -245,6 +247,15 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setReference((String) object[17]);
 			salesByCustomerDetail.setTransactionId(((Long) object[18])
 					.longValue());
+			salesByCustomerDetail
+					.setParentItemId(object[20] != null ? ((Long) object[20])
+							.longValue() : 0);
+			salesByCustomerDetail
+					.setDepth(object[21] != null ? ((Integer) object[21])
+							.intValue() : 0);
+			salesByCustomerDetail.setParents(getSalesByCustomerRecordParents(
+					salesByCustomerDetail, companyId));
+
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
@@ -264,7 +275,8 @@ public class SalesManager extends Manager {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
-		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l));
+		return createSalesByItemDetail(new ArrayList<SalesByCustomerDetail>(l),
+				companyId);
 
 	}
 
@@ -733,10 +745,99 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[2] == null ? 0
 					: ((Double) object[2]).doubleValue());
-
+			salesByCustomerDetail.setParentItemId(object[3] == null ? 0
+					: ((Long) object[3]).longValue());
+			salesByCustomerDetail.setDepth(object[4] == null ? 0
+					: ((Integer) object[4]).intValue());
+			salesByCustomerDetail.setParents(getSalesByCustomerRecordParents(
+					salesByCustomerDetail, companyId));
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
+
+	}
+
+	private ArrayList<SalesByCustomerDetail> getRecords() {
+		ArrayList<SalesByCustomerDetail> salesByLocationDetailList = new ArrayList<SalesByCustomerDetail>();
+		SalesByCustomerDetail salDetails5 = new SalesByCustomerDetail();
+		salDetails5.setTransactionId(1);
+		salDetails5.setType(1);
+		salDetails5.setItemName("S_item");
+		salDetails5.setType(8);
+		salDetails5.setNumber("7");
+		salDetails5.setAmount(100);
+		List<String> list5 = new ArrayList<String>();
+		list5.add("Z");
+		salDetails5.setParents(list5);
+		salesByLocationDetailList.add(salDetails5);
+
+		SalesByCustomerDetail salDetails = new SalesByCustomerDetail();
+		salDetails.setTransactionId(1);
+		salDetails.setType(1);
+		salDetails.setItemName("S_item");
+		salDetails.setType(8);
+		salDetails.setNumber("7");
+		salDetails.setAmount(100);
+		List<String> list = new ArrayList<String>();
+		list.add("A");
+		list.add("E");
+		list.add("F");
+		salDetails.setParents(list);
+		salesByLocationDetailList.add(salDetails);
+
+		SalesByCustomerDetail salDetails1 = new SalesByCustomerDetail();
+		salDetails.setTransactionId(2);
+		salDetails.setType(1);
+		salDetails.setItemName("S_item");
+		salDetails.setType(8);
+		salDetails.setNumber("7");
+		salDetails.setAmount(100);
+		List<String> list1 = new ArrayList<String>();
+		list1.add("A");
+		list1.add("E");
+		salDetails1.setParents(list1);
+		salesByLocationDetailList.add(salDetails1);
+
+		SalesByCustomerDetail salDetails2 = new SalesByCustomerDetail();
+		salDetails.setTransactionId(2);
+		salDetails.setType(1);
+		salDetails.setItemName("S_item01");
+		salDetails.setType(8);
+		salDetails.setNumber("7");
+		salDetails.setAmount(100);
+		List<String> list2 = new ArrayList<String>();
+		list2.add("A");
+		list2.add("B");
+		list2.add("D");
+		salDetails2.setParents(list2);
+		salesByLocationDetailList.add(salDetails2);
+
+		SalesByCustomerDetail salDetails3 = new SalesByCustomerDetail();
+		salDetails.setTransactionId(1);
+		salDetails.setType(1);
+		salDetails.setItemName("S_item");
+		salDetails.setType(8);
+		salDetails.setNumber("7");
+		salDetails.setAmount(100);
+		List<String> list3 = new ArrayList<String>();
+		list3.add("A");
+		list3.add("B");
+		salDetails3.setParents(list3);
+		salesByLocationDetailList.add(salDetails3);
+
+		SalesByCustomerDetail salDetails4 = new SalesByCustomerDetail();
+		salDetails.setTransactionId(1);
+		salDetails.setType(1);
+		salDetails.setItemName("S_item");
+		salDetails.setType(8);
+		salDetails.setNumber("7");
+		salDetails.setAmount(100);
+
+		List<String> list4 = new ArrayList<String>();
+		list4.add("A");
+		salDetails4.setParents(list4);
+		salesByLocationDetailList.add(salDetails4);
+		return salesByLocationDetailList;
 
 	}
 

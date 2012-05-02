@@ -140,6 +140,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private int reorderPoint;
 	private Quantity onHandQty;
 	private double itemTotalValue;
+	private Item parentItem;
+	private int depth;
+	private boolean isSubItemOf;
+	private String path;
 
 	// TaxCode VATCode;
 
@@ -426,7 +430,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void onLoad(Session arg0, Serializable arg1) {
-
 	}
 
 	@Override
@@ -439,8 +442,38 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			doCreateEffectForInventoryItem();
 		}
 		ChangeTracker.put(this);
+		setDepth(getDepthCount());
 		return false;
 
+	}
+
+	private int getDepthCount() {
+		int count = 0;
+		if (parentItem != null) {
+			long parentId = parentItem.getID();
+			while (parentId > 0) {
+				Item item = getItemById(parentId);
+				if (item != null) {
+					count++;
+				}
+				if (item.getParentItem() != null) {
+					parentId = item.getParentItem().getID();
+				} else {
+					parentId = 0l;
+				}
+			}
+		}
+		return count;
+	}
+
+	private Item getItemById(long parentId) {
+		Set<Item> items = getCompany().getItems();
+		for (Item item : items) {
+			if (item.getID() == parentId) {
+				return item;
+			}
+		}
+		return null;
 	}
 
 	public void doCreateEffectForInventoryItem() {
@@ -518,7 +551,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return false;
 		}
 		super.onUpdate(arg0);
-
+		setDepth(getDepthCount());
 		ChangeTracker.put(this);
 		return false;
 	}
@@ -545,6 +578,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				// "An Item already exists with this Name");
 			}
 		}
+
 		return true;
 
 	}
@@ -657,6 +691,38 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	public boolean isInventory() {
 		return getType() == TYPE_INVENTORY_PART
 				|| getType() == TYPE_INVENTORY_ASSEMBLY;
+	}
+
+	public Item getParentItem() {
+		return parentItem;
+	}
+
+	public void setParentItem(Item parentItemId) {
+		this.parentItem = parentItemId;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int parentItemsCount) {
+		this.depth = parentItemsCount;
+	}
+
+	public boolean isSubItemOf() {
+		return isSubItemOf;
+	}
+
+	public void setSubItemOf(boolean isSubItemOf) {
+		this.isSubItemOf = isSubItemOf;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	@Override

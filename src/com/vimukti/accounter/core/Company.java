@@ -354,6 +354,8 @@ public class Company implements IAccounterServerCore {
 	private Account salariesPayableAccount;
 	private int classCount;
 
+	private int itemCount;
+
 	public Account getRetainedEarningsAccount() {
 		return retainedEarningsAccount;
 	}
@@ -1728,8 +1730,16 @@ public class Company implements IAccounterServerCore {
 		this.emailTemplates = emailTemplates;
 	}
 
+	public int getItemCount() {
+		return itemCount;
+	}
+
+	public void setItemCount(int itemCount) {
+		this.itemCount = itemCount;
+	}
+
 	@Override
-	public void selfValidate() throws AccounterException {
+	public void selfValidate() {
 		// TODO Auto-generated method stub
 
 	}

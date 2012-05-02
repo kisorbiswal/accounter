@@ -209,5 +209,34 @@
 				CREATE TRIGGER updatePathCount BEFORE INSERT ON ACCOUNTER_CLASS FOR each ROW EXECUTE PROCEDURE updatePathCount();
 			]]>
 	</sql-query>
+	<sql-query name="updateItemPathTrigger">
+	<![CDATA[
+				DROP TRIGGER  IF EXISTS  updateItemPath ON ITEM; 
+				CREATE OR REPLACE FUNCTION updateItemPath() RETURNS trigger AS $updateItemPath$
+				DECLARE
+					  path integer;
+					  count integer;
+					  pathName text;  
+							  
+				BEGIN
+				IF( NEW.PARENT_ID  IS NULL) THEN
+						 path = (SELECT ITEM_COUNT FROM COMPANY WHERE ID =NEW.COMPANY_ID);
+						 New.PATH=path+1;
+						 UPDATE COMPANY SET ITEM_COUNT =path+1 ;
+                      RETURN NEW;
+                ELSE 
+				 pathName=(SELECT I.PATH FROM ITEM I WHERE I.ID=NEW.PARENT_ID); 
+                     count= (SELECT count(*) FROM ITEM I WHERE I.PARENT_ID=NEW.PARENT_ID);
+                     count=count+1;
+	                 NEW.PATH=(pathName || '.' || (SELECT CAST(count as text)));
+	                 RETURN NEW;
+                END IF;
+                   RETURN NULL;
+				END;
+				$updateItemPath$ LANGUAGE plpgsql;
+				CREATE TRIGGER updateItemPath BEFORE INSERT ON ITEM FOR each ROW EXECUTE PROCEDURE updateItemPath();
+			]]>
+	</sql-query>
+
 </hibernate-mapping>
 	

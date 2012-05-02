@@ -3336,7 +3336,10 @@
 				       IT.PURCHASE_DESCRIPTION,
 				       T.SAVE_STATUS                     AS SAVE_STATUS,
 				       T.REFERENCE                       AS REFERENCE,
-				       T.CURRENCY_FACTOR                 AS CURRENCY_FACTOR
+				       T.CURRENCY_FACTOR                 AS CURRENCY_FACTOR,
+				       IT.PARENT_ID,
+				       IT.DEPTH,
+				       IT.PATH		 
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN CASH_SALES CS
 				         ON T.ID = CS.ID
@@ -3671,7 +3674,8 @@
 				       IT.SALES_DESCRIPTION,
 				       IT.PURCHASE_DESCRIPTION,
 				       T.SAVE_STATUS AS SAVE_STATUS,
-				       T.REFERENCE   AS REFERENCE
+				       T.REFERENCE   AS REFERENCE,
+				       IT.PARENT_ID
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN CASH_SALES CS
 				         ON T.ID = CS.ID

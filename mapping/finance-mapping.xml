@@ -347,6 +347,7 @@
 		<property name="passwordHInt" column="PASSWORD_HINT"></property>
 		<property name="bankAccountNo" type="encryptedstring" column="BANK_ACCOUNT_NO"></property>
 		<property name="sortCode" column="SORT_CODE" type="encryptedstring"></property>
+		<property name="itemCount" column="ITEM_COUNT"></property>
 		<many-to-one name="cashDiscountAccount" class="Account"
 			column="CASH_DISCOUNT_ACCOUNT"></many-to-one>
 		<many-to-one name="accountsReceivableAccount" class="Account"
@@ -769,6 +770,7 @@
 		<property name="type" column="TYPE"></property>
 		<property name="name" type="encryptedstring" not-null="true"
 			column="NAME"></property>
+		<property name="path" type="string" column="PATH"></property>
 		<property name="UPCorSKU" type="encryptedstring" column="UPC_OR_SKU"></property>
 		<property name="weight" column="WEIGHT"></property>
 		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID">
@@ -800,6 +802,7 @@
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
 		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
+		<property name="isSubItemOf" column="IS_SUBITEM_OF"></property>
 		<property name="purchaseDescription" type="encryptedstring"
 			column="PURCHASE_DESCRIPTION"></property>
 		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
@@ -829,6 +832,10 @@
 			column="ASSETS_ACCOUNT_ID">
 		</many-to-one>
 		<property name="reorderPoint" column="REORDER_POINT"></property>
+		<many-to-one name="parentItem" column="PARENT_ID" class="Item"
+			cascade="save-update">
+		</many-to-one>
+		<property name="depth" column="DEPTH"></property>
 		<component name="onHandQty" class="Quantity">
 			<property name="value" column="ON_HAND_QTY_VALUE" />
 			<many-to-one name="unit" column="ON_HAND_QTY_UNIT" class="Unit"
