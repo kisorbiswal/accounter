@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
@@ -75,7 +75,7 @@ public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
 	@Override
 	protected void addNewItem(String text) {
-		NewPayHeadAction action = ActionFactory.getNewPayHeadAction();
+		PayRollActions action = PayRollActions.newPayHeadAction();
 		action.setCallback(new ActionCallback<ClientPayHead>() {
 
 			@Override

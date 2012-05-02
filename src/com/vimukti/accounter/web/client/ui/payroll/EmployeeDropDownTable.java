@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class EmployeeDropDownTable extends
@@ -109,7 +109,7 @@ public class EmployeeDropDownTable extends
 
 	@Override
 	protected void addNewItem(String text) {
-		NewEmployeeAction action = ActionFactory.getNewEmployeeAction();
+		PayRollActions action = PayRollActions.newEmployeeAction();
 		action.setCallback(new ActionCallback<ClientEmployee>() {
 
 			@Override

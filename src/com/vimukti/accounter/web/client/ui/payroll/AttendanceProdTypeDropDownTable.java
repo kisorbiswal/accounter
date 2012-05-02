@@ -9,8 +9,7 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.NewAttendanceProductionTypeAction;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 
 public class AttendanceProdTypeDropDownTable extends
@@ -83,8 +82,8 @@ public class AttendanceProdTypeDropDownTable extends
 
 	@Override
 	protected void addNewItem(String text) {
-		NewAttendanceProductionTypeAction action = ActionFactory
-				.getNewAttendanceProductionTypeAction();
+		PayRollActions action = PayRollActions
+				.newAttendanceProductionTypeAction();
 		action.setCallback(new ActionCallback<ClientAttendanceOrProductionType>() {
 
 			@Override

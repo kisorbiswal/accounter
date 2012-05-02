@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.PayRollReportActions;
 import com.vimukti.accounter.web.client.ui.serverreports.PaySlipSummaryServerReport;
 
 public class PaySlipSummaryReport extends AbstractReportView<PaySlipSummary> {
@@ -32,7 +33,8 @@ public class PaySlipSummaryReport extends AbstractReportView<PaySlipSummary> {
 		payslipDetail.setStartDate(toolbar.getStartDate());
 		payslipDetail.setEndDate(toolbar.getEndDate());
 		payslipDetail.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(payslipDetail, new PaySlipDetailReportAction());
+		UIUtils.runAction(payslipDetail,
+				PayRollReportActions.getPaySlipDetailReportAction());
 	}
 
 	private PaySlipDetail getPaySlipDetail(PaySlipSummary record) {

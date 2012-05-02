@@ -97,17 +97,6 @@ import com.vimukti.accounter.web.client.ui.fixedassets.PendingItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.RegisteredItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SellingRegisteredItemAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SoldDisposedFixedAssetsListAction;
-import com.vimukti.accounter.web.client.ui.payroll.EmployeeGroupListAction;
-import com.vimukti.accounter.web.client.ui.payroll.EmployeeListAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeGroupAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewPayHeadAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewPayRunAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewPayStructureAction;
-import com.vimukti.accounter.web.client.ui.payroll.NewPayrollUnitAction;
-import com.vimukti.accounter.web.client.ui.payroll.PayStructureListAction;
-import com.vimukti.accounter.web.client.ui.payroll.PayheadListAction;
-import com.vimukti.accounter.web.client.ui.payroll.PayrollUnitListAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
 import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
@@ -118,7 +107,6 @@ import com.vimukti.accounter.web.client.ui.reports.ItemActualCostDetailReportAct
 import com.vimukti.accounter.web.client.ui.reports.JobActualDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
-import com.vimukti.accounter.web.client.ui.reports.PayHeadDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListDetailAction;
@@ -1030,57 +1018,4 @@ public class ActionFactory {
 	public static AccounterMenuAction getAccounterMenuAction() {
 		return new AccounterMenuAction();
 	}
-
-	public static NewEmployeeAction getNewEmployeeAction() {
-		return new NewEmployeeAction();
-	}
-
-	public static NewPayHeadAction getNewPayHeadAction() {
-		return new NewPayHeadAction();
-	}
-
-	public static NewEmployeeGroupAction getNewEmployeeGroupAction() {
-		return new NewEmployeeGroupAction();
-	}
-
-	public static NewPayrollUnitAction getNewPayrollUnitAction() {
-		return new NewPayrollUnitAction();
-	}
-
-	public static EmployeeListAction getEmployeeListAction() {
-		return new EmployeeListAction();
-	}
-
-	public static PayheadListAction getPayheadListAction() {
-		return new PayheadListAction();
-	}
-
-	public static PayrollUnitListAction getPayrollUnitListAction() {
-		return new PayrollUnitListAction();
-	}
-
-	public static EmployeeGroupListAction getEmployeeGroupListAction() {
-		return new EmployeeGroupListAction();
-	}
-
-	public static NewPayStructureAction getPayStructureAction() {
-		return new NewPayStructureAction();
-	}
-
-	public static NewPayRunAction getPayRunAction() {
-		return new NewPayRunAction();
-	}
-
-	public static NewAttendanceProductionTypeAction getNewAttendanceProductionTypeAction() {
-		return new NewAttendanceProductionTypeAction();
-	}
-
-	public static PayStructureListAction getPayStructureListAction() {
-		return new PayStructureListAction();
-	}
-
-	public static PayHeadDetailReportAction getPayHeadDetailReportAction() {
-		return new PayHeadDetailReportAction();
-	}
-
 }

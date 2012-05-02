@@ -10,9 +10,8 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
-import com.vimukti.accounter.web.client.ui.core.NewAttendanceProductionTypeAction;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class AttendanceOrProductionTypeListView extends
 		BaseListView<ClientAttendanceOrProductionType> {
@@ -41,8 +40,8 @@ public class AttendanceOrProductionTypeListView extends
 
 	@Override
 	protected Action getAddNewAction() {
-		NewAttendanceProductionTypeAction newAttendanceProductionTypeAction = ActionFactory
-				.getNewAttendanceProductionTypeAction();
+		PayRollActions newAttendanceProductionTypeAction = PayRollActions
+				.newAttendanceProductionTypeAction();
 		newAttendanceProductionTypeAction
 				.setCallback(new ActionCallback<ClientAttendanceOrProductionType>() {
 

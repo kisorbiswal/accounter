@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.PayRollReportActions;
 import com.vimukti.accounter.web.client.ui.serverreports.PaySlipDetailServerReport;
 
 public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
@@ -70,7 +71,8 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 		headSummary.setEndDate(employeeToolBar.getEndDate());
 		headSummary.setPayHead(record.getPayheadId());
 		headSummary.setPayHeadName(record.getName());
-		PayHeadSummaryReportAction action = new PayHeadSummaryReportAction();
+		PayRollReportActions action = PayRollReportActions
+				.getPayHeadSummaryReportAction();
 		action.run(headSummary, false);
 	}
 

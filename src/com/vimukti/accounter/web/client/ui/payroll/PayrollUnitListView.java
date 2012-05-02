@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 
@@ -36,8 +36,8 @@ public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 	}
 
 	@Override
-	protected Action<ClientPayrollUnit> getAddNewAction() {
-		return ActionFactory.getNewPayrollUnitAction();
+	protected Action getAddNewAction() {
+		return PayRollActions.newPayRollUnitAction();
 	}
 
 	@Override
