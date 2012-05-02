@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
@@ -46,9 +47,11 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		this.checkType = checkType;
 	}
 
-
 	@Override
 	protected Action getAddNewAction() {
+		if (checkType == TYPE_PAY_RUNS) {
+			return PayRollActions.newPayRunAction();
+		}
 		if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
 				.canDoInvoiceTransactions())
 				&& !(checkType == 0 || checkType == TYPE_ALL)) {
@@ -64,15 +67,15 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected String getAddNewLabelString() {
-		if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
+		if (checkType == TYPE_PAY_RUNS) {
+			return messages.addaNew(messages.payrun());
+		} else if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
 				.canDoInvoiceTransactions())
 				&& !(checkType == 0 || checkType == TYPE_ALL)) {
 			return messages.writeCheck();
 		} else if ((checkType == 0 || checkType == TYPE_ALL)
 				&& Accounter.getUser().canDoInvoiceTransactions()) {
 			return messages.addaNewPayment();
-		} else if (checkType == TYPE_PAY_RUNS) {
-			return messages.addaNew(messages.payrun());
 		} else {
 			return null;
 		}
@@ -80,14 +83,14 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected String getListViewHeading() {
-		if (checkType == 0 || checkType == TYPE_ALL) {
+		if (checkType == TYPE_PAY_RUNS) {
+			return messages.payRuns();
+		} else if (checkType == 0 || checkType == TYPE_ALL) {
 			return messages.paymentsList();
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			return messages.payeeChecks(Global.get().Customer());
 		} else if (checkType == TYPE_WRITE_CHECKS) {
 			return messages.otherChecks();
-		} else if (checkType == TYPE_PAY_RUNS) {
-			return messages.payRuns();
 		} else {
 			return messages.payeeChecks(Global.get().Vendor());
 		}

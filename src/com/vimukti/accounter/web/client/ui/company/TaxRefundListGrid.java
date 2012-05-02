@@ -6,8 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -25,7 +23,7 @@ public class TaxRefundListGrid extends BaseListGrid<ClientReceiveVAT> {
 
 	@Override
 	protected int[] setColTypes() {
-		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE };
@@ -33,44 +31,35 @@ public class TaxRefundListGrid extends BaseListGrid<ClientReceiveVAT> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { "taxAgency", "periodStartDate", "periodEndDate",
+		return new String[] { "depositIn", "periodStartDate", "periodEndDate",
 				"taxFiledDate", "taxAmount", "totalPaymentMade" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { "taxAgency-value", "periodStartDate-value",
+		return new String[] { "depositIn-value", "periodStartDate-value",
 				"periodEndDate-value", "taxFiledDate-value", "taxAmount-value",
 				"totalPaymentMade-value" };
 	}
 
 	@Override
 	protected void executeDelete(final ClientReceiveVAT object) {
-		String warning = messages.taxReturnDeleteWarning("", "");
-		Accounter.showWarning(warning, AccounterType.WARNING,
-				new ErrorDialogHandler() {
+		deleteTransaction(object);
+	}
 
-					@Override
-					public boolean onYesClick() {
-						TaxRefundListGrid.this.deleteRecord(object);
-						Accounter.deleteObject(TaxRefundListGrid.this, object);
-						return true;
-					}
-
-					@Override
-					public boolean onNoClick() {
-						return true;
-					}
-
-					@Override
-					public boolean onCancelClick() {
-						return false;
-					}
-				});
+	private void deleteTransaction(final ClientReceiveVAT obj) {
+		Accounter.deleteObject(this, obj);
 	}
 
 	@Override
 	protected void onClick(ClientReceiveVAT obj, int row, int col) {
+		if (col == 5) {
+			showWarnDialog(obj);
+		}
+	}
+
+	@Override
+	protected void onDoubleClick(ClientReceiveVAT obj, int row, int index) {
 		ReportsRPC.openTransactionView(ClientTransaction.TYPE_RECEIVE_TAX,
 				obj.getID());
 	}
@@ -79,8 +68,8 @@ public class TaxRefundListGrid extends BaseListGrid<ClientReceiveVAT> {
 	protected Object getColumnValue(ClientReceiveVAT obj, int index) {
 		switch (index) {
 		case 0:
-			return obj.getVatAgency() == 0 ? "" : getCompany().getTaxAgency(
-					obj.getVatAgency()).getName();
+			return obj.getDepositIn() == 0 ? "" : getCompany().getAccount(
+					obj.getDepositIn()).getName();
 		case 1:
 			return obj.getPaymentMethod();
 		case 2:
@@ -106,7 +95,7 @@ public class TaxRefundListGrid extends BaseListGrid<ClientReceiveVAT> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.taxAgency(), messages.paymentMethod(),
+		return new String[] { messages.depositIn(), messages.paymentMethod(),
 				messages.checkNumber(), messages.transactionDate(),
 				messages.amountPaid(), messages.delete() };
 	}

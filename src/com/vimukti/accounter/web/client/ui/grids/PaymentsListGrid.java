@@ -212,7 +212,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 				showWarningDialog(obj, col);
 			}
 		} else {
-			if (col == 7 && !obj.isVoided()) {
+			if ((type == PaymentListView.TYPE_PAY_RUNS ? col == 4 : col == 7)
+					&& !obj.isVoided()) {
 				showWarningDialog(obj, col);
 			}
 		}
@@ -235,7 +236,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			}
 		} else {
 			if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT
-					&& col == 7 && !obj.isVoided()) {
+					&& (type == PaymentListView.TYPE_PAY_RUNS ? col == 4
+							: col == 7) && !obj.isVoided()) {
 				msg = messages.doyouwanttoVoidtheTransaction();
 			} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
 					&& col == 7) {
@@ -270,7 +272,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 								voidTransaction(obj);
 							}
 						} else {
-							if (col == 7
+							if ((type == PaymentListView.TYPE_PAY_RUNS ? col == 4
+									: col == 7)
 									&& obj.getStatus() != ClientTransaction.STATUS_DRAFT) {
 								voidTransaction(obj);
 							}

@@ -99,4 +99,8 @@ public class ChalanDetailsListView extends
 		}
 	}
 
+	@Override
+	public void restoreView(String currentView, String dateRange) {
+		filterList(currentView);
+	}
 }
