@@ -2393,13 +2393,13 @@ table.no_records .norecord-empty-message td {
 }
 
 .tick_hidden {
-	padding: 5px;
+	padding: 5px 0;
 	visibility: hidden;
 	margin-top: 10px;
 }
 
 .tick_show {
-	padding: 5px;
+	padding: 5px 0;
 	visibility: visible;
 }
 
@@ -7872,22 +7872,12 @@ table.no_records tr td {
 }
 
 #NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label
-	{
+{
 	width: 220px !important;
-	#
-	NewFixedAssetView
-	.formItem
-	.gwt-Label,#NewFixedAssetView
-	.descriptionVPanel
-	.gwt-Label
-	{
-	width
-	:
-	220px;
 }
 
 .printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer
-	{
+{
 	overflow: hidden !important;
 }
 
@@ -8260,5 +8250,13 @@ table.no_records tr td {
 }
 .group-toolbar .grouped-buttons #closeButton img{
 	padding-bottom: 2px;
+}
+#adjusttaxview .mainPanel .amountForm{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical; 
 }
 /*Location merge dialog end*/
