@@ -165,7 +165,7 @@ public class StockTransfer extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().toWarehouse());
 		}
-		if (stockTransferItems == null || stockTransferItems.size() != 0) {
+		if (stockTransferItems == null || stockTransferItems.isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().stockTransferItem());
 		}

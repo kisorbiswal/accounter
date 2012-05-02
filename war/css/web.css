@@ -7862,7 +7862,7 @@ table.no_records tr td {
 }
 
 #salespersonview .topHLay .rightVLay .emailForm,#salespersonview .topHLay .rightVLay .salesPersonInfoForm
-	{
+{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -7872,18 +7872,8 @@ table.no_records tr td {
 }
 
 #NewFixedAssetView .formItem .gwt-Label,#NewFixedAssetView .descriptionVPanel .gwt-Label
-	{
+{
 	width: 220px !important;
-	#
-	NewFixedAssetView
-	.formItem
-	.gwt-Label,#NewFixedAssetView
-	.descriptionVPanel
-	.gwt-Label
-	{
-	width
-	:
-	220px;
 }
 
 .printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer
