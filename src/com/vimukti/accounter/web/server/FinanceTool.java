@@ -4885,7 +4885,9 @@ public class FinanceTool {
 					}
 				}
 			}
-			file.delete();
+			if (exceptions.isEmpty()) {
+				file.delete();
+			}
 			exceptions.put(0, successCount);
 		} catch (Exception e) {
 			e.printStackTrace();
