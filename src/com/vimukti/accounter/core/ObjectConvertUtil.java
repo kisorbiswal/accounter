@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 public class ObjectConvertUtil {
 	private static final String classNames[] = { "Contact", "Phone", "Fax",
 			"Email", "Address", "UserPreferences", "CompanyPreferences",
-			"NominalCodeRange", "ComputationSlab", "ComputaionFormulaFunction" };
+			"NominalCodeRange", "ComputationSlab", "ComputaionFormulaFunction", "AttendanceOrProductionItem" };
 	protected ThreadLocal<Map<Object, Object>> cache = new ThreadLocal<Map<Object, Object>>();
 	public ThreadLocal<Map<String, Object>> importedObjectsCache = new ThreadLocal<Map<String, Object>>();
 
@@ -90,7 +90,8 @@ public class ObjectConvertUtil {
 				|| class1.getName().equals(packge + classNames[6])
 				|| class1.getName().equals(packge + classNames[7])
 				|| class1.getName().equals(packge + classNames[8])
-				|| class1.getName().equals(packge + classNames[9]);
+				|| class1.getName().equals(packge + classNames[9])
+				|| class1.getName().equals(packge + classNames[10]);
 	}
 
 	protected boolean isString(Class<?> type) {

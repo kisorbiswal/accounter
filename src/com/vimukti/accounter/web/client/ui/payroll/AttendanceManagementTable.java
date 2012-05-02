@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionItem;
@@ -18,6 +20,7 @@ public class AttendanceManagementTable extends
 		EditTable<ClientAttendanceManagementItem> {
 
 	private EmployeeColumn employeeColumn;
+	private List<ClientAttendanceManagementItem> items;
 
 	public AttendanceManagementTable() {
 		super();
@@ -49,6 +52,7 @@ public class AttendanceManagementTable extends
 									PaginationList<ClientAttendanceOrProductionType> result) {
 								AttendanceManagementTable.this
 										.createAttendanceOrProductionTypeColumns(result);
+								setAllRows(items);
 							}
 
 							@Override
@@ -110,14 +114,30 @@ public class AttendanceManagementTable extends
 
 				@Override
 				protected String getValue(ClientAttendanceManagementItem row) {
+					List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = row
+							.getAttendanceOrProductionItems();
+					for (ClientAttendanceOrProductionItem item : attendanceOrProductionItems) {
+						if (item.getAttendanceOrProductionType().getID() == clientAttendanceOrProductionType
+								.getID()) {
+							return UIUtils.toStr(item.getValue());
+						}
+					}
 					return UIUtils.toStr(item.getValue());
 				}
 
 				@Override
 				protected void setValue(ClientAttendanceManagementItem row,
 						String value) {
+					for (ClientAttendanceOrProductionItem item : row
+							.getAttendanceOrProductionItems()) {
+						if (item.getAttendanceOrProductionType().getID() == clientAttendanceOrProductionType
+								.getID()) {
+							item.setValue(UIUtils.toDbl(value));
+							update(row);
+							return;
+						}
+					}
 					item.setValue(UIUtils.toDbl(value));
-					row.getAttendanceOrProductionItems().remove(item);
 					row.getAttendanceOrProductionItems().add(item);
 					update(row);
 				}
@@ -161,5 +181,9 @@ public class AttendanceManagementTable extends
 				add(item);
 			}
 		}
+	}
+
+	public void setData(List<ClientAttendanceManagementItem> items) {
+		this.items = items;
 	}
 }
