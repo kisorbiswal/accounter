@@ -1,6 +1,5 @@
-@
--moz-document url-prefix           (){ .editTable table td .gwt-TextBox
-	{
+@-moz-document url-prefix(){ 
+	.editTable table td .gwt-TextBox{
 	width: 99%;
 }
 
@@ -92,6 +91,9 @@ table.gridBody {
 
 #ShippingMethodListDialog .bodyLayout1 .gridHeader,#ShippingMethodListDialog .bodyLayout1 .gridBody
 	{
+	table-layout: auto !important
+}
+.editTable table{
 	table-layout: auto !important
 }
 
