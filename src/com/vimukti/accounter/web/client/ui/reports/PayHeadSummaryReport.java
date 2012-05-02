@@ -56,7 +56,7 @@ public class PayHeadSummaryReport extends AbstractReportView<PayHeadSummary> {
 	}
 
 	private int getReportType() {
-		return REPORT_TYPE_PAY_HEAD_SUMMARY;
+		return REPORT_TYPE_PAY_HEAD_SUMMARY_REPORT;
 	}
 
 	@Override
