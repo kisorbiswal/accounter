@@ -80,7 +80,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 						|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
 					ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
 					if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
-						rateColumn.setEnable(true);
+						rateColumn.setEnable(row, true);
 					} else {
 						rateColumn.setEnable(row, false);
 					}
