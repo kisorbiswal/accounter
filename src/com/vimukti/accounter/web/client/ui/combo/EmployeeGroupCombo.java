@@ -6,8 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeGroupAction;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class EmployeeGroupCombo extends CustomCombo<ClientEmployeeGroup> {
 
@@ -58,8 +57,7 @@ public class EmployeeGroupCombo extends CustomCombo<ClientEmployeeGroup> {
 
 	@Override
 	public void onAddNew() {
-		NewEmployeeGroupAction action = ActionFactory
-				.getNewEmployeeGroupAction();
+		PayRollActions action = PayRollActions.newEmployeeGroupAction();
 		action.setCallback(new ActionCallback<ClientEmployeeGroup>() {
 
 			@Override

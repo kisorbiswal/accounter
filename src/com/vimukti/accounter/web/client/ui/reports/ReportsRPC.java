@@ -87,7 +87,7 @@ import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
@@ -409,7 +409,7 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.EMPLOYEE:
 			initCallBack(new ClientEmployee(),
-					ActionFactory.getNewEmployeeAction(), transactionId);
+					PayRollActions.newEmployeeAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
 			initCallBack(new ClientStockAdjustment(),
@@ -425,23 +425,23 @@ public class ReportsRPC {
 			break;
 		case IAccounterCore.PAYROLL_UNIT:
 			initCallBack(new ClientPayrollUnit(),
-					ActionFactory.getNewPayrollUnitAction(), transactionId);
+					PayRollActions.newPayRollUnitAction(), transactionId);
 			break;
 		case IAccounterCore.PAY_HEAD:
 			initCallBack(new ClientPayHead(),
-					ActionFactory.getNewPayHeadAction(), transactionId);
+					PayRollActions.newPayHeadAction(), transactionId);
 			break;
 		case IAccounterCore.PAY_STRUCTURE:
 			initCallBack(new ClientPayStructure(),
-					ActionFactory.getPayStructureAction(), transactionId);
+					PayRollActions.newPayStructureAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_RUN:
-			initCallBack(new ClientPayRun(), ActionFactory.getPayRunAction(),
+			initCallBack(new ClientPayRun(), PayRollActions.newPayRunAction(),
 					transactionId);
 			break;
 		case IAccounterCore.ATTENDANCE_PRODUCTION_TYPE:
 			initCallBack(new ClientAttendanceOrProductionType(),
-					ActionFactory.getNewAttendanceProductionTypeAction(),
+					PayRollActions.newAttendanceProductionTypeAction(),
 					transactionId);
 			break;
 		}
@@ -505,7 +505,7 @@ public class ReportsRPC {
 			InventoryActions.buildAssembly().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_PAY_RUN:
-			ActionFactory.getPayRunAction().run((ClientPayRun) transaction,
+			PayRollActions.newPayRunAction().run((ClientPayRun) transaction,
 					false);
 			break;
 		}

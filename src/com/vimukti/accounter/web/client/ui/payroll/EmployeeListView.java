@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class EmployeeListView extends BaseListView<ClientEmployee> {
 
@@ -111,8 +111,8 @@ public class EmployeeListView extends BaseListView<ClientEmployee> {
 	}
 
 	@Override
-	protected Action<ClientEmployee> getAddNewAction() {
-		return ActionFactory.getNewEmployeeAction();
+	protected Action getAddNewAction() {
+		return PayRollActions.newEmployeeAction();
 	}
 
 	@Override

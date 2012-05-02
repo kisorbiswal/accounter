@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 
@@ -65,7 +65,7 @@ public class PayRollUnitCombo extends CustomCombo<ClientPayrollUnit> {
 	public void onAddNew() {
 
 		isAddNew = true;
-		NewPayrollUnitAction action = ActionFactory.getNewPayrollUnitAction();
+		PayRollActions action = PayRollActions.newPayRollUnitAction();
 		action.setCallback(new ActionCallback<ClientPayrollUnit>() {
 
 			@Override

@@ -5,8 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeAction;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
@@ -66,7 +65,7 @@ public class EmployeeCombo extends CustomCombo<ClientEmployee> {
 
 	@Override
 	public void onAddNew() {
-		NewEmployeeAction action = ActionFactory.getNewEmployeeAction();
+		PayRollActions action = PayRollActions.newEmployeeAction();
 		action.setCallback(new ActionCallback<ClientEmployee>() {
 
 			@Override

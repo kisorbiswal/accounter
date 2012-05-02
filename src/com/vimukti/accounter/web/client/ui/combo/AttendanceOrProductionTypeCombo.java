@@ -10,8 +10,7 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.NewAttendanceProductionTypeAction;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
 public class AttendanceOrProductionTypeCombo extends
 		CustomCombo<ClientAttendanceOrProductionType> {
@@ -107,10 +106,11 @@ public class AttendanceOrProductionTypeCombo extends
 		return messages.attendanceOrProductionType();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onAddNew() {
-		NewAttendanceProductionTypeAction action = ActionFactory
-				.getNewAttendanceProductionTypeAction();
+		PayRollActions action = PayRollActions
+				.newAttendanceProductionTypeAction();
 		action.setCallback(new ActionCallback<ClientAttendanceOrProductionType>() {
 
 			@Override
