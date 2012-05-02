@@ -1979,7 +1979,10 @@ public class CompanyManager extends Manager {
 						.getDefaultFiscalYearStartingMonth());
 
 		if (state == null || state.isEmpty()) {
-			state = iCountryPreferences.getStates()[0];
+			String[] states = iCountryPreferences.getStates();
+			if (states != null && states.length > 0) {
+				state = iCountryPreferences.getStates()[0];
+			}
 		}
 
 		countryPreferences.setDefaultTimeZone(iCountryPreferences
