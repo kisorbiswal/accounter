@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -2401,11 +2400,6 @@ public class UIUtils {
 
 		}
 		return childs;
-	}
-
-	public static void updateChildsPath(Item it) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
