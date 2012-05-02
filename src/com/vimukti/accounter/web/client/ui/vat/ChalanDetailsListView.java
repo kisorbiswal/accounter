@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -102,5 +103,10 @@ public class ChalanDetailsListView extends
 	@Override
 	public void restoreView(String currentView, String dateRange) {
 		filterList(currentView);
+	}
+
+	@Override
+	public HashMap<String, Object> saveView() {
+		return new HashMap<String, Object>();
 	}
 }
