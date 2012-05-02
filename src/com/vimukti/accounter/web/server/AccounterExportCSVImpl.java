@@ -2388,19 +2388,23 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(PaymentsList obj, int index) {
+					String columnValue = null;
 					switch (index) {
 					case 0:
-						return Utility.getDateInSelectedFormat(new FinanceDate(
-								obj.getPaymentDate()));
+						columnValue = Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getPaymentDate()));
 					case 1:
-						return obj.getPaymentNumber();
+						columnValue = obj.getPaymentNumber();
 					case 2:
-						return obj.getName();
+						columnValue = obj.getName();
 					case 3:
-						return amountAsStringWithCurrency(obj.getAmountPaid(),
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmountPaid(),
 								company.getPrimaryCurrency());
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<PaymentsList> csvExporter = new CSVExporter<PaymentsList>(
