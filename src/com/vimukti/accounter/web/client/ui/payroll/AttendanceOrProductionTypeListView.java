@@ -9,8 +9,10 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.NewAttendanceProductionTypeAction;
 
 public class AttendanceOrProductionTypeListView extends
 		BaseListView<ClientAttendanceOrProductionType> {
@@ -39,7 +41,18 @@ public class AttendanceOrProductionTypeListView extends
 
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewAttendanceProductionTypeAction();
+		NewAttendanceProductionTypeAction newAttendanceProductionTypeAction = ActionFactory
+				.getNewAttendanceProductionTypeAction();
+		newAttendanceProductionTypeAction
+				.setCallback(new ActionCallback<ClientAttendanceOrProductionType>() {
+
+					@Override
+					public void actionResult(
+							ClientAttendanceOrProductionType result) {
+						onPageChange(0, getPageSize());
+					}
+				});
+		return newAttendanceProductionTypeAction;
 	}
 
 	@Override
