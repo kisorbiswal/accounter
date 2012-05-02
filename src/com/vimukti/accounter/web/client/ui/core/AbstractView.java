@@ -41,6 +41,8 @@ public abstract class AbstractView<T> extends FlowPanel {
 	}
 
 	public Action<?> getAction() {
+		if (action.getText() != null)
+			action.setViewName(action.getText());
 		return action;
 	}
 

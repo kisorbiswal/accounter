@@ -281,4 +281,7 @@ public interface FinanceImages extends ClientBundle {
 
 	@Source("warning.jpg")
 	ImageResource warningicon();
+	
+	@Source("download.jpg")
+	ImageResource clipBoard();
 }

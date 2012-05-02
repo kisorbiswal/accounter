@@ -6589,4 +6589,12 @@ public interface AccounterMessages extends Messages {
 	public String payTAXList();
 
 	public String TaxRefundList();
+
+	public String exportedReports();
+	
+	public String enableDrillDown();
+
+	public String advanced();
+
+	public String getlink();
 }
