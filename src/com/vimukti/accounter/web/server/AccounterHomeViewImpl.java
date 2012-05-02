@@ -1825,8 +1825,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public PaginationList<ClientReminder> getRemindersList(int start,
 			int length, int viewType) throws AccounterException {
 		FinanceTool tool = new FinanceTool();
-		// FIXME must use start,length,viewType
-		return tool.getCompanyManager().getRemindersList(getCompanyId());
+		return tool.getCompanyManager().getRemindersList(start, length,
+				viewType, getCompanyId());
 	}
 
 	@Override

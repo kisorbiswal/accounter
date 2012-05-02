@@ -828,17 +828,31 @@ public class CompanyManager extends Manager {
 		return result;
 	}
 
-	public PaginationList<ClientReminder> getRemindersList(Long companyId)
-			throws AccounterException {
+	public PaginationList<ClientReminder> getRemindersList(int start,
+			int length, int viewType, Long companyId) throws AccounterException {
+		int total = 0;
 		Session session = HibernateUtil.getCurrentSession();
-		List<Reminder> list = session.getNamedQuery("getReminders")
-				.setLong("companyId", companyId).list();
+		Query query = null;
+		if (viewType != 0) {
+			query = session.getNamedQuery("getRemindersByViewType")
+					.setLong("companyId", companyId)
+					.setInteger("viewType", viewType);
+		} else {
+			query = session.getNamedQuery("getAllReminders").setLong(
+					"companyId", companyId);
+		}
+		total = query.list().size();
+		@SuppressWarnings("unchecked")
+		List<Reminder> l = query.setFirstResult(start).setMaxResults(length)
+				.list();
 		PaginationList<ClientReminder> result = new PaginationList<ClientReminder>();
-		for (Reminder reminder : list) {
+		for (Reminder reminder : l) {
 			ClientReminder clientReminder = new ClientConvertUtil()
 					.toClientObject(reminder, ClientReminder.class);
 			result.add(clientReminder);
 		}
+		result.setTotalCount(total);
+		result.setStart(start);
 		return result;
 	}
 

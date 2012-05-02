@@ -2034,7 +2034,15 @@
 		r.daysBeforeToRemind !=0
 	</query>
 
-	<query name="getReminders">
+	<query name="getRemindersByViewType">
+		<query-param name="companyId" type="long" />
+		<query-param name="viewType" type="int" />
+		from com.vimukti.accounter.core.Reminder r
+		where
+		r.company.id=:companyId and r.recurringTransaction.transaction.type=:viewType order by r.transactionDate
+	</query>
+	
+	<query name="getAllReminders">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.Reminder r
 		where

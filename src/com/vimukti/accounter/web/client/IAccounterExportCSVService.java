@@ -48,7 +48,7 @@ public interface IAccounterExportCSVService extends RemoteService {
 
 	String getRecurringsListExportCsv(long fromDate, long toDate);
 
-	String getRemindersListExportCsv();
+	String getRemindersListExportCsv(int viewType1);
 
 	String getWarehousesExportCsv();
 

@@ -46,6 +46,12 @@ public class CreateStatementToolBar extends ReportToolbar {
 		createControls();
 	}
 
+	@Override
+	public ClientFinanceDate getEndDate() {
+		return (endDate == null || endDate.getDate() == 0) ? new ClientFinanceDate()
+				: toItem.getDate();
+	}
+
 	public void createControls() {
 
 		String[] filter = { messages.open(), messages.overDue(), messages.all() };
@@ -245,8 +251,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 		itemSelectionHandler.onItemSelectionChanged(0, startDate, endDate);
 		if (isVendor) {
 			if (selectedVendor != null) {
-				reportview.makeReportRequest(selectedVendor.getID(), startDate,
-						endDate);
+				reportview.makeReportRequest(selectedVendor.getID(),
+						fromItem.getDate(), toItem.getDate());
 			} else {
 				reportview.addEmptyMessage(messages.noRecordsToShow());
 			}

@@ -67,7 +67,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 				// FinanceApplication.constants().previousCalenderYear(),
 				messages.custom() };
 
-		LabelItem report = new LabelItem(messages.reportBasisAccrual(),"report");
+		LabelItem report = new LabelItem(messages.reportBasisAccrual(),
+				"report");
 
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle(FinanceApplication.constants()
@@ -103,7 +104,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 					}
 				});
-		customDate = new DateItem("","customDate");
+		customDate = new DateItem("", "customDate");
 		// customDate.setUseTextField(true);
 		// customDate.setWidth(100);
 		customDate.setShowTitle(false);
@@ -161,8 +162,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// }
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
-//		this.setCellVerticalAlignment(updateButton,
-//				HasVerticalAlignment.ALIGN_MIDDLE);
+		// this.setCellVerticalAlignment(updateButton,
+		// HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override
@@ -170,7 +171,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		customDate.setValue(endDate);
 		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
-				endDate);
+				customDate.getDate());
 	}
 
 	@Override

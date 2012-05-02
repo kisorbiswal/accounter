@@ -1033,10 +1033,11 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String getRemindersListExportCsv() {
+	public String getRemindersListExportCsv(int viewType1) {
 		try {
 			PaginationList<ClientReminder> remindersList = getFinanceTool()
-					.getCompanyManager().getRemindersList(getCompanyId());
+					.getCompanyManager().getRemindersList(0, -1, viewType1,
+							getCompanyId());
 			ICSVExportRunner<ClientReminder> icsvExportRunner = new ICSVExportRunner<ClientReminder>() {
 
 				@Override

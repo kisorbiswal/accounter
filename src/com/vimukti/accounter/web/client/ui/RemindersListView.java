@@ -113,7 +113,8 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 	}
 
 	protected void createOrSkipTransactions(boolean isCreate) {
-		ArrayList<ClientReminder> records = (ArrayList<ClientReminder>) grid.getSelectedRecords();
+		ArrayList<ClientReminder> records = (ArrayList<ClientReminder>) grid
+				.getSelectedRecords();
 		if (!records.isEmpty()) {
 			if (isCreate) {
 				for (ClientReminder reminder : records) {
@@ -314,7 +315,7 @@ public class RemindersListView extends BaseListView<ClientReminder> implements
 
 	@Override
 	public void exportToCsv() {
-		Accounter.createExportCSVService().getRemindersListExportCsv(
+		Accounter.createExportCSVService().getRemindersListExportCsv(viewType1,
 				getExportCSVCallback(messages.remindersList()));
 	}
 }

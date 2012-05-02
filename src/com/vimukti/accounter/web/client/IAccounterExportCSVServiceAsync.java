@@ -56,7 +56,8 @@ public interface IAccounterExportCSVServiceAsync {
 	public void getRecurringsListExportCsv(long fromDate, long toDate,
 			AsyncCallback<String> callBack);
 
-	public void getRemindersListExportCsv(AsyncCallback<String> callBack);
+	public void getRemindersListExportCsv(int viewType1,
+			AsyncCallback<String> callBack);
 
 	public void getWarehousesExportCsv(AsyncCallback<String> callBack);
 

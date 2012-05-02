@@ -62,7 +62,7 @@ public abstract class ReportToolbar extends DynamicForm {
 	}
 
 	public ClientFinanceDate getStartDate() {
-		return startDate != null && startDate.getDate() == 0 ? new ClientFinanceDate()
+		return (startDate == null || startDate.getDate() == 0) ? new ClientFinanceDate()
 				: startDate;
 	}
 
@@ -71,7 +71,7 @@ public abstract class ReportToolbar extends DynamicForm {
 	}
 
 	public ClientFinanceDate getEndDate() {
-		return (endDate != null && endDate.getDate() == 0) ? new ClientFinanceDate()
+		return (endDate == null || endDate.getDate() == 0) ? new ClientFinanceDate()
 				: endDate;
 	}
 

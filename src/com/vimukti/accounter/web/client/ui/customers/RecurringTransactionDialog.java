@@ -151,7 +151,7 @@ public class RecurringTransactionDialog extends
 		daysBeforeLabel = new LabelItem(messages.daysBefore(),
 				"daysBeforeLabel");
 		daysBeforeLabel.setShowTitle(false);
-		daysBeforeLabel.setValue(messages.daysBefore());
+		// daysBeforeLabel.setValue(messages.daysBefore());
 		notificationForm = new DynamicForm("notificationForm");
 		notificationForm.add(notifyAboutCreatedTransactions);
 
