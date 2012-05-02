@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -312,7 +313,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			otherItems.add(getMessages().taxAdjustment());
 		}
 
-		otherItems.add(getMessages().payRuns());
+		if (Accounter.hasPermission(Features.PAY_ROLL)) {
+			otherItems.add(getMessages().payRuns());
+		}
 
 		// otherItems.add(getMessages().transferFunds());
 		return otherItems;
