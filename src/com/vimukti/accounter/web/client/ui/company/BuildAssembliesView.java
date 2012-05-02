@@ -19,7 +19,7 @@ public class BuildAssembliesView extends
 	private int viewId;
 
 	public BuildAssembliesView() {
-		super(messages.open());
+		super(messages.all());
 		isDeleteDisable = true;
 	}
 
