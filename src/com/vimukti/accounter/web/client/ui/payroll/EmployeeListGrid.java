@@ -22,8 +22,7 @@ public class EmployeeListGrid extends BaseListGrid<ClientEmployee> {
 
 	@Override
 	protected void executeDelete(ClientEmployee emp) {
-		// TODO Auto-generated method stub
-
+		Accounter.deleteObject(this, emp);
 	}
 
 	@Override
@@ -63,6 +62,13 @@ public class EmployeeListGrid extends BaseListGrid<ClientEmployee> {
 	}
 
 	@Override
+	protected void onClick(ClientEmployee obj, int row, int col) {
+		if (col == 4) {
+			showWarnDialog(obj);
+		}
+	}
+
+	@Override
 	public void onDoubleClick(ClientEmployee emp) {
 		ReportsRPC.openTransactionView(IAccounterCore.EMPLOYEE, emp.getID());
 	}
@@ -75,13 +81,13 @@ public class EmployeeListGrid extends BaseListGrid<ClientEmployee> {
 
 	@Override
 	protected String[] setHeaderStyle() {
-		return new String[] { messages.employeeID(), messages.employeeName(),
-				messages.designation(), messages.location(), messages.delete() };
+		return new String[] { "employeeID", "employeeName", "designation",
+				"location", "delete" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
-		return new String[] { messages.employeeID(), messages.employeeName(),
-				messages.designation(), messages.location(), messages.delete() };
+		return new String[] { "employeeID-value", "employeeName-value",
+				"designation-value", "location-value", "delete-value" };
 	}
 }
