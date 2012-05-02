@@ -256,6 +256,8 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 				table.add(item);
 			}
 		}
+
+		super.initData();
 	}
 
 	@Override
@@ -276,6 +278,14 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	@Override
 	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		if (isInViewMode()) {
+			return super.canDelete();
+		}
 		return false;
 	}
 }
