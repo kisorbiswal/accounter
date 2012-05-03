@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientPayStructureList implements IAccounterCore {
 
 	/**
@@ -63,14 +65,19 @@ public class ClientPayStructureList implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		String name = null;
+		if (employee != null) {
+			name = employee.getName();
+		} else {
+			name = employeeGroup.getName();
+		}
+		name += " " + Accounter.getMessages().payStructure();
+		return name;
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
