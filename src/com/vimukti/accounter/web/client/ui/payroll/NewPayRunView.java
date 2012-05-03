@@ -441,8 +441,9 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		long payPeriodStartDate = data.getPayPeriodStartDate();
 		fromDate.setDateWithNoEvent(new ClientFinanceDate(payPeriodStartDate));
 		toDate.setDateWithNoEvent(new ClientFinanceDate(payPeriodEndDate));
-		empsAndGroups.setEmpGroup(data.getEmployee() == 0 ? data
-				.getEmployeeGroup() : data.getEmployee());
+		empsAndGroups.setEmpGroup(
+				data.getEmployee() == 0 ? data.getEmployeeGroup() : data
+						.getEmployee(), data.getEmployee() != 0);
 		table.setData(data.getAttendanceItems());
 		noOfWorkingDays.setValue(data.getNoOfWorkingDays());
 	}

@@ -4057,6 +4057,7 @@ public class ReportManager extends Manager {
 				.getNamedQuery("getBankCheckDetails")
 				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
 				.setParameter("paymentMethodCheque",
 						Global.get().messages().cheque(),
 						EncryptedStringType.INSTANCE)

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -74,8 +75,10 @@ public class EmployeeGroup extends CreatableObject implements
 			Session session = HibernateUtil.getCurrentSession();
 
 			EmployeeGroup employeeGroup = (EmployeeGroup) clientObject;
-			Query query = session.getNamedQuery("getEmployeeGroup.by.Name")
-					.setParameter("name", employeeGroup.name)
+			Query query = session
+					.getNamedQuery("getEmployeeGroup.by.Name")
+					.setParameter("name", employeeGroup.name,
+							EncryptedStringType.INSTANCE)
 					.setParameter("id", employeeGroup.getID())
 					.setEntity("company", employeeGroup.getCompany());
 			List list = query.list();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -102,8 +103,10 @@ public class AttendanceOrProductionType extends CreatableObject implements
 			Session session = HibernateUtil.getCurrentSession();
 
 			AttendanceOrProductionType attendanceType = (AttendanceOrProductionType) clientObject;
-			Query query = session.getNamedQuery("getAttendanceType.by.Name")
-					.setParameter("name", attendanceType.name)
+			Query query = session
+					.getNamedQuery("getAttendanceType.by.Name")
+					.setParameter("name", attendanceType.name,
+							EncryptedStringType.INSTANCE)
 					.setParameter("id", attendanceType.getID())
 					.setEntity("company", attendanceType.getCompany());
 			List list = query.list();

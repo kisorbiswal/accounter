@@ -17,7 +17,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<property name="name" column="NAME" />
+		<property name="name" column="NAME" type="encryptedstring" />
 	</class>
 
 	<class name="PayrollUnit" table="PAY_ROLL_UNIT">
@@ -34,8 +34,8 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 
-		<property name="symbol" column="SYMBOL" />
-		<property name="formalname" column="FORMAL_NAME" />
+		<property name="symbol" column="SYMBOL" type="encryptedstring"/>
+		<property name="formalname" column="FORMAL_NAME" type="encryptedstring"/>
 		<property name="noofDecimalPlaces" column="NO_OF_DECIMAL_PLACES" />
 
 	</class>
@@ -92,7 +92,7 @@
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
-		<property name="name" column="NAME" not-null="true" />
+		<property name="name" column="NAME" not-null="true" type="encryptedstring"/>
 		<property name="type" column="TYPE" />
 		<property name="roundingMethod" column="ROUNDING_METHOD" />
 		<property name="nameToAppearInPaySlip" column="NAME_TO_APPEAR_ON_PAYSLIP" />
@@ -163,7 +163,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="type" column="TYPE" />
-		<property name="name" column="NAME" />
+		<property name="name" column="NAME" type="encryptedstring" />
 		<many-to-one name="unit" column="UNIT" class="PayrollUnit" />
 		<property name="periodType" column="PERIOD_TYPE" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -248,7 +248,7 @@
 		<![CDATA[
 			SELECT SUM(API.VALUE) AS VAL FROM
 					ATTENDANCE_MANAGEMENT_ITEM I
-					LEFT JOIN EMPLOYEE E ON E.ID = I.EMPLOYEE
+					LEFT JOIN PAYEE E ON E.ID = I.EMPLOYEE
 					LEFT JOIN ATTENDANCE_OR_PRODUCTION_ITEMS API 
 					ON API.ATTENDANCE_MANAGEMENT_ITEM_ID = I.ID
 					WHERE E.COMPANY_ID = :company
@@ -315,7 +315,7 @@
 		ec.company=:company </query> -->
 	<query name="getEmployee.by.Name">
 		<query-param name="company" type="Company" />
-		<query-param name="name" type="String" />
+		<query-param name="name" type="encryptedstring" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.Employee E where
 		E.company=:company and
@@ -324,7 +324,7 @@
 
 	<query name="getEmployeeGroup.by.Name">
 		<query-param name="company" type="Company" />
-		<query-param name="name" type="String" />
+		<query-param name="name" type="encryptedstring" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.EmployeeGroup E where
 		E.company=:company and
@@ -333,7 +333,7 @@
 
 	<query name="getPayhead.by.Name">
 		<query-param name="company" type="Company" />
-		<query-param name="name" type="String" />
+		<query-param name="name" type="encryptedstring" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.PayHead PH where
 		PH.company=:company
@@ -343,7 +343,7 @@
 
 	<query name="getAttendanceType.by.Name">
 		<query-param name="company" type="Company" />
-		<query-param name="name" type="String" />
+		<query-param name="name" type="encryptedstring" />
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.AttendanceOrProductionType A where
 		A.company=:company and
@@ -388,32 +388,33 @@
 		<query-param name="start" type="long" />
 		<query-param name="end" type="long" />
 
-		<return-scalar column="NAME" type="string" />
-		<return-scalar column="NUMBER" type="string" />
-		<return-scalar column="ACCOUNT_NUMBER" type="string" />
-		<return-scalar column="BANK_NAME" type="string" />
-		<return-scalar column="BRANCH" type="string" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NUMBER" type="encryptedstring" />
+		<return-scalar column="BANK_NAME" type="encryptedstring" />
+		<return-scalar column="BRANCH" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
-		<return-scalar column="EMAIL" type="string" />
+		<return-scalar column="EMAIL" type="encryptedstring" />
 		<return-scalar column="EMPLOYEE_ID" type="long" />
 		<![CDATA[
-			SELECT 	E.NAME AS NAME,
+			SELECT 	P.NAME AS NAME,
 					E.NUMBER AS NUMBER,
-					E.BANK_ACCOUNT_NUMBER AS ACCOUNT_NUMBER,
-					E.BANK_NAME AS BANK_NAME,
-					E.BANK_BRANCH AS BRANCH,
+					P.BANK_ACCOUNT_NO AS ACCOUNT_NUMBER,
+					P.BANK_NAME AS BANK_NAME,
+					P.BANK_BRANCH AS BRANCH,
 					SUM(PC.RATE) AS AMOUNT,
-					E.EMAIL AS EMAIL,
-					E.ID AS EMPLOYEE_ID
+					P.EMAIL_ID AS EMAIL,
+					P.ID AS EMPLOYEE_ID
 					FROM EMPLOYEE E 
+						LEFT OUTER JOIN PAYEE P ON P.ID = E.ID
 						LEFT JOIN EMPLOYEE_PAYMENT_DETAILS PD ON PD.EMPLOYEE = E.ID
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT PC ON PC.EMPLOYEE_PAYMENT_DETAILS_ID = PD.ID
 						LEFT JOIN TRANSACTION T ON T.ID = PD.PAY_RUN_ID
 				
-						WHERE E.COMPANY_ID = :companyId
+						WHERE P.COMPANY_ID = :companyId
 								AND T.T_DATE BETWEEN :start AND :end
 								
-						GROUP BY E.ID		
+						GROUP BY P.ID,E.NUMBER	
 		]]>
 	</sql-query>
 
@@ -423,7 +424,7 @@
 		<query-param name="end" type="long" />
 
 		<return-scalar column="EMPLOYEE_ID" type="long" />
-		<return-scalar column="EMPLOYEE_NAME" type="string" />
+		<return-scalar column="EMPLOYEE_NAME" type="encryptedstring" />
 		<return-scalar column="PAYHEAD_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
@@ -450,7 +451,7 @@
 					PH.ID AS PAYHEAD_ID
 					
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
-						LEFT JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE
+						LEFT JOIN PAYEE E ON E.ID = EPD.EMPLOYEE
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
 						LEFT JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
 						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
@@ -469,7 +470,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="type" type="int" />
-		<return-scalar column="NAME" type="string" />
+		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -503,7 +504,7 @@
 		<query-param name="end" type="long" />
 
 		<return-scalar column="PAY_HEAD_ID" type="long" />
-		<return-scalar column="NAME" type="string" />
+		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TYPE" type="int" />
 		<![CDATA[
@@ -515,7 +516,7 @@
 						ELSE 3 END AS TYPE
 				
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
-						LEFT JOIN EMPLOYEE E ON E.ID = EPD.EMPLOYEE
+						LEFT JOIN PAYEE E ON E.ID = EPD.EMPLOYEE
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
 						LEFT JOIN PAY_HEAD PH ON PH.ID = EPC.PAY_HEAD
 						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
@@ -535,7 +536,7 @@
 		<query-param name="end" type="long" />
 
 		<return-scalar column="ATTENDANCE_ID" type="long" />
-		<return-scalar column="NAME" type="string" />
+		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="PERIOD" type="int" />
 		<return-scalar column="TYPE" type="int" />
@@ -546,22 +547,21 @@
 					API.VALUE AS AMOUNT,
 					APT.PERIOD_TYPE AS PERIOD,
 					1 AS TYPE,
-					E.ID AS EMPLOYEE_ID
+					P.ID AS EMPLOYEE_ID
 				
 					FROM EMPLOYEE_PAYMENT_DETAILS EPD
 						LEFT JOIN EMPLOYEE_PAYHEAD_COMPONENT EPC ON EPC.EMPLOYEE_PAYMENT_DETAILS_ID = EPD.ID
 						LEFT JOIN TRANSACTION T ON T.ID = EPD.PAY_RUN_ID
 						LEFT JOIN ATTENDANCE_MANAGEMENT_ITEM AMI ON AMI.ATTENDANCE_MANAGEMENT = T.ID
 						LEFT JOIN ATTENDANCE_OR_PRODUCTION_ITEMS API ON API.ATTENDANCE_MANAGEMENT_ITEM_ID = AMI.ID
-						LEFT JOIN EMPLOYEE E ON E.ID = AMI.EMPLOYEE
+						LEFT OUTER JOIN PAYEE P ON P.ID =AMI.EMPLOYEE
 						LEFT JOIN ATTENDANCE_OR_PRODUCTION_TPE APT ON APT.ID = API.ATTENDANCE_TYPE
-						
-					WHERE 	E.ID = :employeeId AND 
-							E.COMPANY_ID = :companyId AND
+					WHERE 	P.ID = :employeeId AND 
+							P.COMPANY_ID = :companyId AND
 							AMI.ID IS NOT NULL AND
 							T.T_DATE BETWEEN :start AND :end
 				
-					GROUP BY AMI.ID,APT.ID,API.VALUE,E.ID
+					GROUP BY AMI.ID,APT.ID,API.VALUE,P.ID
 		]]>
 	</sql-query>
 	<sql-query name="getTransactionPayEmployeeList">

@@ -4683,9 +4683,9 @@
 		<query-param name="endDate" type="long"></query-param>
 		<query-param name="payHeadId" type="long"></query-param>
 		<return-scalar column="EMPLOYEE_ID" type="long"></return-scalar>
-		<return-scalar column="EMPLOYEE_NAME" type="string"></return-scalar>
+		<return-scalar column="EMPLOYEE_NAME" type="encryptedstring"></return-scalar>
 		<return-scalar column="PAYHEAD_ID" type="long"></return-scalar>
-		<return-scalar column="PAY_HEAD_NAME" type="string"></return-scalar>
+		<return-scalar column="PAY_HEAD_NAME" type="encryptedstring"></return-scalar>
 		<return-scalar column="PAY_HEAD_AMOUNT" type="double"></return-scalar>
 		<![CDATA[
 				SELECT E.ID AS EMPLOYEE_ID,
@@ -4716,8 +4716,8 @@
 		<query-param name="payHeadId" type="long"></query-param>
 		<query-param name="employee" type="long"></query-param>
 		<return-scalar column="PAY_HEAD_AMOUNT" type="double"></return-scalar>
-		<return-scalar column="EMPLOYEE_NAME" type="string"></return-scalar>
-		<return-scalar column="PAY_HEAD_NAME" type="string"></return-scalar>
+		<return-scalar column="EMPLOYEE_NAME" type="encryptedstring" ></return-scalar>
+		<return-scalar column="PAY_HEAD_NAME" type="encryptedstring" ></return-scalar>
 		<return-scalar column="PAY_HEAD_TYPE" type="int"></return-scalar>
 		<return-scalar column="NUMBER" type="encryptedstring"></return-scalar>
 		<return-scalar column="TRANSACTION_DATE" type="long"></return-scalar>

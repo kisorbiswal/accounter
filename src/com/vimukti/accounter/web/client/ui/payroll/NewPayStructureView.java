@@ -159,7 +159,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		if (employee == 0) {
 			employee = data.getEmployeeGroup();
 		}
-		empsAndGroups.setEmpGroup(employee);
+		empsAndGroups.setEmpGroup(employee, data.getEmployee() != 0);
 
 		grid.setAllRows(data.getItems());
 	}

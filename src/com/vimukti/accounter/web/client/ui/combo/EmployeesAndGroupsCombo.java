@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.combo;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
@@ -11,6 +13,7 @@ public class EmployeesAndGroupsCombo extends
 
 	private long empGroup;
 	private boolean isItemsAdded;
+	private boolean isEmployee;
 
 	public EmployeesAndGroupsCombo(String title, String styleName) {
 		super(title, false, 1, styleName);
@@ -63,8 +66,9 @@ public class EmployeesAndGroupsCombo extends
 
 	}
 
-	public void setEmpGroup(long employeeorEGroup) {
+	public void setEmpGroup(long employeeorEGroup, boolean isEmployee) {
 		this.empGroup = employeeorEGroup;
+		this.isEmployee = isEmployee;
 		if (this.isItemsAdded) {
 			selectCombo();
 		}
@@ -73,11 +77,24 @@ public class EmployeesAndGroupsCombo extends
 	private void selectCombo() {
 		if (this.empGroup != 0) {
 			for (ClientPayStructureDestination item : getComboItems()) {
-				if (item.getID() == empGroup) {
-					setComboItem(item);
-					this.empGroup = 0;
-					break;
+				if (isEmployee) {
+					if (item instanceof ClientEmployee) {
+						if (item.getID() == empGroup) {
+							setComboItem(item);
+							this.empGroup = 0;
+							break;
+						}
+					}
+				} else {
+					if (item instanceof ClientEmployeeGroup) {
+						if (item.getID() == empGroup) {
+							setComboItem(item);
+							this.empGroup = 0;
+							break;
+						}
+					}
 				}
+
 			}
 		}
 	}

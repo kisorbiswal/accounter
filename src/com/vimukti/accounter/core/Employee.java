@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -269,8 +270,10 @@ public class Employee extends Payee implements PayStructureDestination {
 			Session session = HibernateUtil.getCurrentSession();
 
 			Employee employee = (Employee) clientObject;
-			Query query = session.getNamedQuery("getEmployee.by.Name")
-					.setParameter("name", employee.name)
+			Query query = session
+					.getNamedQuery("getEmployee.by.Name")
+					.setParameter("name", employee.name,
+							EncryptedStringType.INSTANCE)
 					.setParameter("id", employee.getID())
 					.setEntity("company", employee.getCompany());
 			List list = query.list();
