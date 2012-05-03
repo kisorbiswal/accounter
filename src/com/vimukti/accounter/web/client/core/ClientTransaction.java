@@ -90,6 +90,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int VIEW_DRAFT = 4;
 
 	public static final int TYPE_PAY_RUN = 39;
+	public static final int TYPE_PAY_EMPLOYEE = 40;
 
 	/**
 	 * in Edit mode of transaction, if any transaction has reference in
