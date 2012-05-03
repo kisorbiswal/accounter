@@ -6591,4 +6591,12 @@ public interface AccounterMessages extends Messages {
 	public String TaxRefundList();
 
 	public String payheadOrAttendanceNotEmpty();
+
+	public String exportedReports();
+
+	public String enableDrillDown();
+
+	public String advanced();
+
+	public String getlink();
 }
