@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
+import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
@@ -224,5 +225,13 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 		obj.setStartDate(financeDates[0].toClientFinanceDate());
 		obj.setEndDate(financeDates[1].toClientFinanceDate());
 		return obj;
+	}
+
+	@Override
+	public ClientPayStructure getPayStructure(
+			ClientPayStructureDestination selectItem) throws AccounterException {
+		return getFinanceTool().getPayrollManager().getPayStructure(selectItem,
+				getCompanyId());
+
 	}
 }

@@ -438,6 +438,16 @@
 		from com.vimukti.accounter.core.Employee e where
 		e.group.id=:groupId
 	</query>
+	
+	<query name="getPayStructure">
+		<query-param name="employeeId" type="long"></query-param>
+		<query-param name="groupId" type="long"></query-param>
+		<query-param name="companyId" type="long"></query-param>
+		from com.vimukti.accounter.core.PayStructure p where
+			p.employee.id = :employeeId or 
+			p.employeeGroup.id = :groupId and
+			p.company.id = :companyId
+	</query>
 
 	<sql-query name="getPaySlipSummary">
 		<query-param name="companyId" type="long" />

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
-import com.sun.mail.handlers.message_rfc822;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientPayStructure implements IAccounterCore {

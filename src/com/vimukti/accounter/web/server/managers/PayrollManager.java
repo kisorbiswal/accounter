@@ -688,4 +688,31 @@ public class PayrollManager extends Manager {
 
 		return queryResult;
 	}
+
+	public ClientPayStructure getPayStructure(
+			ClientPayStructureDestination selectItem, Long companyId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		long employeeId = 0;
+		long groupId = 0;
+
+		if (selectItem instanceof ClientEmployee) {
+			employeeId = selectItem.getID();
+		} else {
+			groupId = selectItem.getID();
+		}
+
+		Query query = session.getNamedQuery("getPayStructure")
+				.setParameter("companyId", companyId)
+				.setParameter("employeeId", employeeId)
+				.setParameter("groupId", groupId);
+
+		PayStructure result = (PayStructure) query.uniqueResult();
+
+		ClientPayStructure clientObject = new ClientConvertUtil()
+				.toClientObject(result, ClientPayStructure.class);
+
+		return clientObject;
+	}
 }

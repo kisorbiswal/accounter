@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -49,6 +50,15 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 				"empsAndGroups");
 		empsAndGroups.setEnabled(!isInViewMode());
 		empsAndGroups.setRequired(true);
+		empsAndGroups
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayStructureDestination>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientPayStructureDestination selectItem) {
+						getPayStructure(selectItem);
+					}
+				});
 
 		grid = new PayStructureTable();
 		grid.setEnabled(!isInViewMode());
@@ -70,6 +80,29 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		mainVLay.add(itemTableButton);
 
 		this.add(mainVLay);
+	}
+
+	protected void getPayStructure(ClientPayStructureDestination selectItem) {
+		Accounter.createPayrollService().getPayStructure(selectItem,
+				new AsyncCallback<ClientPayStructure>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(ClientPayStructure result) {
+						if (result != null) {
+							data.setID(result.getID());
+							data.setEmployee(result.getEmployee());
+							data.setEmployeeGroup(result.getEmployeeGroup());
+							data.setItems(result.getItems());
+							grid.setAllRows(result.getItems());
+						}
+					}
+				});
 	}
 
 	protected void addItem() {
