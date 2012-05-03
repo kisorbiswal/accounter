@@ -75,9 +75,7 @@ public class SalesByLocationsummaryServerReport extends
 
 	@Override
 	public void processRecord(SalesByLocationSummary record) {
-		parents = record.getParents();
-		if (parents.size() == 1 && list.isEmpty()) {
-			isHavingSubItems = false;
+		if (isLocation) {
 			if (sectionDepth == 0) {
 				addSection(new String[] { "" }, new String[] { getMessages()
 						.total() }, new int[] { 1 });
@@ -87,73 +85,88 @@ public class SalesByLocationsummaryServerReport extends
 			// Go on recursive calling if we reached this place
 			processRecord(record);
 		} else {
-			if (!isHavingSubItems) {
-				endSection();
-				isHavingSubItems = true;
-			}
-			if (!isEmptySectionEnabled) {
-				addSection(new String[] {}, new String[] { messages.total() },
-						new int[] { 1 });
-				isEmptySectionEnabled = true;
-			}
-			// close all extra
-			for (int x = list.size(); x > parents.size(); x--) {
-				last.remove(x - 1);
-				list.remove(x - 1);
-				endSection();
-				depth--;
-				if (depth > list.size()) {
-					endSection();
-					depth--;
-					haveSubs = true;
-				} else {
-					haveSubs = true;
+
+			parents = record.getParents();
+			if (parents.size() == 1 && list.isEmpty()) {
+				isHavingSubItems = false;
+				if (sectionDepth == 0) {
+					addSection(new String[] { "" },
+							new String[] { getMessages().total() },
+							new int[] { 1 });
+				} else if (sectionDepth == 1) {
+					return;
 				}
-			}
-
-			int rest = list.size();
-
-			for (int x = list.size() - 1; x >= 0; x--) {
-				if (!list.get(x).equals(parents.get(x))) {
-					last.remove(x);
-					list.remove(x);
+				// Go on recursive calling if we reached this place
+				processRecord(record);
+			} else {
+				if (!isHavingSubItems) {
+					endSection();
+					isHavingSubItems = true;
+				}
+				if (!isEmptySectionEnabled) {
+					addSection(new String[] {},
+							new String[] { messages.total() }, new int[] { 1 });
+					isEmptySectionEnabled = true;
+				}
+				// close all extra
+				for (int x = list.size(); x > parents.size(); x--) {
+					last.remove(x - 1);
+					list.remove(x - 1);
 					endSection();
 					depth--;
-					rest--;
 					if (depth > list.size()) {
 						endSection();
 						depth--;
+						haveSubs = true;
 					} else {
 						haveSubs = true;
 					}
 				}
+
+				int rest = list.size();
+
+				for (int x = list.size() - 1; x >= 0; x--) {
+					if (!list.get(x).equals(parents.get(x))) {
+						last.remove(x);
+						list.remove(x);
+						endSection();
+						depth--;
+						rest--;
+						if (depth > list.size()) {
+							endSection();
+							depth--;
+						} else {
+							haveSubs = true;
+						}
+					}
+				}
+
+				String name = null;
+
+				for (int x = rest; x < parents.size(); x++) {
+					name = parents.get(x);
+					last.add(name);
+					list.add(name);
+					addSection(new String[] { name },
+							new String[] { messages.reportTotal(name) },
+							new int[] { 1 }, record.getDepthsByName().get(name)
+									.intValue());
+					// startSection(name,depth);
+					depth++;
+					haveSubs = false;
+				}
+				if (haveSubs) {
+
+					name = getLast(); // get last one and + Other
+					addSection(new String[] { name }, new String[] {},
+							new int[] {}, record.getDepth() + 1);
+					// startSection(name, depth);
+					depth++;
+					haveSubs = false;
+				}
+
+				return;
 			}
-
-			String name = null;
-
-			for (int x = rest; x < parents.size(); x++) {
-				name = parents.get(x);
-				last.add(name);
-				list.add(name);
-				addSection(new String[] { name },
-						new String[] { messages.reportTotal(name) },
-						new int[] { 1 }, record.getDepthsByName().get(name)
-								.intValue());
-				// startSection(name,depth);
-				depth++;
-				haveSubs = false;
-			}
-			if (haveSubs) {
-
-				name = getLast(); // get last one and + Other
-				addSection(new String[] { name }, new String[] {},
-						new int[] {}, record.getDepth() + 1);
-				// startSection(name, depth);
-				depth++;
-				haveSubs = false;
-			}
-
-			return;
 		}
 	}
 
