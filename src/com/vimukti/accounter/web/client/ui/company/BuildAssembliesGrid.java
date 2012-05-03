@@ -17,10 +17,9 @@ public class BuildAssembliesGrid extends BaseListGrid<ClientBuildAssembly> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override

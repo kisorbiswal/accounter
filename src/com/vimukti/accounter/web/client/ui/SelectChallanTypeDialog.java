@@ -19,7 +19,7 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		super(messages.selectItemType(), messages.selectOneOfItem());
 		this.getElement().setId("SelectChallanTypeDialog");
 		createControls();
-		
+
 		center();
 	}
 
@@ -35,13 +35,13 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 
 		typeForm = new DynamicForm("typeForm");
 		typeForm.add(typeRadio);
-//		typeForm.setWidth("100%");
+		// typeForm.setWidth("100%");
 
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(typeForm);
 
 		setBodyLayout(mainVLay);
-//		setWidth("320px");
+		// setWidth("320px");
 		show();
 	}
 
@@ -79,5 +79,10 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;// super.onCancel();
 	}
 }
