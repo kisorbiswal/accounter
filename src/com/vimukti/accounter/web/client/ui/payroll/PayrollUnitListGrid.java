@@ -75,6 +75,22 @@ public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 220;
+		case 1:
+			return 220;
+		case 2:
+			return 220;
+		case 3:
+			return 30;
+		default:
+			return -1;
+		}
+	}
+
+	@Override
 	public void onDoubleClick(ClientPayrollUnit obj) {
 		ReportsRPC
 				.openTransactionView(IAccounterCore.PAYROLL_UNIT, obj.getID());

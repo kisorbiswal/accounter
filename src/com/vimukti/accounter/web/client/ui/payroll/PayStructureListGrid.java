@@ -67,6 +67,19 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructureList> {
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 220;
+		case 1:
+			return 30;
+		default:
+			return -1;
+		}
+
+	}
+
+	@Override
 	protected void onClick(ClientPayStructureList obj, int row, int col) {
 		switch (col) {
 		case 1:

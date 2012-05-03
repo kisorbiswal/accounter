@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -67,6 +66,26 @@ public class PayheadListGrid extends BaseListGrid<ClientPayHead> {
 			break;
 		}
 		return null;
+	}
+
+	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 180;
+		case 1:
+			return 100;
+		case 2:
+			return 200;
+		case 3:
+			return 200;
+		case 4:
+			return 200;
+
+		default:
+			return -1;
+		}
+
 	}
 
 	@Override

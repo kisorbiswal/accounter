@@ -711,6 +711,10 @@ public class PayrollManager extends Manager {
 
 		PayStructure result = (PayStructure) query.uniqueResult();
 
+		if (result == null) {
+			return null;
+		}
+
 		ClientPayStructure clientObject = new ClientConvertUtil()
 				.toClientObject(result, ClientPayStructure.class);
 
