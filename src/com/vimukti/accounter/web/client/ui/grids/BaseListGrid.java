@@ -263,7 +263,8 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		// Accounter.showError(messages.updationFailed());
 		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
+		String errorString = AccounterExceptions
+				.getErrorString(accounterException);
 		Accounter.showError(errorString);
 	}
 
