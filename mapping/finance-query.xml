@@ -2131,23 +2131,11 @@
 
 	</sql-query>
 
-	<!-- <sql-query name="canDeleteEmployeeCategory">
-		<query-param name="inputId" type="long" />
-		<query-param name="companyId" type="long" />
-
-		<return-scalar column="ID" type="long" />
-
-		<![CDATA[
-				SELECT EC.ID AS ID
-				FROM   EMPLOYEE_CATEGORY EC
-				       
-				WHERE  EC.ID IS NULL
-				       AND EC.ID = :inputId
-				       AND EC.COMPANY_ID = :companyId
-				LIMIT  1 
-				]]>
-
-	</sql-query> -->
+	<!-- <sql-query name="canDeleteEmployeeCategory"> <query-param name="inputId" 
+		type="long" /> <query-param name="companyId" type="long" /> <return-scalar 
+		column="ID" type="long" /> <![CDATA[ SELECT EC.ID AS ID FROM EMPLOYEE_CATEGORY 
+		EC WHERE EC.ID IS NULL AND EC.ID = :inputId AND EC.COMPANY_ID = :companyId 
+		LIMIT 1 ]]> </sql-query> -->
 
 	<sql-query name="canDeletePayHead">
 		<query-param name="inputId" type="long" />
@@ -2225,7 +2213,7 @@
 				]]>
 
 	</sql-query>
-	
+
 	<sql-query name="canDeleteAttendanceOrProductionType">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -2495,15 +2483,18 @@
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="CLASS_ID" type="long" />
 		
 		<![CDATA[
 				SELECT TRANS.ID      AS TRANSACTION_ID,
-				       TRANS_ITEM.ID AS TRANSACTION_ITEM_ID
+				       TRANS_ITEM.ID AS TRANSACTION_ITEM_ID,
+				       AC1.ID AS CLASS_ID
 				FROM   ACCOUNTER_CLASS AC
 				       LEFT OUTER JOIN TRANSACTION TRANS
 				         ON TRANS.TRANSACTION_ACCOUNTER_CLASS = :inputId
 				       LEFT OUTER JOIN TRANSACTION_ITEM TRANS_ITEM
 				         ON TRANS_ITEM.TRANS_ITEM_ACCOUNTER_CLASS = :inputId
+				       LEFT OUTER JOIN ACCOUNTER_CLASS AC1 ON AC1.PARENT_ID=AC.ID
 				WHERE  AC.ID = :inputId
 				       AND AC.COMPANY_ID = :companyId
 				LIMIT  1  
@@ -12197,13 +12188,13 @@
 											ORDER BY PRICES.TRANSACTION_DATE DESC ,PRICES.ID DESC ,PRICES.UNIT_PRICE DESC LIMIT 5
 		]]>
 	</sql-query>
-	
+
 	<sql-query name="canDeleteEmployee">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="PAY_STRUCTURE" type ="long" />
-		<return-scalar column="EPD_ID" type ="long" />
-		<return-scalar column="AMI_ID" type ="long" />
+		<return-scalar column="PAY_STRUCTURE" type="long" />
+		<return-scalar column="EPD_ID" type="long" />
+		<return-scalar column="AMI_ID" type="long" />
 		
 		<![CDATA[		
 			SELECT PS.ID  AS PAY_STRUCTURE, 
@@ -12220,11 +12211,11 @@
 			       AND E.COMPANY_ID = :companyId 			       
 			       ]]>
 	</sql-query>
-	
+
 	<sql-query name="canDeletePayRun">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="PR_ID" type ="long" />
+		<return-scalar column="PR_ID" type="long" />
 		
 		<![CDATA[	
 					SELECT PR.ID AS PR_ID 
@@ -12336,11 +12327,11 @@
 				       AND T.T_DATE BETWEEN :startdate AND :enddate  
 		]]>
 	</sql-query>
-	 
+
 	<sql-query name="canDeletePayrollUnit">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="APT_ID" type ="long" />
+		<return-scalar column="APT_ID" type="long" />
 		
 		<![CDATA[	
 						SELECT APT.ID AS APT_ID 
@@ -12353,8 +12344,8 @@
 			
 			]]>
 	</sql-query>
-	
-	
+
+
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

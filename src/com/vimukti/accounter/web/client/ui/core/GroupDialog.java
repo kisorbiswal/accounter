@@ -333,8 +333,7 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 	}
 
 	@Override
-	public void deleteFailed(AccounterException caught) {
-		AccounterException accounterException = (AccounterException) caught;
+	public void deleteFailed(AccounterException accounterException) {
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
