@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class NewPayStructureView extends BaseView<ClientPayStructure> {
 
 	private EmployeesAndGroupsCombo empsAndGroups;
+	private EmployeesAndGroupsCombo copyFrom;
 	private PayStructureTable grid;
 	private AddNewButton itemTableButton;
 
@@ -56,9 +58,29 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 					@Override
 					public void selectedComboBoxItem(
 							ClientPayStructureDestination selectItem) {
-						getPayStructure(selectItem);
+						getPayStructure(selectItem, true);
 					}
 				});
+
+		copyFrom = new EmployeesAndGroupsCombo(messages.copyFrom(), "copyFrom");
+		copyFrom.setEnabled(!isInViewMode());
+		copyFrom.setVisible(!isInViewMode());
+		copyFrom.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayStructureDestination>() {
+
+			@Override
+			public void selectedComboBoxItem(
+					ClientPayStructureDestination selectItem) {
+				if (selectItem == null) {
+					return;
+				}
+				if (selectItem.equals(empsAndGroups.getSelectedValue())) {
+					copyFrom.setComboItem(null);
+					Accounter.showError(messages.copyFromShouldBeDiff());
+					return;
+				}
+				getPayStructure(selectItem, false);
+			}
+		});
 
 		grid = new PayStructureTable();
 		grid.setEnabled(!isInViewMode());
@@ -76,13 +98,15 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(lab1);
 		mainVLay.add(empsAndGroups);
+		mainVLay.add(copyFrom);
 		mainVLay.add(grid);
 		mainVLay.add(itemTableButton);
 
 		this.add(mainVLay);
 	}
 
-	protected void getPayStructure(ClientPayStructureDestination selectItem) {
+	protected void getPayStructure(ClientPayStructureDestination selectItem,
+			final boolean isDuplicate) {
 		Accounter.createPayrollService().getPayStructure(selectItem,
 				new AsyncCallback<ClientPayStructure>() {
 
@@ -95,11 +119,20 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 					@Override
 					public void onSuccess(ClientPayStructure result) {
 						if (result != null) {
-							data.setID(result.getID());
-							data.setEmployee(result.getEmployee());
-							data.setEmployeeGroup(result.getEmployeeGroup());
-							data.setItems(result.getItems());
-							grid.setAllRows(result.getItems());
+							ArrayList<ClientPayStructureItem> items = new ArrayList<ClientPayStructureItem>();
+							items.addAll(result.getItems());
+							if (isDuplicate) {
+								data.setID(result.getID());
+								data.setEmployee(result.getEmployee());
+								data.setEmployeeGroup(result.getEmployeeGroup());
+								data.setItems(result.getItems());
+							} else {
+								for (ClientPayStructureItem item : items) {
+									item.setPayStructure(0);
+									item.setID(0);
+								}
+							}
+							grid.setAllRows(items);
 						}
 					}
 				});
@@ -196,6 +229,8 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		empsAndGroups.setEnabled(!isInViewMode());
 		grid.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
+		copyFrom.setEnabled(!isInViewMode());
+		copyFrom.setVisible(!isInViewMode());
 	}
 
 	@Override

@@ -61,6 +61,23 @@ public class AttendanceOrProductionTypeListGrid extends
 	}
 
 	@Override
+	protected int getCellWidth(int index) {
+		switch (index) {
+		case 0:
+			return 220;
+		case 1:
+			return 220;
+		case 2:
+			return 220;
+		case 3:
+			return 30;
+		default:
+			return -1;
+		}
+
+	}
+
+	@Override
 	public void onDoubleClick(ClientAttendanceOrProductionType obj) {
 		ReportsRPC.openTransactionView(
 				IAccounterCore.ATTENDANCE_PRODUCTION_TYPE, obj.getID());

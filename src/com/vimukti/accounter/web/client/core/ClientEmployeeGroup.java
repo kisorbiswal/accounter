@@ -81,4 +81,15 @@ public class ClientEmployeeGroup implements ClientPayStructureDestination {
 	public String toString() {
 		return this.name;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientEmployeeGroup) {
+			ClientEmployeeGroup group = (ClientEmployeeGroup) obj;
+			return this.getID() == group.getID() ? true : false;
+		}
+		return false;
+	}
 }

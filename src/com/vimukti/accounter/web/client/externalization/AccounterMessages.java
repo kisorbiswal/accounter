@@ -6599,4 +6599,8 @@ public interface AccounterMessages extends Messages {
 	public String advanced();
 
 	public String getlink();
+
+	public String copyFromShouldBeDiff();
+
+	public String copyFrom();
 }

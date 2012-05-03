@@ -248,4 +248,31 @@ public class ClientEmployee extends ClientPayee implements
 	public String getDisplayName() {
 		return this.name;
 	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ClientEmployee) {
+			ClientEmployee employee = (ClientEmployee) obj;
+			return this.getID() == employee.getID() ? true : false;
+		}
+		return false;
+	}
 }
