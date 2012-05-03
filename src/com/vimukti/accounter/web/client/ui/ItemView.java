@@ -873,7 +873,6 @@ public class ItemView extends BaseView<ClientItem> {
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
-
 		updateItem();
 		if (exceptionMessage != null
 				&& exceptionMessage.contains(messages.failed())) {
@@ -1232,7 +1231,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-
+		if (caught != null) {
+			saveFailed(caught);
+		} else {
+			saveFailed(new AccounterException());
+		}
 	}
 
 	@Override
