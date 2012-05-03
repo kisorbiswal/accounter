@@ -207,7 +207,7 @@ public class PaymentTerms extends CreatableObject implements
 
 	@Override
 	public void selfValidate() throws AccounterException {
-		if (name != null || name.trim().isEmpty()) {
+		if (name == null && name.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().paymentTerm());
 		}
