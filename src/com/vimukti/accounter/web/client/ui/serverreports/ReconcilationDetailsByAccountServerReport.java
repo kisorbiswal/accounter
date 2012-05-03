@@ -113,12 +113,12 @@ public class ReconcilationDetailsByAccountServerReport extends
 			if (DecimalUtil.isLessThan(record.getAmount(), 0.00D)) {
 				return Math.abs(record.getAmount());
 			}
-			return null;
+			return 0.0D;
 		case 5:
 			if (DecimalUtil.isGreaterThan(record.getAmount(), 0.00D)) {
 				return Math.abs(record.getAmount());
 			}
-			return null;
+			return 0.0D;
 		}
 		return null;
 
