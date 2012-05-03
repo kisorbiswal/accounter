@@ -2052,12 +2052,14 @@
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
 		<return-scalar column="BUILD_ASSEMBLY_ID" type="long" />
+		<return-scalar column="I_ASSEMBLY_ITEM" type="long" />
 		
 		<![CDATA[
 				SELECT TI.ID AS TRANSACTION_ITEM_ID,
 				       TE.ID AS TRANSACTION_EXPENSE_ID,
 				       ST.ID AS STOCK_TRANSFER_ID,
-				       BA.ID AS BUILD_ASSEMBLY_ID
+				       BA.ID AS BUILD_ASSEMBLY_ID,
+				       IAI.ID AS I_ASSEMBLY_ITEM
 				FROM   ITEM I
 				       LEFT OUTER JOIN TRANSACTION_ITEM TI
 				         ON I.ID = TI.ITEM_ID
@@ -2067,6 +2069,8 @@
 				         ON ST.ITEM = I.ID
 				       LEFT OUTER JOIN BUILD_ASSEMBLY BA
 				         ON BA.INVENTORY_ASSEMBLY = I.ID
+				       LEFT OUTER JOIN INVENTORY_ASSEMBLY_ITEM IAI
+				       	 ON IAI.INVENTORY_ITEM_ID=I.ID
 				WHERE  I.ID = :inputId
 				       AND I.COMPANY_ID = :companyId
 				LIMIT  1  
