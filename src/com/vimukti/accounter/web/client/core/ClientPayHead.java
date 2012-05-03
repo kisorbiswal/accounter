@@ -54,7 +54,7 @@ public class ClientPayHead implements IAccounterCore {
 
 	private long id;
 
-	private ClientAccount account;
+	private long account;
 
 	/**
 	 * @return the companyFields
@@ -208,11 +208,11 @@ public class ClientPayHead implements IAccounterCore {
 		return this.id;
 	}
 
-	public ClientAccount getExpenseAccount() {
+	public long getExpenseAccount() {
 		return account;
 	}
 
-	public void setExpenseAccount(ClientAccount account) {
+	public void setExpenseAccount(long account) {
 		this.account = account;
 	}
 

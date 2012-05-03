@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
+import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -10,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
-public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
+public class PayStructureListGrid extends BaseListGrid<ClientPayStructureList> {
 
 	public PayStructureListGrid() {
 		super(false);
@@ -33,7 +34,7 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 	}
 
 	@Override
-	protected void executeDelete(ClientPayStructure object) {
+	protected void executeDelete(ClientPayStructureList object) {
 		AccounterAsyncCallback<ClientPayStructure> callback = new AccounterAsyncCallback<ClientPayStructure>() {
 
 			public void onException(AccounterException caught) {
@@ -48,11 +49,11 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 
 		};
 		Accounter.createGETService().getObjectById(
-				AccounterCoreType.PAY_STRUCTURE, object.getID(), callback);
+				AccounterCoreType.PAY_STRUCTURE, object.getId(), callback);
 	}
 
 	@Override
-	protected Object getColumnValue(ClientPayStructure obj, int index) {
+	protected Object getColumnValue(ClientPayStructureList obj, int index) {
 		switch (index) {
 		case 0:
 			return obj.getEmployee() != null ? obj.getEmployee().getName()
@@ -66,7 +67,7 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 	}
 
 	@Override
-	protected void onClick(ClientPayStructure obj, int row, int col) {
+	protected void onClick(ClientPayStructureList obj, int row, int col) {
 		switch (col) {
 		case 1:
 			showWarnDialog(obj);
@@ -77,9 +78,9 @@ public class PayStructureListGrid extends BaseListGrid<ClientPayStructure> {
 	}
 
 	@Override
-	public void onDoubleClick(ClientPayStructure obj) {
+	public void onDoubleClick(ClientPayStructureList obj) {
 		ReportsRPC.openTransactionView(IAccounterCore.PAY_STRUCTURE,
-				obj.getID());
+				obj.getId());
 	}
 
 	@Override

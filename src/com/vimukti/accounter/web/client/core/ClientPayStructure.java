@@ -2,6 +2,9 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.List;
 
+import com.sun.mail.handlers.message_rfc822;
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientPayStructure implements IAccounterCore {
 
 	/**
@@ -9,9 +12,9 @@ public class ClientPayStructure implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientEmployee employee;
+	private long employee;
 
-	private ClientEmployeeGroup employeeGroup;
+	private long employeeGroup;
 
 	private List<ClientPayStructureItem> items;
 
@@ -35,7 +38,7 @@ public class ClientPayStructure implements IAccounterCore {
 	/**
 	 * @return the employeeGroup
 	 */
-	public ClientEmployeeGroup getEmployeeGroup() {
+	public long getEmployeeGroup() {
 		return employeeGroup;
 	}
 
@@ -43,14 +46,14 @@ public class ClientPayStructure implements IAccounterCore {
 	 * @param employeeGroup
 	 *            the employeeGroup to set
 	 */
-	public void setEmployeeGroup(ClientEmployeeGroup employeeGroup) {
+	public void setEmployeeGroup(long employeeGroup) {
 		this.employeeGroup = employeeGroup;
 	}
 
 	/**
 	 * @return the employee
 	 */
-	public ClientEmployee getEmployee() {
+	public long getEmployee() {
 		return employee;
 	}
 
@@ -58,7 +61,7 @@ public class ClientPayStructure implements IAccounterCore {
 	 * @param employee
 	 *            the employee to set
 	 */
-	public void setEmployee(ClientEmployee employee) {
+	public void setEmployee(long employee) {
 		this.employee = employee;
 	}
 
@@ -76,14 +79,12 @@ public class ClientPayStructure implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Accounter.getMessages().payStructure();
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override

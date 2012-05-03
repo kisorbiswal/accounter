@@ -16,8 +16,8 @@ import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -124,7 +124,7 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 	}
 
 	@Override
-	public PaginationList<ClientPayStructure> getPayStructures(int start,
+	public PaginationList<ClientPayStructureList> getPayStructures(int start,
 			int length) throws AccounterException {
 		return getFinanceTool().getPayrollManager().getPayrollStructuresList(
 				start, length, getCompanyId());

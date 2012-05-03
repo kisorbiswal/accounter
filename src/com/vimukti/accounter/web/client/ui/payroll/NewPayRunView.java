@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -59,6 +60,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	IntegerField noOfWorkingDays;
 
 	private final List<Section<ClientEmployeePayHeadComponent>> sections = new ArrayList<Section<ClientEmployeePayHeadComponent>>();
+	protected ArrayList<ClientPayHead> payheads = new ArrayList<ClientPayHead>();
 
 	public NewPayRunView() {
 		super(ClientTransaction.TYPE_PAY_RUN);
@@ -69,6 +71,25 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 	public void init() {
 		super.init();
 		setSize("100%", "100%");
+		initPayheadList();
+	}
+
+	private void initPayheadList() {
+		Accounter.createPayrollService().getPayheads(0, -1,
+				new AsyncCallback<PaginationList<ClientPayHead>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(PaginationList<ClientPayHead> result) {
+						payheads = result;
+					}
+				});
+
 	}
 
 	Button button;
@@ -166,7 +187,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		dateForm.add(empsAndGroups);
 		dateForm.add(fromDate);
 		dateForm.add(toDate);
-		
+
 		button.setEnabled(false);
 		button.addClickHandler(new ClickHandler() {
 
@@ -291,8 +312,6 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			}
 			return;
 		}
-
-		data.setAttendanceItems(table.getAllRows());
 
 		ClientPayStructureDestination selectedValue = empsAndGroups
 				.getSelectedValue();
@@ -532,13 +551,14 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 		for (ClientEmployeePayHeadComponent record : records) {
 			processRecord(record);
+			record.setClientPayHead(getPayhead(record.getPayHead()));
 			Object[] values = new Object[this.getColumns().length];
 			Object[] updatedValues = new Object[this.getColumns().length];
 			for (int x = 0; x < this.getColumns().length; x++) {
 				values[x] = getColumnData(record, x);
 				updatedValues[x] = getColumnData(record, x);
 				if (x == 1) {
-					updatedValues[x] = record.getPayHead().isEarning() ? record
+					updatedValues[x] = record.getClientPayHead().isEarning() ? record
 							.getRate() : -record.getRate();
 				}
 			}
@@ -550,15 +570,24 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 		showRecords();
 	}
 
+	private ClientPayHead getPayhead(long payHead) {
+		for (ClientPayHead ph : payheads) {
+			if (ph.getID() == payHead) {
+				return ph;
+			}
+		}
+		return null;
+	}
+
 	private Object getColumnData(ClientEmployeePayHeadComponent record,
 			int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return record.getPayHead().getDisplayName();
+			return record.getClientPayHead().getDisplayName();
 		case 1:
 			return record.getRate();
 		case 2:
-			ClientPayHead payHead = record.getPayHead();
+			ClientPayHead payHead = record.getClientPayHead();
 			int type = 0;
 			if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 				ClientAttendancePayHead payhead = ((ClientAttendancePayHead) payHead);
@@ -572,13 +601,13 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			}
 			return ClientPayHead.getCalculationPeriod(type);
 		case 3:
-			payHead = record.getPayHead();
+			payHead = record.getClientPayHead();
 			return ClientPayHead.getPayHeadType(payHead.getType());
 		case 4:
-			payHead = record.getPayHead();
+			payHead = record.getClientPayHead();
 			return ClientPayHead.getCalculationType(payHead.getType());
 		case 5:
-			payHead = record.getPayHead();
+			payHead = record.getClientPayHead();
 			if (payHead != null
 					&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 				ClientComputionPayHead payhead = (ClientComputionPayHead) payHead;

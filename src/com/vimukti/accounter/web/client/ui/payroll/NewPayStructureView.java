@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
-import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
@@ -90,11 +89,11 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 	}
 
 	private void initViewData(ClientPayStructure data) {
-		ClientPayStructureDestination employee = data.getEmployee();
-		if (employee == null) {
+		long employee = data.getEmployee();
+		if (employee == 0) {
 			employee = data.getEmployeeGroup();
 		}
-		empsAndGroups.setComboItem(employee);
+		empsAndGroups.setEmpGroup(employee);
 
 		grid.setAllRows(data.getItems());
 	}
@@ -176,9 +175,9 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 		ClientPayStructureDestination selectedValue = empsAndGroups
 				.getSelectedValue();
 		if (selectedValue instanceof ClientEmployee) {
-			data.setEmployee((ClientEmployee) selectedValue);
+			data.setEmployee(selectedValue.getID());
 		} else {
-			data.setEmployeeGroup((ClientEmployeeGroup) selectedValue);
+			data.setEmployeeGroup(selectedValue.getID());
 		}
 
 		data.setItems(grid.getRows());

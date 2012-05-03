@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
 public class ClientAttendanceOrProductionItem implements IAccounterCore {
 
 	/**
@@ -8,13 +7,15 @@ public class ClientAttendanceOrProductionItem implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientAttendanceOrProductionType attendanceOrProductionType;
+	private long attendanceOrProductionType;
 
 	private double value;
 
 	private int version;
 
 	private long id;
+
+	private ClientAttendanceOrProductionType clientAttendanceOrProductionType;
 
 	@Override
 	public int getVersion() {
@@ -51,12 +52,11 @@ public class ClientAttendanceOrProductionItem implements IAccounterCore {
 		return this.id;
 	}
 
-	public ClientAttendanceOrProductionType getAttendanceOrProductionType() {
+	public long getAttendanceOrProductionType() {
 		return attendanceOrProductionType;
 	}
 
-	public void setAttendanceOrProductionType(
-			ClientAttendanceOrProductionType attendanceOrProductionType) {
+	public void setAttendanceOrProductionType(long attendanceOrProductionType) {
 		this.attendanceOrProductionType = attendanceOrProductionType;
 	}
 
@@ -66,6 +66,15 @@ public class ClientAttendanceOrProductionItem implements IAccounterCore {
 
 	public void setValue(double value) {
 		this.value = value;
+	}
+
+	public ClientAttendanceOrProductionType getClientAttendanceOrProductionType() {
+		return clientAttendanceOrProductionType;
+	}
+
+	public void setClientAttendanceOrProductionType(
+			ClientAttendanceOrProductionType clientAttendanceOrProductionType) {
+		this.clientAttendanceOrProductionType = clientAttendanceOrProductionType;
 	}
 
 }

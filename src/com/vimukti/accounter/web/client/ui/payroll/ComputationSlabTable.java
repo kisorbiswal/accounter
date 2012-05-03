@@ -29,18 +29,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 
 			@Override
 			protected ClientFinanceDate getValue(ClientComputationSlab row) {
-				ClientFinanceDate date = row.getEffectiveFrom();
-				if (date == null) {
-					date = new ClientFinanceDate();
-					setValue(row, date);
-				}
+				ClientFinanceDate date = new ClientFinanceDate(row
+						.getEffectiveFrom());
+				setValue(row, date);
 				return date;
 			}
 
 			@Override
 			protected void setValue(ClientComputationSlab row,
 					ClientFinanceDate value) {
-				row.setEffectiveFrom(value);
+				row.setEffectiveFrom(value.getDate());
 			}
 
 			@Override

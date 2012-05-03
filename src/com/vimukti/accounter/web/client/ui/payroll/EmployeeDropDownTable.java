@@ -127,4 +127,13 @@ public class EmployeeDropDownTable extends
 
 	}
 
+	public ClientEmployee getEmployee(long employee) {
+		for (ClientEmployee emp : getTotalRowsData()) {
+			if (emp.getID() == employee) {
+				return emp;
+			}
+		}
+		return null;
+	}
+
 }

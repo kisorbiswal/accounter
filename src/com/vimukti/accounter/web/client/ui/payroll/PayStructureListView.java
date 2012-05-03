@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.payroll;
 import java.util.HashMap;
 
 import com.google.gwt.user.client.Window;
-import com.vimukti.accounter.web.client.core.ClientPayStructure;
+import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
-public class PayStructureListView extends BaseListView<ClientPayStructure> {
+public class PayStructureListView extends BaseListView<ClientPayStructureList> {
 
 	public PayStructureListView() {
 		this.getElement().setId("PayStructureListView");
@@ -34,7 +34,7 @@ public class PayStructureListView extends BaseListView<ClientPayStructure> {
 	}
 
 	@Override
-	public void updateInGrid(ClientPayStructure objectTobeModified) {
+	public void updateInGrid(ClientPayStructureList objectTobeModified) {
 		// TODO Auto-generated method stub
 
 	}
@@ -76,7 +76,7 @@ public class PayStructureListView extends BaseListView<ClientPayStructure> {
 	}
 
 	@Override
-	public void onSuccess(PaginationList<ClientPayStructure> result) {
+	public void onSuccess(PaginationList<ClientPayStructureList> result) {
 		grid.removeAllRecords();
 		if (result.isEmpty()) {
 			updateRecordsCount(result.getStart(), grid.getTableRowCount(),

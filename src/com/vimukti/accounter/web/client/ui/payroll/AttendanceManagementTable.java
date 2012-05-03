@@ -108,7 +108,9 @@ public class AttendanceManagementTable extends
 
 		for (final ClientAttendanceOrProductionType clientAttendanceOrProductionType : result) {
 			final ClientAttendanceOrProductionItem item = new ClientAttendanceOrProductionItem();
-			item.setAttendanceOrProductionType(clientAttendanceOrProductionType);
+			item.setAttendanceOrProductionType(clientAttendanceOrProductionType
+					.getID());
+			item.setClientAttendanceOrProductionType(clientAttendanceOrProductionType);
 			item.setValue(UIUtils.toDbl(0));
 			this.addColumn(new TextEditColumn<ClientAttendanceManagementItem>() {
 
@@ -117,7 +119,7 @@ public class AttendanceManagementTable extends
 					List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = row
 							.getAttendanceOrProductionItems();
 					for (ClientAttendanceOrProductionItem item : attendanceOrProductionItems) {
-						if (item.getAttendanceOrProductionType().getID() == clientAttendanceOrProductionType
+						if (item.getAttendanceOrProductionType() == clientAttendanceOrProductionType
 								.getID()) {
 							return UIUtils.toStr(item.getValue());
 						}
@@ -130,7 +132,7 @@ public class AttendanceManagementTable extends
 						String value) {
 					for (ClientAttendanceOrProductionItem item : row
 							.getAttendanceOrProductionItems()) {
-						if (item.getAttendanceOrProductionType().getID() == clientAttendanceOrProductionType
+						if (item.getAttendanceOrProductionType() == clientAttendanceOrProductionType
 								.getID()) {
 							item.setValue(UIUtils.toDbl(value));
 							update(row);
@@ -171,13 +173,13 @@ public class AttendanceManagementTable extends
 		clear();
 		if (selectedValue instanceof ClientEmployee) {
 			ClientAttendanceManagementItem item = new ClientAttendanceManagementItem();
-			item.setEmployee((ClientEmployee) selectedValue);
+			item.setEmployee(selectedValue.getID());
 			add(item);
 		} else {
 			ClientEmployeeGroup clientEmployeeGroup = (ClientEmployeeGroup) selectedValue;
 			for (ClientEmployee employee : clientEmployeeGroup.getEmployees()) {
 				ClientAttendanceManagementItem item = new ClientAttendanceManagementItem();
-				item.setEmployee(employee);
+				item.setEmployee(employee.getID());
 				add(item);
 			}
 		}
@@ -185,5 +187,13 @@ public class AttendanceManagementTable extends
 
 	public void setData(List<ClientAttendanceManagementItem> items) {
 		this.items = items;
+	}
+
+	public List<ClientAttendanceManagementItem> getRows() {
+		for (ClientAttendanceManagementItem item : getAllRows()) {
+			for (ClientAttendanceOrProductionItem att : item.getAttendanceOrProductionItems()) {
+			} 
+		}
+		return null;
 	}
 }

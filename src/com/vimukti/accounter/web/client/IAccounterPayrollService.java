@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
@@ -37,8 +37,8 @@ public interface IAccounterPayrollService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			Long noOfWorkingDays) throws AccounterException;
 
-	PaginationList<ClientPayStructure> getPayStructures(int start, int length)
-			throws AccounterException;
+	PaginationList<ClientPayStructureList> getPayStructures(int start,
+			int length) throws AccounterException;
 
 	PaginationList<ClientAttendanceOrProductionType> getAttendanceProductionTypes(
 			int start, int length) throws AccounterException;

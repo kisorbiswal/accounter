@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -12,6 +13,8 @@ public class PayheadCombo extends CustomCombo<ClientPayHead> {
 	private long selectedId;
 
 	boolean isItemsAdded;
+
+	protected ArrayList<ClientPayHead> list = new ArrayList<ClientPayHead>();
 
 	public PayheadCombo(String title) {
 		super(title, false, 1, "payheadcombo");
@@ -26,11 +29,10 @@ public class PayheadCombo extends CustomCombo<ClientPayHead> {
 
 					@Override
 					public void onSuccess(PaginationList<ClientPayHead> result) {
+						list = result;
 						initCombo(result);
 						PayheadCombo.this.isItemsAdded = true;
-						if (selectedId != 0) {
-							setComboItem();
-						}
+						setComboItem();
 					}
 
 					@Override
@@ -85,6 +87,15 @@ public class PayheadCombo extends CustomCombo<ClientPayHead> {
 				}
 			}
 		}
+	}
+
+	public ClientPayHead getPayHead(long payHead) {
+		for (ClientPayHead ph : list) {
+			if (ph.getID() == payHead) {
+				return ph;
+			}
+		}
+		return null;
 	}
 
 }
