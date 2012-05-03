@@ -26,6 +26,7 @@ public class ClientSubscription implements IsSerializable {
 	private Set<String> members = new HashSet<String>();
 	private int premiumType;
 	private int durationType;
+	private String paypalSubscriptionProfileId;
 
 	public ClientSubscription() {
 
@@ -135,6 +136,15 @@ public class ClientSubscription implements IsSerializable {
 
 	public void setDurationType(int durationType) {
 		this.durationType = durationType;
+	}
+
+	public String getPaypalSubscriptionProfileId() {
+		return paypalSubscriptionProfileId;
+	}
+
+	public void setPaypalSubscriptionProfileId(
+			String paypalSubscriptionProfileId) {
+		this.paypalSubscriptionProfileId = paypalSubscriptionProfileId;
 	}
 
 }

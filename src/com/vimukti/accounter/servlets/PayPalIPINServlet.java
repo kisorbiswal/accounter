@@ -234,7 +234,8 @@ public class PayPalIPINServlet extends BaseServlet {
 			clientSubscription.setExpiredDate(expiredDate);
 			clientSubscription.setSubscription(Subscription
 					.getInstance(Subscription.PREMIUM_USER));
-
+			clientSubscription.setPaypalSubscriptionProfileId(params
+					.get("subscr_id"));
 			session.saveOrUpdate(clientSubscription);
 			transaction.commit();
 		} catch (Exception e) {
