@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
+import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.ui.core.Validate;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.StringListColumn;
@@ -68,6 +70,17 @@ public class ComputationFormulaTable extends
 		});
 
 		this.addColumn(new DeleteColumn<ClientComputaionFormulaFunction>());
+	}
+
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		for (ClientComputaionFormulaFunction row : getAllRows()) {
+			if (row.getFunctionType() != 0 && row.getPayHead() == 0
+					&& row.getAttendanceType() == 0) {
+				result.addError(row, messages.payheadOrAttendanceNotEmpty());
+			}
+		}
+		return result;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -47,9 +48,9 @@ public class AttendanceOrProductionTypeListGrid extends
 			return ClientAttendanceOrProductionType.getTypeName(obj.getType());
 		case 2:
 			if (obj.getType() == ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
-				obj.getUnit();
+				return obj.getUnit();
 			}
-			return obj.getPeriodType();
+			return ClientPayHead.getCalculationPeriod(obj.getPeriodType());
 
 		case 3:
 			return Accounter.getFinanceImages().delete();

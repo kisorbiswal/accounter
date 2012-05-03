@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructureItem;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
@@ -11,7 +13,7 @@ public abstract class PayHeadColumn extends
 
 	@Override
 	protected ClientPayHead getValue(ClientPayStructureItem row) {
-		return row.getPayHead();
+		return getPayHead(row.getPayHead());
 	}
 
 	@Override
@@ -28,5 +30,18 @@ public abstract class PayHeadColumn extends
 	@Override
 	protected String getColumnName() {
 		return messages.payhead();
+	}
+
+	public List<ClientPayHead> getList() {
+		return dropdown.getTotalRowsData();
+	}
+
+	public ClientPayHead getPayHead(long payhead) {
+		for (ClientPayHead ph : getList()) {
+			if (ph.getID() == payhead) {
+				return ph;
+			}
+		}
+		return null;
 	}
 }

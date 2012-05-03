@@ -66,7 +66,7 @@ public class EmployeePayHeadComponentTable extends
 
 			@Override
 			protected String getValue(ClientEmployeePayHeadComponent row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = row.getClientPayHead();
 				if (payHead != null) {
 					return payHead.getName();
 				}
@@ -115,7 +115,7 @@ public class EmployeePayHeadComponentTable extends
 
 			@Override
 			protected String getValue(ClientEmployeePayHeadComponent row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = row.getClientPayHead();
 				if (payHead == null) {
 					return "";
 				}
@@ -159,7 +159,7 @@ public class EmployeePayHeadComponentTable extends
 
 			@Override
 			protected String getValue(ClientEmployeePayHeadComponent row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = row.getClientPayHead();
 				if (payHead != null) {
 					return ClientPayHead.getPayHeadType(payHead.getType());
 				}
@@ -192,7 +192,7 @@ public class EmployeePayHeadComponentTable extends
 
 			@Override
 			protected String getValue(ClientEmployeePayHeadComponent row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = row.getClientPayHead();
 				if (payHead != null) {
 					return ClientPayHead.getCalculationType(payHead
 							.getCalculationType());
@@ -226,7 +226,7 @@ public class EmployeePayHeadComponentTable extends
 
 			@Override
 			protected String getValue(ClientEmployeePayHeadComponent row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = row.getClientPayHead();
 				if (payHead != null
 						&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 					ClientComputionPayHead payhead = (ClientComputionPayHead) payHead;

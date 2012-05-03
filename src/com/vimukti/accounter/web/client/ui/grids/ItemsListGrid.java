@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 

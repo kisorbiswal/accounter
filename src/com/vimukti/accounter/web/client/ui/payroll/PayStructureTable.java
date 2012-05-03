@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
@@ -20,6 +21,7 @@ import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 	private AmountColumn<ClientPayStructureItem> rateColumn;
+	private PayHeadColumn payheadColumn;
 
 	public PayStructureTable() {
 		super();
@@ -69,7 +71,7 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 		});
 
-		this.addColumn(new PayHeadColumn() {
+		payheadColumn = new PayHeadColumn() {
 			@Override
 			protected void setValue(ClientPayStructureItem row,
 					ClientPayHead newValue) {
@@ -87,10 +89,12 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 				} else {
 					rateColumn.setEnable(row, true);
 				}
-				row.setPayHead(newValue);
+				row.setPayHead(newValue.getID());
+				row.setClientPayHead(newValue);
 				update(row);
 			}
-		});
+		};
+		this.addColumn(payheadColumn);
 
 		rateColumn = new AmountColumn<ClientPayStructureItem>(null, false) {
 
@@ -115,7 +119,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = payheadColumn.getPayHead(row
+						.getPayHead());
 				if (payHead == null) {
 					return "";
 				}
@@ -158,7 +163,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = payheadColumn.getPayHead(row
+						.getPayHead());
 				if (payHead != null) {
 					return ClientPayHead.getPayHeadType(payHead.getType());
 				}
@@ -190,7 +196,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = payheadColumn.getPayHead(row
+						.getPayHead());
 				if (payHead != null) {
 					return ClientPayHead.getCalculationType(payHead
 							.getCalculationType());
@@ -223,7 +230,8 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 
 			@Override
 			protected String getValue(ClientPayStructureItem row) {
-				ClientPayHead payHead = row.getPayHead();
+				ClientPayHead payHead = payheadColumn.getPayHead(row
+						.getPayHead());
 				if (payHead != null
 						&& payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
 					ClientComputionPayHead payhead = (ClientComputionPayHead) payHead;
@@ -232,6 +240,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 								.getComputationType(payhead
 										.getComputationType());
 					} else {
+						for (ClientComputaionFormulaFunction formula : payhead
+								.getFormulaFunctions()) {
+							formula.setClientPayHead(payheadColumn
+									.getPayHead(formula.getPayHead()));
+						}
 						return UIUtils.prepareFormula(payhead
 								.getFormulaFunctions());
 					}
@@ -282,8 +295,9 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 	public ValidationResult validate(ValidationResult validationResult) {
 		List<ClientPayStructureItem> allRows = super.getAllRows();
 		for (ClientPayStructureItem item : allRows) {
-			if ((item.getPayHead() != null && isRateRequired(item.getPayHead()) && item
-					.getRate() == 0)) {
+			if ((item.getPayHead() != 0
+					&& isRateRequired(payheadColumn.getPayHead(item
+							.getPayHead())) && item.getRate() == 0)) {
 				validationResult.addError(this,
 						messages.pleaseEnter(messages.rate()));
 				return validationResult;
@@ -319,14 +333,14 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 		}
 	}
 
-	private boolean isExists(ClientPayHead payhead, int i) {
+	private boolean isExists(long payhead, int i) {
 		for (int j = 0; j < getAllRows().size(); j++) {
 			if (i == j) {
 				continue;
 			}
 			ClientPayStructureItem item = getAllRows().get(j);
 
-			if (item.getPayHead() != null && item.getPayHead().equals(payhead)) {
+			if (item.getPayHead() != 0 && item.getPayHead() == payhead) {
 				return true;
 			}
 		}

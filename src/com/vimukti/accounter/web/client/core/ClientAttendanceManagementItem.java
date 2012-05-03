@@ -10,7 +10,7 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ClientEmployee employee;
+	private long employee;
 
 	private List<ClientAttendanceOrProductionItem> attendanceOrProductionItems = new ArrayList<ClientAttendanceOrProductionItem>();
 
@@ -20,11 +20,11 @@ public class ClientAttendanceManagementItem implements IAccounterCore {
 
 	private double abscentDays;
 
-	public ClientEmployee getEmployee() {
+	public long getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(ClientEmployee employee) {
+	public void setEmployee(long employee) {
 		this.employee = employee;
 	}
 

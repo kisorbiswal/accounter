@@ -17,9 +17,13 @@ public class ClientComputaionFormulaFunction implements IAccounterCore {
 
 	private int functionType;
 
-	private ClientPayHead payHead;
+	private long payHead;
 
-	private ClientAttendanceOrProductionType attendanceType;
+	private ClientPayHead clientPayHead;
+
+	private long attendanceType;
+
+	private ClientAttendanceOrProductionType clientAttendanceType;
 
 	private long id;
 
@@ -31,11 +35,11 @@ public class ClientComputaionFormulaFunction implements IAccounterCore {
 		this.functionType = functionType;
 	}
 
-	public ClientPayHead getPayHead() {
+	public long getPayHead() {
 		return payHead;
 	}
 
-	public void setPayHead(ClientPayHead payHead) {
+	public void setPayHead(long payHead) {
 		this.payHead = payHead;
 	}
 
@@ -78,13 +82,29 @@ public class ClientComputaionFormulaFunction implements IAccounterCore {
 		return this.id;
 	}
 
-	public ClientAttendanceOrProductionType getAttendanceType() {
+	public long getAttendanceType() {
 		return attendanceType;
 	}
 
-	public void setAttendanceType(
-			ClientAttendanceOrProductionType attendanceType) {
+	public void setAttendanceType(long attendanceType) {
 		this.attendanceType = attendanceType;
+	}
+
+	public ClientPayHead getClientPayHead() {
+		return clientPayHead;
+	}
+
+	public void setClientPayHead(ClientPayHead clientPayHead) {
+		this.clientPayHead = clientPayHead;
+	}
+
+	public ClientAttendanceOrProductionType getClientAttendanceType() {
+		return clientAttendanceType;
+	}
+
+	public void setClientAttendanceType(
+			ClientAttendanceOrProductionType clientAttendanceType) {
+		this.clientAttendanceType = clientAttendanceType;
 	}
 
 }

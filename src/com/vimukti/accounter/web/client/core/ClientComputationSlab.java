@@ -10,7 +10,7 @@ public class ClientComputationSlab implements IAccounterCore {
 	public static final int TYPE_PERCENTAGE = 1;
 	public static final int TYPE_VALUE = 2;
 
-	private ClientFinanceDate effectiveFrom;
+	private long effectiveFrom;
 
 	private double fromAmount;
 
@@ -20,11 +20,11 @@ public class ClientComputationSlab implements IAccounterCore {
 
 	private double value;
 
-	public ClientFinanceDate getEffectiveFrom() {
+	public long getEffectiveFrom() {
 		return effectiveFrom;
 	}
 
-	public void setEffectiveFrom(ClientFinanceDate effectiveFrom) {
+	public void setEffectiveFrom(long effectiveFrom) {
 		this.effectiveFrom = effectiveFrom;
 	}
 
@@ -76,7 +76,7 @@ public class ClientComputationSlab implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class ClientComputationSlab implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

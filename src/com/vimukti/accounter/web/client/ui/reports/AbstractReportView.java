@@ -39,14 +39,14 @@ import com.vimukti.accounter.web.client.ui.core.ISavableView;
 public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		implements ISorting<R>, IFinanceReport<R>, AsyncCallback<ArrayList<R>>,
 		IPrintableView, ISavableView<HashMap<String, Object>> {
-	public final static int REPORT_TYPE_PAY_HEAD_SUMMARY = 201;
-	public final static int REPORT_TYPE_PAY_HEAD_DETAIL_REPORT = 202;
+	public final static int REPORT_TYPE_PAY_HEAD_SUMMARY_REPORT = 203;
+	public final static int REPORT_TYPE_PAY_HEAD_DETAIL_REPORT = 204;
 	public final static int REPORT_TYPE_GENERAL_LEDGER_REPORT = 162;
 	public final static int REPORT_TYPE_TRANSACTIONDETAILBYACCOUNT = 115;
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
-	public final static int REPORT_TYPE_PAYSHEET = 205;
-	public final static int REPORT_TYPE_PAYSLIP_DETAIL = 204;
-	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 203;
+	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 205;
+	public final static int REPORT_TYPE_PAYSLIP_DETAIL = 206;
+	public final static int REPORT_TYPE_PAYSHEET = 207;
 	public static final int TOOLBAR_TYPE_DATE_RANGE = 1;
 	public static final int TOOLBAR_TYPE_AS_OF = 2;
 	public static final int TOOLBAR_TYPE_PRIOR_VATRETURN = 3;

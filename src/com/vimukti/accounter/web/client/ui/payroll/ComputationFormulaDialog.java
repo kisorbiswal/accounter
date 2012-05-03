@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -45,6 +46,13 @@ public class ComputationFormulaDialog extends
 		mainForm.add(itemTableButton);
 
 		bodyLayout.add(mainForm);
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		result = table.validate();
+		return result;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class ClientPayStructureItem implements IAccounterCore {
 	/**
 	 * PayHead of this PayStructure Item
 	 */
-	private ClientPayHead payHead;
+	private long payHead;
 
 	/**
 	 * Rate
@@ -23,10 +23,12 @@ public class ClientPayStructureItem implements IAccounterCore {
 
 	private long effectiveFrom;
 
+	private ClientPayHead clientPayHead;
+
 	/**
 	 * @return the payHead
 	 */
-	public ClientPayHead getPayHead() {
+	public long getPayHead() {
 		return payHead;
 	}
 
@@ -34,7 +36,7 @@ public class ClientPayStructureItem implements IAccounterCore {
 	 * @param payHead
 	 *            the payHead to set
 	 */
-	public void setPayHead(ClientPayHead payHead) {
+	public void setPayHead(long payHead) {
 		this.payHead = payHead;
 	}
 
@@ -109,7 +111,7 @@ public class ClientPayStructureItem implements IAccounterCore {
 	}
 
 	public boolean isEmpty() {
-		if (this.getPayHead() == null && this.getRate() == 0) {
+		if (this.getPayHead() == 0 && this.getRate() == 0) {
 			return true;
 		}
 		return false;
@@ -128,5 +130,13 @@ public class ClientPayStructureItem implements IAccounterCore {
 	 */
 	public void setEffectiveFrom(long effectiveFrom) {
 		this.effectiveFrom = effectiveFrom;
+	}
+
+	public ClientPayHead getClientPayHead() {
+		return clientPayHead;
+	}
+
+	public void setClientPayHead(ClientPayHead newValue) {
+		this.clientPayHead = newValue;
 	}
 }

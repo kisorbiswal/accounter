@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionItem;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
+import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
@@ -37,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientFlatRatePayHead;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
@@ -108,6 +110,21 @@ public class PayrollManager extends Manager {
 					clientPayHead = new ClientConvertUtil().toClientObject(
 							payHead, ClientUserDefinedPayHead.class);
 				}
+
+				if (clientPayHead instanceof ClientComputionPayHead) {
+					ClientComputionPayHead ph = (ClientComputionPayHead) clientPayHead;
+					for (ClientComputaionFormulaFunction formula : ph
+							.getFormulaFunctions()) {
+						PayHead object = (PayHead) session.get(PayHead.class,
+								formula.getPayHead());
+						ClientUserDefinedPayHead payhead = new ClientConvertUtil()
+								.toClientObject(object,
+										ClientUserDefinedPayHead.class);
+						formula.setClientPayHead(payhead);
+					}
+					clientPayHead = ph;
+				}
+
 				if (clientPayHead != null) {
 					clientPayHeads.add(clientPayHead);
 				}
@@ -172,7 +189,7 @@ public class PayrollManager extends Manager {
 			List<ClientAttendanceManagementItem> attendanceItems) {
 		List<ClientAttendanceManagementItem> empItems = new ArrayList<ClientAttendanceManagementItem>();
 		for (ClientAttendanceManagementItem item : attendanceItems) {
-			if (item.getEmployee().getID() == employee.getID()) {
+			if (item.getEmployee() == employee.getID()) {
 				empItems.add(item);
 			}
 		}
@@ -206,7 +223,13 @@ public class PayrollManager extends Manager {
 				attendance[1] += attendanceManagementItem.getAbscentDays();
 				for (ClientAttendanceOrProductionItem item : attendanceManagementItem
 						.getAttendanceOrProductionItems()) {
-					if (item.getAttendanceOrProductionType().getType() == AttendanceOrProductionType.TYPE_PRODUCTION) {
+					Object object = session.get(
+							AttendanceOrProductionType.class,
+							item.getAttendanceOrProductionType());
+					ClientAttendanceOrProductionType attType = new ClientConvertUtil()
+							.toClientObject(object,
+									ClientAttendanceOrProductionType.class);
+					if (attType.getType() == AttendanceOrProductionType.TYPE_PRODUCTION) {
 						attendance[2] += item.getValue();
 					}
 				}
@@ -238,8 +261,22 @@ public class PayrollManager extends Manager {
 						ClientUserDefinedPayHead.class);
 			}
 
+			if (clientPayHead instanceof ClientComputionPayHead) {
+				ClientComputionPayHead ph = (ClientComputionPayHead) clientPayHead;
+				for (ClientComputaionFormulaFunction formula : ph
+						.getFormulaFunctions()) {
+					PayHead object = (PayHead) session.get(PayHead.class,
+							formula.getPayHead());
+					ClientPayHead payhead = new ClientConvertUtil()
+							.toClientObject(object, ClientPayHead.class);
+					formula.setClientPayHead(payhead);
+				}
+				clientPayHead = ph;
+			}
+
 			ClientEmployeePayHeadComponent component = new ClientEmployeePayHeadComponent();
-			component.setPayHead(clientPayHead);
+			component.setPayHead(clientPayHead.getID());
+			component.setClientPayHead(clientPayHead);
 			payStructureItem.setStartDate(startDate);
 			payStructureItem.setEndDate(endDate);
 			payStructureItem.setAttendance(attendance);
@@ -261,7 +298,7 @@ public class PayrollManager extends Manager {
 		return clientEmployeePayHeadComponents;
 	}
 
-	public PaginationList<ClientPayStructure> getPayrollStructuresList(
+	public PaginationList<ClientPayStructureList> getPayrollStructuresList(
 			int start, int length, Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
@@ -274,12 +311,29 @@ public class PayrollManager extends Manager {
 		int total = query.list().size();
 		paystructures = query.setFirstResult(start).setMaxResults(length)
 				.list();
-		PaginationList<ClientPayStructure> clientPayStructures = new PaginationList<ClientPayStructure>();
+		PaginationList<ClientPayStructureList> clientPayStructures = new PaginationList<ClientPayStructureList>();
 		for (PayStructure payStructure : paystructures) {
-			ClientPayStructure clientPayStructure;
-			clientPayStructure = new ClientConvertUtil().toClientObject(
-					payStructure, ClientPayStructure.class);
-			clientPayStructures.add(clientPayStructure);
+			ClientPayStructureList payStructureList = new ClientPayStructureList();
+			ClientEmployee employee = null;
+			if (payStructure.getEmployee() != null) {
+				employee = new ClientConvertUtil().toClientObject(
+						payStructure.getEmployee(), ClientEmployee.class);
+			}
+			ClientEmployeeGroup employeeGroup = null;
+			if (payStructure.getEmployeeGroup() != null) {
+				employeeGroup = new ClientConvertUtil().toClientObject(
+						payStructure.getEmployeeGroup(),
+						ClientEmployeeGroup.class);
+			}
+
+			ClientPayStructure clientPayStructure = new ClientConvertUtil()
+					.toClientObject(payStructure, ClientPayStructure.class);
+
+			payStructureList.setId(payStructure.getID());
+			payStructureList.setEmployee(employee);
+			payStructureList.setEmployeeGroup(employeeGroup);
+			payStructureList.setItems(clientPayStructure.getItems());
+			clientPayStructures.add(payStructureList);
 		}
 		clientPayStructures.setStart(start);
 		clientPayStructures.setTotalCount(total);

@@ -2575,6 +2575,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 							e.setDecemberAmount(item.getDecemberAmount());
 							monthsAndAmountMap.put(DayAndMonthUtil.dec(),
 									item.getDecemberAmount());
+							e.setMonthNamesMap(monthsAndAmountMap);
 							e.setTotalAmount(item.getTotalAmount());
 							e.setTransactionId(budget.getID());
 							e.preparMonthNamesList(Utility
