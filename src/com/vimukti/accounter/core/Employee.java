@@ -324,4 +324,14 @@ public class Employee extends Payee implements PayStructureDestination {
 	protected String getPayeeName() {
 		return Global.get().messages().employee();
 	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (isOnSaveProccessed)
+			return true;
+		super.onSave(session);
+		isOnSaveProccessed = true;
+		setType(TYPE_EMPLOYEE);
+		return onUpdate(session);
+	}
 }
