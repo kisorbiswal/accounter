@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -443,6 +444,10 @@ public class ReportsRPC {
 			initCallBack(new ClientAttendanceOrProductionType(),
 					PayRollActions.newAttendanceProductionTypeAction(),
 					transactionId);
+			break;
+		case IAccounterCore.EMPLOYEE_GROUP:
+			initCallBack(new ClientEmployeeGroup(),
+					PayRollActions.newEmployeeGroupAction(), transactionId);
 			break;
 		}
 

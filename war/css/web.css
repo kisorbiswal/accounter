@@ -975,7 +975,7 @@ div.label-title {
 	background-color: #E4E4E4;
 	height: 25px;
 	border: 1px solid #A0A0A0;
-	padding: 1px 0;
+	padding: 2px 3px;
 }
 
 #next {
@@ -7272,7 +7272,6 @@ textarea[disabled] {
 #itemView .service-item-group .item-form-view {
 	display: -moz-box;
 	-moz-box-orient: vertical;
-	margin-right:25px;
 }
 
 .title_voided_label {
@@ -8054,6 +8053,7 @@ table.no_records tr td {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
+	margin:10px;
 }
 
 #ItemGroupDialog .bodyLayout table {
@@ -8061,9 +8061,13 @@ table.no_records tr td {
 }
 
 #ItemGroupDialog .group_dialogue_list {
-	width: 600px;
+	width: 300px;
 }
-
+#ItemGroupDialog .dform .gwt-Label{
+    padding-right: 10px;
+    width: auto;
+}
+    
 /* payroll views and list views css*/
 #PayrollUnitListView .hlay .form{
 	float:right;
@@ -8253,12 +8257,11 @@ table.no_records tr td {
 /* end of the payroll*/
 
 .image-button img{
-	margin-right: 5px;
     vertical-align: middle;
-    margin-bottom: 2px;
+    margin:3px 5px 2px 0;
 }
 .group-toolbar .grouped-buttons #closeButton {
-	padding:0 1px;
+	padding:4px 3px;
 }
 .group-toolbar .grouped-buttons #closeButton img{
 	padding-bottom: 2px;
@@ -8271,7 +8274,7 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical; 
 }
-#itemView .salesVPanel .integerField .gwt-Label:last-child{
+#itemView .salesVPanel .integerField .gwt-Label:last-child,#InventoryAssemblyView .inventoryInfoForm .integerField .gwt-Label:last-child{
 	width:auto;
 }
 #NewPayRunView .dateForm{
@@ -8296,5 +8299,18 @@ table.no_records tr td {
 }
 #PayHeadDetailReport .report-toolbar input[type=text]{
 	width:100px;
+}
+#group6 button{
+	padding:5px;
+}
+#PriceLevelListDialog .group_dialogue_list {
+	width: 400px;
+}
+#PriceLevelListDialog .gridHeaderParent {
+	width: 250px;
+}
+
+#PriceLevelListDialog {
+	width: 400px;
 }
 /*Location merge dialog end*/

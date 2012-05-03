@@ -69,6 +69,12 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+		String value = noOfDecimalsItem.getValue();
+		try {
+			Integer valueOf = Integer.valueOf(value);
+		} catch (NumberFormatException e) {
+			result.addError(noOfDecimalsItem, messages.pleaseEnterValidNumber());
+		}
 		return result;
 	}
 

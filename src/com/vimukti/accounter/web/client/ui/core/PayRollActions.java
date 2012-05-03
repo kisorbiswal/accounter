@@ -5,6 +5,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
+import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -126,7 +127,8 @@ public class PayRollActions extends Action {
 			view = new NewPayRunView();
 			break;
 		case NEW_EMP_GROUP:
-			dialog = new NewEmployeeGroupDialog(messages.newEmployeeGroup());
+			dialog = new NewEmployeeGroupDialog(messages.newEmployeeGroup(),
+					(ClientEmployeeGroup) data);
 			break;
 		case EMP_GROUP_LIST:
 			dialog = new EmployeeGroupListDialog(messages.employeeGroup(),
