@@ -39,7 +39,6 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	public void initialise() {
 		getGrid().setType(AccounterCoreType.PRICE_LEVEL);
-		getGrid().setCellsWidth(new Integer[] { 125, 175 });
 		getGrid().addRecordClickHandler(
 				new GridRecordClickHandler<ClientPriceLevel>() {
 
@@ -51,7 +50,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						else
 							enableEditRemoveButtons(false);
 
-						return false;
+						return true;
 					}
 
 				});
