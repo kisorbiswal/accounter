@@ -283,6 +283,7 @@ public class PayPalIPINServlet extends BaseServlet {
 	 * @param params
 	 * @param emailId
 	 */
+
 	private void saveDetailsInDB(Map<String, String> params, String emailId) {
 		log.info("Saving Request with Parameters - " + params
 				+ " And Email ID - " + emailId);
@@ -301,11 +302,38 @@ public class PayPalIPINServlet extends BaseServlet {
 			details.setMcCurrency(params.get("mc_currency"));
 			details.setPaymentStatus(params.get("payment_status"));
 			details.setClinetEmailId(emailId);
+			details.setProtectionEligibility(params
+					.get("protection_eligibility"));
+			details.setProtectionEligibility(params.get("payer_id"));
+			details.setPaymentDate(params.get("payment_date"));
+			details.setPDTpaymentSstatus(params.get("PDT&payment_status"));
+			details.setCharset(params.get("charset"));
+			details.setNoptionSelection1(params.get("noption_selection1"));
+			details.setNmcFee(params.get("nmc_fee"));
+			details.setNotifyVersion(params.get("notify_version"));
+			details.setSubscrId(params.get("subscr_id"));
+			details.setCustom(params.get("custom"));
+			details.setPayerStatus(params.get("payer_status"));
+			details.setBusiness(params.get("business"));
+			details.setVerifySign(params.get("verify_sign"));
+			details.setOptionName1(params.get("option_name1"));
+			details.setTxnId(params.get("txn_id"));
+			details.setPaymentType(params.get("payment_type"));
+			details.setPayerBusinessName(params.get("payer_business_name"));
+			details.setBtnId(params.get("btn_id"));
+			details.setReceiverEmail(params.get("receiver_email"));
+			details.setPaymentFee(params.get("payment_fee"));
+			details.setReceiverId(params.get("receiver_id"));
+			details.setTxnType(params.get("txn_type"));
+			details.setItemName(params.get("item_name"));
+			details.setItemNumber(params.get("item_number"));
+			details.setResidenceCountry(params.get("residence_country"));
+			details.setTransactionSubject(params.get("transaction_subject"));
+			details.setIpnTrackId(params.get("ipn_track_id"));
 			transaction.commit();
 		} catch (Exception e) {
 			log.error("Error While Saving Request : ", e);
 			transaction.rollback();
 		}
 	}
-
 }
