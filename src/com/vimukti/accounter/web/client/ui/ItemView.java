@@ -1280,7 +1280,9 @@ public class ItemView extends BaseView<ClientItem> {
 		ibuyCheck.setEnabled(!isInViewMode());
 		itemTaxCheck.setEnabled(!isInViewMode());
 		parentItemCheck.setEnabled(!isInViewMode());
-		itemCombo.setEnabled(!isInViewMode());
+		if (parentItemCheck.getValue()) {
+			itemCombo.setEnabled(!isInViewMode());
+		}
 		if (ibuyCheck.getValue()) {
 			purchaseDescArea.setEnabled(!isInViewMode());
 			expAccCombo.setEnabled(!isInViewMode());
