@@ -11,7 +11,9 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	}
 
-	private ClientPayHead payHead;
+	private long payHead;
+
+	private ClientPayHead clientPayHead;
 
 	private double rate;
 
@@ -58,11 +60,11 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 		return this.id;
 	}
 
-	public ClientPayHead getPayHead() {
+	public long getPayHead() {
 		return payHead;
 	}
 
-	public void setPayHead(ClientPayHead payHead) {
+	public void setPayHead(long payHead) {
 		this.payHead = payHead;
 	}
 
@@ -84,5 +86,13 @@ public class ClientEmployeePayHeadComponent implements IAccounterCore {
 
 	public void setEmpPaymentDetails(long empPaymentDetails) {
 		this.empPaymentDetails = empPaymentDetails;
+	}
+
+	public ClientPayHead getClientPayHead() {
+		return clientPayHead;
+	}
+
+	public void setClientPayHead(ClientPayHead clientPayHead) {
+		this.clientPayHead = clientPayHead;
 	}
 }

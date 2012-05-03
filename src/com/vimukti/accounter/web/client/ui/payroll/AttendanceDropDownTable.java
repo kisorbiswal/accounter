@@ -88,4 +88,13 @@ public class AttendanceDropDownTable extends
 
 	}
 
+	public ClientAttendanceOrProductionType getAttendance(long attendanceType) {
+		for (ClientAttendanceOrProductionType type : getTotalRowsData()) {
+			if (type.getID() == attendanceType) {
+				return type;
+			}
+		}
+		return null;
+	}
+
 }

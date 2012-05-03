@@ -63,9 +63,9 @@ public class ComputationFormulaTypeColumn extends
 	private IAccounterCore getValue(ClientComputaionFormulaFunction row) {
 		if (row.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_ADD_PAY_HEAD
 				|| row.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
-			return row.getPayHead();
+			return payheadDropdown.getPayHead(row.getPayHead());
 		} else {
-			return row.getAttendanceType();
+			return attendanceDropdown.getAttendance(row.getAttendanceType());
 		}
 	}
 
@@ -121,10 +121,12 @@ public class ComputationFormulaTypeColumn extends
 			IAccounterCore newValue) {
 		if (newValue instanceof ClientPayHead) {
 			ClientPayHead payhead = (ClientPayHead) newValue;
-			row.setPayHead(payhead);
+			row.setPayHead(payhead.getID());
+			row.setClientPayHead(payhead);
 		} else {
 			ClientAttendanceOrProductionType attendanceType = (ClientAttendanceOrProductionType) newValue;
-			row.setAttendanceType(attendanceType);
+			row.setAttendanceType(attendanceType.getID());
+			row.setClientAttendanceType(attendanceType);
 		}
 	}
 

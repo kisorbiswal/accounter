@@ -11,8 +11,8 @@ import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
+import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
@@ -38,7 +38,7 @@ public interface IAccounterPayrollServiceAsync {
 			AsyncCallback<ArrayList<ClientEmployeePayHeadComponent>> callback);
 
 	public void getPayStructures(int start, int length,
-			AsyncCallback<PaginationList<ClientPayStructure>> callback);
+			AsyncCallback<PaginationList<ClientPayStructureList>> callback);
 
 	public void getAttendanceProductionTypes(
 			int start,

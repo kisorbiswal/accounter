@@ -94,4 +94,13 @@ public class PayHeadDropDownTable extends AbstractDropDownTable<ClientPayHead> {
 
 	}
 
+	public ClientPayHead getPayHead(long payHead) {
+		for (ClientPayHead ph : getTotalRowsData()) {
+			if (ph.getID() == payHead) {
+				return ph;
+			}
+		}
+		return null;
+	}
+
 }

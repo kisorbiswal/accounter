@@ -131,7 +131,8 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			roundingMethodCombo.setComboItem(roundingList.get(data
 					.getRoundingMethod() - 1));
 		}
-		accountCombo.setComboItem(data.getExpenseAccount());
+		accountCombo.setComboItem(getCompany().getAccount(
+				data.getExpenseAccount()));
 		calculationTypeCombo.setComboItem(ClientPayHead.getCalculationType(data
 				.getCalculationType()));
 		if (data.getCalculationType() == 0) {
@@ -169,7 +170,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			computationTypeCombo.setComboItem(compType);
 			if (compType.equals(messages.onSpecifiedFormula())) {
 				this.formulas = computation.getFormulaFunctions();
-				prepareFormula(formulas);
 			}
 			slabTable.setAllRows(computation.getSlabs());
 
@@ -309,7 +309,15 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		attendanceTypeCombo.setEnabled(!isInViewMode());
 		attendanceTypeCombo.setRequired(true);
 
-		payheadCombo = new PayheadCombo(messages.payhead());
+		payheadCombo = new PayheadCombo(messages.payhead()) {
+			@Override
+			protected void setComboItem() {
+				super.setComboItem();
+				if (!formulas.isEmpty()) {
+					prepareFormula(formulas);
+				}
+			}
+		};
 
 		payheadCombo.setEnabled(!isInViewMode());
 		payheadCombo.setRequired(true);
@@ -417,7 +425,6 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 					public void execute(
 							List<ClientComputaionFormulaFunction> value) {
 						NewPayHeadView.this.formulas = value;
-						prepareFormula(value);
 					}
 				});
 			}
@@ -433,6 +440,10 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 	}
 
 	protected void prepareFormula(List<ClientComputaionFormulaFunction> formulas) {
+		for (ClientComputaionFormulaFunction formula : formulas) {
+			formula.setClientPayHead(payheadCombo.getPayHead(formula
+					.getPayHead()));
+		}
 		String string = UIUtils.prepareFormula(formulas);
 		formula.setValue(string);
 		formulaForm.add(formula);
@@ -636,7 +647,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 		data.setRoundingMethod(roundingMethodCombo.getSelectedIndex() + 1);
 		data.setNameToAppearInPaySlip(payslipNameItem.getValue());
 		data.setAffectNetSalary(affectNetSalarytem.getValue().equals("Yes"));
-		data.setExpenseAccount(accountCombo.getSelectedValue());
+		data.setExpenseAccount(accountCombo.getSelectedValue().getID());
 	}
 
 	@Override

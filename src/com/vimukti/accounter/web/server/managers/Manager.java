@@ -25,6 +25,7 @@ import com.vimukti.accounter.core.FlatRatePayHead;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.InventoryAssembly;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -41,6 +42,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAttendancePayHead;
 import com.vimukti.accounter.web.client.core.ClientBox;
+import com.vimukti.accounter.web.client.core.ClientComputaionFormulaFunction;
 import com.vimukti.accounter.web.client.core.ClientComputionPayHead;
 import com.vimukti.accounter.web.client.core.ClientEmployeePayHeadComponent;
 import com.vimukti.accounter.web.client.core.ClientEmployeePaymentDetails;
@@ -276,7 +278,10 @@ public class Manager {
 				List<ClientPayStructureItem> items = clientPayStructure
 						.getItems();
 				for (ClientPayStructureItem item : items) {
-					ClientPayHead payHead = item.getPayHead();
+					Object object = session.get(PayHead.class,
+							item.getPayHead());
+					ClientPayHead payHead = new ClientConvertUtil()
+							.toClientObject(object, ClientPayHead.class);
 					ClientPayHead clientPayHead = payHead;
 					if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
 							|| payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
@@ -292,7 +297,7 @@ public class Manager {
 						clientPayHead = new ClientConvertUtil().toClientObject(
 								payHead, ClientUserDefinedPayHead.class);
 					}
-					item.setPayHead(clientPayHead);
+					item.setPayHead(clientPayHead.getID());
 				}
 				clientPayStructure.setItems(items);
 				t = (T) clientPayStructure;
@@ -306,7 +311,10 @@ public class Manager {
 					HashSet<ClientEmployeePayHeadComponent> headComponents = new HashSet<ClientEmployeePayHeadComponent>();
 					for (ClientEmployeePayHeadComponent ephc : item
 							.getPayHeadComponents()) {
-						ClientPayHead payHead = ephc.getPayHead();
+						PayHead object = (PayHead) session.get(PayHead.class,
+								ephc.getPayHead());
+						ClientPayHead payHead = new ClientConvertUtil()
+								.toClientObject(object, ClientPayHead.class);
 						ClientPayHead clientPayHead = payHead;
 						if (payHead.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE) {
 							clientPayHead = new ClientConvertUtil()
@@ -325,7 +333,7 @@ public class Manager {
 									.toClientObject(payHead,
 											ClientUserDefinedPayHead.class);
 						}
-						ephc.setPayHead(clientPayHead);
+						ephc.setPayHead(clientPayHead.getID());
 						headComponents.add(ephc);
 					}
 					item.setPayHeadComponents(headComponents);

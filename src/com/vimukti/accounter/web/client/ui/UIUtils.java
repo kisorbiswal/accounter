@@ -2344,23 +2344,23 @@ public class UIUtils {
 		formulasList.addAll(formulas);
 		String string = new String();
 		ClientComputaionFormulaFunction formulaFunction = formulasList.get(0);
-		string += formulaFunction.getPayHead() != null ? formulaFunction
-				.getPayHead().getName() : formulaFunction.getAttendanceType()
-				.getName();
+		string += formulaFunction.getPayHead() != 0 ? formulaFunction
+				.getClientPayHead().getName() : formulaFunction
+				.getClientAttendanceType().getName();
 		formulasList.remove(0);
 		for (ClientComputaionFormulaFunction function : formulasList) {
 			if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_ADD_PAY_HEAD) {
-				string = "(" + string + " + " + function.getPayHead().getName()
-						+ ")";
+				string = "(" + string + " + "
+						+ function.getClientPayHead().getName() + ")";
 			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_SUBSTRACT_PAY_HEAD) {
-				string = "(" + string + " - " + function.getPayHead().getName()
-						+ ")";
+				string = "(" + string + " - "
+						+ function.getClientPayHead().getName() + ")";
 			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_MULTIPLY_ATTENDANCE) {
 				string = "(" + string + " * "
-						+ function.getAttendanceType().getName() + ")";
+						+ function.getClientAttendanceType().getName() + ")";
 			} else if (function.getFunctionType() == ClientComputaionFormulaFunction.FUNCTION_DIVIDE_ATTENDANCE) {
 				string = "(" + string + " / "
-						+ function.getAttendanceType().getName() + ")";
+						+ function.getClientAttendanceType().getName() + ")";
 			}
 		}
 		return string;

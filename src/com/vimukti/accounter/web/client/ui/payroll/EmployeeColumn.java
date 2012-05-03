@@ -13,13 +13,13 @@ public class EmployeeColumn extends
 
 	@Override
 	protected ClientEmployee getValue(ClientAttendanceManagementItem row) {
-		return row.getEmployee();
+		return dropdown.getEmployee(row.getEmployee());
 	}
 
 	@Override
 	protected void setValue(ClientAttendanceManagementItem row,
 			ClientEmployee newValue) {
-		row.setEmployee(newValue);
+		row.setEmployee(newValue.getID());
 	}
 
 	@Override
