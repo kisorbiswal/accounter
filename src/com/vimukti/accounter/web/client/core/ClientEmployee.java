@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientEmployee implements ClientPayStructureDestination {
+public class ClientEmployee extends ClientPayee implements
+		ClientPayStructureDestination {
 
 	/**
 	 * 
@@ -12,19 +13,9 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	public static final int GENDER_FEMALE = 2;
 
 	/**
-	 * Name of the Employee
-	 */
-	private String name;
-
-	/**
 	 * Employee belongs to Group
 	 */
 	private long group;
-
-	/**
-	 * Date of Joining of the Employee
-	 */
-	private long dateofJoining;
 
 	/** General Information */
 
@@ -53,39 +44,6 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	 * Gender of the Employee
 	 */
 	private int gender;
-
-	/***
-	 * pan number
-	 */
-	private String panNumber;
-	/**
-	 * Address of the Employee
-	 */
-	private ClientAddress address;
-
-	/**
-	 * Contact Number of the Employee
-	 */
-	private String contactNumber;
-
-	/**
-	 * Email of the Employee
-	 */
-	private String email;
-
-	/** Payment Details */
-
-	/**
-	 * Bank Name of the Employee
-	 */
-	private String bankName;
-
-	/**
-	 * Bank Account Number of the Employee
-	 */
-	private String bankAccountNumber;
-
-	private String branch;
 
 	/** Passport or Visa Details */
 
@@ -117,32 +75,6 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	/** Contact Details */
 
 	/**
-	 * Contact Details
-	 */
-	private ClientContact contact;
-
-	private long payStructure;
-
-	private long id;
-
-	private boolean isActive;
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the group
 	 */
 	public long getGroup() {
@@ -155,21 +87,6 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	 */
 	public void setGroup(long group) {
 		this.group = group;
-	}
-
-	/**
-	 * @return the dateofJoining
-	 */
-	public long getDateofJoining() {
-		return dateofJoining;
-	}
-
-	/**
-	 * @param dateofJoining
-	 *            the dateofJoining to set
-	 */
-	public void setDateofJoining(long dateofJoining) {
-		this.dateofJoining = dateofJoining;
 	}
 
 	/**
@@ -248,96 +165,6 @@ public class ClientEmployee implements ClientPayStructureDestination {
 	}
 
 	/**
-	 * @return the address
-	 */
-	public ClientAddress getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param address
-	 *            the address to set
-	 */
-	public void setAddress(ClientAddress address) {
-		this.address = address;
-	}
-
-	/**
-	 * @return the contactNumber
-	 */
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	/**
-	 * @param contactNumber
-	 *            the contactNumber to set
-	 */
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * @param email
-	 *            the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @return the bankName
-	 */
-	public String getBankName() {
-		return bankName;
-	}
-
-	/**
-	 * @param bankName
-	 *            the bankName to set
-	 */
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	/**
-	 * @return the bankAccountNumber
-	 */
-	public String getBankAccountNumber() {
-		return bankAccountNumber;
-	}
-
-	/**
-	 * @param bankAccountNumber
-	 *            the bankAccountNumber to set
-	 */
-	public void setBankAccountNumber(String bankAccountNumber) {
-		this.bankAccountNumber = bankAccountNumber;
-	}
-
-	/**
-	 * @return the branch
-	 */
-	public String getBranch() {
-		return branch;
-	}
-
-	/**
-	 * @param branch
-	 *            the branch to set
-	 */
-	public void setBranch(String branch) {
-		this.branch = branch;
-	}
-
-	/**
 	 * @return the passportNumber
 	 */
 	public String getPassportNumber() {
@@ -412,86 +239,13 @@ public class ClientEmployee implements ClientPayStructureDestination {
 		this.visaExpiryDate = visaExpiryDate;
 	}
 
-	/**
-	 * @return the contactDetail
-	 */
-	public ClientContact getContactDetail() {
-		return contact;
-	}
-
-	/**
-	 * @param contactDetail
-	 *            the contactDetail to set
-	 */
-	public void setContactDetail(ClientContact contactDetail) {
-		this.contact = contactDetail;
-	}
-
-	/**
-	 * @return the payStructure
-	 */
-	public long getPayStructure() {
-		return payStructure;
-	}
-
-	/**
-	 * @param payStructure
-	 *            the payStructure to set
-	 */
-	public void setPayStructure(long payStructure) {
-		this.payStructure = payStructure;
-	}
-
-	@Override
-	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getDisplayName() {
-		return this.name;
-	}
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.EMPLOYEE;
 	}
 
 	@Override
-	public void setID(long id) {
-		this.id = id;
-	}
-
-	@Override
-	public long getID() {
-		return id;
-	}
-
-	@Override
-	public String toString() {
+	public String getDisplayName() {
 		return this.name;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public String getPanNumber() {
-		return panNumber;
-	}
-
-	public void setPanNumber(String panNumber) {
-		this.panNumber = panNumber;
 	}
 }

@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.reports.PayHeadDetails;
 import com.vimukti.accounter.web.client.core.reports.PayHeadSummary;
@@ -714,5 +715,42 @@ public class PayrollManager extends Manager {
 				.toClientObject(result, ClientPayStructure.class);
 
 		return clientObject;
+	}
+
+	public List<PayBillTransactionList> getTransactionPayEmployeeList(
+			ClientPayStructureDestination structureDestination, long companyId)
+			throws AccounterException {
+		List<PayBillTransactionList> transactionPayEmployeeList = new ArrayList<PayBillTransactionList>();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		List list = currentSession
+				.getNamedQuery("getTransactionPayEmployeeList")
+				.setParameter(
+						"employeeId",
+						structureDestination instanceof ClientEmployee ? structureDestination
+								.getID() : 0)
+				.setParameter(
+						"employeeGroupId",
+						structureDestination instanceof ClientEmployeeGroup ? structureDestination
+								.getID() : 0)
+				.setParameter("companyId", companyId).list();
+
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			PayBillTransactionList payEmpTransaction = new PayBillTransactionList();
+			Object[] object = (Object[]) iterator.next();
+			payEmpTransaction.setTransactionId((Long) object[0]);
+			payEmpTransaction.setType((Integer) object[1]);
+			payEmpTransaction.setVendorName((String) object[2]);
+			payEmpTransaction.setBillNumber((String) object[3]);
+			payEmpTransaction.setOriginalAmount((Double) object[4]);
+			payEmpTransaction.setAmountDue((Double) object[5]);
+			payEmpTransaction.setPayment((Double) object[6]);
+			payEmpTransaction
+					.setDueDate(new ClientFinanceDate((Long) object[7]));
+			transactionPayEmployeeList.add(payEmpTransaction);
+		}
+
+		return transactionPayEmployeeList;
 	}
 }

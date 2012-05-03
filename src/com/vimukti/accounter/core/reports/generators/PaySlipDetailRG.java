@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core.reports.generators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Employee;
 import com.vimukti.accounter.web.client.Global;
@@ -58,35 +61,35 @@ public class PaySlipDetailRG extends AbstractReportGenerator {
 			}
 
 			String contactNum = "";
-			if (selectedEmployee.getContactNumber() != null
-					&& !selectedEmployee.getContactNumber().trim().isEmpty()) {
+			if (selectedEmployee.getPhoneNo() != null
+					&& !selectedEmployee.getPhoneNo().trim().isEmpty()) {
 				contactNum = messages.contactNumber() + " : "
-						+ selectedEmployee.getContactNumber();
+						+ selectedEmployee.getPhoneNo();
 			}
 
 			String email = "";
 			if (selectedEmployee.getEmail() != null) {
 				email = messages.email() + " : " + selectedEmployee.getEmail();
 			}
-			Address address = selectedEmployee.getAddress();
+			List<Address> address = new ArrayList<Address>(
+					selectedEmployee.getAddress());
 			String addressStr = "";
-			if (address != null) {
+			if (address != null && address.size() > 0) {
 				addressStr = messages.address() + " : "
-						+ getAddressAsString(address);
+						+ getAddressAsString(address.get(0));
 			}
 			String panNumber = "";
-			if (selectedEmployee.getPanNumber() != null
-					&& !selectedEmployee.getPanNumber().trim().isEmpty()) {
+			if (selectedEmployee.getPANno() != null
+					&& !selectedEmployee.getPANno().trim().isEmpty()) {
 				panNumber = messages.panOrEinNumber() + " : "
-						+ selectedEmployee.getPanNumber();
+						+ selectedEmployee.getPANno();
 			}
 
 			String bankAccountNumber = "";
-			if (selectedEmployee.getBankAccountNumber() != null
-					&& !selectedEmployee.getBankAccountNumber().trim()
-							.isEmpty()) {
+			if (selectedEmployee.getBankAccountNo() != null
+					&& !selectedEmployee.getBankAccountNo().trim().isEmpty()) {
 				bankAccountNumber = messages.bankAccountNumber() + " : "
-						+ selectedEmployee.getBankAccountNumber();
+						+ selectedEmployee.getBankAccountNo();
 			}
 
 			String bankName = "";

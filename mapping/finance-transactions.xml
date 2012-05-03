@@ -1173,6 +1173,25 @@
 				<one-to-many class="AttendanceManagementItem" />
 			</list>
 			<property name="noOfWorkingDays" column="NOOF_WORKING_DAYS" not-null="true" />
+			<property name="payments" column="PAYMENTS"></property>
+			<property name="balanceDue" column="BALANCE_DUE"></property>
+		</joined-subclass>
+		<joined-subclass name="PayEmployee" table="PAY_EMPLOYEE">
+			<key column="ID" />
+			<many-to-one name="payAccount" class="Account" cascade="save-update"
+				column="PAY_FROM_ID">
+			</many-to-one>
+			<many-to-one name="employee" class="Employee" cascade="save-update"
+				column="EMPLOYEE_ID">
+			</many-to-one>
+			<many-to-one name="employeeGroup" class="EmployeeGroup" cascade="save-update"
+				column="EMPLOYEE_GROUP_ID">
+			</many-to-one>
+			<list name="transactionPayEmployee" cascade="save-update,delete,delete-orphan">
+				<key column="TRANSACTION_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionPayEmployee" />
+			</list>
 		</joined-subclass>
 	</class>
 
@@ -1380,6 +1399,24 @@
 			cascade="save-update" column="JOURNAL_ENTRY_ID">
 		</many-to-one>
 	</class>
+	
+	<class name="TransactionPayEmployee" table="TRANSACTION_PAY_EMPLOYEE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="payRun" class="PayRun" column="PAY_RUN_ID">
+		</many-to-one>
+		<property name="originalAmount" column="ORIGINAL_AMOUNT"></property>
+		<property name="amountDue" column="AMOUNT_DUE"></property>
+		<property name="payment" column="PAYMENT"></property>
+		<many-to-one name="payEmployee" class="PayEmployee" column="PAY_EMPLOYEE_ID">
+		</many-to-one>
+		<property name="isVoid" column="IS_VOID"></property>
+	</class>
+	
 	<class name="TransactionReceivePayment" table="TRANSACTION_RECEIVE_PAYMENT">
 		<id name="id" column="ID">
 			<generator class="identity" />

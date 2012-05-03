@@ -4,72 +4,6 @@
                 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field" auto-import="false">
-
-	<class name="Employee" table="EMPLOYEE">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company">
-		</many-to-one>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			not-null="true" />
-		<property name="name" column="NAME" />
-		<property name="number" column="NUMBER" />
-		<many-to-one name="group" column="EMPLOYEE_GROUP" class="EmployeeGroup" />
-		<property name="designation" column="DESIGNATION" />
-		<property name="dateofJoining" column="DATE_OF_JOINING"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<property name="location" column="LOCATION" />
-		<property name="dateOfBirth" column="DATE_OF_BIRTH"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<property name="gender" column="GENDER" />
-		<property name="contactNumber" column="CONTACT_NUMBER" />
-		<property name="email" column="EMAIL" />
-		<property name="bankName" column="BANK_NAME" />  
-		<property name="bankAccountNumber" column="BANK_ACCOUNT_NUMBER" />
-		<property name="branch" column="BANK_BRANCH" />
-		<property name="passportNumber" column="PASSPORT_NUMBER" />
-		<property name="countryOfIssue" column="COUNTRY_OF_ISSUE" />
-		<property name="passportExpiryDate" column="PASSPORT_EXPIRY_DATE"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<property name="visaNumber" column="VISA_NUMBER" />
-		<property name="isActive" column="IS_ACTIVE" />
-		<property name="panNumber" column="PAN_NUMBER" />
-		<property name="visaExpiryDate" column="VISA_EXPIRY_DATE"
-			type="com.vimukti.accounter.core.LongUseType" />
-		<set name="customFieldValues" inverse="true" cascade="save-update,delete">
-			<key column="COMPANY_ID" />
-			<one-to-many class="CustomFieldValue" />
-		</set>
-		<component name="address" class="Address">
-			<property name="type" column="ADDRESS_TYPE" />
-			<property name="address1" column="ADDRESS_ADDRESS1" />
-			<property name="street" column="ADDRESS_STREET" />
-			<property name="city" column="ADDRESS_CITY" />
-			<property name="stateOrProvinence" column="ADDRESS_STATE" />
-			<property name="zipOrPostalCode" column="ADDRESS_ZIP" />
-			<property name="countryOrRegion" column="ADDRESS_COUNTRY" />
-			<property name="isSelected" column="ADDRESS_IS_SELECTED" />
-		</component>
-
-		<component name="contact" class="Contact">
-			<property name="isPrimary" column="IS_PRIMARY" not-null="true" />
-			<property name="name" column="CONTACT_NAME" not-null="true"
-				length="100" />
-			<property name="title" column="TITLE" not-null="true"
-				length="100" />
-			<property name="businessPhone" column="BUSINESS_PHONE"
-				not-null="true" length="100" />
-			<property name="email" column="CONTACT_EMAIL" not-null="true" />
-		</component>
-
-	</class>
-
 	<class name="EmployeeGroup" table="EMPLOYEE_GROUP">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -629,5 +563,48 @@
 				
 					GROUP BY AMI.ID,APT.ID,API.VALUE,E.ID
 		]]>
+	</sql-query>
+	<sql-query name="getTransactionPayEmployeeList">
+		<query-param name="employeeId" type="long" />
+		<query-param name="employeeGroupId" type="long" />
+		<query-param name="companyId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="EMPLOYEE_NAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
+		<return-scalar column="AMOUNT_DUE" type="double" />
+		<return-scalar column="PAYMENTS" type="double" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="PERIOD_START_DATE" type="long" />
+		<return-scalar column="PERIOD_END_DATE" type="long" />
+		
+		<![CDATA[
+				SELECT T.ID AS ID,
+				       T.T_TYPE AS TRANSACTION_TYPE,
+				       (SELECT P.NAME
+				        FROM   PAYEE P
+				        WHERE  P.ID = PR.EMPLOYEE
+				               AND P.COMPANY_ID = :companyId) AS EMPLOYEE_NAME,
+				      T.NUMBER AS TRANSACTION_NUMBER,
+				      T.TOTAL AS ORIGINAL_AMOUNT,
+				      PR.BALANCE_DUE AS AMOUNT_DUE,
+				      PR.PAYMENTS AS PAYMENTS,
+				      T.T_DATE AS TRANSACTION_DATE,
+				      PR.PERIOD_START_DATE AS PERIOD_START_DATE,
+				      PR.PERIOD_END_DATE AS PERIOD_END_DATE
+				FROM   TRANSACTION T
+				       LEFT OUTER JOIN PAY_RUN PR
+				         ON T.ID = PR.ID
+				WHERE  T.T_TYPE =39
+				       AND T.SAVE_STATUS != 202
+				       AND ( PR.BALANCE_DUE > 0.0 )
+				       AND (CASE WHEN :employeeGroupId = 0 
+				       THEN PR.EMPLOYEE = :employeeId ELSE 
+				       PR.EMPLOYEE_GROUP =:employeeGroupId)
+				       AND T.COMPANY_ID = :companyId  
+				]]>
+
 	</sql-query>
 </hibernate-mapping>

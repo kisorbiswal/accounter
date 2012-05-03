@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
@@ -232,6 +233,13 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 			ClientPayStructureDestination selectItem) throws AccounterException {
 		return getFinanceTool().getPayrollManager().getPayStructure(selectItem,
 				getCompanyId());
+	}
 
+	public List<PayBillTransactionList> getTransactionPayEmployeeList(
+			ClientPayStructureDestination structureDestination)
+			throws AccounterException {
+		return getFinanceTool().getPayrollManager()
+				.getTransactionPayEmployeeList(structureDestination,
+						getCompanyId());
 	}
 }

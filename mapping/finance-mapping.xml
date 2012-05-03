@@ -1254,7 +1254,23 @@
 			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
 			<property name="lastTAXReturnDate" column="LAST_TAX_RETURN_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-
+		</joined-subclass>
+		<joined-subclass name="Employee" table="EMPLOYEE">
+			<key column="ID" />
+			<property name="number" column="NUMBER" />
+			<many-to-one name="group" column="EMPLOYEE_GROUP" class="EmployeeGroup" />
+			<property name="designation" column="DESIGNATION" />
+			<property name="location" column="LOCATION" />
+			<property name="dateOfBirth" column="DATE_OF_BIRTH"
+				type="com.vimukti.accounter.core.LongUseType" />
+			<property name="gender" column="GENDER" />
+			<property name="passportNumber" column="PASSPORT_NUMBER" />
+			<property name="countryOfIssue" column="COUNTRY_OF_ISSUE" />
+			<property name="passportExpiryDate" column="PASSPORT_EXPIRY_DATE"
+				type="com.vimukti.accounter.core.LongUseType" />
+			<property name="visaNumber" column="VISA_NUMBER" />
+			<property name="visaExpiryDate" column="VISA_EXPIRY_DATE"
+				type="com.vimukti.accounter.core.LongUseType" />
 		</joined-subclass>
 	</class>
 	<class name="PaymentTerms" table="PAYMENTTERMS">

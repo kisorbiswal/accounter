@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
@@ -70,4 +71,7 @@ public interface IAccounterPayrollService extends RemoteService {
 	ClientPayStructure getPayStructure(ClientPayStructureDestination selectItem)
 			throws AccounterException;
 
+	List<PayBillTransactionList> getTransactionPayEmployeeList(
+			ClientPayStructureDestination structureDestination)
+			throws AccounterException;
 }

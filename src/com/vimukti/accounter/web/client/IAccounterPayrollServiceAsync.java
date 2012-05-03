@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.core.reports.PaySlipSummary;
@@ -71,5 +72,9 @@ public interface IAccounterPayrollServiceAsync {
 
 	public void getPayStructure(ClientPayStructureDestination selectItem,
 			AsyncCallback<ClientPayStructure> asyncCallback);
+
+	void getTransactionPayEmployeeList(
+			ClientPayStructureDestination structureDestination,
+			AsyncCallback<List<PayBillTransactionList>> callback);
 
 }

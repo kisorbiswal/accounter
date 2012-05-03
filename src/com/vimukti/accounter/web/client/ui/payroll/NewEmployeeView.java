@@ -87,14 +87,12 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		if (data.getGender() != -1) {
 			genderSelect.setComboItem(genderTypes[data.getGender()]);
 		}
-		contactNumberItem.setValue(data.getContactNumber());
+		contactNumberItem.setValue(data.getPhoneNo());
 		emailItem.setValue(data.getEmail());
 		activeOrInactive.setValue(data.isActive());
 		panItem.setValue(data.getPanNumber());
 
-		Set<ClientAddress> addresses = new HashSet<ClientAddress>();
-		addresses.add(data.getAddress());
-		setAddresses(addresses);
+		setAddresses(data.getAddress());
 
 		ClientAddress toBeShown = allAddresses.get(ClientAddress.TYPE_BILL_TO);
 		if (toBeShown != null) {
@@ -129,12 +127,12 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		}
 
 		employeeIdItem.setValue(data.getNumber());
-		dateOfHire.setValue(new ClientFinanceDate(data.getDateofJoining()));
+		dateOfHire.setValue(new ClientFinanceDate(data.getPayeeSince()));
 		employeeGroupCombo.setGroupValue(data.getGroup());
 		designationItem.setValue(data.getDesignation());
 		locationItem.setValue(data.getLocation());
-		bankAccountNumberItem.setValue(data.getBankAccountNumber());
-		bankBranchItem.setValue(data.getBranch());
+		bankAccountNumberItem.setValue(data.getBankAccountNo());
+		bankBranchItem.setValue(data.getBankBranch());
 		bankNameItem.setValue(data.getBankName());
 		passportNumberItem.setValue(data.getPassportNumber());
 		passportExpiryDateItem.setValue(new ClientFinanceDate(data
@@ -155,7 +153,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		}
 	}
 
-	public ClientAddress getAddresss() {
+	public Set<ClientAddress> getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType("company"));
 		if (selectedAddress != null) {
@@ -167,7 +165,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		Iterator<ClientAddress> it = add.iterator();
 		while (it.hasNext()) {
 			ClientAddress a = (ClientAddress) it.next();
-			return a;
+			Set<ClientAddress> hashSet = new HashSet<ClientAddress>();
+			hashSet.add(a);
+			return hashSet;
 			// toBeSet.add(a);
 			// System.out.println("Sending Address  Type " + a.getType()
 			// + " Street is " + a.getStreet() + " Is Selected"
@@ -354,20 +354,20 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setName(nameItem.getValue());
 
 		data.setAddress(getAddresss());
-		data.setBankAccountNumber(bankAccountNumberItem.getValue());
+		data.setBankAccountNo(bankAccountNumberItem.getValue());
 		data.setBankName(bankNameItem.getValue());
-		data.setBranch(bankBranchItem.getValue());
+		data.setBankBranch(bankBranchItem.getValue());
 		data.setActive(activeOrInactive.getValue());
-		data.setContactNumber(contactNumberItem.getValue());
+		data.setPhoneNo(contactNumberItem.getValue());
 		data.setPanNumber(panItem.getValue());
 		data.setCountryOfIssue(countryOfIssueItem.getValue());
 
 		data.setDateOfBirth(dateOfBirthItem.getValue().getDate());
-		data.setDateofJoining(dateOfHire.getValue().getDate());
+		data.setPayeeSince(dateOfHire.getValue().getDate());
 
 		data.setDesignation(designationItem.getValue());
 		data.setEmail(emailItem.getValue());
-		data.setContactDetail(new ClientContact());
+		data.setContacts(new HashSet<ClientContact>());
 		if (employeeGroupCombo.getSelectedValue() != null) {
 			data.setGroup(employeeGroupCombo.getSelectedValue().getID());
 		}

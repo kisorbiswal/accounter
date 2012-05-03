@@ -738,4 +738,5 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_VENDOR_PAYMENT = "Vendor Prepayment";
 	public static final String SALARIES_PAYABLE = "Salaries Payable";
 	public static final String TYPE_PAY_RUN = "Pay Run";
+	public static final String TYPE_PAY_EMPLOYEE = "Pay Employee";
 }

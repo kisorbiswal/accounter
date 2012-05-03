@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class PayRun extends Transaction {
 
@@ -36,6 +37,16 @@ public class PayRun extends Transaction {
 	private EmployeeGroup employeeGroup;
 
 	private String noOfWorkingDays;
+
+	/**
+	 * This is to specify how much of this Bill is paid.
+	 */
+	double payments = 0D;
+
+	/**
+	 * This will specify the balance due
+	 */
+	double balanceDue = 0D;
 
 	public PayRun() {
 		super();
@@ -91,6 +102,7 @@ public class PayRun extends Transaction {
 	public boolean onSave(Session session) throws CallbackException {
 		// Running Payment of Each Employee
 		setType(Transaction.TYPE_PAY_RUN);
+		this.balanceDue = this.total;
 		doPayRunCreateEffect();
 		return super.onSave(session);
 	}
@@ -127,6 +139,8 @@ public class PayRun extends Transaction {
 	public void onEdit(Transaction clonedObject) throws AccounterException {
 		PayRun payRun = (PayRun) clonedObject;
 
+		this.balanceDue = this.total - payments;
+
 		doPayRunDeleteEffect(payRun);
 
 		if (!this.isVoid() && !payRun.isVoid()) {
@@ -144,22 +158,6 @@ public class PayRun extends Transaction {
 
 		double totalAmount = earningsAmount - deductionAmount;
 		setTotal(totalAmount);
-		for (EmployeePaymentDetails detail : this.getPayEmployee()) {
-			for (EmployeePayHeadComponent component : detail
-					.getPayHeadComponents()) {
-				double rate = component.getRate();
-				Account account = component.getPayHead().getAccount();
-				if (component.isDeduction()) {
-					account.updateCurrentBalance(this, rate, 1);
-				} else if (component.isEarning()) {
-					account.updateCurrentBalance(this, -rate, 1);
-				}
-			}
-		}
-
-		Account salariesPayableAccount = getCompany()
-				.getSalariesPayableAccount();
-		salariesPayableAccount.updateCurrentBalance(this, totalAmount, 1);
 	}
 
 	@Override
@@ -241,29 +239,55 @@ public class PayRun extends Transaction {
 	}
 
 	private void doPayRunDeleteEffect(PayRun payRun) {
-		for (EmployeePaymentDetails detail : payRun.getPayEmployee()) {
+		// for (EmployeePaymentDetails detail : payRun.getPayEmployee()) {
+		// for (EmployeePayHeadComponent component : detail
+		// .getPayHeadComponents()) {
+		// double rate = component.getRate();
+		// Account account = component.getPayHead().getAccount();
+		// if (component.isDeduction()) {
+		// account.updateCurrentBalance(payRun, -rate, 1);
+		// } else if (component.isEarning()) {
+		// account.updateCurrentBalance(payRun, rate, 1);
+		// }
+		// }
+		// }
+		//
+		// Account salariesPayableAccount = getCompany()
+		// .getSalariesPayableAccount();
+		// salariesPayableAccount.updateCurrentBalance(payRun,
+		// -payRun.getTotal(),
+		// 1);
+
+		payRun.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+
+		payRun.payments = payRun.total;
+		payRun.balanceDue = 0.0;
+	}
+
+	@Override
+	public void getEffects(ITransactionEffects e) {
+
+		for (EmployeePaymentDetails detail : this.getPayEmployee()) {
 			for (EmployeePayHeadComponent component : detail
 					.getPayHeadComponents()) {
 				double rate = component.getRate();
 				Account account = component.getPayHead().getAccount();
 				if (component.isDeduction()) {
-					account.updateCurrentBalance(payRun, -rate, 1);
+					e.add(account, rate, 1);
 				} else if (component.isEarning()) {
-					account.updateCurrentBalance(payRun, rate, 1);
+					e.add(account, -rate, 1);
 				}
 			}
 		}
 
-		Account salariesPayableAccount = getCompany()
-				.getSalariesPayableAccount();
-		salariesPayableAccount.updateCurrentBalance(payRun, -payRun.getTotal(),
-				1);
-	}
-
-	@Override
-	public void getEffects(ITransactionEffects e) {
-		// TODO Auto-generated method stub
-
+		if (getEmployee() != null) {
+			e.add(getEmployee(), getTotal());
+		} else {
+			List<Employee> employees = getEmployeeGroup().getEmployees();
+			for (Employee employee : employees) {
+				e.add(employee, getTotal());
+			}
+		}
 	}
 
 	public void setNoOfWorkingDays(String noOfWorkingDays) {
@@ -272,5 +296,38 @@ public class PayRun extends Transaction {
 
 	public String getNoOfWorkingDays() {
 		return noOfWorkingDays;
+	}
+
+	public void updateStatus() {
+		if (DecimalUtil.isGreaterThan(this.balanceDue, 0)
+				&& DecimalUtil.isLessThan(this.balanceDue, this.total)) {
+
+			this.status = Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED;
+		} else if (DecimalUtil.isEquals(this.balanceDue, 0.0)) {
+			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (DecimalUtil.isEquals(this.balanceDue, this.total)) {
+
+			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		}
+	}
+
+	public void updateBalance(double amount) {
+		this.payments += amount;
+		this.balanceDue -= amount;
+		updateStatus();
+	}
+
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+		PayRun bill = (PayRun) super.clone();
+		bill.balanceDue = bill.getTotal();
+		bill.payments = 0;
+		bill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		return bill;
+	}
+
+	public void updateUnUsedAmount(Session session, double payment) {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -1,8 +1,6 @@
 package com.vimukti.accounter.core;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
@@ -11,9 +9,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * Employee records the relevant information about the employee.
@@ -21,8 +22,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * @author Prasanna Kumar G
  * 
  */
-public class Employee extends CreatableObject implements
-		PayStructureDestination {
+public class Employee extends Payee implements PayStructureDestination {
 
 	/**
 	 * 
@@ -34,19 +34,9 @@ public class Employee extends CreatableObject implements
 	public static final int GENDER_FEMALE = 2;
 
 	/**
-	 * Name of the Employee
-	 */
-	private String name;
-
-	/**
 	 * Employee belongs to Group
 	 */
 	private EmployeeGroup group;
-
-	/**
-	 * Date of Joining of the Employee
-	 */
-	private FinanceDate dateofJoining;
 
 	/** General Information */
 
@@ -76,34 +66,7 @@ public class Employee extends CreatableObject implements
 	 */
 	private int gender;
 
-	/**
-	 * Address of the Employee
-	 */
-	private Address address;
-
-	/**
-	 * Contact Number of the Employee
-	 */
-	private String contactNumber;
-
-	/**
-	 * Email of the Employee
-	 */
-	private String email;
-
 	/** Payment Details */
-
-	/**
-	 * Bank Name of the Employee
-	 */
-	private String bankName;
-
-	/**
-	 * Bank Account Number of the Employee
-	 */
-	private String bankAccountNumber;
-
-	private String branch;
 
 	/** Passport or Visa Details */
 
@@ -112,10 +75,6 @@ public class Employee extends CreatableObject implements
 	 */
 	private String passportNumber;
 
-	/***
-	 * pan number
-	 */
-	private String panNumber;
 	/**
 	 * Country which is Issuing Passport
 	 */
@@ -136,33 +95,7 @@ public class Employee extends CreatableObject implements
 	 */
 	private FinanceDate visaExpiryDate;
 
-	private boolean isActive;
-
 	/** Contact Details */
-
-	/**
-	 * Contact Details
-	 */
-	private Contact contact;
-
-	private PayStructure payStructure;
-
-	private Set<CustomFieldValue> customFieldValues = new HashSet<CustomFieldValue>();
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	/**
 	 * @return the group
@@ -177,21 +110,6 @@ public class Employee extends CreatableObject implements
 	 */
 	public void setGroup(EmployeeGroup group) {
 		this.group = group;
-	}
-
-	/**
-	 * @return the dateofJoining
-	 */
-	public FinanceDate getDateofJoining() {
-		return dateofJoining;
-	}
-
-	/**
-	 * @param dateofJoining
-	 *            the dateofJoining to set
-	 */
-	public void setDateofJoining(FinanceDate dateofJoining) {
-		this.dateofJoining = dateofJoining;
 	}
 
 	/**
@@ -270,96 +188,6 @@ public class Employee extends CreatableObject implements
 	}
 
 	/**
-	 * @return the address
-	 */
-	public Address getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param address
-	 *            the address to set
-	 */
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	/**
-	 * @return the contactNumber
-	 */
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	/**
-	 * @param contactNumber
-	 *            the contactNumber to set
-	 */
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
-	}
-
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * @param email
-	 *            the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * @return the bankName
-	 */
-	public String getBankName() {
-		return bankName;
-	}
-
-	/**
-	 * @param bankName
-	 *            the bankName to set
-	 */
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-
-	/**
-	 * @return the bankAccountNumber
-	 */
-	public String getBankAccountNumber() {
-		return bankAccountNumber;
-	}
-
-	/**
-	 * @param bankAccountNumber
-	 *            the bankAccountNumber to set
-	 */
-	public void setBankAccountNumber(String bankAccountNumber) {
-		this.bankAccountNumber = bankAccountNumber;
-	}
-
-	/**
-	 * @return the branch
-	 */
-	public String getBranch() {
-		return branch;
-	}
-
-	/**
-	 * @param branch
-	 *            the branch to set
-	 */
-	public void setBranch(String branch) {
-		this.branch = branch;
-	}
-
-	/**
 	 * @return the passportNumber
 	 */
 	public String getPassportNumber() {
@@ -434,36 +262,6 @@ public class Employee extends CreatableObject implements
 		this.visaExpiryDate = visaExpiryDate;
 	}
 
-	/**
-	 * @return the contactDetail
-	 */
-	public Contact getContactDetail() {
-		return contact;
-	}
-
-	/**
-	 * @param contactDetail
-	 *            the contactDetail to set
-	 */
-	public void setContactDetail(Contact contactDetail) {
-		this.contact = contactDetail;
-	}
-
-	/**
-	 * @return the payStructure
-	 */
-	public PayStructure getPayStructure() {
-		return payStructure;
-	}
-
-	/**
-	 * @param payStructure
-	 *            the payStructure to set
-	 */
-	public void setPayStructure(PayStructure payStructure) {
-		this.payStructure = payStructure;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
@@ -481,33 +279,22 @@ public class Employee extends CreatableObject implements
 						AccounterException.ERROR_NAME_CONFLICT);
 			}
 		}
-		return true;
+		return super.canEdit(clientObject, goingToBeEdit);
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 
+		w.put(messages.type(), messages.employee()).gap();
+		w.put(messages.no(), this.number);
+
+		w.put(messages.name(), this.name);
 	}
 
 	@Override
-	public void selfValidate() {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @return the customeFields
-	 */
-	public Set<CustomFieldValue> getCustomeFields() {
-		return customFieldValues;
-	}
-
-	/**
-	 * @param customeFields
-	 *            the customeFields to set
-	 */
-	public void setCustomeFields(HashSet<CustomFieldValue> customFieldValues) {
-		this.customFieldValues = customFieldValues;
+	public void selfValidate() throws AccounterException {
+		super.selfValidate();
 	}
 
 	@Override
@@ -520,20 +307,18 @@ public class Employee extends CreatableObject implements
 		return super.onDelete(arg0);
 	}
 
-	public boolean isActive() {
-		return isActive;
+	@Override
+	public int getObjType() {
+		return IAccounterCore.EMPLOYEE;
 	}
 
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	@Override
+	public Account getAccount() {
+		return getCompany().getSalariesPayableAccount();
 	}
 
-	public String getPanNumber() {
-		return panNumber;
+	@Override
+	protected String getPayeeName() {
+		return Global.get().messages().employee();
 	}
-
-	public void setPanNumber(String panNumber) {
-		this.panNumber = panNumber;
-	}
-
 }

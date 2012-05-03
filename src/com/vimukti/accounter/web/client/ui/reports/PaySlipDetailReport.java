@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -18,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PaySlipDetailServerRepo
 public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 
 	public PaySlipDetailReport() {
-        this.getElement().setId("PaySlipDetailReport");
+		this.getElement().setId("PaySlipDetailReport");
 		this.serverReport = new PaySlipDetailServerReport(this) {
 			@Override
 			protected String getAmountAsString(PaySlipDetail detail,
@@ -107,20 +110,21 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 						+ getGenderString(selectedEmployee.getGender())));
 			}
 
-			if (selectedEmployee.getContactNumber() != null
-					&& !selectedEmployee.getContactNumber().isEmpty()) {
+			if (selectedEmployee.getPhoneNo() != null
+					&& !selectedEmployee.getPhoneNo().isEmpty()) {
 				leftPanel.add(new Label(messages.contactNumber() + " : "
-						+ selectedEmployee.getContactNumber()));
+						+ selectedEmployee.getPhoneNo()));
 			}
 
 			if (selectedEmployee.getEmail() != null) {
 				leftPanel.add(new Label(messages.email() + " : "
 						+ selectedEmployee.getEmail()));
 			}
-			ClientAddress address = selectedEmployee.getAddress();
-			if (address != null) {
+			List<ClientAddress> address = new ArrayList<ClientAddress>(
+					selectedEmployee.getAddress());
+			if (address != null && address.size() > 0) {
 				leftPanel.add(new Label(messages.address() + " : "
-						+ getAddressAsString(address)));
+						+ getAddressAsString(address.get(0))));
 			}
 
 			if (selectedEmployee.getPanNumber() != null
@@ -129,11 +133,10 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 						+ selectedEmployee.getPanNumber()));
 			}
 
-			if (selectedEmployee.getBankAccountNumber() != null
-					&& !selectedEmployee.getBankAccountNumber().trim()
-							.isEmpty()) {
+			if (selectedEmployee.getBankAccountNo() != null
+					&& !selectedEmployee.getBankAccountNo().trim().isEmpty()) {
 				rightPanel.add(new Label(messages.bankAccountNumber() + " : "
-						+ selectedEmployee.getBankAccountNumber()));
+						+ selectedEmployee.getBankAccountNo()));
 			}
 
 			if (selectedEmployee.getBankName() != null

@@ -111,6 +111,12 @@ public class Utility_R {
 		case Transaction.TYPE_STOCK_ADJUSTMENT:
 			transactionName = AccounterServerConstants.TYPE_EMPLOYEE_EXPENSE;
 			break;
+		case Transaction.TYPE_PAY_RUN:
+			transactionName = AccounterServerConstants.TYPE_PAY_RUN;
+			break;
+		case Transaction.TYPE_PAY_EMPLOYEE:
+			transactionName = AccounterServerConstants.TYPE_PAY_EMPLOYEE;
+			break;
 		}
 		return transactionName;
 	}
