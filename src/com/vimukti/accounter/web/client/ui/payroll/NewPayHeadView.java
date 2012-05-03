@@ -425,6 +425,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 					public void execute(
 							List<ClientComputaionFormulaFunction> value) {
 						NewPayHeadView.this.formulas = value;
+						prepareFormula(value);
 					}
 				});
 			}
