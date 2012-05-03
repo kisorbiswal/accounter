@@ -145,6 +145,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				|| calType.equals(messages.production())) {
 			ClientAttendancePayHead attendance = (ClientAttendancePayHead) data;
 			productionTypeCombo.setSelectedId(attendance.getProductionType());
+			payheadCombo.setSelectedId(attendance.getPayhead());
 			String attendanceType = ClientAttendancePayHead
 					.getAttendanceType(attendance.getAttendanceType());
 			attendanceTypeCombo.setComboItem(attendanceType);
@@ -620,6 +621,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 				payhead.setProductionType(productionTypeCombo
 						.getSelectedValue().getID());
 				payhead.setPerDayCalculationBasis(ClientAttendancePayHead.PER_DAY_CALCULATION_AS_PER_CALANDAR_PERIOD);
+				payhead.setPayhead(payheadCombo.getSelectedValue().getID());
 			}
 			data = payhead;
 
