@@ -485,7 +485,7 @@ public class CustomerCreditMemo extends Transaction implements
 					e.add(item, tItem.getQuantity().reverse(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
-					double purchaseCost = tItem.getQuantity().calculatePrice(
+					double purchaseCost = tItem.getQuantity().calculate(
 							tItem.getUnitPriceInBaseCurrency());
 					e.add(item.getAssestsAccount(), -purchaseCost, 1);
 					e.add(item.getExpenseAccount(), purchaseCost, 1);
@@ -510,6 +510,6 @@ public class CustomerCreditMemo extends Transaction implements
 		checkingCustomerNull(customer, Global.get().customer());
 		checkTransactionItemsNull();
 		checkNetAmountNegative();
-			
+
 	}
 }

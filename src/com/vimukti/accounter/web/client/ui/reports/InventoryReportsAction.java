@@ -48,7 +48,7 @@ public class InventoryReportsAction extends Action {
 					report = new InventoryStockStatusByItemReport();
 					break;
 				case TYPE_STOCK_STATUS_BY_VENDOR:
-					report = new InventoryStockStatusByVendorReport(id);
+					report = new InventoryStockStatusByVendorReport();
 					break;
 				case TYPE_ITEM_REPORT:
 					report = new InventoryItemReport();
@@ -148,7 +148,7 @@ public class InventoryReportsAction extends Action {
 	}
 
 	public static InventoryReportsAction valuationDetails(long itemId) {
-		return new InventoryReportsAction(TYPE_VALUATION_DETAILS);
+		return new InventoryReportsAction(TYPE_VALUATION_DETAILS, itemId);
 	}
 
 	public static InventoryReportsAction stockStatusByItem() {

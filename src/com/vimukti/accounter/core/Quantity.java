@@ -144,6 +144,20 @@ public class Quantity implements Comparable<Quantity> {
 	}
 
 	/**
+	 * Calculates price for the available quantity based on given unitPrice[for
+	 * This Quantity Unit]
+	 * 
+	 * <br>
+	 * <b>NOTE</b> <i>: No Currency details included here.</i>
+	 * 
+	 * @param unitPrice
+	 * @return
+	 */
+	public double calculate(double unitPrice) {
+		return getValue() * unitPrice;
+	}
+
+	/**
 	 * Converts the present quantity into default measurement.
 	 * 
 	 * @return

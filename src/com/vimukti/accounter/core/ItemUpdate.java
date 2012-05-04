@@ -4,6 +4,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.server.InventoryUtils;
 
 public class ItemUpdate extends CreatableObject {
 
@@ -98,9 +99,14 @@ public class ItemUpdate extends CreatableObject {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		setCompany(getTransaction().getCompany());
+
+		double averageCost = InventoryUtils.getAverageCost(getItem(),
+				getQuantity(), getUnitPrice());
+		getItem().setAverageCost(averageCost);
+
 		Quantity onhandQty = getItem().getOnhandQty();
 		getItem().setOnhandQuantity(onhandQty.add(getQuantity()));
-		ChangeTracker.put(getItem());
+
 		Unit selectedUnit = quantity.getUnit();
 		Measurement defaultMeasurement = item.getMeasurement();
 		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
@@ -109,15 +115,22 @@ public class ItemUpdate extends CreatableObject {
 		warehouse.updateItemStatus(item, value);
 		warehouse.onUpdate(session);
 		session.saveOrUpdate(warehouse);
+		session.saveOrUpdate(item);
+		ChangeTracker.put(getItem());
 		ChangeTracker.put(warehouse);
 		return super.onSave(session);
 	}
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
+
+		double averageCost = InventoryUtils.getAverageCost(getItem(),
+				getQuantity().reverse(), getUnitPrice());
+		getItem().setAverageCost(averageCost);
+
 		Quantity onhandQty = getItem().getOnhandQty();
 		getItem().setOnhandQuantity(onhandQty.subtract(getQuantity()));
-		ChangeTracker.put(getItem());
+
 		Unit selectedUnit = getQuantity().getUnit();
 		Measurement defaultMeasurement = getItem().getMeasurement();
 		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
@@ -126,6 +139,8 @@ public class ItemUpdate extends CreatableObject {
 		getWarehouse().updateItemStatus(getItem(), -value);
 		getWarehouse().onUpdate(session);
 		session.saveOrUpdate(getWarehouse());
+		session.saveOrUpdate(getItem());
+		ChangeTracker.put(getItem());
 		ChangeTracker.put(getWarehouse());
 		return super.onDelete(session);
 	}

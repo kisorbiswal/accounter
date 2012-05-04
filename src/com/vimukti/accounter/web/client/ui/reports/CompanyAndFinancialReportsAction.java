@@ -92,6 +92,7 @@ public class CompanyAndFinancialReportsAction extends Action {
 				case TYPE_EXCHANGE_RATES:
 					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog();
 					dialog.center();
+					break;
 				case TYPE_PROFIT_AND_LOSS:
 					report = new ProfitAndLossReport();
 					break;

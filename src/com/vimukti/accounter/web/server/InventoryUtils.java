@@ -27,7 +27,7 @@ public class InventoryUtils {
 			int inventoryScheme = item.getActiveInventoryScheme();
 			List<InventoryDetails> purchases = getPurchases(itemID,
 					inventoryScheme);
-			item.setAverageCost(getAverageCost(itemID));
+			// item.setAverageCost(getAverageCost(itemID));
 			adjustSales(
 					item,
 					inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
@@ -134,6 +134,21 @@ public class InventoryUtils {
 		} finally {
 			session.setFlushMode(flushMode);
 		}
+	}
+
+	public static double getAverageCost(Item item, Quantity qty, double newCost) {
+		Quantity newQty = qty.copy();
+		double averageCost = item.getAverageCost();
+		Quantity onhandQty = item.getOnhandQty();
+		double onHandCost = onhandQty.calculatePrice(averageCost);
+		newCost = newQty.calculate(newCost);
+
+		double totalAssetValue = onHandCost + newCost;
+		Quantity totalQuantity = onhandQty.add(newQty.convertToDefaultUnit());
+		if (!totalQuantity.isEmpty()) {
+			return totalAssetValue / totalQuantity.getValue();
+		}
+		return averageCost;
 	}
 
 	static class InventoryDetails {

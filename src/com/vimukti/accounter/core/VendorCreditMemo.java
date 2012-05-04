@@ -357,7 +357,7 @@ public class VendorCreditMemo extends Transaction {
 					e.add(item, quantityCopy,
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
-					double calculatePrice = quantityCopy.calculatePrice(tItem
+					double calculatePrice = quantityCopy.calculate(tItem
 							.getUnitPriceInBaseCurrency());
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
