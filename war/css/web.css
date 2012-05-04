@@ -101,6 +101,16 @@ table.gridBody {
 	#VendorView .currencyTextBox {
 		padding-bottom: 1px;
 	}
+	.group-toolbar .grouped-buttons #closeButton {
+		padding: 4px !important;
+	}
+	.group-toolbar .grouped-buttons #closeButton img{
+		padding-bottom: 0px !important;
+	}
+	#addNewButton,#exportButton,#closeButton,#searchButton,#configButton,#printButton,#addVendorButton,
+	#editButton,#addCustomerButton,#next,#previous{
+		padding: 2px 6px 0px !important;
+	}
 	#VendorView .phoneFaxForm {
 		padding: 10px 0 1px 0;
 	}
@@ -975,9 +985,8 @@ div.label-title {
 	background-color: #E4E4E4;
 	height: 25px;
 	border: 1px solid #A0A0A0;
-	padding: 2px 3px;
+	padding: 1px 0;
 }
-
 #next {
 	background-position: right center;
 	padding: 0 22px 0 5px !important;
@@ -8258,10 +8267,10 @@ table.no_records tr td {
 
 .image-button img{
     vertical-align: middle;
-    margin:3px 5px 2px 0;
+    margin:0 5px 3px 0;
 }
 .group-toolbar .grouped-buttons #closeButton {
-	padding:4px 3px;
+	padding:2px 1px;
 }
 .group-toolbar .grouped-buttons #closeButton img{
 	padding-bottom: 2px;
@@ -8301,7 +8310,7 @@ table.no_records tr td {
 	width:100px;
 }
 #group6 button{
-	padding:5px;
+	padding:3px;
 }
 #PriceLevelListDialog .group_dialogue_list {
 	width: 400px;

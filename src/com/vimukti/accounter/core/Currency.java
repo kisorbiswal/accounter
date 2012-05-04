@@ -217,17 +217,20 @@ public class Currency extends CreatableObject implements IAccounterServerCore,
 
 		Set<Currency> currencies = getCompany().getCurrencies();
 		for (Currency currency : currencies) {
-			if (currency.getName().equalsIgnoreCase(getName())) {
+			if (currency.getName().equalsIgnoreCase(getName())
+					&& currency.getID() != getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().currency());
 			}
-			if (currency.getFormalName().equalsIgnoreCase(getFormalName())) {
+			if (currency.getFormalName().equalsIgnoreCase(getFormalName())
+					&& currency.getID() != getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().currencyFormalName());
 			}
-			if (currency.getSymbol().equalsIgnoreCase(getSymbol())) {
+			if (currency.getSymbol().equalsIgnoreCase(getSymbol())
+					&& currency.getID() != getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().currencySymbol());

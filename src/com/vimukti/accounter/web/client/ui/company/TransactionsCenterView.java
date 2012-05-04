@@ -308,10 +308,10 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		// otherItems.add(getMessages().deposits());
 		otherItems.add(getMessages().journalEntries());
 		otherItems.add(getMessages().otherChecks());
-		if (Accounter.getUser().canSeeInvoiceTransactions()
-				&& getPreferences().isTrackTax()) {
-			otherItems.add(getMessages().taxAdjustment());
-		}
+		// if (Accounter.getUser().canSeeInvoiceTransactions()
+		// && getPreferences().isTrackTax()) {
+		// otherItems.add(getMessages().taxAdjustment());
+		// }
 
 		if (Accounter.hasPermission(Features.PAY_ROLL)) {
 			otherItems.add(getMessages().payRuns());

@@ -46,12 +46,14 @@ public abstract class TransactionPayBillTable extends
 	private boolean isForceShowTDS;
 	private final boolean enableDiscount;
 	private long transactionId;
+	private boolean isTDSEnabled;
 
 	public TransactionPayBillTable(boolean enableDiscount, boolean canEdit,
-			ICurrencyProvider currencyProvider) {
+			ICurrencyProvider currencyProvider,boolean istdsEnabled) {
 		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
 		this.enableDiscount = enableDiscount;
+		this.isTDSEnabled = istdsEnabled;
 	}
 
 	public void setTranactionId(long transactionId) {
@@ -382,7 +384,7 @@ public abstract class TransactionPayBillTable extends
 					update(row);
 				}
 			});
-
+           if(isTDSEnabled)
 			addTdsColumn();
 		}
 
@@ -444,6 +446,7 @@ public abstract class TransactionPayBillTable extends
 			});
 		}
 		if (!canEdit) {
+			if(isTDSEnabled)
 			addTdsColumn();
 		}
 

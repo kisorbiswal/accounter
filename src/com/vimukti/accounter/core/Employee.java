@@ -291,8 +291,11 @@ public class Employee extends Payee implements PayStructureDestination {
 
 		w.put(messages.type(), messages.employee()).gap();
 		w.put(messages.no(), this.number);
-
 		w.put(messages.name(), this.name);
+		w.put(messages.designation(), this.designation);
+		w.put(messages.location(), this.location);
+		w.put(messages.gender(), this.gender);
+		w.put(messages.employeeGroup(), this.group != null ? this.getGroup().toString():"");
 	}
 
 	@Override

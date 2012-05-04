@@ -262,7 +262,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 
 	private void initListGrid() {
 		grid = new TransactionPayBillTable(isTrackDiscounts(), !isInViewMode(),
-				this) {
+				this, isTDSEnable()) {
 
 			@Override
 			protected void updateFootervalues(ClientTransactionPayBill row,
@@ -1510,9 +1510,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 	}
 
 	private boolean isTDSEnable() {
-		if (vendor != null) {
-			return (getPreferences().isTDSEnabled() && vendor.isTdsApplicable())
-					|| transaction.getTdsTaxItem() != 0;
+
+		if (transaction != null && transaction.getVendor() != 0) {
+			ClientVendor vendor2 = getCompany().getVendor(
+					transaction.getVendor());
+			return (getPreferences().isTDSEnabled() && vendor2
+					.isTdsApplicable()) || transaction.getTdsTaxItem() != 0;
 		} else {
 			return getPreferences().isTDSEnabled()
 					|| transaction.getTdsTaxItem() != 0;
