@@ -76,6 +76,28 @@ public class UnRealisedExchangeLossesAndGainsServerReport extends
 	}
 
 	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 0:
+			return 110;
+		case 1:
+			return 110;
+		case 2:
+			return 110;
+		case 3:
+			return 110;
+		case 4:
+			return 110;
+		case 5:
+			return 110;
+		case 6:
+			return 110;
+		default:
+			return -1;
+		}
+	}
+
+	@Override
 	public ClientFinanceDate getStartDate(UnRealisedLossOrGain obj) {
 		return obj.getStartDate();
 	}
