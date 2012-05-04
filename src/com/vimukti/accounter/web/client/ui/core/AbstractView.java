@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AbstractView<T> extends FlowPanel {
@@ -20,6 +21,8 @@ public abstract class AbstractView<T> extends FlowPanel {
 	protected T data;
 
 	protected static final AccounterMessages messages = Global.get().messages();
+	protected static final AccounterMessages2 messages2 = Global.get()
+			.messages2();
 
 	private ViewManager manager;
 

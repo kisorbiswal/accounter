@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.AbstractGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
@@ -16,6 +17,8 @@ public class ServerGlobal extends AbstractGlobal {
 
 	AccounterMessages messages = ServerSideMessages
 			.get(AccounterMessages.class);
+	AccounterMessages2 messages1 = ServerSideMessages
+			.get(AccounterMessages2.class);
 
 	public ServerGlobal() throws IOException {
 	}
@@ -48,7 +51,7 @@ public class ServerGlobal extends AbstractGlobal {
 	public DayAndMonthUtil getDayAndMonthUtil() {
 		return LocalInfoCache.get(ServerLocal.get());
 	}
-	
+
 	@Override
 	public ClientFinanceDate stringAsFinanceDate(String date, String format) {
 		if (date == null) {
@@ -68,5 +71,10 @@ public class ServerGlobal extends AbstractGlobal {
 		return null;
 
 	}
-	
+
+	@Override
+	public AccounterMessages2 messages2() {
+		return messages2();
+	}
+
 }

@@ -30,8 +30,7 @@ public class MessagesGenerator extends Generator {
 			if (src != null) {
 				src.println("private static Dictionary cache;");
 				src.println(classType.getSimpleSourceName()
-						+ "Generated() {if (cache == null) {cache = Dictionary.getDictionary(\""
-						+ classType.getSimpleSourceName() + "\");}"
+						+ "Generated() {if (cache == null) {cache = Dictionary.getDictionary(\"AccounterMessages\");}"
 						+ "}");
 
 				src.println("private String value(String key, HashMap<String,String> values) {"
@@ -74,7 +73,7 @@ public class MessagesGenerator extends Generator {
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory(
 				packageName, simpleName);
 		composer.addImplementedInterface(classType.getQualifiedSourceName());
-//		composer.addImplementedInterface("com.vimukti.accounter.web.client.externalization.IMessageStats");
+		// composer.addImplementedInterface("com.vimukti.accounter.web.client.externalization.IMessageStats");
 
 		// Need to add whatever imports your generated class needs.
 		composer.addImport(classType.getQualifiedSourceName());
