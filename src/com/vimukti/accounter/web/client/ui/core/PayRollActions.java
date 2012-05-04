@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.payroll.NewPayHeadView;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayRunView;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayStructureView;
 import com.vimukti.accounter.web.client.ui.payroll.NewPayrollUnitDialog;
+import com.vimukti.accounter.web.client.ui.payroll.PayEmployeeView;
 import com.vimukti.accounter.web.client.ui.payroll.PayStructureListView;
 import com.vimukti.accounter.web.client.ui.payroll.PayheadListView;
 import com.vimukti.accounter.web.client.ui.payroll.PayrollUnitListView;
@@ -41,6 +42,7 @@ public class PayRollActions extends Action {
 	public static final int EMP_GROUP_LIST = 11;
 	private static final int ATTENDANCE_OR_PRODUCTION_TYPE = 12;
 	private static final int ATTENDANCE_OR_PRODUCTION_TYPE_LIST = 13;
+	private static final int NEW_PAY_EMPLOYEE = 14;
 	private int type;
 
 	public PayRollActions(int type) {
@@ -78,6 +80,8 @@ public class PayRollActions extends Action {
 			return messages.attendanceOrProductionType();
 		case ATTENDANCE_OR_PRODUCTION_TYPE_LIST:
 			return messages.attendanceOrProductionTypeList();
+		case NEW_PAY_EMPLOYEE:
+			return messages.payEmployee();
 		default:
 			break;
 		}
@@ -151,6 +155,9 @@ public class PayRollActions extends Action {
 		case ATTENDANCE_OR_PRODUCTION_TYPE_LIST:
 			view = new AttendanceOrProductionTypeListView();
 			break;
+		case NEW_PAY_EMPLOYEE:
+			view = new PayEmployeeView();
+			break;
 		default:
 			break;
 		}
@@ -206,6 +213,8 @@ public class PayRollActions extends Action {
 			return HistoryTokens.ATTENDANCE_PRODUCTION_TYPE;
 		case ATTENDANCE_OR_PRODUCTION_TYPE_LIST:
 			return HistoryTokens.ATTENDANCE_PRODUCTION_TYPE_LIST;
+		case NEW_PAY_EMPLOYEE:
+			return HistoryTokens.PAY_EMPLOYEE;
 		default:
 			break;
 		}
@@ -241,6 +250,8 @@ public class PayRollActions extends Action {
 			return "attendance-or-productiontype";
 		case ATTENDANCE_OR_PRODUCTION_TYPE_LIST:
 			return "attendance_or_production_typelist";
+		case NEW_PAY_EMPLOYEE:
+			return "pay-employee";
 		default:
 			break;
 		}
@@ -255,6 +266,10 @@ public class PayRollActions extends Action {
 		this.type = type;
 	}
 
+	public static PayRollActions newPayEmployeeAction() {
+		return new PayRollActions(NEW_PAY_EMPLOYEE);
+	}
+	
 	public static PayRollActions newEmployeeAction() {
 		return new PayRollActions(NEW_EMPLOEE);
 	}

@@ -582,7 +582,7 @@
 		<return-scalar column="PERIOD_END_DATE" type="long" />
 		
 		<![CDATA[
-				SELECT T.ID AS ID,
+				SELECT T.ID AS TRANSACTION_ID,
 				       T.T_TYPE AS TRANSACTION_TYPE,
 				       (SELECT P.NAME
 				        FROM   PAYEE P
@@ -593,8 +593,8 @@
 				      PR.BALANCE_DUE AS AMOUNT_DUE,
 				      PR.PAYMENTS AS PAYMENTS,
 				      T.T_DATE AS TRANSACTION_DATE,
-				      PR.PERIOD_START_DATE AS PERIOD_START_DATE,
-				      PR.PERIOD_END_DATE AS PERIOD_END_DATE
+				      PR.PAY_PERIOD_STARTDATE AS PERIOD_START_DATE,
+				      PR.PAY_PERIOD_ENDDATE AS PERIOD_END_DATE
 				FROM   TRANSACTION T
 				       LEFT OUTER JOIN PAY_RUN PR
 				         ON T.ID = PR.ID
@@ -603,7 +603,7 @@
 				       AND ( PR.BALANCE_DUE > 0.0 )
 				       AND (CASE WHEN :employeeGroupId = 0 
 				       THEN PR.EMPLOYEE = :employeeId ELSE 
-				       PR.EMPLOYEE_GROUP =:employeeGroupId)
+				       PR.EMPLOYEE_GROUP =:employeeGroupId END)
 				       AND T.COMPANY_ID = :companyId  
 				]]>
 

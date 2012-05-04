@@ -13,6 +13,9 @@ public class ClientTransactionPayEmployee implements IAccounterCore {
 	private double amountDue = 0D;
 	private double payment = 0D;
 	private long payRun;
+	private String payRunNumber;
+	private long date;
+	private long payEmployee;
 
 	@Override
 	public int getVersion() {
@@ -81,4 +84,27 @@ public class ClientTransactionPayEmployee implements IAccounterCore {
 		this.payRun = payRun;
 	}
 
+	public String getPayRunNumber() {
+		return payRunNumber;
+	}
+
+	public void setPayRunNumber(String payRunNumber) {
+		this.payRunNumber = payRunNumber;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
+	}
+
+	public long getPayEmployee() {
+		return payEmployee;
+	}
+
+	public void setPayEmployee(long payEmployee) {
+		this.payEmployee = payEmployee;
+	}
 }

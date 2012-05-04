@@ -158,7 +158,8 @@ public class MenuBar {
 				HistoryTokens.NEW_PAYSTRUCTURE);
 		payrollMenuBar.addMenuItem(messages.newPayee(messages.payrun()),
 				HistoryTokens.NEW_PAYRUN);
-
+		payrollMenuBar.addMenuItem(messages.newPayee(messages.payEmployee()),
+				HistoryTokens.PAY_EMPLOYEE);
 		payrollMenuBar.addSeparatorItem();
 
 		payrollMenuBar

@@ -1,3 +1,4 @@
+
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
@@ -175,11 +176,6 @@ public class PayEmployee extends Transaction {
 		}
 
 		if (this.getID() == 0l) {
-			if ((!this.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod
-					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
-				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			}
 
 			if (this.transactionPayEmployee != null) {
 				for (TransactionPayEmployee tpb : this.transactionPayEmployee) {

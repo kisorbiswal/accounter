@@ -20,8 +20,8 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.PaySheet;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
@@ -235,7 +235,7 @@ public class AccounterPayrollImpl extends AccounterRPCBaseServiceImpl implements
 				getCompanyId());
 	}
 
-	public List<PayBillTransactionList> getTransactionPayEmployeeList(
+	public List<ClientTransactionPayEmployee> getTransactionPayEmployeeList(
 			ClientPayStructureDestination structureDestination)
 			throws AccounterException {
 		return getFinanceTool().getPayrollManager()

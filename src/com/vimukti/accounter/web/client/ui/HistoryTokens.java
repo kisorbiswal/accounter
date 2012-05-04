@@ -432,6 +432,8 @@ public class HistoryTokens {
 
 	public static final String PAYSLIP_DETAIL_REPORT = "payslipDetailReport";
 
+	public static final String PAY_EMPLOYEE = "payemployee";
+	
 	public HistoryTokens() {
 
 	}
