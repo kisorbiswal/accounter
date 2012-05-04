@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientPayEmployee extends ClientTransaction {
@@ -13,6 +14,12 @@ public class ClientPayEmployee extends ClientTransaction {
 	private long employeeGroup;
 	private long payAccount;
 	private List<ClientTransactionPayEmployee> payRunComponents;
+
+	public ClientPayEmployee() {
+		super();
+		setType(TYPE_PAY_EMPLOYEE);
+		payRunComponents = new ArrayList<ClientTransactionPayEmployee>();
+	}
 
 	@Override
 	public String getName() {

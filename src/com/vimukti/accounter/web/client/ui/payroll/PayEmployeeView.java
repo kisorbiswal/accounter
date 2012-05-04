@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
-import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
@@ -21,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
+import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class PayEmployeeView extends
@@ -40,14 +40,10 @@ public class PayEmployeeView extends
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -84,42 +80,15 @@ public class PayEmployeeView extends
 		bankAccountCombo = new BankAccountCombo(messages.payFrom());
 		bankAccountCombo.setRequired(true);
 
-		table = new PayEmployeeTable(isInViewMode(), this) {
+		table = new PayEmployeeTable(this) {
 
-			@Override
-			protected void updateTotalPayment(ClientTransactionPayEmployee obj) {
-			}
-
-			@Override
-			protected void updateFootervalues(ClientTransactionPayEmployee row,
-					boolean canEdit) {
-				PayEmployeeView.this.updateFooterValues();
-			}
-
-			@Override
-			protected void resetTotlas() {
-				PayEmployeeView.this.resetTotals();
+			protected void updateTransactionTotlas() {
+				PayEmployeeView.this.updateNonEditableItems();
 			}
 
 			@Override
 			protected boolean isInViewMode() {
 				return PayEmployeeView.this.isInViewMode();
-			}
-
-			@Override
-			protected void deleteTotalPayment(ClientTransactionPayEmployee obj) {
-				PayEmployeeView.this.deleteTotalPayment(obj);
-			}
-
-			@Override
-			protected void adjustPaymentValue(
-					ClientTransactionPayEmployee selectedObject) {
-				PayEmployeeView.this.adjustPaymentValue(selectedObject);
-			}
-
-			@Override
-			protected void adjustAmountAndEndingBalance() {
-				PayEmployeeView.this.adjustAmountAndEndingBalance();
 			}
 
 		};
@@ -128,6 +97,20 @@ public class PayEmployeeView extends
 		mainPanel.add(dateNoForm);
 		mainPanel.add(mainForm);
 		mainPanel.add(table);
+
+		memoTextAreaItem = createMemoTextAreaItem();
+
+		DynamicForm memoForm = new DynamicForm("memoForm");
+
+		transactionTotalBaseCurrencyText = new AmountLabel(
+				messages.currencyTotal(getCompany().getPreferences()
+						.getPrimaryCurrency().getFormalName()), getCompany()
+						.getPreferences().getPrimaryCurrency());
+		mainPanel.add(transactionTotalBaseCurrencyText);
+
+		memoForm.add(memoTextAreaItem);
+
+		mainPanel.add(memoForm);
 
 		listforms.add(dateNoForm);
 		listforms.add(mainForm);
@@ -150,8 +133,6 @@ public class PayEmployeeView extends
 
 						@Override
 						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
 						}
 					});
 		}
@@ -161,33 +142,6 @@ public class PayEmployeeView extends
 		if (table != null && result != null) {
 			table.setRecords(result);
 		}
-	}
-
-	protected void adjustAmountAndEndingBalance() {
-		// TODO Auto-generated method stub
-
-	}
-
-	protected void adjustPaymentValue(
-			ClientTransactionPayEmployee selectedObject) {
-		// TODO Auto-generated method stub
-
-	}
-
-	protected void deleteTotalPayment(ClientTransactionPayEmployee obj) {
-		ClientTransaction transactionObject = getTransactionObject();
-		transactionObject.setTotal(transactionObject.getTotal()
-				- obj.getPayment());
-	}
-
-	protected void resetTotals() {
-		// TODO Auto-generated method stub
-
-	}
-
-	protected void updateFooterValues() {
-		totalOrginalAmt = 0.0D;
-		totalDueAmt = 0.0D;
 	}
 
 	@Override
@@ -206,24 +160,26 @@ public class PayEmployeeView extends
 		} else {
 			transaction = new ClientPayEmployee();
 		}
+		initTransactionNumber();
 	}
 
 	@Override
 	public void updateNonEditableItems() {
-		// TODO Auto-generated method stub
-
+		List<ClientTransactionPayEmployee> selectedRecords = table
+				.getSelectedRecords();
+		Double total = 0.0D;
+		for (ClientTransactionPayEmployee clientTransactionPayEmployee : selectedRecords) {
+			total += clientTransactionPayEmployee.getPayment();
+		}
+		transactionTotalBaseCurrencyText.setAmount(total);
 	}
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void updateDiscountValues() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -233,8 +189,6 @@ public class PayEmployeeView extends
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -266,6 +220,8 @@ public class PayEmployeeView extends
 		transaction.setDate(getTransactionDate().getDate());
 		transaction.setNumber(transactionNumber.getValue());
 		transaction.setCurrency(getCompany().getPrimaryCurrency().getID());
+		transaction.setMemo(memoTextAreaItem.getValue());
+		transaction.setTotal(transactionTotalBaseCurrencyText.getAmount());
 		saveOrUpdate(transaction);
 	}
 
@@ -288,5 +244,4 @@ public class PayEmployeeView extends
 		}
 		return result;
 	}
-
 }

@@ -38,6 +38,8 @@ import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientPayEmployee;
+import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -74,6 +76,7 @@ import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
@@ -1180,6 +1183,10 @@ public class UIUtils {
 			return new ClientCreditCardCharge();
 		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
 			return new ClientStockAdjustment();
+		case ClientTransaction.TYPE_PAY_RUN:
+			return new ClientPayRun();
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			return new ClientPayEmployee();
 		}
 
 		return null;
@@ -1277,6 +1284,8 @@ public class UIUtils {
 			return AccounterCoreType.TAXADJUSTMENT;
 		case ClientTransaction.TYPE_PAY_RUN:
 			return AccounterCoreType.PAY_RUN;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			return AccounterCoreType.TYPE_PAYEMPLOYEE;
 		}
 		return null;
 
@@ -2078,7 +2087,9 @@ public class UIUtils {
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
 		case ClientTransaction.TYPE_TRANSFER_FUND:
 			return ClientTransaction.CATEGORY_BANKING;
-
+		case ClientTransaction.TYPE_PAY_RUN:
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			return ClientTransaction.CATEGORY_EMPLOYEE;
 		default:
 			break;
 		}
@@ -2333,6 +2344,12 @@ public class UIUtils {
 			break;
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			action = InventoryActions.buildAssembly();
+			break;
+		case ClientTransaction.TYPE_PAY_RUN:
+			action = PayRollActions.newPayRunAction();
+			break;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			action = PayRollActions.newPayEmployeeAction();
 			break;
 		}
 		return action;

@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPayEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayRun;
 import com.vimukti.accounter.web.client.core.ClientPayStructure;
@@ -440,6 +441,10 @@ public class ReportsRPC {
 			initCallBack(new ClientPayRun(), PayRollActions.newPayRunAction(),
 					transactionId);
 			break;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			initCallBack(new ClientPayEmployee(),
+					PayRollActions.newPayEmployeeAction(), transactionId);
+			break;
 		case IAccounterCore.ATTENDANCE_PRODUCTION_TYPE:
 			initCallBack(new ClientAttendanceOrProductionType(),
 					PayRollActions.newAttendanceProductionTypeAction(),
@@ -512,6 +517,9 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_PAY_RUN:
 			PayRollActions.newPayRunAction().run((ClientPayRun) transaction,
 					false);
+			break;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			PayRollActions.newPayEmployeeAction().run(transaction, false);
 			break;
 		}
 	}

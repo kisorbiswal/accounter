@@ -117,6 +117,9 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_PAY_RUN:
 			transactionName = messages.payrun();
 			break;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			transactionName = messages.payEmployee();
+			break;
 		}
 		return transactionName;
 	}

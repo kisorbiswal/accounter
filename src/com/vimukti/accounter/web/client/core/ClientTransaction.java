@@ -80,6 +80,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int CATEGORY_CUSTOMER = 1;
 	public static final int CATEGORY_VENDOR = 2;
 	public static final int CATEGORY_BANKING = 3;
+	public static final int CATEGORY_EMPLOYEE = 4;
 
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 

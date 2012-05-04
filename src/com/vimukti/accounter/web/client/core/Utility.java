@@ -140,6 +140,9 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_PAY_RUN:
 			transactionName = messages.payrun();
 			break;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			transactionName = messages.payEmployee();
+			break;
 		}
 		return transactionName;
 	}
@@ -2109,13 +2112,14 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		return isAllowed;
 	}
-	
+
 	public static ClientFinanceDate[] getFinancialQuarter(int quarter) {
 
 		ClientFinanceDate startDate;
 		ClientFinanceDate endDate;
 
-		ClientFinanceDate start = Accounter.getCompany().getCurrentFiscalYearStartDate();
+		ClientFinanceDate start = Accounter.getCompany()
+				.getCurrentFiscalYearStartDate();
 
 		switch (quarter) {
 		case 1:
@@ -2156,7 +2160,8 @@ public class Utility implements IsSerializable, Serializable {
 			endDate = new ClientFinanceDate(endCal4.getTime());
 			break;
 		}
-		ClientFinanceDate[] dates = new ClientFinanceDate[] { startDate, endDate };
+		ClientFinanceDate[] dates = new ClientFinanceDate[] { startDate,
+				endDate };
 		return dates;
 	}
 }

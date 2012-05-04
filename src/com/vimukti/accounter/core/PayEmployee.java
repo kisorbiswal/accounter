@@ -1,4 +1,3 @@
-
 package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
@@ -26,6 +25,11 @@ public class PayEmployee extends Transaction {
 	private Account payAccount;
 
 	private List<TransactionPayEmployee> transactionPayEmployee = new ArrayList<TransactionPayEmployee>();
+
+	public PayEmployee() {
+		super();
+		setType(TYPE_PAY_EMPLOYEE);
+	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
@@ -167,6 +171,7 @@ public class PayEmployee extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
+		setType(Transaction.TYPE_PAY_EMPLOYEE);
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;

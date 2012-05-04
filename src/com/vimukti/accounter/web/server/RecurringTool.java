@@ -164,7 +164,8 @@ public class RecurringTool extends Thread {
 					session.saveOrUpdate(recurringTransaction);
 				}
 			} catch (Exception e) {
-				log.error("Unable to Create Recurring Transaction for : "+recurringTransaction.getID(), e);
+				log.error("Unable to Create Recurring Transaction for : "
+						+ recurringTransaction.getID(), e);
 			}
 		}
 
@@ -266,6 +267,9 @@ public class RecurringTool extends Thread {
 			break;
 		case ClientTransaction.TYPE_PAY_RUN:
 			token = HistoryTokens.NEW_PAYRUN;
+			break;
+		case ClientTransaction.TYPE_PAY_EMPLOYEE:
+			token = HistoryTokens.PAY_EMPLOYEE;
 			break;
 		}
 		return token;

@@ -874,7 +874,7 @@ public class RecurringTransaction extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().recurring());
 		}
-		if ((type == 0)) {
+		if ((type < 0)) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().recurringType());
 		}
