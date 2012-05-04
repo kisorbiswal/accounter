@@ -15,6 +15,8 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 	private int type;
 
+	private boolean isFromTransactionsCenter;
+
 	public TDSChalanDetailsAction() {
 		super();
 		this.catagory = messages.tds();
@@ -47,7 +49,16 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 			public void onSuccess() {
 				if (type == 0 && data == null) {
-					SelectChallanTypeDialog dialog = new SelectChallanTypeDialog();
+					SelectChallanTypeDialog dialog = new SelectChallanTypeDialog() {
+
+						@Override
+						protected boolean onCancel() {
+							if (!isFromTransactionsCenter()) {
+								return super.onCancel();
+							}
+							return true;
+						}
+					};
 					dialog.setDependent(isDependent);
 					dialog.setCallback(getCallback());
 					dialog.show();
@@ -99,6 +110,14 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public boolean isFromTransactionsCenter() {
+		return isFromTransactionsCenter;
+	}
+
+	public void setFromTransactionsCenter(boolean isFromTransactionsCenter) {
+		this.isFromTransactionsCenter = isFromTransactionsCenter;
 	}
 
 }

@@ -68,7 +68,9 @@ public class ChalanDetailsListView extends
 
 	@Override
 	protected Action<ClientTDSChalanDetail> getAddNewAction() {
-		return new TDSChalanDetailsAction();
+		TDSChalanDetailsAction tdsChalanDetailsAction = new TDSChalanDetailsAction();
+		tdsChalanDetailsAction.setFromTransactionsCenter(fromTransactionCenter);
+		return tdsChalanDetailsAction;
 	}
 
 	@Override
