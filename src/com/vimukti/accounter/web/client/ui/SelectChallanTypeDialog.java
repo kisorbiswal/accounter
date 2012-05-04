@@ -80,9 +80,4 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	protected boolean onCancel() {
-		return true;// super.onCancel();
-	}
 }
