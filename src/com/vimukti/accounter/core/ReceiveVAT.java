@@ -279,10 +279,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	@Override
 	public void getEffects(ITransactionEffects e) {
 		double paidAmount = total;
-		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
-			paidAmount = (paidAmount / currencyFactor);
-		}
-		e.add(getDepositIn(), -paidAmount);
+		e.add(getDepositIn(), -paidAmount, currencyFactor);
 		for (TransactionReceiveVAT vat : getTransactionReceiveVAT()) {
 			e.add(vat.getTaxAgency(), vat.getAmountToReceive());
 			e.add(vat.getTAXReturn().getTaxAgency().getFiledLiabilityAccount(),

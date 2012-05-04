@@ -269,8 +269,7 @@ public class MenuBar {
 		settingsMenuBar.addMenuItem(messages.translation(),
 				HistoryTokens.TRANSLATION, "T");
 
-		if ((isAdmin || isFinancialAdvisor)
-				&& hasPermission(Features.BRANDING_THEME)) {
+		if ((isAdmin || isFinancialAdvisor)) {
 			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
 					HistoryTokens.INVOICEBRANDING, "i");
 		}
