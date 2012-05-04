@@ -3065,7 +3065,8 @@
 				WHERE  jtv.company_id = :companyId
 				       AND jtv.customer_id = :customerId
 				       AND jtv.job_id = :jobId
-				       AND jtv.t_date BETWEEN :startDate AND :endDate  
+				       AND jtv.t_date BETWEEN :startDate AND :endDate 
+				       AND JTV.revenue !=0  
 				]]>
 
 	</sql-query>
@@ -3318,7 +3319,8 @@
 				WHERE  JTV.COMPANY_ID = :companyId
 				       AND JTV.CUSTOMER_ID = :customerId
 				       AND JTV.JOB_ID = :jobId
-				       AND JTV.T_DATE BETWEEN :startDate AND :endDate  
+				       AND JTV.T_DATE BETWEEN :startDate AND :endDate 
+				       AND JTV.COST !=0 
 				]]>
 
 	</sql-query>
@@ -3327,57 +3329,78 @@
 	
 		<![CDATA[
 				CREATE OR REPLACE VIEW
-				JOBS_TRANSACTIONS_VIEW
-				AS
-				SELECT T.COMPANY_ID                         AS COMPANY_ID,
-				       P.ID                                 AS CUSTOMER_ID,
-				       P.NAME                               AS CUSTOMER_NAME,
-				       J.ID                                 AS JOB_ID,
-				       J.JOB_NAME                           AS JOB_NAME,
-				       T.ID                                 AS TRANSACTION_ID,
-				       T.T_TYPE,
-				       T.T_DATE,
-				       T.NUMBER                             AS T_NUMBER,
-				       TI.DESCRIPTION                       TI_DESC,
-				       CASE
-				         WHEN TI.TYPE = 1
-				              AND IT.TYPE IN ( 2, 4 )
-				              AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT SUM(IP.PURCHASE_COST)
-				                                                FROM   INVENTORY_PURCHASE IP
-				                                                WHERE
-				         IP.TRANSACTION_ITEM_ID = TI.ID)
-				         WHEN T.T_TYPE = 15 THEN TI.UPDATE_AMOUNT * T.CURRENCY_FACTOR
-				         ELSE '0'
-				       END                                  AS COST,
-				       TI.UPDATE_AMOUNT * T.CURRENCY_FACTOR AS REVENUE,
-				       TI.EFFECTING_ACCOUNT                 AS REVENUE_ACCOUNT,
-				       CASE
-				         WHEN TI.TYPE = 1
-				              AND IT.TYPE IN ( 2, 4 )
-				              AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT EFFECTING_ACCOUNT
-				                                                FROM   INVENTORY_PURCHASE IP
-				                                                WHERE
-				         IP.TRANSACTION_ITEM_ID = TI.ID
-				                                                LIMIT  1)
-				         WHEN T.T_TYPE = 15 THEN TI.EFFECTING_ACCOUNT
-				         ELSE NULL
-				       END                                  AS COST_ACCOUNT
-				FROM   TRANSACTION_ITEM TI
-				       LEFT JOIN ITEM IT
-				         ON IT.ID = TI.ITEM_ID
-				       LEFT JOIN TRANSACTION T
-				         ON T.ID = TI.TRANSACTION_ID
-				       LEFT JOIN JOB J
-				         ON ( TI.JOB_ID = J.ID
-				               OR T.JOB_ID = J.ID )
-				       LEFT JOIN CUSTOMER C
-				         ON C.ID = J.CUSTOMER_ID
-				       LEFT JOIN PAYEE P
-				         ON P.ID = C.ID
-				WHERE  J.ID IS NOT NULL
-				       AND T.SAVE_STATUS!=204
-				       AND ( T.T_TYPE IN ( 1, 4, 8, 15 )
-				              OR TI.IS_BILLABLE );  
+		        JOBS_TRANSACTIONS_VIEW
+		        AS
+		        SELECT T.COMPANY_ID                         AS COMPANY_ID,
+		               P.ID                                 AS CUSTOMER_ID,
+		               P.NAME                               AS CUSTOMER_NAME,
+		               J.ID                                 AS JOB_ID,
+		               J.JOB_NAME                           AS JOB_NAME,
+		               T.ID                                 AS TRANSACTION_ID,
+		               T.T_TYPE,
+		               T.T_DATE,
+		               T.NUMBER                             AS T_NUMBER,
+		               TI.DESCRIPTION                       TI_DESC,
+		               CASE
+		                 WHEN TI.TYPE = 1
+		                      AND IT.TYPE IN ( 2, 4 )
+		                      AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT SUM(IP.PURCHASE_COST)
+		                                                        FROM   INVENTORY_PURCHASE IP
+		                                                        WHERE
+		                 IP.TRANSACTION_ITEM_ID = TI.ID)
+		                 WHEN T.T_TYPE = 15 AND  AMOUNTS_INCLUDE_TAX=TRUE
+		     					 	THEN -1*((TI.LINE_TOTAL-TI.VAT_FRACTION) * T.CURRENCY_FACTOR)
+		                 WHEN T.T_TYPE = 15 AND  AMOUNTS_INCLUDE_TAX=FALSE
+		      						THEN -1*(TI.LINE_TOTAL * T.CURRENCY_FACTOR)
+		                 ELSE '0'
+		               END                                  AS COST,
+		               
+		              
+		          CASE
+		          WHEN (AMOUNTS_INCLUDE_TAX=TRUE) THEN
+		            CASE
+		              WHEN T.T_TYPE IN (1,8)
+		                  THEN (TI.LINE_TOTAL-(TI.VAT_FRACTION) * T.CURRENCY_FACTOR)
+		              WHEN T.T_TYPE IN (4)
+		                  THEN -1*((TI.LINE_TOTAL-TI.VAT_FRACTION) * T.CURRENCY_FACTOR)
+		            END
+		          ELSE
+		            CASE
+		              WHEN T.T_TYPE IN (4)
+		                  THEN -1*(TI.LINE_TOTAL * T.CURRENCY_FACTOR)
+		              WHEN T.T_TYPE IN (1,8)
+		                  THEN (TI.LINE_TOTAL * T.CURRENCY_FACTOR)
+		            END
+		               END AS REVENUE,
+		                 
+		               TI.EFFECTING_ACCOUNT                 AS REVENUE_ACCOUNT,
+		               CASE
+		                 WHEN TI.TYPE = 1
+		                      AND IT.TYPE IN ( 2, 4 )
+		                      AND T.T_TYPE IN ( 1, 4, 8 ) THEN (SELECT EFFECTING_ACCOUNT
+		                                                        FROM   INVENTORY_PURCHASE IP
+		                                                        WHERE
+		                 IP.TRANSACTION_ITEM_ID = TI.ID
+		                                                        LIMIT  1)
+		                 WHEN T.T_TYPE = 15 THEN TI.EFFECTING_ACCOUNT
+		                 ELSE NULL
+		               END                                  AS COST_ACCOUNT
+		        FROM   TRANSACTION_ITEM TI
+		               LEFT JOIN ITEM IT
+		                 ON IT.ID = TI.ITEM_ID
+		               LEFT JOIN TRANSACTION T
+		                 ON T.ID = TI.TRANSACTION_ID
+		               LEFT JOIN JOB J
+		                 ON ( TI.JOB_ID = J.ID
+		                       OR T.JOB_ID = J.ID )
+		               LEFT JOIN CUSTOMER C
+		                 ON C.ID = J.CUSTOMER_ID
+		               LEFT JOIN PAYEE P
+		                 ON P.ID = C.ID
+		        WHERE  J.ID IS NOT NULL
+		               AND T.SAVE_STATUS!=204
+		               AND ( T.T_TYPE IN ( 1, 4, 8, 15 )
+		                      OR TI.IS_BILLABLE );  
 			]]>
 
 	</sql-query>
@@ -4716,8 +4739,8 @@
 		<query-param name="payHeadId" type="long"></query-param>
 		<query-param name="employee" type="long"></query-param>
 		<return-scalar column="PAY_HEAD_AMOUNT" type="double"></return-scalar>
-		<return-scalar column="EMPLOYEE_NAME" type="encryptedstring" ></return-scalar>
-		<return-scalar column="PAY_HEAD_NAME" type="encryptedstring" ></return-scalar>
+		<return-scalar column="EMPLOYEE_NAME" type="encryptedstring"></return-scalar>
+		<return-scalar column="PAY_HEAD_NAME" type="encryptedstring"></return-scalar>
 		<return-scalar column="PAY_HEAD_TYPE" type="int"></return-scalar>
 		<return-scalar column="NUMBER" type="encryptedstring"></return-scalar>
 		<return-scalar column="TRANSACTION_DATE" type="long"></return-scalar>
