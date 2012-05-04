@@ -69,6 +69,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 				return messages.effectiveFrom();
 			}
 
+			@Override
+			public int getWidth() {
+				return 100;
+			}
+
 		});
 
 		payheadColumn = new PayHeadColumn() {
@@ -111,6 +116,11 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			protected String getColumnName() {
 				return messages.rate();
+			}
+
+			@Override
+			public int getWidth() {
+				return 50;
 			}
 		};
 		this.addColumn(rateColumn);
