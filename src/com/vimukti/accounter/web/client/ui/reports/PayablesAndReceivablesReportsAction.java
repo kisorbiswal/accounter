@@ -154,7 +154,7 @@ public class PayablesAndReceivablesReportsAction extends Action {
 		case CUSTOMER_TRANSACTION_HISTORY:
 			return messages.payeeTransactionHistory(Global.get().Customer());
 		case VENDOR_TRANSACTION_HISTORY:
-			Global.get().messages()
+			return Global.get().messages()
 					.payeeTransactionHistory(Global.get().Vendor());
 		}
 		return null;
