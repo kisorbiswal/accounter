@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * Salary Details is used to define the Pay Structure for an Employee or an
@@ -21,7 +24,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class PayStructure extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore ,INamedObject{
 
 	/**
 	 * 
@@ -58,8 +61,9 @@ public class PayStructure extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.employee(), this.employee != null ? this.getEmployee().toString():"");
+		w.put(messages.employeeGroup(), this.employeeGroup != null ? this.getEmployeeGroup().toString():"");
 	}
 
 	public Employee getEmployee() {
@@ -82,5 +86,22 @@ public class PayStructure extends CreatableObject implements
 	public void selfValidate() throws AccounterException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.PAY_STRUCTURE;
 	}
 }

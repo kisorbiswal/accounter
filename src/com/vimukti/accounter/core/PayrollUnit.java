@@ -2,7 +2,10 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * A Payroll Unit is similar to Unit of Measure used in the Inventory module. In
@@ -14,7 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class PayrollUnit extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore ,INamedObject{
 
 	/**
 	 * 
@@ -91,13 +94,33 @@ public class PayrollUnit extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.symbol(), this.symbol);
+		w.put(messages.formalName(), this.formalname);
+		w.put(messages.noOfDecimalPlaces(), this.noofDecimalPlaces);
 	}
 
 	@Override
 	public void selfValidate() throws AccounterException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return IAccounterCore.PAYROLL_UNIT;
 	}
 }

@@ -10,9 +10,15 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 
 	private TextItem nameItem;
 	private DynamicForm form;
+	ClientEmployeeGroup group;
 
-	public NewEmployeeGroupDialog(String title) {
+	public NewEmployeeGroupDialog(String title,ClientEmployeeGroup data) {
 		super(title);
+		if(data == null) {
+			group = new ClientEmployeeGroup();
+		} else {
+			group = data;
+		}
 		this.getElement().setId("NewEmployeeGroupDialog");
 		createControls();
 	}
@@ -20,6 +26,7 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	public void createControls() {
 
 		nameItem = new TextItem(messages.employeeGroup(), "nameItem");
+		nameItem.setValue(group.getName());
 		form = new DynamicForm("form");
 		nameItem.setRequired(true);
 		form.add(nameItem);
@@ -39,7 +46,6 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	}
 
 	private void updateData() {
-		ClientEmployeeGroup group = new ClientEmployeeGroup();
 		group.setName(nameItem.getValue());
 		saveOrUpdate(group);
 		if (getCallback() != null) {

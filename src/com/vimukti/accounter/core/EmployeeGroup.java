@@ -10,9 +10,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * An Employee Group allows you to group/classify the employees in a logical
@@ -27,7 +30,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public class EmployeeGroup extends CreatableObject implements
-		PayStructureDestination {
+		PayStructureDestination,INamedObject {
 
 	/**
 	 * 
@@ -92,8 +95,8 @@ public class EmployeeGroup extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.name(), this.name);
 	}
 
 	@Override
@@ -108,5 +111,11 @@ public class EmployeeGroup extends CreatableObject implements
 		accounterCore.setObjectType(AccounterCoreType.EMPLOYEE_GROUP);
 		ChangeTracker.put(accounterCore);
 		return super.onDelete(arg0);
+	}
+
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return IAccounterCore.EMPLOYEE_GROUP;
 	}
 }

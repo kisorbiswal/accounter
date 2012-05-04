@@ -10,9 +10,12 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * The salary components constituting Pay Structures are called Pay Heads. A Pay
@@ -24,7 +27,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  */
 public abstract class PayHead extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore,INamedObject{
 
 	/**
 	 * 
@@ -264,6 +267,11 @@ public abstract class PayHead extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.name(), this.name);
+		w.put(messages.payHeadType(), this.type);
+		w.put(messages.expenseAccount(), this.getAccount().toString());
+		w.put(messages.calculationType(), this.calculationType);
 	}
 
 	public boolean isEarning() {
@@ -284,4 +292,10 @@ public abstract class PayHead extends CreatableObject implements
 			double deductions, double earnings) {
 		return 0;
 	}
+	@Override
+	public int getObjType() {
+		// TODO Auto-generated method stub
+		return IAccounterCore.PAY_HEAD;
+	}
+	
 }
