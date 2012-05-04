@@ -84,7 +84,15 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		switch (index) {
+		case 0:
+			return 200;
+		case 1:
+			return 290;
+		case 2:
+			return 300;
+		}
+		return 0;
 	}
 
 	@Override

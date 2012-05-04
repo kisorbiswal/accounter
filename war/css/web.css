@@ -605,7 +605,7 @@ input[type="text"] {
 	word-wrap: break-word;
 }
 
-.editTable table td .gwt-TextBox {
+.editTable table td .gwt-TextBox,#paytaxview .gridBody input[type=text] {
 	height: 24px;
 	background: white;
 	border-radius: 0px;

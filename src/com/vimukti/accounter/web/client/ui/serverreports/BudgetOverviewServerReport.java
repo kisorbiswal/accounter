@@ -505,9 +505,9 @@ public class BudgetOverviewServerReport extends
 		case 10:
 		case 11:
 		case 12:
-			return 70;
+			return 55;
 		case 13:
-			return 80;
+			return 70;
 		}
 		return -1;
 	}
