@@ -985,6 +985,9 @@ public class MainFinanceWindow extends FlowPanel {
 				.getHistoryToken(), PayRollReportActions
 				.getPayHeadSummaryReportAction());
 
+		actions.put(PayRollActions.newPayEmployeeAction().getHistoryToken(),
+				PayRollActions.newPayEmployeeAction());
+
 	}
 
 	public ClientCompany getCompany() {

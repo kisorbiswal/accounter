@@ -102,8 +102,8 @@ public class PayRun extends Transaction {
 	public boolean onSave(Session session) throws CallbackException {
 		// Running Payment of Each Employee
 		setType(Transaction.TYPE_PAY_RUN);
-		this.balanceDue = this.total;
 		doPayRunCreateEffect();
+		this.balanceDue = this.total;
 		return super.onSave(session);
 	}
 
@@ -139,13 +139,14 @@ public class PayRun extends Transaction {
 	public void onEdit(Transaction clonedObject) throws AccounterException {
 		PayRun payRun = (PayRun) clonedObject;
 
-		this.balanceDue = this.total - payments;
 
 		doPayRunDeleteEffect(payRun);
 
 		if (!this.isVoid() && !payRun.isVoid()) {
 			doPayRunCreateEffect();
 		}
+		
+		this.balanceDue = this.total - payments;
 
 		super.onEdit(clonedObject);
 	}
