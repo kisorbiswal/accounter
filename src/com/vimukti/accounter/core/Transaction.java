@@ -733,7 +733,9 @@ public abstract class Transaction extends CreatableObject implements
 	protected void checkTransactionItemsNull() throws AccounterException {
 		if (!transactionItems.isEmpty()) {
 			for (TransactionItem item : transactionItems) {
-				item.selfValidate();
+				if (item.getReferringTransactionItem() == null) {
+					item.selfValidate();
+				}
 			}
 		} else {
 			throw new AccounterException(
