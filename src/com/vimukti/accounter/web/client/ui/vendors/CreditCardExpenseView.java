@@ -616,27 +616,27 @@ public class CreditCardExpenseView extends
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						payFromAccountSelected(selectItem.getID());
-						ClientCurrency currency = getCurrency(selectItem
-								.getCurrency());
-						if (currency.getID() != 0) {
-							currencyWidget.setSelectedCurrencyFactorInWidget(
-									currency, transactionDateItem.getDate()
-											.getDate());
-						} else {
-							currencyWidget
-									.setSelectedCurrency(getBaseCurrency());
-						}
-						modifyForeignCurrencyTotalWidget();
-						// selectedAccount = (Account) selectItem;
-						// adjustBalance();
-
+						creditCardAccountSelected(selectItem);
 					}
 
 				});
 		creditCardAccountCombo.setEnabled(!isInViewMode());
 		// payFrmSelect.setShowDisabled(false);
 		return creditCardAccountCombo;
+	}
+
+	protected void creditCardAccountSelected(ClientAccount selectItem) {
+		payFromAccountSelected(selectItem.getID());
+		ClientCurrency currency = getCurrency(selectItem.getCurrency());
+		if (currency.getID() != 0) {
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+		super.setCurrency(currency);
+		modifyForeignCurrencyTotalWidget();
+		updateAmountsFromGUI();
 	}
 
 	@Override
