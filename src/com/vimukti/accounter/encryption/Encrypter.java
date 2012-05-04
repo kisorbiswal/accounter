@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.*;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.ui.combo.PayheadCombo;
 
 public class Encrypter extends Thread {
 	private Logger log = Logger.getLogger(Encrypter.class);
@@ -151,7 +152,16 @@ public class Encrypter extends Thread {
 				UserUtils.class, VATReturnBox.class, Vendor.class,
 				VendorCreditMemo.class, VendorGroup.class,
 				VendorPrePayment.class, Warehouse.class,
-				WareHouseAllocation.class, WriteCheck.class };
+				WareHouseAllocation.class, WriteCheck.class, Employee.class,
+				EmployeeGroup.class, PayHead.class, AttendancePayHead.class,
+				ComputionPayHead.class, FlatRatePayHead.class,
+				UserDefinedPayHead.class, PayrollUnit.class,
+				AttendanceOrProductionType.class, ComputationSlab.class,
+				ComputaionFormulaFunction.class, PayRun.class,
+				EmployeePaymentDetails.class, AttendanceManagementItem.class,
+				EmployeePayHeadComponent.class,
+				AttendanceOrProductionItem.class, PayStructure.class,
+				PayStructureItem.class };
 		return classes;
 	}
 
