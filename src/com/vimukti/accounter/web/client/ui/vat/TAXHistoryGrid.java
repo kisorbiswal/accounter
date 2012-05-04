@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
-import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -82,10 +81,15 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 
 	@Override
 	protected String[] getColumns() {
+		if (getCompany().isPaid()) {
+			return new String[] { messages.taxAgency(),
+					messages.periodStartDate(), messages.periodEndDate(),
+					messages.taxFiledDate(), messages.taxAmount(),
+					messages.totalPaymentMade(), messages.report() };
+		}
 		return new String[] { messages.taxAgency(), messages.periodStartDate(),
 				messages.periodEndDate(), messages.taxFiledDate(),
-				messages.taxAmount(), messages.totalPaymentMade(),
-				messages.report() };
+				messages.taxAmount(), messages.totalPaymentMade() };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -154,68 +158,63 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onDoubleClick(ClientTAXReturn obj, int row, int col) {
-		if (getCompany().isPaid()) {
-			if (col == 6) {
+		if (col == 6) {
 
-				CountryPreferences countryPreferences = Accounter.getCompany()
-						.getCountryPreferences();
-				if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)
-						&& countryPreferences.isVatAvailable()) {
-					List<VATDetail> vatDetails = new ArrayList<VATDetail>();
-					vatDetails = getVATDetailsByBoxes(obj);
-					for (VATDetail detail : vatDetails) {
-						detail.setStartDate(new ClientFinanceDate(obj
-								.getPeriodStartDate()));
-						detail.setEndDate(new ClientFinanceDate(obj
-								.getPeriodEndDate()));
-					}
-
-					new VatExceptionDetailReportAction().run(vatDetails,
-							obj.getID(), true);
-				} else {
-
-					List<ClientTAXReturnEntry> taxEntries = null;
-					List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-					ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
-					taxEntries = clientTAXReturn.getTaxReturnEntries();
-					details = getExceptionDetailData(taxEntries,
-							clientTAXReturn.getPeriodStartDate());
-
-					TAXReportsAction taxItemExceptionDetailReportAction = TAXReportsAction
-							.taxItemException();
-					taxItemExceptionDetailReportAction
-							.setTaxReturn(clientTAXReturn);
-					for (TAXItemDetail detail : details) {
-						detail.setStartDate(new ClientFinanceDate(obj
-								.getPeriodStartDate()));
-						detail.setEndDate(new ClientFinanceDate(obj
-								.getPeriodEndDate()));
-					}
-					taxItemExceptionDetailReportAction.run(details,
-							obj.getID(), true);
+			CountryPreferences countryPreferences = Accounter.getCompany()
+					.getCountryPreferences();
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)
+					&& countryPreferences.isVatAvailable()) {
+				List<VATDetail> vatDetails = new ArrayList<VATDetail>();
+				vatDetails = getVATDetailsByBoxes(obj);
+				for (VATDetail detail : vatDetails) {
+					detail.setStartDate(new ClientFinanceDate(obj
+							.getPeriodStartDate()));
+					detail.setEndDate(new ClientFinanceDate(obj
+							.getPeriodEndDate()));
 				}
 
+				new VatExceptionDetailReportAction().run(vatDetails,
+						obj.getID(), true);
 			} else {
-				CountryPreferences countryPreferences = Accounter.getCompany()
-						.getCountryPreferences();
-				if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)
-						&& countryPreferences.isVatAvailable()) {
-					List<VATSummary> summaries = getSummaires(obj);
-					new VATSummaryReportAction().run(summaries, false);
-				} else {
-					List<ClientTAXReturnEntry> taxEntries = null;
-					List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-					taxEntries = obj.getTaxReturnEntries();
-					details = getData(taxEntries);
-					TAXReportsAction.taxItemDetail().run(details, obj.getID(),
-							true);
 
+				List<ClientTAXReturnEntry> taxEntries = null;
+				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
+				taxEntries = clientTAXReturn.getTaxReturnEntries();
+				details = getExceptionDetailData(taxEntries,
+						clientTAXReturn.getPeriodStartDate());
+
+				TAXReportsAction taxItemExceptionDetailReportAction = TAXReportsAction
+						.taxItemException();
+				taxItemExceptionDetailReportAction
+						.setTaxReturn(clientTAXReturn);
+				for (TAXItemDetail detail : details) {
+					detail.setStartDate(new ClientFinanceDate(obj
+							.getPeriodStartDate()));
+					detail.setEndDate(new ClientFinanceDate(obj
+							.getPeriodEndDate()));
 				}
+				taxItemExceptionDetailReportAction.run(details, obj.getID(),
+						true);
 			}
-		} else {
-			Accounter.showSubscriptionWarning();
-		}
 
+		} else {
+			CountryPreferences countryPreferences = Accounter.getCompany()
+					.getCountryPreferences();
+			if (getCompany().getCountry().equals(Countries.UNITED_KINGDOM)
+					&& countryPreferences.isVatAvailable()) {
+				List<VATSummary> summaries = getSummaires(obj);
+				new VATSummaryReportAction().run(summaries, false);
+			} else {
+				List<ClientTAXReturnEntry> taxEntries = null;
+				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+				taxEntries = obj.getTaxReturnEntries();
+				details = getData(taxEntries);
+				TAXReportsAction.taxItemDetail()
+						.run(details, obj.getID(), true);
+
+			}
+		}
 	}
 
 	private List<TAXItemDetail> getExceptionDetailData(
