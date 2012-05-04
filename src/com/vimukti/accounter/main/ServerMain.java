@@ -35,6 +35,7 @@ import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.RecurringTool;
 
@@ -152,6 +153,39 @@ public class ServerMain extends Main {
 		ClassLoader classLoader = AccounterMessages.class.getClassLoader();
 		InputStream is = null;
 		InputStreamReader reader = null;
+
+		String fileName2 = AccounterMessages2.class.getName();
+		fileName2 = fileName2.replace('.', '/');
+		fileName2 = fileName2 + ".properties";
+
+		String defaultFileName2 = (AccounterMessages2.class.getName().replace(
+				'.', '/')) + ".properties";
+		ClassLoader classLoader2 = AccounterMessages2.class.getClassLoader();
+		InputStream is2 = null;
+		InputStreamReader reader2 = null;
+		try {
+			is2 = classLoader.getResourceAsStream(fileName2);
+			if (is2 == null) {
+				is2 = classLoader.getResourceAsStream(defaultFileName2);
+				if (is2 == null) {
+					throw new FileNotFoundException(
+							"Could not find any properties files matching the given class AccounterMessages2.");
+				}
+			}
+			new MessageLoader(is2).loadMessages();
+			System.out.println("Completed the Inseting of messages 2..");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("UTF-8 encoding not found.", e);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (reader2 != null) {
+				reader2.close();
+			}
+			if (is2 != null) {
+				is2.close();
+			}
+		}
 		try {
 			is = classLoader.getResourceAsStream(fileName);
 			if (is == null) {

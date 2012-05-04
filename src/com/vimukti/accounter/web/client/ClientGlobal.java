@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client;
 
-
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -8,6 +7,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
@@ -38,7 +38,7 @@ public class ClientGlobal extends AbstractGlobal {
 		}
 		return andMonthUtil;
 	}
-	
+
 	@Override
 	public ClientFinanceDate stringAsFinanceDate(String date, String format) {
 		if (date == null) {
@@ -58,5 +58,9 @@ public class ClientGlobal extends AbstractGlobal {
 		return null;
 
 	}
-	
+
+	@Override
+	public AccounterMessages2 messages2() {
+		return Accounter.getMessages2();
+	}
 }
