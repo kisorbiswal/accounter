@@ -220,7 +220,20 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 	protected void setQuantity(ClientTransactionItem row,
 			ClientQuantity quantity) {
 		if (quantity != null) {
+			ClientQuantity oldQuantity = row.getQuantity();
 			row.setQuantity(quantity);
+
+			ClientCompany company = Accounter.getCompany();
+			ClientUnit newUnit = company.getUnitById(quantity.getUnit());
+			ClientUnit oldUnit = company.getUnitById(oldQuantity.getUnit());
+
+			if (newUnit != null) {
+				ClientQuantity convertToDefaultUnit = row.getQuantity()
+						.convertToDefaultUnit(newUnit);
+				row.setUnitPrice((row.getUnitPrice() * newUnit.getFactor())
+						/ oldUnit.getFactor());
+			}
+
 			double lt = quantity.getValue() * row.getUnitPrice();
 			Double disc = row.getDiscount();
 			if (disc != null) {

@@ -11079,11 +11079,20 @@
 				       TI.QTY_VALUE                      AS QUANTITY,
 				       TI.QTY_UNIT                       AS QTY_UNIT,
 				       IT.ID                             AS ITEM_ID,
-				       T.T_DATE                          AS TRANSACTION_DATE
+				       T.T_DATE                          AS TRANSACTION_DATE,
+				       (SELECT factor
+				        FROM   unit u
+				        WHERE  u.id = TI.QTY_UNIT)       AS UNIT_FACTOR,
+				       (SELECT u1.factor
+				        FROM   unit u1
+				               left join unit u2
+				                 ON u1.measurement_id = u2.measurement_id
+				        WHERE  u2.id = TI.QTY_UNIT
+				               AND u1.is_default = TRUE) AS DEFAULT_UNIT_FACTOR
 				FROM   TRANSACTION_ITEM TI
-				       LEFT OUTER JOIN TRANSACTION T
+				       left outer join TRANSACTION T
 				         ON T.ID = TI.TRANSACTION_ID
-				       LEFT OUTER JOIN ITEM IT
+				       left outer join ITEM IT
 				         ON TI.TYPE = 1
 				            AND IT.TYPE IN ( 2, 4 )
 				            AND IT.ID = TI.ITEM_ID
@@ -11092,7 +11101,8 @@
 				              OR CASE
 				                   WHEN T.T_TYPE = 36 THEN TI.QTY_VALUE >= 0
 				                   ELSE FALSE
-				                 END ) AND IT.TYPE IN (2,4)
+				                 END )
+				       AND IT.TYPE IN ( 2, 4 )  
 		]]>
 
 	</sql-query>
@@ -11145,7 +11155,7 @@
 		<return-scalar column="COST" type="double" />
 		
 		<![CDATA[
-				SELECT ( ( SUM(QUANTITY * UNIT_PRICE) ) / SUM(QUANTITY) ) AS COST
+				SELECT ( ( SUM(QUANTITY * UNIT_PRICE) ) / SUM((QUANTITY*UNIT_FACTOR)/DEFAULT_UNIT_FACTOR) ) AS COST
 				FROM   INVENTORY_PURCHASE_HISTORY_VIEW IHV
 				WHERE  IHV.ITEM_ID = :inventoryId  
 				]]>

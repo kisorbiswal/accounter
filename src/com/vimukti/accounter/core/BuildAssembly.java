@@ -158,7 +158,7 @@ public class BuildAssembly extends Transaction {
 	public void getEffects(ITransactionEffects e) {
 		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
 		quantityToBuild.setValue(this.quantityToBuild);
-		e.add(getInventoryAssembly(), quantityToBuild, 0.00D,
+		e.add(getInventoryAssembly(), quantityToBuild, getTotal(),
 				inventoryAssembly.getWarehouse());
 		for (TransactionItem tItem : getTransactionItems()) {
 			Item item = tItem.getItem();

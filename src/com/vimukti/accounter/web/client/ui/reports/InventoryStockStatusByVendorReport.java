@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByV
 public class InventoryStockStatusByVendorReport extends
 		AbstractReportView<InventoryStockStatusDetail> {
 
-	public InventoryStockStatusByVendorReport(long id) {
+	public InventoryStockStatusByVendorReport() {
 		this.serverReport = new InventoryStockStatusByVendorServerReport(this);
 	}
 

@@ -99,5 +99,9 @@
 		tc.company=:company
 	</query>
 	
+	<query name="getItemsOfAverageCostZero">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.Item i where i.averageCost=0 and i.company=:company
+	</query>
 	
 </hibernate-mapping>

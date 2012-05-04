@@ -1242,7 +1242,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					e.add(item, tItem.getQuantity(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
-					double calculatePrice = tItem.getQuantity().calculatePrice(
+					double calculatePrice = tItem.getQuantity().calculate(
 							tItem.getUnitPriceInBaseCurrency());
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {

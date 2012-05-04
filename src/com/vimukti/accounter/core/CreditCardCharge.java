@@ -355,7 +355,7 @@ public class CreditCardCharge extends Transaction {
 					e.add(item, tItem.getQuantity(),
 							tItem.getUnitPriceInBaseCurrency(),
 							tItem.getWareHouse());
-					double calculatePrice = tItem.getQuantity().calculatePrice(
+					double calculatePrice = tItem.getQuantity().calculate(
 							tItem.getUnitPriceInBaseCurrency());
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
@@ -380,8 +380,7 @@ public class CreditCardCharge extends Transaction {
 		checkAccountNull(payFrom, Global.get().messages().payFrom());
 		checkTransactionItemsNull();
 		checkNetAmountNegative();
-	
-		
+
 	}
 
 }
