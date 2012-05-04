@@ -204,13 +204,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		// Setting Amount
 
 		transaction.setTotal(amountLabelForeign.getAmount());
-
 		if (getPreferences().isTDSEnabled() && vendor.isTdsApplicable()) {
 			ClientTAXItem taxItem = tdsCombo.getSelectedValue();
 			if (taxItem != null) {
 				transaction.setTdsTaxItem(taxItem.getID());
 			}
-
 		}
 
 		// Setting ending Balance
@@ -801,7 +799,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		grid.resetValues();
 		grid.creditsAndPayments.clear();
 		this.setVendor(vendor);
-
+		transaction.setVendor(vendor);
 		if (!isInViewMode()) {
 			updateTDSFields();
 			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
@@ -831,7 +829,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			updateAmountsFromGUI();
 		}
 		calculateUnusedCredits();
-
 	}
 
 	private void updateTDSFields() {
@@ -1305,7 +1302,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		if (locationTrackingEnabled)
 			locationCombo.setEnabled(!isInViewMode());
 		date.setEnabled(!isInViewMode());
-		vendorCombo.setEnabled((!isInViewMode() ? true : !getData().isDraft()));
+		// vendorCombo.setEnabled((!isInViewMode() ? true :
+		// !getData().isDraft()));
 		payFromCombo.setEnabled(!isInViewMode());
 
 		if (paymentMethodCombo.getSelectedValue() != null
@@ -1515,10 +1513,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			ClientVendor vendor2 = getCompany().getVendor(
 					transaction.getVendor());
 			return (getPreferences().isTDSEnabled() && vendor2
-					.isTdsApplicable()) || transaction.getTdsTaxItem() != 0;
+					.isTdsApplicable());
 		} else {
-			return getPreferences().isTDSEnabled()
-					|| transaction.getTdsTaxItem() != 0;
+			return getPreferences().isTDSEnabled();
 		}
 	}
 
