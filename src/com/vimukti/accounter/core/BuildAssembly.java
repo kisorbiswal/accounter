@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
-import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -64,31 +63,6 @@ public class BuildAssembly extends Transaction {
 		if (isDraftOrTemplate()) {
 			return;
 		}
-
-		if (isBecameVoid()) {
-			doReverseEffect();
-		}
-	}
-
-	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-		if (!isVoid() && !isDraftOrTemplate()) {
-			super.onDelete(session);
-			doReverseEffect();
-		}
-		return false;
-	}
-
-	private void doReverseEffect() {
-		Session session = HibernateUtil.getCurrentSession();
-		Quantity quantityToBuild = getInventoryAssembly().getOnhandQty().copy();
-		quantityToBuild.setValue(this.getQuantityToBuild());
-		getInventoryAssembly()
-				.setOnhandQuantity(
-						getInventoryAssembly().getOnhandQty().subtract(
-								quantityToBuild));
-		session.update(getInventoryAssembly());
-		ChangeTracker.put(getInventoryAssembly());
 	}
 
 	@Override
