@@ -983,7 +983,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					&& Global.get().preferences().isTrackPaidTax();
 		}
 
-		if (isEnableTax && isTaxable && taxCode == null) {
+		if (isEnableTax && isTaxable() && getTaxCode() == null) {
 			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
 					Global.get().messages().taxCode());
 		}
@@ -1004,15 +1004,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 			}
 		}
-		if (this.quantity == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					"Quantity");
+		if (getType() == TYPE_ITEM) {
+			if (getQuantity() == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_NULL, "Quantity");
+			}
+			if (getQuantity().getValue() == 0.0) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_NULL, "Quantity value");
+			}
 		}
-		if (quantity.getValue() == 0.0) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					"Quantity value");
-		}
-
 		if (this.unitPrice == null) {
 			this.setUnitPrice(new Double(0));
 		}
