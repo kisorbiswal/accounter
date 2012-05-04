@@ -1627,11 +1627,13 @@ public abstract class Transaction extends CreatableObject implements
 
 		if (!features.contains(Features.INVENTORY)) {
 			for (TransactionItem item : transactionItems) {
-				if (item.getType() == Item.TYPE_INVENTORY_ASSEMBLY
-						|| item.getType() == Item.TYPE_INVENTORY_PART) {
-					throw new AccounterException(
-							AccounterException.ERROR_PERMISSION_DENIED,
-							"You can't use Class");
+				if (item.getType() == TransactionItem.TYPE_ITEM) {
+					if (item.getItem().getType() == Item.TYPE_INVENTORY_ASSEMBLY
+							|| item.getItem().getType() == Item.TYPE_INVENTORY_PART) {
+						throw new AccounterException(
+								AccounterException.ERROR_PERMISSION_DENIED,
+								"You can't use Class");
+					}
 				}
 			}
 		}

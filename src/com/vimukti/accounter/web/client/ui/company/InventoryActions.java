@@ -54,7 +54,7 @@ public class InventoryActions extends Action {
 					InventoryAssemblyView iView = new InventoryAssemblyView();
 					iView.setItemName(itemname);
 					if (isItemEditable) {
-						view.onEdit();
+						iView.onEdit();
 					}
 					view = iView;
 					break;

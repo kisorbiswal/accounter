@@ -6,6 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectChallanTypeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -67,24 +68,24 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	@Override
 	public String getHistoryToken() {
-		return "chalanDetails";
+		return HistoryTokens.CHALANDETAILS;
 	}
 
 	@Override
 	public String getHelpToken() {
-		return null;
+		return "challanDetails";
 	}
 
 	@Override
