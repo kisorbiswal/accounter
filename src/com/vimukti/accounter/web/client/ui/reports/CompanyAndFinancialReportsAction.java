@@ -27,6 +27,8 @@ public class CompanyAndFinancialReportsAction extends Action {
 	public static final int TYPE_PROFIT_AND_LOSS = 11;
 	public static final int TYPE_RECONCILIATIONS = 12;
 	public static final int TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT = 13;
+	public static final int TYPE_SALES_LIABILITY = 14;
+	private static final int TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM = 15;
 
 	private int type;
 
@@ -101,6 +103,14 @@ public class CompanyAndFinancialReportsAction extends Action {
 				case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
 					report = new RecincilationDetailsByAccountReport(accountID);
 					break;
+
+				case TYPE_SALES_LIABILITY:
+					report = new SalesTaxLiabilityReport();
+					break;
+
+				case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
+					report = new TransactionDetailByTaxItemReport();
+					break;
 				}
 
 				if (report != null) {
@@ -157,6 +167,10 @@ public class CompanyAndFinancialReportsAction extends Action {
 			return "ReconciliationReports";
 		case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
 			return "reconcilationDetailByAccount";
+		case TYPE_SALES_LIABILITY:
+			return "salesTaxLiability";
+		case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
+			return "transactionDetailByTaxItem";
 		}
 		return null;
 	}
@@ -221,12 +235,25 @@ public class CompanyAndFinancialReportsAction extends Action {
 			return messages.reconciliationsReport();
 		case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
 			return messages.reconcilationDetailByAccount();
+		case TYPE_SALES_LIABILITY:
+			return messages.salesTaxLiability();
+		case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
+			return messages.transactionDetailByTaxItem();
 		}
 		return null;
 	}
 
 	public void setEnterDate(ClientFinanceDate date) {
 		this.enteredDate = date;
+	}
+
+	public static CompanyAndFinancialReportsAction transactionDetailByTaxItem() {
+		return new CompanyAndFinancialReportsAction(
+				TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM);
+	}
+
+	public static CompanyAndFinancialReportsAction salesTaxLiability() {
+		return new CompanyAndFinancialReportsAction(TYPE_SALES_LIABILITY);
 	}
 
 	public static CompanyAndFinancialReportsAction balanceSheet() {
