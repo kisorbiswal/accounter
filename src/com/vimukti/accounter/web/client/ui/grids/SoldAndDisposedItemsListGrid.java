@@ -6,14 +6,12 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.fixedassets.HistoryListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
@@ -52,8 +50,7 @@ public class SoldAndDisposedItemsListGrid extends
 		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_LINK };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK };
 	}
 
 	@Override
@@ -96,8 +93,6 @@ public class SoldAndDisposedItemsListGrid extends
 
 		case 6:
 			return messages.showHistory();
-		case 7:
-			return messages.addNote();
 		}
 		return "";
 	}
@@ -128,9 +123,6 @@ public class SoldAndDisposedItemsListGrid extends
 		case 6:
 			openHistoryView(obj);
 			break;
-		case 7:
-			openNoteDialog(obj);
-			break;
 		default:
 			new NewFixedAssetAction().run(obj, false);
 			break;
@@ -148,32 +140,7 @@ public class SoldAndDisposedItemsListGrid extends
 		action.run(obj, true);
 	}
 
-	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(messages.addNote(), "");
-		noteDialog.setAsset(asset);
-		noteDialog.addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOK() {
-				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString() : "";
-				// setAttribute("note", note, currentRow);
-				if (note.length() != 0)
-					executeUpdate(asset, note);
-				return true;
-			}
-
-			@Override
-			public void onCancel() {
-
-			}
-		});
-	}
-
 	private void executeUpdate(ClientFixedAsset asset, String value) {
-		ClientFixedAssetNote note = new ClientFixedAssetNote();
-		note.setNote(value);
-		asset.getFixedAssetNotes().add(note);
 		createOrUpdate(asset);
 	}
 
@@ -190,7 +157,7 @@ public class SoldAndDisposedItemsListGrid extends
 		return new String[] { messages.item(), messages.assetNumber(),
 				messages.Account(), messages.disposalDate(),
 				messages.disposalPrice(), messages.gainsOrLosses(),
-				messages.showHistory(), messages.addNote() };
+				messages.showHistory() };
 	}
 
 	@Override
@@ -249,14 +216,14 @@ public class SoldAndDisposedItemsListGrid extends
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "item", "assetnumber", "account", "disposaldate",
-				"disposalprice", "gainsorlosses", "showhistory", "addnote" };
+				"disposalprice", "gainsorlosses", "showhistory" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "item-value", "assetnumber-value",
 				"account-value", "disposaldate-value", "disposalprice-value",
-				"gainsorlosses-value", "showhistory-value", "addnote-value" };
+				"gainsorlosses-value", "showhistory-value" };
 	}
 
 }

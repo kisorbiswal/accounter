@@ -83,7 +83,6 @@ public class ClientFixedAsset implements IAccounterCore {
 	private double bookValue;
 
 	private boolean isSoldOrDisposed;
-	private List<ClientFixedAssetNote> fixedAssetNotes = new ArrayList<ClientFixedAssetNote>();
 	private List<ClientFixedAssetHistory> fixedAssetsHistory = new ArrayList<ClientFixedAssetHistory>();
 
 	/**
@@ -267,14 +266,6 @@ public class ClientFixedAsset implements IAccounterCore {
 		return AccounterCoreType.FIXEDASSET;
 	}
 
-	public List<ClientFixedAssetNote> getFixedAssetNotes() {
-		return fixedAssetNotes;
-	}
-
-	public void setFixedAssetNotes(List<ClientFixedAssetNote> fixedAssetNotes) {
-		this.fixedAssetNotes = fixedAssetNotes;
-	}
-
 	public List<ClientFixedAssetHistory> getFixedAssetsHistory() {
 		return fixedAssetsHistory;
 	}
@@ -402,11 +393,6 @@ public class ClientFixedAsset implements IAccounterCore {
 	public ClientFixedAsset clone() {
 		ClientFixedAsset fixedAsset = (ClientFixedAsset) this.clone();
 		fixedAsset.accountForSale = this.accountForSale;
-		List<ClientFixedAssetNote> fixedAssetNotes = new ArrayList<ClientFixedAssetNote>();
-		for (ClientFixedAssetNote clientFixedAssetNote : this.fixedAssetNotes) {
-			fixedAssetNotes.add(clientFixedAssetNote.clone());
-		}
-		fixedAsset.fixedAssetNotes = fixedAssetNotes;
 
 		List<ClientFixedAssetHistory> fixedAssetHistories = new ArrayList<ClientFixedAssetHistory>();
 		for (ClientFixedAssetHistory clientFixedAssetHistory : this.fixedAssetsHistory) {

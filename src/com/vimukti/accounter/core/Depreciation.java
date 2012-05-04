@@ -668,15 +668,5 @@ public class Depreciation extends CreatableObject implements
 
 	@Override
 	public void selfValidate() throws AccounterException {
-		if (fixedAsset == null) {
-			throw new AccounterException("Please seect Fixed asset");
-		}
-		if (this.depreciateFrom == null) {
-			throw new AccounterException(
-					"Please select depreciate from account");
-		}
-		if (this.depreciateTo == null) {
-			throw new AccounterException("Please select depreciate to account");
-		}
 	}
 }

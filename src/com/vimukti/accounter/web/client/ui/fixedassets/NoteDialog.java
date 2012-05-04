@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -25,18 +24,18 @@ public class NoteDialog extends BaseDialog {
 		// mainPanel.setSpacing(3);
 		Label noteLbl = new Label(messages.note());
 		noteArea = new TextAreaItem("", "noteArea");
-//		noteArea.setWidth(100);
+		// noteArea.setWidth(100);
 		DynamicForm noteForm = new DynamicForm("noteForm");
-//		noteForm.setWidth("100%");
+		// noteForm.setWidth("100%");
 		noteForm.add(noteArea);
 		// noteForm.removeCell(0, 0);
 		StyledPanel notePanel = new StyledPanel("notePanel");
-//		notePanel.setWidth("100%");
+		// notePanel.setWidth("100%");
 		notePanel.add(noteLbl);
 		notePanel.add(noteForm);
 		setBodyLayout(notePanel);
 		okbtn.setText(messages.save());
-//		setWidth("350px");
+		// setWidth("350px");
 	}
 
 	@Override
@@ -50,9 +49,6 @@ public class NoteDialog extends BaseDialog {
 
 	public boolean executeUpdate(ClientFixedAsset asset) {
 		setAsset(asset);
-		ClientFixedAssetNote note = new ClientFixedAssetNote();
-		note.setNote(noteArea.getValue());
-		asset.getFixedAssetNotes().add(note);
 		return true;
 	}
 
