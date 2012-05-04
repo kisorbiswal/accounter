@@ -89,6 +89,12 @@ public class SalesOrderPdfGeneration {
 			i.setDueDate(Utility.getDateInSelectedFormat(salesOrder
 					.getDeliveryDate()));
 
+			Contact contact = salesOrder.getContact();
+			i.setContactName(contact != null ? contact.getName() : "");
+			i.setContactNumber(contact != null ? contact.getBusinessPhone()
+					: "");
+			i.setContactEmail(contact != null ? contact.getEmail() : "");
+
 			// for primary curreny
 			Currency currency = salesOrder.getCustomer().getCurrency();
 			if (currency != null)
@@ -433,6 +439,9 @@ public class SalesOrderPdfGeneration {
 		private Address regAddress;
 		private Address shipTo;
 		private String taxTotal;
+		private String contactName;
+		private String contactNumber;
+		private String contactEmail;
 
 		public String getCurrency() {
 			return currency;
@@ -616,6 +625,30 @@ public class SalesOrderPdfGeneration {
 
 		public void setTaxTotal(String taxTotal) {
 			this.taxTotal = taxTotal;
+		}
+
+		public String getContactName() {
+			return contactName;
+		}
+
+		public void setContactName(String contactName) {
+			this.contactName = contactName;
+		}
+
+		public String getContactNumber() {
+			return contactNumber;
+		}
+
+		public void setContactNumber(String contactNumber) {
+			this.contactNumber = contactNumber;
+		}
+
+		public String getContactEmail() {
+			return contactEmail;
+		}
+
+		public void setContactEmail(String contactEmail) {
+			this.contactEmail = contactEmail;
 		}
 
 	}

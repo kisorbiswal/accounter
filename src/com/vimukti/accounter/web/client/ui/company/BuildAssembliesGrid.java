@@ -118,10 +118,10 @@ public class BuildAssembliesGrid extends BaseListGrid<ClientBuildAssembly> {
 
 	@Override
 	protected void showWarnDialog(final ClientBuildAssembly object) {
-
+		ClientItem item = getCompany().getItem(object.getInventoryAssembly());
 		Accounter.showWarning(
-				messages.doyouwanttoDeleteObj(messages.This()
-						+ object.getName() + " " + messages.stockAdjustment()),
+				messages.doyouwanttoDeleteObj(messages.This() + " "
+						+ item.getName() + " " + messages.buildAssembly()),
 				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override

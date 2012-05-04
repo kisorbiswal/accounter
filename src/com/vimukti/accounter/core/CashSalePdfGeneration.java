@@ -76,6 +76,13 @@ public class CashSalePdfGeneration {
 			i.setSaleNumber(sale.getNumber());
 			i.setDeliveryDate(Utility.getDateInSelectedFormat(sale.getDate()));
 			i.setShipAddress(getShippingAddress());
+
+			Contact contact = sale.getContact();
+			i.setContactName(contact != null ? contact.getName() : "");
+			i.setContactNumber(contact != null ? contact.getBusinessPhone()
+					: "");
+			i.setContactEmail(contact != null ? contact.getEmail() : "");
+
 			Address shippAdress = sale.getShippingAdress();
 			if (shippAdress != null) {
 				i.setShipTo(shippAdress);
@@ -378,6 +385,9 @@ public class CashSalePdfGeneration {
 		private Address regAddress;
 		private Address shipTo;
 		private String taxTotal;
+		private String contactName;
+		private String contactNumber;
+		private String contactEmail;
 
 		public String getSaleNumber() {
 			return saleNumber;
@@ -529,6 +539,30 @@ public class CashSalePdfGeneration {
 
 		public void setTaxTotal(String taxTotal) {
 			this.taxTotal = taxTotal;
+		}
+
+		public String getContactName() {
+			return contactName;
+		}
+
+		public void setContactName(String contactName) {
+			this.contactName = contactName;
+		}
+
+		public String getContactNumber() {
+			return contactNumber;
+		}
+
+		public void setContactNumber(String contactNumber) {
+			this.contactNumber = contactNumber;
+		}
+
+		public String getContactEmail() {
+			return contactEmail;
+		}
+
+		public void setContactEmail(String contactEmail) {
+			this.contactEmail = contactEmail;
 		}
 
 	}

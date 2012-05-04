@@ -84,6 +84,11 @@ public class CreditNotePdfGeneration {
 			i.setCreditNoteNumber(memo.getNumber());
 			i.setCreditNoteDate(Utility.getDateInSelectedFormat(memo.getDate()));
 
+			Contact contact = memo.getContact();
+			i.setContactName(contact != null ? contact.getName() : "");
+			i.setContactNumber(contact != null ? contact.getBusinessPhone()
+					: "");
+			i.setContactEmail(contact != null ? contact.getEmail() : "");
 			// for primary curreny
 			Currency currency = memo.getCustomer().getCurrency();
 			if (currency != null)
@@ -346,6 +351,9 @@ public class CreditNotePdfGeneration {
 		private Address billTo;
 		private Address regAddress;
 		private String taxTotal;
+		private String contactName;
+		private String contactNumber;
+		private String contactEmail;
 
 		public String getCreditNoteNumber() {
 			return creditNoteNumber;
@@ -473,6 +481,30 @@ public class CreditNotePdfGeneration {
 
 		public void setBillTo(Address billTo) {
 			this.billTo = billTo;
+		}
+
+		public String getContactName() {
+			return contactName;
+		}
+
+		public void setContactName(String contactName) {
+			this.contactName = contactName;
+		}
+
+		public String getContactNumber() {
+			return contactNumber;
+		}
+
+		public void setContactNumber(String contactNumber) {
+			this.contactNumber = contactNumber;
+		}
+
+		public String getContactEmail() {
+			return contactEmail;
+		}
+
+		public void setContactEmail(String contactEmail) {
+			this.contactEmail = contactEmail;
 		}
 
 	}

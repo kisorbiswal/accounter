@@ -57,7 +57,7 @@ public class QuotePdfGeneration {
 			String title = brandingTheme.getQuoteTitle() == null ? "Quote"
 					: brandingTheme.getQuoteTitle().toString();
 			qut.setTitle(title);
-
+			qut.setCustomerName(estimate.getCustomer().getName());
 			Address billAddress = estimate.getAddress();
 			if (billAddress != null) {
 				qut.setBillTo(billAddress);
@@ -90,6 +90,11 @@ public class QuotePdfGeneration {
 			String status = getStatusString(estimate.getStatus());
 			qut.setStatus(status);
 
+			Contact contact = estimate.getContact();
+			qut.setContactName(contact != null ? contact.getName() : "");
+			qut.setContactNumber(contact != null ? contact.getBusinessPhone()
+					: "");
+			qut.setContactEmail(contact != null ? contact.getEmail() : "");
 			// for primary curreny
 			Currency currency = estimate.getCustomer().getCurrency();
 			if (currency != null)
@@ -402,6 +407,10 @@ public class QuotePdfGeneration {
 		private Address regAddress;
 		private Address shipTo;
 		private String taxTotal;
+		private String contactName;
+		private String contactNumber;
+		private String contactEmail;
+		private String customerName;
 
 		public String getCurrency() {
 			return currency;
@@ -569,6 +578,38 @@ public class QuotePdfGeneration {
 
 		public void setTaxTotal(String taxTotal) {
 			this.taxTotal = taxTotal;
+		}
+
+		public String getContactName() {
+			return contactName;
+		}
+
+		public void setContactName(String contactName) {
+			this.contactName = contactName;
+		}
+
+		public String getContactNumber() {
+			return contactNumber;
+		}
+
+		public void setContactNumber(String contactNumber) {
+			this.contactNumber = contactNumber;
+		}
+
+		public String getContactEmail() {
+			return contactEmail;
+		}
+
+		public void setContactEmail(String contactEmail) {
+			this.contactEmail = contactEmail;
+		}
+
+		public String getCustomerName() {
+			return customerName;
+		}
+
+		public void setCustomerName(String customerName) {
+			this.customerName = customerName;
 		}
 
 	}

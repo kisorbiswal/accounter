@@ -85,6 +85,12 @@ public class PurchaseOrderPdfGeneration {
 					.getDespatchDate()));
 			i.setVendorNo(purchaseOrder.getPurchaseOrderNumber());
 
+			Contact contact = purchaseOrder.getContact();
+			i.setContactName(contact != null ? contact.getName() : "");
+			i.setContactNumber(contact != null ? contact.getBusinessPhone()
+					: "");
+			i.setContactEmail(contact != null ? contact.getEmail() : "");
+
 			// for primary curreny
 			Currency currency = purchaseOrder.getVendor().getCurrency();
 			if (currency != null)
@@ -96,7 +102,7 @@ public class PurchaseOrderPdfGeneration {
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			i.setTerms(payterm);
 
-			 i.setShipAddress(getShippingAddress());
+			i.setShipAddress(getShippingAddress());
 			Address shippAdress = purchaseOrder.getShippingAddress();
 			if (shippAdress != null) {
 				i.setShipTo(shippAdress);
@@ -220,7 +226,7 @@ public class PurchaseOrderPdfGeneration {
 			}
 			i.setEmail(paypalEmail);
 			i.setStatus(getStatusString(purchaseOrder.getStatus()));
-			 i.setRegistrationAddress(getRegistrationAddress());
+			i.setRegistrationAddress(getRegistrationAddress());
 			Address regAddress1 = company.getRegisteredAddress();
 			if (regAddress1 != null) {
 				i.setRegAddress(regAddress1);
@@ -415,8 +421,8 @@ public class PurchaseOrderPdfGeneration {
 		private String date;
 		private String currency;
 		private String terms;
-		 private String billAddress;
-		 private String shipAddress;
+		private String billAddress;
+		private String shipAddress;
 		private String vendorName;
 		private String shippingMethod;
 		private String total;
@@ -424,12 +430,15 @@ public class PurchaseOrderPdfGeneration {
 		private String memo;
 		private String adviceTerms;
 		private String email;
-		 private String registrationAddress;
+		private String registrationAddress;
 		private String status;
 		private Address billTo;
 		private Address regAddress;
 		private Address shipTo;
 		private String taxTotal;
+		private String contactName;
+		private String contactNumber;
+		private String contactEmail;
 
 		public String getCurrency() {
 			return currency;
@@ -597,6 +606,30 @@ public class PurchaseOrderPdfGeneration {
 
 		public void setTaxTotal(String taxTotal) {
 			this.taxTotal = taxTotal;
+		}
+
+		public String getContactName() {
+			return contactName;
+		}
+
+		public void setContactName(String contactName) {
+			this.contactName = contactName;
+		}
+
+		public String getContactNumber() {
+			return contactNumber;
+		}
+
+		public void setContactNumber(String contactNumber) {
+			this.contactNumber = contactNumber;
+		}
+
+		public String getContactEmail() {
+			return contactEmail;
+		}
+
+		public void setContactEmail(String contactEmail) {
+			this.contactEmail = contactEmail;
 		}
 	}
 
