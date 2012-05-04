@@ -988,6 +988,14 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(PayRollActions.newPayEmployeeAction().getHistoryToken(),
 				PayRollActions.newPayEmployeeAction());
 
+		actions.put(CompanyAndFinancialReportsAction.salesTaxLiability()
+				.getHistoryToken(), CompanyAndFinancialReportsAction
+				.salesTaxLiability());
+
+		actions.put(CompanyAndFinancialReportsAction
+				.transactionDetailByTaxItem().getHistoryToken(),
+				CompanyAndFinancialReportsAction.transactionDetailByTaxItem());
+
 	}
 
 	public ClientCompany getCompany() {
