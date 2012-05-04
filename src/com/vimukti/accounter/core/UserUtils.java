@@ -71,10 +71,6 @@ public class UserUtils {
 			if (canDoTaxTransactions) {
 				return true;
 			}
-		} else if (clas.equals(FixedAssetNote.class)) {
-			if (canDoTaxTransactions) {
-				return true;
-			}
 		} else if (clas.equals(Item.class)) {
 			if (canDoInvoiceBills || canDoInvendoryWarehouse) {
 				return true;

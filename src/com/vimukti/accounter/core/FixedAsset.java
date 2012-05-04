@@ -171,7 +171,6 @@ public class FixedAsset extends CreatableObject implements
 
 	private List<FixedAssetHistory> fixedAssetsHistory = new ArrayList<FixedAssetHistory>();
 
-	transient private List<FixedAssetNote> oldFixedAssetNotes;
 	/**
 	 * Date on which this FixedAsset is Sold or Disposed.
 	 */
@@ -255,8 +254,6 @@ public class FixedAsset extends CreatableObject implements
 			Account linkedAccumulatedDepreciationAccount) {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
-
-	private List<FixedAssetNote> fixedAssetNotes = new ArrayList<FixedAssetNote>();
 
 	@Override
 	public String getName() {
@@ -657,7 +654,6 @@ public class FixedAsset extends CreatableObject implements
 	@Override
 	public void onLoad(Session session, Serializable id) {
 		this.oldLinkedAccumulatedDepreciationAccount = accumulatedDepreciationAccount;
-		this.oldFixedAssetNotes = fixedAssetNotes;
 		this.oldStatus = status;
 	}
 
@@ -786,29 +782,6 @@ public class FixedAsset extends CreatableObject implements
 			return false;
 		}
 		super.onUpdate(session);
-		/**
-		 * Check whether any note is added, and Save the Action into History.
-		 */
-		if (this.fixedAssetNotes.size() > 0
-				&& this.fixedAssetNotes.size() >= this.oldFixedAssetNotes
-						.size()) {
-			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			fixedAssetHistory.setFixedAsset(this);
-			fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_NOTE);
-			fixedAssetHistory.setActionDate(new FinanceDate());
-			FixedAssetNote recentNote = this.fixedAssetNotes
-					.get(this.fixedAssetNotes.size() - 1);
-			recentNote.setFixedAsset(this);
-
-			recentNote.setCreatedBy(getLastModifier());
-			recentNote.setLastModifier(getLastModifier());
-			// session.saveOrUpdate(recentNote);
-			fixedAssetHistory.setDetails(recentNote.getNote());
-			this.getFixedAssetsHistory().add(fixedAssetHistory);
-			fixedAssetHistory.setCompany(this.getCompany());
-			fixedAssetHistory.setUser(getLastModifier().getClient()
-					.getFullName());
-		}
 
 		if (this.accumulatedDepreciationAccount != null
 				&& this.oldLinkedAccumulatedDepreciationAccount != null
@@ -1867,14 +1840,6 @@ public class FixedAsset extends CreatableObject implements
 		}
 
 		return amountToBeDepreciatedforThisFixedAsset;
-	}
-
-	public List<FixedAssetNote> getFixedAssetNotes() {
-		return fixedAssetNotes;
-	}
-
-	public void setFixedAssetNotes(List<FixedAssetNote> fixedAssetNotes) {
-		this.fixedAssetNotes = fixedAssetNotes;
 	}
 
 	public List<FixedAssetHistory> getFixedAssetsHistory() {

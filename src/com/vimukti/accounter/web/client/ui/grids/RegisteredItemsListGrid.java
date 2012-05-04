@@ -7,14 +7,12 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.fixedassets.HistoryListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
@@ -45,15 +43,13 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 8)
+		if (index == 7)
 			return 20;
-		else if (index == 7)
-			return 60;
 		else if (index == 6 || index == 5)
 			return 90;
 		else if (index == 4 || index == 3)
@@ -97,9 +93,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 6:
 			return messages.showHistory();
 		case 7:
-			return messages.addNote();
-		case 8:
-			return Accounter.getFinanceMenuImages().delete();
+			return Accounter.getFinanceImages().delete();
 			// return "/images/delete.png";
 		}
 		return "";
@@ -124,9 +118,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 6:
 			openHistoryView(obj);
 			break;
-		case 7:
-			openNoteDialog(obj);
-			break;
 		default:
 			new NewFixedAssetAction().run(obj, false);
 			break;
@@ -139,7 +130,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return;
 		}
 		switch (col) {
-		case 8:
+		case 7:
 			showWarnDialog(obj);
 			break;
 		default:
@@ -153,33 +144,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		action.run(obj, true);
 	}
 
-	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(messages.addNote(), "");
-		noteDialog.setAsset(asset);
-		noteDialog.addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOK() {
-				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString() : "";
-				// setAttribute("note", note, currentRow);
-				if (note.length() != 0)
-					executeUpdate(asset, note);
-				return true;
-			}
-
-			@Override
-			public void onCancel() {
-
-			}
-		});
-	}
-
 	private void executeUpdate(ClientFixedAsset asset, String value) {
-
-		ClientFixedAssetNote note = new ClientFixedAssetNote();
-		note.setNote(value);
-		asset.getFixedAssetNotes().add(note);
 		Accounter.createOrUpdate(this, asset);
 	}
 
@@ -196,7 +161,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		return new String[] { messages.item(), messages.assetNumber(),
 				messages.Account(), messages.purchaseDate(),
 				messages.purchasePrice(), messages.bookValue(),
-				messages.showHistory(), messages.addNote(), "" };
+				messages.showHistory(), "" };
 	}
 
 	@Override
@@ -253,16 +218,14 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "item", "assetnumber", "account", "purchasedate",
-				"purchaseprice", "bookvalue", "showhistory", "addnote",
-				"last-col" };
+				"purchaseprice", "bookvalue", "showhistory", "last-col" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "item-value", "assetnumber-value",
 				"account-value", "purchasedate-value", "purchaseprice-value",
-				"bookvalue-value", "showhistory-value", "addnote-value",
-				"last-col-value" };
+				"bookvalue-value", "showhistory-value", "last-col-value" };
 	}
 
 }

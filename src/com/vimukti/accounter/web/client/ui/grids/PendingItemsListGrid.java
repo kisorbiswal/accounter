@@ -40,8 +40,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	/*
@@ -51,8 +50,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	protected String[] getColumns() {
 		return new String[] { messages.item(), messages.assetNumber(),
 				messages.Account(), messages.purchaseDate(),
-				messages.purchasePrice(), messages.showHistory(),
-				messages.addNote(), "" };
+				messages.purchasePrice(), messages.showHistory(), "" };
 	}
 
 	/*
@@ -82,9 +80,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 5:
 			return messages.showHistory();
 		case 6:
-			return messages.addNote();
-		case 7:
-			return Accounter.getFinanceMenuImages().delete();
+			return Accounter.getFinanceImages().delete();
 			// return "/images/delete.png";
 		default:
 			return "";
@@ -97,11 +93,11 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return 105;
 		} else if (index == 2) {
 			return 200;
-		} else if (index == 3 || index == 5 || index == 6) {
+		} else if (index == 3 || index == 5) {
 			return 105;
 		} else if (index == 4) {
 			return 105;
-		} else if (index == 7) {
+		} else if (index == 6) {
 			return 20;
 		}
 		return super.getCellWidth(index);
@@ -126,9 +122,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 5:
 			openHistoryView(obj);
 			break;
-		case 6:
-			openNoteDialog(obj);
-			break;
 		default:
 			new NewFixedAssetAction().run(obj, false);
 			break;
@@ -142,7 +135,7 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			return;
 		}
 		switch (col) {
-		case 7:
+		case 6:
 			showWarnDialog(obj);
 			break;
 		default:
@@ -154,13 +147,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		Action action = new HistoryListAction();
 		action.catagory = messages.fixedAssetsPendingItemsList();
 		action.run(obj, true);
-	}
-
-	private void openNoteDialog(final ClientFixedAsset asset) {
-		noteDialog = new NoteDialog(messages.addNote(), "");
-		if (noteDialog.executeUpdate(asset)) {
-			updateData(asset);
-		}
 	}
 
 	@Override
@@ -217,14 +203,14 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	@Override
 	protected String[] setHeaderStyle() {
 		return new String[] { "item", "assetnumber", "account", "purchasedate",
-				"purchaseprice", "showhistory", "addnote", "col-last" };
+				"purchaseprice", "showhistory", "col-last" };
 	}
 
 	@Override
 	protected String[] setRowElementsStyle() {
 		return new String[] { "item-value", "assetnumber-value",
 				"account-value", "purchasedate-value", "purchaseprice-value",
-				"showhistory-value", "addnote-value", "col-last-value" };
+				"showhistory-value", "col-last-value" };
 	}
 
 }

@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -36,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.PercentageField;
 import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -154,10 +152,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						Action action = new HistoryListAction();
 						action.catagory = messages.fixedAssetsNewFixedAsset();
 						action.run(data, true);
-					} else if (selectedOption.equalsIgnoreCase(messages
-							.addNote())) {
-						assetOptions.setValue(selectedOption);
-						openNoteDialog();
 					} else if (selectedOption.equalsIgnoreCase(messages.edit())) {
 						assetOptions.setValue(selectedOption);
 						onEdit();
@@ -512,41 +506,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			updateAssetObject();
 		}
 		return saveView;
-	}
-
-	/*
-	 * The note dialog get opened in edit mode on selecting the "Add Note"
-	 * option in options combo And this note is saved into the asset object on
-	 * clicking "save"
-	 */
-	private void openNoteDialog() {
-		noteDialog = new NoteDialog(messages.addNote(), "");
-		noteDialog.addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOK() {
-
-				if (noteDialog.noteArea.getValue() != null) {
-					String value = noteDialog.noteArea.getValue().toString();
-					if (isInViewMode() && value.length() != 0) {
-						ClientFixedAssetNote note = new ClientFixedAssetNote();
-						note.setNote(value);
-						List<ClientFixedAssetNote> noteList = data
-								.getFixedAssetNotes();
-						noteList.add(note);
-						// data.setFixedAssetNotes(noteList);
-						// aveOrUpdate(data);
-					}
-				}
-				return true;
-			}
-
-			@Override
-			public void onCancel() {
-
-			}
-		});
-
 	}
 
 	/*
