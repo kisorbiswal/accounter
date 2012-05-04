@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientPayEmployee;
@@ -14,12 +16,15 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.EmployeesAndGroupsCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
@@ -67,6 +72,7 @@ public class PayEmployeeView extends
 		employeeCombo = new EmployeesAndGroupsCombo(messages.employeeGroup(),
 				"employee-group");
 		employeeCombo.setRequired(true);
+		employeeCombo.setEnabled(!isInViewMode());
 		employeeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPayStructureDestination>() {
 
@@ -78,6 +84,7 @@ public class PayEmployeeView extends
 				});
 
 		bankAccountCombo = new BankAccountCombo(messages.payFrom());
+		bankAccountCombo.setEnabled(!isInViewMode());
 		bankAccountCombo.setRequired(true);
 
 		table = new PayEmployeeTable(this) {
@@ -92,6 +99,7 @@ public class PayEmployeeView extends
 			}
 
 		};
+		table.setEnabled(!isInViewMode());
 		DynamicForm mainForm = new DynamicForm("main-form");
 		mainForm.add(employeeCombo, bankAccountCombo);
 		mainPanel.add(dateNoForm);
@@ -152,11 +160,12 @@ public class PayEmployeeView extends
 				employee = data.getEmployeeGroup();
 			}
 			employeeCombo.setEmpGroup(employee, data.getEmployee() != 0);
-			table.setAllRows(transaction.getPayRunComponents());
+			table.setAllRows(transaction.getTransactionPayEmployee());
 			bankAccountCombo.setComboItem(getCompany().getAccount(
 					transaction.getPayAccount()));
 			transactionNumber.setValue(transaction.getNumber());
 			transactionDateItem.setValue(transaction.getDate());
+			transactionTotalBaseCurrencyText.setAmount(transaction.getTotal());
 		} else {
 			transaction = new ClientPayEmployee();
 		}
@@ -209,7 +218,7 @@ public class PayEmployeeView extends
 	@Override
 	public void saveAndUpdateView() {
 		super.saveAndUpdateView();
-		transaction.setPayRunComponents(table.getSelectedRecords());
+		transaction.setTransactionPayEmployee(table.getSelectedRecords());
 		if (employeeCombo.getSelectedValue() instanceof ClientEmployee) {
 			transaction.setEmployee(employeeCombo.getSelectedValue().getID());
 		} else {
@@ -243,5 +252,57 @@ public class PayEmployeeView extends
 			result.addError(table, messages.pleaseSelectAtLeastOneRecord());
 		}
 		return result;
+	}
+
+	@Override
+	public void onEdit() {
+
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(messages.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+
+				}
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+				.getType());
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+		employeeCombo.setEnabled(!isInViewMode());
+		bankAccountCombo.setEnabled(!isInViewMode());
+		table.setEnabled(!isInViewMode());
+		memoTextAreaItem.setEnabled(isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
+
+	@Override
+	protected boolean canAddDraftButton() {
+		return false;
 	}
 }

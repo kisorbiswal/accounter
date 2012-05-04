@@ -13,12 +13,12 @@ public class ClientPayEmployee extends ClientTransaction {
 	private long employee;
 	private long employeeGroup;
 	private long payAccount;
-	private List<ClientTransactionPayEmployee> payRunComponents;
+	private List<ClientTransactionPayEmployee> transactionPayEmployee;
 
 	public ClientPayEmployee() {
 		super();
 		setType(TYPE_PAY_EMPLOYEE);
-		payRunComponents = new ArrayList<ClientTransactionPayEmployee>();
+		setTransactionPayEmployee(new ArrayList<ClientTransactionPayEmployee>());
 	}
 
 	@Override
@@ -70,13 +70,13 @@ public class ClientPayEmployee extends ClientTransaction {
 		this.payAccount = payAccount;
 	}
 
-	public List<ClientTransactionPayEmployee> getPayRunComponents() {
-		return payRunComponents;
+	public List<ClientTransactionPayEmployee> getTransactionPayEmployee() {
+		return transactionPayEmployee;
 	}
 
-	public void setPayRunComponents(
-			List<ClientTransactionPayEmployee> payRunComponents) {
-		this.payRunComponents = payRunComponents;
+	public void setTransactionPayEmployee(
+			List<ClientTransactionPayEmployee> transactionPayEmployee) {
+		this.transactionPayEmployee = transactionPayEmployee;
 	}
 
 }
