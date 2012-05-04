@@ -358,6 +358,8 @@ public class TDSResponsiblePersonDetailsView extends
 		data.setStateName(stateCombo.getSelectedValue());
 
 		data.setPinCode(pinNumber.getNumber());
+		
+		data.setReturnType(returnType.getSelectedIndex()+1);
 
 		if (addressChangeCombo.getSelectedValue().equals(messages.YES())) {
 			data.setAddressChanged(true);
