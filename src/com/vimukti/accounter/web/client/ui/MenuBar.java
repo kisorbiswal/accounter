@@ -346,7 +346,7 @@ public class MenuBar {
 				HistoryTokens.TAXAGENCYLIST);
 		if (countryOrRegion.equals(Countries.INDIA)) {
 			if (tdsEnabled) {
-				vatmenu.addMenuItem(messages.challanDetails(),
+				vatmenu.addMenuItem(messages.challanDetailsList(),
 						HistoryTokens.CHALANDETAILSLIST);
 			}
 		}

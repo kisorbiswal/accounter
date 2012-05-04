@@ -5,12 +5,12 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.vat.ChalanDetailsListView;
 
 public class ChalanListViewAction extends Action {
-
 
 	public ChalanListViewAction() {
 		super();
@@ -24,7 +24,7 @@ public class ChalanListViewAction extends Action {
 				ChalanDetailsListView view = new ChalanDetailsListView(false);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ChalanListViewAction.this);
-				
+
 			}
 
 			public void onFailure(Throwable e) {
@@ -32,15 +32,15 @@ public class ChalanListViewAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-		
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			@Override
-//			public void onCreated() {
-//				
-//			}
-//
-//		});
+
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// @Override
+		// public void onCreated() {
+		//
+		// }
+		//
+		// });
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class ChalanListViewAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "chalanDetailsList";
+		return HistoryTokens.CHALANDETAILSLIST;
 	}
 
 	@Override

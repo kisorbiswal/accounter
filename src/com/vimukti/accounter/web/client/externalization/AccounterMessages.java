@@ -6603,6 +6603,8 @@ public interface AccounterMessages extends Messages {
 	public String copyFromShouldBeDiff();
 
 	public String copyFrom();
-	
+
 	public String payEmployee();
+
+	public String challanDetailsList();
 }
