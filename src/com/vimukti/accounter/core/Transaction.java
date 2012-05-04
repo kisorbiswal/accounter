@@ -1569,11 +1569,6 @@ public abstract class Transaction extends CreatableObject implements
 			checkNumber();
 		}
 
-		if (getCurrency() == null) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_NULL,
-					"Currency");
-		}
-
 		if (getID() != 0) {
 			return;
 		}

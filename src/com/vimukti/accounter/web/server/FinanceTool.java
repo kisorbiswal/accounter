@@ -389,8 +389,12 @@ public class FinanceTool {
 			}
 
 			if (!features.contains(Features.MULTI_CURRENCY)) {
-				if (!transaction.getCurrency().getFormalName()
-						.equals(company.getPrimaryCurrency().getFormalName())) {
+				if (transaction.getCurrency() != null
+						&& !transaction
+								.getCurrency()
+								.getFormalName()
+								.equals(company.getPrimaryCurrency()
+										.getFormalName())) {
 					throw new AccounterException(
 							AccounterException.ERROR_CANT_EDIT_MULTI_CURRENCY_TRANSACTION);
 				}
