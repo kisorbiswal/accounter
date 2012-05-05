@@ -606,7 +606,8 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 			return ClientPayHead.getPayHeadType(payHead.getType());
 		case 4:
 			payHead = record.getClientPayHead();
-			return ClientPayHead.getCalculationType(payHead.getType());
+			return ClientPayHead.getCalculationType(payHead
+					.getCalculationType());
 		case 5:
 			payHead = record.getClientPayHead();
 			if (payHead != null
