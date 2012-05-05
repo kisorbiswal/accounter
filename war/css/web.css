@@ -8322,4 +8322,7 @@ table.no_records tr td {
 #PriceLevelListDialog {
 	width: 400px;
 }
+.checkboxItem .NoWrapping{
+	display: none;
+}
 /*Location merge dialog end*/
