@@ -216,10 +216,22 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 0) {
-			return 180;
+		switch (index) {
+		case 0:
+			return -1;
+		case 1:
+			return 100;
+		case 2:
+			return 110;
+		case 3:
+			return 120;
+		case 4:
+			return 100;
+		case 5:
+			return 150;
+		default:
+			return -1;
 		}
-		return -1;
 	}
 
 	public String getAccountNameById(long id) {

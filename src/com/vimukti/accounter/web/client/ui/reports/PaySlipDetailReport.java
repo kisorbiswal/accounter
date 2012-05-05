@@ -105,7 +105,7 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 			leftPanel.add(new Label(messages.name() + " : "
 					+ selectedEmployee.getName()));
 
-			if (selectedEmployee.getGender() > 0) {
+			if (selectedEmployee.getGender() >= 0) {
 				leftPanel.add(new Label(messages.gender() + " : "
 						+ getGenderString(selectedEmployee.getGender())));
 			}
@@ -173,11 +173,11 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 
 	private String getGenderString(int gender) {
 		switch (gender) {
-		case 1:
+		case 0:
 			return messages.unspecified();
-		case 2:
+		case 1:
 			return messages.male();
-		case 3:
+		case 2:
 			return messages.female();
 		default:
 			break;
