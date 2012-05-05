@@ -35,10 +35,13 @@ public class BankingReportsAction extends Action {
 					break;
 				case TYPE_RECONCILIATION_DESCEPANCY:
 					report = new ReconciliationDiscrepancyReport();
+					break;
 				case TYPE_DEPOSIT_DETAIL:
 					report = new BankDepositDetailReport();
+					break;
 				case TYPE_CHECK_DETAIL:
 					report = new BankCheckDetailReport();
+					break;
 				}
 				if (report != null) {
 					MainFinanceWindow.getViewManager().showView(report, data,
@@ -72,9 +75,9 @@ public class BankingReportsAction extends Action {
 		case TYPE_RECONCILIATION_DESCEPANCY:
 			return HistoryTokens.RECONCILIATION_DISCREPANCY;
 		case TYPE_DEPOSIT_DETAIL:
-			return "DepositDetailReport";
+			return HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT;
 		case TYPE_CHECK_DETAIL:
-			return "CheckDetail";
+			return HistoryTokens.BANK_CHECK_DETAIL_REPORT;
 		}
 		return null;
 	}
