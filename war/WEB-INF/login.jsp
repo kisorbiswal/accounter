@@ -20,7 +20,7 @@
 	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
 	<% }else{%>
 	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
-		<% }%>
+	<% }%>
 
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 
@@ -147,7 +147,7 @@
 			   </div>
 			   </c:if>	
 			   <% if(ipad != null && ipad){%>
-  						<h3><i18n:i18n msg='Accounter'/></h3>
+  						<h3>Accounter</h3>
 				<% }else{%>
   						<h3><i18n:i18n msg='signIn'/></h3>
 				<% }%>

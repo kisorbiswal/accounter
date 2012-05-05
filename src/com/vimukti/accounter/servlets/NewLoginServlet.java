@@ -2,7 +2,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.security.MessageDigest;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -39,6 +38,13 @@ public class NewLoginServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
+		String header2 = request.getHeader("User-Agent");
+		boolean contains = header2.contains("iPad");
+		if (contains) {
+			request.setAttribute("ipad", contains);
+		}
+
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = null;
 		try {
@@ -170,7 +176,8 @@ public class NewLoginServlet extends BaseServlet {
 				client = (Client) query.uniqueResult();
 				if (client != null) {
 					client.setPassword(passwordWord);
-					client.setPasswordRecoveryKey(EU.encryptPassword(password.trim()));
+					client.setPasswordRecoveryKey(EU.encryptPassword(password
+							.trim()));
 					session.saveOrUpdate(client);
 				}
 			}
@@ -187,13 +194,12 @@ public class NewLoginServlet extends BaseServlet {
 		// We check if the session is already there, if it is, we check if user
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession(true);
-		
+
 		String header2 = request.getHeader("User-Agent");
 		boolean contains = header2.contains("iPad");
-		if(contains){
+		if (contains) {
 			request.setAttribute("ipad", contains);
 		}
-
 
 		String header = request.getHeader("Ipadapp");
 		if (header != null) {

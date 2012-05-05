@@ -42,12 +42,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.TransactionMeterPanel;
 import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
-import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
-import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
-import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
-import com.vimukti.accounter.web.client.ui.search.SearchInputAction;
 import com.vimukti.accounter.web.client.ui.settings.InventoryCentreView;
-import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 /**
  * 
@@ -632,7 +627,7 @@ public class ViewManager extends FlowPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ActionFactory.getIpadMenuAction().run(null, false);
+				ActionFactory.getIpadMenuAction().run();
 			}
 		});
 

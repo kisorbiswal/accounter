@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.ui.MenuItem;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class IpadMenuView extends BaseView {
 
@@ -38,26 +37,25 @@ public class IpadMenuView extends BaseView {
 	@Override
 	public void init() {
 		super.init();
-		
+		CountryPreferences countryPreferences = Accounter.getCompany()
+				.getCountryPreferences();
+		setPreferencesandPermissions(preferences, Accounter.getUser(),
+				countryPreferences, Accounter.getFeatures());
+
 	}
 
 	public void setPreferencesandPermissions(
 			ClientCompanyPreferences preferences, ClientUser clientUser,
 			CountryPreferences countryPreferences, Set<String> features) {
 
-		getMenu();
+		getMenu(countryPreferences);
 	}
 
-	private void getMenu() {
+	private void getMenu(CountryPreferences countryPreferences) {
 
 		mainMenuPanel = new StyledPanel("mainMenu");
 		subMenuPanel = new StyledPanel("subMenuPanel");
 
-		CountryPreferences countryPreferences = Accounter.getCompany()
-				.getCountryPreferences();
-		setPreferencesandPermissions(preferences, Accounter.getUser(),
-				countryPreferences, Accounter.getFeatures());
-		
 		MenuBar accounterMenuBar = new MenuBar();
 		accounterMenuBar.setPreferencesandPermissions(preferences,
 				Accounter.getUser(), countryPreferences,
@@ -69,6 +67,7 @@ public class IpadMenuView extends BaseView {
 
 		this.add(mainMenuPanel);
 		this.add(subMenuPanel);
+
 		addStyleName("mainMenuView");
 
 	}

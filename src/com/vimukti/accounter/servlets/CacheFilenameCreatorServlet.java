@@ -27,7 +27,7 @@ public class CacheFilenameCreatorServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String MAC_CACHE_FILE = "config/mac_cache.txt";
-	private static final String IPAD_CACHE_FILE = "config/ipad_cache35534.txt";
+	private static final String IPAD_CACHE_FILE = "config/ipad_cache.txt";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -48,7 +48,7 @@ public class CacheFilenameCreatorServlet extends BaseServlet {
 		} else {
 			fileToRead = new File(MAC_CACHE_FILE);
 		}
-	
+
 		FileReader fr = null;
 		try {
 			fr = new FileReader(fileToRead);
@@ -67,7 +67,7 @@ public class CacheFilenameCreatorServlet extends BaseServlet {
 		} catch (Exception e) {
 			log(e.getLocalizedMessage());
 		}
-		
+
 	}
 
 }
