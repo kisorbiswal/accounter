@@ -430,8 +430,10 @@ public class HistoryTokens {
 	public static final String PAY_HEAD_DETAIL_REPORT = "payHeadDetailReport";
 
 	public static final String PAYSLIP_DETAIL_REPORT = "payslipDetailReport";
-	
+
 	public static final String IPADMENU = "ipadmenu";
+
+	public static final String PAYPALTRANSACTIONS = "paypaltransactions";
 
 	public static final String PAY_EMPLOYEE = "payemployee";
 

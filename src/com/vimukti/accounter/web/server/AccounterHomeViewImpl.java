@@ -72,6 +72,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPaypalTransation;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
@@ -2547,5 +2548,59 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return receiveVATs;
+	}
+	
+	@Override
+	public ArrayList<ClientAccount> getPaypalAccounts() {
+
+		ArrayList<ClientAccount> clientAccounts = new ArrayList<ClientAccount>();
+
+		try {
+			clientAccounts = getFinanceTool().getPaypalAccounts(getCompanyId());
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return clientAccounts;
+	}
+
+	@Override
+	public PaginationList<ClientPaypalTransation> getSavedPaypalTransaction(
+			ClientAccount clientAccount) {
+		PaginationList<ClientPaypalTransation> transactionList = null;
+		try {
+
+			transactionList = getFinanceTool().getSavedPaypalTransactions(clientAccount,
+					getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return transactionList;
+	}
+
+	@Override
+	public List<ClientPaypalTransation> getNewPaypalTransactionsList(
+			long accountID) {
+		List<ClientPaypalTransation> tran = new ArrayList<ClientPaypalTransation>();
+		try {
+			tran =  getFinanceTool().getnewPaypalTransaction(getCompanyId(),accountID);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return tran;
+	}
+
+
+	@Override
+	public String getPaypalTransactionDetailsForId(String transactionID,
+			long accountID) {
+		try {
+			getFinanceTool().getCompletePaypalTransactionDetailsForID(transactionID,accountID);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

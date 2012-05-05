@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -99,5 +100,8 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getPayTaxesExportCsv(long startDate, long endDate, int viewId);
 
 	String getBuildAssembliesExportCsv(long startDate, long endDate, int viewId);
+	
+	String exportSavedPaypalTransactions(ClientAccount clientAccount);
+
 
 }

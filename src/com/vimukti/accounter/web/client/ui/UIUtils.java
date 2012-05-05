@@ -2054,6 +2054,26 @@ public class UIUtils {
 		}
 	}-*/;
 
+	public native static void generatePaypalPermission(String id)/*-{
+		try {
+			window.open("/main/paypaltransactionpermission?accountID=" + id,
+					"Paypal Window",
+					"menubar=1,resizable=1,width=350,height=250")
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+	
+	public native static void generatePaypalRecurringPermission()/*-{
+	try {
+		window.open("/main/paypalrecurringpermission",
+				"Paypal Recurring Permission",
+				"menubar=1,resizable=1,width=350,height=250")
+	} catch (e) {
+		alert(e);
+	}
+	}-*/;
+
 	public static String getpaymentMethodCheckBy_CompanyType(
 			AccounterMessages messages, String paymentMethod) {
 		return getPaymentMethod(paymentMethod, messages);

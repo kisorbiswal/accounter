@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,6 +37,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPaypalTransation;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
@@ -626,5 +628,15 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTaxRefundsList(long startDate, long endDate, int start,
 			int length, int viewId,
 			AsyncCallback<PaginationList<ClientReceiveVAT>> callback);
+	
+	void getNewPaypalTransactionsList(
+			long accountID, AsyncCallback<List<ClientPaypalTransation>> callBack);
+
+	public void getSavedPaypalTransaction(
+			ClientAccount clientAccount, AsyncCallback<PaginationList<ClientPaypalTransation>> callBack);
+
+	public void getPaypalAccounts(AsyncCallback<ArrayList<ClientAccount>> asyncCallback);
+
+	public void getPaypalTransactionDetailsForId(String transactionID, long accountID, AsyncCallback<String> asyncCallback);
 
 }

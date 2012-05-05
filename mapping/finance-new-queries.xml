@@ -28,6 +28,23 @@
 		=:emailId
 	</query>
 
+	
+
+	<query name="get.PayPalAccount.by.AccountID">
+		<query-param name="accountID" type="long" />
+		from com.vimukti.accounter.core.Account account
+		where account.id=:accountID
+	</query>
+	
+	<query name="list.get.PaypalAccounts">
+		<query-param name="companyId" type="long" />
+		<query-param name="type" type="integer" />
+		from com.vimukti.accounter.core.Account account
+		where account.company.id=:company  
+		and account.type=:type
+	</query>
+
+
 	<query name="delete.activation.by.emailId">
 		<query-param name="emailId" type="String" />
 		delete from com.vimukti.accounter.core.Activation activation

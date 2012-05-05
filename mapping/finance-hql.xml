@@ -383,12 +383,29 @@
 	</query>
 	<query name="getallMaintanaceInfoUsers">
 		from com.vimukti.accounter.core.MaintananceInfoUser m
-	</query>	
+	</query>
 	<query name="getPriceLevel.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="string" />
 		from com.vimukti.accounter.core.PriceLevel pl where pl.name =:name and
 		pl.company=:company
-	</query>	
+	</query>
+
+
+	<query name="list.PaypalTransactions">
+		<query-param name="company" type="Company" />
+		<query-param name="accountId" type="long" />
+		from com.vimukti.accounter.core.PaypalTransation transactions where
+		transactions.company=:company
+		and transactions.accountID=:accountId
+	</query>
+	
+	<query name="list.CheckPaypalTransactions">
+		<query-param name="company" type="Company" />
+		<query-param name="transactionID" type="String" />
+		from com.vimukti.accounter.core.PaypalTransation transactions where
+		transactions.company=:company and
+		transactions.transactionID=:transactionID
+	</query>
 
 </hibernate-mapping>

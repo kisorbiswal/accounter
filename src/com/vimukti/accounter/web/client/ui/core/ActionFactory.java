@@ -69,6 +69,7 @@ import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.NewbankAction;
 import com.vimukti.accounter.web.client.ui.company.PayTypeListAction;
+import com.vimukti.accounter.web.client.ui.company.PaypalTransactionListAction;
 import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.company.SalesPersonListsAction;
 import com.vimukti.accounter.web.client.ui.company.TDSResponsiblePersonAction;
@@ -1047,4 +1048,7 @@ public class ActionFactory {
 		return new CustomerTransactionHistoryListAction(selectedCustomer);
 	}
 
+	public static PaypalTransactionListAction getPaypalTransaction() {
+		return new PaypalTransactionListAction();
+	}
 }

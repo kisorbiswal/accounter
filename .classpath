@@ -155,5 +155,7 @@
 	<classpathentry kind="lib" path="libs/fr.opensagres.xdocreport.template.velocity-0.9.7.jar"/>
 	<classpathentry kind="lib" path="libs/org.apache.poi.xwpf.converter-0.9.7.jar"/>
 	<classpathentry kind="lib" path="libs/org.odftoolkit.odfdom.converter-0.9.7.jar"/>
+	<classpathentry kind="lib" path="libs/paypal_base.jar"/>
+	<classpathentry kind="lib" path="libs/paypal_junit.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

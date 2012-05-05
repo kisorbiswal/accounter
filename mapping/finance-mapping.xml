@@ -60,6 +60,9 @@
 		</many-to-one>
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="boxNumber" column="BOX_NUMBER"></property>
+		<property name="paypalToken" column="PAYPALTOKEN"></property>
+		<property name="paypalSecretkey" column="PAYPALSECRETKEY"></property>
+		<property name="endDate" column="ENDDATE" type="com.vimukti.accounter.core.LongUseType"></property>
 		<!-- <array name="monthViceAmounts" table="ACCOUNT_AMOUNTS" cascade="all"> 
 			<key column="ACCOUNT_ID"></key> <list-index column="IDX" /> <element column="MONTH_VICE_AMOUNT" 
 			type="double"></element> </array> -->
@@ -2419,5 +2422,26 @@
 			column="EMAIL_TEMPLATE_NAME"></property>
 		<property name="emailBody" type="encryptedstring" column="EMAIL_BODY"></property>
 	</class>
-
+	
+	<class name="PaypalTransation" table="PAYPAL_TRANSACTION">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<property name="accountID" column="ACCOUNTID" />
+		<property name="date" column="DATE" />
+		<property name="timeZone" column="TIMEZONE" />
+		<property name="type" column="TYPE" />
+		<property name="email" column="EMAIL" />
+		<property name="buyerName" column="BUYERNAME" />
+		<property name="transactionID" column="TRANSACTIONID" />
+		<property name="transactionStatus" column="TRANSACTIONSTATUS" />
+		<property name="grossAmount" column="GROSSAMOUNT" />
+		<property name="paypalFees" column="PAYPALFEES" />
+		<property name="netAmount" column="NETAMOUNT" />
+		<property name="currencyCode" column="CURRENCYCODE" />
+		
+	</class>
 </hibernate-mapping>

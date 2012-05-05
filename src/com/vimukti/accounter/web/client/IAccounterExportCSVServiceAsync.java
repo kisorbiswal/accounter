@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -121,5 +122,7 @@ public interface IAccounterExportCSVServiceAsync {
 
 	public void getBuildAssembliesExportCsv(long startDate, long endDate,
 			int viewId, AsyncCallback<String> exportCSVCallback);
+	
+	public void exportSavedPaypalTransactions(ClientAccount clientAccount, AsyncCallback<String> exportCSVCallback);
 
 }

@@ -1017,6 +1017,8 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(PayRollReportActions.getPayHeadSummaryReportAction()
 				.getHistoryToken(), PayRollReportActions
 				.getPayHeadSummaryReportAction());
+		actions.put(ActionFactory.getPaypalTransaction().getHistoryToken(),
+								ActionFactory.getPaypalTransaction());
 
 		actions.put(PayRollActions.newPayEmployeeAction().getHistoryToken(),
 				PayRollActions.newPayEmployeeAction());

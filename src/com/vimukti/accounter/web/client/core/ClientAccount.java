@@ -154,6 +154,16 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	private ClientFinanceDate statementLastDate;
 	private String lastCheckNum;
 
+	/**
+	 * saves the paypal token and secret key for the paypal account if the user
+	 * has done synchronization. or else it will be null
+	 */
+	private String paypalToken;
+
+	private long endDate;
+
+	private String paypalSecretkey;
+
 	// ClientTaxCode VATcode;
 
 	public String getFlow() {
@@ -740,5 +750,29 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public void setStatementLastDate(ClientFinanceDate statementLastDate) {
 		this.statementLastDate = statementLastDate;
+	}
+
+	public String getPaypalToken() {
+		return paypalToken;
+	}
+
+	public void setPaypalToken(String paypalToken) {
+		this.paypalToken = paypalToken;
+	}
+
+	public long getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(long endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getPaypalSecretkey() {
+		return paypalSecretkey;
+	}
+
+	public void setPaypalSecretkey(String paypalSecretkey) {
+		this.paypalSecretkey = paypalSecretkey;
 	}
 }

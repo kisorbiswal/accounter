@@ -158,6 +158,32 @@
 		<url-pattern>/company/api/xml/lists</url-pattern>
 		<url-pattern>/company/api/json/lists</url-pattern>
 	</servlet-mapping>
+	
+	
+	<!-- for Paypal Transaction Permission servlet -->
+	<servlet>
+		<servlet-name>PaypalTransactionPermissionServlet</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.PaypalTransactionPermissionServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PaypalTransactionPermissionServlet </servlet-name>
+		<url-pattern>/main/paypaltransactionpermission</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!-- for Paypal call back servlet -->
+	<servlet>
+		<servlet-name>PaypalTransactionCallbackServlet</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.PaypalTransactionCallbackServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PaypalTransactionCallbackServlet </servlet-name>
+		<url-pattern>/main/paypalcallbackservlet</url-pattern>
+	</servlet-mapping>
 
 	<!-- API SERVLET MAPPING END -->
 

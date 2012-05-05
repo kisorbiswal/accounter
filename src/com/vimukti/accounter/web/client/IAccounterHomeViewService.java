@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPaypalTransation;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
@@ -560,5 +562,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<ClientReceiveVAT> getTaxRefundsList(long startDate,
 			long endDate, int start, int length, int viewId);
+	
+	List<ClientPaypalTransation> getNewPaypalTransactionsList(long accountID);
+
+	PaginationList<ClientPaypalTransation> getSavedPaypalTransaction(
+			ClientAccount clientAccount);
+
+	ArrayList<ClientAccount> getPaypalAccounts();
+
+	String getPaypalTransactionDetailsForId(String transactionID, long accountID);
 
 }

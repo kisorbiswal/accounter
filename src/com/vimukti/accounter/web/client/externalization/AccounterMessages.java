@@ -6609,4 +6609,6 @@ public interface AccounterMessages extends Messages {
 	public String payEmployee();
 
 	public String challanDetailsList();
+
+	public String paypalCharge();
 }

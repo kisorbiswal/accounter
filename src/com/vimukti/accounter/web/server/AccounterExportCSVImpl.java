@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientPaypalTransation;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
@@ -2636,5 +2637,59 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	
+	@Override
+	public String exportSavedPaypalTransactions(ClientAccount account) {
+		try {
+			PaginationList<ClientPaypalTransation> savedPaypalTransactions = getFinanceTool()
+					.getSavedPaypalTransactions(account,getCompanyId());
+			ICSVExportRunner<ClientPaypalTransation> icsvExportRunner = new ICSVExportRunner<ClientPaypalTransation>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.date(), messages.timezone(),
+							messages.type(), messages.email(), messages.name(),
+							messages.state(), messages.grossAmount(),
+							messages.paypalCharge(), messages.netAmount() };
+				}
+
+				@Override
+				public String getColumnValue(ClientPaypalTransation obj,
+						int index) {
+					switch (index) {
+					case 0:
+						return obj.getDate();
+					case 1:
+						return obj.getTimeZone();
+					case 2:
+						return obj.getType();
+					case 3:
+						return obj.getEmail();
+					case 4:
+						return obj.getName();
+					case 5:
+						return obj.getTransactionStatus();
+					case 6:
+						return obj.getGrossAmount();
+					case 7:
+						return obj.getPaypalFees();
+					case 8:
+						return obj.getNetAmount();
+					default:
+						break;
+					}
+					return null;
+				}
+
+			};
+			CSVExporter<ClientPaypalTransation> csvExporter = new CSVExporter<ClientPaypalTransation>(
+					icsvExportRunner);
+			return csvExporter.export(savedPaypalTransactions);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

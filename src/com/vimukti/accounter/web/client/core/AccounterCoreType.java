@@ -292,6 +292,8 @@ public enum AccounterCoreType implements IsSerializable {
 	PAY_RUN("ClientPayRun", "PayRun"),
 
 	ATTENDANCE_MANAGEMENT("ClientAttendanceManagement", "AttendanceManagement"),
+	
+	PAYPALTRANSACTION("ClientPaypalTransation", "PaypalTransation"),
 
 	EMPLOYEE_PAYHEAD_COMPONENT("ClientEmployeePayHeadComponent",
 			"EmployeePayHeadComponent"),

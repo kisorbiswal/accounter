@@ -194,6 +194,16 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	// Bank bank;// for Bank name
 	// int bankAccountType;
 	// String bankAccountNumber;
+	
+	/**
+	 * saves the paypal token and secret key for the paypal account if the user
+	 * has done synchronization. or else it will be null
+	 */
+	private String paypalToken;
+
+	private String paypalSecretkey;
+	
+	private FinanceDate endDate;
 
 	/**
 	 * For Credit Card Account
@@ -1458,6 +1468,30 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		 * AccounterException( AccounterException.ERROR_NUMBER_CONFLICT); } }
 		 */
 
+	}
+
+	public String getPaypalToken() {
+		return paypalToken;
+	}
+
+	public void setPaypalToken(String paypalToken) {
+		this.paypalToken = paypalToken;
+	}
+
+	public String getPaypalSecretkey() {
+		return paypalSecretkey;
+	}
+
+	public void setPaypalSecretkey(String paypalSecretkey) {
+		this.paypalSecretkey = paypalSecretkey;
+	}
+
+	public FinanceDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(FinanceDate endDate) {
+		this.endDate = endDate;
 	}
 
 }

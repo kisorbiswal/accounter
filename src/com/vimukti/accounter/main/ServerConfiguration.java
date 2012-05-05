@@ -45,6 +45,14 @@ public class ServerConfiguration {
 	private static boolean isInLive;
 	private static String paypalButtonId;
 	private static String certificateAlias;
+	private static String paypalApiUserName;
+	private static String paypalApiPassword;
+	private static String paypalApiSignature;
+	private static String paypalApplicationId;
+
+	private static String livePaypalapiUserName;
+	private static String livePaypalapiPassword;
+	private static String livePaypalapiSignature;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -170,12 +178,40 @@ public class ServerConfiguration {
 					.parseInt(prop.getProperty("gracePeriod", "0"));
 			isInLive = Boolean.parseBoolean(prop
 					.getProperty("isInLive", "true"));
+
+			/**
+			 * read paypal api credentials
+			 */
+			paypalApiUserName = prop.getProperty("apiUserName", null);
+			paypalApiPassword = prop.getProperty("apiPassword", null);
+			paypalApiSignature = prop.getProperty("apiSignature", null);
+			paypalApplicationId = prop.getProperty("applicationID", null);
+
+			livePaypalapiUserName = prop.getProperty("livePaypalapiUserName",
+					null);
+			livePaypalapiPassword = prop.getProperty("livePaypalapiPassword",
+					null);
+			livePaypalapiSignature = prop.getProperty("livePaypalapiSignature",
+					null);
+
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
 			System.exit(0);
 		}
 
+	}
+
+	public static String getLivePaypalapiUserName() {
+		return livePaypalapiUserName;
+	}
+
+	public static String getLivePaypalapiPassword() {
+		return livePaypalapiPassword;
+	}
+
+	public static String getLivePaypalapiSignature() {
+		return livePaypalapiSignature;
 	}
 
 	public static int getGracePeriod() {
@@ -366,5 +402,21 @@ public class ServerConfiguration {
 
 	public static String getCertificateAlias() {
 		return certificateAlias;
+	}
+
+	public static String getPaypalApiUserName() {
+		return paypalApiUserName;
+	}
+
+	public static String getPaypalApiPassword() {
+		return paypalApiPassword;
+	}
+
+	public static String getPaypalApiSignature() {
+		return paypalApiSignature;
+	}
+
+	public static String getPaypalApplicationID() {
+		return paypalApplicationId;
 	}
 }

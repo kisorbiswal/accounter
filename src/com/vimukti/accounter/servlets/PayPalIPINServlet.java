@@ -22,6 +22,11 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.paypal.sdk.core.nvp.NVPDecoder;
+import com.paypal.sdk.core.nvp.NVPEncoder;
+import com.paypal.sdk.profiles.APIProfile;
+import com.paypal.sdk.profiles.ProfileFactory;
+import com.paypal.sdk.services.NVPCallerServices;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.ClientSubscription;
@@ -33,6 +38,11 @@ import com.vimukti.accounter.utils.HibernateUtil;
 
 public class PayPalIPINServlet extends BaseServlet {
 	Logger log = Logger.getLogger(PayPalIPINServlet.class);
+	private String apiUserName;
+	private String apiPassword;
+	private String apiSignature;
+	private boolean sandbox = ServerConfiguration.isSandBoxPaypal();
+	private String environment;
 	/**
 	 * 
 	 */
@@ -219,6 +229,8 @@ public class PayPalIPINServlet extends BaseServlet {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		Client client = getClient(emailId);
+		String previousSubId = null;
+
 		try {
 			ClientSubscription clientSubscription = client
 					.getClientSubscription();
@@ -234,6 +246,12 @@ public class PayPalIPINServlet extends BaseServlet {
 			clientSubscription.setExpiredDate(expiredDate);
 			clientSubscription.setSubscription(Subscription
 					.getInstance(Subscription.PREMIUM_USER));
+			String paypalSubscriptionProfileId = client.getClientSubscription()
+					.getPaypalSubscriptionProfileId();
+			if (paypalSubscriptionProfileId != null
+					&& !paypalSubscriptionProfileId.trim().isEmpty()) {
+				previousSubId = paypalSubscriptionProfileId;
+			}
 			clientSubscription.setPaypalSubscriptionProfileId(params
 					.get("subscr_id"));
 			session.saveOrUpdate(clientSubscription);
@@ -248,6 +266,77 @@ public class PayPalIPINServlet extends BaseServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		final String previousSubId2 = previousSubId;
+		if (previousSubId != null && !previousSubId.trim().isEmpty()) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					cancelPreviousSubscription(previousSubId2);
+
+				}
+			}).start();
+		}
+	}
+
+	private void cancelPreviousSubscription(String previousSubId) {
+		NVPCallerServices caller = null;
+		NVPEncoder encoder = new NVPEncoder();
+		NVPDecoder decoder = new NVPDecoder();
+
+		try {
+			caller = new NVPCallerServices();
+			APIProfile profile = ProfileFactory.createSignatureAPIProfile();
+			/*
+			 * WARNING: Do not embed plaintext credentials in your application
+			 * code. Doing so is insecure and against best practices. Your API
+			 * credentials must be handled securely. Please consider encrypting
+			 * them for use in any production environment, and ensure that only
+			 * authorized individuals may view or modify them.
+			 */
+			// Set up your API credentials, PayPal end point, API
+			// operation and version.
+			if (sandbox) {
+				apiUserName = ServerConfiguration.getPaypalApiUserName();
+				apiPassword = ServerConfiguration.getPaypalApiPassword();
+				apiSignature = ServerConfiguration.getPaypalApiSignature();
+				environment="sandbox";
+			} else {
+
+				apiUserName = ServerConfiguration.getLivePaypalapiUserName();
+				apiPassword = ServerConfiguration.getLivePaypalapiPassword();
+				apiSignature = ServerConfiguration.getLivePaypalapiSignature();
+environment="paypal";
+			}
+			profile.setAPIUsername(apiUserName);
+			profile.setAPIPassword(apiPassword);
+			profile.setSignature(apiSignature);
+
+			profile.setEnvironment(environment);
+
+			profile.setSubject("");
+			caller.setAPIProfile(profile);
+
+			encoder.add("METHOD", "ManageRecurringPaymentsProfileStatus");
+			encoder.add("USER", apiUserName);
+			encoder.add("PWD", apiPassword);
+			encoder.add("SIGNATURE", apiSignature);
+			encoder.add("PROFILEID", previousSubId);
+			encoder.add("ACTION", "cancel");
+
+			// Execute the API operation and obtain the response.
+			String NVPRequest = encoder.encode();
+			String NVPResponse = (String) caller.call(NVPRequest);
+			decoder.decode(NVPResponse);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		System.out
+				.println("///////////***************************paypal cancel request// :"
+						+ decoder.get("ACK"));
+
 	}
 
 	private Date getNextMonthDate(int months) {

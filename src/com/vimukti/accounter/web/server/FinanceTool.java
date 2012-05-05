@@ -40,6 +40,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.hibernate.dialect.EncryptedStringType;
+import org.json.JSONException;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -100,6 +101,7 @@ import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.PaypalTransation;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
@@ -148,6 +150,8 @@ import com.vimukti.accounter.server.imports.InvoiceImporter;
 import com.vimukti.accounter.server.imports.ItemImporter;
 import com.vimukti.accounter.server.imports.VendorImporter;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.servlets.PaypalTransactionDetails;
+import com.vimukti.accounter.servlets.PaypalTransactionSearch;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
@@ -167,6 +171,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPaypalTransation;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
@@ -5111,6 +5116,131 @@ public class FinanceTool {
 			tx.rollback();
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * get the new paypal transactions
+	 * 
+	 * @param companyID
+	 * @param accountID
+	 * @return
+	 */
+
+	public List<ClientPaypalTransation> getnewPaypalTransaction(Long companyID,
+			Long accountID) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		Account account = (Account) session.get(Account.class, accountID);
+		String paypalToken = account.getPaypalToken();
+		String paypalSecretkey = account.getPaypalSecretkey();
+
+		PaypalTransactionSearch paypalTransactionSearch = new PaypalTransactionSearch();
+		FinanceDate date = new FinanceDate();
+		if (account.getEndDate() == null) {
+			date.setDate(1);
+			date.setMonth(1);
+		} else {
+			date = account.getEndDate();
+		}
+
+		List<ClientPaypalTransation> transactionList = new ArrayList<ClientPaypalTransation>();
+
+		String startDate = date.toString();
+		ArrayList<PaypalTransation> transaction = null;
+		try {
+			transaction = paypalTransactionSearch.getTransaction(startDate,
+					getCompany(companyID), paypalToken, paypalSecretkey,
+					accountID);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		for (PaypalTransation paypalTransation : transaction) {
+
+			try {
+				ClientPaypalTransation clientObject = new ClientConvertUtil()
+						.toClientObject(paypalTransation,
+								ClientPaypalTransation.class);
+				transactionList.add(clientObject);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return transactionList;
+	}
+
+	public PaginationList<ClientPaypalTransation> getSavedPaypalTransactions(
+			ClientAccount clientAccount, Long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<PaypalTransation> transactions = new ArrayList<PaypalTransation>(
+				session.getNamedQuery("list.PaypalTransactions")
+						.setEntity("company", getCompany(companyId))
+						.setParameter("accountId", clientAccount.getID())
+						.list());
+
+		PaginationList<ClientPaypalTransation> clientTransactions = new PaginationList<ClientPaypalTransation>();
+
+		for (PaypalTransation transaction : transactions) {
+			ClientPaypalTransation clientObject;
+			try {
+				clientObject = new ClientConvertUtil().toClientObject(
+						transaction, ClientPaypalTransation.class);
+				clientTransactions.add(clientObject);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientTransactions;
+	}
+
+	public ArrayList<ClientAccount> getPaypalAccounts(Long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<Account> accounts = new ArrayList<Account>(session
+				.getNamedQuery("list.get.PaypalAccounts")
+				.setEntity("company", getCompany(companyId))
+				.setParameter("type", ClientAccount.TYPE_PAYPAL).list());
+
+		ArrayList<ClientAccount> clientAccounts = new ArrayList<ClientAccount>();
+
+		for (Account account : accounts) {
+			ClientAccount clientaccount;
+			try {
+				clientaccount = new ClientConvertUtil().toClientObject(account,
+						ClientAccount.class);
+				clientAccounts.add(clientaccount);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		return clientAccounts;
+	}
+
+	public void getCompletePaypalTransactionDetailsForID(String transactionID,
+			long accountID) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		Account account = (Account) session.get(Account.class, accountID);
+		String paypalToken = account.getPaypalToken();
+		String paypalSecretkey = account.getPaypalSecretkey();
+		
+		PaypalTransactionDetails paypalTransactionDetails = new PaypalTransactionDetails(transactionID,paypalToken,paypalSecretkey);
+		try {
+			paypalTransactionDetails.createHeader();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		paypalTransactionDetails.getTransactionDetails();
+		
+
 	}
 
 }
