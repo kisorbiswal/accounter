@@ -1,49 +1,37 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class ManageBillsOption extends AbstractPreferenceOption {
 
-	private static ManageBillsOptionUiBinder uiBinder = GWT
-			.create(ManageBillsOptionUiBinder.class);
-	@UiField
-	Label managingBillLabelItem;
-	@UiField
-	RadioButton managingBillYesRadioButton;
-	@UiField
-	RadioButton managingBillNoRadioButton;
-	@UiField
-	Label managingBilldescritionLabel;
-	@UiField
-	CheckBox isPriceLevelsEnabled;
-	@UiField
-	CheckBox purchaseOrderCheckBox;
+	LabelItem managingBillLabelItem;
 
-	interface ManageBillsOptionUiBinder extends
-			UiBinder<Widget, ManageBillsOption> {
-	}
+	RadioGroupItem managingBillRadioGroup;
+
+	LabelItem managingBilldescritionLabel;
+
+	CheckboxItem isPriceLevelsEnabled;
+
+	CheckboxItem purchaseOrderCheckBox;
+
+	StyledPanel mainPanel;
 
 	public ManageBillsOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
 	public void initData() {
 		if (getCompanyPreferences().isKeepTrackofBills()) {
-			managingBillYesRadioButton.setValue(true);
-			managingBillNoRadioButton.setValue(false);
+			managingBillRadioGroup.setValue(messages.yes());
 		} else {
-			managingBillYesRadioButton.setValue(false);
-			managingBillNoRadioButton.setValue(true);
+			managingBillRadioGroup.setValue(messages.yes());
 		}
 		if (getCompanyPreferences().isPricingLevelsEnabled()) {
 			isPriceLevelsEnabled.setValue(true);
@@ -55,25 +43,38 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		managingBillLabelItem.setText(messages.managingBills());
-		managingBilldescritionLabel.setText(messages.managingBillDescription());
+		managingBillLabelItem = new LabelItem(messages.managingBills(),
+				"managingBillLabelItem");
+		managingBilldescritionLabel = new LabelItem(
+				messages.managingBillDescription(),
+				"managingBilldescritionLabel");
 		managingBilldescritionLabel.setStyleName("organisation_comment");
 
-		managingBillYesRadioButton.setText(messages.yes());
-		managingBillNoRadioButton.setText(messages.no());
-		isPriceLevelsEnabled.setText(messages.enabled() + " "
-				+ messages.priceLevel());
+		managingBillRadioGroup = new RadioGroupItem();
+		managingBillRadioGroup.setGroupName("managingBillRadioGroup");
+		managingBillRadioGroup.setShowTitle(false);
+
+		managingBillRadioGroup.setValueMap(messages.yes(), messages.no());
+		managingBillRadioGroup.setDefaultValue(messages.ageingforduedate());
+
+		isPriceLevelsEnabled = new CheckboxItem(messages.enabled() + " "
+				+ messages.priceLevel(), "isPriceLevelsEnabled");
 		isPriceLevelsEnabled.setStyleName("header");
+		purchaseOrderCheckBox = new CheckboxItem(
+				messages.enablePreference(messages.purchaseOrder()),
+				"purchaseOrderCheckBox");
 		purchaseOrderCheckBox.setVisible(Accounter
 				.hasPermission(Features.PURCHASE_ORDER));
-		purchaseOrderCheckBox.setText(messages.enablePreference(messages
-				.purchaseOrder()));
 		purchaseOrderCheckBox.setStyleName("bold");
 
-	}
+		mainPanel = new StyledPanel("manageBillsOption");
+		mainPanel.add(managingBillLabelItem);
+		mainPanel.add(managingBilldescritionLabel);
+		mainPanel.add(managingBillRadioGroup);
+		mainPanel.add(isPriceLevelsEnabled);
+		mainPanel.add(purchaseOrderCheckBox);
+		add(mainPanel);
 
-	public ManageBillsOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		if (managingBillYesRadioButton.getValue()) {
+		if (managingBillRadioGroup.getValue().equals(messages.yes())) {
 			getCompanyPreferences().setKeepTrackofBills(true);
 		} else {
 			getCompanyPreferences().setKeepTrackofBills(false);

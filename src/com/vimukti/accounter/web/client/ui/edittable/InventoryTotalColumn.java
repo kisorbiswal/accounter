@@ -43,4 +43,15 @@ public class InventoryTotalColumn extends
 		return false;
 	}
 
+	@Override
+	public String getValueAsString(ClientInventoryAssemblyItem row) {
+		// TODO Auto-generated method stub
+		return "Total : "+ getValue(row).toString();
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
+
 }

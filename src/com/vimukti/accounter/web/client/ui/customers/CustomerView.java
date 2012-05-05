@@ -804,16 +804,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		};
 		gridView.setEnabled(!isInViewMode());
 
-		StyledPanel panel = new StyledPanel("panel") {
-			@Override
-			protected void onAttach() {
-
-				// gridView.setHeight("88px");
-
-				super.onAttach();
-			}
-		};
-		panel.setWidth("100%");
+		StyledPanel panel = new StyledPanel("panel");
 		panel.add(l1);
 		panel.add(gridView);
 		StyledPanel hPanel = new StyledPanel("hPanel");

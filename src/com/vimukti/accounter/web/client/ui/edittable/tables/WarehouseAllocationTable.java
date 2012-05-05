@@ -42,6 +42,16 @@ public class WarehouseAllocationTable extends
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public String getValueAsString(ClientWareHouseAllocation row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new QuantityColumn<ClientWareHouseAllocation>() {
@@ -55,6 +65,16 @@ public class WarehouseAllocationTable extends
 			protected void setQuantity(ClientWareHouseAllocation row,
 					ClientQuantity d) {
 				row.setQuantity(d);
+			}
+
+			@Override
+			public String getValueAsString(ClientWareHouseAllocation row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

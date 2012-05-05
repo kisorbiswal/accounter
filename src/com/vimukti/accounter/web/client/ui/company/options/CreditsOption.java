@@ -1,11 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 
 /**
  * 
@@ -14,27 +12,18 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CreditsOption extends AbstractPreferenceOption {
 
-	private static CreditsOptionUiBinder uiBinder = GWT
-			.create(CreditsOptionUiBinder.class);
-
 	interface CreditsOptionUiBinder extends UiBinder<Widget, CreditsOption> {
 	}
 
 	public CreditsOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	@UiField
-	CheckBox creditsApplyAutomatic;
-	@UiField
-	Label label;
+	CheckboxItem creditsApplyAutomatic;
 
-	public CreditsOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
-	}
+	StyledPanel mainPanel;
 
 	@Override
 	public void onSave() {
@@ -50,8 +39,11 @@ public class CreditsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		label.setText(messages.creditsOptionLabelTxt());
-		creditsApplyAutomatic.setText(messages.automaticallyApplycredits());
+		creditsApplyAutomatic = new CheckboxItem(
+				messages.creditsOptionLabelTxt(), "creditsApplyAutomatic");
+		mainPanel = new StyledPanel("creditsOption");
+		mainPanel.add(creditsApplyAutomatic);
+		add(mainPanel);
 
 	}
 

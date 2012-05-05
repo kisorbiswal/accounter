@@ -12,135 +12,100 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.Header;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
+import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyInfoOption extends AbstractPreferenceOption {
 
-	@UiField
-	Label tradingAddressTitle;
-	@UiField
-	Label tAddress1Label;
-	@UiField
-	TextBox tAddress1TextBox;
-	@UiField
-	Label tAddress2Label;
-	@UiField
-	TextBox tAddress2TextBox;
-	@UiField
-	Label tCityLabel;
-	@UiField
-	TextBox tCityTextBox;
-	@UiField
-	Label tPostalCodeLabel;
-	@UiField
-	TextBox tPostalCodeTextBox;
-	@UiField
-	Label tCountryLabel;
-	@UiField
-	ListBox tCountryCombo;
-	@UiField
-	Label tStateLabel;
-	@UiField
-	ListBox tStateCombo;
-	@UiField
-	Label registeredAddressTitle;
-	@UiField
-	Label rAddress1Label;
-	@UiField
-	TextBox rAddress1TextBox;
-	@UiField
-	Label rAddress2Label;
-	@UiField
-	TextBox rAddress2TextBox;
-	@UiField
-	Label rCityLabel;
-	@UiField
-	TextBox rCityTextBox;
-	@UiField
-	Label rPostalCodeLabel;
-	@UiField
-	TextBox rPostalCodeTextbox;
-	@UiField
-	Label rCountryComboLabel;
-	@UiField
-	ListBox rCountryCombo;
-	@UiField
-	Label rStateComboLabel;
-	@UiField
-	ListBox rStateCombo;
-	@UiField
-	Label registeredAddressDescription;
-	@UiField
-	Label tradingAddressDescription;
-	@UiField
-	FlowPanel registeredAddressSubPanel;
-	@UiField
-	FlowPanel tradingAddressSubPanel;
-	@UiField
-	FlowPanel tradingAddressPanel;
-	@UiField
-	FlowPanel registeredAddressPanel;
-	@UiField
-	CheckBox isShowRegisteredAddressCheckBox;
-	// Website
-	@UiField
-	Label companyWebsiteHeaderLabel;
-	@UiField
-	TextBox companyWebsiteTextBox;
+	TextItem companyNameTextBox;
+
+	TextItem legalNameTextBox;
+
+	LabelItem tradingAddressTitle;
+
+	LabelItem tradingAddressDescription;
+
+	TextItem tAddress1TextBox;
+
+	TextItem tAddress2TextBox;
+
+	TextItem tCityTextBox;
+
+	TextItem tPostalCodeTextBox;
+
+	SelectCombo tStateCombo;
+
+	SelectCombo tCountryCombo;
+
+	LabelItem registeredAddressTitle;
+
+	LabelItem registeredAddressDescription;
+
+	LabelItem rAddress1Label;
+
+	TextItem rAddress1TextBox;
+
+	TextItem rAddress2TextBox;
+
+	TextItem rCityTextBox;
+
+	TextItem rPostalCodeTextbox;
+
+	SelectCombo rCountryCombo;
+
+	SelectCombo rStateCombo;
+
 	// Email
-	@UiField
-	Label companyEmailHeaderLabel;
-	@UiField
-	TextBox companyEmailTextBox;
-	@UiField
-	Label emailIDDescriptionLabel;
+	TextItem companyEmailTextBox;
+
+	CheckboxItem isShowRegisteredAddressCheckBox;
+
+	TextItem companyWebsiteTextBox;
+
 	// Name
-	@UiField
-	Label companyNameLabel;
-	@UiField
-	TextBox companyNameTextBox;
-	@UiField
-	TextBox legalNameTextBox;
-	@UiField
-	Label legalNameLabel;
-	@UiField
-	CheckBox isShowLegalName;
-	@UiField
-	FlowPanel legalNamePanel;
+
+	CheckboxItem isShowLegalName;
+
 	// Phone Number
-	@UiField
-	Label companyPhoneNumberLabel;
-	@UiField
-	TextBox companyPhoneNumberTextBox;
-	@UiField
-	FlowPanel mainPanel;
-	@UiField
-	Label fiscalYearLabel;
-	@UiField
-	Label fiscalStarts;
-	@UiField
-	ListBox fiscalStartsList;
+
+	TextItem companyPhoneNumberTextBox;
+
+	SelectCombo fiscalStartsCombo;
+
+	SelectCombo fiscalStartsList;
 	private List<String> monthsList;
 	String[] monthNames;
 	protected CountryPreferences countryPreferences;
+
+	StyledPanel mainPanel;
+
+	StyledPanel legalNamePanel;
+
+	StyledPanel registeredAddressSubPanel;
+
+	StyledPanel tradingAddressSubPanel;
+
+	StyledPanel tradingAddressPanel;
+
+	StyledPanel registeredAddressPanel;
 
 	private static CompanyInfoOptionUiBinder uiBinder = GWT
 			.create(CompanyInfoOptionUiBinder.class);
@@ -150,7 +115,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	}
 
 	public CompanyInfoOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("AbstractStylePanel");
 		createControls();
 		initData();
 	}
@@ -180,17 +145,17 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		registeredAddressPanel.setVisible(getCompany()
 				.isShowRegisteredAddress());
 		// Website
-		companyWebsiteTextBox.setText(getCompany().getWebSite());
+		companyWebsiteTextBox.setValue(getCompany().getWebSite());
 		// Email
-		companyEmailTextBox.setText(getCompanyPreferences().getCompanyEmail());
+		companyEmailTextBox.setValue(getCompanyPreferences().getCompanyEmail());
 		// Name
 		isShowLegalName.setValue(getCompanyPreferences().isShowLegalName());
-		legalNameTextBox.setText(getCompanyPreferences().getLegalName());
-		companyNameTextBox.setText(getCompany().getDisplayName());
+		legalNameTextBox.setValue(getCompanyPreferences().getLegalName());
+		companyNameTextBox.setValue(getCompany().getDisplayName());
 		legalNamePanel.setVisible(getCompanyPreferences().isShowLegalName());
 		// Phone Number
-		companyPhoneNumberTextBox.setText(getCompany().getPhone());
-		fiscalStartsList.setSelectedIndex(getCompanyPreferences()
+		companyPhoneNumberTextBox.setValue(getCompany().getPhone());
+		fiscalStartsCombo.setSelectedItem(getCompanyPreferences()
 				.getFiscalYearFirstMonth());
 
 		addFields(getCompany().getPreferences().getCompanyFields());
@@ -198,45 +163,138 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
-		tradingAddressDescription.setText(messages.tradingAddressDescription());
-		tradingAddressDescription.setStyleName("organisation_comment");
-		tradingAddressTitle.setText(messages.tradingAddress());
-		tAddress1Label.setText(messages.address1());
-		tAddress1Label.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-		tAddress2Label.setText(messages.address2());
-		tCityLabel.setText(messages.city());
-		tStateLabel.setText(messages.state());
-		tPostalCodeLabel.setText(messages.postalCode());
-		tCountryLabel.setText(messages.country());
 
-		registeredAddressDescription.setText(messages
-				.registeredAddresDescription());
-		registeredAddressDescription.setStyleName("organisation_comment");
-		registeredAddressTitle.setText(messages.registeredAddress());
-		rAddress1Label.setText(messages.address1());
-		rAddress2Label.setText(messages.address2());
-		rCityLabel.setText(messages.city());
-		rStateComboLabel.setText(messages.state());
-		rPostalCodeLabel.setText(messages.postalCode());
-		rCountryComboLabel.setText(messages.country());
+		companyNameTextBox = new TextItem(messages.companyName(),
+				"companyNameTextbox");
 
-		for (int i = 0; i < countriesList.size(); i++) {
-			tCountryCombo.addItem(countriesList.get(i));
-			rCountryCombo.addItem(countriesList.get(i));
-		}
+		isShowLegalName = new CheckboxItem(messages.getDifferentLegalName(),
+				"isShowLegalName");
+
+		legalNamePanel = new StyledPanel("legalNamePanel");
+		legalNameTextBox = new TextItem(messages.legalName(),
+				"legelnameTextbox");
+
+		mainPanel = new StyledPanel("CompanyInfoOption");
+		mainPanel.add(companyNameTextBox);
+		mainPanel.add(isShowLegalName);
+		legalNamePanel.add(legalNameTextBox);
+		mainPanel.add(legalNamePanel);
+
+		isShowLegalName.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				legalNamePanel.setVisible(isShowLegalName.getValue());
+
+			}
+		});
+
+		tradingAddressTitle = new LabelItem(messages.tradingAddress(),
+				"tradingAddressLabelItem");
+
+		tradingAddressDescription = new LabelItem(
+				messages.tradingAddressDescription(), "tradingAdressDescLabel");
+		tradingAddressPanel = new StyledPanel("tradingAddressPanel");
+		tradingAddressPanel.add(tradingAddressTitle);
+		tradingAddressPanel.add(tradingAddressDescription);
+
+		mainPanel.add(tradingAddressPanel);
+
+		tAddress1TextBox = new TextItem(messages.address1(), "tAddress1TextBox");
+
+		tAddress2TextBox = new TextItem(messages.address2(), "tAddress2TextBox");
+
+		tCityTextBox = new TextItem(messages.city(), "tCityTextBox");
+
+		tPostalCodeTextBox = new TextItem(messages.postalCode(),
+				"tPostalCodeTextBox");
+
+		tCountryCombo = new SelectCombo(messages.country());
+		tCountryCombo.initCombo(countriesList);
+		tCountryCombo.setSelected(getCompany().getTradingAddress()
+				.getCountryOrRegion());
+		tCountryCombo.setEnabled(false);
+		tStateCombo = new SelectCombo(messages.state());
+		tStateCombo.initCombo(CoreUtils.getStatesAsListForCountry(tCountryCombo
+				.getSelectedValue()));
+
+		tradingAddressSubPanel = new StyledPanel("tradingAddressSubPanel");
+		tradingAddressSubPanel.add(tAddress1TextBox);
+		tradingAddressSubPanel.add(tAddress2TextBox);
+		tradingAddressSubPanel.add(tCityTextBox);
+		tradingAddressSubPanel.add(tPostalCodeTextBox);
+		tradingAddressSubPanel.add(tStateCombo);
+		tradingAddressSubPanel.add(tCountryCombo);
+
+		mainPanel.add(tradingAddressSubPanel);
+		isShowRegisteredAddressCheckBox = new CheckboxItem(
+				messages.registeredAddressComment(),
+				"isShowRegisteredAddressCheckBox");
+
+		tradingAddressSubPanel.add(isShowRegisteredAddressCheckBox);
+
+		registeredAddressTitle = new LabelItem(messages.registeredAddress(),
+				"registeredAddressTitle");
+
+		registeredAddressDescription = new LabelItem(
+				messages.registeredAddresDescription(),
+				"registeredAddressDescription");
+		registeredAddressPanel = new StyledPanel("registeredAddressPanel");
+
+		registeredAddressPanel.add(registeredAddressTitle);
+		registeredAddressPanel.add(registeredAddressDescription);
+
+		mainPanel.add(registeredAddressPanel);
+
+		rAddress1TextBox = new TextItem(messages.address1(), "tAddress1TextBox");
+
+		rAddress2TextBox = new TextItem(messages.address2(), "tAddress2TextBox");
+
+		rCityTextBox = new TextItem(messages.city(), "tCityTextBox");
+
+		rPostalCodeTextbox = new TextItem(messages.postalCode(),
+				"rPostalCodeTextbox");
+		rStateCombo = new SelectCombo(messages.state());
+		rCountryCombo = new SelectCombo(messages.country());
+		rCountryCombo.initCombo(countriesList);
+		rCountryCombo.setSelected(getCompany().getTradingAddress()
+				.getCountryOrRegion());
+		rCountryCombo.setEnabled(false);
+		rStateCombo.initCombo(CoreUtils.getStatesAsListForCountry(rCountryCombo
+				.getSelectedValue()));
+		registeredAddressSubPanel = new StyledPanel("registeredAddressSubPanel");
+		registeredAddressSubPanel.add(rAddress1TextBox);
+		registeredAddressSubPanel.add(rAddress2TextBox);
+		registeredAddressSubPanel.add(rCityTextBox);
+		registeredAddressSubPanel.add(rPostalCodeTextbox);
+		registeredAddressSubPanel.add(rStateCombo);
+		registeredAddressSubPanel.add(rCountryCombo);
+
+		isShowRegisteredAddressCheckBox
+				.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+					@Override
+					public void onValueChange(ValueChangeEvent<Boolean> event) {
+						registeredAddressSubPanel
+								.setVisible(isShowRegisteredAddressCheckBox
+										.getValue());
+					}
+				});
+
+		mainPanel.add(registeredAddressSubPanel);
+
 		if (getCompany().getTradingAddress() != null
 				&& getCompany().getTradingAddress().getCountryOrRegion() != null) {
-			tCountryCombo.setSelectedIndex(countriesList.indexOf(getCompany()
-					.getTradingAddress().getCountryOrRegion()));
+			tCountryCombo.setComboItem(getCompany().getTradingAddress()
+					.getCountryOrRegion());
 		}
 		ClientAddress addr = getCompany().getRegisteredAddress();
 		if (addr == null) {
 			addr = getCompany().getTradingAddress();
 		}
 		if (addr != null && addr.getCountryOrRegion() != null) {
-			rCountryCombo.setSelectedIndex(countriesList.indexOf(getCompany()
-					.getTradingAddress().getCountryOrRegion()));
+			rCountryCombo.setComboItem(getCompany().getTradingAddress()
+					.getCountryOrRegion());
 		}
 		tCountryCombo.addChangeHandler(new ChangeHandler() {
 
@@ -254,20 +312,12 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			}
 		});
 		rCountryChanged();
-		isShowRegisteredAddressCheckBox.setText(messages
-				.registeredAddressComment());
-		// Website
-		companyWebsiteHeaderLabel.setText(messages.webSite());
-		companyWebsiteHeaderLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-
+		// website
+		companyWebsiteTextBox = new TextItem(messages.webSite(),
+				"companyWebsiteTextBox");
 		// Email
-		emailIDDescriptionLabel.setText(messages.emailIdDescription());
-		emailIDDescriptionLabel.setStyleName("organisation_comment");
-
-		companyEmailHeaderLabel.setText(messages.emailId());
-		companyEmailHeaderLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
+		companyEmailTextBox = new TextItem(messages.emailId(),
+				"companyEmailTextBox");
 		companyEmailTextBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -275,31 +325,21 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				String email = companyEmailTextBox.getValue();
 				if (email != null && !email.isEmpty()
 						&& !UIUtils.isValidEmail(email)) {
-					companyEmailTextBox.setText("");
+					companyEmailTextBox.setValue("");
 					Accounter.showError(messages.invalidEmail());
 				}
 			}
 		});
 
-		// Name
-		legalNameLabel.setText(messages.legalName());
-		legalNameLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-		companyNameLabel.setText(messages.companyName());
-		companyNameLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-		isShowLegalName.setText(messages.registeredAddressComment());
+		mainPanel.add(companyEmailTextBox);
 
 		// Phone Number
-		companyPhoneNumberLabel.setText(messages.phoneNumber());
-		companyPhoneNumberLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-		companyPhoneNumberLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-		fiscalYearLabel.setText(messages.selectFirstMonthOfFiscalYear());
-		fiscalYearLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
-		fiscalStarts.setText(messages.myFiscalYearsStartsIn());
+		companyPhoneNumberTextBox = new TextItem(messages.phoneNumber(),
+				"companyPhoneNumberTextBox");
+		mainPanel.add(companyPhoneNumberTextBox);
+		// Fiscal year
+		fiscalStartsCombo = new SelectCombo(
+				messages.selectFirstMonthOfFiscalYear());
 		monthNames = new String[] { DayAndMonthUtil.january(),
 				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
 				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
@@ -311,8 +351,12 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		// fiscalStartsList = null;
 		for (int i = 0; i < monthNames.length; i++) {
 			monthsList.add(monthNames[i]);
-			fiscalStartsList.addItem(monthNames[i]);
+			fiscalStartsCombo.addItem(monthNames[i]);
 		}
+
+		mainPanel.add(fiscalStartsCombo);
+		add(mainPanel);
+
 	}
 
 	private void rCountryChanged() {
@@ -320,23 +364,31 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		if (selectedCountry < 0) {
 			return;
 		}
-		String countryName = rCountryCombo.getItemText(selectedCountry);
-		Accounter.createCompanyInitializationService().getCountryPreferences(
-				countryName, new AsyncCallback<CountryPreferences>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onSuccess(CountryPreferences result) {
-						countryPreferences = result;
-						updateRCountry();
-					}
-				});
-
+		String countryName = rCountryCombo.getSelectedValue();
+		final ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		Map<String, String> fields = new HashMap<String, String>();
+		for (String fieldName : countryPreferences.getCompanyFields()) {
+			fields.put(fieldName, "");
+		}
+		String[] states = countryPreferences.getStates();
+		if (countryPreferences.getStates() != null) {
+			states = countryPreferences.getStates();
+		} else {
+			states = new String[] { "" };
+		}
+		List<String> statesList = Arrays.asList(states);
+		for (String state : statesList) {
+			rStateCombo.addItem(state);
+		}
+		ClientAddress address = getCompany().getRegisteredAddress();
+		if (address != null && address.getStateOrProvinence() != null) {
+			if (statesList.contains(address.getStateOrProvinence())) {
+				rStateCombo.setSelectedItem(statesList.indexOf(address
+						.getStateOrProvinence()));
+			}
+		}
 	}
 
 	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
@@ -361,50 +413,9 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		if (selectedCountry < 0) {
 			return;
 		}
-		String countryName = tCountryCombo.getItemText(selectedCountry);
-		Accounter.createCompanyInitializationService().getCountryPreferences(
-				countryName, new AsyncCallback<CountryPreferences>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onSuccess(CountryPreferences result) {
-						countryPreferences = result;
-						updateTCountry();
-					}
-				});
-
-	}
-
-	protected void updateRCountry() {
-		Map<String, String> fields = new HashMap<String, String>();
-		for (String fieldName : countryPreferences.getCompanyFields()) {
-			fields.put(fieldName, "");
-		}
-		String[] states = countryPreferences.getStates();
-		if (countryPreferences.getStates() != null) {
-			states = countryPreferences.getStates();
-		} else {
-			states = new String[] { "" };
-		}
-		List<String> statesList = Arrays.asList(states);
-		for (String state : statesList) {
-			rStateCombo.addItem(state);
-		}
-		ClientAddress address = getCompany().getRegisteredAddress();
-		if (address != null && address.getStateOrProvinence() != null) {
-			if (statesList.contains(address.getStateOrProvinence())) {
-				rStateCombo.setSelectedIndex(statesList.indexOf(address
-						.getStateOrProvinence()));
-			}
-		}
-	}
-
-	protected void updateTCountry() {
+		String countryName = tCountryCombo.getSelectedValue();
+		final ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
 		String[] states = countryPreferences.getStates();
 		if (countryPreferences.getStates() != null) {
 			states = countryPreferences.getStates();
@@ -421,14 +432,10 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		if (tradingAddress != null
 				&& tradingAddress.getStateOrProvinence() != null) {
 			if (statesList.contains(tradingAddress.getStateOrProvinence())) {
-				tStateCombo.setSelectedIndex(statesList.indexOf(tradingAddress
+				tStateCombo.setSelectedItem(statesList.indexOf(tradingAddress
 						.getStateOrProvinence()));
 			}
 		}
-	}
-
-	public CompanyInfoOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@Override
@@ -447,13 +454,11 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tAddress.setStreet(tAddress2TextBox.getValue());
 		tAddress.setCity(tCityTextBox.getValue());
 		// if (tStateCombo.getSelectedIndex() > 0) {
-		tAddress.setStateOrProvinence(tStateCombo.getItemText(tStateCombo
-				.getSelectedIndex()));
+		tAddress.setStateOrProvinence(tStateCombo.getSelectedValue());
 		// }
 		tAddress.setZipOrPostalCode(tPostalCodeTextBox.getValue());
 		if (tCountryCombo.getSelectedIndex() > 0) {
-			tAddress.setCountryOrRegion(tCountryCombo.getItemText(tCountryCombo
-					.getSelectedIndex()));
+			tAddress.setCountryOrRegion(tCountryCombo.getSelectedValue());
 		}
 		ClientAddress rAddress = getCompany().getRegisteredAddress();
 		if (rAddress == null) {
@@ -466,12 +471,10 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 		this.rPostalCodeTextbox.setValue(rAddress.getZipOrPostalCode());
 		if (rStateCombo.getSelectedIndex() > 0) {
-			rAddress.setStateOrProvinence(rStateCombo.getItemText(rStateCombo
-					.getSelectedIndex()));
+			rAddress.setStateOrProvinence(rStateCombo.getSelectedValue());
 		}
 		if (rCountryCombo.getSelectedIndex() > 0) {
-			rAddress.setCountryOrRegion(rCountryCombo.getItemText(rCountryCombo
-					.getSelectedIndex()));
+			rAddress.setCountryOrRegion(rCountryCombo.getSelectedValue());
 		}
 		getCompany().setRegisteredAddress(rAddress);
 		getCompany().setShowRegisteredAddress(
@@ -494,15 +497,14 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		}
 		getCompany().getPreferences().setCompanyFields(companyFields);
 		getCompany().getPreferences().setFiscalYearFirstMonth(
-				fiscalStartsList.getSelectedIndex());
+				fiscalStartsCombo.getSelectedIndex());
 
 	}
 
 	@Override
 	public boolean isValidate() {
 		if (companyNameTextBox.getValue().length() == 0) {
-			Accounter
-					.showError(messages.pleaseEnter(companyNameLabel.getText()));
+			Accounter.showError(messages.pleaseEnter(messages.companyName()));
 			return false;
 		} else {
 			return true;

@@ -228,7 +228,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		DDINumberItem = new TextItem(messages.ddiNumber(), "DDINumberItem");
 		DDINumberItem.setEnabled(!isInViewMode());
 
-		defaultWareHouse = new CheckboxItem();
+		defaultWareHouse = new CheckboxItem("checkBox", "wareHouseCheckbox");
 		defaultWareHouse.setTitle(messages.defaultWareHouse());
 		defaultWareHouse.setEnabled(!isInViewMode());
 

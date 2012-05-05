@@ -3,16 +3,12 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 /**
  * @author vimukti2
@@ -20,41 +16,28 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 
-	private static TrackOrChargeTaxOptionUiBinder uiBinder = GWT
-			.create(TrackOrChargeTaxOptionUiBinder.class);
+	CheckboxItem trackCheckbox;
 
-	@UiField
-	RadioButton onepeTransactionRadioButton;
-	@UiField
-	Label oneperTransactionLabel;
-	@UiField
-	RadioButton oneperdetaillineRadioButton;
-	@UiField
-	Label oneperdetaillineLabel;
-	@UiField
-	CheckBox enableTaxCheckbox;
-	@UiField
-	Label enableTaxLabel;
-	@UiField
-	Label taxItemTransactionLabel;
-	@UiField
-	CheckBox trackCheckbox;
-	@UiField
-	Label trackLabel;
-	@UiField
-	Label trackCheckBoxDescLabel;
-	@UiField
-	FlowPanel hidePanel;
-	@UiField
-	FlowPanel radioButtonPanel;
-	@UiField
-	CheckBox enableTaxTdsCheckbox;
-	@UiField
-	Label enableTDSdecs;
+	LabelItem trackCheckBoxDescLabel;
 
-	interface TrackOrChargeTaxOptionUiBinder extends
-			UiBinder<Widget, TrackOrChargeTaxOption> {
-	}
+	LabelItem taxItemTransactionLabel;
+
+	LabelItem oneperdetaillineLabel;
+	LabelItem oneperTransactionLabel;
+
+	RadioGroupItem onepeTransactionRadioGroup;
+
+	CheckboxItem enableTaxCheckbox;
+	LabelItem enableTaxLabel;
+
+	CheckboxItem enableTaxTdsCheckbox;
+	LabelItem enableTDSdecs;
+
+	StyledPanel hidePanel;
+
+	StyledPanel radioButtonPanel;
+
+	StyledPanel mainPanel;
 
 	/**
 	 * Because this class has a default constructor, it can be used as a binder
@@ -66,14 +49,9 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public TrackOrChargeTaxOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
-	}
-
-	public TrackOrChargeTaxOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
 	}
 
 	public void initData() {
@@ -81,9 +59,9 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		hidePanel.setVisible(getCompanyPreferences().isTrackTax());
 		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackPaidTax());
 		if (getCompanyPreferences().isTaxPerDetailLine())
-			oneperdetaillineRadioButton.setValue(true);
+			onepeTransactionRadioGroup.setValue(messages.onepertransaction());
 		else
-			onepeTransactionRadioButton.setValue(true);
+			onepeTransactionRadioGroup.setValue(messages.oneperdetailline());
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
 			enableTaxTdsCheckbox.setValue(getCompanyPreferences()
 					.isTDSEnabled());
@@ -91,28 +69,31 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
+		mainPanel = new StyledPanel("trackOrChargeTaxOption");
+		trackCheckbox = new CheckboxItem(messages.chargeOrTrackTax(),
+				"trackCheckbox");
 
-		trackCheckbox.setText(messages.chargeOrTrackTax());
-		trackCheckBoxDescLabel.setText(messages.descChrageTrackTax());
+		trackCheckBoxDescLabel = new LabelItem(messages.descChrageTrackTax(),
+				"organisation_comment");
 
-		taxItemTransactionLabel.setText(messages.taxtItemTransaction());
+		taxItemTransactionLabel = new LabelItem(messages.taxtItemTransaction(),
+				"taxItemTransactionLabel");
 
-		onepeTransactionRadioButton.setText(messages.onepertransaction());
-		oneperTransactionLabel.setText(messages.oneperDescription());
+		oneperTransactionLabel = new LabelItem(messages.oneperDescription(),
+				"organisation_comment");
+		oneperdetaillineLabel = new LabelItem(
+				messages.oneperDetailDescription(), "organisation_comment");
 
-		oneperdetaillineRadioButton.setText(messages.oneperdetailline());
-		oneperdetaillineLabel.setText(messages.oneperDetailDescription());
+		onepeTransactionRadioGroup = new RadioGroupItem();
+		onepeTransactionRadioGroup.setShowTitle(false);
+		onepeTransactionRadioGroup.setGroupName("onepeTransactionRadioGroup");
+		onepeTransactionRadioGroup.setValueMap(messages.onepertransaction(),
+				messages.oneperdetailline());
+		onepeTransactionRadioGroup
+				.setDefaultValue(messages.onepertransaction());
 
-		enableTaxCheckbox.setText(messages.enableTracking());
-		enableTaxLabel.setText(messages.enableTrackingDescription());
-
-		oneperdetaillineRadioButton.setName(messages.taxCode());
-		onepeTransactionRadioButton.setName(messages.taxCode());
-
-		trackCheckBoxDescLabel.setStyleName("organisation_comment");
-		oneperTransactionLabel.setStyleName("organisation_comment");
-		oneperdetaillineLabel.setStyleName("organisation_comment");
-		enableTaxLabel.setStyleName("organisation_comment");
+		enableTaxCheckbox = new CheckboxItem(messages.enableTracking(),
+				"enableTaxCheckbox");
 
 		trackCheckbox.addClickHandler(new ClickHandler() {
 
@@ -122,15 +103,33 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 
 			}
 		});
-		enableTaxTdsCheckbox.setText(messages.enableTDS());
-		enableTDSdecs.setText(messages.enbleTDSdescription());
-		enableTDSdecs.setStyleName("organisation_comment");
+		enableTaxLabel = new LabelItem(messages.enableTrackingDescription(),
+				"organisation_comment");
+
+		enableTaxTdsCheckbox = new CheckboxItem(messages.enableTDS(),
+				"enableTaxTdsCheckbox");
+		enableTDSdecs = new LabelItem(messages.enbleTDSdescription(),
+				"organisation_comment");
+
 		enableTaxTdsCheckbox.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
 		enableTDSdecs.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
-		// enableTaxTdsCheckbox.setVisible(false);
-		// enableTDSdecs.setVisible(false);
+
+		mainPanel.add(trackCheckbox);
+		mainPanel.add(trackCheckBoxDescLabel);
+
+		hidePanel = new StyledPanel("trackTaxhidePanel");
+		hidePanel.add(taxItemTransactionLabel);
+		hidePanel.add(oneperTransactionLabel);
+		hidePanel.add(oneperdetaillineLabel);
+		hidePanel.add(onepeTransactionRadioGroup);
+		hidePanel.add(enableTaxCheckbox);
+		hidePanel.add(enableTaxLabel);
+		hidePanel.add(enableTaxTdsCheckbox);
+		hidePanel.add(enableTDSdecs);
+		mainPanel.add(hidePanel);
+
 	}
 
 	@Override
@@ -142,8 +141,12 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 		getCompanyPreferences().setTaxTrack(trackCheckbox.getValue());
-		getCompanyPreferences().setTaxPerDetailLine(
-				oneperdetaillineRadioButton.getValue());
+		if (onepeTransactionRadioGroup.getValue().equals(
+				messages.onepertransaction())) {
+			getCompanyPreferences().setTaxPerDetailLine(true);
+		} else {
+			getCompanyPreferences().setTaxPerDetailLine(false);
+		}
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
 			getCompanyPreferences()

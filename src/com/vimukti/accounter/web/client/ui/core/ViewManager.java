@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
@@ -32,7 +34,6 @@ import com.vimukti.accounter.web.client.help.HelpDialog;
 import com.vimukti.accounter.web.client.help.HelpPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
-import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.HistoryToken;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
@@ -89,15 +90,15 @@ public class ViewManager extends FlowPanel {
 
 	private ImageButton closeButton;
 
-	private ImageButton configButton;
-
-	private ImageButton addCustomerButton;
-
-	private ImageButton addVendorButton;
+	// private ImageButton configButton;
+	//
+	// private ImageButton addCustomerButton;
+	//
+	// private ImageButton addVendorButton;
 
 	private ImageButton searchButton;
 
-	private Label viewTitleLabel;
+	Label viewTitleLabel;
 
 	private Map<String, String> keyValues = new HashMap<String, String>();
 	ImageButton addNewButton;
@@ -175,6 +176,8 @@ public class ViewManager extends FlowPanel {
 
 	private ButtonGroup group10;
 
+	private Button ipadMenuButton;
+
 	private String getUrl() {
 		return "http://help.accounterlive.com/" + url;
 	}
@@ -192,6 +195,12 @@ public class ViewManager extends FlowPanel {
 	}
 
 	protected void historyChanged(String value) {
+
+		if (value.equals("dashBoard")) {
+			ipadMenuButton.setVisible(true);
+		} else {
+			ipadMenuButton.setVisible(false);
+		}
 
 		if (value != null && views.current() != null
 				&& value.equals(views.current().token)) {
@@ -246,6 +255,10 @@ public class ViewManager extends FlowPanel {
 			showNewView(newview, action);
 		}
 	}
+
+	private native void setStyleProperty(Style style, String name, String value) /*-{
+		style[name] = value;
+	}-*/;
 
 	/**
 	 * Try to close the current
@@ -317,15 +330,18 @@ public class ViewManager extends FlowPanel {
 		existingView = newview;
 		if (existingView instanceof BaseView) {
 			if (((BaseView<IAccounterCore>) existingView).isInViewMode()) {
-				viewTitleLabel.setText(action.getCatagory() + "  >  "
-						+ action.getViewModeText());
+				createViewTitle(action.getCatagory(), action.getViewModeText());
+				// viewTitleLabel.setText(action.getCatagory() + "  >  "
+				// + action.getViewModeText());
 			} else {
-				viewTitleLabel.setText(action.getCatagory() + "  >  "
-						+ action.getText());
+				createViewTitle(action.getCatagory(), action.getText());
+				// viewTitleLabel.setText(action.getCatagory() + "  >  "
+				// + action.getText());
 			}
 		} else {
-			viewTitleLabel.setText(action.getCatagory() + "  >  "
-					+ action.getText());
+			createViewTitle(action.getCatagory(), action.getText());
+			// viewTitleLabel.setText(action.getCatagory() + "  >  "
+			// + action.getText());
 		}
 		if (exportButton != null)
 			exportButton.setTitle(messages.clickThisTo(messages.exportToCSV(),
@@ -336,25 +352,35 @@ public class ViewManager extends FlowPanel {
 		if (editButton != null)
 			editButton.setTitle(messages.clickThisTo(messages.edit(),
 					existingView.getAction().getViewName()));
+
 		viewHolder.add(newview);
 		updateButtons();
+	}
+
+	private void createViewTitle(String catagory, String viewModeText) {
+		if (catagory != null && catagory.length() > 1) {
+			viewTitleLabel.setText(catagory + "  >  " + viewModeText);
+		} else {
+			viewTitleLabel.setText(viewModeText);
+		}
+
 	}
 
 	public void removeEditButton() {
 		group4.remove(editButton);
 	}
 
-	public void removeConfigButton() {
-		group5.remove(configButton);
-	}
-
-	public void removeAddCustomerButton() {
-		group7.remove(addCustomerButton);
-	}
-
-	public void removeAddVendorButton() {
-		group8.remove(addVendorButton);
-	}
+	// public void removeConfigButton() {
+	// group5.remove(configButton);
+	// }
+	//
+	// public void removeAddCustomerButton() {
+	// group7.remove(addCustomerButton);
+	// }
+	//
+	// public void removeAddVendorButton() {
+	// group8.remove(addVendorButton);
+	// }
 
 	public void updateButtons() {
 		addRequiredButtons();
@@ -406,27 +432,27 @@ public class ViewManager extends FlowPanel {
 			group2.remove(printButton);
 
 		}
-		if (existingView instanceof DashBoardView) {
-			group5.add(configButton);
-		} else {
-			removeConfigButton();
-		}
-
-		if (existingView instanceof CustomerCenterView
-				&& Accounter.getUser().isCanDoUserManagement()) {
-			addCustomerButton.setText(messages.addNew(Global.get().Customer()));
-			group7.add(addCustomerButton);
-		} else {
-			removeAddCustomerButton();
-		}
-
-		if (existingView instanceof VendorCenterView
-				&& Accounter.getUser().isCanDoUserManagement()) {
-			addVendorButton.setText(messages.addNew(Global.get().Vendor()));
-			group8.add(addVendorButton);
-		} else {
-			removeAddVendorButton();
-		}
+		// if (existingView instanceof DashBoardView) {
+		// group5.add(configButton);
+		// } else {
+		// removeConfigButton();
+		// }
+		//
+		// if (existingView instanceof CustomerCenterView
+		// && Accounter.getUser().isCanDoUserManagement()) {
+		// addCustomerButton.setText(messages.addNew(Global.get().Customer()));
+		// group7.add(addCustomerButton);
+		// } else {
+		// removeAddCustomerButton();
+		// }
+		//
+		// if (existingView instanceof VendorCenterView
+		// && Accounter.getUser().isCanDoUserManagement()) {
+		// addVendorButton.setText(messages.addNew(Global.get().Vendor()));
+		// group8.add(addVendorButton);
+		// } else {
+		// removeAddVendorButton();
+		// }
 
 	}
 
@@ -449,6 +475,7 @@ public class ViewManager extends FlowPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	public void closeCurrentView(boolean restorePreviousView) {
+
 		if (this.existingView == null) {
 			return;
 		}
@@ -463,6 +490,12 @@ public class ViewManager extends FlowPanel {
 		HistoryItem current = this.views.current();
 
 		HistoryItem item = this.views.previous();
+
+		if (item.token.equals("dashBoard")) {
+			ipadMenuButton.setVisible(true);
+		} else {
+			ipadMenuButton.setVisible(false);
+		}
 
 		if (restorePreviousView) {
 			if (item.view == null) {
@@ -485,11 +518,11 @@ public class ViewManager extends FlowPanel {
 				if (item.view instanceof BaseView
 						&& (((BaseView<IAccounterCore>) item.view)
 								.isInViewMode())) {
-					viewTitleLabel.setText(item.action.getCatagory() + "  >  "
-							+ item.action.getViewModeText());
+					createViewTitle(item.action.getCatagory(),
+							item.action.getViewModeText());
 				} else {
-					viewTitleLabel.setText(item.action.getCatagory() + "  >  "
-							+ item.action.getText());
+					createViewTitle(item.action.getCatagory(),
+							item.action.getText());
 				}
 				viewHolder.add(item.view);
 				this.views.add(item);
@@ -577,166 +610,45 @@ public class ViewManager extends FlowPanel {
 		viewTitleLabel = new Label(messages.dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
-		previousButton = new ImageButton(Accounter.getFinanceImages()
-				.previousIcon());
-		previousButton.getElement().setId("previousButton");
-		previousButton.setTitle(messages.clickThisToOpen(messages.previous()));
-		previousButton.addClickHandler(new ClickHandler() {
+		previousButton = getPreviousButton();
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				History.back();
-			}
-		});
-		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
-		nextButton.getElement().setId("nextButton");
-		nextButton.setTitle(messages.clickThisToOpen(messages.next()));
-		nextButton.addClickHandler(new ClickHandler() {
+		nextButton = getNextButton();
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				History.forward();
-			}
-		});
-		printButton = new ImageButton(messages.print(), Accounter
-				.getFinanceImages().Print1Icon());
-		printButton.getElement().setId("printButton");
-		printButton.addClickHandler(new ClickHandler() {
+		printButton = createPrintButton();
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				existingView.print();
+		exportButton = getExportButton();
 
-			}
-		});
+		editButton = getEditButton();
 
-		exportButton = new ImageButton(messages.exportToCSV(), Accounter
-				.getFinanceImages().exportIcon());
-		exportButton.getElement().setId("exportButton");
-		exportButton.addClickHandler(new ClickHandler() {
+		closeButton = getCloseButton();
+
+		searchButton = getSearchButton();
+
+		addNewButton = getAddNewButton();
+
+		ipadMenuButton = new Button("menu");
+		ipadMenuButton.addStyleName("iPadMenu");
+		ipadMenuButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				existingView.exportToCsv();
-
+				ActionFactory.getIpadMenuAction().run(null, false);
 			}
 		});
 
-		editButton = new ImageButton(messages.edit(), Accounter
-				.getFinanceImages().editIcon());
-		editButton.getElement().setId("editButton");
-		editButton.addClickHandler(new ClickHandler() {
+		if (!isIpad()) {
+			group1.add(previousButton);
+			group1.add(nextButton);
+			previousButton.getElement().setAttribute(
+					"lang",
+					((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar"
+							: "en");
+			nextButton.getElement().setAttribute(
+					"lang",
+					((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar"
+							: "en");
+		}
 
-			@Override
-			public void onClick(ClickEvent arg0) {
-				viewTitleLabel.setText(existingView.getAction().getCatagory()
-						+ "  >  " + existingView.getAction().getEditText());
-				existingView.onEdit();
-			}
-		});
-
-		configButton = new ImageButton(messages.configurePortlets(), Accounter
-				.getFinanceImages().portletPageSettings());
-		configButton.addStyleName("settingsButton");
-		configButton.getElement().setId("configButton");
-		configButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				((DashBoardView) existingView).getPage().createSettingsDialog()
-						.showRelativeTo(configButton);
-			}
-		});
-
-		addCustomerButton = new ImageButton(messages.addNew(Global.get()
-				.Customer()), Accounter.getFinanceImages()
-				.portletPageSettings());
-		addCustomerButton.addStyleName("settingsButton");
-		addCustomerButton.getElement().setId("addCustomerButton");
-		addCustomerButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				new NewCustomerAction().run();
-			}
-		});
-
-		addVendorButton = new ImageButton(
-				messages.addNew(Global.get().Vendor()), Accounter
-						.getFinanceImages().portletPageSettings());
-		addVendorButton.addStyleName("settingsButton");
-		addVendorButton.getElement().setId("addVendorButton");
-		addVendorButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				new NewVendorAction().run();
-			}
-		});
-
-		closeButton = new ImageButton(Accounter.getFinanceImages()
-				.closeButton());
-		closeButton.setTitle(messages.clickThisTo(messages.close(),
-				messages.view()));
-		closeButton.getElement().setId("closeButton");
-		closeButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				existingView.cancel();
-			}
-		});
-
-		searchButton = new ImageButton(Accounter.getFinanceImages()
-				.searchButton());
-		searchButton.setTitle(messages.clickThisTo(messages.open(),
-				messages.search()));
-		searchButton.getElement().setId("searchButton");
-		searchButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent arg0) {
-				// ActionFactory.getSearchInputAction().run();
-				String historyToken = new SearchInputAction().getHistoryToken();
-				History.newItem(historyToken, false);
-				Accounter.getMainFinanceWindow().historyChanged(historyToken);
-			}
-		});
-
-		addNewButton = new ImageButton("", Accounter.getFinanceImages()
-				.createAction());
-		addNewButton.getElement().setId("addNewButton");
-		addNewButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				BaseListView baseListView;
-				Action action;
-				if (existingView instanceof TransactionsCenterView) {
-					TransactionsCenterView centerView = (TransactionsCenterView) existingView;
-					baseListView = centerView.baseListView;
-					action = baseListView.getAddNewAction();
-				} else if (existingView instanceof InventoryCentreView) {
-					action = ((InventoryCentreView) existingView)
-							.getAddNewAction();
-				} else {
-					baseListView = (BaseListView) existingView;
-					action = baseListView.getAddNewAction();
-				}
-				if (action != null) {
-					action.run(null, false);
-				}
-			}
-
-		});
-
-		previousButton.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		nextButton.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-
-		group1.add(previousButton);
-		group1.add(nextButton);
 		group1.add(viewTitleLabel);
 		addRequiredButtons();
 		group4.add(editButton);
@@ -744,10 +656,14 @@ public class ViewManager extends FlowPanel {
 		group2.add(exportButton);
 		group2.add(printButton);
 		group3.add(closeButton);
-		group5.add(configButton);
-		group6.add(searchButton);
-		group7.add(addCustomerButton);
-		group8.add(addVendorButton);
+		// group5.add(configButton);
+		if (isIpad()) {
+			group5.add(ipadMenuButton);
+		}
+
+		if (!isIpad()) {
+			group6.add(searchButton);
+		}
 
 		exportButton.getElement().setAttribute("lang",
 				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
@@ -785,9 +701,7 @@ public class ViewManager extends FlowPanel {
 		buttonsPanel.add(group2);
 		buttonsPanel.add(group9);
 		buttonsPanel.add(group4);
-		if (Accounter.hasPermission(Features.TRANSACTION_NAVIGATION)) {
-			buttonsPanel.add(group10);
-		}
+		buttonsPanel.add(group10);
 		buttonsPanel.add(group7);
 		buttonsPanel.add(group8);
 		buttonsPanel.add(group6);
@@ -798,10 +712,160 @@ public class ViewManager extends FlowPanel {
 		toolBar.addStyleName("group-toolbar");
 	}
 
-	protected void addRequiredButtons() {
+	public ImageButton getAddNewButton() {
+
+		addNewButton = new ImageButton("", Accounter.getFinanceImages()
+				.createAction());
+		addNewButton.getElement().setId("addNewButton");
+		addNewButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				BaseListView baseListView;
+				Action action;
+				if (existingView instanceof TransactionsCenterView) {
+					TransactionsCenterView centerView = (TransactionsCenterView) existingView;
+					baseListView = centerView.baseListView;
+					action = baseListView.getAddNewAction();
+				} else if (existingView instanceof InventoryCentreView) {
+					action = ((InventoryCentreView) existingView)
+							.getAddNewAction();
+				} else {
+					baseListView = (BaseListView) existingView;
+					action = baseListView.getAddNewAction();
+				}
+				if (action != null) {
+					action.run(null, false);
+				}
+			}
+
+		});
+		return addNewButton;
+
+	}
+
+	public ImageButton getSearchButton() {
+
+		searchButton = new ImageButton(Accounter.getFinanceImages()
+				.searchButton());
+		searchButton.setTitle(messages.clickThisTo(messages.open(),
+				messages.search()));
+		searchButton.getElement().setId("searchButton");
+		searchButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				// ActionFactory.getSearchInputAction().run();
+				String historyToken = ActionFactory.getSearchInputAction()
+						.getHistoryToken();
+				History.newItem(historyToken, false);
+				Accounter.getMainFinanceWindow().historyChanged(historyToken);
+			}
+		});
+		return searchButton;
+	}
+
+	public ImageButton getEditButton() {
+		editButton = new ImageButton(messages.edit(), Accounter
+				.getFinanceImages().editIcon());
+		editButton.getElement().setId("editButton");
+		editButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				createViewTitle(existingView.getAction().getCatagory(),
+						existingView.getAction().getCatagory());
+				existingView.onEdit();
+			}
+		});
+		return editButton;
+
+	}
+
+	public ImageButton getExportButton() {
+		exportButton = new ImageButton(messages.exportToCSV(), Accounter
+				.getFinanceImages().exportIcon());
+		exportButton.getElement().setId("exportButton");
+		exportButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				existingView.exportToCsv();
+
+			}
+		});
+		return exportButton;
+
+	}
+
+	public ImageButton createPrintButton() {
+		printButton = new ImageButton(messages.print(), Accounter
+				.getFinanceImages().Print1Icon());
+		printButton.getElement().setId("printButton");
+		printButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				existingView.print();
+
+			}
+		});
+		return printButton;
+
+	}
+
+	public ImageButton getNextButton() {
+		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
+		nextButton.getElement().setId("nextButton");
+		nextButton.setTitle(messages.clickThisToOpen(messages.next()));
+		nextButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				History.forward();
+			}
+		});
+		return nextButton;
+
+	}
+
+	public ImageButton getPreviousButton() {
+		previousButton = new ImageButton(Accounter.getFinanceImages()
+				.previousIcon());
+		previousButton.getElement().setId("previousButton");
+		previousButton.setTitle(messages.clickThisToOpen(messages.previous()));
+		previousButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				History.back();
+			}
+		});
+		return previousButton;
+
+	}
+
+	public ImageButton getCloseButton() {
+		closeButton = new ImageButton(Accounter.getFinanceImages()
+				.closeButton());
+		closeButton.setTitle(messages.clickThisTo(messages.close(),
+				messages.view()));
+		closeButton.getElement().setId("closeButton");
+		closeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				existingView.cancel();
+			}
+		});
+		return closeButton;
+
+	}
+
+	public void addRequiredButtons() {
 		group10.clear();
-		if (existingView instanceof AbstractTransactionBaseView) {
-			AbstractTransactionBaseView view = (AbstractTransactionBaseView) existingView;
+		if (existingView instanceof IButtonContainer) {
+			IButtonContainer view = (IButtonContainer) existingView;
 			view.addButtons(group10);
 		}
 	}
@@ -941,7 +1005,7 @@ public class ViewManager extends FlowPanel {
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
 		StyledPanel rightPanel = createRightPanel();
-		StyledPanel leftPanel = new StyledPanel("leftPanel");
+		StyledPanel leftPanel = new StyledPanel("");
 		leftPanel.addStyleName("view_manager_body");
 		// leftPanel.setWidth("100%");
 		this.viewHolder = new SimplePanel();
@@ -980,6 +1044,10 @@ public class ViewManager extends FlowPanel {
 		getAdvertisePanel(panel);
 		panel.addStyleName("frame_manager");
 		return panel;
+	}
+
+	public boolean isIpad() {
+		return false;
 	}
 
 }

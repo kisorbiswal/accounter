@@ -600,24 +600,20 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		amountLabelForeign = new AmountLabel(
 				messages.currencyTotal(getBaseCurrency().getFormalName()),
 				getBaseCurrency());
-		amountLabelForeign.setEnabled(false);
 
 		amountLableBase = new AmountLabel(
 				messages.currencyTotal(getBaseCurrency().getFormalName()),
 				getBaseCurrency());
-		amountLableBase.setEnabled(false);
 
 		currencyWidget = createCurrencyFactorWidget();
 
 		this.tdsPayableAmount = new AmountLabel(
 				messages.tdsAmountWithCurrencyName(getBaseCurrency()
 						.getFormalName()), getBaseCurrency());
-		tdsPayableAmount.setEnabled(false);
 
 		this.amountToVendor = new AmountLabel(
 				messages.payeePaymentWithCurrencyName(Global.get().Vendor(),
 						getBaseCurrency().getFormalName()), getBaseCurrency());
-		amountToVendor.setEnabled(false);
 
 		textForm = new DynamicForm("textForm");
 

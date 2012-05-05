@@ -3,13 +3,10 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 
 /**
  * @author vimukti36
@@ -17,14 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AutoRecallOption extends AbstractPreferenceOption {
 
-	private static AutoRecallOptionUiBinder uiBinder = GWT
-			.create(AutoRecallOptionUiBinder.class);
-	@UiField
-	CheckBox enableAutoRecallCheckBox;
-
-	interface AutoRecallOptionUiBinder extends
-			UiBinder<Widget, AutoRecallOption> {
-	}
+	CheckboxItem enableAutoRecallCheckBox;
+	StyledPanel mainpanel;
 
 	/**
 	 * Because this class has a default constructor, it can be used as a binder
@@ -36,13 +27,8 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public AutoRecallOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
-	}
-
-	public AutoRecallOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
 	}
 
 	@Override
@@ -63,7 +49,7 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		enableAutoRecallCheckBox.setText(messages.enableAutoRecall());
+		enableAutoRecallCheckBox.setTitle(messages.enableAutoRecall());
 		enableAutoRecallCheckBox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -72,6 +58,8 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 			}
 		});
+
+		mainpanel.add(enableAutoRecallCheckBox);
 
 	}
 

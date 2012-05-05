@@ -104,6 +104,16 @@ public class AttendanceManagementTable extends
 			public int getWidth() {
 				return 80;
 			}
+
+			@Override
+			public String getValueAsString(ClientAttendanceManagementItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		for (final ClientAttendanceOrProductionType clientAttendanceOrProductionType : result) {
@@ -152,6 +162,17 @@ public class AttendanceManagementTable extends
 				@Override
 				public int getWidth() {
 					return 80;
+				}
+
+				@Override
+				public String getValueAsString(
+						ClientAttendanceManagementItem row) {
+					return getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 			});
 		}

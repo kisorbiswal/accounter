@@ -144,6 +144,17 @@ public abstract class CustomerAccountTransactionTable extends
 			protected ClientAccount getValue(ClientTransactionItem row) {
 				return (ClientAccount) row.getAccountable();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				// TODO Auto-generated method stub
+				return 1;
+			}
 		});
 
 		this.addColumn(new DescriptionEditColumn());
@@ -182,6 +193,17 @@ public abstract class CustomerAccountTransactionTable extends
 						}
 					}
 
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return messages.className()+ getValue(row);
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						// TODO Auto-generated method stub
+						return 1;
+					}
+
 				});
 			}
 		}
@@ -218,6 +240,16 @@ public abstract class CustomerAccountTransactionTable extends
 					@Override
 					protected boolean isSales() {
 						return true;
+					}
+
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return "Vat Code"+getValue(row);
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
 					}
 				});
 

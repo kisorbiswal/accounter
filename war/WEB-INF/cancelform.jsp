@@ -11,15 +11,22 @@
 <link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+<% 
+	Boolean ipad = (Boolean)request.getAttribute( "ipad" );
+	%>
+	<% if(ipad != null && ipad){%>
+	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
+	<% }else{%>
+	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+		<% }%>
 </head>
 <body>
-  <div id="commanContainer" style="width:420px">
+  <div id="commanContainer" >
    <div class="maintanance_subcont">
     <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
-    <form class="accounterform" id="cancelform" name="cancelform" method="post" action="/main/cancelform" style="height:200px">
-      <h3 style="color:#28757D;text-align:center"><i18n:i18n msg='cancelAccount'/></h3>
-      <h4><i18n:i18n msg='deletepermanentlyMsg'/></h4>
+    <form class="accounterform" id="cancelform" name="cancelform" method="post" action="/main/cancelform" >
+      <h3 style="color:white;text-align:center;margin:10px 0"><i18n:i18n msg='cancelAccount'/></h3>
+     <div class="cancel_account" > <h4><i18n:i18n msg='deletepermanentlyMsg'/></h4>
 		<div>
 			<ul>
 				<li>
@@ -33,7 +40,7 @@
 	    		</li>
 	   		</ul>
 		</div>	
-	  	 <h4><i18n:i18n msg='deletedImmediatelyMsg'/></h4>
+	  	 <h4><i18n:i18n msg='deletedImmediatelyMsg'/></h4></div>
 	    <div>
 	   	    <div style="float:left">
 	      		<input type="button" class="allviews-common-button" value="<i18n:i18n msg='keepUsingAccounter'/>" onclick="parent.location='/main/companies'"/>

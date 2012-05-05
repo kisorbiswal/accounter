@@ -58,6 +58,16 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 				return item.getSalesDescription();
 			}
 
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 3;
+			}
+
 		});
 
 		this.addColumn(new DescriptionEditColumn());
@@ -92,6 +102,16 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 				protected boolean isSales() {
 					return true;
 				}
+
+				@Override
+				public String getValueAsString(ClientTransactionItem row) {
+					return getValue(row).toString();
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
+				}
 			});
 			this.addColumn(new TransactionVatColumn(currencyProvider));
 		}
@@ -122,6 +142,16 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 			@Override
 			public int getWidth() {
 				return 190;
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.invoiced()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

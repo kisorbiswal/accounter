@@ -284,4 +284,32 @@ public interface FinanceImages extends ClientBundle {
 	
 	@Source("download.jpg")
 	ImageResource clipBoard();
+
+	/**
+	 * Ipad images.
+	 */
+	@Source("ipad_add.png")
+	ImageResource ipadAdd();
+
+	@Source("ipad_close.png")
+	ImageResource ipadClose();
+
+	@Source("ipad_delete.png")
+	ImageResource ipadDelete();
+
+	@Source("ipad_download.png")
+	ImageResource ipadDownload();
+
+	@Source("ipad_edit.png")
+	ImageResource ipadEdit();
+
+	@Source("ipad_refresh.png")
+	ImageResource ipadRefresh();
+
+	@Source("ipad_search.png")
+	ImageResource ipadSearch();
+
+	@Source("ipad_settings.png")
+	ImageResource ipadSettings();
+
 }

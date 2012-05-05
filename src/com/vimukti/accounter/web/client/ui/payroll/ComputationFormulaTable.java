@@ -60,6 +60,16 @@ public class ComputationFormulaTable extends
 			protected String getColumnName() {
 				return messages.functionType();
 			}
+
+			@Override
+			public String getValueAsString(ClientComputaionFormulaFunction row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new ComputationFormulaTypeColumn() {

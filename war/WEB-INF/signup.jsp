@@ -20,7 +20,16 @@
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+
+	<% 
+	Boolean ipad = (Boolean)request.getAttribute( "ipad" );
+	%>
+	<% if(ipad != null && ipad){%>
+	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
+	<% }else{%>
+	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+		<% }%>
+		
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
 <%
@@ -174,6 +183,11 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   <c:if test="${successmessage==null}">
     <div class="accounterform">
       <div class="signup-left">   
+      
+      			 <% if(ipad != null && ipad){%>
+  						<h3><i18n:i18n msg='signUp'/></h3>
+				<% }%>
+				
       <form  id="accounterForm" method="post" action="/main/signup">
 	   <div>
 	      <span class="mandatory"><i18n:i18n msg='mandatoryMsg'/></span>

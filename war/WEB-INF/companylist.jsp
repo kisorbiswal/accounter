@@ -10,7 +10,14 @@
         <meta content="IE=100" http-equiv="X-UA-Compatible" />
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		<%@ include file="./feedback.jsp" %>
-		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+	<% 
+	Boolean ipad = (Boolean)request.getAttribute( "ipad" );
+	%>
+	<% if(ipad != null && ipad){%>
+	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
+	<% }else{%>
+	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+		<% }%>
 		<%	boolean isConListRTL=(Boolean) request.getAttribute("isRTL");	%>
 		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
@@ -63,6 +70,9 @@
 	</script>
   </head>
   <body>
+        	<% if(ipad != null && ipad){%>
+  						<h3><i18n:i18n msg='companies'/></h3>
+			<% }%>
   <table id="commanContainer" class="companies-list-page">
   <tr>
   <td>

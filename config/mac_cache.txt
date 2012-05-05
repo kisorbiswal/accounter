@@ -1,4 +1,4 @@
-1.0
+1.1
 /images/Accounter_logo_title.png
 /images/Google.jpg
 /images/AOL.jpg
@@ -23,15 +23,5 @@
 /jscripts/jquery-1.7.min.js
 /jscripts/jquery.contactable.packed.js
 /jscripts/jquery.validate.js
-/accounter.client/4332588A15B69D1309C0296C59FE17AF.cache.html
-/accounter.client/accounter.client.nocache.js
-/accounter.client/AF57A2FF68C8D5766852A6B160022C54.cache.html
 /accounter.client/clear.cache.gif
-/accounter.client/D2163D73FF31E09E92A7475956402B23.cache.html
-/accounter.client/hosted.html
-/accounter.client/deferredjs/4332588A15B69D1309C0296C59FE17AF/1.cache.js
-/accounter.client/deferredjs/4332588A15B69D1309C0296C59FE17AF/2.cache.js
-/accounter.client/deferredjs/AF57A2FF68C8D5766852A6B160022C54/1.cache.js
-/accounter.client/deferredjs/AF57A2FF68C8D5766852A6B160022C54/2.cache.js
-/accounter.client/deferredjs/D2163D73FF31E09E92A7475956402B23/1.cache.js
-/accounter.client/deferredjs/D2163D73FF31E09E92A7475956402B23/2.cache.js
+

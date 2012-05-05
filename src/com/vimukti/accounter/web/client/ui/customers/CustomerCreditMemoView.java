@@ -114,7 +114,7 @@ public class CustomerCreditMemoView extends
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
 
-		StyledPanel labeldateNoLayout = new StyledPanel("datepanel");
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 		labeldateNoLayout.add(datepanel);
 
 		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()

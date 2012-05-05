@@ -81,6 +81,16 @@ public abstract class TransactionPayBillTable extends
 					((CheckBox) widget).setValue(true);
 				}
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayBill row) {
+				return "Dont know what is this";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		if (canEdit) {
@@ -112,6 +122,16 @@ public abstract class TransactionPayBillTable extends
 				protected String getColumnName() {
 					return messages.dueDate();
 				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					return messages.dueDate()+getValue(row).toString();
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 4;
+				}
 			};
 			this.addColumn(dueDate);
 		}
@@ -141,6 +161,16 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.billNo();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayBill row) {
+				return messages.billNo()+getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(billNo);
@@ -174,6 +204,16 @@ public abstract class TransactionPayBillTable extends
 						Double value) {
 
 				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					 return getColumnNameWithCurrency(messages.originalAmount())+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
+				}
 			});
 
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
@@ -203,6 +243,16 @@ public abstract class TransactionPayBillTable extends
 				protected void setAmount(ClientTransactionPayBill row,
 						Double value) {
 
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					return getColumnNameWithCurrency(messages.amountDue())+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 			});
 		} else {
@@ -235,6 +285,16 @@ public abstract class TransactionPayBillTable extends
 					//
 
 				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					return messages.billAmount()+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
+				}
 			});
 		}
 
@@ -263,6 +323,16 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.discountDate();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayBill row) {
+				return messages.discountDate()+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		};
 
@@ -293,6 +363,16 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected boolean isEnable(ClientTransactionPayBill row) {
 				return selectedValues.contains(indexOf(row));
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayBill row) {
+				return  getColumnNameWithCurrency(messages.discount())+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 
 		};
@@ -328,6 +408,16 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected boolean isEnable(ClientTransactionPayBill row) {
 				return selectedValues.contains(indexOf(row));
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayBill row) {
+				return getColumnNameWithCurrency(messages.credits())+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 
 		});
@@ -383,6 +473,16 @@ public abstract class TransactionPayBillTable extends
 					updateFootervalues(row, canEdit);
 					update(row);
 				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					return getColumnNameWithCurrency(messages.payments())+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 4;
+				}
 			});
            if(isTDSEnabled)
 			addTdsColumn();
@@ -410,6 +510,18 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				protected String getColumnName() {
 					return messages.referenceNo();
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					// TODO Auto-generated method stub
+					return messages.referenceNo()+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					// TODO Auto-generated method stub
+					return 1;
 				}
 			});
 			this.addColumn(new AmountColumn<ClientTransactionPayBill>(
@@ -442,6 +554,16 @@ public abstract class TransactionPayBillTable extends
 				protected void setAmount(ClientTransactionPayBill row,
 						Double value) {
 
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					return messages.amountPaid()+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 			});
 		}
@@ -637,6 +759,18 @@ public abstract class TransactionPayBillTable extends
 						Double value) {
 					// No Need
 
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionPayBill row) {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					// TODO Auto-generated method stub
+					return 0;
 				}
 			});
 		}

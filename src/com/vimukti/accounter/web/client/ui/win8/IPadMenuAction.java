@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class AccounterMenuAction extends Action {
+public class IPadMenuAction extends Action {
 
 	@Override
 	public String getText() {
@@ -14,9 +14,9 @@ public class AccounterMenuAction extends Action {
 
 	@Override
 	public void run() {
-		AccounterMenuView view = new AccounterMenuView();
+		IpadMenuView view = new IpadMenuView();
 		MainFinanceWindow.getViewManager().showView(view, data, isDependent,
-				AccounterMenuAction.this);
+				IPadMenuAction.this);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class AccounterMenuAction extends Action {
 	@Override
 	public String getHelpToken() {
 		// TODO Auto-generated method stub
-		return null;
+		return "ipadmenu";
 	}
 
 	@Override

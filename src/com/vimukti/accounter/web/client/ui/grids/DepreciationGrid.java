@@ -39,7 +39,7 @@ public class DepreciationGrid extends ListGrid<ClientDepreciationDummyEntry> {
 
 	private void createControls() {
 		accountsCombo = new FixedAssetAccountCombo(messages.Accounts());
-		accountsCombo.setGrid(this);
+//		accountsCombo.setGrid(this);
 		accountsCombo.setRequired(true);
 		accountsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {

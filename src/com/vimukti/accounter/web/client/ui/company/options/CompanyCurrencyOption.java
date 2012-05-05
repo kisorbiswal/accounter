@@ -6,17 +6,14 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
  * @author Administrator
@@ -24,23 +21,15 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
  */
 public class CompanyCurrencyOption extends AbstractPreferenceOption {
 
-	@UiField
-	Label primaryCurrenyLabel;
-	@UiField
-	ListBox primaryCurrencyListBox;
-	@UiField
-	CheckBox isEnableMultiCurrencyCheckBox;
-	@UiField
-	Label currencyCommentLabel;
+	SelectCombo primaryCurrencyListBox;
+
+	CheckboxItem isEnableMultiCurrencyCheckBox;
+
+	LabelItem currencyCommentLabel;
+
+	StyledPanel mainPanel;
 
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
-
-	private static CompanyCurrencyOptionUiBinder uiBinder = GWT
-			.create(CompanyCurrencyOptionUiBinder.class);
-
-	interface CompanyCurrencyOptionUiBinder extends
-			UiBinder<Widget, CompanyCurrencyOption> {
-	}
 
 	/**
 	 * Because this class has a default constructor, it can be used as a binder
@@ -52,34 +41,31 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public CompanyCurrencyOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	public CompanyCurrencyOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
-	}
-
 	@Override
 	public void createControls() {
-		primaryCurrenyLabel.setText(messages.primaryCurrency());
-		primaryCurrenyLabel.getElement().getParentElement()
-				.addClassName("company-preferences-labels");
+		primaryCurrencyListBox = new SelectCombo(messages.primaryCurrency());
 		currenciesList = CoreUtils.getCurrencies(getCompany().getCurrencies());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
-		 boolean hasPermission = Accounter.hasPermission(Features.MULTI_CURRENCY);
-		 isEnableMultiCurrencyCheckBox.setVisible(hasPermission);
-				     if (hasPermission) {
-				      currencyCommentLabel.setText(messages.changingCurrencyComment());
-				      }
-		isEnableMultiCurrencyCheckBox.setVisible(Accounter.hasPermission(Features.MULTI_CURRENCY));
-		currencyCommentLabel.setText(messages.changingCurrencyComment());
-		isEnableMultiCurrencyCheckBox.setText(messages.isMultiCurrencyEnable());
+		isEnableMultiCurrencyCheckBox = new CheckboxItem("",
+				"isEnableMultiCurrencyCheckBox");
+		currencyCommentLabel = new LabelItem("", "currencyCommentLabel");
+
+		boolean hasPermission = Accounter
+				.hasPermission(Features.MULTI_CURRENCY);
+		isEnableMultiCurrencyCheckBox.setVisible(hasPermission);
+		if (hasPermission) {
+			currencyCommentLabel.setTitle(messages.changingCurrencyComment());
+			isEnableMultiCurrencyCheckBox.setTitle(messages
+					.isMultiCurrencyEnable());
+		}
 
 		if (!getCompany().hasOtherCountryCurrency()
 				|| !getCompanyPreferences().isEnableMultiCurrency()) {
@@ -88,6 +74,11 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);
 		}
 		setEnable(false);
+		mainPanel = new StyledPanel("CompanyCurrencyOption");
+		mainPanel.add(primaryCurrencyListBox);
+		mainPanel.add(isEnableMultiCurrencyCheckBox);
+		mainPanel.add(currencyCommentLabel);
+		add(mainPanel);
 	}
 
 	@Override
@@ -107,12 +98,14 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 				if (getCompanyPreferences().getPrimaryCurrency()
 						.getFormalName()
 						.equals(currenciesList.get(i).getFormalName())) {
-					primaryCurrencyListBox.setSelectedIndex(i);
+					primaryCurrencyListBox.setValue(currenciesList.get(i)
+							.getFormalName());
 				}
 			} else {
 				if (getCompany().getCountryPreferences().getPreferredCurrency()
 						.equals(currenciesList.get(i).getFormalName())) {
-					primaryCurrencyListBox.setSelectedIndex(i);
+					primaryCurrencyListBox.setValue(currenciesList.get(i)
+							.getFormalName());
 				}
 			}
 

@@ -56,6 +56,7 @@ public class W8MenuItem extends DynamicForm {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				addStyleName("menuClicked");
 				com.vimukti.accounter.web.client.ui.core.History.newItem(historyToken);
 			}
 		}, ClickEvent.getType());
@@ -74,6 +75,7 @@ public class W8MenuItem extends DynamicForm {
 					for (Widget widget : children) {
 						widget.setVisible(true);
 					}
+					
 					getParent().getElement().addClassName("selectedSubMenu");
 					break;
 				default:

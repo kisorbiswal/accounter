@@ -131,8 +131,10 @@ public class CustomComboItem extends FormItem {
 	public void setEnabled(boolean value) {
 		super.setEnabled(value);
 		if (!value) {
+			this.addStyleName("disabled");
 			this.textBox.addStyleName("disable-TextField");
 		} else {
+			this.removeStyleName("disabled");
 			this.textBox.removeStyleName("disable-TextField");
 		}
 		this.textBox.setEnabled(value);

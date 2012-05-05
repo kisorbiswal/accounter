@@ -135,6 +135,16 @@ public abstract class TransactionJournalEntryTable extends
 			public int getWidth() {
 				return 180;
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.Account()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		TextEditColumn<ClientTransactionItem> memoColumn = new TextEditColumn<ClientTransactionItem>() {
@@ -157,6 +167,16 @@ public abstract class TransactionJournalEntryTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row, String value) {
 				row.setDescription(value);
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.memo()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 3;
 			}
 		};
 		this.addColumn(memoColumn);
@@ -189,6 +209,16 @@ public abstract class TransactionJournalEntryTable extends
 			public int getWidth() {
 				return 110;
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.debit()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
+			}
 		};
 		this.addColumn(debitColumn);
 
@@ -219,6 +249,16 @@ public abstract class TransactionJournalEntryTable extends
 			@Override
 			public int getWidth() {
 				return 110;
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.credit()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		};
 		this.addColumn(creditColumn);

@@ -130,4 +130,14 @@ public class ComputationFormulaTypeColumn extends
 		}
 	}
 
+	@Override
+	public String getValueAsString(ClientComputaionFormulaFunction row) {
+		return getValue(row).toString();
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
+
 }

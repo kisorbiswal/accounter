@@ -114,4 +114,14 @@ public class TransactionUnitPriceListColumn extends
 	protected void updateList(ClientTransactionItem row) {
 		resetList(row);
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getColumnName()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

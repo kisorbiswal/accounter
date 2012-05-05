@@ -178,6 +178,16 @@ public abstract class VendorAccountTransactionTable extends
 			protected ClientAccount getValue(ClientTransactionItem row) {
 				return (ClientAccount) row.getAccountable();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		this.addColumn(transactionItemNameColumn);
 
@@ -240,6 +250,16 @@ public abstract class VendorAccountTransactionTable extends
 						}
 						return super.getWidth();
 					}
+
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return getValue(row).toString();
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
+					}
 				});
 			}
 		}
@@ -296,6 +316,16 @@ public abstract class VendorAccountTransactionTable extends
 					protected boolean isSales() {
 						return false;
 					}
+
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return getValue(row).toString();
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
+					}
 				});
 
 				this.addColumn(new TransactionVatColumn(currencyProvider) {
@@ -335,6 +365,16 @@ public abstract class VendorAccountTransactionTable extends
 				row.setJob(newValue.getID());
 			}
 
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return "Job"+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
+			}
+
 		};
 		if (isCustomerAllowedToAdd) {
 			this.addColumn(new CustomerColumn<ClientTransactionItem>() {
@@ -361,6 +401,16 @@ public abstract class VendorAccountTransactionTable extends
 						return 110;
 					}
 					return super.getWidth();
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionItem row) {
+					return getValue(row).toString();
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 
 			});

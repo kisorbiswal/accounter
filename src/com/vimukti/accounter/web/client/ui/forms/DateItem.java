@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -23,7 +22,6 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	boolean enableTextFieldView;
 	private ChangeHandler changeHandler;
 	private DateValueChangeHandler handler;
-	private PopupPanel panel;
 	private final DatePicker datePicker = new DatePicker();
 
 	// FinanceImages images = GWT.create(FinanceImages.class);
@@ -158,8 +156,10 @@ public class DateItem extends FormItem<ClientFinanceDate> {
 	public void setEnabled(boolean b) {
 		this.datePicker.setEnabled(b);
 		if (!b) {
+			this.addStyleName("disabled");
 			this.datePicker.addStyleName("disable-TextField");
 		} else {
+			this.removeStyleName("disabled");
 			this.datePicker.removeStyleName("disable-TextField");
 			this.datePicker.addStyleName("gwt-TextBox");
 		}

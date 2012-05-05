@@ -35,6 +35,16 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 			protected String getColumnName() {
 				return messages.unitName();
 			}
+
+			@Override
+			public String getValueAsString(ClientUnit row) {
+				return messages.unitName()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
 
@@ -52,6 +62,16 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 			@Override
 			protected String getColumnName() {
 				return messages.getFactorName();
+			}
+
+			@Override
+			public String getValueAsString(ClientUnit row) {
+				return messages.getFactorName()+"  : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 
 		});

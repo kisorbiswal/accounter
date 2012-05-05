@@ -42,9 +42,11 @@ public class TextAreaItem extends FormItem<String> {
 
 	public void setDisabled(boolean b) {
 		if (b) {
+			this.addStyleName("disable");
 			this.textArea.addStyleName("disable");
 		} else {
 			textArea.removeStyleName("disable");
+			this.removeStyleName("disable");
 		}
 		this.textArea.setEnabled(!b);
 

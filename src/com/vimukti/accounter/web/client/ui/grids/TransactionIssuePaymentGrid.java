@@ -43,6 +43,16 @@ public class TransactionIssuePaymentGrid extends
 					((CheckBox) widget).setValue(true);
 				}
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 		TextEditColumn<ClientTransactionIssuePayment> dateCoulmn = new TextEditColumn<ClientTransactionIssuePayment>() {
 
@@ -70,6 +80,16 @@ public class TransactionIssuePaymentGrid extends
 			@Override
 			protected String getColumnName() {
 				return messages.dueDate();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(dateCoulmn);
@@ -100,6 +120,16 @@ public class TransactionIssuePaymentGrid extends
 			protected String getColumnName() {
 				return messages.number();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		this.addColumn(number);
 		TextEditColumn<ClientTransactionIssuePayment> transactionType = new TextEditColumn<ClientTransactionIssuePayment>() {
@@ -128,6 +158,17 @@ public class TransactionIssuePaymentGrid extends
 			@Override
 			protected String getColumnName() {
 				return messages.type();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				// TODO Auto-generated method stub
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(transactionType);
@@ -158,6 +199,16 @@ public class TransactionIssuePaymentGrid extends
 			protected String getColumnName() {
 				return messages.name();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		this.addColumn(name);
 		TextEditColumn<ClientTransactionIssuePayment> memo = new TextEditColumn<ClientTransactionIssuePayment>() {
@@ -186,6 +237,16 @@ public class TransactionIssuePaymentGrid extends
 			@Override
 			protected String getColumnName() {
 				return messages.memo();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(memo);
@@ -216,6 +277,16 @@ public class TransactionIssuePaymentGrid extends
 			protected void setAmount(ClientTransactionIssuePayment row,
 					Double value) {
 
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionIssuePayment row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 	}

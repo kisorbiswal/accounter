@@ -27,7 +27,7 @@ public abstract class DropDownTable<T> extends CellTable<T> {
 	public FlexTable body;
 	private RowFormatter rowFormatter;
 	private CellFormatter cellFormatter;
-	private DropDownCombo<T> combo;
+	protected DropDownCombo<T> combo;
 	protected SingleSelectionModel<T> selectionModel;
 	boolean isAddNewRequire;
 	private Element bodyrowElem;
@@ -59,7 +59,7 @@ public abstract class DropDownTable<T> extends CellTable<T> {
 		this.body = new FlexTable();
 		this.setStyleName("dropdownFlex");
 
-//		this.setWidth("100%");
+		// this.setWidth("100%");
 
 		clickableTextCell = new ClickableTextCell();
 		Column[] columns = getColumns();
@@ -305,8 +305,4 @@ public abstract class DropDownTable<T> extends CellTable<T> {
 		DOM.eventCancelBubble(event, true);
 		DOM.eventPreventDefault(event);
 	}
-}
-
-interface EscapEventHandler {
-	public void onEscap(KeyDownEvent event);
 }

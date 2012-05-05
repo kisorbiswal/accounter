@@ -98,7 +98,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * 
  */
 public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
-		extends BaseView<T> implements ICurrencyProvider {
+		extends BaseView<T> implements ICurrencyProvider, IButtonContainer {
 
 	protected int transactionType;
 
@@ -2081,32 +2081,35 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public void addButtons(ButtonGroup group) {
-		ImageButton prev = new ImageButton(messages.previous(), Accounter
-				.getFinanceImages().previous());
-		prev.getElement().setId("previous");
-		prev.setTitle(messages.clickThisToOpen(messages.previousTransaction()));
-		prev.addClickHandler(new ClickHandler() {
+		if (Accounter.hasPermission(Features.TRANSACTION_NAVIGATION)) {
+			ImageButton prev = new ImageButton(messages.previous(), Accounter
+					.getFinanceImages().previous());
+			prev.getElement().setId("previous");
+			prev.setTitle(messages.clickThisToOpen(messages
+					.previousTransaction()));
+			prev.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				getTransaction(true);
-			}
-		});
+				@Override
+				public void onClick(ClickEvent event) {
+					getTransaction(true);
+				}
+			});
 
-		ImageButton next = new ImageButton(messages.next1(), Accounter
-				.getFinanceImages().next());
-		next.getElement().setId("next");
-		next.setTitle(messages.clickThisToOpen(messages.nextTransaction()));
-		next.addClickHandler(new ClickHandler() {
+			ImageButton next = new ImageButton(messages.next1(), Accounter
+					.getFinanceImages().next());
+			next.getElement().setId("next");
+			next.setTitle(messages.clickThisToOpen(messages.nextTransaction()));
+			next.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				getTransaction(false);
-			}
-		});
+				@Override
+				public void onClick(ClickEvent event) {
+					getTransaction(false);
+				}
+			});
 
-		group.add(prev);
-		group.add(next);
+			group.add(prev);
+			group.add(next);
+		}
 	}
 
 	protected void getTransaction(boolean isPrev) {

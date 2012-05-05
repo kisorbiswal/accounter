@@ -1,29 +1,19 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class JobTrackingOption extends AbstractPreferenceOption {
 
-	@UiField
-	CheckBox jobTrackingCheckBox;
+	CheckboxItem jobTrackingCheckBox;
 
-	@UiField
-	Label jobTrackingdescriptionLabel;
+	LabelItem jobTrackingdescriptionLabel;
 
-	private static JobTrackingOptionUiBinder uiBinder = GWT
-			.create(JobTrackingOptionUiBinder.class);
-
-	interface JobTrackingOptionUiBinder extends
-			UiBinder<Widget, JobTrackingOption> {
-	}
+	StyledPanel mainPanel;
 
 	public JobTrackingOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -46,7 +36,12 @@ public class JobTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		jobTrackingCheckBox.setText(messages.jobTracking());
+
+		jobTrackingCheckBox = new CheckboxItem(messages.jobTracking(),
+				"jobTrackingCheckBox");
+		mainPanel = new StyledPanel("JobTrackingOption");
+		mainPanel.add(jobTrackingCheckBox);
+		add(mainPanel);
 	}
 
 	@Override

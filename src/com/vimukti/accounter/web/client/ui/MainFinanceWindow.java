@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.company.UsersActivityListAction;
 import com.vimukti.accounter.web.client.ui.company.VendorCenterAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ManageSalesTaxItemsAction;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.PayRollReportActions;
@@ -74,16 +75,12 @@ import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.customers.RecurringsListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesPersonAction;
-import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.PendingItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.RegisteredItemsListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.SoldDisposedFixedAssetsListAction;
 import com.vimukti.accounter.web.client.ui.reports.BankingReportsAction;
-import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
-import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
 import com.vimukti.accounter.web.client.ui.reports.ClassAndLocationReportsAction;
 import com.vimukti.accounter.web.client.ui.reports.CompanyAndFinancialReportsAction;
-import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryReportsAction;
@@ -136,7 +133,6 @@ import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 import com.vimukti.accounter.web.client.ui.vendors.PayBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.Prepare1099MISCAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
-import com.vimukti.accounter.web.client.ui.vendors.RecordExpensesAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsAction;
@@ -190,7 +186,12 @@ public class MainFinanceWindow extends FlowPanel {
 		}
 		addStyleName("financeWindow");
 
-		new CompanyHomeAction().run(null, false);
+		if (Accounter.isIpadApp()) {
+			ActionFactory.getIpadMenuAction().run(null, false);
+		} else {
+			ActionFactory.getCompanyHomeAction().run(null, false);
+		}
+
 		// // } else {
 		// // // if company is not configured then show the setupwizard
 		// // SetupWizard setupWizard = new SetupWizard();
@@ -807,19 +808,33 @@ public class MainFinanceWindow extends FlowPanel {
 		/**
 		 * budget report actions
 		 */
-		actions.put(new BudgetOverviewReportAction().getHistoryToken(),
-				new BudgetOverviewReportAction());
-		actions.put(new BudgetvsActualsAction().getHistoryToken(),
-				new BudgetvsActualsAction());
+		actions.put(ActionFactory.getBudgetOverView().getHistoryToken(),
+				ActionFactory.getBudgetOverView());
+		actions.put(ActionFactory.getBudgetVsActionReport().getHistoryToken(),
+				ActionFactory.getBudgetVsActionReport());
 
-		actions.put(new RecordExpensesAction().getHistoryToken(),
-				new RecordExpensesAction());
+		actions.put(ActionFactory.getRecordExpensesAction().getHistoryToken(),
+				ActionFactory.getRecordExpensesAction());
 
-		actions.put(new NewFixedAssetAction().getHistoryToken(),
-				new NewFixedAssetAction());
+		actions.put(ActionFactory.getNewFixedAssetAction().getHistoryToken(),
+				ActionFactory.getNewFixedAssetAction());
 
-		actions.put(new DepreciationSheduleAction().getHistoryToken(),
-				new DepreciationSheduleAction());
+		actions.put(ActionFactory.getDepreciationSheduleAction()
+				.getHistoryToken(), ActionFactory
+				.getDepreciationSheduleAction());
+
+		actions.put(ActionFactory.getDepriciationAction().getHistoryToken(),
+				ActionFactory.getDepriciationAction());
+
+		actions.put(ActionFactory.getRegisteredItemsListAction()
+				.getHistoryToken(), ActionFactory
+				.getRegisteredItemsListAction());
+		actions.put(
+				ActionFactory.getPendingItemsListAction().getHistoryToken(),
+				ActionFactory.getPendingItemsListAction());
+		actions.put(
+				ActionFactory.getSoldDisposedListAction().getHistoryToken(),
+				ActionFactory.getSoldDisposedListAction());
 
 		actions.put(new DepreciationAction().getHistoryToken(),
 				new DepreciationAction());
@@ -886,6 +901,29 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(new TDSFiledDetailsAction().getHistoryToken(),
 				new TDSFiledDetailsAction());
 
+		actions.put(ActionFactory.getIARSInformationAction().getHistoryToken(),
+				ActionFactory.getIARSInformationAction());
+
+		JobReportsAction action = new JobReportsAction(
+				JobReportsAction.TYPE_ESTIMATES_BY_JOB);
+		actions.put(action.getHistoryToken(), action);
+
+		JobReportsAction action2 = new JobReportsAction(
+				JobReportsAction.TYPE_PROFIT_AND_LOSS);
+		actions.put(action2.getHistoryToken(), action2);
+
+		JobReportsAction action3 = new JobReportsAction(
+				JobReportsAction.TYPE_PROFITABILITY_DETAILS);
+		actions.put(action3.getHistoryToken(), action3);
+
+		JobReportsAction action4 = new JobReportsAction(
+				JobReportsAction.TYPE_PROFITABILITY_SUMMARY);
+		actions.put(action4.getHistoryToken(), action4);
+
+		JobReportsAction action5 = new JobReportsAction(
+				JobReportsAction.TYPE_UNBILLED_COST);
+		actions.put(action5.getHistoryToken(), action5);
+
 		actions.put(new CreateIRASInformationFileAction().getHistoryToken(),
 				new CreateIRASInformationFileAction());
 		actions.put(CompanyAndFinancialReportsAction.realisedLossAndGrains()
@@ -909,11 +947,6 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(InventoryActions.inventoyCentre().getHistoryToken(),
 				InventoryActions.inventoyCentre());
 
-		// for job reports
-		actions.put(JobReportsAction.profitabilitySummary().getHistoryToken(),
-				JobReportsAction.profitabilitySummary());
-		actions.put(JobReportsAction.profitabilityDetail().getHistoryToken(),
-				JobReportsAction.profitabilityDetail());
 		// for banking reports
 		actions.put(BankingReportsAction.depositDetail().getHistoryToken(),
 				BankingReportsAction.depositDetail());
@@ -995,6 +1028,9 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(CompanyAndFinancialReportsAction
 				.transactionDetailByTaxItem().getHistoryToken(),
 				CompanyAndFinancialReportsAction.transactionDetailByTaxItem());
+
+		actions.put(ActionFactory.getIpadMenuAction().getHistoryToken(),
+				ActionFactory.getIpadMenuAction());
 
 	}
 

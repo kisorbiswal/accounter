@@ -45,4 +45,14 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 	protected String getColumnName() {
 		return getColumnNameWithCurrency(messages.unitPrice());
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getColumnName()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

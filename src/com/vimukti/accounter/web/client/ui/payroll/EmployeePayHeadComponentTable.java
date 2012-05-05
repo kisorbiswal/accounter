@@ -60,6 +60,16 @@ public class EmployeePayHeadComponentTable extends
 				return messages.effectiveFrom();
 			}
 
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
+
 		});
 
 		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
@@ -88,6 +98,16 @@ public class EmployeePayHeadComponentTable extends
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		rateColumn = new AmountColumn<ClientEmployeePayHeadComponent>(null,
@@ -107,6 +127,16 @@ public class EmployeePayHeadComponentTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.rate();
+			}
+
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(rateColumn);
@@ -153,6 +183,16 @@ public class EmployeePayHeadComponentTable extends
 			public int getWidth() {
 				return 120;
 			}
+
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientEmployeePayHeadComponent>() {
@@ -185,6 +225,16 @@ public class EmployeePayHeadComponentTable extends
 			@Override
 			public int getWidth() {
 				return 180;
+			}
+
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -219,6 +269,16 @@ public class EmployeePayHeadComponentTable extends
 			@Override
 			public int getWidth() {
 				return 130;
+			}
+
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -261,6 +321,16 @@ public class EmployeePayHeadComponentTable extends
 			@Override
 			public int getWidth() {
 				return 100;
+			}
+
+			@Override
+			public String getValueAsString(ClientEmployeePayHeadComponent row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

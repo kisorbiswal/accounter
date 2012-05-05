@@ -7,7 +7,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -33,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -51,7 +51,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private StyledPanel checkBoxPanel, radioButtonPanel,
 			check_radio_textAreaPanel, button_textBoxPanel;
 	private StyledPanel mainLayoutPanel, check_radioPanel, hPanel;
-	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
+	private CheckboxItem taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
 			logoNameBox, quoteBox, cashSaleBox, purchaseOrderBox,
@@ -488,22 +488,23 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		checkBoxPanel = new StyledPanel("checkBoxPanel");
 
-		taxNumItem = new CheckBox(messages.showTaxNumber());
-		taxNumItem.setChecked(true);
-		headingItem = new CheckBox(messages.showColumnHeadings());
-		headingItem.setChecked(true);
-		unitPriceItem = new CheckBox(messages.showUnitPrice());
-		unitPriceItem.setChecked(true);
+		taxNumItem = new CheckboxItem(messages.showTaxNumber(),"taxNumItem");
+		taxNumItem.setValue(true);
+		
+		headingItem = new CheckboxItem(messages.showColumnHeadings(),"headingItem");
+		headingItem.setValue(true);
+		unitPriceItem = new CheckboxItem(messages.showUnitPrice(),"unitPriceItem");
+		unitPriceItem.setValue(true);
 		// paymentItem = new CheckBox(messages
 		// .showPaymentAdvice());
 		// paymentItem.setChecked(true);
-		columnItem = new CheckBox(messages.showTaxColumn());
-		columnItem.setChecked(true);
+		columnItem = new CheckboxItem(messages.showTaxColumn(),"columnItem");
+		columnItem.setValue(true);
 
-		addressItem = new CheckBox(messages.showRegisteredAddress());
-		addressItem.setChecked(true);
-		logoItem = new CheckBox(messages.showLogo());
-		logoItem.setChecked(true);
+		addressItem = new CheckboxItem(messages.showRegisteredAddress(),"addressItem");
+		addressItem.setValue(true);
+		logoItem = new CheckboxItem(messages.showLogo(),"logoItem");
+		logoItem.setValue(true);
 		paypalEmailHtml = new HTML(messages.paypalEmailHtml());
 		paypalTextBox = new TextItem(messages.paypalEmail(), "paypalTextBox");
 

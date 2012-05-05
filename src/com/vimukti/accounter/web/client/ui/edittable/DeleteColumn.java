@@ -34,4 +34,17 @@ public class DeleteColumn<T> extends ImageEditColumn<T> {
 		return 20;
 	}
 
+
+	@Override
+	public int insertNewLineNumber() {
+		return 0;
+	}
+
+	@Override
+	public String getValueAsString(T row) {
+		return "";
+	}
+
+
+
 }

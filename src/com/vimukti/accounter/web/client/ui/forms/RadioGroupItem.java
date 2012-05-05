@@ -76,14 +76,17 @@ public class RadioGroupItem extends FormItem<String> {
 
 	public void setValueMap(String title1, String title2) {
 
-		radioButton = new RadioButton("radioButtonGroup", title1);
+		if (this.grouoName == null) {
+			this.grouoName = "radioButtonGroup";
+		}
+		radioButton = new RadioButton(this.grouoName, title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
 		vPanel.add(radioButton);
 
-		radioButton = new RadioButton("radioButtonGroup", title2);
+		radioButton = new RadioButton(this.grouoName, title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}

@@ -74,6 +74,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 				return 100;
 			}
 
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
+
 		});
 
 		payheadColumn = new PayHeadColumn() {
@@ -98,6 +108,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 				row.setClientPayHead(newValue);
 				update(row);
 			}
+
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		this.addColumn(payheadColumn);
 
@@ -121,6 +141,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			public int getWidth() {
 				return 50;
+			}
+
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(rateColumn);
@@ -167,6 +197,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			public int getWidth() {
 				return 120;
 			}
+
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientPayStructureItem>() {
@@ -199,6 +239,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			public int getWidth() {
 				return 180;
+			}
+
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -233,6 +283,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			public int getWidth() {
 				return 150;
+			}
+
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -280,6 +340,16 @@ public class PayStructureTable extends EditTable<ClientPayStructureItem> {
 			@Override
 			public int getWidth() {
 				return 130;
+			}
+
+			@Override
+			public String getValueAsString(ClientPayStructureItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

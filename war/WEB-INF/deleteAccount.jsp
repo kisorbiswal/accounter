@@ -12,7 +12,14 @@
 <link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+<% 
+	Boolean ipad = (Boolean)request.getAttribute( "ipad" );
+	%>
+	<% if(ipad != null && ipad){%>
+	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
+	<% }else{%>
+	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+<% }%>
 <script type="text/javascript">
 <%	boolean isDeleAccRTL=(Boolean) request.getAttribute("isRTL");	%>
 window.onload=function(){
@@ -29,7 +36,7 @@ document.body.style.direction=(<%= isDeleAccRTL %>)?"rtl":"ltr";
 	<div>
 		<form class="accounterform" id="deleteform" name="deleteform" method="post" action="/main/deleteAccount">
 		<div class="company-heading" style="text-align:center"><h3><i18n:i18n msg='deleteAccount'/></h3></div>
-		<div>
+		<div class="delete_company"><div>
 			<h4><i18n:i18n msg='deleteaccountmsg'/></h4><br \>
 		</div>
 		<span><i18n:i18n msg='whyareyouleavingAccounter'/></span><br \>
@@ -44,7 +51,7 @@ document.body.style.direction=(<%= isDeleAccRTL %>)?"rtl":"ltr";
 		</div>
 			<br \>
 		    <h4><i18n:i18n msg='otherReasons'/> :</h4>
-			<textarea class="delete-account-description" name="content"></textarea>
+			<textarea class="delete-account-description" name="content"></textarea></div>
 			<div>
 	  			  <div class="signup-submit">
 	      			<input type="button" class="allviews-common-button" value="<i18n:i18n msg='backtoaccount'/>" onclick="parent.location='/main/companies'" />

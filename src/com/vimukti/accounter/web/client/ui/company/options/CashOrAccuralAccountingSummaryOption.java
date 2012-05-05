@@ -1,30 +1,20 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class CashOrAccuralAccountingSummaryOption extends
 		AbstractPreferenceOption {
 
-	private static CashOrAccuralAccountingSummaryOptionUiBinder uiBinder = GWT
-			.create(CashOrAccuralAccountingSummaryOptionUiBinder.class);
-	@UiField
-	Label accountingMethodForSummaryLabel;
-	@UiField
-	RadioButton cashRadioButton;
-	@UiField
-	RadioButton accuralRadioButton;
+	LabelItem accountingMethodForSummaryLabel;
 
-	interface CashOrAccuralAccountingSummaryOptionUiBinder extends
-			UiBinder<Widget, CashOrAccuralAccountingSummaryOption> {
-	}
+	RadioGroupItem cashOrAccuralRadioButton;
+
+	StyledPanel mainpanel;
 
 	public CashOrAccuralAccountingSummaryOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -34,12 +24,20 @@ public class CashOrAccuralAccountingSummaryOption extends
 	}
 
 	public void createControls() {
-		accountingMethodForSummaryLabel.setText(messages
+		accountingMethodForSummaryLabel.setValue(messages
 				.getDefaultAccountingMethodForSummary());
-		cashRadioButton.setName(messages.cashoraccural());
-		cashRadioButton.setHTML(messages.cash());
-		accuralRadioButton.setName(messages.cashoraccural());
-		accuralRadioButton.setHTML(messages.accrual());
+
+		cashOrAccuralRadioButton = new RadioGroupItem();
+		cashOrAccuralRadioButton.setGroupName("cashOrAccuralRadioButton");
+		cashOrAccuralRadioButton.setShowTitle(false);
+
+		cashOrAccuralRadioButton.setValueMap(messages.cashoraccural(),
+				messages.cashoraccural());
+		cashOrAccuralRadioButton.setDefaultValue(messages.cashoraccural());
+
+		mainpanel = new StyledPanel("cashOrAccuralAccountingSummaryOption");
+		add(mainpanel);
+
 	}
 
 	@Override

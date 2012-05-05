@@ -6,14 +6,12 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 
 /**
  * @author Administrator
@@ -21,14 +19,10 @@ import com.vimukti.accounter.web.client.ui.CoreUtils;
  */
 public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 
-	@UiField
-	Label timeZoneLabel;
-	@UiField
-	ListBox timeZoneListBox;
+	SelectCombo timeZoneListBox;
 	private List<String> timezones;
 
-	private static CompanyTimeZoneOptionUiBinder uiBinder = GWT
-			.create(CompanyTimeZoneOptionUiBinder.class);
+	StyledPanel mainPanel;
 
 	interface CompanyTimeZoneOptionUiBinder extends
 			UiBinder<Widget, CompanyTimeZoneOption> {
@@ -44,17 +38,14 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public CompanyTimeZoneOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	public CompanyTimeZoneOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	@Override
 	public void createControls() {
+		timeZoneListBox = new SelectCombo(messages.timezone());
 		this.timezones = CoreUtils.getTimeZonesAsList();
 		for (String tz : timezones) {
 			timeZoneListBox.addItem(tz);
@@ -63,12 +54,13 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 		String defalutTzOffset = getDefaultTzOffsetStr();
 		for (String tz : timezones) {
 			if (tz.startsWith(defalutTzOffset)) {
-				timeZoneListBox.setSelectedIndex(timezones.indexOf(tz));
+				timeZoneListBox.setSelectedItem(timezones.indexOf(tz));
 				break;
 			}
 		}
-		timeZoneLabel.setText(messages.timezone());
-		timeZoneLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		mainPanel = new StyledPanel("timeZoneMainpanel");
+		mainPanel.add(timeZoneListBox);
+		add(mainPanel);
 
 	}
 
@@ -92,8 +84,8 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 	public void initData() {
 		if (getCompanyPreferences().getTimezone() != ""
 				&& getCompanyPreferences().getTimezone() != null) {
-			this.timeZoneListBox.setSelectedIndex(timezones
-					.indexOf(getCompanyPreferences().getTimezone()));
+			this.timeZoneListBox.setSelectedItem((timezones
+					.indexOf(getCompanyPreferences().getTimezone())));
 		}
 	}
 

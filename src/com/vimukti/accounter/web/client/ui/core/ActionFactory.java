@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
 import com.vimukti.accounter.web.client.ui.banking.StatementReconcilationAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
+import com.vimukti.accounter.web.client.ui.combo.DropDownAction;
 import com.vimukti.accounter.web.client.ui.company.AuditHistoryAction;
 import com.vimukti.accounter.web.client.ui.company.BudgetAction;
 import com.vimukti.accounter.web.client.ui.company.ChalanListViewAction;
@@ -72,12 +73,14 @@ import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.company.SalesPersonListsAction;
 import com.vimukti.accounter.web.client.ui.company.TDSResponsiblePersonAction;
 import com.vimukti.accounter.web.client.ui.company.TdsDeductorMasterAction;
+import com.vimukti.accounter.web.client.ui.company.TransactionsListViewGridAction;
 import com.vimukti.accounter.web.client.ui.company.UserDetailsAction;
 import com.vimukti.accounter.web.client.ui.company.UsersActivityListAction;
 import com.vimukti.accounter.web.client.ui.company.VendorCenterAction;
 import com.vimukti.accounter.web.client.ui.customers.CreateStatementAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundAction;
+import com.vimukti.accounter.web.client.ui.customers.CustomerTransactionHistoryListAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomersHomeAction;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListViewAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
@@ -90,6 +93,7 @@ import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.customers.RecurringsListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesPersonAction;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
+import com.vimukti.accounter.web.client.ui.customers.VendorTransactionHistoryListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.DisposingRegisteredItemAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.HistoryListAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetAction;
@@ -172,7 +176,8 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
-import com.vimukti.accounter.web.client.ui.win8.AccounterMenuAction;
+import com.vimukti.accounter.web.client.ui.win8.IPadMenuAction;
+import com.vimukti.accounter.web.client.ui.win8.Windows8MenuAction;
 
 public class ActionFactory {
 
@@ -1015,7 +1020,31 @@ public class ActionFactory {
 		return new InventoryDetailsAction();
 	}
 
-	public static AccounterMenuAction getAccounterMenuAction() {
-		return new AccounterMenuAction();
+	public static Windows8MenuAction getWindows8MenuAction() {
+		return new Windows8MenuAction();
 	}
+
+	public static IPadMenuAction getIpadMenuAction() {
+		return new IPadMenuAction();
+	}
+
+	public static <T> DropDownAction<T> getDropDOwn() {
+		return new DropDownAction<T>();
+	}
+
+	public static TransactionsListViewGridAction getTransactionListView(
+			String menuItemName) {
+		return new TransactionsListViewGridAction(menuItemName);
+	}
+
+	public static VendorTransactionHistoryListAction getVendorTransactionListHistory(
+			ClientVendor selectedVendor) {
+		return new VendorTransactionHistoryListAction(selectedVendor);
+	}
+
+	public static CustomerTransactionHistoryListAction getCustomerTransactionListHistory(
+			ClientCustomer selectedCustomer) {
+		return new CustomerTransactionHistoryListAction(selectedCustomer);
+	}
+
 }

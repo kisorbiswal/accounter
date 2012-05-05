@@ -213,7 +213,6 @@ public class CreditCardExpenseView extends
 
 		StyledPanel regPanel = new StyledPanel("regPanel");
 		regPanel.add(dateNoForm);
-		regPanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		labeldateNoLayout.add(regPanel);
 

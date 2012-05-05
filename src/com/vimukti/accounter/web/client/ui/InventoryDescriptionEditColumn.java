@@ -26,4 +26,16 @@ public class InventoryDescriptionEditColumn extends
 		return -1;
 	}
 
+
+	@Override
+	public int insertNewLineNumber() {
+		return 3;
+	}
+
+	@Override
+	public String getValueAsString(ClientInventoryAssemblyItem row) {
+		return "";
+	}
+
+
 }

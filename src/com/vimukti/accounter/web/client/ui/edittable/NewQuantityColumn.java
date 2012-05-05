@@ -284,4 +284,14 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return "Qty"+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

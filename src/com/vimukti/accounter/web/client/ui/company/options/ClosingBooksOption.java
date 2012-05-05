@@ -3,11 +3,8 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 
 /**
  * @author vimukti36
@@ -15,14 +12,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ClosingBooksOption extends AbstractPreferenceOption {
 
-	private static ClosingBooksOptionUiBinder uiBinder = GWT
-			.create(ClosingBooksOptionUiBinder.class);
-	@UiField
-	CheckBox closingBooksCheckBox;
-
-	interface ClosingBooksOptionUiBinder extends
-			UiBinder<Widget, ClosingBooksOption> {
-	}
+	CheckboxItem closingBooksCheckBox;
+	StyledPanel mainPanel;
 
 	/**
 	 * Because this class has a default constructor, it can be used as a binder
@@ -34,17 +25,16 @@ public class ClosingBooksOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public ClosingBooksOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 	}
 
 	public void createControls() {
-		closingBooksCheckBox.setText(messages.closingthebooks());
-	}
-
-	public ClosingBooksOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
+		closingBooksCheckBox = new CheckboxItem(messages.closingthebooks(),
+				"closingBooksCheckBox");
+		mainPanel = new StyledPanel("closingBooksOption");
+		mainPanel.add(closingBooksCheckBox);
+		add(mainPanel);
 	}
 
 	@Override

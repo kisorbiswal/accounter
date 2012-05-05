@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.postgresql.translation.messages_bg;
+
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -17,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.options.TreeListPanel;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
@@ -66,9 +69,12 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 			@Override
 			protected void onMenuItemClick(String menuItemName) {
-				initGridData(menuItemName, false);
+				if (Accounter.isIpadApp()) {
+					ActionFactory.getTransactionListView(menuItemName).run();
+				} else {
+					initGridData(menuItemName, false);
+				}
 			}
-
 		};
 		listPanel.getElement().setId("listPanel");
 		mainPanel.add(listPanel);
@@ -244,7 +250,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			baseListView = (TransactionsListView<T>) new BuildAssembliesView();
 		}
 
-		mainPanel.add(baseListView);
+		if (!Accounter.isIpadApp()) {
+			mainPanel.add(baseListView);
+		}
 		MainFinanceWindow.getViewManager().updateButtons();
 		baseListView.init();
 		if (!isRestoreView) {

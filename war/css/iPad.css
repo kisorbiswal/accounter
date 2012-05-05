@@ -1,6 +1,4048 @@
 .MENU_BAR_BG {
 	display: none;
 }
+.bottomPanel,#paybillview .bottompanel .unused-payments,#paybillview .topHLay .vpPanel,#TransactionsListView .form,
+#CustomerView .memoForm,.layout .form, .layout1 .form1,#adjusttaxview .topform,#adjusttaxview .memoForm,#adjusttaxview .amountForm,
+.leftVLay,.rightVLay,.leftPanel,.rightPanel,.rightVlay,.rightHLay,.rVLayout,.leftVlay,#NewFixedAssetView .itmInfoVPanel,#NewFixedAssetView .descriptionVPanel,
+#NewFixedAssetView .depreciationHPanel,#NewVATItemView .new_vat_item,#NewTAXCodeView .fields-panel,#AbstractFileTAXView .topLayout,
+#TaxHistoryView .form2,.taxDynamicForm, .otherDynamicForm,.service-item-group,
+#itemView .topPanel2 .salesVPanel, #itemView .topPanel2 .purchzVPanel,#IssuePaymentView .payForm,
+#BudgetListView .form,#BuildAssemblyView .headerForm,#BuildAssemblyView .comboForm,#AddMeasurementView .addMeasurmentForm,
+#WareHouseTransferView .fields-panel,#AddPaymentTermDialog .nameDescForm,#AddPaymentTermDialog .fixedDaysPanel,#AddPaymentTermDialog .dateDrivenPanel,
+.report-toolbar,.locationTrackingOption,.classTrackingMainpanel,.JobTrackingOption,
+.CompanyInfoOption,.companyDateFormateOption,.EINPanel,.doyouUseOption,.accountNumberRangeOption,.CompanyCurrencyOption,
+.creditsOption,.timeZoneMainpanel,.terminologyOption,.CurrencyFormatOption,.manageBillsOption,.expensesByCustomerOption,
+.productAndServicesOption,.ageingAndSellingDetailsOption,.discountsMainPanel,.estimatesMainPanel,.shippingMainPanel,
+#ETdsFillingView .topHLay .frameTitle,#InvoiceView .prodAndServiceHLay,#VendorBillView .taxPanel,
+#CreditCardExpenseView .bottompanel .form,#CreditCardExpenseView .bottompanel .boldtext,
+#CheckPrintingSettingView .allFields,#CheckPrintingSettingView .chequeForm,#CheckPrintingSettingView .cheque_print_text,
+#TranslationView .combosForm,#MakeDepositView .topHLay,#MakeDepositView .vPanel,.leftForm,.rightform,.leftform,
+#customercreditmemoview .prodAndServiceHLay .prodAndServiceForm1,#customercreditmemoview .prodAndServiceHLay .taxForm,
+ #customercreditmemoview .prodAndServiceHLay .boldtext,#CreditCardExpenseView .regPanel,
+ #CashExpenseView .bottomLayout .boldtext,#CashExpenseView .bottomLayout .form{
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	margin: 20px 0px;
+	background: white;
+}
+@media only screen and (orientation:portrait) {
+  /* For portrait layouts only */
+  .view_manager_body {
+	width: 760px;
+	overflow:hidden !important; 
+  } 
+  .mainMenuView .subMenuPanel{
+     width:73% !important;
+  }
+  .isShowRegisteredAddressCheckBox{
+    -webkit-box-orient: vertical;
+  }
+  .isShowLegalName{
+    -webkit-box-orient: vertical;
+  }
+  #PreferenceSettingsView .titlesPanel{
+     width:25% !important;
+  }
+  #PreferenceSettingsView .pre_scroll_table{
+     width:74% !important;
+  }
+}
+@media only screen and (orientation:landscape) {
+  /* For landscape layouts only */
+ .view_manager_body {
+	width: 1024px;
+	overflow:hidden !important; 
+  } 
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	#VendorView .accInfoForm {
+		padding-bottom: 1px;
+	}
+	#VendorView .currencyTextBox {
+		padding-bottom: 1px;
+	}
+	#VendorView .phoneFaxForm {
+		padding: 10px 0 1px 0;
+	}
+	#CustomerView .currencyTextBox {
+		padding-bottom: 1px;
+	}
+	#MakeDepositView .currencyPanel .dynamicForm {
+		padding-bottom: 1px;
+	}
+	.grouped-buttons .Empty-text {
+		padding: 3px 13px;
+	}
+	.editTable .editheader td {
+		padding: 2px;
+	}
+	.editTable .editheader td {
+		padding: 2px !important;
+	}
+	/* this is for manage custom button that is attached to top one in chrome */
+	#VendorView .detailsTab .vendorGrpForm {
+		padding-bottom: 1px;
+	}
+}
+
+html,body {
+	width: 100%;
+	height: 100%;
+}
+
+#mainWindow {
+	min-height: 100%;
+	background: #E8EAEB;
+}
+
+
+#contact{
+	display: none;
+}
+* {
+	padding: 0px;
+	margin: 0px
+}
+
+.gwt-Label {
+	font-size: 13px;
+}
+
+
+.page_header {
+	width: 100%;
+	overflow: auto;
+	padding-top: 10px;
+}
+
+.companies_title td:first-child a {
+	background: url("/images/companiesArrow.png") no-repeat scroll right
+		center transparent;
+	color: #454343;
+	display: block;
+	font-size: 1.4em;
+	height: 30px;
+	padding: 3px 5px 0 10px;
+	text-decoration: none;
+	width: 110px;
+}
+
+.page_header .hpanel {
+	display: -webkit-box;
+	width: 100%;
+}
+
+.page_header .panel2 {
+	display: -webkit-box;
+	background: lightgray;
+}
+
+.companies_link_parent {
+	background: url("/images/companiesArrow.png") no-repeat scroll right
+		center lightgray;
+	color: #454343;
+	display: block;
+	font-size: 1.4em;
+	height: 30px;
+	padding: 3px 25px 0 10px;
+	width: 110px;
+}
+
+.companyName {
+	background: lightgray;
+	font-size: 1.4em;
+	padding: 4px 0 0;
+	color: #454343;
+	text-align: left;
+}
+
+.userName-style {
+	background: url("/images/User.png") no-repeat scroll left;
+}
+
+.help-style {
+	background: url("/images/Help.png") no-repeat scroll left;
+}
+
+.logout-html {
+	background: url("/images/logout.png") no-repeat scroll left;
+}
+
+.panel3 .gwt-Anchor {
+	color: #3299A4;
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
+.page_header .panel1 {
+	width: 200px;
+}
+
+.page_header .header_links {
+	width: 400px;
+	padding: 4px 0 0 10px;
+}
+
+.panel1 .logo {
+	padding-left: 5px;
+}
+
+.companies_link_parent .companiesLink {
+	text-decoration: none;
+	color: #454343;
+}
+
+.gwt-MenuBarPopup {
+	background: none repeat scroll 0 0 #39828B;
+	color: white;
+}
+
+.gwt-MenuBarPopup .gwt-MenuItem {
+	padding: 4px 14px 4px 10px;
+	cursor: pointer;
+}
+
+.gwt-MenuBarPopup  .menuSeparatorInner {
+	background: url("../images/Menu list seperator.png") repeat scroll 0 0
+		transparent !important;
+	height: 2px;
+}
+
+.gwt-MenuBar table {
+	border-collapse: collapse;
+}
+
+.subMenuIcon img {
+	background: url("/images/Sub_menu_indicator_side.png") repeat-x scroll 0
+		0 transparent !important;
+}
+
+.Empty-text {
+	border-radius: 0 5px 5px 0;
+	padding: 3px 12px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.group-toolbar .buttonsPanel button {
+	margin: 5px 3px;
+}
+
+.view_manager {
+	width: 100%;
+}
+
+.prebutton {
+	position: relative;
+	display: -webkit-box;
+}
+
+.prebutton .viewTitle {
+	color: white;
+}
+
+.portletColumn {
+	float: left;
+	width: 100%;
+}
+
+#appVersions {
+	clear: both;
+	text-align: center;
+	border-top: 1px solid #CCC;
+	position: relative;
+	width: 100%;
+	height: 25px;
+	margin-top: -70px;
+	padding-top: 0;
+}
+
+#appVersions a {
+	border-right: 1px solid #666666;
+	color: #666666;
+	padding: 0 5px;
+	text-decoration: none;
+}
+
+.biz-decor-panel {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.mainVLay .topHLay {
+	clear: both;
+	width: 100%;
+}
+
+.formItem{
+	display: -webkit-box;
+	border-bottom: 1px solid #B8BBBF;
+	background-color: white;
+	padding: 10px;
+	-webkit-box-pack: justify;
+	border-radius:10px;
+}
+
+.formItem .gwt-Label {
+	text-align: left;
+}
+
+.formItem input[type="text"],.formItem input[type="password"] {
+	border-radius: 3px;
+	padding: 0 5px;
+	height: 22px;
+}
+
+input[type="text"] {
+	border-radius: 3px;
+	border: transparent;
+	height: 22px;
+}
+
+.button_bar {
+	display: -webkit-box;
+	-webkit-box-pack: end;
+	-webkit-box-align: right;
+	padding: 10px 10px 10px 0;
+	width: 100%;
+}
+
+.editTable table {
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+}
+
+.editTable .editheader td:first-child {
+	padding: 0px;
+}
+
+.editheader .gwt-Label {
+	color: white;
+}
+
+.editTable table td {
+	border-color: #CCCCCC;
+	border-style: solid;
+	border-width: 1px 1px 1px 0;
+	padding: 0px;
+	margin: 0px;
+	word-wrap: break-word;
+}
+
+.editTable table td .gwt-TextBox {
+	height: 24px;
+	background: white;
+	border-radius: 0px;
+	border: 0 none;
+	width: 100%;
+	display: -webkit-box;
+}
+
+.editTable {
+	min-height: 130px;
+	background: white;
+	margin-bottom: 10px;
+	width: 99.8%;
+}
+
+.formItem .gwt-TextArea {
+	resize: vertical;
+	width:100%;
+}
+
+.detailsTab .customField {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	padding: 10px 10px 10px 10px;
+}
+
+.star {
+	color: #E23333;
+	margin-left: 2px;
+}
+
+.calendar-picker {
+	background: url("../images/calendarPicker1.png") no-repeat scroll 0 0;
+	width: 25px;
+	height: 23px;
+	margin-top: 1px;
+	position: relative;
+	margin-left: -22px;
+}
+
+.dateItem_datePanel {
+	display: -webkit-box;
+}
+
+.memoTextArea,.memoArea .gwt-TextArea,.memoForm .memo textarea {
+	width: 100%;
+	height: 65px;
+	margin-right: 15px;
+}
+
+.gwt-TextArea,.textArea,.memoForm textarea {
+	border: 0 none;
+}
+
+#paybillview .bottompanel {
+	margin: 20px 0;
+	width: 100%;
+}
+
+#itemView .topHLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 100%;
+}
+
+#itemView .topPanel2 {
+	margin: 10px 0px;
+}
+
+#itemView .new_service_table {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#itemView .purchase_info_form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#itemView .service-item-group .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.customComboItem {
+	display: -webkit-box;
+}
+
+.datepanel {
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	background:white;
+	margin:20px 0;
+}
+
+#newAccountView .leftLayout {
+	width: 100%;
+}
+
+.disable-TextField, div.disable,div.disabled {
+	background-color: #EBEBE4;
+}
+
+.button_bar .cancle-Btn:FOCUS,.notes_button_panel .cancle-Btn:FOCUS {
+	background-color: #A0A0A0;
+}
+
+.button_bar .cancle-Btn,.notes_button_panel .cancle-Btn {
+	border: 1px solid #002E36;
+	background-color: #E4E4E4;;
+	color: black;
+}
+
+.listgrid {
+	min-height: 150px !important;
+	background:white;
+}
+
+#UsersView .usersPanel {
+	padding: 10px 0px;
+}
+
+#group1 {
+	width: 61%;
+	display: -webkit-box;
+	-webkit-box-pack: end;
+	-box-pack: start;
+	margin-top: 5px;
+}
+
+#addNewButton,#exportButton,#searchButton,#configButton,#printButton,#addVendorButton,#editButton,#addCustomerButton,#next,#previous
+	{
+	background-repeat: no-repeat;
+	background-position: 5px center;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	height: 30px;
+	border: 1px solid #A0A0A0;
+	padding: 3px 10px 5px 30px;
+}
+
+#next {
+	background-position: right center;
+	padding: 0 22px 0 5px !important;
+	margin-left: -3px;
+	border-radius: 0 5px 5px 0px;
+}
+
+#previousButton {
+	border-radius: 5px 0 0 5px;
+	border-width: 1px 0 1px 1px;
+	border-color: #A0A0A0;
+	background-color: #E4E4E4;
+	color: white;
+	border-style: solid;
+	padding: 3px 12px;
+	height: 25px;
+}
+
+#nextButton {
+	border-radius: 0 5px 5px 0;
+	padding: 3px 12px;
+	background-color: #E4E4E4;
+	background-repeat: no-repeat;
+	border: 1px solid #A0A0A0;
+	margin-left: -3px;
+	height: 25px;
+}
+
+#group1 .viewTitle {
+	color: white;
+	padding-top: 2px;
+	padding-left: 10px;
+	vertical-align: middle;
+}
+
+
+.editTable .comboBox {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+}
+
+#InvoiceView .prodAndServiceHLay .memoArea {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding-right: 5px;
+}
+
+#InvoiceView .prodAndServiceHLay .vatForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.boldtext {
+	font-weight: bold;
+}
+
+#InvoiceView .dateItem .NoWrapping {
+	display: none;
+}
+
+#QuoteView .mainpanel {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#QuoteView .mainpanel .prodAndServiceHLay {
+	width: 100%;
+}
+
+#QuoteView .mainpanel .prodAndServiceHLay .vatForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#QuoteView .mainpanel .memoArea {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding-right: 5px;
+}
+
+#QuoteView .datenumber-panel .dateItem .NoWrapping {
+	display: none;
+}
+
+.button_bar .image-button {
+	margin-right: 10px;
+}
+
+.editTable .gwt-TextArea {
+	border: 0px none;
+	height: 23px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	resize: vertical;
+}
+
+.disclosurePanelTitle {
+	color: #3299A4;
+	cursor: pointer;
+}
+
+.disclosurePanelcontent {
+	margin-top: 10px;
+}
+
+#BudgetListView .hlay button {
+	margin: 0 50px 0 10px;
+}
+
+.Transactions_center {
+	display: -webkit-box;
+}
+
+.Transactions_center .tree_menu {
+	font-weight: bold;
+	font-size: 15px !important;
+	background: -webkit-linear-gradient(top, #F0F0F0, #DFDFDF);
+	padding: 10px;
+	color: #777;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.Transactions_center .tree_list_panel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 100%;
+}
+
+.Transactions_center .tree_menu_item {
+	/* margin-left: 10px; */
+	text-decoration: none;
+	display: block;
+	height: 20px;
+	padding: 6px 5px 4px 20px;
+	color: black
+}
+
+.Transactions_center #TAXAgencyListView {
+	width: 80%;
+	margin-top: 10px;
+}
+
+.Transactions_center #TransactionsListView .transations_list_table {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+}
+
+.Transactions_center #TransactionsListView {
+	width: 78%;
+	margin: 10px 0 0 10px;
+}
+
+.Transactions_center #TransactionsListView .hlay {
+	display: -webkit-box;
+}
+
+.Transactions_center .transations_list_table .NoWrapping {
+	padding: 0 2px;
+}
+
+.Transactions_center .hlay .gwt-Button {
+	margin: 5px;
+}
+
+#SalesTaxGroupListView .bodyLayout {
+	display: -webkit-box;
+}
+
+#SalesTaxGroupListView .sales_tax_buttons {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#SalesTaxGroupListView .lable-title {
+	font-weight: bold;
+	margin: 10px 0 0 0px;
+}
+
+#SalesTaxGroupListView #TaxGroupGrid {
+	width: 90%;
+}
+
+#SalesTaxGroupListView .sales_tax_buttons button {
+	display: block;
+	margin: 5px;
+}
+
+#SalesTaxGroupListView #SalesTaxItemsGrid {
+	margin: 20px 0;
+}
+
+#NewTAXCodeView .mainVPanel {
+	padding-top: 20px;
+}
+
+table.gridBody {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.gridOddRow {
+	background: none repeat scroll 0 0 #E8E8E8;
+}
+
+.gridBody tr td {
+	border-width: 0 1px 0 0;
+	border-color: #CCC;
+	padding: 2px;
+	border-style: solid;
+	cursor: pointer;
+	text-align: left;
+	word-wrap: break-word;
+}
+
+table.gridHeader {
+	border-collapse: collapse;
+}
+
+table.gridHeader tr td {
+	padding: 2px;
+}
+
+#adjusttaxview .mainPanel .RadioGroupItem .panel span {
+	display: block;
+}
+
+#adjusttaxview .mainPanel .memoForm .readioGropuitem {
+	display: -webkit-box;
+}
+
+#adjusttaxview .mainPanel .memoForm .RadioGroupItem .NoWrapping {
+	display: none;
+}
+
+#PreferenceSettingsView .company_settings_panel {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#PreferenceSettingsView .titlesPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 20%;
+	background: none repeat scroll 0 0 #F0F0F0;
+	height: 650px;
+}
+
+#PreferenceSettingsView .pre_scroll_table {
+	width: 80%;
+	height: 850px;
+	background: none repeat scroll 0 0 white;
+	overflow: auto;
+	border-left: 1px solid #1A5158;
+	padding-bottom: 2px;
+	background: #E8EAEB;
+}
+
+#PreferenceSettingsView .preferences_option {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 100%;
+}
+
+#PreferenceSettingsView .preferences_option_title {
+	font-weight: bold;
+}
+
+#PreferenceSettingsView .header {
+	font-weight: bold;
+	padding: 5px 0px;
+	width: 200px;
+}
+
+#PreferenceSettingsView .companyInfoPanel {
+	padding: 10px 0 10px 10px;
+	width: 95%;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #2D8B93;
+}
+
+#PreferenceSettingsView .organisation_comment {
+	color: gray;
+	padding: 5px 0 15px 22px;
+}
+
+#PreferenceSettingsView .referComment {
+	color: gray;
+}
+
+#PreferenceSettingsView .account_comment {
+	color: gray;
+}
+
+#PreferenceSettingsView input[type=text] {
+	padding: 0 5px;
+	height: 22px;
+	border-radius: 3px 3px 3px 3px;
+	margin-bottom: 10px;
+	border:0 none;
+}
+
+#PreferenceSettingsView select.gwt-ListBox {
+	border: 1px solid #B1B1B1;
+	border-radius: 3px 3px 3px 3px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+}
+
+#PreferenceSettingsView .bold label {
+	font-weight: bold;
+}
+
+#PreferenceSettingsView .company-preferences-labels {
+	display: -webkit-box;
+}
+.report-section .section .section{
+	margin-bottom: 0px;
+}
+.report-section .section {
+	border: 1px solid #CCC;
+	border-radius: 0 0 5px 5px;
+	margin-bottom: 20px;
+	background: white;
+}
+
+.report-section .section a {
+	display: block;
+	color: black;
+	padding: 5px 0 0px 5px;
+}
+
+.report-section .gwt-Label {
+	font-weight: bold;
+}
+
+.gwt-DialogBox .caption {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	height: 20px;
+	padding: 6px 4px 3px 6px;
+}
+
+.dialogMiddleCenter {
+	background: none repeat scroll 0 0 #EEE;
+	padding: 5px;
+}
+
+.gwt-DialogBox .caption .gwt-HTML {
+	color: white;
+}
+
+.dialogMiddleCenterInner .bodyLayout .bodyLayout1 .buttonsLayout {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	margin-top: 10px;
+	margin-right: 10px;
+	-webkit-box-orient: vertical;
+}
+
+.dialogMiddleCenterInner .bodyLayout .bodyLayout1 .buttonsLayout button
+	{
+	margin: 5px 0px;
+	width: 65px;
+	display: block;
+}
+
+.gwt-DialogBox .dialogMiddleCenterInner .listgrid {
+	overflow-y: auto;
+	height: 250px !important;
+	background: white;
+	margin: 10px;
+}
+
+.gwt-DialogBox .dialogBottomCenter {
+	height: 5px;
+}
+
+.gwt-DialogBox .dialogTopLeft {
+	height: 16px;
+}
+
+.dialogMiddleRight .dialogMiddleRightInner {
+	width: 5px;
+}
+
+.dialogMiddleLeft .dialogMiddleLeftInner {
+	width: 5px;
+}
+
+.imageStyledPanel .dialog_help_icon {
+	margin-right: 5px;
+}
+
+.footerLayout .gwt-Button {
+	min-width: 60px;
+	margin: 0 2px 2px 0
+}
+
+.footerLayout {
+	display: -webkit-box;
+	-webkit-box-pack: end;
+	float: right;
+}
+
+table.no_records .norecord-empty-message td {
+	text-align: center;
+}
+
+.no_records .norecord-empty-message td {
+	border: 0 none;
+}
+
+.gwt-Button[disabled],.detailsTab .customField button[disabled].gwt-Button
+	{
+	background: none repeat scroll 0 0 #B7B7B7;
+	border: 1px solid #858585;
+	color: black;
+	cursor: auto;
+}
+
+.gwt-Button[disabled]:FOCUS {
+	background: none repeat scroll 0 0 #B7B7B7;
+	border: 1px solid #858585;
+}
+
+#DepreciationView .panel {
+	display: -webkit-box;
+	margin: 20px 0;
+	padding-left: 10px;
+}
+
+#DepreciationView .panel .gwt-Label {
+	margin-right: 15px;
+}
+
+#DepreciationView .panel .gwt-HTML {
+	margin-right: 15px;
+}
+
+#DepreciationView .buttonPanel {
+	margin: 5px 0;
+	padding-left: 10px;
+}
+
+#DepreciationView .border {
+	border: 1px solid #A7ABB4;
+	height: 300px;
+}
+
+.treeGrid {
+	border: 1px solid #A7ABB4;
+	height: 300px;
+}
+
+#TDSChalanDetailsView .otherDynamicForm .formItem {
+	width: 100%;
+	-webkit-box-pack: end;
+}
+
+#TDSResponsiblePersonDetailsView .mainPanel {
+	display: -webkit-box;
+}
+
+#ETdsFillingView .editTable {
+	min-height: 385px;
+	border: 0 none;
+}
+
+#ETdsFillingView .tds-scroll-panel {
+	width: 940px;
+}
+
+#ETdsFillingView .mainVLay .topHLay {
+	padding: 10px 0;
+}
+
+#CustomerCenterView .customerCenter {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#CustomerCenterView .customerCenter .leftPanel {
+	width: 25%;
+	paddomg-right: 10px;
+}
+
+#CustomerCenterView .customerCenter .rightPanel {
+	width: 73%;
+}
+
+#CustomerCenterView #CustomersListGrid {
+	border: 1px solid #2D8B93;
+	height: 600px;
+	overflow: auto;
+}
+
+#CustomerCenterView .rightPanel {
+	padding-left: 5px;
+}
+#CustomerCenterView .customerDetailsPanel .panel{
+	padding:3px;
+}
+#CustomerCenterView .customers_detail_panel {
+	padding: 4px;
+	display: -webkit-box;
+	-webkit-box-pack:justify;
+}
+
+#CustomerCenterView .customers_detail_rightpanel .address .label {
+	width: 200px;
+	word-wrap: break-word;
+}
+
+#CustomerCenterView .transactionViewform {
+	display: -webkit-box;
+	margin: 5px 0px;
+}
+
+#TransactionsListView .hlay .transations_list_table {
+	display: -webkit-box;
+}
+
+#TransactionsListView .hlay .transations_list_table .dateItem_datePanel .calendar-picker
+	{
+	width: 20px;
+}
+
+#vendorCenterView .mainPanel {
+	display: -webkit-box;
+}
+
+#vendorCenterView .mainPanel .leftVpPanel {
+	width: 25%;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel {
+	width: 73%;
+	padding-left: 10px;
+}
+
+#vendorCenterView .mainPanel #VendorsListGrid {
+	height: 600px;
+	border: 1px solid #2D8B93;
+	overflow: auto;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp {
+	border: 1px solid #0A6AAC;
+	padding: 0 5px;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .headingPanel
+	{
+	display: -webkit-box;
+	padding: 3px 0;
+	color: white;
+	-webkit-box-pack: justify;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp .leftform
+	{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#vendorCenterView .mainPanel .rightVpPanel .details-Panel .hp .rightform
+	{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#vendorCenterView .rightVpPanel .headingPanel .gwt-Label
+	{
+	padding-left: 3px;
+}
+
+#vendorCenterView .mainPanel .transactionViewform {
+	display: -webkit-box;
+	margin: 10px 0px;
+}
+
+#VendorView .detailsTab {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#writechequeview .gwt-DisclosurePanel {
+	width: 100%;
+}
+
+.setup_panel {
+	margin: 7em auto;
+	padding: 0 0 50px;
+	width: 800px;
+}
+
+.setup_header_label {
+	color: #0079C6;
+	font-size: 23px;
+	padding-bottom: 15px;
+}
+
+.setup_Info {
+	margin: 10px 0px 20px;
+}
+
+.skip_setup {
+	border: 1px solid gray;
+	padding: 10px;
+	float: left;
+	width: 45%;
+	margin: 50px 15px 10px;
+}
+
+.skip_setup td button {
+	float: right;
+	margin: 10px;
+}
+
+.start_setup td button {
+	float: right;
+	margin: 10px;
+}
+
+.start_setup {
+	border: 1px solid gray;
+	padding: 10px;
+	float: left;
+	width: 45%;
+	margin: 50px 15px 10px;
+}
+
+.setupstartpagepanel .gwt-Button {
+	float: right;
+	margin: 10px;
+}
+
+.skip_setup td:last-child,.start_setup td:last-child {
+	text-align: center;
+}
+
+.setup_panel .progress_panel_show,.setup_panel .progress_panel_hide {
+	display: -webkit-box;
+	width: 100%;
+	border: 1px solid gray;
+	min-height: 500px;
+	padding: 10px 10px 0;
+}
+
+.progress_panel_show .progressPanel {
+	background: none repeat scroll 0 0 #ECECEC;
+	padding-right: 15px;
+	width: 25%;
+	margin-top: -10px;
+	margin-left: -10px;
+}
+
+.progressPanel .progress_header {
+	color: #4E9E19;
+	font-size: 16px;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.progress_panel_data {
+	padding-top: 15px;
+	padding-left: 10px;
+}
+
+.progress_panel_data td .gwt-Label {
+	padding: 5px 0px;
+}
+
+.tick_hidden {
+	padding: 5px;
+	visibility: hidden;
+	margin-top: 10px;
+}
+
+.tick_show {
+	padding: 5px;
+	visibility: visible;
+}
+
+.setup_panel .viewButtonPanel {
+	padding: 10px 0px 10px 10px;
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	-webkit-box-orient: vertical;
+	width: 75%;
+	min-height: 500px;
+}
+
+.viewButtonPanel .company_Info_table {
+	width: 100%;
+	border-spacing: 5px;
+}
+
+.company_Info_table tr td:first-child {
+	padding-right: 25px;
+	text-align: right;
+}
+
+.setup_panel .gwt-TextBox,.setup_panel .gwt-PasswordTextBox {
+	width: 172px;
+	border: 1px solid #AAA;
+	height: 22px;
+	border-radius: 3px;
+}
+
+.setup_panel .gwt-ListBox {
+	width: 172px;
+	border: 1px solid #AAA;
+	height: 22px;
+	border-radius: 3px;
+}
+
+.setup_panel .back_next_buttons {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.setup_panel .backNextButtonPanel button {
+	margin: 0 10px;
+}
+
+.setup_panel .viewButtonPanel .industry_list_table .select_industry {
+	font-weight: bold;
+	background: #ccc;
+	padding: 3px;
+}
+
+.setup_panel .viewButtonPanel .industry_list {
+	height: 280px;
+}
+
+.refer_panel .refer_listbox {
+	width: 172px;
+	border: 1px solid #AAA;
+	height: 22px;
+	border-radius: 3px;
+}
+
+.refer_panel td:first-child div {
+	font-size: 17px;
+}
+
+.organisation_comment,.referComment,.account_comment {
+	color: gray;
+}
+
+.setup_panel .customize_account {
+	margin-bottom: 20px;
+}
+
+.sell_panel .gwt-RadioButton label {
+	padding-left: 5px;
+}
+
+.viewButtonPanel .gwt-CheckBox label {
+	padding-left: 5px;
+}
+
+.viewButtonPanel .employee_yesno label {
+	padding-left: 5px;
+	font-weight: bold;
+}
+
+.estimate_stmt_acc td {
+	padding: 5px 0;
+}
+
+.viewButtonPanel select {
+	width: 172px;
+	height: 22px;
+}
+
+.viewButtonPanel .select_grid .gwt-Label {
+	padding-right: 10px;
+}
+
+.managing-html {
+	margin-left: 30px;
+}
+
+.bills_panel .employee_yesno {
+	display: block;
+	margin: 5px 0px 5px 25px;
+}
+
+.viewButtonPanel .fiscal_panel {
+	margin-top: 25px;
+	display: -webkit-box;
+}
+
+.viewButtonPanel .fiscal_panel .gwt-Label {
+	padding-right: 10px;
+}
+
+.review_expense_account {
+	margin: 8px !important;
+	border: 1px solid gray;
+	height: 250px;
+}
+
+#ReconciliationsHistoryView table {
+	width: 100%;
+	border: 1px solid #0A6AAC;
+	background: white;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.biz-decor-panel .vPanel {
+	border: 1px solid #7A7A7A;
+}
+
+.portlet-body button {
+	margin-left: 30px;
+}
+
+.portlet-body .hPanel button {
+	float: left;
+}
+
+.portlet-body .hPanel .fTablePortlet {
+	padding: 0 10px;
+	float: left;
+}
+
+.portlet-body .hPanel .fTablePortlet td {
+	padding: 3px 5px 3px 3px;
+}
+
+.portlet-body .hPanel .fTablePortlet td .amountLabelPortlet {
+	font-weight: bold;
+}
+
+.portlet-body .topPanel button {
+	float: left;
+}
+
+.portlet-body .topPanel .reportToolbar {
+	margin: 5px 0 0 15px;
+}
+
+.portlet-body .expense_label_tabel a {
+	color: black;
+	text-decoration: none;
+}
+
+.portlet-body .expense_label_tabel {
+	width: 100%;
+}
+
+.amountLabelPortlet {
+	font-weight: bold;
+}
+
+.panel-title {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.biz-decor-panel .vPanel .portlet-body .vPanel {
+	border: 0 none;
+}
+
+#PortletPageConfigureDialog .portletNamesPanel span {
+	display: block;
+	padding: 5px;
+}
+
+#PortletPageConfigureDialog .portletNamesPanel span label {
+	padding-left: 5px;
+}
+
+.portlet-body .reportToolbar .form {
+	display: -webkit-box;
+}
+
+.portlet-body .reportToolbar .form input {
+	width: 140px;
+}
+
+.graphPanel .no_records_label {
+	text-align: center;
+}
+
+#inviteUser .inviteUserLabel {
+	font-weight: bold;
+}
+
+#inviteUser .verticalPanel span {
+	display: block;
+}
+
+#inviteUser .verticalPanel span label {
+	padding-left: 3px;
+}
+
+#TranslationView  .translation_note_label {
+	color: red;
+	padding: 5px;
+	border: 1px solid black;
+}
+
+#TranslationView .pagerPanel {
+	display: -webkit-box;
+	-webkit-box-pack: center;
+	width: 100%;
+}
+
+#TranslationView .pagerPanel .pager-range {
+	font-weight: bold;
+	padding-right: 5px;
+}
+
+#DepreciationView .gwt-ListBox {
+	border: 1px solid #b1b1b1;
+	border-radius: 3px 3px 3px 3px;
+	width: 125px;
+}
+
+#InvoiceView .mainVLay .topHLay .rightVLay .align-form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#InvoiceView .prodAndServiceForm2 .vatForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#customerprepaymentview .leftPanel .frameTitle {
+	ddisplay: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#customerprepaymentview .rightPanel .balForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#customerprepaymentview .hLayPanel {
+	width: 100%;
+}
+
+#CustomerRefundView .leftPanel .custForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerRefundView .rightPanel .balForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerRefundView .hLay {
+	width: 100%;
+}
+
+#CashPurchaseView .topHLay .leftVLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashPurchaseView .topHLay .rightVLay .termsForm {
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: end;
+	display: -webkit-box;
+}
+
+#CashPurchaseView .topHLay .rightVLay .formItem {
+	width: 100%;
+}
+
+#CashPurchaseView .topHLay {
+	width: 100%;
+}
+
+.gwt-DisclosurePanel {
+	width: 100%;
+}
+
+#VendorCreditMemoView .leftVLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#writechequeview .bankAccForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CreditCardExpenseView .leftVLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CreditCardExpenseView .rightHLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CreditCardExpenseView .topHLay {
+	width: 100%;
+}
+
+#newAccountView .topHLay .frameTitle {
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	margin: 20px 0;
+	background: white;
+}
+
+
+#newAccountView .mainVLay .frameTitle{
+	margin-top: 20px;
+	}
+#newAccountView .topHLay .leftLayout .balanceForm {
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	margin: 20px 0;
+	background: white;
+}
+
+#newAccountView .balanceForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.gwt-DecoratedTabBar table.gwt-TabBarItem-selected {
+	background-color: #B8B8B8;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #9E9E9E),
+		color-stop(10%, #ABABAB), color-stop(65%, #B8B8B8),
+		color-stop(100%, #B9B9B9) );
+	background-image: -webkit-linear-gradient(#9E9E9E, #ABABAB 10%, #B8B8B8 65%, #B9B9B9);
+}
+
+.gwt-DecoratedTabBar .tabTopLeftInner,.gwt-DecoratedTabBar .tabTopRightInner
+	{
+	width: 6px;
+	height: 6px;
+}
+
+.main-class-pannel,.gwt-PopupPanel,.gwt-TabPanelBottom {
+	background: none repeat scroll 0 0 white;
+}
+
+.gwt-TabPanelBottom,.gwt-StackPanel .gwt-StackPanelItem {
+	padding: 6px;
+}
+
+.gwt-TabPanelBottom {
+	background: none repeat scroll 0 0 #F0F0F0;
+}
+
+#CustomerView .generalTab .topHLay {
+	width: 100%;
+}
+
+#CustomerView .generalTab .topHLay .leftVLay .accInfoForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .generalTab .topHLay .leftVLay .balanceForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .generalTab .topHLay .rightVLay .addressForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .generalTab .topHLay .rightVLay .phoneFaxForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .generalTab .topHLay .rightVLay .emailForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .detailsTab .leftVLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .detailsTab .rightVLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .detailsTab .rightVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CustomerView .tabPanel {
+	width: 100%;
+}
+
+.popup {
+	border: 1px solid #AAAAAA;
+	margin-top: -5px;
+	min-width: 172px;
+	background: none repeat scroll 0 0 white;
+}
+
+.dropdownFlex tr:nth-child(even) {
+	background: none repeat scroll 0 0 #E8E8E8;
+}
+
+table.dropdownFlex tr:FOCUS {
+	background: none repeat scroll 0 0 #ccc !important;
+}
+
+table.dropdownFlex {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.dropdownFlex tr td {
+	border: 0 none;
+}
+
+.blue-day-grid,.blue-month-line,.blue-week-line,.blue-date-picker {
+	width: 205px;
+}
+
+.blue-day-grid {
+	background: none repeat scroll 0 0 white;
+	cursor: pointer;
+	border-collapse: collapse;
+}
+
+.blue-day-grid tr {
+	border: 1px solid #AAA;
+	height: 22px;
+}
+
+.blue-other-day,.blue-week-end,.datePickerDayIsFiller {
+	color: #AAA;
+}
+
+.blue-other-day {
+	border-right: 1px solid #AAA;
+}
+
+.blue-current-month-other-day {
+	border-right: 1px solid #AAA;
+}
+
+.blue-current-month-other-day {
+	border-right: 1px solid #AAA;
+}
+
+.blue-week-end {
+	border-right: 1px solid #AAA;
+}
+
+.datePickerMonthSelector .blue-week-line td,.datePickerMonthSelector .blue-day-grid td
+	{
+	vertical-align: middle;
+	text-align: center;
+}
+
+.blue-current-month-week-end {
+	border-right: 1px solid #AAA;
+}
+
+.blue-week-end,.blue-current-month-week-end,.gwt-DatePicker .datePickerDayIsWeekend
+	{
+	background-color: #EEE;
+}
+
+.blue-current-month-selected {
+	background-color: #81BCC1;
+	color: white;
+}
+
+.blue-current-month-selected {
+	background-color: #81BCC1;
+	color: white;
+}
+
+.blue-month-line .gwt-Label {
+	color: white;
+}
+
+.blue-week-line td {
+	color: white;
+}
+
+.currentmonth {
+	border: 1px solid #3299A4;
+	text-transform: capitalize;
+	text-align: center;
+}
+
+.currentmonth-hover {
+	border: 1px solid !important;
+	border-radius: 5px 5px 5px 5px;
+	text-transform: capitalize;
+	text-align: center;
+}
+
+.reportGridParent .gridBody tr td {
+	border: 0px none;
+	cursor: pointer;
+}
+
+.reportGridParent .gridBody  .underline {
+	border-top: 1px solid black;
+}
+
+.bold-cell {
+	font-weight: bold;
+}
+
+.report-hover {
+	background: none repeat scroll 0 0 #aaa;
+}
+
+
+
+.no_records .report-hover {
+	background: none;
+	cursor: default;
+}
+
+#AddressDialog .bodyLayout .addressForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding: 10px;
+}
+
+#AddressDialog .footerLayout {
+	float: right;
+}
+
+#VendorView .fields-panel .leftVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#VendorBillView .topHLay .rightVLay .dateform {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.textbold {
+	font-weight: bold;
+}
+
+#DepositView .leftPanel .depositToForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.portlet-body .graphPanel {
+	clear: both;
+}
+
+#DepositView .leftPanel {
+	clear: both;
+}
+
+#CheckPrintingSettingView .chequeTopScal {
+	display: -webkit-box;
+	margin-left: 25px;
+}
+
+#CheckPrintingSettingView .chequeTopScal div {
+	margin: 1px;
+}
+
+#CheckPrintingSettingView .horizontalPanel .chequeLeftScal div {
+	height: 8px;
+	width: 10px;
+}
+
+#CheckPrintingSettingView .horizontalPanel {
+	width: 10px;
+	display: -webkit-box;
+}
+
+#CheckPrintingSettingView .chequeLeftScal {
+	width: 10px;
+	margin-top: 15px;
+}
+
+#PurchaseOrderView .topHLay .leftVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#PurchaseOrderView .frameTitle {
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+}
+
+#PurchaseOrderView .ShipToForm {
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+}
+
+#PurchaseOrderView .topHLay .rightVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: end;
+	box-pack: end;
+}
+
+#PurchaseOrderView .topHLay .rightVLay .termsForm {
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+}
+
+#PurchaseOrderView .bottomLayout .panel {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+}
+
+#PurchaseOrderView .bottomLayout .form .panel {
+	width: auto;
+}
+
+#PurchaseOrderView .bottomLayout .prodAndServiceHLay {
+	display: -webkit-box;
+}
+
+#ReceivePaymentView .bottompanel .textForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-box-pack: end;
+}
+
+#ReceivePaymentView .bottompanel .textForm .AmountLabel {
+	-webkit-box-pack: end;
+	font-weight: bold;
+}
+
+#CashPurchaseView .bottomLayout .boldtext {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashPurchaseView .bottomLayout .transactionTotalForm .AmountLabel {
+	-webkit-box-pack: end;
+	width: 100%;
+}
+
+#VendorCreditMemoView .topHLay1 {
+	clear: both;
+	display: block;
+}
+
+#VendorCreditMemoView .bottomLayout1 .transactionTotalForm .AmountLabel
+	{
+	-webkit-box-pack: end;
+	width: 100%;
+}
+
+#writechequeview .vatPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	box-orient: vertical
+}
+
+#writechequeview .amountPanel .boldtext {
+	width: 100%;
+}
+
+#writechequeview .amountPanel .boldtext .AmountLabel {
+	-webkit-box-pack: end;
+	width: 100%;
+}
+
+#CreditCardExpenseView .totForm .AmountLabel {
+	width: 100%;
+	-webkit-box-pack: end;
+	font-weight: bold;
+}
+
+#TDSAcknowlegmentForm .footerLayout {
+	float: right;
+}
+
+#TdsForm16ACreationDialogue .mainPanel .vPanel .form0 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#TdsForm16ACreationDialogue .mainPanel .vPanel .form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#TdsForm16ACreationDialogue .footerLayout {
+	float: right;
+}
+
+#TdsForm16ACreationDialogue .radioButtonPanel span {
+	padding: 5px;
+}
+
+#TdsForm16ACreationDialogue .radioButtonPanel span label {
+	padding-left: 2px;
+}
+
+#TAXAgencyView .topHLay {
+	width: 100%;
+}
+
+#paytaxview .leftVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashSalesView .topHLay {
+	width: 100%;
+}
+
+#CashSalesView .topHLay .leftVLay .align-form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashSalesView .topHLay .rightVLay .align-form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#SalesTaxGroupListView .bodyLayout {
+	width: 100%;
+}
+
+#AccountMergeDialog {
+	width: 650px;
+}
+
+#SelectChallanTypeDialog .mainVLay .RadioGroupItem {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding: 20px;
+	margin-bottom: 5px;
+}
+
+#SelectChallanTypeDialog .mainVLay .RadioGroupItem .readioGropuitem span
+	{
+	display: block;
+}
+
+#TDSChalanDetailsView .horizontalPanel1 {
+	display: -webkit-box;
+}
+
+#TDSChalanDetailsView .horizontalPanel2 {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#TDSChalanDetailsView .horizontalPanel2 .belowForm2 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.gwt-DialogBox .RadioGroupItem .readioGropuitem span {
+	display: block;
+	margin: 5px;
+}
+
+#customercreditmemoview .prodAndServiceHLay .taxForm {
+	padding: 0 5px;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+}
+
+#PurchaseOrderView .dateNoForm {
+	display: -webkit-box;
+	float: right;
+}
+
+#QuoteView .topHLay .leftVLay .ShipToForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#QuoteView .topHLay .leftVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+#VendorBillView .bottompanel .taxPanel .form {
+	margin-right: 5px;
+}
+
+#CashExpenseView .topHLay .leftVLay .frameTitle {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashExpenseView .topHLay .rightVLay .locationform {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashExpenseView .topHLay .rightVLay .currencyTextBox {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#customercreditmemoview .prodAndServiceHLay .boldtext {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#writechequeview .bottomPanel .form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.gwt-DialogBox .caption .imageStyledPanel {
+	padding-right: 10px;
+}
+
+#invoicebrandingview .setting-class-panel {
+	padding: 10px;
+	margin-top: 10px;
+	border: 1px solid #989898;
+}
+
+#invoicebrandingview .setting-class-panel .vPanel .standard-options {
+	display: -webkit-box;
+	width: 99%;
+	-webkit-box-pack: justify;
+	padding: 7px 0;
+}
+
+#invoicebrandingview .setting-class-panel .vPanel .standard-options .buttonPanel2
+	{
+	-webkit-box-pack: end;
+	display: -webkit-box;
+}
+
+#invoicebrandingview .setting-class-panel .vPanel .standard-options .buttonPanel2 button
+	{
+	margin: 0 5px;
+}
+
+#invoicebrandingview .setting-class-panel .allPanel {
+	display: -webkit-box;
+	padding: 0 5px;
+	width: 100%;
+	-webkit-box-pack: justify;
+}
+
+.upload-logo {
+	border: 1px solid #DDD;
+	margin: 10px 2px;
+	height: 150px;
+	width: 160px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#invoicebrandingview .main_horzontal_menubar {
+	background: #226B73;
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) );
+	width: 160px;
+	text-align: center;
+	padding: 5px 3px;
+	color: white;
+}
+
+#invoicebrandingview  .main_horzontal_menubar table .gwt-MenuItem {
+	background: url("../images/Dropdown_indicator_5x3.png") no-repeat scroll
+		right center;
+	padding-right: 10px;
+}
+
+#invoicebrandingview .detailsPanel .uploadPanel {
+	padding-left: 10px;
+}
+
+#invoicebrandingview .detailsPanel .transactionStyles {
+	border-right: #CCC solid 1px;
+	padding: 0 5px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#invoicebrandingview .detailsPanel .downloadPanel {
+	border-right: #CCC solid 1px;
+	padding: 0 5px;
+}
+
+#invoicebrandingview .detailsPanel .leftBorder {
+	width: 110px;
+	padding: 0 2px;
+}
+
+#PortletPage .firstRow table {
+	width: 100%;
+}
+
+#PortletPage .firstRow .portlet_close_button {
+	text-align: right;
+	padding-right: 5px;
+	width: 15px;
+}
+
+#PortletPage .firstRow .go-to-link {
+	text-align: right;
+	padding-bottom: 2px;
+}
+
+#CustomerGroupListDialog .group_dialogue_list {
+	width: 300px;
+}
+
+#ShippingMethodListDialog .group_dialogue_list {
+	width: 470px;
+}
+
+#ShippingTermListDialog .group_dialogue_list {
+	width: 470px;
+}
+
+#CustomerGroupListDialog .dialogMiddleCenterInner .listgrid {
+	width: 250px;
+}
+
+.setup_panel button {
+	cursor: pointer;
+}
+
+.viewButtonPanel select.industry_list {
+	width: 300px;
+}
+
+.setup_panel .viewButtonPanel .viewPanel {
+	height: 90%;
+}
+
+.setup_panel .viewButtonPanel .viewPanel .refer_panel {
+	margin: 10px 0px;
+	display: -webkit-box;
+}
+
+.setup_panel .viewButtonPanel .viewPanel .refer_panel .gwt-Label {
+	font-size: 17px;
+}
+
+.setup_panel .viewButtonPanel .viewPanel .estimate_stmt_acc span {
+	display: block;
+	padding-top: 10px;
+}
+
+.setup_panel .industry_subindustry_panel {
+	display: -webkit-box;
+	margin-top: 15px;
+}
+
+.setup_panel .industry_subindustry_panel .accounts_label {
+	font-weight: bold;
+	background: #ccc;
+	padding: 3px;
+}
+
+.setup_panel .industry_subindustry_panel .sub_industry_listpanel {
+	border: 1px solid #AAA;
+	border-radius: 3px;
+}
+
+.industry_subindustry_panel .industry_list_table {
+	margin-right: 20px;
+	border: 1px solid #AAA;
+	border-radius: 3px;
+}
+
+#CheckPrintingSettingView .checkpanel {
+	margin-bottom: 40px;
+	height: 280px;
+	overflow: scroll;
+	padding: 20px;
+}
+
+#CheckPrintingSettingView .chequeBackground {
+	background: none repeat scroll 0 0 #AAAAAA;
+	padding: 16px 10px 10px 17px;
+}
+
+#CheckPrintingSettingView .chequeBackground .chequeBody {
+	background: none repeat scroll 0 0 white;
+	box-shadow: 5px 5px #000000;
+	margin-top: 4px;
+}
+
+#CheckPrintingSettingView .chequeForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.checkboxItem {
+	border: 0 none;
+}
+
+.gwt-PopupPanel .popupContent table {
+	width: 100%;
+	height: 35px;
+}
+
+#RecurringTransactionDialog .mainPanel .bodyLayout .mainLayout {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#RecurringTransactionDialog .mainPanel .bodyLayout .mainLayout .nameForm
+	{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#RecurringTransactionDialog .mainPanel .bodyLayout .mainLayout .interval_Value .gwt-RadioButton
+	{
+	display: block;
+	margin: 5px 0;
+}
+
+#RecurringTransactionDialog .mainPanel .bodyLayout {
+	padding: 10px;
+}
+
+#AccounterDialog .bodyLayout {
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+}
+
+#AccounterDialog .bodyLayout .headerLayout {
+	display: -webkit-box;
+	margin: 10px 0 10px 0;
+}
+
+.gwt-DialogBox .buttonLayout {
+	display: -webkit-box;
+	-webkit-box-pack: end;
+	margin: 0 5px 5px 0
+}
+
+.gwt-DialogBox .buttonLayout button {
+	width: 80px;
+	margin: 0 10px;
+}
+
+#AccounterDialog .bodyLayout .headerLayout .gwt-HTML {
+	padding: 0px 0px 0 5px;
+	width: 360px;
+}
+
+#AccounterDialog table {
+	width: 325px;
+}
+
+.setup_panel .viewPanel .gwt-Button {
+	margin: 5px;
+}
+
+#CustomFieldDialog table {
+	width: 650px;
+}
+
+.error-panel {
+	background: none repeat scroll 0 0 #FFEBE8;
+	border: 1px solid red;
+	padding: 10px;
+	margin-bottom: 10px
+}
+
+.error-panel li {
+	list-style-type: none;
+}
+
+#appVersions li {
+	display: inline-block;
+}
+
+#appVersions span {
+	display: inline;
+}
+
+#appVersions ul {
+	display: inline;
+}
+
+.addNewButton {
+	margin-bottom: 10px;
+	background-position: 5px center;
+}
+
+.bottomPanel .memoForm {
+	margin-top: 0px;
+}
+
+.makeDetailPanel {
+	display: -webkit-box;
+	width: 100%;
+	margin: 10px 0 10px 10px;
+}
+
+.makeDetailPanel .make_leftDetailPanel div:FIRST-CHILD {
+	margin: 6px;
+}
+
+.transaction_meter {
+	border: 1px solid #CCCCCC;
+	height: 50px;
+	margin-top: 10px;
+	padding: 12px;
+	width: 224px;
+	margin-left: 10px;
+}
+
+.transactionMeterBar {
+	border: 1px solid #CCCCCC;
+	height: 20px;
+}
+
+.inner_transactionMeterBar_green {
+	background: none repeat scroll 0 0 green;
+}
+
+.inner_transactionMeterBar_yellow {
+	background: none repeat scroll 0 0 yellow;
+}
+
+.inner_transactionMeterBar_red {
+	background: none repeat scroll 0 0 red;
+}
+
+.inner_transactionMeterBar {
+	height: 20px;
+	width: 0px;
+}
+
+#customercreditmemoview .topHLay {
+	width: 100%;
+}
+
+#InventoryCentreView .mainPanel {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#InventoryCentreView .mainPanel .leftVpPanel {
+	width: 25%;
+}
+
+#InventoryCentreView .mainPanel .rightVpPanel {
+	width: 75%;
+	margin: 5px;
+}
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .headingPanel
+	{
+	background: #2D8B93;
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	height: 22px;
+	display: -webkit-box;
+	width: 100%;
+	padding-left: 2px;
+}
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#InventoryCentreView .mainPanel .rightVpPanel #ItemDetailsPanel .headingPanel .gwt-Label
+	{
+	color: white;
+}
+
+#InventoryCentreView #InventoryCentreItemsListGrid {
+	border: 1px solid #2D8B93;
+}
+
+#InventoryCentreView #InventoryCentreItemsListGrid .gridBodyContainer {
+	height: 600px;
+	overflow: auto;
+}
+
+#InventoryCentreView .mainPanel .rightVpPanel .transactionGridpanel .viewform
+	{
+	display: -webkit-box;
+}
+
+#WareHouseView .mainHLay {
+	display: -webkit-box;
+	width: 100%;
+}
+
+.companyInfoPanel span.gwt-CheckBox {
+	display: block;
+	margin: 5px;
+}
+
+.setup_panel .subPanel {
+	margin-left: 30px;
+}
+
+.subtrackortax {
+	margin-left: 20px;
+}
+
+.inventoryschemlistbox {
+	display: -webkit-box;
+	margin-bottom: 10px
+}
+
+.subPanel span.gwt-CheckBox {
+	display: block;
+}
+
+.subtrackortax .gwt-RadioButton {
+	margin-left: 10px;
+}
+
+.subtrackortax .gwt-CheckBox {
+	margin-left: 10px;
+}
+
+#vendorCenterView .rightform .notes .label {
+	width: 200px;
+}
+
+#CustomerCenterView .rightform .notes .label {
+	width: 200px;
+}
+
+#CurrencyFormatDialog .bodyLayout {
+	padding: 5px;
+}
+
+#CurrencyFormatDialog .bodyLayout fieldset .formatForm {
+	padding: 5px;
+}
+
+#PreferenceSettingsView .currencyFormat {
+	display: -webkit-box;
+}
+
+#PreferenceSettingsView .terminologyforvendor .terminologyradio div {
+	padding: 5px 0px;
+}
+
+#PreferenceSettingsView .terminologyforvendor .header {
+	margin-top: 10px;
+}
+
+#PreferenceSettingsView .terminologyforvendor .terminologycustomerradio div
+	{
+	padding: 5px 0px;
+}
+
+#PreferenceSettingsView input[type="checkbox"] {
+	margin-right: 5px;
+}
+
+#PreferenceSettingsView .fiscal-year-width {
+	display: inline;
+}
+
+#PreferenceSettingsView .fiscal-year-width div {
+	display: inline;
+}
+
+.viewholder button {
+	cursor: pointer;
+}
+
+#PreferenceSettingsView .inventorysuboption span.gwt-CheckBox {
+	margin-left: 20px !important;
+}
+
+#PreferenceSettingsView .inventorysuboption .subpanel {
+	margin-left: 30px;
+	margin-top: 15px;
+}
+
+#PreferenceSettingsView .inventorysuboption .subpanel span.gwt-CheckBox
+	{
+	margin-left: 0px !important;
+}
+
+#PreferenceSettingsView .inventorylistbox {
+	display: -webkit-box;
+}
+
+#PreferenceSettingsView .salesOrderandCheckBoxPanel span {
+	display: block;
+	margin: 10px 0;
+}
+
+#PreferenceSettingsView .trackdiscount .tracktransaction {
+	margin: 20px;
+}
+
+#PreferenceSettingsView .trackdiscount .account_panel {
+	display: -webkit-box;
+	margin: 10px;
+}
+
+#PreferenceSettingsView .trackestimate .yesnobutton span:last-child {
+	margin-left: 50px;
+}
+
+#PreferenceSettingsView .trackestimate .doincludeaccepted span {
+	display: block;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+#PreferenceSettingsView .trackestimate .yesnobutton {
+	margin: 10px 0;
+}
+
+#PreferenceSettingsView .manageBillsOweRadioButtonsPanel {
+	margin: 10px 0;
+}
+
+#PreferenceSettingsView .manageBillsOweRadioButtonsPanel span:last-child
+	{
+	margin-left: 50px;
+}
+
+.gridBody a {
+	color: black;
+	text-decoration: underline;
+}
+
+.history_notes_label {
+	border-bottom: 2px solid #CCC;
+	color: #002E36;
+	font-size: 15px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+#InvoiceView .attachment_panel form .gwt-Button {
+	margin-left: 15px;
+}
+
+.setup_panel .progress_panel_hide .viewButtonPanel {
+	padding: 10px 0px 10px 10px;
+	width: 100%;
+	min-height: 500px;
+}
+
+.setup_panel .progress_panel_hide .progressPanel {
+	display: none;
+}
+
+.appVersions div a {
+	color: #ccc;
+	text-decoration: none;
+}
+
+#ChangePasswordDialog .mainPanel .bold .NoWrapping {
+	display: none;
+}
+
+#WarningsDialog .headerLayout {
+	display: -webkit-box;
+}
+
+#WarningsDialog .gwt-HTML {
+	width: 280px;
+}
+
+.search_buttons .gwt-Button {
+	margin: 5px;
+}
+
+.portlet-body {
+	overflow-y: auto;
+	position: relative;
+	height: auto;
+}
+
+#BankingPortlet .portlet-body {
+	overflow-y: auto;
+	position: relative;
+	height: 270px;
+}
+
+.view_manager .rightPanel iframe {
+	border: 0 none;
+	height: 300px;
+	margin-left: 10px;
+	width: 250px;
+}
+
+.portlet-body .hPanel {
+	margin-bottom: 50px;
+}
+
+#searchInputDialog table {
+	width: 500px;
+}
+
+#searchInputDialog .search-all-forms {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#searchInputDialog .search-all-forms .search_buttons {
+	width: 40%;
+	display: -webkit-box;
+	-webkit-box-pack: end;
+	-webkit-box-orient: vertical;
+	-webkit-box-align: end;
+}
+
+#searchInputDialog .search-all-forms .search_buttons button {
+	display: block;
+	margin: 5px;
+	width: 80px;
+}
+
+/* amount text field should be right. but align center overrides this one because only i put the important  */
+.amountText .gwt-TextBox,.editTable .amount,.AmountField .gwt-TextBox {
+	text-align: right !important;
+}
+
+.change_password_view a {
+	display: block;
+	margin: 5px;
+}
+
+.bank-account-portlet {
+	 height:  280px;
+	    overflow-y:  scroll;
+}
+
+.combo-scroll-panel {
+	max-height:  100px;
+	    overflow-y:  scroll;
+}
+
+.thankyou-header {
+	text-align: center !important;
+}
+
+.thankyou-header  p {
+	font-size: 25px;
+	line-height: 30px;
+}
+
+.thank-you-data {
+	border: thin solid #1A5158;
+	color: #FFFFFF;
+	padding: 37px;
+}
+
+.thankyou-form {
+	margin: 7em auto;
+	width: 600px;
+}
+
+.thankyou-form .thank-you-data {
+	border-radius: 10px 10px 10px 10px;
+	margin: 10px 0;
+	padding: 15px;
+}
+
+#SalesTaxGroupDialog .horizontalPanel {
+	display: -webkit-box;
+}
+
+#SalesTaxGroupDialog .dialogMiddleCenterInner .listgrid {
+	width: 300px;
+}
+
+.prenextmonth-okcancel {
+	padding: 5px;
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	-webkit-box-align: start;
+}
+
+.prenextmonth-okcancel button {
+	text-align: right;
+	margin-left: 5px;
+}
+
+#CustomerGroupListDialog  .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#CustomerGroupListDialog  .bodyLayout .bodyLayout1 .gridBody {
+	overflow: hidden;
+}
+
+#VendorGroupListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#PaymentTermListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#PaymentTermListDialog .bodyLayout .bodyLayout1 .listgrid {
+	width: 500px;
+}
+
+#PaymentTermListDialog .bodyLayout .bodyLayout1 .gwt-Button {
+	margin-top: 10px;
+}
+
+#ShippingMethodListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#ShippingTermListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#ItemGroupListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#ItemGroupListDialog .gridHeaderParent {
+	width: 250px;
+}
+
+#ItemGroupListDialog {
+	width: 400px;
+}
+
+#CurrencyGroupListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#PriceLevelListDialog .bodyLayout .bodyLayout1 {
+	display: -webkit-box;
+}
+
+.selected {
+	background: #CCC;
+}
+
+#RemindersListView .panel .gwt-Button {
+	margin: 5px;
+}
+
+#FileUploadDilaog .vpaPanel .panel-right-align button {
+	margin: 5px;
+}
+
+.group-toolbar .buttonsPanel {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: end;
+}
+
+#contactForm {
+	background-color: #333333;
+	border: 2px solid #FFFFFF;
+	margin-right: -400px;
+	margin-top: -160px;
+	padding-left: 30px;
+	position: fixed;
+	top: 200px;
+	z-index: 99;
+	display: none;
+}
+
+form#contactForm input,form#contactForm .submit {
+	outline-style: none;
+	outline-width: medium;
+}
+
+form#contactForm input {
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 1px solid #AAAAAA;
+	margin-bottom: 10px;
+	padding: 5px;
+	width: 325px;
+}
+
+.yourfeedback .comment {
+	height: 323px;
+	width: 325px;
+	outline-style: none;
+	outline-width: medium;
+}
+
+form#contactForm .submit {
+	background: #F5410F none repeat scroll 0 0;
+	border: 3px solid #F52D0F;
+	outline-color: -moz-use-text-color;
+	margin-top: 10px;
+	text-transform: uppercase;
+}
+
+#contactForm .red {
+	color: #F5410F;
+}
+
+.allPanel .pageFormatPanel {
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 100%;
+	height: 20px;
+}
+
+.allPanel .pageFormatPanel .cheque_print_text {
+	font-weight: bold;
+	color: #fff;
+}
+
+.allFields .cheque_print_text .NoWrapping {
+	display: none;
+}
+
+.allFields .cheque_print_text .label {
+	font-weight: bold;
+	width: 200px;
+}
+
+.checkprintbox {
+	border: 1px solid #AAAAAA;
+}
+
+#import-button-panel .prev_button {
+	float: left;
+}
+
+#import-button-panel .next_button {
+	float: right;
+}
+
+#import-preview-panel {
+	height: 100%;
+	width: 100%;
+	padding-left: 10px;
+}
+
+#import-preview-panel #mainTable {
+	width: 100%;
+}
+
+#import-preview-panel .preview-header {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+#import-preview-panel .table-header {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+#import-preview-panel .scrollPanel {
+	border-style: solid;
+	border-width: 1px;
+	height: 400px;
+	margin: 10px;
+	overflow: auto;
+	position: relative;
+}
+
+#import-preview-panel #mainTable td {
+	vertical-align: top;
+}
+
+#import-preview-pane .mappingTablePanel td {
+	border-style: solid;
+	border-width: 1px;
+}
+
+#import-preview-pane .import-match-content td .table-header {
+	padding: 5px;
+}
+
+#import-preview-panel .import-match-content {
+	width: 550px;
+}
+
+#import-preview-panel .import-match-content td {
+	padding-right: 10px;
+}
+
+#import-preview-panel .import-button-panel {
+	text-align: center;
+}
+
+#import-preview-panel .import-button-panel button {
+	margin-right: 10px;
+}
+
+#BankAccountsPortlet .listgrid .gridHeader {
+	display: none;
+}
+
+#BankingPortlet .portlet-body .dashboard_label {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	width: 90%;
+	padding: 0 3px;
+}
+
+#BankingPortlet .portlet-body .dashboard_label .label-banking {
+	font-weight: bold;
+}
+
+#BankingPortlet .portlet-body button {
+	display: block;
+}
+
+.report-toolbar button {
+	margin-left: 10px;
+}
+
+.user_activity_dateform {
+	display: -webkit-box;
+}
+
+.user_activity_dateform .dateForm {
+	display: -webkit-box;
+}
+
+.user_activity_dateform .dateForm button {
+	margin: 0 10px;
+}
+
+#CustomerMergeDialog .horizontalPanel {
+	margin: 10px 0px;
+}
+
+#CustomerMergeDialog table {
+	width: 650px;
+}
+
+#NewBrandingThemeView .gwt-DecoratedTabPanel {
+	width: 100%;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .check_radioPanel .rightBorder
+	{
+	margin-bottom: 30px;
+}
+
+#NewBrandingThemeView .button_textBoxPanel .check_radioPanel .rightBorder span
+	{
+	display: block;
+	margin: 5px 0;
+}
+
+.gridBody a {
+	cursor: pointer;
+}
+
+#NewBrandingThemeView .rightBorder .gwt-HTML {
+	width: 200px;
+}
+
+#NewBrandingThemeView .radioButtonPanel .gwt-HTML {
+	width: 200px;
+}
+
+#NewBrandingThemeView .rightBorder {
+	border-right: #CCC solid 1px;
+	padding: 0 10px;
+}
+
+#NewBrandingThemeView .radioButtonPanel {
+	padding: 0 10px;
+}
+
+.
+#NewBrandingThemeView .radioButtonPanel span {
+	display: block;
+	margin: 5px 0;
+}
+
+.textBoxPanel table td:first-child {
+	width: 150px;
+}
+
+.
+#NewBrandingThemeView .measurePanel {
+	padding: 10px;
+	width: 105px;
+	margin-top: 65px;
+}
+
+#NewBrandingThemeView .terms-payment-area {
+	margin: 20px;
+}
+
+#NewBrandingThemeView .hPanel {
+	display: -webkit-box;
+}
+
+.portlet-body .quick-links-table {
+	width: 100%;
+}
+
+#AddBudgetAmountDialogue .verticalPanel .gwt-DisclosurePanel .vPanel span
+	{
+	display: block;
+	margin: 5px 0;
+}
+
+.user_activity_log thead {
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+}
+
+.user_activity_log thead th {
+	color: white;
+	text-shadow: none;
+}
+
+.gwt-CheckBox {
+	display: block;
+	margin: 4px 0 0 4px;
+}
+
+.editTable .gwt-CheckBox {
+	margin: 0px;
+}
+
+#TransactionsListView  .formItem {
+	margin-bottom: 0px;
+}
+
+#ItemListView  .formItem {
+	margin-bottom: 0px;
+}
+
+
+.editTable_enable_anchor .gwt-Anchor {
+	text-decoration: underline;
+	color: #000;
+}
+
+.printableLayout .gwt-HTML {
+	margin-bottom: 10px;
+}
+
+.gridBody .depth .depth2 {
+	padding-left: 2%;
+}
+
+.budget_overview .gridBody .depth2 {
+	padding-left: 2px;
+}
+
+.popupContent .combo-scroll-panel {
+	max-height: 200px;
+	overflow: auto;
+}
+
+.menu_item_clicked {
+	font-weight: bold;
+	background: #226B73;
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#1A5158) ); /* for webkit browsers */
+}
+
+.menu_item_clicked a {
+	color: white;
+}
+
+#WhoIOwePortlet .gridHeader {
+	display: none;
+}
+
+#WhoOwesMePortlet .gridHeader {
+	display: none;
+}
+
+#RecentTransactionsPortlet .gridHeader {
+	display: none;
+}
+
+#AccountBalancesPortlet .gridHeader {
+	display: none;
+}
+
+#TopPayeesBySalesPortlet  .gridHeader {
+	display: none;
+}
+
+#TopPayeesBySalesPortlet .gridHeader {
+	display: none;
+}
+
+.portlet-body .listgrid {
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color: #2D8b93;
+}
+
+.editTable td a {
+	color: black;
+}
+
+.search_result_table {
+	border: 1px solid #AAA;
+	margin: 10px 0 2px;
+	padding: 5px;
+}
+
+.editTable .editheader td {
+	padding: 5px;
+}
+
+.editTable .selected {
+	background: white;
+}
+
+.gwt-PopupPanel {
+	min-width: 200px;
+}
+
+#MessagesAndTasksPortlet .portlet-body {
+	margin-top: 0px;
+}
+
+#WhoOwesMePortlet .portlet-body {
+	margin-top: 0px;
+}
+
+#WhoIOwePortlet .portlet-body {
+	margin-top: 0px;
+}
+
+#WhoOwesMePortlet .linkPanel {
+	float: right;
+	margin: 0 5px 5px 0;
+}
+
+#WhoIOwePortlet .linkPanel {
+	float: right;
+	margin: 0 5px 5px 0;
+}
+
+.terminologyradioButotns {
+	margin-left: 15px;
+}
+
+.terminologyradioButotns div {
+	margin: 5px 0;
+}
+
+.user_activity_log thead th {
+	border-bottom: 1px solid #55B8C1;
+	font-weight: normal;
+	text-shadow: none;
+	color: white;
+}
+
+.user_activity_log tr td,.user_activity_log tr th {
+	padding: 2px;
+}
+
+.user_activity_log {
+	border: 1px solid #2D8B93;
+	margin-top: 10px;
+	width: 100%;
+}
+
+#UsersActivityListView .formItem {
+	margin-bottom: 0;
+}
+
+#UsersActivityListView  button {
+	margin: 0 5px;
+}
+
+.popupContent table td {
+	white-space: pre;
+}
+
+#RecurringTransactionDialog .daysAdvForm .daysInAdvanceLabel .label {
+	margin-left: 5px;
+}
+
+.reportGridParent table.no_records td {
+	text-align: center;
+}
+
+#PreferenceSettingsView .expenseByCustomerPanel span {
+	display: block;
+}
+
+#MeasurementsListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+#WarehouseListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+#StockAdjustmentsListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+.gridBody .loading-panel {
+	text-align: center;
+}
+
+#VendorGroupListDialog .list-grid-body {
+	width: 250px;
+}
+
+#VendorGroupListDialog {
+	width: 400px;
+}
+
+.new_login_accounterform input[type="text"] {
+	font-size: 15px;
+}
+
+input[type="text"] {
+	font-size: 13px;
+}
+
+#CheckPrintingSettingView .allFields .fourForm,#CheckPrintingSettingView .allFields .boldForms {
+	display: -webkit-box;
+	-webkit-box-pack: justify;
+	background: white;
+}
+.boldForms .formItem, .fourForm .formItem {
+	border: 0 none;
+}	
+#SelectItemTypeDialog .dialogMiddle .dialogMiddleCenterInner .mainPanel
+	{
+	padding-right: 200px;
+	width: 100%;
+}
+.dropdownTable .dropdownFlex .GK40RFKDBE{
+	background-color:#AAA !important;
+}
+.popuppaneldropdown .dropdownTable {
+	height: 200px;
+	width: 250px;
+}
+
+#NewFixedAssetView .DepreciationMethodCombo .gwt-ListBox {
+	border: 1px solid #AAAAAA;
+	border-radius: 3px 3px 3px 3px;
+	height: 20px;
+	padding: 0 0 0 5px;
+	width: 172px;
+}
+
+#NewFixedAssetView .descriptionVPanel .NoWrapping {
+	display: none;
+}
+
+.standard_label .gwt-HTML {
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#ReconciliationDialog table {
+	width: 400px;
+}
+
+#newAccountView .button_bar .gwt-Button {
+	margin-right: 10px;
+}
+
+.editTable textarea[disabled] {
+	background-color: white;
+}
+
+textarea[disabled] {
+	background-color: #EBEBE4;
+	margin-bottom: 5px;
+	resize: none !important;
+}
+
+#reconcilationView .hPanel {
+	display: -webkit-box;
+	width: 100%;
+	clear: both;
+}
+
+#reconcilationView .recoucilation_change {
+	float: right;
+	margin-bottom: 10px;
+}
+
+#reconcilationView .recounciliation_grid table {
+	clear: both;
+	width: 100%;
+}
+
+#reconcilationView .reconcillation_grid_panel {
+	border: 1px solid #2D8B93;
+	clear: both;
+	min-height: 200px;
+}
+
+#reconcilationView .recounciliation_grid table thead th {
+	text-shadow: none;
+	border-bottom: 0 none;
+	color: white;
+}
+
+#reconcilationView .recounciliation_grid table thead tr {
+	background: #2D8B93;
+	background: -webkit-gradient(linear, left top, left bottom, from(#3299A4),
+		to(#2D8B93) );
+}
+
+.popupContent div:first-child {
+	overflow-x: hidden !important;
+}
+
+#popuppaneldropdown .dropdownTable {
+	max-height: 200px;
+}
+
+#CashDiscountDialog .discountForm {
+	display: -webkit-box;
+}
+
+#RecurringTransactionDialog .intervalForm {
+	margin-bottom: 10px;
+}
+
+#RecurringTransactionDialog .dateRangeForm {
+	margin-bottom: 10px;
+}
+
+#RecurringTransactionDialog .endDateTypeForm {
+	margin-bottom: 10px;
+}
+
+#customercreditmemoview .boldtext .formItem .gwt-TextBox {
+	width: 130px;
+}
+
+#RecurringTransactionDialog .interval_Value .hPanel .customComboItem {
+	margin-right: 28px;
+}
+
+#VendorView .mainVLay table.tabPanel {
+	width: 100%;
+}
+
+#InventoryItemsListView .hlay .form {
+	float: right;
+}
+
+#InventoryItemsListView .hlay .form {
+	float: right;
+}
+
+#InventoryItemsListView table.gridHeader,#InventoryItemsListView table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#WarehouseListGrid table.gridHeader,#WarehouseListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+#WarehouseTransferListView table.gridHeader,#WarehouseTransferListView table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#StockAdjustmentsListGrid table.gridHeader,#StockAdjustmentsListGrid table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#MeasurementsListGrid table.gridHeader,#MeasurementsListGrid table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#JobListGrid table.gridHeader,#JobListGrid table.gridBody {
+	table-layout: fixed;
+}
+
+#RecurringConfirmDialog table {
+	width: 450px;
+}
+
+#EmailView .mainPanel .horPanel {
+	width: 75%;
+	display: -webkit-box;
+}
+
+#EmailView .buttonsPanel button {
+	margin: 0 5px;
+}
+
+#EmailView .emailBody textarea {
+	height: 240px;
+}
+
+#EmailView .emailBody .gwt-Label {
+	display: none;
+}
+
+#EmailView .mainPanel .horPanel .gwt-Button {
+	margin-left: 10px;
+}
+
+#EmailView .mainPanel .horPanel .vPanel {
+	float: right;
+}
+
+#EmailView .mainPanel .horPanel .vPanel .formItem textarea {
+	height: 50px;
+}
+
+.recurring_message_panel {
+	float: right;
+}
+
+.recurring_message_panel div.gwt-HTML {
+	display: inline;
+}
+
+.recurring_message_panel div.gwt-HTML a {
+	color: black;
+}
+
+.recurring_message_panel a.gwt-Anchor {
+	color: black;
+	padding: 0 5px;
+	text-decoration: underline;
+}
+
+#SellingRegisteredItemView .RadioGroupItem .readioGropuitem .gwt-RadioButton
+	{
+	display: block;
+}
+
+#SellingRegisteredItemView .button_bar .gwt-Button {
+	margin: 0 10px;
+}
+
+.historyNotesPanel .history_notes_view {
+	margin: 10px 0;
+}
+
+.historyNotesPanel .history_notes_view .history_links a {
+	margin-right: 15px;
+	color: black;
+}
+
+.historyNotesPanel .history_notes_view .notesPanel {
+	border: 1px solid black;
+	margin-top: 5px;
+	padding: 10px;
+	width: 400px;
+}
+
+.historyNotesPanel .history_notes_view .notes_Panel .notes_button_panel
+	{
+	margin: 10px 0;
+	text-align: right;
+}
+
+.historyNotesPanel .history_notes_view .notes_Panel .notes_button_panel button
+	{
+	margin-right: 10px;
+}
+
+#AccounterClassListDialog .group_dialogue_list {
+	width: 400px;
+}
+
+#AccounterClassListDialog .dialogMiddleCenterInner .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#AccounterClassListDialog .dialogMiddleCenterInner .bodyLayout .listgrid
+	{
+	width: 280px;
+}
+
+#LocationGroupListDialog .group_dialogue_list {
+	width: 400px;
+}
+
+#LocationGroupListDialog .dialogMiddleCenterInner .bodyLayout1 {
+	display: -webkit-box;
+}
+
+#BuildAssemblyView  .topPanel .formItem {
+	margin-left: 10px;
+}
+
+.view_panel .companyInfoPanel {
+	padding-top: 10px;
+}
+
+.view_panel  .companyInfoPanel {
+	border-top: 1px solid #ccc;
+	margin-right: 10px;
+}
+
+#LocationGroupListDialog .dialogMiddleCenterInner .bodyLayout .listgrid
+	{
+	width: 280px;
+}
+
+#UploadCSVFileDialog .panel-right-align {
+	text-align: right;
+	margin: 5px 0;
+}
+
+#UploadCSVFileDialog .panel-right-align button {
+	margin: 0 5px;
+}
+
+#CustomerView .memoForm .memo {
+	margin-top: 10px;
+	display: block;
+}
+
+#ETdsFillingView .button_bar {
+	margin-top: 15px;
+}
+
+#JournalViewDialog .borders td,.borders {
+	border-bottom: 1px solid #000000;
+	border-collapse: collapse;
+}
+
+#JournalViewDialog .borders {
+	border-top: 1px solid #000000;
+	width: 100%;
+}
+
+#JournalViewDialog .mainLayout .borders td {
+	padding: 3px;
+}
+
+#JournalViewDialog .mainLayout .formItem {
+	margin: 5px 0;
+}
+
+#JournalViewDialog .footerLayout {
+	margin: 15px 0 0;
+}
+
+#CurrencyGroupListDialog .group_dialogue_list {
+	width: 400px;
+}
+
+#CurrencyGroupListDialog .bodyLayout .listgrid {
+	width: 270px;
+}
+
+.blue-date-picker .blue-day-grid td {
+	text-align: center;
+}
+
+#appVersions a:FOCUS {
+	text-decoration: underline;
+}
+
+#CustomerCenterView .gridBody td {
+	text-align: left;
+}
+
+#vendorCenterView .gridBody td {
+	text-align: left;
+}
+
+.blue-day-grid td {
+	text-align: center;
+}
+
+#InvoiceView .prodAndServiceHLay .vatForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#CashPurchaseView .bottomLayout .form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#writechequeview .topHLay .accPanel .payForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#writechequeview .topHLay .accPanel .currencyPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#MakeDepositView .mainVLay .topHLay .depoForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#MakeDepositView .mainVLay .topHLay .currencyPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#paybillview .payForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#paybillview .balForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#AddBudgetAmountDialogue .gwt-DisclosurePanel .header {
+	text-decoration: none;
+}
+
+.Transactions_center #TaxAdjustmentListGrid .gridHeader,.Transactions_center #TaxAdjustmentListGrid .gridBody
+	{
+	table-layout: fixed;
+}
+
+#QuickAddDialog .mainPanel .footerLayout {
+	margin: 10px 0;
+}
+
+#QuickAddDialog .mainPanel .footerLayout button {
+	margin: 0 5px;
+}
+
+.title_voided_label {
+	border: 1px solid gray;
+	color: red;
+	font-size: 20px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#PortletPage .portletPagePanel {
+	width: 100%;
+}
+
+#SelectExpenseType .readioGropuitem span {
+	margin: 5px 0px;
+}
+
+#SelectExpenseType table {
+	width: 250px;
+}
+
+#UploadTemplateFileDialog table {
+	width: 300px;
+}
+
+#UploadTemplateFileDialog .vpaPanel .panel .bold_HTML {
+	margin-top: 10px;
+}
+
+#UploadTemplateFileDialog .vpaPanel .panel-right-align {
+	margin: 13px 0 5px;
+	text-align: right;
+}
+
+#UploadTemplateFileDialog .vpaPanel .panel-right-align button {
+	margin: 0 5px;
+}
+
+#UploadTemplateFileDialog .vpaPanel .panel {
+	margin: 5px;
+}
+
+.attachment_panel .attachmentTable .Empty-text {
+	border: 1px solid;
+	border-radius: 5px 5px 5px 5px;
+	height: 24px;
+	width: 30px;
+}
+
+.attachment_panel .attachmentTable .transaction_attachment_hpanel div,.attachment_panel .attachmentTable .transaction_attachment_hpanel a
+	{
+	display: inline;
+	margin-right: 10px;
+}
+
+.attachmentTable {
+	margin: 10px 0px;
+}
+
+#WareHouseItemsListGrid .gridHeader,#WareHouseItemsListGrid .gridBody {
+	table-layout: fixed;
+}
+
+#ImporterDialog .errorPanel .importInfoForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 100%;
+	font-weight: bold;
+}
+
+#ImporterDialog .errorPanel button {
+	float: right;
+}
+
+#ImporterDialog .errorPanel .scrollPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 100%;
+}
+
+#EmailAccountDialog .bodyLayout .form {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding: 5px;
+}
+
+.Report .gridHeader,.Report .gridBody {
+	table-layout: fixed;
+}
+
+.Transactions_center #TransactionsListView .gridHeader,.Transactions_center #TransactionsListView .gridBody
+	{
+	table-layout: fixed;
+}
+
+#paytaxview .gridHeader,#paytaxview .gridBody {
+	table-layout: fixed;
+}
+
+#receivetaxview .gridHeader,#receivetaxview .gridBody {
+	table-layout: fixed;
+}
+
+.gridHeader .gwt-CheckBox,.gridBody .gwt-CheckBox {
+	margin: 0px;
+}
+
+#EnterExchangeRatesDialog table {
+	width: 500px;
+}
+
+table.no_records tr td {
+	text-align: center !important;
+	border-color: white;
+}
+
+#ETdsFillingView table {
+	table-layout: auto
+}
+
+#TDSChalanDetailsView .editTable table {
+	table-layout: auto;
+}
+
+.totalForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#writechequeview .topHLay .accPanel {
+	width: 100%;
+}
+
+#BaseDialog .bodyLayout {
+	padding: 5px;
+}
+
+#BaseDialog .messageOrTaskForm span {
+	display: block;
+	margin: 5px 0px;
+}
+
+#BaseDialog .bodyLayout .toForm {
+	display: -webkit-box;
+	margin-top: 15px;
+}
+
+#BaseDialog .messageOrTaskTextareaitem {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	margin-top: 15px;
+}
+
+#AddPriceLevelDialog .mainVLay .nameDescForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding: 10px;
+}
+
+#NoteDialog .notePanel {
+	padding: 10px;
+}
+
+#CustomerCenterView .rightform .notes .label {
+	min-height: 50px;
+	overflow: auto;
+}
+
+#DepreciationView .buttonPanel button:last-child {
+	margin-left: 10px;
+}
+
+#CopyThemeDialog .footerLayout {
+	margin-top: 10px;
+}
+
+#CopyThemeDialog .footerLayout button:first-child {
+	margin-right: 5px;
+}
+
+#ExpenseReport .report-toolbar .formItem input[type="text"] {
+	width: 130px;
+}
+
+#SalesOrderReport .report-toolbar .formItem input[type="text"] {
+	width: 130px;
+}
+
+#PurchaseOrderReport .report-toolbar .formItem input[type="text"] {
+	width: 130px;
+}
+
+#taxitemdetailreportview .report-toolbar .formItem input[type="text"] {
+	width: 130px;
+}
+
+#taxitemexceptionreport .report-toolbar .formItem input[type="text"] {
+	width: 130px;
+}
+
+#MissingChecksReport .report-toolbar .formItem input[type="text"] {
+	width: 130px;
+}
+
+#ReconciliationDiscrepancyReport .report-toolbar .formItem input[type="text"]
+	{
+	width: 130px;
+}
+
+#JobProfitabilityDetailReport .report-toolbar .formItem input[type="text"]
+	{
+	width: 100px;
+}
+
+#invoicebrandingview .upload-logo img {
+	width: 160px;
+	height: 150px;
+}
+
+#invoicebrandingview .panel-logo {
+	display: -webkit-box;
+}
+
+#invoicebrandingview .panel-logo div {
+	margin-right: 15px;
+}
+
+#AddPaymentTermDialog .mainVLay .fixedDaysPanel span {
+	display: block;
+}
+
+#AddPaymentTermDialog .mainVLay .fixedDaysPanel .fixedDaysForm {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#AddPaymentTermDialog .mainVLay .dateDrivenPanel span {
+	display: block;
+}
+
+#AddPaymentTermDialog .mainPanel {
+	padding: 10px;
+}
+
+#SelectItemTypeDialog table {
+	width: 300px;
+}
+
+#AddNewContactDialog .newContactForm {
+	padding: 10px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#AccounterClassListDialog .depth1 {
+	padding-left: 10% !important;
+}
+
+#AccounterClassListDialog .depth2 {
+	padding-left: 20% !important;
+}
+
+#AccounterClassListDialog .depth3 {
+	padding-left: 30% !important;
+}
+
+#AccounterClassListDialog .depth4 {
+	padding-left: 40% !important;
+}
+
+#AccounterClassListDialog .depth5 {
+	padding-left: 50% !important;
+}
+
+#AccounterClassListDialog .depth6 {
+	padding-left: 60% !important;
+}
+
+#AccounterClassListDialog .depth7 {
+	padding-left: 70% !important;
+}
+
+#AccounterClassListDialog .depth8 {
+	padding-left: 80% !important;
+}
+
+#StatementTransactionsReconcileView .transactionStyles .rightBorder {
+	display: -webkit-box;
+	width: 100%;
+}
+
+#StatementTransactionsReconcileView .mainVLay table.gwt-DecoratedTabPanel
+	{
+	width: 100%;
+}
+
+.gwt-Tree .gwt-CheckBox {
+	display: inline;
+}
+
+.gwt-Tree table td {
+	vertical-align: top;
+}
+
+.gwt-Tree table td .editTable_enable_anchor {
+	padding-left: 5px;
+	color: black;
+}
+
+#EditProfileDialog .edit_user_profile {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding: 10px;
+}
+
+#CheckPrintingSettingView .cheque_print_text {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#EmailView .emailBody {
+	margin: 0 15px;
+}
+
+#EmailView .email_textarea button {
+	margin-right: 10px;
+}
+
+#BaseDialog .emailPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	padding: 10px;
+}
+
+#BaseDialog .emailPanel .emailBody textarea {
+	height: 240px;
+}
+
+#SoldAndDisposedItemsListGrid .gridHeader,#SoldAndDisposedItemsListGrid table.gridBody
+	{
+	table-layout: fixed;
+}
+
+#CustomFieldDialog .editTable table {
+	table-layout: auto !important;
+}
+
+.title_voided_panel {
+	margin: 15px 0;
+}
+
+#paybillview .topHLay {
+	width: 100%;
+}
+
+#CreateClassDialog .verticalPanel .trackClassForm {
+	width: 100%;
+}
+
+#salespersonview .topHLay {
+	width: 100%;
+}
+
+#salespersonview .topHLay .leftVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	margin: 10px;
+}
+
+#SalesTaxGroupDialog .horizontalPanel .buttonsLayout {
+	margin-top: 10px;
+}
+
+#SalesTaxGroupDialog .horizontalPanel .buttonsLayout button {
+	width: 70px;
+	margin: 0 5px;
+}
+
+#salespersonview .topHLay .rightVLay {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#salespersonview .topHLay .leftVLay .frameTitle,#salespersonview .topHLay .leftVLay .phone-fax-formatter
+	{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#salespersonview .topHLay .rightVLay .emailForm,#salespersonview .topHLay .rightVLay .salesPersonInfoForm
+	{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.printableLayout .tablelayout1,.printableLayout .tablelayout1 .gridBodyContainer
+	{
+	overflow: hidden !important;
+}
+
+#NewCustomThemeDialog .layout .formItems {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	margin: 10px;
+}
+
+/*edit table headers align to center */
+.editheader td {
+	text-align: center;
+}
+input[type="text"] {
+	border: transparent;
+}
 
 .MENU_BAR_BG table,.decor02,.finance-portlet .decor00,.td01,#branding,.tabletmainmenu,.editTable .editheader,.gwt-StackPanel .gwt-StackPanelItem,.recounciliation_grid thead tr,.gwt-DecoratedTabBar .gwt-TabBarItem,.tabletmenu
 	{
@@ -18,21 +4060,17 @@
 		center white;
 }
 
-.MENU_BAR_BG table,.gwt-DialogBox,.gwt-MenuBarPopup div table:only-child,.recounciliation_grid,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.cusotmerCentrGrid,.details-Panel
+.MENU_BAR_BG table,.gwt-MenuBarPopup div table:only-child,.editTable,.company_stackpanel_view,.gwt-StackPanelContent,.cusotmerCentrGrid,.details-Panel
 	{
 	border: 1px solid #918C8C !important;
 }
 
 .main-class-pannel,.gwt-PopupPanel,.gwt-TabPanelBottom {
-	border: 1px solid #918C8C !important;
-}
-
-.MENU_BAR_BG table td .gwt-Label {
-	padding: 2px 10px 4px;
+	border: 1px solid #0B3C5E;
 }
 
 .gwt-DisclosurePanel-closed {
-	border-bottom: 3px solid #3299a4;
+	border-bottom: 3px solid #1676B9;
 	margin-bottom: 10px;
 }
 
@@ -48,7 +4086,13 @@
 	padding: 5px;
 }
 
-.gwt-MenuBarPopup div table:only-child,.datePickerMonthSelector,.gwt-DialogBox,.gwt-MenuItem-selected,.gwt-DecoratedTabBar .gwt-TabBarItem-selected,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel
+.gwt-DialogBox {
+	background: -webkit-gradient(linear, left top, left bottom, from(#062336),
+		to(#03111A) );
+	-webkit-box-shadow: 0 0 10px #0C4163;
+}
+
+.gwt-MenuBarPopup div table:only-child,.gwt-MenuItem-selected,.dateBoxPopup .gwt-DatePicker .datePickerWeekdayLabel,.dateBoxPopup .gwt-DatePicker .datePickerWeekendLabel
 	{
 	background: -webkit-gradient(linear, left top, left bottom, from(#C4C0C0),
 		to(#545252) ) !important;
@@ -56,7 +4100,7 @@
 
 .gwt-MenuItem-selected,.gwt-MenuBar-vertical .subMenuIcon-selected,.gwt-MenuBar-vertical .subMenuIcon-selected,.gwt-TabBarItem-selected .tabMiddleCenterInner .gwt-Label
 	{
-	color: #ffffff !important;
+	color: #ffffff ;
 }
 
 .main-finance-window,.touch_submenu .menuItem,.touch_submenu .subMenu,.gwt-DialogBox,#mainFooter,.popup,.logout-help-welcome,.setup_panel
@@ -65,25 +4109,33 @@
 }
 
 #group1 .viewTitle {
-	color: black;
+	color: white;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0 .3em;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 -0.08em 0;
+	font-size: 1.2em;
+	text-align: center;
+	font-weight: bold;
+	white-space: nowrap;
 }
 
-html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td div,.builder,.finance_window,.group-toolbar,.vender-form input[type="text"],.vender-form select,.vender-form textarea,.previous-container,.next-container,.action-panel,.welcome-panel,.fullSizePanel,.view_help_panel iframe,.progress_panel_show table,.abstract_base_view,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,.error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,.listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,.gwt-TreeItem,.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG,.history_notes_view,.Transactions_center
+html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gridHeader tr td div,.builder,.finance_window,.group-toolbar,.vender-form input[type="text"],.vender-form select,.vender-form textarea,.previous-container,.next-container,.action-panel,.welcome-panel,.fullSizePanel,.view_help_panel iframe,.progress_panel_show table,.abstract_base_view,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,.error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,.listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,.gwt-TreeItem,.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.MENU_BAR_BG,.history_notes_view,.Transactions_center
 	{
 	width: 100%;
 }
 
-.textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.financialDataTitle:FIRST-CHILD,.selected-page,.plain-panel-title,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.label-banking,.financialDataTitle,.lable-title,.listgridfooter td,.boldcell,.label-title-list,.label-title,.error-panel,.inviteUserLabel,.boldtext tr td div,.amountLabelPortlet,.selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.companyInfoPanel .header,.progress_header,.gwt-DecoratedTabBar .tabMiddleCenter,.plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td,.select_industry,.organized_radio,.employee_yesno,.billing_question
+.textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.financialDataTitle:FIRST-CHILD,.selected-page,.plain-panel-title,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.label-banking,.financialDataTitle,.lable-title,.listgridfooter td,.boldcell,.error-panel,.inviteUserLabel,.boldtext tr td div,.amountLabelPortlet,.selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.companyInfoPanel .header,.progress_header,.gwt-DecoratedTabBar .tabMiddleCenter,.plain00,.panel-title,.gwt-DialogBox .Caption,.headerlabel,.selectedview_textarea_label,.bottom_total_view td,.select_industry,.organized_radio,.employee_yesno,.billing_question
 	{
 	font-weight: bold;
 }
 
-.image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:HOVER,.MENU_BAR_BG table td,.cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,.gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,.users-grid tr:hover,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,.touch_submenu .gwt-Label
+.image-pointer,select[multiple] option,.gridHeadCell,.gridRow,.gridBody1 tr:FOCUS,.MENU_BAR_BG table td,.cross-dialog,.refresh,.link,.loading,.Image-action td table,.blue-month-line,.blue-day-grid,.close,.gwt-Tree .gwt-TreeItem,.gridBody tbody,.gridHeader,.imageLink,a,.image-button,.falseHyperlink,.handCursor,.widget img,.gwt-DecoratedTabBar .tabMiddleCenter,.users-grid tr:FOCUS,.general-image,.helpBar,.calendar-picker,.custom-button,.gwt-DecoratedTabBar .tabMiddleCenter,.touch_submenu .gwt-Label
 	{
 	cursor: pointer;
 }
 
-.touch_submenu .menuItem,.touch_submenu .subMenu,.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.recounciliation_grid,.dateBoxPopup,.gwt-PopupPanel .popupContent,.editTable textarea[disabled]
+.touch_submenu .menuItem,.touch_submenu .subMenu,.no-title td.td01,.main-w,td.td11,td.td10,.users-listGrid .gridBodyContainer .onsort,.upload-logo,.workspaces-listGrid .gridBodyContainer .onsort,.dropdownFlex,.blue-day-grid,select[multiple],.selectedview_textareadata,#loading .loadingIndicator,.main-class-pannel,.dateBoxPopup,.gwt-PopupPanel .popupContent,.editTable textarea[disabled]
 	{
 	background: none repeat scroll 0 0 #FFFFFF;
 }
@@ -98,7 +4150,7 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 	cursor: default;
 }
 
-lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.notes_button_panel .cancle-Btn,.organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.button_bar .cancle-Btn,.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.grouped-buttons td:last-child .image-button
+lable,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.selectedview_textarea_label,.selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,.notes_button_panel .cancle-Btn,.organisation_Info,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.button_bar .cancle-Btn,.blue-current-month-other-day,.blue-current-month-week-end,.blue-current-month-selected,.grouped-buttons td:last-child .image-button
 	{
 	color: #000;
 }
@@ -148,7 +4200,7 @@ body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSel
 	padding: 10px 0 0 0;
 }
 
-.selected,table tr.ReportGridRow:HOVER,.gridAscend,.gridDecend,table.dropdownFlex tr:hover,.gwt-ListBox option:HOVER,.report-toolbar,.datePickerDayIsValue
+table tr.ReportGridRow:FOCUS,.gridAscend,.gridDecend,table.dropdownFlex tr:FOCUS,.gwt-ListBox option:FOCUS,.datePickerDayIsValue
 	{
 	background: none repeat scroll 0 0 #CCCCCC !important;
 }
@@ -213,6 +4265,7 @@ input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog
 
 .blue-day-grid tr,.popup,.message,.gwt-DatePicker .datePickerDays tr {
 	border: 1px solid #AAAAAA;
+	height:50px;
 }
 
 .gridSelectBoxCell .downarrow-button,.page-layout,.gwt-DecoratedPopupPanel,.accounter-button-seperater,.tabletmenu
@@ -249,7 +4302,7 @@ html,body {
 	margin-right: 3px;
 }
 
-.toolbox,.gridSelectBoxCell .downarrow-button,.downarrow-button,.tabletmenu
+.toolbox,.gridSelectBoxCell .downarrow-button,.tabletmenu
 	{
 	z-index: 1;
 }
@@ -292,19 +4345,33 @@ html,body {
 	{
 	overflow: hidden;
 }
-
-.gridHeader,.headerlabel,.customers_detail_panel {
-	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4),
-		to(#DBDBDB) ); /* for webkit browsers */
-	background: -o-linear-gradient(top, #E4E4E4, #DBDBDB);
+#vendorCenterView .rightVpPanel .headingPanel .gwt-Label,
+#CustomersListGrid .rightPanel .customers_detail_panel .gwt-Label{
+	color: #0A6AAC;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 .08em 0;
 }
-
+.gridHeader,.headerlabel,.customers_detail_panel,.recounciliation_grid table thead tr th{
+	background-color: #5AB5F5;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#EAF6FE),color-stop(2%,#7CC4F7),color-stop(100%,#38A6F3));
+	background-image: -webkit-linear-gradient(#EAF6FE,#7CC4F7 2%,#38A6F3);
+	color: #0A6AAC;
+	border-top: 1px solid #5AB5F5;
+	border-bottom: 1px solid #0D87DC;
+	font-weight: bold;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 .08em 0;
+}
+.gridHeader td{
+	font-weight: bold;
+}
 .gridHeader td,.gridBody tr td {
-	border-color: #1A1A1A;
+	border-color: #ccc;
 	display: table-cell;
 	white-space: pre-wrap;
 	word-wrap: break-word;
-	color:black;
+	border-style: solid;
+	border-width: 0 0px 1px 0;
+	font-size: 13px;
+	height:25px;
 }
 
 input[type="checkbox"] {
@@ -366,12 +4433,6 @@ select[multiple] {
 	margin: 10px;
 }
 
-.abstract_base_view {
-/* 	border: 1px solid #918c8c;
-	padding: 0px;
-	width: 98% !important; */
-}
-
 .no-title {
 	position: static !important;
 }
@@ -393,18 +4454,14 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 .panel-title {
 	margin-top: 5px;
 	text-transform: uppercase;
+	color: #777;
 }
 
 .border,.treeGrid {
 	border: 1px solid #A7ABB4;
 }
 
-.MENU_BAR_BG table,.address {
-	margin-top: 5px;
-}
-
-
-.users-grid tr:hover {
+.users-grid tr:FOCUS {
 	background: #6bc3cb;
 }
 
@@ -417,14 +4474,18 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	padding-top: 9px;
 }
 
-.workspace-panel .gridHeader td.gridHeaderCell:hover,.user-panel .gridHeader td.gridHeaderCell:hover
+.workspace-panel .gridHeader td.gridHeaderCell:FOCUS,.user-panel .gridHeader td.gridHeaderCell:FOCUS
 	{
 	background-image: none;
 }
 
 .gwt-DialogBox .caption {
 	height: 30px !important;
-	padding: 6px 4px 3px 6px !important;
+	padding: 10px 4px 0 6px;
+	margin-top: 5px;
+	background-color: #1468A2;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #63B4EC),
+		color-stop(2%, #177CC2), color-stop(100%, #105483) );
 }
 
 .gwt-DialogBox .dialogMiddleCenter,.dateBoxPopup .popupContent .datePickerMonthSelector td,.dateBoxPopup .popupContent .datePickerDays td
@@ -442,10 +4503,6 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 
 .datePickerWeekdayLabel,.datePickerWeekendLabel,.financialDataTitle {
 	background: none repeat scroll 0 0 #BBBBBB;
-}
-
-.gwt-PopupPanel {
-	border: 3px solid #D1E8A3;
 }
 
 .portlet .gridHeader {
@@ -485,8 +4542,22 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	margin-top: 3px;
 }
 
-#closeButton {
-	margin: 1px 6px 6px;
+.gwt-Button,#closeButton,#addNewButton,#exportButton,#searchButton,#configButton,#printButton,#addVendorButton,#editButton,#addCustomerButton
+	{
+	background-color: #1676B9;
+	border: 1px solid #0B3C5E;
+	border-top-color: #0E4B75;
+	color: white;
+	border-radius: 5px;
+}
+
+#next,#previous {
+	background-color: #1676B9;
+	border: 1px solid #0B3C5E;
+	border-top-color: #0E4B75;
+	color: white;
+	border-radius: 5px;
+	width: 100px;
 }
 
 .stack {
@@ -528,7 +4599,9 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 }
 
 .blue-day-grid,.blue-month-line,.blue-week-line,.blue-date-picker {
-	width: 184px;
+	width: 450px;
+	left: 200px !important;
+	top: 100px !important;
 }
 
 .blue-week-end,.blue-current-month-week-end,.gwt-DatePicker .datePickerDayIsWeekend
@@ -546,11 +4619,14 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 }
 
 .blue-current-month-selected {
-	background-color: #CCCCCC;
-}
-
-.statusLabelParent,.popupContent table td {
-	vertical-align: middle !important;
+	color: white;
+        text-shadow: #333 1px 1px 2px;
+        border: 1px solid black;
+        background: #1980E5;
+        background-color: #0F4D89;
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0A335B), color-stop(10%, #0C4072), color-stop(65%, #0F4D89), color-stop(100%, #0F4E8B));
+        background-image: -webkit-linear-gradient(#0A335B, #0C4072 10%, #0F4D89 65%, #0F4E8B);
+        color:white;
 }
 
 .closeBtnParent {
@@ -590,10 +4666,6 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	background: #EDF2F8 none repeat scroll 0 0;
 }
 
-.report-toolbar {
-	padding-right: 3px;
-}
-
 .logview-border {
 	border: 1px solid #C6E2FF;
 	height: 100px;
@@ -606,6 +4678,17 @@ tr.net-profit td {
 .dropdownTable {
 	overflow-x: hidden !important;
 	overflow-y: auto !important;
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	margin: 10px;
+}
+
+.dropdownTable table tr {
+	border-bottom: 1px solid #CCC;
+}
+
+.dropdownTable table tr td {
+	padding: 10px 15px;
 }
 
 .dropdownFlex td,.button-layout button,.action-panel .panelContent a,.handCursor,.gridBody tr td div,.gridHeader tr td div
@@ -636,7 +4719,7 @@ tr.net-profit td {
 	height: 25px;
 }
 
-.gridBody tr td,.companyInfoPanel .header,.label-title-list,.gwt-RadioButton label,.portletLabel,.organisation_Info
+.gridBody tr td,.companyInfoPanel .header,.gwt-RadioButton label,.portletLabel,.organisation_Info
 	{
 	font-size: 13px;
 }
@@ -645,29 +4728,16 @@ tr.net-profit td {
 	margin-top: -2px;
 }
 
-.boldtext tr:nth-child (3){
-	border-bottom: 1px solid #aaa;
-	border-top: 1px solid #aaa;
-}
-
 .custom-combo .dropdown-button {
 	width: 50px !important;
 }
 
-.gridSelectBoxCell .downarrow-button {
-	background: url("/images/Drop-down-button_20x22.png") no-repeat scroll 0
-		0 transparent !important;
-	margin-left: -18px;
-	float: none\0;
-	width: 22px;
-}
-
 .downarrow-button {
-	background: url("/images/Drop-down-button_20x22.png") no-repeat scroll 0
-		0 transparent !important;
+	background: url("/images/ipadCombo.png") no-repeat scroll 0 0
+		transparent !important;
 	margin-left: -22px;
-	width: 22px;
-	margin-top: 1px;
+	width: 26px;
+	height: 26px;
 }
 
 .subMenuIcon img {
@@ -684,34 +4754,12 @@ tr.net-profit td {
 	margin: 5px 0 0 15px;
 }
 
-.contact-deatils-area,.report-toolbar input[type="text"] {
-	width: 200px;
-}
-/*.terms-payment-area,.contact-deatils-area,.gwt-TextArea,.memoTextArea{
-	 resize: none;
-}*/
 .fields-panel .gwt-TextArea,.memoTextArea {
 	height: 65px;
 }
 
 .selectedview_textarea_label,.gwt-TextArea {
 	padding: 5px 0 0;
-}
-
-.fields-panel .gwt-TextArea {
-	width: 182px !important;
-}
-
-form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#contactForm p,.yourfeedback textarea
-	{
-	width: 325px;
-}
-
-.memoTextArea {
-	width: 359px !important;
-}
-.disable-TextField,.input[disabled='disabled'] {
-
 }
 
 textarea.disable-TextField {
@@ -780,14 +4828,6 @@ iframe,.address div {
 	margin-bottom: 0px;
 }
 
-.report-toolbar input[type="text"] {
-	width: 140px !important;
-}
-
-.invoiceListCombo {
-	
-}
-
 .commentPanel {
 	margin: 15px 15px 0px;
 }
@@ -823,16 +4863,8 @@ iframe,.address div {
 	border-width: 1px;
 }
 
-.date-number td:nth-child (2),.datenumber-panel table {
-	padding-right: 15px;
-}
-
 .measurePanel {
-	margin-top:80px 0 0px 5px;
-}
-
-.tax-form td:nth-child (1){
-	font-weight: normal;
+	margin-top: 80px 0 0px 5px;
 }
 
 .itemGrid {
@@ -849,15 +4881,11 @@ iframe,.address div {
 	width: 160px !important;
 }
 
-.name-item {
-	margin-left: 75px;
-}
-
 .add-new-expense {
 	margin-bottom: 20px;
 }
 
-.invoice-branding-html p font,.user-html p font,.company-settings-html p font,.progress_header,.label-title
+.invoice-branding-html p font,.user-html p font,.company-settings-html p font,.progress_header
 	{
 	font-size: 1.6em !important;
 }
@@ -874,17 +4902,8 @@ iframe,.address div {
 	width: 10.5%;
 }
 
-.datenumber-panel {
-	margin-right: 29px;
-}
-
 .portlet-body .ibutton {
 	margin-left: 10px;
-}
-
-.banking-portlet,.expense_claim_portlet {
-	width: 50%;
-	padding: 0 11px 11px 0;
 }
 
 .gwt-DialogBox .dialogTopRightInner {
@@ -967,24 +4986,26 @@ iframe,.address div {
 	background-repeat: no-repeat;
 }
 
-.image-button:hover {
-	background-color: #918C8C;
-}
-
 .image-button {
-	background-position: 10px center;
-	padding: 0px 10px 1px 34px;
-	background-color: #E8E8E8;
-	border: 1px solid #918C8C;
-	color: black;
-	border-radius: 11px;
+	background-color: #1676B9;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #7ABFEF),
+		color-stop(2%, #1A8BD9), color-stop(100%, #126299) );
+	background-image: -webkit-linear-gradient(#7ABFEF, #1A8BD9 2%, #126299);
+	background-image: linear-gradient(#7ABFEF, #1A8BD9 2%, #126299);
+	border: 1px solid #0B3C5E;
+	border-top-color: #0E4B75;
+	color: white;
+	border-radius: 5px;
+	height: 35px;
+	background-position: 5px center;
+	padding: 5px 10px 5px 30px;
 }
 
-.accounter-button-seperater,.image-button,.recounciliation_grid thead th
+/* .accounter-button-seperater,.image-button,.recounciliation_grid thead th
 	{
 	height: 25px;
 }
-
+ */
 .grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons td:last-child .image-button,.cancle-Btn,.grouped-buttons .image-button,.grouped-buttons td:FIRST-CHILD .image-button,.grouped-buttons .image-button,.Empty-text
 	{
 	background-color: #E4E4E4;
@@ -1002,7 +5023,7 @@ iframe,.address div {
 	padding-left: 30px;
 }
 
-.cancle-Btn:hover,.cancle-Btn-hover {
+.cancle-Btn:FOCUS,.cancle-Btn-FOCUS {
 	background-color: #A0A0A0 !important;
 }
 
@@ -1040,12 +5061,6 @@ iframe,.address div {
 	border: 1px solid #a0a0a0;
 }
 
-.grouped-buttons .Empty-text:hover,.grouped-buttons .image-button:hover,.grouped-buttons .Empty-text-hover,.grouped-buttons .image-button-hover
-	{
-	background-color: #5F5F5F !important;
-	color: white !important;
-}
-
 .report-toolbar .downarrow-button {
 	width: 47px\0  !important;
 }
@@ -1066,6 +5081,7 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button {
 
 .tabMiddle .tabMiddleCenterInner .gwt-Label {
 	padding-bottom: 3px;
+	font-weight: normal;
 }
 
 .panel-logo .change-logo,.panel-logo .remove-logo {
@@ -1174,11 +5190,6 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button {
 	min-height: 100%;
 }
 
-.main-finance-window,.touch_submenu .menuItem,.touch_submenu .subMenu,.gwt-DialogBox
-	{
-	font-size: 0.8em;
-}
-
 .billing_stmt_footer {
 	border-top: 1px solid #ccc;
 }
@@ -1199,10 +5210,6 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button {
 
 .fiscal_panel td:FIRST-CHILD {
 	padding-right: 10px;
-}
-
-.expense_question_link,.boldtext {
-	margin: 10px 0px;
 }
 
 .setup_accounts {
@@ -1246,7 +5253,8 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button {
 body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt-Label,button
 	{
 	font-size: 15px;
-	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-family: "Helvetica Neue", HelveticaNeue, "Helvetica-Neue",
+		Helvetica, "BBAlpha Sans", sans-serif;
 }
 
 .gwt-PasswordTextBox,.gwt-DisclosurePanel .content {
@@ -1282,11 +5290,6 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 	border-radius: 0 0 8px 8px !important;
 }
 
-.recounciliation_grid thead th {
-	text-shadow: none !important;
-	border-bottom: 0 none !important;
-}
-
 .view_help_panel td:FIRST-CHILD table,.helpdialog .dialogTopCenter table
 	{
 	height: 32px;
@@ -1314,8 +5317,8 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 	min-height: 130px;
 }
 
-.editTable .editheader td {
-/* 	border-color: #918C8C; */
+.editTable .editheader td { /* 	border-color: #918C8C; */
+	
 }
 
 .editTable .editheader td,.editTable td {
@@ -1333,10 +5336,10 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 }
 
 .gridEvenRow {
-	background: none repeat scroll 0 0 #E3E3E3;
+	background: none repeat scroll 0 0 #E8EFFA;
 }
 
-.user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):hover
+.user_activity_log tr:nth-child(even) td,.user_activity_log tr:nth-child(even):FOCUS
 	{
 	border: 2px solid #E8E8E8 !important;
 }
@@ -1350,17 +5353,7 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 }
 
 .ReportGrid .gridHeader .gridHeaderRow,.listgrid {
-	border: 1px solid #1A1A1A !important;
-}
-
-
-.fields-panel .gwt-TextBox {
-    width: 172px !important;
-}
-
-input[type="text"] {
-	line-height /*\**/: 1.8\9
-
+	border: 1px solid #0A6AAC;
 }
 
 .new_vat_item tr td:FIRST-CHILD {
@@ -1394,19 +5387,6 @@ input[type="text"] {
 	-webkit-border-radius: 0 0 5px 5px;
 }
 
-.gwt-DecoratedTabBar .gwt-TabBarItem {
-	margin-left: 6px;
-	-webkit-border-radius: 5px 5px 0 0;
-}
-/*.gwt-MenuBarPopup .menuPopupTopLeft .menuPopupTopLeftInner.touch_submenu{
-	border-color: transparent transparent #C4C0C0;
-    border-style: solid;
-    border-width: 0 20px 20px;
-    position: absolute;
-    width: 0;
-    z-index: 1;
-    top:1px;
-}*/
 .gwt-MenuBarPopup {
 	padding-top: 20px;
 	z-index: 1;
@@ -1414,10 +5394,6 @@ input[type="text"] {
 
 .gwt-PopupPanel table tr {
 	white-space: nowrap;
-}
-
-.gwt-PopupPanel .popupContent div {
-	overflow-x: hidden !important;
 }
 
 .editTable .selected,.editTable input[disabled] {
@@ -1495,7 +5471,6 @@ input[type="text"] {
 }
 
 .fields-panel .gwt-Label {
-	width: 200px;
 	text-align: left;
 }
 
@@ -1505,14 +5480,6 @@ input[type="text"] {
 
 .memoFormAlign div,.addrsFormCellAlign div {
 	padding-top: 10px;
-}
-
-.company_currency_name .gwt-TextBox {
-	width: 142px !important;
-}
-
-input.date-field-textbox {
-	width: 150px !important;
 }
 
 .conversion_commet {
@@ -1542,20 +5509,8 @@ input.date-field-textbox {
 	margin: 0px;
 }
 
-.popupContent table td {
-	white-space: pre;
-}
-
-.popupContent div:FIRST-CHILD {
-	overflow-x: hidden !important;
-}
-
 .history_links a {
 	margin-right: 20px;
-}
-
-.gwt-DisclosurePanel .header {
-	color: #3299A4;
 }
 
 .sales_tax_buttons .image-button {
@@ -1584,16 +5539,16 @@ input.date-field-textbox {
 
 .datePickerMonthSelector .blue-month-line .prenextyear-label {
 	margin-top: 4px;
-	border: 1px solid #C4C0C0;
+	border: 1px solid #2897E5;
+	text-align:center;
+	width: 140px;
 }
 
 .currentmonth-hover {
 	border: 1px solid !important;
 	border-radius: 5px 5px 5px 5px;
-}
-
-.currentmonth {
-	border: 1px solid #3299A4;
+	text-transform: capitalize;
+	text-align: center;
 }
 
 .search-transaction-combo {
@@ -1616,7 +5571,7 @@ input.date-field-textbox {
 	float: right;
 	font-size: 13px;
 	cursor: pointer;
-	color: #fff;
+	color: #777;
 }
 
 .customfileddialog .no_records .norecord-empty-message {
@@ -1679,20 +5634,13 @@ input.date-field-textbox {
 
 .list_combo_form {
 	float: right;
-	width: 50% !important;
 }
 
 .main_manager,.main_manager table:SECOND-CHILD {
 	width: 100%;
 }
 
-
-
-.portlet_column_parent {
-	width: 50% !important;
-}
-
-.portlet_close_button img:hover {
+.portlet_close_button img:FOCUS {
 	background-color: #1A5158 !important;
 }
 
@@ -1704,7 +5652,7 @@ input.date-field-textbox {
 	background: white;
 }
 
-.user_activity_log tr:nth-child(odd):hover button {
+.user_activity_log tr:nth-child(odd):FOCUS button {
 	background: #eeeeee;
 }
 
@@ -1748,10 +5696,6 @@ input.date-field-textbox {
 	width: 70px;
 }
 
-.search_textbox_labels .gwt-Label {
-	width: 50px;
-}
-
 .title_voided_panel {
 	border: 1px solid #1A5158 !important;
 	margin: 10px 0;
@@ -1790,24 +5734,32 @@ input.date-field-textbox {
 	background: none repeat scroll 0 0 #FFFFFF;
 }
 
-.options_panel a {
-	margin: 3px 10px;
-}
-
-.options_panel a:HOVER {
+.options_panel a:FOCUS {
 	color: #fff;
 }
-#PreferenceSettingsView .preferences_option a:hover,.Transactions_center .tree_menu_item:hover{
-	background-color:#5f5f5f !important;
-	color:white !important;
-}
-.Transactions_center .tree_list_panel .menu_item_clicked, #PreferenceSettingsView .preferences_option .optionClicked,.optionClicked {
-	background: -webkit-gradient(linear, left top, left bottom, from(#5F5F5F), to(#ABABAB) ) !important;
-	border-radius:3px 3px 3px 3px;
-}
 
-.optionFocused,.menu_item_hover {
-	background: none repeat scroll 0 0 #686666;
+#PreferenceSettingsView .preferences_option a {
+	border-bottom: 1px solid #D1D1D1;
+	line-height: 25px;
+	display: block;
+	text-decoration: none;
+	padding: 5px 5px 5px 10px;
+}
+.gridBody .selected a{
+	color: white;
+	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
+}
+.selected,.Transactions_center .tree_list_panel .menu_item_clicked,#PreferenceSettingsView .preferences_option .optionClicked,.optionClicked
+	{
+	/* 	background: -webkit-gradient(linear, left top, left bottom, from(#5F5F5F),
+		to(#ABABAB) ) !important;
+	border-radius: 3px 3px 3px 3px; */
+	background: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #058CF5),
+		color-stop(100%, #015DE6) );
+	color: white;
+	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
+	-webkit-user-select: none;
+	border-bottom: 1px solid #015DE6;
 }
 
 .optionClicked a {
@@ -1822,18 +5774,13 @@ input.date-field-textbox {
 	border-width: 1px 0 0;
 }
 
-.companies_link_parent a:hover {
+.companies_link_parent a:FOCUS {
 	background: #ccc;
 }
 
 .attachment_panel .attachment_hpanel td,.attachment_panel form table .gwt-Anchor
 	{
 	padding: 0 10px 0 0;
-}
-
-.attachment_panel form table .gwt-Anchor,.attachment_panel .attachment_hpanel td .gwt-Anchor
-	{
-	color: #3299A4;
 }
 
 .currency_format_option td:last-child td {
@@ -1847,7 +5794,6 @@ input.date-field-textbox {
 .currency_format_option {
 	padding-left: 8px;
 }
-
 
 .Transactions_center .gwt-Button {
 	margin-top: 8px;
@@ -1868,10 +5814,6 @@ input.date-field-textbox {
 
 .details-Panel table {
 	table-layout: fixed;
-}
-
-.decimal_digitlimit td:first-child {
-	width: 50%;
 }
 
 .customer-detail-notespanel {
@@ -1910,10 +5852,6 @@ input.date-field-textbox {
 	padding: 5px 0 0 0;
 }
 
-.pre_scroll_table {
-	padding-left: 10px;
-}
-
 .page_header img {
 	padding: 5px;
 }
@@ -1932,18 +5870,32 @@ input.date-field-textbox {
 .tree_list_panel td {
 	padding: 4px 5px 4px 18px;
 }
-.Transactions_center #listPanel{
-	width: 200px;
-}
-.tree_list_panel {
-	background: none repeat scroll 0 0 #CCCCCC;
-	border-collapse: collapse;
-}
 
+.Transactions_center #listPanel {
+	width: 100%;
+	padding-left: 5px;
+	background: white;
+}
 .preferences_option_title {
 	font-weight: bold;
 	color: black;
-	font-size: 17px !important;
+	font-size: 14px !important;
+	color: #777;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+	font-weight: bold;
+	padding: 8px;
+	border-bottom: 1px solid #D4D4D4;
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #F0F0F0), color-stop(100%, #DFDFDF));
+    background: -webkit-linear-gradient(top, #F0F0F0,#DFDFDF);
+    background: linear-gradient(top, #F0F0F0,#DFDFDF);
+}
+
+#PreferenceSettingsView .titlesPanel {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 20%;
+	height: 650px;
+	overflow-y: auto;
 }
 
 .tree_menu_item {
@@ -1951,16 +5903,6 @@ input.date-field-textbox {
 	display: block;
 	text-decoration: none;
 	width: auto;
-}
-
-.customers_detail_panel {
-	padding: 3px;
-	border-left: 1px solid #918C8C;
-	border-right: 1px solid #918C8C;
-	border-top: 1px solid #918C8C;
-	border-bottom: 0px;
-	background: -webkit-gradient(linear, left top, left bottom, from(#ABABAB),
-		to(#CCC) )!important; 
 }
 
 .menu_item_clicked a {
@@ -2009,126 +5951,430 @@ input.date-field-textbox {
 	padding: 20px;
 }
 
-.viewholder {
-	 box-shadow: 0 2px 10px gray;
-}
-
 .reportGridParent {
 	border: 1px solid;
 }
-.rightPanel .transaction_meter{
+
+.rightPanel .transaction_meter {
 	display: none;
 }
 
-.group-toolbar{
-	background: -webkit-gradient(linear, left top, left bottom, from(#CCC),
-		to(#fff) );
-	background: -o-linear-gradient(top, #ccc, #fff);
-	display: box;
+.group-toolbar,.datePickerMonthSelector {
+	background: #1985D0;
+	border-bottom: 1px solid black;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #90CAF2),
+		color-stop(2%, #2897E5), color-stop(100%, #1571B0) );
+	background-image: -webkit-linear-gradient(#90CAF2, #2897E5 2%, #1571B0);
+	border-top: 1px solid white;
+	color: #717880;
+	text-shadow: 1px 1px #E6E7EB;
+	font-size: 20px;
+	font-weight: bold;
+	overflow: ellipsis;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#appVersions {
+	display: none;
+}
+
+#CustomerCenterView .customerCenter .gridHeaderParent {
+	border: 1px solid #CCC;
+	border-radius: 5px !important;
+}
+
+#CustomerCenterView .customerCenter .customerDetailsPanel {
+	border: 1px solid #CCC;
+	border-radius: 5px !important;
+}
+
+.transactionGridpanel {
+	border: 0px solid #CCC;
+}
+
+.transactionGridpanel .transactionViewform {
 	display: -webkit-box;
 	-webkit-box-pack: justify;
 	width: 100%;
-	-moz-box-flex: 1;
-	height: 40px;
 }
 
-.formItem{
-	margin-left:10px;
-}
-#appVersions{
-	display:none;
-}
-.gridHeaderCell{
-	font-weight: bold;
-	color:black !important;
-		background: -webkit-gradient(linear, left top, left bottom, from(#ABABAB),
-		to(#CCC) ) !important; 
-}
-#CustomerCenterView .customerCenter .leftPanel{
-	border:1px solid #CCC;
-	border-radius : 5px !important;
-}
-#CustomerCenterView .customerCenter .gridHeaderParent{
-	border:1px solid #CCC;
-	border-radius : 5px !important;
-}
-#CustomerCenterView .customerCenter .customerDetailsPanel{
-	border:1px solid #CCC;
-	border-radius : 5px !important;
-}
-.transactionGridpanel{
-	border:0px solid #CCC;
-}
-.transactionGridpanel .transactionViewform{
-	display: -webkit-box;
-	-webkit-box-pack:justify;
-	width:100%;
-}
-
-#PortletPage .firstRow {
-	background: #226B73;
-	background: -webkit-gradient(linear, left top, left bottom, from(#CCC),
-		to(#ABABAB) );
-	background: -o-linear-gradient(top, #CCC, #ABABAB);
-	color: white;
-	padding: 3px 0px 5px 5px;
-	border-radius: 5px 5px 0 0;
-}
 .button_bar {
 	padding: 10px 10px 10px 0;
 	width: 100%;
 }
 
 .gwt-Button {
-	background-color: #E4E4E4;
+	color: white;
+	padding: 5px 10px 7px;
+	margin: 5px;
+}
+
+.viewholder a,.quick-links-table .gwt-Anchor {
 	color: black;
-	border: 1px solid #A0A0A0;
-	border-radius: 10px;
 }
 
-.gwt-Button:hover{
-	background-color:#5f5f5f;
-	color:white;
-}
-
-.viewholder a,.quick-links-table .gwt-Anchor{
-	color:black !important;
-}
-
-.button_bar .image-button, .viewholder .image-button{
-	background-color: #E4E4E4;
-	color: black;
-	border: 1px solid #A0A0A0;
-	border-radius: 10px;
-}
-
-.button_bar .image-button:hover, .viewholder .image-button:hover,.cancle-Btn:hover{
-	background-color:#5f5f5f;
-	color:white;
-}
-
-#PreferenceSettingsView .titlesPanel, #PreferenceSettingsView .pre_scroll_table {
+#PreferenceSettingsView .titlesPanel {
 	height: 850px;
+	background: #E8EAEB;
 }
 
-.no_records td{
+#PreferenceSettingsView .companyInfoPanel {
+	border: 1px solid #B8BBBF;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	background-color: white;
+	box-shadow: 1px 1px #fff;
+	margin-bottom: 25px !important;
+	padding: 10px 0 10px 10px;
+	width: 95%;
+}
+
+.no_records td {
 	text-align: center !important;
 }
 
-.gwt-Button[disabled], .detailsTab .customField button.gwt-Button[disabled] {
-   color: black !important;
+.setting-class-panel .detailsPanel .downloadPanel {
+	width: 300px;
 }
 
-.setting-class-panel .detailsPanel .downloadPanel{
-	width:300px;
+.allPanel .pageFormatPanel {
+	background: -webkit-gradient(linear, left top, left bottom, from(#F9F7F7),
+		to(#C4C0C0) );
+	padding: 5px 0;
 }
-#exportButton{
-	padding: 0px 10px 1px 34px !important;
+
+.allPanel .pageFormatPanel .gwt-Label {
+	color: black;
 }
-.allPanel .pageFormatPanel{
-	background: -webkit-gradient(linear, left top, left bottom, from(#F9F7F7), to(#C4C0C0) );
-    padding:5px 0;
+
+#PortletPage .firstRow {
+	background: #CCC;
+	background-image: -webkit-linear-gradient(white, #DEDEDE 2%, #BABABA);
+	color: gray;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #999;
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: 0.2em 1.02em;
+	text-shadow: rgba(255, 255, 255, 0.25) 0 0.08em 0;
+	padding: 3px 0px 5px 5px;
+	border-radius: 5px 5px 0 0;
+	border-style: solid;
+	border-bottom-width: 1px;
+	border-color: #CCC;
 }
-.allPanel .pageFormatPanel .gwt-Label{
-	color:black;
+
+.mainMenu button {
+	background: transparent;
+	padding: 10px 0;
+	border: 0 none;
+	margin: 0px;
+	border-radius: 0;
+	width: 200px;
+	height: auto;
+	text-align: center;
+	font-weight: bold;
+	display: block;
+}
+
+.mainMenuView .button_bar {
+	display: none;
+}
+
+.mainMenuView {
+	display: -webkit-box;
+	height: 700px;
+	margin:-10px;
+}
+
+.mainMenuView .subMenuPanel {
+	width: 77%;
+	border-left: 1px solid #ccc;
+	padding: 10px 20px 0px 10px;
+}
+
+.mainMenuView .menuItem .menuDescription {
+	display: none;
+}
+
+.subMenuPanel .menuItem,.salesTaxMenuBar,.report-section .section .gwt-Anchor {
+	border-style: solid;
+	border-width: 1px 0 0 0;
+	border-color: #ccc;
+	padding: 10px;
+	background-color: white;
+	border-radius: 5px;
+	text-decoration: none;
+}
+.subMenuPanel .menuItem,.report-section .section .gwt-Anchor{
+	background-image: url("/images/ipadGo.png");
+	background-repeat:no-repeat;
+	background-position:right center;
+}
+.subMenuPanel .menuItem a {
+	text-decoration: none;
+}
+
+.mainMenu .onClick,.subMenuPanel .menuClicked {
+	background: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #058CF5),
+		color-stop(100%, #015DE6) );
+	color: white;
+	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
+	-webkit-user-select: none;
+	color: white;
+}
+
+.subMenuPanel .menuItem:FOCUS a {
+	color: white;
+}
+
+.mainMenu .menuMainbutton,.mainMenu .customerMenuForm,.mainMenu .vendorMenuForm,.mainMenu .bankingMenuForm,.mainMenu .settingsMenuForm
+	{
+	border-top: 1px solid #ccc;
+}
+
+.subMenuPanel .childpanel {
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	background: white;
+	margin: 20px 0;
+}
+
+.subMenuPanel .childpanel .gwt-Label,.report-section .gwt-Label {
+	color: #777;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+	font-size: 15px;
+	font-weight: bold;
+	padding: 6px 8px;
+	border-bottom: 1px solid #D4D4D4;
+	background: -webkit-linear-gradient(top, #F0F0F0, #DFDFDF);
+	border-radius: 10px 10px 0 0;
+}
+
+.iPadMenu {
+	background-color: #A40B31;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #F4547C),
+		color-stop(2%, #C60D3B), color-stop(100%, #830927) );
+	background-image: -webkit-linear-gradient(#F4547C, #C60D3B 2 %, #830927);
+	background-image: linear-gradient(#F4547C, #C60D3B 2 %, #830927);
+	border-color: black;
+	padding: 10px 40px;
+	border-radius: 0px;
+	text-align: center;
+	position: absolute;
+	margin: 7px 5px;
+	height: auto;
+	color: white;
+	font-weight: bold;
+	text-transform: capitalize;
+	cursor: pointer;
+	left:0;
+}
+
+.datepannel {
+	background: white;
+	border-radius: 10px;
+	border: 1px solid #CCC;
+	margin:20px 0px;
+}
+
+#SelectChallanTypeDialog div table {
+	width: 250px;
+}
+
+.bottompanel .memoForm,.bottompanel .textForm,#InventoryAssemblyView .service-item-group,#InventoryAssemblyView .topPanel2
+	{
+	border: 1px solid #CCC;
+	border-radius: 10px;
+	background: white;
+	margin: 20px 0;
+}
+
+.image-button:FOCUS,.gwt-Button:FOCUS,#closeButton:FOCUS,#addNewButton:FOCUS,#exportButton:FOCUS,#searchButton:FOCUS,#configButton:FOCUS,#printButton:FOCUS,#addVendorButton:FOCUS,#editButton:FOCUS,#addCustomerButton:FOCUS,#next:FOCUS,#previous:FOCUS
+	{
+	background-color: #0B3C5E;
+	/*background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #4CA9E9),
+		color-stop(2%, #156EAC), color-stop(100%, #0D456C) );*/
+}
+
+.label-title, .label-title-list {
+	color: #777;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+	font-size: 15px;
+	font-weight: bold;
+	padding: 6px 8px;
+	border-bottom: 1px solid #D4D4D4;
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #F0F0F0),
+		color-stop(100%, #DFDFDF) );
+	text-align: center;
+}
+
+#closeButton {
+	width: 65px;
+}
+
+#PortletPage .portletPagePanel .portlet_column_parent {
+	width: 50%;
+}
+
+.popupContent .datePickerMonthSelector {
+	text-shadow: none;
+	border: 0 none;
+}
+
+.gwt-DecoratedTabBar .gwt-TabBarItem {
+	background-color: #BFBFBF;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, white),
+		color-stop(2%, #D1D1D1), color-stop(100%, #ADADAD) );
+	background-image: -webkit-linear-gradient(white, #D1D1D1 2%, #ADADAD);
+	border: 1px solid #8C8C8C;
+	width: 100%;
+}
+
+.group-toolbar {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack: justify;
+	position: fixed;
+	z-index: 1;
+	top:0px;
+	width: 100%;
+}
+#PreferenceSettingsView{
+	padding-left:0px;
+}
+.Transactions_center .hlay .form{
+	width:100%;
+}
+.blue-week-line td{
+	width:70px;
+}
+.mainMenuView .mainMenu{
+	width:200px;
+}
+.view_manager_body .viewholder{
+	margin-top: 70px;
+}
+.view_manager_body .abstract_base_view{
+	padding: 10px 0 10px 10px;
+	width: 98%;
+	height:100%;
+}
+.Transactions_center {
+	margin: 0 0 0 -15px;
+}
+.descriptionForm .descriptionTxtArea{
+	display: block;
+}
+#AddPriceLevelDialog .RadioGroupItem{
+	-webkit-box-pack: start;
+}
+.gwt-RadioButton{
+     display:block;
+ }
+ #SelectItemTypeDialog table .RadioGroupItem{
+     padding:20px;
+     -webkit-box-pack: start;
+     margin-bottom: 5px;
+ }
+ #NewApplyCreditsDialog .group_dialogue_list{
+	width:600px;
+}
+.checkBoxPanel .gwt-Label{
+	display: none;
+}
+.checkBoxPanel button{
+	margin:0px;
+}
+.checkBoxPanel .yesButton{
+	margin-right: -3px;
+}
+.checkBoxPanel .noButton{
+	border-left: 1px solid #8C8C8C;
+	border-radius: 0px 5px 5px 0;
+}
+.checkBoxPanel button{
+	background-color: #BFBFBF;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, white),
+	 color-stop(2%, #D1D1D1), color-stop(100%, #ADADAD) );
+	background-image: -webkit-linear-gradient(white, #D1D1D1 2%, #ADADAD);
+	color: black;
+	border-color: #8C8C8C;
+	padding: 4px 8px;
+}
+.checkBoxPanel .clicked{
+	background-color: #B8B8B8;
+	background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #9E9E9E),
+	 color-stop(10%, #ABABAB), color-stop(65%, #B8B8B8),
+	 color-stop(100%, #B9B9B9) );
+	background-image: -webkit-linear-gradient(#9E9E9E, #ABABAB 10%, #B8B8B8 65%, #B9B9B9);
+}
+.report-section{
+	margin-top: 50px;
+}
+.report-section .report-left-panel,.report-section .report-right-panel{
+	background: none;
+	border: none;
+}
+.company_settings_panel .creditsOption .creditsApplyAutomatic{
+	-webkit-box-orient: vertical;
+}
+.CompanyInfoOption .tradingAdressDescLabel,.terminologyOption .organisation_comment{
+	background: #E8EAEB;
+	border-radius: 0px;
+	font-size: 12px;
+	color: #B2B2B2;
+	border-bottom: 0px;
+	margin-bottom: 10px;
+}
+.AbstractStylePanel .CompanyInfoOption,.terminologyOption{
+	background:none;
+}
+.CompanyInfoOption .tradingAdressDescLabel .gwt-Label,.terminologyOption .organisation_comment .gwt-Label{
+	color: #777;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+	width:100%;
+}
+.allFields .AmountField .gwt-Label{
+	display: none;
+}
+.allFields .gwt-Label{
+	width:200px;
+}
+.reportGridParent .gridBodyContainer{
+	background: white;
+}
+.customerCenter .rightPanel,.customerCenter .leftPanel{
+	border-radius: 0px;
+	border: none;
+	background: none;
+}
+.customerCenter .leftPanel input[type=text],#vendorCenterView .leftVpPanel input[type=text]{
+	width:180px;
+}
+#vendorCenterView{
+	margin-top:50px;
+}
+#PreferenceSettingsView .estiamtesHiddenPanel .RadioGroupItem,#PreferenceSettingsView .ageingAndSellingDetailsOption .RadioGroupItem,
+#PreferenceSettingsView .terminologyOption .RadioGroupItem{
+	-webkit-box-pack: start;
+}
+ #customercreditmemoview .prodAndServiceHLay .memoArea{
+	display: block;
+	-webkit-box-pack:start;
+}
+#CashExpenseView .bottomLayout .memoArea{
+	display: block;
+	-webkit-box-pack:start;
+}
+#SalesTaxGroupListView .listgrid{
+	width:98%;
+}
+div.RadioGroupItem{
+	display: block;
+	-webkit-box-pack:start;
 }

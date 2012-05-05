@@ -112,13 +112,53 @@
 		<when-property-is name="tablet.user.agent" value="ie10" />
 	</replace-with>
 
-	<replace-with class="com.vimukti.accounter.web.client.ui.core.IpadViewManager">
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.core.IpadViewManager">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.core.ViewManager" />
 		<when-property-is name="tablet.user.agent" value="ipad" />
 	</replace-with>
-	
-		<replace-with class="com.vimukti.accounter.web.client.ui.IPadMenu">
+
+	<replace-with class="com.vimukti.accounter.web.client.ui.IPadMenu">
 		<when-type-is class="com.vimukti.accounter.web.client.ui.WebMenu" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.combo.IPadDropDownView">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.combo.DropDownView" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.edittable.IpadEditTableView">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.ui.edittable.EditTableView" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.portlet.IpadPortletPage">
+		<when-type-is class="com.vimukti.accounter.web.client.portlet.PortletPage" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
+
+	<replace-with class="com.vimukti.accounter.web.client.ui.forms.IpadCheckBox">
+		<when-type-is class="com.vimukti.accounter.web.client.ui.forms.CheckBoxImpl" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.IpadAccounterInitialiser">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.ui.AccounterInitialiser" />
+		<when-property-is name="tablet.user.agent" value="ipad" />
+	</replace-with>
+
+	<replace-with
+		class="com.vimukti.accounter.web.client.ui.edittable.IPadEditTableImpl">
+		<when-type-is
+			class="com.vimukti.accounter.web.client.ui.edittable.EditTableImpl" />
 		<when-property-is name="tablet.user.agent" value="ipad" />
 	</replace-with>
 

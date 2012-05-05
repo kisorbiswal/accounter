@@ -16,4 +16,9 @@ public class AccounterInitialiser {
 		Accounter.loadCompany();
 	}
 
+	
+	public Boolean isIpad() {
+		return false;
+	}
+
 }

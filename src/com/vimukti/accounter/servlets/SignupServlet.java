@@ -34,6 +34,12 @@ public class SignupServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		String header2 = req.getHeader("User-Agent");
+		boolean contains = header2.contains("iPad");
+		if(contains){
+			req.setAttribute("ipad", contains);
+		}
+		
 		dispatch(req, resp, view);
 
 	}

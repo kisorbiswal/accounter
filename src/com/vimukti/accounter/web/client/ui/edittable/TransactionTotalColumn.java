@@ -44,4 +44,14 @@ public class TransactionTotalColumn extends AmountColumn<ClientTransactionItem> 
 	protected boolean isEnable() {
 		return false;
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getColumnName()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

@@ -1,88 +1,93 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class TrackEstimatesOption extends AbstractPreferenceOption {
 
-	private static TrackEstimatesOptionUiBinder uiBinder = GWT
-			.create(TrackEstimatesOptionUiBinder.class);
-	@UiField
-	Label trackEstimateHeader;
-	@UiField
-	Label trackEstimateDescLabel;
-	@UiField
-	RadioButton yesRadioButton;
-	@UiField
-	RadioButton noRadioButton;
-	@UiField
-	CheckBox useDelayedCharges;
-	@UiField
-	FlowPanel hiddenPanel;
+	LabelItem trackEstimateHeader;
 
-	@UiField
-	RadioButton dontInclude;
-	@UiField
-	RadioButton includeAccepted;
-	@UiField
-	RadioButton includePendingAndAccepted;
+	Label trackEstimateDescLabel;
+
+	CheckboxItem yesOrNoRadioButton;
+
+	RadioGroupItem inCludeOrNotRadoiGroup;
+
+	CheckboxItem useDelayedCharges;
+
+	StyledPanel mainPanel;
+
+	StyledPanel hiddenPanel;
 
 	interface TrackEstimatesOptionUiBinder extends
 			UiBinder<Widget, TrackEstimatesOption> {
 	}
 
 	public TrackEstimatesOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	public TrackEstimatesOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	@Override
 	public void createControls() {
-		trackEstimateHeader.setText(messages.trackingEstimates());
-		yesRadioButton.setText(messages.yes());
-		noRadioButton.setText(messages.no());
-		useDelayedCharges.setText(messages.delayedCharges());
+		trackEstimateHeader = new LabelItem(messages.trackingEstimates(),
+				"bold");
+
+		yesOrNoRadioButton = new CheckboxItem(messages.trackingEstimates(),
+				"yesOrNoRadioButton");
+		// yesOrNoRadioButton.setShowTitle(false);
+		// yesOrNoRadioButton.setValueMap(messages.yes(), messages.no());
+		// yesOrNoRadioButton.setDefaultValue(messages.no());
+
+		inCludeOrNotRadoiGroup = new RadioGroupItem("",
+				"inCludeOrNotRadoiGroup");
+		inCludeOrNotRadoiGroup.setGroupName("inCludeOrNotRadoiGroup");
+		inCludeOrNotRadoiGroup.setShowTitle(false);
+		inCludeOrNotRadoiGroup.setValueMap(
+				messages.dontWantToIncludeEstimates(),
+				messages.includeAcceptedEstimates(),
+				messages.includePendingAndAcceptedEstimates());
+		inCludeOrNotRadoiGroup.setDefaultValue(messages
+				.includePendingAndAcceptedEstimates());
+		hiddenPanel = new StyledPanel("estiamtesHiddenPanel");
+		useDelayedCharges = new CheckboxItem(messages.delayedCharges(), "bold");
 		useDelayedCharges.setVisible(Accounter
 				.hasPermission(Features.CREDITS_CHARGES));
-		useDelayedCharges.setStyleName("bold");
 		hiddenPanel.setVisible(getCompanyPreferences().isDoyouwantEstimates());
 
-		noRadioButton.addClickHandler(new ClickHandler() {
+		yesOrNoRadioButton.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				hiddenPanel.setVisible(false);
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (yesOrNoRadioButton.getValue()) {
+					hiddenPanel.setVisible(true);
+				} else {
+					hiddenPanel.setVisible(false);
+					inCludeOrNotRadoiGroup.setValue(messages
+							.includePendingAndAcceptedEstimates());
+
+				}
 			}
 		});
+		mainPanel = new StyledPanel("estimatesMainPanel");
+		mainPanel.add(trackEstimateHeader);
+		mainPanel.add(yesOrNoRadioButton);
 
-		yesRadioButton.addClickHandler(new ClickHandler() {
+		hiddenPanel.add(inCludeOrNotRadoiGroup);
+		mainPanel.add(hiddenPanel);
+		mainPanel.add(useDelayedCharges);
+		add(mainPanel);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				hiddenPanel.setVisible(true);
-				includePendingAndAccepted.setValue(true);
-			}
-		});
-
-		dontInclude.setText(messages.dontWantToIncludeEstimates());
-		includeAccepted.setText(messages.includeAcceptedEstimates());
-		includePendingAndAccepted.setText(messages
-				.includePendingAndAcceptedEstimates());
 	}
 
 	@Override
@@ -98,25 +103,22 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 	@Override
 	public void initData() {
 		if (getCompanyPreferences().isDoyouwantEstimates()) {
-			yesRadioButton.setValue(true);
+			yesOrNoRadioButton.setValue(true);
 		} else {
-			noRadioButton.setValue(true);
+			yesOrNoRadioButton.setValue(false);
 		}
 
 		if (getCompanyPreferences().isDoyouwantEstimates()) {
 			if (getCompanyPreferences().isDontIncludeEstimates()) {
-				dontInclude.setValue(true);
-				includeAccepted.setValue(false);
-				includePendingAndAccepted.setValue(false);
+				inCludeOrNotRadoiGroup.setValue(messages
+						.dontWantToIncludeEstimates());
 			} else if (getCompanyPreferences().isIncludeAcceptedEstimates()) {
-				includeAccepted.setValue(true);
-				dontInclude.setValue(false);
-				includePendingAndAccepted.setValue(false);
+				inCludeOrNotRadoiGroup.setValue(messages
+						.includeAcceptedEstimates());
 			} else if (getCompanyPreferences()
 					.isIncludePendingAcceptedEstimates()) {
-				includePendingAndAccepted.setValue(true);
-				dontInclude.setValue(false);
-				includeAccepted.setValue(false);
+				inCludeOrNotRadoiGroup.setValue(messages
+						.includePendingAndAcceptedEstimates());
 			}
 		}
 
@@ -126,27 +128,30 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		getCompanyPreferences()
-				.setDoyouwantEstimates(yesRadioButton.getValue());
+		boolean isTracking = yesOrNoRadioButton.getValue();
+		getCompanyPreferences().setDoyouwantEstimates(isTracking);
 		getCompanyPreferences().setDelayedchargesEnabled(
 				useDelayedCharges.getValue());
-		if (noRadioButton.getValue()) {
+		if (!isTracking) {
 			getCompanyPreferences().setDontIncludeEstimates(false);
 			getCompanyPreferences().setIncludeAcceptedEstimates(false);
 			getCompanyPreferences().setIncludePendingAcceptedEstimates(false);
 		}
-		if (getCompanyPreferences().isDoyouwantEstimates()) {
-			if (dontInclude.getValue()) {
+		if (isTracking) {
+			if (inCludeOrNotRadoiGroup.getValue().equals(
+					messages.dontWantToIncludeEstimates())) {
 				getCompanyPreferences().setDontIncludeEstimates(true);
 				getCompanyPreferences().setIncludeAcceptedEstimates(false);
 				getCompanyPreferences().setIncludePendingAcceptedEstimates(
 						false);
-			} else if (includeAccepted.getValue()) {
+			} else if (inCludeOrNotRadoiGroup.getValue().equals(
+					messages.includeAcceptedEstimates())) {
 				getCompanyPreferences().setIncludeAcceptedEstimates(true);
 				getCompanyPreferences().setDontIncludeEstimates(false);
 				getCompanyPreferences().setIncludePendingAcceptedEstimates(
 						false);
-			} else if (includePendingAndAccepted.getValue()) {
+			} else if (inCludeOrNotRadoiGroup.getValue().equals(
+					messages.includePendingAndAcceptedEstimates())) {
 				getCompanyPreferences()
 						.setIncludePendingAcceptedEstimates(true);
 				getCompanyPreferences().setDontIncludeEstimates(false);

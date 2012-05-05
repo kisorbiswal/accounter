@@ -46,6 +46,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 				return messages.effectiveFrom();
 			}
 
+			@Override
+			public String getValueAsString(ClientComputationSlab row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 0;
+			}
+
 		});
 
 		this.addColumn(new AmountColumn<ClientComputationSlab>(null, false) {
@@ -73,6 +83,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			@Override
 			public int getWidth() {
 				return 160;
+			}
+
+			@Override
+			public String getValueAsString(ClientComputationSlab row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -105,6 +125,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			public int getWidth() {
 				return 160;
 			}
+
+			@Override
+			public String getValueAsString(ClientComputationSlab row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new StringListColumn<ClientComputationSlab>() {
@@ -133,6 +163,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			protected String getColumnName() {
 				return messages.slabType();
 			}
+
+			@Override
+			public String getValueAsString(ClientComputationSlab row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new AmountColumn<ClientComputationSlab>(null, false) {
@@ -155,6 +195,16 @@ public class ComputationSlabTable extends EditTable<ClientComputationSlab> {
 			@Override
 			public int getWidth() {
 				return 160;
+			}
+
+			@Override
+			public String getValueAsString(ClientComputationSlab row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

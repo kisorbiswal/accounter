@@ -25,4 +25,14 @@ public class InventoryItemNamesColumn extends
 		return false;
 	}
 
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getValue(row).toString();
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
+
 }

@@ -43,6 +43,16 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 			protected String getColumnName() {
 				return messages.name();
 			}
+
+			@Override
+			public String getValueAsString(ClientCustomField row) {
+				return messages.name()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 		this.addColumn(new CheckboxEditColumn<ClientCustomField>() {
 
@@ -63,6 +73,16 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 				((CheckBox) widget).setValue(context.getRow().isShowCustomer());
 
 			}
+
+			@Override
+			public String getValueAsString(ClientCustomField row) {
+				return "TODO";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 		this.addColumn(new CheckboxEditColumn<ClientCustomField>() {
 
@@ -82,6 +102,16 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 					RenderContext<ClientCustomField> context) {
 				// super.render(widget, context);
 				((CheckBox) widget).setValue(context.getRow().isShowVendor());
+			}
+
+			@Override
+			public String getValueAsString(ClientCustomField row) {
+				return "TODO";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

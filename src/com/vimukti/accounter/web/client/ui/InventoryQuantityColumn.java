@@ -249,4 +249,14 @@ public class InventoryQuantityColumn extends
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public String getValueAsString(ClientInventoryAssemblyItem row) {
+		return "(Qty :" + getValue(row).toString() + ")";
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

@@ -24,4 +24,16 @@ public class DescriptionEditColumn extends
 	public int getWidth() {
 		return -1;
 	}
+
+
+	@Override
+	public int insertNewLineNumber() {
+		return 3;
+	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return "";
+	}
+
 }

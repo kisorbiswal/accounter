@@ -3,15 +3,13 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 /**
  * @author vimukti36
@@ -19,77 +17,66 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
  */
 public class TerminologyOption extends AbstractPreferenceOption {
 
-	private static TerminologyOptionUiBinder uiBinder = GWT
-			.create(TerminologyOptionUiBinder.class);
-	@UiField
-	Label terminologyforCustomerLabel;
-	@UiField
-	RadioButton tenantsLabelRadioButton;
-	@UiField
-	RadioButton clientsRadioButton;
-	@UiField
-	RadioButton custimersRadioBuitton;
-	@UiField
-	RadioButton DonorsRadioButton;
-	@UiField
-	RadioButton guestardioButton;
-	@UiField
-	RadioButton membersRadioButton;
-	@UiField
-	RadioButton PatientRadioButton;
-	@UiField
-	Label customerDescriptionLabel;
-	@UiField
-	RadioButton vendorRadioButton;
-	@UiField
-	RadioButton supplierRadioButton;
-	@UiField
-	Label vendorsHeaderLabel;
-	@UiField
-	Label vendorsDescriptionLabel;
+	LabelItem terminologyforCustomerLabel;
 
-	interface TerminologyOptionUiBinder extends
-			UiBinder<Widget, TerminologyOption> {
-	}
+	LabelItem customerDescriptionLabel;
+
+	SelectCombo customerTerminolgyCombo;
+
+	LabelItem vendorsHeaderLabel;
+
+	LabelItem vendorsDescriptionLabel;
+
+	RadioGroupItem vendorRadioGroup;
+
+	StyledPanel mainpPanel;
+
+	public String[] customerTermsList = { messages.customer(),
+			messages.Client(), messages.Tenant(), messages.Donar(),
+			messages.Guest(), messages.Member(), messages.Patient() };
 
 	public TerminologyOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	public TerminologyOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	public void createControls() {
-		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
-				.get().Customer()));
-		customerDescriptionLabel.setText(messages.customerDescription());
-		customerDescriptionLabel.setStyleName("organisation_comment");
-		tenantsLabelRadioButton.setName(messages.group());
-		tenantsLabelRadioButton.setHTML(messages.Tenant());
-		custimersRadioBuitton.setName(messages.group());
-		custimersRadioBuitton.setHTML(messages.customer());
-		guestardioButton.setName(messages.group());
-		guestardioButton.setHTML(messages.Guest());
-		membersRadioButton.setName(messages.group());
-		membersRadioButton.setHTML(messages.Member());
-		PatientRadioButton.setName(messages.group());
-		PatientRadioButton.setHTML(messages.Patient());
-		clientsRadioButton.setName(messages.group());
-		clientsRadioButton.setHTML(messages.Client());
-		DonorsRadioButton.setName(messages.group());
-		DonorsRadioButton.setHTML(messages.Donar());
+		terminologyforCustomerLabel = new LabelItem(
+				messages.useTerminologyFor(Global.get().Customer()),
+				"terminologyforCustomerLabel");
 
-		vendorsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
-				.Vendor()));
-		vendorsDescriptionLabel.setText(messages.vendorDescription());
-		vendorsDescriptionLabel.setStyleName("organisation_comment");
-		vendorRadioButton.setName(messages.Vendor());
-		vendorRadioButton.setHTML(messages.Vendor());
-		supplierRadioButton.setName(messages.Vendor());
-		supplierRadioButton.setHTML(messages.Supplier());
+		customerDescriptionLabel = new LabelItem(
+				messages.customerDescription(), "organisation_comment");
+
+		customerTerminolgyCombo = new SelectCombo(messages.select());
+		for (int i = 0; i < customerTermsList.length; i++) {
+			customerTerminolgyCombo.addItem(customerTermsList[i]);
+		}
+		customerTerminolgyCombo.setSelected(messages.customer());
+
+		mainpPanel = new StyledPanel("terminologyOption");
+		mainpPanel.add(terminologyforCustomerLabel);
+		mainpPanel.add(customerDescriptionLabel);
+		mainpPanel.add(customerTerminolgyCombo);
+
+		vendorsHeaderLabel = new LabelItem(messages.useTerminologyFor(Global
+				.get().Vendor()), "vendorsHeaderLabel");
+
+		vendorsDescriptionLabel = new LabelItem(messages.vendorDescription(),
+				"organisation_comment");
+
+		vendorRadioGroup = new RadioGroupItem();
+		vendorRadioGroup.setGroupName("vendorRadioGroup");
+		vendorRadioGroup.setShowTitle(false);
+
+		vendorRadioGroup.setValueMap(messages.Vendor(), messages.Supplier());
+		vendorRadioGroup.setValue(messages.Vendor());
+
+		mainpPanel.add(vendorsHeaderLabel);
+		mainpPanel.add(vendorsDescriptionLabel);
+		mainpPanel.add(vendorRadioGroup);
+		add(mainpPanel);
 	}
 
 	@Override
@@ -100,25 +87,27 @@ public class TerminologyOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 
-		if (tenantsLabelRadioButton.getValue()) {
+		if (customerTerminolgyCombo.getValue().equals(messages.Tenant())) {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.TENANT);
-		} else if (custimersRadioBuitton.getValue()) {
+		} else if (customerTerminolgyCombo.getValue().equals(
+				messages.customer())) {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.CUSTOMER);
-		} else if (guestardioButton.getValue()) {
+		} else if (customerTerminolgyCombo.getValue().equals(messages.Guest())) {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.GUEST);
-		} else if (membersRadioButton.getValue()) {
+		} else if (customerTerminolgyCombo.getValue().equals(messages.Member())) {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.MEMBER);
-		} else if (PatientRadioButton.getValue()) {
+		} else if (customerTerminolgyCombo.getValue()
+				.equals(messages.Patient())) {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.PATITEINT);
-		} else if (clientsRadioButton.getValue()) {
+		} else if (customerTerminolgyCombo.getValue().equals(messages.Client())) {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.CLIENT);
 		} else {
 			getCompanyPreferences().setReferCustomers(ClientCustomer.DONAR);
 		}
 
-		if (vendorRadioButton.getValue()) {
+		if (vendorRadioGroup.getValue().equals(messages.Vendor())) {
 			getCompanyPreferences().setReferVendors(ClientVendor.VENDOR);
-		} else if (supplierRadioButton.getValue()) {
+		} else if (vendorRadioGroup.getValue().equals(messages.Supplier())) {
 			getCompanyPreferences().setReferVendors(ClientVendor.SUPPLIER);
 		}
 
@@ -133,41 +122,20 @@ public class TerminologyOption extends AbstractPreferenceOption {
 	public void initData() {
 
 		int referCustomers = getCompanyPreferences().getReferCustomers();
-		terminologyforCustomerLabel.setText(messages.useTerminologyFor(Global
+		terminologyforCustomerLabel.setValue(messages.useTerminologyFor(Global
 				.get().Customer()));
-		switch (referCustomers) {
-		case ClientCustomer.TENANT:
-			tenantsLabelRadioButton.setValue(true);
-			break;
-		case ClientCustomer.CUSTOMER:
-			custimersRadioBuitton.setValue(true);
-			break;
-		case ClientCustomer.GUEST:
-			guestardioButton.setValue(true);
-			break;
-		case ClientCustomer.MEMBER:
-			tenantsLabelRadioButton.setValue(true);
-			break;
-		case ClientCustomer.PATITEINT:
-			PatientRadioButton.setValue(true);
-			break;
-		case ClientCustomer.CLIENT:
-			clientsRadioButton.setValue(true);
-			break;
-		case ClientCustomer.DONAR:
-			DonorsRadioButton.setValue(true);
-			break;
-		}
+		customerTerminolgyCombo.setComboItem(customerTermsList[referCustomers]);
+
 		int referVendors = getCompanyPreferences().getReferVendors();
+
 		switch (referVendors) {
 		case ClientVendor.VENDOR:
-			vendorRadioButton.setValue(true);
+			vendorRadioGroup.setValue(messages.Vendor());
 			break;
 		case ClientVendor.SUPPLIER:
-			supplierRadioButton.setValue(true);
+			vendorRadioGroup.setValue(messages.Supplier());
 			break;
 		}
 
 	}
-
 }

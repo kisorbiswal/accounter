@@ -6,8 +6,12 @@ String isTouch = (String)request.getAttribute( "isTouch" );
 <script src="/jscripts/jquery-1.7.min.js" type="text/javascript"></script>
 <script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 
-<link type="text/css" rel="stylesheet" href="/css/web.css?version=<%= version%>" />
-
+<%if(isTouch != null && isTouch.equals("true")){ %>
+    <link type="text/css" rel="stylesheet" href="../css/iPad.css?version=<%= version%>" />
+   <% } else{%>
+  	 <link type="text/css" rel="stylesheet" href="/css/web.css?version=<%= version%>" />
+  <%} %>	 
+  	
 <script type="text/javascript" src="/jscripts/jquery.contactable.packed.js"></script>
 <script  type="text/javascript" >
 

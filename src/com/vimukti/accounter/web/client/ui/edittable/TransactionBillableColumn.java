@@ -4,7 +4,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.ui.edittable.tables.AbstractTransactionTable;
 
 public class TransactionBillableColumn extends
 		CheckboxEditColumn<ClientTransactionItem> {
@@ -12,7 +11,7 @@ public class TransactionBillableColumn extends
 	@Override
 	protected void onChangeValue(boolean value, ClientTransactionItem row) {
 		row.setIsBillable(value);
-		((AbstractTransactionTable) getTable()).update(row);
+		getTable().update(row);
 	}
 
 	@Override
@@ -31,5 +30,15 @@ public class TransactionBillableColumn extends
 	@Override
 	public int getWidth() {
 		return 42;
+	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return "";
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
 	}
 }

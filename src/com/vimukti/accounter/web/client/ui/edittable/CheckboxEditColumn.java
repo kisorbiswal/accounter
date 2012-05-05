@@ -61,13 +61,6 @@ public abstract class CheckboxEditColumn<T> extends EditColumn<T> {
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				boolean value = event.getValue();
 				onChangeValue(value, context.getRow());
-				int index = getTable().getAllRows().indexOf(context.getRow()) + 1;
-				if (value) {
-					context.getRowFormatter().addStyleName(index, "selected");
-				} else {
-					context.getRowFormatter()
-							.removeStyleName(index, "selected");
-				}
 			}
 		});
 		return box;

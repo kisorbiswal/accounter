@@ -81,4 +81,14 @@ public class InventoryTransactionUnitPriceColumn extends
 	protected String getColumnName() {
 		return getColumnNameWithCurrency(messages.unitPrice());
 	}
+
+	@Override
+	public String getValueAsString(ClientInventoryAssemblyItem row) {
+		return " * " + getValue(row).toString() + "/unit";
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

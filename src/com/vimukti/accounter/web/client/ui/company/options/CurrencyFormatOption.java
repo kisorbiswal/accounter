@@ -1,31 +1,22 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.CurrencyFormatDialog;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class CurrencyFormatOption extends AbstractPreferenceOption {
 
-	private static CurrencyFormatOptionUiBinder uiBinder = GWT
-			.create(CurrencyFormatOptionUiBinder.class);
-	@UiField
-	Label currencyFormatLabel;
+	LabelItem currencyFormatLabel;
 
-	@UiField
 	Button currencyFormatButton;
 
-	interface CurrencyFormatOptionUiBinder extends
-			UiBinder<Widget, CurrencyFormatOption> {
-	}
+	StyledPanel mainPanel;
 
 	public CurrencyFormatOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 	}
 
@@ -43,8 +34,9 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 
-		currencyFormatLabel.setText(messages.currencyFormat());
-		currencyFormatButton.setText(messages.changeCurrencyFormat());
+		currencyFormatLabel = new LabelItem(messages.currencyFormat(),
+				"currencyFormatLabel");
+		currencyFormatButton = new Button(messages.changeCurrencyFormat());
 		currencyFormatButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -55,6 +47,11 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 				dialog.center();
 			}
 		});
+		mainPanel = new StyledPanel("CurrencyFormatOption");
+		mainPanel.add(currencyFormatLabel);
+		mainPanel.add(currencyFormatButton);
+		add(mainPanel);
+
 	}
 
 	@Override

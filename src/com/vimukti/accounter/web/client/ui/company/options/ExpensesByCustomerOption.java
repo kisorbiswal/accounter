@@ -1,28 +1,19 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 
 public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
-	private static ExpensesByCustomerOptionUiBinder uiBinder = GWT
-			.create(ExpensesByCustomerOptionUiBinder.class);
-	@UiField
-	CheckBox expenseandProductandServiceTrackingbyCustomer;
-	@UiField
-	CheckBox UseBillableExpenseCheckBox;
-	
+	CheckboxItem expenseandProductandServiceTrackingbyCustomer;
 
-	interface ExpensesByCustomerOptionUiBinder extends
-			UiBinder<Widget, ExpensesByCustomerOption> {
-	}
+	CheckboxItem UseBillableExpenseCheckBox;
+
+	StyledPanel mainPanel;
 
 	public ExpensesByCustomerOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -48,12 +39,17 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		expenseandProductandServiceTrackingbyCustomer.setText(messages
-				.Expenseandproductservicetrackingbycustomer(Global.get()
-						.customer()));
-		expenseandProductandServiceTrackingbyCustomer.setStyleName("bold");
-		UseBillableExpenseCheckBox.setText(messages.useBillabelExpenses());
-		UseBillableExpenseCheckBox.setStyleName("bold");
+		expenseandProductandServiceTrackingbyCustomer = new CheckboxItem(
+				messages.Expenseandproductservicetrackingbycustomer(Global
+						.get().customer()),
+				"expenseandProductandServiceTrackingbyCustomer");
+
+		UseBillableExpenseCheckBox = new CheckboxItem(
+				messages.useBillabelExpenses(), "UseBillableExpenseCheckBox");
+		mainPanel = new StyledPanel("expensesByCustomerOption");
+		mainPanel.add(expenseandProductandServiceTrackingbyCustomer);
+		mainPanel.add(UseBillableExpenseCheckBox);
+		add(mainPanel);
 	}
 
 	@Override

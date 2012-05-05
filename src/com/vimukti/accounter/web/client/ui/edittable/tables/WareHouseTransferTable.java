@@ -37,6 +37,16 @@ public abstract class WareHouseTransferTable extends
 						((CheckBox) widget).setValue(true);
 					}
 				}
+
+				@Override
+				public String getValueAsString(ClientStockTransferItem row) {
+					return "TODO";
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
+				}
 			});
 		}
 		TextEditColumn<ClientStockTransferItem> itemName = new TextEditColumn<ClientStockTransferItem>() {
@@ -64,6 +74,17 @@ public abstract class WareHouseTransferTable extends
 			@Override
 			public int getWidth() {
 				return 200;
+			}
+
+			@Override
+			public String getValueAsString(ClientStockTransferItem row) {
+				// TODO Auto-generated method stub
+				return messages.itemName()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(itemName);
@@ -111,6 +132,16 @@ public abstract class WareHouseTransferTable extends
 				@Override
 				public int getWidth() {
 					return 200;
+				}
+
+				@Override
+				public String getValueAsString(ClientStockTransferItem row) {
+					return messages.totalQuantity()+" : "+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 			};
 			this.addColumn(totalQuantity);

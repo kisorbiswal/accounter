@@ -130,6 +130,16 @@ public abstract class CustomerItemTransactionTable extends
 			protected String getDiscription(ClientItem item) {
 				return item.getSalesDescription();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new DescriptionEditColumn(){
@@ -187,6 +197,16 @@ public abstract class CustomerItemTransactionTable extends
 						}
 					}
 
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return "";
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1 ;
+					}
+
 				});
 			}
 		}
@@ -223,6 +243,16 @@ public abstract class CustomerItemTransactionTable extends
 					@Override
 					protected boolean isSales() {
 						return true;
+					}
+
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return "";
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
 					}
 				});
 

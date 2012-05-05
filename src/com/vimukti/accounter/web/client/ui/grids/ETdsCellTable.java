@@ -78,6 +78,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.SRNo()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> bankBsrCodeColumn = new TextEditColumn<ClientETDSFillingItem>() {
@@ -109,6 +119,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("100px");
 				return 100;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.bankBSRCode()+" : "+getValue(row) ;
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> dateTaxDepositedColumn = new TextEditColumn<ClientETDSFillingItem>() {
@@ -138,6 +158,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("115px");
 				return 115;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.dateTaxDeposited()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 
@@ -170,6 +200,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("110px");
 				return 110;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.challanSerialNo()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> sectionCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -200,6 +240,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("120px");
 				return 120;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.sectionForPayment()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 
@@ -232,6 +282,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("155px");
 				return 275;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.totalTDSToBeAllocatedAmongAllDeductees()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> deducteePanCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -263,6 +323,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				return 100;
 			}
 
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.panOfTheDeductee()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
+
 		};
 
 		TextEditColumn<ClientETDSFillingItem> deducteeNameCOl = new TextEditColumn<ClientETDSFillingItem>() {
@@ -276,7 +346,6 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected void setValue(ClientETDSFillingItem row, String value) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -295,6 +364,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("100px");
 				return 100;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return  messages.deducteeName()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> paymentDateCOl = new TextEditColumn<ClientETDSFillingItem>() {
@@ -307,7 +386,6 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected void setValue(ClientETDSFillingItem row, String value) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -325,6 +403,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("145px");
 				return 145;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.dateOfPaymentOrCredit()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 
@@ -357,6 +445,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("110px");
 				return 110;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.amountPaidOrCredited()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> TDSCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -382,6 +480,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.tds()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> surchargeCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -406,6 +514,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			@Override
 			protected boolean isEnable() {
 				return false;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.surcharge()+ " : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 
@@ -438,6 +556,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("95px");
 				return 95;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.educationCess()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> totalTaxDeductedCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -451,7 +579,6 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected void setValue(ClientETDSFillingItem row, String value) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -469,6 +596,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("110px");
 				return 110;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.totalTaxDeducted()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 
@@ -502,6 +639,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("115px");
 				return 115;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.totalTaxDeposited()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> dateDeductionCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -514,7 +661,6 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected void setValue(ClientETDSFillingItem row, String value) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -532,6 +678,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("105px");
 				return 105;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.dateOfDeduction()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
 			}
 		};
 
@@ -568,6 +724,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("225px");
 				return 0;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.deducteeCode()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
+			}
 		};
 
 		final BankDropDownTable remarkCodeTable = new BankDropDownTable(
@@ -603,6 +769,17 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("260px");
 				return 0;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				// TODO Auto-generated method stub
+				return messages.remarkTDSChallan()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
+			}
 		};
 
 		// SelectionCell deducteeCodeCol = new SelectionCell(null);
@@ -635,6 +812,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 				getHeader().asWidget().setWidth("110px");
 				return 0;
 			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.rateAtWhichDeducted()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
+			}
 		};
 
 		TextEditColumn<ClientETDSFillingItem> bookEntryCol = new TextEditColumn<ClientETDSFillingItem>() {
@@ -665,6 +852,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("105px");
 				return 0;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.paidByBookEntryOrOtherwise()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
 			}
 		};
 
@@ -700,6 +897,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			public int getWidth() {
 				getHeader().asWidget().setWidth("100px");
 				return 0;
+			}
+
+			@Override
+			public String getValueAsString(ClientETDSFillingItem row) {
+				return messages.grossingUpIndicator()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 2;
 			}
 		};
 

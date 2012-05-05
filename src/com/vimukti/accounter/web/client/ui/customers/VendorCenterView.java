@@ -8,10 +8,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -25,18 +28,23 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ButtonGroup;
+import com.vimukti.accounter.web.client.ui.core.IButtonContainer;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VendorSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorsListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
-public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
+public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
+		implements IButtonContainer {
 
 	private static final int TYPE_CASH_PURCHASE = 2;
 	private static final int TYPE_ENTER_BILL = 6;
@@ -138,9 +146,23 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 				true);
 		pager.setDisplay(vendHistoryGrid);
 		updateRecordsCount(0, 0, 0);
-		rightVpPanel.add(transactionGridpanel);
-		rightVpPanel.add(vendHistoryGrid);
-		rightVpPanel.add(pager);
+		if (Accounter.isIpadApp()) {
+
+			Button button = new Button(messages.transaction());
+			button.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ActionFactory.getVendorTransactionListHistory(
+							selectedVendor).run();
+				}
+			});
+			rightVpPanel.add(button);
+		} else {
+			rightVpPanel.add(transactionGridpanel);
+			rightVpPanel.add(vendHistoryGrid);
+			rightVpPanel.add(pager);
+		}
 		// vendHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
@@ -644,6 +666,23 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 	@Override
 	public boolean isDirty() {
 		return false;
+	}
+
+	@Override
+	public void addButtons(ButtonGroup group) {
+		ImageButton addVendorButton = new ImageButton(messages.addNew(Global
+				.get().Vendor()), Accounter.getFinanceImages()
+				.portletPageSettings());
+		addVendorButton.addStyleName("settingsButton");
+		addVendorButton.getElement().setId("addVendorButton");
+		addVendorButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ActionFactory.getNewVendorAction().run();
+			}
+		});
+		group.add(addVendorButton);
 	}
 
 }

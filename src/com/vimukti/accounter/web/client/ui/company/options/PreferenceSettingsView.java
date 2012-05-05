@@ -10,10 +10,8 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.Features;
@@ -46,23 +44,45 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		StyledPanel titlesPanel = new StyledPanel("titlesPanel");
 		pageDetailsPanel = new ScrollPanel();
 		pageDetailsPanel.addStyleName("pre_scroll_table");
+
 		preferencePages = getPreferencePages();
-		for (final PreferencePage page : preferencePages) {
-			StyledPanel pageView = createPageView(page);
-			Label title = new Label(page.getTitle());
+		final List<Label> titles = new ArrayList<Label>();
+		final List<StyledPanel> subTabsPanels = new ArrayList<StyledPanel>();
+
+		for (int i = 0; i < preferencePages.size(); i++) {
+			PreferencePage preferencePage = preferencePages.get(i);
+			final Label title = new Label(preferencePage.getTitle());
 			title.addStyleName("preferences_option_title");
-			titlesPanel.add(title);
-			titlesPanel.add(pageView);
-			/**
-			 * title.addClickHandler(new ClickHandler() {
-			 * 
-			 * @Override public void onClick(ClickEvent event) {
-			 *           pageDetailsPanel.clear(); pageDetailsPanel.add(page); }
-			 *           });
-			 **/
-			pageDetailsPanel.clear();
-			pageDetailsPanel.add(preferencePages.get(0));
+			StyledPanel panel = new StyledPanel("Sub-tabs-panel");
+
+			titles.add(title);
+			titlesPanel.add(titles.get(i));
+
+			subTabsPanels.add(panel);
+			titlesPanel.add(subTabsPanels.get(i));
+
+			title.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					int j = 0;
+					pageDetailsPanel.clear();
+					for (int k = 0; k < preferencePages.size(); k++) {
+						subTabsPanels.get(k).clear();
+						if (titles.get(k).equals(title)) {
+							j = k;
+						}
+					}
+					subTabsPanels.get(j).add(
+							createPageView(preferencePages.get(j)));
+					pageDetailsPanel.add(preferencePages.get(j));
+				}
+			});
+
 		}
+		pageDetailsPanel.clear();
+		subTabsPanels.get(0).add(createPageView(preferencePages.get(0)));
+		pageDetailsPanel.add(preferencePages.get(0));
+
 		mainPanel.add(titlesPanel);
 		mainPanel.add(pageDetailsPanel);
 		titlesPanel.getElement().getParentElement()
@@ -177,53 +197,39 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	private StyledPanel createPageView(final PreferencePage page) {
 		final StyledPanel pageView = new StyledPanel("pageView");
 		// pageView.setWidth("100%");
-		List<AbstractPreferenceOption> options = page.getOptions();
+		final List<AbstractPreferenceOption> options = page.getOptions();
+		final List<Anchor> optionLinks = new ArrayList<Anchor>();
 		for (int index = 0; index < options.size(); index++) {
 			final AbstractPreferenceOption option = options.get(index);
 			final Anchor optionLink = new Anchor(option.getTitle());
-			pageView.add(optionLink);
+			optionLinks.add(optionLink);
+			pageView.add(optionLinks.get(index));
 			pageView.addStyleName("options_panel");
-			optionLink.getElement().getParentElement()
+			optionLinks.get(index).getElement().getParentElement()
 					.addClassName("preferences_option");
 
-			optionLink.addMouseOverHandler(new MouseOverHandler() {
+			optionLinks.get(index).addMouseOverHandler(new MouseOverHandler() {
 
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
 					optionLink.addStyleName("optionFocused");
 				}
 			});
-			optionLink.addMouseOutHandler(new MouseOutHandler() {
+			optionLinks.get(index).addMouseOutHandler(new MouseOutHandler() {
 
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
 					optionLink.removeStyleName("optionFocused");
 				}
 			});
-			optionLink.addClickHandler(new ClickHandler() {
+			optionLinks.get(index).addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					for (int superIndex = 0; superIndex < ((ComplexPanel) pageView
-							.getParent()).getWidgetCount(); superIndex++) {
-						if (((ComplexPanel) pageView.getParent())
-								.getWidget(superIndex) instanceof StyledPanel) {
-							Widget pageview = ((ComplexPanel) pageView
-									.getParent()).getWidget(superIndex);
-							for (int index = 0; index < ((ComplexPanel) pageview)
-									.getWidgetCount(); index++) {
-								Widget widget = ((ComplexPanel) pageview)
-										.getWidget(index);
-								widget.removeStyleName("optionClicked");
-							}
-						}
+					for (int i = 0; i < options.size(); i++) {
+						optionLinks.get(i).removeStyleName("optionClicked");
 					}
-
 					optionLink.addStyleName("optionClicked");
-					if (!page.isAttached()) {
-						pageDetailsPanel.clear();
-						pageDetailsPanel.add(page);
-					}
 					pageDetailsPanel.ensureVisible(option);
 				}
 			});

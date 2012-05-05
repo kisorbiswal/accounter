@@ -42,6 +42,16 @@ public abstract class PayEmployeeTable extends
 					((CheckBox) widget).setValue(true);
 				}
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayEmployee row) {
+				return null;
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientTransactionPayEmployee>() {
@@ -65,6 +75,16 @@ public abstract class PayEmployeeTable extends
 			@Override
 			protected boolean isEnable() {
 				return false;
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayEmployee row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -90,6 +110,16 @@ public abstract class PayEmployeeTable extends
 			protected String getColumnName() {
 				return messages.transactionDate();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayEmployee row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new AmountColumn<ClientTransactionPayEmployee>(
@@ -114,6 +144,16 @@ public abstract class PayEmployeeTable extends
 			@Override
 			protected boolean isEnable() {
 				return false;
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayEmployee row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -141,6 +181,16 @@ public abstract class PayEmployeeTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.payment();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionPayEmployee row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 
 		});

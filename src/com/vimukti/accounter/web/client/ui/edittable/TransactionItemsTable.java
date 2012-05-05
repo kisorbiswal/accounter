@@ -53,6 +53,16 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 			protected boolean isEnable() {
 				return false;
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.name()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		this.addColumn(textEditColumn);
 
@@ -100,6 +110,16 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 			protected String getColumnName() {
 				return messages.vatCode();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.vatCode()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		TextEditColumn<ClientTransactionItem> textEditColumn3 = new TextEditColumn<ClientTransactionItem>() {
@@ -130,6 +150,16 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 			@Override
 			protected boolean isEnable() {
 				return false;
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.lineTotal()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(textEditColumn3);

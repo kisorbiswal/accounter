@@ -2,39 +2,51 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class DoyouUseOption extends AbstractPreferenceOption {
 
 	private static DoyouUseOptionUiBinder uiBinder = GWT
 			.create(DoyouUseOptionUiBinder.class);
-	@UiField
-	Label doYouLabelItem;
-	@UiField
-	CheckBox useCustomerNo;
-	@UiField
-	CheckBox useVendorNo;
-	@UiField
-	CheckBox useAccountNo;
+
+	LabelItem doYouLabelItem;
+
+	CheckboxItem useCustomerNo;
+
+	CheckboxItem useVendorNo;
+
+	CheckboxItem useAccountNo;
+
+	StyledPanel mainPanel;
 
 	interface DoyouUseOptionUiBinder extends UiBinder<Widget, DoyouUseOption> {
 	}
 
 	public DoyouUseOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
 	public void createControls() {
-		doYouLabelItem.setText(messages.Numbers());
-		useCustomerNo.setText(messages.usePayeeId(Global.get().customer()));
-		useVendorNo.setText(messages.usePayeeId(Global.get().vendor()));
-		useAccountNo.setText(messages.useAccountNos());
+		doYouLabelItem = new LabelItem(messages.Numbers(), "doYouLabelItem");
+
+		useCustomerNo = new CheckboxItem(messages.usePayeeId(Global.get()
+				.customer()), "useCustomerNo");
+		useVendorNo = new CheckboxItem(messages.usePayeeId(Global.get()
+				.vendor()), "useVendorNo");
+		useAccountNo = new CheckboxItem(messages.useAccountNos(),
+				"useAccountNo");
+		mainPanel = new StyledPanel("doyouUseOption");
+		mainPanel.add(useCustomerNo);
+		mainPanel.add(useVendorNo);
+		mainPanel.add(useAccountNo);
+		add(mainPanel);
+
 	}
 
 	@Override

@@ -1,36 +1,31 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
+	LabelItem ageingLabel;
 
-	private static AgeingAndSellingDetailsOptionUiBinder uiBinder = GWT
-			.create(AgeingAndSellingDetailsOptionUiBinder.class);
-	@UiField
-	Label ageingLabel;
-	@UiField
-	RadioButton ageingforduedateRadioButton;
-	@UiField
-	RadioButton ageingfortransactiondateRadioButton;
-	@UiField
-	Label ageingdescriptionLabel;
-	@UiField
-	CheckBox salesOrderCheckBox;
+	RadioGroupItem ageingRadioGroup;
+
+	LabelItem ageingdescriptionLabel;
+
+	CheckboxItem salesOrderCheckBox;
+
+	StyledPanel mainPanel;
 
 	interface AgeingAndSellingDetailsOptionUiBinder extends
 			UiBinder<Widget, AgeingAndSellingDetailsOption> {
 	}
 
 	public AgeingAndSellingDetailsOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -38,11 +33,10 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 	@Override
 	public void initData() {
 		if (getCompanyPreferences().getAgeingFromTransactionDateORDueDate() == 1) {
-			ageingforduedateRadioButton.setValue(true);
-			ageingfortransactiondateRadioButton.setValue(false);
+			ageingRadioGroup.setValue(messages.ageingforduedate());
 		} else {
-			ageingforduedateRadioButton.setValue(false);
-			ageingfortransactiondateRadioButton.setValue(true);
+
+			ageingRadioGroup.setValue(messages.ageingforduedate());
 		}
 		salesOrderCheckBox.setValue(getCompanyPreferences()
 				.isSalesOrderEnabled());
@@ -51,22 +45,27 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 
-		ageingforduedateRadioButton.setText(messages.ageingforduedate());
-		ageingfortransactiondateRadioButton.setText(messages
-				.ageingfortransactiondate());
-		ageingLabel.setText(messages.ageingDetails());
-		ageingdescriptionLabel.setText(messages.agingDetailsDescription());
-		ageingdescriptionLabel.setStyleName("organisation_comment");
+		ageingRadioGroup = new RadioGroupItem("", "ageingRadioGroup");
+		ageingRadioGroup.setShowTitle(false);
 
+		ageingRadioGroup.setValueMap(messages.ageingforduedate(),
+				messages.ageingfortransactiondate());
+		ageingRadioGroup.setDefaultValue(messages.ageingforduedate());
+
+		ageingLabel = new LabelItem(messages.ageingDetails(), "ageingLabel");
+		ageingdescriptionLabel = new LabelItem(
+				messages.agingDetailsDescription(), "ageingdescriptionLabel");
+
+		salesOrderCheckBox = new CheckboxItem(
+				messages.enablePreference(messages.salesOrder()),
+				"salesOrderCheckBox");
+		salesOrderCheckBox.setStyleName("bold");
 		salesOrderCheckBox.setVisible(Accounter
 				.hasPermission(Features.SALSE_ORDER));
-		salesOrderCheckBox.setText(messages.enablePreference(messages
-				.salesOrder()));
-		salesOrderCheckBox.setStyleName("bold");
-	}
-
-	public AgeingAndSellingDetailsOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
+		mainPanel = new StyledPanel("ageingAndSellingDetailsOption");
+		mainPanel.add(ageingRadioGroup);
+		mainPanel.add(salesOrderCheckBox);
+		add(mainPanel);
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		if (ageingforduedateRadioButton.getValue())
+		if (ageingRadioGroup.getValue().equals(messages.ageingforduedate()))
 			getCompanyPreferences().setAgeingFromTransactionDateORDueDate(1);
 		else
 			getCompanyPreferences().setAgeingFromTransactionDateORDueDate(2);

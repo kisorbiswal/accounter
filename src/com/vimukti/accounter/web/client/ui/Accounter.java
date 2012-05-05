@@ -104,6 +104,7 @@ public class Accounter implements EntryPoint {
 	private static ThemeImages themeImages;
 	private static ClientFinanceDate startDate;
 	private static boolean isMacApp;
+	private static boolean isIpadApp;
 	private static TranslateServiceAsync translateService;
 	private static AccounterCometInitializer cometInitializer;
 
@@ -394,8 +395,7 @@ public class Accounter implements EntryPoint {
 
 		AccounterInitialiser create = GWT.create(AccounterInitialiser.class);
 		create.initalize();
-
-		// loadCompany();
+		isIpadApp = create.isIpad();
 	}
 
 	private void loadFeatures() {
@@ -745,6 +745,10 @@ public class Accounter implements EntryPoint {
 
 	public static boolean isShutdown() {
 		return isShutdown;
+	}
+
+	public static boolean isIpadApp() {
+		return isIpadApp;
 	}
 
 	public static void setShutdown(boolean isShutdown) {

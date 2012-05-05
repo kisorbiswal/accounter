@@ -12,7 +12,16 @@
 <link rel="shortcut icon" href="/images/favicon.ico" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+
+	<% 
+	Boolean ipad = (Boolean)request.getAttribute( "ipad" );
+	%>
+	<% if(ipad != null && ipad){%>
+	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
+	<% }else{%>
+	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+		<% }%>
+
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 
 
@@ -116,7 +125,7 @@
 </head>
 	<body>
 	 
-	     <div id="commanNewContainer">
+	     <div id="commanNewContainer" class="loginpage_container">
 			  <div id="accounterlogofield" class="new_logo_field">
 			    
 			  </div>
@@ -137,23 +146,28 @@
 					<span>${message} </span>
 			   </div>
 			   </c:if>	
-			   <h3><i18n:i18n msg='signIn'/></h3>
+			   <% if(ipad != null && ipad){%>
+  						<h3><i18n:i18n msg='Accounter'/></h3>
+				<% }else{%>
+  						<h3><i18n:i18n msg='signIn'/></h3>
+				<% }%>
+			 
 			   <form id="accounterForm" method="post" action="/main/login">
 			   		<c:if test="${destination != null}">
 			   		<input type="hidden" name="destination" value="${destination}">
 			    	</c:if>	
-			      <div class="email_password">
+			      <div class="email_field">
 				    <label><i18n:i18n msg='signinEmail'/></label>
 					<br \>
 					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
 				  </div>
-				  <div class="email_password">
+				  <div class="password_field">
 				    <label><i18n:i18n msg='password'/></label>
 					<br \>
 					<input id="mid-box1"  type="password" name="password" tabindex="2" />
 				  </div>
 				  <div class="rememberMe">
-				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
+				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn" checked="checked"/> 
 					<label><i18n:i18n msg='rememberMe'/></label>
 				  </div>
 				  <div class="loginbutton">

@@ -29,6 +29,16 @@ public class CurrencyExchangeRateTable extends EditTable<CurrencyExchangeRate> {
 				// TODO Auto-generated method stub
 
 			}
+
+			@Override
+			public String getValueAsString(CurrencyExchangeRate row) {
+				return messages.currency()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
+			}
 		});
 
 		addColumn(new AmountColumn<CurrencyExchangeRate>(null, false) {
@@ -46,6 +56,16 @@ public class CurrencyExchangeRateTable extends EditTable<CurrencyExchangeRate> {
 			@Override
 			protected void setAmount(CurrencyExchangeRate row, Double value) {
 				row.setExchangeRate(value);
+			}
+
+			@Override
+			public String getValueAsString(CurrencyExchangeRate row) {
+				return messages.exchangeRate()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		});
 	}

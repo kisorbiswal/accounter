@@ -172,6 +172,17 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			protected int getTransactionType() {
 				return VendorItemTransactionTable.this.getTransactionType();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				// TODO Auto-generated method stub
+				return 3;
+			}
 		};
 		transactionItemNameColumn.setItemForCustomer(false);
 
@@ -278,6 +289,16 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						return super.getWidth();
 					}
 
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return getValue(row).toString();
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
+					}
+
 				});
 			}
 		}
@@ -336,6 +357,16 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						}
 						return super.getWidth();
 					}
+
+					@Override
+					public String getValueAsString(ClientTransactionItem row) {
+						return getValue(row).toString();
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						return 1;
+					}
 				});
 
 				this.addColumn(new TransactionVatColumn(currencyProvider) {
@@ -374,6 +405,16 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				}
 				row.setJob(newValue.getID());
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		if (isCustomerAllowedToAdd) {
 			this.addColumn(new CustomerColumn<ClientTransactionItem>() {
@@ -400,6 +441,16 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 						return 100;
 					}
 					return super.getWidth();
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionItem row) {
+					return getValue(row).toString();
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 			});
 			if (isTrackJob()) {

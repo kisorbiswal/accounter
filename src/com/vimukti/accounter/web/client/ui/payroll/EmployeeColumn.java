@@ -41,4 +41,14 @@ public class EmployeeColumn extends
 	public void updateList(ClientPayStructureDestination group) {
 		dropdown.initList(group);
 	}
+
+	@Override
+	public String getValueAsString(ClientAttendanceManagementItem row) {
+		return getValue(row).toString();
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

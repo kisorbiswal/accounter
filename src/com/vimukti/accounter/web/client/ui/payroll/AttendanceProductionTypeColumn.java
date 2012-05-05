@@ -38,4 +38,14 @@ public class AttendanceProductionTypeColumn
 	protected String getColumnName() {
 		return messages.attendanceOrProductionType();
 	}
+
+	@Override
+	public String getValueAsString(ClientAttendanceManagementItem row) {
+		return getValueAsString(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

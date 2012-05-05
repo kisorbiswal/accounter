@@ -1,59 +1,37 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class LocationTrackingOption extends AbstractPreferenceOption {
+	LabelItem radioButtonsHeaderLabel;
 
-	@UiField
-	RadioButton buisinessRadioButton;
-	@UiField
-	RadioButton locationRadioButton;
-	@UiField
-	RadioButton departmentRadioButton;
-	@UiField
-	RadioButton divisionRadioButton;
-	@UiField
-	RadioButton propertyRadioButton;
-	@UiField
-	RadioButton storeRadioButton;
-	@UiField
-	RadioButton territoryRadioButton;
-	@UiField
-	Label radioButtonsHeaderLabel;
-	@UiField
 	CheckBox locationTrackingCheckBoxItm;
-	@UiField
-	Label locationTrackingCheckBoxLabel;
-	@UiField
-	FlowPanel radioButtonsPanel;
-	@UiField
-	FlowPanel hpanel;
-	@UiField
-	FlowPanel radioButtonPanel;
-	@UiField
-	Label locationTrackingDescriptionLabel;
-	private static LocationTrackingOptionUiBinder uiBinder = GWT
-			.create(LocationTrackingOptionUiBinder.class);
 
-	interface LocationTrackingOptionUiBinder extends
-			UiBinder<Widget, LocationTrackingOption> {
-	}
+	SelectCombo locationTermSelectCombo;
+
+	StyledPanel mainPanel;
+
+	StyledPanel radioButtonsPanel;
+
+	LabelItem locationTrackingDescriptionLabel;
+
+	public String[] locationsList = { messages.location(),
+			messages.buisiness(), messages.department(), messages.division(),
+			messages.property(), messages.store(), messages.territory() };
 
 	public LocationTrackingOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -74,37 +52,37 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	public void initData() {
 		long locationType = getCompanyPreferences().getLocationTrackingId();
-		locationTrackingCheckBoxLabel.setText(messages.locationTracking(Global
-				.get().Location()));
-		radioButtonsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
-				.Location()));
-		switch ((int) locationType) {
-		case ClientLocation.BUSINESS:
-			buisinessRadioButton.setValue(true);
-			break;
-		case ClientLocation.DEPARTMENT:
-			departmentRadioButton.setValue(true);
-			break;
-		case ClientLocation.DIVISION:
-			divisionRadioButton.setValue(true);
-			break;
-		case ClientLocation.LOCATION:
-			locationRadioButton.setValue(true);
-			break;
-		case ClientLocation.PROPERTY:
-			propertyRadioButton.setValue(true);
-			break;
-		case ClientLocation.STORE:
-			storeRadioButton.setValue(true);
-			break;
-		case ClientLocation.TERRITORY:
-			territoryRadioButton.setValue(true);
-			break;
-		}
+		locationTermSelectCombo.setComboItem(locationsList[(int) locationType]);
+
+		// switch ((int) locationType) {
+		// case ClientLocation.BUSINESS:
+		// buisinessRadioButton.setValue(true);
+		// break;
+		// case ClientLocation.DEPARTMENT:
+		// departmentRadioButton.setValue(true);
+		// break;
+		// case ClientLocation.DIVISION:
+		// divisionRadioButton.setValue(true);
+		// break;
+		// case ClientLocation.LOCATION:
+		// locationRadioButton.setValue(true);
+		// break;
+		// case ClientLocation.PROPERTY:
+		// propertyRadioButton.setValue(true);
+		// break;
+		// case ClientLocation.STORE:
+		// storeRadioButton.setValue(true);
+		// break;
+		// case ClientLocation.TERRITORY:
+		// territoryRadioButton.setValue(true);
+		// break;
+		// }
 		boolean isLocationEnabled = getCompanyPreferences()
 				.isLocationTrackingEnabled();
 		if (isLocationEnabled) {
 			locationTrackingCheckBoxItm.setValue(true);
+			locationTrackingCheckBoxItm.setTitle(messages
+					.locationTracking(Global.get().Location()));
 			radioButtonsPanel
 					.setVisible(locationTrackingCheckBoxItm.getValue());
 		} else {
@@ -116,26 +94,34 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
+
 		getCompanyPreferences().setLocationTrackingEnabled(
 				locationTrackingCheckBoxItm.getValue());
-		if (buisinessRadioButton.getValue()) {
+		if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.buisiness())) {
 			getCompanyPreferences().setLocationTrackingId(
 					ClientLocation.BUSINESS);
-		} else if (departmentRadioButton.getValue()) {
+		} else if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.department())) {
 			getCompanyPreferences().setLocationTrackingId(
 					ClientLocation.DEPARTMENT);
-		} else if (divisionRadioButton.getValue()) {
+		} else if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.division())) {
 			getCompanyPreferences().setLocationTrackingId(
 					ClientLocation.DIVISION);
-		} else if (locationRadioButton.getValue()) {
+		} else if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.location())) {
 			getCompanyPreferences().setLocationTrackingId(
 					ClientLocation.LOCATION);
-		} else if (propertyRadioButton.getValue()) {
+		} else if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.property())) {
 			getCompanyPreferences().setLocationTrackingId(
 					ClientLocation.PROPERTY);
-		} else if (storeRadioButton.getValue()) {
+		} else if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.store())) {
 			getCompanyPreferences().setLocationTrackingId(ClientLocation.STORE);
-		} else if (territoryRadioButton.getValue()) {
+		} else if (locationTermSelectCombo.getSelectedValue().equals(
+				messages.territory())) {
 			getCompanyPreferences().setLocationTrackingId(
 					ClientLocation.TERRITORY);
 		} else {
@@ -146,31 +132,20 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		locationTrackingDescriptionLabel.setText(messages
-				.locationTrackingDescription());
-		locationTrackingDescriptionLabel.setStyleName("organisation_comment");
-		locationRadioButton.setName(messages.locationGroup());
-		locationRadioButton.setHTML(messages.location());
-		buisinessRadioButton.setName(messages.locationGroup());
-		buisinessRadioButton.setHTML(messages.buisiness());
-		departmentRadioButton.setName(messages.locationGroup());
-		departmentRadioButton.setHTML(messages.department());
-		divisionRadioButton.setName(messages.locationGroup());
-		divisionRadioButton.setHTML(messages.division());
-		propertyRadioButton.setName(messages.locationGroup());
-		propertyRadioButton.setHTML(messages.property());
-		storeRadioButton.setName(messages.locationGroup());
-		storeRadioButton.setHTML(messages.store());
-		territoryRadioButton.setName(messages.locationGroup());
-		territoryRadioButton.setHTML(messages.territory());
-		// radioButtonPanel
-		// .getElement()
-		// .getStyle()
-		// .setPaddingLeft(
-		// (messages.useTerminologyFor(Global.get().Location())
-		// .length() * 6), Unit.PX);
-		// hpanel.setCellWidth(locationTrackingCheckBoxItm, "20px");
+		locationTermSelectCombo = new SelectCombo(
+				messages.useTerminologyFor(Global.get().Location()));
+		for (int i = 0; i < locationsList.length; i++) {
 
+			locationTermSelectCombo.addItem(locationsList[i]);
+		}
+		locationTermSelectCombo.setComboItem(locationsList[0]);
+		locationTrackingDescriptionLabel = new LabelItem(
+				messages.locationTrackingDescription(),
+				"locationTrackingDescriptionLabel");
+
+		locationTrackingDescriptionLabel.setStyleName("organisation_comment");
+		locationTrackingCheckBoxItm = new CheckBox(
+				messages.locationTracking(Global.get().Location()));
 		locationTrackingCheckBoxItm.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -184,6 +159,12 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 				}
 			}
 		});
+		radioButtonsPanel = new StyledPanel("locationadioButtonsPanel");
+		mainPanel = new StyledPanel("locationTrackingOption");
+		mainPanel.add(locationTrackingCheckBoxItm);
+		mainPanel.add(locationTrackingDescriptionLabel);
+		radioButtonsPanel.add(locationTermSelectCombo);
+		mainPanel.add(radioButtonsPanel);
+		add(mainPanel);
 	}
-
 }

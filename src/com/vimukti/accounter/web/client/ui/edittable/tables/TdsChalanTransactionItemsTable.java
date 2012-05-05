@@ -44,6 +44,17 @@ public abstract class TdsChalanTransactionItemsTable extends
 				box.setValue(isInViewMode());
 				return box;
 			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				// TODO Auto-generated method stub
+				return "TODO check later";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		TextEditColumn<ClientTDSTransactionItem> vendorNameColumn = new TextEditColumn<ClientTDSTransactionItem>() {
@@ -79,6 +90,16 @@ public abstract class TdsChalanTransactionItemsTable extends
 			protected String getColumnName() {
 				return messages.deducteeName();
 			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return messages.deducteeName()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		};
 		this.addColumn(vendorNameColumn);
 
@@ -102,7 +123,6 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected Double getAmount(ClientTDSTransactionItem row) {
-				// TODO Auto-generated method stub
 				return row.getTotalAmount();
 			}
 
@@ -110,6 +130,16 @@ public abstract class TdsChalanTransactionItemsTable extends
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
 				// TODO Auto-generated method stub
 
+			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return  messages.amountPaidOrCredited()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 
 		});
@@ -142,6 +172,16 @@ public abstract class TdsChalanTransactionItemsTable extends
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
 				// TODO Auto-generated method stub
 
+			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return messages.tdsAmount()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 
 		});
@@ -177,6 +217,16 @@ public abstract class TdsChalanTransactionItemsTable extends
 				getTable().update(row);
 				updateNonEditableFields();
 			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return messages.surchageAmount()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
+			}
 		});
 
 		this.addColumn(new AmountColumn<ClientTDSTransactionItem>(
@@ -210,6 +260,16 @@ public abstract class TdsChalanTransactionItemsTable extends
 				getTable().update(row);
 				updateNonEditableFields();
 			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return row.getEduCess()+" : " +getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
+			}
 		});
 
 		this.addColumn(new AmountColumn<ClientTDSTransactionItem>(
@@ -237,8 +297,17 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
-				// TODO Auto-generated method stub
 
+			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return messages.totalTax()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 
 		});
@@ -269,6 +338,16 @@ public abstract class TdsChalanTransactionItemsTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.dateofPayment();
+			}
+
+			@Override
+			public String getValueAsString(ClientTDSTransactionItem row) {
+				return  messages.dateofPayment()+" : "+getValue(row); 
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		};
 		this.addColumn(dateColumn);

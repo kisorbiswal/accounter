@@ -165,6 +165,13 @@ public class CancelAccountServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession httpSession = req.getSession();
+		
+		String header2 = req.getHeader("User-Agent");
+		boolean contains = header2.contains("iPad");
+		if(contains){
+			req.setAttribute("ipad", contains);
+		}
+		
 		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
 		if (emailID == null) {
 			redirectExternal(req, resp, LOGIN_URL);

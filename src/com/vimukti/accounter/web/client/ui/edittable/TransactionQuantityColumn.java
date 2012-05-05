@@ -28,4 +28,14 @@ public class TransactionQuantityColumn extends
 	protected String getColumnName() {
 		return messages.quantity();
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getColumnName()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

@@ -77,7 +77,7 @@ public class DeleteAccountServlet extends BaseServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			dispatch(req, resp, DELETE_ACCOUNT_CONFORM);
-		} 
+		}
 		redirectExternal(req, resp, CANCEL_FORM);
 
 	}
@@ -85,6 +85,11 @@ public class DeleteAccountServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String header2 = req.getHeader("User-Agent");
+		boolean contains = header2.contains("iPad");
+		if (contains) {
+			req.setAttribute("ipad", contains);
+		}
 		HttpSession session = req.getSession();
 		Long companyID = (Long) session.getAttribute(COMPANY_ID);
 		session.setAttribute("cancelDeleteAccountcompany", companyID);

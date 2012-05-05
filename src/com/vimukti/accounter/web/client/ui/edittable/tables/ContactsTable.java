@@ -67,6 +67,16 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 			public int getWidth() {
 				return 46;
 			}
+
+			@Override
+			public String getValueAsString(ClientContact row) {
+				return "TODO";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {
@@ -90,6 +100,16 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 			protected String getColumnName() {
 				return messages.contactName();
 			}
+
+			@Override
+			public String getValueAsString(ClientContact row) {
+				return messages.contactName()+" : "+getValue(row) ;
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {
@@ -112,6 +132,16 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 			@Override
 			protected String getColumnName() {
 				return messages.title();
+			}
+
+			@Override
+			public String getValueAsString(ClientContact row) {
+				return messages.title()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 
@@ -163,6 +193,16 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 					}
 				});
 			}
+
+			@Override
+			public String getValueAsString(ClientContact row) {
+				return messages.businessPhone()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextEditColumn<ClientContact>() {
@@ -212,6 +252,16 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 							}
 					}
 				});
+			}
+
+			@Override
+			public String getValueAsString(ClientContact row) {
+				return messages.email()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 

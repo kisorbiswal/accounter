@@ -84,6 +84,16 @@ public abstract class TransactionReceivePaymentTable extends
 					((CheckBox) widget).setValue(true);
 				}
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 		if (canEdit) {
 			TextEditColumn<ClientTransactionReceivePayment> dateCoulmn = new TextEditColumn<ClientTransactionReceivePayment>() {
@@ -112,6 +122,17 @@ public abstract class TransactionReceivePaymentTable extends
 				@Override
 				protected String getColumnName() {
 					return messages.dueDate();
+				}
+
+				@Override
+				public String getValueAsString(
+						ClientTransactionReceivePayment row) {
+					return messages.dueDate()+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 4;
 				}
 			};
 			this.addColumn(dateCoulmn);
@@ -144,6 +165,17 @@ public abstract class TransactionReceivePaymentTable extends
 			protected String getColumnName() {
 				return messages.invoice();
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				// TODO Auto-generated method stub
+				return 1;
+			}
 		};
 		this.addColumn(invoiceNumber);
 
@@ -174,6 +206,16 @@ public abstract class TransactionReceivePaymentTable extends
 			protected void setAmount(ClientTransactionReceivePayment row,
 					Double value) {
 
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return  getColumnNameWithCurrency(messages.invoiceAmount())+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		};
 		this.addColumn(invoiceAmountColumn);
@@ -207,6 +249,17 @@ public abstract class TransactionReceivePaymentTable extends
 						Double value) {
 
 				}
+
+				@Override
+				public String getValueAsString(
+						ClientTransactionReceivePayment row) {
+					return getColumnNameWithCurrency(messages.amountDue())+" : "+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
+				}
 			};
 			this.addColumn(amountDueColumn);
 		}
@@ -236,6 +289,16 @@ public abstract class TransactionReceivePaymentTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.discountDate();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return  messages.discountDate()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		};
 		// this.addColumn(discountDateColumn);
@@ -267,6 +330,17 @@ public abstract class TransactionReceivePaymentTable extends
 			@Override
 			protected boolean isEnable(ClientTransactionReceivePayment row) {
 				return selectedValues.contains(indexOf(row));
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return getColumnNameWithCurrency(messages.cashDiscount())+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				// TODO Auto-generated method stub
+				return 2;
 			}
 		};
 		if (enableDiscount) {
@@ -301,6 +375,16 @@ public abstract class TransactionReceivePaymentTable extends
 			protected boolean isEnable(ClientTransactionReceivePayment row) {
 				return selectedValues.contains(indexOf(row));
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return getColumnNameWithCurrency(messages.writeOff())+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
+			}
 		};
 		this.addColumn(writeOffColumn);
 
@@ -331,6 +415,16 @@ public abstract class TransactionReceivePaymentTable extends
 			@Override
 			protected boolean isEnable(ClientTransactionReceivePayment row) {
 				return selectedValues.contains(indexOf(row));
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return getColumnNameWithCurrency(messages.appliedCredits())+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		};
 		this.addColumn(appliedCreditsColumn);
@@ -393,6 +487,16 @@ public abstract class TransactionReceivePaymentTable extends
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionReceivePayment row) {
+				return getColumnNameWithCurrency(messages.payment())+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 4;
 			}
 		};
 		this.addColumn(paymentColumn);

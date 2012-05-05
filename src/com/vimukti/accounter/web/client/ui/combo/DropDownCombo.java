@@ -5,31 +5,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
-import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public abstract class DropDownCombo<T> extends CustomComboItem {
 
@@ -37,20 +23,15 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected AccounterMessages messages = Global.get().messages();
 	private boolean isAddNewRequire;
-	private DropDownTable<T> dropDown;
 	private int cols;
-	private PopupPanel popup;
-	ListGrid grid = null;
-
-	protected ListDataProvider<T> dataProvider = new ListDataProvider<T>();
+	private DropDownView popup;
+	// ListGrid grid = null;
 
 	protected List<T> comboItems = new ArrayList<T>();
 
 	protected T selectedObject;
 
 	List<T> maincomboItems = new ArrayList<T>();
-
-	private ScrollPanel panel;
 
 	public DropDownCombo(String title, boolean isAddNewRequire, int noOfcols,
 			String styleName) {
@@ -67,81 +48,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.addStyleName("custom-combo");
 		this.addStyleName("dropdown-button");
 
-		dropDown = new DropDownTable<T>(this) {
-
-			@Override
-			protected void onRowSelect(int row) {
-				if (DropDownCombo.this.comboItems.size() >= row) {
-					selectedObject = DropDownCombo.this.comboItems.get(row);
-				}
-			}
-
-			@Override
-			protected String getColumnValue(T object, int col) {
-				if (object.equals("addNewCaption")) {
-					if (cols > 1)
-						return (col == 1) ? messages
-								.comboDefaultAddNew(getDefaultAddNewCaption())
-								: "  ";
-					else
-						return messages
-								.comboDefaultAddNew(getDefaultAddNewCaption());
-				}
-				return getColumnData(object, col);
-			}
-		};
-
-		panel = new ScrollPanel();
-		panel.getElement().removeAttribute("style");
-		panel.addStyleName("dropdownTable");
-		panel.add(dropDown);
-
-		List<T> list = new ArrayList<T>(comboItems);
-		if (isAddNewRequire) {
-			list.add(0, getAddNewRow());
-		}
-		dataProvider.setList(list);
-		dataProvider.addDataDisplay(dropDown);
 		// this.setWidth("99.5%");
-
-		popup = new PopupPanel(true) {
-			@Override
-			protected void onUnload() {
-				super.onUnload();
-				// dropDown.resetPopupStyle();
-				resetComboList();
-			}
-
-			@Override
-			protected void onLoad() {
-				super.onLoad();
-			}
-
-			@Override
-			public void onBrowserEvent(Event event) {
-				switch (DOM.eventGetType(event)) {
-				case Event.ONMOUSEOUT:
-					Element element = event.getTarget();
-					if (this.getElement().equals(element)) {
-						this.hide();
-					}
-					break;
-
-				default:
-					break;
-				}
-				super.onBrowserEvent(event);
-			}
-		};
-
-		if (!UIUtils.isMSIEBrowser()) {
-			// popup.setWidth("100%");
-		}
-
-		popup.add(panel);
-		popup.setStyleName("popup");
-		popup.getElement().setAttribute("id", "popuppaneldropdown");
-		dropDown.getElement().getStyle().setCursor(Cursor.POINTER);
+		popup = GWT.create(DropDownView.class);
+		popup.init(this, comboItems, isAddNewRequire);
 
 		ClickHandler clickHandler = new ClickHandler() {
 
@@ -154,7 +63,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		};
 		addClickHandler(clickHandler);
 
-		dropDown.addEscapEventHandler(new EscapEventHandler() {
+		popup.addEscapEventHandler(new EscapEventHandler() {
 
 			@Override
 			public void onEscap(KeyDownEvent event) {
@@ -162,7 +71,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				textBox.setFocus(true);
 			}
 		});
-		addKeyPressHandler();
 
 		textBox.addBlurHandler(new BlurHandler() {
 
@@ -202,10 +110,6 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		this.removeStyleName("gwt-TextBox");
 	}
 
-	private T getAddNewRow() {
-		return (T) "addNewCaption";
-	}
-
 	protected void showPopup() {
 		if (!DropDownCombo.this.isEnabled())
 			return;
@@ -215,116 +119,16 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		int x = getMainWidget().getAbsoluteLeft();
 		int y = getMainWidget().getAbsoluteTop() + 27;
 		//
-		popup.setPopupPosition(x + 1, y);
 
-		popup.show();
-
-		int clientwidth = Window.getClientWidth();
-		int popupWdth = popup.getWidget().getOffsetWidth();
-
-		if ((x + popupWdth) > clientwidth) {
-			x = x - (popup.getOffsetWidth() - getMainWidget().getOffsetWidth());
-			popup.setPopupPosition(x + 1, y);
-		}
+		popup.show(x, y);
 
 	}
 
-	private void resetComboList() {
+	void resetComboList() {
 		if (!maincomboItems.isEmpty()) {
 			initCombo(maincomboItems);
 			maincomboItems.clear();
 		}
-	}
-
-	private void addKeyPressHandler() {
-
-		setKeyBoardHandler(new KeyPressHandler() {
-
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				char key = event.getCharCode();
-				// if ((key >= 48 && key <= 57) || (key >= 65 && key <= 90)
-				// || (key >= 96 && key <= 122)) {
-				if (key >= 32 && key <= 126) {
-					onKeyEnter(key);
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
-						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
-
-					Timer timer = new Timer() {
-
-						@Override
-						public void run() {
-							onKeyEnter('/');
-						}
-					};
-					timer.schedule(200);
-					// key codes 38 for up key 40 for down key
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
-						&& popup.isShowing()) {
-					dropDown.setKeyboardSelected(0, true, true);
-
-					// dropDown.setKeyboardSelected(++dropDown.selectedPosition,
-					// true, true);
-					// if (dropDown.selectedPosition == dropDown
-					// .getDisplayedItems().size()) {
-					// dropDown.selectedPosition = -1;
-					// }
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_UP
-						&& popup.isShowing()) {
-					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
-							.size() - 1, true, true);
-
-					// int posi = dropDown.getDisplayedItems().size();
-					// dropDown.setKeyboardSelected(posi
-					// + (--dropDown.selectedPosition), true, true);
-					// if ((dropDown.selectedPosition + dropDown
-					// .getDisplayedItems().size()) == 0) {
-					// dropDown.selectedPosition = 0;
-					// }
-				} else if ((event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE || event
-						.getNativeEvent().getKeyCode() == KeyCodes.KEY_TAB)
-						&& popup.isShowing()) {
-					popup.hide();
-				}
-			}
-
-		});
-
-		// if (UIUtils.isMSIEBrowser()) {
-		setKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_BACKSPACE
-						|| event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DELETE) {
-
-					Timer timer = new Timer() {
-
-						@Override
-						public void run() {
-							onKeyEnter('/');
-						}
-					};
-					timer.schedule(200);
-					// key codes 38 for up key 40 for down key
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_DOWN
-						&& popup.isShowing()) {
-					dropDown.setKeyboardSelected(0, true, true);
-
-				} else if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_UP
-						&& popup.isShowing()) {
-					dropDown.setKeyboardSelected(dropDown.getDisplayedItems()
-							.size() - 1, true, true);
-				}
-				// else if (event.getNativeEvent().getKeyCode() ==
-				// KeyCodes.KEY_ESCAPE
-				// && popup.isShowing()) {
-				// popup.hide();
-				// }
-			}
-		});
-		// }
-
 	}
 
 	/**
@@ -350,13 +154,9 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			comboItems = new ArrayList<T>(list);
 		}
 		List<T> newList = new ArrayList<T>(comboItems);
-		if (isAddNewRequire) {
-			newList.add(0, getAddNewRow());
-		}
-		dataProvider.setList(newList);
-		dataProvider.refresh();
-		dropDown.setRowCount(dataProvider.getList().size());
-		dropDown.setPageSize(dropDown.getRowCount());
+
+		popup.setList(newList);
+
 	}
 
 	public List<T> getComboItems() {
@@ -371,19 +171,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void checkObject(T object) {
 		if (object == null)
 			return;
-		// String text;
-		// int rowCount = comboItems.contains(object) ?
-		// comboItems.indexOf(object) > 0 ? comboItems
-		// .indexOf(object) + 1
-		// : comboItems.indexOf(object)
-		// : this.dropDown.getRowCount();
 
 		if (!comboItems.contains(object)) {
 			comboItems.add(object);
-			dataProvider.getList().add(object);
+			popup.add(object);
+
 		}
-		dropDown.setRowCount(dataProvider.getList().size());
-		dropDown.setPageSize(dropDown.getRowCount());
+
 	}
 
 	/**
@@ -478,6 +272,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	public abstract void onAddNew();
 
 	public void changeValue(int rowIndex) {
+		rowIndex = this.popup.updateIndex(rowIndex);
 		// int index = listbox.getSelectedIndex();
 
 		IAccounterComboSelectionChangeHandler<T> handler = getHandler();
@@ -529,12 +324,12 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 				popup.hide();
 			setSelectedItem(selectedObject, rowIndex);
 		}
-		if (grid != null) {
-			grid.remove(getMainWidget());
-			setSelectedItem(selectedObject, 0);
-			if (popup.isShowing())
-				popup.hide();
-		}
+		// if (grid != null) {
+		// grid.remove(getMainWidget());
+		// setSelectedItem(selectedObject, 0);
+		// if (popup.isShowing())
+		// popup.hide();
+		// }
 	}
 
 	protected void setSelectedItem(T obj, int row) {
@@ -563,18 +358,17 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		return displayName;
 	}
 
-	public void setGrid(ListGrid grid) {
-		this.grid = grid;
-	}
+	// public void setGrid(ListGrid grid) {
+	// this.grid = grid;
+	// }
 
-	public void removeComboItem(T coreObject) {
+	public void removeComboItem(T obj) {
 
-		int index = getObjectIndex(coreObject);
+		int index = getObjectIndex(obj);
 		if (index >= 0) {
 			T selectedValue = getSelectedValue();
 			comboItems.remove(index);
-			dataProvider.getList().remove(isAddNewRequire ? index + 1 : index);
-
+			popup.remove(obj);
 			if (!comboItems.contains(selectedValue)) {
 				// select the first one
 				if (!comboItems.isEmpty()) {
@@ -605,10 +399,13 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	@Override
 	public void setEnabled(boolean b) {
-		if (!b)
+		if (!b) {
+			this.addStyleName("disabled");
 			this.getMainWidget().addStyleName("dropdown-disabled");
-		else
+		} else {
+			this.removeStyleName("disabled");
 			this.getMainWidget().removeStyleName("dropdown-disabled");
+		}
 		super.setEnabled(b);
 	}
 

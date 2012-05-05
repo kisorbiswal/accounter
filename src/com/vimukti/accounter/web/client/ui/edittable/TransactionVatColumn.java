@@ -35,4 +35,14 @@ public class TransactionVatColumn extends TransactionAmountColumn {
 	protected boolean isEnable() {
 		return false;
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getColumnName()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

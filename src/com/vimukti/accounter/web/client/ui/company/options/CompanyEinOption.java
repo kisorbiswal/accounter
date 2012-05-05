@@ -3,12 +3,11 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 /**
  * @author vimukti36
@@ -16,14 +15,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CompanyEinOption extends AbstractPreferenceOption {
 
-	private static CompanyEinOptionUiBinder uiBinder = GWT
-			.create(CompanyEinOptionUiBinder.class);
-	@UiField
-	Label EINLabel;
-	@UiField
-	Label EindescriptionLabel;
-	@UiField
-	TextBox EINTextBox;
+	LabelItem EindescriptionLabel;
+
+	TextItem EINTextBox;
+
+	StyledPanel mainPanel;
 
 	interface CompanyEinOptionUiBinder extends
 			UiBinder<Widget, CompanyEinOption> {
@@ -39,7 +35,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public CompanyEinOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -50,14 +46,13 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		EindescriptionLabel.setText(messages.EINDescription());
-		EindescriptionLabel.setStyleName("organisation_comment");
-		EINLabel.setText(messages.taxId());
-		EINLabel.getElement().getParentElement().addClassName("company-preferences-labels");
-	}
-
-	public CompanyEinOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
+		EindescriptionLabel = new LabelItem(messages.EINDescription(),
+				"EindescriptionLabel");
+		EINTextBox = new TextItem(messages.taxId(), "EINTextBox");
+		mainPanel = new StyledPanel("EINPanel");
+		mainPanel.add(EindescriptionLabel);
+		mainPanel.add(EINTextBox);
+		add(mainPanel);
 
 	}
 

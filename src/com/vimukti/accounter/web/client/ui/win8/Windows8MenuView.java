@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.util.Countries;
 import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
 
-public class AccounterMenuView extends BaseView {
+public class Windows8MenuView extends BaseView {
 
 	private boolean canDoBanking;
 

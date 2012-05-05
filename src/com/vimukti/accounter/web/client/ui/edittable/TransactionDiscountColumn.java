@@ -63,4 +63,14 @@ public class TransactionDiscountColumn extends
 	protected String getColumnName() {
 		return messages.discPerc();
 	}
+
+	@Override
+	public String getValueAsString(ClientTransactionItem row) {
+		return getColumnName()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
 }

@@ -65,6 +65,16 @@ public abstract class TransactionDepositTable extends
 					row.setReceivedFrom(newValue.getID());
 				}
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionDepositItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new AccountNameColumn<ClientTransactionDepositItem>() {
@@ -107,6 +117,16 @@ public abstract class TransactionDepositTable extends
 			protected ClientAccount getValue(ClientTransactionDepositItem row) {
 				return Accounter.getCompany().getAccount(row.getAccount());
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionDepositItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 
 		this.addColumn(new TextAreaEditColumn<ClientTransactionDepositItem>() {
@@ -125,6 +145,17 @@ public abstract class TransactionDepositTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.description();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionDepositItem row) {
+				return getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				// TODO Auto-generated method stub
+				return 3;
 			}
 		});
 
@@ -152,6 +183,16 @@ public abstract class TransactionDepositTable extends
 			public int getWidth() {
 				return 150;
 			}
+
+			@Override
+			public String getValueAsString(ClientTransactionDepositItem row) {
+				return "Amount: " + getValue(row).toString();
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
 		});
 		if (enableClass) {
 			if (showClass) {
@@ -172,6 +213,18 @@ public abstract class TransactionDepositTable extends
 							getTable().update(row);
 						}
 					}
+
+					@Override
+					public String getValueAsString(
+							ClientTransactionDepositItem row) {
+						 return "Class: " + getValue(row).toString();
+					}
+
+					@Override
+					public int insertNewLineNumber() {
+						// TODO Auto-generated method stub
+						return 1;
+					}
 				});
 			}
 		}
@@ -190,6 +243,16 @@ public abstract class TransactionDepositTable extends
 						return;
 					}
 					row.setJob(newValue.getID());
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionDepositItem row) {
+					return "Job: " + getValue(row).toString();
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 
 			};
@@ -212,6 +275,17 @@ public abstract class TransactionDepositTable extends
 						jobColumn.setcustomerId(newValue.getID());
 						update(row);
 					}
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionDepositItem row) {
+					return getValue(row).toString();
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					// TODO Auto-generated method stub
+					return 1;
 				}
 
 			});
@@ -245,6 +319,20 @@ public abstract class TransactionDepositTable extends
 				@Override
 				public int getWidth() {
 					return 41;
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionDepositItem row) {
+					if(row.isBillable()){
+						return "Is Billable";
+					}else{
+						return "Not Billable";
+					}
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 2;
 				}
 			});
 		}

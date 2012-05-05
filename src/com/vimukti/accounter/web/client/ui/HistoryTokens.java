@@ -388,6 +388,7 @@ public class HistoryTokens {
 	public static final String DELETE_COMPANY = "DeleteCompany";
 	public static final String ACCOUNTER_MENU = "accounterMenu";
 	public static final String MESSAGE_OR_TASK = "messageOrTask";
+
 	public static final String INVENTORY_DETAILS = "InventoryDetails";
 
 	public static final String NEWEMPLOYEE = "newEmployee";
@@ -431,6 +432,8 @@ public class HistoryTokens {
 	public static final String PAY_HEAD_DETAIL_REPORT = "payHeadDetailReport";
 
 	public static final String PAYSLIP_DETAIL_REPORT = "payslipDetailReport";
+	
+	public static final String IPADMENU = "ipadmenu";
 
 	public static final String PAY_EMPLOYEE = "payemployee";
 	

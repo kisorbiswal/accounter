@@ -1,11 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 
 /**
  * 
@@ -14,27 +10,13 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AccountNumberRangeOption extends AbstractPreferenceOption {
 
-	private static AccountNumberRangeOptionUiBinder uiBinder = GWT
-			.create(AccountNumberRangeOptionUiBinder.class);
-
-	interface AccountNumberRangeOptionUiBinder extends
-			UiBinder<Widget, AccountNumberRangeOption> {
-	}
-
 	public AccountNumberRangeOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	@UiField
-	CheckBox accountNumberRangeCheck;
-	@UiField
-	Label label;
-
-	public AccountNumberRangeOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
+	CheckboxItem accountNumberRangeCheck;
 
 	@Override
 	public String getTitle() {
@@ -56,8 +38,12 @@ public class AccountNumberRangeOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		label.setText(messages.enableOrDisableTheAccountNumberRangeChecking());
-		accountNumberRangeCheck.setText(messages.accountNumberRangeCheck());
+		accountNumberRangeCheck = new CheckboxItem(
+				messages.enableOrDisableTheAccountNumberRangeChecking(),
+				"accountNumberRangeCheck");
+		StyledPanel mainpanel = new StyledPanel("accountNumberRangeOption");
+		mainpanel.add(accountNumberRangeCheck);
+		add(mainpanel);
 	}
 
 	@Override

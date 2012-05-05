@@ -149,4 +149,14 @@ public class StockTransferQuantityColumn extends
 		return messages.transferQuantity();
 	}
 
+	@Override
+	public String getValueAsString(ClientStockTransferItem row) {
+		return messages.transferQuantity()+" : "+getValue(row);
+	}
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
+
 }

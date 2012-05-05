@@ -91,6 +91,16 @@ public abstract class StockAdjustmentTable extends
 				return messages.item();
 			}
 
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.item()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
+
 		};
 		this.addColumn(comboColumn);
 
@@ -109,6 +119,16 @@ public abstract class StockAdjustmentTable extends
 			@Override
 			protected String getColumnName() {
 				return messages.comment();
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 3;
 			}
 		});
 		if (!isInViewMode()) {
@@ -154,6 +174,16 @@ public abstract class StockAdjustmentTable extends
 				@Override
 				public int getWidth() {
 					return 100;
+				}
+
+				@Override
+				public String getValueAsString(ClientTransactionItem row) {
+					return messages.currentQty()+" : "+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
 				}
 			});
 
@@ -250,6 +280,17 @@ public abstract class StockAdjustmentTable extends
 					return 100;
 				}
 
+				@Override
+				public String getValueAsString(ClientTransactionItem row) {
+					// TODO Auto-generated method stub
+					return messages.currentValue()+" : "+getValue(row);
+				}
+
+				@Override
+				public int insertNewLineNumber() {
+					return 1;
+				}
+
 			});
 		} else {
 
@@ -315,6 +356,16 @@ public abstract class StockAdjustmentTable extends
 			@Override
 			public int getWidth() {
 				return 150;
+			}
+
+			@Override
+			public String getValueAsString(ClientTransactionItem row) {
+				return messages.salesOrPurchaseRate()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 
 		});

@@ -102,12 +102,7 @@
     
    if( isNative){ %>
    	<link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>" />
-   <% } else if(isIpad != null && isIpad ){%>
-  	 <link type="text/css" rel="stylesheet" href="../css/iPad.css?version=<%= version%>" />
-  <%} else if("true".equals(isTouch) ){%>
-<link type="text/css" rel="stylesheet" href="/css/touch.css?version=<%= version%>" />
-<% }
-	%>
+   <% }	%>
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
@@ -276,9 +271,14 @@
 	<div id="loadingWrapper" style="visibility:visible">
 	<div id="loading">
 	    <div class="loadingIndicator">
-	       <div class="loadingIndicator">
-             <div><i18n:i18n msg='loadingAccounter'/>,</div>
-	         <img src="/images/Main-page-loading.gif" alt="Main page">
+	       <div class="loadingIndicator">   
+	<%if(isTouch != null && isTouch.equals("true")){ %>
+     <img src="/images/image_loading.gif" alt="Main page">
+   <% } else{%>
+  	 <link type="text/css" rel="stylesheet" href="/css/web.css?version=<%= version%>" />
+  	     <div><i18n:i18n msg='loadingAccounter'/>,</div>
+      	<img src="/images/Main-page-loading.gif" alt="Main page">
+ 	 <%} %>	 
              <div><i18n:i18n msg='pleasewait'/>....</div>
 	      </div>
 	    </div>

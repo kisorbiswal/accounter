@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemsDropDownTable;
 
-public class InventoryItemNameColumn extends
+public class InventoryItemNameColumn  extends
 		ComboColumn<ClientInventoryAssemblyItem, ClientItem> {
 
 	ItemsDropDownTable itemsList = new ItemsDropDownTable(getItemsFilter());
@@ -133,6 +133,17 @@ public class InventoryItemNameColumn extends
 	@Override
 	public boolean isPrimaryColumn() {
 		return true;
+	}
+
+
+	@Override
+	public int insertNewLineNumber() {
+		return 1;
+	}
+
+	@Override
+	public String getValueAsString(ClientInventoryAssemblyItem row) {
+		return getValue(row).toString();
 	}
 
 }

@@ -45,6 +45,18 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 			public int getWidth() {
 				return 45;
 			}
+
+			@Override
+			public String getValueAsString(ClientUnit row) {
+				// TODO Auto-generated method stub
+				return "";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				// TODO Auto-generated method stub
+				return 1;
+			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
 
@@ -61,6 +73,16 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 			@Override
 			protected String getColumnName() {
 				return messages.unitName();
+			}
+
+			@Override
+			public String getValueAsString(ClientUnit row) {
+				return messages.unitName()+ " : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
@@ -83,6 +105,16 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 			@Override
 			protected String getColumnName() {
 				return messages.factor();
+			}
+
+			@Override
+			public String getValueAsString(ClientUnit row) {
+				return messages.factor()+" : "+getValue(row);
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
 			}
 
 		});

@@ -1,28 +1,18 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
-	@UiField
-	CheckBox useShipMethods;
-	@UiField
-	Label shippingmedescritionLabel;
+	LabelItem shippingmedescritionLabel;
+	CheckboxItem useShipMethods;
 
-	private static DoyouUseShipingsOptionUiBinder uiBinder = GWT
-			.create(DoyouUseShipingsOptionUiBinder.class);
-
-	interface DoyouUseShipingsOptionUiBinder extends
-			UiBinder<Widget, DoyouUseShipingsOption> {
-	}
+	StyledPanel mainPanel;
 
 	public DoyouUseShipingsOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
@@ -45,11 +35,16 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		shippingmedescritionLabel
-				.setText(messages.Thisoptioncanbeusedtoenable());
-		shippingmedescritionLabel.setStyleName("organisation_comment");
-		useShipMethods.setText(messages.Doyoudoshipping());
-		useShipMethods.setStyleName("bold");
+
+		useShipMethods = new CheckboxItem(messages.Doyoudoshipping(),
+				"useShipMethods");
+		shippingmedescritionLabel = new LabelItem(
+				messages.Thisoptioncanbeusedtoenable(),
+				"shippingmedescritionLabel");
+		mainPanel = new StyledPanel("shippingMainPanel");
+		mainPanel.add(shippingmedescritionLabel);
+		mainPanel.add(useShipMethods);
+		add(mainPanel);
 	}
 
 	@Override

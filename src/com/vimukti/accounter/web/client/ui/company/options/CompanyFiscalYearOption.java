@@ -3,73 +3,66 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
-	private static CompanyFiscalYearOptionUiBinder uiBinder = GWT
-			.create(CompanyFiscalYearOptionUiBinder.class);
-	@UiField
-	ListBox monthNameComboBox;
-	@UiField
-	Label monthsCheckboxLabel;
-	@UiField
-	Label fiscalYearDescriptionLabel;
-	@UiField
-	Label dateItemLable;
-	@UiField
+	SelectCombo monthNameComboBox;
+
+	LabelItem fiscalYearDescriptionLabel;
+
+	LabelItem dateItemLable;
+
 	DateBox dateItem;
 	List<String> monthNam = new ArrayList<String>();
 	String[] monthNames;
 
-	interface CompanyFiscalYearOptionUiBinder extends
-			UiBinder<Widget, CompanyFiscalYearOption> {
-	}
+	StyledPanel mainPanel;
 
 	public CompanyFiscalYearOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	public CompanyFiscalYearOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-	}
-
 	public void createControls() {
-
-		monthsCheckboxLabel.setText(messages.selectFirstMonthOfFiscalYear());
-		fiscalYearDescriptionLabel.setText(messages.FiscalYearDescription());
+		monthNameComboBox = new SelectCombo(
+				messages.selectFirstMonthOfFiscalYear());
+		fiscalYearDescriptionLabel.setValue(messages.FiscalYearDescription());
 		fiscalYearDescriptionLabel.setStyleName("organisation_comment");
-		monthNames = new String[] { DayAndMonthUtil.january(), DayAndMonthUtil.february(),
-				DayAndMonthUtil.march(), DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
-				DayAndMonthUtil.june(), DayAndMonthUtil.july(), DayAndMonthUtil.august(),
-				DayAndMonthUtil.september(), DayAndMonthUtil.october(),
-				DayAndMonthUtil.november(), DayAndMonthUtil.december() };
+		monthNames = new String[] { DayAndMonthUtil.january(),
+				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
+				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
+				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
+				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+				DayAndMonthUtil.december() };
 
 		for (int i = 0; i < monthNames.length; i++) {
 			monthNameComboBox.addItem(monthNames[i]);
 			monthNam.add(monthNames[i]);
 		}
 
-		dateItemLable.setText(messages.preventPostBefore());
+		dateItemLable.setValue(messages.preventPostBefore());
 		DateTimeFormat dateFormat = DateTimeFormat
 				.getFormat(getCompanyPreferences().getDateFormat());
 		dateItem.setFormat(new DateBox.DefaultFormat(dateFormat));
+		mainPanel = new StyledPanel("CompanyFiscalYearOption");
+		mainPanel.add(monthNameComboBox);
+		mainPanel.add(fiscalYearDescriptionLabel);
+		mainPanel.add(dateItemLable);
+		add(mainPanel);
 	}
 
 	public void initData() {
 		if (monthNam.size() > 0)
-			monthNameComboBox.setSelectedIndex(getCompanyPreferences()
+			monthNameComboBox.setSelectedItem(getCompanyPreferences()
 					.getFiscalYearFirstMonth());
 		if (getCompanyPreferences().getPreventPostingBeforeDate() != 0) {
 			dateItem.setValue(new ClientFinanceDate(getCompanyPreferences()

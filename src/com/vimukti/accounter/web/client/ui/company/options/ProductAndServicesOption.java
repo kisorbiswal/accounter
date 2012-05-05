@@ -3,19 +3,17 @@
  */
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
  * @author vimukti36
@@ -23,42 +21,34 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  */
 public class ProductAndServicesOption extends AbstractPreferenceOption {
 
-	private static ProductAndServicesOptionUiBinder uiBinder = GWT
-			.create(ProductAndServicesOptionUiBinder.class);
-	@UiField
-	Label inventoryScheme;
-	@UiField
-	FlowPanel viewPanel;
-	@UiField
-	RadioButton servicesOnly;
-	@UiField
-	Label servicesOnlyText;
-	@UiField
-	Label headerLabel;
-	@UiField
-	RadioButton productsOnly;
-	@UiField
-	Label productsOnlyText;
-	@UiField
-	RadioButton both;
-	@UiField
-	Label bothText;
-	@UiField
-	FlowPanel sell;
-	@UiField
-	CheckBox warehousesCheckBox;
-	@UiField
-	CheckBox inventoryCheckBox;
-	@UiField
-	CheckBox unitsCheckBox;
-	@UiField
-	FlowPanel hiddenPanel;
-	@UiField
-	FlowPanel totalPanel;
-	@UiField
-	FlowPanel subpanel;
-	@UiField
-	ListBox inventorySchemeListBox;
+	LabelItem headerLabel;
+
+	StyledPanel viewPanel;
+
+	LabelItem servicesOnlyText;
+	SelectCombo servicesProductsTypeCombo;
+	LabelItem productsOnlyText;
+	LabelItem bothText;
+
+	CheckboxItem warehousesCheckBox;
+
+	CheckboxItem inventoryCheckBox;
+
+	CheckboxItem unitsCheckBox;
+
+	StyledPanel invetoryPanel;
+	StyledPanel hiddenPanel;
+	StyledPanel totalPanel;
+	StyledPanel subpanel;
+	StyledPanel mainPanel;
+
+	SelectCombo inventorySchemeListBox;
+
+	public String[] inventorySchemeList = { messages.firstInfirstOut(),
+			messages.lastInfirstOut(), messages.average() };
+	public String[] serviceOrProductList = { messages.products_labelonly(),
+			messages.services_labelonly(),
+			messages.bothservicesandProduct_labelonly() };
 
 	public static final int INVENTORY_SCHME_FIFO = 1;
 	public static final int INVENTORY_SCHME_LIFO = 2;
@@ -78,81 +68,96 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	 * HasHTML instead of HasText.
 	 */
 	public ProductAndServicesOption() {
-		initWidget(uiBinder.createAndBindUi(this));
+		super("");
 		createControls();
 		initData();
 	}
 
-	public ProductAndServicesOption(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-
-	}
-
 	public void createControls() {
 
-		headerLabel.setText(messages.whatDoYouSell());
+		headerLabel = new LabelItem(messages.whatDoYouSell(), "headerLabel");
 		// servicesOnlyText.setText(constants.whatDoYouSell());
-		servicesOnly.setText(messages.services_labelonly());
-		servicesOnlyText.setText(messages.servicesOnly());
-		productsOnly.setText(messages.products_labelonly());
-		inventorySchemeListBox.addItem(messages.firstInfirstOut());
-		inventorySchemeListBox.addItem(messages.lastInfirstOut());
-		inventorySchemeListBox.addItem(messages.average());
-		inventoryScheme.setText(messages.inventoryScheme());
+		totalPanel = new StyledPanel("totalPanel");
+		totalPanel.add(headerLabel);
+		servicesOnlyText = new LabelItem(messages.products_labelonly() + " : "
+				+ messages.servicesOnly(), "servicesOnlyText");
+		productsOnlyText = new LabelItem(messages.services_labelonly() + " : "
+				+ messages.productsOnly(), "productsOnlyText");
+		bothText = new LabelItem(messages.bothservicesandProduct_labelonly()
+				+ " : " + messages.bothServicesandProducts(), "bothText");
 
-		productsOnlyText.setText(messages.productsOnly());
-		both.setText(messages.bothservicesandProduct_labelonly());
-		bothText.setText(messages.bothServicesandProducts());
+		servicesProductsTypeCombo = new SelectCombo(messages.type());
+		for (int i = 0; i < serviceOrProductList.length; i++) {
+			servicesProductsTypeCombo.addItem(serviceOrProductList[i]);
+		}
+		servicesProductsTypeCombo.setComboItem(serviceOrProductList[1]);
+		subpanel = new StyledPanel("subpanel");
+		subpanel.add(servicesOnlyText);
+		subpanel.add(productsOnlyText);
+		subpanel.add(bothText);
+		subpanel.add(servicesProductsTypeCombo);
 
+		inventoryCheckBox = new CheckboxItem(messages.inventoryTracking(),
+				"inventoryCheckBox");
 		inventoryCheckBox.setVisible(Accounter
 				.hasPermission(Features.INVENTORY));
-		inventoryCheckBox.setText(messages.inventoryTracking());
 
-		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
-		unitsCheckBox.setText(messages.enableUnits());
+		warehousesCheckBox = new CheckboxItem(
+				messages.haveMultipleWarehouses(), "warehousesCheckBox");
+		unitsCheckBox = new CheckboxItem(messages.enableUnits(),
+				"unitsCheckBox");
 
-		servicesOnly.addClickHandler(new ClickHandler() {
+		inventorySchemeListBox = new SelectCombo(messages.inventoryScheme());
+		for (int i = 0; i < inventorySchemeList.length; i++) {
+			inventorySchemeListBox.addComboItem(inventorySchemeList[i]);
+		}
+		inventorySchemeListBox.setComboItem(inventorySchemeList[0]);
+		hiddenPanel = new StyledPanel("productAndServocehiddenPanel");
+		hiddenPanel.add(warehousesCheckBox);
+		hiddenPanel.add(unitsCheckBox);
+		hiddenPanel.add(inventorySchemeListBox);
+
+		servicesProductsTypeCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						if (selectItem.equals(messages.services_labelonly())) {
+							inventoryCheckBox.setValue(false);
+							warehousesCheckBox.setValue(false);
+							unitsCheckBox.setValue(false);
+							invetoryPanel.setVisible(false);
+						} else if (selectItem.equals(messages
+								.products_labelonly())) {
+							invetoryPanel.setVisible(true);
+						} else if (selectItem.equals(messages
+								.bothservicesandProduct_labelonly())) {
+							invetoryPanel.setVisible(true);
+						}
+
+					}
+				});
+
+		inventoryCheckBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-
-				inventoryCheckBox.setValue(false);
-				warehousesCheckBox.setValue(false);
-				unitsCheckBox.setValue(false);
-				totalPanel.setVisible(false);
-
-			}
-		});
-		productsOnly.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				totalPanel.setVisible(productsOnly.getValue());
-
-			}
-		});
-		both.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				totalPanel.setVisible(both.getValue());
-
-			}
-		});
-
-		inventoryCheckBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				hiddenPanel.setVisible(inventoryCheckBox.getValue());
 				if (inventoryCheckBox.getValue()) {
 					// for set the inventory schema value to option
 					inventorySchemeListBox
-							.setSelectedIndex(getCompanyPreferences()
+							.setSelectedItem(getCompanyPreferences()
 									.getActiveInventoryScheme() - 1);
 				}
 			}
 		});
+		invetoryPanel = new StyledPanel("invetoryPanel");
+		invetoryPanel.add(inventoryCheckBox);
+		mainPanel = new StyledPanel("productAndServicesOption");
+		mainPanel.add(subpanel);
+		mainPanel.add(invetoryPanel);
+		mainPanel.add(hiddenPanel);
+		add(mainPanel);
 	}
 
 	@Override
@@ -163,15 +168,18 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@Override
 	public void onSave() {
 
-		if (servicesOnly.getValue()) {
+		if (servicesProductsTypeCombo.getSelectedValue().equals(
+				messages.services_labelonly())) {
 			getCompanyPreferences().setSellServices(true);
 			getCompanyPreferences().setSellProducts(false);
 		}
-		if (productsOnly.getValue()) {
+		if (servicesProductsTypeCombo.getSelectedValue().equals(
+				messages.products_labelonly())) {
 			getCompanyPreferences().setSellProducts(true);
 			getCompanyPreferences().setSellServices(false);
 		}
-		if (both.getValue()) {
+		if (servicesProductsTypeCombo.getSelectedValue().equals(
+				messages.bothservicesandProduct_labelonly())) {
 			getCompanyPreferences().setSellServices(true);
 			getCompanyPreferences().setSellProducts(true);
 		}
@@ -199,12 +207,15 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 		boolean sellServices = getCompanyPreferences().isSellServices();
 		if (sellServices)
-			servicesOnly.setValue(true);
+			servicesProductsTypeCombo
+					.setSelected(messages.services_labelonly());
 		boolean sellProducts = getCompanyPreferences().isSellProducts();
 		if (sellProducts)
-			productsOnly.setValue(true);
+			servicesProductsTypeCombo
+					.setSelected(messages.products_labelonly());
 		if (sellServices && sellProducts)
-			both.setValue(true);
+			servicesProductsTypeCombo.setSelected(messages
+					.bothservicesandProduct_labelonly());
 
 		if (sellServices) {
 			totalPanel.setVisible(false);
@@ -219,7 +230,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 					.iswareHouseEnabled());
 			unitsCheckBox.setValue(getCompanyPreferences().isUnitsEnabled());
 			// for set the inventory schema value to option
-			inventorySchemeListBox.setSelectedIndex(getCompanyPreferences()
+			inventorySchemeListBox.setSelectedItem(getCompanyPreferences()
 					.getActiveInventoryScheme() - 1);
 
 		} else {
