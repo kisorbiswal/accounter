@@ -19,7 +19,7 @@ public class ProfitAndLossByLocationReport extends
 		AbstractReportView<ProfitAndLossByLocation> {
 
 	private int category_type;
-	ArrayList<String> reportHeaders = new ArrayList<String>();
+	ArrayList<ClientAccounterClass> reportHeaders = new ArrayList<ClientAccounterClass>();
 
 	public ProfitAndLossByLocationReport(int category_type) {
 		this.category_type = category_type;
@@ -41,10 +41,9 @@ public class ProfitAndLossByLocationReport extends
 				category_type);
 	}
 
-	private ArrayList<String> getHeaderTitles() {
+	private ArrayList<ClientAccounterClass> getHeaderTitles() {
 		ArrayList<ClientAccounterClass> accounterClasses = new ArrayList<ClientAccounterClass>(
 				Accounter.getCompany().getAccounterClasses());
-
 		// sort by depth
 		Collections.sort(accounterClasses,
 				new Comparator<ClientAccounterClass>() {
@@ -64,16 +63,22 @@ public class ProfitAndLossByLocationReport extends
 					&& previousparentID != 0) {
 				String concat = className.concat("-Other");
 				clientAccounterClass.setModifiedName(concat);
-				reportHeaders.add(concat);
-				reportHeaders.add(messages.total() + "(" + className + ")");
+				reportHeaders.add(clientAccounterClass);
+				ClientAccounterClass totalobj = new ClientAccounterClass();
+				totalobj.setModifiedName(messages.total() + "(" + className
+						+ ")");
+				reportHeaders.add(totalobj);
 				previousparentID = 0;
 			} else if (accounterClasses.size() - 1 == count) {
 				String concat = className.concat("-Other");
 				clientAccounterClass.setModifiedName(concat);
-				reportHeaders.add(concat);
-				reportHeaders.add(messages.total() + "(" + className + ")");
+				reportHeaders.add(clientAccounterClass);
+				ClientAccounterClass totalobj = new ClientAccounterClass();
+				totalobj.setModifiedName(messages.total() + "(" + className
+						+ ")");
+				reportHeaders.add(totalobj);
 			} else {
-				reportHeaders.add(clientAccounterClass.getClassName());
+				reportHeaders.add(clientAccounterClass);
 				previousparentID = clientAccounterClass.getParent();
 			}
 			count++;
@@ -115,7 +120,9 @@ public class ProfitAndLossByLocationReport extends
 					.get(cellIndex - 1);
 			record.setCategoryId(clientLocation.getID());
 		} else {
-			record.setCategoryId(pAndLossByLocation.getCategoryId());
+			ClientAccounterClass clientAccounterClass = ProfitAndLossByLocationServerReport.classes
+					.get(cellIndex - 1);
+			record.setCategoryId(clientAccounterClass.getID());
 		}
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
