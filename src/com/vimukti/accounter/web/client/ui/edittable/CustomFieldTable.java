@@ -5,8 +5,11 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomField;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
+import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
 /**
@@ -161,7 +164,19 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 	}
 
 	protected void deleteCustomField(ClientCustomField row) {
+		Accounter.deleteObject(new IDeleteCallback() {
 
+			@Override
+			public void deleteSuccess(IAccounterCore result) {
+				System.out.println();
+				Accounter.getCompany().deleteCustomField(result.getID());
+			}
+
+			@Override
+			public void deleteFailed(AccounterException caught) {
+				System.out.println();
+			}
+		}, row);
 	}
 
 	private void onSelectionChanged(ClientCustomField obj, boolean value) {

@@ -157,7 +157,7 @@ public class ShippingMethod extends CreatableObject implements
 
 	@Override
 	public void selfValidate() throws AccounterException {
-		if (name.trim().length() == 0) {
+		if (name == null || name.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().shippingMethod());
 		}
