@@ -32,12 +32,11 @@ public class MergeAction extends Action {
 
 	@Override
 	public void run() {
-		if (Accounter.hasPermission(Features.MERGING)) {
-			if (!isCalledFromHistory) {
-				Accounter.showSubscriptionWarning();
-				return;
-			}
+		if (!Accounter.hasPermission(Features.MERGING) && !isCalledFromHistory) {
+			Accounter.showSubscriptionWarning();
+			return;
 		}
+
 		BaseDialog dialog = null;
 		switch (type) {
 		case TYPE_CUSTOMERS:
