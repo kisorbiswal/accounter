@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAs
 import com.vimukti.accounter.web.client.IAccounterExportCSVServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
-import com.vimukti.accounter.web.client.IAccounterPayrollService;
 import com.vimukti.accounter.web.client.IAccounterPayrollServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterReportServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeServiceAsync;
@@ -47,6 +46,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.TransactionMeterEventType;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
@@ -98,6 +98,7 @@ public class Accounter implements EntryPoint {
 	private static IAccounterPayrollServiceAsync payrollService;
 
 	private static AccounterMessages messages;
+	private static AccounterMessages2 messages2;
 	private static FinanceImages financeImages;
 	private static FinanceMenuImages financeMenuImages;
 
@@ -354,6 +355,18 @@ public class Accounter implements EntryPoint {
 			}
 		}
 		return messages;
+	}
+
+	public static AccounterMessages2 getMessages2() {
+		if (messages2 == null) {
+			try {
+				messages2 = (AccounterMessages2) GWT
+						.create(AccounterMessages2.class);
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+		return messages2;
 	}
 
 	public static FinanceImages getFinanceImages() {
