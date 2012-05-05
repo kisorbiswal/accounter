@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
@@ -30,8 +29,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
-import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
-import com.vimukti.accounter.web.server.util.ICountryPreferences;
 
 public class CompanyInfoOption extends AbstractPreferenceOption {
 
@@ -366,8 +363,6 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		}
 
 		String countryName = rCountryCombo.getSelectedValue();
-		final ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
 		Map<String, String> fields = new HashMap<String, String>();
 		for (String fieldName : countryPreferences.getCompanyFields()) {
 			fields.put(fieldName, "");
@@ -414,8 +409,6 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			return;
 		}
 		String countryName = tCountryCombo.getSelectedValue();
-		final ICountryPreferences countryPreferences = CountryPreferenceFactory
-				.get(countryName);
 		String[] states = countryPreferences.getStates();
 		if (countryPreferences.getStates() != null) {
 			states = countryPreferences.getStates();
