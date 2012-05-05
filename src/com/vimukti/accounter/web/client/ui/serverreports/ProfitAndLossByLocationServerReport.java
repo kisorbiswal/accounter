@@ -42,7 +42,7 @@ public class ProfitAndLossByLocationServerReport extends
 	public static int noColumns;
 
 	public static ArrayList<ClientLocation> locations = null;
-	public static ArrayList<String> classes = null;
+	public static ArrayList<ClientAccounterClass> classes = null;
 	public static ArrayList<ClientJob> jobs = null;
 
 	public ProfitAndLossByLocationServerReport(long startDate, long endDate,
@@ -75,7 +75,7 @@ public class ProfitAndLossByLocationServerReport extends
 			this.jobs = company.getJobs();
 			this.noColumns = jobs.size() + 2;
 		} else if (category_type == CLASS) {
-			this.classes = getHeaderTitles(company.getAccounterClasses());
+			// this.classes = getHeaderTitles(company.getAccounterClasses());
 			this.noColumns = classes.size() + 2;
 		} else if (category_type == LOCATION) {
 			this.locations = company.getLocations();
@@ -134,7 +134,9 @@ public class ProfitAndLossByLocationServerReport extends
 			}
 		} else if (category_type == CLASS) {
 			for (int i = 0; i < classes.size(); i++) {
-				headers[i + 1] = classes.get(i);
+				headers[i + 1] = classes.get(i).getModifiedName() == null ? classes
+						.get(i).getClassName() : classes.get(i)
+						.getModifiedName();
 			}
 		} else {
 			for (int i = 0; i < locations.size(); i++) {
@@ -168,7 +170,9 @@ public class ProfitAndLossByLocationServerReport extends
 			}
 		} else if (category_type == CLASS) {
 			for (int i = 0; i < classes.size(); i++) {
-				headers[i + 1] = classes.get(i);
+				headers[i + 1] = classes.get(i).getModifiedName() == null ? classes
+						.get(i).getClassName() : classes.get(i)
+						.getModifiedName();
 			}
 		} else {
 			for (int i = 0; i < locations.size(); i++) {
