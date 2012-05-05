@@ -849,7 +849,8 @@ public class MenuBar {
 		}
 		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
 				|| canDoInventory) {
-			newVendorMenuBar.addMenuItem(messages.newItemWithType(messages.purchase()),
+			newVendorMenuBar.addMenuItem(
+					messages.newItemWithType(messages.purchase()),
 					HistoryTokens.NEWITEMSUPPLIERS);
 		}
 		if (canDoInvoiceAndBillTransactions) {
@@ -949,7 +950,8 @@ public class MenuBar {
 
 		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
 				|| canDoInventory) {
-			newCustomerMenuBar.addMenuItem(messages.newItemWithType(messages.sales()),
+			newCustomerMenuBar.addMenuItem(
+					messages.newItemWithType(messages.sales()),
 					HistoryTokens.NEWITEMCUSTOMER);
 		}
 
@@ -1103,10 +1105,6 @@ public class MenuBar {
 				HistoryTokens.CUSTOMERS);
 		companyListMenuBar.addMenuItem(Global.get().Vendors(),
 				HistoryTokens.VENDORLIST);
-		if (canSeeBanking) {
-			companyListMenuBar.addMenuItem(messages.payments(),
-					HistoryTokens.PAYMENTS);
-		}
 		companyListMenuBar.addMenuItem(messages.salesPersons(),
 				HistoryTokens.SALESPRESONS);
 		if (hasPermission(Features.USER_ACTIVITY)) {

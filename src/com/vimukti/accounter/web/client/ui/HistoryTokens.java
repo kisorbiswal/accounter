@@ -86,8 +86,6 @@ public class HistoryTokens {
 
 	public static final String BANKACCOUNTS = "bankAccounts";
 
-	public static final String PAYMENTS = "payments";
-
 	public static final String SALESORDER = "salesOrder";
 
 	public static final String SALESORDERLIST = "salesOrderList";
@@ -436,7 +434,7 @@ public class HistoryTokens {
 	public static final String IPADMENU = "ipadmenu";
 
 	public static final String PAY_EMPLOYEE = "payemployee";
-	
+
 	public HistoryTokens() {
 
 	}

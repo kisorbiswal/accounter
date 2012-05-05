@@ -470,6 +470,13 @@ public abstract class ClientPayee implements IAccounterCore {
 	}
 
 	public Set<ClientCustomFieldValue> getCustomFieldValues() {
+		Set<ClientCustomFieldValue> newCustomFieldValues = new HashSet<ClientCustomFieldValue>();
+		for (ClientCustomFieldValue clientCustomFieldValue : customFieldValues) {
+			if (clientCustomFieldValue.getCustomField() != 0) {
+				newCustomFieldValues.add(clientCustomFieldValue);
+			}
+		}
+		setCustomFieldValues(newCustomFieldValues);
 		return customFieldValues;
 	}
 

@@ -2108,6 +2108,10 @@ public class ClientCompany implements IAccounterCore {
 			case TDSRESPONSIBLEPERSON:
 				this.tdsResposiblePerson = (ClientTDSResponsiblePerson) accounterCoreObject;
 				break;
+			case CUSTOMFIELD:
+				ClientCustomField customField = (ClientCustomField) accounterCoreObject;
+				Utility.updateClientList(customField, this.customFields);
+				break;
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -2286,7 +2290,6 @@ public class ClientCompany implements IAccounterCore {
 		case USER:
 			deleteUser(id);
 			break;
-
 		// case EMPLOYEE:
 		// deleteEmployee(id);
 		// break;

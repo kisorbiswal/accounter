@@ -387,7 +387,7 @@ public class SalesPerson extends CreatableObject implements
 
 	@Override
 	public void selfValidate() throws AccounterException {
-		if (firstName != null || firstName.trim().isEmpty()) {
+		if (firstName == null || firstName.trim().isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					Global.get().messages().salesPerson());
 		}
