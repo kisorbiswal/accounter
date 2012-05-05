@@ -12,6 +12,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -48,17 +50,26 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 			contactNumberItem, emailItem, passportNumberItem,
 			countryOfIssueItem, emplVisaNumberItem;
 	private DateField dateOfBirthItem, dateOfHire, passportExpiryDateItem,
-			emplVisaNumberDateItem;
+			emplVisaNumberDateItem, lastDateItem;
 	private StyledPanel mainPanel;
 	private StyledPanel firstPanel, secondPanel;
 	private EmployeeGroupCombo employeeGroupCombo;
 	private final String[] genderTypes = { messages.unspecified(),
 			messages.male(), messages.female() };
-	private ArrayList<String> listOfgenders;
-	private SelectCombo genderSelect;
+	private ArrayList<String> listOfgenders, listOfReaons;
+	private SelectCombo genderSelect, reasonCombo;
 	private TextAreaItem addrArea;
 	private LinkedHashMap<Integer, ClientAddress> allAddresses;
 	private CheckboxItem activeOrInactive;
+	private final String[] reasons = { messages2.gotNewJobOffer(),
+			messages2.quitWithOutAjob(), messages2.lackofPerformance(),
+			messages2.disputesbetweenCoworkers(),
+			messages2.nosatisfactionwithJob(), messages2.notenoughHours(),
+			messages2.jobwasTemporary(), messages2.contractended(),
+			messages2.workwasSeasonal(), messages2.betteropportunity(),
+			messages2.seekinggrowth(), messages2.careerchange(),
+			messages2.returnedtoSchool(), messages2.relocated(),
+			messages2.raisedaFamily(), messages.other() };
 
 	public NewEmployeeView() {
 		this.getElement().setId("NewEmployeeView");
@@ -90,6 +101,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		contactNumberItem.setValue(data.getPhoneNo());
 		emailItem.setValue(data.getEmail());
 		activeOrInactive.setValue(data.isActive());
+		lastDateItem.setVisible(!activeOrInactive.getValue());
+		reasonCombo.setVisible(!activeOrInactive.getValue());
 		panItem.setValue(data.getPanNumber());
 
 		setAddresses(data.getAddress());
@@ -137,8 +150,12 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		passportNumberItem.setValue(data.getPassportNumber());
 		passportExpiryDateItem.setValue(new ClientFinanceDate(data
 				.getPassportExpiryDate()));
+		lastDateItem.setValue(new ClientFinanceDate(data.getLastDate()));
 		countryOfIssueItem.setValue(data.getCountryOfIssue());
 		emplVisaNumberItem.setValue(data.getVisaNumber());
+		if (data.getReasonType() != -1) {
+			reasonCombo.setValue(reasons[data.getReasonType()]);
+		}
 	}
 
 	private void setAddresses(Set<ClientAddress> addresses) {
@@ -302,6 +319,19 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		activeOrInactive.setValue(true);
 		activeOrInactive.setEnabled(!isInViewMode());
 
+		reasonCombo = new SelectCombo(messages2.reasonForInactive());
+		reasonCombo.setEnabled(!isInViewMode());
+		listOfReaons = new ArrayList<String>();
+		for (int i = 0; i < reasons.length; i++) {
+			listOfReaons.add(reasons[i]);
+		}
+		reasonCombo.initCombo(listOfReaons);
+
+		lastDateItem = new DateField(messages2.lastDate(), "employeeLastDate");
+		lastDateItem.setEnteredDate(new ClientFinanceDate());
+		lastDateItem.setEnabled(!isInViewMode());
+		lastDateItem.setVisible(!activeOrInactive.getValue());
+		reasonCombo.setVisible(!activeOrInactive.getValue());
 		contactNumberItem = new TextItem(messages.contactNumber(),
 				"contactNumberItem");
 		contactNumberItem.setEnabled(!isInViewMode());
@@ -328,8 +358,18 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 			}
 		});
 
+		activeOrInactive.addChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				lastDateItem.setVisible(!activeOrInactive.getValue());
+				reasonCombo.setVisible(!activeOrInactive.getValue());
+
+			}
+		});
 		basicInfoForm.add(nameItem, dateOfBirthItem, genderSelect,
-				activeOrInactive, contactNumberItem, emailItem, addrArea);
+				activeOrInactive, lastDateItem, reasonCombo, contactNumberItem,
+				emailItem, addrArea);
 
 		employeeBasicInfo.setContentWidget(basicInfoForm);
 		return employeeBasicInfo;
@@ -377,6 +417,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		data.setPassportNumber(passportNumberItem.getValue());
 		data.setVisaNumber(emplVisaNumberItem.getValue());
 		data.setVisaExpiryDate(emplVisaNumberDateItem.getValue().getDate());
+		data.setLastDate(lastDateItem.getValue().getDate());
+		data.setReasonType(getReasonType());
 		int genderType = -1;
 		String selectedValue = genderSelect.getSelectedValue();
 		if (selectedValue != null) {
@@ -389,6 +431,50 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 			}
 		}
 		data.setGender(genderType);
+	}
+
+	private int getReasonType() {
+		int reasonType = -1;
+		String selectedValue = reasonCombo.getSelectedValue();
+		if (selectedValue != null) {
+			if (selectedValue.equals(messages2.gotNewJobOffer())) {
+				reasonType = 0;
+			} else if (selectedValue.equals(messages2.quitWithOutAjob())) {
+				reasonType = 1;
+			} else if (selectedValue.equals(messages2.lackofPerformance())) {
+				reasonType = 2;
+			} else if (selectedValue.equals(messages2
+					.disputesbetweenCoworkers())) {
+				reasonType = 3;
+			} else if (selectedValue.equals(messages2.nosatisfactionwithJob())) {
+				reasonType = 4;
+			} else if (selectedValue.equals(messages2.notenoughHours())) {
+				reasonType = 5;
+			} else if (selectedValue.equals(messages2.jobwasTemporary())) {
+				reasonType = 6;
+			} else if (selectedValue.equals(messages2.contractended())) {
+				reasonType = 7;
+			} else if (selectedValue.equals(messages2.workwasSeasonal())) {
+				reasonType = 8;
+			} else if (selectedValue.equals(messages2.betteropportunity())) {
+				reasonType = 9;
+			} else if (selectedValue.equals(messages2.seekinggrowth())) {
+				reasonType = 10;
+			} else if (selectedValue.equals(messages2.careerchange())) {
+				reasonType = 11;
+			} else if (selectedValue.equals(messages2.returnedtoSchool())) {
+				reasonType = 12;
+			} else if (selectedValue.equals(messages2.relocated())) {
+				reasonType = 13;
+			} else if (selectedValue.equals(messages2.raisedaFamily())) {
+				reasonType = 14;
+			} else if (selectedValue.equals(messages.other())) {
+				reasonType = 15;
+			}
+
+		}
+		return reasonType;
+
 	}
 
 	@Override
@@ -452,6 +538,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		genderSelect.setEnabled(!isInViewMode());
 		addrArea.setEnabled(!isInViewMode());
 		activeOrInactive.setEnabled(!isInViewMode());
+		lastDateItem.setEnabled(!isInViewMode());
+		reasonCombo.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}

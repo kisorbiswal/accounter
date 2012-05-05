@@ -1268,6 +1268,9 @@
 			<property name="countryOfIssue" column="COUNTRY_OF_ISSUE" />
 			<property name="passportExpiryDate" column="PASSPORT_EXPIRY_DATE"
 				type="com.vimukti.accounter.core.LongUseType" />
+			<property name="lastDate" column="LAST_DATE"
+				type="com.vimukti.accounter.core.LongUseType" />
+				<property name="reasonType" type="int" column="REASON_TYPE" />
 			<property name="visaNumber" column="VISA_NUMBER" />
 			<property name="visaExpiryDate" column="VISA_EXPIRY_DATE"
 				type="com.vimukti.accounter.core.LongUseType" />

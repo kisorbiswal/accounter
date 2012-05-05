@@ -71,6 +71,15 @@ public class ClientEmployee extends ClientPayee implements
 	 * Expiry Date of the Visa
 	 */
 	private long visaExpiryDate;
+	/**
+	 * lastdate of employee
+	 */
+	private long lastDate;
+
+	/**
+	 * reason type for employee inactive
+	 */
+	private int reasonType;
 
 	/** Contact Details */
 
@@ -274,5 +283,21 @@ public class ClientEmployee extends ClientPayee implements
 			return this.getID() == employee.getID() ? true : false;
 		}
 		return false;
+	}
+
+	public long getLastDate() {
+		return lastDate;
+	}
+
+	public void setLastDate(long lastDate) {
+		this.lastDate = lastDate;
+	}
+
+	public int getReasonType() {
+		return reasonType;
+	}
+
+	public void setReasonType(int reasonType) {
+		this.reasonType = reasonType;
 	}
 }

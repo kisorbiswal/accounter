@@ -96,6 +96,16 @@ public class Employee extends Payee implements PayStructureDestination {
 	 */
 	private FinanceDate visaExpiryDate;
 
+	/**
+	 * lastdate of employee
+	 */
+
+	private FinanceDate lastDate;
+	/**
+	 * reason type for employee inactive
+	 */
+	private int reasonType;
+
 	/** Contact Details */
 
 	/**
@@ -295,7 +305,8 @@ public class Employee extends Payee implements PayStructureDestination {
 		w.put(messages.designation(), this.designation);
 		w.put(messages.location(), this.location);
 		w.put(messages.gender(), this.gender);
-		w.put(messages.employeeGroup(), this.group != null ? this.getGroup().toString():"");
+		w.put(messages.employeeGroup(), this.group != null ? this.getGroup()
+				.toString() : "");
 	}
 
 	@Override
@@ -336,5 +347,21 @@ public class Employee extends Payee implements PayStructureDestination {
 		isOnSaveProccessed = true;
 		setType(TYPE_EMPLOYEE);
 		return onUpdate(session);
+	}
+
+	public FinanceDate getLastDate() {
+		return lastDate;
+	}
+
+	public void setLastDate(FinanceDate lastDate) {
+		this.lastDate = lastDate;
+	}
+
+	public int getReasonType() {
+		return reasonType;
+	}
+
+	public void setReasonType(int reasonType) {
+		this.reasonType = reasonType;
 	}
 }
