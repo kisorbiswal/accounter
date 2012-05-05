@@ -2809,6 +2809,8 @@ public interface AccounterMessages extends Messages {
 
 	public String newInvoice();
 
+	public String newItemWithType(String itemType);
+
 	public String newItem();
 
 	public String newItemTax();

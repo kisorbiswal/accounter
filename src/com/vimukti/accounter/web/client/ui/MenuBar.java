@@ -849,7 +849,7 @@ public class MenuBar {
 		}
 		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
 				|| canDoInventory) {
-			newVendorMenuBar.addMenuItem(messages.newItem(),
+			newVendorMenuBar.addMenuItem(messages.newItemWithType(messages.purchase()),
 					HistoryTokens.NEWITEMSUPPLIERS);
 		}
 		if (canDoInvoiceAndBillTransactions) {
@@ -949,7 +949,7 @@ public class MenuBar {
 
 		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
 				|| canDoInventory) {
-			newCustomerMenuBar.addMenuItem(messages.newItem(),
+			newCustomerMenuBar.addMenuItem(messages.newItemWithType(messages.sales()),
 					HistoryTokens.NEWITEMCUSTOMER);
 		}
 
