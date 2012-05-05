@@ -760,11 +760,6 @@ public class Windows8MenuView extends BaseView {
 		W8MenuItem Vendors = new W8MenuItem(Global.get().Vendors(), "",
 				HistoryTokens.VENDORLIST);
 		menuForm.add(Vendors);
-		if (canSeeBanking) {
-			W8MenuItem payments = new W8MenuItem(messages.payments(), "",
-					HistoryTokens.PAYMENTS);
-			menuForm.add(payments);
-		}
 		W8MenuItem salesPersons = new W8MenuItem(messages.salesPersons(), "",
 				HistoryTokens.SALESPRESONS);
 		menuForm.add(salesPersons);
