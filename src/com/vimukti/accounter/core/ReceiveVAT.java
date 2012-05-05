@@ -229,13 +229,15 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		this.setSaveStatus(Transaction.STATUS_VOID);
-		if (this.transactionReceiveVAT != null) {
-			for (TransactionReceiveVAT ti : this.transactionReceiveVAT) {
-				if (ti instanceof Lifecycle) {
-					Lifecycle lifeCycle = (Lifecycle) ti;
-					lifeCycle.onUpdate(session);
+		if (!this.isVoid()) {
+			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+			this.setSaveStatus(Transaction.STATUS_VOID);
+			if (this.transactionReceiveVAT != null) {
+				for (TransactionReceiveVAT ti : this.transactionReceiveVAT) {
+					if (ti instanceof Lifecycle) {
+						Lifecycle lifeCycle = (Lifecycle) ti;
+						lifeCycle.onUpdate(session);
+					}
 				}
 			}
 		}

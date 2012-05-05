@@ -15,7 +15,7 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 	private int type;
 
-	private boolean isFromTransactionsCenter;
+	private boolean isFromListView;
 
 	public TDSChalanDetailsAction() {
 		super();
@@ -53,7 +53,7 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 						@Override
 						protected boolean onCancel() {
-							if (!isFromTransactionsCenter()) {
+							if (!isFromListView()) {
 								return super.onCancel();
 							}
 							return true;
@@ -112,12 +112,12 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 		this.type = type;
 	}
 
-	public boolean isFromTransactionsCenter() {
-		return isFromTransactionsCenter;
+	public boolean isFromListView() {
+		return isFromListView;
 	}
 
-	public void setFromTransactionsCenter(boolean isFromTransactionsCenter) {
-		this.isFromTransactionsCenter = isFromTransactionsCenter;
+	public void isFromListView(boolean isFromTransactionsCenter) {
+		this.isFromListView = isFromTransactionsCenter;
 	}
 
 }
