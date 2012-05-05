@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.RowFormatter;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -15,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-public class EditTableImpl<R>  {
+public class EditTableImpl<R> {
 
 	protected AccounterMessages messages = Global.get().messages();
 	private ArrayList<ArrayList<EditColumn<R>>> columns = new ArrayList<ArrayList<EditColumn<R>>>();
@@ -183,7 +182,7 @@ public class EditTableImpl<R>  {
 	 */
 	public void clear() {
 		for (int x = 1; x <= rows.size(); x++) {
-			for (int y = 0; y < numOfRowsPerObject; y++) {
+			for (int y = 1; y < numOfRowsPerObject; y++) {
 				table.removeRow(y);
 			}
 		}
@@ -338,21 +337,21 @@ public class EditTableImpl<R>  {
 		columnsCreated = b;
 	}
 
-//	@Override
-//	protected void onAttach() {
-//		createColumns();
-//		if (getRows() == null || getRows().isEmpty()) {
-//			addEmptyMessage(messages.noRecordsToShow());
-//		}
-//		super.onAttach();
-//	}
-//
-//	protected void createColumns() {
-//		if (!iscolumnsCreated()) {
-//			initColumns();
-//		}
-//		setcolumnsCreated(true);
-//	}
+	// @Override
+	// protected void onAttach() {
+	// createColumns();
+	// if (getRows() == null || getRows().isEmpty()) {
+	// addEmptyMessage(messages.noRecordsToShow());
+	// }
+	// super.onAttach();
+	// }
+	//
+	// protected void createColumns() {
+	// if (!iscolumnsCreated()) {
+	// initColumns();
+	// }
+	// setcolumnsCreated(true);
+	// }
 
 	protected void initColumns() {
 	}
