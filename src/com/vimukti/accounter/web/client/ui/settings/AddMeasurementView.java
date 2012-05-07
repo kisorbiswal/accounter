@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
@@ -215,5 +216,26 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+		measurementSaveFailed(exception);
+	}
+
+	public void measurementSaveFailed(AccounterException exception) {
+		String message = null;
+		if (exception.getMessage() != null) {
+			message = exception.getMessage();
+		}
+		if (exception.getErrorCode() != 0) {
+			message = AccounterExceptions.getErrorString(exception);
+		} else {
+			message = messages.failedTransaction(messages.measurement());
+		}
+
+		Accounter.showError(message);
+
 	}
 }
