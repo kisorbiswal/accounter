@@ -167,7 +167,7 @@ public class InvoicePdfGeneration {
 			headersMetaData.addFieldAsList("item.itemUnitPrice");
 			headersMetaData.addFieldAsList("item.discount");
 			headersMetaData.addFieldAsList("item.itemTotalPrice");
-			headersMetaData.addFieldAsList("item.className");
+			// headersMetaData.addFieldAsList("item.className");
 			headersMetaData.addFieldAsList("item.itemVatRate");
 			headersMetaData.addFieldAsList("item.itemVatAmount");
 			report.setFieldsMetadata(headersMetaData);
@@ -219,13 +219,14 @@ public class InvoicePdfGeneration {
 				String className = "";
 				// if (preferences.isClassTrackingEnabled()) {
 				// if (preferences.isClassPerDetailLine()) {
-				if (item.getAccounterClass() != null) {
-					className = forNullValue(item.getAccounterClass().getName());
-				}
+				// if (item.getAccounterClass() != null) {
+				// className = forNullValue(item.getAccounterClass().getName());
+				// }
 				// }
 				// }
 				itemList.add(new ItemList(name, description, qty, unitPrice,
-						className, discount, totalPrice, vatRate, vatAmount));
+				// className,
+						discount, totalPrice, vatRate, vatAmount));
 			}
 
 			context.put("item", itemList);
@@ -860,16 +861,18 @@ public class InvoicePdfGeneration {
 		private String itemVatRate;
 		private String itemVatAmount;
 
-		private String className;
+		// private String className;
 
 		ItemList(String name, String description, String quantity,
-				String itemUnitPrice, String className, String discount,
-				String itemTotalPrice, String itemVatRate, String itemVatAmount) {
+				String itemUnitPrice,
+				// String className,
+				String discount, String itemTotalPrice, String itemVatRate,
+				String itemVatAmount) {
 			this.name = name;
 			this.description = description;
 			this.quantity = quantity;
 			this.itemUnitPrice = itemUnitPrice;
-			this.className = className;
+			// this.className = className;
 			this.discount = discount;
 			this.itemTotalPrice = itemTotalPrice;
 			this.itemVatRate = itemVatRate;
@@ -938,14 +941,6 @@ public class InvoicePdfGeneration {
 
 		public void setItemVatAmount(String itemVatAmount) {
 			this.itemVatAmount = itemVatAmount;
-		}
-
-		public String getClassName() {
-			return className;
-		}
-
-		public void setClassName(String className) {
-			this.className = className;
 		}
 
 	}

@@ -155,39 +155,39 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 			List<TransactionItem> items = invoice.getTransactionItems();
 
-			if (preferences.isLocationTrackingEnabled()) {
-				if (invoice.getLocation() != null) {
-					t.setVariable("location", invoice.getLocation().getName());
-					t.addBlock("locationTracking");
-				}
-			}
-			if (preferences.isJobTrackingEnabled()) {
-				if (invoice.getJob() != null) {
-					t.setVariable("job", invoice.getJob().getJobName());
-					t.addBlock("jobTracking");
-				}
-			}
-			if (preferences.isClassTrackingEnabled()
-					&& (preferences.isClassPerDetailLine() == false)) {
-				String accounterClass = "";
-				for (TransactionItem trItem : items) {
-					if (trItem.getAccounterClass() != null) {
-
-						if (trItem.getAccounterClass() != null) {
-							accounterClass = trItem.getAccounterClass()
-									.getclassName();
-						}
-						if (accounterClass != null) {
-							break;
-						} else {
-							continue;
-						}
-					}
-
-				}
-				t.setVariable("class", accounterClass);
-				t.addBlock("classTracking");
-			}
+			// if (preferences.isLocationTrackingEnabled()) {
+			// if (invoice.getLocation() != null) {
+			// t.setVariable("location", invoice.getLocation().getName());
+			// t.addBlock("locationTracking");
+			// }
+			// }
+			// if (preferences.isJobTrackingEnabled()) {
+			// if (invoice.getJob() != null) {
+			// t.setVariable("job", invoice.getJob().getJobName());
+			// t.addBlock("jobTracking");
+			// }
+			// }
+			// if (preferences.isClassTrackingEnabled()
+			// && (preferences.isClassPerDetailLine() == false)) {
+			// String accounterClass = "";
+			// for (TransactionItem trItem : items) {
+			// if (trItem.getAccounterClass() != null) {
+			//
+			// if (trItem.getAccounterClass() != null) {
+			// accounterClass = trItem.getAccounterClass()
+			// .getclassName();
+			// }
+			// if (accounterClass != null) {
+			// break;
+			// } else {
+			// continue;
+			// }
+			// }
+			//
+			// }
+			// t.setVariable("class", accounterClass);
+			// t.addBlock("classTracking");
+			// }
 
 			if (preferences.isTrackDiscounts()
 					&& (preferences.isDiscountPerDetailLine() == false)) {
@@ -319,11 +319,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 					t.addBlock("discountBlock");
 				}
-				if (preferences.isClassTrackingEnabled()) {
-					if (preferences.isClassPerDetailLine()) {
-						t.addBlock("classBlock");
-					}
-				}
+				// if (preferences.isClassTrackingEnabled()) {
+				// if (preferences.isClassPerDetailLine()) {
+				// t.addBlock("classBlock");
+				// }
+				// }
 
 				t.addBlock("showLabels");
 			}
@@ -370,15 +370,15 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					t.addBlock("discountValueBlock");
 				}
 
-				if (preferences.isClassTrackingEnabled()) {
-					if (preferences.isClassPerDetailLine()) {
-						if (item.getAccounterClass() != null) {
-							t.setVariable("itemClass", item.getAccounterClass()
-									.getName());
-							t.addBlock("classValueBlock");
-						}
-					}
-				}
+				// if (preferences.isClassTrackingEnabled()) {
+				// if (preferences.isClassPerDetailLine()) {
+				// if (item.getAccounterClass() != null) {
+				// t.setVariable("itemClass", item.getAccounterClass()
+				// .getName());
+				// t.addBlock("classValueBlock");
+				// }
+				// }
+				// }
 				t.setVariable("itemTotalPrice", totalPrice);
 
 				if (company.getPreferences().isTrackTax()
@@ -516,9 +516,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		t.setVariable("i18_Delivery_Date", messages.deliveryDate());
 		t.setVariable("i18_Shipping_Terms", messages.shippingTerms());
 		t.setVariable("i18_Customer", messages.customer());
-		t.setVariable("i18_Job", messages.job());
-		t.setVariable("i18_Class", messages.className());
-		t.setVariable("i18_Location", messages.location());
+		// t.setVariable("i18_Job", messages.job());
+		// t.setVariable("i18_Class", messages.className());
+		// t.setVariable("i18_Location", messages.location());
 		Map<String, String> variables = t.getVariables();
 		System.out.println(variables);
 	}
