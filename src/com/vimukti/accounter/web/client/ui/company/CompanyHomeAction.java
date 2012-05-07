@@ -4,7 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DashBoardView;
+import com.vimukti.accounter.web.client.ui.IPadDashBoard;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -23,8 +25,17 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public void run() {
-		DashBoardView view = (DashBoardView) GWT.create(DashBoardView.class);
-		MainFinanceWindow.getViewManager().showView(view, null, false, this);
+		if (Accounter.isIpadApp()) {
+			IPadDashBoard view = new IPadDashBoard();
+			MainFinanceWindow.getViewManager()
+					.showView(view, null, false, this);
+		} else {
+			DashBoardView view = (DashBoardView) GWT
+					.create(DashBoardView.class);
+			MainFinanceWindow.getViewManager()
+					.showView(view, null, false, this);
+		}
+
 	}
 
 	public ImageResource getBigImage() {

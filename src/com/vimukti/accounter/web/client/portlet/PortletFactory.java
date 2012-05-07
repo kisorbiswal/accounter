@@ -97,6 +97,53 @@ public class PortletFactory {
 		return portlet;
 	}
 
+	public Portlet getPortletByName(ClientPortletConfiguration pc, String name) {
+		Portlet portlet = null;
+		if (name.equals(BANK_ACCOUNT)) {
+			portlet = new BankAccountsPortlet(pc);
+		} else if (name.equals(MONEY_COMING)) {
+			portlet = new MoneyComingPortlet(pc);
+		} else if (name.equals(MONEY_GOING)) {
+			portlet = new MoneyGoingPortlet(pc);
+		} else if (name.equals(EXPENSES_CLAIM)) {
+			portlet = new ExpensesBreakdownPortlet(pc);
+		} else if (name.equals(WHO_I_OWE)) {
+			portlet = new WhoIOwePortlet(pc);
+		} else if (name.equals(WHO_OWES_ME)) {
+			portlet = new WhoOwesMePortlet(pc);
+		} else if (name.equals(RECENT_TRANSACTIONS)) {
+			portlet = new RecentTransactionsPortlet(pc);
+		} else if (name.equals(QUICK_LINKS)) {
+			portlet = new QuickLinksPortlet(pc);
+		} else if (name.equals(BANKING)) {
+			portlet = new BankingPortlet(pc);
+		} else if (name.equals(MESSAGES_AND_TASKS)) {
+			portlet = new MessagesAndTasksPortlet(pc);
+		} else if (name.equals(ACCOUNTS_BALANCES_PORTLET)) {
+			portlet = new AccountBalancesPortlet(pc);
+		} else if (name.equals(TOP_CUSTOMERS_BY_SALES_PORTLET)) {
+			portlet = new TopPayeesBySalesPortlet(pc,
+					TopPayeesBySalesPortlet.CUSTOMER_PORTLET);
+		} else if (name.equals(TOP_VENDORS_BY_EXPENSES_PORTLET)) {
+			portlet = new TopPayeesBySalesPortlet(pc,
+					TopPayeesBySalesPortlet.VENDOR_PORTLET);
+		} else if (name.equals(TOP_ITEMS_BY_SALES_PORTLET)) {
+			portlet = new TopPayeesBySalesPortlet(pc,
+					TopPayeesBySalesPortlet.ITEM_PORTLET);
+		} else if (name.equals(INCOME_EXPENSE_BREAKDOWN_PORTLET)) {
+			portlet = new IncomeAndExpensesBreakdownPortlet(pc);
+		} else if (name.equals(INCOME_BREAKDOWN_PORTLET)) {
+			portlet = new IncomeBreakdownPortlet(pc);
+		} else if (name.equals(YEAR_OVER_YEAR_INCOME_PORTLET)) {
+			portlet = new YearOverYearPortlet(pc,
+					YearOverYearPortlet.YEAR_OVER_YEAR_INCOME);
+		} else if (name.equals(YEAR_OVER_YEAR_EXPENSE_PORTLET)) {
+			portlet = new YearOverYearPortlet(pc,
+					YearOverYearPortlet.YEAR_OVER_YEAR_EXPENSE);
+		}
+		return portlet;
+	}
+
 	public String getPortletName(ClientPortletConfiguration pc) {
 		AccounterMessages messages = Global.get().messages();
 		String portletName = "";
@@ -140,6 +187,50 @@ public class PortletFactory {
 			portletName = messages.yearOverYearExpense();
 		}
 		return portletName;
+	}
+
+	public String getPortletNames(String name) {
+		AccounterMessages messages = Global.get().messages();
+		if (name.equals(messages.bankAccount())) {
+			return "BANK_ACCOUNT";
+		} else if (name.equals(messages.moneyComingIn())) {
+			return "MONEY_COMING";
+		} else if (name.equals(messages.moneyGoingOut())) {
+			return "MONEY_GOING";
+		} else if (name.equals(messages.expenses())) {
+			return "EXPENSES_CLAIM";
+		} else if (name.equals(messages.whoIOwe())) {
+			return "WHO_I_OWE";
+		} else if (name.equals(messages.whoOwesMe())) {
+			return "WHO_OWES_ME";
+		} else if (name.equals(messages.recentTransactions())) {
+			return "RECENT_TRANSACTIONS";
+		} else if (name.equals(messages.quickLinks())) {
+			return "QUICK_LINKS";
+		} else if (name.equals(messages.banking())) {
+			return "BANKING";
+		} else if (name.equals(messages.messagesAndTasks())) {
+			return "MESSAGES_AND_TASKS";
+		} else if (name.equals(messages.accountBalances())) {
+			return "ACCOUNTS_BALANCES_PORTLET";
+		} else if (name.equals(messages.topCustomersBySales(Global.get()
+				.Customers()))) {
+			return "TOP_CUSTOMERS_BY_SALES_PORTLET";
+		} else if (name.equals(messages.topVendorsByExpense(Global.get()
+				.Vendors()))) {
+			return "TOP_VENDORS_BY_EXPENSES_PORTLET";
+		} else if (name.equals(messages.topItemsBySales())) {
+			return "TOP_ITEMS_BY_SALES_PORTLET";
+		} else if (name.equals(messages.incomeAndExpenseAccounts())) {
+			return "INCOME_EXPENSE_BREAKDOWN_PORTLET";
+		} else if (name.equals(messages.incomes())) {
+			return "INCOME_BREAKDOWN_PORTLET";
+		} else if (name.equals(messages.yearOverYearIncome())) {
+			return "YEAR_OVER_YEAR_INCOME_PORTLET";
+		} else if (name.equals(messages.yearOverYearExpense())) {
+			return "YEAR_OVER_YEAR_EXPENSE_PORTLET";
+		}
+		return null;
 	}
 
 	public ClientPortletPageConfiguration getDefaultConfiguration(String page) {
