@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
@@ -24,7 +25,7 @@ public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE };
 	}
@@ -107,7 +108,8 @@ public class TaxAdjustmentListGrid extends BaseListGrid<ClientTAXAdjustment> {
 					obj.getAdjustmentAccount());
 			return account != null ? account.getDisplayName() : "";
 		case 4:
-			return obj.getTotal();
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(),
+					obj.getCurrency());
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
 		}

@@ -11995,13 +11995,15 @@
 		<return-scalar column="TAX_ITEM" type="long" />
 		<return-scalar column="ACCOUNT" type="long" />
 		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
 	<![CDATA[
 		SELECT T.ID AS TRANSACTION_ID, 
 		T.T_DATE AS DATE,
 		A.TAX_AGENCY_ID AS TAX_AGENCY,
 		A.TAX_ITEM AS TAX_ITEM,
 		A.ADJUSTMENT_ACCOUNT AS ACCOUNT,
-		T.TOTAL AS TOTAL
+		T.TOTAL AS TOTAL,
+		T.CURRENCY AS CURRENCY
 		
 		FROM TAX_ADJUSTMENT A
 			 LEFT JOIN TRANSACTION T

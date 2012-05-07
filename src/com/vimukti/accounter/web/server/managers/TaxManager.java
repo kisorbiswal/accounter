@@ -1337,6 +1337,7 @@ public class TaxManager extends Manager {
 				clientObject.setTaxItem((Long) objects[3]);
 				clientObject.setAdjustmentAccount((Long) objects[4]);
 				clientObject.setTotal((Double) objects[5]);
+				clientObject.setCurrency((Long) objects[6]);
 				paginationList.add(clientObject);
 			}
 			total = paginationList.size();

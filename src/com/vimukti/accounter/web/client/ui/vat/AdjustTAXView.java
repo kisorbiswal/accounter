@@ -376,6 +376,7 @@ public class AdjustTAXView extends
 		}
 
 		data.setTotal(amount.getAmount());
+		data.setCurrency(this.currency.getID());
 		data.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		if (typeRadio.getValue() != null ? typeRadio.getValue().equals(
 				messages.increaseTAXLine()) : false)
