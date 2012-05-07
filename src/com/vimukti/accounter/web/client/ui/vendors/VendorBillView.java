@@ -408,7 +408,6 @@ public class VendorBillView extends
 		StyledPanel datepanel = new StyledPanel("datepanel");
 		// datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
-		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
