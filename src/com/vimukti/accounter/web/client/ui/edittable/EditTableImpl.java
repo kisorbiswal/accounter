@@ -182,7 +182,7 @@ public class EditTableImpl<R> {
 	 */
 	public void clear() {
 		for (int x = 1; x <= rows.size(); x++) {
-			for (int y = 1; y < numOfRowsPerObject; y++) {
+			for (int y = 1; y <= numOfRowsPerObject; y++) {
 				table.removeRow(y);
 			}
 		}
@@ -337,21 +337,12 @@ public class EditTableImpl<R> {
 		columnsCreated = b;
 	}
 
-	// @Override
-	// protected void onAttach() {
-	// createColumns();
-	// if (getRows() == null || getRows().isEmpty()) {
-	// addEmptyMessage(messages.noRecordsToShow());
-	// }
-	// super.onAttach();
-	// }
-	//
-	// protected void createColumns() {
-	// if (!iscolumnsCreated()) {
-	// initColumns();
-	// }
-	// setcolumnsCreated(true);
-	// }
+	protected void onAttach() {
+		this.wrapper.createColumns();
+		if (getRows() == null || getRows().isEmpty()) {
+			addEmptyMessage(messages.noRecordsToShow());
+		}
+	}
 
 	protected void initColumns() {
 	}

@@ -18,9 +18,9 @@ public abstract class EditTable<R> extends FlowPanel {
 	}
 
 	public EditTable(int numOfRowsPerObject) {
-		impl  = GWT.create(EditTableImpl.class);
-		impl.init(this,numOfRowsPerObject);
-		
+		impl = GWT.create(EditTableImpl.class);
+		impl.init(this, numOfRowsPerObject);
+
 	}
 
 	public void addColumn(EditColumn<R> column) {
@@ -111,7 +111,6 @@ public abstract class EditTable<R> extends FlowPanel {
 
 	}
 
-
 	protected abstract void initColumns();
 
 	public List<EditColumn<R>> getColumns() {
@@ -141,16 +140,12 @@ public abstract class EditTable<R> extends FlowPanel {
 	}
 
 	public void addEmptyRowAtLast() {
+
 	}
-	
 
 	@Override
 	protected void onAttach() {
-		createColumns();
-		if (impl.getRows() == null || impl.getRows().isEmpty()) {
-			addEmptyMessage(messages.noRecordsToShow());
-		}
-		super.onAttach();
+		impl.onAttach();
 	}
 
 	public void createColumns() {
@@ -160,6 +155,4 @@ public abstract class EditTable<R> extends FlowPanel {
 		impl.setcolumnsCreated(true);
 	}
 
-	
-	
 }
