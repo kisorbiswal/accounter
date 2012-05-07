@@ -320,10 +320,15 @@ public class ReportSectionView extends BaseHomeView {
 				.taxItemSummary().getHistoryToken());
 
 		// TAX tab for all other countries
+
 		taxMap.put(messages.taxItemDetailReport(), TAXReportsAction
 				.taxItemDetail().getHistoryToken());
-		taxMap.put(messages.taxItemExceptionDetailReport(), TAXReportsAction
-				.taxItemException().getHistoryToken());
+
+		if (hasExtraReportsPerm) {
+			taxMap.put(messages.taxItemExceptionDetailReport(),
+					TAXReportsAction.taxItemException().getHistoryToken());
+		}
+
 		taxMap.put(messages.vatItemSummary(), TAXReportsAction.taxItemSummary()
 				.getHistoryToken());
 

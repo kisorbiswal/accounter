@@ -2087,7 +2087,9 @@ public class ClientCompany implements IAccounterCore {
 				ClientMeasurement measurement = (ClientMeasurement) accounterCoreObject;
 				Utility.updateClientList(measurement, measurements);
 				for (ClientUnit unit : measurement.getUnits()) {
-					Utility.updateClientList(unit, units);
+					if (unit.getID() != 0) {
+						Utility.updateClientList(unit, units);
+					}
 				}
 				break;
 			case WAREHOUSE:
