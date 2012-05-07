@@ -144,10 +144,11 @@ public class ReportSectionView extends BaseHomeView {
 		}
 		if (Global.get().preferences().isTrackTax()) {
 			companyAndFinancialMap.put(messages.salesTaxLiability(),
-					TAXReportsAction.salesTaxLiability().getHistoryToken());
-			companyAndFinancialMap.put(messages.transactionDetailByTaxItem(),
-					TAXReportsAction.transactionDetailByTaxItem()
+					CompanyAndFinancialReportsAction.salesTaxLiability()
 							.getHistoryToken());
+			companyAndFinancialMap.put(messages.transactionDetailByTaxItem(),
+					CompanyAndFinancialReportsAction
+							.transactionDetailByTaxItem().getHistoryToken());
 		}
 		companyAndFinancialMap.put(messages.reconciliationsReport(),
 				CompanyAndFinancialReportsAction.reconciliations()
