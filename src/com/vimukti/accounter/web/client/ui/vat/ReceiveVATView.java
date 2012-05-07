@@ -159,7 +159,7 @@ public class ReceiveVATView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setEnabled(true);
+						checkNoText.setEnabled(!isInViewMode());
 					} else {
 						if (payFromCombo.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -895,15 +895,17 @@ public class ReceiveVATView extends
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		paymentMethodCombo.setEnabled(isInViewMode());
-		billsDue.setEnabled(isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
+		billsDue.setEnabled(!isInViewMode());
 		// vatAgencyCombo.setDisabled(isInViewMode())
-		// depositInAccCombo.setEnabled(isInViewMode());
-		;
-		grid.isEnable = true;
-		grid.setEnabled(false);
-		grid.setCanEdit(true);
-		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
+		depositInAccCombo.setEnabled(!isInViewMode());
+		if (paymentMethodCombo.getSelectedValue().equals(messages.cheque())) {
+			printCheck.setEnabled(!isInViewMode());
+		}
+		grid.setEnabled(!isInViewMode());
+		grid.setCanEdit(!isInViewMode());
+		if (printCheck.getValue()) {
+			checkNoText.setEnabled(!isInViewMode());
 			checkNoText.setValue(messages.toBePrinted());
 		}
 		if (isMultiCurrencyEnabled()) {
