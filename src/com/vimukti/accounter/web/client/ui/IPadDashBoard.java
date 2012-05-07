@@ -72,9 +72,7 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 
 		defaultConfiguration = Accounter.getCompany()
 				.getPortletPageConfiguration(page.getName());
-
-		portletConfigurationList = PortletFactory.get()
-				.getDefaultConfiguration(PortletPage.DASHBOARD)
+		portletConfigurationList = defaultConfiguration
 				.getPortletConfigurations();
 
 		for (int i = 0; i < portletConfigurationList.size(); i++) {
