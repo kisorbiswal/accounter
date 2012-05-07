@@ -20,7 +20,8 @@ public class SalesTaxLiabilityReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, TAXReportsAction.transactionDetailByTaxItem());
+		UIUtils.runAction(record,
+				CompanyAndFinancialReportsAction.transactionDetailByTaxItem());
 	}
 
 	@Override
