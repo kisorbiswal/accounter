@@ -53,9 +53,6 @@ public class InventoryActions extends Action {
 				case TYPE_NEW_ASSEMBLY:
 					InventoryAssemblyView iView = new InventoryAssemblyView();
 					iView.setItemName(itemname);
-					if (isItemEditable) {
-						iView.onEdit();
-					}
 					view = iView;
 					break;
 				case TYPE_BUILD_ASSEMBLY:
@@ -88,6 +85,9 @@ public class InventoryActions extends Action {
 				if (view != null) {
 					MainFinanceWindow.getViewManager().showView(view, data,
 							isDependent, InventoryActions.this);
+					if (isItemEditable) {
+						view.onEdit();
+					}
 				}
 
 			}
