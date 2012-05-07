@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportGrid;
 
 public class PaySheetServerReport extends AbstractFinaneReport<PaySheet> {
 
-	protected PaginationList<ClientPayHead> payheads = new PaginationList<ClientPayHead>();
+	protected ArrayList<ClientPayHead> payheads = new ArrayList<ClientPayHead>();
 	protected int noColumns = 2;
 	private ArrayList<String> sectiontypes = new ArrayList<String>();
 	private List<String> types = new ArrayList<String>();
@@ -46,8 +46,16 @@ public class PaySheetServerReport extends AbstractFinaneReport<PaySheet> {
 				});
 	}
 
-	public PaySheetServerReport(long startDate, long endDate, int generationType) {
+	public PaySheetServerReport(long startDate, long endDate,
+			int generationType, ArrayList<ClientPayHead> payheadsList) {
 		super(startDate, endDate, generationType);
+		payheads = payheadsList;
+		noColumns = payheadsList.size() + 2;
+		initGrid();
+//		ReportGrid<PaySheet> g = ((AbstractReportView<PaySheet>) PaySheetServerReport.this.reportView).grid;
+//		g.setColumns(getColunms());
+//		g.setColumnTypes(getColumnTypes());
+//		PaySheetServerReport.this.reportView.refresh();
 	}
 
 	@Override
