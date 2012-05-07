@@ -49,7 +49,7 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 
 			@Override
 			public String getValueAsString(ClientCustomField row) {
-				return messages.name()+" : "+getValue(row);
+				return messages.name() + " : " + getValue(row);
 			}
 
 			@Override
@@ -105,6 +105,36 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 					RenderContext<ClientCustomField> context) {
 				// super.render(widget, context);
 				((CheckBox) widget).setValue(context.getRow().isShowVendor());
+			}
+
+			@Override
+			public String getValueAsString(ClientCustomField row) {
+				return "TODO";
+			}
+
+			@Override
+			public int insertNewLineNumber() {
+				return 1;
+			}
+		});
+		this.addColumn(new CheckboxEditColumn<ClientCustomField>() {
+
+			@Override
+			protected void onChangeValue(boolean value, ClientCustomField obj) {
+				onSelectionChanged2(obj, value);
+			}
+
+			@Override
+			public IsWidget getHeader() {
+				Label columnHeader = new Label(messages.employee());
+				return columnHeader;
+			}
+
+			@Override
+			public void render(IsWidget widget,
+					RenderContext<ClientCustomField> context) {
+				// super.render(widget, context);
+				((CheckBox) widget).setValue(context.getRow().isShowEmployee());
 			}
 
 			@Override
@@ -189,6 +219,11 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 	private void onSelectionChanged1(ClientCustomField obj, boolean value) {
 		obj.setShowVendor(value);
 		super.checkColumn(getAllRows().indexOf(obj), 2, value);
+	}
+
+	private void onSelectionChanged2(ClientCustomField obj, boolean value) {
+		obj.setShowEmployee(value);
+		super.checkColumn(getAllRows().indexOf(obj), 3, value);
 	}
 
 	@Override

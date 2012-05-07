@@ -439,10 +439,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public void createCustomFieldControls() {
 		if (data != null && data.getCustomFieldValues() != null) {
 			customFieldForm.updateValues(data.getCustomFieldValues(),
-					getCompany(), true);
+					getCompany(), ClientPayee.TYPE_CUSTOMER);
 		}
 		customFieldForm.createControls(getCompany(),
-				data == null ? null : data.getCustomFieldValues(), true);
+				data == null ? null : data.getCustomFieldValues(),
+				ClientPayee.TYPE_CUSTOMER);
 		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
 				: data.getCustomFieldValues();
 		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
@@ -470,7 +471,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	private void updateData() {
 
 		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany(),
-				true);
+				ClientPayee.TYPE_CUSTOMER);
 		// Setting data from General Tab
 
 		// Setting customer Name

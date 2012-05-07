@@ -16,6 +16,7 @@ public class ClientCustomField implements IAccounterCore {
 
 	private boolean showCustomer;
 	private boolean showVendor;
+	private boolean showEmployee;
 	private long id;
 
 	public String getName() {
@@ -74,6 +75,14 @@ public class ClientCustomField implements IAccounterCore {
 	public long getID() {
 
 		return this.id;
+	}
+
+	public boolean isShowEmployee() {
+		return showEmployee;
+	}
+
+	public void setShowEmployee(boolean showEmployee) {
+		this.showEmployee = showEmployee;
 	}
 
 }

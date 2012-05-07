@@ -863,10 +863,11 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void createCustomFieldControls() {
 		if (data != null && data.getCustomFieldValues() != null) {
 			customFieldForm.updateValues(data.getCustomFieldValues(),
-					getCompany(), false);
+					getCompany(), ClientPayee.TYPE_VENDOR);
 		}
 		customFieldForm.createControls(getCompany(),
-				data == null ? null : data.getCustomFieldValues(), false);
+				data == null ? null : data.getCustomFieldValues(),
+				ClientPayee.TYPE_VENDOR);
 		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
 				: data.getCustomFieldValues();
 		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
@@ -961,7 +962,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	private void updateVendorObject() {
 
 		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany(),
-				false);
+				ClientPayee.TYPE_CUSTOMER);
 		// Setting data from General Tab
 
 		// Setting Vendor Name

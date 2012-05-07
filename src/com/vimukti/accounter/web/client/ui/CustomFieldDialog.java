@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.customers.CustomerView;
 import com.vimukti.accounter.web.client.ui.edittable.CustomFieldTable;
+import com.vimukti.accounter.web.client.ui.payroll.NewEmployeeView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorView;
 
 /**
@@ -35,7 +36,7 @@ public class CustomFieldDialog extends BaseDialog {
 		this.parentView = view;
 		okbtn.setText(messages.save());
 		createControls();
-//		setPopupPosition(200, 200);
+		// setPopupPosition(200, 200);
 		initData();
 
 	}
@@ -105,6 +106,8 @@ public class CustomFieldDialog extends BaseDialog {
 		}
 		if (parentView instanceof CustomerView) {
 			((CustomerView) parentView).createCustomFieldControls();
+		} else if (parentView instanceof NewEmployeeView) {
+			((NewEmployeeView) parentView).createCustomFieldControls();
 		} else {
 			((VendorView) parentView).createCustomFieldControls();
 		}
