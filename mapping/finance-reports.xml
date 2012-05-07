@@ -3504,6 +3504,7 @@
 				       AND J.ID = :jobId
 				       AND J.CUSTOMER_ID = :payeeId
 				       AND T.SAVE_STATUS !=204
+				       AND T.T_TYPE in( 1, 4, 8)
 				GROUP  BY I.ID,
 				          J.ID;  
 				]]>
