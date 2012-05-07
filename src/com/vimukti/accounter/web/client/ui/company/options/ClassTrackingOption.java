@@ -22,7 +22,6 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	RadioGroupItem transactionRadioButton;
 
-	StyledPanel mainPanel;
 	StyledPanel hidePanel;
 
 	LabelItem oneperTransactionLabel, oneperdetaillineLabel;
@@ -54,11 +53,10 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		mainPanel = new StyledPanel("classTrackingMainpanel");
 		hidePanel = new StyledPanel("classTrackingHidepanel");
 
 		trackClassCheckBox = new CheckboxItem(messages.classTracking(),
-				"trackClassCheckBox");
+				"header");
 
 		classLabel = new LabelItem(messages.classInAllTransaction(),
 				"classLabel");
@@ -91,11 +89,9 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		hidePanel.add(oneperTransactionLabel);
 		hidePanel.add(oneperdetaillineLabel);
 		hidePanel.add(transactionRadioButton);
-		mainPanel.add(trackClassCheckBox);
-		mainPanel.add(classLabel);
-		mainPanel.add(hidePanel);
-		add(mainPanel);
-
+		add(trackClassCheckBox);
+		add(classLabel);
+		add(hidePanel);
 	}
 
 	@Override

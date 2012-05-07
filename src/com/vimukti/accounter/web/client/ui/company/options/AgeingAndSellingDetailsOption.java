@@ -45,24 +45,21 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 
-		ageingRadioGroup = new RadioGroupItem("", "ageingRadioGroup");
+		ageingRadioGroup = new RadioGroupItem("", "salesOrderandCheckBoxPanel");
 		ageingRadioGroup.setShowTitle(false);
-
 		ageingRadioGroup.setValueMap(messages.ageingforduedate(),
 				messages.ageingfortransactiondate());
 		ageingRadioGroup.setDefaultValue(messages.ageingforduedate());
 
-		ageingLabel = new LabelItem(messages.ageingDetails(), "ageingLabel");
+		ageingLabel = new LabelItem(messages.ageingDetails(), "header");
 		ageingdescriptionLabel = new LabelItem(
-				messages.agingDetailsDescription(), "ageingdescriptionLabel");
+				messages.agingDetailsDescription(), "organisation_comment");
 
 		salesOrderCheckBox = new CheckboxItem(
-				messages.enablePreference(messages.salesOrder()),
-				"salesOrderCheckBox");
-		salesOrderCheckBox.setStyleName("bold");
+				messages.enablePreference(messages.salesOrder()), "header");
 		salesOrderCheckBox.setVisible(Accounter
 				.hasPermission(Features.SALSE_ORDER));
-		mainPanel = new StyledPanel("ageingAndSellingDetailsOption");
+		mainPanel = new StyledPanel("ageingLabelAndDescPanel");
 		mainPanel.add(ageingRadioGroup);
 		mainPanel.add(salesOrderCheckBox);
 		add(mainPanel);

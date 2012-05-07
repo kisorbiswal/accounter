@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
@@ -8,8 +7,6 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	LabelItem shippingmedescritionLabel;
 	CheckboxItem useShipMethods;
-
-	StyledPanel mainPanel;
 
 	public DoyouUseShipingsOption() {
 		super("");
@@ -36,15 +33,11 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 
-		useShipMethods = new CheckboxItem(messages.Doyoudoshipping(),
-				"useShipMethods");
+		useShipMethods = new CheckboxItem(messages.Doyoudoshipping(), "header");
 		shippingmedescritionLabel = new LabelItem(
-				messages.Thisoptioncanbeusedtoenable(),
-				"shippingmedescritionLabel");
-		mainPanel = new StyledPanel("shippingMainPanel");
-		mainPanel.add(shippingmedescritionLabel);
-		mainPanel.add(useShipMethods);
-		add(mainPanel);
+				messages.Thisoptioncanbeusedtoenable(), "organisation_comment");
+		add(useShipMethods);
+		add(shippingmedescritionLabel);
 	}
 
 	@Override

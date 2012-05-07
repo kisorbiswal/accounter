@@ -10,7 +10,6 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 
 /**
@@ -21,8 +20,6 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 
 	SelectCombo timeZoneListBox;
 	private List<String> timezones;
-
-	StyledPanel mainPanel;
 
 	interface CompanyTimeZoneOptionUiBinder extends
 			UiBinder<Widget, CompanyTimeZoneOption> {
@@ -46,6 +43,7 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		timeZoneListBox = new SelectCombo(messages.timezone());
+		timeZoneListBox.addStyleName("header");
 		this.timezones = CoreUtils.getTimeZonesAsList();
 		for (String tz : timezones) {
 			timeZoneListBox.addItem(tz);
@@ -58,9 +56,7 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 				break;
 			}
 		}
-		mainPanel = new StyledPanel("timeZoneMainpanel");
-		mainPanel.add(timeZoneListBox);
-		add(mainPanel);
+		add(timeZoneListBox);
 
 	}
 

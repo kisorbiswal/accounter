@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -26,8 +25,6 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	CheckboxItem isEnableMultiCurrencyCheckBox;
 
 	LabelItem currencyCommentLabel;
-
-	StyledPanel mainPanel;
 
 	private List<ClientCurrency> currenciesList = new ArrayList<ClientCurrency>();
 
@@ -49,14 +46,15 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		primaryCurrencyListBox = new SelectCombo(messages.primaryCurrency());
+		primaryCurrencyListBox.addStyleName("header");
 		currenciesList = CoreUtils.getCurrencies(getCompany().getCurrencies());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"
 					+ currency.getDisplayName());
 		}
 		isEnableMultiCurrencyCheckBox = new CheckboxItem("",
-				"isEnableMultiCurrencyCheckBox");
-		currencyCommentLabel = new LabelItem("", "currencyCommentLabel");
+				"organisation_comment");
+		currencyCommentLabel = new LabelItem("", "organisation_comment");
 
 		boolean hasPermission = Accounter
 				.hasPermission(Features.MULTI_CURRENCY);
@@ -74,11 +72,9 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 			isEnableMultiCurrencyCheckBox.setEnabled(false);
 		}
 		setEnable(false);
-		mainPanel = new StyledPanel("CompanyCurrencyOption");
-		mainPanel.add(primaryCurrencyListBox);
-		mainPanel.add(isEnableMultiCurrencyCheckBox);
-		mainPanel.add(currencyCommentLabel);
-		add(mainPanel);
+		add(primaryCurrencyListBox);
+		add(isEnableMultiCurrencyCheckBox);
+		add(currencyCommentLabel);
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -18,8 +17,6 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 	CheckboxItem isPriceLevelsEnabled;
 
 	CheckboxItem purchaseOrderCheckBox;
-
-	StyledPanel mainPanel;
 
 	public ManageBillsOption() {
 		super("");
@@ -44,37 +41,29 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		managingBillLabelItem = new LabelItem(messages.managingBills(),
-				"managingBillLabelItem");
+				"header");
 		managingBilldescritionLabel = new LabelItem(
-				messages.managingBillDescription(),
-				"managingBilldescritionLabel");
-		managingBilldescritionLabel.setStyleName("organisation_comment");
+				messages.managingBillDescription(), "organisation_comment");
 
 		managingBillRadioGroup = new RadioGroupItem();
 		managingBillRadioGroup.setGroupName("managingBillRadioGroup");
 		managingBillRadioGroup.setShowTitle(false);
+		managingBillRadioGroup.addStyleName("manageBillsOweRadioButtonsPanel");
 
 		managingBillRadioGroup.setValueMap(messages.yes(), messages.no());
 		managingBillRadioGroup.setDefaultValue(messages.ageingforduedate());
 
 		isPriceLevelsEnabled = new CheckboxItem(messages.enabled() + " "
-				+ messages.priceLevel(), "isPriceLevelsEnabled");
-		isPriceLevelsEnabled.setStyleName("header");
+				+ messages.priceLevel(), "header");
 		purchaseOrderCheckBox = new CheckboxItem(
-				messages.enablePreference(messages.purchaseOrder()),
-				"purchaseOrderCheckBox");
+				messages.enablePreference(messages.purchaseOrder()), "header");
 		purchaseOrderCheckBox.setVisible(Accounter
 				.hasPermission(Features.PURCHASE_ORDER));
-		purchaseOrderCheckBox.setStyleName("bold");
-
-		mainPanel = new StyledPanel("manageBillsOption");
-		mainPanel.add(managingBillLabelItem);
-		mainPanel.add(managingBilldescritionLabel);
-		mainPanel.add(managingBillRadioGroup);
-		mainPanel.add(isPriceLevelsEnabled);
-		mainPanel.add(purchaseOrderCheckBox);
-		add(mainPanel);
-
+		add(managingBillLabelItem);
+		add(managingBilldescritionLabel);
+		add(managingBillRadioGroup);
+		add(isPriceLevelsEnabled);
+		add(purchaseOrderCheckBox);
 	}
 
 	@Override

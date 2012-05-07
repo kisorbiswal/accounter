@@ -40,8 +40,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	StyledPanel hiddenPanel;
 	StyledPanel totalPanel;
 	StyledPanel subpanel;
-	StyledPanel mainPanel;
-
 	SelectCombo inventorySchemeListBox;
 
 	public String[] inventorySchemeList = { messages.firstInfirstOut(),
@@ -75,7 +73,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 
-		headerLabel = new LabelItem(messages.whatDoYouSell(), "headerLabel");
+		headerLabel = new LabelItem(messages.whatDoYouSell(), "header");
 		// servicesOnlyText.setText(constants.whatDoYouSell());
 		totalPanel = new StyledPanel("totalPanel");
 		totalPanel.add(headerLabel);
@@ -91,7 +89,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			servicesProductsTypeCombo.addItem(serviceOrProductList[i]);
 		}
 		servicesProductsTypeCombo.setComboItem(serviceOrProductList[1]);
-		subpanel = new StyledPanel("subpanel");
+		subpanel = new StyledPanel("sell_panel");
 		subpanel.add(servicesOnlyText);
 		subpanel.add(productsOnlyText);
 		subpanel.add(bothText);
@@ -151,13 +149,11 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 				}
 			}
 		});
-		invetoryPanel = new StyledPanel("invetoryPanel");
+		invetoryPanel = new StyledPanel("inventorysuboption");
 		invetoryPanel.add(inventoryCheckBox);
-		mainPanel = new StyledPanel("productAndServicesOption");
-		mainPanel.add(subpanel);
-		mainPanel.add(invetoryPanel);
-		mainPanel.add(hiddenPanel);
-		add(mainPanel);
+		add(subpanel);
+		add(invetoryPanel);
+		add(hiddenPanel);
 	}
 
 	@Override

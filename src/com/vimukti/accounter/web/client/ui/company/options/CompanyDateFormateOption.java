@@ -1,11 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
@@ -16,8 +14,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
  * 
  */
 public class CompanyDateFormateOption extends AbstractPreferenceOption {
-	private static CompanyDateFormateOptionUiBinder uiBinder = GWT
-			.create(CompanyDateFormateOptionUiBinder.class);
 
 	SelectCombo dateFormateComboBox;
 
@@ -25,8 +21,6 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	LabelItem dateFormateDescriptionlabel;
 	String[] dateFormates;
-
-	StyledPanel mainPanel;
 
 	interface CompanyDateFormateOptionUiBinder extends
 			UiBinder<Widget, CompanyDateFormateOption> {
@@ -59,7 +53,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 	public void createControls() {
 
 		dateFormateComboBox = new SelectCombo(messages.DateFormat());
-
+		dateFormateComboBox.addStyleName("header");
 		dateFormates = new String[] { "ddMMyy", "MM/dd/yy", "dd/MM/yy",
 				"ddMMyyyy", "MMddyyyy", "MMM-dd-yy", "MMMddyyyy", "dd/MM/yyyy",
 				"MM/dd/yyyy", "dd/MMMM/yyyy", "MMMMddyyyy", "dd-MM-yyyy",
@@ -70,7 +64,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 		}
 
 		dateFormateDescriptionlabel = new LabelItem(messages.DateFormats(),
-				"dateFormateDescriptionlabel");
+				"dateFormatDescPanel");
 		dateFormateDescriptionlabel.setStyleName("organisation_comment");
 		dateFormateComboBox.addChangeHandler(new ChangeHandler() {
 
@@ -82,11 +76,9 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 		exampleDateFomateLabel = new LabelItem(messages.Example(),
 				"organisation_comment");
-		mainPanel = new StyledPanel("companyDateFormateOption");
-		mainPanel.add(dateFormateComboBox);
-		mainPanel.add(exampleDateFomateLabel);
-		mainPanel.add(dateFormateDescriptionlabel);
-		add(mainPanel);
+		add(dateFormateComboBox);
+		add(exampleDateFomateLabel);
+		add(dateFormateDescriptionlabel);
 	}
 
 	@Override

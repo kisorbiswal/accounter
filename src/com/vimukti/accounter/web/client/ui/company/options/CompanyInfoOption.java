@@ -6,15 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
@@ -94,8 +91,6 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 	StyledPanel mainPanel;
 
-	StyledPanel legalNamePanel;
-
 	StyledPanel registeredAddressSubPanel;
 
 	StyledPanel tradingAddressSubPanel;
@@ -104,15 +99,12 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 	StyledPanel registeredAddressPanel;
 
-	private static CompanyInfoOptionUiBinder uiBinder = GWT
-			.create(CompanyInfoOptionUiBinder.class);
-
 	interface CompanyInfoOptionUiBinder extends
 			UiBinder<Widget, CompanyInfoOption> {
 	}
 
 	public CompanyInfoOption() {
-		super("AbstractStylePanel");
+		super("companyInfoPanel");
 		createControls();
 		initData();
 	}
@@ -149,49 +141,41 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		isShowLegalName.setValue(getCompanyPreferences().isShowLegalName());
 		legalNameTextBox.setValue(getCompanyPreferences().getLegalName());
 		companyNameTextBox.setValue(getCompany().getDisplayName());
-		legalNamePanel.setVisible(getCompanyPreferences().isShowLegalName());
 		// Phone Number
 		companyPhoneNumberTextBox.setValue(getCompany().getPhone());
 		fiscalStartsCombo.setSelectedItem(getCompanyPreferences()
 				.getFiscalYearFirstMonth());
-
-		addFields(getCompany().getPreferences().getCompanyFields());
+		tCountryChanged();
 	}
 
 	public void createControls() {
 		List<String> countriesList = CoreUtils.getCountriesAsList();
 
-		companyNameTextBox = new TextItem(messages.companyName(),
-				"companyNameTextbox");
+		companyNameTextBox = new TextItem(messages.companyName(), "header");
 
 		isShowLegalName = new CheckboxItem(messages.getDifferentLegalName(),
 				"isShowLegalName");
 
-		legalNamePanel = new StyledPanel("legalNamePanel");
-		legalNameTextBox = new TextItem(messages.legalName(),
-				"legelnameTextbox");
+		legalNameTextBox = new TextItem(messages.legalName(), "header");
 
 		mainPanel = new StyledPanel("CompanyInfoOption");
 		mainPanel.add(companyNameTextBox);
 		mainPanel.add(isShowLegalName);
-		legalNamePanel.add(legalNameTextBox);
-		mainPanel.add(legalNamePanel);
+		mainPanel.add(legalNameTextBox);
 
 		isShowLegalName.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				legalNamePanel.setVisible(isShowLegalName.getValue());
-
+				legalNameTextBox.setVisible(isShowLegalName.getValue());
 			}
 		});
 
-		tradingAddressTitle = new LabelItem(messages.tradingAddress(),
-				"tradingAddressLabelItem");
+		tradingAddressTitle = new LabelItem(messages.tradingAddress(), "header");
 
 		tradingAddressDescription = new LabelItem(
-				messages.tradingAddressDescription(), "tradingAdressDescLabel");
-		tradingAddressPanel = new StyledPanel("tradingAddressPanel");
+				messages.tradingAddressDescription(), "organisation_comment");
+		tradingAddressPanel = new StyledPanel("address_panel");
 		tradingAddressPanel.add(tradingAddressTitle);
 		tradingAddressPanel.add(tradingAddressDescription);
 
@@ -208,12 +192,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 		tCountryCombo = new SelectCombo(messages.country());
 		tCountryCombo.initCombo(countriesList);
-		tCountryCombo.setSelected(getCompany().getTradingAddress()
-				.getCountryOrRegion());
 		tCountryCombo.setEnabled(false);
 		tStateCombo = new SelectCombo(messages.state());
-		tStateCombo.initCombo(CoreUtils.getStatesAsListForCountry(tCountryCombo
-				.getSelectedValue()));
 
 		tradingAddressSubPanel = new StyledPanel("tradingAddressSubPanel");
 		tradingAddressSubPanel.add(tAddress1TextBox);
@@ -252,13 +232,11 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		rPostalCodeTextbox = new TextItem(messages.postalCode(),
 				"rPostalCodeTextbox");
 		rStateCombo = new SelectCombo(messages.state());
+
 		rCountryCombo = new SelectCombo(messages.country());
 		rCountryCombo.initCombo(countriesList);
-		rCountryCombo.setSelected(getCompany().getTradingAddress()
-				.getCountryOrRegion());
 		rCountryCombo.setEnabled(false);
-		rStateCombo.initCombo(CoreUtils.getStatesAsListForCountry(rCountryCombo
-				.getSelectedValue()));
+
 		registeredAddressSubPanel = new StyledPanel("registeredAddressSubPanel");
 		registeredAddressSubPanel.add(rAddress1TextBox);
 		registeredAddressSubPanel.add(rAddress2TextBox);
@@ -284,31 +262,22 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				&& getCompany().getTradingAddress().getCountryOrRegion() != null) {
 			tCountryCombo.setComboItem(getCompany().getTradingAddress()
 					.getCountryOrRegion());
+			tStateCombo
+					.initCombo(CoreUtils
+							.getStatesAsListForCountry(tCountryCombo
+									.getSelectedValue()));
 		}
-		ClientAddress addr = getCompany().getRegisteredAddress();
-		if (addr == null) {
-			addr = getCompany().getTradingAddress();
-		}
-		if (addr != null && addr.getCountryOrRegion() != null) {
-			rCountryCombo.setComboItem(getCompany().getTradingAddress()
+
+		if (getCompany().getRegisteredAddress() != null
+				&& getCompany().getRegisteredAddress().getCountryOrRegion() != null) {
+			rCountryCombo.setComboItem(getCompany().getRegisteredAddress()
 					.getCountryOrRegion());
+			rStateCombo
+					.initCombo(CoreUtils
+							.getStatesAsListForCountry(rCountryCombo
+									.getSelectedValue()));
 		}
-		tCountryCombo.addChangeHandler(new ChangeHandler() {
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				tCountryChanged();
-			}
-		});
-		tCountryChanged();
-		rCountryCombo.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				rCountryChanged();
-			}
-		});
-		rCountryChanged();
 		// website
 		companyWebsiteTextBox = new TextItem(messages.webSite(),
 				"companyWebsiteTextBox");
@@ -337,6 +306,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		// Fiscal year
 		fiscalStartsCombo = new SelectCombo(
 				messages.selectFirstMonthOfFiscalYear());
+		fiscalStartsCombo.addStyleName("header");
 		monthNames = new String[] { DayAndMonthUtil.january(),
 				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
 				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
@@ -354,36 +324,6 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		mainPanel.add(fiscalStartsCombo);
 		add(mainPanel);
 
-	}
-
-	private void rCountryChanged() {
-		int selectedCountry = rCountryCombo.getSelectedIndex();
-		if (selectedCountry < 0) {
-			return;
-		}
-
-		String countryName = rCountryCombo.getSelectedValue();
-		Map<String, String> fields = new HashMap<String, String>();
-		for (String fieldName : countryPreferences.getCompanyFields()) {
-			fields.put(fieldName, "");
-		}
-		String[] states = countryPreferences.getStates();
-		if (countryPreferences.getStates() != null) {
-			states = countryPreferences.getStates();
-		} else {
-			states = new String[] { "" };
-		}
-		List<String> statesList = Arrays.asList(states);
-		for (String state : statesList) {
-			rStateCombo.addItem(state);
-		}
-		ClientAddress address = getCompany().getRegisteredAddress();
-		if (address != null && address.getStateOrProvinence() != null) {
-			if (statesList.contains(address.getStateOrProvinence())) {
-				rStateCombo.setSelectedItem(statesList.indexOf(address
-						.getStateOrProvinence()));
-			}
-		}
 	}
 
 	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
@@ -409,6 +349,33 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			return;
 		}
 		String countryName = tCountryCombo.getSelectedValue();
+
+		Accounter.createCompanyInitializationService().getCountryPreferences(
+				countryName, new AsyncCallback<CountryPreferences>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(CountryPreferences result) {
+						countryPreferences = result;
+						updateRCountry();
+					}
+				});
+
+	}
+
+	protected void updateRCountry() {
+		Map<String, String> fields = new HashMap<String, String>();
+		for (String fieldName : countryPreferences.getCompanyFields()) {
+			fields.put(fieldName, "");
+		}
+		fields.putAll(getCompany().getPreferences().getCompanyFields());
+		addFields(fields);
+
 		String[] states = countryPreferences.getStates();
 		if (countryPreferences.getStates() != null) {
 			states = countryPreferences.getStates();
@@ -419,6 +386,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tStateCombo.clear();
 		for (String state : statesList) {
 			tStateCombo.addItem(state);
+			rStateCombo.addItem(state);
 		}
 		ClientAddress tradingAddress = getCompanyPreferences()
 				.getTradingAddress();
@@ -426,6 +394,14 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				&& tradingAddress.getStateOrProvinence() != null) {
 			if (statesList.contains(tradingAddress.getStateOrProvinence())) {
 				tStateCombo.setSelectedItem(statesList.indexOf(tradingAddress
+						.getStateOrProvinence()));
+			}
+		}
+
+		ClientAddress address = getCompany().getRegisteredAddress();
+		if (address != null && address.getStateOrProvinence() != null) {
+			if (statesList.contains(address.getStateOrProvinence())) {
+				rStateCombo.setSelectedItem(statesList.indexOf(address
 						.getStateOrProvinence()));
 			}
 		}
@@ -507,16 +483,5 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	@Override
 	public String getAnchor() {
 		return messages.nameAddress();
-	}
-
-	@UiHandler("isShowRegisteredAddressCheckBox")
-	void onIsShowRegisteredAddressCheckBoxValueChange(
-			ValueChangeEvent<Boolean> event) {
-		registeredAddressPanel.setVisible(event.getValue());
-	}
-
-	@UiHandler("isShowLegalName")
-	void onIsShowLegalNameValueChange(ValueChangeEvent<Boolean> event) {
-		legalNamePanel.setVisible(event.getValue());
 	}
 }

@@ -17,8 +17,7 @@ import com.vimukti.accounter.web.client.ui.StyledPanel;
 public abstract class AbstractPreferenceOption extends StyledPanel {
 
 	public AbstractPreferenceOption(String styleName) {
-		super(styleName);
-		// TODO Auto-generated constructor stub
+		super("companyInfoPanel");
 	}
 
 	@Override

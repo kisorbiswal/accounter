@@ -2,8 +2,8 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
  * 
@@ -23,8 +23,6 @@ public class CreditsOption extends AbstractPreferenceOption {
 
 	CheckboxItem creditsApplyAutomatic;
 
-	StyledPanel mainPanel;
-
 	@Override
 	public void onSave() {
 		getCompanyPreferences().setCreditsApplyAutomatically(
@@ -40,11 +38,11 @@ public class CreditsOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		creditsApplyAutomatic = new CheckboxItem(
-				messages.creditsOptionLabelTxt(), "creditsApplyAutomatic");
-		mainPanel = new StyledPanel("creditsOption");
-		mainPanel.add(creditsApplyAutomatic);
-		add(mainPanel);
-
+				messages.automaticallyApplycredits(), "header");
+		add(creditsApplyAutomatic);
+		LabelItem descItem = new LabelItem(messages.creditsOptionLabelTxt(),
+				"organisation_comment");
+		add(descItem);
 	}
 
 	@Override

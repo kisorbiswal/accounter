@@ -35,10 +35,6 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 
 	StyledPanel hidePanel;
 
-	StyledPanel radioButtonPanel;
-
-	StyledPanel mainPanel;
-
 	/**
 	 * Because this class has a default constructor, it can be used as a binder
 	 * template. In other words, it can be used in other *.ui.xml files as
@@ -69,9 +65,7 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		mainPanel = new StyledPanel("trackOrChargeTaxOption");
-		trackCheckbox = new CheckboxItem(messages.chargeOrTrackTax(),
-				"trackCheckbox");
+		trackCheckbox = new CheckboxItem(messages.chargeOrTrackTax(), "header");
 
 		trackCheckBoxDescLabel = new LabelItem(messages.descChrageTrackTax(),
 				"organisation_comment");
@@ -106,8 +100,7 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		enableTaxLabel = new LabelItem(messages.enableTrackingDescription(),
 				"organisation_comment");
 
-		enableTaxTdsCheckbox = new CheckboxItem(messages.enableTDS(),
-				"enableTaxTdsCheckbox");
+		enableTaxTdsCheckbox = new CheckboxItem(messages.enableTDS(), "header");
 		enableTDSdecs = new LabelItem(messages.enbleTDSdescription(),
 				"organisation_comment");
 
@@ -116,8 +109,8 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		enableTDSdecs.setVisible(getCompany().getCountryPreferences()
 				.isTDSAvailable());
 
-		mainPanel.add(trackCheckbox);
-		mainPanel.add(trackCheckBoxDescLabel);
+		add(trackCheckbox);
+		add(trackCheckBoxDescLabel);
 
 		hidePanel = new StyledPanel("trackTaxhidePanel");
 		hidePanel.add(taxItemTransactionLabel);
@@ -128,7 +121,7 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		hidePanel.add(enableTaxLabel);
 		hidePanel.add(enableTaxTdsCheckbox);
 		hidePanel.add(enableTDSdecs);
-		mainPanel.add(hidePanel);
+		add(hidePanel);
 
 	}
 

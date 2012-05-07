@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 /**
  * 
@@ -39,11 +39,12 @@ public class AccountNumberRangeOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		accountNumberRangeCheck = new CheckboxItem(
+				messages.accountNumberRangeCheck(), "header");
+		LabelItem item = new LabelItem(
 				messages.enableOrDisableTheAccountNumberRangeChecking(),
-				"accountNumberRangeCheck");
-		StyledPanel mainpanel = new StyledPanel("accountNumberRangeOption");
-		mainpanel.add(accountNumberRangeCheck);
-		add(mainpanel);
+				"organisation_comment");
+		add(accountNumberRangeCheck);
+		add(item);
 	}
 
 	@Override

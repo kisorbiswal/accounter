@@ -3,26 +3,21 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class LocationTrackingOption extends AbstractPreferenceOption {
 	LabelItem radioButtonsHeaderLabel;
 
-	CheckBox locationTrackingCheckBoxItm;
+	CheckboxItem locationTrackingCheckBoxItm;
 
 	SelectCombo locationTermSelectCombo;
-
-	StyledPanel mainPanel;
-
-	StyledPanel radioButtonsPanel;
 
 	LabelItem locationTrackingDescriptionLabel;
 
@@ -83,11 +78,11 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 			locationTrackingCheckBoxItm.setValue(true);
 			locationTrackingCheckBoxItm.setTitle(messages
 					.locationTracking(Global.get().Location()));
-			radioButtonsPanel
-					.setVisible(locationTrackingCheckBoxItm.getValue());
+			locationTermSelectCombo.setVisible(locationTrackingCheckBoxItm
+					.getValue());
 		} else {
-			radioButtonsPanel
-					.setVisible(locationTrackingCheckBoxItm.getValue());
+			locationTermSelectCombo.setVisible(locationTrackingCheckBoxItm
+					.getValue());
 		}
 
 	}
@@ -134,6 +129,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 	public void createControls() {
 		locationTermSelectCombo = new SelectCombo(
 				messages.useTerminologyFor(Global.get().Location()));
+		locationTermSelectCombo.addStyleName("header");
 		for (int i = 0; i < locationsList.length; i++) {
 
 			locationTermSelectCombo.addItem(locationsList[i]);
@@ -141,30 +137,25 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 		locationTermSelectCombo.setComboItem(locationsList[0]);
 		locationTrackingDescriptionLabel = new LabelItem(
 				messages.locationTrackingDescription(),
-				"locationTrackingDescriptionLabel");
+				"locationTrackDescPanel");
 
-		locationTrackingDescriptionLabel.setStyleName("organisation_comment");
-		locationTrackingCheckBoxItm = new CheckBox(
-				messages.locationTracking(Global.get().Location()));
+		locationTrackingCheckBoxItm = new CheckboxItem(
+				messages.locationTracking(Global.get().Location()), "header");
 		locationTrackingCheckBoxItm.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (Accounter.hasPermission(Features.LOCATION)) {
-					radioButtonsPanel.setVisible(locationTrackingCheckBoxItm
-							.getValue());
+					locationTermSelectCombo
+							.setVisible(locationTrackingCheckBoxItm.getValue());
 				} else {
 					locationTrackingCheckBoxItm.setValue(false);
 					Accounter.showSubscriptionWarning();
 				}
 			}
 		});
-		radioButtonsPanel = new StyledPanel("locationadioButtonsPanel");
-		mainPanel = new StyledPanel("locationTrackingOption");
-		mainPanel.add(locationTrackingCheckBoxItm);
-		mainPanel.add(locationTrackingDescriptionLabel);
-		radioButtonsPanel.add(locationTermSelectCombo);
-		mainPanel.add(radioButtonsPanel);
-		add(mainPanel);
+		add(locationTrackingCheckBoxItm);
+		add(locationTrackingDescriptionLabel);
+		add(locationTermSelectCombo);
 	}
 }

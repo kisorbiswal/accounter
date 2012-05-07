@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
@@ -29,8 +28,6 @@ public class TerminologyOption extends AbstractPreferenceOption {
 
 	RadioGroupItem vendorRadioGroup;
 
-	StyledPanel mainpPanel;
-
 	public String[] customerTermsList = { messages.customer(),
 			messages.Client(), messages.Tenant(), messages.Donar(),
 			messages.Guest(), messages.Member(), messages.Patient() };
@@ -43,8 +40,7 @@ public class TerminologyOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		terminologyforCustomerLabel = new LabelItem(
-				messages.useTerminologyFor(Global.get().Customer()),
-				"terminologyforCustomerLabel");
+				messages.useTerminologyFor(Global.get().Customer()), "header");
 
 		customerDescriptionLabel = new LabelItem(
 				messages.customerDescription(), "organisation_comment");
@@ -53,30 +49,31 @@ public class TerminologyOption extends AbstractPreferenceOption {
 		for (int i = 0; i < customerTermsList.length; i++) {
 			customerTerminolgyCombo.addItem(customerTermsList[i]);
 		}
+		customerTerminolgyCombo.addStyleName("terminologycustomerradio");
+
 		customerTerminolgyCombo.setSelected(messages.customer());
 
-		mainpPanel = new StyledPanel("terminologyOption");
-		mainpPanel.add(terminologyforCustomerLabel);
-		mainpPanel.add(customerDescriptionLabel);
-		mainpPanel.add(customerTerminolgyCombo);
+		add(terminologyforCustomerLabel);
+		add(customerDescriptionLabel);
+		add(customerTerminolgyCombo);
 
 		vendorsHeaderLabel = new LabelItem(messages.useTerminologyFor(Global
-				.get().Vendor()), "vendorsHeaderLabel");
+				.get().Vendor()), "header");
 
 		vendorsDescriptionLabel = new LabelItem(messages.vendorDescription(),
 				"organisation_comment");
 
 		vendorRadioGroup = new RadioGroupItem();
 		vendorRadioGroup.setGroupName("vendorRadioGroup");
+		vendorRadioGroup.addStyleName("terminologycustomerradio");
 		vendorRadioGroup.setShowTitle(false);
 
 		vendorRadioGroup.setValueMap(messages.Vendor(), messages.Supplier());
 		vendorRadioGroup.setValue(messages.Vendor());
 
-		mainpPanel.add(vendorsHeaderLabel);
-		mainpPanel.add(vendorsDescriptionLabel);
-		mainpPanel.add(vendorRadioGroup);
-		add(mainpPanel);
+		add(vendorsHeaderLabel);
+		add(vendorsDescriptionLabel);
+		add(vendorRadioGroup);
 	}
 
 	@Override

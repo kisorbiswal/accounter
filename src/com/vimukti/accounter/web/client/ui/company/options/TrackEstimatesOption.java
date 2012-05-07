@@ -41,16 +41,15 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		trackEstimateHeader = new LabelItem(messages.trackingEstimates(),
-				"bold");
+				"header");
 
 		yesOrNoRadioButton = new CheckboxItem(messages.trackingEstimates(),
-				"yesOrNoRadioButton");
+				"yesnobutton");
 		// yesOrNoRadioButton.setShowTitle(false);
 		// yesOrNoRadioButton.setValueMap(messages.yes(), messages.no());
 		// yesOrNoRadioButton.setDefaultValue(messages.no());
 
-		inCludeOrNotRadoiGroup = new RadioGroupItem("",
-				"inCludeOrNotRadoiGroup");
+		inCludeOrNotRadoiGroup = new RadioGroupItem("", "doincludeaccepted");
 		inCludeOrNotRadoiGroup.setGroupName("inCludeOrNotRadoiGroup");
 		inCludeOrNotRadoiGroup.setShowTitle(false);
 		inCludeOrNotRadoiGroup.setValueMap(

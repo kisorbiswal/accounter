@@ -66,7 +66,7 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 	public void createControls() {
 
 		trackDiscountCheckBox = new CheckboxItem(messages.trackDiscount(),
-				"trackDiscountCheckBox");
+				"header");
 		discountLabel = new LabelItem(messages.discountInAllTransaction(),
 				"discountLabel");
 

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 
 public class ExpensesByCustomerOption extends AbstractPreferenceOption {
@@ -9,8 +8,6 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 	CheckboxItem expenseandProductandServiceTrackingbyCustomer;
 
 	CheckboxItem UseBillableExpenseCheckBox;
-
-	StyledPanel mainPanel;
 
 	public ExpensesByCustomerOption() {
 		super("");
@@ -41,15 +38,12 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 	public void createControls() {
 		expenseandProductandServiceTrackingbyCustomer = new CheckboxItem(
 				messages.Expenseandproductservicetrackingbycustomer(Global
-						.get().customer()),
-				"expenseandProductandServiceTrackingbyCustomer");
+						.get().customer()), "header");
 
 		UseBillableExpenseCheckBox = new CheckboxItem(
-				messages.useBillabelExpenses(), "UseBillableExpenseCheckBox");
-		mainPanel = new StyledPanel("expensesByCustomerOption");
-		mainPanel.add(expenseandProductandServiceTrackingbyCustomer);
-		mainPanel.add(UseBillableExpenseCheckBox);
-		add(mainPanel);
+				messages.useBillabelExpenses(), "header");
+		add(expenseandProductandServiceTrackingbyCustomer);
+		add(UseBillableExpenseCheckBox);
 	}
 
 	@Override

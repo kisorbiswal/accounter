@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.company.CurrencyFormatDialog;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
@@ -12,8 +11,6 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 	LabelItem currencyFormatLabel;
 
 	Button currencyFormatButton;
-
-	StyledPanel mainPanel;
 
 	public CurrencyFormatOption() {
 		super("");
@@ -33,9 +30,7 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-
-		currencyFormatLabel = new LabelItem(messages.currencyFormat(),
-				"currencyFormatLabel");
+		currencyFormatLabel = new LabelItem(messages.currencyFormat(), "header");
 		currencyFormatButton = new Button(messages.changeCurrencyFormat());
 		currencyFormatButton.addClickHandler(new ClickHandler() {
 
@@ -47,11 +42,8 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 				dialog.center();
 			}
 		});
-		mainPanel = new StyledPanel("CurrencyFormatOption");
-		mainPanel.add(currencyFormatLabel);
-		mainPanel.add(currencyFormatButton);
-		add(mainPanel);
-
+		add(currencyFormatLabel);
+		add(currencyFormatButton);
 	}
 
 	@Override

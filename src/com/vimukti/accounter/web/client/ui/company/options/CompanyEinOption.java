@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -18,8 +17,6 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 	LabelItem EindescriptionLabel;
 
 	TextItem EINTextBox;
-
-	StyledPanel mainPanel;
 
 	interface CompanyEinOptionUiBinder extends
 			UiBinder<Widget, CompanyEinOption> {
@@ -47,13 +44,10 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		EindescriptionLabel = new LabelItem(messages.EINDescription(),
-				"EindescriptionLabel");
-		EINTextBox = new TextItem(messages.taxId(), "EINTextBox");
-		mainPanel = new StyledPanel("EINPanel");
-		mainPanel.add(EindescriptionLabel);
-		mainPanel.add(EINTextBox);
-		add(mainPanel);
-
+				"einDescPanel");
+		EINTextBox = new TextItem(messages.taxId(), "header");
+		add(EINTextBox);
+		add(EindescriptionLabel);
 	}
 
 	@Override
