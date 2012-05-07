@@ -69,8 +69,14 @@ public class PayEmployeeView extends
 		if (!isTemplate) {
 			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
-		employeeCombo = new EmployeesAndGroupsCombo(messages.employeeGroup(),
-				"employee-group");
+		employeeCombo = new EmployeesAndGroupsCombo(messages.employeeOrGroup(),
+				"employee-group") {
+			@Override
+			public void selectCombo() {
+				super.selectCombo();
+				employeeSelected(getSelectedValue());
+			}
+		};
 		employeeCombo.setRequired(true);
 		employeeCombo.setEnabled(!isInViewMode());
 		employeeCombo
@@ -127,6 +133,9 @@ public class PayEmployeeView extends
 	}
 
 	protected void employeeSelected(ClientPayStructureDestination selectItem) {
+		if (transaction.isVoid()) {
+			return;
+		}
 		table.clear();
 		if (selectItem != null) {
 			Accounter.createPayrollService().getTransactionPayEmployeeList(
@@ -147,9 +156,14 @@ public class PayEmployeeView extends
 	}
 
 	protected void setRecordsToTable(List<ClientTransactionPayEmployee> result) {
-		if (table != null && result != null) {
-			table.setRecords(result);
+		table.setAllRows(transaction.getTransactionPayEmployee());
+		table.selectAllRows(true);
+		if (result != null) {
+			for (ClientTransactionPayEmployee clientTransactionPayEmployee : result) {
+				table.add(clientTransactionPayEmployee);
+			}
 		}
+
 	}
 
 	@Override
@@ -288,7 +302,6 @@ public class PayEmployeeView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		employeeCombo.setEnabled(!isInViewMode());
 		bankAccountCombo.setEnabled(!isInViewMode());
 		table.setEnabled(!isInViewMode());
 		memoTextAreaItem.setEnabled(isInViewMode());

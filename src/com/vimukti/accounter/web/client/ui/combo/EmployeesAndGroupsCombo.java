@@ -74,7 +74,7 @@ public class EmployeesAndGroupsCombo extends
 		}
 	}
 
-	private void selectCombo() {
+	public void selectCombo() {
 		if (this.empGroup != 0) {
 			for (ClientPayStructureDestination item : getComboItems()) {
 				if (isEmployee) {

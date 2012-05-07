@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.payroll;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -13,7 +11,6 @@ import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DateColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
-import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public abstract class PayEmployeeTable extends
@@ -32,15 +29,6 @@ public abstract class PayEmployeeTable extends
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayEmployee row) {
 				onSelectionChanged(row, value);
-			}
-
-			@Override
-			public void render(IsWidget widget,
-					RenderContext<ClientTransactionPayEmployee> context) {
-				super.render(widget, context);
-				if (isInViewMode()) {
-					((CheckBox) widget).setValue(true);
-				}
 			}
 
 			@Override

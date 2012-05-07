@@ -145,12 +145,12 @@ public class PayEmployee extends Transaction {
 		return super.onDelete(session);
 	}
 
-	private void doVoidEffect(Session session, PayEmployee payBill) {
-		payBill.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		for (TransactionPayEmployee transactionPayBill : this.transactionPayEmployee) {
-			transactionPayBill.setIsVoid(true);
-			transactionPayBill.onUpdate(session);
-			session.update(transactionPayBill);
+	private void doVoidEffect(Session session, PayEmployee payEmployee) {
+		payEmployee.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		for (TransactionPayEmployee transactionPayEmployee : this.transactionPayEmployee) {
+			transactionPayEmployee.setIsVoid(true);
+			transactionPayEmployee.onUpdate(session);
+			session.update(transactionPayEmployee);
 		}
 
 	}
@@ -202,7 +202,7 @@ public class PayEmployee extends Transaction {
 	@Override
 	public void onEdit(Transaction clonedObject) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		PayBill payBill = (PayBill) clonedObject;
+		PayEmployee payEmployee = (PayEmployee) clonedObject;
 
 		if (this.transactionPayEmployee != null) {
 			for (TransactionPayEmployee tpb : this.transactionPayEmployee) {
@@ -211,7 +211,7 @@ public class PayEmployee extends Transaction {
 		}
 
 		if (isDraftOrTemplate()) {
-			super.onEdit(payBill);
+			super.onEdit(payEmployee);
 			return;
 		}
 
@@ -220,10 +220,10 @@ public class PayEmployee extends Transaction {
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if (this.isVoid() && !payBill.isVoid()) {
+		if (this.isVoid() && !payEmployee.isVoid()) {
 			doVoidEffect(session, this);
 		}
 
-		super.onEdit(payBill);
+		super.onEdit(payEmployee);
 	}
 }

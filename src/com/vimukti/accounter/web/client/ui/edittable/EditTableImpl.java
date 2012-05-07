@@ -260,7 +260,7 @@ public class EditTableImpl<R> {
 			for (int y = 0; y < list.size(); y++) {
 				Widget widget = table.getWidget(x, y);
 				if (widget instanceof CheckBox) {
-					((CheckBox) widget).setEnabled(!isDisable);
+					((CheckBox) widget).setEnabled(isDisable);
 				}
 			}
 		}

@@ -94,9 +94,10 @@ public class TransactionPayEmployee extends CreatableObject implements
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.getPayEmployee().isVoid()) {
 			doReverseEffect(true);
 		}
+
 		return false;
 	}
 
@@ -118,7 +119,7 @@ public class TransactionPayEmployee extends CreatableObject implements
 			return false;
 		}
 
-		if (this.payEmployee.isVoid()) {
+		if (this.isVoid()) {
 			doReverseEffect(false);
 		}
 
@@ -129,7 +130,7 @@ public class TransactionPayEmployee extends CreatableObject implements
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		double amount = (this.payment);
+		double amount = this.payment;
 
 		if (this.payRun != null) {
 			this.payRun.updateBalance(-amount);

@@ -12373,9 +12373,27 @@
 			
 			]]>
 	</sql-query>
+	
+	<sql-query name="canDeletePayEmployee">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
 
+		<return-scalar column="ID" type="long" />
+		
+		<![CDATA[
+				SELECT PE.ID AS ID
+				FROM   PAY_EMPLOYEE PE
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = PE.ID
+				WHERE  PE.ID IS NULL
+				       AND PE.ID = :inputId
+				       AND T.COMPANY_ID = :companyId
+				LIMIT  1  
+				]]>
+
+	</sql-query>
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
-
+	
 </hibernate-mapping>
