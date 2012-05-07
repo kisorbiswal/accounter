@@ -941,6 +941,7 @@
 		<property name="name" type="encryptedstring" column="NAME"></property>
 		<property name="showCustomer" column="SHOWCUSTOMER"></property>
 		<property name="showVendor" column="SHOWVENDOR"></property>
+		<property name="showEmployee" column="SHOWEMPLOYEE"></property>
 	</class>
 
 	<class name="ItemGroup" table="ITEMGROUP">

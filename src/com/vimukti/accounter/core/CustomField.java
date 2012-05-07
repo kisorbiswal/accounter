@@ -26,6 +26,7 @@ public class CustomField extends CreatableObject implements
 
 	boolean showCustomer;
 	boolean showVendor;
+	boolean showEmployee;
 
 	public String getName() {
 		return name;
@@ -95,7 +96,7 @@ public class CustomField extends CreatableObject implements
 	@Override
 	public void selfValidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

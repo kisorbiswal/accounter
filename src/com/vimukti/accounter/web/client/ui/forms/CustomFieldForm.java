@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomField;
 import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 
 public class CustomFieldForm extends DynamicForm {
 	public CustomFieldForm() {
@@ -14,15 +15,19 @@ public class CustomFieldForm extends DynamicForm {
 	}
 
 	public void createControls(ClientCompany company,
-			Set<ClientCustomFieldValue> customFieldValues, boolean isCustomer) {
+			Set<ClientCustomFieldValue> customFieldValues, int payeeType) {
 		clear();
 		ArrayList<ClientCustomField> customFields = company.getCustomFields();
 		for (ClientCustomField c : customFields) {
-			if (c.isShowCustomer() && isCustomer) {
+			if (c.isShowCustomer() && payeeType == ClientPayee.TYPE_CUSTOMER) {
 				TextItem t = new TextItem(c.getName(), "name");
 				add(t);
 			}
-			if (c.isShowVendor() && !isCustomer) {
+			if (c.isShowVendor() && payeeType == ClientPayee.TYPE_VENDOR) {
+				TextItem t = new TextItem(c.getName(), "name");
+				add(t);
+			}
+			if (c.isShowEmployee() && payeeType == ClientPayee.TYPE_EMPLOYEE) {
 				TextItem t = new TextItem(c.getName(), "name");
 				add(t);
 			}
@@ -46,7 +51,7 @@ public class CustomFieldForm extends DynamicForm {
 	}
 
 	public void updateValues(Set<ClientCustomFieldValue> list,
-			ClientCompany company, boolean isCustomer) {
+			ClientCompany company, int payeeType) {
 
 		if (list.isEmpty()) {
 			for (Widget widget : getChildren()) {
@@ -54,8 +59,17 @@ public class CustomFieldForm extends DynamicForm {
 					FormItem<String> textItem = (FormItem<String>) widget;
 					ClientCustomField field = company
 							.getCustomFieldByTitle(textItem.getTitle());
-					if (isCustomer) {
+					if (payeeType == ClientPayee.TYPE_CUSTOMER) {
 						if (field != null && field.isShowCustomer()) {
+							ClientCustomFieldValue clientCustomFieldValue = new ClientCustomFieldValue();
+							clientCustomFieldValue
+									.setCustomField(field.getID());
+							clientCustomFieldValue
+									.setValue(textItem.getValue());
+							list.add(clientCustomFieldValue);
+						}
+					} else if (payeeType == ClientPayee.TYPE_EMPLOYEE) {
+						if (field != null && field.isShowEmployee()) {
 							ClientCustomFieldValue clientCustomFieldValue = new ClientCustomFieldValue();
 							clientCustomFieldValue
 									.setCustomField(field.getID());
@@ -82,7 +96,7 @@ public class CustomFieldForm extends DynamicForm {
 
 					ClientCustomField field = company
 							.getCustomFieldByTitle(textItem.getTitle());
-					if (isCustomer) {
+					if (payeeType == ClientPayee.TYPE_CUSTOMER) {
 						if (field != null && field.isShowCustomer()) {
 
 							ClientCustomFieldValue clientCustomFieldValue = null;
@@ -105,6 +119,31 @@ public class CustomFieldForm extends DynamicForm {
 										.getValue());
 							}
 						}
+					} else if (payeeType == ClientPayee.TYPE_EMPLOYEE) {
+
+						if (field != null && field.isShowEmployee()) {
+
+							ClientCustomFieldValue clientCustomFieldValue = null;
+							for (ClientCustomFieldValue f : list) {
+								if (f.getCustomField() == field.getID()) {
+									clientCustomFieldValue = f;
+									break;
+								}
+							}
+							if (clientCustomFieldValue == null) {// New Custom
+																	// Field
+								clientCustomFieldValue = new ClientCustomFieldValue();
+								clientCustomFieldValue.setCustomField(field
+										.getID());
+								clientCustomFieldValue.setValue(textItem
+										.getValue());
+								list.add(clientCustomFieldValue);
+							} else {
+								clientCustomFieldValue.setValue(textItem
+										.getValue());
+							}
+						}
+
 					} else {
 						if (field != null && field.isShowVendor()) {
 

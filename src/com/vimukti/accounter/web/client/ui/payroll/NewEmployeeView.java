@@ -15,19 +15,23 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddressDialog;
+import com.vimukti.accounter.web.client.ui.CustomFieldDialog;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmployeeGroupCombo;
@@ -36,6 +40,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
+import com.vimukti.accounter.web.client.ui.forms.CustomFieldForm;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -70,6 +75,9 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 			messages2.seekinggrowth(), messages2.careerchange(),
 			messages2.returnedtoSchool(), messages2.relocated(),
 			messages2.raisedaFamily(), messages.other() };
+	CustomFieldForm customFieldForm;
+	Button addCustomFieldButton;
+	CustomFieldDialog customFieldDialog;
 
 	public NewEmployeeView() {
 		this.getElement().setId("NewEmployeeView");
@@ -170,6 +178,29 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		}
 	}
 
+	public void createCustomFieldControls() {
+		if (data != null && data.getCustomFieldValues() != null) {
+			customFieldForm.updateValues(data.getCustomFieldValues(),
+					getCompany(), ClientPayee.TYPE_EMPLOYEE);
+		}
+		customFieldForm.createControls(getCompany(),
+				data == null ? null : data.getCustomFieldValues(),
+				ClientPayee.TYPE_EMPLOYEE);
+		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
+				: data.getCustomFieldValues();
+		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
+		for (ClientCustomFieldValue value : customFieldValues) {
+			if (getCompany().getClientCustomField(value.getID()) == null) {
+				deleteCustomFieldValues.add(value);
+			}
+		}
+
+		for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
+			customFieldValues.remove(clientCustomFieldValue);
+		}
+		customFieldForm.setEnabled(!isInViewMode());
+	}
+
 	public Set<ClientAddress> getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
 				.getAddressType("company"));
@@ -205,6 +236,7 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		secondPanel = new StyledPanel("secondPanel");
 		secondPanel.add(getEmpOtherDetailsInfo());
+		createCustomFieldControls();
 
 		mainPanel.add(firstPanel);
 		mainPanel.add(secondPanel);
@@ -245,6 +277,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		emplVisaNumberDateItem.setEnteredDate(new ClientFinanceDate());
 		emplVisaNumberDateItem.setEnabled(!isInViewMode());
 		empOtherDetailsInfoForm = new DynamicForm("empOtherDetailsInfoForm");
+		customFieldDialog = new CustomFieldDialog(this, messages.CustomField(),
+				messages.ManageCustomFields());
 
 		empOtherDetailsRightForm = new DynamicForm("empOtherDetailsLeftForm");
 		empOtherDetailsRightForm.add(passportExpiryDateItem,
@@ -253,6 +287,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		empOtherDetailsLeftForm = new DynamicForm("empOtherDetailsLeftForm");
 		empOtherDetailsLeftForm.add(bankAccountNumberItem, bankNameItem,
 				bankBranchItem, passportNumberItem);
+		// empOtherDetailsLeftForm.add(addCustomFieldButton);
+		// empOtherDetailsLeftForm.add(customFieldForm);
 
 		empOtherDetailsInfoForm.add(empOtherDetailsLeftForm);
 		empOtherDetailsInfoForm.add(empOtherDetailsRightForm);
@@ -283,8 +319,23 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		designationItem.setEnabled(!isInViewMode());
 		locationItem = new TextItem(messages.workingLocation(), "locationItem");
 		locationItem.setEnabled(!isInViewMode());
+		addCustomFieldButton = new Button();
+		addCustomFieldButton.setText(messages.ManageCustomFields());
+		addCustomFieldButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				customFieldDialog.show();
+				customFieldDialog.center();
+			}
+		});
+		addCustomFieldButton.setEnabled(!isInViewMode());
+		customFieldForm = UIUtils.CustomFieldsform(messages.terms());
+
 		empDetailsInfoForm.add(employeeIdItem, dateOfHire, panItem,
 				employeeGroupCombo, designationItem, locationItem);
+		empDetailsInfoForm.add(addCustomFieldButton);
+		empDetailsInfoForm.add(customFieldForm);
 		employeeDetailsInfo.setContentWidget(empDetailsInfoForm);
 		return employeeDetailsInfo;
 	}
@@ -391,6 +442,10 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 	}
 
 	private void updateData() {
+
+		customFieldForm.updateValues(data.getCustomFieldValues(), getCompany(),
+				ClientPayee.TYPE_EMPLOYEE);
+
 		data.setName(nameItem.getValue());
 
 		data.setAddress(getAddresss());
@@ -540,6 +595,8 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 		activeOrInactive.setEnabled(!isInViewMode());
 		lastDateItem.setEnabled(!isInViewMode());
 		reasonCombo.setEnabled(!isInViewMode());
+		customFieldForm.setEnabled(!isInViewMode());
+		addCustomFieldButton.setEnabled(!isInViewMode());
 		super.onEdit();
 
 	}
