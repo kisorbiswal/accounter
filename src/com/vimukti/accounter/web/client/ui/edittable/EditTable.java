@@ -145,7 +145,11 @@ public abstract class EditTable<R> extends FlowPanel {
 
 	@Override
 	protected void onAttach() {
-		impl.onAttach();
+		createColumns();
+		if (impl.getRows() == null || impl.getRows().isEmpty()) {
+			addEmptyMessage(messages.noRecordsToShow());
+		}
+		super.onAttach();
 	}
 
 	public void createColumns() {

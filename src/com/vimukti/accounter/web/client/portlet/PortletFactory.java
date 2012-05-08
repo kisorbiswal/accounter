@@ -192,43 +192,43 @@ public class PortletFactory {
 	public String getPortletNames(String name) {
 		AccounterMessages messages = Global.get().messages();
 		if (name.equals(messages.bankAccount())) {
-			return "BANK_ACCOUNT";
+			return BANK_ACCOUNT;
 		} else if (name.equals(messages.moneyComingIn())) {
-			return "MONEY_COMING";
+			return MONEY_COMING;
 		} else if (name.equals(messages.moneyGoingOut())) {
-			return "MONEY_GOING";
+			return MONEY_GOING;
 		} else if (name.equals(messages.expenses())) {
-			return "EXPENSES_CLAIM";
+			return EXPENSES_CLAIM;
 		} else if (name.equals(messages.whoIOwe())) {
-			return "WHO_I_OWE";
+			return WHO_I_OWE;
 		} else if (name.equals(messages.whoOwesMe())) {
-			return "WHO_OWES_ME";
+			return WHO_OWES_ME;
 		} else if (name.equals(messages.recentTransactions())) {
-			return "RECENT_TRANSACTIONS";
+			return RECENT_TRANSACTIONS;
 		} else if (name.equals(messages.quickLinks())) {
-			return "QUICK_LINKS";
+			return QUICK_LINKS;
 		} else if (name.equals(messages.banking())) {
-			return "BANKING";
+			return BANKING;
 		} else if (name.equals(messages.messagesAndTasks())) {
-			return "MESSAGES_AND_TASKS";
+			return MESSAGES_AND_TASKS;
 		} else if (name.equals(messages.accountBalances())) {
-			return "ACCOUNTS_BALANCES_PORTLET";
+			return ACCOUNTS_BALANCES_PORTLET;
 		} else if (name.equals(messages.topCustomersBySales(Global.get()
 				.Customers()))) {
-			return "TOP_CUSTOMERS_BY_SALES_PORTLET";
+			return TOP_CUSTOMERS_BY_SALES_PORTLET;
 		} else if (name.equals(messages.topVendorsByExpense(Global.get()
 				.Vendors()))) {
-			return "TOP_VENDORS_BY_EXPENSES_PORTLET";
+			return TOP_VENDORS_BY_EXPENSES_PORTLET;
 		} else if (name.equals(messages.topItemsBySales())) {
-			return "TOP_ITEMS_BY_SALES_PORTLET";
+			return TOP_ITEMS_BY_SALES_PORTLET;
 		} else if (name.equals(messages.incomeAndExpenseAccounts())) {
-			return "INCOME_EXPENSE_BREAKDOWN_PORTLET";
+			return INCOME_EXPENSE_BREAKDOWN_PORTLET;
 		} else if (name.equals(messages.incomes())) {
-			return "INCOME_BREAKDOWN_PORTLET";
+			return INCOME_BREAKDOWN_PORTLET;
 		} else if (name.equals(messages.yearOverYearIncome())) {
-			return "YEAR_OVER_YEAR_INCOME_PORTLET";
+			return YEAR_OVER_YEAR_INCOME_PORTLET;
 		} else if (name.equals(messages.yearOverYearExpense())) {
-			return "YEAR_OVER_YEAR_EXPENSE_PORTLET";
+			return YEAR_OVER_YEAR_EXPENSE_PORTLET;
 		}
 		return null;
 	}
