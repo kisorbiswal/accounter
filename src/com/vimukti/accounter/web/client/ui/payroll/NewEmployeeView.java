@@ -286,12 +286,12 @@ public class NewEmployeeView extends BaseView<ClientEmployee> {
 
 		empOtherDetailsLeftForm = new DynamicForm("empOtherDetailsLeftForm");
 		empOtherDetailsLeftForm.add(bankAccountNumberItem, bankNameItem,
-				bankBranchItem, passportNumberItem);
+				bankBranchItem);
 		// empOtherDetailsLeftForm.add(addCustomFieldButton);
 		// empOtherDetailsLeftForm.add(customFieldForm);
 
 		empOtherDetailsInfoForm.add(empOtherDetailsLeftForm);
-		empOtherDetailsInfoForm.add(empOtherDetailsRightForm);
+		// empOtherDetailsInfoForm.add(empOtherDetailsRightForm);
 
 		empOtherDetailsInfo.setContentWidget(empOtherDetailsInfoForm);
 		return empOtherDetailsInfo;
