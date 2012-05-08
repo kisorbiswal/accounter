@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.PayRollReportActions;
 import com.vimukti.accounter.web.client.util.Countries;
 
 public class ReportSectionView extends BaseHomeView {
@@ -25,11 +26,11 @@ public class ReportSectionView extends BaseHomeView {
 	private Map<String, String> companyAndFinancialMap,
 			customersAndRecievableMap, inventoryMap, budgetMap, taxMap,
 			vendorAndPayableMap, salesMap, purchaseMap, fixedAssetMap,
-			ukTaxMap, bankingMap, jobMap;
+			ukTaxMap, bankingMap, jobMap, payRollMap;
 	private FlowPanel companyAndFinancialPanel, customersAndRecievablePanel,
 			inventoryPanel, budgetPanel, taxPanel, vendorAndPayablePanel,
 			salesPanel, purchasePanel, fixedAssetPanel, mainTaxPanel,
-			ukTaxPanel, bankingPanel, jobPanel;
+			ukTaxPanel, bankingPanel, jobPanel, payRollPanel;
 
 	private FlowPanel rightPanel, leftPanel;
 	private StyledPanel mainPanel;
@@ -59,7 +60,7 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseMap = new HashMap<String, String>();
 		fixedAssetMap = new HashMap<String, String>();
 		ukTaxMap = new HashMap<String, String>();
-
+		payRollMap = new HashMap<String, String>();
 		Label companyAndFinancialHeader = new Label(
 				messages.companyAndFinancial());
 		Label customersAndRecievableHeader = new Label(
@@ -101,6 +102,8 @@ public class ReportSectionView extends BaseHomeView {
 		mainTaxPanel.addStyleName("section");
 		ukTaxPanel = new FlowPanel();
 		ukTaxPanel.addStyleName("section");
+		payRollPanel = new FlowPanel();
+		payRollPanel.addStyleName("section");
 
 		leftPanel = new StyledPanel("leftPanel");
 		rightPanel = new StyledPanel("rightPanel");
@@ -339,6 +342,17 @@ public class ReportSectionView extends BaseHomeView {
 			}
 		}
 
+		payRollMap.put(messages.paySlipSummary(), PayRollReportActions
+				.getPaySlipSummaryReportAction().getHistoryToken());
+		payRollMap.put(messages.payslipDetail(), PayRollReportActions
+				.getPaySlipDetailReportAction().getHistoryToken());
+		payRollMap.put(messages.payHeadSummaryReport(), PayRollReportActions
+				.getPayHeadSummaryReportAction().getHistoryToken());
+		payRollMap.put(messages.payHeadDetailReport(), PayRollReportActions
+				.getPayHeadDetailReportAction().getHistoryToken());
+		payRollMap.put(messages.paySheet(), PayRollReportActions
+				.getPaySheetReportAction().getHistoryToken());
+
 		addLinksToPanel(companyAndFinancialMap, companyAndFinancialPanel);
 		addLinksToPanel(customersAndRecievableMap, customersAndRecievablePanel);
 		if (Global.get().preferences().isInventoryEnabled()) {
@@ -356,7 +370,9 @@ public class ReportSectionView extends BaseHomeView {
 		addLinksToPanel(vendorAndPayableMap, vendorAndPayablePanel);
 		addLinksToPanel(purchaseMap, purchasePanel);
 		addLinksToPanel(fixedAssetMap, fixedAssetPanel);
-
+		if (hasPermission(Features.PAY_ROLL)) {
+			addLinksToPanel(payRollMap, payRollPanel);
+		}
 		CountryPreferences company = Accounter.getCompany()
 				.getCountryPreferences();
 		if (Global.get().preferences().isTrackTax()) {
@@ -414,6 +430,12 @@ public class ReportSectionView extends BaseHomeView {
 		if (hasExtraReportsPerm && hasPermission(Features.FIXED_ASSET)) {
 			rightPanel.add(fixedAssetHeader);
 			rightPanel.add(fixedAssetPanel);
+		}
+
+		if (hasExtraReportsPerm && hasPermission(Features.PAY_ROLL)) {
+			Label payrollHeader = new Label(messages.payroll());
+			rightPanel.add(payrollHeader);
+			rightPanel.add(payRollPanel);
 		}
 
 		mainPanel.add(leftPanel);
