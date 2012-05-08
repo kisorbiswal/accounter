@@ -44,13 +44,14 @@ public class JobProfitabilitySummaryServerReport extends
 	@Override
 	public void processRecord(JobProfitability record) {
 		if (sectionDepth == 0) {
-		//	this.customerId = record.getCustomerId();
-			this.customerName=	record.getCustomerName();
-			addSection(new String[] {this.customerName}, new String[] { getMessages().total() },
+			// this.customerId = record.getCustomerId();
+			this.customerName = record.getCustomerName();
+			addSection(new String[] { this.customerName },
+					new String[] { getMessages().total() },
 					new int[] { 1, 2, 3 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
-			if ( !customerName.equalsIgnoreCase(record.getCustomerName()) ) {
+			if (!customerName.equalsIgnoreCase(record.getCustomerName())) {
 				endSection();
 			} else {
 				return;
@@ -88,6 +89,18 @@ public class JobProfitabilitySummaryServerReport extends
 	@Override
 	public void makeReportRequest(long start, long end) {
 
+	}
+
+	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			return 230;
+		}
+		return -1;
 	}
 
 }

@@ -4,7 +4,8 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
-public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<JobProfitabilityDetailByJob>{
+public class JobProfitabilityDetailServerReport extends
+		AbstractFinaneReport<JobProfitabilityDetailByJob> {
 
 	public static final int TYPE_SERVICE = 1;
 	public static final int TYPE_INVENTORY_PART = 2;
@@ -14,8 +15,9 @@ public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<Job
 
 	public JobProfitabilityDetailServerReport(
 			IFinanceReport<JobProfitabilityDetailByJob> reportView) {
-		this.reportView= reportView;
+		this.reportView = reportView;
 	}
+
 	public JobProfitabilityDetailServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
@@ -46,9 +48,9 @@ public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<Job
 	public void processRecord(JobProfitabilityDetailByJob record) {
 		if (sectionDepth == 0) {
 			this.itemType = record.getItemType();
-				String type = getItemTypeName(itemType);
-			addSection(new String[] {type}, new String[] { getMessages().total() },
-					new int[] { 1, 2, 3 });
+			String type = getItemTypeName(itemType);
+			addSection(new String[] { type }, new String[] { getMessages()
+					.total() }, new int[] { 1, 2, 3 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (this.itemType != record.getItemType()) {
@@ -62,8 +64,7 @@ public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<Job
 	}
 
 	@Override
-	public Object getColumnData(JobProfitabilityDetailByJob record,
-			int index) {
+	public Object getColumnData(JobProfitabilityDetailByJob record, int index) {
 		switch (index) {
 		case 0:
 			return record.getItemName();
@@ -89,12 +90,12 @@ public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<Job
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		
+
 	}
-	
-	private String getItemTypeName(long type){
-		
-		switch ((int)type) {
+
+	private String getItemTypeName(long type) {
+
+		switch ((int) type) {
 		case TYPE_SERVICE:
 			return messages.serviceItem();
 		case TYPE_INVENTORY_PART:
@@ -105,6 +106,18 @@ public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<Job
 			return messages.inventoryAssembly();
 		}
 		return "";
+	}
+
+	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			return 230;
+		}
+		return -1;
 	}
 
 }
