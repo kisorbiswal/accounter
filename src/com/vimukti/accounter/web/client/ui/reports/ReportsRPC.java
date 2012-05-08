@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
@@ -89,6 +90,7 @@ import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
 import com.vimukti.accounter.web.client.ui.customers.CustomerPaymentsAction;
@@ -453,6 +455,10 @@ public class ReportsRPC {
 		case IAccounterCore.EMPLOYEE_GROUP:
 			initCallBack(new ClientEmployeeGroup(),
 					PayRollActions.newEmployeeGroupAction(), transactionId);
+			break;
+		case IAccounterCore.JOB:
+			initCallBack(new ClientJob(), ActionFactory.getNewJobAction(null),
+					transactionId);
 			break;
 		}
 
