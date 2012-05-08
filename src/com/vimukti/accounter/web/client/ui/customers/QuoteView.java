@@ -1197,11 +1197,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 
-		if (!isInViewMode()
-				&& !data.isTemplate()
-				&& data.getSaveStatus() != ClientTransaction.STATUS_DRAFT
-				&& (type == ClientEstimate.SALES_ORDER || type == ClientEstimate.QUOTES)) {
-
+		if (emailButton != null) {
 			getButtonBar().remove(emailButton);
 		}
 
@@ -1446,7 +1442,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		if (isInViewMode()
+		if (getCompany().isPaid()
+				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)
 				&& (type == ClientEstimate.SALES_ORDER || type == ClientEstimate.QUOTES)) {
 			emailButton = new Button(messages.email());

@@ -51,18 +51,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		this.getElement().setId("TdsForm16ACreationDialogue");
 		okbtn.setText(messages.generate16Aform());
 
-		emailBUtton = new Button(messages.email());
-		emailBUtton.setFocus(true);
-		emailBUtton.setVisible(false);
-		emailBUtton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				sendEmail();
-			}
-		});
-
 		coveringLetter = new Button(messages.generateCoveringLetter());
 		coveringLetter.setFocus(true);
 		coveringLetter.setVisible(false);
@@ -75,7 +63,20 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 			}
 		});
 
-		footerLayout.add(emailBUtton);
+		if (getCompany().isPaid()) {
+			emailBUtton = new Button(messages.email());
+			emailBUtton.setFocus(true);
+			emailBUtton.setVisible(false);
+			emailBUtton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+
+					sendEmail();
+				}
+			});
+			footerLayout.add(emailBUtton);
+		}
 		footerLayout.add(coveringLetter);
 		createControls();
 		center();
@@ -84,8 +85,8 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	@SuppressWarnings({ "unchecked" })
 	private void createControls() {
 		form = new DynamicForm("form");
-//		form.setWidth("100%");
-//		form.setHeight("100%");
+		// form.setWidth("100%");
+		// form.setHeight("100%");
 
 		StyledPanel layout = new StyledPanel("layout");
 		StyledPanel layout1 = new StyledPanel("layout1");

@@ -1636,9 +1636,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		setMode(EditMode.EDIT);
 
-		if (getCompany().isPaid() && !isInViewMode() && !data.isTemplate()
-				&& data.getSaveStatus() != ClientTransaction.STATUS_DRAFT
-				&& emailButton != null) {
+		if (emailButton != null) {
 			getButtonBar().remove(emailButton);
 		}
 

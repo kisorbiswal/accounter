@@ -1337,9 +1337,7 @@ public class PurchaseOrderView extends
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
 
-		if (!isInViewMode() && !data.isTemplate()
-				&& data.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
-
+		if (emailButton != null) {
 			getButtonBar().remove(emailButton);
 		}
 
@@ -1621,7 +1619,8 @@ public class PurchaseOrderView extends
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		if (isInViewMode()
+		if (getCompany().isPaid()
+				&& isInViewMode()
 				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
