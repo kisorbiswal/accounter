@@ -174,13 +174,13 @@ public class PurchaseOrderView extends
 
 		DynamicForm form = new DynamicForm("form");
 
+		taxCodeSelect = createTaxCodeSelectItem();
 		if (isTrackTax() && isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm("priceLevelForm");
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.add(priceLevelSelect);
-			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
 				form.add(taxCodeSelect);
 			}
