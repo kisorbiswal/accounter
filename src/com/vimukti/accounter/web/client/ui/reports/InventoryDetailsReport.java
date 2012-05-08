@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.InventoryDetails;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -29,7 +31,13 @@ public class InventoryDetailsReport extends
 
 	@Override
 	public void OnRecordClick(InventoryDetails record) {
-		// TODO Auto-generated method stub
+		ClientItem item = Accounter.getCompany().getItem(record.getId());
+		if (item.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+			ReportsRPC.openTransactionView(IAccounterCore.ASSEMBLY,
+					record.getId());
+		} else {
+			ReportsRPC.openTransactionView(IAccounterCore.ITEM, record.getId());
+		}
 	}
 
 	@Override
