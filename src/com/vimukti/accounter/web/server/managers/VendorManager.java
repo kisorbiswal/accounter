@@ -147,6 +147,9 @@ public class VendorManager extends PayeeManager {
 								|| billsList.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE
 								|| billsList.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 							queryResult.add(billsList);
+					} else if (transactionType != 0
+							&& billsList.getType() == transactionType) {
+						queryResult.add(billsList);
 					} else
 						queryResult.add(billsList);
 					// }
