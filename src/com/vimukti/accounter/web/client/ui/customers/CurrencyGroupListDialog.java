@@ -54,7 +54,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 			public void onSecondButtonClick() {
 				ClientCurrency selection = (ClientCurrency) listGridView
 						.getSelection();
-				ShowAddEditDialog(selection);
+				ShowAddEditDialog(getCompany().getCurrency(selection.getID()));
 			}
 
 			@Override

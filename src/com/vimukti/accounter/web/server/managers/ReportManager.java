@@ -2607,8 +2607,6 @@ public class ReportManager extends Manager {
 
 		List<VATItemSummary> vatItemSummaries = new ArrayList<VATItemSummary>();
 
-		List<VATItemDetail> vatItemDetails = new ArrayList<VATItemDetail>();
-
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
 		// Getting entries from VATRateCalculation

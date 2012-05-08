@@ -38,4 +38,6 @@ public interface AccounterMessages2 extends Messages {
 	public String raisedaFamily();
 
 	public String incomeByCustomerDetail(String customer);
+
+	public String payEmployees();
 }

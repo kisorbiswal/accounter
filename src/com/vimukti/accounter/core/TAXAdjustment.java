@@ -180,7 +180,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	@Override
 	public Payee getInvolvedPayee() {
 
-		return null;
+		return this.taxAgency;
 	}
 
 	@Override
@@ -286,6 +286,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 		}
 		e.add(liabilityAccount, amount);
 		e.add(getAdjustmentAccount(), -amount);
+		e.add(getTaxItem(), getTotal());
 	}
 
 	@Override
