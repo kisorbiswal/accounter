@@ -11338,7 +11338,7 @@
 				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
 				LEFT JOIN UNIT U ON U.ID = V.ITEM_UNITS
 				LEFT JOIN UNIT QTYUNIT ON QTYUNIT.ID = V.QTY_UNIT
-				
+				LEFT OUTER JOIN TRANSACTION T ON T.ID = TRANSACTION_ID
 				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE IN (2,4)
 				       AND ( V.TRANSACTION_DATE IS NULL
 				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )
@@ -11346,6 +11346,7 @@
 				             WHEN 0 = :itemID THEN TRUE
 				             ELSE ( V.ITEM_ID = :itemID )
 				           END
+				       AND T.SAVE_STATUS NOT IN (201,202,204)
 				ORDER  BY ITEM_NAME;  
 				]]>
 
