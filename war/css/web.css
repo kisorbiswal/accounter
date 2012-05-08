@@ -1664,6 +1664,12 @@ table.gridHeader tr td {
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	border-bottom-color: #2D8B93;
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
 }
 
 #PreferenceSettingsView .organisation_comment {
@@ -5338,8 +5344,7 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	margin: 10px 0;
 }
 
-#PreferenceSettingsView .manageBillsOweRadioButtonsPanel span:last-child
-	{
+#PreferenceSettingsView .manageBillsOweRadioButtonsPanel span{
 	margin-left: 50px;
 }
 
@@ -8324,5 +8329,38 @@ table.no_records tr td {
 }
 .checkboxItem .NoWrapping{
 	display: none;
+}
+.companyInfoPanel .CompanyInfoOption{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#PreferenceSettingsView .organisation_comment .gwt-Label,.einDescPanel .gwt-Label,
+#PreferenceSettingsView .locationTrackDescPanel .gwt-Label,#PreferenceSettingsView .servicesOnlyText .gwt-Label,
+#PreferenceSettingsView .productsOnlyText .gwt-Label,#PreferenceSettingsView .bothText .gwt-Label{
+	width:650px !important;
+}
+#PreferenceSettingsView .address_panel,#PreferenceSettingsView .tradingAddressSubPanel,
+#PreferenceSettingsView .registeredAddressSubPanel,#PreferenceSettingsView .company_fields,
+#PreferenceSettingsView .trackTaxhidePanel,#PreferenceSettingsView .sell_panel,
+#PreferenceSettingsView .productAndServocehiddenPanel{
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+}
+#PreferenceSettingsView .RadioGroupItem .gwt-Label{
+	display: none;
+}
+#PreferenceSettingsView span.gwt-RadioButton{
+	display: block;
+}
+#PreferenceSettingsView .organisation_comment .label{
+	margin-left:-100px;
 }
 /*Location merge dialog end*/
