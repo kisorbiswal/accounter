@@ -804,7 +804,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		if (!isInViewMode()) {
 			grid.initCreditsAndPayments(vendor);
 		}
-		grid.reDraw();
 
 		if (transaction.id == 0) {
 			grid.addLoadingImagePanel();

@@ -296,9 +296,6 @@ public class EditTableImpl<R> {
 
 	public void addEmptyMessage(String emptyMessage) {
 		this.table.setWidget(numOfRowsPerObject, 0, new Label(emptyMessage));
-		if (table.getRowFormatter() != null)
-			this.table.getRowFormatter().setStyleName(numOfRowsPerObject,
-					"norecord-empty-message");
 		this.table.addStyleName("no_records");
 		flexCellFormatter.setColSpan(numOfRowsPerObject, 0,
 				columns.size() <= 0 ? 0 : columns.get(0).size());
@@ -337,21 +334,21 @@ public class EditTableImpl<R> {
 		columnsCreated = b;
 	}
 
-//	@Override
-//	protected void onAttach() {
-//		createColumns();
-//		if (getRows() == null || getRows().isEmpty()) {
-//			addEmptyMessage(messages.noRecordsToShow());
-//		}
-//		super.onAttach();
-//	}
-//
-//	protected void createColumns() {
-//		if (!iscolumnsCreated()) {
-//			initColumns();
-//		}
-//		setcolumnsCreated(true);
-//	}
+	// @Override
+	// protected void onAttach() {
+	// createColumns();
+	// if (getRows() == null || getRows().isEmpty()) {
+	// addEmptyMessage(messages.noRecordsToShow());
+	// }
+	// super.onAttach();
+	// }
+	//
+	// protected void createColumns() {
+	// if (!iscolumnsCreated()) {
+	// initColumns();
+	// }
+	// setcolumnsCreated(true);
+	// }
 
 	protected void initColumns() {
 	}
