@@ -74,7 +74,6 @@ public class ServerGlobal extends AbstractGlobal {
 
 	@Override
 	public AccounterMessages2 messages2() {
-		return messages2();
+		return messages1;
 	}
-
 }
