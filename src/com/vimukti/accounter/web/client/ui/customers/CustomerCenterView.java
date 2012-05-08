@@ -23,6 +23,7 @@ import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -298,33 +299,46 @@ public class CustomerCenterView<T> extends
 			transactiontypebyStatusMap.put(
 					TransactionHistory.OVER_DUE_INVOICES,
 					messages.overDueInvoices());
-			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_INVOICES,
-					messages.draftTransaction(messages.invoices()));
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_INVOICES,
+						messages.draftTransaction(messages.invoices()));
+			}
 		} else if (selectedValue.equalsIgnoreCase(messages.cashSales())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CASHSALES,
 					messages.all() + " " + messages.cashSales());
-			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_CASHSALES,
-					messages.draftTransaction(messages.cashSales()));
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_CASHSALES,
+						messages.draftTransaction(messages.cashSales()));
+			}
 
 		} else if (selectedValue.equalsIgnoreCase(messages.quotes())) {
 
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_QUOTES,
 					messages.allQuotes());
-			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_QUOTES,
-					messages.draftTransaction(messages.quotes()));
-
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(TransactionHistory.DRAFT_QUOTES,
+						messages.draftTransaction(messages.quotes()));
+			}
 		} else if (selectedValue.equalsIgnoreCase(messages.credits())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CREDITS,
 					messages.allCredits());
-			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_CREDITS,
-					messages.draftTransaction(messages.credits()));
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_CREDITS,
+						messages.draftTransaction(messages.credits()));
+			}
 
 		} else if (selectedValue.equalsIgnoreCase(messages.Charges())) {
 
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CHARGES,
 					messages.allCahrges());
-			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_CHARGES,
-					messages.draftTransaction(messages.Charges()));
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_CHARGES,
+						messages.draftTransaction(messages.Charges()));
+			}
 
 		} else if (selectedValue.equalsIgnoreCase(messages.receivedPayments())) {
 			transactiontypebyStatusMap.put(
@@ -359,9 +373,11 @@ public class CustomerCenterView<T> extends
 				.CustomerCreditNotes())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CREDITMEMOS,
 					messages.allCreditMemos());
-			transactiontypebyStatusMap.put(
-					TransactionHistory.DRAFT_CREDITMEMOS,
-					messages.draftTransaction(messages.creditNote()));
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_CREDITMEMOS,
+						messages.draftTransaction(messages.creditNote()));
+			}
 			// transactiontypebyStatusMap.put(
 			// TransactionHistory.OPEND_CREDITMEMOS,
 			// messages.openCreditMemos());
@@ -379,17 +395,22 @@ public class CustomerCenterView<T> extends
 			transactiontypebyStatusMap.put(
 					TransactionHistory.ALL_CUSTOMER_REFUNDS,
 					messages.allCustomerRefunds());
-			transactiontypebyStatusMap.put(
-					TransactionHistory.DRAFT_CUSTOMER_REFUNDS, messages
-							.draftTransaction(messages.customerRefunds(Global
-									.get().Customer())));
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_CUSTOMER_REFUNDS, messages
+								.draftTransaction(messages
+										.customerRefunds(Global.get()
+												.Customer())));
+			}
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.cheques())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CHEQUES,
 					messages.allcheques());
-			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_CHEQUES,
-					messages.draftTransaction(messages.cheques()));
-
+			if (Accounter.hasPermission(Features.DRAFTS)) {
+				transactiontypebyStatusMap.put(
+						TransactionHistory.DRAFT_CHEQUES,
+						messages.draftTransaction(messages.cheques()));
+			}
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.salesOrders())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_SALES_ORDERS,
