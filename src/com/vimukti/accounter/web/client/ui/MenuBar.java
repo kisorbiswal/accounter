@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.util.Countries;
 import com.vimukti.accounter.web.server.util.CountryPreferenceFactory;
@@ -19,6 +20,8 @@ public class MenuBar {
 	private final List<Menu> menus;
 
 	private final AccounterMessages messages = Global.get().messages();
+
+	private final AccounterMessages2 messages2 = Global.get().messages2();
 
 	private boolean canDoBanking;
 
@@ -685,7 +688,9 @@ public class MenuBar {
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.transactionDetailByAccount(),
 				HistoryTokens.TRANSACTIONDETAILBYACCOUNT);
-
+		companyAndFinancialMenuBar.addMenuItem(
+				messages2.incomeByCustomerDetail(Global.get().Customer()),
+				HistoryTokens.INCOMEBYCUSTOMERDETAIL);
 		companyAndFinancialMenuBar.addMenuItem(messages.generalLedgerReport(),
 				HistoryTokens.GENERALLEDGER);
 

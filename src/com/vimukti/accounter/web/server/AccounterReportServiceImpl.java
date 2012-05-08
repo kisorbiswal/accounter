@@ -3532,9 +3532,25 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<IncomeByCustomerDetail> getIncomeByCustomerDetail(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		// TODO Auto-generated method stub
-		return null;
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException {
+		ArrayList<IncomeByCustomerDetail> details = new ArrayList<IncomeByCustomerDetail>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			details = getFinanceTool().getReportManager()
+					.getIncomeByCustomerDetails(
+							financeDates[0].toClientFinanceDate(),
+							financeDates[1].toClientFinanceDate(),
+							getCompanyId());
+			IncomeByCustomerDetail obj = new IncomeByCustomerDetail();
+			if (details != null)
+				details.add((IncomeByCustomerDetail) setStartEndDates(obj,
+						financeDates));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return details;
 	}
 
 	@Override

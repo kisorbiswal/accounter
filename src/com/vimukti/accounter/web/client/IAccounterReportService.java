@@ -408,7 +408,8 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<IncomeByCustomerDetail> getIncomeByCustomerDetail(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException;
 
 	ArrayList<InventoryDetails> getInventoryDetails(ClientFinanceDate start,
 			ClientFinanceDate end);

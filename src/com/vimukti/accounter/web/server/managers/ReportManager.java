@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.IncomeByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryDetails;
 import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
@@ -4406,5 +4407,58 @@ public class ReportManager extends Manager {
 			}
 		}
 		return list;
+	}
+
+	/**
+	 * Getting the Customer Income Details
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param companyId
+	 * @return
+	 */
+	public ArrayList<IncomeByCustomerDetail> getIncomeByCustomerDetails(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<IncomeByCustomerDetail> customerDetails = new ArrayList<IncomeByCustomerDetail>();
+		Query result = session.getNamedQuery("getIncomeByCustomerDetails")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate());
+		List list = result.list();
+		Iterator iterator = list.iterator();
+		if (list != null) {
+			while (iterator.hasNext()) {
+				Object[] object = (Object[]) iterator.next();
+				IncomeByCustomerDetail customerDetail = new IncomeByCustomerDetail();
+				customerDetail
+						.setId((Long) (object[0] != null ? object[0] : 0));
+				ClientFinanceDate date = new ClientFinanceDate(
+						(Long) (object[1] != null ? object[1] : 0));
+				customerDetail.setTransactionDate(date);
+				customerDetail.setTransactionType((Integer) object[2]);
+				customerDetail
+						.setTransactionNumber((String) (object[3] != null ? object[3]
+								: ""));
+				customerDetail.setMemo((String) (object[4] != null ? object[4]
+						: ""));
+				customerDetail.setName((String) (object[5] != null ? object[5]
+						: ""));
+				customerDetail
+						.setJobName((String) (object[6] != null ? object[6]
+								: ""));
+				customerDetail
+						.setAccountName((String) (object[7] != null ? object[7]
+								: ""));
+				customerDetail
+						.setCredit((Double) (object[8] != null ? object[8]
+								: 0.0d));
+				customerDetail.setDebit((Double) (object[9] != null ? object[9]
+						: 0.0d));
+				customerDetails.add(customerDetail);
+			}
+		}
+		return customerDetails;
 	}
 }

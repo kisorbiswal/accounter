@@ -423,7 +423,9 @@ public abstract class AbstractReportGenerator implements IReportGenerator {
 			return "Payslip Detail";
 		case REPORT_TYPE_PAYSHEET:
 			return "Paysheet";
-
+		case REPORT_TYPE_INCOMEBY_CUSTOMERDETAIL:
+			return Global.get().messages2()
+					.incomeByCustomerDetail(Global.get().Customer());
 		default:
 			break;
 		}

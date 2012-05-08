@@ -36,4 +36,6 @@ public interface AccounterMessages2 extends Messages {
 	public String relocated();
 
 	public String raisedaFamily();
+
+	public String incomeByCustomerDetail(String customer);
 }

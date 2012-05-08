@@ -6,6 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 
 /**
  */
@@ -35,6 +36,8 @@ public abstract class Action<T> implements Command {
 	//
 	// }
 	protected AccounterMessages messages = Global.get().messages();
+	protected AccounterMessages2 messages2 = Global.get().messages2();
+
 	/**
 	 * This action's text, or <code>null</code> if none.
 	 */
@@ -63,7 +66,7 @@ public abstract class Action<T> implements Command {
 	 * setting Text for Action
 	 */
 	public Action() {
-		this.isCalledFromHistory=false;
+		this.isCalledFromHistory = false;
 		setViewName(null);
 	}
 

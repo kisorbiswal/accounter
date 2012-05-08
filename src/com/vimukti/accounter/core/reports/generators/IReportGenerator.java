@@ -113,6 +113,7 @@ public interface IReportGenerator {
 	public final static int REPORT_TYPE_PAYSLIP_SUMMARY = 205;
 	public final static int REPORT_TYPE_PAYSLIP_DETAIL = 206;
 	public final static int REPORT_TYPE_PAYSHEET = 207;
+	public final static int REPORT_TYPE_INCOMEBY_CUSTOMERDETAIL = 201;
 
 	/**
 	 * Generates the Template for Report

@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
@@ -675,6 +676,10 @@ public abstract class AbstractFinaneReport<R> extends
 
 	public AccounterMessages getMessages() {
 		return Global.get().messages();
+	}
+
+	public AccounterMessages2 getMessages2() {
+		return Global.get().messages2();
 	}
 
 	/**

@@ -437,6 +437,8 @@ public class HistoryTokens {
 
 	public static final String PAY_EMPLOYEE = "payemployee";
 
+	public static final String INCOMEBYCUSTOMERDETAIL = "incomeByCustomerDetail";
+
 	public HistoryTokens() {
 
 	}

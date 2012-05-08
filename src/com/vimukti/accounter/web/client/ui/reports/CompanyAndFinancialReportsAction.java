@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -29,6 +30,7 @@ public class CompanyAndFinancialReportsAction extends Action {
 	public static final int TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT = 13;
 	public static final int TYPE_SALES_LIABILITY = 14;
 	private static final int TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM = 15;
+	public static final int TYPE_INCOME_BY_CUSTOMER_DETAIL = 16;
 
 	private int type;
 
@@ -104,14 +106,14 @@ public class CompanyAndFinancialReportsAction extends Action {
 				case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
 					report = new RecincilationDetailsByAccountReport(accountID);
 					break;
-
 				case TYPE_SALES_LIABILITY:
 					report = new SalesTaxLiabilityReport();
 					break;
-
 				case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
 					report = new TransactionDetailByTaxItemReport();
 					break;
+				case TYPE_INCOME_BY_CUSTOMER_DETAIL:
+					report = new IncomeByCustomerDetailReport();
 				}
 
 				if (report != null) {
@@ -172,6 +174,8 @@ public class CompanyAndFinancialReportsAction extends Action {
 			return "salesTaxLiability";
 		case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
 			return "transactionDetailByTaxItem";
+		case TYPE_INCOME_BY_CUSTOMER_DETAIL:
+			return "incomeByCustomerDetail";
 		}
 		return null;
 	}
@@ -205,6 +209,8 @@ public class CompanyAndFinancialReportsAction extends Action {
 			return "Reconciliation-Reports";
 		case TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT:
 			return "Reconcilation-DetailByAccount";
+		case TYPE_INCOME_BY_CUSTOMER_DETAIL:
+			return HistoryTokens.INCOMEBYCUSTOMERDETAIL;
 		}
 		return null;
 	}
@@ -240,6 +246,8 @@ public class CompanyAndFinancialReportsAction extends Action {
 			return messages.salesTaxLiability();
 		case TYPE_TRANSACTION_DETAIL_BY_TAX_ITEM:
 			return messages.transactionDetailByTaxItem();
+		case TYPE_INCOME_BY_CUSTOMER_DETAIL:
+			return messages2.incomeByCustomerDetail(Global.get().Customer());
 		}
 		return null;
 	}
@@ -311,6 +319,11 @@ public class CompanyAndFinancialReportsAction extends Action {
 			long accountID) {
 		return new CompanyAndFinancialReportsAction(
 				TYPE_RECONCILIATION_DETAIL_BY_ACCOUNT, accountID);
+	}
+
+	public static CompanyAndFinancialReportsAction incomeByCustomer() {
+		return new CompanyAndFinancialReportsAction(
+				TYPE_INCOME_BY_CUSTOMER_DETAIL);
 	}
 
 }

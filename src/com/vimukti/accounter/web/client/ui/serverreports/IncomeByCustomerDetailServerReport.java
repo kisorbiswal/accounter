@@ -1,63 +1,191 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.IncomeByCustomerDetail;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class IncomeByCustomerDetailServerReport extends
 		AbstractFinaneReport<IncomeByCustomerDetail> {
 
+	private double previousTotal = 0.0D;
+	private String sectionName;
+	private String jobName;
+
 	public IncomeByCustomerDetailServerReport(
 			IFinanceReport<IncomeByCustomerDetail> reportView) {
-		// TODO Auto-generated constructor stub
+		this.reportView = reportView;
+	}
+
+	public IncomeByCustomerDetailServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { Global.get().Customer(), getMessages().job(),
+				getMessages().type(), getMessages().date(),
+				getMessages().number(), getMessages().memo(),
+				getMessages().Account(), getMessages().credit(),
+				getMessages().debit(), getMessages().balance() };
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return getMessages2().incomeByCustomerDetail(Global.get().Customer());
 	}
 
 	@Override
 	public String[] getColunms() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { Global.get().Customer(), getMessages().job(),
+				getMessages().type(), getMessages().date(),
+				getMessages().number(), getMessages().memo(),
+				getMessages().Account(), getMessages().credit(),
+				getMessages().debit(), getMessages().balance() };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE, COLUMN_TYPE_NUMBER,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public void processRecord(IncomeByCustomerDetail record) {
-		// TODO Auto-generated method stub
-
+		if (sectionDepth == 0) {
+			addSection(
+					new String[] { "" },
+					new String[] {
+							getMessages().reportTotal(Global.get().Customers()),
+							"", "" }, new int[] { 7, 8, 9 });
+		} else if (sectionDepth == 1) {
+			this.sectionName = record.getName();
+			if (!sectionName.equals("")) {
+				addSection(new String[] { sectionName }, new String[] { "", "",
+						getMessages().reportTotal(sectionName) },
+						new int[] { 9 });
+			} else {
+				addSection(new String[] { sectionName }, new String[] { "", "",
+						getMessages().reportTotal(getMessages().other()) },
+						new int[] { 9 });
+			}
+			previousTotal = 0.0D;
+		} else if (sectionDepth == 2) {
+			this.jobName = record.getJobName();
+			if (jobName.equalsIgnoreCase("")) {
+				addSection(
+						new String[] { "", getMessages().others() },
+						new String[] {
+								"",
+								"",
+								"",
+								"",
+								getMessages().reportTotal(
+										getMessages().others()), "" },
+						new int[] { 7, 8 });
+			} else {
+				addSection(new String[] { "", jobName }, new String[] { "", "",
+						"", "", getMessages().reportTotal(jobName), "" },
+						new int[] { 7, 8 });
+			}
+			previousTotal = 0.0D;
+		} else if (sectionDepth == 3) {
+			if (!jobName.equals(record.getJobName())) {
+				endSection();
+			}
+			if (!sectionName.equals(record.getName())) {
+				if (!jobName.equals(record.getJobName())) {
+					endSection();
+				} else if (!jobName.equalsIgnoreCase("")) {
+					endSection();
+				} else {
+					endSection();
+					endSection();
+				}
+			}
+			if (jobName.equals(record.getJobName())
+					&& sectionName.equals(record.getName())) {
+				return;
+			}
+		}
+		// Go on recursive calling if we reached this place
+		processRecord(record);
 	}
 
 	@Override
-	public Object getColumnData(IncomeByCustomerDetail record, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+	public void updateTotals(Object[] values) {
+		Double value = (Double) values[9];
+		values[9] = Double.valueOf(String.valueOf(values[8]))
+				- Double.valueOf(String.valueOf(values[7]));
+		super.updateTotals(values);
+		values[9] = value;
+	}
+
+	@Override
+	public Object getColumnData(IncomeByCustomerDetail record, int index) {
+		switch (index) {
+		case 0:
+			return "";
+		case 1:
+			return "";
+		case 2:
+			return Utility.getTransactionName(record.getTransactionType());
+		case 3:
+			return record.getTransactionDate();
+		case 4:
+			return record.getTransactionNumber();
+		case 5:
+			return record.getMemo();
+		case 6:
+			return record.getAccountName();
+		case 7:
+			return record.getCredit();
+		case 8:
+			return record.getDebit();
+		case 9:
+			double total = record.getDebit() - record.getCredit();
+			previousTotal = previousTotal + total;
+			return previousTotal;
+		default:
+			break;
+		}
+		return "";
 	}
 
 	@Override
 	public ClientFinanceDate getStartDate(IncomeByCustomerDetail obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return obj.getStartDate();
+	}
+
+	@Override
+	public int getColumnWidth(int index) {
+		if (index == 1)
+			return 100;
+		else if (index == 2)
+			return 100;
+		else if (index == 3)
+			return 100;
+		else if (index == 4)
+			return 80;
+		else if (index == 5)
+			return 100;
+		else if (index == 6)
+			return 100;
+		else if (index == 7)
+			return 100;
+		else if (index == 8)
+			return 100;
+		else
+			return 80;
 	}
 
 	@Override
 	public ClientFinanceDate getEndDate(IncomeByCustomerDetail obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return obj.getEndDate();
 	}
 
 	@Override
