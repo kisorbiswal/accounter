@@ -77,7 +77,7 @@ public class ClientCustomer extends ClientPayee {
 
 	private ClientLocation location;
 
-	private ArrayList<ClientJob> jobs;
+	private ArrayList<ClientJob> jobs = new ArrayList<ClientJob>();
 
 	private boolean willDeductTDS;
 
