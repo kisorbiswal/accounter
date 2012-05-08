@@ -996,7 +996,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			switch (getType()) {
 			case TransactionItem.TYPE_ITEM:
 				if (getItem() != null) {
-					if (!item.isIBuyThisItem || !item.isISellThisItem) {
+					if (!item.isIBuyThisItem() || !item.isISellThisItem()) {
 
 						throw new AccounterException(
 								AccounterException.ERROR_ONLY_SELLABLE_ITEMS_CANBE_MARKED_AS_BILLABLE);
