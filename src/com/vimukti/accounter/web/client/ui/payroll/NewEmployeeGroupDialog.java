@@ -11,10 +11,13 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	private TextItem nameItem;
 	private DynamicForm form;
 	ClientEmployeeGroup group;
+	private boolean fromEmployeeView;
 
-	public NewEmployeeGroupDialog(String title,ClientEmployeeGroup data) {
+	public NewEmployeeGroupDialog(String title, ClientEmployeeGroup data,
+			boolean fromEmployeeView) {
 		super(title);
-		if(data == null) {
+		this.fromEmployeeView = fromEmployeeView;
+		if (data == null) {
 			group = new ClientEmployeeGroup();
 		} else {
 			group = data;
@@ -43,6 +46,14 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	protected boolean onOK() {
 		updateData();
 		return true;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		if (fromEmployeeView)
+			return true;
+		else
+			return super.onCancel();
 	}
 
 	private void updateData() {

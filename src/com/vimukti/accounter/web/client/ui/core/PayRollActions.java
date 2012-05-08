@@ -44,6 +44,7 @@ public class PayRollActions extends Action {
 	private static final int ATTENDANCE_OR_PRODUCTION_TYPE_LIST = 13;
 	private static final int NEW_PAY_EMPLOYEE = 14;
 	private int type;
+	private boolean fromEmployeeView;
 
 	public PayRollActions(int type) {
 		super();
@@ -132,7 +133,7 @@ public class PayRollActions extends Action {
 			break;
 		case NEW_EMP_GROUP:
 			dialog = new NewEmployeeGroupDialog(messages.newEmployeeGroup(),
-					(ClientEmployeeGroup) data);
+					(ClientEmployeeGroup) data,isFromEmployeeView());
 			break;
 		case EMP_GROUP_LIST:
 			dialog = new EmployeeGroupListDialog(messages.employeeGroup(),
@@ -269,7 +270,7 @@ public class PayRollActions extends Action {
 	public static PayRollActions newPayEmployeeAction() {
 		return new PayRollActions(NEW_PAY_EMPLOYEE);
 	}
-	
+
 	public static PayRollActions newEmployeeAction() {
 		return new PayRollActions(NEW_EMPLOEE);
 	}
@@ -320,5 +321,13 @@ public class PayRollActions extends Action {
 
 	public static PayRollActions attendanceProductionTypeList() {
 		return new PayRollActions(ATTENDANCE_OR_PRODUCTION_TYPE_LIST);
+	}
+
+	public void setFromEmployeeView(boolean fromEmployeeView) {
+		this.fromEmployeeView = fromEmployeeView;
+	}
+
+	public boolean isFromEmployeeView() {
+		return fromEmployeeView;
 	}
 }
