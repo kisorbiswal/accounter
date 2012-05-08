@@ -32,6 +32,12 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
 					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 					ListGrid.COLUMN_TYPE_IMAGE };
+		} else if (type == PaymentListView.TYPE_PAY_EMPLOYEES) {
+			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+					ListGrid.COLUMN_TYPE_TEXT,
+					ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+					ListGrid.COLUMN_TYPE_IMAGE };
 		}
 		if (type == 0) {
 			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
@@ -56,7 +62,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected Object getColumnValue(PaymentsList obj, int col) {
-		if (type == PaymentListView.TYPE_PAY_RUNS) {
+		if (type == PaymentListView.TYPE_PAY_RUNS
+				| type == PaymentListView.TYPE_PAY_EMPLOYEES) {
 			return getPayRunColumnValue(obj, col);
 		}
 		switch (col) {
@@ -127,8 +134,19 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		case 2:
 			return obj.getName();
 		case 3:
-			return obj.getAmountPaid();
+			if (type == PaymentListView.TYPE_PAY_RUNS) {
+				return obj.getAmountPaid();
+			}
+			return obj.getInFavourOf();
 		case 4:
+			if (type == PaymentListView.TYPE_PAY_RUNS) {
+				if (!obj.isVoided())
+					return Accounter.getFinanceImages().notvoid();
+				else
+					return Accounter.getFinanceImages().voided();
+			}
+			return obj.getAmountPaid();
+		case 5:
 			if (!obj.isVoided())
 				return Accounter.getFinanceImages().notvoid();
 			else
@@ -139,7 +157,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (type == PaymentListView.TYPE_PAY_RUNS) {
+		if (type == PaymentListView.TYPE_PAY_RUNS
+				|| type == PaymentListView.TYPE_PAY_EMPLOYEES) {
 			if (index == 4 || index == 1) {
 				return 60;
 			} else {
@@ -184,6 +203,13 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			return new String[] { messages.date(), messages.number(),
 					messages.name(), messages.total(), messages.voided() };
 		}
+
+		if (type == PaymentListView.TYPE_PAY_EMPLOYEES) {
+			return new String[] { messages.date(), messages.number(),
+					messages.name(), messages.total(), messages.Account(),
+					messages.voided() };
+		}
+
 		if (type == 0) {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),
@@ -212,7 +238,9 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 				showWarningDialog(obj, col);
 			}
 		} else {
-			if ((type == PaymentListView.TYPE_PAY_RUNS ? col == 4 : col == 7)
+			if ((type == PaymentListView.TYPE_PAY_RUNS ? col == 4
+					: type == PaymentListView.TYPE_PAY_EMPLOYEES ? col == 5
+							: col == 7)
 					&& !obj.isVoided()) {
 				showWarningDialog(obj, col);
 			}
@@ -237,7 +265,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		} else {
 			if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT
 					&& (type == PaymentListView.TYPE_PAY_RUNS ? col == 4
-							: col == 7) && !obj.isVoided()) {
+							: type == PaymentListView.TYPE_PAY_EMPLOYEES ? col == 5
+									: col == 7) && !obj.isVoided()) {
 				msg = messages.doyouwanttoVoidtheTransaction();
 			} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
 					&& col == 7) {
@@ -273,7 +302,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 							}
 						} else {
 							if ((type == PaymentListView.TYPE_PAY_RUNS ? col == 4
-									: col == 7)
+									: type == PaymentListView.TYPE_PAY_EMPLOYEES ? col == 5
+											: col == 7)
 									&& obj.getStatus() != ClientTransaction.STATUS_DRAFT) {
 								voidTransaction(obj);
 							}

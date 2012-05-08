@@ -612,6 +612,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	public void getPayRunsList(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int start, int length, int type,
+			int transactionType,
 			AsyncCallback<PaginationList<PaymentsList>> callBack);
 
 	void getTaxReturnList(long startDate, long endDate, int start, int length,
@@ -628,15 +629,17 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTaxRefundsList(long startDate, long endDate, int start,
 			int length, int viewId,
 			AsyncCallback<PaginationList<ClientReceiveVAT>> callback);
-	
-	void getNewPaypalTransactionsList(
-			long accountID, AsyncCallback<List<ClientPaypalTransation>> callBack);
 
-	public void getSavedPaypalTransaction(
-			ClientAccount clientAccount, AsyncCallback<PaginationList<ClientPaypalTransation>> callBack);
+	void getNewPaypalTransactionsList(long accountID,
+			AsyncCallback<List<ClientPaypalTransation>> callBack);
 
-	public void getPaypalAccounts(AsyncCallback<ArrayList<ClientAccount>> asyncCallback);
+	public void getSavedPaypalTransaction(ClientAccount clientAccount,
+			AsyncCallback<PaginationList<ClientPaypalTransation>> callBack);
 
-	public void getPaypalTransactionDetailsForId(String transactionID, long accountID, AsyncCallback<String> asyncCallback);
+	public void getPaypalAccounts(
+			AsyncCallback<ArrayList<ClientAccount>> asyncCallback);
+
+	public void getPaypalTransactionDetailsForId(String transactionID,
+			long accountID, AsyncCallback<String> asyncCallback);
 
 }

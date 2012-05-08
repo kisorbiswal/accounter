@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages2;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -250,6 +251,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 					true);
 		} else if (itemName.equalsIgnoreCase(getMessages().buildAssembly())) {
 			baseListView = (TransactionsListView<T>) new BuildAssembliesView();
+		} else if (itemName.equalsIgnoreCase(getMessages2().payEmployees())) {
+			baseListView = (TransactionsListView<T>) new PaymentListView(
+					PaymentListView.TYPE_PAY_EMPLOYEES);
 		}
 
 		if (!Accounter.isIpadApp()) {
@@ -282,6 +286,10 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	private AccounterMessages getMessages() {
 		return messages;
+	}
+
+	private AccounterMessages2 getMessages2() {
+		return messages2;
 	}
 
 	private ArrayList<String> getCustomerCenterItems() {
@@ -326,6 +334,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 		if (Accounter.hasPermission(Features.PAY_ROLL)) {
 			otherItems.add(getMessages().payRuns());
+			otherItems.add(getMessages2().payEmployees());
 		}
 
 		// otherItems.add(getMessages().transferFunds());

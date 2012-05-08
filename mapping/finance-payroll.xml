@@ -497,6 +497,57 @@
 				GROUP BY T.ID,PR.EMPLOYEE,PR.EMPLOYEE_GROUP,P.NAME,EG.NAME
 			]]>
 	</sql-query>
+	
+	<sql-query name="getPayEmployeeList">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="type" type="int" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="IS_VOIDED" type="boolean" />
+		<return-scalar column="AC_NAME" type="encryptedstring" />
+			<![CDATA[
+					SELECT CASE 
+					         WHEN PE.EMPLOYEE_ID IS NULL THEN EG.NAME 
+					         ELSE P.NAME 
+					       END      AS NAME, 
+					       T.ID     AS TRANSACTION_ID, 
+					       T.NUMBER AS TRANSACTION_NUMBER, 
+					       T.T_DATE AS TRANSACTION_DATE, 
+					       T.TOTAL  AS TOTAL, 
+					       CASE 
+					         WHEN T.SAVE_STATUS = 204 THEN TRUE 
+					         ELSE FALSE 
+					       END      AS IS_VOIDED ,
+					       A.NAME AS AC_NAME
+					FROM   PAY_EMPLOYEE PE 
+					       LEFT OUTER JOIN TRANSACTION T 
+					         ON T.ID = PE.ID 
+					       LEFT OUTER JOIN EMPLOYEE E 
+					         ON E.ID = PE.EMPLOYEE_ID 
+					       LEFT OUTER JOIN PAYEE P 
+					         ON P.ID = E.ID 
+					       LEFT OUTER JOIN EMPLOYEE_GROUP EG 
+					         ON EG.ID = PE.EMPLOYEE_GROUP_ID 
+					       LEFT OUTER JOIN ACCOUNT A 
+					         ON A.ID = PE.PAY_FROM_ID 
+					WHERE  T.COMPANY_ID = :companyId 
+					       AND T.T_DATE BETWEEN :startDate AND :endDate 
+					       AND ( CASE 
+					               WHEN :type = 1000 THEN TRUE 
+					               ELSE T.SAVE_STATUS = 204 
+					             END ) 
+					GROUP  BY T.ID, 
+					          PE.EMPLOYEE_ID, 
+					          PE.EMPLOYEE_GROUP_ID, 
+					          EG.NAME,P.NAME,
+					          P.NAME,A.ID
+			]]>
+	</sql-query>
 
 	<sql-query name="getPayHeadDetials">
 		<query-param name="companyId" type="long" />

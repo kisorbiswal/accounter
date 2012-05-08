@@ -2370,20 +2370,27 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
-	public String getPayRunExportCsv(long fromDate, long toDate, int type) {
+	@Override
+	public String getPayRunExportCsv(long fromDate, long toDate, int type,
+			final int transactionType) {
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			final Company company = getFinanceTool().getCompany(getCompanyId());
 			PaginationList<PaymentsList> payeeChecks = getFinanceTool()
-					.getPayrollManager()
-					.getPayRunsList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate(), type, 0, -1);
+					.getPayrollManager().getPayRunsList(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), type, 0,
+							-1, transactionType);
 			ICSVExportRunner<PaymentsList> icsvExportRunner = new ICSVExportRunner<PaymentsList>() {
 
 				@Override
 				public String[] getColumns() {
+					if (transactionType == ClientTransaction.TYPE_PAY_EMPLOYEE) {
+						return new String[] { messages.date(),
+								messages.number(), messages.name(),
+								messages.account(), messages.total() };
+					}
 					return new String[] { messages.date(), messages.number(),
 							messages.name(), messages.total() };
 				}
@@ -2396,16 +2403,31 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
 										.getPaymentDate()));
+						break;
 					case 1:
 						columnValue = obj.getPaymentNumber();
+						break;
 					case 2:
 						columnValue = obj.getName();
+						break;
 					case 3:
+						if (transactionType == ClientTransaction.TYPE_PAY_EMPLOYEE) {
+							columnValue = obj.getInFavourOf();
+						} else {
+							columnValue = amountAsStringWithCurrency(
+									obj.getAmountPaid(),
+									company.getPrimaryCurrency());
+							columnValue = '"' + columnValue + '"';
+						}
+						break;
+					case 4:
 						columnValue = amountAsStringWithCurrency(
 								obj.getAmountPaid(),
 								company.getPrimaryCurrency());
+						columnValue = '"' + columnValue + '"';
+						break;
 					}
-					columnValue = '"' + columnValue + '"';
+
 					return columnValue;
 				}
 			};
@@ -2638,13 +2660,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		}
 		return "";
 	}
-	
-	
+
 	@Override
 	public String exportSavedPaypalTransactions(ClientAccount account) {
 		try {
 			PaginationList<ClientPaypalTransation> savedPaypalTransactions = getFinanceTool()
-					.getSavedPaypalTransactions(account,getCompanyId());
+					.getSavedPaypalTransactions(account, getCompanyId());
 			ICSVExportRunner<ClientPaypalTransation> icsvExportRunner = new ICSVExportRunner<ClientPaypalTransation>() {
 
 				@Override

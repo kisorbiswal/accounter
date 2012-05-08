@@ -91,7 +91,8 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getTaxAdjustmentsList(int viewId, long startDate, long endDate,
 			int start, int length);
 
-	String getPayRunExportCsv(long startDate, long endDate, int type);
+	String getPayRunExportCsv(long startDate, long endDate, int type,
+			int transactionType);
 
 	String getFileTaxesExportCsv(long startDate, long endDate, int type);
 
@@ -100,8 +101,7 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getPayTaxesExportCsv(long startDate, long endDate, int viewId);
 
 	String getBuildAssembliesExportCsv(long startDate, long endDate, int viewId);
-	
-	String exportSavedPaypalTransactions(ClientAccount clientAccount);
 
+	String exportSavedPaypalTransactions(ClientAccount clientAccount);
 
 }

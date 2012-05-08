@@ -2464,14 +2464,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public PaginationList<PaymentsList> getPayRunsList(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
-			int length, int type) throws AccounterException {
+			int length, int type, int transactionType)
+			throws AccounterException {
 		PaginationList<PaymentsList> payruns = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
 					getCompanyId());
 			payruns = getFinanceTool().getPayrollManager().getPayRunsList(
 					getCompanyId(), dates[0].getDate(), dates[1].getDate(),
-					type, start, length);
+					type, start, length, transactionType);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2549,7 +2550,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return receiveVATs;
 	}
-	
+
 	@Override
 	public ArrayList<ClientAccount> getPaypalAccounts() {
 
@@ -2569,8 +2570,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		PaginationList<ClientPaypalTransation> transactionList = null;
 		try {
 
-			transactionList = getFinanceTool().getSavedPaypalTransactions(clientAccount,
-					getCompanyId());
+			transactionList = getFinanceTool().getSavedPaypalTransactions(
+					clientAccount, getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2584,23 +2585,24 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long accountID) {
 		List<ClientPaypalTransation> tran = new ArrayList<ClientPaypalTransation>();
 		try {
-			tran =  getFinanceTool().getnewPaypalTransaction(getCompanyId(),accountID);
+			tran = getFinanceTool().getnewPaypalTransaction(getCompanyId(),
+					accountID);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
 		return tran;
 	}
 
-
 	@Override
 	public String getPaypalTransactionDetailsForId(String transactionID,
 			long accountID) {
 		try {
-			getFinanceTool().getCompletePaypalTransactionDetailsForID(transactionID,accountID);
+			getFinanceTool().getCompletePaypalTransactionDetailsForID(
+					transactionID, accountID);
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 }

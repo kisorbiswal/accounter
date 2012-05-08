@@ -109,7 +109,7 @@ public interface IAccounterExportCSVServiceAsync {
 			int start, int length, AsyncCallback<String> exportCSVCallback);
 
 	public void getPayRunExportCsv(long startDate, long endDate, int type,
-			AsyncCallback<String> exportCSVCallback);
+			int transactionType, AsyncCallback<String> exportCSVCallback);
 
 	public void getFileTaxesExportCsv(long startDate, long endDate, int type,
 			AsyncCallback<String> exportCSVCallback);
@@ -122,7 +122,8 @@ public interface IAccounterExportCSVServiceAsync {
 
 	public void getBuildAssembliesExportCsv(long startDate, long endDate,
 			int viewId, AsyncCallback<String> exportCSVCallback);
-	
-	public void exportSavedPaypalTransactions(ClientAccount clientAccount, AsyncCallback<String> exportCSVCallback);
+
+	public void exportSavedPaypalTransactions(ClientAccount clientAccount,
+			AsyncCallback<String> exportCSVCallback);
 
 }
