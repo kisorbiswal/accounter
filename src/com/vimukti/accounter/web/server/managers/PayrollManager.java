@@ -22,6 +22,7 @@ import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.core.PayStructure;
 import com.vimukti.accounter.core.PayStructureItem;
 import com.vimukti.accounter.core.PayrollUnit;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.UserDefinedPayHead;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAttendanceManagementItem;
@@ -40,7 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientPayStructure;
 import com.vimukti.accounter.web.client.core.ClientPayStructureDestination;
 import com.vimukti.accounter.web.client.core.ClientPayStructureList;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayEmployee;
 import com.vimukti.accounter.web.client.core.ClientUserDefinedPayHead;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -599,10 +599,14 @@ public class PayrollManager extends Manager {
 	}
 
 	public PaginationList<PaymentsList> getPayRunsList(Long companyId,
-			long startDate, long endDate, int type, int start, int length) {
+			long startDate, long endDate, int type, int start, int length,
+			int transactionType) {
 		PaginationList<PaymentsList> payrunsList = new PaginationList<PaymentsList>();
 		Session currentSession = HibernateUtil.getCurrentSession();
-		Query query = currentSession.getNamedQuery("getPayrunsList")
+		Query query = currentSession
+				.getNamedQuery(
+						transactionType == Transaction.TYPE_PAY_RUN ? "getPayrunsList"
+								: "getPayEmployeeList")
 				.setParameter("companyId", companyId)
 				.setParameter("type", type)
 				.setParameter("startDate", startDate)
@@ -627,7 +631,10 @@ public class PayrollManager extends Manager {
 						(Long) object[3]));
 				paymentsList.setAmountPaid((Double) object[4]);
 				paymentsList.setVoided((Boolean) object[5]);
-				paymentsList.setType(ClientTransaction.TYPE_PAY_RUN);
+				paymentsList.setType(transactionType);
+				if (transactionType == Transaction.TYPE_PAY_EMPLOYEE) {
+					paymentsList.setInFavourOf((String) object[6]);
+				}
 				payrunsList.add(paymentsList);
 			}
 		}
@@ -748,8 +755,7 @@ public class PayrollManager extends Manager {
 			payEmpTransaction.setOriginalAmount((Double) object[4]);
 			payEmpTransaction.setAmountDue((Double) object[5]);
 			payEmpTransaction.setPayment((Double) object[6]);
-			payEmpTransaction
-					.setDate((Long) object[7]);
+			payEmpTransaction.setDate((Long) object[7]);
 			transactionPayEmployeeList.add(payEmpTransaction);
 		}
 

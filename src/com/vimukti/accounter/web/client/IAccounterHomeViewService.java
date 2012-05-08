@@ -548,8 +548,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long item) throws AccounterException;
 
 	PaginationList<PaymentsList> getPayRunsList(ClientFinanceDate startDate,
-			ClientFinanceDate endDate, int start, int length, int type)
-			throws AccounterException;
+			ClientFinanceDate endDate, int start, int length, int type,
+			int transactionType) throws AccounterException;
 
 	PaginationList<ClientTAXReturn> getTaxReturnList(long startDate,
 			long endDate, int start, int length, int viewId);
@@ -562,7 +562,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	PaginationList<ClientReceiveVAT> getTaxRefundsList(long startDate,
 			long endDate, int start, int length, int viewId);
-	
+
 	List<ClientPaypalTransation> getNewPaypalTransactionsList(long accountID);
 
 	PaginationList<ClientPaypalTransation> getSavedPaypalTransaction(

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -35,6 +36,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	public static final int TYPE_WRITE_CHECKS = 3;
 
 	public static final int TYPE_PAY_RUNS = 4;
+	public static final int TYPE_PAY_EMPLOYEES = 5;
+
 	private int type = 0;
 
 	public PaymentListView() {
@@ -42,8 +45,9 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	}
 
 	public PaymentListView(int checkType) {
-		super(checkType == PaymentListView.TYPE_PAY_RUNS ? messages.all()
-				: messages.notIssued());
+		super(
+				(checkType == PaymentListView.TYPE_PAY_RUNS || checkType == PaymentListView.TYPE_PAY_EMPLOYEES) ? messages
+						.all() : messages.notIssued());
 		this.checkType = checkType;
 	}
 
@@ -51,6 +55,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	protected Action getAddNewAction() {
 		if (checkType == TYPE_PAY_RUNS) {
 			return PayRollActions.newPayRunAction();
+		} else if (checkType == PaymentListView.TYPE_PAY_EMPLOYEES) {
+			return PayRollActions.newPayEmployeeAction();
 		}
 		if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
 				.canDoInvoiceTransactions())
@@ -69,6 +75,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	protected String getAddNewLabelString() {
 		if (checkType == TYPE_PAY_RUNS) {
 			return messages.addaNew(messages.payrun());
+		} else if (checkType == PaymentListView.TYPE_PAY_EMPLOYEES) {
+			return messages.addaNew(messages.payEmployee());
 		} else if ((Accounter.getUser().canDoBanking() || Accounter.getUser()
 				.canDoInvoiceTransactions())
 				&& !(checkType == 0 || checkType == TYPE_ALL)) {
@@ -85,6 +93,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	protected String getListViewHeading() {
 		if (checkType == TYPE_PAY_RUNS) {
 			return messages.payRuns();
+		} else if (checkType == PaymentListView.TYPE_PAY_EMPLOYEES) {
+			return messages2.payEmployees();
 		} else if (checkType == 0 || checkType == TYPE_ALL) {
 			return messages.paymentsList();
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
@@ -130,7 +140,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	protected java.util.List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
 		listOfTypes.add(messages.all());
-		if (checkType != TYPE_PAY_RUNS) {
+		if (checkType != TYPE_PAY_RUNS && checkType != TYPE_PAY_EMPLOYEES) {
 			listOfTypes.add(messages.notIssued());
 			listOfTypes.add(messages.issued());
 			listOfTypes.add(messages.drafts());
@@ -204,9 +214,16 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
 
-		} else if (checkType == TYPE_PAY_RUNS) {
-			Accounter.createHomeService().getPayRunsList(getStartDate(),
-					getEndDate(), start, length, type, this);
+		} else if (checkType == TYPE_PAY_RUNS
+				|| checkType == PaymentListView.TYPE_PAY_EMPLOYEES) {
+			Accounter.createHomeService().getPayRunsList(
+					getStartDate(),
+					getEndDate(),
+					start,
+					length,
+					type,
+					checkType == TYPE_PAY_RUNS ? ClientTransaction.TYPE_PAY_RUN
+							: ClientTransaction.TYPE_PAY_EMPLOYEE, this);
 		} else {
 			Accounter.createHomeService().getPayeeChecks(2,
 					getStartDate().getDate(), getEndDate().getDate(), start,
@@ -238,9 +255,14 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 			Accounter.createExportCSVService().getPayeeChecksExportCsv(0,
 					getStartDate().getDate(), getEndDate().getDate(), type,
 					getExportCSVCallback(getListViewHeading()));
-		} else if (checkType == TYPE_PAY_RUNS) {
+		} else if (checkType == TYPE_PAY_RUNS
+				|| checkType == TYPE_PAY_EMPLOYEES) {
 			Accounter.createExportCSVService().getPayRunExportCsv(
-					getStartDate().getDate(), getEndDate().getDate(), type,
+					getStartDate().getDate(),
+					getEndDate().getDate(),
+					type,
+					checkType == TYPE_PAY_RUNS ? ClientTransaction.TYPE_PAY_RUN
+							: ClientTransaction.TYPE_PAY_EMPLOYEE,
 					getExportCSVCallback(getListViewHeading()));
 		} else {
 			Accounter.createExportCSVService().getPayeeChecksExportCsv(2,
