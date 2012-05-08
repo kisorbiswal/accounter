@@ -65,6 +65,7 @@ public class EmployeeGroupCombo extends CustomCombo<ClientEmployeeGroup> {
 				addItemThenfireEvent(result);
 			}
 		});
+		action.setFromEmployeeView(true);
 		action.run(null, true);
 	}
 
