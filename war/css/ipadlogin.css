@@ -1525,3 +1525,12 @@ color: #28757D;
 .cancel_account div,.cancel_account h4{
 	padding:10px;
 }
+.company_lists .form-box div .create_new_company{
+	color: gray;
+	padding-left: 10px;
+	font-size: 15px;
+}
+.create_company{
+	border-bottom:1px solid #ccc;
+	padding: 5px 0;
+}

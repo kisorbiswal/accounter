@@ -114,7 +114,7 @@ public class PurchaseByItemDetailServerReport extends
 		case 7:
 			return 120;
 		case 0:
-			return 300;
+			return 250;
 
 		default:
 			return -1;

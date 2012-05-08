@@ -3919,26 +3919,30 @@ input[type="text"]:FOCUS,textarea:FOCUS {
 	-moz-box-flex: 1;
 }
 
-#paytaxview .leftVLay {
+#paytaxview .leftVLay .frameTitle {
 	-moz-box-orient: vertical;
 	display: -moz-box;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	display: box;
 	box-orient: vertical;
+}
+#paytaxview .leftVLay{
 	width: 50%;
 	-moz-box-flex: 1;
 }
-
-#paytaxview .rightVlay {
+#paytaxview .rightVlay{
+	width: 50%;
+	-moz-box-flex: 1;
+}
+#paytaxview .rightVlay .frameTitle {
 	-moz-box-orient: vertical;
 	display: -moz-box;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	display: box;
 	box-orient: vertical;
-	width: 50%;
-	-moz-box-flex: 1;
+	
 }
 
 #CashSalesView .topHLay {
@@ -8138,7 +8142,7 @@ table.no_records tr td {
     margin: 10px 0;
     width: 454px;
 }
-#NewEmployeeView .firstPanel .basicInfoForm, #NewEmployeeView .firstPanel .empDetailsInfoForm{
+#NewEmployeeView .firstPanel .basicInfoForm{
 	display: -moz-box;
 	display: -webkit-box;
 	display: box;
@@ -8146,6 +8150,13 @@ table.no_records tr td {
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
 	margin:10px;
+	
+}
+#NewEmployeeView .firstPanel .empDetailsInfoForm{
+	margin:10px;
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
 }
 #NewEmployeeView .secondPanel .empOtherDetailsInfoForm{
 	display: -moz-box;
@@ -8328,7 +8339,7 @@ table.no_records tr td {
 	width: 400px;
 }
 .checkboxItem .NoWrapping{
-	display: none;
+	display: none !important;
 }
 .companyInfoPanel .CompanyInfoOption{
 	display: -webkit-box;
