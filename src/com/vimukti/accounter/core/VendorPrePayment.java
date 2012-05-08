@@ -337,7 +337,7 @@ public class VendorPrePayment extends Transaction {
 		double vendorPayment = getTotal() - getTdsTotal();
 		e.add(getPayFrom(), vendorPayment);
 		if (!DecimalUtil.isEquals(tdsTotal, 0.00D)) {
-			e.add(getTdsTaxItem(), getTotal());
+			e.add(getTdsTaxItem(), vendorPayment);
 		}
 		e.add(getVendor(), -getTotal());
 	}
