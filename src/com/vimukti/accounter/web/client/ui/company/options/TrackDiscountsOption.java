@@ -104,10 +104,13 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 		}
 		mainpanel = new StyledPanel("discountsMainPanel");
 		hidePanel = new StyledPanel("discountshidePanel");
-		mainpanel.add(trackDiscountCheckBox);
+		StyledPanel discountPanel = new StyledPanel("discountPanel");
+		discountPanel.add(trackDiscountCheckBox);
+		mainpanel.add(discountPanel);
 		mainpanel.add(discountLabel);
 		hidePanel.add(oneperTransactionLabel);
 		hidePanel.add(oneperdetaillineLabel);
+		hidePanel.add(oneperdetaillineTransctiongroup);
 		hidePanel.add(selectDiscountAccount);
 		hidePanel.add(accountsCombo);
 		mainpanel.add(hidePanel);
