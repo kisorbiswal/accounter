@@ -207,6 +207,10 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			baseListView = (TransactionsListView<T>) new ExpensesListView(
 					getMessages().cash(), ClientTransaction.TYPE_CASH_EXPENSE);
 
+		} else if (itemName.equalsIgnoreCase(getMessages().cashPurchases())) {
+			baseListView = (TransactionsListView<T>) new BillListView(
+					getMessages().all(), ClientTransaction.TYPE_CASH_PURCHASE);
+
 		} else if (itemName.equalsIgnoreCase(getMessages().deposits())) {
 			baseListView = (TransactionsListView<T>) new DepositsTransfersListView(
 					0);
@@ -269,6 +273,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		vendorItems.add(getMessages().vendorchecks());
 		vendorItems.add(getMessages().creditCardExpenses());
 		vendorItems.add(getMessages().cashExpenses());
+		vendorItems.add(getMessages().cashPurchases());
 		if (getPreferences().isPurchaseOrderEnabled()) {
 			vendorItems.add(getMessages().purchaseOrders());
 		}
