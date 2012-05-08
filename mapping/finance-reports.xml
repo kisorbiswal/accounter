@@ -4772,6 +4772,102 @@
 				GROUP BY PH.ID,E.NAME,EPC.RATE,T.ID,PR.ID
 		]]>
 	</sql-query>
+	
+	<sql-query name="getIncomeByCustomerDetails">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
+		<return-scalar column="JOB_NAME" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
+		<return-scalar column="CREDIT" type="double" />
+		<return-scalar column="DEBIT" type="double" />
+		
+		<![CDATA[
+				SELECT T.ID       AS TRANSACTION_ID,
+				       T.T_DATE   AS TRANSACTION_DATE,
+				       T.T_TYPE   AS TRANSACTION_TYPE,
+				       T.NUMBER   AS TRANSACTION_NUMBER,
+				       T.MEMO     AS MEMO,
+				       P.NAME     AS PAYEE_NAME,
+				       J.JOB_NAME AS JOB_NAME,
+				       A.NAME     AS ACCOUNT_NAME,
+				       CASE
+				         WHEN ( TI.TYPE = 4
+				                AND T.T_TYPE IN ( 1, 8 ) )THEN AT.AMOUNT
+				         WHEN ( TI.TYPE = 1
+				                AND IT.TYPE IN ( 1, 3 ) )THEN AT.AMOUNT
+				         WHEN ( IT.TYPE IN ( 2, 4 )
+				                AND T.T_TYPE IN ( 1, 8 )
+				                AND AT.ACCOUNT_ID = IT.INCOME_ACCOUNT_ID ) THEN AT.AMOUNT
+				         ELSE 0
+				       END        AS CREDIT,
+				       CASE
+				         WHEN ( IT.TYPE IN ( 2, 4 )
+				                AND ( T.T_TYPE IN ( 1, 8 )
+				                      AND AT.ACCOUNT_ID = IT.EXPENSE_ACCOUNT_ID ) ) THEN
+				         (SELECT Sum(IP.QTY_VALUE * IP.PURCHASE_COST)
+				          FROM
+				       INVENTORY_PURCHASE IP
+				       JOIN TRANSACTION_ITEM TRI
+				         ON TRI.ID = IP.TRANSACTION_ITEM_ID
+				         WHERE
+				         TRI.ID
+				         =
+				         T.ID)
+				         WHEN ( T.T_TYPE IN ( 15, 6 ) ) THEN AT.AMOUNT
+				         ELSE 0
+				       END        AS DEBIT
+				FROM   ACCOUNT_TRANSACTION AT
+				       LEFT JOIN TRANSACTION T
+				         ON T.ID = AT.TRANSACTION_ID
+				       LEFT JOIN TRANSACTION_ITEM TI
+				         ON TI.TRANSACTION_ID = T.ID
+				       LEFT JOIN ITEM IT
+				         ON IT.ID = TI.ITEM_ID
+				       LEFT JOIN ACCOUNT A
+				         ON A.ID = AT.ACCOUNT_ID
+				       LEFT OUTER JOIN INVOICE I
+				         ON I.ID = T.ID
+				       LEFT OUTER JOIN CASH_SALES CS
+				         ON CS.ID = T.ID
+				       LEFT OUTER JOIN ENTER_BILL EB
+				         ON EB.ID = T.ID
+				       LEFT OUTER JOIN WRITE_CHECKS WC
+				         ON WC.ID = T.ID
+				       LEFT OUTER JOIN PAYEE P
+				         ON P.ID = I.CUSTOMER_ID
+				             OR CS.CUSTOMER_ID = P.ID
+				             OR EB.VENDOR_ID = P.ID
+				             OR WC.CUSTOMER_ID = P.ID
+				             OR WC.VENDOR_ID = P.ID
+				             OR WC.TAX_AGENCY_ID = P.ID
+				       LEFT OUTER JOIN JOB J
+				         ON J.ID = T.JOB_ID
+				WHERE  T.COMPANY_ID = :companyId
+				       AND T.T_TYPE IN ( 1, 6, 8, 15 )
+				       AND T.T_DATE BETWEEN :startDate AND :endDate
+				       AND A.ID NOT IN (SELECT ACCOUNTS_RECEIVABLE_ID
+				                        FROM   CURRENCY C
+				                        WHERE  C.COMPANY_ID = T.COMPANY_ID)
+				       AND A.ID NOT IN (SELECT ACCOUNTS_PAYABLE_ID
+				                        FROM   CURRENCY C
+				                        WHERE  C.COMPANY_ID = T.COMPANY_ID)
+				       AND A.A_TYPE != 2
+				       AND ( CASE
+				               WHEN IT.TYPE IN ( 2, 4 ) THEN A.ID != IT.ASSETS_ACCOUNT_ID
+				               ELSE TRUE
+				             END )
+				ORDER  BY T.ID  
+				]]>
+				
+	</sql-query>
 	<!-- <sql-query name="getClosedSalesOrders"> <query-param name="companyId" 
 		type="long" /> <query-param name="startDate" type="long" /> <query-param 
 		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
