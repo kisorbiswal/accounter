@@ -50,6 +50,8 @@ public class BillListView extends TransactionsListView<BillsList> implements
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
 				return new NewCreditMemoAction();
+			} else if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
+				return new NewCashPurchaseAction();
 			}
 			return new EnterBillsAction();
 		}
@@ -62,6 +64,8 @@ public class BillListView extends TransactionsListView<BillsList> implements
 				&& getCompany().getPreferences().isKeepTrackofBills()) {
 			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
 				return messages.customerCreditNote(Global.get().Vendor());
+			} else if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
+				return messages.addNew(messages.cashPurchase());
 			}
 			return messages.addaNewBill();
 		}
@@ -72,6 +76,8 @@ public class BillListView extends TransactionsListView<BillsList> implements
 	protected String getListViewHeading() {
 		if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
 			return messages.payeeCreditNotes(Global.get().Vendor());
+		} else if (transactionType == ClientTransaction.TYPE_CASH_PURCHASE) {
+			return messages.cashPurchases();
 		}
 		return messages.billsAndExpenses();
 	}
