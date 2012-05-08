@@ -28,7 +28,7 @@ public class ManageBillsOption extends AbstractPreferenceOption {
 		if (getCompanyPreferences().isKeepTrackofBills()) {
 			managingBillRadioGroup.setValue(messages.yes());
 		} else {
-			managingBillRadioGroup.setValue(messages.yes());
+			managingBillRadioGroup.setValue(messages.no());
 		}
 		if (getCompanyPreferences().isPricingLevelsEnabled()) {
 			isPriceLevelsEnabled.setValue(true);
