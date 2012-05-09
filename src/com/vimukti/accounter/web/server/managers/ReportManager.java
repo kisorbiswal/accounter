@@ -4078,9 +4078,6 @@ public class ReportManager extends Manager {
 			checkDetail.setPayeeName((String) objects[4]);
 			checkDetail.setCheckAmount((Double) objects[5]);
 			String checkNumber = objects[6] != null ? (String) objects[6] : "";
-			if (checkNumber.trim().length() == 0) {
-				checkNumber = "To BE PRINTED";
-			}
 			checkDetail.setCheckNumber(checkNumber);
 			list.add(checkDetail);
 		}
