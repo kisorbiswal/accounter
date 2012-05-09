@@ -1051,4 +1051,9 @@ public class ActionFactory {
 	public static PaypalTransactionListAction getPaypalTransaction() {
 		return new PaypalTransactionListAction();
 	}
+
+	public static InventoryTransactionHistoryListAction getInventoryTransactionListHistory(
+			ClientItem selectedItem) {
+		return new InventoryTransactionHistoryListAction(selectedItem);
+	}
 }

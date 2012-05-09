@@ -87,10 +87,12 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 					addPortlet(link.getText());
 				}
 			});
-
 			portLetsList.add(link);
 
 		}
+
+		addPortlet(PortletFactory.get().getPortletName(
+				portletConfigurationList.get(0)));
 
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		mainPanel.add(portLetsList);
@@ -156,9 +158,8 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 
 	@Override
 	public void addButtons(ButtonGroup group) {
-		final ImageButton configButton = new ImageButton(
-				messages.configurePortlets(), Accounter.getFinanceImages()
-						.portletPageSettings());
+		final ImageButton configButton = new ImageButton(Accounter
+				.getFinanceImages().ipadSettings());
 		configButton.addStyleName("settingsButton");
 		configButton.getElement().setId("configButton");
 		configButton.addClickHandler(new ClickHandler() {
@@ -169,7 +170,6 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 			}
 		});
 		group.add(configButton);
-
 	}
 
 }

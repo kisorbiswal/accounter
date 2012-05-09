@@ -130,6 +130,7 @@ public class IpadViewManager extends ViewManager {
 
 	}
 
+	@Override
 	public ImageButton createPrintButton() {
 		ImageButton printButton = new ImageButton(Accounter.getFinanceImages()
 				.ipadDownload());
@@ -146,6 +147,7 @@ public class IpadViewManager extends ViewManager {
 
 	}
 
+	@Override
 	public ImageButton getNextButton() {
 		ImageButton nextButton = new ImageButton(Accounter.getFinanceImages()
 				.nextIcon());

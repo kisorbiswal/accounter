@@ -155,11 +155,11 @@
 		<when-property-is name="tablet.user.agent" value="ipad" />
 	</replace-with>
 
-	<replace-with
+<!-- 	<replace-with
 		class="com.vimukti.accounter.web.client.ui.edittable.IPadEditTableImpl">
 		<when-type-is
 			class="com.vimukti.accounter.web.client.ui.edittable.EditTableImpl" />
 		<when-property-is name="tablet.user.agent" value="ipad" />
-	</replace-with>
+	</replace-with> -->
 
 </module>

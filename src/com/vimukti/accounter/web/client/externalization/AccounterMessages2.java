@@ -40,4 +40,6 @@ public interface AccounterMessages2 extends Messages {
 	public String incomeByCustomerDetail(String customer);
 
 	public String payEmployees();
+
+	public String transactionListFor(String customer);
 }
