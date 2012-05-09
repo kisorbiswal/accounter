@@ -54,7 +54,7 @@ public class PayBillPdfGeneration {
 					usedTempletes.setDate(Utility.getDateInSelectedFormat(bill
 							.getEnterBill().getDate()));
 					usedTempletes.setAmountPaid(Utility.decimalConversation(
-							bill.getEnterBill().getPayments(), currencySymbol));
+							bill.getPayment(), currencySymbol));
 				}
 				if (bill.getJournalEntry() != null) {
 					JournalEntry entry = bill.getJournalEntry();
