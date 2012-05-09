@@ -121,6 +121,9 @@ public class ReportSectionView extends BaseHomeView {
 		companyAndFinancialMap.put(messages.transactionDetailsByAccount(),
 				CompanyAndFinancialReportsAction.transactionDetailByAccount()
 						.getHistoryToken());
+		companyAndFinancialMap.put(messages2.incomeByCustomerDetail(Global
+				.get().Customer()), CompanyAndFinancialReportsAction
+				.incomeByCustomer().getHistoryToken());
 		companyAndFinancialMap.put(messages.trialBalance(),
 				CompanyAndFinancialReportsAction.trailBalance()
 						.getHistoryToken());

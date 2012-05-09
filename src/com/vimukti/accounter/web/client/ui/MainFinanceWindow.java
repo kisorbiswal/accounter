@@ -545,6 +545,9 @@ public class MainFinanceWindow extends FlowPanel {
 				.generalLedger());
 		actions.put(CompanyAndFinancialReportsAction.expense()
 				.getHistoryToken(), CompanyAndFinancialReportsAction.expense());
+		actions.put(CompanyAndFinancialReportsAction.incomeByCustomer()
+				.getHistoryToken(), CompanyAndFinancialReportsAction
+				.incomeByCustomer());
 
 		actions.put(TAXReportsAction.salesTaxLiability().getHistoryToken(),
 				TAXReportsAction.salesTaxLiability());
