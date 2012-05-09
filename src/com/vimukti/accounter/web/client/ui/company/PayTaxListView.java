@@ -19,7 +19,7 @@ public class PayTaxListView extends TransactionsListView<ClientPayTAX>
 	private int viewId;
 
 	public PayTaxListView() {
-		super(messages.open());
+		super(messages.all());
 		isDeleteDisable = true;
 	}
 
@@ -92,7 +92,6 @@ public class PayTaxListView extends TransactionsListView<ClientPayTAX>
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages.open());
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
 		if (getViewType() != null && !getViewType().equals("")) {
@@ -112,9 +111,7 @@ public class PayTaxListView extends TransactionsListView<ClientPayTAX>
 	}
 
 	private int checkViewType(String view) {
-		if (getViewType().equalsIgnoreCase(messages.open())) {
-			setViewId(VIEW_OPEN);
-		} else if (getViewType().equalsIgnoreCase(messages.voided())) {
+		if (getViewType().equalsIgnoreCase(messages.voided())) {
 			setViewId(VIEW_VOIDED);
 		} else if (getViewType().equalsIgnoreCase(messages.all())) {
 			setViewId(VIEW_ALL);
