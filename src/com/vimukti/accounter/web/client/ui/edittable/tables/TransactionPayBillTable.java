@@ -35,7 +35,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 public abstract class TransactionPayBillTable extends
 		EditTable<ClientTransactionPayBill> {
 	private final boolean canEdit;
-	private ClientVendor vendor;
 	private final List<Integer> selectedValues = new ArrayList<Integer>();
 	private boolean gotCreditsAndPayments;
 	public List<ClientCreditsAndPayments> creditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
@@ -43,17 +42,14 @@ public abstract class TransactionPayBillTable extends
 	public boolean isAlreadyOpened;
 	private final ICurrencyProvider currencyProvider;
 	private ClientTAXItem tdsCode;
-	private boolean isForceShowTDS;
 	private final boolean enableDiscount;
 	private long transactionId;
-	private boolean isTDSEnabled;
 
 	public TransactionPayBillTable(boolean enableDiscount, boolean canEdit,
-			ICurrencyProvider currencyProvider,boolean istdsEnabled) {
+			ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
 		this.enableDiscount = enableDiscount;
-		this.isTDSEnabled = istdsEnabled;
 	}
 
 	public void setTranactionId(long transactionId) {
@@ -125,7 +121,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
-					return messages.dueDate()+getValue(row).toString();
+					return messages.dueDate() + getValue(row).toString();
 				}
 
 				@Override
@@ -165,7 +161,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionPayBill row) {
-				return messages.billNo()+getValue(row).toString();
+				return messages.billNo() + getValue(row).toString();
 			}
 
 			@Override
@@ -207,7 +203,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
-					 return getColumnNameWithCurrency(messages.originalAmount())+getValue(row);
+					return getColumnNameWithCurrency(messages.originalAmount())
+							+ getValue(row);
 				}
 
 				@Override
@@ -247,7 +244,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
-					return getColumnNameWithCurrency(messages.amountDue())+getValue(row);
+					return getColumnNameWithCurrency(messages.amountDue())
+							+ getValue(row);
 				}
 
 				@Override
@@ -288,7 +286,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
-					return messages.billAmount()+getValue(row);
+					return messages.billAmount() + getValue(row);
 				}
 
 				@Override
@@ -327,7 +325,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionPayBill row) {
-				return messages.discountDate()+getValue(row);
+				return messages.discountDate() + getValue(row);
 			}
 
 			@Override
@@ -367,7 +365,8 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionPayBill row) {
-				return  getColumnNameWithCurrency(messages.discount())+getValue(row);
+				return getColumnNameWithCurrency(messages.discount())
+						+ getValue(row);
 			}
 
 			@Override
@@ -412,7 +411,8 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			public String getValueAsString(ClientTransactionPayBill row) {
-				return getColumnNameWithCurrency(messages.credits())+getValue(row);
+				return getColumnNameWithCurrency(messages.credits())
+						+ getValue(row);
 			}
 
 			@Override
@@ -476,7 +476,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
-					return getColumnNameWithCurrency(messages.payments())+getValue(row);
+					return getColumnNameWithCurrency(messages.payments())
+							+ getValue(row);
 				}
 
 				@Override
@@ -484,7 +485,6 @@ public abstract class TransactionPayBillTable extends
 					return 4;
 				}
 			});
-           if(isTDSEnabled)
 			addTdsColumn();
 		}
 
@@ -515,7 +515,7 @@ public abstract class TransactionPayBillTable extends
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
 					// TODO Auto-generated method stub
-					return messages.referenceNo()+getValue(row);
+					return messages.referenceNo() + getValue(row);
 				}
 
 				@Override
@@ -558,7 +558,7 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				public String getValueAsString(ClientTransactionPayBill row) {
-					return messages.amountPaid()+getValue(row);
+					return messages.amountPaid() + getValue(row);
 				}
 
 				@Override
@@ -568,7 +568,6 @@ public abstract class TransactionPayBillTable extends
 			});
 		}
 		if (!canEdit) {
-			if(isTDSEnabled)
 			addTdsColumn();
 		}
 
@@ -819,7 +818,6 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	public void initCreditsAndPayments(final ClientVendor vendor) {
-		this.vendor = vendor;
 		if (isTDSEnabled()) {
 			ClientTAXItem tdsCode = Accounter.getCompany().getTaxItem(
 					vendor.getTaxItemCode());
@@ -990,24 +988,20 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	private boolean isTDSEnabled() {
-		if (vendor != null) {
-			return (getCompany().getPreferences().isTDSEnabled()
-					&& vendor != null && vendor.isTdsApplicable())
-					|| isForceShowTDS;
+		if (getVendor() != null) {
+			return (getCompany().getPreferences().isTDSEnabled() && getVendor()
+					.isTdsApplicable());
 		} else {
-			return getCompany().getPreferences().isTDSEnabled()
-					|| isForceShowTDS;
+			return getCompany().getPreferences().isTDSEnabled();
 		}
 	}
+
+	public abstract ClientVendor getVendor();
 
 	private void updatesAmounts(ClientTransactionPayBill bill) {
 		double tdsToPay;
 		tdsToPay = calculateTDS(bill.getPayment());
 		bill.setTdsAmount(tdsToPay);
-	}
-
-	public void showTDS(boolean value) {
-		this.isForceShowTDS = value;
 	}
 
 	public void updateAmountsFromGUI() {

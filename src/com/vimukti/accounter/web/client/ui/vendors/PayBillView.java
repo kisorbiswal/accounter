@@ -259,8 +259,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 	}
 
 	private void initListGrid() {
+		if (grid != null) {
+			grid.removeFromParent();
+		}
 		grid = new TransactionPayBillTable(isTrackDiscounts(), !isInViewMode(),
-				this, isTDSEnable()) {
+				this) {
 
 			@Override
 			protected void updateFootervalues(ClientTransactionPayBill row,
@@ -308,8 +311,14 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			protected boolean isInViewMode() {
 				return PayBillView.this.isInViewMode();
 			}
+
+			@Override
+			public ClientVendor getVendor() {
+				return PayBillView.this.vendorCombo.getSelectedValue();
+			}
 		};
 		grid.setEnabled(!isInViewMode());
+		gridLayout.insert(grid, 1);
 	}
 
 	/**
@@ -586,8 +595,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 
 		Label lab1 = new Label(messages.billsDue());
 
-		initListGrid();
-
 		memoTextAreaItem = createMemoTextAreaItem();
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
@@ -640,7 +647,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 
 		gridLayout = new StyledPanel("gridLayout");
 		gridLayout.add(lab1);
-		gridLayout.add(grid);
+		initListGrid();
 		gridLayout.add(bottompanel);
 
 		this.add(lab);
@@ -801,6 +808,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
 		}
 
+		initListGrid();
+
 		if (!isInViewMode()) {
 			grid.initCreditsAndPayments(vendor);
 		}
@@ -911,7 +920,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			setData(clientPayBill);
 		} else {
 			grid.setTranactionId(transaction.id);
-			grid.showTDS(transaction.getTdsTaxItem() != 0);
 			if (currencyWidget != null) {
 				this.currency = getCompany().getCurrency(
 						transaction.getCurrency());
@@ -1320,10 +1328,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			checkNoText.setValue(messages.toBePrinted());
 		}
 		super.onEdit();
-		grid.removeFromParent();
 		initListGrid();
 		grid.setTranactionId(transaction.id);
-		gridLayout.insert(grid, 1);
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		// transaction = new ClientPayBill();

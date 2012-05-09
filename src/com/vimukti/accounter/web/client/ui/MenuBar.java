@@ -65,8 +65,6 @@ public class MenuBar {
 
 	private boolean isTaxTracking;
 
-	private CountryPreferences company;
-
 	private boolean isInventoryEnabled;
 
 	private boolean notReadOnlyUser;
@@ -96,6 +94,8 @@ public class MenuBar {
 	private boolean canSaveDrafts;
 
 	private Set<String> features;
+
+	private boolean isShippingEnabled;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -1135,12 +1135,16 @@ public class MenuBar {
 		manageSupportListMenuBar.addMenuItem(
 				messages.payeeGroupList(Global.get().Vendor()),
 				HistoryTokens.VENDORGROUPLIST);
+
 		manageSupportListMenuBar.addMenuItem(messages.paymentTermList(),
 				HistoryTokens.PAYMENTTERMS);
-		manageSupportListMenuBar.addMenuItem(messages.shippingMethodList(),
-				HistoryTokens.SHIPPINGMETHODSLIST);
-		manageSupportListMenuBar.addMenuItem(messages.shippingTermList(),
-				HistoryTokens.SHIPPINGTERMSLIST);
+
+		if (isShippingEnabled) {
+			manageSupportListMenuBar.addMenuItem(messages.shippingMethodList(),
+					HistoryTokens.SHIPPINGMETHODSLIST);
+			manageSupportListMenuBar.addMenuItem(messages.shippingTermList(),
+					HistoryTokens.SHIPPINGTERMSLIST);
+		}
 
 		manageSupportListMenuBar.addMenuItem(messages.itemGroupList(),
 				HistoryTokens.ITEMGROUPLIST);
@@ -1266,8 +1270,6 @@ public class MenuBar {
 
 		this.isInventoryEnabled = preferences.isInventoryEnabled();
 
-		this.company = countryPreferences;
-
 		this.notReadOnlyUser = !(clientUser.getUserRole()
 				.equalsIgnoreCase(RolePermissions.READ_ONLY));
 
@@ -1289,6 +1291,8 @@ public class MenuBar {
 		this.isAdmin = clientUser.isAdmin();
 
 		this.canSaveDrafts = canSaveDrafts(clientUser);
+
+		this.isShippingEnabled = preferences.isDoProductShipMents();
 
 		getMenuBar();
 	}
