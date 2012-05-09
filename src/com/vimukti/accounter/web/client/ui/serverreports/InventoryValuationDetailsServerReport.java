@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
@@ -77,7 +78,7 @@ public class InventoryValuationDetailsServerReport extends
 	public Object getColumnData(InventoryValutionDetail record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return ReportUtility.getTransactionName(record.getTransType());
+			return getTransactionName(record);
 		case 1:
 			return getDateByCompanyType(new ClientFinanceDate(
 					record.getTransactionDate()));
@@ -97,6 +98,24 @@ public class InventoryValuationDetailsServerReport extends
 			return record.getQuantity() * record.getCost();
 		}
 		return null;
+	}
+
+	private String getTransactionName(InventoryValutionDetail record) {
+		if (record.getEstimateType() != 0) {
+			return getEstimateStringByType(record.getEstimateType());
+		}
+		return ReportUtility.getTransactionName(record.getTransType());
+	}
+
+	private String getEstimateStringByType(int type) {
+		if (type == ClientEstimate.CREDITS) {
+			return messages.credit();
+		} else if (type == ClientEstimate.CHARGES) {
+			return messages.charge();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return messages.salesOrder();
+		}
+		return messages.quote();
 	}
 
 	@Override

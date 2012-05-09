@@ -44,6 +44,8 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	private double avgCost;
 
+	private int estimateType;
+
 	public int getTransType() {
 		return transType;
 	}
@@ -179,5 +181,13 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	public double getAvgCost() {
 		return avgCost;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
 	}
 }

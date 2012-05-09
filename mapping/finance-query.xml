@@ -11319,6 +11319,7 @@
 		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="PAYEE_ID" type="long" />
 		<return-scalar column="AVG_COST" type="double" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 		<![CDATA[
 				SELECT TRANSACTION_ID,
 				       TRANSACTION_DATE,
@@ -11333,12 +11334,14 @@
 				       ITEM_ID,
 				       PAYEE_NAME,
 				       PAYEE_ID,
-				       I.AVERAGE_COST AS AVG_COST 
+				       I.AVERAGE_COST AS AVG_COST ,
+				       E.ESTIMATETYPE AS ESTIMATE_TYPE
 				FROM   INVENTORY_HISTORY_VIEW V
 				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
 				LEFT JOIN UNIT U ON U.ID = V.ITEM_UNITS
 				LEFT JOIN UNIT QTYUNIT ON QTYUNIT.ID = V.QTY_UNIT
 				LEFT OUTER JOIN TRANSACTION T ON T.ID = TRANSACTION_ID
+				LEFT OUTER JOIN ESTIMATE E ON E.ID = T.ID
 				WHERE  V.COMPANY = :companyId AND V.ITEM_TYPE IN (2,4)
 				       AND ( V.TRANSACTION_DATE IS NULL
 				              OR V.TRANSACTION_DATE BETWEEN :fromDate AND :toDate )

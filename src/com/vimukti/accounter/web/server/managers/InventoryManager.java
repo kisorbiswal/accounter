@@ -19,7 +19,6 @@ import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.StockTransfer;
-import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
@@ -34,7 +33,6 @@ import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
-import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -580,6 +578,7 @@ public class InventoryManager extends Manager {
 			detail.setPayeeName((String) next[11]);
 			detail.setPayeeId(next[12] != null ? (Long) next[12] : 0);
 			detail.setAvgCost(next[13] != null ? (Double) next[13] : 0);
+			detail.setEstimateType(next[14] != null ? (Integer) next[14] : 0);
 			result.add(detail);
 		}
 		return result;
