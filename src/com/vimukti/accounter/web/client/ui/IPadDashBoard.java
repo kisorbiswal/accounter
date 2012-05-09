@@ -43,7 +43,7 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 
 	public void createControls() {
 
-		StyledPanel portLetsList = new StyledPanel("portLetsList");
+		final StyledPanel portLetsList = new StyledPanel("portLetsList");
 		displayPage = new StyledPanel("displayPage");
 
 		List<String> portletNames = new ArrayList<String>();
@@ -84,6 +84,10 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					for (int i = 0; i < portLetsList.getWidgetCount(); i++) {
+						portLetsList.getWidget(i).removeStyleName("clicked");
+					}
+					link.addStyleName("clicked");
 					addPortlet(link.getText());
 				}
 			});
@@ -92,7 +96,7 @@ public class IPadDashBoard extends AbstractView implements IButtonContainer {
 
 		}
 
-		StyledPanel mainPanel = new StyledPanel("mainPanel");
+		StyledPanel mainPanel = new StyledPanel("ipadDashboard");
 		mainPanel.add(portLetsList);
 		mainPanel.add(displayPage);
 

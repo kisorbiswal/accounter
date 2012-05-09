@@ -58,7 +58,7 @@
 	overflow:hidden !important; 
   } 
   .mainMenuView .subMenuForm{
-	height:600px;
+	height:625px;
 	overflow: auto;
 }
 }
@@ -717,13 +717,16 @@ table.gridHeader tr td {
 }
 
 #PreferenceSettingsView .pre_scroll_table {
-	width: 80%;
-	height: 850px;
+	width: 800px;
+	height: 625px;
 	background: none repeat scroll 0 0 white;
 	overflow: auto;
 	border-left: 1px solid #1A5158;
 	padding-bottom: 2px;
 	background: #E8EAEB;
+	left:200px;
+	position: absolute !important;
+	top: 58px;
 }
 
 #PreferenceSettingsView .preferences_option {
@@ -962,7 +965,7 @@ table.no_records .norecord-empty-message td {
 
 #CustomerCenterView #CustomersListGrid {
 	border: 1px solid #2D8B93;
-	height: 600px;
+	height: 625px;
 	overflow: auto;
 }
 
@@ -1011,7 +1014,7 @@ table.no_records .norecord-empty-message td {
 }
 
 #vendorCenterView .mainPanel #VendorsListGrid {
-	height: 600px;
+	height: 625px;
 	border: 1px solid #2D8B93;
 	overflow: auto;
 }
@@ -1287,14 +1290,6 @@ table.no_records .norecord-empty-message td {
 	font-weight: bold;
 }
 
-.biz-decor-panel .vPanel {
-	border: 1px solid #7A7A7A;
-}
-
-.portlet-body button {
-	margin-left: 30px;
-}
-
 .portlet-body .hPanel button {
 	float: left;
 }
@@ -1312,12 +1307,8 @@ table.no_records .norecord-empty-message td {
 	font-weight: bold;
 }
 
-.portlet-body .topPanel button {
-	float: left;
-}
-
 .portlet-body .topPanel .reportToolbar {
-	margin: 5px 0 0 15px;
+	margin-bottom: 10px;
 }
 
 .portlet-body .expense_label_tabel a {
@@ -1349,10 +1340,6 @@ table.no_records .norecord-empty-message td {
 
 #PortletPageConfigureDialog .portletNamesPanel span label {
 	padding-left: 5px;
-}
-
-.portlet-body .reportToolbar .form {
-	display: -webkit-box;
 }
 
 .portlet-body .reportToolbar .form input {
@@ -2542,12 +2529,6 @@ table.dropdownFlex {
 	overflow-y: auto;
 	position: relative;
 	height: auto;
-}
-
-#BankingPortlet .portlet-body {
-	overflow-y: auto;
-	position: relative;
-	height: 270px;
 }
 
 .view_manager .rightPanel iframe {
@@ -4379,7 +4360,7 @@ select[multiple] {
 	color: #E23333;
 }
 
-.helpContent,.commentPanel,.portlet-body {
+.helpContent,.commentPanel {
 	background-color: #FFFFFF;
 }
 
@@ -4509,6 +4490,7 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	color: white;
 	border-radius: 5px;
 	vertical-align: top;
+	padding: 3px;
 }
 
 #next,#previous {
@@ -4517,8 +4499,9 @@ div.gridBodyContainer,.action-panel .panelBody .panelContent,.action-panel,.scro
 	border-top-color: #0E4B75;
 	color: white;
 	border-radius: 5px;
-	width: 100px;
-	vertical-align: top
+	width: 30px;
+	vertical-align: top;
+	padding:3px
 }
 
 .stack {
@@ -5972,8 +5955,12 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 }
 
 #PreferenceSettingsView .titlesPanel {
-	height: 850px;
+	height: 625px;
 	background: #E8EAEB;
+	left: 0px;
+	position: fixed;
+	overflow: auto;
+	width: 200px;
 }
 
 #PreferenceSettingsView .companyInfoPanel {
@@ -6043,13 +6030,14 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 .mainMenuView {
 	display: -webkit-box;
 	height: 700px;
-	margin:-10px;
 }
 
 .mainMenuView .subMenuPanel {
-	width: 77%;
-	border-left: 1px solid #ccc;
+	width: 800px;
+	border-left: 1px solid #CCC;
 	padding: 10px 20px 0px 10px;
+	left: 200px;
+	position: absolute;
 }
 
 .mainMenuView .menuItem .menuDescription {
@@ -6117,7 +6105,7 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 	background-image: -webkit-linear-gradient(#F4547C, #C60D3B 2 %, #830927);
 	background-image: linear-gradient(#F4547C, #C60D3B 2 %, #830927);
 	border-color: black;
-	padding: 13px 40px;
+	padding: 14px 40px;
 	border-radius: 0px;
 	text-align: center;
 	position: absolute;
@@ -6205,13 +6193,20 @@ body,div,table td,select,.gwt-Button,textarea,input,label,.ReportGrid tr td,.gwt
 	width:70px;
 }
 .mainMenuView .mainMenu{
-	width:200px;
+	width: 200px;
+	position: fixed;
+	left: 0;
+	height: 625px;
+	overflow: auto;
 }
 .view_manager_body .viewholder{
-	margin-top: 70px;
+	margin-top: 50px;
+}
+.report-toolbar{
+	margin-top: 60px;
 }
 .view_manager_body .abstract_base_view{
-	padding: 10px 0 10px 10px;
+	padding: 0 0 10px 10px;
 	width: 98%;
 	height:100%;
 }
@@ -6338,20 +6333,42 @@ div.RadioGroupItem{
 	margin:3px;
 }
 .mainPanel .portLetsList{
-	width:30%;
+	width: 300px;
+	border-right: 1px solid #CCC;
+	position: fixed;
+	left: 0px;
+	overflow: auto;
+	height: 630px;
 }
 .mainPanel .portLetsList a{
 	text-decoration: none;
 	display: block;
 }
 .mainPanel .displayPage{
-	width:68%;
+	width:700px;
+	position: absolute;
+	left:320px;
+	height:630px;
+	overflow: auto;
 }
 #addNewButton{
-	width:160px;
+	min-width:160px;
 }
 #addNewButton img{
 	margin-right:7px;
+}
+.frame_manager{
+	border:0 none;
+}
+.firstRow table{
+	width:100%;
+}
+.firstRow table .go-to-link{
+	text-align: right;
+	padding-right: 15px;
+}
+.portlet_close_button{
+	display: none;
 }
 #InventoryCentreView .leftVpPanel .customComboItem input[type=text]{
 	width:120px;
@@ -6359,6 +6376,18 @@ div.RadioGroupItem{
 .blue-month-line td:FIRST-CHILD .gwt-Label,.blue-month-line td:last-child .gwt-Label{
 	font-size: 20px !important;
 }
-#exportButton,#printButton,#closeButton{
+#closeButton{
+	padding:5px 3px;
+	height: 30px;
+	width: 30px;
+}
+#exportButton,#printButton{
 	padding:5px;
+}
+.ipadDashboard{
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+}
+#vendorCenterView .rightVpPanel button,#CustomerCenterView .rightPanel button{
+	width:100%;
 }
