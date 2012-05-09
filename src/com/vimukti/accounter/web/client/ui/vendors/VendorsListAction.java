@@ -5,6 +5,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -41,19 +42,19 @@ public class VendorsListAction extends Action {
 						.unableToshowtheview());
 			}
 		});
-//		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
-//
-//			public void onCreated() {
-//
-//				// UIUtils.setCanvas(new VendorListView(),
-//				// getViewConfiguration());
-//				
-//			}
-//
-//			public void onCreateFailed(Throwable t) {
-//				// //UIUtils.logError("Failed to Load Vendor list", t);
-//			}
-//		});
+		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
+		//
+		// public void onCreated() {
+		//
+		// // UIUtils.setCanvas(new VendorListView(),
+		// // getViewConfiguration());
+		//
+		// }
+		//
+		// public void onCreateFailed(Throwable t) {
+		// // //UIUtils.logError("Failed to Load Vendor list", t);
+		// }
+		// });
 
 	}
 
@@ -74,7 +75,7 @@ public class VendorsListAction extends Action {
 	@Override
 	public String getHistoryToken() {
 
-		return "VendorList";
+		return HistoryTokens.VENDORLIST;
 	}
 
 	@Override
@@ -89,8 +90,7 @@ public class VendorsListAction extends Action {
 
 	@Override
 	public String getText() {
-		return Global.get().messages()
-				.payees(Global.get().Vendors());
+		return Global.get().messages().payees(Global.get().Vendors());
 	}
 
 }

@@ -439,7 +439,7 @@ public class CashPurchaseView extends
 		rightVLay.add(termsForm);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			currencyWidget.setEnabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 
 		DynamicForm form = new DynamicForm("form");

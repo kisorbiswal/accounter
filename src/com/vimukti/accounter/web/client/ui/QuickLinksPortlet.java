@@ -28,7 +28,7 @@ import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpensesAction;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsAction;
+import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 
 public class QuickLinksPortlet extends Portlet {
 
@@ -85,8 +85,8 @@ public class QuickLinksPortlet extends Portlet {
 				new ReceivePaymentAction().getHistoryToken());
 		quickLinksMap.put(messages.Reconcile(),
 				new ReconciliationsListAction().getHistoryToken());
-		quickLinksMap.put(messages.payees(Global.get().Vendor()),
-				new VendorsAction().getHistoryToken());
+		quickLinksMap.put(messages.payees(Global.get().Vendors()),
+				new VendorsListAction().getHistoryToken());
 		quickLinksMap.put(messages.writeCheck(),
 				new WriteChecksAction().getHistoryToken());
 		if (Accounter.getCompany().getPreferences().isKeepTrackofBills()) {

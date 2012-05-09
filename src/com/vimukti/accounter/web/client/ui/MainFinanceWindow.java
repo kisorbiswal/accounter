@@ -135,7 +135,6 @@ import com.vimukti.accounter.web.client.ui.vendors.Prepare1099MISCAction;
 import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListAction;
-import com.vimukti.accounter.web.client.ui.vendors.VendorsAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsHomeAction;
 import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 
@@ -389,7 +388,8 @@ public class MainFinanceWindow extends FlowPanel {
 		// ActionFactory.getItemsAction());
 		actions.put(new CustomersAction().getHistoryToken(),
 				new CustomersAction());
-		actions.put(new VendorsAction().getHistoryToken(), new VendorsAction());
+		actions.put(new VendorsListAction().getHistoryToken(),
+				new VendorsListAction());
 		actions.put(new JobListAction().getHistoryToken(), new JobListAction());
 		//
 		// actions.put(ActionFactory.getImportBankStatementAction()
@@ -494,7 +494,6 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(new ExpenseClaimsAction(0).getHistoryToken(),
 				new ExpenseClaimsAction(0));
 
-		actions.put(new VendorsAction().getHistoryToken(), new VendorsAction());
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
 		actions.put(new BillsAction().getHistoryToken(), new BillsAction());
@@ -869,9 +868,6 @@ public class MainFinanceWindow extends FlowPanel {
 		actions.put(new VendorPaymentsListAction().getHistoryToken(),
 				new VendorPaymentsListAction());
 
-		actions.put(new VendorsListAction().getHistoryToken(),
-				new VendorsListAction());
-
 		actions.put(new ChalanListViewAction().getHistoryToken(),
 				new ChalanListViewAction());
 
@@ -1021,7 +1017,7 @@ public class MainFinanceWindow extends FlowPanel {
 				.getHistoryToken(), PayRollReportActions
 				.getPayHeadSummaryReportAction());
 		actions.put(ActionFactory.getPaypalTransaction().getHistoryToken(),
-								ActionFactory.getPaypalTransaction());
+				ActionFactory.getPaypalTransaction());
 
 		actions.put(PayRollActions.newPayEmployeeAction().getHistoryToken(),
 				PayRollActions.newPayEmployeeAction());
