@@ -111,8 +111,8 @@ public class CashExpensePdfGeneration {
 					+ forUnusedAddress(reg.getStreet(), true)
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true) + forUnusedAddress(
-					reg.getCountryOrRegion(), true));
+					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
+					+ forNullValue(reg.getCountryOrRegion()) + ".");
 		} else {
 			regestrationAddress = (company.getTradingName() + "\n " + ((company
 					.getRegistrationNumber() != null && !company
