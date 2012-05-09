@@ -58,7 +58,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -1137,6 +1136,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			ArrayList<ClientStockTransfer> warehouseTransfersList = getFinanceTool()
 					.getInventoryManager().getWarehouseTransfersList(
 							getCompanyId());
+			final Session session = HibernateUtil.getCurrentSession();
 			final Company company = getFinanceTool().getCompany(getCompanyId());
 			ICSVExportRunner<ClientStockTransfer> icsvExportRunner = new ICSVExportRunner<ClientStockTransfer>() {
 				@Override
@@ -1172,16 +1172,15 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 							for (ClientStockTransferItem item : obj
 									.getStockTransferItems()) {
 								result.append(" ");
-								result.append(Accounter.getCompany()
-										.getItem(item.getItem()).getName());
+								Item itm = (Item) session.get(Item.class,
+										item.getItem());
+								result.append(itm.getName());
 								result.append(" : ");
 								result.append(item.getQuantity().getValue());
 								result.append(" ");
-								result.append(Accounter
-										.getCompany()
-										.getUnitById(
-												item.getQuantity().getUnit())
-										.getName());
+								Unit unit = (Unit) session.get(Unit.class, item
+										.getQuantity().getUnit());
+								result.append(unit.getType());
 								result.append(",");
 							}
 							columnValue = result.toString();
