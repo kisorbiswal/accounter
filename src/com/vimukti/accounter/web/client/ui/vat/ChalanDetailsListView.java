@@ -57,8 +57,7 @@ public class ChalanDetailsListView extends
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getTDSChalanDetailsList(this);
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -84,6 +83,11 @@ public class ChalanDetailsListView extends
 	}
 
 	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getTDSChalanDetailsList(this);
+	}
+
+	@Override
 	public void onSuccess(PaginationList<ClientTDSChalanDetail> result) {
 		// super.onSuccess(result);
 		grid.removeLoadingImage();
@@ -105,6 +109,11 @@ public class ChalanDetailsListView extends
 	@Override
 	public void restoreView(String currentView, String dateRange) {
 		filterList(currentView);
+	}
+
+	@Override
+	protected void filterList(String selectedValue) {
+		onPageChange(0, getPageSize());
 	}
 
 	@Override

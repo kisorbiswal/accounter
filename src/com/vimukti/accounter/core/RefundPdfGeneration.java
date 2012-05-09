@@ -56,7 +56,7 @@ public class RefundPdfGeneration {
 					+ forUnusedAddress(bill.getCity(), false)
 					+ forUnusedAddress(bill.getStateOrProvinence(), false)
 					+ forUnusedAddress(bill.getZipOrPostalCode(), false)
-					+ forUnusedAddress(bill.getCountryOrRegion(), false));
+					+ forNullValue(bill.getCountryOrRegion()));
 			String billAddres = billAddress.toString();
 
 			if (billAddres.trim().length() > 0) {
