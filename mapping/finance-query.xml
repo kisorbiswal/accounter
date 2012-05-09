@@ -11282,6 +11282,7 @@
 				         ON c.id = cs.customer_id
 				             OR c.id = ccm.customer_id
 				             OR c.id = i.customer_id
+				             OR c.id = e.customer_id
 				       left join vendor v
 				         ON v.id = cp.vendor_id
 				             OR v.id = vcm.vendor_id
