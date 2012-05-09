@@ -262,6 +262,8 @@ public class AccounterExceptions {
 			return accounterMessages.cannotCreatePayRunAsDraftOrTemplate();
 		case AccounterException.ERROR_EMPLOYEE_NULL:
 			return accounterMessages.pleaseSelect(accounterMessages.employee());
+		case AccounterException.ERROR_DELETING_SYSTEM_ACCOUNT:
+			return accounterMessages.youcantDeleteSystemAccount();
 		default:
 			return null;
 		}
