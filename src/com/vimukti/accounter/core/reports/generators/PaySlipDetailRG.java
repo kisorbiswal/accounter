@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.Employee;
+import com.vimukti.accounter.core.PayHead;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.PaySlipDetail;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -29,6 +31,28 @@ public class PaySlipDetailRG extends AbstractReportGenerator {
 			public String getDateByCompanyType(ClientFinanceDate date) {
 				return getDateInDefaultType(date);
 			}
+
+			@Override
+			protected String getAmountAsString(PaySlipDetail detail,
+					double amount) {
+				if (detail == null) {
+					return Global.get().toCurrencyFormat(amount,
+							getCompany().getPrimaryCurrency().getSymbol());
+				}
+				if (detail.getType() == 1) {
+					if (detail.getAttendanceOrProductionType() == ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
+						return (detail.getAmount() == null ? 0 : detail
+								.getAmount()) + " " + detail.getUnitName();
+					}
+
+					return (detail.getAmount() == null ? 0 : detail.getAmount())
+							+ " "
+							+ getCalculationPeriod(detail.getPeriodType());
+				} else {
+					return Global.get().toCurrencyFormat(detail.getAmount(),
+							getCompany().getPrimaryCurrency().getSymbol());
+				}
+			}
 		};
 		updateReport(byCatgoryServerReport, financeTool);
 		byCatgoryServerReport.resetVariables();
@@ -46,6 +70,23 @@ public class PaySlipDetailRG extends AbstractReportGenerator {
 						.getManager().getServerObjectForid(
 								AccounterCoreType.EMPLOYEE, employeeId)));
 		return gridTemplate;
+	}
+
+	protected String getCalculationPeriod(int type) {
+		AccounterMessages messages = Global.get().messages();
+		switch (type) {
+		case PayHead.CALCULATION_PERIOD_DAYS:
+			return messages.days();
+
+		case PayHead.CALCULATION_PERIOD_WEEKS:
+			return messages.weeks();
+
+		case PayHead.CALCULATION_PERIOD_MONTHS:
+			return messages.months();
+
+		default:
+			return "";
+		}
 	}
 
 	private String[] makeDetailLayout(Employee selectedEmployee) {
