@@ -37,11 +37,20 @@ public class ServerGlobal extends AbstractGlobal {
 	public AccounterNumberFormat getFormater() {
 		AccounterNumberFormat accounterNumberFormat = ServerNumberFormatThred
 				.get();
+		String decimalCharacter = preferences().getDecimalCharacter();
+		char decimalChar = 0;
+		if (decimalCharacter != null && !decimalCharacter.isEmpty()) {
+			decimalChar = decimalCharacter.charAt(0);
+		}
+		String digitGroupCharacter = preferences().getDigitGroupCharacter();
+		char digitGroupChar = 0;
+		if (digitGroupCharacter != null && !digitGroupCharacter.isEmpty()) {
+			digitGroupChar = digitGroupCharacter.charAt(0);
+		}
 		if (accounterNumberFormat == null) {
 			accounterNumberFormat = new AccounterNumberFormat(preferences()
 					.getCurrencyFormat(), preferences().getDecimalNumber(),
-					true, preferences().getDecimalCharacter().charAt(0),
-					preferences().getDigitGroupCharacter().charAt(0));
+					true, decimalChar, digitGroupChar);
 			ServerNumberFormatThred.set(accounterNumberFormat);
 		}
 		return accounterNumberFormat;

@@ -2419,8 +2419,8 @@ public class ReportManager extends Manager {
 		List<TAXReturn> vatReturns = query.list();
 		for (TAXReturn v : vatReturns) {
 
-			double amount = v.getBoxes().get(v.getBoxes().size() - 1)
-					.getAmount();
+			double amount = v.getBoxes().isEmpty() ? 0.00 : v.getBoxes()
+					.get(v.getBoxes().size() - 1).getAmount();
 
 			if (!DecimalUtil.isEquals(amount, 0)) {
 

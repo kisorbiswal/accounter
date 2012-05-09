@@ -43,7 +43,10 @@ public class SignupOpenIdServlet extends BaseServlet {
 		String lastName = req.getParameter("lastName").trim();
 		// String password = req.getParameter("password").trim();
 		String phoneNumber = req.getParameter("phoneNumber").trim();
-		String country = req.getParameter("country").trim();
+		String country = req.getParameter("country");
+		if (country != null) {
+			country = country.trim();
+		}
 		boolean isSubscribedToNewsLetter = false;
 		if (req.getParameter("newsletter") != null
 				&& req.getParameter("newsletter").equals("on"))
@@ -169,5 +172,4 @@ public class SignupOpenIdServlet extends BaseServlet {
 
 		return;
 	}
-
 }
