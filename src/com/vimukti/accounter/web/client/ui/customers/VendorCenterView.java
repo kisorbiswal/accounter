@@ -70,6 +70,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 	private HashMap<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 	private StyledPanel deleteButtonPanel;
+	private StyledPanel rightVpPanel;
+	private Button transactionButton;
 
 	public VendorCenterView() {
 		this.getElement().setId("vendorCenterView");
@@ -100,7 +102,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		initVendorListGrid();
 		leftVpPanel.add(vendorlistGrid);
 		vendorlistGrid.setStyleName("cusotmerCentrGrid");
-		StyledPanel rightVpPanel = new StyledPanel("rightVpPanel");
+		rightVpPanel = new StyledPanel("rightVpPanel");
 		detailsPanel = new VendorDetailsPanel(selectedVendor);
 		rightVpPanel.add(detailsPanel);
 		vendorlistGrid
@@ -149,8 +151,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		updateRecordsCount(0, 0, 0);
 		if (Accounter.isIpadApp()) {
 
-			Button button = new Button(messages.transaction());
-			button.addClickHandler(new ClickHandler() {
+			transactionButton = new Button(messages.transaction());
+			transactionButton.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -158,7 +160,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 							selectedVendor).run();
 				}
 			});
-			rightVpPanel.add(button);
+
 		} else {
 			rightVpPanel.add(transactionGridpanel);
 			rightVpPanel.add(vendHistoryGrid);
@@ -406,6 +408,9 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	private void onVendorSelected() {
 		this.selectedVendor = vendorlistGrid.getSelectedVendor();
+		rightVpPanel.add(transactionButton);
+		transactionButton.setText(messages2.transactionListFor(selectedVendor
+				.getDisplayName()));
 		detailsPanel.showVendorDetails(selectedVendor);
 		vendHistoryGrid.setSelectedVendor(selectedVendor);
 		MainFinanceWindow.getViewManager().updateButtons();
@@ -683,9 +688,17 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	@Override
 	public void addButtons(ButtonGroup group) {
-		ImageButton addVendorButton = new ImageButton(messages.addNew(Global
-				.get().Vendor()), Accounter.getFinanceImages()
-				.portletPageSettings());
+		ImageButton addVendorButton;
+
+		if (Accounter.isIpadApp()) {
+			addVendorButton = new ImageButton(Accounter.getFinanceImages()
+					.ipadAdd());
+		} else {
+			addVendorButton = new ImageButton(messages.addNew(Global.get()
+					.Vendor()), Accounter.getFinanceImages()
+					.portletPageSettings());
+		}
+
 		addVendorButton.addStyleName("settingsButton");
 		addVendorButton.getElement().setId("addVendorButton");
 		addVendorButton.addClickHandler(new ClickHandler() {

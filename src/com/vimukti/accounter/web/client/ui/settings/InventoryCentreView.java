@@ -8,10 +8,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
@@ -33,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.InventoryActions;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.IEditableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
@@ -64,6 +68,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 			messages.payeeCreditNotes(Global.get().Vendor()), messages.bills(),
 			messages.expenses(), messages.salesOrders(),
 			messages.purchaseOrders() };
+	private Button transactionButton;
+	private StyledPanel rightVpPanel;
 
 	public InventoryCentreView() {
 		this.getElement().setId("InventoryCentreView");
@@ -88,7 +94,7 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		leftVpPanel.add(itemsListGrid);
 
 		itemsListGrid.setStyleName("cusotmerCentrGrid");
-		StyledPanel rightVpPanel = new StyledPanel("rightVpPanel");
+		rightVpPanel = new StyledPanel("rightVpPanel");
 		itemDetailsPanel = new ItemDetailsPanel(selectedItem);
 		rightVpPanel.add(itemDetailsPanel);
 		itemsListGrid.setItemSelectionListener(new ItemSelectionListener() {
@@ -146,10 +152,25 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 				true);
 		pager.setDisplay(transactionHistoryGrid);
 		updateRecordsCount(0, 0, 0);
-		rightVpPanel.add(transactionGridpanel);
-		rightVpPanel.add(transactionHistoryGrid);
-		rightVpPanel.add(pager);
-		// transactionHistoryGrid.setHeight("494px");
+
+		if (Accounter.isIpadApp()) {
+
+			transactionButton = new Button(messages.transaction());
+			transactionButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ActionFactory.getInventoryTransactionListHistory(
+							selectedItem).run();
+				}
+			});
+
+		} else {
+			rightVpPanel.add(transactionGridpanel);
+			rightVpPanel.add(transactionHistoryGrid);
+			rightVpPanel.add(pager);
+		}
+
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		add(mainPanel);
@@ -641,7 +662,11 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	}
 
 	private void onItemSelected() {
+
 		itemDetailsPanel.showItemDetails(selectedItem);
+		rightVpPanel.add(transactionButton);
+		transactionButton.setText(messages2.transactionListFor(selectedItem
+				.getDisplayName()));
 		transactionHistoryGrid.setSelectedItem(selectedItem);
 		MainFinanceWindow.getViewManager().updateButtons();
 		callRPC(0, 25);

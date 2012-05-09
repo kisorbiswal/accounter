@@ -2082,8 +2082,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	public void addButtons(ButtonGroup group) {
 		if (Accounter.hasPermission(Features.TRANSACTION_NAVIGATION)) {
-			ImageButton prev = new ImageButton(messages.previous(), Accounter
-					.getFinanceImages().previous());
+			ImageButton prev;
+
+			if (Accounter.isIpadApp()) {
+				prev = new ImageButton(Accounter.getFinanceImages()
+						.previousIcon());
+			} else {
+				prev = new ImageButton(messages.previous(), Accounter
+						.getFinanceImages().previous());
+			}
+
 			prev.getElement().setId("previous");
 			prev.setTitle(messages.clickThisToOpen(messages
 					.previousTransaction()));
@@ -2095,8 +2103,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			});
 
-			ImageButton next = new ImageButton(messages.next1(), Accounter
-					.getFinanceImages().next());
+			ImageButton next;
+			if (Accounter.isIpadApp()) {
+				next = new ImageButton(Accounter.getFinanceImages().nextIcon());
+			} else {
+				next = new ImageButton(messages.next1(), Accounter
+						.getFinanceImages().next());
+			}
 			next.getElement().setId("next");
 			next.setTitle(messages.clickThisToOpen(messages.nextTransaction()));
 			next.addClickHandler(new ClickHandler() {

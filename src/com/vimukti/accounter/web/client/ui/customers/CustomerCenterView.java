@@ -70,6 +70,8 @@ public class CustomerCenterView<T> extends
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 	private StyledPanel deleteButtonPanel;
+	private Button transactionButton;
+	private StyledPanel rightVpPanel;
 
 	public CustomerCenterView() {
 
@@ -107,7 +109,7 @@ public class CustomerCenterView<T> extends
 		leftVpPanel.add(custGrid);
 
 		custGrid.setStyleName("cusotmerCentrGrid");
-		StyledPanel rightVpPanel = new StyledPanel("rightPanel");
+		rightVpPanel = new StyledPanel("rightPanel");
 		detailsPanel = new CustomerDetailsPanel(selectedCustomer);
 		rightVpPanel.add(detailsPanel);
 		custGrid.setCustomerSelectionListener(new CustomerSelectionListener() {
@@ -152,8 +154,8 @@ public class CustomerCenterView<T> extends
 
 		if (Accounter.isIpadApp()) {
 
-			Button button = new Button(messages.transaction());
-			button.addClickHandler(new ClickHandler() {
+			transactionButton = new Button(messages.transaction());
+			transactionButton.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -161,7 +163,7 @@ public class CustomerCenterView<T> extends
 							selectedCustomer).run();
 				}
 			});
-			rightVpPanel.add(button);
+
 		} else {
 
 			rightVpPanel.add(transactionGridpanel);
@@ -460,7 +462,11 @@ public class CustomerCenterView<T> extends
 	}
 
 	private void OncusotmerSelected() {
+
 		this.selectedCustomer = custGrid.getSelectedCustomer();
+		rightVpPanel.add(transactionButton);
+		transactionButton.setText(messages2.transactionListFor(selectedCustomer
+				.getDisplayName()));
 		detailsPanel.showCustomerDetails(selectedCustomer);
 		custHistoryGrid.setSelectedCustomer(selectedCustomer);
 		MainFinanceWindow.getViewManager().updateButtons();
@@ -701,9 +707,17 @@ public class CustomerCenterView<T> extends
 
 	@Override
 	public void addButtons(ButtonGroup group) {
-		ImageButton addCustomerButton = new ImageButton(messages.addNew(Global
-				.get().Customer()), Accounter.getFinanceImages()
-				.portletPageSettings());
+
+		ImageButton addCustomerButton = null;
+		if (Accounter.isIpadApp()) {
+			addCustomerButton = new ImageButton(Accounter.getFinanceImages()
+					.ipadAdd());
+		} else {
+			addCustomerButton = new ImageButton(messages.addNew(Global.get()
+					.Customer()), Accounter.getFinanceImages()
+					.portletPageSettings());
+		}
+
 		addCustomerButton.addStyleName("settingsButton");
 		addCustomerButton.getElement().setId("addCustomerButton");
 		addCustomerButton.addClickHandler(new ClickHandler() {
