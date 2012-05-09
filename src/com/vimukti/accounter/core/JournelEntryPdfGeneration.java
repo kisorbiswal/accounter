@@ -116,7 +116,7 @@ public class JournelEntryPdfGeneration {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return ", " + add;
+				return add+", ";
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "\n";
@@ -134,7 +134,7 @@ public class JournelEntryPdfGeneration {
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+					+ forNullValue(reg.getCountryOrRegion()) + ".");
 
 		regestrationAddress = (company.getTradingName() + " "
 				+ regestrationAddress + ((company.getRegistrationNumber() != null && !company

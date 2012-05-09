@@ -630,10 +630,10 @@ public class InvoicePDFTemplete implements PrintTemplete {
 	private String forFooterAddress(String value, boolean isFooter) {
 		if (isFooter) {
 			if (value != null && !value.equals("")) {
-				return " , " + value + ".";
+				return value + ".";
 			}
 		} else if (value != null && !value.equals("")) {
-			return " , " + value;
+			return value + " , ";
 		}
 
 		return "";

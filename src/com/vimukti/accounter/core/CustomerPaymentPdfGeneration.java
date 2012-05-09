@@ -53,7 +53,7 @@ public class CustomerPaymentPdfGeneration {
 					+ forUnusedAddress(reg.getCity(), true)
 					+ forUnusedAddress(reg.getStateOrProvinence(), true)
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+					+ forNullValue(reg.getCountryOrRegion()) + ".");
 		} else {
 			regestrationAddress = (company.getTradingName() + " , "
 					+ regestrationAddress + ((company.getRegistrationNumber() != null && !company
@@ -110,7 +110,7 @@ public class CustomerPaymentPdfGeneration {
 	public String forUnusedAddress(String add, boolean isFooter) {
 		if (isFooter) {
 			if (add != null && !add.equals(""))
-				return ", " + add;
+				return add + ", ";
 		} else {
 			if (add != null && !add.equals(""))
 				return add + "\n";
