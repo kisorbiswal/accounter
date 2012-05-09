@@ -105,6 +105,22 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				return payee.getCurrency();
 			}
 		});
+
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new AccountRequirement(BANK_ACCOUNT, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().bankAccount()),
 				getMessages().bankAccount(), false, true, null) {
