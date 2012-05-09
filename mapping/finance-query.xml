@@ -12276,10 +12276,9 @@
 				WHERE  T.T_TYPE = 20
 				       AND T.COMPANY_ID = :companyId
 				       AND ( CASE
-				               WHEN 1 = :viewId THEN T.SAVE_STATUS = 0
-				               WHEN 5 = :viewId THEN TR.BALANCE = 0
-				               WHEN 3 = :viewId THEN T.SAVE_STATUS = 204
-				               WHEN 0 = :viewId THEN TRUE
+				               WHEN 1 = :viewId THEN TR.BALANCE > 0
+				               WHEN 5 = :viewId THEN TR.BALANCE <= 0
+				               WHEN 3 = :viewId THEN T.SAVE_STATUS = 204				              
 				               ELSE TRUE
 				             END )
 				       AND T.T_DATE BETWEEN :startdate AND :enddate  

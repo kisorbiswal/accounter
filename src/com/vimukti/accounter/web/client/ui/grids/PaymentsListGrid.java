@@ -206,7 +206,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 		if (type == PaymentListView.TYPE_PAY_EMPLOYEES) {
 			return new String[] { messages.date(), messages.number(),
-					messages.name(), messages.total(), messages.Account(),
+					messages.name(), messages.Account(), messages.total(),
 					messages.voided() };
 		}
 
