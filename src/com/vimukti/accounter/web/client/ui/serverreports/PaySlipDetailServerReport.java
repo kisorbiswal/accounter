@@ -23,8 +23,8 @@ public class PaySlipDetailServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { messages.name(), messages.earnings(),
+				messages.deductions(), messages.value() };
 	}
 
 	@Override

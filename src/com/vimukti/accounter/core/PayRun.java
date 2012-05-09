@@ -11,8 +11,8 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class PayRun extends Transaction {
 
@@ -37,7 +37,7 @@ public class PayRun extends Transaction {
 
 	private EmployeeGroup employeeGroup;
 
-	private String noOfWorkingDays;
+	private Double noOfWorkingDays = 0.0D;
 
 	/**
 	 * This is to specify how much of this Bill is paid.
@@ -140,13 +140,12 @@ public class PayRun extends Transaction {
 	public void onEdit(Transaction clonedObject) throws AccounterException {
 		PayRun payRun = (PayRun) clonedObject;
 
-
 		doPayRunDeleteEffect(payRun);
 
 		if (!this.isVoid() && !payRun.isVoid()) {
 			doPayRunCreateEffect();
 		}
-		
+
 		this.balanceDue = this.total - payments;
 
 		super.onEdit(clonedObject);
@@ -165,11 +164,13 @@ public class PayRun extends Transaction {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		 w.put(messages.noOfWorkingDays(), this.noOfWorkingDays);
-		 w.put(messages.employee(), this.employee != null ? this.getEmployee().toString():"");
-		 w.put(messages.employeeGroup(), this.employeeGroup != null ? this.getEmployeeGroup().toString():"");
-		 w.put(messages.startDate(), this.payPeriodStartDate.toString());
-		 w.put(messages.endDate(), this.payPeriodEndDate.toString());
+		w.put(messages.noOfWorkingDays(), this.noOfWorkingDays);
+		w.put(messages.employee(), this.employee != null ? this.getEmployee()
+				.toString() : "");
+		w.put(messages.employeeGroup(), this.employeeGroup != null ? this
+				.getEmployeeGroup().toString() : "");
+		w.put(messages.startDate(), this.payPeriodStartDate.toString());
+		w.put(messages.endDate(), this.payPeriodEndDate.toString());
 	}
 
 	public void addDeductions(double deduction) {
@@ -297,11 +298,11 @@ public class PayRun extends Transaction {
 		}
 	}
 
-	public void setNoOfWorkingDays(String noOfWorkingDays) {
+	public void setNoOfWorkingDays(Double noOfWorkingDays) {
 		this.noOfWorkingDays = noOfWorkingDays;
 	}
 
-	public String getNoOfWorkingDays() {
+	public Double getNoOfWorkingDays() {
 		return noOfWorkingDays;
 	}
 

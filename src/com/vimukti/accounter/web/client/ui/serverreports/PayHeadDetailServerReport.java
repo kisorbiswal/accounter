@@ -22,7 +22,7 @@ public class PayHeadDetailServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.date(), messages.number(),
-				messages.debit(), messages.credit() };
+				messages.employee(), messages.debit(), messages.credit() };
 	}
 
 	@Override

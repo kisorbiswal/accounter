@@ -445,7 +445,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 				data.getEmployee() == 0 ? data.getEmployeeGroup() : data
 						.getEmployee(), data.getEmployee() != 0);
 		table.setData(data.getAttendanceItems());
-		noOfWorkingDays.setValue(data.getNoOfWorkingDays());
+		noOfWorkingDays.setValue(String.valueOf(data.getNoOfWorkingDays()));
 	}
 
 	@Override
@@ -456,7 +456,7 @@ public class NewPayRunView extends AbstractTransactionBaseView<ClientPayRun> {
 
 	private void updateData() {
 		super.updateTransaction();
-		data.setNoOfWorkingDays(noOfWorkingDays.getValue());
+		data.setNoOfWorkingDays(Double.valueOf(noOfWorkingDays.getNumber()));
 		data.setPayPeriodStartDate(fromDate.getDate().getDate());
 		data.setPayPeriodEndDate(toDate.getDate().getDate());
 		data.setTransactionDate(new ClientFinanceDate().getDate());

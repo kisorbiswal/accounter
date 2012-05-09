@@ -18,7 +18,8 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 	private int periodType;
 	private Double amount;
 	private long employeeId;
-
+	private int attendanceOrProductionType;
+	private String unitName;
 	private int type;
 
 	public long getPayheadId() {
@@ -75,6 +76,22 @@ public class PaySlipDetail extends BaseReport implements IsSerializable,
 
 	public void setEmployeeId(long employeeId) {
 		this.employeeId = employeeId;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public int getAttendanceOrProductionType() {
+		return attendanceOrProductionType;
+	}
+
+	public void setAttendanceOrProductionType(int attendanceOrProductionType) {
+		this.attendanceOrProductionType = attendanceOrProductionType;
 	}
 
 }

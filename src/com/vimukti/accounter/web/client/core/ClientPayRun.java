@@ -24,7 +24,7 @@ public class ClientPayRun extends ClientTransaction {
 
 	private List<ClientAttendanceManagementItem> attendanceItems = new ArrayList<ClientAttendanceManagementItem>();
 
-	private String noOfWorkingDays;
+	private Double noOfWorkingDays = 0.0D;
 
 	public ClientPayRun() {
 		super();
@@ -125,11 +125,11 @@ public class ClientPayRun extends ClientTransaction {
 		this.employeeGroup = employeeGroup;
 	}
 
-	public void setNoOfWorkingDays(String noOfWorkingDays) {
+	public void setNoOfWorkingDays(Double noOfWorkingDays) {
 		this.noOfWorkingDays = noOfWorkingDays;
 	}
 
-	public String getNoOfWorkingDays() {
+	public Double getNoOfWorkingDays() {
 		return noOfWorkingDays;
 	}
 }

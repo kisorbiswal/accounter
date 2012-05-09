@@ -669,6 +669,9 @@ public class PayrollManager extends Manager {
 					: (Integer) object[3]);
 			paySlipDetail.setType((Integer) object[4]);
 			paySlipDetail.setEmployeeId((Long) object[5]);
+			paySlipDetail.setAttendanceOrProductionType(object[6] == null ? 0
+					: (Integer) object[6]);
+			paySlipDetail.setUnitName((String) object[7]);
 			queryResult.add(paySlipDetail);
 		}
 

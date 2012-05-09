@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientEmployee;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
@@ -30,7 +31,13 @@ public class PaySlipDetailReport extends AbstractReportView<PaySlipDetail> {
 					return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
 				}
 				if (detail.getType() == 1) {
+					if (detail.getAttendanceOrProductionType() == ClientAttendanceOrProductionType.TYPE_PRODUCTION) {
+						return (detail.getAmount() == null ? 0 : detail
+								.getAmount()) + " " + detail.getUnitName();
+					}
+
 					return (detail.getAmount() == null ? 0 : detail.getAmount())
+							+ " "
 							+ ClientPayHead.getCalculationPeriod(detail
 									.getPeriodType());
 				} else {
