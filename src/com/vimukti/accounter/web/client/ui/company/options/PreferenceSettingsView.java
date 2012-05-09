@@ -30,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private ScrollPanel pageDetailsPanel;
+
 	private List<PreferencePage> preferencePages;
 
 	@Override
@@ -45,44 +46,31 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		pageDetailsPanel = new ScrollPanel();
 		pageDetailsPanel.addStyleName("pre_scroll_table");
 
-		preferencePages = getPreferencePages();
-		final List<Label> titles = new ArrayList<Label>();
-		final List<StyledPanel> subTabsPanels = new ArrayList<StyledPanel>();
+		preferencePages = new ArrayList<PreferencePage>();
 
-		for (int i = 0; i < preferencePages.size(); i++) {
-			PreferencePage preferencePage = preferencePages.get(i);
-			final Label title = new Label(preferencePage.getTitle());
+		final List<String> preferencePagesTitle = getPreferencePagesTitle();
+		final List<Label> titles = new ArrayList<Label>();
+
+		for (int i = 0; i < preferencePagesTitle.size(); i++) {
+			final Label title = new Label(preferencePagesTitle.get(i));
 			title.addStyleName("preferences_option_title");
 			StyledPanel panel = new StyledPanel("Sub-tabs-panel");
 
 			titles.add(title);
 			titlesPanel.add(titles.get(i));
 
-			subTabsPanels.add(panel);
-			titlesPanel.add(subTabsPanels.get(i));
-
 			title.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					int j = 0;
-					pageDetailsPanel.clear();
-					for (int k = 0; k < preferencePages.size(); k++) {
-						subTabsPanels.get(k).clear();
-						if (titles.get(k).equals(title)) {
-							j = k;
-						}
-					}
-					subTabsPanels.get(j).add(
-							createPageView(preferencePages.get(j)));
-					pageDetailsPanel.add(preferencePages.get(j));
+
+					Label source = (Label) event.getSource();
+					String text = source.getText();
+					createPage(text);
 				}
 			});
 
 		}
-		pageDetailsPanel.clear();
-		subTabsPanels.get(0).add(createPageView(preferencePages.get(0)));
-		pageDetailsPanel.add(preferencePages.get(0));
-
+		createPage(preferencePagesTitle.get(1));
 		mainPanel.add(titlesPanel);
 		mainPanel.add(pageDetailsPanel);
 		titlesPanel.getElement().getParentElement()
@@ -92,6 +80,54 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		mainPanel.addStyleName("company_settings_panel");
 		this.add(mainPanel);
 		// setSize("100%", "100%");
+	}
+
+	protected void createPage(String text) {
+		pageDetailsPanel.clear();
+
+		PreferencePage page = null;
+
+		for (PreferencePage widget : preferencePages) {
+			if (text.equalsIgnoreCase(messages.company())) {
+				page = widget;
+			}
+		}
+
+		if (page == null && text.equalsIgnoreCase(messages.company())) {
+			page = getCompanyInfoPage();
+			preferencePages.add(page);
+		} else if (page == null && text.equalsIgnoreCase(messages.categories())) {
+			getCatogiriesInfoPage();
+			preferencePages.add(page);
+		} else if (page == null
+				&& text.equalsIgnoreCase(messages.vendorAndPurchases(Global
+						.get().Vendor()))) {
+			preferencePages.add(page);
+			page = getVendorAndPurchasesPage();
+		} else if (page == null
+				&& text.equalsIgnoreCase(messages.customersAndSales(Global
+						.get().Customer()))) {
+			preferencePages.add(page);
+			page = getCustomerAndSalesPage();
+		} else {
+			preferencePages.add(page);
+			page = getCompanyInfoPage();
+		}
+		pageDetailsPanel.add(page);
+
+	}
+
+	private List<String> getPreferencePagesTitle() {
+		List<String> title = new ArrayList<String>();
+		title.add(messages.company());
+		if (hasPermission(Features.LOCATION) || hasPermission(Features.CLASS)
+				|| hasPermission(Features.JOB_COSTING)) {
+			title.add(messages.categories());
+		}
+		title.add(messages.vendorAndPurchases(Global.get().Vendor()));
+		title.add(messages.customersAndSales(Global.get().Customer()));
+
+		return title;
 	}
 
 	private List<PreferencePage> getPreferencePages() {

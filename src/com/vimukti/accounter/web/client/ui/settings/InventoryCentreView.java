@@ -664,9 +664,11 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 	private void onItemSelected() {
 
 		itemDetailsPanel.showItemDetails(selectedItem);
-		rightVpPanel.add(transactionButton);
-		transactionButton.setText(messages2.transactionListFor(selectedItem
-				.getDisplayName()));
+		if (Accounter.isIpadApp()) {
+			rightVpPanel.add(transactionButton);
+			transactionButton.setText(messages2.transactionListFor(selectedItem
+					.getDisplayName()));
+		}
 		transactionHistoryGrid.setSelectedItem(selectedItem);
 		MainFinanceWindow.getViewManager().updateButtons();
 		callRPC(0, 25);

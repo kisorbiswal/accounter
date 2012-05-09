@@ -408,9 +408,11 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	private void onVendorSelected() {
 		this.selectedVendor = vendorlistGrid.getSelectedVendor();
-		rightVpPanel.add(transactionButton);
-		transactionButton.setText(messages2.transactionListFor(selectedVendor
-				.getDisplayName()));
+		if (Accounter.isIpadApp()) {
+			rightVpPanel.add(transactionButton);
+			transactionButton.setText(messages2
+					.transactionListFor(selectedVendor.getDisplayName()));
+		}
 		detailsPanel.showVendorDetails(selectedVendor);
 		vendHistoryGrid.setSelectedVendor(selectedVendor);
 		MainFinanceWindow.getViewManager().updateButtons();

@@ -464,9 +464,11 @@ public class CustomerCenterView<T> extends
 	private void OncusotmerSelected() {
 
 		this.selectedCustomer = custGrid.getSelectedCustomer();
-		rightVpPanel.add(transactionButton);
-		transactionButton.setText(messages2.transactionListFor(selectedCustomer
-				.getDisplayName()));
+		if (Accounter.isIpadApp()) {
+			rightVpPanel.add(transactionButton);
+			transactionButton.setText(messages2
+					.transactionListFor(selectedCustomer.getDisplayName()));
+		}
 		detailsPanel.showCustomerDetails(selectedCustomer);
 		custHistoryGrid.setSelectedCustomer(selectedCustomer);
 		MainFinanceWindow.getViewManager().updateButtons();
