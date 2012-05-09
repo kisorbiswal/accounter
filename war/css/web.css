@@ -8374,4 +8374,8 @@ table.no_records tr td {
 #PreferenceSettingsView .organisation_comment .label{
 	margin-left:-100px;
 }
+#DepreciationView .gridBodyContainer{
+	height:275px;
+	overflow:auto;
+}
 /*Location merge dialog end*/
