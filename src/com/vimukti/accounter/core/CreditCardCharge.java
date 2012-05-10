@@ -8,6 +8,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
@@ -357,6 +358,10 @@ public class CreditCardCharge extends Transaction {
 							tItem.getWareHouse());
 					double calculatePrice = tItem.getQuantity().calculate(
 							tItem.getUnitPriceInBaseCurrency());
+					double disc = tItem.getDiscount();
+					calculatePrice = DecimalUtil.isGreaterThan(disc, 0) ? (calculatePrice - (calculatePrice
+							* disc / 100))
+							: calculatePrice;
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);

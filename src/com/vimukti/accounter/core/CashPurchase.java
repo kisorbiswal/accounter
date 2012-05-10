@@ -846,6 +846,10 @@ public class CashPurchase extends Transaction {
 							tItem.getWareHouse());
 					double calculatePrice = tItem.getQuantity().calculate(
 							tItem.getUnitPriceInBaseCurrency());
+					double disc = tItem.getDiscount();
+					calculatePrice = DecimalUtil.isGreaterThan(disc, 0) ? (calculatePrice - (calculatePrice
+							* disc / 100))
+							: calculatePrice;
 					e.add(item.getAssestsAccount(), -calculatePrice, 1);
 				} else {
 					e.add(item.getExpenseAccount(), amount);

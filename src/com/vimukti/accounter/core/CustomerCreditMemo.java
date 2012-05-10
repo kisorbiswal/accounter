@@ -487,6 +487,10 @@ public class CustomerCreditMemo extends Transaction implements
 							tItem.getWareHouse());
 					double purchaseCost = tItem.getQuantity().calculate(
 							tItem.getUnitPriceInBaseCurrency());
+					double disc = tItem.getDiscount();
+					purchaseCost = DecimalUtil.isGreaterThan(disc, 0) ? (purchaseCost - (purchaseCost
+							* disc / 100))
+							: purchaseCost;
 					e.add(item.getAssestsAccount(), -purchaseCost, 1);
 					e.add(item.getExpenseAccount(), purchaseCost, 1);
 				}
