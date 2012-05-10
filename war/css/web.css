@@ -8378,4 +8378,7 @@ table.no_records tr td {
 	height:275px;
 	overflow:auto;
 }
+.pre_scroll_table .companyInfoPanel:last-child{
+	display: block !important;
+}
 /*Location merge dialog end*/

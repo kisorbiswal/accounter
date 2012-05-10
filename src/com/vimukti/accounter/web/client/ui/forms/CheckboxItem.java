@@ -12,7 +12,7 @@ public class CheckboxItem extends FormItem<Boolean> {
 		super(title, styleName);
 		checkBoxImpl = GWT.create(CheckBoxImpl.class);
 		checkBoxImpl.createControl(title, styleName);
-		
+		this.addStyleName("checkBoxImpl");
 		this.add(checkBoxImpl);
 		
 	}
@@ -21,7 +21,7 @@ public class CheckboxItem extends FormItem<Boolean> {
 		super(title, styleName);
 		checkBoxImpl = GWT.create(CheckBoxImpl.class);
 		checkBoxImpl.createControl(title, styleName);
-		
+		this.addStyleName("checkBoxImpl");
 		this.add(checkBoxImpl);
 	}
 
