@@ -4786,8 +4786,8 @@
 		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="JOB_NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
-		<return-scalar column="CREDIT" type="double" />
 		<return-scalar column="DEBIT" type="double" />
+		<return-scalar column="CREDIT" type="double" />
 		
 		<![CDATA[
 				SELECT T.ID       AS TRANSACTION_ID,
@@ -4807,7 +4807,7 @@
 				                AND T.T_TYPE IN ( 1, 8 )
 				                AND AT.ACCOUNT_ID = IT.INCOME_ACCOUNT_ID ) THEN AT.AMOUNT
 				         ELSE 0
-				       END        AS CREDIT,
+				       END        AS DEBIT,
 				       CASE
 				         WHEN ( IT.TYPE IN ( 2, 4 )
 				                AND ( T.T_TYPE IN ( 1, 8 )
@@ -4823,7 +4823,7 @@
 				         T.ID)
 				         WHEN ( T.T_TYPE IN ( 15, 6 ) ) THEN AT.AMOUNT
 				         ELSE 0
-				       END        AS DEBIT
+				       END        AS CREDIT
 				FROM   ACCOUNT_TRANSACTION AT
 				       LEFT JOIN TRANSACTION T
 				         ON T.ID = AT.TRANSACTION_ID

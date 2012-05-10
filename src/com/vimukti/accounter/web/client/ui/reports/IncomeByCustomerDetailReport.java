@@ -38,7 +38,7 @@ public class IncomeByCustomerDetailReport extends
 	@Override
 	public void export(int generationType) {
 		UIUtils.generateReport(generationType,
-				toolbar.getStartDate().getDate(), toolbar.getStartDate()
+				toolbar.getStartDate().getDate(), toolbar.getEndDate()
 						.getDate(), 201);
 	}
 

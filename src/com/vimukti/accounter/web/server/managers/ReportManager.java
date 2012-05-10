@@ -4447,9 +4447,9 @@ public class ReportManager extends Manager {
 						.setAccountName((String) (object[7] != null ? object[7]
 								: ""));
 				customerDetail
-						.setCredit((Double) (object[8] != null ? object[8]
+						.setCredit((Double) (object[9] != null ? object[9]
 								: 0.0d));
-				customerDetail.setDebit((Double) (object[9] != null ? object[9]
+				customerDetail.setDebit((Double) (object[8] != null ? object[8]
 						: 0.0d));
 				customerDetails.add(customerDetail);
 			}
