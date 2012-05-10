@@ -790,6 +790,9 @@ public class FixedAsset extends CreatableObject implements
 			Account account = this.getAssetAccount();
 			account.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount);
 			session.saveOrUpdate(account);
+		} else {
+			this.getAssetAccount().setLinkedAccumulatedDepreciationAccount(
+					accumulatedDepreciationAccount);
 		}
 		if (this.oldStatus == STATUS_PENDING
 				&& this.status == STATUS_REGISTERED && !this.isSoldOrDisposed) {
