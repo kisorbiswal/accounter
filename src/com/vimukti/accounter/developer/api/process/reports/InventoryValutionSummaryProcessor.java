@@ -16,8 +16,9 @@ public class InventoryValutionSummaryProcessor extends ReportProcessor {
 		checkPermission(Features.EXTRA_REPORTS);
 		checkPermission(Features.INVENTORY);
 		init(req, resp);
+
 		List<? extends BaseReport> result = service
-				.getInventoryValutionSummary(startDate, endDate);
+				.getInventoryValutionSummary(0, startDate, endDate);
 
 		sendResult(result);
 	}

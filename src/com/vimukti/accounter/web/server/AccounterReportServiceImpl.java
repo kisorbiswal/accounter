@@ -3264,12 +3264,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
-			ClientFinanceDate start, ClientFinanceDate end)
+			long wareHouseId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<InventoryValutionSummary> list = getFinanceTool()
-				.getInventoryManager().getInventoryValutionSummary(
+				.getInventoryManager().getInventoryValutionSummary(wareHouseId,
 						getCompanyId(),
 						minimumAndMaximumDates[0].toClientFinanceDate(),
 						minimumAndMaximumDates[1].toClientFinanceDate());

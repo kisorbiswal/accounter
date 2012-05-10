@@ -359,7 +359,7 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
-			ClientFinanceDate start, ClientFinanceDate end)
+			long wareHouseId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException;
 
 	ArrayList<BankDepositDetail> getBankingDepositDetils(

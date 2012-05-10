@@ -415,8 +415,8 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<InventoryStockStatusDetail>> callback);
 
-	public void getInventoryValutionSummary(ClientFinanceDate start,
-			ClientFinanceDate end,
+	public void getInventoryValutionSummary(long wareHouseId,
+			ClientFinanceDate start, ClientFinanceDate end,
 			AsyncCallback<ArrayList<InventoryValutionSummary>> callback);
 
 	public void getInventoryValutionDetail(long id, ClientFinanceDate start,
@@ -492,7 +492,7 @@ public interface IAccounterReportServiceAsync {
 	public void getInventoryDetails(ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<InventoryDetails>> callback);
-	
+
 	public void getPayHeadSummaryReport(long payHeadId,
 			ClientFinanceDate start, ClientFinanceDate end,
 			AsyncCallback<ArrayList<PayHeadSummary>> payHeadSummaryList);

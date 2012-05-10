@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.ArrayList;
+
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
@@ -11,6 +13,17 @@ public class WarehouseCombo extends CustomCombo<ClientWarehouse> {
 	public WarehouseCombo(String title) {
 		super(title, "WarehouseCombo");
 		initCombo(Accounter.getCompany().getWarehouses());
+	}
+
+	public WarehouseCombo(String title, boolean isAddNewRequire,
+			boolean isneedAll) {
+		super(title, isAddNewRequire, 1, "WarehouseCombo");
+		ArrayList<ClientWarehouse> warehouses = new ArrayList<ClientWarehouse>();
+		ClientWarehouse warehouse = new ClientWarehouse();
+		warehouse.setName(messages.all());
+		warehouses.add(warehouse);
+		warehouses.addAll(Accounter.getCompany().getWarehouses());
+		initCombo(warehouses);
 	}
 
 	public WarehouseCombo(String title, boolean isAddNewRequire) {

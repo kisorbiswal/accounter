@@ -483,9 +483,11 @@ public class InventoryManager extends Manager {
 	}
 
 	public ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
-			Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
+			long wareHouseId, Long companyId, ClientFinanceDate start,
+			ClientFinanceDate end) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session.getNamedQuery("getInventoryValutionSummary")
+				.setParameter("wareHouseId", wareHouseId)
 				.setParameter("companyId", companyId)
 				.setParameter("fromDate", start.getDate())
 				.setParameter("toDate", end.getDate());
