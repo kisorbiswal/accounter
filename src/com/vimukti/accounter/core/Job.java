@@ -150,7 +150,8 @@ public class Job extends CreatableObject implements IAccounterServerCore,
 
 		Set<Job> jobs = getCompany().getJobs();
 		for (Job job : jobs) {
-			if (job.getName().equalsIgnoreCase(getJobName())) {
+			if (job.getName().equalsIgnoreCase(getJobName())
+					&& (job.getID() != this.getID())) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().jobName());
