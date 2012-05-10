@@ -119,8 +119,7 @@ public class TerminologyOption extends AbstractPreferenceOption {
 	public void initData() {
 
 		int referCustomers = getCompanyPreferences().getReferCustomers();
-		terminologyforCustomerLabel.setValue(messages.useTerminologyFor(Global
-				.get().Customer()));
+		
 		customerTerminolgyCombo.setComboItem(customerTermsList[referCustomers]);
 
 		int referVendors = getCompanyPreferences().getReferVendors();
