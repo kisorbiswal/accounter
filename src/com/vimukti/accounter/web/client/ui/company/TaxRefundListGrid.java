@@ -97,7 +97,7 @@ public class TaxRefundListGrid extends BaseListGrid<ClientReceiveVAT> {
 	protected String[] getColumns() {
 		return new String[] { messages.depositIn(), messages.paymentMethod(),
 				messages.checkNumber(), messages.transactionDate(),
-				messages.amountPaid(), messages.delete() };
+				messages.amountReceived(), messages.delete() };
 	}
 
 	@Override
