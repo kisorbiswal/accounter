@@ -1237,7 +1237,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 							StringBuffer result = new StringBuffer();
 							result.append(obj.getQuantity().getValue());
 							result.append(" ");
-							result.append(unit.getMeasurement().getName());
+							result.append(unit.getType());
 							columnValue = result.toString();
 						} else {
 							columnValue = " ";
