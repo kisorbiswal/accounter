@@ -20,9 +20,11 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 
 	private CurrencyExchangeRateTable table;
 	private DateItem enteredDateItem;
+	private boolean fromReportsHome;
 
-	public EnterExchangeRatesDialog() {
+	public EnterExchangeRatesDialog(boolean fromReportsHome) {
 		super(messages.enterExchangeRates());
+		this.fromReportsHome = fromReportsHome;
 		this.getElement().setId("EnterExchangeRatesDialog");
 		createControls();
 		center();
@@ -87,6 +89,14 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 		action.setEnterDate(enteredDateItem.getDate());
 		action.run(map, false);
 		return true;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		if (fromReportsHome) {
+			return true;
+		}
+		return super.onCancel();
 	}
 
 	@Override
