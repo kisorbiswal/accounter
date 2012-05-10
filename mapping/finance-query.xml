@@ -1759,7 +1759,7 @@
 		
 		<![CDATA[
 				SELECT T.ID AS TRANSACTION_ID,
-				       TI   AS TRANSACTION_ITEM_ID
+				       TI.ID   AS TRANSACTION_ITEM_ID
 				FROM   JOB J
 				       LEFT OUTER JOIN TRANSACTION T
 				         ON T.JOB_ID = :inputId
