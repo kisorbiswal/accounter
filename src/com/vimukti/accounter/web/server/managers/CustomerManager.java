@@ -32,7 +32,6 @@ import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -98,39 +97,39 @@ public class CustomerManager extends PayeeManager {
 					customerRefundsList.add(customerRefund);
 				}
 			}
-			query = session.getNamedQuery("getWriteCheck.by.payToType")
-					.setParameter("type", WriteCheck.TYPE_CUSTOMER)
-					.setEntity("company", company);
-			list = query.list();
-
-			if (list != null) {
-				Iterator i = list.iterator();
-				while (i.hasNext()) {
-
-					CustomerRefundsList customerRefund = new CustomerRefundsList();
-					WriteCheck wc = (WriteCheck) i.next();
-					customerRefund.setTransactionId(wc.getID());
-					customerRefund.setType(wc.getType());
-					customerRefund.setPaymentDate(new ClientFinanceDate(wc
-							.getDate().getDate()));
-					customerRefund.setIssueDate(null);
-					customerRefund.setPaymentNumber(wc.getNumber());
-					customerRefund.setStatus(wc.getStatus());
-					customerRefund.setName((wc.getCustomer() != null) ? wc
-							.getCustomer().getName()
-							: ((wc.getVendor() != null) ? wc.getVendor()
-									.getName()
-									: (wc.getTaxAgency() != null ? wc
-											.getTaxAgency().getName() : null)));
-					customerRefund.setPaymentMethod(null);
-					customerRefund.setAmountPaid(wc.getAmount());
-					customerRefund.setVoided(wc.isVoid());
-					customerRefund.setCurrency(wc.getCurrency().getID());
-					customerRefund.setSaveStatus(wc.getSaveStatus());
-					customerRefundsList.add(customerRefund);
-
-				}
-			}
+			// query = session.getNamedQuery("getWriteCheck.by.payToType")
+			// .setParameter("type", WriteCheck.TYPE_CUSTOMER)
+			// .setEntity("company", company);
+			// list = query.list();
+			//
+			// if (list != null) {
+			// Iterator i = list.iterator();
+			// while (i.hasNext()) {
+			//
+			// CustomerRefundsList customerRefund = new CustomerRefundsList();
+			// WriteCheck wc = (WriteCheck) i.next();
+			// customerRefund.setTransactionId(wc.getID());
+			// customerRefund.setType(wc.getType());
+			// customerRefund.setPaymentDate(new ClientFinanceDate(wc
+			// .getDate().getDate()));
+			// customerRefund.setIssueDate(null);
+			// customerRefund.setPaymentNumber(wc.getNumber());
+			// customerRefund.setStatus(wc.getStatus());
+			// customerRefund.setName((wc.getCustomer() != null) ? wc
+			// .getCustomer().getName()
+			// : ((wc.getVendor() != null) ? wc.getVendor()
+			// .getName()
+			// : (wc.getTaxAgency() != null ? wc
+			// .getTaxAgency().getName() : null)));
+			// customerRefund.setPaymentMethod(null);
+			// customerRefund.setAmountPaid(wc.getAmount());
+			// customerRefund.setVoided(wc.isVoid());
+			// customerRefund.setCurrency(wc.getCurrency().getID());
+			// customerRefund.setSaveStatus(wc.getSaveStatus());
+			// customerRefundsList.add(customerRefund);
+			//
+			// }
+			// }
 
 			if (customerRefundsList != null) {
 				return customerRefundsList;
