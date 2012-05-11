@@ -50,6 +50,8 @@
 			update="true"></property>
 		<property name="subscriptionType" column="SUBSCRIPTION_TYPE"
 			update="true"></property>
+		<property name="isPremiumTrailDone" column="IS_PREMIUM_DONE"
+			update="true"></property>
 		<set name="users" inverse="true">
 			<key column="CLIENT_ID"></key>
 			<one-to-many class="User" />

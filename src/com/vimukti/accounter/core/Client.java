@@ -35,6 +35,7 @@ public class Client {
 
 	private ClientSubscription clientSubscription;
 	private byte[] passwordRecoveryKey;
+	private boolean isPremiumTrailDone;
 
 	// NEW FILEDS
 
@@ -394,6 +395,14 @@ public class Client {
 
 	public void setSubscriptionType(int subscriptionType) {
 		this.subscriptionType = subscriptionType;
+	}
+
+	public boolean isPremiumTrailDone() {
+		return isPremiumTrailDone;
+	}
+
+	public void setPremiumTrailDone(boolean isPremiumTrailDone) {
+		this.isPremiumTrailDone = isPremiumTrailDone;
 	}
 
 }
