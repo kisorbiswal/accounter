@@ -12257,12 +12257,13 @@
 		<return-scalar column="PR_ID" type="long" />
 		
 		<![CDATA[	
-					SELECT PR.ID AS PR_ID 
+				   SELECT TPE.ID AS PR_ID 
 			FROM   PAY_RUN PR 
+				   LEFT OUTER JOIN TRANSACTION_PAY_EMPLOYEE TPE
+				   ON TPE.PAY_RUN_ID = PR.ID
 			       LEFT JOIN TRANSACTION T 
 			         ON T.ID = PR.ID 
-			WHERE  PR.ID IS NULL 
-			       AND PR.ID = :inputId 
+			WHERE  PR.ID = :inputId 
 			       AND T.COMPANY_ID = :companyId 
 			LIMIT  1 
 			

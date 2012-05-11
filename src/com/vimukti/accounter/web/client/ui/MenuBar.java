@@ -147,48 +147,48 @@ public class MenuBar {
 	private Menu getPayrollMenu(String payroll) {
 		Menu payrollMenuBar = new Menu(payroll);
 
-		payrollMenuBar.addMenuItem(messages.newEmployee(),
-				HistoryTokens.NEWEMPLOYEE);
-		payrollMenuBar.addMenuItem(messages.newEmployeeGroup(),
-				HistoryTokens.NEWEMPLOYEEGROUP);
-		// payrollMenuBar.addMenuItem(messages.newEmployeeCategory(),
-		// HistoryTokens.NEWEMPLOYEECATEGORY);
-		payrollMenuBar.addMenuItem(messages.newPayHead(),
-				HistoryTokens.NEWPAYHEAD);
-		payrollMenuBar.addMenuItem(messages.newPayrollUnit(),
-				HistoryTokens.NEWPAYROLLUNIT);
-		payrollMenuBar.addMenuItem(messages.newPayee(messages.payStructure()),
-				HistoryTokens.NEW_PAYSTRUCTURE);
-		payrollMenuBar.addMenuItem(messages.newPayee(messages.payrun()),
-				HistoryTokens.NEW_PAYRUN);
-		payrollMenuBar.addMenuItem(messages.newPayee(messages.payEmployee()),
-				HistoryTokens.PAY_EMPLOYEE);
+		Menu newPayRollMenu = getNewPayRollMenu(messages.new1());
+
+		payrollMenuBar.addMenu(newPayRollMenu);
+
 		payrollMenuBar.addSeparatorItem();
 
-		payrollMenuBar
-				.addMenuItem(getPayrollListsMenu(messages.payrollLists()));
+		payrollMenuBar.addMenuItem(messages.employeeList(),
+				HistoryTokens.EMPLOYEELIST);
+		payrollMenuBar.addMenuItem(messages.employeeGroupList(),
+				HistoryTokens.EMPLOYEEGROUPLIST);
+
+		payrollMenuBar.addMenuItem(messages.payheadList(),
+				HistoryTokens.PAYHEADLIST);
+		payrollMenuBar.addMenuItem(messages.attendanceOrProductionTypeList(),
+				HistoryTokens.ATTENDANCE_PRODUCTION_TYPE_LIST);
+		payrollMenuBar.addMenuItem(messages.payrollUnitList(),
+				HistoryTokens.PAYROLLUNITLIST);
+		payrollMenuBar.addMenuItem(messages.payStructureList(),
+				HistoryTokens.PAY_STRUCTURE_LIST);
+
 		return payrollMenuBar;
 	}
 
-	private MenuItem getPayrollListsMenu(String payrollLists) {
-		Menu listMenuBar = new Menu(payrollLists);
+	private Menu getNewPayRollMenu(String new1) {
+		Menu payrollMenuBar = new Menu(new1);
+		payrollMenuBar.addMenuItem(messages.employee(),
+				HistoryTokens.NEWEMPLOYEE);
+		payrollMenuBar.addMenuItem(messages.employeeGroup(),
+				HistoryTokens.NEWEMPLOYEEGROUP);
+		payrollMenuBar
+				.addMenuItem(messages.payhead(), HistoryTokens.NEWPAYHEAD);
+		payrollMenuBar.addMenuItem(messages.payrollUnit(),
+				HistoryTokens.NEWPAYROLLUNIT);
+		payrollMenuBar.addMenuItem(messages.payStructure(),
+				HistoryTokens.NEW_PAYSTRUCTURE);
+		payrollMenuBar.addMenuItem(messages.payrun(), HistoryTokens.NEW_PAYRUN);
+		payrollMenuBar.addMenuItem(messages.payEmployee(),
+				HistoryTokens.PAY_EMPLOYEE);
 
-		listMenuBar.addMenuItem(messages.employeeList(),
-				HistoryTokens.EMPLOYEELIST);
-		listMenuBar.addMenuItem(messages.employeeGroupList(),
-				HistoryTokens.EMPLOYEEGROUPLIST);
-		// listMenuBar.addMenuItem(messages.employeeCategoryList(),
-		// HistoryTokens.EMPLOYEECATEGORYLIST);
-		listMenuBar.addMenuItem(messages.payheadList(),
-				HistoryTokens.PAYHEADLIST);
-		listMenuBar.addMenuItem(messages.attendanceOrProductionTypeList(),
-				HistoryTokens.ATTENDANCE_PRODUCTION_TYPE_LIST);
-		listMenuBar.addMenuItem(messages.payrollUnitList(),
-				HistoryTokens.PAYROLLUNITLIST);
-		listMenuBar.addMenuItem(messages.payStructureList(),
-				HistoryTokens.PAY_STRUCTURE_LIST);
-
-		return listMenuBar;
+		payrollMenuBar.addMenuItem(messages.attendanceOrProductionType(),
+				HistoryTokens.ATTENDANCE_PRODUCTION_TYPE);
+		return payrollMenuBar;
 	}
 
 	private Menu getInventoryMenu(String string) {

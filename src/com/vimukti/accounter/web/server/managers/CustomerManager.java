@@ -626,6 +626,32 @@ public class CustomerManager extends PayeeManager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
+			session.getNamedQuery("update.merge.Job.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
+			session.getNamedQuery("update.merge.TransactionItem.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
+			session.getNamedQuery("update.merge.payee.update.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.TransactionDepositItem.update.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.TransactionDepositItem.customer.update.old.tonew")
+					.setLong("fromID", fromClientCustomer.getID())
+					.setLong("toID", toClientCustomer.getID()).executeUpdate();
+
+			// session.getNamedQuery("update.merge.loan.old.tonew")
+			// .setLong("fromID", fromClientCustomer.getID())
+			// .setLong("toID", toClientCustomer.getID()).executeUpdate();
+
 			User user = AccounterThreadLocal.get();
 
 			Customer toCustomer = (Customer) session.get(Customer.class,

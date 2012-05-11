@@ -2355,4 +2355,49 @@
 			from com.vimukti.accounter.core.AttendanceManagementItem item 
 			where item.employee.id =:employee
 	</query>
+	<query name="update.merge.Job.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.Job set
+		customer.id=:toID
+		where
+		customer.id=:fromID
+	</query>
+	<query name="update.merge.TransactionItem.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionItem set
+		customer.id=:toID
+		where
+		customer.id=:fromID
+	</query>	
+	<query name="update.merge.payee.update.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.PayeeUpdate set
+		payee.id=:toID
+		where
+		payee.id=:fromID
+	</query>	
+	<!-- <query name="update.merge.loan.old.tonew">
+		<query-param name="fromID" type="long"></query-param>
+		<query-param name="toID" type="long"></query-param>
+			update com.vimukti.accounter.core.Loan set
+			payee.id=:toID
+			where payee.id=:fromID
+	</query> -->
+	<query name="update.merge.TransactionDepositItem.update.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionDepositItem
+			set receivedFrom.id=:toID
+			where receivedFrom.id=:fromID
+	</query>
+	<query name="update.merge.TransactionDepositItem.customer.update.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.TransactionDepositItem
+			set customer.id=:toID
+			where customer.id=:fromID
+	</query>	
 </hibernate-mapping>

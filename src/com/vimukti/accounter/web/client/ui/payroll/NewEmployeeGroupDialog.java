@@ -1,7 +1,11 @@
 package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientEmployeeGroup;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -27,7 +31,6 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	}
 
 	public void createControls() {
-
 		nameItem = new TextItem(messages.employeeGroup(), "nameItem");
 		nameItem.setValue(group.getName());
 		form = new DynamicForm("form");
@@ -45,7 +48,7 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	@Override
 	protected boolean onOK() {
 		updateData();
-		return true;
+		return false;
 	}
 
 	@Override
@@ -67,6 +70,19 @@ public class NewEmployeeGroupDialog extends BaseDialog<ClientEmployeeGroup> {
 	@Override
 	public void setFocus() {
 		nameItem.setFocus();
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		String errorString = AccounterExceptions.getErrorString(exception);
+		Accounter.showError(errorString);
+	}
+
+	@Override
+	public void saveSuccess(IAccounterCore object) {
+		super.saveSuccess(object);
+		this.removeFromParent();
+		onCancel();
 	}
 
 }
