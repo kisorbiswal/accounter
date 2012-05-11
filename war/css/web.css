@@ -8382,3 +8382,6 @@ table.no_records tr td {
 	display: block !important;
 }
 /*Location merge dialog end*/
+.employeecombo .customComboItem{
+	padding-left: 5px;
+}
