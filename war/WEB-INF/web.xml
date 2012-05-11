@@ -1033,4 +1033,16 @@
 		<servlet-name>iAccounterPayrollImpl </servlet-name>
 		<url-pattern>/do/accounter/payroll/rpc/service </url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>freeTrailServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.FreeTrailServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>freeTrailServlet </servlet-name>
+		<url-pattern>/main/freetrail </url-pattern>
+	</servlet-mapping>
 </web-app>

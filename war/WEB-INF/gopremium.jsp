@@ -67,6 +67,7 @@ if(isSandBoxPaypal ==null){
 
 
 </form>
+<a target="_blank" href="/main/freetrail?emailId=<%= emailId %>">Go Trail for 30 days</a>;
 
 
 
