@@ -415,6 +415,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			ddoRegistration.setValue(data.getDdoRegistration());
 			ministryCombo.setValue(data.getMinistryDeptName());
 			ministryNameOtehr.setValue(data.getMinistryDeptOtherName());
+			govtState.setSelected(data.getGovtState());
 
 		}
 

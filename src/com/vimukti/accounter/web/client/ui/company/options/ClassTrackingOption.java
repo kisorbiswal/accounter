@@ -65,7 +65,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 				+ " : " + messages.onePerTransactionclassTrackingDescription(),
 				"organisation_comment");
 
-		oneperdetaillineLabel = new LabelItem(messages.onepertransaction()
+		oneperdetaillineLabel = new LabelItem(messages.oneperdetailline()
 				+ " : " + messages.onePerDetailLineclassTrackingDescription(),
 				"organisation_comment");
 
