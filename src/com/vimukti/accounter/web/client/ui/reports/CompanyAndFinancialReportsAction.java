@@ -33,7 +33,7 @@ public class CompanyAndFinancialReportsAction extends Action {
 	public static final int TYPE_INCOME_BY_CUSTOMER_DETAIL = 16;
 
 	private int type;
-
+	private boolean fromReportsHome;
 	private ClientFinanceDate enteredDate;
 
 	private long accountID;
@@ -94,7 +94,7 @@ public class CompanyAndFinancialReportsAction extends Action {
 					report = urlgReport;
 					break;
 				case TYPE_EXCHANGE_RATES:
-					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog();
+					EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog(isFromReportsHome());
 					dialog.center();
 					break;
 				case TYPE_PROFIT_AND_LOSS:
@@ -324,6 +324,14 @@ public class CompanyAndFinancialReportsAction extends Action {
 	public static CompanyAndFinancialReportsAction incomeByCustomer() {
 		return new CompanyAndFinancialReportsAction(
 				TYPE_INCOME_BY_CUSTOMER_DETAIL);
+	}
+
+	public boolean isFromReportsHome() {
+		return fromReportsHome;
+	}
+
+	public void setFromReportsHome(boolean fromReportsHome) {
+		this.fromReportsHome = fromReportsHome;
 	}
 
 }

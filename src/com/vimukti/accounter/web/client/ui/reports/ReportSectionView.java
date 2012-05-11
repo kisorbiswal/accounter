@@ -470,6 +470,11 @@ public class ReportSectionView extends BaseHomeView {
 
 	protected void historyChanged(String value) {
 		Action<?> action = MainFinanceWindow.actions.get(value);
+		if (value.equals(CompanyAndFinancialReportsAction.exchangeRates()
+				.getHistoryToken())) {
+			((CompanyAndFinancialReportsAction) action)
+					.setFromReportsHome(true);
+		}
 		action.run();
 	}
 }
