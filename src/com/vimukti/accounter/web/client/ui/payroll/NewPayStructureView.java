@@ -258,7 +258,7 @@ public class NewPayStructureView extends BaseView<ClientPayStructure> {
 				.getSelectedValue();
 		if (selectedValue == null) {
 			validate.addError(empsAndGroups,
-					messages.shouldNotBeNull(messages.employeeGroup()));
+					messages.pleaseSelect(messages.employeeGroup()));
 			return validate;
 		}
 
