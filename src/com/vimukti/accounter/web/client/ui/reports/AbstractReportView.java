@@ -65,6 +65,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_ACCOUNT = 15;
 	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
 	public static final int TOOLBAR_TYPE_JOB = 16;
+	public static final int TOOLBAR_TYPE_WAREHOUSE = 18;
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_SUMMARY = 175;
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
@@ -495,6 +496,9 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 			case TOOLBAR_TYPE_ACCOUNT:
 				toolbar = new AccountReportToolBar(this);
+				break;
+			case TOOLBAR_TYPE_WAREHOUSE:
+				toolbar = new WareHouseToolBar(this);
 				break;
 			case TOOLBAR_TYPE_PAY_HEAD:
 				toolbar = new PayHeadReportToolBar(this);

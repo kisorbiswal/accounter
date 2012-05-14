@@ -1698,7 +1698,8 @@ public class ReportsGenerator {
 			updateReport(summaryReport, finaTool);
 			try {
 				summaryReport.onResultSuccess(finaTool.getInventoryManager()
-						.getInventoryValutionSummary(company.getID(),
+						.getInventoryValutionSummary(Long.valueOf(status),
+								company.getID(),
 								new ClientFinanceDate(startDate.getDate()),
 								new ClientFinanceDate(endDate.getDate())));
 

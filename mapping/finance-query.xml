@@ -11369,6 +11369,7 @@
 	</sql-query>
 
 	<sql-query name="getInventoryValutionSummary">
+		<query-param name="wareHouseId" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
@@ -11401,6 +11402,11 @@
 				LEFT JOIN ITEM I ON I.ID = V.ITEM_ID
 				WHERE  V.COMPANY = :companyId
 				       AND ( V.ASOFDATE BETWEEN :fromDate AND :toDate )
+				       AND  CASE WHEN 0!=:wareHouseId
+				            then I.warehouse=:wareHouseId
+				            else
+				            true
+				            end
 				GROUP  BY ITEM_ID,
 				          ITEM_NAME,
 				          ITEM_TOTAL_QUANTITY,

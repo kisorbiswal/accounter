@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberReportInput;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -8,19 +9,35 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummar
 
 public class InventoryValutionSummaryReport extends
 		AbstractReportView<InventoryValutionSummary> {
+	private long warehouseId = 0;
+
 	public InventoryValutionSummaryReport() {
 		this.serverReport = new InventoryValutionSummaryServerReport(this);
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		this.toolbar.setWareHouseId(this.warehouseId);
+	}
+
+	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		Accounter.createReportService().getInventoryValutionSummary(start, end,
-				this);
+
+		makeReportRequest(getWarehouseId(), start, end);
+	}
+
+	public void makeReportRequest(long wareHouseId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		grid.removeAllRows();
+		setWarehouseId(wareHouseId);
+		Accounter.createReportService().getInventoryValutionSummary(
+				wareHouseId, startDate, endDate, this);
 	}
 
 	@Override
 	public int getToolbarType() {
-		return TOOLBAR_TYPE_DATE_RANGE;
+		return TOOLBAR_TYPE_WAREHOUSE;
 	}
 
 	@Override
@@ -35,7 +52,16 @@ public class InventoryValutionSummaryReport extends
 	@Override
 	public void export(int generationType) {
 		UIUtils.generateReport(generationType, startDate.getDate(),
-				endDate.getDate(), REPORT_TYPE_INVENTORY_VALUTION_SUMMARY);
+				endDate.getDate(), REPORT_TYPE_INVENTORY_VALUTION_SUMMARY,
+				new NumberReportInput(getWarehouseId()));
+	}
+
+	public long getWarehouseId() {
+		return warehouseId;
+	}
+
+	public void setWarehouseId(long warehouseId) {
+		this.warehouseId = warehouseId;
 	}
 
 }

@@ -24,7 +24,8 @@ public class InventoryValutionSummaryRG extends AbstractReportGenerator {
 		updateReport(summaryReport);
 		try {
 			summaryReport.onResultSuccess(financeTool.getInventoryManager()
-					.getInventoryValutionSummary(company.getID(),
+					.getInventoryValutionSummary(getInputAsLong(0),
+							company.getID(),
 							new ClientFinanceDate(startDate.getDate()),
 							new ClientFinanceDate(endDate.getDate())));
 

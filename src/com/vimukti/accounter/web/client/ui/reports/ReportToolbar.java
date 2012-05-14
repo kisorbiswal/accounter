@@ -24,6 +24,7 @@ public abstract class ReportToolbar extends DynamicForm {
 	private int viewId = 0;
 	private long jobId;
 	private long accId;
+	private long wareHouseId;
 	public boolean isToolBarComponentChanged;
 
 	public ReportToolbar() {
@@ -828,6 +829,19 @@ public abstract class ReportToolbar extends DynamicForm {
 	}
 
 	protected void accountData() {
+
+	}
+
+	public long getWareHouseId() {
+		return wareHouseId;
+	}
+
+	public void setWareHouseId(long wareHouseId) {
+		this.wareHouseId = wareHouseId;
+		wareHouseData();
+	}
+
+	protected void wareHouseData() {
 
 	}
 }
