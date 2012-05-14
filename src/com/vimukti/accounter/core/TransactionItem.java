@@ -765,6 +765,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 
 		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = HibernateUtil
+				.initializeAndUnproxy(getTransaction());
 		Quantity mapped = getQuantityCopy();
 		Iterator<InventoryPurchase> iterator = getPurchases().iterator();
 		while (iterator.hasNext()) {
@@ -779,8 +781,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				double purchaseValue = next.getQuantity().calculatePrice(
 						next.getCost());
 				Account expenseAccount = next.getEffectingAccount();
-				expenseAccount.updateCurrentBalance(this.getTransaction(),
-						purchaseValue, 1);
+				expenseAccount.updateCurrentBalance(transaction, purchaseValue,
+						1);
 				session.saveOrUpdate(expenseAccount);
 				session.delete(next);
 				iterator.remove();
@@ -790,7 +792,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// Creating New Purchases
 		for (Entry<Double, Quantity> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getValue();
-			double purchaseCost = getTransaction().isVendorCreditMemo() ? entry
+			double purchaseCost = transaction.isVendorCreditMemo() ? entry
 					.getKey() - this.getUnitPriceInBaseCurrency() : entry
 					.getKey();
 			double cost = useAverage ? averageCost : purchaseCost;
@@ -798,7 +800,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			createPurchase(session, qty, cost);
 		}
 		if (!mapped.isEmpty()) {
-			double purchaseCost = getTransaction().isVendorCreditMemo() ? 0
+			double purchaseCost = transaction.isVendorCreditMemo() ? 0
 					: getUnitPriceInBaseCurrency();
 			double cost = (useAverage && averageCost != null) ? averageCost
 					: purchaseCost;
@@ -838,9 +840,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			boolean useAverage, Double averageCost) {
 		Quantity mapped = getQuantityCopy();
 		double amountToUpdate = 0;
+		Transaction transaction = HibernateUtil
+				.initializeAndUnproxy(getTransaction());
 		for (Entry<Double, Quantity> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getValue();
-			double purchaseCost = getTransaction().isVendorCreditMemo() ? entry
+			double purchaseCost = transaction.isVendorCreditMemo() ? entry
 					.getKey() - this.getUnitPriceInBaseCurrency() : entry
 					.getKey();
 			double cost = (useAverage && averageCost != null) ? averageCost
@@ -851,7 +855,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 
 		if (!mapped.isEmpty()) {
-			double purchaseCost = getTransaction().isVendorCreditMemo() ? 0
+			double purchaseCost = transaction.isVendorCreditMemo() ? 0
 					: getUnitPriceInBaseCurrency();
 			double cost = (useAverage && averageCost != null) ? averageCost
 					: purchaseCost;
@@ -888,24 +892,19 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private Account getExpenseAccountForInventoryPurchase() {
 		Account expenseAccount = null;
-		if (getTransaction().isStockAdjustment()) {
-			expenseAccount = ((StockAdjustment) getTransaction())
+		Transaction transaction = HibernateUtil
+				.initializeAndUnproxy(getTransaction());
+
+		if (transaction.isStockAdjustment()) {
+			expenseAccount = ((StockAdjustment) transaction)
 					.getAdjustmentAccount();
-		} else if (getTransaction().isBuildAssembly()) {
-			expenseAccount = ((BuildAssembly) getTransaction())
+		} else if (transaction.isBuildAssembly()) {
+			expenseAccount = ((BuildAssembly) transaction)
 					.getInventoryAssembly().getAssestsAccount();
 		} else {
 			expenseAccount = getItem().getExpenseAccount();
 		}
 		return expenseAccount;
-	}
-
-	private boolean isSalesTransaction() {
-		boolean isSales = getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER;
-		if (transaction.isStockAdjustment()) {
-			isSales = getQuantity().getValue() < 0;
-		}
-		return isSales;
 	}
 
 	public Quantity getQuantityCopy() {
