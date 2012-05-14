@@ -546,6 +546,7 @@
 					          PE.EMPLOYEE_GROUP_ID, 
 					          EG.NAME,P.NAME,
 					          P.NAME,A.ID
+					ORDER BY T.T_DATE DESC, T.NUMBER          
 			]]>
 	</sql-query>
 
