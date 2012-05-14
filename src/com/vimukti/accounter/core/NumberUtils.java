@@ -42,7 +42,12 @@ public class NumberUtils {
 			String num = (String) list.get(i);
 			String string = num.replaceAll("[\\D]", "");
 			if (string.length() > 0) {
-				long p = Long.parseLong(string);
+				long p = 0;
+				try {
+					p = Long.parseLong(string);
+				} catch (NumberFormatException e) {
+					p = 0;
+				}
 				if (p > max) {
 					max = p;
 					maxStr = num;
