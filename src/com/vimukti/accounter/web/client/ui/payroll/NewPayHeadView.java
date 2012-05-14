@@ -576,6 +576,7 @@ public class NewPayHeadView extends BaseView<ClientPayHead> {
 			result.add(attendanceLeftForm.validate());
 			result.add(attendanceRightForm.validate());
 			result.add(userDefinedCalendarForm.validate());
+			result.add(attendanceTypeForm.validate());
 
 		} else if (selectedValue.equals(messages.asComputedValue())) {
 			result.add(compuPeriodAndTypeForm.validate());

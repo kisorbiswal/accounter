@@ -141,7 +141,7 @@ public class PayRollActions extends Action {
 			break;
 		case NEW_PAYROLL_UNIT:
 			NewPayrollUnitDialog newPayrollUnitDialog = new NewPayrollUnitDialog(
-					messages.newPayrollUnit());
+					messages.newPayrollUnit(),isFromEmployeeView());
 			newPayrollUnitDialog.setData((ClientPayrollUnit) data);
 			dialog = newPayrollUnitDialog;
 			break;

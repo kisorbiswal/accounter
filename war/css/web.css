@@ -8154,9 +8154,6 @@ table.no_records tr td {
 }
 #NewEmployeeView .firstPanel .empDetailsInfoForm{
 	margin:10px;
-	display: -moz-box;
-	display: -webkit-box;
-	display: box;
 }
 #NewEmployeeView .secondPanel .empOtherDetailsInfoForm{
 	display: -moz-box;
