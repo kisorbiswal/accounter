@@ -1339,6 +1339,7 @@ public class CashPurchaseView extends
 				.setAllRows(getAccountTransactionItems(transactionItems));
 		vendorItemTransactionTable
 				.setAllRows(getItemTransactionItems(transactionItems));
+		refreshTransactionGrid();
 	}
 
 	@Override
