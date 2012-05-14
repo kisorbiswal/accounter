@@ -113,6 +113,7 @@ public class PayEmployeeView extends
 		mainPanel.add(table);
 
 		memoTextAreaItem = createMemoTextAreaItem();
+		memoTextAreaItem.setEnabled(!isInViewMode());
 
 		DynamicForm memoForm = new DynamicForm("memoForm");
 
@@ -179,6 +180,7 @@ public class PayEmployeeView extends
 					transaction.getPayAccount()));
 			transactionNumber.setValue(transaction.getNumber());
 			transactionDateItem.setValue(transaction.getDate());
+			memoTextAreaItem.setValue(transaction.getMemo());
 			transactionTotalBaseCurrencyText.setAmount(transaction.getTotal());
 		} else {
 			transaction = new ClientPayEmployee();
@@ -304,7 +306,7 @@ public class PayEmployeeView extends
 		setMode(EditMode.EDIT);
 		bankAccountCombo.setEnabled(!isInViewMode());
 		table.setEnabled(!isInViewMode());
-		memoTextAreaItem.setEnabled(isInViewMode());
+		memoTextAreaItem.setEnabled(!isInViewMode());
 		transactionNumber.setEnabled(!isInViewMode());
 		transactionDateItem.setEnabled(!isInViewMode());
 	}
