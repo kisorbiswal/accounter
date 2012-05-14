@@ -1516,7 +1516,7 @@ public class WriteChequeView extends
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
 		netAmount.setCurrency(currencyWidget.getSelectedCurrency());
-		unassignedAmount.setTitle(messages.currencyNetAmount(formalName));
+		unassignedAmount.setTitle(messages.unassignedAmountWithCurrencyName(formalName));
 		unassignedAmount.setCurrency(currencyWidget.getSelectedCurrency());
 	}
 
