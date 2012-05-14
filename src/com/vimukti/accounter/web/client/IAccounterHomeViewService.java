@@ -212,9 +212,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// public AccountRegister getAccountRegister(String accountId)
 	// throws DAOException;
 
-	// To get all Customer Refunds and Write Checks -> for Customer
-	public PaginationList<CustomerRefundsList> getCustomerRefundsList(
-			long fromDate, long toDate);
+	PaginationList<CustomerRefundsList> getCustomerRefundsList(long fromDate,
+			long toDate, int viewId);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public ArrayList<ClientAccount> getTaxAgencyAccounts();

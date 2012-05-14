@@ -59,7 +59,7 @@ public class CustomerManager extends PayeeManager {
 	}
 
 	public PaginationList<CustomerRefundsList> getCustomerRefundsList(
-			long companyId, FinanceDate fromDate, FinanceDate toDate)
+			long companyId, FinanceDate fromDate, FinanceDate toDate, int viewId)
 			throws DAOException {
 		try {
 
@@ -69,7 +69,8 @@ public class CustomerManager extends PayeeManager {
 			Query query = session.getNamedQuery("getCustomerRefund")
 					.setEntity("company", company)
 					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("toDate", toDate)
+					.setParameter("viewId",viewId);
 			List list = query.list();
 
 			if (list != null) {

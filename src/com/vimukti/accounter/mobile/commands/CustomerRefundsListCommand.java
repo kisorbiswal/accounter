@@ -126,6 +126,22 @@ public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 
 	}
 
+	private int checkViewType(String view) {
+		if (view.equalsIgnoreCase(getMessages().notIssued())) {
+			return STATUS_NOT_ISSUED;
+		} else if (view.equalsIgnoreCase(getMessages().voided())) {
+			return VIEW_VOIDED;
+		} else if (view.equalsIgnoreCase(getMessages().voided())) {
+			return STATUS_ISSUED;
+		} else if (view.equalsIgnoreCase(getMessages().all())) {
+			return VIEW_ALL;
+		} else if (view.equalsIgnoreCase(getMessages().drafts())) {
+			return VIEW_DRAFT;
+		}
+		return 0;
+
+	}
+
 	protected List<CustomerRefundsList> getList(Context context) {
 		String viewType = get(VIEW_BY).getValue();
 		List<CustomerRefundsList> customerRefundsList = null;
@@ -134,7 +150,7 @@ public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 			customerRefundsList = new FinanceTool().getCustomerManager()
 					.getCustomerRefundsList(context.getCompany().getId(),
 							new FinanceDate(getStartDate()),
-							new FinanceDate(getEndDate()));
+							new FinanceDate(getEndDate()), checkViewType(viewType));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

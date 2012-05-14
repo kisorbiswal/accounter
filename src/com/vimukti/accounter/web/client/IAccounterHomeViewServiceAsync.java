@@ -239,7 +239,7 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// To get all Customer Refunds and Write Checks -> for Customer
 	public void getCustomerRefundsList(long fromDate, long toDate,
-			AsyncCallback<PaginationList<CustomerRefundsList>> callback);
+			int viewId, AsyncCallback<PaginationList<CustomerRefundsList>> callback);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public void getTaxAgencyAccounts(

@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CustomerRefundsProcessor extends ListProcessor {
 
+	private int viewId;
+
 	@Override
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		initTransactionList(req, resp);
 		List<?> resultList = service.getCustomerRefundsList(from.getDate(),
-				to.getDate());
+				to.getDate(),viewId);
 		sendResult(resultList);
 	}
 }

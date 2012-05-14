@@ -26,6 +26,7 @@ public class CustomerRefundListView extends
 		TransactionsListView<CustomerRefundsList> implements IPrintableView {
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund = new ArrayList<CustomerRefundsList>();
+	private int viewId;
 
 	// private static String DELETED="Deleted";
 
@@ -67,20 +68,14 @@ public class CustomerRefundListView extends
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getCustomerRefundsList(
-				getStartDate().getDate(), getEndDate().getDate(), this);
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
 	public void onSuccess(PaginationList<CustomerRefundsList> result) {
 		super.onSuccess(result);
 		listOfCustomerRefund = result;
-		filterList(viewSelect != null ? viewSelect.getSelectedValue()
-				: messages.notIssued());
-		grid.setViewType(viewSelect != null ? viewSelect.getSelectedValue()
-				: messages.notIssued());
-		grid.sort(10, false);
+		filterList(true);
 	}
 
 	@Override
@@ -128,50 +123,35 @@ public class CustomerRefundListView extends
 		return listOfTypes;
 	}
 
+	private int checkViewType(String view) {
+		if (view.equalsIgnoreCase(messages.notIssued())) {
+			setViewId(STATUS_NOT_ISSUED);
+		} else if (view.equalsIgnoreCase(messages.voided())) {
+			setViewId(VIEW_VOIDED);
+		} else if (view.equalsIgnoreCase(messages.issued())) {
+			setViewId(STATUS_ISSUED);
+		} else if (view.equalsIgnoreCase(messages.all())) {
+			setViewId(TYPE_ALL);
+		} else if (view.equalsIgnoreCase(messages.drafts())) {
+			setViewId(VIEW_DRAFT);
+		}
+
+		return getViewId();
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		setViewId(checkViewType(getViewType()));
+		Accounter.createHomeService().getCustomerRefundsList(
+				getStartDate().getDate(), getEndDate().getDate(), getViewId(),
+				this);
+	}
+
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		for (CustomerRefundsList customerRefund : listOfCustomerRefund) {
-			if (text.equals(messages.notIssued())) {
-				if ((customerRefund.getStatus() == STATUS_NOT_ISSUED || customerRefund
-						.getStatus() == STATUS_PARTIALLY_PAID)
-						&& (!customerRefund.isVoided())) {
-					grid.addData(customerRefund);
-				}
-				continue;
-			}
-			if (text.equals(messages.issued())) {
-				if (customerRefund.getStatus() == STATUS_ISSUED
-						&& (!customerRefund.isVoided())
-						&& customerRefund.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
-					grid.addData(customerRefund);
-				}
-				continue;
-			}
-			if (text.equals(messages.voided())) {
-				if (customerRefund.isVoided() && !customerRefund.isDeleted()) {
-					grid.addData(customerRefund);
-				}
-				continue;
-			}
-			if (text.equalsIgnoreCase(messages.drafts())) {
-				if (customerRefund.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
-					grid.addData(customerRefund);
-				}
-				continue;
-			}
-			// if (text.equals(DELETED)) {
-			// if (customerRefund.isDeleted())
-			// grid.addData(customerRefund);
-			// continue;
-			// }
-			if (text.equals(messages.all())) {
-				grid.addData(customerRefund);
-			}
-		}
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
+		checkViewType(text);
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
@@ -215,7 +195,16 @@ public class CustomerRefundListView extends
 		Accounter.createExportCSVService().getCustomerRefundsListExportCsv(
 				getStartDate().getDate(),
 				getEndDate().getDate(),
+				getViewId(),
 				getExportCSVCallback(messages.customerRefund(Global.get()
 						.Customer())));
+	}
+
+	public int getViewId() {
+		return viewId;
+	}
+
+	public void setViewId(int viewId) {
+		this.viewId = viewId;
 	}
 }

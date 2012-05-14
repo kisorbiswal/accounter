@@ -688,14 +688,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<CustomerRefundsList> getCustomerRefundsList(
-			long fromDate, long toDate) {
+			long fromDate, long toDate, int viewId) {
 		PaginationList<CustomerRefundsList> customerRefundsList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			customerRefundsList = getFinanceTool().getCustomerManager()
-					.getCustomerRefundsList(getCompanyId(), dates[0], dates[1]);
+					.getCustomerRefundsList(getCompanyId(), dates[0], dates[1],
+							viewId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

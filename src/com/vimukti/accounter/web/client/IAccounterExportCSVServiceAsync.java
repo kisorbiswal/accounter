@@ -26,8 +26,8 @@ public interface IAccounterExportCSVServiceAsync {
 	public void getReceivePaymentsListExportCsv(long fromDate, long toDate,
 			int transactionType, int viewType, AsyncCallback<String> callback);
 
-	public void getCustomerRefundsListExportCsv(long fromDate, long toDate,
-			AsyncCallback<String> callback);
+	void getCustomerRefundsListExportCsv(long fromDate, long toDate,
+			int viewId, AsyncCallback<String> callback);
 
 	public void getBillsAndItemReceiptListExportCsv(boolean isExpensesList,
 			int transactionType, long fromDate, long toDate, int viewType,

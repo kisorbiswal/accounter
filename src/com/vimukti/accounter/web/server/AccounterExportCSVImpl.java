@@ -342,14 +342,15 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String getCustomerRefundsListExportCsv(long fromDate, long toDate) {
+	public String getCustomerRefundsListExportCsv(long fromDate, long toDate,
+			int viewId) {
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			PaginationList<CustomerRefundsList> customerRefundsList = getFinanceTool()
 					.getCustomerManager().getCustomerRefundsList(
-							getCompanyId(), dates[0], dates[1]);
+							getCompanyId(), dates[0], dates[1], viewId);
 			ICSVExportRunner<CustomerRefundsList> icsvExportRunner = new ICSVExportRunner<CustomerRefundsList>() {
 
 				@Override
@@ -2028,7 +2029,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		} else if (selectedItem.equalsIgnoreCase(messages
 				.customerRefunds(Global.get().Customer()))) {
 
-			return getCustomerRefundsListExportCsv(startDate, endDate);
+			return getCustomerRefundsListExportCsv(startDate, endDate, viewId);
 
 		} else if (selectedItem.equalsIgnoreCase(messages.receivedPayments())) {
 			return getReceivePaymentsListExportCsv(startDate, endDate,

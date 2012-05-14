@@ -1041,10 +1041,16 @@
 		<query-param name="company" type="Company" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="viewId" type="int" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
+		(cr.status=:viewId or :viewId = 1000) and
+		cr.company=:company and
+		cr.saveStatus!=202 and
+		cr.transactionDate
 		between :fromDate and
-		:toDate order by cr.transactionDate desc, cr.number
+		:toDate
+		order by
+		cr.transactionDate desc
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
