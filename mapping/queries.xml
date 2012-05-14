@@ -1044,7 +1044,7 @@
 		from com.vimukti.accounter.core.CustomerRefund cr where
 		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
 		between :fromDate and
-		:toDate order by cr.transactionDate desc
+		:toDate order by cr.transactionDate desc, cr.number
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
@@ -1143,7 +1143,7 @@
 		between :fromDate and :toDate
 		and e.saveStatus!=202
 		order by
-		e.transactionDate desc
+		e.transactionDate desc, e.number
 	</query>
 
 	<query name="getExpiredEstimate">
@@ -1157,7 +1157,7 @@
 		and
 		e.transactionDate between :fromDate and :toDate and e.deliveryDate
 		&lt;:today and e.usedInvoice =null
-		order by e.transactionDate desc
+		order by e.transactionDate desc,e.number
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1209,7 +1209,7 @@
 		j.company=:company and j.saveStatus != 202
 		and j.transactionDate
 		between :fromDate and :toDate
-		order by j.transactionDate desc
+		order by j.transactionDate desc, j.number
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -2039,14 +2039,14 @@
 		<query-param name="viewType" type="int" />
 		from com.vimukti.accounter.core.Reminder r
 		where
-		r.company.id=:companyId and r.recurringTransaction.transaction.type=:viewType order by r.transactionDate
+		r.company.id=:companyId and r.recurringTransaction.transaction.type=:viewType order by r.transactionDate desc
 	</query>
 	
 	<query name="getAllReminders">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.Reminder r
 		where
-		r.company.id=:companyId order by r.transactionDate
+		r.company.id=:companyId order by r.transactionDate desc
 	</query>
 
 	<query name="getEnterBillByEstimate">
