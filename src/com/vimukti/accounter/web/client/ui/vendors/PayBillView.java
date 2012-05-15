@@ -188,9 +188,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 		if (paymentMethod != null) {
 			transaction.setPaymentMethod(paymentMethod);
 			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				if (checkNo.getValue() != null
-						&& !checkNo.getValue().equals("")) {
-					String value = String.valueOf(checkNo.getValue());
+				if (checkNoText.getValue() != null
+						&& !checkNoText.getValue().equals("")) {
+					String value = String.valueOf(checkNoText.getValue());
 					transaction.setCheckNumber(value);
 				} else {
 					transaction.setCheckNumber("");
