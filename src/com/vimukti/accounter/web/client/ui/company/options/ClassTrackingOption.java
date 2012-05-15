@@ -5,10 +5,10 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
-import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 /**
  * @author vimukti36
@@ -20,7 +20,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	LabelItem classLabel;
 
-	RadioGroupItem transactionRadioButton;
+	RadioButton onepertransactionRadioButton, oneperdetaillineRadioButton;
 
 	StyledPanel hidePanel;
 
@@ -46,9 +46,9 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 				.isClassTrackingEnabled());
 		hidePanel.setVisible(getCompanyPreferences().isClassTrackingEnabled());
 		if (getCompanyPreferences().isClassPerDetailLine())
-			transactionRadioButton.setValue(messages.onepertransaction());
+			oneperdetaillineRadioButton.setValue(true);
 		else
-			transactionRadioButton.setValue(messages.oneperdetailline());
+			onepertransactionRadioButton.setValue(true);
 	}
 
 	public void createControls() {
@@ -69,13 +69,12 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 				+ " : " + messages.onePerDetailLineclassTrackingDescription(),
 				"organisation_comment");
 
-		transactionRadioButton = new RadioGroupItem();
-		transactionRadioButton.setDefaultValue("transactionRadioButton");
-		transactionRadioButton.setShowTitle(false);
-
-		transactionRadioButton.setValueMap(messages.onepertransaction(),
+		oneperdetaillineRadioButton = new RadioButton(messages.classes(),
+				messages.onepertransaction());
+		onepertransactionRadioButton = new RadioButton(messages.classes(),
 				messages.oneperdetailline());
-		transactionRadioButton.setDefaultValue(messages.onepertransaction());
+
+		StyledPanel radioPanel = new StyledPanel("radio-panel");
 
 		trackClassCheckBox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -88,7 +87,11 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 		hidePanel.add(oneperTransactionLabel);
 		hidePanel.add(oneperdetaillineLabel);
-		hidePanel.add(transactionRadioButton);
+
+		radioPanel.add(oneperdetaillineRadioButton);
+		radioPanel.add(onepertransactionRadioButton);
+		hidePanel.add(radioPanel);
+
 		add(trackClassCheckBox);
 		add(classLabel);
 		add(hidePanel);
@@ -98,8 +101,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	public void onSave() {
 		getCompanyPreferences().setClassTrackingEnabled(
 				trackClassCheckBox.getValue());
-		if (transactionRadioButton.getValue().equals(
-				messages.onepertransaction())) {
+		if (oneperdetaillineRadioButton.getValue()) {
 			getCompanyPreferences().setClassPerDetailLine(true);
 		} else {
 			getCompanyPreferences().setClassPerDetailLine(false);
