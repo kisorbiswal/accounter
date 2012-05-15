@@ -106,6 +106,14 @@ public class JournalEntryView extends
 		// No need of super class validations.. Because required validations are
 		// doing here only..
 		ValidationResult result = new ValidationResult();
+
+		if (this.transactionDateItem != null
+				&& this.transactionDateItem.getDate().getDate() == 0) {
+			result.addError(transactionDateItem,
+					messages.pleaseEnter(messages.transactionDate()));
+			return result;
+		}
+
 		// Validations
 		// 1. is valid memo?
 		// 2. is valid transaction date?

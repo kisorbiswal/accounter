@@ -244,7 +244,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 			}
 		} else if (validationResult.haveWarnings()) {
 
-			new WarningsDialog(validationResult.getWarnings(),
+			new WarningsDialog(validationResult.getWarningsAsList(),
 					new ErrorDialogHandler() {
 
 						@Override

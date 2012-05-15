@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class ValidationResult {
-	private List<Error> errors = new ArrayList<ValidationResult.Error>();
-	private List<Warning> warnings = new ArrayList<ValidationResult.Warning>();
+	private HashSet<Error> errors = new HashSet<ValidationResult.Error>();
+	private HashSet<Warning> warnings = new HashSet<ValidationResult.Warning>();
 
 	public void addError(Object obj, String msg) {
 		for (Error error : this.errors) {
@@ -52,6 +52,26 @@ public class ValidationResult {
 		public void setMessage(String message) {
 			this.message = message;
 		}
+
+		@Override
+		public int hashCode() {
+			int code = 7;
+			if (message == null) {
+				return code;
+			}
+			return code * message.length();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null || !(obj instanceof Error)) {
+				return false;
+			}
+			Error err = (Error) obj;
+			return this.source == err.source
+					&& this.message.equalsIgnoreCase(err.message);
+		}
+
 	}
 
 	public static class Warning {
@@ -80,6 +100,25 @@ public class ValidationResult {
 			return message;
 		}
 
+		@Override
+		public int hashCode() {
+			int code = 7;
+			if (message == null) {
+				return code;
+			}
+			return code * message.length();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null || !(obj instanceof Warning)) {
+				return false;
+			}
+			Warning war = (Warning) obj;
+			return this.source == war.source
+					&& this.message.equalsIgnoreCase(war.message);
+		}
+
 	}
 
 	public boolean haveErrors() {
@@ -96,14 +135,21 @@ public class ValidationResult {
 	/**
 	 * @return the errors
 	 */
-	public List<Error> getErrors() {
+	public HashSet<Error> getErrors() {
 		return errors;
 	}
 
 	/**
 	 * @return the warnings
 	 */
-	public List<Warning> getWarnings() {
+	public HashSet<Warning> getWarnings() {
 		return warnings;
+	}
+
+	/**
+	 * @return the warnings
+	 */
+	public ArrayList<Warning> getWarningsAsList() {
+		return new ArrayList<ValidationResult.Warning>(warnings);
 	}
 }

@@ -392,7 +392,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 		}
 		if (validationResult.haveWarnings()) {
 
-			new WarningsDialog(validationResult.getWarnings(),
+			new WarningsDialog(validationResult.getWarningsAsList(),
 					new ErrorDialogHandler() {
 
 						@Override

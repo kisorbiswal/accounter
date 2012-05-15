@@ -385,7 +385,7 @@ public abstract class AdminAbstractBaseView<T> extends AdminAbstractView<T>
 		}
 		if (validationResult.haveWarnings()) {
 
-			new WarningsDialog(validationResult.getWarnings(),
+			new WarningsDialog(validationResult.getWarningsAsList(),
 					new ErrorDialogHandler() {
 
 						@Override

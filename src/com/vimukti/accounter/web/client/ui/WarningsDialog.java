@@ -3,8 +3,8 @@
  */
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ValidationResult.Warning;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -19,16 +19,16 @@ public class WarningsDialog extends AccounterDialog implements
 		ErrorDialogHandler {
 
 	private ErrorDialogHandler warningHandler;
-	private List<Warning> warnings;
+	private ArrayList<Warning> warnings;
 
 	/**
 	 * Creates new Instance
 	 */
-	public WarningsDialog(List<Warning> warnings,
+	public WarningsDialog(ArrayList<Warning> warnings,
 			ErrorDialogHandler warningHandler) {
 		super(warnings.get(0).getMessage(), AccounterType.WARNING);
-		this.getElement().setId("WarningsDialog");
 		this.warnings = warnings;
+		this.getElement().setId("WarningsDialog");
 		this.warningHandler = warningHandler;
 		setDialogHandler(this);
 	}
@@ -37,7 +37,7 @@ public class WarningsDialog extends AccounterDialog implements
 		int size = warnings.size();
 		int index = getIndexByMessage(message) + 1;
 
-		if (index == size) {
+		if (index >= size) {
 			warningHandler.onYesClick();
 			return true;
 		}

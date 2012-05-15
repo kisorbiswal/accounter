@@ -237,7 +237,7 @@ public abstract class AdminBaseDialog<T extends IAccounterCore> extends
 			}
 		} else if (validationResult.haveWarnings()) {
 
-			new WarningsDialog(validationResult.getWarnings(),
+			new WarningsDialog(validationResult.getWarningsAsList(),
 					new ErrorDialogHandler() {
 
 						@Override
