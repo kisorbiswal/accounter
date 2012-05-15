@@ -2278,7 +2278,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = accRegister.getAccount();
 						break;
 					case 6:
-						columnValue = accRegister.getMemo();
+						columnValue = accRegister.getMemo() != null ? accRegister
+								.getMemo() : "";
 						break;
 					case 7:
 						double d = accRegister.getAmount();
