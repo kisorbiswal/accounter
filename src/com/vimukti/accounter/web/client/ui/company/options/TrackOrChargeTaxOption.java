@@ -55,9 +55,10 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		hidePanel.setVisible(getCompanyPreferences().isTrackTax());
 		enableTaxCheckbox.setValue(getCompanyPreferences().isTrackPaidTax());
 		if (getCompanyPreferences().isTaxPerDetailLine())
-			onepeTransactionRadioGroup.setValue(messages.onepertransaction());
-		else
 			onepeTransactionRadioGroup.setValue(messages.oneperdetailline());
+		else
+			onepeTransactionRadioGroup.setValue(messages.onepertransaction());
+		
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
 			enableTaxTdsCheckbox.setValue(getCompanyPreferences()
 					.isTDSEnabled());
@@ -136,9 +137,9 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		getCompanyPreferences().setTaxTrack(trackCheckbox.getValue());
 		if (onepeTransactionRadioGroup.getValue().equals(
 				messages.onepertransaction())) {
-			getCompanyPreferences().setTaxPerDetailLine(true);
-		} else {
 			getCompanyPreferences().setTaxPerDetailLine(false);
+		} else {
+			getCompanyPreferences().setTaxPerDetailLine(true);
 		}
 		getCompanyPreferences().setTrackPaidTax(enableTaxCheckbox.getValue());
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
