@@ -28,6 +28,13 @@ public class ForgetPasswordServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
+		String header2 = req.getHeader("User-Agent");
+		boolean contains = header2.contains("iPad");
+		if (contains) {
+			req.setAttribute("ipad", contains);
+		}
+
 		HttpSession session = req.getSession();
 		Object attribute = session.getAttribute(EMAIL_ID);
 		session.removeAttribute(EMAIL_ID);
@@ -47,6 +54,13 @@ public class ForgetPasswordServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
+		String header2 = req.getHeader("User-Agent");
+		boolean contains = header2.contains("iPad");
+		if (contains) {
+			req.setAttribute("ipad", contains);
+		}
+
 		String emailID = req.getParameter("emailId");
 		if (emailID == null) {
 			req.setAttribute("errorMessage", Global.get().messages()
@@ -63,7 +77,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 			Client client = getClient(emailID);
 
 			if (client == null) {
-				req.setAttribute("emailId",emailID);
+				req.setAttribute("emailId", emailID);
 				req.setAttribute("errorMessage", Global.get().messages()
 						.pleaseEnterValidEmailId());
 				dispatch(req, resp, view);
@@ -86,7 +100,7 @@ public class ForgetPasswordServlet extends BaseServlet {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-		} 
+		}
 
 		// String successMessage =
 		// "Reset Password link has been sent to the given emailId, Kindly check your Mail box.";

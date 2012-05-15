@@ -8,17 +8,16 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class TransactionsListViewGridAction extends Action {
 
-	
 	private TransactionListGrids view;
 	private String type;
-	
+
 	public TransactionsListViewGridAction(String type) {
 		this.type = type;
 	}
 
 	@Override
 	public String getText() {
-		return "TransactionsListViewGrid";
+		return "Transactions List";
 	}
 
 	@Override
