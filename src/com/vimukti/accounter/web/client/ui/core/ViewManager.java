@@ -191,11 +191,11 @@ public class ViewManager extends FlowPanel {
 
 	protected void historyChanged(String value) {
 
-		if (value.equals("dashBoard")) {
-			ipadMenuButton.setVisible(true);
-		} else {
-			ipadMenuButton.setVisible(false);
-		}
+		// if (value.equals("dashBoard")) {
+		// ipadMenuButton.setVisible(true);
+		// } else {
+		// ipadMenuButton.setVisible(false);
+		// }
 
 		if (value != null && views.current() != null
 				&& value.equals(views.current().token)) {
@@ -411,7 +411,7 @@ public class ViewManager extends FlowPanel {
 			group9.remove(addNewButton);
 		}
 
-		if (existingView instanceof IPrintableView) {
+		if (existingView instanceof IPrintableView && !Accounter.isIpadApp()) {
 			if (((IPrintableView) existingView).canExportToCsv()) {
 				group2.add(exportButton);
 			} else {
@@ -486,11 +486,11 @@ public class ViewManager extends FlowPanel {
 
 		HistoryItem item = this.views.previous();
 
-		if (item.token.equals("dashBoard")) {
-			ipadMenuButton.setVisible(true);
-		} else {
-			ipadMenuButton.setVisible(false);
-		}
+		// if (item.token.equals("dashBoard")) {
+		// ipadMenuButton.setVisible(true);
+		// } else {
+		// ipadMenuButton.setVisible(false);
+		// }
 
 		if (restorePreviousView) {
 			if (item.view == null) {
@@ -648,8 +648,10 @@ public class ViewManager extends FlowPanel {
 		addRequiredButtons();
 		group4.add(editButton);
 		group9.add(addNewButton);
-		group2.add(exportButton);
-		group2.add(printButton);
+		if (!Accounter.isIpadApp()) {
+			group2.add(exportButton);
+			group2.add(printButton);
+		}
 		group3.add(closeButton);
 		// group5.add(configButton);
 		if (isIpad()) {

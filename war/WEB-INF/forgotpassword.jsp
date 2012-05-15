@@ -11,7 +11,15 @@
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+	<% 
+	Boolean ipad = (Boolean)request.getAttribute( "ipad" );
+	%>
+	<% if(ipad != null && ipad){%>
+	<link type="text/css" href="../css/ipadlogin.css?version=<%= version%>" rel="stylesheet" />
+	<% }else{%>
+	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+	<% }%>
+	
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 
 <script  type="text/javascript" >

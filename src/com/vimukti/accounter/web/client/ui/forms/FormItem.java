@@ -31,16 +31,15 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 		return true;
 	}
 
-
 	public FormItem(String title, String styleName) {
-		
+
 		getElement().addClassName("formItem");
-		
-		if (styleName != null){
+
+		if (styleName != null) {
 			getElement().addClassName(styleName);
 		}
-		
-		if(title != null){
+
+		if (title != null) {
 			this.title = title;
 		}
 		addLabel();
@@ -54,6 +53,8 @@ public abstract class FormItem<T> extends FlowPanel implements HasEnabled {
 	public void setEnabled(boolean enabled) {
 		if (!enabled) {
 			getElement().addClassName("disabled");
+		} else {
+			getElement().removeClassName("disabled");
 		}
 		Widget widget = getMainWidget();
 		if (widget instanceof HasEnabled) {
