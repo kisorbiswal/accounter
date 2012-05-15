@@ -611,6 +611,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		transactionDepositTable.setEnabled(!isInViewMode());
 		currencyWidget.setEnabled(!isInViewMode());
 		classListCombo.setEnabled(!isInViewMode());
+		if (locationCombo != null) {
+			locationCombo.setEnabled(!isInViewMode());
+		}
 		super.onEdit();
 	}
 
