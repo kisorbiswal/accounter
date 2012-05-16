@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.List;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
@@ -278,18 +279,24 @@ public class Employee extends Payee implements PayStructureDestination {
 			boolean goingToBeEdit) throws AccounterException {
 		if (!goingToBeEdit) {
 			Session session = HibernateUtil.getCurrentSession();
+			FlushMode flushMode = session.getFlushMode();
+			try {
+				session.setFlushMode(FlushMode.COMMIT);
 
-			Employee employee = (Employee) clientObject;
-			Query query = session
-					.getNamedQuery("getEmployee.by.Name")
-					.setParameter("name", employee.name,
-							EncryptedStringType.INSTANCE)
-					.setParameter("id", employee.getID())
-					.setEntity("company", employee.getCompany());
-			List list = query.list();
-			if (list != null && list.size() > 0) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
+				Employee employee = (Employee) clientObject;
+				Query query = session
+						.getNamedQuery("getEmployee.by.Name")
+						.setParameter("name", employee.name,
+								EncryptedStringType.INSTANCE)
+						.setParameter("id", employee.getID())
+						.setEntity("company", employee.getCompany());
+				List list = query.list();
+				if (list != null && list.size() > 0) {
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+				}
+			} finally {
+				session.setFlushMode(flushMode);
 			}
 		}
 		return super.canEdit(clientObject, goingToBeEdit);
