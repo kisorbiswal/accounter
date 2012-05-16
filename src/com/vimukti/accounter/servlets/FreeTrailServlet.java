@@ -35,8 +35,6 @@ public class FreeTrailServlet extends BaseServlet {
 			upgradeClient(req, resp, client);
 
 		}
-
-		super.doGet(req, resp);
 	}
 
 	public void upgradeClient(HttpServletRequest req, HttpServletResponse resp,
@@ -46,7 +44,7 @@ public class FreeTrailServlet extends BaseServlet {
 		try {
 			ClientSubscription clientSubscription = client
 					.getClientSubscription();
-			if (client.isPremiumTrailDone() == false) {
+			if (!client.isPremiumTrailDone()) {
 				clientSubscription.setPremiumType(ClientSubscription.ONE_USER);
 				clientSubscription
 						.setDurationType(ClientSubscription.MONTHLY_USER);
