@@ -2,11 +2,11 @@ package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.core.ClientAttendanceOrProductionType;
 import com.vimukti.accounter.web.client.core.ClientPayHead;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
-import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class AttendanceOrProductionTypeListGrid extends
 		BaseListGrid<ClientAttendanceOrProductionType> {
@@ -79,8 +79,23 @@ public class AttendanceOrProductionTypeListGrid extends
 
 	@Override
 	public void onDoubleClick(ClientAttendanceOrProductionType obj) {
-		ReportsRPC.openTransactionView(
-				IAccounterCore.ATTENDANCE_PRODUCTION_TYPE, obj.getID());
+		PayRollActions newAttendanceProductionTypeAction = PayRollActions
+				.newAttendanceProductionTypeAction();
+		newAttendanceProductionTypeAction.setInput(obj);
+		newAttendanceProductionTypeAction
+				.setCallback(new ActionCallback<ClientAttendanceOrProductionType>() {
+
+					@Override
+					public void actionResult(
+							ClientAttendanceOrProductionType result) {
+						updateGrid();
+					}
+				});
+		newAttendanceProductionTypeAction.run();
+	}
+
+	protected void updateGrid() {
+
 	}
 
 	@Override

@@ -174,8 +174,13 @@ public class NewClientAttendanceOrProductionDialog extends
 				}
 			}
 		};
-		Accounter.createCRUDService().create(
-				selectedAttendanceOrProductionType, callback);
+		if (selectedAttendanceOrProductionType.getID() == 0) {
+			Accounter.createCRUDService().create(
+					selectedAttendanceOrProductionType, callback);
+		} else {
+			Accounter.createCRUDService().update(
+					selectedAttendanceOrProductionType, callback);
+		}
 
 	}
 

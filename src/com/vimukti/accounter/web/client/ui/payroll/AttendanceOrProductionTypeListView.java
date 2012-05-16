@@ -29,7 +29,12 @@ public class AttendanceOrProductionTypeListView extends
 
 	@Override
 	protected void initGrid() {
-		grid = new AttendanceOrProductionTypeListGrid(false);
+		grid = new AttendanceOrProductionTypeListGrid(false) {
+			@Override
+			protected void updateGrid() {
+				onPageChange(0, getPageSize());
+			}
+		};
 		grid.init();
 	}
 
