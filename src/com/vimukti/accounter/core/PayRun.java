@@ -121,6 +121,13 @@ public class PayRun extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_CANT_CREATE_PAYRUN_DRAFT_OR_TEMPLATE);
 		}
+		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
+				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
+			throw new AccounterException(
+					AccounterException.ERROR_CANT_EDIT);
+			// "You have already paid  amount for this Invoice, You can't Edit  it and Void it.");
+		}
+		
 		if (!goingToBeEdit) {
 			if (payRun.getPayEmployee() == null
 					|| payRun.getPayEmployee().isEmpty()) {
