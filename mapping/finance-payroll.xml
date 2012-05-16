@@ -495,6 +495,7 @@
 				BETWEEN :startDate AND :endDate OR PAY_PERIOD_STARTDATE 
 				BETWEEN :startDate AND :endDate) AND (CASE WHEN :type=1000 THEN TRUE ELSE T.SAVE_STATUS =204 END)
 				GROUP BY T.ID,PR.EMPLOYEE,PR.EMPLOYEE_GROUP,P.NAME,EG.NAME
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC   
 			]]>
 	</sql-query>
 	
@@ -546,7 +547,7 @@
 					          PE.EMPLOYEE_GROUP_ID, 
 					          EG.NAME,P.NAME,
 					          P.NAME,A.ID
-					ORDER BY T.T_DATE DESC, T.NUMBER          
+					ORDER BY T.T_DATE DESC, T.NUMBER DESC          
 			]]>
 	</sql-query>
 
