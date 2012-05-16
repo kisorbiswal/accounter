@@ -9,6 +9,7 @@ import java.util.Map;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
@@ -341,10 +342,25 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 				String description = forNullValue(item.getDescription());
 				description = description.replaceAll("\n", "<br/>");
-				String qty = "";
-				if (item.getQuantity() != null) {
-					qty = String.valueOf(item.getQuantity().getValue());
+
+				StringBuffer data = new StringBuffer();
+				Quantity quantity = item.getQuantity();
+				if (quantity != null) {
+					if (item.getItem().getType() == ClientItem.TYPE_INVENTORY_PART
+							|| item.getItem().getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+						data.append(String.valueOf(quantity.getValue()));
+						if (company.getPreferences().isUnitsEnabled()) {
+							Unit unit = item.getQuantity().getUnit();
+							if (unit != null) {
+								data.append(" ");
+								data.append(unit.getType());
+							}
+						}
+					} else {
+						data.append(String.valueOf(quantity.getValue()));
+					}
 				}
+
 				String unitPrice = null;
 				unitPrice = Utility
 						.decimalConversation(item.getUnitPrice(), "");
@@ -358,7 +374,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 						: item.getAccount().getName();
 				t.setVariable("name", name);
 				t.setVariable("description", description);
-				t.setVariable("quantity", qty);
+				t.setVariable("quantity", data.toString());
 				t.setVariable("itemUnitPrice", unitPrice);
 
 				if (company.getPreferences().isTrackDiscounts()

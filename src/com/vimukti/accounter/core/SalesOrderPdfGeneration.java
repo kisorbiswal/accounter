@@ -163,10 +163,24 @@ public class SalesOrderPdfGeneration {
 				String description = forNullValue(item.getDescription());
 				description = description.replaceAll("\n", "<br/>");
 
-				String qty = "";
-				if (item.getQuantity() != null) {
-					qty = String.valueOf(item.getQuantity().getValue());
+				StringBuffer data = new StringBuffer();
+				Quantity quantity = item.getQuantity();
+				if (quantity != null) {
+					if (item.getItem().getType() == Item.TYPE_INVENTORY_PART
+							|| item.getItem().getType() == Item.TYPE_INVENTORY_ASSEMBLY) {
+						data.append(String.valueOf(quantity.getValue()));
+						if (company.getPreferences().isUnitsEnabled()) {
+							Unit unit = item.getQuantity().getUnit();
+							if (unit != null) {
+								data.append(" ");
+								data.append(unit.getType());
+							}
+						}
+					} else {
+						data.append(String.valueOf(quantity.getValue()));
+					}
 				}
+
 				String unitPrice = Utility.decimalConversation(
 						item.getUnitPrice() / currencyFactor, "");
 				String totalPrice = Utility.decimalConversation(
@@ -190,8 +204,8 @@ public class SalesOrderPdfGeneration {
 					double rate = item.getTaxCode().getSalesTaxRate();
 					vatRate = String.valueOf(rate) + " %";
 				}
-				itemList.add(new ItemList(name, description, qty, unitPrice,
-						discount, totalPrice, vatRate, vatAmount));
+				itemList.add(new ItemList(name, description, data.toString(),
+						unitPrice, discount, totalPrice, vatRate, vatAmount));
 			}
 
 			context.put("item", itemList);
