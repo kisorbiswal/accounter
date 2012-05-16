@@ -164,7 +164,7 @@ public class PayEmployeeView extends
 				table.add(clientTransactionPayEmployee);
 			}
 		}
-
+		updateNonEditableItems();
 	}
 
 	@Override
@@ -175,7 +175,6 @@ public class PayEmployeeView extends
 				employee = data.getEmployeeGroup();
 			}
 			employeeCombo.setEmpGroup(employee, data.getEmployee() != 0);
-			table.setAllRows(transaction.getTransactionPayEmployee());
 			bankAccountCombo.setComboItem(getCompany().getAccount(
 					transaction.getPayAccount()));
 			transactionNumber.setValue(transaction.getNumber());
