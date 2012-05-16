@@ -136,7 +136,8 @@ public class Location extends CreatableObject implements IAccounterServerCore,
 
 		Set<Location> locations = getCompany().getLocations();
 		for (Location location : locations) {
-			if (location.getName().equalsIgnoreCase(getLocationName())) {
+			if (location.getName().equalsIgnoreCase(getLocationName())
+					&& location.getID() != getID()) {
 				throw new AccounterException(
 						AccounterException.ERROR_NAME_ALREADY_EXIST, Global
 								.get().messages().name());
