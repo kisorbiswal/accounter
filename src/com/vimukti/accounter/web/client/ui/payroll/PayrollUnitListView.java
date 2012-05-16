@@ -4,11 +4,13 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 
@@ -35,9 +37,21 @@ public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 		return messages.payrollUnitList();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected Action getAddNewAction() {
-		return PayRollActions.newPayRollUnitAction();
+	protected Action<ClientPayrollUnit> getAddNewAction() {
+		PayRollActions newPayRollUnitAction = PayRollActions
+				.newPayRollUnitAction();
+		newPayRollUnitAction.setFromEmployeeView(true);
+		newPayRollUnitAction
+				.setCallback(new ActionCallback<ClientPayrollUnit>() {
+
+					@Override
+					public void actionResult(ClientPayrollUnit result) {
+						onPageChange(0, getPageSize());
+					}
+				});
+		return newPayRollUnitAction;
 	}
 
 	@Override
@@ -137,7 +151,12 @@ public class PayrollUnitListView extends BaseListView<ClientPayrollUnit> {
 
 	@Override
 	protected void initGrid() {
-		grid = new PayrollUnitListGrid(false);
+		grid = new PayrollUnitListGrid(false) {
+			@Override
+			protected void updateGrid() {
+				onPageChange(0, getPageSize());
+			}
+		};
 		grid.init();
 	}
 

@@ -16,8 +16,9 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 	private TextItem symbolItem, formalNameItem, noOfDecimalsItem;
 	private DynamicForm form;
 	boolean fromEmployeeView;
+	private ClientPayrollUnit unit;
 
-	public NewPayrollUnitDialog(String string,boolean ispayrollunit) {
+	public NewPayrollUnitDialog(String string, boolean ispayrollunit) {
 		super(string);
 		fromEmployeeView = ispayrollunit;
 		this.getElement().setId("NewPayrollUnitDialog");
@@ -47,7 +48,6 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 	}
 
 	private void updateData() {
-		ClientPayrollUnit unit = new ClientPayrollUnit();
 		unit.setSymbol(symbolItem.getValue());
 		unit.setFormalname(formalNameItem.getValue());
 		unit.setNoofDecimalPlaces(Integer.valueOf(noOfDecimalsItem.getValue()));
@@ -65,9 +65,12 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 
 	public void setData(ClientPayrollUnit data) {
 		if (data != null) {
+			this.unit = data;
 			symbolItem.setValue(data.getSymbol());
 			formalNameItem.setValue(data.getFormalname());
 			noOfDecimalsItem.setValue("" + data.getNoofDecimalPlaces());
+		} else {
+			unit = new ClientPayrollUnit();
 		}
 	}
 
@@ -89,7 +92,7 @@ public class NewPayrollUnitDialog extends BaseDialog<ClientPayrollUnit> {
 		this.removeFromParent();
 		onCancel();
 	}
-	
+
 	@Override
 	public void saveFailed(AccounterException exception) {
 		String errorString = AccounterExceptions.getErrorString(exception);

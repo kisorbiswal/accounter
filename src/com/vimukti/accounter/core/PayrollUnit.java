@@ -89,7 +89,7 @@ public class PayrollUnit extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject,
 			boolean goingToBeEdit) throws AccounterException {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
