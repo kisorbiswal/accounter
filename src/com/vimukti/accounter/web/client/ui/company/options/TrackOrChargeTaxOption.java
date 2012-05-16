@@ -5,6 +5,8 @@ package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -58,7 +60,7 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 			onepeTransactionRadioGroup.setValue(messages.oneperdetailline());
 		else
 			onepeTransactionRadioGroup.setValue(messages.onepertransaction());
-		
+
 		if (getCompany().getCountryPreferences().isTDSAvailable()) {
 			enableTaxTdsCheckbox.setValue(getCompanyPreferences()
 					.isTDSEnabled());
@@ -90,12 +92,11 @@ public class TrackOrChargeTaxOption extends AbstractPreferenceOption {
 		enableTaxCheckbox = new CheckboxItem(messages.enableTracking(),
 				"enableTaxCheckbox");
 
-		trackCheckbox.addClickHandler(new ClickHandler() {
+		trackCheckbox.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				hidePanel.setVisible(trackCheckbox.getValue());
-
 			}
 		});
 		enableTaxLabel = new LabelItem(messages.enableTrackingDescription(),
