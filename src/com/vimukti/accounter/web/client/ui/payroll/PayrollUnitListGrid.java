@@ -2,11 +2,12 @@ package com.vimukti.accounter.web.client.ui.payroll;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientPayHead;
 import com.vimukti.accounter.web.client.core.ClientPayrollUnit;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -92,8 +93,23 @@ public class PayrollUnitListGrid extends BaseListGrid<ClientPayrollUnit> {
 
 	@Override
 	public void onDoubleClick(ClientPayrollUnit obj) {
-		ReportsRPC
-				.openTransactionView(IAccounterCore.PAYROLL_UNIT, obj.getID());
+		PayRollActions newPayRollUnitAction = PayRollActions
+				.newPayRollUnitAction();
+		newPayRollUnitAction.setFromEmployeeView(true);
+		newPayRollUnitAction.setInput(obj);
+		newPayRollUnitAction
+				.setCallback(new ActionCallback<ClientPayrollUnit>() {
+
+					@Override
+					public void actionResult(ClientPayrollUnit result) {
+						updateGrid();
+					}
+				});
+		newPayRollUnitAction.run();
+	}
+
+	protected void updateGrid() {
+		
 	}
 
 	@Override
