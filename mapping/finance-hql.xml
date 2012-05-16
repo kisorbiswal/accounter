@@ -147,7 +147,8 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.RecurringTransaction
 		rt where
-		rt.company=:company and rt.startDate between :fromDate and :toDate		
+		rt.company=:company and rt.startDate between :fromDate and :toDate
+		order by rt.name
 	</query>
 	<query name="list.currentRecTransactions">
 		<query-param name="company" type="Company" />
@@ -292,7 +293,7 @@
 	<query name="list.TdsChalanDetails">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TDSChalanDetail bt where
-		bt.company=:company order by bt.transactionDate desc, bt.number
+		bt.company=:company order by bt.transactionDate desc, bt.number desc
 	</query>
 
 	<query name="list.TDSDeductorMasters">

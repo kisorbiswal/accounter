@@ -224,7 +224,7 @@
 			               ELSE T.SAVE_STATUS = :type 
 			             END)
 				       AND T.SAVE_STATUS != 202
-				ORDER  BY T.T_DATE DESC, T.NUMBER 
+				ORDER  BY T.T_DATE DESC, T.NUMBER DESC
 				]]>
 
 	</sql-query>
@@ -381,7 +381,7 @@
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS != 202
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				ORDER  BY T.T_DATE DESC, T.NUMBER,VENDOR_NAME  
+				ORDER  BY T.T_DATE DESC, T.NUMBER DESC,VENDOR_NAME  
 				]]>
 
 	</sql-query>
@@ -525,7 +525,7 @@
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS !=202
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				ORDER  BY T.T_DATE DESC,T.NUMBER
+				ORDER  BY T.T_DATE DESC,T.NUMBER DESC
 				]]>
 
 	</sql-query>
@@ -588,7 +588,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				ORDER BY T.T_DATE DESC, T.NUMBER       
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC  
 				]]>
 
 	</sql-query>
@@ -816,7 +816,7 @@
 				       AND T.COMPANY_ID = :companyId
 				       AND T.SAVE_STATUS != 202
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				ORDER  BY T.T_DATE DESC, T.NUMBER  
+				ORDER  BY T.T_DATE DESC, T.NUMBER DESC
 				]]>
 
 	</sql-query>
@@ -8526,7 +8526,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate 
-				ORDER BY T.T_DATE DESC, T.NUMBER        
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC   
 				]]>
 
 	</sql-query>
@@ -8593,7 +8593,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				ORDER BY T.T_DATE DESC, T.NUMBER  
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC
 				]]>
 
 	</sql-query>
@@ -8653,7 +8653,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate 
-				ORDER BY T.T_DATE DESC, T.NUMBER       
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC  
 				]]>
 
 	</sql-query>
@@ -8707,7 +8707,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate
-				ORDER BY T.T_DATE DESC, T.NUMBER       
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC 
 				]]>
 
 	</sql-query>
@@ -8761,7 +8761,7 @@
 				       AND T.SAVE_STATUS != 202
 				       AND T.COMPANY_ID = :companyId
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate  
-				ORDER BY T.T_DATE DESC, T.NUMBER
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC
 				]]>
 
 	</sql-query>
@@ -10971,7 +10971,8 @@
 				       AND ( :payeeType = WC.PAY_TO_TYPE
 				              OR ( :payeeType = 0
 				                   AND WC.PAY_TO_TYPE = 4 ) )
-				       AND T.T_DATE BETWEEN :fromDate AND :toDate  
+				       AND T.T_DATE BETWEEN :fromDate AND :toDate
+				 ORDER BY T.T_DATE DESC, T.NUMBER DESC      
 				]]>
 
 	</sql-query>
@@ -11021,7 +11022,7 @@
 				           END
 				       AND T.SAVE_STATUS != 202
 				       AND T.T_DATE BETWEEN :fromDate AND :toDate 
-				ORDER BY T.T_DATE DESC, T.NUMBER
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC
 				]]>
 
 	</sql-query>
@@ -11075,7 +11076,7 @@
 			           END
 			       AND t.save_status != 202
 			       AND t.t_date BETWEEN :fromDate AND :toDate  
-		ORDER BY T.T_DATE DESC, T.NUMBER
+		ORDER BY T.T_DATE DESC, T.NUMBER DESC
 		]]>
 
 	</sql-query>
@@ -12043,7 +12044,7 @@
 				             ELSE TRUE
 				           END
 			  AND T.T_DATE BETWEEN :fromDate AND :toDate
-		ORDER  BY T.T_DATE DESC, T.NUMBER
+		ORDER  BY T.T_DATE DESC, T.NUMBER DESC
 		]]>
 	</sql-query>
 	<sql-query name="getPresentRecurringTransactions">
@@ -12305,7 +12306,7 @@
 				               ELSE TRUE
 				             END )
 				       AND T.T_DATE BETWEEN :startdate AND :enddate
-				ORDER BY T.T_DATE DESC, T.NUMBER       
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC  
 		]]>
 	</sql-query>
 	<sql-query name="list.pay.tax">
@@ -12329,6 +12330,7 @@
 				               ELSE TRUE
 				             END )
 				       AND T.T_DATE BETWEEN :startdate AND :enddate  
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC
 		]]>
 	</sql-query>
 	<sql-query name="list.receive.tax">
@@ -12353,7 +12355,7 @@
 				               ELSE TRUE
 				             END )
 				       AND T.T_DATE BETWEEN :startdate AND :enddate  		
-				ORDER BY T.T_DATE DESC, T.NUMBER
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC
 		]]>
 	</sql-query>
 
@@ -12379,7 +12381,7 @@
 				               ELSE TRUE
 				             END )
 				       AND T.T_DATE BETWEEN :startdate AND :enddate  
-				ORDER BY T.T_DATE DESC, T.NUMBER
+				ORDER BY T.T_DATE DESC, T.NUMBER DESC
 		]]>
 	</sql-query>
 
