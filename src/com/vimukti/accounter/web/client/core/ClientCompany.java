@@ -2008,6 +2008,12 @@ public class ClientCompany implements IAccounterCore {
 				break;
 			case JOB:
 				ClientJob clientjob = (ClientJob) accounterCoreObject;
+				ClientCustomer customerByJob = getCustomerByJob(clientjob
+						.getID());
+				if (customerByJob != null) {
+					customerByJob.getJobs().remove(clientjob);
+					Utility.updateClientList(customerByJob, getCustomers());
+				}
 				ClientCustomer clientCustomer = getCustomer(clientjob
 						.getCustomer());
 				Utility.updateClientList(clientjob, clientCustomer.getJobs());
@@ -2127,6 +2133,17 @@ public class ClientCompany implements IAccounterCore {
 		// }
 		// }
 
+	}
+
+	private ClientCustomer getCustomerByJob(long jobID) {
+		for (ClientCustomer customer : getCustomers()) {
+			for (ClientJob job : customer.getJobs()) {
+				if (job.getID() == jobID) {
+					return customer;
+				}
+			}
+		}
+		return null;
 	}
 
 	public void processDeleteObject(AccounterCoreType objectType, long id) {

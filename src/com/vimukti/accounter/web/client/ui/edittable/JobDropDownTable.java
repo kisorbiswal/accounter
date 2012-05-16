@@ -24,13 +24,18 @@ public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 	}
 
 	public static List<ClientJob> getjobs(long customerId) {
-		final List<ClientJob> jobs = new ArrayList<ClientJob>();
+		List<ClientJob> clientJobs = new ArrayList<ClientJob>();
 		ClientCustomer customer = Accounter.getCompany()
 				.getCustomer(customerId);
 		if (customer != null) {
-			jobs.addAll(customer.getJobs());
+			ArrayList<ClientJob> jobs = customer.getJobs();
+			for (ClientJob clientJob : jobs) {
+				if (clientJob.isActive()) {
+					clientJobs.add(clientJob);
+				}
+			}
 		}
-		return jobs;
+		return clientJobs;
 	}
 
 	@Override

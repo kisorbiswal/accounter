@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJob;
@@ -64,6 +67,13 @@ public class JobCombo extends CustomCombo<ClientJob> {
 	public void setCustomer(ClientCustomer customer) {
 		this.customer = customer;
 		setComboItem(null);
-		initCombo(customer.getJobs());
+		List<ClientJob> clientJobs = new ArrayList<ClientJob>();
+		ArrayList<ClientJob> jobs = customer.getJobs();
+		for (ClientJob clientJob : jobs) {
+			if (clientJob.isActive()) {
+				clientJobs.add(clientJob);
+			}
+		}
+		initCombo(clientJobs);
 	}
 }
