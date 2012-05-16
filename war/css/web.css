@@ -1658,7 +1658,7 @@ table.gridHeader tr td {
 	width: 200px;
 }
 
-#PreferenceSettingsView .companyInfoPanel {
+#PreferenceSettingsView .companyInfoPanel, #PreferenceSettingsView .ExpensesByCustomerOption {
 	padding: 10px 0 10px 10px;
 	width: 95%;
 	border-bottom-width: 2px;
@@ -8354,7 +8354,7 @@ table.no_records tr td {
 #PreferenceSettingsView .address_panel,#PreferenceSettingsView .tradingAddressSubPanel,
 #PreferenceSettingsView .registeredAddressSubPanel,#PreferenceSettingsView .company_fields,
 #PreferenceSettingsView .trackTaxhidePanel,#PreferenceSettingsView .sell_panel,
-#PreferenceSettingsView .productAndServocehiddenPanel{
+#PreferenceSettingsView .productAndServocehiddenPanel,#WriteOffDialog .mainVLay .form{
 	display: -webkit-box;
 	display: -moz-box;
 	display: box;

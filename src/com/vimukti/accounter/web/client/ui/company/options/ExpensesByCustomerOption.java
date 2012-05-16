@@ -11,6 +11,7 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
 	public ExpensesByCustomerOption() {
 		super("");
+		super.setStyleName("ExpensesByCustomerOption");
 		createControls();
 		initData();
 	}
