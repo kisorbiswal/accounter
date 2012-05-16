@@ -9,7 +9,6 @@ import java.util.Map;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
@@ -346,18 +345,20 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				StringBuffer data = new StringBuffer();
 				Quantity quantity = item.getQuantity();
 				if (quantity != null) {
-					if (item.getItem().getType() == ClientItem.TYPE_INVENTORY_PART
-							|| item.getItem().getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-						data.append(String.valueOf(quantity.getValue()));
-						if (company.getPreferences().isUnitsEnabled()) {
-							Unit unit = item.getQuantity().getUnit();
-							if (unit != null) {
-								data.append(" ");
-								data.append(unit.getType());
+					if (item.getItem() != null) {
+						if (item.getItem().getType() == Item.TYPE_INVENTORY_PART
+								|| item.getItem().getType() == Item.TYPE_INVENTORY_ASSEMBLY) {
+							data.append(String.valueOf(quantity.getValue()));
+							if (company.getPreferences().isUnitsEnabled()) {
+								Unit unit = item.getQuantity().getUnit();
+								if (unit != null) {
+									data.append(" ");
+									data.append(unit.getType());
+								}
 							}
+						} else {
+							data.append(String.valueOf(quantity.getValue()));
 						}
-					} else {
-						data.append(String.valueOf(quantity.getValue()));
 					}
 				}
 
