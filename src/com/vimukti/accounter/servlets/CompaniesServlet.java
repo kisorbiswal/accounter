@@ -107,7 +107,7 @@ public class CompaniesServlet extends BaseServlet {
 			req.setAttribute("enableEncryption",
 					client.getClientSubscription().getSubscription()
 							.getFeatures().contains(Features.ENCRYPTION));
-			if (!client.getClientSubscription().getSubscription().isPaidUser()) {
+			if (!client.getClientSubscription().getSubscription().isPaidUser()||client.isPremiumTrailDone()) {
 				req.setAttribute("canCreate", (list.size() == 0));
 				req.setAttribute("isPaid", false);
 			} else {
