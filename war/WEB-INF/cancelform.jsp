@@ -20,7 +20,7 @@
 	<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 		<% }%>
 </head>
-<body>
+<body class="cancel_accountform">
   <div id="commanContainer" >
    <div class="maintanance_subcont">
     <img src="/images/Accounter_logo_title.png" class="accounterLogo" />

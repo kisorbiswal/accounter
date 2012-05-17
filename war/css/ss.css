@@ -779,7 +779,9 @@ input[type="submit"]:FOCUS {
 form {
 	font-weight: normal;
 }
-
+.cancel_accountform #commanContainer{
+	width: 410px;
+}
 #commanContainer {
 	width: 375px;
 }
@@ -1008,7 +1010,6 @@ a#fdbk_tab:hover {
 .delete_company {
 	text-decoration: none !important;
 	padding-top: 3px;
-	float: right;
 }
 
 .companies-list a:hover {
