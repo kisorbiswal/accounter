@@ -1409,3 +1409,31 @@ color: #28757D;
 #company-locked table td{
 	padding:5px;
 }
+#trail-button-row .trailbutton {
+	background: none repeat scroll 0 0 #28757D;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    height: 25px;
+    padding: 8px 30px;
+    text-align: center;
+    text-decoration: none;
+    width: 150px;
+}
+
+#trail-button-row td,#premium-option-row {
+	padding: 30px 0;
+}
+
+#premium-option-row td {
+	padding-top: 30px;
+}
+
+#combo-row td{
+	padding-bottom: 30px;
+}
+#trail-button-row, #premium-table {
+	width: 100%;
+}
+.or td {
+    border-bottom: 1px dotted gray;
+}
