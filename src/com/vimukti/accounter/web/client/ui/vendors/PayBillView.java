@@ -1202,6 +1202,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill>
 			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits()
 					+ bill.getCashDiscount());
 			bill.setPayment(0.00D);
+			bill.setTdsAmount(0.00D);
 			bill.setAppliedCredits(0.00D, false);
 			bill.setCashDiscount(0);
 			bill.setDiscountAccount(0);
