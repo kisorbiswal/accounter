@@ -134,10 +134,11 @@ public class PayEmployeeView extends
 	}
 
 	protected void employeeSelected(ClientPayStructureDestination selectItem) {
+		table.clear();
 		if (transaction.isVoid()) {
+			setRecordsToTable(new ArrayList<ClientTransactionPayEmployee>());
 			return;
 		}
-		table.clear();
 		if (selectItem != null) {
 			Accounter.createPayrollService().getTransactionPayEmployeeList(
 					selectItem,
