@@ -41,6 +41,7 @@ import com.vimukti.accounter.mobile.requirements.ShippingTermRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
@@ -69,6 +70,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 	private static final String ORDER_NO = "orderNo";
 
 	private ClientInvoice invoice;
+	List<EstimatesAndSalesOrdersList> estimatesAndSalesOrdersLists = new ArrayList<EstimatesAndSalesOrdersList>();
 
 	@Override
 	public String getId() {
@@ -91,6 +93,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Customer value) {
+						CreateInvoiceCommand.this.initList(value);
 						get(BILL_TO).setValue(null);
 						Set<Address> addresses = value.getAddress();
 						for (Address address : addresses) {
@@ -142,9 +145,8 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 						getMessages().quote()), getMessages()
 						.quoteAndSalesOrderList()) {
 			@Override
-			protected Customer getCustomer() {
-				return (Customer) CreateInvoiceCommand.this.get(CUSTOMER)
-						.getValue();
+			protected List<EstimatesAndSalesOrdersList> getList() {
+				return estimatesAndSalesOrdersLists;
 			}
 
 		});
@@ -206,6 +208,15 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return true;
+			}
+
+			@Override
+			public boolean isDone() {
+				List<EstimatesAndSalesOrdersList> list = CreateInvoiceCommand.this
+						.get(ESTIMATEANDSALESORDER).getValue();
+				return ((estimatesAndSalesOrdersLists == null || estimatesAndSalesOrdersLists
+						.isEmpty()) && (list == null || list.isEmpty())) ? super
+						.isDone() : true;
 			}
 
 			@Override
@@ -605,9 +616,9 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected String getDetailsMessage() {
-		return  invoice.getID() == 0 ? getMessages()
-				.readyToCreate(getMessages().invoice()) : getMessages()
-				.readyToUpdate(getMessages().invoice()) ;
+		return invoice.getID() == 0 ? getMessages().readyToCreate(
+				getMessages().invoice()) : getMessages().readyToUpdate(
+				getMessages().invoice());
 	}
 
 	@Override
@@ -770,6 +781,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 		List<EstimatesAndSalesOrdersList> e = getEstimatesSalesOrderList();
 		get(ESTIMATEANDSALESORDER).setValue(e);
+		initList((Customer) get(CUSTOMER).getValue());
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(invoice));
 	}
 
@@ -807,5 +819,18 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 	protected Currency getCurrency() {
 		return ((Customer) CreateInvoiceCommand.this.get(CUSTOMER).getValue())
 				.getCurrency();
+	}
+
+	protected void initList(Customer value) {
+		estimatesAndSalesOrdersLists = invoice.getCustomer() == value.getID() ? getEstimatesSalesOrderList()
+				: new ArrayList<EstimatesAndSalesOrdersList>();
+		try {
+			estimatesAndSalesOrdersLists.addAll(new FinanceTool()
+					.getCustomerManager().getEstimatesAndSalesOrdersList(
+							value.getID(), value.getCompany().getID()));
+
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 	}
 }
