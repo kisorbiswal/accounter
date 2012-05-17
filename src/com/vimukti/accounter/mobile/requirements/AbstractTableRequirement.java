@@ -162,7 +162,7 @@ public abstract class AbstractTableRequirement<T> extends
 		}
 		context.setAttribute(PROCESS_ATR, getName());
 		Object selection = context.getSelection(ACTIONS);
-		if (selection == ActionNames.FINISH || requirements.size() == 0) {
+		if (selection == ActionNames.FINISH || isRequirementsEmpty()) {
 			context.removeAttribute(PROCESS_ATR);
 			getRequirementsValues(obj);
 			return null;
@@ -199,6 +199,10 @@ public abstract class AbstractTableRequirement<T> extends
 		makeResult.add(actions);
 
 		return makeResult;
+	}
+
+	protected boolean isRequirementsEmpty() {
+		return requirements.size() == 0;
 	}
 
 	public void resetRequirementsValues() {
