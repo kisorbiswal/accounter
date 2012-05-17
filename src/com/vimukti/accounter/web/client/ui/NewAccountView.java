@@ -354,7 +354,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		cashFlowCatSelect.setValueMap(cashFlowof);
 
 		opBalText = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency(), "opBalText");
+				getBaseCurrency(), true);
+		opBalText.getElement().addClassName("opBalText");
 		opBalText.setToolTip(messages.giveOpeningBalanceToThis(this.getAction()
 				.getViewName()));
 		opBalText.setEnabled(!isInViewMode());
