@@ -788,6 +788,7 @@ public class TDSChalanDetailsView extends
 	}
 
 	private void initCallBack() {
+		table.removeAllRows();
 		Accounter
 				.createHomeService()
 				.getTDSTransactionItemsList(
@@ -806,7 +807,6 @@ public class TDSChalanDetailsView extends
 								if (transaction.getID() == 0) {
 									if (result.size() > 0) {
 										items = result;
-										table.reDraw();
 										for (ClientTDSTransactionItem clientTDSTransactionItem : result) {
 											clientTDSTransactionItem.setTdsAmount(clientTDSTransactionItem
 													.getTdsAmount()
@@ -817,7 +817,6 @@ public class TDSChalanDetailsView extends
 											table.add(clientTDSTransactionItem);
 										}
 									} else {
-										table.reDraw();
 										table.addEmptyMessage(messages
 												.noRecordsToShow());
 									}

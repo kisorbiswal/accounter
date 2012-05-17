@@ -93,7 +93,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return messages.deducteeName()+" : "+getValue(row);
+				return messages.deducteeName() + " : " + getValue(row);
 			}
 
 			@Override
@@ -134,7 +134,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return  messages.amountPaidOrCredited()+" : "+getValue(row);
+				return messages.amountPaidOrCredited() + " : " + getValue(row);
 			}
 
 			@Override
@@ -176,7 +176,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return messages.tdsAmount()+" : "+getValue(row);
+				return messages.tdsAmount() + " : " + getValue(row);
 			}
 
 			@Override
@@ -220,7 +220,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return messages.surchageAmount()+" : "+getValue(row);
+				return messages.surchageAmount() + " : " + getValue(row);
 			}
 
 			@Override
@@ -263,7 +263,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return row.getEduCess()+" : " +getValue(row);
+				return row.getEduCess() + " : " + getValue(row);
 			}
 
 			@Override
@@ -302,7 +302,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return messages.totalTax()+" : "+getValue(row);
+				return messages.totalTax() + " : " + getValue(row);
 			}
 
 			@Override
@@ -342,7 +342,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			public String getValueAsString(ClientTDSTransactionItem row) {
-				return  messages.dateofPayment()+" : "+getValue(row); 
+				return messages.dateofPayment() + " : " + getValue(row);
 			}
 
 			@Override
@@ -358,5 +358,12 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 	public List<ClientTDSTransactionItem> getSelectedRecords() {
 		return getSelectedRecords(0);
+	}
+
+	public void removeAllRows() {
+		List<ClientTDSTransactionItem> allRows = getAllRows();
+		for (int index = 0; index < allRows.size(); index++) {
+			remove(index + 1);
+		}
 	}
 }
