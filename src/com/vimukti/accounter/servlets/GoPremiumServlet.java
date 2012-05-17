@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.main.ServerConfiguration;
 
 public class GoPremiumServlet extends BaseServlet {
@@ -26,6 +27,10 @@ public class GoPremiumServlet extends BaseServlet {
 				emailId = null;
 			}
 		}
+		Client client = getClient(emailId);
+		boolean freeTrail = client != null ? (!client.isPremiumTrailDone())
+				&& (!client.getClientSubscription().getSubscription()
+						.isPaidUser()) : false;
 
 		if (emailId != null) {
 			boolean sandBoxPaypal = ServerConfiguration.isSandBoxPaypal();
@@ -33,6 +38,7 @@ public class GoPremiumServlet extends BaseServlet {
 					ServerConfiguration.getPaypalButtonId());
 			req.setAttribute("isSandBoxPaypal", sandBoxPaypal);
 			req.setAttribute(EMAIL_ID, emailId);
+			req.setAttribute("freeTrail", freeTrail);
 			dispatch(req, resp, view);
 		} else {
 			req.setAttribute(PARAM_DESTINATION, GO_PREMIUM_URL);

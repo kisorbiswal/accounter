@@ -10,6 +10,7 @@
 String info =(String) request.getAttribute("info");
 String paypalButtonId =(String) request.getAttribute("paypalButtonId");
 Boolean isSandBoxPaypal = (Boolean) request.getAttribute("isSandBoxPaypal");
+Boolean freeTrail = (Boolean) request.getAttribute("freeTrail");
 String emailId = (String) request.getAttribute("emailId");
  if(emailId ==null){
 	 emailId="";
@@ -42,8 +43,25 @@ if(isSandBoxPaypal ==null){
 <%}%>
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="custom"  value = "<%= emailId %>"   >
-<table>
-<tr><td><input type="hidden" name="on0" value="Subscription options">Subscription options</td></tr><tr><td><select name="os0">
+<table id="premium-table">
+	<tr>
+		<td align="left">
+			<input type="hidden" name="header" value="Premium Subscription">Premium Subscription
+		</td>
+	</tr>
+	<c:choose>
+	<c:when test="<%= freeTrail %>">
+		<tr id="trail-button-row">
+			<td align="center">
+			<a class="trailbutton target="_blank" href="/main/freetrail?emailId=<%= emailId %>">Go for 30 days Trail</a>	
+			</td>
+		</tr>
+		<tr align="center" class="or">
+			<td>(or)</td>
+		</tr>
+	</c:when>
+	</c:choose>
+<tr id="premium-option-row"><td><input type="hidden" name="on0" value="Subscription options">Subscription options</td></tr><tr id="combo-row"><td><select name="os0">
 	<option value="One user monthly">One user monthly : $5.00USD - monthly</option>
 	<option value="One user yearly" selected="true">One user yearly : $50.00USD - yearly</option>
 	<option value="2 users monthly">2 users monthly : $10.00USD - monthly</option>
@@ -53,9 +71,9 @@ if(isSandBoxPaypal ==null){
 	<option value="Unlimited Users monthly">Unlimited Users monthly : $100.00USD - monthly</option>
 	<option value="Unlimited Users yearly">Unlimited Users yearly : $1,000.00USD - yearly</option>
 </select> </td></tr>
-</table>
+<tr>
+<td align="center">
 <input type="hidden" name="currency_code" value="USD">
-
 <% if(isSandBoxPaypal){ %> 
 <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
@@ -63,11 +81,13 @@ if(isSandBoxPaypal ==null){
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 <%}%>
-
+</td>
+<tr>
+</table>
 
 
 </form>
-<a target="_blank" href="/main/freetrail?emailId=<%= emailId %>">Go Trail for 30 days</a>;
+
 
 
 
