@@ -103,11 +103,18 @@ public class CompaniesServlet extends BaseServlet {
 				canEncrypt = true;
 			}
 
+			boolean freeTrial = ((!client.getClientSubscription()
+					.getSubscription().isPaidUser()) && !(client
+					.isPremiumTrailDone()));
+
 			req.setAttribute("emailId", emailID);
 			req.setAttribute("enableEncryption",
 					client.getClientSubscription().getSubscription()
 							.getFeatures().contains(Features.ENCRYPTION));
-			if (!client.getClientSubscription().getSubscription().isPaidUser()||client.isPremiumTrailDone()) {
+			req.setAttribute("freeTrial", freeTrial);
+
+			if (!client.getClientSubscription().getSubscription().isPaidUser()
+					|| client.isPremiumTrailDone()) {
 				req.setAttribute("canCreate", (list.size() == 0));
 				req.setAttribute("isPaid", false);
 			} else {

@@ -22,6 +22,7 @@
 		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
+		<%	Boolean freeTrial=(Boolean) request.getAttribute("freeTrial");	%>
 		<%	Boolean canEncrypt=(Boolean) request.getAttribute("encrypt");	%>
 		<%	String userEmail=(String) request.getAttribute("emailId");	%>
 		<%	Boolean canCreate=(Boolean) request.getAttribute("canCreate");	%>
@@ -112,10 +113,15 @@
 			       <a href="/main/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>
 				</td>
 				</c:when>
+				<c:when test="<%= freeTrial %>">
+					<td>
+				     	<a target="_blank" href="/main/gopremium?emailId=<%=userEmail %>">Go Premium (30 days free trail)</a>
+				    </td>
+				</c:when>
 				<c:otherwise>
-				<td>
-					<a target="_blank" href="/main/gopremium?emailId=<%=userEmail %>">Go Premium</a>
-				</td>
+					<td>
+						<a target="_blank" href="/main/gopremium?emailId=<%=userEmail %>">Go Premium</a>
+					</td>
 				</c:otherwise>
 		   </c:choose>
       

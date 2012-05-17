@@ -102,8 +102,9 @@ public class OpenCompanyServlet extends BaseServlet {
 			request.setAttribute("accounterLocale", accounterLocale);
 			boolean ispaid = client.getClientSubscription().getSubscription()
 					.isPaidUser();
+			boolean freeTrial=((!ispaid) && !(client.isPremiumTrailDone()));
 			request.setAttribute("isPaid", ispaid);
-
+			request.setAttribute("freeTrial", freeTrial);
 			String create = (String) request.getSession().getAttribute(CREATE);
 			if (serverCompanyID == null) {
 				if (create != null && create.equals("true")) {

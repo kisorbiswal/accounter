@@ -69,6 +69,7 @@
 		
 		<%
 			boolean isPaid=(Boolean) request.getAttribute("isPaid");
+			boolean freeTrial=(Boolean) request.getAttribute("freeTrial");
   		%>
 	</script>
 		
@@ -81,12 +82,19 @@
     
     $(document).ready(function() {
 		var isPaid=${isPaid};
+		var freeTrial=$(freeTrial);
 		var user_emailId='<%=user_emailId%>';
 		if(isPaid){
        $('#support').after(' | <a style="padding-left:25px" href="/main/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>');
        }
        else{
-        $('#support').after(' | <a target="_blank" href="/main/gopremium?emailId='+user_emailId+'">Go Premium</a>');
+	       	if(freeTrial){
+	       $('#support').after(' | <a target="_blank" href="/main/gopremium?emailId='+user_emailId+'">Go Premium (30 days free trail)</a>');
+	       }
+	       else{
+	       	
+	        $('#support').after(' | <a target="_blank" href="/main/gopremium?emailId='+user_emailId+'">Go Premium</a>');
+	       }
        }
        
        });
