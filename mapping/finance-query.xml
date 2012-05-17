@@ -2123,15 +2123,23 @@
 		<query-param name="companyId" type="long" />
 
 		<return-scalar column="EMPLOYEE_ID" type="long" />
+		<return-scalar column="PAY_STRUCTURE" type="long" />
+		<return-scalar column="PE_ID" type="long" />
 
 		<![CDATA[
-				SELECT E.ID AS EMPLOYEE_ID
-				FROM   EMPLOYEE_GROUP EG
-				       LEFT OUTER JOIN EMPLOYEE E
-				         ON EG.ID = E.EMPLOYEE_GROUP
-				WHERE  EG.ID = :inputId
-				       AND EG.COMPANY_ID = :companyId
-				LIMIT  1  
+				SELECT E.ID  AS EMPLOYEE_ID, 
+				       PS.ID AS PAY_STRUCTURE, 
+				       PE.ID AS PE_ID 
+				FROM   EMPLOYEE_GROUP EG 
+				       LEFT OUTER JOIN PAY_STRUCTURE PS 
+				         ON PS.EMPLOYEE_GROUP = EG.ID 
+				       LEFT OUTER JOIN PAY_EMPLOYEE PE 
+				         ON PE.EMPLOYEE_GROUP_ID = EG.ID 
+				       LEFT OUTER JOIN EMPLOYEE E 
+				         ON EG.ID = E.EMPLOYEE_GROUP 
+				WHERE  EG.ID = :inputId 
+				       AND EG.COMPANY_ID = :companyId 
+				LIMIT  1 
 				]]>
 
 	</sql-query>
@@ -12246,23 +12254,27 @@
 		<return-scalar column="PAY_STRUCTURE" type="long" />
 		<return-scalar column="EPD_ID" type="long" />
 		<return-scalar column="AMI_ID" type="long" />
+		<return-scalar column="PE_ID" type="long" />
 		
 		<![CDATA[		
 			SELECT PS.ID  AS PAY_STRUCTURE, 
-				   EPD.ID AS EPD_ID,
-			       AMI.ID AS AMI_ID 
+			       EPD.ID AS EPD_ID, 
+			       AMI.ID AS AMI_ID, 
+			       PE.ID  AS PE_ID 
 			FROM   EMPLOYEE E 
-				   LEFT OUTER JOIN PAYEE P
-				   ON P.ID = E.ID
+			       LEFT OUTER JOIN PAYEE P 
+			         ON P.ID = E.ID 
 			       LEFT OUTER JOIN PAY_STRUCTURE PS 
-			       ON PS.EMPLOYEE = E.ID 		
-			       LEFT OUTER JOIN EMPLOYEE_PAYMENT_DETAILS
-			       EPD ON EPD.EMPLOYEE =E.ID	      
+			         ON PS.EMPLOYEE = E.ID 
+			       LEFT OUTER JOIN EMPLOYEE_PAYMENT_DETAILS EPD 
+			         ON EPD.EMPLOYEE = E.ID 
 			       LEFT OUTER JOIN ATTENDANCE_MANAGEMENT_ITEM AMI 
-			       ON AMI.EMPLOYEE = E.ID 
+			         ON AMI.EMPLOYEE = E.ID 
+			       LEFT OUTER JOIN PAY_EMPLOYEE PE 
+			         ON PE.EMPLOYEE_ID = E.ID 
 			WHERE  E.ID = :inputId 
 			       AND P.COMPANY_ID = :companyId 			       
-			       ]]>
+		]]>
 	</sql-query>
 
 	<sql-query name="canDeletePayRun">
