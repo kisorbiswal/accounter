@@ -228,10 +228,11 @@ public class Reconciliation extends CreatableObject implements
 			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
 					"Reconsole account should be active");
 		}
-		if (this.account.getCurrentBalance() <= 0) {
-			throw new AccounterException(AccounterException.ERROR_NAME_NULL,
-					"Reconsole account balance should be greater than zero");
-		}
+		/*
+		 * if (this.account.getCurrentBalance() <= 0) { throw new
+		 * AccounterException(AccounterException.ERROR_NAME_NULL,
+		 * "Reconsole account balance should be greater than zero"); }
+		 */
 
 	}
 }
