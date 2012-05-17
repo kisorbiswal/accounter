@@ -68,7 +68,7 @@ public class CustomerListCommand extends AbstractCommand {
 
 			@Override
 			protected String onSelection(Customer value) {
-				return "updateCustomer #" + value.getNumber();
+				return "updateCustomer " + value.getName();
 			}
 
 			@Override

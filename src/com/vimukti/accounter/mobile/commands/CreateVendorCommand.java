@@ -778,6 +778,9 @@ public class CreateVendorCommand extends AbstractCommand {
 
 	public String objectExist(String vendorNumber) {
 		String error = null;
+		if (vendorNumber == null) {
+			return error;
+		}
 		Set<Vendor> list = getCompany().getVendors();
 		if (list == null || list.isEmpty())
 			return null;

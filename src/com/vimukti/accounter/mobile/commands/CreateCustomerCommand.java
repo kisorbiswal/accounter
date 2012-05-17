@@ -767,6 +767,9 @@ public class CreateCustomerCommand extends AbstractCommand {
 
 	public String objectExist(String customerNumber) {
 		String error = null;
+		if (customerNumber == null) {
+			return error;
+		}
 		Set<Customer> list = getCompany().getCustomers();
 		if (list == null || list.isEmpty())
 			return null;
