@@ -11,6 +11,8 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.InventoryAssemblyItemTableRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -19,8 +21,9 @@ public class CreateInventoryAssemblyItemCommand extends
 		CreateInventoryItemCommand {
 	private static final String INVENTORYITEMS = "inventoryItems";
 
-	public CreateInventoryAssemblyItemCommand() {
-		super(ClientItem.TYPE_INVENTORY_ASSEMBLY);
+	@Override
+	public int getItemType() {
+		return ClientItem.TYPE_INVENTORY_ASSEMBLY;
 	}
 
 	@Override
@@ -68,5 +71,31 @@ public class CreateInventoryAssemblyItemCommand extends
 			}
 		}
 		return returnedItems;
+	}
+
+	@Override
+	protected String initObject(Context context, boolean isUpdate) {
+		String string = context.getString();
+		if (!isUpdate) {
+			setItem(new ClientInventoryAssembly());
+		} else {
+			if (string.isEmpty()) {
+				addFirstMessage(context, getMessages().selectItemToUpdate());
+				return "listOfItems";
+			}
+			Item customerByName = CommandUtils.getItemByName(
+					context.getCompany(), string);
+			if (customerByName == null) {
+				addFirstMessage(context, getMessages().selectItemToUpdate());
+				return "listOfItems " + string;
+			}
+			setItem((ClientInventoryAssembly) CommandUtils.getClientObjectById(
+					customerByName.getID(), AccounterCoreType.ITEM, context
+							.getCompany().getId()));
+			setValues();
+		}
+		get(I_SELL_THIS).setValue(true);
+		get(I_BUY_THIS).setValue(true);
+		return null;
 	}
 }

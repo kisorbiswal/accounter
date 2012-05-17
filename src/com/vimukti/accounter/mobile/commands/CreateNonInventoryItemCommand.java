@@ -8,18 +8,16 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class CreateNonInventoryItemCommand extends AbstractItemCreateCommand {
-	public CreateNonInventoryItemCommand() {
-		super(ClientItem.TYPE_NON_INVENTORY_PART);
-	}
 
-	public CreateNonInventoryItemCommand(int type) {
-		super(type);
+	@Override
+	public int getItemType() {
+		return ClientItem.TYPE_NON_INVENTORY_PART;
 	}
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
-		if (itemType == ClientItem.TYPE_NON_INVENTORY_PART) {
+		if (getItemType() == ClientItem.TYPE_NON_INVENTORY_PART) {
 			list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
 					getMessages().weight()), getMessages().weight(), true, true));
 		}

@@ -38,7 +38,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 	private static final String NAME = "name";
-	private static final String I_SELL_THIS = "iSellthis";
+	protected static final String I_SELL_THIS = "iSellthis";
 	private static final String SALES_DESCRIPTION = "salesDescription";
 	private static final String SALES_PRICE = "salesPrice";
 	private static final String INCOME_ACCOUNT = "incomeAccount";
@@ -47,7 +47,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	private static final String STANDARD_COST = "standardCost";
 	private static final String ITEM_GROUP = "itemGroup";
 	private static final String IS_ACTIVE = "isActive";
-	private static final String I_BUY_THIS = "iBuyService";
+	protected static final String I_BUY_THIS = "iBuyService";
 	private static final String PURCHASE_DESCRIPTION = "purchaseDescription";
 	private static final String PURCHASE_PRICE = "purchasePrice";
 	private static final String EXPENSE_ACCOUNT = "expenseAccount";
@@ -62,11 +62,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	protected static final String REORDER_POINT = "reorderpoint";
 	protected static final String ASSESTS_ACCOUNT = "assestaccount";
 
-	protected int itemType;
 	private ClientItem item;
 
-	public AbstractItemCreateCommand(int itemType) {
-		this.itemType = itemType;
+	public AbstractItemCreateCommand() {
+		super();
 	}
 
 	@Override
@@ -102,7 +101,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (itemType != ClientItem.TYPE_INVENTORY_PART) {
+				if (getItemType() != ClientItem.TYPE_INVENTORY_PART
+						&& getItemType() != ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -124,7 +124,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (itemType != ClientItem.TYPE_INVENTORY_PART) {
+				if (getItemType() != ClientItem.TYPE_INVENTORY_PART
+						&& getItemType() != ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -262,6 +263,16 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				return null;
 			}
 
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getItemType() != ClientItem.TYPE_INVENTORY_PART
+						&& getItemType() != ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
 		});
 
 		list.add(new ItemGroupRequirement(ITEM_GROUP, getMessages()
@@ -335,10 +346,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				return null;
 			}
 		});
-
+		String purchaseCost = (getItemType() != ClientItem.TYPE_INVENTORY_PART && getItemType() != ClientItem.TYPE_INVENTORY_ASSEMBLY) ? getMessages()
+				.purchasePrice() : getMessages().standardCost();
 		list.add(new AmountRequirement(PURCHASE_PRICE, getMessages()
-				.pleaseEnter(getMessages().purchasePrice()), getMessages()
-				.purchasePrice(), true, true) {
+				.pleaseEnter(purchaseCost), purchaseCost, true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -349,9 +360,12 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			}
 		});
 
+		final String purchaseAccount = (getItemType() != ClientItem.TYPE_INVENTORY_PART && getItemType() != ClientItem.TYPE_INVENTORY_ASSEMBLY) ? getMessages()
+				.expenseAccount() : getMessages().costOfGoodSold();
+
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
-				.pleaseEnter(getMessages().expenseAccount()), getMessages()
-				.expenseAccount(), false, true, null) {
+				.pleaseEnter(purchaseAccount), purchaseAccount, false, true,
+				null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -378,7 +392,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getMessages().Account());
+				return getMessages().youDontHaveAny(purchaseAccount);
 			}
 
 			@Override
@@ -389,8 +403,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getMessages().expenseAccount());
+				return getMessages().hasSelected(purchaseAccount);
 			}
 		});
 
@@ -462,6 +475,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	protected void setDefaultValues(Context context) {
 		get(IS_ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(IS_TAXABLE).setDefaultValue(Boolean.TRUE);
+		get(EXPENSE_ACCOUNT).setDefaultValue(getCompany().getCostOfGoodsSold());
 	}
 
 	@Override
@@ -486,6 +500,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		TAXCode vatcode = (TAXCode) get(TAXCODE).getValue();
 		Boolean isActive = (Boolean) get(IS_ACTIVE).getValue();
 		Boolean isBuyservice = (Boolean) get(I_BUY_THIS).getValue();
+		item.setIBuyThisItem(isBuyservice);
 		String purchaseDescription = (String) get(PURCHASE_DESCRIPTION)
 				.getValue();
 		double purchasePrice = (Double) get(PURCHASE_PRICE).getValue();
@@ -514,14 +529,16 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		if (onHandQtyReq != null) {
 			onHandQty = onHandQtyReq.getValue();
 		}
-		if ((itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_INVENTORY_PART)
+		if ((getItemType() == ClientItem.TYPE_NON_INVENTORY_PART
+				|| getItemType() == ClientItem.TYPE_INVENTORY_PART || getItemType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)
 				&& weight != null) {
 			item.setWeight(UIUtils.toInt(weight));
 
 			Double amount2 = Double.valueOf(onHandQty);
 			item.setItemTotalValue(purchasePrice * amount2);
 
-			if (itemType == ClientItem.TYPE_INVENTORY_PART) {
+			if (getItemType() == ClientItem.TYPE_INVENTORY_PART
+					|| getItemType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 				item.setISellThisItem(true);
 				item.setIBuyThisItem(true);
 				item.setMinStockAlertLevel(null);
@@ -529,7 +546,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			}
 		}
 
-		if (iSellthis) {
+		if (item.isISellThisItem()) {
 			item.setSalesDescription(description);
 			item.setSalesPrice(price);
 			item.setIncomeAccount(incomeAccount.getID());
@@ -537,15 +554,15 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			item.setCommissionItem(isCommisionItem);
 		}
 		item.setStandardCost(cost);
-		if (itemType == ClientItem.TYPE_NON_INVENTORY_PART
-				|| itemType == ClientItem.TYPE_SERVICE) {
+		if (getItemType() == ClientItem.TYPE_NON_INVENTORY_PART
+				|| getItemType() == ClientItem.TYPE_SERVICE) {
 			item.setTaxCode(vatcode != null ? vatcode.getID() : 0);
 		}
 		item.setActive(isActive);
-		item.setIBuyThisItem(isBuyservice);
+
 		if (itemGroup != null)
 			item.setItemGroup(itemGroup.getID());
-		if (isBuyservice) {
+		if (item.isIBuyThisItem()) {
 			item.setPurchaseDescription(purchaseDescription);
 			item.setPurchasePrice(purchasePrice);
 			item.setExpenseAccount(expenseAccount.getID());
@@ -553,7 +570,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				item.setPreferredVendor(preferedSupplier.getID());
 			item.setVendorItemNumber(supplierServiceNo);
 		}
-		item.setType(itemType);
+		item.setType(getItemType());
 		Requirement requirement = get(WARE_HOUSE);
 		if (requirement != null) {
 			Warehouse warehouse = requirement.getValue();
@@ -654,7 +671,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			setValues();
 		}
 
-		if (itemType == ClientItem.TYPE_INVENTORY_PART) {
+		if (getItemType() == ClientItem.TYPE_INVENTORY_PART) {
 			get(I_SELL_THIS).setValue(true);
 			get(I_BUY_THIS).setValue(true);
 		}
@@ -662,7 +679,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		return null;
 	}
 
-	private void setValues() {
+	protected void setValues() {
 		get(NAME).setValue(item.getName());
 
 		get(I_SELL_THIS).setValue(item.isISellThisItem());
@@ -703,6 +720,13 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 							AccounterCoreType.MEASUREMENT));
 		}
 
+		Requirement assestsAccReq = get(ASSESTS_ACCOUNT);
+		if (assestsAccReq != null) {
+			Account account = getServerObject(Account.class,
+					item.getAssestsAccount());
+			assestsAccReq.setValue(account);
+		}
+
 		Requirement asOfRequiremnt = get(AS_OF);
 		if (asOfRequiremnt != null) {
 			asOfRequiremnt.setValue(item.getAsOfDate());
@@ -716,4 +740,6 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	public void setItem(ClientItem item) {
 		this.item = item;
 	}
+
+	public abstract int getItemType();
 }

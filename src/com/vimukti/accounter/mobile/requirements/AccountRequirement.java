@@ -45,6 +45,12 @@ public abstract class AccountRequirement extends ListRequirement<Account> {
 	}
 
 	@Override
+	public void setDefaultValue(Object defaultValue) {
+		super.setDefaultValue(defaultValue);
+		setAccountValue();
+	}
+
+	@Override
 	protected Record createRecord(Account value) {
 		Record record = new Record(value);
 		record.add(getMessages().name(), value.getName());

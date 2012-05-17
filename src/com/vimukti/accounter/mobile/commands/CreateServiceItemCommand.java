@@ -5,8 +5,9 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class CreateServiceItemCommand extends AbstractItemCreateCommand {
 
-	public CreateServiceItemCommand() {
-		super(ClientItem.TYPE_SERVICE);
+	@Override
+	public int getItemType() {
+		return ClientItem.TYPE_SERVICE;
 	}
 
 	@Override

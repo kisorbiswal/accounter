@@ -20,12 +20,9 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 
 public class CreateInventoryItemCommand extends CreateNonInventoryItemCommand {
 
-	public CreateInventoryItemCommand() {
-		super(ClientItem.TYPE_INVENTORY_PART);
-	}
-
-	public CreateInventoryItemCommand(int type) {
-		super(type);
+	@Override
+	public int getItemType() {
+		return ClientItem.TYPE_INVENTORY_PART;
 	}
 
 	@Override

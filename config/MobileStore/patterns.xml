@@ -29,9 +29,9 @@
 			<command title="customer" />
 			<command title="Vendor" />
 			<command title="banking" />
-			<command title="reports" />
 			<command if="inventoryEnabled" title="inventory" />
 			<command title="settings" />
+			<command title="reports" />
 			<command title="logout" />
 		</outputs>
 	</pattern>
@@ -210,7 +210,7 @@
 		<input>more</input>
 		<outputs>
 			<command title="newCustomer" />
-			<command title="newItem" />
+			<command title="addNewItem" />
 			<command if="trackingQuotes" title="newQuote" />
 			<command if="delayedCharges" title="newCredit" />
 			<command if="delayedCharges" title="newCharge" />
@@ -265,7 +265,7 @@
 		<input>others</input>
 		<outputs>
 			<command title="newVendor" />
-			<command title="newItem" />
+			<command title="addNewItem" />
 			<command title="newCashPurchase" />
 			<command title="vendorCredit" />
 			<command title="newCheck" />
@@ -417,7 +417,6 @@
 
 	<pattern login="true">
 		<input>addItem</input>
-		<input>newItem</input>
 		<input>createItem</input>
 		<input>addNewItem</input>
 		<outputs>
