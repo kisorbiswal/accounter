@@ -19,6 +19,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
  * 
@@ -69,7 +70,7 @@ public class AccountRegisterCommand extends AbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new AccountRequirement(ACCOUNT, getMessages().pleaseSelect(
-				getMessages().account()), getMessages().account(), false, true,
+				getMessages().Account()), getMessages().Account(), false, true,
 				null) {
 
 			@Override
@@ -214,9 +215,12 @@ public class AccountRegisterCommand extends AbstractCommand {
 		FinanceDate[] financeDates = CommandUtils.getMinimumAndMaximumDates(
 				startDate, endDate, getCompanyId());
 		try {
-			// accountRegisterList = new FinanceTool().getAccountRegister(
-			// financeDates[0], financeDates[1], account.getID(), 0, -1,
-			// getCompanyId());
+			accountRegisterList = new FinanceTool().getAccountRegister(
+					financeDates[0], financeDates[1], account.getID(),
+					getCompanyId(), 0, -1);
+			if (accountRegisterList != null && !accountRegisterList.isEmpty()) {
+				accountRegisterList.remove(0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

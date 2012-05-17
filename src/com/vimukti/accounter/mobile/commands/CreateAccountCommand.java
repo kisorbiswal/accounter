@@ -428,7 +428,7 @@ public class CreateAccountCommand extends AbstractCommand {
 			@Override
 			protected List<String> getList() {
 				List<String> list = new ArrayList<String>();
-				list.add("accountRegister");
+				list.add(getMessages().accountRegister());
 				return list;
 			}
 
