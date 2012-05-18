@@ -103,8 +103,7 @@ public class CompaniesServlet extends BaseServlet {
 				canEncrypt = true;
 			}
 
-			boolean freeTrial = ((!client.getClientSubscription()
-					.getSubscription().isPaidUser()) && !(client
+			boolean freeTrial = ((!client.getClientSubscription().isPaidUser()) && !(client
 					.isPremiumTrailDone()));
 
 			req.setAttribute("emailId", emailID);
@@ -113,7 +112,7 @@ public class CompaniesServlet extends BaseServlet {
 							.getFeatures().contains(Features.ENCRYPTION));
 			req.setAttribute("freeTrial", freeTrial);
 
-			if (!client.getClientSubscription().getSubscription().isPaidUser()
+			if (!client.getClientSubscription().isPaidUser()
 					|| client.isPremiumTrailDone()) {
 				req.setAttribute("canCreate", (list.size() == 0));
 				req.setAttribute("isPaid", false);
@@ -197,8 +196,6 @@ public class CompaniesServlet extends BaseServlet {
 			return size > 5;
 		case ClientSubscription.TWO_USERS:
 			return size > 2;
-		case ClientSubscription.ONE_USER:
-			return size > 1;
 		default:
 			return size > 1;
 		}

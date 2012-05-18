@@ -90,6 +90,7 @@ import com.vimukti.accounter.web.client.ui.company.NewSalesperSonAction;
 import com.vimukti.accounter.web.client.ui.company.NewTAXAgencyAction;
 import com.vimukti.accounter.web.client.ui.company.WarehouseActions;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.PayRollActions;
 import com.vimukti.accounter.web.client.ui.core.RecurringTransactionDialogAction;
@@ -448,9 +449,18 @@ public class ReportsRPC {
 					PayRollActions.newPayEmployeeAction(), transactionId);
 			break;
 		case IAccounterCore.ATTENDANCE_PRODUCTION_TYPE:
+			PayRollActions newAttendanceProductionTypeAction = PayRollActions
+					.newAttendanceProductionTypeAction();
+			newAttendanceProductionTypeAction
+					.setCallback(new ActionCallback<ClientAttendanceOrProductionType>() {
+
+						@Override
+						public void actionResult(
+								ClientAttendanceOrProductionType result) {
+						}
+					});
 			initCallBack(new ClientAttendanceOrProductionType(),
-					PayRollActions.newAttendanceProductionTypeAction(),
-					transactionId);
+					newAttendanceProductionTypeAction, transactionId);
 			break;
 		case IAccounterCore.EMPLOYEE_GROUP:
 			initCallBack(new ClientEmployeeGroup(),

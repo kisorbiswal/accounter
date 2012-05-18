@@ -82,7 +82,7 @@
     
     $(document).ready(function() {
 		var isPaid=${isPaid};
-		var freeTrial=$(freeTrial);
+		var freeTrial=${freeTrial};
 		var user_emailId='<%=user_emailId%>';
 		if(isPaid){
        $('#support').after(' | <a style="padding-left:25px" href="/main/subscriptionmanagement"><i18n:i18n msg='subscriptionManagement'/></a>');

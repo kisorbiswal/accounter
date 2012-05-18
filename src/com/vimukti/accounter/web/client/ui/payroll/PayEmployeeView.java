@@ -196,7 +196,7 @@ public class PayEmployeeView extends
 		for (ClientTransactionPayEmployee clientTransactionPayEmployee : selectedRecords) {
 			total += clientTransactionPayEmployee.getPayment();
 		}
-		transactionTotalBaseCurrencyText.setAmount(transaction.getTotal());
+		transactionTotalBaseCurrencyText.setAmount(total);
 	}
 
 	@Override

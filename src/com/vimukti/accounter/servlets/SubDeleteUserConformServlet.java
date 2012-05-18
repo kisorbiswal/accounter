@@ -123,6 +123,7 @@ public class SubDeleteUserConformServlet extends BaseServlet {
 	private boolean checkTotalMembers(Set<String> members, int type) {
 		switch (type) {
 		case ClientSubscription.ONE_USER:
+		case ClientSubscription.TRIAL_USER:
 			return members.size() <= 1;
 		case ClientSubscription.TWO_USERS:
 			return members.size() <= 2;

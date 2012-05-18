@@ -529,8 +529,8 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			dateRangeSelector.setComboItem(dateRange);
 			setDateRange(dateRange);
 		}
-		fromItem.setDateWithNoEvent(getStartDate());
-		toItem.setDateWithNoEvent(getEndDate());
+		fromItem.setEnteredDate(getStartDate());
+		toItem.setEnteredDate(getEndDate());
 		filterList(currentView);
 	}
 }

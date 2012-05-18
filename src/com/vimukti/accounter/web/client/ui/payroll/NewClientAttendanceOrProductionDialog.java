@@ -192,6 +192,9 @@ public class NewClientAttendanceOrProductionDialog extends
 
 	@Override
 	protected boolean onCancel() {
+		if (getCallback() == null) {
+			super.onCancel();
+		}
 		return true;
 	}
 

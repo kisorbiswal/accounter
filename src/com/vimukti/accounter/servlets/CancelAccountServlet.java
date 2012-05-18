@@ -19,7 +19,9 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -97,7 +99,14 @@ public class CancelAccountServlet extends BaseServlet {
 			}
 			client.setDeleted(true);
 			client.setPassword(null);
+			client.setCompaniesCount(0);
 			client.setPasswordRecoveryKey(null);
+			client.setPremiumTrailDone(false);
+			ClientSubscription subscription = client.getClientSubscription();
+			subscription.setSubscription(Subscription
+					.getInstance(Subscription.FREE_CLIENT));
+			subscription.setPremiumType(0);
+			subscription.setDurationType(0);
 			session.saveOrUpdate(client);
 			transaction.commit();
 			httpSession.setAttribute(ACCOUNT_DELETION_STATUS, "Success");
@@ -165,13 +174,13 @@ public class CancelAccountServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession httpSession = req.getSession();
-		
+
 		String header2 = req.getHeader("User-Agent");
 		boolean contains = header2.contains("iPad");
-		if(contains){
+		if (contains) {
 			req.setAttribute("ipad", contains);
 		}
-		
+
 		String emailID = (String) httpSession.getAttribute(EMAIL_ID);
 		if (emailID == null) {
 			redirectExternal(req, resp, LOGIN_URL);

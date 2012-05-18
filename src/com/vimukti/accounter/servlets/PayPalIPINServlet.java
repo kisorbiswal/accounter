@@ -235,7 +235,8 @@ public class PayPalIPINServlet extends BaseServlet {
 			ClientSubscription clientSubscription = client
 					.getClientSubscription();
 			clientSubscription.getMembers().add(emailId);
-			if (clientSubscription.getPremiumType() > paymentType) {
+			if (clientSubscription.getPremiumType() != ClientSubscription.TRIAL_USER
+					&& clientSubscription.getPremiumType() > paymentType) {
 				clientSubscription.setGracePeriodDate(SubscryptionTool
 						.getGracePeriodDate());
 			} else {
@@ -300,13 +301,13 @@ public class PayPalIPINServlet extends BaseServlet {
 				apiUserName = ServerConfiguration.getPaypalApiUserName();
 				apiPassword = ServerConfiguration.getPaypalApiPassword();
 				apiSignature = ServerConfiguration.getPaypalApiSignature();
-				environment="sandbox";
+				environment = "sandbox";
 			} else {
 
 				apiUserName = ServerConfiguration.getLivePaypalapiUserName();
 				apiPassword = ServerConfiguration.getLivePaypalapiPassword();
 				apiSignature = ServerConfiguration.getLivePaypalapiSignature();
-environment="paypal";
+				environment = "paypal";
 			}
 			profile.setAPIUsername(apiUserName);
 			profile.setAPIPassword(apiPassword);

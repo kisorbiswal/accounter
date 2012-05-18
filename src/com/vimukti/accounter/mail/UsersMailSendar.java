@@ -41,8 +41,8 @@ public class UsersMailSendar {
 		acc.setSslAutheticationRequired(propertyParser.getProperty(
 				"sslAutheticationRequired", "no").equalsIgnoreCase("yes"));
 
-		acc.setEnableTls(propertyParser.getProperty("startTtlsEnables",
-				"no").equalsIgnoreCase("yes"));
+		acc.setEnableTls(propertyParser.getProperty("startTtlsEnables", "no")
+				.equalsIgnoreCase("yes"));
 
 		String emailID = propertyParser.getProperty(
 				"usermanagementSenderEmailID", "");
@@ -479,6 +479,8 @@ public class UsersMailSendar {
 			return messages.subscription(messages.FiveUsers());
 		case ClientSubscription.UNLIMITED_USERS:
 			return messages.subscription(messages.UnlimitedUsers());
+		case ClientSubscription.TRIAL_USER:
+			return messages.subscription("Trial User");
 		default:
 			break;
 		}

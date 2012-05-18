@@ -1181,7 +1181,7 @@
 			<many-to-one name="payAccount" class="Account" cascade="save-update"
 				column="PAY_FROM_ID">
 			</many-to-one>
-			<many-to-one name="employee" class="Employee" cascade="save-update"
+			<many-to-one name="employee" class="Employee"
 				column="EMPLOYEE_ID">
 			</many-to-one>
 			<many-to-one name="employeeGroup" class="EmployeeGroup" cascade="save-update"

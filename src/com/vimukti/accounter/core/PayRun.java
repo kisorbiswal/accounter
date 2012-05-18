@@ -123,11 +123,10 @@ public class PayRun extends Transaction {
 		}
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(
-					AccounterException.ERROR_CANT_EDIT);
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
 			// "You have already paid  amount for this Invoice, You can't Edit  it and Void it.");
 		}
-		
+
 		if (!goingToBeEdit) {
 			if (payRun.getPayEmployee() == null
 					|| payRun.getPayEmployee().isEmpty()) {
@@ -173,9 +172,9 @@ public class PayRun extends Transaction {
 		AccounterMessages messages = Global.get().messages();
 		w.put(messages.noOfWorkingDays(), this.noOfWorkingDays);
 		w.put(messages.employee(), this.employee != null ? this.getEmployee()
-				.toString() : "");
+				.getName() : "");
 		w.put(messages.employeeGroup(), this.employeeGroup != null ? this
-				.getEmployeeGroup().toString() : "");
+				.getEmployeeGroup().getName() : "");
 		w.put(messages.startDate(), this.payPeriodStartDate.toString());
 		w.put(messages.endDate(), this.payPeriodEndDate.toString());
 	}

@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * 
  */
 public class PayStructure extends CreatableObject implements
-		IAccounterServerCore ,INamedObject{
+		IAccounterServerCore, INamedObject {
 
 	/**
 	 * 
@@ -62,8 +62,10 @@ public class PayStructure extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		w.put(messages.employee(), this.employee != null ? this.getEmployee().toString():"");
-		w.put(messages.employeeGroup(), this.employeeGroup != null ? this.getEmployeeGroup().toString():"");
+		w.put(messages.employee(), this.employee != null ? this.getEmployee()
+				.getName() : "");
+		w.put(messages.employeeGroup(), this.employeeGroup != null ? this
+				.getEmployeeGroup().getName() : "");
 	}
 
 	public Employee getEmployee() {
@@ -97,7 +99,7 @@ public class PayStructure extends CreatableObject implements
 	@Override
 	public void setName(String name) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

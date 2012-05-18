@@ -9,10 +9,12 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.Global;
 
 public class ClientSubscription implements IsSerializable {
+
 	public static final int ONE_USER = 1;
 	public static final int TWO_USERS = 2;
 	public static final int FIVE_USERS = 3;
 	public static final int UNLIMITED_USERS = 4;
+	public static final int TRIAL_USER = 5;
 
 	public static final int MONTHLY_USER = 1;
 	public static final int YEARLY_USER = 2;
@@ -147,4 +149,7 @@ public class ClientSubscription implements IsSerializable {
 		this.paypalSubscriptionProfileId = paypalSubscriptionProfileId;
 	}
 
+	public boolean isPaidUser() {
+		return getPremiumType() != TRIAL_USER && subscription.isPaidUser();
+	}
 }
