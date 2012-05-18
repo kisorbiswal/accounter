@@ -724,7 +724,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String getFixedAssetListExportCsv(int status) {
+	public String getFixedAssetListExportCsv(final int status) {
 		try {
 			ArrayList<FixedAsset> fixedAssets = getFinanceTool()
 					.getFixedAssetManager().getFixedAssets(status,
@@ -733,9 +733,24 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String[] getColumns() {
-					return new String[] { messages.item(),
-							messages.assetNumber(), messages.Account(),
-							messages.purchaseDate(), messages.purchasePrice() };
+					if (status == 1) {
+						return new String[] { messages.item(),
+								messages.assetNumber(), messages.Account(),
+								messages.purchaseDate(),
+								messages.purchasePrice() };
+					} else if (status == 2) {
+						return new String[] { messages.item(),
+								messages.assetNumber(), messages.Account(),
+								messages.purchaseDate(),
+								messages.purchasePrice(), messages.bookValue() };
+					} else if (status == 3) {
+						return new String[] { messages.item(),
+								messages.assetNumber(), messages.Account(),
+								messages.disposalDate(),
+								messages.disposalPrice(),
+								messages.gainsOrLosses() };
+					}
+					return null;
 				}
 
 				@Override
@@ -755,15 +770,37 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.getAssetAccount().getName() : "";
 						break;
 					case 3:
-						columnValue = obj.getPurchaseDate() != null ? Utility
-								.getDateInSelectedFormat(obj.getPurchaseDate())
-								: "";
+						if (status == 3) {
+							columnValue = obj.getSoldOrDisposedDate() != null ? Utility
+									.getDateInSelectedFormat(obj
+											.getSoldOrDisposedDate()) : "";
+						} else {
+							columnValue = obj.getPurchaseDate() != null ? Utility
+									.getDateInSelectedFormat(obj
+											.getPurchaseDate()) : "";
+						}
 						break;
 					case 4:
-						columnValue = obj.getPurchasePrice() != 0 ? amountAsStringWithCurrency(
-								obj.getPurchasePrice(), obj.getCompany()
-										.getPrimaryCurrency()) : "";
+						if (status == 3) {
+							columnValue = obj.getSalePrice() != 0 ? amountAsStringWithCurrency(
+									obj.getSalePrice(), obj.getCompany()
+											.getPrimaryCurrency()) : "";
+						} else {
+							columnValue = obj.getPurchasePrice() != 0 ? amountAsStringWithCurrency(
+									obj.getPurchasePrice(), obj.getCompany()
+											.getPrimaryCurrency()) : "";
+						}
 						break;
+					case 5:
+						if (status == 2) {
+							columnValue = obj.getBookValue() != 0 ? amountAsStringWithCurrency(
+									obj.getBookValue(), obj.getCompany()
+											.getPrimaryCurrency()) : "";
+						} else {
+							columnValue = obj.getLossOrGain() != 0 ? amountAsStringWithCurrency(
+									obj.getLossOrGain(), obj.getCompany()
+											.getPrimaryCurrency()) : "";
+						}
 					}
 					columnValue = '"' + columnValue + '"';
 					return columnValue;
