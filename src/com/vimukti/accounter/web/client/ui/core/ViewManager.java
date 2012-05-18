@@ -998,6 +998,7 @@ public class ViewManager extends FlowPanel {
 		// for bookkeeping value
 		keyValues.put("bookKeeping", getCompany().isBookKeeping() ? "Yes"
 				: "No");
+		keyValues.put("emailId", getCompany().getLoggedInUser().getEmail());
 		this.mainWindow = financeWindow;
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 
