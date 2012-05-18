@@ -31,7 +31,7 @@ public class InvoiceBrandingAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {

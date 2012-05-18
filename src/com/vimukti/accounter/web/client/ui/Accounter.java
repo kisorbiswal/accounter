@@ -150,10 +150,10 @@ public class Accounter implements EntryPoint {
 			// and, now we are ready to start the application.
 			final ClientCompanyPreferences prefs = preferences;
 
-			GWT.runAsync(new RunAsyncCallback() {
-
-				@Override
-				public void onSuccess() {
+//			GWT.runAsync(new RunAsyncCallback() {
+//
+//				@Override
+//				public void onSuccess() {
 					removeLoadingImage();
 					header = new Header();
 					vpanel = new SimplePanel();
@@ -178,20 +178,20 @@ public class Accounter implements EntryPoint {
 					RootPanel.get("mainWindow").add(header);
 					RootPanel.get("mainWindow").add(vpanel);
 					RootPanel.get("mainWindow").add(setupWizard);
-				}
-
-				@Override
-				public void onFailure(Throwable reason) {
-					// TODO Auto-generated method stub
-
-				}
-			});
+//				}
+//
+//				@Override
+//				public void onFailure(Throwable reason) {
+//					// TODO Auto-generated method stub
+//
+//				}
+//			});
 
 		} else {
-			GWT.runAsync(new RunAsyncCallback() {
-
-				@Override
-				public void onSuccess() {
+//			GWT.runAsync(new RunAsyncCallback() {
+//
+//				@Override
+//				public void onSuccess() {
 					removeLoadingImage();
 					Accounter.setCompany(company);
 					Accounter.setUser(company.getLoggedInUser());
@@ -199,14 +199,14 @@ public class Accounter implements EntryPoint {
 					endDate = company.getTransactionStartDate();
 
 					initGUI();
-				}
-
-				@Override
-				public void onFailure(Throwable reason) {
-					// TODO Auto-generated method stub
-
-				}
-			});
+//				}
+//
+//				@Override
+//				public void onFailure(Throwable reason) {
+//					// TODO Auto-generated method stub
+//
+//				}
+//			});
 		}
 
 	}

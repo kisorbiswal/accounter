@@ -31,30 +31,30 @@ public class ConversionBalancesAction extends Action {
 
 	public void run(Object data, Boolean isDependent, String endingDate,
 			String year) {
-		runAsync(data, isDependent, endingDate, year);
+//		runAsync(data, isDependent, endingDate, year);
 	}
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent, null, null);
+//		runAsync(data, isDependent, null, null);
 	}
 
 	private void runAsync(final Object data, final Boolean isDependent,
 			final String endingDate, final String year) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				ConversionBalancesView view = new ConversionBalancesView(endingDate, year);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ConversionBalancesAction.this);
 
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

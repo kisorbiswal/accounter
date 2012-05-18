@@ -24,20 +24,20 @@ public class BudgetAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				BudgetListView view = new BudgetListView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, BudgetAction.this);
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
@@ -51,7 +51,7 @@ public class BudgetAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	public ImageResource getBigImage() {

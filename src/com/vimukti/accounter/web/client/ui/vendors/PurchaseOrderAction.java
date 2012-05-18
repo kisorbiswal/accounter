@@ -22,24 +22,24 @@ public class PurchaseOrderAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				PurchaseOrderView view = new PurchaseOrderView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, PurchaseOrderAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

@@ -32,12 +32,12 @@ public class PreviousClaimAction extends Action {
 	@Override
 	public void run() {
 
-		PreviousClaimsView view = new PreviousClaimsView();
-		try {
-			MainFinanceWindow.getViewManager().showView(view, data,
-					isDependent, this);
-		} catch (Exception e) {
-		}
+//		PreviousClaimsView view = new PreviousClaimsView();
+//		try {
+//			MainFinanceWindow.getViewManager().showView(view, data,
+//					isDependent, this);
+//		} catch (Exception e) {
+//		}
 
 	}
 

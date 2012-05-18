@@ -16,24 +16,24 @@ public class SearchInputAction extends Action {
 
 	@Override
 	public void run() {
-		runAysnc(data, isDependent);
+//		runAysnc(data, isDependent);
 	}
 
 	private void runAysnc(Object data, boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				SearchInputDialog dialog = new SearchInputDialog(messages
 						.search());
 				dialog.center();
 				dialog.show();
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

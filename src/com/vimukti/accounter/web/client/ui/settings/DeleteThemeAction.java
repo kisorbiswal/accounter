@@ -28,10 +28,10 @@ public class DeleteThemeAction extends Action<ClientBrandingTheme> {
 	@Override
 	public void run() {
 		try {
-			DeleteThemeDialog deleteThemeDialog = new DeleteThemeDialog(
-					messages.deleteThemeLabel(), "", (ClientBrandingTheme) data);
-			deleteThemeDialog.show();
-			deleteThemeDialog.center();
+//			DeleteThemeDialog deleteThemeDialog = new DeleteThemeDialog(
+//					messages.deleteThemeLabel(), "", (ClientBrandingTheme) data);
+//			deleteThemeDialog.show();
+//			deleteThemeDialog.center();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

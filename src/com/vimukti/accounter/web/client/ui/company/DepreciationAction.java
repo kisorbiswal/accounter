@@ -34,9 +34,9 @@ public class DepreciationAction extends Action {
 
 	@Override
 	public void run() {
-		DepreciationView view = new DepreciationView();
-
-		MainFinanceWindow.getViewManager().showView(view, null, false, this);
+//		DepreciationView view = new DepreciationView();
+//
+//		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 
 	@Override

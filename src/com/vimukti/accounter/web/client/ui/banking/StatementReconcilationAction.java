@@ -29,27 +29,27 @@ public class StatementReconcilationAction extends Action<ClientReconciliation> {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 
 	}
 
 	private void runAsync(final Object data, final Boolean isEditable) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				StatementTransactionsReconcileView statementTransactionsView = new StatementTransactionsReconcileView(
 						accountid, statementId);
 				MainFinanceWindow.getViewManager().showView(
 						statementTransactionsView, data, isDependent,
 						StatementReconcilationAction.this);
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

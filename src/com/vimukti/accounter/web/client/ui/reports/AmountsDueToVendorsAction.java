@@ -27,20 +27,20 @@ public class AmountsDueToVendorsAction extends Action {
 	// }
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				AmountsDueToVendorReport report = new AmountsDueToVendorReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, AmountsDueToVendorsAction.this);
 				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 		
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
@@ -56,7 +56,7 @@ public class AmountsDueToVendorsAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	public ImageResource getBigImage() {

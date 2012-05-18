@@ -17,20 +17,20 @@ public class TAXAgencyListAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				TAXAgencyListView view = new TAXAgencyListView();
-				MainFinanceWindow.getViewManager().showView(view, null, false,
-						TAXAgencyListAction.this);
-
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				TAXAgencyListView view = new TAXAgencyListView();
+//				MainFinanceWindow.getViewManager().showView(view, null, false,
+//						TAXAgencyListAction.this);
+//
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// public void onCreated() {

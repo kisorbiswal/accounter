@@ -33,25 +33,25 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	private void runAsync(final Object data, final boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				InventoryItemsListView listview = new InventoryItemsListView(
 						type);
 				MainFinanceWindow.getViewManager().showView(listview, data,
 						isDependent, InventoryItemsAction.this);
 
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

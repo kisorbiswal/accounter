@@ -17,7 +17,7 @@ public class DropDownAction<T> extends Action<T> {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+//		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

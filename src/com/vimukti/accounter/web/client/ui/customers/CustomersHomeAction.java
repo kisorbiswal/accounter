@@ -28,8 +28,8 @@ public class CustomersHomeAction extends Action {
 	public void run() {
 		CustomerSectionHomeView view = new CustomerSectionHomeView();
 		try {
-			MainFinanceWindow.getViewManager().showView(view, null, false,
-					CustomersHomeAction.this);
+//			MainFinanceWindow.getViewManager().showView(view, null, false,
+//					CustomersHomeAction.this);
 		} catch (Exception e) {
 			Accounter.showError(messages.failedToLoadCustomerHome(Global.get()
 					.Customer()));

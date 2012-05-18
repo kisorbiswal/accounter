@@ -39,39 +39,39 @@ public class WarehouseActions extends Action {
 	@Override
 	public void run() {
 
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				AbstractBaseView view = null;
-				switch (type) {
-				case NEW_WAREHOUSE:
-					view = new WareHouseView();
-					break;
-				case WAREHOUSE_TRANSFER:
-					view = new WareHouseTransferView();
-					break;
-				case WAREHOUSES_LIST:
-					view = new WarehouseListView();
-					break;
-				case WAREHOUSE_TRANSFERS_LIST:
-					view = new WarehouseTransferListView();
-					break;
-				case WAREHOUSE_ITEMS_LIST:
-					view = new WareHouseItemsListView(warehouse);
-					break;
-				}
-				if (view != null) {
-					MainFinanceWindow.getViewManager().showView(view, data,
-							isDependent, WarehouseActions.this);
-				}
-
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				AbstractBaseView view = null;
+//				switch (type) {
+//				case NEW_WAREHOUSE:
+//					view = new WareHouseView();
+//					break;
+//				case WAREHOUSE_TRANSFER:
+//					view = new WareHouseTransferView();
+//					break;
+//				case WAREHOUSES_LIST:
+//					view = new WarehouseListView();
+//					break;
+//				case WAREHOUSE_TRANSFERS_LIST:
+//					view = new WarehouseTransferListView();
+//					break;
+//				case WAREHOUSE_ITEMS_LIST:
+//					view = new WareHouseItemsListView(warehouse);
+//					break;
+//				}
+//				if (view != null) {
+//					MainFinanceWindow.getViewManager().showView(view, data,
+//							isDependent, WarehouseActions.this);
+//				}
+//
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 
 	}
 

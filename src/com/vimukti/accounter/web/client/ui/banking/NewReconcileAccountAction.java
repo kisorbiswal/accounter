@@ -28,20 +28,20 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				ReconciliationView view = new ReconciliationView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, NewReconcileAccountAction.this);
-				
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				ReconciliationView view = new ReconciliationView();
+//				MainFinanceWindow.getViewManager().showView(view, data,
+//						isDependent, NewReconcileAccountAction.this);
+//				
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

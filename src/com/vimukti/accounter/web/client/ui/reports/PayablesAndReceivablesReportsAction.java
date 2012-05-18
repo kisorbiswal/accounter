@@ -34,49 +34,49 @@ public class PayablesAndReceivablesReportsAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				AbstractReportView report = null;
-
-				switch (type) {
-				case AR_AGING_SUMMARY:
-					report = new ARAgingSummaryReport();
-					break;
-				case AR_AGING_DETTAIL:
-					report = new ARAgingDetailReport();
-					break;
-				case AP_AGING_SUMMARY:
-					report = new APAgingSummaryReport();
-					break;
-				case AP_AGING_DETAIL:
-					report = new APAgingDetailReport();
-					break;
-				case CUSTOMER_STATEMENT:
-					report = new StatementReport(false, payeeID);
-					break;
-				case VENDOR_STATEMENT:
-					report = new StatementReport(true, payeeID);
-					break;
-				case CUSTOMER_TRANSACTION_HISTORY:
-					report = new CustomerTransactionHistoryReport();
-					break;
-				case VENDOR_TRANSACTION_HISTORY:
-					report = new VendorTransactionHistoryReport();
-					break;
-				}
-				if (report != null) {
-					MainFinanceWindow.getViewManager().showView(report, data,
-							isDependent,
-							PayablesAndReceivablesReportsAction.this);
-				}
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				AbstractReportView report = null;
+//
+//				switch (type) {
+//				case AR_AGING_SUMMARY:
+//					report = new ARAgingSummaryReport();
+//					break;
+//				case AR_AGING_DETTAIL:
+//					report = new ARAgingDetailReport();
+//					break;
+//				case AP_AGING_SUMMARY:
+//					report = new APAgingSummaryReport();
+//					break;
+//				case AP_AGING_DETAIL:
+//					report = new APAgingDetailReport();
+//					break;
+//				case CUSTOMER_STATEMENT:
+//					report = new StatementReport(false, payeeID);
+//					break;
+//				case VENDOR_STATEMENT:
+//					report = new StatementReport(true, payeeID);
+//					break;
+//				case CUSTOMER_TRANSACTION_HISTORY:
+//					report = new CustomerTransactionHistoryReport();
+//					break;
+//				case VENDOR_TRANSACTION_HISTORY:
+//					report = new VendorTransactionHistoryReport();
+//					break;
+//				}
+//				if (report != null) {
+//					MainFinanceWindow.getViewManager().showView(report, data,
+//							isDependent,
+//							PayablesAndReceivablesReportsAction.this);
+//				}
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 
 	}
 

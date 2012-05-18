@@ -15,7 +15,7 @@ public class InvoiceListViewAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(listData);
+//		runAsync(listData);
 	}
 
 	private void runAsync(List<InvoicesList> listData) {

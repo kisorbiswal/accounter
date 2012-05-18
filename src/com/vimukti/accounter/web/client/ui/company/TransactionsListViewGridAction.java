@@ -22,7 +22,7 @@ public class TransactionsListViewGridAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(isDependent, data);
+//		runAsync(isDependent, data);
 	}
 
 	private void runAsync(final boolean isDependent, final Object data) {

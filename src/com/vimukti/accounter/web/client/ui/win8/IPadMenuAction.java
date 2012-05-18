@@ -14,9 +14,9 @@ public class IPadMenuAction extends Action {
 
 	@Override
 	public void run() {
-		IpadMenuView view = new IpadMenuView();
-		MainFinanceWindow.getViewManager().showView(view, data, isDependent,
-				IPadMenuAction.this);
+//		IpadMenuView view = new IpadMenuView();
+//		MainFinanceWindow.getViewManager().showView(view, data, isDependent,
+//				IPadMenuAction.this);
 	}
 
 	@Override

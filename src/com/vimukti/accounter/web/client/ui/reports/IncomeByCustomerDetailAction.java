@@ -19,25 +19,25 @@ public class IncomeByCustomerDetailAction extends
 
 	@Override
 	public void run() {
-		runAysnc(data, isDependent);
+//		runAysnc(data, isDependent);
 	}
 
 	private void runAysnc(final IncomeByCustomerDetail data,
 			final boolean isDependent) {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
 				// IncomeByCustomerDetailReport report = new
 				// IncomeByCustomerDetailReport();
 				// MainFinanceWindow.getViewManager().showView(report, data,
 				// isDependent, IncomeByCustomerDetailAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 	}
 
 	@Override

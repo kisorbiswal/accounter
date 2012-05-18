@@ -59,19 +59,19 @@ public class ManageTAXCodesListAction extends Action {
 	 */
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				ManageTAXCodesListView view = new ManageTAXCodesListView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, ManageTAXCodesListAction.this);
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				ManageTAXCodesListView view = new ManageTAXCodesListView();
+//				MainFinanceWindow.getViewManager().showView(view, data,
+//						isDependent, ManageTAXCodesListAction.this);
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

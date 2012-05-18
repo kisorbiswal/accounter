@@ -29,26 +29,26 @@ public class BillsAction extends Action {
 
 	@Override
 	public void run() {
-		GWT.runAsync(new RunAsyncCallback() {
-
-			public void onSuccess() {
-				BillListView view;
-				if (viewType == null)
-					view = BillListView.getInstance();
-				else
-					view = new BillListView(viewType);
-
-				// UIUtils.setCanvas(view, getViewConfiguration());
-				MainFinanceWindow.getViewManager().showView(view, null, false,
-						BillsAction.this);
-
-			}
-
-			public void onFailure(Throwable e) {
-				Accounter.showError(Global.get().messages()
-						.unableToshowtheview());
-			}
-		});
+//		GWT.runAsync(new RunAsyncCallback() {
+//
+//			public void onSuccess() {
+//				BillListView view;
+//				if (viewType == null)
+//					view = BillListView.getInstance();
+//				else
+//					view = new BillListView(viewType);
+//
+//				// UIUtils.setCanvas(view, getViewConfiguration());
+//				MainFinanceWindow.getViewManager().showView(view, null, false,
+//						BillsAction.this);
+//
+//			}
+//
+//			public void onFailure(Throwable e) {
+//				Accounter.showError(Global.get().messages()
+//						.unableToshowtheview());
+//			}
+//		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {
@@ -59,8 +59,8 @@ public class BillsAction extends Action {
 	}
 
 	public void run(Object data, Boolean isDependent, String viewType) {
-		this.viewType = viewType;
-		run(data, isDependent);
+//		this.viewType = viewType;
+//		run(data, isDependent);
 	}
 
 	public ImageResource getBigImage() {

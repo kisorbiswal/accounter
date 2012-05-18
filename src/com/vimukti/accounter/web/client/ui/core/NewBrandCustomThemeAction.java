@@ -16,20 +16,20 @@ public class NewBrandCustomThemeAction extends Action {
 
 	@Override
 	public void run() {
-		if (isDependent) {
-			customThemeDialog = new NewCustomThemeDialog(
-					messages.editBrandingThemeLabel(),
-					(ClientBrandingTheme) data, isDependent);
-		} else {
-			customThemeDialog = new NewCustomThemeDialog(
-					messages.newBrandTheme(), (ClientBrandingTheme) data,
-					isDependent);
-		}
-		customThemeDialog.setUsersActivityList(isUsersActivityList());
-		if (getCallback() != null) {
-			customThemeDialog.setCallback(getCallback());
-		}
-		customThemeDialog.show();
+//		if (isDependent) {
+//			customThemeDialog = new NewCustomThemeDialog(
+//					messages.editBrandingThemeLabel(),
+//					(ClientBrandingTheme) data, isDependent);
+//		} else {
+//			customThemeDialog = new NewCustomThemeDialog(
+//					messages.newBrandTheme(), (ClientBrandingTheme) data,
+//					isDependent);
+//		}
+//		customThemeDialog.setUsersActivityList(isUsersActivityList());
+//		if (getCallback() != null) {
+//			customThemeDialog.setCallback(getCallback());
+//		}
+//		customThemeDialog.show();
 
 	}
 
