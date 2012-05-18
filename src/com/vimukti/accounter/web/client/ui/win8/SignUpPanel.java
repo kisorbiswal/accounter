@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.client.ui.forms.PasswordItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class SignUpPanel extends FlowPanel {
-	TextItem firstname, lastname, emailid, phone;
+	TextItem firstname, lastname, emailid, confirmMailid, phone;
 	PasswordItem password, confirmPassword;
 	SelectCombo countrySelect;
 	SignupDetails signupDetails;
@@ -42,6 +42,8 @@ public class SignUpPanel extends FlowPanel {
 				"firstname");
 		lastname = new TextItem(Accounter.getMessages().lastName(), "lastname");
 		emailid = new TextItem(Accounter.getMessages().emailId(), "emailid");
+		confirmMailid = new TextItem(Accounter.getMessages()
+				.confirmEmailAddress(), "confirmemailid");
 		password = new PasswordItem(Accounter.getMessages().password());
 		confirmPassword = new PasswordItem(Accounter.getMessages()
 				.confirmPassword());
@@ -77,6 +79,11 @@ public class SignUpPanel extends FlowPanel {
 					@Override
 					public void onClick(ClickEvent event) {
 						errorlLabel.setText("");
+						if (!emailid.getValue()
+								.equals(confirmMailid.getValue())) {
+							errorlLabel.setText(Accounter.getMessages()
+									.emailIdAndConfirmEmaildMustBeSame());
+						}
 						if (validate()) {
 							signupDetails = new SignupDetails();
 							signupDetails.setFirstName(firstname.getValue());
@@ -116,7 +123,7 @@ public class SignUpPanel extends FlowPanel {
 				+ "</h2>"));
 		centerPanel.add(errorlLabel);
 		signupForm = new DynamicForm("signupForm");
-		signupForm.add(firstname, lastname, emailid, password, confirmPassword,
+		signupForm.add(firstname, lastname, emailid, confirmMailid, password, confirmPassword,
 				phone, countrySelect);
 		centerPanel.add(signupForm);
 		centerPanel.add(agreeterms);

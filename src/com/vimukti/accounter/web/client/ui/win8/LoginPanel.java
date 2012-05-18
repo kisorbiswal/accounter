@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -59,21 +62,35 @@ public class LoginPanel extends FlowPanel {
 			}
 
 		};
+		useritem.addKeyBoardHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode()) {
+					submit(accounterAsyncCallback);
+				}
+			}
+		});
+
+		password.addKeyBoardHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode()) {
+					submit(accounterAsyncCallback);
+				}
+			}
+		});
+
 		Button submitbutton = new Button(Accounter.getMessages().submit(),
 				new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						errorlLabel.setText("");
-						if (validate()) {
-							Accounter.createWindowsRPCService().login(
-									useritem.getValue(), password.getValue(),
-									false, accounterAsyncCallback);
-
-						}
-
+						submit(accounterAsyncCallback);
 					}
 				});
+
 		LinkItem signuplink = new LinkItem();
 		signuplink.setValue("Dont have Accounter Id");
 		LinkItem forgotPassword = new LinkItem();
@@ -107,6 +124,16 @@ public class LoginPanel extends FlowPanel {
 
 			}
 		});
+	}
+
+	protected void submit(
+			AccounterAsyncCallback<ArrayList<CompanyDetails>> accounterAsyncCallback) {
+		errorlLabel.setText("");
+		if (validate()) {
+			Accounter.createWindowsRPCService().login(useritem.getValue(),
+					password.getValue(), false, accounterAsyncCallback);
+
+		}
 	}
 
 	private void loadCompany(final long comId) {
