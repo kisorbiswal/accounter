@@ -92,13 +92,14 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 				messages.selectDiscountAccountDesc(), "organisation_comment");
 
 		accountsCombo = new SelectCombo(messages.discountAccount());
-		for (int i = 0; i < getAccounts().size(); i++) {
-			accountsCombo.addItem(getAccounts().get(i).getName());
+		List<ClientAccount> accounts = getAccounts();
+		for (int i = 0; i < accounts.size(); i++) {
+			accountsCombo.addItem(accounts.get(i).getName());
 		}
 		if (getCompany().getTradingAddress() != null
 				&& getCompany().getTradingAddress().getCountryOrRegion() != null) {
-			accountsCombo.setSelectedItem(getAccounts().indexOf(
-					getCompany().getCashDiscountAccount()));
+			accountsCombo.setSelectedItem(accounts.indexOf(getCompany()
+					.getCashDiscountAccount()));
 		} else {
 			accountsCombo.setSelectedItem(0);
 		}
