@@ -1642,7 +1642,8 @@ table.gridHeader tr td {
 	padding: 5px 0 4px 8px;
 }
 
-#PreferenceSettingsView .preferences_option a:hover,.Transactions_center .tree_menu_item:hover
+#PreferenceSettingsView .preferences_option a:hover,.Transactions_center .tree_menu_item:hover,
+#PreferenceSettingsView .preferences_option_title:hover
 	{
 	background: none repeat scroll 0 0 #3299a4;
 	color: white;
@@ -1650,6 +1651,8 @@ table.gridHeader tr td {
 
 #PreferenceSettingsView .preferences_option_title {
 	font-weight: bold;
+	cursor: pointer;
+	padding: 5px 0 5px 2px;
 }
 
 #PreferenceSettingsView .header {
