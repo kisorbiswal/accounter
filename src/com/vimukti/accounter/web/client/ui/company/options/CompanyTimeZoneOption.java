@@ -101,7 +101,7 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		if (timeZoneListBox.getSelectedIndex() != -1)
+		if (timeZoneListBox.getSelectedIndex() != -1 && timezones != null)
 			getCompanyPreferences().setTimezone(
 					timezones.get(timeZoneListBox.getSelectedIndex()));
 	}
