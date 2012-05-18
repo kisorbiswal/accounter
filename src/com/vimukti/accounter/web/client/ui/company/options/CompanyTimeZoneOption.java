@@ -6,6 +6,10 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,22 +44,28 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 		initData();
 	}
 
+	private boolean isTimeZonesLoaded;
+
 	@Override
 	public void createControls() {
 		timeZoneListBox = new SelectCombo(messages.timezone());
 		timeZoneListBox.addStyleName("header");
-		this.timezones = CoreUtils.getTimeZonesAsList();
-		for (String tz : timezones) {
-			timeZoneListBox.addItem(tz);
-		}
+		timeZoneListBox.addClickHandler(new ClickHandler() {
 
-		String defalutTzOffset = getDefaultTzOffsetStr();
-		for (String tz : timezones) {
-			if (tz.startsWith(defalutTzOffset)) {
-				timeZoneListBox.setSelectedItem(timezones.indexOf(tz));
-				break;
+			@Override
+			public void onClick(ClickEvent event) {
+				if (!isTimeZonesLoaded) {
+					isTimeZonesLoaded = true;
+					timezones = CoreUtils.getTimeZonesAsList();
+					String value = timeZoneListBox.getSelectedValue();
+					timeZoneListBox.removeComboItem(value);
+					for (String tz : timezones) {
+						timeZoneListBox.addItem(tz);
+					}
+					timeZoneListBox.setSelectedItem(timezones.indexOf(value));
+				}
 			}
-		}
+		});
 		add(timeZoneListBox);
 
 	}
@@ -78,11 +88,15 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 
 	@Override
 	public void initData() {
+		String timezone;
 		if (getCompanyPreferences().getTimezone() != ""
 				&& getCompanyPreferences().getTimezone() != null) {
-			this.timeZoneListBox.setSelectedItem((timezones
-					.indexOf(getCompanyPreferences().getTimezone())));
+			timezone = getCompanyPreferences().getTimezone();
+		} else {
+			timezone = getDefaultTzOffsetStr();
 		}
+		timeZoneListBox.addItem(timezone);
+		this.timeZoneListBox.setSelectedItem(0);
 	}
 
 	@Override

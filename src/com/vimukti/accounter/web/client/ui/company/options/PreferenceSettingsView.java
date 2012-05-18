@@ -31,7 +31,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private ScrollPanel pageDetailsPanel;
 
-	private List<PreferencePage> preferencePages;
+	private List<PreferencePage> preferencePages = new ArrayList<PreferencePage>();
 
 	private ArrayList<StyledPanel> subTabsPanels;
 
@@ -47,8 +47,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		StyledPanel titlesPanel = new StyledPanel("titlesPanel");
 		pageDetailsPanel = new ScrollPanel();
 		pageDetailsPanel.addStyleName("pre_scroll_table");
-
-		preferencePages = new ArrayList<PreferencePage>();
 
 		final List<String> preferencePagesTitle = getPreferencePagesTitle();
 		final List<Label> titles = new ArrayList<Label>();
@@ -118,6 +116,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				page = getCustomerAndSalesPage();
 			}
 		}
+		preferencePages.add(page);
 		subTabsPanels.get(j).add(createPageView(page));
 		pageDetailsPanel.add(page);
 
@@ -207,30 +206,36 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		PreferencePage companyInfoPage = new PreferencePage(messages.company());
 
 		CompanyInfoOption companyInfoOption = new CompanyInfoOption();
-		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
-		CompanyEinOption einOption = new CompanyEinOption();
-		// CompanyFiscalYearOption fiscalYearOption = new
-		// CompanyFiscalYearOption();
-		DoyouUseOption doyouUseOption = new DoyouUseOption();
-		AccountNumberRangeOption accountNumberRangeOption = new AccountNumberRangeOption();
-		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
-		CreditsOption creditsOption = new CreditsOption();
-		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
-		TerminologyOption terminologyOption = new TerminologyOption();
-		TrackOrChargeTaxOption taxOption = new TrackOrChargeTaxOption();
-		CurrencyFormatOption currencyFormatOption = new CurrencyFormatOption();
-
 		companyInfoPage.addPreferenceOption(companyInfoOption);
+
+		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		companyInfoPage.addPreferenceOption(formateOption);
+
+		CompanyEinOption einOption = new CompanyEinOption();
 		companyInfoPage.addPreferenceOption(einOption);
-		// companyInfoPage.addPreferenceOption(fiscalYearOption);
+
+		DoyouUseOption doyouUseOption = new DoyouUseOption();
 		companyInfoPage.addPreferenceOption(doyouUseOption);
+
+		AccountNumberRangeOption accountNumberRangeOption = new AccountNumberRangeOption();
 		companyInfoPage.addPreferenceOption(accountNumberRangeOption);
+
+		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
 		companyInfoPage.addPreferenceOption(currencyOption);
+
+		CreditsOption creditsOption = new CreditsOption();
 		companyInfoPage.addPreferenceOption(creditsOption);
+
+		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
 		companyInfoPage.addPreferenceOption(timeZoneOption);
+
+		TerminologyOption terminologyOption = new TerminologyOption();
 		companyInfoPage.addPreferenceOption(terminologyOption);
+
+		TrackOrChargeTaxOption taxOption = new TrackOrChargeTaxOption();
 		companyInfoPage.addPreferenceOption(taxOption);
+
+		CurrencyFormatOption currencyFormatOption = new CurrencyFormatOption();
 		companyInfoPage.addPreferenceOption(currencyFormatOption);
 
 		return companyInfoPage;
