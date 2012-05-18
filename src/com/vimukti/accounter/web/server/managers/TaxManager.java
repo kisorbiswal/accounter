@@ -33,7 +33,6 @@ import com.vimukti.accounter.core.TAXItemGroup;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.TAXReturnEntry;
-import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.VATReturnBox;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -985,7 +984,6 @@ public class TaxManager extends Manager {
 			long taxAgency, long startDate, long endDate)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
 		Query query = session
 				.getNamedQuery("getTAXRateCalculation.for.TaxReturn")
 				.setParameter("companyId", companyId)
@@ -1020,34 +1018,34 @@ public class TaxManager extends Manager {
 			}
 		}
 
-		query = session
-				.getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
-				.setParameter("fromDate", new FinanceDate(startDate))
-				.setEntity("company", company)
-				.setParameter("toDate", new FinanceDate(endDate))
-				.setParameter("vatAgency", taxAgency);
-
-		List<TAXAdjustment> taxAdjustments = query.list();
-		if (list != null) {
-			for (TAXAdjustment taxAdjustment : taxAdjustments) {
-				ClientTAXReturnEntry taxReturnEntry = new ClientTAXReturnEntry();
-				taxReturnEntry.setTaxAmount(taxAdjustment.getTotal());
-				taxReturnEntry.setTaxItem(taxAdjustment.getTaxItem().getID());
-				taxReturnEntry.setTaxAgency(taxAdjustment.getTaxAgency()
-						.getID());
-				taxReturnEntry.setTransaction(taxAdjustment.getID());
-				taxReturnEntry.setTransactionDate(taxAdjustment.getDate()
-						.getDate());
-				taxReturnEntry
-						.setTransactionType(Transaction.TYPE_ADJUST_SALES_TAX);
-				if (taxAdjustment.isSales()) {
-					taxReturnEntry.setCategory(Transaction.CATEGORY_CUSTOMER);
-				} else {
-					taxReturnEntry.setCategory(Transaction.CATEGORY_VENDOR);
-				}
-				resultTAXReturnEntries.add(taxReturnEntry);
-			}
-		}
+		// query = session
+		// .getNamedQuery("getTAXAdjustments.by.taxAgencyIdand.Date")
+		// .setParameter("fromDate", new FinanceDate(startDate))
+		// .setEntity("company", company)
+		// .setParameter("toDate", new FinanceDate(endDate))
+		// .setParameter("vatAgency", taxAgency);
+		//
+		// List<TAXAdjustment> taxAdjustments = query.list();
+		// if (list != null) {
+		// for (TAXAdjustment taxAdjustment : taxAdjustments) {
+		// ClientTAXReturnEntry taxReturnEntry = new ClientTAXReturnEntry();
+		// taxReturnEntry.setTaxAmount(taxAdjustment.getTotal());
+		// taxReturnEntry.setTaxItem(taxAdjustment.getTaxItem().getID());
+		// taxReturnEntry.setTaxAgency(taxAdjustment.getTaxAgency()
+		// .getID());
+		// taxReturnEntry.setTransaction(taxAdjustment.getID());
+		// taxReturnEntry.setTransactionDate(taxAdjustment.getDate()
+		// .getDate());
+		// taxReturnEntry
+		// .setTransactionType(Transaction.TYPE_ADJUST_SALES_TAX);
+		// if (taxAdjustment.isSales()) {
+		// taxReturnEntry.setCategory(Transaction.CATEGORY_CUSTOMER);
+		// } else {
+		// taxReturnEntry.setCategory(Transaction.CATEGORY_VENDOR);
+		// }
+		// resultTAXReturnEntries.add(taxReturnEntry);
+		// }
+		// }
 
 		resultTAXReturnEntries.addAll(getTAXReturnExceptions(companyId,
 				taxAgency, startDate, endDate));
