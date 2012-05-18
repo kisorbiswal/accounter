@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.CountryPreferences;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -105,8 +106,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
-			String password, String passwordHint, ArrayList<TemplateAccount> accounts)
-			throws AccounterException {
+			String password, String passwordHint,
+			ArrayList<TemplateAccount> accounts) throws AccounterException {
 		try {
 			Client client = getClient(getUserEmail());
 			byte[] d2 = getD2();
@@ -242,6 +243,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 	public CompanyAndFeatures getCompany() throws AccounterException {
 		Long companyID = (Long) getThreadLocalRequest().getSession()
 				.getAttribute(BaseServlet.COMPANY_ID);
+		Client client = getClient(getUserEmail());
 		CompanyAndFeatures companyAndFeatures = new CompanyAndFeatures();
 		if (companyID == null) {
 
@@ -250,6 +252,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 			ArrayList<String> list = new ArrayList<String>(getClient(
 					getUserEmail()).getClientSubscription().getSubscription()
 					.getFeatures());
+			if (!client.getClientSubscription().isPaidUser()) {
+				list.remove(Features.ENCRYPTION);
+			}
 			companyAndFeatures.setFeatures(list);
 
 			return companyAndFeatures;
@@ -271,6 +276,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 			ArrayList<String> list = new ArrayList<String>(company
 					.getCreatedBy().getClient().getClientSubscription()
 					.getSubscription().getFeatures());
+			if (!client.getClientSubscription().isPaidUser()) {
+				list.remove(Features.ENCRYPTION);
+			}
 			companyAndFeatures.setFeatures(list);
 
 			return companyAndFeatures;

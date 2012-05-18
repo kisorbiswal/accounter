@@ -34,8 +34,9 @@ public class EncryptCompanyProcessor extends ApiProcessor {
 		try {
 			String emailId = (String) req.getAttribute("emailId");
 			Client client = getClient(emailId);
-			if (!client.getClientSubscription().getSubscription().getFeatures()
-					.contains(Features.ENCRYPTION)) {
+			if (!client.getClientSubscription().isPaidUser()
+					|| !client.getClientSubscription().getSubscription()
+							.getFeatures().contains(Features.ENCRYPTION)) {
 				sendFail("You don't have permission to encrypt this company");
 				return;
 			}

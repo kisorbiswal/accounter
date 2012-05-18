@@ -48,6 +48,7 @@ import com.vimukti.accounter.web.client.CompanyAndFeatures;
 import com.vimukti.accounter.web.client.IAccounterWindowsHomeService;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.CompanyDetails;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.SignupDetails;
 import com.vimukti.accounter.web.client.core.StartupException;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -880,7 +881,7 @@ public class AccounterWindowsHomeServiceImpl extends
 				.setAttribute(COMPANY_ID, companyId);
 		String loginEmail = (String) getThreadLocalRequest().getSession()
 				.getAttribute(EMAIL_ID);
-
+		Client client = getClient(loginEmail);
 		CompanyAndFeatures comFeatures = new CompanyAndFeatures();
 
 		if (companyId == null || companyId == 0) {
@@ -889,6 +890,9 @@ public class AccounterWindowsHomeServiceImpl extends
 			ArrayList<String> list = new ArrayList<String>(getClient(
 					getUserEmail()).getClientSubscription().getSubscription()
 					.getFeatures());
+			if (!client.getClientSubscription().isPaidUser()) {
+				list.remove(Features.ENCRYPTION);
+			}
 			comFeatures.setFeatures(list);
 			return comFeatures;
 		} else {
@@ -908,6 +912,9 @@ public class AccounterWindowsHomeServiceImpl extends
 			ArrayList<String> list = new ArrayList<String>(company
 					.getCreatedBy().getClient().getClientSubscription()
 					.getSubscription().getFeatures());
+			if (!client.getClientSubscription().isPaidUser()) {
+				list.remove(Features.ENCRYPTION);
+			}
 			comFeatures.setFeatures(list);
 
 			return comFeatures;

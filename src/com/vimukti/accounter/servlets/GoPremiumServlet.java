@@ -28,8 +28,9 @@ public class GoPremiumServlet extends BaseServlet {
 			}
 		}
 		Client client = getClient(emailId);
-		boolean freeTrail = client != null ? (!client.isPremiumTrailDone())
-				&& (!client.getClientSubscription().isPaidUser()) : false;
+
+		boolean freeTrail = client != null ? !client.isPremiumTrailDone()
+				: false;
 
 		if (emailId != null) {
 			boolean sandBoxPaypal = ServerConfiguration.isSandBoxPaypal();

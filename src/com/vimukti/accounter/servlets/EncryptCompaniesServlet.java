@@ -40,8 +40,9 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				resp.sendRedirect(LOGIN_URL);
 				return;
 			}
-			if (!client.getClientSubscription().getSubscription().getFeatures()
-					.contains(Features.ENCRYPTION)) {
+			if (!client.getClientSubscription().isPaidUser()
+					|| !client.getClientSubscription().getSubscription()
+							.getFeatures().contains(Features.ENCRYPTION)) {
 				resp.sendRedirect(COMPANIES_URL);
 				return;
 			}
@@ -79,8 +80,9 @@ public class EncryptCompaniesServlet extends BaseServlet {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			String companyId = req.getParameter("companyname");
 			Client client = getClient(emailId);
-			if (!client.getClientSubscription().getSubscription().getFeatures()
-					.contains(Features.ENCRYPTION)) {
+			if (!client.getClientSubscription().isPaidUser()
+					|| !client.getClientSubscription().getSubscription()
+							.getFeatures().contains(Features.ENCRYPTION)) {
 				resp.sendRedirect(COMPANIES_URL);
 				return;
 			}
