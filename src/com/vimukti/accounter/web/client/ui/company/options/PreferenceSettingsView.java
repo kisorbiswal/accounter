@@ -98,36 +98,26 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		pageDetailsPanel.clear();
 
 		PreferencePage page = null;
-
 		for (PreferencePage widget : preferencePages) {
 			String title = widget.getTitle();
-			if (text.equalsIgnoreCase(title) || text.equalsIgnoreCase(title)
-					|| text.equalsIgnoreCase(title)
-					|| text.equalsIgnoreCase(title)) {
+			if (text.equalsIgnoreCase(title)) {
 				page = widget;
 				break;
 			}
 		}
-
-		if (page == null && text.equalsIgnoreCase(messages.company())) {
-			page = getCompanyInfoPage();
-			preferencePages.add(page);
-		} else if (page == null && text.equalsIgnoreCase(messages.categories())) {
-			page = getCatogiriesInfoPage();
-			preferencePages.add(page);
-		} else if (page == null
-				&& text.equalsIgnoreCase(messages.vendorAndPurchases(Global
-						.get().Vendor()))) {
-			page = getVendorAndPurchasesPage();
-			preferencePages.add(page);
-		} else if (page == null
-				&& text.equalsIgnoreCase(messages.customersAndSales(Global
-						.get().Customer()))) {
-
-			page = getCustomerAndSalesPage();
-			preferencePages.add(page);
+		if (page == null) {
+			if (text.equalsIgnoreCase(messages.company())) {
+				page = getCompanyInfoPage();
+			} else if (text.equalsIgnoreCase(messages.categories())) {
+				page = getCatogiriesInfoPage();
+			} else if (text.equalsIgnoreCase(messages.vendorAndPurchases(Global
+					.get().Vendor()))) {
+				page = getVendorAndPurchasesPage();
+			} else if (text.equalsIgnoreCase(messages.customersAndSales(Global
+					.get().Customer()))) {
+				page = getCustomerAndSalesPage();
+			}
 		}
-
 		subTabsPanels.get(j).add(createPageView(page));
 		pageDetailsPanel.add(page);
 
