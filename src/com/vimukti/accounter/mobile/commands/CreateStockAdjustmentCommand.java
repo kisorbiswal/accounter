@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -16,11 +17,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
-import com.vimukti.accounter.web.server.FinanceTool;
 
-public class CreateStockAdjustmentCommand extends AbstractCommand {
+public class CreateStockAdjustmentCommand extends AbstractTransactionCommand {
 	private static final String WAREHOUSE = "warehouse";
 	private static final String STOCK_ADJUSTMENT = "stockadjustment";
 	private static final String ADJUSTMENT_ACCOUNT = "adjustmentaccount";
@@ -37,7 +35,8 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 								getMessages().wareHouseTransfer()));
 				return "warehouseTransferList";
 			}
-			stockAdjustment = getStockAdustMent(string);
+			stockAdjustment = getTransaction(string,
+					AccounterCoreType.STOCK_ADJUSTMENT, context);
 			if (stockAdjustment == null) {
 				addFirstMessage(
 						context,
@@ -48,26 +47,6 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 			setValues();
 		} else {
 			stockAdjustment = new ClientStockAdjustment();
-		}
-		return null;
-	}
-
-	private ClientStockAdjustment getStockAdustMent(String string) {
-		try {
-			ArrayList<StockAdjustmentList> stockAdjustments = new FinanceTool()
-					.getInventoryManager().getStockAdjustments(getCompanyId());
-			for (StockAdjustmentList stockAdjustmentList : stockAdjustments) {
-				if (stockAdjustmentList.getStockAdjustment() == Long
-						.valueOf(string)) {
-					return (ClientStockAdjustment) CommandUtils
-							.getClientObjectById(
-									stockAdjustmentList.getStockAdjustment(),
-									AccounterCoreType.STOCK_ADJUSTMENT,
-									getCompanyId());
-				}
-			}
-		} catch (AccounterException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -178,6 +157,12 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO Auto-generated method stub
 		super.beforeFinishing(context, makeResult);
+	}
+
+	@Override
+	protected Currency getCurrency() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

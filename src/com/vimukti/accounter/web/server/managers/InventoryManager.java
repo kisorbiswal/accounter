@@ -430,12 +430,14 @@ public class InventoryManager extends Manager {
 		return result;
 	}
 
-	public ArrayList<StockAdjustmentList> getStockAdjustments(Long companyId)
-			throws AccounterException {
+	public ArrayList<StockAdjustmentList> getStockAdjustments(long startDate,
+			long endDate, Long companyId) throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		List<StockAdjustment> list = session
 				.getNamedQuery("getStockAdjustmentsList")
-				.setLong("companyId", companyId).list();
+				.setLong("companyId", companyId)
+				.setLong("startDate", startDate).setLong("endDate", endDate)
+				.list();
 		ArrayList<StockAdjustmentList> result = new ArrayList<StockAdjustmentList>();
 		for (StockAdjustment record : list) {
 			for (TransactionItem item : record.getTransactionItems()) {

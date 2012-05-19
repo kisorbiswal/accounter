@@ -238,8 +238,8 @@ public interface IAccounterHomeViewServiceAsync {
 	// throws DAOException;
 
 	// To get all Customer Refunds and Write Checks -> for Customer
-	public void getCustomerRefundsList(long fromDate, long toDate,
-			int viewId, AsyncCallback<PaginationList<CustomerRefundsList>> callback);
+	public void getCustomerRefundsList(long fromDate, long toDate, int viewId,
+			AsyncCallback<PaginationList<CustomerRefundsList>> callback);
 
 	// To display the liabilityAccount combo box of New Tax Agency window
 	public void getTaxAgencyAccounts(
@@ -415,7 +415,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getWarehouseTransfersList(
 			AsyncCallback<ArrayList<ClientStockTransfer>> callback);
 
-	void getStockAdjustments(
+	void getStockAdjustments(long startDate, long endDate,
 			AsyncCallback<ArrayList<StockAdjustmentList>> callback);
 
 	void getItemStatuses(long wareHouse,

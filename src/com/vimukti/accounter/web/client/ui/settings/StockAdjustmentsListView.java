@@ -37,6 +37,7 @@ public class StockAdjustmentsListView extends
 
 	public void reloadRecords() {
 		Accounter.createHomeService().getStockAdjustments(
+				getStartDate().getDate(), getEndDate().getDate(),
 				new AccounterAsyncCallback<ArrayList<StockAdjustmentList>>() {
 
 					@Override
@@ -116,6 +117,7 @@ public class StockAdjustmentsListView extends
 	@Override
 	public void exportToCsv() {
 		Accounter.createExportCSVService().getStockAdjustmentsExportCsv(
+				getStartDate().getDate(), getEndDate().getDate(),
 				getExportCSVCallback(messages.stockAdjustments()));
 	}
 }

@@ -64,7 +64,8 @@ public interface IAccounterExportCSVServiceAsync {
 
 	void getWarehouseTransfersListExportCsv(AsyncCallback<String> callback);
 
-	void getStockAdjustmentsExportCsv(AsyncCallback<String> callback);
+	void getStockAdjustmentsExportCsv(long startDate, long endDate,
+			AsyncCallback<String> callback);
 
 	public void getAllUnitsExportCsv(AsyncCallback<String> callBack);
 

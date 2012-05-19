@@ -1769,8 +1769,10 @@
 
 	<query name="getStockAdjustmentsList">
 		<query-param name="companyId" type="long" />
-		from com.vimukti.accounter.core.StockAdjustment st where
-		st.company.id=:companyId
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		from com.vimukti.accounter.core.StockAdjustment st where st.transactionDate between
+		:startDate and :endDate and st.company.id=:companyId
 		order by st.lastModifiedDate desc
 	</query>
 

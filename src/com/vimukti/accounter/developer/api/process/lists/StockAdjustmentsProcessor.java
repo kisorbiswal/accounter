@@ -13,7 +13,7 @@ public class StockAdjustmentsProcessor extends ListProcessor {
 	public void process(HttpServletRequest req, HttpServletResponse resp)
 			throws Exception {
 		ArrayList<StockAdjustmentList> resultList = service
-				.getStockAdjustments();
+				.getStockAdjustments(from.getDate(), to.getDate());
 		sendResult(resultList);
 	}
 

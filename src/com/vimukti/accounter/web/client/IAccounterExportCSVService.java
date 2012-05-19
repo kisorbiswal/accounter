@@ -25,7 +25,8 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getReceivePaymentsListExportCsv(long fromDate, long toDate,
 			int transactionType, int viewType);
 
-	String getCustomerRefundsListExportCsv(long fromDate, long toDate,int viewId);
+	String getCustomerRefundsListExportCsv(long fromDate, long toDate,
+			int viewId);
 
 	String getBillsAndItemReceiptListExportCsv(boolean isExpensesList,
 			int transactionType, long fromDate, long toDate, int viewType);
@@ -55,7 +56,7 @@ public interface IAccounterExportCSVService extends RemoteService {
 
 	String getWarehouseTransfersListExportCsv();
 
-	String getStockAdjustmentsExportCsv();
+	String getStockAdjustmentsExportCsv(long startDate, long endDate);
 
 	String getAllUnitsExportCsv();
 

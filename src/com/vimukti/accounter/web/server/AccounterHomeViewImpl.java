@@ -1713,10 +1713,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<StockAdjustmentList> getStockAdjustments()
-			throws AccounterException {
+	public ArrayList<StockAdjustmentList> getStockAdjustments(long startDate,
+			long endDate) throws AccounterException {
 		FinanceTool tool = new FinanceTool();
-		return tool.getInventoryManager().getStockAdjustments(getCompanyId());
+		return tool.getInventoryManager().getStockAdjustments(startDate,
+				endDate, getCompanyId());
 	}
 
 	@Override

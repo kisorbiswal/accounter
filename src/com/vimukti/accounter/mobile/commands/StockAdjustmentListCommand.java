@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
-public class StockAdjustmentListCommand extends AbstractCommand {
+public class StockAdjustmentListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
@@ -93,7 +93,8 @@ public class StockAdjustmentListCommand extends AbstractCommand {
 			protected ArrayList<StockAdjustmentList> getLists(Context context) {
 				try {
 					return new FinanceTool().getInventoryManager()
-							.getStockAdjustments(getCompanyId());
+							.getStockAdjustments(getStartDate().getDate(),
+									getEndDate().getDate(), getCompanyId());
 				} catch (AccounterException e) {
 					e.printStackTrace();
 				}
@@ -101,5 +102,11 @@ public class StockAdjustmentListCommand extends AbstractCommand {
 
 			}
 		});
+	}
+
+	@Override
+	protected List<String> getViewByList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

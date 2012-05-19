@@ -396,8 +396,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientStockTransfer> getWarehouseTransfersList()
 			throws AccounterException;
 
-	public ArrayList<StockAdjustmentList> getStockAdjustments()
-			throws AccounterException;
+	public ArrayList<StockAdjustmentList> getStockAdjustments(long startDate,
+			long endDate) throws AccounterException;
 
 	ArrayList<ClientItemStatus> getItemStatuses(long wareHouse)
 			throws AccounterException;

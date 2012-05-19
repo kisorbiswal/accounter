@@ -1242,10 +1242,11 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String getStockAdjustmentsExportCsv() {
+	public String getStockAdjustmentsExportCsv(long startDate, long endDate) {
 		try {
 			ArrayList<StockAdjustmentList> stockAdjustments = getFinanceTool()
-					.getInventoryManager().getStockAdjustments(getCompanyId());
+					.getInventoryManager().getStockAdjustments(startDate,
+							endDate, getCompanyId());
 			final Company company = getFinanceTool().getCompany(getCompanyId());
 
 			ICSVExportRunner<StockAdjustmentList> icsvExportRunner = new ICSVExportRunner<StockAdjustmentList>() {
@@ -2095,7 +2096,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 		} else if (selectedItem.equalsIgnoreCase(messages
 				.inventoryAdjustments())) {
-			return getStockAdjustmentsExportCsv();
+			return getStockAdjustmentsExportCsv(startDate, endDate);
 
 		} else if (selectedItem.equalsIgnoreCase(messages.deposits())) {
 			return getDepositsAndTransfersListExportCsv(startDate, endDate,
