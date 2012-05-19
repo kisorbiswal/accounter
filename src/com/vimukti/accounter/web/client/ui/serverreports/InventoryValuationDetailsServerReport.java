@@ -12,6 +12,8 @@ public class InventoryValuationDetailsServerReport extends
 		AbstractFinaneReport<InventoryValutionDetail> {
 	private String sectionName = "";
 
+	private String unitName = "";
+
 	public InventoryValuationDetailsServerReport(
 			IFinanceReport<InventoryValutionDetail> view) {
 		this.reportView = view;
@@ -64,6 +66,7 @@ public class InventoryValuationDetailsServerReport extends
 			// addSection(sectionName, "", new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
+			this.unitName = record.getUnit();
 			if (!sectionName.equals(record.getItemName())) {
 				endSection();
 			} else {
@@ -165,12 +168,21 @@ public class InventoryValuationDetailsServerReport extends
 		if (sectionName != null && !sectionName.isEmpty() && column == 4) {
 			List<InventoryValutionDetail> records = getRecords();
 			for (InventoryValutionDetail inventoryValutionDetail : records) {
-				if (inventoryValutionDetail.getItemName().equals(sectionName)) {
+				if (inventoryValutionDetail.getItemName().equals(sectionName)
+						&& inventoryValutionDetail.getUnit().equals(
+								this.unitName)) {
 					Double value = (Double) object;
 					return value + " " + inventoryValutionDetail.getUnit();
 				}
 			}
 		}
 		return super.getQuantityValue(object, column);
+	}
+
+	@Override
+	public void resetVariables() {
+		this.unitName = "";
+		this.sectionDepth = 0;
+		this.sectionName = "";
 	}
 }
