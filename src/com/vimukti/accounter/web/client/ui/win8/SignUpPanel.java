@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.win8;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -41,20 +42,22 @@ public class SignUpPanel extends FlowPanel {
 		firstname = new TextItem(Accounter.getMessages().firstName(),
 				"firstname");
 		lastname = new TextItem(Accounter.getMessages().lastName(), "lastname");
-		emailid = new TextItem(Accounter.getMessages().emailId(), "emailid");
-		confirmMailid = new TextItem(Accounter.getMessages()
-				.confirmEmailAddress(), "confirmemailid");
+		emailid = new TextItem(Accounter.getMessages().email(), "emailid");
+		confirmMailid = new TextItem(Accounter.getMessages().confirmEmail(),
+				"confirmemailid");
 		password = new PasswordItem(Accounter.getMessages().password());
 		confirmPassword = new PasswordItem(Accounter.getMessages()
 				.confirmPassword());
-		phone = new TextItem(Accounter.getMessages().phoneNumber(), "phone");
+		phone = new TextItem(Accounter.getMessages().phone(), "phone");
 		countrySelect = new SelectCombo(Accounter.getMessages().country());
 		String[] countries = CoreUtils.getCountries();
 		for (int i = 0; i < countries.length; i++) {
 			countrySelect.setComboItem(countries[i]);
 		}
 		agreeterms = new CheckBox();
-		agreeterms.setText(Accounter.getMessages().termsConditions());
+		Anchor termaAndConditionsAnchor = new Anchor(Accounter.getMessages()
+				.termsConditions());
+		termaAndConditionsAnchor.setHref("/site/termsandconditions");
 		newsLetters = new CheckBox();
 		newsLetters.setText(Accounter.getMessages().newsletter());
 		newsLetters.setValue(true);
@@ -123,10 +126,11 @@ public class SignUpPanel extends FlowPanel {
 				+ "</h2>"));
 		centerPanel.add(errorlLabel);
 		signupForm = new DynamicForm("signupForm");
-		signupForm.add(firstname, lastname, emailid, confirmMailid, password, confirmPassword,
-				phone, countrySelect);
+		signupForm.add(firstname, lastname, emailid, confirmMailid, password,
+				confirmPassword, phone, countrySelect);
 		centerPanel.add(signupForm);
 		centerPanel.add(agreeterms);
+		centerPanel.add(termaAndConditionsAnchor);
 		centerPanel.add(newsLetters);
 		centerPanel.add(submitbutton);
 		centerPanel.add(cancelButton);
