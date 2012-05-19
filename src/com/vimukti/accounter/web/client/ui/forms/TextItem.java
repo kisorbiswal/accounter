@@ -17,6 +17,7 @@ public class TextItem extends FormItem<String> {
 	public TextItem(String title, String styleName) {
 		super(title, styleName);
 		textBox = new TextBoxItem();
+		setPlaceholder(title, textBox);
 		textBox.addStyleName("textitem");
 		this.textBox.addBlurHandler(new BlurHandler() {
 			@Override
