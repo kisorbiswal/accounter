@@ -978,7 +978,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		asOfDate.setEnabled(isInViewMode());
 
 		table.setEnabled(!isInViewMode());
-		measurement.setEnabled(!isInViewMode());
+		// measurement.setEnabled(!isInViewMode());
 		wareHouse.setEnabled(!isInViewMode());
 		activeCheck.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());

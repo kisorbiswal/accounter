@@ -104,7 +104,16 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 
 	protected void fromWareHouseSelected(ClientWarehouse selectItem) {
 		selectedFrom = selectItem;
-		table.removeAllRecords();
+		table.removeFromParent();
+		table = new WareHouseTransferTable() {
+
+			@Override
+			protected boolean isInViewMode() {
+				return WareHouseTransferView.this.isInViewMode();
+			}
+		};
+		table.setEnabled(!isInViewMode());
+		mainPanel.add(table);
 		Accounter
 				.createHomeService()
 				.getStockTransferItems(
@@ -179,7 +188,6 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		toCombo.setEnabled(!isInViewMode());
 		commentArea.setDisabled(isInViewMode());
 		table.setEnabled(!isInViewMode());
-		table.reDraw();
 		fromWareHouseSelected(fromCombo.getSelectedValue());
 	}
 
