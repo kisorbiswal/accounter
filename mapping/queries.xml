@@ -1043,7 +1043,9 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="viewId" type="int" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		(cr.status=:viewId or :viewId = 1000) and
+		((cr.status=:viewId and cr.saveStatus not in (204,201))
+		or (:viewId =3 and cr.saveStatus=204) or
+		(:viewId =4 and cr.saveStatus=201) or :viewId = 1000) and
 		cr.company=:company and
 		cr.saveStatus!=202 and
 		cr.transactionDate

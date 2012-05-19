@@ -1,13 +1,10 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -24,14 +21,9 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
  */
 public class CustomerRefundListView extends
 		TransactionsListView<CustomerRefundsList> implements IPrintableView {
-	protected List<CustomerRefundsList> transactions;
-	private List<CustomerRefundsList> listOfCustomerRefund = new ArrayList<CustomerRefundsList>();
 	private int viewId;
 
-	// private static String DELETED="Deleted";
-
 	private static final int STATUS_NOT_ISSUED = 0;
-	private static final int STATUS_PARTIALLY_PAID = 1;
 	private static final int STATUS_ISSUED = 2;
 
 	public CustomerRefundListView() {
@@ -72,44 +64,9 @@ public class CustomerRefundListView extends
 	}
 
 	@Override
-	public void onSuccess(PaginationList<CustomerRefundsList> result) {
-		super.onSuccess(result);
-		listOfCustomerRefund = result;
-		filterList(true);
-	}
-
-	@Override
 	public void updateInGrid(CustomerRefundsList objectTobeModified) {
 		// its not using any where
 
-	}
-
-	@Override
-	public HashMap<String, Object> saveView() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("currentView", viewSelect.getValue().toString());
-		map.put("dateRange", dateRangeSelector.getValue().toString());
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
-		map.put("start", start);
-		return map;
-	}
-
-	@Override
-	public void restoreView(HashMap<String, Object> map) {
-		if (map == null || map.isEmpty()) {
-			return;
-		}
-		String currentView = (String) map.get("currentView");
-		viewSelect.setComboItem(currentView);
-		this.setViewType(currentView);
-		String dateRange1 = (String) map.get("dateRange");
-		dateRangeSelector.setComboItem(dateRange1);
-		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
-		setStartDate(startDate1);
-		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
-		setEndDate(endDate1);
-		start = (Integer) map.get("start");
 	}
 
 	@Override

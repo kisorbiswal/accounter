@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -773,17 +772,6 @@ public class TDSChalanDetailsView extends
 		transaction.setTotal(totalAmountPaid.getAmount());
 
 		transaction.setTdsTransactionItems(table.getSelectedRecords(0));
-
-	}
-
-	@Override
-	public void saveFailed(AccounterException exception) {
-		super.saveFailed(exception);
-
-		AccounterException accounterException = exception;
-		int errorCode = accounterException.getErrorCode();
-		String errorString = AccounterExceptions.getErrorString(errorCode);
-		Accounter.showError(errorString);
 
 	}
 
