@@ -28,13 +28,13 @@ public class UsersAction extends Action {
 
 	@Override
 	public void run() {
-//		try {
-//			UsersView view = new UsersView();
-//			MainFinanceWindow.getViewManager().showView(view, data,
-//					isDependent, UsersAction.this);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			UsersView view = new UsersView();
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, UsersAction.this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

@@ -17,8 +17,8 @@ public class TDSAcknowledgmentAction extends Action {
 
 	@Override
 	public void run() {
-//		TDSAcknowlegmentForm ackFormDialogue = new TDSAcknowlegmentForm();
-//		ackFormDialogue.show();
+		TDSAcknowlegmentForm ackFormDialogue = new TDSAcknowlegmentForm();
+		ackFormDialogue.show();
 	}
 
 	@Override

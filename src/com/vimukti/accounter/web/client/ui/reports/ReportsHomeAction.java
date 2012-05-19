@@ -25,13 +25,13 @@ public class ReportsHomeAction extends Action {
 
 	@Override
 	public void run() {
-//		try {
-//			ReportSectionView view = new ReportSectionView();
-//			MainFinanceWindow.getViewManager().showView(view, null,
-//					isDependent, ReportsHomeAction.this);
-//		} catch (Exception e) {
-//			Accounter.showError(messages.failedtToLoadReportsHome());
-//		}
+		try {
+			ReportSectionView view = new ReportSectionView();
+			MainFinanceWindow.getViewManager().showView(view, null,
+					isDependent, ReportsHomeAction.this);
+		} catch (Exception e) {
+			Accounter.showError(messages.failedtToLoadReportsHome());
+		}
 	}
 
 	public ImageResource getBigImage() {

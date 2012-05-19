@@ -29,9 +29,9 @@ public class CopyThemeAction extends Action {
 	@Override
 	public void run() {
 		try {
-//			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(messages.copyTheme(), "", (ClientBrandingTheme) data);
-//			copyThemeDialog.center();
-//			copyThemeDialog.show();
+			CopyThemeDialog copyThemeDialog = new CopyThemeDialog(messages.copyTheme(), "", (ClientBrandingTheme) data);
+			copyThemeDialog.center();
+			copyThemeDialog.show();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

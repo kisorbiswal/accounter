@@ -46,55 +46,55 @@ public class ClassAndLocationReportsAction extends Action {
 	@Override
 	public void run() {
 
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				AbstractReportView report = null;
-//				switch (type) {
-//				case TYPE_SALES_LOCATION_SUMMARY:
-//					report = new SalesByLocationsummaryReport(true, true);
-//					break;
-//				case TYPE_SALES_LOCATION_DETAIL:
-//					report = new SalesByLocationDetailsReport(true, true);
-//					break;
-//				case TYPE_SALES_CLASS_SUMMARY:
-//					report = new SalesByLocationsummaryReport(false, true);
-//					break;
-//				case TYPE_SALES_CLASS_DETAIL:
-//					report = new SalesByLocationDetailsReport(false, true);
-//					break;
-//				case TYPE_PURCHASE_LOCATION_SUMMARY:
-//					report = new SalesByLocationsummaryReport(true, false);
-//					break;
-//				case TYPE_PURCHASE_LOCATION_DETAIL:
-//					report = new SalesByLocationDetailsReport(true, false);
-//					break;
-//				case TYPE_PURCHASE_CLASS_SUMMARY:
-//					report = new SalesByLocationsummaryReport(false, false);
-//					break;
-//				case TYPE_PURCHASE_CLASS_DETAIL:
-//					report = new SalesByLocationDetailsReport(false, false);
-//					break;
-//				case TYPE_PROFIT_AND_LOSS_LOCATION:
-//					report = new ProfitAndLossByLocationReport(2);
-//					break;
-//				case TYPE_PROFIT_AND_LOSS_CLASS:
-//					report = new ProfitAndLossByLocationReport(1);
-//					break;
-//				}
-//
-//				if (report != null) {
-//					MainFinanceWindow.getViewManager().showView(report, data,
-//							isDependent, ClassAndLocationReportsAction.this);
-//				}
-//
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				AbstractReportView report = null;
+				switch (type) {
+				case TYPE_SALES_LOCATION_SUMMARY:
+					report = new SalesByLocationsummaryReport(true, true);
+					break;
+				case TYPE_SALES_LOCATION_DETAIL:
+					report = new SalesByLocationDetailsReport(true, true);
+					break;
+				case TYPE_SALES_CLASS_SUMMARY:
+					report = new SalesByLocationsummaryReport(false, true);
+					break;
+				case TYPE_SALES_CLASS_DETAIL:
+					report = new SalesByLocationDetailsReport(false, true);
+					break;
+				case TYPE_PURCHASE_LOCATION_SUMMARY:
+					report = new SalesByLocationsummaryReport(true, false);
+					break;
+				case TYPE_PURCHASE_LOCATION_DETAIL:
+					report = new SalesByLocationDetailsReport(true, false);
+					break;
+				case TYPE_PURCHASE_CLASS_SUMMARY:
+					report = new SalesByLocationsummaryReport(false, false);
+					break;
+				case TYPE_PURCHASE_CLASS_DETAIL:
+					report = new SalesByLocationDetailsReport(false, false);
+					break;
+				case TYPE_PROFIT_AND_LOSS_LOCATION:
+					report = new ProfitAndLossByLocationReport(2);
+					break;
+				case TYPE_PROFIT_AND_LOSS_CLASS:
+					report = new ProfitAndLossByLocationReport(1);
+					break;
+				}
+
+				if (report != null) {
+					MainFinanceWindow.getViewManager().showView(report, data,
+							isDependent, ClassAndLocationReportsAction.this);
+				}
+
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 
 	}
 

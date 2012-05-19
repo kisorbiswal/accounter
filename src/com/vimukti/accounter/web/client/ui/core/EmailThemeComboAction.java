@@ -27,7 +27,7 @@ public class EmailThemeComboAction extends Action {
 
 	public void run() {
 
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 

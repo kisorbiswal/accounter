@@ -27,10 +27,10 @@ public class AutomaticSequenceAction extends Action {
 	@Override
 	public void run() {
 		try {
-//			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
-//					messages.automaticSequencing(), "");
-//			automaticSequenceDialog.show();
-//			automaticSequenceDialog.center();
+			AutomaticSequenceDialog automaticSequenceDialog = new AutomaticSequenceDialog(
+					messages.automaticSequencing(), "");
+			automaticSequenceDialog.show();
+			automaticSequenceDialog.center();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

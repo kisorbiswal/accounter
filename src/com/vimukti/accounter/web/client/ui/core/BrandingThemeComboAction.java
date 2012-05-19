@@ -29,11 +29,11 @@ public class BrandingThemeComboAction extends Action {
 	// }
 
 	public void run() {
-//		if (listData != null) {
-//			runAsync(listData);
-//		} else {
-//			runAsync(data, isDependent);
-//		}
+		if (listData != null) {
+			runAsync(listData);
+		} else {
+			runAsync(data, isDependent);
+		}
 
 	}
 

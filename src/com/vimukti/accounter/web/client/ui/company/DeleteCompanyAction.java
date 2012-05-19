@@ -14,8 +14,8 @@ public class DeleteCompanyAction extends Action {
 
 	@Override
 	public void run() {
-//		long companyid = Accounter.getCompany().getID();
-//		Window.open("/main/deletecompany?companyId=" + companyid, "_parent", "");
+		long companyid = Accounter.getCompany().getID();
+		Window.open("/main/deletecompany?companyId=" + companyid, "_parent", "");
 
 	}
 

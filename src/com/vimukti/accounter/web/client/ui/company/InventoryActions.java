@@ -45,58 +45,58 @@ public class InventoryActions extends Action {
 	@Override
 	public void run() {
 
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				AbstractBaseView view = null;
-//				switch (type) {
-//				case TYPE_NEW_ASSEMBLY:
-//					InventoryAssemblyView iView = new InventoryAssemblyView();
-//					iView.setItemName(itemname);
-//					view = iView;
-//					break;
-//				case TYPE_BUILD_ASSEMBLY:
-//					view = new BuildAssemblyView();
-//					break;
-//				case TYPE_STOCK_ADJUSTMENT:
-//					view = new StockAdjustmentView();
-//					break;
-//				case TYPE_INVETORY_ITEMS:
-//					view = new InventoryItemsListView(
-//							ClientItem.TYPE_INVENTORY_PART);
-//					break;
-//				case TYPE_INVETORY_ASSEMBLIES:
-//					view = new InventoryItemsListView(
-//							ClientItem.TYPE_INVENTORY_ASSEMBLY);
-//					break;
-//				case TYPE_STOCK_ADJUSTMENTS_LIST:
-//					view = new StockAdjustmentsListView();
-//					break;
-//				case TYPE_MEASUREMENT:
-//					view = new AddMeasurementView();
-//					break;
-//				case TYPE_MEASUREMENTS_LIST:
-//					view = new MeasurementListView();
-//					break;
-//				case TYPE_INVENTORY_CENTRE:
-//					view = new InventoryCentreView();
-//					break;
-//				}
-//				if (view != null) {
-//					MainFinanceWindow.getViewManager().showView(view, data,
-//							isDependent, InventoryActions.this);
-//					if (isItemEditable) {
-//						view.onEdit();
-//					}
-//				}
-//
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				AbstractBaseView view = null;
+				switch (type) {
+				case TYPE_NEW_ASSEMBLY:
+					InventoryAssemblyView iView = new InventoryAssemblyView();
+					iView.setItemName(itemname);
+					view = iView;
+					break;
+				case TYPE_BUILD_ASSEMBLY:
+					view = new BuildAssemblyView();
+					break;
+				case TYPE_STOCK_ADJUSTMENT:
+					view = new StockAdjustmentView();
+					break;
+				case TYPE_INVETORY_ITEMS:
+					view = new InventoryItemsListView(
+							ClientItem.TYPE_INVENTORY_PART);
+					break;
+				case TYPE_INVETORY_ASSEMBLIES:
+					view = new InventoryItemsListView(
+							ClientItem.TYPE_INVENTORY_ASSEMBLY);
+					break;
+				case TYPE_STOCK_ADJUSTMENTS_LIST:
+					view = new StockAdjustmentsListView();
+					break;
+				case TYPE_MEASUREMENT:
+					view = new AddMeasurementView();
+					break;
+				case TYPE_MEASUREMENTS_LIST:
+					view = new MeasurementListView();
+					break;
+				case TYPE_INVENTORY_CENTRE:
+					view = new InventoryCentreView();
+					break;
+				}
+				if (view != null) {
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, InventoryActions.this);
+					if (isItemEditable) {
+						view.onEdit();
+					}
+				}
+
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	@Override

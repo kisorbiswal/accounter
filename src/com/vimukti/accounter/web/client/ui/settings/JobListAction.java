@@ -18,24 +18,24 @@ public class JobListAction extends Action<ClientJob> {
 
 	@Override
 	public void run() {
-//		runAysnc(data, isDependent);
+		runAysnc(data, isDependent);
 
 	}
 
 	private void runAysnc(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				JobListView jobListView = new JobListView();
 				MainFinanceWindow.getViewManager().showView(jobListView, data,
 						isDependent, JobListAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

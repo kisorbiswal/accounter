@@ -42,67 +42,67 @@ public class ManageSupportListAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				BaseDialog<? extends IAccounterCore> dialog = null;
-//				switch (type) {
-//				case TYPE_PAYMENT_TERMS:
-//					dialog = new PaymentTermListDialog();
-//					break;
-//				case TYPE_CUSTOMER_GROUPS:
-//					dialog = new CustomerGroupListDialog(messages
-//							.manageCustomerGroup(Global.get().Customer()),
-//							messages.toAddPayeeGroup(Global.get().Customer()));
-//					break;
-//				case TYPE_VENDOR_GROUPS:
-//					dialog = new VendorGroupListDialog();
-//					break;
-//				case TYPE_ITEM_GROUPS:
-//					dialog = new ItemGroupListDialog(
-//							messages.manageItemGroup(), messages
-//									.toAddItemGroup());
-//					break;
-//				case TYPE_SHIPPING_TERMS:
-//					dialog = new ShippingTermListDialog(messages
-//							.manageShippingTermList(), messages
-//							.toAddShippingTerm());
-//					break;
-//				case TYPE_SHIPPING_METHODS:
-//					dialog = new ShippingMethodListDialog(messages
-//							.manageShippingMethodList(), messages
-//							.toAddShippingMethod());
-//					break;
-//				case TYPE_CLASSES:
-//					dialog = new AccounterClassListDialog(messages
-//							.manageAccounterClass(), messages
-//							.toAddAccounterClass());
-//					break;
-//				case TYPE_LOCATIONS:
-//					dialog = new LocationGroupListDialog(messages
-//							.manageLocationGroup(Global.get().Location()),
-//							messages.toAddLocation());
-//					break;
-//				case TYPE_PRICE_LEVELS:
-//					dialog = new PriceLevelListDialog(messages
-//							.managePriceLevelListGroup(), " ");
-//					break;
-//				case TYPE_CURRENCY_GROUPS:
-//					dialog = new CurrencyGroupListDialog(messages
-//							.manageCurrency(), messages.toAddCurrencyGroup());
-//					break;
-//				}
-//				if (dialog != null) {
-//					dialog.center();
-//				}
-//
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				BaseDialog<? extends IAccounterCore> dialog = null;
+				switch (type) {
+				case TYPE_PAYMENT_TERMS:
+					dialog = new PaymentTermListDialog();
+					break;
+				case TYPE_CUSTOMER_GROUPS:
+					dialog = new CustomerGroupListDialog(messages
+							.manageCustomerGroup(Global.get().Customer()),
+							messages.toAddPayeeGroup(Global.get().Customer()));
+					break;
+				case TYPE_VENDOR_GROUPS:
+					dialog = new VendorGroupListDialog();
+					break;
+				case TYPE_ITEM_GROUPS:
+					dialog = new ItemGroupListDialog(
+							messages.manageItemGroup(), messages
+									.toAddItemGroup());
+					break;
+				case TYPE_SHIPPING_TERMS:
+					dialog = new ShippingTermListDialog(messages
+							.manageShippingTermList(), messages
+							.toAddShippingTerm());
+					break;
+				case TYPE_SHIPPING_METHODS:
+					dialog = new ShippingMethodListDialog(messages
+							.manageShippingMethodList(), messages
+							.toAddShippingMethod());
+					break;
+				case TYPE_CLASSES:
+					dialog = new AccounterClassListDialog(messages
+							.manageAccounterClass(), messages
+							.toAddAccounterClass());
+					break;
+				case TYPE_LOCATIONS:
+					dialog = new LocationGroupListDialog(messages
+							.manageLocationGroup(Global.get().Location()),
+							messages.toAddLocation());
+					break;
+				case TYPE_PRICE_LEVELS:
+					dialog = new PriceLevelListDialog(messages
+							.managePriceLevelListGroup(), " ");
+					break;
+				case TYPE_CURRENCY_GROUPS:
+					dialog = new CurrencyGroupListDialog(messages
+							.manageCurrency(), messages.toAddCurrencyGroup());
+					break;
+				}
+				if (dialog != null) {
+					dialog.center();
+				}
+
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	@Override

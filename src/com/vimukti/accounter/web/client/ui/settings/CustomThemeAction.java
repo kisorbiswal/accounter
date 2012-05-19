@@ -30,10 +30,10 @@ public class CustomThemeAction extends Action {
 	@Override
 	public void run() {
 		try {
-//			CustomThemeDialog customThemeDialog = new CustomThemeDialog(
-//					messages.newBrandThemeLabel(), "");
-//			customThemeDialog.show();
-//			customThemeDialog.center();
+			CustomThemeDialog customThemeDialog = new CustomThemeDialog(
+					messages.newBrandThemeLabel(), "");
+			customThemeDialog.show();
+			customThemeDialog.center();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

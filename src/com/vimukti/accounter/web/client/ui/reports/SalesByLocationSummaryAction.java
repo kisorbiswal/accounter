@@ -22,29 +22,29 @@ public class SalesByLocationSummaryAction extends Action {
 
 	@Override
 	public void run() {
-//		final boolean isLocation = this.isLocation;
-//		final boolean isCustomer = this.isCustomer;
-//		runAsync(data, isDependent, isLocation, isCustomer);
+		final boolean isLocation = this.isLocation;
+		final boolean isCustomer = this.isCustomer;
+		runAsync(data, isDependent, isLocation, isCustomer);
 
 	}
 
 	private void runAsync(final Object data, final boolean isDependent,
 			final boolean isLocation, final boolean isCustomer) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				SalesByLocationsummaryReport report = new SalesByLocationsummaryReport(
 						isLocation, isCustomer);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesByLocationSummaryAction.this);
 
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// public void onCreated() {

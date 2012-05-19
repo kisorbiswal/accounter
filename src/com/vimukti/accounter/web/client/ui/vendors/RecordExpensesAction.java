@@ -27,22 +27,22 @@ public class RecordExpensesAction extends Action {
 	@Override
 	public void run() {
 
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	private void runAsync(Object data, Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				SelectExpenseType dialog = new SelectExpenseType();
 				dialog.show();
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

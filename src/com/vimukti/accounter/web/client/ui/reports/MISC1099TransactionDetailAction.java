@@ -20,23 +20,23 @@ public class MISC1099TransactionDetailAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				MISC1099TransactionDetailReport report = new MISC1099TransactionDetailReport(vendorId, boxNo);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, MISC1099TransactionDetailAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

@@ -45,10 +45,10 @@ public class DashBoardView extends BaseHomeView implements IButtonContainer {
 	}
 
 	private void enableDragAndDrop() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			@Override
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			@Override
+			public void onSuccess() {
 				HashMap<Widget, Widget> portlets = new HashMap<Widget, Widget>();
 				for (PortletColumn column : page.getColumns()) {
 					for (Portlet portlet : column.getPortlets()) {
@@ -72,14 +72,14 @@ public class DashBoardView extends BaseHomeView implements IButtonContainer {
 				DragAndDropEnabler dNdEnabler = new DragAndDropEnabler(input);
 				dNdEnabler.enable();
 
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable reason) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
+			}
+
+			@Override
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	@Override

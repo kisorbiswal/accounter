@@ -19,25 +19,25 @@ public class AddMeasurementAction extends Action<ClientMeasurement> {
 	@Override
 	public void run() {
 
-//		runAysnc(data, isDependent);
+		runAysnc(data, isDependent);
 
 	}
 
 	private void runAysnc(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				AddMeasurementView view = new AddMeasurementView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, AddMeasurementAction.this);
 
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

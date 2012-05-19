@@ -25,14 +25,14 @@ public class VendorsHomeAction extends Action {
 
 	@Override
 	public void run() {
-//		VendorSectionHomeView view = new VendorSectionHomeView();
-//		try {
-//			MainFinanceWindow.getViewManager()
-//					.showView(view, null, false, this);
-//		} catch (Exception e) {
-//			Accounter.showError(Global.get().messages()
-//					.failedToLoadVendorsHome(Global.get().Vendors()));
-//		}
+		VendorSectionHomeView view = new VendorSectionHomeView();
+		try {
+			MainFinanceWindow.getViewManager()
+					.showView(view, null, false, this);
+		} catch (Exception e) {
+			Accounter.showError(Global.get().messages()
+					.failedToLoadVendorsHome(Global.get().Vendors()));
+		}
 
 	}
 

@@ -27,25 +27,25 @@ public class BankStatementAction extends Action<ClientTransaction> {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 
 	private void runAsync(final Object data, final Boolean isEditable) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				bankStatementsView = new BankStatementsView(account);
 				MainFinanceWindow.getViewManager().showView(bankStatementsView,
 						data, isDependent, BankStatementAction.this);
 				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

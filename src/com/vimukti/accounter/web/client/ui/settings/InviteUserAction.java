@@ -35,9 +35,9 @@ public class InviteUserAction extends Action {
 	@Override
 	public void run() {
 		try {
-//			InviteUserView view = new InviteUserView();
-//			MainFinanceWindow.getViewManager().showView(view, data,
-//					isDependent, InviteUserAction.this);
+			InviteUserView view = new InviteUserView();
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, InviteUserAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

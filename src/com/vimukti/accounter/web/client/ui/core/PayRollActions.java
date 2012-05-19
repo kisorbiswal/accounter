@@ -91,19 +91,19 @@ public class PayRollActions extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			@Override
-//			public void onSuccess() {
-//				PayRollActions.this.showNewView();
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable reason) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			@Override
+			public void onSuccess() {
+				PayRollActions.this.showNewView();
+			}
+
+			@Override
+			public void onFailure(Throwable reason) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	protected void showNewView() {

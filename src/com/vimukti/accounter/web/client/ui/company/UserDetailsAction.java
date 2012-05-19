@@ -30,12 +30,12 @@ public class UserDetailsAction extends Action {
 
 	@Override
 	public void run() {
-//		UserDetailsView view = new UserDetailsView();
-//		try {
-//			MainFinanceWindow.getViewManager().showView(view, data,
-//					isDependent, this);
-//		} catch (Exception e) {
-//		}
+		UserDetailsView view = new UserDetailsView();
+		try {
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, this);
+		} catch (Exception e) {
+		}
 	}
 
 	@Override

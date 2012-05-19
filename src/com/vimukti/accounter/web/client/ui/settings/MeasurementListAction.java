@@ -17,7 +17,7 @@ public class MeasurementListAction extends Action<ClientMeasurement> {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	private void runAsync(ClientMeasurement data, boolean isDependent) {

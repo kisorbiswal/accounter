@@ -47,25 +47,25 @@ public class ExpensesAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				ExpensesListView view;
-//				if (viewType == null || viewType.equals(""))
-//					view = new ExpensesListView();
-//				else
-//					view = new ExpensesListView(viewType, 0);
-//
-//				// UIUtils.setCanvas(view, getViewConfiguration());
-//				MainFinanceWindow.getViewManager().showView(view, null, false,
-//						ExpensesAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				ExpensesListView view;
+				if (viewType == null || viewType.equals(""))
+					view = new ExpensesListView();
+				else
+					view = new ExpensesListView(viewType, 0);
+
+				// UIUtils.setCanvas(view, getViewConfiguration());
+				MainFinanceWindow.getViewManager().showView(view, null, false,
+						ExpensesAction.this);
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	// public void run(Object data, Boolean isDependent, String viewType) {

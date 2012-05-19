@@ -28,26 +28,26 @@ public class CreditCardChargeAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 
 	public void runAsync(final Object data, final Boolean isEditable) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				CreditCardChargeView view = new CreditCardChargeView();
 
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isEditable, CreditCardChargeAction.this);
 				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

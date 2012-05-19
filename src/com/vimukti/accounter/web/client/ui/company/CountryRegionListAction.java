@@ -25,20 +25,20 @@ public class CountryRegionListAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				CountryRegionDialog dialog = new CountryRegionDialog("", "");
-//				dialog.show();
-//
-//				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				CountryRegionDialog dialog = new CountryRegionDialog("", "");
+				dialog.show();
+
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

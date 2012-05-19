@@ -45,14 +45,14 @@ public class MakeDepositAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				TransferFundView view;
 				if (reconcilationAccount != null) {
 					view = new TransferFundView(reconcilationAccount,
@@ -64,13 +64,13 @@ public class MakeDepositAction extends Action {
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, MakeDepositAction.this);
 				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

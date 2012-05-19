@@ -21,19 +21,19 @@ public class VendorCenterAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				VendorCenterView view = new VendorCenterView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, VendorCenterAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override
@@ -47,7 +47,7 @@ public class VendorCenterAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	@Override

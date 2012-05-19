@@ -26,40 +26,40 @@ public class JobReportsAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				AbstractReportView report = null;
-//
-//				switch (type) {
-//				case TYPE_ESTIMATES_BY_JOB:
-//					report = new EstimatesByJobReport();
-//					break;
-//				case TYPE_UNBILLED_COST:
-//					report = new UnBilledCostsByJobReport();
-//					break;
-//				case TYPE_PROFITABILITY_SUMMARY:
-//					report = new JobProfitabilitySummaryReport();
-//					break;
-//				case TYPE_PROFITABILITY_DETAILS:
-//					report = new JobProfitabilityDetailReport();
-//					break;
-//				case TYPE_PROFIT_AND_LOSS:
-//					report = new ProfitAndLossByLocationReport(3);
-//					break;
-//				}
-//
-//				if (report != null) {
-//					MainFinanceWindow.getViewManager().showView(report, data,
-//							isDependent, JobReportsAction.this);
-//				}
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				AbstractReportView report = null;
+
+				switch (type) {
+				case TYPE_ESTIMATES_BY_JOB:
+					report = new EstimatesByJobReport();
+					break;
+				case TYPE_UNBILLED_COST:
+					report = new UnBilledCostsByJobReport();
+					break;
+				case TYPE_PROFITABILITY_SUMMARY:
+					report = new JobProfitabilitySummaryReport();
+					break;
+				case TYPE_PROFITABILITY_DETAILS:
+					report = new JobProfitabilityDetailReport();
+					break;
+				case TYPE_PROFIT_AND_LOSS:
+					report = new ProfitAndLossByLocationReport(3);
+					break;
+				}
+
+				if (report != null) {
+					MainFinanceWindow.getViewManager().showView(report, data,
+							isDependent, JobReportsAction.this);
+				}
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 
 	}
 

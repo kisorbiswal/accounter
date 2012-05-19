@@ -17,27 +17,27 @@ public abstract class AddMessageOrTaskAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				
-//				AddMessageOrTaskDialog dialog = new AddMessageOrTaskDialog(
-//						messages.messagesAndTasks()) {
-//
-//					@Override
-//					protected void onSuccess() {
-//						updateData();
-//					};
-//				};
-//				dialog.center();
-//				dialog.show();
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				
+				AddMessageOrTaskDialog dialog = new AddMessageOrTaskDialog(
+						messages.messagesAndTasks()) {
+
+					@Override
+					protected void onSuccess() {
+						updateData();
+					};
+				};
+				dialog.center();
+				dialog.show();
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 		
 
 	}

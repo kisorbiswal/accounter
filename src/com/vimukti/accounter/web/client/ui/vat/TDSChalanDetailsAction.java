@@ -40,14 +40,14 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final ClientTDSChalanDetail data,
 			final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				if (type == 0 && data == null) {
 					SelectChallanTypeDialog dialog = new SelectChallanTypeDialog() {
 
@@ -72,13 +72,13 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 				}
 
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// @Override

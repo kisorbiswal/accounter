@@ -18,24 +18,24 @@ public class TaxHistoryAction extends Action {
 	@Override
 	public void run() {
 
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 
 	private void runAsync(final Object data, final boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				TaxHistoryView view = new TaxHistoryView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, TaxHistoryAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// @Override

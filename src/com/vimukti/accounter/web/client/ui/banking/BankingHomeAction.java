@@ -29,9 +29,9 @@ public class BankingHomeAction extends Action {
 
 	@Override
 	public void run() {
-//		view = new BankingSectionHomeView();
-//
-//		MainFinanceWindow.getViewManager().showView(view, null, false, this);
+		view = new BankingSectionHomeView();
+
+		MainFinanceWindow.getViewManager().showView(view, null, false, this);
 	}
 
 	public ImageResource getBigImage() {

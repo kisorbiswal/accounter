@@ -31,9 +31,9 @@ public class ChartOfAccountsAction extends Action {
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				ChartOfAccountsView view;
 				if (accountType == 0) {
 					view = new ChartOfAccountsView();
@@ -42,13 +42,13 @@ public class ChartOfAccountsAction extends Action {
 				}
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ChartOfAccountsAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {
@@ -60,7 +60,7 @@ public class ChartOfAccountsAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	public ImageResource getBigImage() {

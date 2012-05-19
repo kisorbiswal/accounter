@@ -33,42 +33,42 @@ public class InventoryReportsAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				AbstractReportView report = null;
-//				switch (type) {
-//				case TYPE_VALUATION_SUMMARY:
-//					report = new InventoryValutionSummaryReport();
-//					break;
-//				case TYPE_VALUATION_DETAILS:
-//					report = new InventoryValuationDetailsReport(id);
-//					break;
-//				case TYPE_STOCK_STATUS_BY_ITEM:
-//					report = new InventoryStockStatusByItemReport();
-//					break;
-//				case TYPE_STOCK_STATUS_BY_VENDOR:
-//					report = new InventoryStockStatusByVendorReport();
-//					break;
-//				case TYPE_ITEM_REPORT:
-//					report = new InventoryItemReport();
-//					break;
-//				default:
-//					break;
-//				}
-//
-//				if (report != null) {
-//					MainFinanceWindow.getViewManager().showView(report, data,
-//							isDependent, InventoryReportsAction.this);
-//				}
-//
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				AbstractReportView report = null;
+				switch (type) {
+				case TYPE_VALUATION_SUMMARY:
+					report = new InventoryValutionSummaryReport();
+					break;
+				case TYPE_VALUATION_DETAILS:
+					report = new InventoryValuationDetailsReport(id);
+					break;
+				case TYPE_STOCK_STATUS_BY_ITEM:
+					report = new InventoryStockStatusByItemReport();
+					break;
+				case TYPE_STOCK_STATUS_BY_VENDOR:
+					report = new InventoryStockStatusByVendorReport();
+					break;
+				case TYPE_ITEM_REPORT:
+					report = new InventoryItemReport();
+					break;
+				default:
+					break;
+				}
+
+				if (report != null) {
+					MainFinanceWindow.getViewManager().showView(report, data,
+							isDependent, InventoryReportsAction.this);
+				}
+
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	@Override

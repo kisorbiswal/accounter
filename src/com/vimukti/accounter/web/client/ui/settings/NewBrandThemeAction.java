@@ -39,7 +39,7 @@ public class NewBrandThemeAction extends Action {
 
 	@Override
 	public void run() {
-//		runAysnc(data, isDependent);
+		runAysnc(data, isDependent);
 	}
 
 	private void runAysnc(Object data, Boolean isDependent) {

@@ -38,22 +38,22 @@ public class AddNewAdminuserAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				
-//				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
-//		
-//		AddNewAdminUserDialog addAdminUserDialog = new AddNewAdminUserDialog(
-//				messages.addNew(messages.user()));
-//		addAdminUserDialog.show();
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
+		
+		AddNewAdminUserDialog addAdminUserDialog = new AddNewAdminUserDialog(
+				messages.addNew(messages.user()));
+		addAdminUserDialog.show();
 	}
 
 	@Override

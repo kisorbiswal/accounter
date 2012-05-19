@@ -25,39 +25,39 @@ public class SalesReportsAction extends Action {
 	@Override
 	public void run() {
 
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				AbstractReportView report = null;
-//				switch (type) {
-//				case TYPE_CUSTOMER_SUMMARY:
-//					report = new SalesByCustomerSummaryReport();
-//					break;
-//				case TYPE_CUSTOMER_DETAIL:
-//					report = new SalesByCustomerDetailReport();
-//					break;
-//				case TYPE_ITEM_SUMMARY:
-//					report = new SalesByItemSummaryReport();
-//					break;
-//				case TYPE_ITEM_DETAIL:
-//					report = new SalesByItemDetailReport();
-//					break;
-//				case TYPE_SO_REPORT:
-//					report = new SalesOrderReport();
-//					break;
-//				}
-//				if (report != null) {
-//					MainFinanceWindow.getViewManager().showView(report, data,
-//							isDependent, SalesReportsAction.this);
-//				}
-//
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				AbstractReportView report = null;
+				switch (type) {
+				case TYPE_CUSTOMER_SUMMARY:
+					report = new SalesByCustomerSummaryReport();
+					break;
+				case TYPE_CUSTOMER_DETAIL:
+					report = new SalesByCustomerDetailReport();
+					break;
+				case TYPE_ITEM_SUMMARY:
+					report = new SalesByItemSummaryReport();
+					break;
+				case TYPE_ITEM_DETAIL:
+					report = new SalesByItemDetailReport();
+					break;
+				case TYPE_SO_REPORT:
+					report = new SalesOrderReport();
+					break;
+				}
+				if (report != null) {
+					MainFinanceWindow.getViewManager().showView(report, data,
+							isDependent, SalesReportsAction.this);
+				}
+
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	@Override

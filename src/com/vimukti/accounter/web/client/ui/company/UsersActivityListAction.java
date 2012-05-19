@@ -19,29 +19,29 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 
 	@Override
 	public void run() {
-//		if (Accounter.hasPermission(Features.USER_ACTIVITY)) {
-//			runAsynce(data, isDependent);
-//		} else {
-//			if (!isCalledFromHistory) {
-//				Accounter.showSubscriptionWarning();
-//			}
-//		}
+		if (Accounter.hasPermission(Features.USER_ACTIVITY)) {
+			runAsynce(data, isDependent);
+		} else {
+			if (!isCalledFromHistory) {
+				Accounter.showSubscriptionWarning();
+			}
+		}
 	}
 
 	public void runAsynce(final Object data, final boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				UsersActivityListView view = new UsersActivityListView();
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, UsersActivityListAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 		
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //

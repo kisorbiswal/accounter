@@ -17,19 +17,19 @@ public class AccounterAsync {
 				.messages().processingRequest());
 		loadingMessageDialog.center();
 
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				loadingMessageDialog.removeFromParent();
 				callback.onCreated();
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				loadingMessageDialog.removeFromParent();
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				loadingMessageDialog.removeFromParent();
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 	}
 
 	/*

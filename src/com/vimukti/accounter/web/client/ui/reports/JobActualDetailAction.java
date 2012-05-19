@@ -19,27 +19,27 @@ public class JobActualDetailAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	private void runAsync(final Object data, final boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+
+			public void onSuccess() {
 				if(data instanceof JobProfitability){
 					JobProfitability obj=(JobProfitability)data;
 				JobActualCostDetailReport report = new JobActualCostDetailReport(obj.isCost(),obj.getCustomerId(), obj.getJobId());
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, JobActualDetailAction.this);
 				}
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			public void onCreated() {

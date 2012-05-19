@@ -24,8 +24,8 @@ public class TDSForm16AAction extends Action {
 
 	@Override
 	public void run() {
-//		TdsForm16ACreationDialogue dialog = new TdsForm16ACreationDialogue();
-//		dialog.show();
+		TdsForm16ACreationDialogue dialog = new TdsForm16ACreationDialogue();
+		dialog.show();
 	}
 
 	@Override

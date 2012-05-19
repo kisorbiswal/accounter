@@ -12,8 +12,8 @@ public class ManageFiscalYearAction extends Action {
 
 	@Override
 	public void run() {
-//		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(messages.manageFiscalYear(), "");
-//		dialog.show();
+		ManageFiscalYearDialog dialog = new ManageFiscalYearDialog(messages.manageFiscalYear(), "");
+		dialog.show();
 	}
 
 	public ImageResource getBigImage() {

@@ -29,8 +29,8 @@ public class PaymentDialogAction extends Action {
 
 	@Override
 	public void run() {
-//		PaymentDialog diaog = new PaymentDialog();
-//		diaog.show();
+		PaymentDialog diaog = new PaymentDialog();
+		diaog.show();
 	}
 
 	@Override

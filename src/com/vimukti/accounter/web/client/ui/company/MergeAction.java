@@ -34,84 +34,84 @@ public class MergeAction extends Action {
 
 	@Override
 	public void run() {
-//		if (!Accounter.hasPermission(Features.MERGING) && !isCalledFromHistory) {
-//			Accounter.showSubscriptionWarning();
-//			return;
-//		}
-//
-//		BaseDialog dialog = null;
-//		switch (type) {
-//		case TYPE_CUSTOMERS:
-//			if (!Accounter.isIpadApp()) {
-//				dialog = new CustomerMergeDialog(messages.mergeCustomers(Global
-//						.get().customers()),
-//						messages.payeeMergeDescription(Global.get().customer()));
-//			} else {
-//
-//				CustomerMergeView view = new CustomerMergeView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, MergeAction.this);
-//			}
-//			break;
-//		case TYPE_VENDORS:
-//			if (!Accounter.isIpadApp()) {
-//				dialog = new VendorMergeDialog(messages.mergeVendors(Global
-//						.get().vendors()),
-//						messages.payeeMergeDescription(Global.get().vendor()));
-//			} else {
-//				VendorMergeView view = new VendorMergeView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, MergeAction.this);
-//			}
-//			break;
-//		case TYPE_ACCOUNTS:
-//			if (!Accounter.isIpadApp()) {
-//				dialog = new AccountMergeDialog(messages.mergeAccounts(),
-//						messages.mergeDescription());
-//			} else {
-//				AccountMergeView view = new AccountMergeView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, MergeAction.this);
-//			}
-//			break;
-//		case TYPE_ITEMS:
-//			if (!Accounter.isIpadApp()) {
-//				dialog = new ItemMergeDialog(messages.mergeItems(),
-//						messages.itemDescription());
-//			} else {
-//				ItemMergeView view = new ItemMergeView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, MergeAction.this);
-//			}
-//			break;
-//		case TYPE_CLASSES:
-//			if (!Accounter.isIpadApp()) {
-//				dialog = new ClassMergeDialog(messages.mergeClasses(),
-//						messages.mergeClassDescription());
-//			} else {
-//				ClassMergeView view = new ClassMergeView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, MergeAction.this);
-//			}
-//			break;
-//		case TYPE_LOCATIONS:
-//			if (!Accounter.isIpadApp()) {
-//				dialog = new LocationMergeDialog(messages.mergeLocations(),
-//						messages.mergeLocationDescription());
-//			} else {
-//				LocationMergeView view = new LocationMergeView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, MergeAction.this);
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-//		if (dialog != null) {
-//			dialog.show();
-//		} else {
-//
-//		}
+		if (!Accounter.hasPermission(Features.MERGING) && !isCalledFromHistory) {
+			Accounter.showSubscriptionWarning();
+			return;
+		}
+
+		BaseDialog dialog = null;
+		switch (type) {
+		case TYPE_CUSTOMERS:
+			if (!Accounter.isIpadApp()) {
+				dialog = new CustomerMergeDialog(messages.mergeCustomers(Global
+						.get().customers()),
+						messages.payeeMergeDescription(Global.get().customer()));
+			} else {
+
+				CustomerMergeView view = new CustomerMergeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MergeAction.this);
+			}
+			break;
+		case TYPE_VENDORS:
+			if (!Accounter.isIpadApp()) {
+				dialog = new VendorMergeDialog(messages.mergeVendors(Global
+						.get().vendors()),
+						messages.payeeMergeDescription(Global.get().vendor()));
+			} else {
+				VendorMergeView view = new VendorMergeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MergeAction.this);
+			}
+			break;
+		case TYPE_ACCOUNTS:
+			if (!Accounter.isIpadApp()) {
+				dialog = new AccountMergeDialog(messages.mergeAccounts(),
+						messages.mergeDescription());
+			} else {
+				AccountMergeView view = new AccountMergeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MergeAction.this);
+			}
+			break;
+		case TYPE_ITEMS:
+			if (!Accounter.isIpadApp()) {
+				dialog = new ItemMergeDialog(messages.mergeItems(),
+						messages.itemDescription());
+			} else {
+				ItemMergeView view = new ItemMergeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MergeAction.this);
+			}
+			break;
+		case TYPE_CLASSES:
+			if (!Accounter.isIpadApp()) {
+				dialog = new ClassMergeDialog(messages.mergeClasses(),
+						messages.mergeClassDescription());
+			} else {
+				ClassMergeView view = new ClassMergeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MergeAction.this);
+			}
+			break;
+		case TYPE_LOCATIONS:
+			if (!Accounter.isIpadApp()) {
+				dialog = new LocationMergeDialog(messages.mergeLocations(),
+						messages.mergeLocationDescription());
+			} else {
+				LocationMergeView view = new LocationMergeView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, MergeAction.this);
+			}
+			break;
+		default:
+			break;
+		}
+		if (dialog != null) {
+			dialog.show();
+		} else {
+
+		}
 	}
 
 	@Override

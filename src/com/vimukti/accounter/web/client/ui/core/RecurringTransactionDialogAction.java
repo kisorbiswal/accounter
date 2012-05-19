@@ -28,7 +28,7 @@ public class RecurringTransactionDialogAction extends
 
 	public void run() {
 
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 

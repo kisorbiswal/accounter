@@ -40,14 +40,14 @@ public class FileTAXAction extends Action {
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
 				AbstractFileTAXView view;
 				if (Accounter.getCompany().getCountry()
 						.equals(Countries.UNITED_KINGDOM)
@@ -61,13 +61,13 @@ public class FileTAXAction extends Action {
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, FileTAXAction.this);
 
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 		// AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 		//
 		// public void onCreated() {

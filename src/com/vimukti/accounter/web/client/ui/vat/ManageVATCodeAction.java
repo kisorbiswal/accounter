@@ -34,19 +34,19 @@ public class ManageVATCodeAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				ManageVATView view = new ManageVATView();
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, ManageVATCodeAction.this);
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				ManageVATView view = new ManageVATView();
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, ManageVATCodeAction.this);
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

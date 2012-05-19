@@ -22,7 +22,7 @@ public class AttendanceManagementAction extends
 
 	@Override
 	public void run() {
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	private void runAsync(final ClientAttendanceManagement data,

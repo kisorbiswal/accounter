@@ -28,9 +28,9 @@ public class ConversionDateAction extends Action {
 	@Override
 	public void run() {
 		try {
-//			ConversionDateView view = new ConversionDateView();
-//			MainFinanceWindow.getViewManager().showView(view, data,
-//					isDependent, ConversionDateAction.this);
+			ConversionDateView view = new ConversionDateView();
+			MainFinanceWindow.getViewManager().showView(view, data,
+					isDependent, ConversionDateAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.toString());

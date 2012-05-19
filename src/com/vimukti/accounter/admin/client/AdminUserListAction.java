@@ -39,22 +39,22 @@ public class AdminUserListAction extends Action {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				
-//				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
-//		
-//		usersListView = new AdminUsersListView();
-//		AdminHomePage.getViewManager().showView(usersListView,
-//				AdminUserListAction.this, false);
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
+		
+		usersListView = new AdminUsersListView();
+		AdminHomePage.getViewManager().showView(usersListView,
+				AdminUserListAction.this, false);
 
 	}
 

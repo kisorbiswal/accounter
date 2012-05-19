@@ -15,21 +15,21 @@ public class RemindersListAction extends Action<ClientReminder> {
 
 	@Override
 	public void run() {
-//		GWT.runAsync(new RunAsyncCallback() {
-//
-//			public void onSuccess() {
-//				RemindersListView view = new RemindersListView();
-//
-//				MainFinanceWindow.getViewManager().showView(view, data,
-//						isDependent, RemindersListAction.this);
-//				
-//			}
-//
-//			public void onFailure(Throwable e) {
-//				Accounter.showError(Global.get().messages()
-//						.unableToshowtheview());
-//			}
-//		});
+		GWT.runAsync(new RunAsyncCallback() {
+
+			public void onSuccess() {
+				RemindersListView view = new RemindersListView();
+
+				MainFinanceWindow.getViewManager().showView(view, data,
+						isDependent, RemindersListAction.this);
+				
+			}
+
+			public void onFailure(Throwable e) {
+				Accounter.showError(Global.get().messages()
+						.unableToshowtheview());
+			}
+		});
 //		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 //
 //			@Override

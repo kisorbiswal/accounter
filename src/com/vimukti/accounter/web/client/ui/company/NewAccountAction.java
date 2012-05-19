@@ -41,7 +41,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 	@Override
 	public void run() {
 
-//		runAsync(data, isDependent);
+		runAsync(data, isDependent);
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
