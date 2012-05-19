@@ -46,7 +46,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	@UiField
 	FlowPanel viewPanel;
 	@UiField
-	Grid companyInfoField;
+	FlowPanel companyInfoField;
 	@UiField
 	TextBox companyName;
 	@UiField

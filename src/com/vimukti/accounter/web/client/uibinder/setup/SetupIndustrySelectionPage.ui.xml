@@ -2,22 +2,16 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:FlowPanel ui:field="mainViewPanel">
-		<g:Label styleName="setup_label" ui:field="headerLabel"
-			styleName="setup_header_label" />
+		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:FlowPanel ui:field="viewPanel">
-			<g:Label styleName="setup_label" ui:field="customizeAccounter"
-				styleName="customize_account">
+			<g:Label ui:field="customizeAccounter" styleName="customize_account">
 			</g:Label>
-			<g:Label styleName="setup_label" ui:field="settingsLater"
-				styleName="settings_later">
+			<g:Label ui:field="settingsLater" styleName="settings_later">
 			</g:Label>
-			<g:Label styleName="setup_label" ui:field="industry"
-				styleName="industry">
+			<g:Label ui:field="industry" styleName="industry">
 			</g:Label>
-			<g:Label styleName="setup_label" ui:field="selectIndustry"
-				styleName="select_industry" />
-			<g:ListBox styleName="setup_listbox" ui:field="industryList"
-				styleName="industry_list" />
+			<g:Label ui:field="selectIndustry" styleName="select_industry" />
+			<g:ListBox ui:field="industryList" styleName="industry_list" />
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 
