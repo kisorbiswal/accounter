@@ -140,6 +140,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		// Name
 		isShowLegalName.setValue(getCompanyPreferences().isShowLegalName());
 		legalNameTextBox.setValue(getCompanyPreferences().getLegalName());
+		legalNameTextBox.setVisible(getCompanyPreferences().isShowLegalName());
 		companyNameTextBox.setValue(getCompany().getDisplayName());
 		// Phone Number
 		companyPhoneNumberTextBox.setValue(getCompany().getPhone());
@@ -211,7 +212,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tradingAddressSubPanel.add(isShowRegisteredAddressCheckBox);
 
 		registeredAddressTitle = new LabelItem(messages.registeredAddress(),
-				"registeredAddressTitle");
+				"header");
 
 		registeredAddressDescription = new LabelItem(
 				messages.registeredAddresDescription(),
@@ -250,13 +251,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 					@Override
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						registeredAddressSubPanel
+						registeredAddressPanel
 								.setVisible(isShowRegisteredAddressCheckBox
 										.getValue());
 					}
 				});
 
-		mainPanel.add(registeredAddressSubPanel);
+		registeredAddressPanel.add(registeredAddressSubPanel);
 
 		if (getCompany().getTradingAddress() != null
 				&& getCompany().getTradingAddress().getCountryOrRegion() != null) {
