@@ -1352,29 +1352,32 @@ public class PurchaseOrderView extends
 			vendorCombo.setEnabled(!isInViewMode());
 		} else {
 			vendorCombo.setEnabled(false);
-			if (this.transaction.getVendorAddress() == null) {
-				this.addressListOfVendor = vendor.getAddress();
-				billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
-				if (billingAddress != null) {
-					billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
-							+ billingAddress.getStreet() + "\n"
-							+ billingAddress.getCity() + "\n"
-							+ billingAddress.getStateOrProvinence() + "\n"
-							+ billingAddress.getZipOrPostalCode() + "\n"
-							+ billingAddress.getCountryOrRegion());
+			if (vendor != null) {
+				if (this.transaction.getVendorAddress() == null) {
+					this.addressListOfVendor = vendor.getAddress();
+					billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+					if (billingAddress != null) {
+						billtoAreaItem.setValue(billingAddress.getAddress1()
+								+ "\n" + billingAddress.getStreet() + "\n"
+								+ billingAddress.getCity() + "\n"
+								+ billingAddress.getStateOrProvinence() + "\n"
+								+ billingAddress.getZipOrPostalCode() + "\n"
+								+ billingAddress.getCountryOrRegion());
 
-				} else
-					billtoAreaItem.setValue("");
+					} else {
+						billtoAreaItem.setValue("");
+					}
+				}
+				if (this.transaction.getPhone() == null
+						|| this.transaction.getPhone().isEmpty()) {
+					initPhones(vendor);
+				}
+
+				if (this.transaction.getContact() == null) {
+					initContacts(vendor);
+				}
 			}
 
-			if (this.transaction.getPhone() == null
-					|| this.transaction.getPhone().isEmpty()) {
-				initPhones(vendor);
-			}
-
-			if (this.transaction.getContact() == null) {
-				initContacts(vendor);
-			}
 		}
 
 		// billToCombo.setEnabled(!isEdit);
