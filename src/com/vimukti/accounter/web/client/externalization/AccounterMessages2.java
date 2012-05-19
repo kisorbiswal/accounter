@@ -42,4 +42,6 @@ public interface AccounterMessages2 extends Messages {
 	public String payEmployees();
 
 	public String transactionListFor(String customer);
+
+	public String confirmEmail();
 }

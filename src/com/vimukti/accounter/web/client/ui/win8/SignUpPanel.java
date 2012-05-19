@@ -43,7 +43,7 @@ public class SignUpPanel extends FlowPanel {
 				"firstname");
 		lastname = new TextItem(Accounter.getMessages().lastName(), "lastname");
 		emailid = new TextItem(Accounter.getMessages().email(), "emailid");
-		confirmMailid = new TextItem(Accounter.getMessages().confirmEmail(),
+		confirmMailid = new TextItem(Accounter.getMessages2().confirmEmail(),
 				"confirmemailid");
 		password = new PasswordItem(Accounter.getMessages().password());
 		confirmPassword = new PasswordItem(Accounter.getMessages()

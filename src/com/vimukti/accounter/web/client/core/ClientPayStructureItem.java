@@ -25,6 +25,8 @@ public class ClientPayStructureItem implements IAccounterCore {
 
 	private ClientPayHead clientPayHead;
 
+	private int version;
+
 	/**
 	 * @return the payHead
 	 */
@@ -72,31 +74,26 @@ public class ClientPayStructureItem implements IAccounterCore {
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
-
+		this.version = version;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Pay Structure Item";
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -111,9 +108,21 @@ public class ClientPayStructureItem implements IAccounterCore {
 	}
 
 	public boolean isEmpty() {
-		if (this.getPayHead() == 0 && this.getRate() == 0) {
+		ClientPayHead newValue = clientPayHead;
+		if (newValue == null) {
 			return true;
 		}
+
+		if (newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_ATTENDANCE
+				|| newValue.getCalculationType() == ClientPayHead.CALCULATION_TYPE_ON_PRODUCTION) {
+			ClientAttendancePayHead ph = (ClientAttendancePayHead) newValue;
+			if (ph.getAttendanceType() == ClientAttendancePayHead.ATTENDANCE_ON_RATE) {
+				return getRate() <= 0;
+			}
+		} else if (newValue.getCalculationType() != ClientPayHead.CALCULATION_TYPE_AS_COMPUTED_VALUE) {
+			return getRate() <= 0;
+		}
+
 		return false;
 	}
 
