@@ -560,7 +560,7 @@ public class ClientCompany implements IAccounterCore {
 
 			@Override
 			public boolean filter(ClientPayee e) {
-				return e.isActive();
+				return e.isActive() && e.getType() != ClientPayee.TYPE_EMPLOYEE;
 			}
 		}, this.getPayees());
 		// List<ClientPayee> activePayees = new ArrayList<ClientPayee>();
